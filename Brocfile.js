@@ -23,4 +23,7 @@ var app = new EmberApp({
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
+app.import('bower_components/bootstrap/js/collapse.js');
+app.import('bower_components/bootstrap/js/dropdown.js');
+
 module.exports = app.toTree();
