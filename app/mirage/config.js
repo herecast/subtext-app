@@ -3,7 +3,7 @@ export default function() {
     return {
       events: db.events,
       meta: {
-        total: 1000
+        total: db.events.length
       }
     };
   });
