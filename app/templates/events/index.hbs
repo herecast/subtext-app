@@ -5,10 +5,4 @@
   <button class='btn btn-default pull-right'>Create an event</button>
 </div>
 
-<ul>
-  {{#each event in model}}
-    <li>
-      {{link-to event.title 'events.show' event.id}}
-    </li>
-  {{/each}}
-</ul>
+{{grouped-events events=model}}

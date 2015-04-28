@@ -1,0 +1,9 @@
+{{#each eventGroup in eventsByDate}}
+  <h1>{{eventGroup.displayValue}}</h1>
+
+  <div class='row'>
+    {{#each event in eventGroup.items}}
+      {{event-card event=event}}
+    {{/each}}
+  </div>
+{{/each}}

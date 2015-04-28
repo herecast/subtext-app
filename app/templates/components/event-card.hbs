@@ -1,0 +1,10 @@
+{{#link-to 'events.show' event.id}}
+  <h2>{{event.title}}</h2>
+  <div>{{timeRange}}</div>
+  <div>
+    <img src='{{event.photoUrlSmall}}'>
+  </div>
+  <div>
+    {{event.description}}
+  </div>
+{{/link-to}}
