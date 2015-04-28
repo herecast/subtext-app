@@ -1,0 +1,11 @@
+<div>
+  showing {{model.length}} of {{totalEvents}} events
+</div>
+
+<ul>
+  {{#each event in model}}
+    <li>
+      {{link-to event.title 'events.show' event.id}}
+    </li>
+  {{/each}}
+</ul>
