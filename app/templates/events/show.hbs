@@ -1,7 +1,48 @@
-{{model.title}}
-{{model.contactPhone}}
-{{model.contactEmail}}
-{{model.url}}
-{{model.startsAt}}
-{{model.endsAt}}
-{{model.description}}
+<article>
+  <header>
+    <div class='hidden-xs'>
+      <img src='http://placehold.it/1400x287' class='img-responsive'>
+    </div>
+
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-3'>
+          <img src='http://placehold.it/250' class='img-responsive'>
+        </div>
+
+        <div class='col-sm-9'>
+          <h1>{{model.title}}</h1>
+          <h2>{{model.longTimeRange}}</h2>
+
+          <div>
+            {{model.cost}}
+          </div>
+
+          <div class='vcard'>
+            <span class=''>{{model.venueName}}</span>
+            <div class='adr'>
+              <div class='street-address'>{{model.venueAddress}}</div>
+              <span class='locality'>{{model.venueCity}}</span>,
+              <span class='region'>{{model.venueState}}</span><br>
+              <span class='postal-code'>{{model.venueZipcode}}</span>
+            </div>
+          </div>
+
+          <div>
+            {{model.eventUrl}}
+          </div>
+
+          <div>
+            {{model.contactEmail}} | {{model.contactPhone}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class='container'>
+    <p>
+      {{model.content}}
+    </p>
+  </main>
+</article>
