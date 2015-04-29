@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+import EventGroup from 'subtext-ui/models/event-group';
 
 export default Ember.Component.extend({
   eventsByDate: function() {
@@ -13,13 +14,13 @@ export default Ember.Component.extend({
         let group = groups.findBy('value', value);
 
         if (Ember.isPresent(group)) {
-          Ember.get(group, 'items').push(event);
+          Ember.get(group, 'items').pushObject(event);
         } else {
-          group = {
+          group = EventGroup.create({
             value: value,
             displayValue: moment(startsAt).format('dddd, MMMM Do YYYY'),
             items: [event]
-          };
+          });
 
           groups.push(group);
         }
@@ -27,5 +28,11 @@ export default Ember.Component.extend({
     }
 
     return groups.sortBy('value');
-  }.property('events.[]')
+  }.property('events.[]'),
+
+  actions: {
+    showTail(group) {
+      group.set('tailHidden', false);
+    }
+  }
 });
