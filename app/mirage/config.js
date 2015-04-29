@@ -1,7 +1,17 @@
+import Ember from 'ember';
+
 export default function() {
   this.get('/events', function(db) {
     return {
-      events: db.events,
+      events: db.events.map((event) => {
+        return Ember.getProperties(
+          event, 'id', 'content_id', 'content', 'image', 'cost', 'cost_type',
+          'venue_name', 'venue_address', 'venue_city', 'venue_state',
+          'venue_zipcode', 'venue_id', 'venue_latitude', 'venue_longitude',
+          'venue_phone', 'venue_url', 'event_url', 'contact_phone', 'contact_email',
+          'contact_url', 'title', 'subtitle', 'ends_at', 'starts_at'
+        );
+      }),
       meta: {
         total: db.events.length
       }
