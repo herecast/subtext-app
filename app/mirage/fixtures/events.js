@@ -33,7 +33,7 @@ function generateEvent(id) {
     zip: faker.address.zipCode(),
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
-    photo_url_small: faker.image.imageUrl(),
+    photo_url_small: 'http://placehold.it/350x150',
     other_dates: [
       {
         starts_at: moment(faker.date.recent(-10)).toISOString(),
