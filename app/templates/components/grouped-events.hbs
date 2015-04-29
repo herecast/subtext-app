@@ -3,11 +3,22 @@
     <h1>{{eventGroup.displayValue}}</h1>
 
     <div class='row'>
-      {{#each event in eventGroup.items}}
-        <div class='col-md-3'>
+      {{#each event in eventGroup.headItems}}
+        <div class='col-sm-4 col-md-3'>
+          {{event-card event=event}}
+        </div>
+      {{/each}}
+      {{#each event in eventGroup.tailItems}}
+        <div class='col-sm-4 col-md-3 {{if eventGroup.tailHidden 'hidden'}}'>
           {{event-card event=event}}
         </div>
       {{/each}}
     </div>
+
+    {{#if eventGroup.hasHiddenTailItems}}
+      <a href='#' {{action 'showTail' eventGroup}}>
+        Show all {{eventGroup.length}} events happening on {{eventGroup.displayValue}}
+      </a>
+    {{/if}}
   </div>
 {{/each}}
