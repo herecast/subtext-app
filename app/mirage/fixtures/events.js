@@ -15,25 +15,23 @@ function generateEvent(id) {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
     subtitle: titleize(faker.lorem.sentences(1)),
-    description: faker.lorem.paragraph(5),
-    ticket_type: 'paid', // free, paid, donation
+    content: faker.lorem.paragraph(5),
+    cost_type: 'paid', // free, paid, donation
     cost: '$15-$55',
-    contact_name: faker.name.findName(),
     contact_phone: faker.phone.phoneNumber(),
     contact_email: faker.internet.email(),
-    url: `http://${faker.internet.domainName()}`,
+    contact_url: `http://${faker.internet.domainName()}`,
+
     venue_name: titleize(faker.lorem.words(3).join(' ')),
-    address1: faker.address.streetAddress(),
+    venue_address: faker.address.streetAddress(),
+    venue_city: faker.address.city(),
+    venue_state: 'VT',
+    venue_zip: faker.address.zipCode(),
+    venue_url: `http://${faker.internet.domainName()}`,
 
-    // this is not in the schema, not sure if we need it
-    address2: faker.address.secondaryAddress(),
-
-    city: faker.address.city(),
-    state: 'VT',
-    zip: faker.address.zipCode(),
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
-    photo_url_small: 'http://placehold.it/350x150',
+    image: 'http://placehold.it/350x150',
     other_dates: [
       {
         starts_at: moment(faker.date.recent(-10)).toISOString(),
