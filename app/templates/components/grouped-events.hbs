@@ -1,9 +1,13 @@
 {{#each eventGroup in eventsByDate}}
-  <h1>{{eventGroup.displayValue}}</h1>
+  <div class='container'>
+    <h1>{{eventGroup.displayValue}}</h1>
 
-  <div class='row'>
-    {{#each event in eventGroup.items}}
-      {{event-card event=event}}
-    {{/each}}
+    <div class='row'>
+      {{#each event in eventGroup.items}}
+        <div class='col-md-3'>
+          {{event-card event=event}}
+        </div>
+      {{/each}}
+    </div>
   </div>
 {{/each}}
