@@ -1,6 +1,14 @@
 import Ember from 'ember';
-import moment from 'moment';
 
 export default Ember.Component.extend({
-  classNames: ['Card']
+  classNames: ['Card'],
+  backVisible: false,
+
+  mouseEnter() {
+    this.set('backVisible', true);
+  },
+
+  mouseLeave() {
+    this.set('backVisible', false);
+  }
 });

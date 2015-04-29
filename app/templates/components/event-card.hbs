@@ -1,8 +1,26 @@
 {{#link-to 'events.show' event.id}}
-  <h2>{{event.title}}</h2>
-  <div>{{event.timeRange}}</div>
-  <img src='{{event.image}}' class='img-responsive'>
-  <div>
-    {{event.content}}
-  </div>
+  {{#if backVisible}}
+    <h1>
+      {{event.costType}} event: {{event.cost}}
+    </h1>
+    <div class='vcard'>
+      <span class=''>{{event.venueName}}</span>
+      <div class='adr'>
+        <div class='street-address'>{{event.venueAddress}}</div>
+        <span class='locality'>{{event.venueCity}}</span>,
+        <span class='region'>{{event.venueState}}</span><br>
+        <span class='postal-code'>{{event.venueZipcode}}</span>
+      </div>
+      <div class='url'>{{event.venueUrl}}</div>
+      <div class='tel'>{{event.venuePhone}}</div>
+    </div>
+  {{else}}
+    <h2>{{event.title}}</h2>
+    <div>{{event.timeRange}}</div>
+    <img src='{{event.image}}' class='img-responsive'>
+    <div>
+      {{event.content}}
+    </div>
+  {{/if}}
 {{/link-to}}
+
