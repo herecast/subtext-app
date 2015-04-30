@@ -1,4 +1,8 @@
-{{#link-to 'events.show' event.id (query-params category=category)}}
+{{#link-to
+  'events.show'
+  event.id
+  (query-params category=category startDate=startDate stopDate=stopDate)
+}}
   {{#if backVisible}}
     <h1>
       {{event.costType}} event: {{event.cost}}
