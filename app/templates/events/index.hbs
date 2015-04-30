@@ -8,7 +8,10 @@
 </div>
 
 {{#if model}}
-  {{grouped-events events=model}}
+  {{grouped-events
+    events=model
+    category=category
+  }}
 {{else}}
   <div class='container text-center well'>
     <p>I can't believe it. No one is hosting an event that matches your search.</p>

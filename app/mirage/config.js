@@ -1,17 +1,45 @@
 import Ember from 'ember';
 
+// This is just a dumb method to make it look like we're doing filtering
+function filterByCategory(events, category) {
+  if (category === 'everything') {
+    return events;
+  } else {
+    const size = 20 + category.length;
+    const shuffled = events.slice(0);
+    let i = events.length;
+    let temp, index;
+
+    while (i--) {
+      index = Math.floor((i + 1) * Math.random());
+      temp = shuffled[index];
+      shuffled[index] = shuffled[i];
+      shuffled[i] = temp;
+    }
+
+    return shuffled.slice(0, size);
+  }
+}
+
 export default function() {
-  this.get('/events', function(db) {
+  this.get('/events', function(db, request) {
+    const queryParams = request.queryParams;
+
+    // The event index endpoint returns a subset of all available properties
+    let events = db.events.map((event) => {
+      return Ember.getProperties(
+        event, 'id', 'content_id', 'content', 'image', 'cost', 'cost_type',
+        'venue_name', 'venue_address', 'venue_city', 'venue_state',
+        'venue_zipcode', 'venue_id', 'venue_latitude', 'venue_longitude',
+        'venue_phone', 'venue_url', 'event_url', 'contact_phone', 'contact_email',
+        'contact_url', 'title', 'subtitle', 'ends_at', 'starts_at'
+      );
+    });
+
+    events = filterByCategory(events, queryParams.category);
+
     return {
-      events: db.events.map((event) => {
-        return Ember.getProperties(
-          event, 'id', 'content_id', 'content', 'image', 'cost', 'cost_type',
-          'venue_name', 'venue_address', 'venue_city', 'venue_state',
-          'venue_zipcode', 'venue_id', 'venue_latitude', 'venue_longitude',
-          'venue_phone', 'venue_url', 'event_url', 'contact_phone', 'contact_email',
-          'contact_url', 'title', 'subtitle', 'ends_at', 'starts_at'
-        );
-      }),
+      events: events,
       meta: {
         total: db.events.length
       }

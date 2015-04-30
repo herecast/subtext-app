@@ -1,0 +1,43 @@
+<div class='container-fluid'>
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class='navbar-header'>
+    <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-filter-bar'>
+      <span class='sr-only'>Toggle navigation</span>
+      <span class='icon-bar'></span>
+      <span class='icon-bar'></span>
+      <span class='icon-bar'></span>
+    </button>
+  </div>
+  <div class='collapse navbar-collapse'>
+    <form class='navbar-form navbar-left' role='search'>
+      <div class='form-group'>
+        {{event-category-filter category=category}}
+      </div>
+      <div class='form-group'>
+        <p class='navbar-text'>within</p>
+      </div>
+      <div class='form-group'>
+        <input type='text' class='form-control' placeholder=''>
+      </div>
+      <div class='form-group'>
+        <p class='navbar-text'>happening</p>
+      </div>
+      <div class='form-group'>
+        <div class='dropdown'>
+          <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'>Set dates <span class='caret'></span></a>
+          <ul class='dropdown-menu' role='menu'>
+            {{!TODO replace with a date range picker}}
+            <li><a href='#'>Set dates</a></li>
+            <li><a href='#'>This week</a></li>
+            <li><a href='#'>This weekend</a></li>
+            <li><a href='#'>This month</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <button type='submit' class='btn btn-default' {{action 'submit'}}>
+        Find events
+      </button>
+    </form>
+  </div>
+</div><!-- /.container-fluid -->
