@@ -19,6 +19,7 @@ export default Ember.Component.extend({
           group = EventGroup.create({
             value: value,
             displayValue: moment(startsAt).format('dddd, MMMM Do YYYY'),
+            paramValue: moment(startsAt).format('YYYY-MM-DD'),
             items: [event]
           });
 

@@ -1,6 +1,11 @@
 {{#each eventGroup in eventsByDate}}
   <div class='container'>
-    <h1>{{eventGroup.displayValue}}</h1>
+    {{link-to
+      eventGroup.displayValue
+      'events.index'
+      (query-params startDate=eventGroup.paramValue stopDate=eventGroup.paramValue r=true)
+      tagName='h1'
+    }}
 
     <div class='row'>
       {{#each event in eventGroup.headItems}}

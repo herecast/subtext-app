@@ -7,18 +7,8 @@ function filterByCategory(events, category) {
     return events;
   } else {
     const size = 20 + category.length;
-    const shuffled = events.slice(0);
-    let i = events.length;
-    let temp, index;
 
-    while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
-    }
-
-    return shuffled.slice(0, size);
+    return events.slice(0, size);
   }
 }
 
