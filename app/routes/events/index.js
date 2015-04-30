@@ -6,7 +6,8 @@ export default Ember.Route.extend(EventFilter, {
     return this.store.find('event', {
       category: params.category,
       startDate: params.startDate,
-      stopDate: params.stopDate
+      stopDate: params.stopDate,
+      location: params.location
     });
   },
 
