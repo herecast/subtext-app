@@ -1,8 +1,18 @@
 <div class='container'>
   <div class='pull-left'>
-    showing {{model.length}} of {{totalEvents}} events
+    {{#if model}}
+      showing {{model.length}} of {{totalEvents}} events
+    {{/if}}
   </div>
   <button class='btn btn-default pull-right'>Create an event</button>
 </div>
 
-{{grouped-events events=model}}
+{{#if model}}
+  {{grouped-events events=model}}
+{{else}}
+  <div class='container text-center well'>
+    <p>I can't believe it. No one is hosting an event that matches your search.</p>
+    <p>You could try tweaking your search for another event or&hellip;</p>
+    <p>Seize the opportunity and host your own</p>
+  </div>
+{{/if}}
