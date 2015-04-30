@@ -6,7 +6,6 @@ export default Ember.Mixin.create({
   category: 'everything',
   startDate: null,
   stopDate: null,
-  stopDate: null,
   location: '',
   r: false
 });
