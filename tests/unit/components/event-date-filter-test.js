@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-filter', {
+moduleForComponent('event-date-filter', {
   // Specify the other units that are required for this test
-  needs: ['component:event-category-filter', 'component:event-date-filter']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {

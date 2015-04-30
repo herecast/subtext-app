@@ -4,7 +4,9 @@ import EventFilter from '../../mixins/routes/event-filter';
 export default Ember.Route.extend(EventFilter, {
   model(params) {
     return this.store.find('event', {
-      category: params.category
+      category: params.category,
+      startDate: params.startDate,
+      stopDate: params.stopDate
     });
   },
 

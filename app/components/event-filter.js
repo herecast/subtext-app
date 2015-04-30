@@ -6,7 +6,10 @@ export default Ember.Component.extend({
 
   actions: {
     submit() {
-      const filterParams = this.getProperties('category');
+      const filterParams = this.getProperties(
+        'category', 'startDate', 'stopDate'
+      );
+
       this.sendAction('updateFilter', filterParams);
     }
   }

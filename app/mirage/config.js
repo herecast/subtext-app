@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 // This is just a dumb method to make it look like we're doing filtering
 function filterByCategory(events, category) {
@@ -21,9 +22,26 @@ function filterByCategory(events, category) {
   }
 }
 
+function filterByDate(events, startDate, endDate) {
+  if (!!startDate && !!endDate) {
+    const queryStart = moment(startDate);
+    const queryEnd = moment(endDate).endOf('day');
+
+    return events.filter((event) => {
+      const eventStart = moment(event.starts_at);
+      const eventEnd = moment(event.ends_at);
+
+      return (eventStart >= queryStart && eventStart <= queryEnd) ||
+        (eventEnd >= queryStart && eventEnd <= queryEnd);
+    });
+  } else {
+    return events;
+  }
+}
+
 export default function() {
   this.get('/events', function(db, request) {
-    const queryParams = request.queryParams;
+    const params = request.queryParams;
 
     // The event index endpoint returns a subset of all available properties
     let events = db.events.map((event) => {
@@ -36,7 +54,8 @@ export default function() {
       );
     });
 
-    events = filterByCategory(events, queryParams.category);
+    events = filterByCategory(events, params.category);
+    events = filterByDate(events, params.startDate, params.stopDate);
 
     return {
       events: events,
