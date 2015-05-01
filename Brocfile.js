@@ -25,6 +25,7 @@ var app = new EmberApp({
 
 app.import('bower_components/bootstrap/js/collapse.js');
 app.import('bower_components/bootstrap/js/dropdown.js');
+app.import('bower_components/bootstrap/js/tooltip.js');
 
 app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', {
   destDir: 'fonts'
@@ -33,5 +34,17 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.w
 app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', {
   destDir: 'fonts'
 });
+
+app.import('bower_components/font-awesome/css/font-awesome.css');
+
+app.import('bower_components/font-awesome/fonts/fontawesome-webfont.woff', {
+  destDir: 'fonts'
+});
+app.import('bower_components/font-awesome/fonts/fontawesome-webfont.woff2', {
+  destDir: 'fonts'
+});
+
+app.import('bower_components/summernote/dist/summernote.js');
+app.import('bower_components/summernote/dist/summernote.css');
 
 module.exports = app.toTree();
