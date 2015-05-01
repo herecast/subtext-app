@@ -8,6 +8,7 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   cost: DS.attr('string'),
   costType: DS.attr('string'),
+  dates: DS.attr('raw', {defaultValue: []}),
   endsAt: DS.attr('moment-date', {defaultValue: moment()}),
   eventUrl: DS.attr('string'),
   image: DS.attr('string'),

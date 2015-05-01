@@ -16,39 +16,10 @@
     value=event.venueId
   }}
 </div>
-<div class="form-group row">
-  <div class='col-md-3'>
-    <label>Start Date</label>
-    {{input
-      placeholder='Day'
-      class='form-control'
-    }}
-  </div>
-  <div class='col-md-3'>
-    <label>Start Time</label>
-    {{input
-      placeholder='Time'
-      class='form-control'
-    }}
-  </div>
-  <div class='col-md-3'>
-    <label>End Time</label>
-    {{input
-      placeholder='Time'
-      class='form-control'
-    }}
-  </div>
-  <div class='col-md-3'>
-    <label>Subtitle (opt)</label>
-    {{input
-      placeholder='Subtitle'
-      class='form-control'
-    }}
-  </div>
-  <div class='col-md-12'>
-    Add another date
-  </div>
-</div>
+{{event-form-dates
+  dates=event.dates
+  class='form-group'
+}}
 <div class="form-group">
   <label for="image">Image</label>
   {{input
