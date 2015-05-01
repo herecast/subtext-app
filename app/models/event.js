@@ -8,10 +8,10 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   cost: DS.attr('string'),
   costType: DS.attr('string'),
-  endsAt: DS.attr('date'),
+  endsAt: DS.attr('moment-date'),
   eventUrl: DS.attr('string'),
   image: DS.attr('string'),
-  startsAt: DS.attr('date'),
+  startsAt: DS.attr('moment-date'),
   subtitle: DS.attr('string'),
   ticketType: DS.attr('string'),
   title: DS.attr('string'),
@@ -31,21 +31,21 @@ export default DS.Model.extend({
   }.property('startsAt', 'endsAt'),
 
   timeRange: function() {
-    const startTime = moment(this.get('startsAt')).format('LT');
-    const endTime = moment(this.get('endsAt')).format('LT');
+    const startTime = this.get('startsAt').format('LT');
+    const endTime = this.get('endsAt').format('LT');
 
     return `${startTime} - ${endTime}`;
   }.property('startsAt', 'endsAt'),
 
   longTimeRange: function() {
-    const start = moment(this.get('startsAt')).format('dddd, MMMM Do LT');
+    const start = this.get('startsAt').format('dddd, MMMM Do LT');
     let endFormat = 'LT';
 
     if (this.get('spansDays')) {
       endFormat = 'dddd, MMMM Do LT';
     }
 
-    const end = moment(this.get('endsAt')).format(endFormat);
+    const end = this.get('endsAt').format(endFormat);
 
     return `${start} to ${end}`;
   }.property('startsAt', 'endsAt')

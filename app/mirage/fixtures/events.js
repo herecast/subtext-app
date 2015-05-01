@@ -8,8 +8,13 @@ function titleize(words) {
 }
 
 function generateEvent(id) {
-  const startsAt = moment(faker.date.recent(-30)).hour(9).minute(0).second(0);
-  const endsAt = moment(startsAt).add(8, 'hours');
+  // All events start at a random time between 7am and 12pm
+  const startHour = faker.random.number({min: 7, max: 12});
+  const startsAt = moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
+
+  // All are up to 8 hours long so they don't go past midnight
+  const hourSpan = faker.random.number({min: 2, max: 8});
+  const endsAt = moment(startsAt).add(hourSpan, 'hours');
 
   return {
     id: id,
@@ -48,7 +53,7 @@ function generateEvent(id) {
 function allEvents() {
   const events = [];
 
-  for (let i = 1; i < 50; i += 1) {
+  for (let i = 1; i < 100; i += 1) {
     events.push(generateEvent(i));
   }
 

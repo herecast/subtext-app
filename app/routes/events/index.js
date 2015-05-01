@@ -2,6 +2,12 @@ import Ember from 'ember';
 import EventFilter from '../../mixins/routes/event-filter';
 
 export default Ember.Route.extend(EventFilter, {
+  queryParams: {
+    r: {
+      refreshModel: true
+    }
+  },
+
   model(params) {
     return this.store.find('event', {
       category: params.category,
