@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 import EventGroup from 'subtext-ui/models/event-group';
 
 export default Ember.Component.extend({
@@ -33,8 +32,8 @@ export default Ember.Component.extend({
         } else {
           group = EventGroup.create({
             value: value,
-            displayValue: moment(startsAt).format(displayFormat),
-            paramValue: moment(startsAt).format('YYYY-MM-DD'),
+            displayValue: startsAt.format(displayFormat),
+            paramValue: startsAt.format('YYYY-MM-DD'),
             items: [event]
           });
 
@@ -48,13 +47,13 @@ export default Ember.Component.extend({
 
   eventsByDate: function() {
     return this.buildGroup('dddd, MMMM Do', function(startsAt) {
-      return moment(startsAt).format('L');
+      return startsAt.format('L');
     });
   }.property('events.[]'),
 
   eventsByTime: function() {
     return this.buildGroup('Ha on dddd, MMMM Do', function(startsAt) {
-      return parseInt(moment(startsAt).format('H'));
+      return parseInt(startsAt.format('H'));
     });
   }.property('events.[]'),
 
