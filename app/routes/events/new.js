@@ -12,6 +12,14 @@ export default Ember.Route.extend({
 
     afterSave() {
       this.transitionTo('events.new.promotion');
+    },
+
+    afterPromotion() {
+      this.transitionTo('events.new.preview');
+    },
+
+    backToDetails() {
+      this.transitionTo('events.new.details');
     }
   }
 });

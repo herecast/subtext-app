@@ -48,43 +48,6 @@
   {{/summer-note}}
 </div>
 <div class="form-group">
-  <label>Organizer Info</label>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-      </span>
-      {{input
-        placeholder='Email for Subtext account'
-        class='form-control'
-      }}
-    </div>
-  </div>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-      </span>
-      {{input
-        placeholder='Fullname'
-        class='form-control'
-      }}
-    </div>
-  </div>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-      </span>
-      {{input
-        type='password'
-        placeholder='Password to edit details'
-        class='form-control'
-      }}
-    </div>
-  </div>
-</div>
-<div class="form-group">
   <label>Event Info</label>
   <div class='form-group'>
     <div class="input-group">
@@ -116,9 +79,9 @@
         <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
       </span>
       {{input
-        placeholder='Web link (such as Event URL or Registration Page'
+        placeholder='Web link (such as Event URL or Registration Page)'
         class='form-control'
-        value=event.contactUrl
+        value=event.eventUrl
       }}
     </div>
   </div>
