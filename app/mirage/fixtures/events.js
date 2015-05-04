@@ -21,32 +21,27 @@ function generateEvent(id) {
     title: titleize(faker.lorem.sentences(1)),
     subtitle: titleize(faker.lorem.sentences(1)),
     content: faker.lorem.paragraph(5),
+    content_id: faker.random.number(1000),
     cost_type: 'paid', // free, paid, donation
     cost: '$15-$55',
     contact_phone: faker.phone.phoneNumber(),
     contact_email: faker.internet.email(),
-    contact_url: `http://${faker.internet.domainName()}`,
-
+    event_url: `http://${faker.internet.domainName()}`,
+    venue_id: faker.random.number(1000),
     venue_name: titleize(faker.lorem.words(3).join(' ')),
     venue_address: faker.address.streetAddress(),
     venue_city: faker.address.city(),
     venue_state: 'VT',
     venue_zip: faker.address.zipCode(),
     venue_url: `http://${faker.internet.domainName()}`,
+    venue_latitude: faker.address.latitude(),
+    venue_longitude: faker.address.longitude(),
+    venue_locate_name: titleize(faker.lorem.sentences(1)),
+    venue_phone: faker.phone.phoneNumber(),
 
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
-    image: 'http://placehold.it/350x150',
-    other_dates: [
-      {
-        starts_at: moment(faker.date.recent(-10)).toISOString(),
-        ends_at: moment(faker.date.recent(-10)).toISOString()
-      },
-      {
-        starts_at: moment(faker.date.recent(-10)).toISOString(),
-        ends_at: moment(faker.date.recent(-10)).toISOString()
-      }
-    ]
+    image_url: 'http://placehold.it/350x150'
   };
 }
 
