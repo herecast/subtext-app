@@ -1,0 +1,133 @@
+<div class="form-group">
+  <label for="title">Event Title</label>
+  {{input
+    id='title'
+    placeholder='A short and meaningful name'
+    class='form-control'
+    value=event.title
+  }}
+</div>
+<div class="form-group">
+  <label for="location">Location</label>
+  {{input
+    id='Location'
+    placeholder='Specify the venue'
+    class='form-control'
+    value=event.venueId
+  }}
+</div>
+{{event-form-dates
+  dates=event.dates
+  class='form-group'
+}}
+<div class="form-group">
+  <label for="image">Image</label>
+  {{input
+    type='file'
+    class='form-control'
+    value=event.image
+  }}
+</div>
+<div class="form-group">
+  <label for="price">Event Price</label>
+  {{input
+    class='form-control'
+    value=event.cost
+  }}
+</div>
+<div class="form-group">
+  <label for="description">Event Description</label>
+  {{#summer-note content=event.content}}
+    {{textarea
+      id='description'
+      placeholder='An inspiring description that will motivate people to attend'
+      class='form-control'
+    }}
+  {{/summer-note}}
+</div>
+<div class="form-group">
+  <label>Organizer Info</label>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+      </span>
+      {{input
+        placeholder='Email for Subtext account'
+        class='form-control'
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+      </span>
+      {{input
+        placeholder='Fullname'
+        class='form-control'
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+      </span>
+      {{input
+        type='password'
+        placeholder='Password to edit details'
+        class='form-control'
+      }}
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <label>Event Info</label>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+      </span>
+      {{input
+        placeholder='Contact Email'
+        class='form-control'
+        value=event.contactEmail
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+      </span>
+      {{input
+        placeholder='Contact Phone'
+        class='form-control'
+        value=event.contactPhone
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+      </span>
+      {{input
+        placeholder='Web link (such as Event URL or Registration Page'
+        class='form-control'
+        value=event.contactUrl
+      }}
+    </div>
+  </div>
+</div>
+
+<div class='form-group'>
+  <button class='btn btn-default' {{action 'save'}}>
+    Save &amp; Next Step
+  </button>
+
+  <button class='btn btn-link' {{action 'discard'}}>
+    Discard
+  </button>
+</div>
