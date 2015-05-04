@@ -29,19 +29,22 @@ function filterByDate(events, startDate, endDate) {
   }
 }
 
+const eventBaseProperties = [
+  'id', 'content_id', 'content', 'image_url', 'cost', 'cost_type',
+  'venue_name', 'venue_address', 'venue_city', 'venue_state',
+  'venue_zipcode', 'venue_id', 'venue_latitude', 'venue_longitude',
+  'venue_locate_name', 'venue_phone', 'venue_url',
+  'event_url', 'contact_phone', 'contact_email',
+  'title', 'subtitle', 'ends_at', 'starts_at'
+];
+
 export default function() {
   this.get('/events', function(db, request) {
     const params = request.queryParams;
 
     // The event index endpoint returns a subset of all available properties
     let events = db.events.map((event) => {
-      return Ember.getProperties(
-        event, 'id', 'content_id', 'content', 'image', 'cost', 'cost_type',
-        'venue_name', 'venue_address', 'venue_city', 'venue_state',
-        'venue_zipcode', 'venue_id', 'venue_latitude', 'venue_longitude',
-        'venue_phone', 'venue_url', 'event_url', 'contact_phone', 'contact_email',
-        'contact_url', 'title', 'subtitle', 'ends_at', 'starts_at'
-      );
+      return Ember.getProperties(event, eventBaseProperties);
     });
 
     events = filterByCategory(events, params.category);
@@ -55,7 +58,20 @@ export default function() {
     };
   });
 
-  this.get('/events/:id');
+  this.get('/events/:id', function(db, request) {
+    const event = db.events.find(request.params.id);
+    const baseProperties = Ember.copy(eventBaseProperties);
+    const showProperties = [
+      'content_id'
+    ];
+    const properties = baseProperties.concat(showProperties);
+
+    return {
+      event: Ember.getProperties(event, properties)
+    };
+  });
+
+  this.get('/event_instances');
 
   this.post('/events');
 
