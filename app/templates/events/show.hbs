@@ -10,7 +10,7 @@
           <img src='http://placehold.it/250' class='img-responsive'>
         </div>
 
-        <div class='col-sm-9'>
+        <div class='col-sm-6'>
           <h1>{{model.title}}</h1>
           <h2>{{model.longTimeRange}}</h2>
 
@@ -36,6 +36,16 @@
             {{model.contactEmail}} | {{model.contactPhone}}
           </div>
         </div>
+        <aside class='pull-right col-sm-3'>
+          {{#if otherInstances}}
+            <h2>Other Dates</h2>
+            <ul>
+              {{#each instance in otherInstances}}
+                <li>{{instance.timeRange}} - {{instance.subtitle}}</li>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </aside>
       </div>
     </div>
   </header>

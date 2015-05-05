@@ -6,6 +6,13 @@ export default Ember.Route.extend(EventFilter, {
     return this.store.find('event', params.id);
   },
 
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    const otherInstances = this.store.find('event-instance', {event_id: model.get('id')});
+    controller.set('otherInstances', otherInstances);
+  },
+
   actions: {
     updateFilter(filterParams) {
       this.transitionTo('events.index', {queryParams: filterParams});
