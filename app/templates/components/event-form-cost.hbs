@@ -1,0 +1,25 @@
+<div class='form-group btn-group' data-toggle='buttons'>
+  {{#radio-button name='cost-type' value='free' groupValue=costType}}
+    Free
+  {{/radio-button}}
+
+  {{#radio-button name='cost-type' value='paid' groupValue=costType}}
+    Paid
+  {{/radio-button}}
+
+  {{#radio-button name='cost-type' value='donation' groupValue=costType}}
+    Donation
+  {{/radio-button}}
+</div>
+
+{{#if costType}}
+  <div class='form-group'>
+    <label for='event-cost'>{{costType}}</label>
+    {{input
+      id='event-cost'
+      placeholder='Description'
+      value=cost
+      class='form-control'
+    }}
+  </div>
+{{/if}}
