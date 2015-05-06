@@ -1,5 +1,7 @@
 import DS from 'ember-data';
 import moment from 'moment';
+import ajax from 'ic-ajax';
+import config from '../config/environment';
 
 export default DS.Model.extend({
   category: DS.attr('string'),
@@ -50,5 +52,10 @@ export default DS.Model.extend({
     const end = this.get('endsAt').format(endFormat);
 
     return `${start} to ${end}`;
-  }.property('startsAt', 'endsAt')
+  }.property('startsAt', 'endsAt'),
+
+  publish() {
+    const url = `${config.API_NAMESPACE}/events/${this.get('id')}/publish`;
+    return ajax(url, {type: 'POST'});
+  }
 });

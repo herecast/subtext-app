@@ -37,10 +37,10 @@
           </div>
         </div>
         <aside class='pull-right col-sm-3'>
-          {{#if otherInstances}}
+          {{#if model.eventInstances}}
             <h2>Other Dates</h2>
             <ul>
-              {{#each instance in otherInstances}}
+              {{#each instance in model.eventInstances}}
                 <li>{{instance.timeRange}} - {{instance.subtitle}}</li>
               {{/each}}
             </ul>
