@@ -62,7 +62,7 @@ export default function() {
     const event = db.events.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
     const showProperties = [
-      'content_id'
+      'content_id', 'category'
     ];
     const properties = baseProperties.concat(showProperties);
 
@@ -74,6 +74,7 @@ export default function() {
   this.get('/event_instances');
 
   this.post('/events');
+  this.put('/events/:id');
 
   // These comments are here to help you get started. Feel free to delete them.
 

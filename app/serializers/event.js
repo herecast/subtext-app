@@ -6,7 +6,8 @@ export default DS.ActiveModelSerializer.extend({
 
     // Remove read only attributes that should not be sent to the API
     delete json.ends_at;
-    delete json.image;
+    delete json.image_url;
+    delete json.subtitle;
     delete json.starts_at;
     delete json.venue_address;
     delete json.venue_city;

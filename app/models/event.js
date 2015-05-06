@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import moment from 'moment';
 
 export default DS.Model.extend({
+  category: DS.attr('string'),
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
@@ -10,10 +11,11 @@ export default DS.Model.extend({
   dates: DS.attr('raw', {defaultValue: []}),
   endsAt: DS.attr('moment-date', {defaultValue: moment()}),
   eventUrl: DS.attr('string'),
+  extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   imageUrl: DS.attr('string'),
+  socialEnabled: DS.attr('boolean', {defaultValue: true}),
   startsAt: DS.attr('moment-date', {defaultValue: moment()}),
   subtitle: DS.attr('string'),
-  ticketType: DS.attr('string'),
   title: DS.attr('string'),
   venueAddress: DS.attr('string'),
   venueCity: DS.attr('string'),

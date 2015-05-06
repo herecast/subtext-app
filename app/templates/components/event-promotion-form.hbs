@@ -1,0 +1,80 @@
+<div class='row'>
+  <div class='col-sm-3'>
+    {{input
+      type='checkbox'
+      checked=event.extendedReachEnabled
+      id='extended-reach'
+    }}
+    <label for="extended-reach">Extend your reach</label>
+  </div>
+  <div class='col-sm-4'>
+    <p>
+      Your event is set to display to users in the same town as your venue.
+      Need to figure out what this text actually says.
+    </p>
+  </div>
+  <div class='col-sm-5'>
+    <img src="http://placehold.it/350x150&text=Map+Placeholder">
+  </div>
+</div>
+<div class='row'>
+  <div class='col-sm-3'>
+    {{input
+      type='checkbox'
+      checked=event.socialEnabled
+      id='social-enabled'
+    }}
+    <label for="social-enabled">Go Social</label>
+  </div>
+  <div class='col-sm-4'>
+    <p>
+      Allows users to share your event with their friends on Facebook, Twitter,
+      Google+, email and other social media. Free
+    </p>
+  </div>
+  <div class='col-sm-5'>
+    <img src="http://placehold.it/350x50&text=Social+Placeholder">
+  </div>
+</div>
+<div class='row'>
+  <div class='col-sm-3'>
+    {{input
+      type='checkbox'
+      checked=categoryEnabled
+      id='category-enabled'
+    }}
+    <label for="category-enabled">Be Special</label>
+  </div>
+  <div class='col-sm-4'>
+    <p>
+      Maybe your event fits into one of our pre-defined special searches:
+      Family, Movies, Music, Wellness, or Yardsales. If it does, choose
+      one free.
+    </p>
+  </div>
+  <div class='col-sm-5'>
+    {{#if categoryEnabled}}
+      {{view "select"
+        content=categories
+        optionLabelPath="content.label"
+        optionValuePath="content.value"
+        prompt="Select a category:"
+        value=event.category
+      }}
+    {{/if}}
+  </div>
+</div>
+
+<div class='form-group'>
+  <button class='btn btn-default' {{action 'saveAndGoBack'}}>
+    Save &amp; Back
+  </button>
+
+  <button class='btn btn-default' {{action 'saveAndPreview'}}>
+    Save &amp; Next Step
+  </button>
+
+  <button class='btn btn-link' {{action 'discard'}}>
+    Discard
+  </button>
+</div>

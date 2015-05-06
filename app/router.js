@@ -13,6 +13,6 @@ export default Router.map(function() {
   this.route('events.new', {path: 'events/new'}, function() {
     this.route('details');
     this.route('promotion');
-    this.route('publish');
+    this.route('preview');
   });
 });
