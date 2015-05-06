@@ -1,4 +1,3 @@
-import faker from 'faker';
 import moment from 'moment';
 
 function titleize(words) {
