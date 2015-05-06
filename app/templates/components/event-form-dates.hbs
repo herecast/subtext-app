@@ -1,46 +1,9 @@
-{{#each date in dates}}
-  <div class='form-group row'>
-    <div class='col-xs-12 col-sm-3'>
-      <label>Start Date</label>
-      {{input
-        placeholder='Day'
-        class='form-control'
-        value=date.date
-      }}
-    </div>
-    <div class='col-xs-12 col-sm-2'>
-      <label>Start Time</label>
-      {{input
-        placeholder='Time'
-        class='form-control'
-        value=date.startTime
-      }}
-    </div>
-    <div class='col-xs-12 col-sm-2'>
-      <label>End Time</label>
-      {{input
-        placeholder='Time'
-        class='form-control'
-        value=date.endTime
-      }}
-    </div>
-    <div class='col-xs-12 col-sm-4'>
-      <label>Subtitle (opt)</label>
-      {{input
-        placeholder='Subtitle'
-        class='form-control'
-        value=date.subtitle
-      }}
-    </div>
-    <div class='col-xs-12 col-sm-1'>
-      <label></label>
-      <div>
-        <button {{action 'removeDate' date}} class='btn btn-link'>
-          <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
-  </div>
+{{#each instance in eventInstances}}
+  {{event-form-date
+    instance=instance
+    class='form-group row'
+    removeDate='removeDate'
+  }}
 {{/each}}
 
 <button class='btn btn-link' {{action 'addNewDate'}}>

@@ -2,8 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   addDate: function() {
-    if (this.get('dates')) {
-      this.get('dates').pushObject(Ember.Object.create());
+    this.get('eventInstances').pushObject(Ember.Object.create());
+  },
+
+  addInitialDate: function() {
+    const eventInstances = this.get('eventInstances');
+
+    if (eventInstances && Ember.isEmpty(eventInstances)) {
+      this.addDate();
     }
   }.on('didInsertElement'),
 
@@ -12,8 +18,8 @@ export default Ember.Component.extend({
       this.addDate();
     },
 
-    removeDate(date) {
-      this.get('dates').removeObject(date);
+    removeDate(instance) {
+      this.get('eventInstances').removeObject(instance);
     }
   }
 });
