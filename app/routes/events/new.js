@@ -18,6 +18,10 @@ export default Ember.Route.extend({
       this.transitionTo('events.new.preview');
     },
 
+    afterPublish() {
+      this.transitionTo('events.index');
+    },
+
     backToDetails() {
       this.transitionTo('events.new.details');
     }

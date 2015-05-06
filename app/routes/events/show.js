@@ -9,8 +9,8 @@ export default Ember.Route.extend(EventFilter, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    const otherInstances = this.store.find('event-instance', {event_id: model.get('id')});
-    controller.set('otherInstances', otherInstances);
+    const eventInstances = this.store.find('event-instance', {event_id: model.get('id')});
+    model.set('eventInstances', eventInstances);
   },
 
   actions: {
