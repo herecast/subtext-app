@@ -3,14 +3,15 @@
   class='dropdown-toggle form-control'
   data-toggle='dropdown'
   aria-expanded='false'
-  value=category
+  value=categoryOrQuery
 }}
 
 <ul class='dropdown-menu' role='menu'>
-  <li><a href='#' {{action 'setCategory' 'everything' }}>Everything</a></li>
-  <li><a href='#' {{action 'setCategory' 'family' }}>Family</a></li>
-  <li><a href='#' {{action 'setCategory' 'movies' }}>Movies</a></li>
-  <li><a href='#' {{action 'setCategory' 'music' }}>Music</a></li>
-  <li><a href='#' {{action 'setCategory' 'wellness' }}>Wellness</a></li>
-  <li><a href='#' {{action 'setCategory' 'yardsales' }}>Yardsales</a></li>
+  {{#each category in categoryOptions}}
+    <li>
+      <a href='#' {{action 'setCategory' category.value}}>
+        {{category.label}}
+      </a>
+    </li>
+  {{/each}}
 </ul>

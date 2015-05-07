@@ -1,7 +1,7 @@
 {{#link-to
   'events.show'
   event.id
-  (query-params category=category startDate=startDate stopDate=stopDate location=location)
+  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
 }}
   {{#if backVisible}}
     <h1>

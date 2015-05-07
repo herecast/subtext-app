@@ -11,6 +11,7 @@ export default Ember.Route.extend(EventFilter, {
   model(params) {
     return this.store.find('event', {
       category: params.category,
+      query: params.query,
       startDate: params.startDate,
       stopDate: params.stopDate,
       location: params.location
