@@ -1,7 +1,28 @@
-<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'>Set dates <span class='caret'></span></a>
+{{input
+  id='date-input'
+  class='dropdown-toggle form-control'
+  data-toggle='dropdown'
+  aria-expanded='false'
+  value=dateSummary
+  readonly=true
+}}
+
 <ul class='dropdown-menu' role='menu'>
-  <li><a href='#' {{action 'chooseDates'}}>Custom</a></li>
+  <li>
+    <a href='#' {{action 'chooseDates'}}>
+      Custom <i class='glyphicon glyphicon-calendar pull-right'></i>
+    </a>
+  </li>
   <li><a href='#' {{action 'setDate' 'today' }}>Today</a></li>
+  <li><a href='#' {{action 'setDate' 'week' }}>This Week</a></li>
   <li><a href='#' {{action 'setDate' 'weekend' }}>This Weekend</a></li>
   <li><a href='#' {{action 'setDate' 'month' }}>This Month</a></li>
 </ul>
+
+{{#if showCustomCalendar}}
+  {{event-date-filter-custom
+    customStartDate=customStartDate
+    customEndDate=customEndDate
+    afterSelect='afterCustomSelect'
+  }}
+{{/if}}
