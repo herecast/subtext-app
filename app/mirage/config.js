@@ -87,6 +87,19 @@ export default function() {
     };
   });
 
-  this.put('/events/:id');
+  this.put('/events/:id', function(db, request) {
+    if (request && request.requestBody && typeof request.requestBody === 'string') {
+      var id = request.params.id;
+      var putData = JSON.parse(request.requestBody);
+      var attrs = putData['event'];
+      var data = db.events.update(id, attrs);
+      return data;
+    } else {
+      // We're using the UPDATE action to upload event images after the event
+      // has been created. Mirage can't really handle this, so we ignore it.
+      console.log('Ignoring image upload');
+    }
+  });
+
   this.del('/events/:id');
 }
