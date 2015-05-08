@@ -61,6 +61,22 @@ export default function() {
     };
   });
 
+  this.get('/events/venues', function(db, request) {
+    const locations = [];
+
+    // For demo purposes - if someone starts a search with 'empty' we return
+    // no results so we can see what that looks like in the UI
+    if (request.queryParams.query.indexOf('empty') !== 0) {
+      for (let i = 1; i < 5; i += 1) {
+        locations.push(faker.address.streetAddress());
+      }
+    }
+
+    return {
+      locations: locations
+    };
+  });
+
   this.get('/events/:id', function(db, request) {
     const event = db.events.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);

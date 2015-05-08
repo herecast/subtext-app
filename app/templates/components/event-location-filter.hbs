@@ -1,13 +1,13 @@
 {{input
   placeholder='Choose a location'
-  class='dropdown-toggle form-control'
-  data-toggle='dropdown'
-  aria-expanded='false'
-  value=location
+  class='form-control'
+  value=inputValue
 }}
 
 <ul class='dropdown-menu' role='menu'>
   {{#each place in places}}
     <li><a href='#' {{action 'setLocation' place}}>{{place}}</a></li>
+  {{else}}
+    <li class='disabled'><a>No Results</a></li>
   {{/each}}
 </ul>

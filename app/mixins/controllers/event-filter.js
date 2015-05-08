@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
 
   category: 'everything',
   query: null,
-  location: '',
+  location: 'Upper Valley',
 
   // Change this value in the query params to force a refresh.
   r: false,
