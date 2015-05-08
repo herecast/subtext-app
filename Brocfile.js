@@ -26,6 +26,7 @@ var app = new EmberApp({
 app.import('bower_components/bootstrap/js/collapse.js');
 app.import('bower_components/bootstrap/js/dropdown.js');
 app.import('bower_components/bootstrap/js/tooltip.js');
+app.import('bower_components/bootstrap/js/modal.js');
 
 app.import('bower_components/Faker/build/build/faker.js');
 
