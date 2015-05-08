@@ -201,4 +201,6 @@ export default function() {
   this.get('/comments');
 
   this.post('/comments');
+
+  this.get('/listservs');
 }

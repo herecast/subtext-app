@@ -7,6 +7,20 @@ export default Ember.Component.extend({
     this.set('categoryEnabled', !!this.get('category'));
   }.on('init'),
 
+  displayListservs: function() {
+    if (Ember.isPresent(this.get('event.listservIds'))) {
+      this.set('listsEnabled', true);
+    }
+  }.on('didInsertElement'),
+
+  // When the user unchecks the button to add listservs, reset the array
+  // so that we don't subscribe them to a list without their knowledge.
+  resetListservs: function() {
+    if (!this.get('listsEnabled')) {
+      this.set('event.listservIds', []);
+    }
+  }.observes('listsEnabled'),
+
   categories: [
     {value: 'family', label: 'Family'},
     {value: 'movies', label: 'Movies'},
