@@ -57,5 +57,21 @@ export default DS.Model.extend({
   publish() {
     const url = `${config.API_NAMESPACE}/events/${this.get('id')}/publish`;
     return ajax(url, {type: 'POST'});
+  },
+
+  uploadImage() {
+    const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
+    const data = new FormData();
+
+    if (this.get('image')) {
+      data.append('event[image]', this.get('image'));
+
+      return ajax(url, {
+        data: data,
+        type: 'PUT',
+        contentType: false,
+        processData: false
+      });
+    }
   }
 });
