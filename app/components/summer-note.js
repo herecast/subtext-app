@@ -14,7 +14,8 @@ export default Ember.Component.extend({
     this.$('textarea').summernote({
       height: height,
       toolbar: [
-        ['style', ['bold', 'italic', 'underline', 'clear']]
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['insert', ['link']]
       ]
     });
 
