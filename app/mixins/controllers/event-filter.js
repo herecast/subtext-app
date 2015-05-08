@@ -2,9 +2,10 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Mixin.create({
-  queryParams: ['category', 'startDate', 'stopDate', 'location', 'r'],
+  queryParams: ['category', 'query', 'startDate', 'stopDate', 'location', 'r'],
 
   category: 'everything',
+  query: null,
   location: '',
 
   // Change this value in the query params to force a refresh.

@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
     this._super(controller, model);
 
     const filterParams = controller.getProperties(
-      'category', 'startDate', 'stopDate', 'location'
+      'category', 'query', 'startDate', 'stopDate', 'location'
     );
 
     this.controllerFor('events').setProperties(filterParams);
