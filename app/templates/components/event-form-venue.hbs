@@ -1,0 +1,59 @@
+<label>Location</label>
+{{#if venueId}}
+  <div>
+    <div>{{venueName}}</div>
+    <div>{{venueAddress}}</div>
+    <button class='btn btn-default btn-xs' {{action 'changeVenue'}}>
+      Change
+    </button>
+  </div>
+{{else}}
+  {{event-form-venue-name
+    venueName=venueName
+    venues=venues
+    setVenue='setVenue'
+    class='form-group'
+  }}
+  <div class='form-group'>
+    {{input
+      placeholder='Address'
+      class='form-control'
+      value=venueAddress
+    }}
+  </div>
+  <div class='form-group'>
+    {{input
+      placeholder='City'
+      class='form-control'
+      value=venueCity
+    }}
+  </div>
+  <div class='form-group'>
+    {{input
+      placeholder='State'
+      class='form-control'
+      value=venueState
+    }}
+  </div>
+  <div class='form-group'>
+    {{input
+      placeholder='ZIP Code'
+      class='form-control'
+      value=venueZipcode
+    }}
+  </div>
+  <div class='form-group'>
+    {{input
+      placeholder='Website URL'
+      class='form-control'
+      value=venueUrl
+    }}
+  </div>
+  <div class='form-group'>
+    {{input
+      placeholder='Phone number'
+      class='form-control'
+      value=venuePhone
+    }}
+  </div>
+{{/if}}
