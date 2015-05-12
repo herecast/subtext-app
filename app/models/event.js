@@ -23,7 +23,6 @@ export default DS.Model.extend({
   venueCity: DS.attr('string'),
   venueId: DS.attr('number'),
   venueName: DS.attr('string'),
-  venuePhone: DS.attr('string'),
   venueState: DS.attr('string'),
   venueUrl: DS.attr('string'),
   venueZipcode: DS.attr('string'),

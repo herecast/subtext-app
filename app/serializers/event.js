@@ -11,7 +11,6 @@ export default DS.ActiveModelSerializer.extend({
       json.venue.address = json.venue_address;
       json.venue.city = json.venue_city;
       json.venue.name = json.venue_name;
-      json.venue.phone = json.venue_phone;
       json.venue.state = json.venue_state;
       json.venue.url = json.venue_url;
       json.venue.zipcode = json.venue_zipcode;
@@ -25,7 +24,6 @@ export default DS.ActiveModelSerializer.extend({
     delete json.venue_address;
     delete json.venue_city;
     delete json.venue_name;
-    delete json.venue_phone;
     delete json.venue_state;
     delete json.venue_url;
     delete json.venue_zipcode;

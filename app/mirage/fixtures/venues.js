@@ -11,7 +11,6 @@ function generateVenue(id) {
     address: faker.address.streetAddress(),
     city: faker.address.city(),
     state: 'VT',
-    phone: faker.phone.phoneNumber(),
     url: `http://${faker.internet.domainName()}`,
     zipcode: faker.address.zipCode()
   };

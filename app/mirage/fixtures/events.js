@@ -36,8 +36,6 @@ function generateEvent(id) {
     venue_latitude: faker.address.latitude(),
     venue_longitude: faker.address.longitude(),
     venue_locate_name: titleize(faker.lorem.sentences(1)),
-    venue_phone: faker.phone.phoneNumber(),
-
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
     image_url: 'http://placehold.it/350x150'
