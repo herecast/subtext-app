@@ -61,6 +61,7 @@ export default function() {
     };
   });
 
+  // Used by the event filter bar to find locations
   this.get('/events/venues', function(db, request) {
     const locations = [];
 
@@ -118,4 +119,19 @@ export default function() {
   });
 
   this.del('/events/:id');
+
+  // Used by the event creation page to find venues
+  this.get('/venues', function(db, request) {
+    let venues = [];
+
+    // For demo purposes - if someone starts a search with 'empty' we return
+    // no results so we can see what that looks like in the UI
+    if (request.queryParams.query.indexOf('empty') !== 0) {
+      venues = db.venues;
+    }
+
+    return {
+      venues: venues
+    };
+  });
 }

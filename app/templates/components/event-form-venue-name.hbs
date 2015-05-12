@@ -1,0 +1,12 @@
+{{input
+  id='venue-name'
+  placeholder='Name'
+  class='form-control'
+  value=venueName
+}}
+
+<ul class='dropdown-menu' role='menu'>
+  {{#each venue in venues}}
+    <li><a href='#' {{action 'setVenue' venue}}>{{venue.name}}</a></li>
+  {{/each}}
+</ul>

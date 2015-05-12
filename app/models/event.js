@@ -21,6 +21,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   venueAddress: DS.attr('string'),
   venueCity: DS.attr('string'),
+  venueId: DS.attr('number'),
   venueName: DS.attr('string'),
   venuePhone: DS.attr('string'),
   venueState: DS.attr('string'),
