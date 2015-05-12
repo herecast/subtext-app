@@ -1,29 +1,30 @@
-{{#link-to
-  'events.show'
+{{#if event.image}}
+  <img src='{{event.image}}' class='img-responsive Card-image'>
+{{else}}
+  <img src='http://placehold.it/75x75' class='img-responsive Card-image'>
+{{/if}}
+<div class='Card-time'>{{event.timeRange}}</div>
+{{#link-to 
+  'events.show' 
   event.id
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+  class='Card-title' 
 }}
-  {{#if backVisible}}
-    <h1>
-      {{event.costType}} event: {{event.cost}}
-    </h1>
-    <div class='vcard'>
-      <span class=''>{{event.venueName}}</span>
-      <div class='adr'>
-        <div class='street-address'>{{event.venueAddress}}</div>
-        <span class='locality'>{{event.venueCity}}</span>,
-        <span class='region'>{{event.venueState}}</span><br>
-        <span class='postal-code'>{{event.venueZipcode}}</span>
-      </div>
-      <div class='url'>{{event.venueUrl}}</div>
-    </div>
-  {{else}}
-    <h2>{{event.title}}</h2>
-    <div>{{event.timeRange}}</div>
-    <img src='{{event.image}}' class='img-responsive'>
-    <div>
-      {{event.content}}
-    </div>
-  {{/if}}
+  {{event.title}}
 {{/link-to}}
+<div class='Card-content'>
+  {{truncatedContent}}
+</div>
+{{#link-to 
+  'events.show' 
+  event.id
+  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+  class='Card-details' 
+}}
+  Details
+{{/link-to}}
+<div class='Card-location'>
+  <span class='Card-locationWhere'>Where?</span>
+  {{event.venueName}}
+</div>
 
