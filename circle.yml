@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 0.10.28
+    version: 0.12.0
 dependencies:
   pre:
     - npm install -g bower
@@ -11,5 +11,5 @@ deployment:
   staging:
     branch: master
     commands:
-      - npm install -g divshot-cli
+      - npm install -g ember-cli divshot-cli
       - ember divshot push staging --token $DIVSHOT_TOKEN
