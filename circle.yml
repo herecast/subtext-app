@@ -7,3 +7,9 @@ dependencies:
   override:
     - npm install
     - bower install
+deployment:
+  staging:
+    branch: master
+    commands:
+      - npm install -g divshot-cli
+      - ember divshot push staging --token $DIVSHOT_TOKEN
