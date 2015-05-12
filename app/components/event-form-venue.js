@@ -8,7 +8,6 @@ export default Ember.Component.extend({
   venueState: Ember.computed.alias('event.venueState'),
   venueZipcode: Ember.computed.alias('event.venueZipcode'),
   venueUrl: Ember.computed.alias('event.venueUrl'),
-  venuePhone: Ember.computed.alias('event.venuePhone'),
 
   actions: {
     changeVenue() {
@@ -24,7 +23,6 @@ export default Ember.Component.extend({
         venueState: venue.state,
         venueZipcode: venue.zipcode,
         venueUrl: venue.url,
-        venuePhone: venue.phone,
         open: false
       });
     }
