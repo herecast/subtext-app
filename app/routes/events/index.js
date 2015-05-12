@@ -9,7 +9,7 @@ export default Ember.Route.extend(EventFilter, {
   },
 
   model(params) {
-    return this.store.find('event', {
+    return this.store.find('event-instance', {
       category: params.category,
       query: params.query,
       startDate: params.startDate,
@@ -20,7 +20,7 @@ export default Ember.Route.extend(EventFilter, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    controller.set('totalEvents', this.store.metadataFor('event').total);
+    controller.set('totalEvents', this.store.metadataFor('event-instance').total);
   },
 
   actions: {

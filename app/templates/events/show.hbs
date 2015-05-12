@@ -37,6 +37,13 @@
           </div>
         </div>
         <aside class='pull-right col-sm-3'>
+          <h2>Actions</h2>
+          {{#if model.canEdit}}
+            {{#link-to 'events.edit' model.id class='btn btn-default'}}
+              Edit this event
+            {{/link-to}}
+          {{/if}}
+
           {{#if model.eventInstances}}
             <h2>Other Dates</h2>
             <ul>

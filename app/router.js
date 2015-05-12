@@ -15,4 +15,10 @@ export default Router.map(function() {
     this.route('promotion');
     this.route('preview');
   });
+
+  this.route('events.edit', {path: 'events/:id/edit'}, function() {
+    this.route('details');
+    this.route('promotion');
+    this.route('preview');
+  });
 });

@@ -17,16 +17,36 @@ function generateEvent(id) {
 
   return {
     id: id,
+    can_edit: true,
+    title: titleize(faker.lorem.sentences(1)),
     subtitle: titleize(faker.lorem.sentences(1)),
+    content: faker.lorem.paragraph(5),
+    content_id: faker.random.number(1000),
+    cost_type: 'paid', // free, paid, donation
+    cost: '$15-$55',
+    contact_phone: faker.phone.phoneNumber(),
+    contact_email: faker.internet.email(),
+    event_url: `http://${faker.internet.domainName()}`,
+    venue_id: faker.random.number(1000),
+    venue_name: titleize(faker.lorem.words(3).join(' ')),
+    venue_address: faker.address.streetAddress(),
+    venue_city: faker.address.city(),
+    venue_state: 'VT',
+    venue_zipcode: faker.address.zipCode(),
+    venue_url: `http://${faker.internet.domainName()}`,
+    venue_latitude: faker.address.latitude(),
+    venue_longitude: faker.address.longitude(),
+    venue_locate_name: titleize(faker.lorem.sentences(1)),
     starts_at: startsAt.toISOString(),
-    ends_at: endsAt.toISOString()
+    ends_at: endsAt.toISOString(),
+    image_url: 'http://placehold.it/350x150'
   };
 }
 
 function allInstances() {
   const events = [];
 
-  for (let i = 1; i < 4; i += 1) {
+  for (let i = 1; i < 100; i += 1) {
     events.push(generateEvent(i));
   }
 

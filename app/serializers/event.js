@@ -1,6 +1,11 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
-export default DS.ActiveModelSerializer.extend({
+export default DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
+  attrs: {
+    eventInstances: { embedded: 'always' }
+  },
+
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
 
@@ -15,6 +20,13 @@ export default DS.ActiveModelSerializer.extend({
       json.venue.url = json.venue_url;
       json.venue.zipcode = json.venue_zipcode;
     }
+
+    // Remove embedded event instance attributes that should not be sent to the API
+    json.event_instances = json.event_instances.map((instance) => {
+      return Ember.Object.create(instance).getProperties(
+        'subtitle', 'starts_at', 'ends_at'
+      );
+    });
 
     // Remove read only attributes that should not be sent to the API
     delete json.ends_at;

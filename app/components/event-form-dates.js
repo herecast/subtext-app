@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   addDate: function() {
-    this.get('eventInstances').pushObject(Ember.Object.create());
+    const eventInstance = this.store.createRecord('event-instance');
+    this.get('eventInstances').pushObject(eventInstance);
   },
 
   addInitialDate: function() {
@@ -19,6 +20,7 @@ export default Ember.Component.extend({
     },
 
     removeDate(instance) {
+      instance.destroyRecord();
       this.get('eventInstances').removeObject(instance);
     }
   }

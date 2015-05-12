@@ -29,6 +29,39 @@ function filterByDate(events, startDate, endDate) {
   }
 }
 
+function titleize(words) {
+  return words.split(' ').map((word) => {
+    return word.capitalize();
+  }).join(' ');
+}
+
+function generateInstance(id) {
+  // All events start at a random time between 7am and 12pm
+  const startHour = faker.random.number({min: 7, max: 12});
+  const startsAt = moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
+
+  // All are up to 8 hours long so they don't go past midnight
+  const hourSpan = faker.random.number({min: 2, max: 8});
+  const endsAt = moment(startsAt).add(hourSpan, 'hours');
+
+  return {
+    id: id,
+    subtitle: titleize(faker.lorem.sentences(1)),
+    starts_at: startsAt.toISOString(),
+    ends_at: endsAt.toISOString()
+  };
+}
+
+function allInstances() {
+  const events = [];
+
+  for (let i = 1; i < 4; i += 1) {
+    events.push(generateInstance(i));
+  }
+
+  return events;
+}
+
 const eventBaseProperties = [
   'id', 'content_id', 'content', 'image_url', 'cost', 'cost_type',
   'venue_name', 'venue_address', 'venue_city', 'venue_state',
@@ -42,11 +75,11 @@ export default function() {
   this.namespace = 'api';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
-  this.get('/events', function(db, request) {
+  this.get('/event_instances', function(db, request) {
     const params = request.queryParams;
 
     // The event index endpoint returns a subset of all available properties
-    let events = db.events.map((event) => {
+    let events = db.event_instances.map((event) => {
       return Ember.getProperties(event, eventBaseProperties);
     });
 
@@ -54,7 +87,7 @@ export default function() {
     events = filterByDate(events, params.startDate, params.stopDate);
 
     return {
-      events: events,
+      event_instances: events,
       meta: {
         total: db.events.length
       }
@@ -78,6 +111,19 @@ export default function() {
     };
   });
 
+  this.get('/event_instances/:id', function(db, request) {
+    const event = db.event_instances.find(request.params.id);
+    const baseProperties = Ember.copy(eventBaseProperties);
+    const showProperties = ['content_id', 'can_edit'];
+    const properties = baseProperties.concat(showProperties);
+    const data = Ember.getProperties(event, properties);
+    data.event_instances = allInstances();
+
+    return {
+      event_instance: data
+    };
+  });
+
   this.get('/events/:id', function(db, request) {
     const event = db.events.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
@@ -85,15 +131,28 @@ export default function() {
       'content_id', 'category'
     ];
     const properties = baseProperties.concat(showProperties);
+    const data = Ember.getProperties(event, properties);
 
     return {
-      event: Ember.getProperties(event, properties)
+      event: data
     };
   });
 
-  this.get('/event_instances');
+  this.post('/events', function(db, request) {
+    const putData = JSON.parse(request.requestBody);
 
-  this.post('/events');
+    const eventAttrs = putData['event'];
+    const event = db.events.insert(eventAttrs);
+
+    const instanceAttrs = putData['event']['event_instances'];
+    const instances = db.event_instances.insert(instanceAttrs);
+
+    const data = event.event_instances = instances;
+
+    return {
+      event: data
+    };
+  });
 
   this.post('/events/:id/publish', function(db, request) {
     db.events.update(request.params.id, {published: true});

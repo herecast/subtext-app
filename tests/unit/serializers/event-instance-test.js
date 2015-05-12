@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('event', {
+moduleForModel('event-instance', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:event', 'transform:moment-date', 'transform:raw', 'model:event-instance']
+  needs: ['serializer:event-instance', 'transform:moment-date']
 });
 
 // Replace this with your real tests.
