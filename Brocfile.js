@@ -7,8 +7,7 @@ var app = new EmberApp({
     paths: [
       'bower_components/bootstrap/less'
     ]
-  },
-  emberCliFontAwesome: { includeFontAwesomeAssets: false }
+  }
 });
 
 // Use `app.import` to add additional libraries to the generated
