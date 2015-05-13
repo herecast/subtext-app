@@ -38,15 +38,6 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.w
   destDir: 'fonts'
 });
 
-app.import('bower_components/font-awesome/css/font-awesome.css');
-
-app.import('bower_components/font-awesome/fonts/fontawesome-webfont.woff', {
-  destDir: 'fonts'
-});
-app.import('bower_components/font-awesome/fonts/fontawesome-webfont.woff2', {
-  destDir: 'fonts'
-});
-
 app.import('bower_components/summernote/dist/summernote.js');
 app.import('bower_components/summernote/dist/summernote.css');
 

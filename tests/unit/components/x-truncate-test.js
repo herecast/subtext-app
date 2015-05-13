@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-card', {
+moduleForComponent('x-truncate', {
   // Specify the other units that are required for this test
-  needs: ['component:x-truncate', 'helper:fa-icon']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {

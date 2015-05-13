@@ -9,8 +9,16 @@
   width: 275px;
 }
 
+.Card-link {
+  color: @subtext-yellow;
+  text-decoration: underline;
+}
+.Card-link:hover {
+  color: #CC9900;
+}
+
 .Card-title {
-  color: @darker-gray;
+  color: @text-color;
   font-size: 21px;
   font-weight: 900;
   margin: 3px 0 15px 0;
@@ -21,6 +29,7 @@
   color: @dark-gray;
   font-size: 15px;
   font-weight: 300;
+  letter-spacing: -1px;
 }
 
 .Card-image {
@@ -30,32 +39,48 @@
 }
 
 .Card-content {
-  font-size: 16px;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
-.Card-details {
-  color: @subtext-yellow;
+.Card-learnMore {
   font-weight: 900;
-  font-size: 16px;
-  text-decoration: underline;
-}
-
-.Card-details:after {
-  font-family: FontAwesome;
-  font-size: 12px;
-  content: "\f061";
-  display: inline-block;
-  padding-left: 3px;
-  vertical-align: middle;
-}
-
-.Card-location {
-  color: @darker-gray;
-  position: absolute;
-  bottom: 15px;
-  left: 25px;
+  font-size: 14px;
 }
 
 .Card-locationWhere {
   color: @medium-gray;
+  margin-top: 10px;
 }
+
+.Card-locationName {
+  font-weight: 900;
+}
+
+.Card-locationAddress {
+  font-size: 12px;
+}
+
+.Card-getThere {
+  font-size: 12px;
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+}
+
+.Card-cost {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  font-size: 12px;
+}
+
+.Card-costLabel {
+  color: @medium-gray;
+  margin-right: 3px;
+}
+
+.Card-costValue {
+  font-weight: 900;
+}
+

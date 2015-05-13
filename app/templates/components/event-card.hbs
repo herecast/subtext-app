@@ -10,21 +10,37 @@
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
   class='Card-title' 
 }}
-  {{event.title}}
+  {{x-truncate text=event.title maxLength=35}}
 {{/link-to}}
 <div class='Card-content'>
-  {{truncatedContent}}
+  {{x-truncate text=event.content maxLength=90}}
 </div>
 {{#link-to 
   'events.show' 
   event.id
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-details' 
+  class='Card-learnMore Card-link' 
 }}
-  Details
+  Learn more
+  {{fa-icon 'arrow-right'}}
 {{/link-to}}
-<div class='Card-location'>
-  <span class='Card-locationWhere'>Where?</span>
-  {{event.venueName}}
-</div>
 
+<div class='Card-locationWhere'>Where?</div>
+<div class='Card-locationName'>{{event.venueName}}</div>
+<div class='Card-locationAddress'>{{event.venueAddress}}</div>
+<div class='Card-locationAddress'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</div>
+  
+{{#link-to 
+  'events.show' 
+  event.id
+  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+  class='Card-getThere Card-link' 
+}}
+  {{fa-icon 'map-marker'}}
+  Get there
+{{/link-to}}
+
+<div class='Card-cost'>
+  <span class='Card-costLabel'>Cost</span>
+  <span class='Card-costValue'>{{event.cost}}</span>
+</div>
