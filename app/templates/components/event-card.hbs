@@ -25,10 +25,10 @@
   {{fa-icon 'arrow-right'}}
 {{/link-to}}
 
-<p class='Card-locationWhere Card-locationItem'>Where?</p>
-<p class='Card-locationName Card-locationItem'>{{event.venueName}}</p>
-<p class='Card-locationAddress Card-locationItem'>{{event.venueAddress}}</p>
-<p class='Card-locationAddress Card-locationItem'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</p>
+<div class='Card-locationWhere'>Where?</div>
+<div class='Card-locationName'>{{event.venueName}}</div>
+<div class='Card-locationAddress'>{{event.venueAddress}}</div>
+<div class='Card-locationAddress'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</div>
   
 {{#link-to 
   'events.show' 
