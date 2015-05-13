@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   truncatedText: function() {
-    const text = this.get('text'),
-          maxLength = this.get('maxLength');
+    const text = this.get('text');
+    const maxLength = this.get('maxLength');
 
     if (text) {
       if (text.length > maxLength) {
