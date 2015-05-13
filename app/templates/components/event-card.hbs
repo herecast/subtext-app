@@ -10,10 +10,10 @@
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
   class='Card-title' 
 }}
-  {{truncatedTitle}}
+  {{x-truncate text=event.title maxLength=35}}
 {{/link-to}}
 <div class='Card-content'>
-  {{truncatedContent}}
+  {{x-truncate text=event.content maxLength=90}}
 </div>
 {{#link-to 
   'events.show' 
