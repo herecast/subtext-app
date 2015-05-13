@@ -10,7 +10,7 @@
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
   class='Card-title' 
 }}
-  {{event.title}}
+  {{truncatedTitle}}
 {{/link-to}}
 <div class='Card-content'>
   {{truncatedContent}}
@@ -19,12 +19,26 @@
   'events.show' 
   event.id
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-details' 
+  class='Card-learnMore Card-link' 
 }}
-  Details
+  Learn more
 {{/link-to}}
-<div class='Card-location'>
-  <span class='Card-locationWhere'>Where?</span>
-  {{event.venueName}}
-</div>
 
+<p class='Card-locationWhere Card-locationItem'>Where?</p>
+<p class='Card-locationName Card-locationItem'>{{event.venueName}}</p>
+<p class='Card-locationAddress Card-locationItem'>{{event.venueAddress}}</p>
+<p class='Card-locationAddress Card-locationItem'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</p>
+  
+{{#link-to 
+  'events.show' 
+  event.id
+  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+  class='Card-getThere Card-link' 
+}}
+  Get there
+{{/link-to}}
+
+<div class='Card-cost'>
+  <span class='Card-cost-label'>Cost</span>
+  <span class='Card-cost-value'>{{event.cost}}</span>
+</div>
