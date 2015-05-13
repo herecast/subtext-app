@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model() {
-    return this.store.createRecord('event');
+  model(params) {
+    return this.store.find('event', params.id);
   },
 
   redirect() {
-    this.transitionTo('events.new.details');
+    this.transitionTo('events.edit.details');
   },
 
   actions: {
@@ -15,19 +15,20 @@ export default Ember.Route.extend({
     },
 
     afterSave() {
-      this.transitionTo('events.new.promotion');
+      this.transitionTo('events.edit.promotion');
     },
 
     afterPromotion() {
-      this.transitionTo('events.new.preview');
+      this.transitionTo('events.edit.preview');
     },
 
     afterPublish() {
+      // TODO: go to event show page
       this.transitionTo('events.index');
     },
 
     backToDetails() {
-      this.transitionTo('events.new.details');
+      this.transitionTo('events.edit.details');
     }
   }
 });
