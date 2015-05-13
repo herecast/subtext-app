@@ -1,12 +1,15 @@
 .Card {
   background: #FFFFFF;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
-  height: 415px;
   margin-bottom: 15px;
   overflow: hidden;
-  padding: 30px 25px 25px 25px;
+  padding: 10px;
   position: relative;
-  width: 275px;
+  @media (min-width: @screen-sm-min) { 
+    height: 415px;
+    width: 275px;
+    padding: 30px 25px 25px 25px;
+  }
 }
 
 .Card-link {
@@ -19,46 +22,104 @@
 
 .Card-title {
   color: @text-color;
-  font-size: 21px;
+  display: block;
   font-weight: 900;
-  margin: 3px 0 15px 0;
+  margin: 3px 0 20px 0;
   text-decoration: underline;
+  @media (min-width: @screen-sm-min) { 
+    font-size: 21px;
+    display: inline;
+  }
 }
 
 .Card-time {
-  color: @dark-gray;
-  font-size: 15px;
+  color: @medium-gray;
+  font-size: 12px;
   font-weight: 300;
   letter-spacing: -1px;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  @media (min-width: @screen-sm-min) { 
+    position: relative;
+    bottom: 0;
+    right: 0;
+    font-size: 15px;
+  }
 }
 
 .Card-image {
   border-radius: @border-radius-round;
   float: left;
   margin-right: 10px;
+  width: 45px;
+  @media (min-width: @screen-sm-min) { 
+    width: 75px;
+  }
 }
 
 .Card-content {
   font-size: 14px;
   margin-top: 10px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
 }
 
 .Card-learnMore {
   font-weight: 900;
   font-size: 14px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
 }
 
 .Card-locationWhere {
   color: @medium-gray;
   margin-top: 10px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
 }
 
 .Card-locationName {
   font-weight: 900;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
 }
 
 .Card-locationAddress {
   font-size: 12px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
+}
+
+.Card-locationRegion {
+  color: @medium-gray;
+  font-size: 12px;
+  position: absolute;
+  bottom: 10px;
+  left: 65px;
+  @media (min-width: @screen-sm-min) { 
+    color: @text-color;
+    position: relative;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.Card-locationZipCode {
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: inline;
+  }
 }
 
 .Card-getThere {
@@ -66,6 +127,10 @@
   position: absolute;
   bottom: 25px;
   left: 25px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block;
+  }
 }
 
 .Card-cost {
@@ -73,6 +138,10 @@
   right: 25px;
   bottom: 25px;
   font-size: 12px;
+  display: none;
+  @media (min-width: @screen-sm-min) { 
+    display: block 
+  }
 }
 
 .Card-costLabel {

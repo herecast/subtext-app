@@ -3,7 +3,7 @@
 {{else}}
   <img src='http://placehold.it/75x75' class='img-responsive Card-image'>
 {{/if}}
-<div class='Card-time'>{{event.timeRange}}</div>
+<div class='Card-time'>{{event.timeRangeTimeOnly}}</div>
 {{#link-to 
   'events.show' 
   event.id
@@ -28,8 +28,11 @@
 <div class='Card-locationWhere'>Where?</div>
 <div class='Card-locationName'>{{event.venueName}}</div>
 <div class='Card-locationAddress'>{{event.venueAddress}}</div>
-<div class='Card-locationAddress'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</div>
-  
+<div class='Card-locationRegion'>
+  {{event.venueCity}}, {{event.venueState}} 
+  <span class='Card-locationZipCode'>{{event.venueZipcode}}</span>
+</div>
+
 {{#link-to 
   'events.show' 
   event.id
