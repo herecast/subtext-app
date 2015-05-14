@@ -3,7 +3,7 @@
 {{else}}
   <img src='http://placehold.it/75x75' class='img-responsive Card-image'>
 {{/if}}
-<div class='Card-time'>{{event.timeRange}}</div>
+<div class='Card-time'>{{timeRange}}</div>
 {{#link-to 
   'events.show' 
   event.id
@@ -12,35 +12,38 @@
 }}
   {{x-truncate text=event.title maxLength=35}}
 {{/link-to}}
-<div class='Card-content'>
+<div class='Card-content hidden-xs'>
   {{x-truncate text=event.content maxLength=90}}
 </div>
 {{#link-to 
   'events.show' 
   event.id
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-learnMore Card-link' 
+  class='Card-learnMore Card-link hidden-xs' 
 }}
   Learn more
   {{fa-icon 'arrow-right'}}
 {{/link-to}}
 
-<div class='Card-locationWhere'>Where?</div>
-<div class='Card-locationName'>{{event.venueName}}</div>
-<div class='Card-locationAddress'>{{event.venueAddress}}</div>
-<div class='Card-locationAddress'>{{event.venueCity}}, {{event.venueState}} {{event.venueZipcode}}</div>
-  
+<div class='Card-locationWhere hidden-xs'>Where?</div>
+<div class='Card-locationName hidden-xs'>{{event.venueName}}</div>
+<div class='Card-locationAddress hidden-xs'>{{event.venueAddress}}</div>
+<div class='Card-locationRegion'>
+  {{event.venueCity}}, {{event.venueState}} 
+  <span class='Card-locationZipCode hidden-xs'>{{event.venueZipcode}}</span>
+</div>
+
 {{#link-to 
   'events.show' 
   event.id
   (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-getThere Card-link' 
+  class='Card-getThere Card-link hidden-xs' 
 }}
   {{fa-icon 'map-marker'}}
   Get there
 {{/link-to}}
 
-<div class='Card-cost'>
+<div class='Card-cost hidden-xs'>
   <span class='Card-costLabel'>Cost</span>
   <span class='Card-costValue'>{{event.cost}}</span>
 </div>
