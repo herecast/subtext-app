@@ -1,8 +1,10 @@
 {{input
   placeholder='Choose a location'
-  class='form-control'
+  class='Dropdown-input FilterBar-input dropdown-toggle'
   value=inputValue
 }}
+
+{{fa-icon 'caret-down Dropdown-caret'}}
 
 <ul class='dropdown-menu' role='menu'>
   {{#each place in places}}

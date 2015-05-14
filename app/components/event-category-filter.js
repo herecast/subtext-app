@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['dropdown'],
+  classNames: ['Dropdown', 'dropdown'],
 
   click() {
     this.$('input').select();

@@ -1,34 +1,39 @@
-<div class='container-fluid'>
+<div class='container'>
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class='navbar-header'>
-    <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-filter-bar'>
+    <button type='button' class='FilterBar-toggle navbar-toggle collapsed' data-toggle='collapse' data-target='#js-filter-bar'>
       <span class='sr-only'>Toggle navigation</span>
       <span class='icon-bar'></span>
       <span class='icon-bar'></span>
       <span class='icon-bar'></span>
     </button>
   </div>
-  <div class='collapse navbar-collapse'>
-    <form class='navbar-form navbar-left' role='search'>
+  <div class='FilterBar-collapse collapse navbar-collapse'>
+    <form class='FilterBar-form navbar-form navbar-left' role='search'>
+      <div class='form-group'>
+        <p class='FilterBar-text'>I would like to see</p>
+      </div>
       <div class='form-group'>
         {{event-category-filter category=category query=query}}
       </div>
       <div class='form-group'>
-        <p class='navbar-text'>within</p>
+        <p class='FilterBar-text'>in</p>
       </div>
       <div class='form-group'>
         {{event-location-filter location=location}}
       </div>
       <div class='form-group'>
-        <p class='navbar-text'>happening</p>
-      </div>
-      <div class='form-group'>
         {{event-date-filter startDate=startDate stopDate=stopDate}}
       </div>
 
-      <button type='submit' class='btn btn-default' {{action 'submit'}}>
+      {{#link-to 'events.new' class='Button FilterBar-button btn btn-default'}}
+        Create an event
+      {{/link-to}}
+
+      <button type='submit' class='Button Button--primary FilterBar-button btn btn-primary' {{action 'submit'}}>
         Find events
       </button>
+      
     </form>
   </div>
 </div><!-- /.container-fluid -->

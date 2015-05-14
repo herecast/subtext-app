@@ -1,10 +1,12 @@
 {{input
   placeholder='Everything'
-  class='dropdown-toggle form-control'
+  class='Dropdown-input FilterBar-input dropdown-toggle'
   data-toggle='dropdown'
   aria-expanded='false'
   value=categoryOrQuery
 }}
+
+{{fa-icon 'caret-down Dropdown-caret'}}
 
 <ul class='dropdown-menu' role='menu'>
   {{#each category in categoryOptions}}
