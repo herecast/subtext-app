@@ -3,7 +3,17 @@ import EventFilter from '../../mixins/routes/event-filter';
 
 export default Ember.Route.extend(EventFilter, {
   model(params) {
-    return this.store.find('event-instance', params.id);
+    const eventInstance = this.store.getById('event-instance', params.id);
+
+    // Force the event instance to reload if it's already found in the store.
+    // This lets us get the more detailed record from the show API endpoint,
+    // rather than relying on what's in the store from the index endpoint.
+    if (eventInstance) {
+      eventInstance.reload();
+      return eventInstance;
+    } else {
+      return this.store.find('event-instance', params.id);
+    }
   },
 
   actions: {
