@@ -9,8 +9,7 @@ export default Ember.Route.extend(EventFilter, {
     // This lets us get the more detailed record from the show API endpoint,
     // rather than relying on what's in the store from the index endpoint.
     if (eventInstance) {
-      eventInstance.reload();
-      return eventInstance;
+      return eventInstance.reload();
     } else {
       return this.store.find('event-instance', params.id);
     }
