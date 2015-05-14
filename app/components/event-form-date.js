@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 
 const dateFormat = 'MM/DD/YYYY';
-const timeFormat = 'HH:mm A';
+const timeFormat = 'hh:mm a';
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   subtitle: Ember.computed.alias('instance.subtitle'),
 
   setupFields: function() {
-    let date, startsAt, endsAt, startTime, endTime;
+    let date, startsAt, startTime, endTime;
 
     if (isPresent(this.get('startsAt'))) {
       startsAt = moment(this.get('startsAt'));
@@ -20,7 +20,7 @@ export default Ember.Component.extend({
     }
 
     if (isPresent(this.get('endsAt'))) {
-      endsAt = moment(this.get('endsAt')).format(timeFormat);
+      endTime = moment(this.get('endsAt')).format(timeFormat);
     }
 
     this.setProperties({
@@ -34,9 +34,15 @@ export default Ember.Component.extend({
     const date = moment(this.get('date')).format(dateFormat);
     const startTime = this.get('startTime');
     const endTime = this.get('endTime');
+    let startsAt = null, endsAt = null;
 
-    const startsAt = moment(`${date} ${startTime}`, `${dateFormat} ${timeFormat}`);
-    const endsAt = moment(`${date} ${endTime}`, `${dateFormat} ${timeFormat}`);
+    if (Ember.isPresent(startTime)) {
+      startsAt = moment(`${date} ${startTime}`, `${dateFormat} ${timeFormat}`);
+    }
+
+    if (Ember.isPresent(endTime)) {
+      endsAt = moment(`${date} ${endTime}`, `${dateFormat} ${timeFormat}`);
+    }
 
     this.setProperties({
       startsAt: startsAt,

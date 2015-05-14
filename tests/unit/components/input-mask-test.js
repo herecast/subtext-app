@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-form-date', {
+moduleForComponent('input-mask', {
   // Specify the other units that are required for this test
-  needs: ['component:pikaday-input', 'component:input-mask']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {
