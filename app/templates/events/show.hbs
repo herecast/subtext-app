@@ -38,6 +38,8 @@
         </div>
         <aside class='pull-right col-sm-3'>
           <h2>Actions</h2>
+          {{report-abuse eventId=model.id}}
+
           {{#if model.canEdit}}
             {{#link-to 'events.edit' model.id class='btn btn-default'}}
               Edit this event

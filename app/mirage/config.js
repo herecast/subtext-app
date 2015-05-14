@@ -163,6 +163,10 @@ export default function() {
     };
   });
 
+  this.post('/events/:id/moderate', function() {
+    return { };
+  });
+
   this.put('/events/:id', function(db, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;

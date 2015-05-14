@@ -1,0 +1,35 @@
+{{#if showSuccess}}
+  <div class="alert alert-success" role="alert">
+    Thank you for reporting this event. We will review it shortly.
+  </div>
+{{else}}
+  <button class='btn btn-default' {{action 'reportAbuse'}}>
+    <i class="glyphicon glyphicon-flag"></i>
+    Report Abuse
+  </button>
+
+  {{#if showAbuseReportMenu}}
+    <div class='popover bottom in ReportAbuse-popover'>
+      <div class='arrow'></div>
+      <div class="popover-content">
+        {{#if invalid}}
+          <div class="alert alert-danger" role="alert">
+            Please select a type
+          </div>
+        {{/if}}
+        <ul class='ReportAbuse-flags'>
+          {{#each flag in flagTypes}}
+            <li class='ReportAbuse-flag'>
+              {{#radio-button name='flag-type' value=flag groupValue=flagType}}
+                {{flag}}
+              {{/radio-button}}
+            </li>
+          {{/each}}
+        </ul>
+
+        <button class='btn btn-default' {{action 'close'}}>Close</button>
+        <button class='btn btn-primary' {{action 'submit'}}>Flag</button>
+      </div>
+    </div>
+  {{/if}}
+{{/if}}

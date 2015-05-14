@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-preview', {
+moduleForComponent('report-abuse', {
   // Specify the other units that are required for this test
-  needs: ['template:events/show', 'component:report-abuse']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {
