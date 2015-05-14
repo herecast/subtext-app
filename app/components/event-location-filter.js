@@ -3,7 +3,7 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 
 export default Ember.Component.extend({
-  classNames: ['Dropdown', 'dropdown'],
+  classNames: ['dropdown'],
   classNameBindings: ['open'],
 
   initInput: function() {
