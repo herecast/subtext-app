@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['dropdown'],
 
+  click() {
+    this.$('input').select();
+  },
+
   categories: [
     'everything', 'family', 'movies', 'music', 'wellness', 'yardsales'
   ],
@@ -58,6 +62,12 @@ export default Ember.Component.extend({
   actions: {
     setCategory(category) {
       this.setInput(category);
+
+      // This prevents the input from being selected when a user chooses a
+      // category from the dropdown menu.
+      Ember.run.later(() => {
+        this.$('input').blur();
+      }, 10);
     }
   }
 });
