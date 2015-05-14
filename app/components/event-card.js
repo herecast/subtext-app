@@ -4,9 +4,11 @@ export default Ember.Component.extend({
   classNames: ['Card'],
 
   timeRange: function() {
-    const startTime = this.get('event.startsAt').format('LT');
-    const endTime = this.get('event.endsAt').format('LT');
+    const startTime = this.get('event.startsAt');
+    const endTime = this.get('event.endsAt');
 
-    return `${startTime} - ${endTime}`;
-  }.property('startsAt', 'endsAt'),
+    if (startTime && endTime) {
+      return `${startTime.format('LT')} - ${endTime.format('LT')}`;
+    }
+  }.property('startsAt', 'endsAt')
 });

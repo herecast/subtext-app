@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import moment from 'moment';
 import BaseEvent from '../mixins/models/base-event';
 
 export default DS.Model.extend(BaseEvent, {
@@ -30,5 +31,5 @@ export default DS.Model.extend(BaseEvent, {
     const end = this.get('endsAt').format(endFormat);
 
     return `${start} to ${end}`;
-  }.property('startsAt', 'endsAt'),
+  }.property('startsAt', 'endsAt')
 });

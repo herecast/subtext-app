@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import moment from 'moment';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 import BaseEvent from '../mixins/models/base-event';
