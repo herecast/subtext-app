@@ -14,7 +14,7 @@ export default DS.Model.extend(BaseEvent, {
   }.property('startsAt', 'endsAt'),
 
   timeRange: function() {
-    const startTime = this.get('startsAt').format('MMMM, Do, YYYY, LT');
+    const startTime = this.get('startsAt').format('MMMM, Do, YYYY LT');
     const endTime = this.get('endsAt').format('LT');
 
     return `${startTime} - ${endTime}`;
