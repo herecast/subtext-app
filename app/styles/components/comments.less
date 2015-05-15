@@ -1,20 +1,18 @@
-.Comments-list > .Comments-list-nested {
-  padding-left: 0px;
+.Comments:not(.is-nested) > .Comments-list {
+  border-left: 0;
+  padding-left: 0;
 }
 
-.Comments-list-nested .Comments-list-nested {
+.Comments.is-nested {
+  margin: 16px 0;
+  list-style-type: none;
+}
+
+.Comments-list {
   border-left: 2px solid @brand-primary;
-}
-
-.Comments-list-nested {
   padding-left: 16px;
 }
 
 .Comments-userName {
   font-weight: 700;
-}
-
-.Comments-listItem {
-  margin: 16px 0;
-  list-style-type: none;
 }

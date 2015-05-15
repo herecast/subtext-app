@@ -27,14 +27,14 @@
   </div>
 {{/if}}
 
-<ol class='Comments-list-nested'>
+<ol class='Comments-list'>
   {{#each comment in sortedComments}}
     {{nested-comments
       row=comment
       eventInstanceId=eventInstanceId
       comments=comment.comments
-      tagName="li"
-      class='Comments-listItem'
+      tagName='li'
+      class='is-nested'
     }}
   {{/each}}
 </ol>
