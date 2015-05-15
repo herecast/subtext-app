@@ -3,11 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-preview', {
+moduleForComponent('event-comments', {
   // Specify the other units that are required for this test
-  needs: ['template:events/show', 'component:report-abuse',
-    'component:event-comments'
-  ]
+  needs: ['component:event-comments-new', 'component:nested-comments']
 });
 
 test('it renders', function(assert) {

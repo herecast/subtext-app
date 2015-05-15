@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import EventFilter from '../../mixins/routes/event-filter';
+import ajax from 'ic-ajax';
+import config from '../../config/environment';
 
 export default Ember.Route.extend(EventFilter, {
   model(params) {
@@ -13,6 +15,18 @@ export default Ember.Route.extend(EventFilter, {
     } else {
       return this.store.find('event-instance', params.id);
     }
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    // We have to manually get the comments because ember data cannnot handle
+    // the nested data structure that is returned.
+    const url =  `${config.API_NAMESPACE}/comments`;
+
+    ajax(url, {data: {event_instance_id: model.get('id')}}).then((response) => {
+      controller.set('comments', response.comments);
+    });
   },
 
   actions: {

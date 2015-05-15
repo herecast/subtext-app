@@ -197,4 +197,8 @@ export default function() {
       venues: venues
     };
   });
+
+  this.get('/comments');
+
+  this.post('/comments');
 }

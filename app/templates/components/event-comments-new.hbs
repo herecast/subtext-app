@@ -1,0 +1,13 @@
+<div class='form-group'>
+  {{textarea
+    value=newComment
+    placeholder='Add your message'
+    class='form-control'
+  }}
+</div>
+
+<div class='form-group'>
+  <button class='Button btn btn-default' {{action 'postComment' newComment}} {{bind-attr disabled=isDisabled}}>
+    Add Comment
+  </button>
+</div>

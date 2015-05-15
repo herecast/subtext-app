@@ -63,5 +63,10 @@
     <p>
       {{model.content}}
     </p>
+
+    {{event-comments
+      eventInstanceId=model.id
+      comments=comments
+    }}
   </main>
 </article>

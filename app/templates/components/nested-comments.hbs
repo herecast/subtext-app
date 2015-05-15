@@ -1,0 +1,40 @@
+{{#if row}}
+  <div>
+    {{fa-icon 'fa-comment-o'}}
+    <span class='Comments-userName'>
+      {{row.user_name}}
+    </span>
+
+    <span class='Comments-date'>
+      {{postedAt}}
+    </span>
+  </div>
+
+  <div class='Comments-content'>
+    {{row.content}}
+
+    <a class='btn btn-link btn-default' {{action 'reply'}}>
+      Reply
+    </a>
+
+    {{#if showReplyBox}}
+      {{event-comments-new
+        eventInstanceId=eventInstanceId
+        comments=comments
+        afterPost='afterPost'
+      }}
+    {{/if}}
+  </div>
+{{/if}}
+
+<ol class='Comments-list'>
+  {{#each comment in sortedComments}}
+    {{nested-comments
+      row=comment
+      eventInstanceId=eventInstanceId
+      comments=comment.comments
+      tagName='li'
+      class='is-nested'
+    }}
+  {{/each}}
+</ol>

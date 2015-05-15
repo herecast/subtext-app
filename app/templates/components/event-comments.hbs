@@ -1,0 +1,11 @@
+<label>Join the Conversation</label>
+{{event-comments-new
+  eventInstanceId=eventInstanceId
+  comments=comments
+}}
+
+{{nested-comments
+  comments=comments
+  class='EventComments'
+  eventInstanceId=eventInstanceId
+}}
