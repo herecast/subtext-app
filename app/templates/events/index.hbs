@@ -1,13 +1,9 @@
 <div class='container'>
-  <div class='pull-left FilterBar-count'>
+  <div class='pull-left ContextBar-eventCount'>
     {{#if model}}
       showing {{model.length}} of {{totalEvents}} events
     {{/if}}
   </div>
-
-  {{#link-to 'events.new.details' class='btn btn-default pull-right' tagName='button'}}
-    Create an event
-  {{/link-to}}
 </div>
 
 {{#if model}}
