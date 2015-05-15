@@ -7,6 +7,12 @@ export default DS.DateTransform.extend({
   },
 
   serialize: function(deserialized) {
-    return this._super(deserialized.toDate());
+    if (moment(deserialized).isValid()) {
+      deserialized = moment(deserialized).toDate();
+    } else {
+      deserialized = null;
+    }
+
+    return this._super(deserialized);
   }
 });

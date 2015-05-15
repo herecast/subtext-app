@@ -10,16 +10,18 @@
 </div>
 <div class='col-xs-12 col-sm-2'>
   <label>Start Time</label>
-  {{input
-    placeholder='Time'
+  {{input-mask
+    mask='h:s t'
+    placeholder='12:00 am'
     class='form-control'
     value=startTime
   }}
 </div>
 <div class='col-xs-12 col-sm-2'>
   <label>End Time</label>
-  {{input
-    placeholder='Time'
+  {{input-mask
+    mask='h:s t'
+    placeholder='12:00 am'
     class='form-control'
     value=endTime
   }}
