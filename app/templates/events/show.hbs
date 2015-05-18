@@ -21,76 +21,75 @@
   </header>
 
   <main class='container'>
+    <div class='row'>
+      <aside class='EventShowAside col-sm-4'>
+        <div>
+          {{report-abuse eventId=model.id}}
 
-    <div class='container'>
-      <div class='row'>
-        <div class='col-sm-6 col-sm-offset-4'>
-          <h2 class='EventHeader-subtitle'>{{model.timeRange}}</h2>
-          <div class='row'>
-            <div class='EventInfo col-sm-4'>
-              {{fa-icon 'map-marker'}}
-              <h4 class='EventInfo-header'>{{model.venueName}}</h4>
-              <div class='u-textTruncate'>{{model.venueAddress}}</div>
-              <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
-            </div>
-            <div class='EventInfo col-sm-4'>
-              {{fa-icon 'user'}}
-              <h4 class='EventInfo-header'>Event Contact</h4>
-              <div class='u-textTruncate'>
-                <a href="mailto:{{model.contactEmail}}">
-                  {{model.contactEmail}}
+          {{#if model.canEdit}}
+            {{#link-to 'events.edit' model.id class='EventShowAside-button btn btn-link'}}
+              Edit this event
+            {{/link-to}}
+          {{/if}}
+        </div>
+        {{#if model.eventInstances}}
+          <div class='EventShowAside-otherDates pull-right'>
+            <h5 class='EventShowAside-header'>Other Dates</h5>
+            <ul>
+              {{#each instance in model.eventInstances}}
+                <li class='EventInfo EventShowAside-info'>
+                  <h4 class='EventInfo-header u-textUnderline'>{{instance.timeRange}}</h4>
+                  <div>{{instance.subtitle}}</div>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/if}}
+      </aside>
+
+      <div class='col-sm-8'>
+        <div class='row'>
+          <div class='col-sm-10 EventShow-info'>
+            <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
+            <div class='row'>
+              <div class='EventInfo col-sm-4'>
+                {{fa-icon 'map-marker EventInfo-icon'}}
+                <h4 class='EventInfo-header'>{{model.venueName}}</h4>
+                <div class='u-textTruncate'>{{model.venueAddress}}</div>
+                <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
+              </div>
+              <div class='EventInfo col-sm-4'>
+                {{fa-icon 'user EventInfo-icon'}}
+                <h4 class='EventInfo-header'>Event Contact</h4>
+                <div class='u-textTruncate'>
+                  <a href="mailto:{{model.contactEmail}}">
+                    {{model.contactEmail}}
+                  </a>
+                </div>
+                <div class='u-textTruncate'>{{model.contactPhone}}</div>
+                <a {{bind-attr href=model.eventUrl}} class='u-textTruncate'>
+                  {{model.eventUrl}}
                 </a>
               </div>
-              <div class='u-textTruncate'>{{model.contactPhone}}</div>
-              <a {{bind-attr href=model.eventUrl}} class='u-textTruncate'>
-                {{model.eventUrl}}
-              </a>
-            </div>
-            <div class='EventInfo col-sm-4'>
-              {{fa-icon 'dollar'}}
-              <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
-              <div class='u-textTruncate'>{{model.cost}}</div>
+              <div class='EventInfo col-sm-4'>
+                {{fa-icon 'dollar EventInfo-icon'}}
+                <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
+                <div class='u-textTruncate'>{{model.cost}}</div>
+              </div>
             </div>
           </div>
         </div>
+
+        <p class='EventShow-content'>
+          {{model.content}}
+        </p>
+      
+        {{event-comments
+          eventInstanceId=model.id
+          comments=comments
+        }}
       </div>
     </div>
-    
-    <aside class='EventShowAside col-sm-4'>
-      <div>
-        {{report-abuse eventId=model.id}}
-
-        {{#if model.canEdit}}
-          {{#link-to 'events.edit' model.id class='EventShowAside-button btn btn-link'}}
-            Edit this event
-          {{/link-to}}
-        {{/if}}
-      </div>
-      {{#if model.eventInstances}}
-        <div class='EventShowAside-otherDates pull-right'>
-          <h5 class='EventShowAside-header'>Other Dates</h5>
-          <ul>
-            {{#each instance in model.eventInstances}}
-              <li class='EventInfo EventShowAside-info'>
-                <h4 class='EventInfo-header u-textUnderline'>{{instance.timeRange}}</h4>
-                <div>{{instance.subtitle}}</div>
-              </li>
-            {{/each}}
-          </ul>
-        </div>
-      {{/if}}
-    </aside>
-
-    <div class='col-sm-8'>
-      <p class='EventShow-content'>
-        {{model.content}}
-      </p>
-      {{event-comments
-        eventInstanceId=model.id
-        comments=comments
-      }}
-    </div>
-  
   </main>
 
 
