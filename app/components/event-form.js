@@ -8,6 +8,7 @@ export default Ember.Component.extend({
       const file = this.$(e.target).context.files[0];
 
       this.set('event.image', file);
+      this.set('event.imageUrl', URL.createObjectURL(file));
     });
   }.on('didInsertElement'),
 

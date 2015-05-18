@@ -6,4 +6,13 @@
       afterSave='afterSave'
     }}
   </div>
+  <div class='col-md-4'>
+    <h1>Live Preview</h1>
+    <p>This is what your Event Listing Summary will look like!</p>
+    <h2>Desktop/Tablet</h2>
+
+    {{event-card-preview
+      event=model
+    }}
+  </div>
 </div>
