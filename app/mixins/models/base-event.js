@@ -24,7 +24,7 @@ export default Ember.Mixin.create({
   venueUrl: DS.attr('string'),
   venueZipcode: DS.attr('string'),
 
-  bannerUrl: function() {
+  safeImageUrl: function() {
     if (!Ember.isEmpty(this.get('imageUrl'))) {
       return this.get('imageUrl');
     } else {
@@ -37,6 +37,18 @@ export default Ember.Mixin.create({
     if (!Ember.isEmpty(costType)) {
       return costType.charAt(0).toUpperCase() + costType.slice(1);
     }
-  }.property('costType')
+  }.property('costType'),
+
+  hasLocationInfo: function() {
+    return !Ember.isEmpty(this.get('venueAddress')) || !Ember.isEmpty(this.get('venueCity')) || 
+      !Ember.isEmpty(this.get('venueName')) || !Ember.isEmpty(this.get('venueState')) || 
+      !Ember.isEmpty(this.get('venueZipcode'));
+  }.property('venueAddress', 'venueCity', 'venueState', 'venueZipcode', 'venueName'),
+
+  hasContactInfo: function() {
+    return !Ember.isEmpty(this.get('contactEmail')) || !Ember.isEmpty(this.get('contactPhone')) || 
+      !Ember.isEmpty(this.get('eventUrl'));
+  }.property('contactEmail', 'contactPhone', 'eventUrl')
+
 });
   
