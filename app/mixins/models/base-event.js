@@ -30,5 +30,13 @@ export default Ember.Mixin.create({
     } else {
       return 'http://placehold.it/800x600';
     }
-  }.property('imageUrl')
+  }.property('imageUrl'),
+
+  formattedCostType: function() {
+    const costType = this.get('costType');
+    if (!Ember.isEmpty(costType)) {
+      return costType.charAt(0).toUpperCase() + costType.slice(1);
+    }
+  }.property('costType')
 });
+  

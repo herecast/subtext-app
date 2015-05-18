@@ -5,8 +5,8 @@ import {
 
 moduleForComponent('event-preview', {
   // Specify the other units that are required for this test
-  needs: ['template:events/show', 'component:event-comments', 'component:report-abuse', 'component:photo-banner', 
-    'helper:fa-icon', 'component:event-header-thumbnail', 'component:x-truncate']
+  needs: ['template:events/show', 'component:event-comments', 'component:report-abuse',  
+    'helper:fa-icon', 'component:background-image', 'component:x-truncate']
 });
 
 test('it renders', function(assert) {

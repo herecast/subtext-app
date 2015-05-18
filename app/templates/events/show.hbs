@@ -1,20 +1,23 @@
 <article class='EventShow'>
   <header>
-    {{#photo-banner bannerUrl=model.bannerUrl}}
-      <div class='row'>
-        <div class='col-sm-4'>
-          {{event-header-thumbnail imageUrl=model.imageUrl}}          
-        </div>
-        <div class='col-sm-8 EventHeader-content'>
-          {{#link-to 'events' class='EventHeader-link'}}
-            {{fa-icon 'arrow-left EventHeader-linkIcon'}} 
-            <span class='EventHeader-linkText'>Back to events</span>
-          {{/link-to}}
-          <h1 class='EventHeader-title'>{{x-truncate text=model.title maxLength=50}}</h1>
-          <h4 class='EventHeader-subtitle'>{{model.subtitle}}</h4>
+    {{#background-image imageUrl=model.bannerUrl class='PhotoBanner'}}
+      <div class='PhotoBanner-curtain'></div>
+      <div class='PhotoBanner-content container'>
+        <div class='row'>
+          <div class='col-sm-4'>
+            {{background-image imageUrl=model.imageUrl class='EventHeader-thumbnail'}}          
+          </div>
+          <div class='col-sm-8 EventHeader-content'>
+            {{#link-to 'events' class='EventHeader-link'}}
+              {{fa-icon 'arrow-left EventHeader-linkIcon'}} 
+              <span class='EventHeader-linkText'>Back to events</span>
+            {{/link-to}}
+            <h1 class='EventHeader-title'>{{x-truncate text=model.title maxLength=50}}</h1>
+            <h4 class='EventHeader-subtitle'>{{model.subtitle}}</h4>
+          </div>
         </div>
       </div>
-    {{/photo-banner}}
+    {{/background-image}}
   </header>
 
   <main class='container'>
@@ -27,26 +30,26 @@
             <div class='EventInfo col-sm-4'>
               {{fa-icon 'map-marker'}}
               <h4 class='EventInfo-header'>{{model.venueName}}</h4>
-              <div class='EventInfo-text'>{{model.venueAddress}}</div>
-              <div class='EventInfo-text'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
+              <div class='u-textTruncate'>{{model.venueAddress}}</div>
+              <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
             </div>
             <div class='EventInfo col-sm-4'>
               {{fa-icon 'user'}}
               <h4 class='EventInfo-header'>Event Contact</h4>
-              <div class='EventInfo-text'>
+              <div class='u-textTruncate'>
                 <a href="mailto:{{model.contactEmail}}">
                   {{model.contactEmail}}
                 </a>
               </div>
-              <div class='EventInfo-text'>{{model.contactPhone}}</div>
-              <a {{bind-attr href=model.eventUrl}} class='EventInfo-text'>
+              <div class='u-textTruncate'>{{model.contactPhone}}</div>
+              <a {{bind-attr href=model.eventUrl}} class='u-textTruncate'>
                 {{model.eventUrl}}
               </a>
             </div>
             <div class='EventInfo col-sm-4'>
               {{fa-icon 'dollar'}}
-              <h4 class='EventInfo-header'>{{model.costType}}</h4>
-              <div class='EventInfo-text'>{{model.cost}}</div>
+              <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
+              <div class='u-textTruncate'>{{model.cost}}</div>
             </div>
           </div>
         </div>
@@ -69,8 +72,8 @@
           <ul>
             {{#each instance in model.eventInstances}}
               <li class='EventInfo EventShowAside-info'>
-                <h4 class='EventInfo-header EventShowAside-eventInstanceHeader'>{{instance.timeRange}}</h4>
-                <div class='EventInfo-text EventShowAside-infoText'>{{instance.subtitle}}</div>
+                <h4 class='EventInfo-header u-textUnderline'>{{instance.timeRange}}</h4>
+                <div>{{instance.subtitle}}</div>
               </li>
             {{/each}}
           </ul>
