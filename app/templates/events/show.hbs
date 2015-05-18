@@ -1,72 +1,95 @@
-<article>
+<article class='EventShow'>
   <header>
-    <div class='hidden-xs'>
-      <img src='http://placehold.it/1400x287' class='img-responsive'>
-    </div>
-
-    <div class='container'>
+    {{#photo-banner bannerUrl=model.bannerUrl}}
       <div class='row'>
-        <div class='col-sm-3'>
-          <img src='http://placehold.it/250' class='img-responsive'>
+        <div class='col-sm-4'>
+          {{event-header-thumbnail imageUrl=model.imageUrl}}          
         </div>
-
-        <div class='col-sm-6'>
-          <h1>{{model.title}}</h1>
-          <h2>{{model.timeRange}}</h2>
-
-          <div>
-            {{model.cost}}
-          </div>
-
-          <div class='vcard'>
-            <span class=''>{{model.venueName}}</span>
-            <div class='adr'>
-              <div class='street-address'>{{model.venueAddress}}</div>
-              <span class='locality'>{{model.venueCity}}</span>,
-              <span class='region'>{{model.venueState}}</span><br>
-              <span class='postal-code'>{{model.venueZipcode}}</span>
-            </div>
-          </div>
-
-          <div>
-            {{model.eventUrl}}
-          </div>
-
-          <div>
-            {{model.contactEmail}} | {{model.contactPhone}}
-          </div>
+        <div class='col-sm-8 EventHeader-content'>
+          {{#link-to 'events' class='EventHeader-link'}}
+            {{fa-icon 'arrow-left EventHeader-linkIcon'}} 
+            <span class='EventHeader-linkText'>Back to events</span>
+          {{/link-to}}
+          <h1 class='EventHeader-title'>{{x-truncate text=model.title maxLength=50}}</h1>
+          <h4 class='EventHeader-subtitle'>{{model.subtitle}}</h4>
         </div>
-        <aside class='pull-right col-sm-3'>
-          <h2>Actions</h2>
-          {{report-abuse eventId=model.id}}
-
-          {{#if model.canEdit}}
-            {{#link-to 'events.edit' model.id class='btn btn-default'}}
-              Edit this event
-            {{/link-to}}
-          {{/if}}
-
-          {{#if model.eventInstances}}
-            <h2>Other Dates</h2>
-            <ul>
-              {{#each instance in model.eventInstances}}
-                <li>{{instance.timeRange}} - {{instance.subtitle}}</li>
-              {{/each}}
-            </ul>
-          {{/if}}
-        </aside>
       </div>
-    </div>
+    {{/photo-banner}}
   </header>
 
   <main class='container'>
-    <p>
-      {{model.content}}
-    </p>
 
-    {{event-comments
-      eventInstanceId=model.id
-      comments=comments
-    }}
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-6 col-sm-offset-4'>
+          <h2 class='EventHeader-subtitle'>{{model.timeRange}}</h2>
+          <div class='row'>
+            <div class='EventInfo col-sm-4'>
+              {{fa-icon 'map-marker'}}
+              <h4 class='EventInfo-header'>{{model.venueName}}</h4>
+              <div class='EventInfo-text'>{{model.venueAddress}}</div>
+              <div class='EventInfo-text'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
+            </div>
+            <div class='EventInfo col-sm-4'>
+              {{fa-icon 'user'}}
+              <h4 class='EventInfo-header'>Event Contact</h4>
+              <div class='EventInfo-text'>
+                <a href="mailto:{{model.contactEmail}}">
+                  {{model.contactEmail}}
+                </a>
+              </div>
+              <div class='EventInfo-text'>{{model.contactPhone}}</div>
+              <a {{bind-attr href=model.eventUrl}} class='EventInfo-text'>
+                {{model.eventUrl}}
+              </a>
+            </div>
+            <div class='EventInfo col-sm-4'>
+              {{fa-icon 'dollar'}}
+              <h4 class='EventInfo-header'>{{model.costType}}</h4>
+              <div class='EventInfo-text'>{{model.cost}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <aside class='EventShowAside col-sm-4'>
+      <div>
+        {{report-abuse eventId=model.id}}
+
+        {{#if model.canEdit}}
+          {{#link-to 'events.edit' model.id class='EventShowAside-button btn btn-link'}}
+            Edit this event
+          {{/link-to}}
+        {{/if}}
+      </div>
+      {{#if model.eventInstances}}
+        <div class='EventShowAside-otherDates pull-right'>
+          <h5 class='EventShowAside-header'>Other Dates</h5>
+          <ul>
+            {{#each instance in model.eventInstances}}
+              <li class='EventInfo EventShowAside-info'>
+                <h4 class='EventInfo-header EventShowAside-eventInstanceHeader'>{{instance.timeRange}}</h4>
+                <div class='EventInfo-text EventShowAside-infoText'>{{instance.subtitle}}</div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+    </aside>
+
+    <div class='col-sm-8'>
+      <p class='EventShow-content'>
+        {{model.content}}
+      </p>
+      {{event-comments
+        eventInstanceId=model.id
+        comments=comments
+      }}
+    </div>
+  
   </main>
+
+
 </article>
+

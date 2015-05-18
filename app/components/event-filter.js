@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tabName: 'nav',
-  classNames: ['navbar navbar-default'],
+  classNames: ['FilterBar navbar navbar-default'],
 
   actions: {
     submit() {

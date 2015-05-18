@@ -3,10 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-preview', {
+moduleForComponent('event-header-thumbnail', {
   // Specify the other units that are required for this test
-  needs: ['template:events/show', 'component:event-comments', 'component:report-abuse', 'component:photo-banner', 
-    'helper:fa-icon', 'component:event-header-thumbnail', 'component:x-truncate']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {

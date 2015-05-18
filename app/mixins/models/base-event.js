@@ -22,5 +22,13 @@ export default Ember.Mixin.create({
   venueName: DS.attr('string'),
   venueState: DS.attr('string'),
   venueUrl: DS.attr('string'),
-  venueZipcode: DS.attr('string')
+  venueZipcode: DS.attr('string'),
+
+  bannerUrl: function() {
+    if (!Ember.isEmpty(this.get('imageUrl'))) {
+      return this.get('imageUrl');
+    } else {
+      return 'http://placehold.it/800x600';
+    }
+  }.property('imageUrl')
 });

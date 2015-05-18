@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import moment from 'moment';
+import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 
 export default DS.Model.extend(BaseEvent, {
@@ -15,9 +16,13 @@ export default DS.Model.extend(BaseEvent, {
 
   timeRange: function() {
     const startTime = this.get('startsAt').format('MMMM, Do, YYYY LT');
-    const endTime = this.get('endsAt').format('LT');
 
-    return `${startTime} - ${endTime}`;
+    if (Ember.isEmpty(this.get('endsAt'))) {
+      return `${startTime}`;
+    } else {
+      const endTime = this.get('endsAt').format('LT');
+      return `${startTime} - ${endTime}`;
+    }
   }.property('startsAt', 'endsAt'),
 
   longTimeRange: function() {
@@ -32,4 +37,5 @@ export default DS.Model.extend(BaseEvent, {
 
     return `${start} to ${end}`;
   }.property('startsAt', 'endsAt')
+
 });
