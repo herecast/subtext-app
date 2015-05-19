@@ -114,7 +114,7 @@ export default function() {
   this.get('/event_instances/:id', function(db, request) {
     const event = db.event_instances.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
-    const showProperties = ['content_id', 'can_edit'];
+    const showProperties = ['content_id', 'can_edit', 'event_id'];
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
     data.event_instances = allInstances();

@@ -24,7 +24,7 @@ export default Ember.Route.extend(EventFilter, {
     // the nested data structure that is returned.
     const url =  `${config.API_NAMESPACE}/comments`;
 
-    ajax(url, {data: {event_instance_id: model.get('id')}}).then((response) => {
+    ajax(url, {data: {event_id: model.get('eventId')}}).then((response) => {
       controller.set('comments', response.comments);
     });
   },
