@@ -5,6 +5,7 @@ import BaseEvent from '../mixins/models/base-event';
 
 export default DS.Model.extend(BaseEvent, {
   canEdit: DS.attr('boolean'),
+  eventId: DS.attr('number'),
   eventInstances: DS.hasMany('event-instance'),
 
   spansDays: function() {

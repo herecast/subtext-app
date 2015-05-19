@@ -24,7 +24,7 @@
     <div class='row'>
       <aside class='EventShowAside col-sm-4'>
         <div>
-          {{report-abuse eventId=model.id}}
+          {{report-abuse eventId=model.eventId}}
 
           {{#if model.canEdit}}
             {{#link-to 'events.edit' model.id class='EventShowAside-button btn btn-link'}}
