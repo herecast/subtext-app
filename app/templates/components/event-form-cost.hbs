@@ -1,25 +1,26 @@
-<div class='form-group btn-group' data-toggle='buttons'>
-  {{#radio-button name='cost-type' value='free' groupValue=costType class='btn btn-default'}}
-    Free
-  {{/radio-button}}
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" {{bind-attr class='isFree:active'}}>
+      <a href="#" role="tab" {{action 'setCostType' 'free'}}>Free</a>
+    </li>
+    <li role="presentation" {{bind-attr class='isPaid:active'}}>
+      <a href="#" role="tab" {{action 'setCostType' 'paid'}}>Paid</a>
+    </li>
+    <li role="presentation" {{bind-attr class='isDonation:active'}}>
+      <a href="#" role="tab" {{action 'setCostType' 'donation'}}>Donation</a>
+    </li>
+    <li role="presentation" {{bind-attr class='isNotApplicable:active'}}>
+      <a href="#" role="tab" {{action 'setCostType' ''}}>Not Applicable</a>
+    </li>
+  </ul>
 
-  {{#radio-button name='cost-type' value='paid' groupValue=costType class='btn btn-default'}}
-    Paid
-  {{/radio-button}}
-
-  {{#radio-button name='cost-type' value='donation' groupValue=costType class='btn btn-default'}}
-    Donation
-  {{/radio-button}}
-</div>
-
-{{#if costType}}
-  <div class='form-group'>
-    <label for='event-cost'>{{costType}}</label>
-    {{input
-      id='event-cost'
-      placeholder='Description'
-      value=cost
-      class='form-control'
-    }}
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+      {{input
+        placeholder=costPlaceholder
+        value=cost
+        class='form-control'
+      }}
+    </div>
   </div>
-{{/if}}
+</div>
