@@ -31,6 +31,12 @@
               Edit this event
             {{/link-to}}
           {{/if}}
+
+          {{#if model.adminContentUrl}}
+            <div>
+              <a href='{{model.adminContentUrl}}'>Admin</a>
+            </div>
+          {{/if}}
         </div>
         {{#if model.eventInstances}}
           <div class='EventShowAside-otherDates pull-right'>

@@ -4,6 +4,9 @@ import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 
 export default DS.Model.extend(BaseEvent, {
+  // Only returned by the API if the current user is an admin
+  adminContentUrl: DS.attr('string'),
+
   canEdit: DS.attr('boolean'),
   eventId: DS.attr('number'),
   eventInstances: DS.hasMany('event-instance'),

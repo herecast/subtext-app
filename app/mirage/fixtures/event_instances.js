@@ -17,6 +17,7 @@ function generateEvent(id) {
 
   return {
     id: id,
+    admin_content_url: `http://${faker.internet.domainName()}`,
     event_id: faker.random.number(100),
     can_edit: true,
     title: titleize(faker.lorem.sentences(1)),
