@@ -35,7 +35,9 @@
   }}
 </div>
 <div class='col-xs-12 col-sm-1'>
-  <button {{action 'removeDate' instance}} class='btn btn-link'>
-    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
-  </button>
+  {{#if isRemovable}}
+    <button {{action 'removeDate' instance}} class='btn btn-link'>
+      <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+    </button>
+  {{/if}}
 </div>
