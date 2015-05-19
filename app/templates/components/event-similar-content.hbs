@@ -1,0 +1,26 @@
+{{#if similarContent}}
+  <div class='EventShowAside-similar pull-right'>
+    <h5 class='EventShowAside-header'>Suggested for You</h5>
+    <ul>
+      {{#each content in contentToDisplay}}
+        <li class='EventShowAside-item'>
+          <h4 class='EventShowAside-itemHeader u-textUnderline'>
+            {{#if content.eventInstanceId}}
+              {{link-to content.title 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink'}}
+            {{else}}
+              <a href={{content.contentUrl}} class='EventShowAside-itemHeaderLink'>
+                {{content.title}}
+              </a>
+            {{/if}}
+          </h4>
+          <h5 class='SimilarContent-header'>{{content.author}}</h5>
+          <div>{{content.snippet}}</div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
+      View more {{fa-icon 'caret-down'}}
+    </button>
+  </div>
+{{/if}}

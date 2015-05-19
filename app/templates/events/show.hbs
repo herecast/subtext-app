@@ -37,14 +37,21 @@
             <h5 class='EventShowAside-header'>Other Dates</h5>
             <ul>
               {{#each instance in model.eventInstances}}
-                <li class='EventInfo EventShowAside-info'>
-                  <h4 class='EventInfo-header u-textUnderline'>{{instance.timeRange}}</h4>
+                <li class='EventInfo EventShowAside-item'>
+                  <h4 class='EventShowAside-itemHeader u-textUnderline'>
+                    {{#link-to 'events.show' instance.id class='EventShowAside-itemHeaderLink'}}
+                      {{instance.formattedDate}}<br>
+                      {{instance.formattedHours}}
+                    {{/link-to}}
+                  </h4>
                   <div>{{instance.subtitle}}</div>
                 </li>
               {{/each}}
             </ul>
           </div>
         {{/if}}
+
+        {{event-similar-content similarContent=similarContent}}
       </aside>
 
       <div class='col-sm-8'>

@@ -203,4 +203,10 @@ export default function() {
   this.post('/comments');
 
   this.get('/listservs');
+
+  this.get('/similar_content', function(db) {
+    return {
+      similar_content: db.similar_content
+    };
+  });
 }
