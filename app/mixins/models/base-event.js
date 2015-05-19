@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
   content: DS.attr('string'),
   cost: DS.attr('string'),
   costType: DS.attr('string', {defaultValue: 'free'}),
-  endsAt: DS.attr('moment-date', {defaultValue: moment()}),
+  endsAt: DS.attr('moment-date'),
   eventUrl: DS.attr('string'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   imageUrl: DS.attr('string'),
