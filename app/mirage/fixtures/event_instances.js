@@ -39,7 +39,7 @@ function generateEvent(id) {
     venue_locate_name: titleize(faker.lorem.sentences(1)),
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
-    image_url: 'http://placehold.it/350x150'
+    image_url: 'http://placehold.it/800x600'
   };
 }
 
