@@ -24,8 +24,8 @@ export default Ember.Mixin.create({
   venueUrl: DS.attr('string'),
   venueZipcode: DS.attr('string'),
 
-  bannerUrl: function() {
-    if (!Ember.isEmpty(this.get('imageUrl'))) {
+  safeImageUrl: function() {
+    if (Ember.isPresent(this.get('imageUrl'))) {
       return this.get('imageUrl');
     } else {
       return 'http://placehold.it/800x600';
@@ -34,9 +34,21 @@ export default Ember.Mixin.create({
 
   formattedCostType: function() {
     const costType = this.get('costType');
-    if (!Ember.isEmpty(costType)) {
+    if (Ember.isPresent(costType)) {
       return costType.charAt(0).toUpperCase() + costType.slice(1);
     }
-  }.property('costType')
+  }.property('costType'),
+
+  hasLocationInfo: function() {
+    return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) || 
+      Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) || 
+      Ember.isPresent(this.get('venueZipcode'));
+  }.property('venueAddress', 'venueCity', 'venueState', 'venueZipcode', 'venueName'),
+
+  hasContactInfo: function() {
+    return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) || 
+      Ember.isPresent(this.get('eventUrl'));
+  }.property('contactEmail', 'contactPhone', 'eventUrl')
+
 });
   
