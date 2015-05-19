@@ -105,13 +105,21 @@
           </div>
         </div>
 
-        <p class='EventShow-content'>
+        <div class='EventShow-content'>
           {{model.content}}
-        </p>
-      
+        </div>
+
+        <div class='EventShow-content'>
+          <h5>Also in the Upper Valley</h5>
+          <a href='{{relatedPromotion.redirect_url}}'>
+            <img src='{{relatedPromotion.image_url}}'>
+          </a>
+        </div>
+
         {{event-comments
           eventInstanceId=model.id
           comments=comments
+          class='EventShow-content'
         }}
       </div>
     </div>
