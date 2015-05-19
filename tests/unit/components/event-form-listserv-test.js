@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-promotion-form', {
+moduleForComponent('event-form-listserv', {
   // Specify the other units that are required for this test
-  needs: ['component:event-form-listservs']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {

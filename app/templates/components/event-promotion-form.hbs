@@ -64,6 +64,30 @@
     {{/if}}
   </div>
 </div>
+<div class='row'>
+  <div class='col-sm-3'>
+    {{input
+      type='checkbox'
+      checked=listsEnabled
+      id='lists-enabled'
+    }}
+    <label for="lists-enabled">Alert the List</label>
+  </div>
+  <div class='col-sm-4'>
+    <p>
+      Are you subscribed to one or more Upper Valley listservs? Send them a
+      text-only version of your event with a link to the full listing. Free
+    </p>
+  </div>
+  <div class='col-sm-5'>
+    {{#if listsEnabled}}
+      {{event-form-listservs
+        event=event
+        listservs=listservs
+      }}
+    {{/if}}
+  </div>
+</div>
 
 <div class='form-group'>
   <button class='btn btn-default' {{action 'saveAndGoBack'}}>

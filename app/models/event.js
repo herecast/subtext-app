@@ -6,6 +6,7 @@ import BaseEvent from '../mixins/models/base-event';
 export default DS.Model.extend(BaseEvent, {
   category: DS.attr('string'),
   eventInstances: DS.hasMany('event-instance'),
+  listservIds: DS.attr('raw', {defaultValue: []}),
 
   publish() {
     const url = `${config.API_NAMESPACE}/events/${this.get('id')}/publish`;
