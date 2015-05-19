@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
   cost: DS.attr('string'),
-  costType: DS.attr('string'),
+  costType: DS.attr('string', {defaultValue: 'free'}),
   endsAt: DS.attr('moment-date', {defaultValue: moment()}),
   eventUrl: DS.attr('string'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
