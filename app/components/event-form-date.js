@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     if (isPresent(this.get('startsAt'))) {
       startsAt = moment(this.get('startsAt'));
       startTime = startsAt.format(timeFormat);
-      date = startsAt.format(dateFormat);
+      date = startsAt.toDate();
     }
 
     if (isPresent(this.get('endsAt'))) {
