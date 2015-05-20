@@ -1,5 +1,5 @@
 <div role="tabpanel">
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs NavTabs" role="tablist">
     <li role="presentation" {{bind-attr class='isFree:active'}}>
       <a href="#" role="tab" {{action 'setCostType' 'free'}}>Free</a>
     </li>
@@ -14,7 +14,7 @@
     </li>
   </ul>
 
-  <div class="tab-content">
+  <div class="NavTabs-content">
     <div role="tabpanel" class="tab-pane active">
       {{input
         placeholder=costPlaceholder

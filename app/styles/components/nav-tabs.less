@@ -1,0 +1,56 @@
+.NavTabs {
+  border-bottom: 0;
+}
+
+.NavTabs > li > a {
+  background-color: @gray-lighter;
+  border-radius: 0;
+  border: 1px solid @gray-light;
+  border-right: 0;
+  color: @gray-light;
+  font-weight: 900;
+  margin: 0;
+  padding: 5px 12px;
+}
+
+.NavTabs > li:last-child > a {
+  border-right: 1px solid @gray-light;
+}
+
+.NavTabs > li > a:hover, .NavTabs > li.active > a:focus {
+  border: 1px solid @gray-light;
+  border-right: 0;
+  background-color: darken(@gray-lighter, 5%);
+}
+
+.NavTabs > li:last-child > a:hover, .NavTabs > li:last-child > a:focus {
+  border-right: 1px solid @gray-light;
+}
+
+.NavTabs > li.active > a {
+  background-color: white;
+  color: @text-color;
+  border: 1px solid @gray-light;
+  border-right: 0;
+  border-bottom-color: transparent;
+}
+
+.NavTabs > li:last-child {
+  &.active {
+    > a, a:hover, a:focus {
+      border-right: 1px solid @gray-light;
+    }
+  }
+}
+
+.NavTabs > li.active > a:hover, .NavTabs > li.active > a:focus {
+  background-color: white;
+  border: 1px solid @gray-light;
+  border-right: 0;
+  border-bottom-color: transparent;
+}
+
+.NavTabs-content {
+  padding: 20px;
+  border: 1px solid @gray-light;
+}
