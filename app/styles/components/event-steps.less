@@ -1,0 +1,61 @@
+.EventSteps-steps {
+  background: transparent url('/images/gray-dot.png') repeat-x center 15px;
+  position: relative;
+  margin-bottom: 35px;
+}
+
+.EventSteps-steps:before,
+.EventSteps-steps:after {
+  background-color: white;
+  content: '';
+  display: block;
+  height: 5px;
+  position: absolute;
+  top: 15px;
+  width: 75px;
+}
+
+.EventSteps-steps:before {
+  left: 0;
+}
+
+.EventSteps-steps:after {
+  right: 0;
+}
+
+.EventSteps-step {
+  width: 180px; 
+  text-align: center;
+}
+
+.EventSteps-stepCount {
+  background-color: white;
+  border-radius: @border-radius-round;
+  border: 2px solid @gray-light;
+  box-shadow: 0 0 0 10px white;
+  color: @gray-light;
+  font-size: 18px;
+  margin: 0 auto;
+  padding: 4px;
+  text-align: center;
+  width: 36px;
+}
+
+.EventSteps-stepCount.current {
+  color: @text-color;
+  border: 2px solid @text-color;
+}
+
+.EventSteps-stepCount.complete {
+  color: #fff;
+  background-color: @text-color;
+  border: 2px solid @text-color;
+}
+
+.EventSteps-stepTitle {
+  color: @gray-light;
+}
+
+.EventSteps-stepTitle.current, .EventSteps-stepTitle.complete {
+  color: @text-color;
+}
