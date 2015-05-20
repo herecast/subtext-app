@@ -27,6 +27,10 @@ export default Ember.Route.extend(EventFilter, {
     ajax(url, {data: {event_id: model.get('eventId')}}).then((response) => {
       controller.set('comments', response.comments);
     });
+
+    controller.set('similarContent', this.store.find('similar-content', {
+      event_id: model.get('eventId')
+    }));
   },
 
   actions: {

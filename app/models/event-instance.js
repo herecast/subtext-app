@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import moment from 'moment';
 import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 
@@ -11,15 +10,12 @@ export default DS.Model.extend(BaseEvent, {
   eventId: DS.attr('number'),
   eventInstances: DS.hasMany('event-instance'),
 
-  spansDays: function() {
-    const start = this.get('startsAt');
-    const end = this.get('endsAt');
+  formattedDate: function() {
+    return this.get('startsAt').format('MMMM D, YYYY');
+  }.property('startsAt'),
 
-    return moment().diff(start, end) > 0;
-  }.property('startsAt', 'endsAt'),
-
-  timeRange: function() {
-    const startTime = this.get('startsAt').format('MMMM, Do, YYYY LT');
+  formattedHours: function() {
+    const startTime = this.get('startsAt').format('LT');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
       return `${startTime}`;
@@ -29,17 +25,14 @@ export default DS.Model.extend(BaseEvent, {
     }
   }.property('startsAt', 'endsAt'),
 
-  longTimeRange: function() {
-    const start = this.get('startsAt').format('dddd, MMMM Do LT');
-    let endFormat = 'LT';
+  timeRange: function() {
+    const startTime = this.get('startsAt').format('MMMM Do, YYYY LT');
 
-    if (this.get('spansDays')) {
-      endFormat = 'dddd, MMMM Do LT';
+    if (Ember.isEmpty(this.get('endsAt'))) {
+      return `${startTime}`;
+    } else {
+      const endTime = this.get('endsAt').format('LT');
+      return `${startTime} - ${endTime}`;
     }
-
-    const end = this.get('endsAt').format(endFormat);
-
-    return `${start} to ${end}`;
   }.property('startsAt', 'endsAt')
-
 });
