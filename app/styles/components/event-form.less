@@ -8,6 +8,10 @@
   padding: 40px 70px;
 }
 
+.EventForm-content .form-group.has-error .note-editor {
+  border-color: @brand-danger;
+}
+
 .EventForm-stepContent {
   max-width: 450px;
   margin: 0 auto;
@@ -25,4 +29,13 @@
 
 .EventForm-dateButton {
   padding: 0;
+}
+
+.EventForm-requiredIndicator {
+  color: @brand-danger;
+}
+
+.EventForm-label--required:after {
+  content: "*";
+  color: @brand-danger;
 }

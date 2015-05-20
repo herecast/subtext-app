@@ -1,17 +1,20 @@
-<div class="form-group">
-  <label for="title">Event Title</label>
+{{#form-group error=errors.title}}
+  <label class='control-label EventForm-label--required' for="title">Event Title</label>
   {{input
     id='title'
     placeholder='A short and meaningful name'
-    class='form-control'
+    class='form-control EventForm-input'
     value=event.title
   }}
-</div>
+{{/form-group}}
 
-{{event-form-venue
-  event=event
-  class='form-group'
-}}
+{{#form-group error=errors.venue}}
+  {{event-form-venue
+    event=event
+    error=errors.venue
+    class='form-group'
+  }}
+{{/form-group}}
 
 {{event-form-dates
   eventInstances=event.eventInstances
@@ -26,7 +29,7 @@
   }}
 </div>
 <div class="form-group">
-  <label>Event Price</label>
+  <label class='EventForm-label--required'>Event Price</label>
   <div>
     {{event-form-cost
       cost=event.cost
@@ -34,8 +37,9 @@
     }}
   </div>
 </div>
-<div class="form-group">
-  <label for="description">Event Description</label>
+
+{{#form-group error=errors.content}}
+  <label class='control-label EventForm-label--required' for="description">Event Description</label>
   {{#summer-note content=event.content}}
     {{textarea
       id='description'
@@ -43,7 +47,8 @@
       class='form-control'
     }}
   {{/summer-note}}
-</div>
+{{/form-group}}
+
 <div class="form-group">
   <label>Event Info</label>
   <div class='form-group'>
@@ -82,6 +87,10 @@
       }}
     </div>
   </div>
+</div>
+
+<div class='form-group'>
+  <span class='EventForm-requiredIndicator'>*</span> required fields
 </div>
 
 <div class='EventForm-buttonGroup form-group'>

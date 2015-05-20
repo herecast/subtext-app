@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNameBindings: ['hasError:has-error'],
+  hasError: Ember.computed.notEmpty('error'),
+
   venueId: Ember.computed.alias('event.venueId'),
   venueName: Ember.computed.alias('event.venueName'),
   venueAddress: Ember.computed.alias('event.venueAddress'),
