@@ -22,7 +22,7 @@
 }
 
 .EventForm-buttonLink {
-  color: @gray-light;
+  color: @gray-medium;
   font-weight: 900;
   text-decoration: underline;
 }
@@ -31,7 +31,26 @@
   padding: 0;
 }
 
-.EventForm-requiredIndicator {
+.EventForm-removeInstanceLink {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 28px;
+}
+
+.EventForm-discardButton {
+  color: @gray-light;
+}
+
+.EventForm-dateGroup {
+  border-top: 2px lighten(@gray-light, 10%) dashed;
+  padding-top: 15px;
+
+}
+
+.EventForm-dateGroup:first-child {
+  border-top: 0;
+  padding: 0;
+}.EventForm-requiredIndicator {
   color: @brand-danger;
 }
 
