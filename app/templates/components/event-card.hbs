@@ -33,15 +33,10 @@
   <span class='Card-locationZipCode hidden-xs'>{{event.venueZipcode}}</span>
 </div>
 
-{{#link-to 
-  'events.show' 
-  event.id
-  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-getThere Card-link hidden-xs' 
-}}
+<a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
   {{fa-icon 'map-marker'}}
-  Get there
-{{/link-to}}
+  Get directions
+</a>
 
 <div class='Card-cost hidden-xs'>
   <span class='Card-costLabel'>Cost</span>

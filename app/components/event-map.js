@@ -9,19 +9,22 @@ export default Ember.Component.extend({
     const longitude = this.get('longitude');
     const title = this.get('title');
     const latLng = new google.maps.LatLng(latitude, longitude);
+    const mapEl = this.$('.EventShow-mapContent')[0];
 
     const mapOptions = {
       zoom: 15,
       center: latLng
     };
 
-    const map = new google.maps.Map(this.$()[0], mapOptions);
+    if (mapEl) {
+      const map = new google.maps.Map(mapEl, mapOptions);
 
-    new google.maps.Marker({
-      position: latLng,
-      map: map,
-      title: title
-    });
+      new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: title
+      });
+    }
   }.on('didInsertElement')
 });
 
