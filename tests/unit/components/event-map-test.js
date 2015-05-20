@@ -3,12 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-preview', {
+moduleForComponent('event-map', {
   // Specify the other units that are required for this test
-  needs: ['template:events/show', 'component:event-comments', 'component:report-abuse',
-    'helper:fa-icon', 'component:background-image', 'component:x-truncate',
-    'component:event-similar-content', 'component:event-map'
-  ]
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {
