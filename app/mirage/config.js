@@ -95,7 +95,7 @@ export default function() {
   });
 
   // Used by the event filter bar to find locations
-  this.get('/events/venues', function(db, request) {
+  this.get('/locations', function(db, request) {
     const locations = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
