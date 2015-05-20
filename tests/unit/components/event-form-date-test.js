@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-form-date', {
   // Specify the other units that are required for this test
-  needs: ['component:pikaday-input', 'component:input-mask']
+  needs: ['component:pikaday-input', 'component:input-mask', 'helper:fa-icon']
 });
 
 test('it renders', function(assert) {
