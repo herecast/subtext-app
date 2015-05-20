@@ -1,27 +1,10 @@
 <div class='row'>
   <div class='EventForm-content col-md-8'>
-    <div class='EventSteps-steps'>
-      <div class='row'>
-        <div class='col-md-4'>
-          <div class='EventSteps-step'>
-            <div class='EventSteps-stepCount'>1</div>
-            <h4 class='EventSteps-stepTitle'>Event Details</h4>
-          </div>
-        </div>
-        <div class='col-md-4'>
-          <div class='EventSteps-step'>
-            <div class='EventSteps-stepCount'>2</div>
-            <h4 class='EventSteps-stepTitle'>Promote Event</h4>
-          </div>
-        </div> 
-        <div class='col-md-4'>
-          <div class='EventSteps-step'>
-            <div class='EventSteps-stepCount'>3</div>
-            <h4 class='EventSteps-stepTitle'>Preview & Publish</h4>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{event-steps
+      step1State='current'
+      step2State='inactive'
+      step3State='inactive'
+    }}
     {{event-form
       event=model
       afterDiscard='afterDiscard'

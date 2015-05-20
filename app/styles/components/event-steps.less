@@ -41,8 +41,14 @@
   width: 36px;
 }
 
-.EventSteps-stepCount.is-active {
+.EventSteps-stepCount.current {
   color: @text-color;
+  border: 2px solid @text-color;
+}
+
+.EventSteps-stepCount.complete {
+  color: #fff;
+  background-color: @text-color;
   border: 2px solid @text-color;
 }
 
@@ -50,6 +56,6 @@
   color: @gray-light;
 }
 
-.EventSteps-stepTitle.is-active {
+.EventSteps-stepTitle.current, .EventSteps-stepTitle.complete {
   color: @text-color;
 }
