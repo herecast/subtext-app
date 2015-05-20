@@ -209,4 +209,13 @@ export default function() {
       similar_content: db.similar_content
     };
   });
+
+  this.get('/related_promotion', function() {
+    return {
+      related_promotion: {
+        image_url: "http://placehold.it/750x150",
+        redirect_url: `http://${faker.internet.domainName()}`
+      }
+    };
+  });
 }
