@@ -6,7 +6,8 @@ import {
 moduleForComponent('event-form', {
   // Specify the other units that are required for this test
   needs: ['component:event-form-dates', 'component:summer-note',
-    'component:event-form-cost', 'component:event-form-venue'
+    'component:event-form-cost', 'component:event-form-venue',
+    'helper:fa-icon'
   ]
 });
 
