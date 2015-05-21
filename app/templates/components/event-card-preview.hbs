@@ -21,9 +21,10 @@
   {{venueCity}}, {{venueState}}
   <span class='Card-locationZipCode hidden-xs'>{{venueZipcode}}</span>
 </div>
-<a class='Card-getThere Card-link hidden-xs'>
+
+<a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
   {{fa-icon 'map-marker'}}
-  Get there
+  Get directions
 </a>
 
 <div class='Card-cost hidden-xs'>

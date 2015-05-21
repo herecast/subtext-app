@@ -48,7 +48,20 @@ export default Ember.Mixin.create({
   hasContactInfo: function() {
     return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) || 
       Ember.isPresent(this.get('eventUrl'));
-  }.property('contactEmail', 'contactPhone', 'eventUrl')
+  }.property('contactEmail', 'contactPhone', 'eventUrl'),
 
+  directionsUrl: function() {
+    let addr = this.get('venueAddress');
+    let city = this.get('venueCity');
+    const state = this.get('venueState');
+
+    if (Ember.isPresent(addr) && Ember.isPresent(city) && Ember.isPresent(state)) {
+      addr = addr.split(' ').join('+');
+      city = city.split(' ').join('+');
+
+      return `https://www.google.com/maps/dir//${addr},${city},${state}`;
+    } else {
+      return 'https://www.google.com/maps/dir///';
+    }
+  }.property('venueAddress', 'venueCity', 'venueState')
 });
-  
