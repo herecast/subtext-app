@@ -1,96 +1,100 @@
-{{#form-group error=errors.title}}
-  <label class='control-label EventForm-label--required' for="title">Event Title</label>
-  {{input
-    id='title'
-    placeholder='A short and meaningful name'
-    class='form-control EventForm-input'
-    value=event.title
-  }}
-{{/form-group}}
+<div class='EventForm-stepContent'>
 
-{{#form-group error=errors.venue}}
-  {{event-form-venue
-    event=event
-    error=errors.venue
+  {{#form-group error=errors.title}}
+    <label class='control-label EventForm-label--required' for="title">Event Title</label>
+    {{input
+      id='title'
+      placeholder='A short and meaningful name'
+      class='form-control EventForm-input'
+      value=event.title
+    }}
+  {{/form-group}}
+
+  {{#form-group error=errors.venue}}
+    {{event-form-venue
+      event=event
+      error=errors.venue
+      class='form-group'
+    }}
+  {{/form-group}}
+
+  {{event-form-dates
+    eventInstances=event.eventInstances
     class='form-group'
   }}
-{{/form-group}}
 
-{{event-form-dates
-  eventInstances=event.eventInstances
-  class='form-group'
-}}
-
-<div class="form-group">
-  <label for="image">Image</label>
-  {{input
-    type='file'
-    class='form-control'
-  }}
-</div>
-<div class="form-group">
-  <label class='EventForm-label--required'>Event Price</label>
-  <div>
-    {{event-form-cost
-      cost=event.cost
-      costType=event.costType
-    }}
-  </div>
-</div>
-
-{{#form-group error=errors.content}}
-  <label class='control-label EventForm-label--required' for="description">Event Description</label>
-  {{#summer-note content=event.content}}
-    {{textarea
-      id='description'
-      placeholder='An inspiring description that will motivate people to attend'
+  <div class="form-group">
+    <label for="image">Image</label>
+    {{input
+      type='file'
       class='form-control'
     }}
-  {{/summer-note}}
-{{/form-group}}
+  </div>
+  <div class="form-group">
+    <label class='EventForm-label--required'>Event Price</label>
+    <div>
+      {{event-form-cost
+        cost=event.cost
+        costType=event.costType
+      }}
+    </div>
+  </div>
 
-<div class="form-group">
-  <label>Event Info</label>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-      </span>
-      {{input
-        placeholder='Contact Email'
+  {{#form-group error=errors.content}}
+    <label class='control-label EventForm-label--required' for="description">Event Description</label>
+    {{#summer-note content=event.content}}
+      {{textarea
+        id='description'
+        placeholder='An inspiring description that will motivate people to attend'
         class='form-control'
-        value=event.contactEmail
       }}
-    </div>
-  </div>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-      </span>
-      {{input
-        placeholder='Contact Phone'
-        class='form-control'
-        value=event.contactPhone
-      }}
-    </div>
-  </div>
-  <div class='form-group'>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-      </span>
-      {{input
-        placeholder='Web link (such as Event URL or Registration Page)'
-        class='form-control'
-        value=event.eventUrl
-      }}
-    </div>
-  </div>
-</div>
+    {{/summer-note}}
+  {{/form-group}}
 
-<div class='form-group'>
-  <span class='EventForm-requiredIndicator'>*</span> required fields
+  <div class="form-group">
+    <label>Event Info</label>
+    <div class='form-group'>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+        </span>
+        {{input
+          placeholder='Contact Email'
+          class='form-control'
+          value=event.contactEmail
+        }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+        </span>
+        {{input
+          placeholder='Contact Phone'
+          class='form-control'
+          value=event.contactPhone
+        }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+        </span>
+        {{input
+          placeholder='Web link (such as Event URL or Registration Page)'
+          class='form-control'
+          value=event.eventUrl
+        }}
+      </div>
+    </div>
+  </div>
+
+  <div class='form-group'>
+    <span class='EventForm-requiredIndicator'>*</span> required fields
+  </div>
+
 </div>
 
 <div class='EventForm-buttonGroup form-group'>

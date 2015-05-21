@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-promotion-form', {
   // Specify the other units that are required for this test
-  needs: ['component:event-form-listservs']
+  needs: ['component:event-form-listservs', 'helper:fa-icon']
 });
 
 test('it renders', function(assert) {
