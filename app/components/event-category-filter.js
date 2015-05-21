@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   },
 
   categories: [
-    'everything', 'family', 'movies', 'music', 'wellness', 'yardsales'
+    'Everything', 'Family', 'Movies', 'Music', 'Wellness', 'Yard sales'
   ],
 
   categoryOptions: function() {
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
   setInput(value) {
     if (!this.get('categories').contains(value)) {
       this.setProperties({
-        category: 'everything',
+        category: 'Everything',
         query: value,
         categoryOrQuery: value,
       });
