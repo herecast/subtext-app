@@ -44,6 +44,8 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: true
     }
+
+    ENV.baseURL = '/events';
   }
 
   return ENV;
