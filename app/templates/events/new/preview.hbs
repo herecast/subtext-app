@@ -2,12 +2,35 @@
   step1State='complete'
   step2State='complete'
   step3State='current'
+  class='EventSteps--gray'
 }}
+
+<div class='row'>
+  <div class='col-sm-3'>
+    <button class='Button btn btn-default pull-left' {{action 'saveAndGoBack'}}>
+      {{fa-icon 'arrow-left u-iconLeft'}}
+      Edit &amp; Promote Event
+    </button>
+  </div>
+  <div class='EventPreview-summary col-sm-6'>
+    <p>
+      Preview your event page below. If everything looks good to go, click the 
+      “SAVE &amp; PUBLISH” button to submit your event.
+    </p>
+    <p>
+      Here’s how you’ve chosen to promote your event:
+    </p>
+  </div>
+  <div class='col-sm-3'>
+    <button class='Button Button--primary btn-lg btn-primary pull-right' {{action 'saveAndPublish'}}>
+      Save &amp; Publish
+      {{fa-icon 'check u-iconRight'}}
+    </button>
+  </div>
+</div>
 
 {{event-preview
   event=model
   afterDiscard='afterDiscard'
   afterPublish='afterPublish'
 }}
-
-
