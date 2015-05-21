@@ -1,104 +1,122 @@
-<div class='row'>
-  <div class='col-sm-3'>
-    {{input
-      type='checkbox'
-      checked=event.extendedReachEnabled
-      id='extended-reach'
-    }}
-    <label for="extended-reach">Extend your reach</label>
-  </div>
-  <div class='col-sm-4'>
-    <p>
+<div class='EventForm-stepContent'>
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="extended-reach">Extend Your Reach <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
       Your event is set to display to users in the same town as your venue.
       Need to figure out what this text actually says.
-    </p>
+    </p> 
+    <div class='row'>
+      <div class='col-sm-6'>
+        <div {{action 'toggleEventProperty' 'extendedReachEnabled'}} class='PromotionSection-toggle PromotionSection-toggleMap'>
+          {{#if event.extendedReachEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-6'>
+        <img src="http://placehold.it/170x110&text=Map+Placeholder">
+      </div>
+    </div>
   </div>
-  <div class='col-sm-5'>
-    <img src="http://placehold.it/350x150&text=Map+Placeholder">
-  </div>
-</div>
-<div class='row'>
-  <div class='col-sm-3'>
-    {{input
-      type='checkbox'
-      checked=event.socialEnabled
-      id='social-enabled'
-    }}
-    <label for="social-enabled">Go Social</label>
-  </div>
-  <div class='col-sm-4'>
-    <p>
+
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="social-enabled">Go Social <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
       Allows users to share your event with their friends on Facebook, Twitter,
       Google+, email and other social media. Free
     </p>
+
+    <div class='row'>
+      <div class='col-sm-6'>
+        <div {{action 'toggleEventProperty' 'socialEnabled'}} class='PromotionSection-toggle'>
+          {{#if event.socialEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-6'>
+        <img src="http://placehold.it/170x35&text=Social+Placeholder">
+      </div>
+    </div>
   </div>
-  <div class='col-sm-5'>
-    <img src="http://placehold.it/350x50&text=Social+Placeholder">
-  </div>
-</div>
-<div class='row'>
-  <div class='col-sm-3'>
-    {{input
-      type='checkbox'
-      checked=categoryEnabled
-      id='category-enabled'
-    }}
-    <label for="category-enabled">Be Special</label>
-  </div>
-  <div class='col-sm-4'>
-    <p>
+
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="category-enabled">Be Special <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
       Maybe your event fits into one of our pre-defined special searches:
       Family, Movies, Music, Wellness, or Yard sales. If it does, choose
       one free.
     </p>
+
+    <div class='row'>
+      <div class='col-sm-6'>
+        <div {{action 'toggleProperty' 'categoryEnabled'}} class='PromotionSection-toggle'>
+          {{#if categoryEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-6'>
+        {{#if categoryEnabled}}
+          {{view "select"
+            content=categories
+            optionLabelPath="content.label"
+            optionValuePath="content.value"
+            prompt="Select a category:"
+            value=event.category
+          }}
+        {{/if}}
+      </div>
+    </div>
   </div>
-  <div class='col-sm-5'>
-    {{#if categoryEnabled}}
-      {{view "select"
-        content=categories
-        optionLabelPath="content.label"
-        optionValuePath="content.value"
-        prompt="Select a category:"
-        value=event.category
-      }}
-    {{/if}}
-  </div>
-</div>
-<div class='row'>
-  <div class='col-sm-3'>
-    {{input
-      type='checkbox'
-      checked=listsEnabled
-      id='lists-enabled'
-    }}
-    <label for="lists-enabled">Alert the List</label>
-  </div>
-  <div class='col-sm-4'>
-    <p>
+
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
       Are you subscribed to one or more Upper Valley listservs? Send them a
       text-only version of your event with a link to the full listing. Free
     </p>
-  </div>
-  <div class='col-sm-5'>
-    {{#if listsEnabled}}
-      {{event-form-listservs
-        event=event
-        listservs=listservs
-      }}
-    {{/if}}
+    <div class='row'>
+      <div class='col-sm-6'>
+        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
+          {{#if listsEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-6'>
+        {{#if listsEnabled}}
+          {{event-form-listservs
+            event=event
+            listservs=listservs
+          }}
+        {{/if}}
+      </div>
+    </div>
   </div>
 </div>
 
-<div class='form-group'>
-  <button class='btn btn-default' {{action 'saveAndGoBack'}}>
+<div class='EventForm-buttonGroup form-group'>
+  <button class='Button btn btn-default pull-left' {{action 'saveAndGoBack'}}>
+    {{fa-icon 'arrow-left u-iconLeft'}}
     Save &amp; Back
   </button>
 
-  <button class='btn btn-default' {{action 'saveAndPreview'}}>
-    Save &amp; Next Step
+  <button class='Button Button--primary btn btn-primary pull-right' {{action 'save'}}>
+    Save &amp; Next Step 
+    {{fa-icon 'arrow-right u-iconRight'}}
   </button>
 
-  <button class='btn btn-link' {{action 'discard'}}>
-    Discard
+  <button class='EventForm-buttonLink EventForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
+    Discard Event 
+    {{fa-icon 'trash u-iconRight'}}
   </button>
 </div>

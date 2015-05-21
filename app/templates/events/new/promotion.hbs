@@ -1,13 +1,28 @@
-{{event-steps
-  step1State='complete'
-  step2State='current'
-  step3State='inactive'
-}}
+<div class='row'>
+  <div class='EventForm-content col-md-8'>
+    {{event-steps
+      step1State='complete'
+      step2State='current'
+      step3State='inactive'
+    }}
 
-{{event-promotion-form
-  event=model
-  listservs=listservs
-  afterDiscard='afterDiscard'
-  backToDetails='backToDetails'
-  afterPromotion='afterPromotion'
-}}
+    {{event-promotion-form
+      event=model
+      listservs=listservs
+      afterDiscard='afterDiscard'
+      backToDetails='backToDetails'
+      afterPromotion='afterPromotion'
+    }}
+  </div>
+  
+  <div class='EventCardPreview col-md-4'>
+    <h4 class='EventCardPreview-header'>Live Preview</h4>
+    <p class='EventCardPreview-subtitle'>
+      This is what your Event Listing Summary will look like!
+    </p>
+
+    {{event-card-preview
+      event=model
+    }}
+  </div>
+</div>

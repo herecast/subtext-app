@@ -52,6 +52,15 @@ export default Ember.Component.extend({
         event.destroyRecord();
         this.sendAction('afterDiscard');
       }
+    },
+
+    toggleEventProperty(property) {
+      this.get('event').toggleProperty(property);
+    },
+
+    toggleProperty(property) {
+      this.toggleProperty(property);
     }
+
   }
 });
