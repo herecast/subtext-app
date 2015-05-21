@@ -30,7 +30,7 @@
 
     <div class='row'>
       <div class='col-sm-6'>
-        <div {{action 'toggleEventProperty' 'socialEnabled'}} class='PromotionSection-toggle'>
+        <div {{action 'toggleEventProperty' 'socialEnabled'}} class='PromotionSection-toggle PromotionSection-toggleSocial'>
           {{#if event.socialEnabled}}
             {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
           {{else}}
@@ -83,7 +83,7 @@
       text-only version of your event with a link to the full listing. Free
     </p>
     <div class='row'>
-      <div class='col-sm-6'>
+      <div class='col-sm-2 col-sm-offset-2'>
         <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
           {{#if listsEnabled}}
             {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
@@ -92,7 +92,7 @@
           {{/if}}
         </div>
       </div>
-      <div class='col-sm-6'>
+      <div class='col-sm-8'>
         {{#if listsEnabled}}
           {{event-form-listservs
             event=event
