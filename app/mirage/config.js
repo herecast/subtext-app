@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // This is just a dumb method to make it look like we're doing filtering
 function filterByCategory(events, category) {
-  if (category === 'everything') {
+  if (category === 'Everything') {
     return events;
   } else {
     const size = 20 + category.length;

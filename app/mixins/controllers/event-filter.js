@@ -4,7 +4,7 @@ import moment from 'moment';
 export default Ember.Mixin.create({
   queryParams: ['category', 'query', 'startDate', 'stopDate', 'location', 'r'],
 
-  category: 'everything',
+  category: 'Everything',
   query: null,
   location: 'Upper Valley',
 

@@ -22,11 +22,11 @@ export default Ember.Component.extend({
   }.observes('listsEnabled'),
 
   categories: [
-    {value: 'family', label: 'Family'},
-    {value: 'movies', label: 'Movies'},
-    {value: 'music', label: 'Music'},
-    {value: 'wellness', label: 'Wellness'},
-    {value: 'yardsales', label: 'Yardsales'}
+    {value: 'Family', label: 'Family'},
+    {value: 'Movies', label: 'Movies'},
+    {value: 'Music', label: 'Music'},
+    {value: 'Wellness', label: 'Wellness'},
+    {value: 'Yard sales', label: 'Yard sales'}
   ],
 
   actions: {
