@@ -75,6 +75,16 @@ export default function() {
   this.namespace = 'api';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
+  this.get('/current_user', function() {
+    return {
+      current_user: {
+        id: 1,
+        name: faker.name.findName(),
+        location: 'Norwich, VT'
+      }
+    };
+  });
+
   this.get('/event_instances', function(db, request) {
     const params = request.queryParams;
 
