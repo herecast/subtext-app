@@ -3,10 +3,8 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-preview', {
-  needs: ['template:events/show', 'component:event-comments', 'component:report-abuse',
-    'helper:fa-icon', 'component:background-image', 'component:x-truncate',
-    'component:event-similar-content', 'component:event-map']
+moduleForComponent('event-preview-summary', {
+  needs: ['helper:fa-icon', 'component:disabled-checkbox']
 });
 
 test('it renders', function(assert) {

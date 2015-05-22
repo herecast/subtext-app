@@ -1,19 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  actions: {
-    publish() {
-      const event = this.get('event');
-      event.publish();
-      this.sendAction('afterPublish');
-    },
+  classNames: ['EventPreview'],
 
-    discard() {
-      if (confirm('Are you sure you want to discard this event?')) {
-        const event = this.get('event');
-        event.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
-    }
-  }
+  bindScrollEvent: function() {
+    this.$('.EventPreview-scrollButton').on('click.scroll-top', () => {
+      Ember.$('html,body').animate({ scrollTop: 0 }, 'slow');
+    });
+  }.on('didInsertElement')
+
 });

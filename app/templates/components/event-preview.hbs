@@ -1,21 +1,6 @@
-<button class='btn btn-primary' {{action 'publish'}}>
-  Publish
-</button>
-
 {{partial 'events/show'}}
-
-{{#link-to 'events.new.details' class='btn btn-default'}}
-  Edit Details
-{{/link-to}}
-
-{{#link-to 'events.new.promotion' class='btn btn-default'}}
-  Edit Promotions
-{{/link-to}}
-
-<button class='btn btn-primary' {{action 'publish'}}>
-  Publish
-</button>
-
-<button class='btn btn-link' {{action 'discard'}}>
-  Discard
-</button>
+<div class='EventPreview-helpText EventPreview-helpText--bottom'>
+   <button class='btn-link EventPreview-scrollButton'>
+    Back to Top {{fa-icon 'arrow-up'}}
+  </button>
+</div>
