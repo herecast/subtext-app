@@ -36,9 +36,11 @@
     </div>
 
     {{#if eventGroup.hasHiddenTailItems}}
-      <a href='#' {{action 'showTail' eventGroup}}>
-        Show all {{eventGroup.length}} events happening on {{eventGroup.displayValue}}
-      </a>
+      <div class='center-block EventGroup-more'>
+        <a href='#' class='EventGroup-moreLink' {{action 'showTail' eventGroup}}>
+          Expand to view more {{fa-icon 'chevron-down'}}
+        </a>
+      </div>
     {{/if}}
   </div>
 {{/each}}
