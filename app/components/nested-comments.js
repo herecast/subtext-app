@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   classNames: ['Comments'],
-
+  session: Ember.inject.service('session'),
   showReplyBox: false,
 
   postedAt: function() {
