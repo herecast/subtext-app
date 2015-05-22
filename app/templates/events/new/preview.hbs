@@ -1,12 +1,20 @@
-{{event-steps
-  step1State='complete'
-  step2State='complete'
-  step3State='current'
-  class='EventSteps--gray'
-}}
+<div class='container'>
+  <h1 class='EventForm-header'>Create an Event</h1>
+  {{event-steps
+    step1State='complete'
+    step2State='complete'
+    step3State='current'
+    class='EventSteps--gray'
+  }}
 
-{{event-preview
-  event=model
-  afterDiscard='afterDiscard'
-  afterPublish='afterPublish'
-}}
+  {{event-preview-summary
+    event=model
+    afterDiscard='afterDiscard'
+    afterPublish='afterPublish'
+  }}
+
+</div>
+
+<div class='EventPreview'>
+  {{partial 'events/show'}}
+</div>
