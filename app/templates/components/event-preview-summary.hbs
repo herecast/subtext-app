@@ -2,7 +2,7 @@
   <div class='col-sm-3'>
     {{#link-to 'events.new.promotion' class='Button btn btn-default pull-left'}}
       {{fa-icon 'arrow-left u-iconLeft'}}
-      Edit &amp; Promote Event
+      Edit Event
     {{/link-to}}
   </div>
   <div class='EventPreview-summary col-sm-6'>
@@ -43,6 +43,10 @@
         Alert the List
       {{/disabled-checkbox}}      
     </ul>
+    <div class='EventPreview-helpText EventPreview--bottom'>
+      Everything below dotted line is your preview 
+      {{fa-icon 'arrow-down'}}
+    </div>
   </div>
   <div class='col-sm-3'>
     <button class='Button Button--primary btn-lg btn-primary pull-right' {{action 'saveAndPublish'}}>

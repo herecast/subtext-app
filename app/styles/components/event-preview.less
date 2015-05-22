@@ -1,7 +1,8 @@
 .EventPreview {
-  border: 2px dashed @gray-light;
+  background-color: white;
+  border-bottom: 2px dashed @gray-light;
+  border-top: 2px dashed @gray-light;
 }
-
 
 .EventPreview-summary {
   text-align: center;
@@ -19,4 +20,26 @@
 
 .EventPreview-summaryProperty:first-child {
   margin-left: 0;
+}
+
+.EventPreview-helpText {
+  background: white;
+  border: 2px dashed @gray-light;
+  color: @gray-medium;
+  display: inline-block;
+  padding: 5px;
+  position: relative;
+  top: 18px;
+  z-index: 10;
+}
+
+.EventPreview-helpText--bottom {
+  display: block;
+  margin: 0 auto;
+  padding: 2px 11px;
+  width: 140px;
+}
+
+.EventPreview-scrollButton:focus {
+  outline: 0;
 }
