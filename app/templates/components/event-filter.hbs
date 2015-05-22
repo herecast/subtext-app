@@ -26,14 +26,20 @@
         {{event-date-filter startDate=startDate stopDate=stopDate}}
       </div>
 
-      {{#link-to 'events.new' class='Button FilterBar-button navbar-right btn btn-default'}}
-        Create an event
-      {{/link-to}}
+      {{#if session.currentUser}}
+        {{#link-to 'events.new' class='Button FilterBar-button navbar-right btn btn-default'}}
+          Create an event
+        {{/link-to}}
+      {{else}}
+        <a href='https://dailyuv.com/users/sign_in' class='Button FilterBar-button navbar-right btn btn-default'>
+          Create an event
+        </a>
+      {{/if}}
 
       <button type='submit' class='Button Button--primary FilterBar-button navbar-right btn btn-primary' {{action 'submit'}}>
         Find events
       </button>
-      
+
     </form>
   </div>
 </div><!-- /.container-fluid -->

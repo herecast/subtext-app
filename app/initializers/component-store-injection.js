@@ -1,6 +1,7 @@
 export function initialize(container, application) {
   application.inject('component:event-form-dates', 'store', 'store:main');
   application.inject('component:event-comments-new', 'store', 'store:main');
+  application.inject('service:session', 'store', 'store:main');
 }
 
 export default {
