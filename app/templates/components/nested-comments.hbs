@@ -13,9 +13,11 @@
   <div class='Comments-content'>
     {{row.content}}
 
-    <a class='btn btn-link btn-default' {{action 'reply'}}>
-      Reply
-    </a>
+    {{#if session.currentUser}}
+      <a class='btn btn-link btn-default' {{action 'reply'}}>
+        Reply
+      </a>
+    {{/if}}
 
     {{#if showReplyBox}}
       {{event-comments-new

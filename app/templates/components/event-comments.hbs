@@ -1,8 +1,17 @@
 <label>Join the Conversation</label>
-{{event-comments-new
-  eventInstanceId=eventInstanceId
-  comments=comments
-}}
+{{#if session.currentUser}}
+  {{event-comments-new
+    eventInstanceId=eventInstanceId
+    comments=comments
+  }}
+{{else}}
+  <p>
+    You need to log in to join this conversation. After
+    <a href='https://dailyuv.com/users/sign_up'>signing up</a> or
+    <a href='https://dailyuv.com/users/sign_in'>signing in</a>, you can return to
+    this listing and share your thoughts.
+  </p>
+{{/if}}
 
 {{nested-comments
   comments=comments
