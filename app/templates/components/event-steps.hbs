@@ -1,40 +1,38 @@
-<div class='EventSteps-steps'>
-  <div class='row'>
-    <div class='col-md-4'>
-      <div class='EventSteps-step'>
-        <div {{bind-attr class='step1State :EventSteps-stepCount'}}>
-          {{#if step1Complete}}
-            {{fa-icon 'check'}}
-          {{else}}
-            1
-          {{/if}}
-        </div>
-        <h4 {{bind-attr class='step1State :EventSteps-Title'}}>Event Details</h4>
+<div class='row'>
+  <div class='col-md-4'>
+    <div class='EventSteps-step'>
+      <div {{bind-attr class='step1State :EventSteps-stepCount'}}>
+        {{#if step1Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          1
+        {{/if}}
       </div>
+      <h4 {{bind-attr class='step1State :EventSteps-Title'}}>Event Details</h4>
     </div>
-    <div class='col-md-4'>
-      <div class='EventSteps-step'>
-        <div {{bind-attr class='step2State :EventSteps-stepCount'}}>
-          {{#if step2Complete}}
-            {{fa-icon 'check'}}
-          {{else}}
-            2
-          {{/if}}
-        </div>
-        <h4 {{bind-attr class='step2State :EventSteps-stepTitle'}}>Promote Event</h4>
+  </div>
+  <div class='col-md-4'>
+    <div class='EventSteps-step'>
+      <div {{bind-attr class='step2State :EventSteps-stepCount'}}>
+        {{#if step2Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          2
+        {{/if}}
       </div>
-    </div> 
-    <div class='col-md-4'>
-      <div class='EventSteps-step'>
-        <div {{bind-attr class='step3State :EventSteps-stepCount'}}>
-          {{#if step3Complete}}
-            {{fa-icon 'check'}}
-          {{else}}
-            3
-          {{/if}}
-        </div>
-        <h4 {{bind-attr class='step3State :EventSteps-stepTitle'}}>Preview & Publish</h4>
+      <h4 {{bind-attr class='step2State :EventSteps-stepTitle'}}>Promote Event</h4>
+    </div>
+  </div> 
+  <div class='col-md-4'>
+    <div class='EventSteps-step'>
+      <div {{bind-attr class='step3State :EventSteps-stepCount'}}>
+        {{#if step3Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          3
+        {{/if}}
       </div>
+      <h4 {{bind-attr class='step3State :EventSteps-stepTitle'}}>Preview & Publish</h4>
     </div>
   </div>
 </div>
