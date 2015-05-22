@@ -50,12 +50,22 @@
   <span class='Card-locationZipCode hidden-xs'>{{venueZipcode}}</span>
 </div>
 
-<a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
-  {{fa-icon 'map-marker'}}
-  Get directions
-</a>
-
-<div class='Card-cost hidden-xs'>
-  <span class='Card-costLabel'>Cost</span>
-  <span class='Card-costValue'>{{event.cost}}</span>
+<div class='Card-bottomRow row'>
+  <div class='Card-directions col-sm-5'>
+    <a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
+      {{fa-icon 'map-marker'}}
+      Get directions
+    </a>
+  </div>
+  <div class='col-sm-7'>
+    <div class='Card-cost hidden-xs'>
+      <span class='Card-costLabel'>Cost</span>
+      <span class='Card-costType'>{{costType}}</span>
+      {{x-truncate
+        text=event.cost
+        maxLength=20
+        class='Card-costValue'
+      }}
+    </div>
+  </div>
 </div>

@@ -12,6 +12,16 @@ export default Ember.Component.extend({
   venueState: Ember.computed.oneWay('event.venueState'),
   venueZipcode: Ember.computed.oneWay('event.venueZipcode'),
 
+  costType: function() {
+    const type = this.get('event.costType');
+
+    if (type === '') {
+      return 'N/A';
+    } else {
+      return type;
+    }
+  }.property('event.costType'),
+
   timeRange: function() {
     const startTime = this.get('event.startsAt');
     const endTime = this.get('event.endsAt');
