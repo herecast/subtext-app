@@ -4,7 +4,7 @@
     <label class='control-label EventForm-label--required' for="title">Event Title</label>
     {{input
       id='title'
-      placeholder='A short and meaningful name'
+      placeholder='A short and informative name'
       class='form-control EventForm-input'
       value=event.title
     }}
@@ -29,6 +29,7 @@
       type='file'
       class='form-control'
     }}
+    <span class="help-block">Format: jpg or png. Size: under 5mb</span>
   </div>
   <div class="form-group">
     <label class='EventForm-label--required'>Event Price</label>
@@ -71,7 +72,7 @@
           <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
         </span>
         {{input
-          placeholder='Contact Phone'
+          placeholder='Contact Phone, ex: 555-555-5555'
           class='form-control'
           value=event.contactPhone
         }}
@@ -83,7 +84,7 @@
           <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
         </span>
         {{input
-          placeholder='Web link (such as Event URL or Registration Page)'
+          placeholder='Web Link, ex: event URL or registration page'
           class='form-control'
           value=event.eventUrl
         }}
