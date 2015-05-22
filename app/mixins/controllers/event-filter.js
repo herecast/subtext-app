@@ -2,7 +2,10 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Mixin.create({
-  queryParams: ['category', 'query', 'startDate', 'stopDate', 'location', 'r'],
+  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r'],
+
+  startDate: Ember.computed.alias('date_start'),
+  stopDate: Ember.computed.alias('date_end'),
 
   category: 'Everything',
   query: null,
@@ -12,6 +15,6 @@ export default Ember.Mixin.create({
   r: false,
 
   // Default to this week
-  startDate: moment().startOf('week').format('YYYY-MM-DD'),
-  stopDate: moment().endOf('week').format('YYYY-MM-DD')
+  date_start: moment().startOf('week').format('YYYY-MM-DD'),
+  date_end: moment().endOf('week').format('YYYY-MM-DD')
 });

@@ -94,7 +94,7 @@ export default function() {
     });
 
     events = filterByCategory(events, params.category);
-    events = filterByDate(events, params.startDate, params.stopDate);
+    events = filterByDate(events, params.date_start, params.date_end);
 
     return {
       event_instances: events,
