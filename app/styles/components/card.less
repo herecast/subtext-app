@@ -101,18 +101,25 @@
   display: inline;
 }
 
+.Card-bottomRow {
+  top: 370px;
+  position: absolute;
+  width: 100%;
+}
+
+.Card-directions {
+  padding-right: 0;
+}
+
 .Card-getThere {
   font-size: 12px;
-  position: absolute;
-  bottom: 25px;
-  left: 25px;
 }
 
 .Card-cost {
-  position: absolute;
-  right: 25px;
-  bottom: 25px;
   font-size: 12px;
+  line-height: 22px;
+  padding-right: 15px;
+  text-align: right;
 }
 
 .Card-costLabel {
@@ -120,7 +127,13 @@
   margin-right: 3px;
 }
 
-.Card-costValue {
+.Card-costType {
   font-weight: 900;
+  text-transform: uppercase;
+}
+
+.Card-costValue {
+  color: @gray-medium;
+  line-height: 6px;
 }
 

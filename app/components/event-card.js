@@ -2,6 +2,25 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['Card'],
+  isPreview: false,
+
+  title: Ember.computed.oneWay('event.title'),
+  content: Ember.computed.oneWay('event.content'),
+  venueName: Ember.computed.oneWay('event.venueName'),
+  venueAddress: Ember.computed.oneWay('event.venueAddress'),
+  venueCity: Ember.computed.oneWay('event.venueCity'),
+  venueState: Ember.computed.oneWay('event.venueState'),
+  venueZipcode: Ember.computed.oneWay('event.venueZipcode'),
+
+  costType: function() {
+    const type = this.get('event.costType');
+
+    if (type === '') {
+      return 'N/A';
+    } else {
+      return type;
+    }
+  }.property('event.costType'),
 
   timeRange: function() {
     const startTime = this.get('event.startsAt');

@@ -3,42 +3,69 @@
 {{else}}
   <img src='http://placehold.it/75x75' class='img-responsive Card-image'>
 {{/if}}
+
 <div class='Card-time'>{{timeRange}}</div>
-{{#link-to 
-  'events.show' 
-  event.id
-  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-title' 
-}}
-  {{x-truncate text=event.title maxLength=35}}
-{{/link-to}}
+
+{{#if isPreview}}
+  <a class='Card-title'>
+    {{x-truncate text=title maxLength=35}}
+  </a>
+{{else}}
+  {{#link-to
+    'events.show'
+    event.id
+    (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+    class='Card-title'
+  }}
+    {{x-truncate text=title maxLength=35}}
+  {{/link-to}}
+{{/if}}
+
 <div class='Card-content hidden-xs'>
-  {{x-truncate text=event.content maxLength=90}}
+  {{x-truncate text=content maxLength=90}}
 </div>
-{{#link-to 
-  'events.show' 
-  event.id
-  (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
-  class='Card-learnMore Card-link hidden-xs' 
-}}
-  Learn more
-  {{fa-icon 'arrow-right'}}
-{{/link-to}}
+
+{{#if isPreview}}
+  <a class='Card-learnMore Card-link'>
+    Learn more
+    {{fa-icon 'arrow-right'}}
+  </a>
+{{else}}
+  {{#link-to
+    'events.show'
+    event.id
+    (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+    class='Card-learnMore Card-link hidden-xs'
+  }}
+    Learn more
+    {{fa-icon 'arrow-right'}}
+  {{/link-to}}
+{{/if}}
 
 <div class='Card-locationWhere hidden-xs'>Where?</div>
-<div class='Card-locationName hidden-xs'>{{event.venueName}}</div>
-<div class='Card-locationAddress hidden-xs'>{{event.venueAddress}}</div>
+<div class='Card-locationName hidden-xs'>{{venueName}}</div>
+<div class='Card-locationAddress hidden-xs'>{{venueAddress}}</div>
 <div class='Card-locationRegion'>
-  {{event.venueCity}}, {{event.venueState}} 
-  <span class='Card-locationZipCode hidden-xs'>{{event.venueZipcode}}</span>
+  {{venueCity}}, {{venueState}}
+  <span class='Card-locationZipCode hidden-xs'>{{venueZipcode}}</span>
 </div>
 
-<a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
-  {{fa-icon 'map-marker'}}
-  Get directions
-</a>
-
-<div class='Card-cost hidden-xs'>
-  <span class='Card-costLabel'>Cost</span>
-  <span class='Card-costValue'>{{event.cost}}</span>
+<div class='Card-bottomRow row'>
+  <div class='Card-directions col-sm-5'>
+    <a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
+      {{fa-icon 'map-marker'}}
+      Get directions
+    </a>
+  </div>
+  <div class='col-sm-7'>
+    <div class='Card-cost hidden-xs'>
+      <span class='Card-costLabel'>Cost</span>
+      <span class='Card-costType'>{{costType}}</span>
+      {{x-truncate
+        text=event.cost
+        maxLength=20
+        class='Card-costValue'
+      }}
+    </div>
+  </div>
 </div>
