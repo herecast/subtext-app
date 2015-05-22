@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import ajax from 'ic-ajax';
+import Ember from 'ember';
 import config from '../config/environment';
 import BaseEvent from '../mixins/models/base-event';
 
@@ -7,6 +8,9 @@ export default DS.Model.extend(BaseEvent, {
   category: DS.attr('string'),
   eventInstances: DS.hasMany('event-instance'),
   listservIds: DS.attr('raw', {defaultValue: []}),
+
+  categoryEnabled: Ember.computed.notEmpty('category'),
+  listsEnabled: Ember.computed.notEmpty('listservIds'),
 
   publish() {
     const url = `${config.API_NAMESPACE}/events/${this.get('id')}/publish`;
