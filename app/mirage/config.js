@@ -72,7 +72,7 @@ const eventBaseProperties = [
 ];
 
 export default function() {
-  this.namespace = 'api';
+  this.namespace = 'api/v1';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.get('/current_user', function() {
