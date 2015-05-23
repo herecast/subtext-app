@@ -1,11 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  editLink: function() {
+    if (this.get('model.isNew')) {
+      return 'events.new.promotion';
+    } else {
+      return 'events.edit.promotion';
+    }
+  }.property('model.isNew'),
+
   actions: {
-    publish() {
-      const event = this.get('event');
-      event.publish();
-      this.sendAction('afterPublish');
+    save() {
+      const event = this.get('model');
+
+      event.save().then((savedEvent) => {
+        savedEvent.uploadImage();
+        this.sendAction('afterPublish');
+      });
     },
 
     discard() {

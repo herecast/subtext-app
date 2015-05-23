@@ -30,20 +30,12 @@ export default Ember.Component.extend({
   ],
 
   actions: {
-    saveAndGoBack() {
-      const event = this.get('event');
-
-      event.save().then(() => {
-        this.sendAction('backToDetails');
-      });
+    back() {
+      this.sendAction('backToDetails');
     },
 
-    saveAndPreview() {
-      const event = this.get('event');
-
-      event.save().then(() => {
-        this.sendAction('afterPromotion');
-      });
+    preview() {
+      this.sendAction('afterPromotion');
     },
 
     discard() {

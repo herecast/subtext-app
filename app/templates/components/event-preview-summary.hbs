@@ -1,6 +1,6 @@
 <div class='row'>
   <div class='col-sm-3'>
-    {{#link-to 'events.new.promotion' class='Button btn btn-default pull-left'}}
+    {{#link-to editLink class='Button btn btn-default pull-left'}}
       {{fa-icon 'arrow-left u-iconLeft'}}
       Edit Event
     {{/link-to}}
@@ -49,7 +49,7 @@
     </div>
   </div>
   <div class='col-sm-3'>
-    <button class='Button Button--primary btn-lg btn-primary pull-right' {{action 'saveAndPublish'}}>
+    <button class='Button Button--primary btn-lg btn-primary pull-right' {{action 'save'}}>
       Save &amp; Publish
       {{fa-icon 'check u-iconRight'}}
     </button>
