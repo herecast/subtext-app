@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import EventCard from './event-card';
-import moment from 'moment';
 
 function defaultValue(value, placeholder) {
   if (Ember.isPresent(value)) {
@@ -11,9 +10,8 @@ function defaultValue(value, placeholder) {
 }
 
 export default EventCard.extend({
-  timeRange: function() {
-    return `${moment().format('LT')} - ${moment().format('LT')}`;
-  }.property(),
+  timeRange: Ember.computed.oneWay('event.firstInstanceTimeRange'),
+  subtitle: Ember.computed.oneWay('event.firstIntanceSubtitle'),
 
   title: function() {
     return defaultValue(this.get('event.title'),
