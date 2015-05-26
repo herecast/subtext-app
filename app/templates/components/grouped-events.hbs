@@ -1,12 +1,16 @@
 {{#each eventGroup in groupedEvents}}
   <div class='container'>
-    {{link-to
-      eventGroup.displayValue
-      'events.index'
-      (query-params date_start=eventGroup.paramValue date_end=eventGroup.paramValue r=true)
-      tagName='h1'
-      class='EventGroup-header'
-    }}
+    {{#if isFilteredByOneDay}}
+      <h1 class='EventGroup-header'>{{eventGroup.displayValue}}</h1>
+    {{else}}
+      {{link-to
+        eventGroup.displayValue
+        'events.index'
+        (query-params date_start=eventGroup.paramValue date_end=eventGroup.paramValue r=true)
+        tagName='h1'
+        class='EventGroup-header EventGroup-headerLink'
+      }}
+    {{/if}}
 
     <div class='row'>
       {{#each event in eventGroup.headItems}}
