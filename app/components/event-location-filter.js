@@ -1,11 +1,9 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
+import ManualDropdown from '../mixins/components/manual-dropdown';
 
-export default Ember.Component.extend({
-  classNames: ['dropdown'],
-  classNameBindings: ['open'],
-
+export default Ember.Component.extend(ManualDropdown, {
   inputValue: Ember.computed.oneWay('location'),
 
   click() {

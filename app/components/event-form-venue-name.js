@@ -1,11 +1,9 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
+import ManualDropdown from '../mixins/components/manual-dropdown';
 
-export default Ember.Component.extend({
-  classNames: ['dropdown'],
-  classNameBindings: ['open'],
-
+export default Ember.Component.extend(ManualDropdown, {
   venues: [],
 
   initInput: function() {
@@ -18,22 +16,8 @@ export default Ember.Component.extend({
     });
   }.on('didInsertElement'),
 
-  // Since we're manually toggling the dropdown when results are found, we need
-  // to manualy manage the click binding state. Otherwise the menu would not
-  // close when a user clicks outside of it.
-  initDropdownToggle: function() {
-    if (this.get('open')) {
-      Ember.$('html').on('click.form-venue', () => {
-        this.set('open', false);
-      });
-    } else {
-      Ember.$('html').off('click.form-venue');
-    }
-  }.observes('open'),
-
   removeQueryInput: function() {
     this.$('input').off('keyUp');
-    Ember.$('html').off('click.form-venue');
   }.on('willDestroyElement'),
 
   sendSearchQuery(value) {
