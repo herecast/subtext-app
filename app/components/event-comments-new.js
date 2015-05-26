@@ -8,6 +8,7 @@ export default Ember.Component.extend({
     postComment(content) {
       const comment = this.store.createRecord('comment', {
         eventInstanceId: this.get('eventInstanceId'),
+        parentCommentId: this.get('parentCommentId'),
         content: content
       });
 
