@@ -46,13 +46,13 @@ export default Ember.Component.extend({
   },
 
   eventsByDate: function() {
-    return this.buildGroup('dddd, MMMM Do', function(startsAt) {
+    return this.buildGroup('dddd, MMMM D', function(startsAt) {
       return startsAt.format('L');
     });
   }.property('events.[]'),
 
   eventsByTime: function() {
-    return this.buildGroup('Ha on dddd, MMMM Do', function(startsAt) {
+    return this.buildGroup('Ha on dddd, MMMM D', function(startsAt) {
       return parseInt(startsAt.format('H'));
     });
   }.property('events.[]'),
