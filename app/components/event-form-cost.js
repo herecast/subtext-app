@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     } else if (this.get('isDonation')) {
       return 'Add details if you’d like';
     } else if (this.get('isNotApplicable')) {
-      return 'For public events where cost is not relevant';
+      return 'Example: public events where cost is not relevant';
     }
   }.property('costType'),
 
