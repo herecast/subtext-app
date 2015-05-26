@@ -2,6 +2,8 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Component.extend({
+  session: Ember.inject.service('session'),
+
   isDisabled: Ember.computed.empty('newComment'),
 
   actions: {
@@ -17,10 +19,7 @@ export default Ember.Component.extend({
           id: comment.get('id'),
           posted_at: moment().toISOString(),
           content: content,
-
-          // TODO: This will be replaced by the current user's first name
-          // when we have authentication added.
-          user_name: faker.name.findName()
+          user_name: this.get('session.currentUser.name')
         });
 
         if (!this.get('comments')) {
