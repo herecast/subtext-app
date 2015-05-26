@@ -14,7 +14,7 @@
   {{#link-to
     'events.show'
     event.id
-    (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+    (query-params category=category query=query date_start=startDate date_end=stopDate location=location)
     class='Card-title'
   }}
     {{x-truncate text=title maxLength=35}}
@@ -34,7 +34,7 @@
   {{#link-to
     'events.show'
     event.id
-    (query-params category=category query=query startDate=startDate stopDate=stopDate location=location)
+    (query-params category=category query=query date_start=startDate date_end=stopDate location=location)
     class='Card-learnMore Card-link hidden-xs'
   }}
     Learn more
