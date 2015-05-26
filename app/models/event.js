@@ -11,6 +11,8 @@ export default DS.Model.extend(BaseEvent, {
 
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),
+  firstInstanceSubtitle: Ember.computed.oneWay('eventInstances.firstObject.subtitle'),
+  firstInstanceTimeRange: Ember.computed.oneWay('eventInstances.firstObject.formattedHours'),
 
   uploadImage() {
     const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
