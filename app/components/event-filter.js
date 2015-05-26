@@ -7,9 +7,10 @@ export default Ember.Component.extend({
 
   actions: {
     submit() {
-      const filterParams = this.getProperties(
-        'category', 'query', 'date_start', 'date_end', 'location'
-      );
+      const filterParams = this.getProperties('category', 'query', 'location');
+
+      filterParams.date_start = this.get('startDate');
+      filterParams.date_end = this.get('stopDate');
 
       this.sendAction('updateFilter', filterParams);
     }
