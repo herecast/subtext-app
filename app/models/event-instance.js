@@ -29,7 +29,7 @@ export default DS.Model.extend(BaseEvent, {
   }.property('startsAt', 'endsAt'),
 
   timeRange: function() {
-    const startTime = this.get('startsAt').format('MMMM Do, YYYY LT');
+    const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
       return `${startTime}`;
