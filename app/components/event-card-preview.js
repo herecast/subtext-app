@@ -22,7 +22,7 @@ export default EventCard.extend({
 
   content: function() {
     return defaultValue(this.get('event.content'),
-      'An inspiring description that will movitvate people to attend.');
+      'An inspiring description that will motivate people to attend.');
   }.property('event.content'),
 
   venueName: function() {
