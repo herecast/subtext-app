@@ -52,7 +52,7 @@ export default Ember.Component.extend({
   }.property('events.[]'),
 
   eventsByTime: function() {
-    return this.buildGroup('Ha on dddd, MMMM D', function(startsAt) {
+    return this.buildGroup('ha on dddd, MMMM D', function(startsAt) {
       return parseInt(startsAt.format('H'));
     });
   }.property('events.[]'),
