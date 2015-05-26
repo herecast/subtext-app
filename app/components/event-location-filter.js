@@ -6,11 +6,13 @@ export default Ember.Component.extend({
   classNames: ['dropdown'],
   classNameBindings: ['open'],
 
+  inputValue: Ember.computed.oneWay('location'),
+
+  click() {
+    this.$('input').select();
+  },
+
   initInput: function() {
-    const location = this.get('location');
-
-    this.set('inputValue', location);
-
     this.$('input').keyup(() => {
       const value = this.get('inputValue');
 
@@ -24,15 +26,10 @@ export default Ember.Component.extend({
     this.$('input').off('keyUp');
   }.on('willDestroyElement'),
 
-  setInput(value) {
-    this.setProperties({
-      inputValue: value,
-      location: value
-    });
-  },
-
   sendSearchQuery(value) {
     const url = `/${config.API_NAMESPACE}/locations`;
+
+    this.set('location', value);
 
     ajax(url, {
       data: {query: value}
@@ -46,8 +43,17 @@ export default Ember.Component.extend({
 
   actions: {
     setLocation(location) {
-      this.setInput(location);
-      this.set('open', false);
+      this.setProperties({
+        location: location,
+        inputValue: location,
+        open: false
+      });
+
+      // This prevents the input from being selected when a user chooses a
+      // location from the dropdown menu.
+      Ember.run.later(() => {
+        this.$('input').blur();
+      }, 10);
     }
   }
 });
