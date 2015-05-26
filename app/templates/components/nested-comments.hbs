@@ -22,6 +22,7 @@
     {{#if showReplyBox}}
       {{event-comments-new
         eventInstanceId=eventInstanceId
+        parentCommentId=row.id
         comments=comments
         afterPost='afterPost'
       }}
