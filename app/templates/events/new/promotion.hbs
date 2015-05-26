@@ -1,5 +1,6 @@
 <div class='container'>
-  <h1 class='EventForm-header'>Create an Event</h1>
+  {{event-form-header isNew=model.isNew}}
+
   <div class='row'>
     <div class='EventForm-content col-md-8'>
       {{event-steps

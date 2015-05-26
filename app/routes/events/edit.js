@@ -14,7 +14,7 @@ export default Ember.Route.extend({
       this.transitionTo('events.index');
     },
 
-    afterSave() {
+    afterDetails() {
       this.transitionTo('events.edit.promotion');
     },
 

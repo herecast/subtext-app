@@ -1,5 +1,6 @@
 <div class='container'>
-  <h1 class='EventForm-header'>Create an Event</h1>
+  {{event-form-header isNew=model.isNew}}
+
   {{event-steps
     step1State='complete'
     step2State='complete'

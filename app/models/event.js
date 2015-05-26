@@ -12,11 +12,6 @@ export default DS.Model.extend(BaseEvent, {
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
-  publish() {
-    const url = `${config.API_NAMESPACE}/events/${this.get('id')}/publish`;
-    return ajax(url, {type: 'POST'});
-  },
-
   uploadImage() {
     const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
     const data = new FormData();

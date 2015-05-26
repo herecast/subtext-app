@@ -65,14 +65,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    save() {
+    next() {
       if (this.isValid()) {
-        const event = this.get('event');
-
-        event.save().then((savedEvent) => {
-          savedEvent.uploadImage();
-          this.sendAction('afterSave');
-        });
+        this.sendAction('afterDetails');
       } else {
         // TODO make it more obvious that there's an error and the user
         // needs to make corrections.
