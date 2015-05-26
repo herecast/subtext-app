@@ -32,7 +32,7 @@ export default Ember.Component.extend({
   },
 
   sendSearchQuery(value) {
-    const url = `${config.API_NAMESPACE}/locations`;
+    const url = `/${config.API_NAMESPACE}/locations`;
 
     ajax(url, {
       data: {query: value}

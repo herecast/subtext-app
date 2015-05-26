@@ -18,7 +18,7 @@ export default DS.Model.extend(BaseEvent, {
   },
 
   uploadImage() {
-    const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
+    const url = `/${config.API_NAMESPACE}/events/${this.get('id')}`;
     const data = new FormData();
 
     if (this.get('image')) {

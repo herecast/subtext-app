@@ -20,8 +20,8 @@ export default Ember.Route.extend(EventFilter, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    const commentUrl = `${config.API_NAMESPACE}/comments`;
-    const promotionUrl = `${config.API_NAMESPACE}/related_promotion`;
+    const commentUrl = `/${config.API_NAMESPACE}/comments`;
+    const promotionUrl = `/${config.API_NAMESPACE}/related_promotion`;
 
     // We have to manually get the comments because ember data cannnot handle
     // the nested data structure that is returned.
