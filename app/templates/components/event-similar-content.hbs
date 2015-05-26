@@ -6,14 +6,15 @@
         <li class='EventShowAside-item'>
           <h4 class='EventShowAside-itemHeader u-textUnderline'>
             {{#if content.eventInstanceId}}
-              {{link-to content.title 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink'}}
+              {{link-to content.title 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink SimilarContent-headerLink'}}
             {{else}}
-              <a href={{content.contentUrl}} class='EventShowAside-itemHeaderLink'>
+              <a href={{content.contentUrl}} class='EventShowAside-itemHeaderLink SimilarContent-headerLink'>
                 {{content.title}}
               </a>
             {{/if}}
           </h4>
-          <h5 class='SimilarContent-header'>{{content.author}}</h5>
+          <h5 class='SimilarContent-author'>{{content.author}}</h5> 
+          <div class='SimilarContent-date'>{{content.formattedPubdate}}</div>
           <div>{{content.snippet}}</div>
         </li>
       {{/each}}
