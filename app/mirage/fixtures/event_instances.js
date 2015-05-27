@@ -22,7 +22,7 @@ function generateEvent(id) {
     can_edit: true,
     title: titleize(faker.lorem.sentences(1)),
     subtitle: titleize(faker.lorem.sentences(1)),
-    content: faker.lorem.paragraph(5),
+    content: `<p>${faker.lorem.paragraph(5)}</p>`,
     content_id: faker.random.number(1000),
     cost_type: 'paid', // free, paid, donation
     cost: '$15-$55',
