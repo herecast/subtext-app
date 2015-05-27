@@ -24,7 +24,6 @@
     "ember-cli-app-version": "0.3.3",
     "ember-cli-babel": "^5.0.0",
     "ember-cli-dependency-checker": "0.0.8",
-    "ember-cli-divshot": "^0.1.7",
     "ember-cli-font-awesome": "0.0.9",
     "ember-cli-front-end-builds": "^0.1.0",
     "ember-cli-htmlbars": "0.7.4",
