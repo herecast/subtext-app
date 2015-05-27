@@ -10,8 +10,7 @@ function defaultValue(value, placeholder) {
 }
 
 export default EventCard.extend({
-  timeRange: Ember.computed.oneWay('event.firstInstanceTimeRange'),
-  subtitle: Ember.computed.oneWay('event.firstIntanceSubtitle'),
+  timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedHours'),
 
   title: function() {
     return defaultValue(this.get('event.title'),
