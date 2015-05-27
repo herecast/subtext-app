@@ -117,9 +117,13 @@
 
         <div class='EventShow-content'>
           <h5>Also in the Upper Valley</h5>
-          <a href='{{relatedPromotion.redirect_url}}'>
-            <img src='{{relatedPromotion.image_url}}'>
-          </a>
+          {{#if relatedPromotion.redirect_url}}
+            <a href='{{relatedPromotion.redirect_url}}'>
+              <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
+            </a>
+          {{else}}
+            <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
+          {{/if}}
         </div>
 
         {{event-comments
