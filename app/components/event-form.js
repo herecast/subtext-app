@@ -62,6 +62,7 @@ export default Ember.Component.extend({
 
     if (Ember.isBlank(image)) {
       this.set('errors.image', null);
+      delete this.get('errors').image;
       return true;
     }
 
@@ -75,6 +76,7 @@ export default Ember.Component.extend({
       this.set('errors.image', 'must be < 5MB');
     } else {
       this.set('errors.image', null);
+      delete this.get('errors').image;
     }
   },
 
