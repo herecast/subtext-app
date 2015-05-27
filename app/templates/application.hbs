@@ -14,8 +14,19 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class='collapse navbar-collapse' id='js-app-bar'>
       <ul class='nav navbar-nav navbar-right'>
-        <li>
-          <a href='#' class='navbar-link'>{{session.currentUser.name}}</a>
+        <li class='dropdown'>
+          <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='navbar-link'>
+            {{session.currentUser.name}}
+            <span class="caret"></span>
+          </a>
+
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href='/users/edit'>My Account</a></li>
+            <li><a href='/dashboard/index'>My Dashboard</a></li>
+            <li><a href='/terms'>Terms of Service</a></li>
+            <li><a href='/privacy'>Privacy Policy</a></li>
+            <li><a href='#' {{action 'signOut'}}>Sign out</a></li>
+          </ul>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
