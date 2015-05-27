@@ -3,9 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'form',
 
-  setCategoryEnabled: function() {
-    this.set('categoryEnabled', !!this.get('category'));
-  }.on('init'),
+  categoryEnabled: Ember.computed.notEmpty('event.category'),
 
   displayListservs: function() {
     if (Ember.isPresent(this.get('event.listservIds'))) {
