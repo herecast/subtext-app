@@ -5,10 +5,15 @@
 
 .EventGroup-header {
   border-bottom: 1px solid @gray-light;
+  font-size: 18px;
   font-weight: 300;
   margin: 65px 0 35px;
   padding-bottom: 16px;
   position: relative;
+
+  @media (min-width: @screen-sm-min) {
+    font-size: 36px;
+  }
 }
 
 .EventGroup-header:first-child {
