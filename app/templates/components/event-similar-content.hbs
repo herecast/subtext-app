@@ -8,14 +8,14 @@
             {{#if content.eventInstanceId}}
               {{link-to content.title 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink SimilarContent-headerLink'}}
             {{else}}
-              <a href={{content.contentUrl}} class='EventShowAside-itemHeaderLink SimilarContent-headerLink'>
+              <a href='{{content.contentUrl}}' class='EventShowAside-itemHeaderLink SimilarContent-headerLink'>
                 {{content.title}}
               </a>
             {{/if}}
           </h4>
           <h5 class='SimilarContent-author'>{{content.author}}</h5> 
           <div class='SimilarContent-date'>{{content.formattedPubdate}}</div>
-          <div>{{content.snippet}}</div>
+          {{x-truncate text=content.content maxLength=90}}
         </li>
       {{/each}}
     </ul>

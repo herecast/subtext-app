@@ -5,7 +5,7 @@ export default DS.Model.extend({
   author: DS.attr('string'),
   contentUrl: DS.attr('string'),
   eventInstanceId: DS.attr('number'),
-  snippet: DS.attr('string'),
+  content: DS.attr('string'),
   title: DS.attr('string'),
   pubdate: DS.attr('date'),
 
