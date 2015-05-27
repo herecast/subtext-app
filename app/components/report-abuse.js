@@ -38,7 +38,7 @@ export default Ember.Component.extend({
 
         ajax(url, {
           type: 'POST',
-          data: JSON.stringify({ flag_type: flagType })
+          data: {flag_type: flagType}
         }).then(() => {
           this.set('showSuccess', true);
           this.send('close');
