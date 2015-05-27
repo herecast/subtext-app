@@ -3,6 +3,8 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 
 export default Ember.Component.extend({
+  session: Ember.inject.service('session'),
+
   classNames: ['ReportAbuse'],
 
   showAbuseReportMenu: false,

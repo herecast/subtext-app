@@ -3,10 +3,17 @@
     Thank you for reporting this event. We will review it shortly.
   </div>
 {{else}}
-  <button class='ReportAbuse-button btn btn-default btn-link' {{action 'reportAbuse'}}>
-    <i class="glyphicon glyphicon-flag"></i>
-    Report Abuse
-  </button>
+  {{#if session.currentUser}}
+    <button class='ReportAbuse-button btn btn-default btn-link' {{action 'reportAbuse'}}>
+      <i class="glyphicon glyphicon-flag"></i>
+      Report Abuse
+    </button>
+  {{else}}
+    <a class='ReportAbuse-button btn btn-default btn-link' href='/users/sign_in'>
+      <i class="glyphicon glyphicon-flag"></i>
+      Report Abuse
+    </a>
+  {{/if}}
 
   {{#if showAbuseReportMenu}}
     <div class='popover bottom in ReportAbuse-popover'>
