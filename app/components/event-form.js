@@ -57,10 +57,32 @@ export default Ember.Component.extend({
     }
   },
 
+  validateImage() {
+    const image = this.get('event.image');
+
+    if (Ember.isBlank(image)) {
+      this.set('errors.image', null);
+      return true;
+    }
+
+    const isJPG = image.type === 'image/jpeg';
+    const isPNG = image.type === 'image/png';
+    const maxSize = 5242880; // 5MB
+
+    if (!isJPG && !isPNG) {
+      this.set('errors.image', 'must be a jpg or png');
+    } else if (image.size > maxSize) {
+      this.set('errors.image', 'must be < 5MB');
+    } else {
+      this.set('errors.image', null);
+    }
+  },
+
   isValid() {
     this.validateTitle();
     this.validateContent();
     this.validateVenue();
+    this.validateImage();
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
