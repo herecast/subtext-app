@@ -3,7 +3,13 @@ import moment from 'moment';
 
 export default DS.DateTransform.extend({
   deserialize: function(serialized) {
-    return moment(this._super(serialized));
+    // Sometimes the date will be null and we don't want to try to convert
+    // it to a date.
+    if (serialized) {
+      return moment(this._super(serialized));
+    } else {
+      return serialized;
+    }
   },
 
   serialize: function(deserialized) {
