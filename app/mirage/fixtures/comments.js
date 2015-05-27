@@ -3,18 +3,18 @@ import moment from 'moment';
 function generateComment(id) {
   return {
     id: id,
-    content: faker.lorem.paragraph(1),
+    content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
     user_name: faker.name.findName(),
     posted_at: moment(faker.date.recent(10)).toISOString(),
     comments: [{
       id: faker.random.number(100),
       user_name: faker.name.findName(),
-      content: faker.lorem.paragraph(1),
+      content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
       posted_at: moment(faker.date.recent(10)).toISOString(),
       comments: [{
         id: faker.random.number(100),
         user_name: faker.name.findName(),
-        content: faker.lorem.paragraph(1),
+        content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
         posted_at: moment(faker.date.recent(10)).toISOString()
       }]
     }]
