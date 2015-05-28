@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import moment from 'moment';
 
+const dateFormat = 'YYYY-MM-DD';
+
 export default Ember.Mixin.create({
+  session: Ember.inject.service('session'),
+
   queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r'],
 
   startDate: Ember.computed.alias('date_start'),
@@ -9,12 +13,38 @@ export default Ember.Mixin.create({
 
   category: 'Everything',
   query: null,
-  location: 'Upper Valley',
+
+  location: function() {
+    const location = this.get('session.currentUser.location');
+
+    if (Ember.isPresent(location)) {
+      return location;
+    } else {
+      return 'Upper Valley';
+    }
+  }.property('session.currentUser.location'),
 
   // Change this value in the query params to force a refresh.
   r: false,
 
-  // Default to this week
-  date_start: moment().startOf('week').format('YYYY-MM-DD'),
-  date_end: moment().endOf('week').format('YYYY-MM-DD')
+  date_start: function() {
+    const currentUser = this.get('session.currentUser');
+
+    if (currentUser) {
+      return moment().startOf('week').format(dateFormat);
+    } else {
+      return moment().format(dateFormat);
+    }
+  }.property('session.currentUser'),
+
+  date_end: function() {
+    const currentUser = this.get('session.currentUser');
+
+    if (currentUser) {
+      return moment().endOf('week').format(dateFormat);
+    } else {
+      return moment().format(dateFormat);
+    }
+
+  }.property('session.currentUser'),
 });
