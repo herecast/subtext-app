@@ -24,7 +24,7 @@ export default DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     // Remove embedded event instance attributes that should not be sent to the API
     json.event_instances = json.event_instances.map((instance) => {
       return Ember.Object.create(instance).getProperties(
-        'subtitle', 'starts_at', 'ends_at'
+        'id', 'subtitle', 'starts_at', 'ends_at'
       );
     });
 

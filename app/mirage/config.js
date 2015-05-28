@@ -143,6 +143,8 @@ export default function() {
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
 
+    data.event_instances = db.event_instances.slice(0,3);
+
     return {
       event: data
     };
