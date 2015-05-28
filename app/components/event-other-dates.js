@@ -1,15 +1,25 @@
 import Ember from 'ember';
 
+const initialCount = 3;
+
 export default Ember.Component.extend({
   showAll: false,
 
   eventInstances: function() {
     const instance = this.get('instance');
 
-    return instance.get('eventInstances').filter((item) => {
-      return instance.get('id') !== item.get('id');
-    });
+    if (instance) {
+      return instance.get('eventInstances').filter((item) => {
+        return instance.get('id') !== item.get('id');
+      });
+    } else {
+      return [];
+    }
   }.property('instance.eventInstances.[]'),
+
+  hasMore: function() {
+    return this.get('eventInstances.length') > initialCount;
+  }.property('eventInstances.[]'),
 
   instancesToDisplay: function() {
     const allContent = this.get('eventInstances');
@@ -17,7 +27,7 @@ export default Ember.Component.extend({
     if (this.get('showAll')) {
       return allContent;
     } else {
-      return allContent.slice(0,3);
+      return allContent.slice(0, initialCount);
     }
   }.property('eventInstances.[]', 'showAll'),
 

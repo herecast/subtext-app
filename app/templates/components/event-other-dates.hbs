@@ -1,4 +1,4 @@
-{{#if instance.eventInstances}}
+{{#if eventInstances}}
   <div class='EventShowAside-otherDates pull-right'>
     <h5 class='EventShowAside-header'>Other Dates</h5>
     <ul>
@@ -15,12 +15,14 @@
       {{/each}}
     </ul>
 
-    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
-      {{#if showAll}}
-        View less {{fa-icon 'caret-up'}}
-      {{else}}
-        View more {{fa-icon 'caret-down'}}
-      {{/if}}
-    </button>
+    {{#if hasMore}}
+      <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
+        {{#if showAll}}
+          View less {{fa-icon 'caret-up'}}
+        {{else}}
+          View more {{fa-icon 'caret-down'}}
+        {{/if}}
+      </button>
+    {{/if}}
   </div>
 {{/if}}
