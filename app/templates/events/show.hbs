@@ -27,7 +27,7 @@
           {{report-abuse eventId=model.eventId}}
 
           {{#if model.canEdit}}
-            {{#link-to 'events.edit' model.id class='EventShowAside-button btn btn-link'}}
+            {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link'}}
               Edit this event
             {{/link-to}}
           {{/if}}
