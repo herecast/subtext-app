@@ -17,7 +17,7 @@ export default Ember.Component.extend({
   setupCalendars: function() {
     new Pikaday({
       field: this.$('#custom-start-date input')[0],
-      firstDay: 1,
+      firstDay: 0,
       minDate: new Date(),
       maxDate: new Date('2020-12-31'),
       yearRange: [2015, 2020],
@@ -32,7 +32,7 @@ export default Ember.Component.extend({
 
     new Pikaday({
       field: this.$('#custom-end-date input')[0],
-      firstDay: 1,
+      firstDay: 0,
       minDate: new Date(),
       maxDate: new Date('2020-12-31'),
       yearRange: [2015, 2020],
