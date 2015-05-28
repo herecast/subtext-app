@@ -137,7 +137,11 @@
               {{/if}}
             </a>
           {{else}}
-            <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
+            {{#if relatedPromotion.image_url}}
+              <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
+            {{else}}
+              <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
+            {{/if}}
           {{/if}}
         </div>
 
