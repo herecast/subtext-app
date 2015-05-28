@@ -5,7 +5,9 @@
       <div class='PhotoBanner-content container'>
         <div class='row'>
           <div class='col-sm-4'>
-            {{background-image imageUrl=model.safeImageUrl class='EventHeader-thumbnail'}}          
+            {{#if model.imageUrl}}
+              {{background-image imageUrl=model.imageUrl class='EventHeader-thumbnail'}}   
+            {{/if}}       
           </div>
           <div class='col-sm-8 EventHeader-content'>
             {{#link-to 'events' class='EventHeader-link'}}
@@ -126,7 +128,11 @@
           <h5>Also in the Upper Valley</h5>
           {{#if relatedPromotion.redirect_url}}
             <a href='{{relatedPromotion.redirect_url}}'>
-              <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
+              {{#if relatedPromotion.image_url}}
+                <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
+              {{else}}
+                <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
+              {{/if}}
             </a>
           {{else}}
             <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>

@@ -25,8 +25,7 @@ function generateEvent(id) {
     venue_url: `http://${faker.internet.domainName()}`,
     venue_latitude: faker.address.latitude(),
     venue_longitude: faker.address.longitude(),
-    venue_locate_name: titleize(faker.lorem.sentences(1)),
-    image_url: 'http://placehold.it/800x600'
+    venue_locate_name: titleize(faker.lorem.sentences(1))
   };
 }
 
