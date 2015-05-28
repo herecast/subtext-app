@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  isSaving: false,
+
   editLink: function() {
     if (this.get('model.isNew')) {
       return 'events.new.promotion';
@@ -10,10 +12,16 @@ export default Ember.Component.extend({
   }.property('model.isNew'),
 
   actions: {
-    save() {
-      const event = this.get('model');
+    save(callback) {
+      this.set('isSaving', true);
 
-      event.save().then((savedEvent) => {
+      const event = this.get('model');
+      const promise = event.save();
+
+      callback(promise);
+
+      promise.then((savedEvent) => {
+        this.set('isSaving', false);
         savedEvent.uploadImage();
         this.sendAction('afterPublish');
       });
