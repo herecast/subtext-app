@@ -1,27 +1,25 @@
-{{#if event.imageUrl}}
+<div class='Card-topContent'>
+  {{#if event.imageUrl}}
   <img src='{{event.imageUrl}}' class='img-responsive Card-image'>
-{{/if}}
+  {{/if}}
 
-<div class='Card-time'>{{timeRange}}</div>
+  <div class='Card-time'>{{timeRange}}</div>
 
-{{#if isPreview}}
-  <a class='Card-title'>
-    {{x-truncate text=title maxLength=35}}
-  </a>
-{{else}}
-  {{#link-to
-    'events.show'
-    event.id
-    (query-params category=category query=query date_start=startDate date_end=stopDate location=location)
-    class='Card-title'
-  }}
-    {{x-truncate text=title maxLength=35}}
-  {{/link-to}}
-{{/if}}
-
-<div class='Card-content hidden-xs'>
-  {{x-truncate text=content maxLength=90}}
+  {{#if isPreview}}
+    <a class='Card-title'>{{x-truncate text=title maxLength=45}}</a>
+  {{else}}
+    {{#link-to
+      'events.show'
+      event.id
+      (query-params category=category query=query date_start=startDate date_end=stopDate location=location)
+      class='Card-title'
+    }}
+      {{x-truncate text=title maxLength=45}}
+    {{/link-to}}
+  {{/if}}
 </div>
+
+{{gradient-truncation stripHtml=true text=content classNames='Card-content hidden-xs'}}
 
 {{#if isPreview}}
   <a class='Card-learnMore Card-link'>
