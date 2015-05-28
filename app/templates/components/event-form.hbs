@@ -102,8 +102,10 @@
     {{fa-icon 'arrow-right u-iconRight'}}
   </button>
 
-  <button class='EventForm-buttonLink EventForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-    Discard Event 
-    {{fa-icon 'trash u-iconRight'}}
-  </button>
+  {{#if event.isNew}}
+    <button class='EventForm-buttonLink EventForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
+      Discard Event 
+      {{fa-icon 'trash u-iconRight'}}
+    </button>
+  {{/if}}
 </div>
