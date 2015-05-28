@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('report-abuse', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  needs: ['component:sign-in-link']
 });
 
 test('it renders', function(assert) {

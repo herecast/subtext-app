@@ -9,10 +9,10 @@
       Report Abuse
     </button>
   {{else}}
-    <a class='ReportAbuse-button btn btn-default btn-link' href='/users/sign_in'>
+    {{#sign-in-link class='ReportAbuse-button btn btn-default btn-link'}}
       <i class="glyphicon glyphicon-flag"></i>
       Report Abuse
-    </a>
+    {{/sign-in-link}}
   {{/if}}
 
   {{#if showAbuseReportMenu}}

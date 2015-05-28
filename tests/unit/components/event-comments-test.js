@@ -5,7 +5,8 @@ import {
 
 moduleForComponent('event-comments', {
   // Specify the other units that are required for this test
-  needs: ['component:event-comments-new', 'component:nested-comments']
+  needs: ['component:event-comments-new', 'component:nested-comments',
+    'component:sign-in-link']
 });
 
 test('it renders', function(assert) {
