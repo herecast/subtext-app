@@ -31,7 +31,7 @@ export default Ember.Mixin.create({
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
-      return moment().startOf('week').format(dateFormat);
+      return moment().startOf('month').format(dateFormat);
     } else {
       return moment().format(dateFormat);
     }
@@ -41,7 +41,7 @@ export default Ember.Mixin.create({
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
-      return moment().endOf('week').format(dateFormat);
+      return moment().endOf('month').format(dateFormat);
     } else {
       return moment().format(dateFormat);
     }
