@@ -9,7 +9,7 @@
 <ul class='dropdown-menu' role='menu'>
   {{#each category in categoryOptions}}
     <li>
-      <a href='#' {{action 'setCategory' category.value}}>
+      <a href='#' {{action 'setCategory' category.value}} tabindex='-1'>
         {{category.label}}
       </a>
     </li>

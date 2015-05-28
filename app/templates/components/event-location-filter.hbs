@@ -6,8 +6,8 @@
 
 <ul class='dropdown-menu' role='menu'>
   {{#each place in places}}
-    <li><a href='#' {{action 'setLocation' place}}>{{place}}</a></li>
+    <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
   {{else}}
-    <li class='disabled'><a>No Results</a></li>
+    <li class='disabled'><a tabindex='-1'>No Results</a></li>
   {{/each}}
 </ul>
