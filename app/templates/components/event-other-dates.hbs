@@ -1,0 +1,26 @@
+{{#if instance.eventInstances}}
+  <div class='EventShowAside-otherDates pull-right'>
+    <h5 class='EventShowAside-header'>Other Dates</h5>
+    <ul>
+      {{#each instance in instancesToDisplay}}
+        <li class='EventInfo EventShowAside-item'>
+          <h4 class='EventShowAside-itemHeader u-textUnderline'>
+            {{#link-to 'events.show' instance.id class='EventShowAside-itemHeaderLink'}}
+              {{instance.formattedDate}}<br>
+              {{instance.formattedHours}}
+            {{/link-to}}
+          </h4>
+          <div>{{instance.subtitle}}</div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
+      {{#if showAll}}
+        View less {{fa-icon 'caret-up'}}
+      {{else}}
+        View more {{fa-icon 'caret-down'}}
+      {{/if}}
+    </button>
+  </div>
+{{/if}}

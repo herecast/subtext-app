@@ -55,7 +55,7 @@ function generateInstance(id) {
 function allInstances() {
   const events = [];
 
-  for (let i = 1; i < 4; i += 1) {
+  for (let i = 1; i < 10; i += 1) {
     events.push(generateInstance(i));
   }
 
