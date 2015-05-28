@@ -11,11 +11,14 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   initInput: function() {
-    this.$('input').keyup(() => {
+    this.$('input').keyup((e) => {
       const value = this.get('inputValue');
 
-      if (Ember.isPresent(value) && value.length > 2) {
-        Ember.run.debounce(this, this.sendSearchQuery, value, 300);
+      // Don't initiate a search if someone is tabbing through filters
+      if (e.keyCode !== 9) {
+        if (Ember.isPresent(value) && value.length > 2) {
+          Ember.run.debounce(this, this.sendSearchQuery, value, 300);
+        }
       }
     });
   }.on('didInsertElement'),
