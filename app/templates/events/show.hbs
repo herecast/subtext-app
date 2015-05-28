@@ -93,9 +93,11 @@
                       </a>
                     </div>
                     <div class='u-textTruncate'>{{model.contactPhone}}</div>
-                    <a {{bind-attr href=model.eventUrl}} class='u-textTruncate'>
-                      {{model.eventUrl}}
-                    </a>
+                    <div class='u-textTruncate'>
+                      <a {{bind-attr href=model.eventUrl}} >
+                        {{model.eventUrl}}
+                      </a>
+                    </div>
                   </div>
                 </div>
               {{/if}}
