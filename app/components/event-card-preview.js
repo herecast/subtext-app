@@ -10,6 +10,16 @@ function defaultValue(value, placeholder) {
 }
 
 export default EventCard.extend({
+
+  initScrollPositioning: function() {
+    const cardPreview = Ember.$('.EventCardPreview-content');
+    cardPreview.affix({
+      offset: {
+        top: cardPreview.offset().top - 20
+      }
+    });
+  }.on('didInsertElement'),
+
   timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedHours'),
 
   title: function() {
