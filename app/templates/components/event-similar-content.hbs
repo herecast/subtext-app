@@ -4,12 +4,14 @@
     <ul>
       {{#each content in contentToDisplay}}
         <li class='EventShowAside-item'>
-          <h4 class='EventShowAside-itemHeader u-textUnderline'>
+          <h4 class='EventShowAside-itemHeader'>
             {{#if content.eventInstanceId}}
-              {{link-to content.title 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink SimilarContent-headerLink'}}
+              {{#link-to 'events.show' content.eventInstanceId class='EventShowAside-itemHeaderLink SimilarContent-headerLink'}}
+                 {{x-truncate text=content.title maxLength=60}}
+              {{/link-to}}
             {{else}}
               <a href='{{content.contentUrl}}' class='EventShowAside-itemHeaderLink SimilarContent-headerLink'>
-                {{content.title}}
+                {{x-truncate text=content.title maxLength=60}}
               </a>
             {{/if}}
           </h4>
