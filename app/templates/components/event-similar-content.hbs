@@ -21,7 +21,11 @@
     </ul>
 
     <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
-      View more {{fa-icon 'caret-down'}}
+      {{#if showAll}}
+        View less {{fa-icon 'caret-up'}}
+      {{else}}
+        View more {{fa-icon 'caret-down'}}
+      {{/if}}
     </button>
   </div>
 {{/if}}
