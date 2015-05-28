@@ -4,17 +4,20 @@ import moment from 'moment';
 export default Ember.Component.extend({
   session: Ember.inject.service('session'),
 
-  isDisabled: Ember.computed.empty('newComment'),
-
   actions: {
-    postComment(content) {
+    postComment(callback) {
+      const content = this.get('newComment');
       const comment = this.store.createRecord('comment', {
         eventInstanceId: this.get('eventInstanceId'),
         parentCommentId: this.get('parentCommentId'),
         content: content
       });
 
-      comment.save().then((comment) => {
+      const promise = comment.save();
+
+      callback(promise);
+
+      promise.then((comment) => {
         const nestedComment = Ember.Object.create({
           id: comment.get('id'),
           posted_at: moment().toISOString(),

@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-comments-new', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  needs: ['component:async-button']
 });
 
 test('it renders', function(assert) {

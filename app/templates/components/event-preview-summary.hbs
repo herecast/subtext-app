@@ -49,9 +49,13 @@
     </div>
   </div>
   <div class='col-sm-3'>
-    <button class='Button Button--primary btn-lg btn-primary pull-right' {{action 'save'}}>
-      Save &amp; Publish
-      {{fa-icon 'check u-iconRight'}}
-    </button>
+    {{#async-button action='save' class='Button Button--primary btn-lg btn-primary pull-right'}}
+      {{#if isSaving}}
+        Please Wait&hellip;
+      {{else}}
+        Save &amp; Publish
+        {{fa-icon 'check u-iconRight'}}
+      {{/if}}
+    {{/async-button}}
   </div>
 </div>
