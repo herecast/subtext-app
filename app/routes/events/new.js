@@ -3,7 +3,9 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 
 export default Ember.Route.extend(Scroll, {
   model() {
-    return this.store.createRecord('event');
+    return this.store.createRecord('event', {
+      listservIds: []
+    });
   },
 
   redirect() {
