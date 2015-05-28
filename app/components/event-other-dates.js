@@ -6,9 +6,13 @@ export default Ember.Component.extend({
   eventInstances: function() {
     const instance = this.get('instance');
 
-    return instance.get('eventInstances').filter((item) => {
-      return instance.get('id') !== item.get('id');
-    });
+    if (instance) {
+      return instance.get('eventInstances').filter((item) => {
+        return instance.get('id') !== item.get('id');
+      });
+    } else {
+      return [];
+    }
   }.property('instance.eventInstances.[]'),
 
   instancesToDisplay: function() {
