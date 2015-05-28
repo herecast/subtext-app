@@ -18,17 +18,11 @@
       }}
     </div>
     
-    <div class='EventCardPreview col-md-4'>
-      <div class='EventCardPreview-content'>
-        <h4 class='EventCardPreview-header'>Live Preview</h4>
-        <p class='EventCardPreview-subtitle'>
-          This is what your Event Listing Summary will look like!
-        </p>
-
-        {{event-card-preview
-          event=model
-        }}
-      </div>
-    </div>
+    {{event-card-preview
+      event=model
+      isPreview=true
+      classNames='EventCardPreivew col-md-4'
+    }}
+    
   </div>
 </div>

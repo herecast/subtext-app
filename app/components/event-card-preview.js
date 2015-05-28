@@ -10,6 +10,7 @@ function defaultValue(value, placeholder) {
 }
 
 export default EventCard.extend({
+  classNames: ['EventCardPreview'],
 
   initScrollPositioning: function() {
     const cardPreview = Ember.$('.EventCardPreview-content');

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['Card'],
   isPreview: false,
 
   title: Ember.computed.oneWay('event.title'),
