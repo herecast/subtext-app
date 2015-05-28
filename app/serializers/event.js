@@ -17,8 +17,8 @@ export default DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.city = json.venue_city;
       json.venue.name = json.venue_name;
       json.venue.state = json.venue_state;
-      json.venue.url = json.venue_url;
-      json.venue.zipcode = json.venue_zipcode;
+      json.venue.venue_url = json.venue_url;
+      json.venue.zip = json.venue_zipcode;
     }
 
     // Remove embedded event instance attributes that should not be sent to the API
