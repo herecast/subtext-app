@@ -13,7 +13,7 @@ module.exports = {
     "index": {
       "app": "events",
       "endpoints": [
-        "http://qa-demo.subtext.org"
+        "http://stage-consumer.subtext.org"
         // "http://localhost:3000" // Uncomment for local dev testing
       ]
     }
