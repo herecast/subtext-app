@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
     if (Ember.isPresent(location)) {
       return location;
     } else {
-      return 'Upper Valley';
+      return 'All Communities';
     }
   }.property('session.currentUser.location'),
 
