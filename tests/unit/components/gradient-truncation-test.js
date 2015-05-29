@@ -3,10 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-card-preview', {
+moduleForComponent('gradient-truncation', {
   // Specify the other units that are required for this test
-  needs: ['component:x-truncate', 'helper:fa-icon',
-    'template:components/event-card', 'component:gradient-truncation']
+  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {
