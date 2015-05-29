@@ -4,7 +4,10 @@ import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Ember.Component.extend(ManualDropdown, {
+  session: Ember.inject.service('session'),
+  userLocation: Ember.computed.oneWay('session.currentUser.location'),
   inputValue: Ember.computed.oneWay('location'),
+  isSearching: false,
 
   click() {
     this.$('input').select();
@@ -17,6 +20,7 @@ export default Ember.Component.extend(ManualDropdown, {
       // Don't initiate a search if someone is tabbing through filters
       if (e.keyCode !== 9) {
         if (Ember.isPresent(value) && value.length > 2) {
+          this.set('isSearching', true);
           Ember.run.debounce(this, this.sendSearchQuery, value, 300);
         }
       }
@@ -37,7 +41,8 @@ export default Ember.Component.extend(ManualDropdown, {
     }).then((response) => {
       this.setProperties({
         places: response.locations,
-        open: true
+        open: true,
+        isSearching: false
       });
     });
   },
