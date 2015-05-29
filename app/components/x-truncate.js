@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['Truncate'],
 
   truncatedText: function() {
     const text = this.get('text');
