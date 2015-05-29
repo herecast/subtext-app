@@ -26,8 +26,10 @@
     <div class='row'>
       <aside class='EventShowAside col-sm-4'>
         <div>
-          {{report-abuse eventId=model.eventId}}
-
+          {{#unless model.isNew}}
+            {{report-abuse eventId=model.eventId}}
+          {{/unless}}
+          
           {{#if model.canEdit}}
             {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link'}}
               Edit this event
@@ -134,6 +136,7 @@
           eventInstanceId=model.id
           comments=comments
           class='EventShow-content'
+          commentingDisabled=model.isNew
         }}
       </div>
     </div>

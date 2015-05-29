@@ -7,10 +7,16 @@
 </div>
 
 <div class='form-group'>
-  {{async-button
-    action='postComment'
-    default='Add Comment'
-    pending='Saving…'
-    class='Button btn btn-default'
-  }}
+  {{#if disabled}}
+    <button disabled class='Button btn btn-default'>
+        Add Comment
+    </button>
+  {{else}}
+    {{async-button
+      action='postComment'
+      default='Add Comment'
+      pending='Saving…'
+      class='Button btn btn-default'
+    }}
+  {{/if}}
 </div>
