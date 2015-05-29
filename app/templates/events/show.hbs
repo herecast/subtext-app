@@ -66,12 +66,12 @@
                     Location
                   {{/if}}
                 </h4>
-              <div class='u-textTruncate'>{{model.venueAddress}}</div>
-              <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
+                <div class='u-textTruncate'>{{model.venueAddress}}</div>
+                <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
               </div>
-
             </div>
           {{/if}}
+
           {{#if model.hasContactInfo}}
             <div class='EventInfo col-sm-4'>
               {{fa-icon 'user EventInfo-icon EventInfo-contactIcon'}}
@@ -91,8 +91,9 @@
               </div>
             </div>
           {{/if}}
+
           {{#if model.costType}}
-            <div class='EventInfo EventInfo--wide col-sm-3'>
+            <div class='EventInfo col-sm-3'>
               {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon'}}
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
