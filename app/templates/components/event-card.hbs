@@ -47,21 +47,19 @@
 </div>
 
 <div class='Card-bottomRow row'>
-  <div class='Card-directions col-sm-5'>
+  <div class='Card-directions col-sm-4'>
     <a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
       {{fa-icon 'map-marker'}}
-      Get directions
+      Directions
     </a>
   </div>
-  <div class='col-sm-7'>
-    <div class='Card-cost hidden-xs'>
-      <span class='Card-costLabel'>Cost</span>
-      <span class='Card-costType'>{{costType}}</span>
-      {{x-truncate
-        text=event.cost
-        maxLength=20
-        class='Card-costValue'
-      }}
-    </div>
+  <div class='Card-cost col-sm-8 hidden-xs'>
+    <span class='Card-costLabel'>Cost</span>
+    <span class='Card-costType'>{{costType}}</span>
+    {{x-truncate
+      text=event.cost
+      maxLength=25
+      class='Card-costValue Truncate--singleLine'
+    }}
   </div>
 </div>
