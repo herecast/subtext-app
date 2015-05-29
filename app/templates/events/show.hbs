@@ -25,6 +25,12 @@
   <main class='container'>
     <div class='row'>
       <aside class='EventShowAside col-sm-4'>
+        {{event-map
+          latitude=model.venueLatitude
+          longitude=model.venueLongitude
+          title=model.venueLocateName
+          directionsUrl=model.directionsUrl
+        }}
         <div>
           {{#unless model.isNew}}
             {{report-abuse eventId=model.eventId}}
@@ -49,64 +55,54 @@
       </aside>
 
       <div class='col-sm-8'>
-        <div class='row'>
-          <div class='col-sm-9 EventShow-info'>
-            <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
-            <div class='row'>
-              {{#if model.hasLocationInfo}}
-                <div class='EventInfo col-sm-5'>
-                  {{fa-icon 'map-marker EventInfo-icon'}}
-                  <div class='EventInfo-content'>
-                    <h4 class='EventInfo-header'>
-                      {{#if model.venueName}}
-                        {{model.venueName}}
-                      {{else}}
-                        Location
-                      {{/if}}
-                    </h4>
-                  <div class='u-textTruncate'>{{model.venueAddress}}</div>
-                  <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
-                  </div>
-
-                </div>
-              {{/if}}
-              {{#if model.hasContactInfo}}
-                <div class='EventInfo col-sm-5'>
-                  {{fa-icon 'user EventInfo-icon EventInfo-contactIcon'}}
-                  <div class='EventInfo-content'>
-                    <h4 class='EventInfo-header'>Event Contact</h4>
-                    <div class='u-textTruncate'>
-                      <a href="mailto:{{model.contactEmail}}">
-                        {{model.contactEmail}}
-                      </a>
-                    </div>
-                    <div class='u-textTruncate'>{{model.contactPhone}}</div>
-                    <div class='u-textTruncate'>
-                      <a {{bind-attr href=model.eventUrl}} >
-                        {{model.eventUrl}}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              {{/if}}
-              {{#if model.costType}}
-                <div class='EventInfo EventInfo--wide col-sm-2'>
-                  {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon'}}
-                  <div class='EventInfo-content'>
-                    <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
-                    <div class='u-textTruncate'>{{model.cost}}</div>
-                  </div>
-                </div>
-              {{/if}}
+        <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
+        <div class='EventShow-info row'>
+          {{#if model.hasLocationInfo}}
+            <div class='EventInfo col-sm-4'>
+              {{fa-icon 'map-marker EventInfo-icon'}}
+              <div class='EventInfo-content'>
+                <h4 class='EventInfo-header'>
+                  {{#if model.venueName}}
+                    {{model.venueName}}
+                  {{else}}
+                    Location
+                  {{/if}}
+                </h4>
+                <div class='u-textTruncate'>{{model.venueAddress}}</div>
+                <div class='u-textTruncate'>{{model.venueCity}}, {{model.venueState}} {{model.venueZipcode}}</div>
+              </div>
             </div>
-          </div>
-          {{event-map
-            latitude=model.venueLatitude
-            longitude=model.venueLongitude
-            title=model.venueLocateName
-            directionsUrl=model.directionsUrl
-            class='col-sm-3'
-          }}
+          {{/if}}
+
+          {{#if model.hasContactInfo}}
+            <div class='EventInfo col-sm-4'>
+              {{fa-icon 'user EventInfo-icon EventInfo-contactIcon'}}
+              <div class='EventInfo-content'>
+                <h4 class='EventInfo-header'>Event Contact</h4>
+                <div class='u-textTruncate'>
+                  <a href="mailto:{{model.contactEmail}}">
+                    {{model.contactEmail}}
+                  </a>
+                </div>
+                <div class='u-textTruncate'>{{model.contactPhone}}</div>
+                <div class='u-textTruncate'>
+                  <a {{bind-attr href=model.eventUrl}} >
+                    {{model.eventUrl}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if model.costType}}
+            <div class='EventInfo col-sm-3'>
+              {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon'}}
+              <div class='EventInfo-content'>
+                <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
+                <div class='u-textTruncate'>{{model.cost}}</div>
+              </div>
+            </div>
+          {{/if}}
         </div>
 
         <div class='EventShow-content'>
