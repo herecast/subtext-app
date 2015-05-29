@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
     if (Ember.isPresent(this.get('imageUrl'))) {
       return this.get('imageUrl');
     } else {
-      return 'http://placehold.it/800x600&text=+';
+      return '//placehold.it/800x600&text=+';
     }
   }.property('imageUrl'),
 
