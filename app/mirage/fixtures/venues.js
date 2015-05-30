@@ -12,7 +12,7 @@ function generateVenue(id) {
     city: faker.address.city(),
     state: 'VT',
     url: `http://${faker.internet.domainName()}`,
-    zipcode: faker.address.zipCode()
+    zip: faker.address.zipCode()
   };
 }
 

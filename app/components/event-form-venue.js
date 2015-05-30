@@ -24,7 +24,7 @@ export default Ember.Component.extend({
         venueAddress: venue.address,
         venueCity: venue.city,
         venueState: venue.state,
-        venueZipcode: venue.zipcode,
+        venueZipcode: venue.zip,
         venueUrl: venue.url,
         open: false
       });
