@@ -1,35 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
+import Dates from '../lib/dates';
 
 const dateFormat = 'YYYY-MM-DD';
-
-function today() {
-  return moment().format(dateFormat);
-}
-
-function startOfWeek() {
-  return moment().startOf('week').format(dateFormat);
-}
-
-function endOfWeek() {
-  return moment().endOf('week').format(dateFormat);
-}
-
-function startOfWeekend() {
-  return moment().endOf('week').format(dateFormat);
-}
-
-function endOfWeekend() {
-  return moment().endOf('week').add(1, 'day').format(dateFormat);
-}
-
-function startOfMonth() {
-  return moment().startOf('month').format(dateFormat);
-}
-
-function endOfMonth() {
-  return moment().endOf('month').format(dateFormat);
-}
 
 export default Ember.Component.extend({
   classNames: ['dropdown'],
@@ -40,13 +13,13 @@ export default Ember.Component.extend({
     const start = this.get('startDate');
     const stop = this.get('stopDate');
 
-    if (start === today() && stop === today()) {
+    if (start === Dates.today() && stop === Dates.today()) {
       return 'Today';
-    } else if (start === startOfWeek() && stop === endOfWeek()) {
+    } else if (start === Dates.startOfWeek() && stop === Dates.endOfWeek()) {
       return 'This Week';
-    } else if (start === startOfWeekend() && stop === endOfWeekend()) {
+    } else if (start === Dates.startOfWeekend() && stop === Dates.endOfWeekend()) {
       return 'This Weekend';
-    } else if (start === startOfMonth() && stop === endOfMonth()) {
+    } else if (start === Dates.startOfMonth() && stop === Dates.endOfMonth()) {
       return 'This Month';
     } else if (Ember.isPresent(start) && Ember.isPresent(stop)) {
       if (start === stop) {
@@ -62,17 +35,17 @@ export default Ember.Component.extend({
       let startDate, stopDate;
 
       if (period === 'today') {
-        startDate = today();
-        stopDate = today();
+        startDate = Dates.today();
+        stopDate = Dates.today();
       } else if (period === 'week') {
-        startDate = startOfWeek();
-        stopDate = endOfWeek();
+        startDate = Dates.startOfWeek();
+        stopDate = Dates.endOfWeek();
       } else if (period === 'weekend') {
-        startDate = startOfWeekend();
-        stopDate = endOfWeekend();
+        startDate = Dates.startOfWeekend();
+        stopDate = Dates.endOfWeekend();
       } else if (period === 'month') {
-        startDate = startOfMonth();
-        stopDate = endOfMonth();
+        startDate = Dates.startOfMonth();
+        stopDate = Dates.endOfMonth();
       }
 
       this.setProperties({
