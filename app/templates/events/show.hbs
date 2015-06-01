@@ -32,16 +32,14 @@
     <div class='row'>
       <aside class='EventShowAside col-sm-4'>
         {{event-map
-          latitude=model.venueLatitude
-          longitude=model.venueLongitude
-          title=model.venueLocateName
-          directionsUrl=model.directionsUrl
+          locateName=model.venueLocateName
+          fullAddress=model.fullAddress
         }}
         <div>
           {{#unless model.isNew}}
             {{report-abuse eventId=model.eventId}}
           {{/unless}}
-          
+
           {{#if model.canEdit}}
             {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link'}}
               Edit this event

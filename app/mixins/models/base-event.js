@@ -50,7 +50,7 @@ export default Ember.Mixin.create({
       Ember.isPresent(this.get('eventUrl'));
   }.property('contactEmail', 'contactPhone', 'eventUrl'),
 
-  directionsUrl: function() {
+  fullAddress: function() {
     let addr = this.get('venueAddress');
     let city = this.get('venueCity');
     const state = this.get('venueState');
@@ -59,9 +59,13 @@ export default Ember.Mixin.create({
       addr = addr.split(' ').join('+');
       city = city.split(' ').join('+');
 
-      return `https://www.google.com/maps/dir//${addr},${city},${state}`;
+      return `${addr},${city},${state}`;
     } else {
-      return 'https://www.google.com/maps/dir///';
+      return '';
     }
-  }.property('venueAddress', 'venueCity', 'venueState')
+  }.property('venueAddress', 'venueCity', 'venueState'),
+
+  directionsUrl: function() {
+    return `https://www.google.com/maps/dir//${this.get('fullAddress')}`;
+  }.property('fullAddress')
 });
