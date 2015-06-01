@@ -1,7 +1,5 @@
 import Ember from 'ember';
-import moment from 'moment';
-
-const dateFormat = 'YYYY-MM-DD';
+import Dates from '../../lib/dates';
 
 export default Ember.Mixin.create({
   session: Ember.inject.service('session'),
@@ -31,9 +29,9 @@ export default Ember.Mixin.create({
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
-      return moment().startOf('month').format(dateFormat);
+      return Dates.startOfMonth();
     } else {
-      return moment().format(dateFormat);
+      return Dates.today();
     }
   }.property('session.currentUser'),
 
@@ -41,9 +39,9 @@ export default Ember.Mixin.create({
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
-      return moment().endOf('month').format(dateFormat);
+      return Dates.endOfMonth();
     } else {
-      return moment().format(dateFormat);
+      return Dates.today();
     }
 
   }.property('session.currentUser'),
