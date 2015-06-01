@@ -1,15 +1,11 @@
 <article class='EventShow'>
   <header>
-    {{#background-image imageUrl=model.safeImageUrl class='PhotoBanner'}}
+    <div class='PhotoBanner'>
+      {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
       <div class='PhotoBanner-curtain'></div>
       <div class='PhotoBanner-content container'>
         <div class='row'>
-          <div class='col-sm-4'>
-            {{#if model.imageUrl}}
-              {{background-image imageUrl=model.imageUrl class='EventHeader-thumbnail'}}   
-            {{/if}}       
-          </div>
-          <div class='col-sm-8 EventHeader-content'>
+          <div class='col-sm-8 col-sm-offset-4 EventHeader-content'>
             {{#link-to 'events' class='EventHeader-link'}}
               {{fa-icon 'arrow-left EventHeader-linkIcon'}} 
               <span class='EventHeader-linkText'>Back to events</span>
@@ -19,7 +15,17 @@
           </div>
         </div>
       </div>
-    {{/background-image}}
+    </div>
+
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-4'>
+          {{#if model.imageUrl}}
+            {{background-image imageUrl=model.imageUrl class='EventHeader-thumbnail'}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
   </header>
 
   <main class='container'>

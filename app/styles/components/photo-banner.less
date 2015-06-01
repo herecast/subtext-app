@@ -1,10 +1,26 @@
 .PhotoBanner {
+  color: white;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+}
+
+.PhotoBanner-curtainImage {
   background-color: transparent;
   background-position: center;
   background-size: cover;
-  color: white;
-  height: 250px;
-  position: relative;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+  margin: -10px;
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
 }
 
 .PhotoBanner-curtain {
