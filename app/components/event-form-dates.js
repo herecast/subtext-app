@@ -6,7 +6,15 @@ export default Ember.Component.extend({
   isRemovable: Ember.computed.gt('eventInstances.length', 1),
 
   addDate: function() {
-    const eventInstance = this.store.createRecord('event-instance');
+    const startsAt = this.get('eventInstances.firstObject.startsAt');
+    const params = {};
+
+    if (startsAt) {
+      params.startsAt = startsAt;
+    }
+
+    const eventInstance = this.store.createRecord('event-instance', params);
+
     this.get('eventInstances').pushObject(eventInstance);
   },
 
