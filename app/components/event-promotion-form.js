@@ -20,9 +20,8 @@ export default Ember.Component.extend({
   }.observes('listsEnabled'),
 
   categories: [
-    {value: 'Family', label: 'Family'},
     {value: 'Movies', label: 'Movies'},
-    {value: 'Music', label: 'Music'},
+    {value: 'Performing arts', label: 'Performing arts'},
     {value: 'Wellness', label: 'Wellness'},
     {value: 'Yard sales', label: 'Yard sales'}
   ],
