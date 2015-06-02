@@ -38,13 +38,15 @@
   {{/link-to}}
 {{/if}}
 
-<div class='Card-locationWhere hidden-xs'>Where?</div>
-<div class='Card-locationName hidden-xs'>{{venueName}}</div>
-<div class='Card-locationAddress hidden-xs'>{{venueAddress}}</div>
-<div class='Card-locationRegion'>
-  {{venueCity}}, {{venueState}}
-  <span class='Card-locationZipCode hidden-xs'>{{venueZipcode}}</span>
-</div>
+{{#if hasVenue}}
+  <div class='Card-locationWhere hidden-xs'>Where?</div>
+  <div class='Card-locationName hidden-xs'>{{venueName}}</div>
+  <div class='Card-locationAddress hidden-xs'>{{venueAddress}}</div>
+  <div class='Card-locationRegion'>
+    {{venueCity}}, {{venueState}}
+    <span class='Card-locationZipCode hidden-xs'>{{venueZipcode}}</span>
+  </div>
+{{/if}}
 
 <div class='Card-bottomRow row'>
   <div class='Card-directions col-sm-4'>
