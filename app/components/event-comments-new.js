@@ -14,7 +14,8 @@ export default Ember.Component.extend({
       const comment = this.store.createRecord('comment', {
         eventInstanceId: this.get('eventInstanceId'),
         parentCommentId: this.get('parentCommentId'),
-        content: content
+        content: content,
+        title: `Re: ${this.get('eventTitle')}`
       });
 
       const promise = comment.save();

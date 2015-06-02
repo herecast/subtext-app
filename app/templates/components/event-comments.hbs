@@ -2,6 +2,7 @@
 {{#if session.currentUser}}
   {{event-comments-new
     eventInstanceId=eventInstanceId
+    eventTitle=eventTitle
     comments=comments
     disabled=commentingDisabled
   }}
@@ -18,4 +19,5 @@
   comments=comments
   class='EventComments'
   eventInstanceId=eventInstanceId
+  eventTitle=eventTitle
 }}

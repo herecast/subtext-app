@@ -22,6 +22,7 @@
     {{#if showReplyBox}}
       {{event-comments-new
         eventInstanceId=eventInstanceId
+        eventTitle=eventTitle
         parentCommentId=row.id
         comments=comments
         afterPost='afterPost'
@@ -35,6 +36,7 @@
     {{nested-comments
       row=comment
       eventInstanceId=eventInstanceId
+      eventTitle=eventTitle
       comments=comment.comments
       tagName='li'
       class='is-nested'
