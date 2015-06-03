@@ -114,25 +114,6 @@
           {{{model.content}}}
         </div>
 
-        <div class='EventShow-content'>
-          <h5>Also in the Upper Valley</h5>
-          {{#if relatedPromotion.redirect_url}}
-            <a href='{{relatedPromotion.redirect_url}}'>
-              {{#if relatedPromotion.image_url}}
-                <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
-              {{else}}
-                <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
-              {{/if}}
-            </a>
-          {{else}}
-            {{#if relatedPromotion.image_url}}
-              <img class='img-responsive' src='{{relatedPromotion.image_url}}'>
-            {{else}}
-              <img class='img-responsive' src='//placehold.it/750x150&text=Banner+Placeholder'>
-            {{/if}}
-          {{/if}}
-        </div>
-
         {{event-comments
           eventInstanceId=model.id
           comments=comments

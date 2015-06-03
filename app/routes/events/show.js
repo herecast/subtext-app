@@ -21,20 +21,11 @@ export default Ember.Route.extend(EventFilter, {
     this._super(controller, model);
 
     const commentUrl = `/${config.API_NAMESPACE}/comments`;
-    const promotionUrl = `/${config.API_NAMESPACE}/related_promotion`;
 
     // We have to manually get the comments because ember data cannnot handle
     // the nested data structure that is returned.
     ajax(commentUrl, {data: {event_id: model.get('eventId')}}).then((response) => {
       controller.set('comments', response.comments);
-    });
-
-    // Getting the related promotion manually because we query it like a
-    // collection, but it returns a single record without an ID.
-    ajax(promotionUrl, {
-      data: {event_id: model.get('eventId')}
-    }).then((response) => {
-      controller.set('relatedPromotion', response.related_promotion);
     });
 
     controller.set('similarContent', this.store.find('similar-content', {
