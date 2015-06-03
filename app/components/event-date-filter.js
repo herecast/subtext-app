@@ -56,6 +56,23 @@ export default Ember.Component.extend({
 
     chooseDates() {
       this.set('showCustomCalendar', true);
+
+      Ember.run.later(() => {
+        Ember.$('html').on('click.close-calendar', (e) => {
+          const calendarEl = this.$()[0];
+          const clickEl = Ember.$(e.target)[0];
+          const clickedInCalendar = Ember.$.contains(calendarEl, clickEl);
+
+          if (!clickedInCalendar) {
+            this.send('closeCalendar');
+          }
+        });
+      }, 100);
+    },
+
+    closeCalendar() {
+      this.set('showCustomCalendar', false);
+      Ember.$('html').off('click.close-calendar');
     },
 
     afterCustomSelect() {
@@ -64,9 +81,10 @@ export default Ember.Component.extend({
 
       this.setProperties({
         startDate: startDate.format(dateFormat),
-        stopDate: stopDate.format(dateFormat),
-        showCustomCalendar: false
+        stopDate: stopDate.format(dateFormat)
       });
+
+      this.send('closeCalendar');
     }
   }
 });

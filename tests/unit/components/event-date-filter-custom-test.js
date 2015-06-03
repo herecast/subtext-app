@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-date-filter-custom', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  needs: ['helper:fa-icon']
 });
 
 test('it renders', function(assert) {

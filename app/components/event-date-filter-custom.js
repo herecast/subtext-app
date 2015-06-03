@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Component.extend({
-  classNames: ['popover', 'bottom', 'in', 'event-date-filter-custom'],
+  classNames: ['popover', 'bottom', 'in', 'EventFilter-calendar'],
 
   startDateLabel: function() {
     const startDate = moment(this.get('customStartDate'));
@@ -48,5 +48,11 @@ export default Ember.Component.extend({
         this.sendAction('afterSelect');
       }
     });
-  }.on('didInsertElement')
+  }.on('didInsertElement'),
+
+  actions: {
+    closeCalendar() {
+      this.sendAction('closeCalendar');
+    }
+  }
 });
