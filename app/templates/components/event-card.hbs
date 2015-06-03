@@ -55,13 +55,16 @@
       Directions
     </a>
   </div>
-  <div class='Card-cost col-sm-8 hidden-xs'>
-    <span class='Card-costLabel'>Cost</span>
-    <span class='Card-costType'>{{costType}}</span>
-    {{x-truncate
-      text=event.cost
-      maxLength=25
-      class='Card-costValue Truncate--singleLine'
-    }}
-  </div>
+
+  {{#if costType}}
+    <div class='Card-cost col-sm-8 hidden-xs'>
+      <span class='Card-costLabel'>Cost</span>
+      <span class='Card-costType'>{{costType}}</span>
+      {{x-truncate
+        text=event.cost
+        maxLength=25
+        class='Card-costValue Truncate--singleLine'
+      }}
+    </div>
+  {{/if}}
 </div>
