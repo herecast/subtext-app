@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   },
 
   categories: [
-    'Everything', 'Family', 'Movies', 'Music', 'Wellness', 'Yard sales'
+    'Everything', 'Movies', 'Performing arts', 'Wellness', 'Yard sales'
   ],
 
   categoryOptions: function() {
