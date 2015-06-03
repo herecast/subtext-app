@@ -6,12 +6,15 @@ import ManualDropdown from '../mixins/components/manual-dropdown';
 export default Ember.Component.extend(ManualDropdown, {
   session: Ember.inject.service('session'),
   userLocation: Ember.computed.oneWay('session.currentUser.location'),
-  inputValue: Ember.computed.oneWay('location'),
   isSearching: false,
 
   click() {
     this.$('input').select();
   },
+
+  setInputValue: function() {
+    this.set('inputValue', this.get('location'));
+  }.observes('location'),
 
   initInput: function() {
     this.$('input').keyup((e) => {

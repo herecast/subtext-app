@@ -6,13 +6,16 @@ export default Ember.Mixin.create({
 
   queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r'],
 
-  startDate: Ember.computed.alias('date_start'),
-  stopDate: Ember.computed.alias('date_end'),
+  // Change this value in the query params to force a refresh.
+  r: false,
 
-  category: 'Everything',
-  query: null,
+  defaultCategory: 'Everything',
 
-  location: function() {
+  defaultQuery: function() {
+    return null;
+  }.property(),
+
+  defaultLocation: function() {
     const location = this.get('session.currentUser.location');
 
     if (Ember.isPresent(location)) {
@@ -22,10 +25,7 @@ export default Ember.Mixin.create({
     }
   }.property('session.currentUser.location'),
 
-  // Change this value in the query params to force a refresh.
-  r: false,
-
-  date_start: function() {
+  defaultStart: function() {
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
@@ -35,7 +35,7 @@ export default Ember.Mixin.create({
     }
   }.property('session.currentUser'),
 
-  date_end: function() {
+  defaultEnd: function() {
     const currentUser = this.get('session.currentUser');
 
     if (currentUser) {
@@ -45,4 +45,15 @@ export default Ember.Mixin.create({
     }
 
   }.property('session.currentUser'),
+
+  category: Ember.computed.oneWay('defaultCategory'),
+  location: Ember.computed.oneWay('defaultLocation'),
+  query: Ember.computed.oneWay('defaultQuery'),
+  date_start: Ember.computed.oneWay('defaultStart'),
+  date_end: Ember.computed.oneWay('defaultEnd'),
+
+  // Used to make the variable names more JSish and still let us pass the
+  // right params to the API.
+  startDate: Ember.computed.alias('date_start'),
+  stopDate: Ember.computed.alias('date_end')
 });

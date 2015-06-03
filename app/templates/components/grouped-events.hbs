@@ -6,7 +6,7 @@
       {{link-to
         eventGroup.displayValue
         'events.index'
-        (query-params date_start=eventGroup.paramValue date_end=eventGroup.paramValue r=true)
+        (query-params date_start=eventGroup.paramValue date_end=eventGroup.paramValue r=refreshParam.time)
         tagName='h1'
         class='EventGroup-header EventGroup-headerLink'
       }}

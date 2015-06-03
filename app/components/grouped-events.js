@@ -2,6 +2,8 @@ import Ember from 'ember';
 import EventGroup from 'subtext-ui/models/event-group';
 
 export default Ember.Component.extend({
+  refreshParam: Ember.inject.service('refresh-param'),
+
   isFilteredByOneDay: function() {
     const start = this.get('startDate');
     const stop = this.get('stopDate');

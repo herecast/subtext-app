@@ -20,15 +20,15 @@ export default Ember.Component.extend({
     });
   }.property(),
 
-  categoryOrQuery: function() {
+  setCategoryOrQuery: function() {
     const query = this.get('query');
 
     if (Ember.isPresent(query)) {
-      return query;
+      this.set('categoryOrQuery', query);
     } else {
-      return this.get('category');
+      this.set('categoryOrQuery', this.get('category'));
     }
-  }.property('category', 'query'),
+  }.observes('category', 'query'),
 
   initInput: function() {
     this.$('input').keyup(() => {

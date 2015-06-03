@@ -4,6 +4,7 @@ export function initialize(container, application) {
   application.inject('service:session', 'store', 'store:main');
   application.inject('component:sign-in-link', "router", "router:main");
   application.inject('component:sign-in-link', "applicationController", "controller:application");
+  application.inject('service:refresh-param', "applicationController", "controller:application");
 }
 
 export default {
