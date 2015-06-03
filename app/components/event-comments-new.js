@@ -4,13 +4,18 @@ import moment from 'moment';
 export default Ember.Component.extend({
   session: Ember.inject.service('session'),
 
+  submitDisabled: function() {
+    return this.get('disabled') || Ember.isBlank(this.get('newComment'));
+  }.property('disabled', 'newComment'),
+
   actions: {
     postComment(callback) {
       const content = this.get('newComment');
       const comment = this.store.createRecord('comment', {
         eventInstanceId: this.get('eventInstanceId'),
         parentCommentId: this.get('parentCommentId'),
-        content: content
+        content: content,
+        title: `Re: ${this.get('eventTitle')}`
       });
 
       const promise = comment.save();
