@@ -25,8 +25,10 @@ export default Ember.Route.extend(Scroll, {
       this.transitionTo('events.new.preview');
     },
 
-    afterPublish() {
-      this.transitionTo('events.index');
+    afterPublish(event) {
+      const firstInstanceId = event.get('eventInstances.firstObject.id');
+
+      this.transitionTo('events.show', firstInstanceId);
     },
 
     backToDetails() {

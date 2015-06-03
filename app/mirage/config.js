@@ -159,10 +159,10 @@ export default function() {
     const instanceAttrs = putData['event']['event_instances'];
     const instances = db.event_instances.insert(instanceAttrs);
 
-    const data = event.event_instances = instances;
+    event.event_instances = instances;
 
     return {
-      event: data
+      event: event
     };
   });
 

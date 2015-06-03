@@ -23,7 +23,7 @@ export default Ember.Component.extend({
       promise.then((savedEvent) => {
         this.set('isSaving', false);
         savedEvent.uploadImage();
-        this.sendAction('afterPublish');
+        this.sendAction('afterPublish', savedEvent);
       });
     },
 
