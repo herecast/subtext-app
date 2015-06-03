@@ -1,15 +1,29 @@
-.popover.event-date-filter-custom {
-  max-width: none;
-  margin-top: 25px;
-}
-
-.event-date-filter-custom {
+.EventFilter-calendar {
   display: block;
   left: -200px;
   top: 22px;
   width: 580px;
 }
 
-.event-date-filter-custom .form-control {
+.EventFilter-calendar.popover {
+  max-width: none;
+  margin-top: 25px;
+}
+
+.EventFilter-calendar .popover-content {
+  position: relative;
+}
+
+.EventFilter-calendar .form-control {
   margin-bottom: 8px;
+}
+
+.EventFilter-calendarClose {
+  position: absolute;
+  right: 14px;
+  z-index: 2;
+}
+
+.EventFilter-calendarClose:hover {
+  cursor: pointer;
 }
