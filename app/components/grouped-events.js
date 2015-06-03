@@ -4,6 +4,9 @@ import EventGroup from 'subtext-ui/models/event-group';
 export default Ember.Component.extend({
   refreshParam: Ember.inject.service('refresh-param'),
 
+  eventsSorting: ['startsAt:asc'],
+  sortedEvents: Ember.computed.sort('events', 'eventsSorting'),
+
   isFilteredByOneDay: function() {
     const start = this.get('startDate');
     const stop = this.get('stopDate');
@@ -17,11 +20,11 @@ export default Ember.Component.extend({
     } else {
       return this.get('eventsByDate');
     }
-  }.property('events.[]', 'isFilteredByOneDay'),
+  }.property('sortedEvents.[]', 'isFilteredByOneDay'),
 
   buildGroup(displayFormat, convertDate) {
     const groups = new Ember.A();
-    const events = this.get('events');
+    const events = this.get('sortedEvents');
 
     if (!Ember.isEmpty(events)) {
       events.forEach((event) => {
@@ -51,13 +54,13 @@ export default Ember.Component.extend({
     return this.buildGroup('dddd, MMMM D', function(startsAt) {
       return startsAt.format('L');
     });
-  }.property('events.[]'),
+  }.property('sortedEvents.[]'),
 
   eventsByTime: function() {
     return this.buildGroup('ha on dddd, MMMM D', function(startsAt) {
       return parseInt(startsAt.format('H'));
     });
-  }.property('events.[]'),
+  }.property('sortedEvents.[]'),
 
   actions: {
     showTail(group) {
