@@ -7,6 +7,12 @@
 }}
 
 <ul class='dropdown-menu' role='menu'>
+  <li>
+    <a href='#' {{action 'customSearch'}} tabindex='-1'>
+      {{fa-icon 'search'}} <i>Custom Search</i>
+    </a>
+  </li>
+  <li role="presentation" class="divider"></li>
   {{#each category in categoryOptions}}
     <li>
       <a href='#' {{action 'setCategory' category.value}} tabindex='-1'>

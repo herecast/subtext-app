@@ -8,6 +8,14 @@
 
 <ul class='dropdown-menu' role='menu'>
   <li>
+    <a href='#' {{action 'customSearch'}} tabindex='-1'>
+      {{fa-icon 'search'}} <i>Custom Search</i>
+    </a>
+  </li>
+
+  <li role="presentation" class="divider"></li>
+
+  <li>
     <a href='#' {{action 'setLocation' 'All Communities'}} tabindex='-1'>
       All Communities
     </a>
@@ -21,19 +29,20 @@
     </li>
   {{/if}}
 
-  <li role="presentation" class="divider"></li>
+  {{#if hasPerformedSearch}}
+    <li role="presentation" class="divider"></li>
 
-  {{#if isSearching}}
-    <li class='disabled'>
-      <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
-    </li>
-  {{else}}
-    {{#each place in places}}
-      <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
+    {{#if isSearching}}
+      <li class='disabled'>
+        <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
+      </li>
     {{else}}
-      <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
-    {{/each}}
+      {{#each place in places}}
+        <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
+      {{else}}
+        <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
+      {{/each}}
 
+    {{/if}}
   {{/if}}
-
 </ul>
