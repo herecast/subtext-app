@@ -37,6 +37,10 @@ export default EventCard.extend({
     return defaultValue(this.get('event.venueName'), 'Location Name');
   }.property('event.venueName'),
 
+  venueAddress: function() {
+    return defaultValue(this.get('event.venueAddress'), 'Address');
+  }.property('event.venueAddress'),
+
   venueCity: function() {
     return defaultValue(this.get('event.venueCity'), 'City');
   }.property('event.venueCity'),

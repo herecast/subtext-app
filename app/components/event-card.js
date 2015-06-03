@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const isPresent = Ember.isPresent;
+
 export default Ember.Component.extend({
   isPreview: false,
 
@@ -28,5 +30,16 @@ export default Ember.Component.extend({
     if (startTime && endTime) {
       return `${startTime.format('LT')} - ${endTime.format('LT')}`;
     }
-  }.property('startsAt', 'endsAt')
+  }.property('startsAt', 'endsAt'),
+
+  hasVenue: function() {
+    const name = this.get('venueName');
+    const address = this.get('venueAddress');
+    const city = this.get('venueCity');
+    const state = this.get('venueState');
+
+    return isPresent(name) && isPresent(address) && isPresent(city) &&
+      isPresent(state);
+
+  }.property('venueName', 'venueAddress', 'venueCity', 'venueState')
 });
