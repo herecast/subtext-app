@@ -1,18 +1,15 @@
 <div class='EventForm-stepContent'>
   <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="extended-reach">Extend Your Reach <span class='PromotionSection-cost'>Free!</span></label>
+    <label class='PromotionSection-label' for="extended-reach">Pick Your Audience <span class='PromotionSection-cost'>Coming Soon!</span></label>
     <p class='PromotionSection-description'>
-      Your event is set to display only to users in the same town as your venue. To display 
-      it to all users in the Upper Valley, turn this feature on.
-    </p> 
+      Your event will display to users all across the Upper Valley.
+      Soon we'll add the ability to limit your audience -- for example,
+      to users in your community only.
+    </p>
     <div class='row'>
       <div class='col-sm-6'>
-        <div {{action 'toggleEventProperty' 'extendedReachEnabled'}} class='PromotionSection-toggle PromotionSection-toggleMap'>
-          {{#if event.extendedReachEnabled}}
-            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-          {{else}}
-            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-          {{/if}}
+        <div class='PromotionSection-toggle PromotionSection-toggleMap is-disabled'>
+          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
         </div>
       </div>
       <div class='col-sm-6'>
