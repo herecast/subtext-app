@@ -104,7 +104,7 @@
               {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon'}}
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
-                <div class='u-textTruncate'>{{model.cost}}</div>
+                <div>{{gradient-truncation text=model.cost}}</div>
               </div>
             </div>
           {{/if}}
