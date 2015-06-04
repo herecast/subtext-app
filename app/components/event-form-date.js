@@ -10,6 +10,16 @@ export default Ember.Component.extend({
   endsAt: Ember.computed.alias('instance.endsAt'),
   subtitle: Ember.computed.alias('instance.subtitle'),
 
+  subtitleDate: function() {
+    const date = this.get('startsAt');
+
+    if (date) {
+      return date.format(`${dateFormat}, ${timeFormat}`);
+    } else {
+      return '';
+    }
+  }.property('startsAt'),
+
   setupFields: function() {
     let date, startsAt, startTime, endTime;
 

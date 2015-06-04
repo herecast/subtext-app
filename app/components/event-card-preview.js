@@ -28,6 +28,12 @@ export default EventCard.extend({
       'A short and informative name');
   }.property('event.title'),
 
+  subtitle: function() {
+    const subtitle = this.get('event.eventInstances.firstObject.subtitle');
+
+    return defaultValue(subtitle, "Highlight what's special");
+  }.property('event.eventInstances.firstObject.subtitle'),
+
   content: function() {
     return defaultValue(this.get('event.content'),
       'An inspiring description that will motivate people to attend.');

@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   isPreview: false,
 
   title: Ember.computed.oneWay('event.title'),
+  subtitle: Ember.computed.oneWay('event.subtitle'),
   content: Ember.computed.oneWay('event.content'),
   venueName: Ember.computed.oneWay('event.venueName'),
   venueAddress: Ember.computed.oneWay('event.venueAddress'),
