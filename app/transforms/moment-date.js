@@ -14,11 +14,11 @@ export default DS.DateTransform.extend({
 
   serialize: function(deserialized) {
     if (moment(deserialized).isValid()) {
-      deserialized = moment(deserialized).toDate();
+      deserialized = moment(deserialized).toISOString();
     } else {
       deserialized = null;
     }
 
-    return this._super(deserialized);
+    return deserialized;
   }
 });

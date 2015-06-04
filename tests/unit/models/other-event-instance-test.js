@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('event-instance', {
+moduleForModel('other-event-instance', {
   // Specify the other units that are required for this test.
-  needs: ['model:other-event-instance']
+  needs: []
 });
 
 test('it exists', function(assert) {

@@ -21,9 +21,19 @@ export default Ember.Component.extend({
       callback(promise);
 
       promise.then((savedEvent) => {
-        this.set('isSaving', false);
-        savedEvent.uploadImage();
-        this.sendAction('afterPublish', savedEvent);
+        savedEvent.get('eventInstances').filterBy('isNew').forEach((instance) => {
+          instance.destroyRecord();
+        });
+
+        if (savedEvent.get('image')) {
+          savedEvent.uploadImage().then(() => {
+            this.set('isSaving', false);
+            this.sendAction('afterPublish', savedEvent);
+          });
+        } else {
+          this.set('isSaving', false);
+          this.sendAction('afterPublish', savedEvent);
+        }
       });
     },
 

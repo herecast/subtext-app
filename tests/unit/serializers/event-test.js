@@ -5,7 +5,9 @@ import {
 
 moduleForModel('event', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:event', 'transform:moment-date', 'transform:raw', 'model:event-instance']
+  needs: ['serializer:event', 'transform:moment-date', 'transform:raw', 'model:event-instance',
+    'model:other-event-instance'
+  ]
 });
 
 // Replace this with your real tests.
