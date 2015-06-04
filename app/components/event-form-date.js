@@ -57,23 +57,30 @@ export default Ember.Component.extend({
   }.on('init'),
 
   updateAttrs: function() {
-    const date = moment(this.get('date')).format(dateFormat);
-    const startTime = this.get('startTime');
-    const endTime = this.get('endTime');
-    let startsAt = null, endsAt = null;
+    let date = this.get('date');
 
-    if (Ember.isPresent(startTime)) {
+    if (Ember.isBlank(date)) {
+      // If a user clears out the date field, we reset it to the current day
+      // because it should never be blank.
+      this.set('date', new Date());
+    } else {
+      const startTime = this.get('startTime');
+      const endTime = this.get('endTime');
+
+      let startsAt = null, endsAt = null;
+
+      date = moment(date).format(dateFormat);
       startsAt = moment(`${date} ${startTime}`, `${dateFormat} ${timeFormat}`);
-    }
 
-    if (Ember.isPresent(endTime)) {
-      endsAt = moment(`${date} ${endTime}`, `${dateFormat} ${timeFormat}`);
-    }
+      if (Ember.isPresent(endTime)) {
+        endsAt = moment(`${date} ${endTime}`, `${dateFormat} ${timeFormat}`);
+      }
 
-    this.setProperties({
-      startsAt: startsAt,
-      endsAt: endsAt
-    });
+      this.setProperties({
+        startsAt: startsAt,
+        endsAt: endsAt
+      });
+    }
   }.observes('date', 'startTime', 'endTime'),
 
   actions: {
