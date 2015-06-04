@@ -69,6 +69,14 @@ export default Ember.Component.extend({
       Ember.run.later(() => {
         this.$('input').blur();
       }, 10);
+    },
+
+    customSearch() {
+      Ember.run.later(() => {
+        this.$('input').focus();
+      }, 50);
+
+      this.$('input').val('');
     }
   }
 });

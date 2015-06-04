@@ -7,6 +7,7 @@ export default Ember.Component.extend(ManualDropdown, {
   session: Ember.inject.service('session'),
   userLocation: Ember.computed.oneWay('session.currentUser.location'),
   isSearching: false,
+  hasPerformedSearch: false,
 
   click() {
     this.$('input').select();
@@ -23,6 +24,7 @@ export default Ember.Component.extend(ManualDropdown, {
       // Don't initiate a search if someone is tabbing through filters
       if (e.keyCode !== 9) {
         if (Ember.isPresent(value) && value.length > 2) {
+          this.set('hasPerformedSearch', true);
           this.set('isSearching', true);
           Ember.run.debounce(this, this.sendSearchQuery, value, 300);
         }
@@ -63,6 +65,14 @@ export default Ember.Component.extend(ManualDropdown, {
       Ember.run.later(() => {
         this.$('input').blur();
       }, 10);
+    },
+
+    customSearch() {
+      Ember.run.later(() => {
+        this.$('input').focus();
+      }, 50);
+
+      this.send('setLocation', '');
     }
   }
 });

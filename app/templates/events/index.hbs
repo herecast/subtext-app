@@ -6,7 +6,7 @@
 
     {{#if showReset}}
       {{link-to 'Reset search filters' 'events'
-        (query-params category='Everything' location=defaultLocation query=defaultQuery date_start=defaultStart date_end=defaultEnd r=refreshParam.time)
+        (query-params category=defaultCategory location=defaultLocation query=defaultQuery date_start=defaultStart date_end=defaultEnd r=refreshParam.time)
         class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'
       }}
     {{/if}}
