@@ -22,29 +22,6 @@
   </div>
 
   <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="social-enabled">Go Social <span class='PromotionSection-cost'>Free!</span></label>
-    <p class='PromotionSection-description'>
-      Allows users to share your event with their friends on Facebook, Twitter,
-      Google+, email and other social media. Free
-    </p>
-
-    <div class='row'>
-      <div class='col-sm-6'>
-        <div {{action 'toggleEventProperty' 'socialEnabled'}} class='PromotionSection-toggle PromotionSection-toggleSocial'>
-          {{#if event.socialEnabled}}
-            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-          {{else}}
-            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-          {{/if}}
-        </div>
-      </div>
-      <div class='col-sm-6'>
-        <img src="//placehold.it/170x35&text=Social+Placeholder">
-      </div>
-    </div>
-  </div>
-
-  <div class='PromotionSection'>
     <label class='PromotionSection-label' for="category-enabled">Be Special <span class='PromotionSection-cost'>Free!</span></label>
     <p class='PromotionSection-description'>
       Maybe your event fits into one of our pre-defined special searches:
