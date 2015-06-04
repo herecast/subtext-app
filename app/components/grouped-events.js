@@ -4,8 +4,15 @@ import EventGroup from 'subtext-ui/models/event-group';
 export default Ember.Component.extend({
   refreshParam: Ember.inject.service('refresh-param'),
 
-  eventsSorting: ['startsAt:asc'],
-  sortedEvents: Ember.computed.sort('events', 'eventsSorting'),
+  sortedEvents: function() {
+    const events = this.get('events');
+
+    if (events) {
+      return events.sortBy('startsAt');
+    } else {
+      return [];
+    }
+  }.property('events.@each.startsAt'),
 
   isFilteredByOneDay: function() {
     const start = this.get('startDate');
