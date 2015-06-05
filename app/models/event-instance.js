@@ -8,14 +8,10 @@ export default DS.Model.extend(BaseEvent, {
 
   canEdit: DS.attr('boolean'),
   eventId: DS.attr('number'),
-  eventInstances: DS.hasMany('event-instance'),
+  eventInstances: DS.hasMany('other-event-instance'),
   venueLatitude: DS.attr('string'),
   venueLongitude: DS.attr('string'),
   venueLocateName: DS.attr('string'),
-
-  formattedDate: function() {
-    return this.get('startsAt').format('MMMM D, YYYY');
-  }.property('startsAt'),
 
   formattedHours: function() {
     const startTime = this.get('startsAt').format('LT');

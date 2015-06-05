@@ -160,6 +160,10 @@ export default function() {
     const instances = db.event_instances.insert(instanceAttrs);
 
     event.event_instances = instances;
+    event.event_instances.forEach((instance) => {
+      instance.can_edit = true;
+      instance.event_id = event.id;
+    });
 
     return {
       event: event
