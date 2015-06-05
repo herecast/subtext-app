@@ -5,9 +5,9 @@
       <div class='PhotoBanner-curtain'></div>
       <div class='PhotoBanner-content container'>
         <div class='row'>
-          <div class='col-sm-8 col-sm-offset-4 EventHeader-content'>
+          <div class='col-xs-12 {{if model.imageUrl 'col-sm-8 col-sm-offset-4'}} EventHeader-content'>
             {{#link-to 'events' class='EventHeader-link'}}
-              {{fa-icon 'arrow-left EventHeader-linkIcon'}} 
+              {{fa-icon 'arrow-left EventHeader-linkIcon'}}
               <span class='EventHeader-linkText'>Back to events</span>
             {{/link-to}}
             <h1 class='EventHeader-title'>{{x-truncate text=model.title maxLength=50}}</h1>
@@ -19,7 +19,7 @@
 
     <div class='container'>
       <div class='row'>
-        <div class='col-sm-4'>
+        <div class='col-md-4 hidden-xs'>
           {{#if model.imageUrl}}
             {{background-image imageUrl=model.imageUrl class='EventHeader-thumbnail'}}
           {{/if}}
@@ -30,36 +30,7 @@
 
   <main class='container'>
     <div class='row'>
-      <aside class='EventShowAside col-sm-4'>
-        {{event-map
-          locateName=model.venueLocateName
-          fullAddress=model.fullAddress
-          directionsUrl=model.directionsUrl
-        }}
-        <div>
-          {{#unless model.isNew}}
-            {{report-abuse eventId=model.eventId}}
-          {{/unless}}
-
-          {{#if model.canEdit}}
-            {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link'}}
-              Edit this event
-            {{/link-to}}
-          {{/if}}
-
-          {{#if model.adminContentUrl}}
-            <div>
-              <a href='{{model.adminContentUrl}}'>Admin</a>
-            </div>
-          {{/if}}
-        </div>
-
-        {{event-other-dates instance=model}}
-
-        {{event-similar-content similarContent=similarContent}}
-      </aside>
-
-      <div class='col-sm-8'>
+      <div class='col-sm-12 col-md-8 pull-right'>
         <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
         <div class='EventShow-info row'>
           {{#if model.hasLocationInfo}}
@@ -89,7 +60,9 @@
                     {{model.contactEmail}}
                   </a>
                 </div>
-                <div class='u-textTruncate'>{{model.contactPhone}}</div>
+                <div>
+                  <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                </div>
                 <div class='u-textTruncate'>
                   <a {{bind-attr href=model.eventUrl}} >
                     {{model.eventUrl}}
@@ -114,6 +87,41 @@
           {{{model.content}}}
         </div>
 
+      </div>
+
+      <aside class='EventShowAside col-sm-12 col-md-4 pull-left'>
+        <div class='row'>
+          {{event-map
+            locateName=model.venueLocateName
+            fullAddress=model.fullAddress
+            directionsUrl=model.directionsUrl
+            class='pull-left col-sm-7 col-md-12 hidden-xs'
+          }}
+          <div class='pull-right col-xs-12 col-sm-5 col-md-12'>
+            {{#unless model.isNew}}
+              {{report-abuse eventId=model.eventId}}
+            {{/unless}}
+
+            {{#if model.canEdit}}
+              {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link hidden-xs'}}
+                Edit this event
+              {{/link-to}}
+            {{/if}}
+
+            {{#if model.adminContentUrl}}
+              <div>
+                <a href='{{model.adminContentUrl}}'>Admin</a>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+
+        {{event-other-dates instance=model}}
+
+        {{event-similar-content similarContent=similarContent}}
+      </aside>
+
+      <div class='col-sm-12 col-md-8 pull-right'>
         {{event-comments
           eventInstanceId=model.id
           eventTitle=model.title

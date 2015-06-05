@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tabName: 'nav',
+  tagName: 'nav',
   classNames: ['FilterBar navbar navbar-default'],
   session: Ember.inject.service('session'),
   refreshParam: Ember.inject.service('refresh-param'),
