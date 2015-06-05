@@ -99,7 +99,7 @@
           }}
           <div class='pull-right col-xs-12 col-sm-5 col-md-12'>
             {{#unless model.isNew}}
-              {{report-abuse eventId=model.eventId}}
+              {{report-abuse modelId=model.eventId type='events'}}
             {{/unless}}
 
             {{#if model.canEdit}}

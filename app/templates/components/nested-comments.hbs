@@ -28,6 +28,12 @@
         afterPost='afterPost'
       }}
     {{/if}}
+
+    {{report-abuse
+      modelId=row.id
+      type='comments'
+      tagName='span'
+    }}
   </div>
 {{/if}}
 
