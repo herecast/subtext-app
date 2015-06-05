@@ -38,6 +38,6 @@
     "ember-export-application-global": "^1.0.2",
     "ember-faker": "^1.0.0",
     "ember-moment": "1.1.1",
-    "ember-pikaday": "0.6.0"
+    "ember-pikaday": "git://github.com/edgycircle/ember-pikaday.git#c810e51fb94bb3a6f2a2ddf8b39305fb631fde5d"
   }
 }
