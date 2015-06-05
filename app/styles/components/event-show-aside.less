@@ -1,16 +1,26 @@
 .EventShowAside {
-  padding: 150px 90px 0;
-  text-align: right;
+  @media (min-width: @screen-md-min) {
+    text-align: right;
+    padding: 150px 90px 0;
+  }
 }
 
 .EventShowAside-otherDates {
-  width: 168px;
   margin-top: 20px;
+
+  @media (min-width: @screen-md-min) {
+    float: right;
+    width: 168px;
+  }
 }
 
 .EventShowAside-similar {
-  width: 290px;
   margin-top: 20px;
+
+  @media (min-width: @screen-md-min) {
+    float: right;
+    width: 290px;
+  }
 }
 
 .EventShowAside-button {

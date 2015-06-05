@@ -3,7 +3,11 @@
 }
 
 .EventShow-content {
-  margin-bottom: 65px;
+  margin-bottom: 30px;
+
+  @media (min-width: @screen-md-min) {
+    margin-bottom: 65px;
+  }
 }
 
 .EventShow-info {
@@ -11,7 +15,9 @@
 }
 
 .EventShow-map {
-  margin: 20px 0;
+  @media (min-width: @screen-md-min) {
+    margin-bottom: 20px;
+  }
 }
 
 .EventShow-mapContent {

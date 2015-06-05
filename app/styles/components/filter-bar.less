@@ -5,28 +5,52 @@
 
 .FilterBar-collapse {
   border-top: 1px solid @gray-lighter;
-  padding-right: 0;
-  padding-left: 0;
+
+  @media (min-width: @screen-sm-min) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.FilterBar-collapse.navbar-collapse.in {
+  overflow-y: visible;
 }
 
 .FilterBar-form {
-  padding-right: 0;
-  padding-left: 0;
-  width: 100%;
+  @media (max-width: @screen-sm-max) {
+    border: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: @screen-sm-min) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.FilterBar-formGroup {
+  display: inline-block;
 }
 
 .FilterBar-text {
   font-size: 18px;
   margin: 15px 4px 15px 0;
+  width: 50%;
 }
 
 .FilterBar-button {
-  width: 180px;
-  margin: 10px 0 0 0;
+  width: 100%;
+
+  @media (min-width: @screen-sm-min) {
+    width: 180px;
+  }
 }
 
 .FilterBar-button:nth-of-type(1) {
-  margin-left: 10px;
+  @media (min-width: @screen-sm-min) {
+    margin-left: 10px;
+  }
 }
 
 .FilterBar-input {

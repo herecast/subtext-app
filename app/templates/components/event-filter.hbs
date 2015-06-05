@@ -1,45 +1,36 @@
 <div class='container'>
   <!-- Brand and toggle get grouped for better mobile display -->
-  <div class='navbar-header'>
-    <button type='button' class='FilterBar-toggle navbar-toggle collapsed' data-toggle='collapse' data-target='#js-filter-bar'>
-      <span class='sr-only'>Toggle navigation</span>
-      <span class='icon-bar'></span>
-      <span class='icon-bar'></span>
-      <span class='icon-bar'></span>
-    </button>
-  </div>
-  <div class='FilterBar-collapse collapse navbar-collapse'>
+  <div class='FilterBar-collapse'>
     <form class='FilterBar-form navbar-form navbar-left' role='search'>
       <div class='form-group'>
-        <p class='FilterBar-text'>Show me</p>
+        <span class='FilterBar-text'>Show me</span>
+        {{event-category-filter category=category query=query tagName='span'}}
       </div>
       <div class='form-group'>
-        {{event-category-filter category=category query=query}}
-      </div>
-      <div class='form-group'>
-        <p class='FilterBar-text'>in</p>
-      </div>
-      <div class='form-group'>
-        {{event-location-filter location=location}}
+        <span class='FilterBar-text'>in</span>
+        {{event-location-filter location=location tagName='span'}}
       </div>
       <div class='form-group'>
         {{event-date-filter startDate=startDate stopDate=stopDate}}
       </div>
+    </form>
 
-      {{#if session.currentUser}}
-        {{#link-to 'events.new' class='Button FilterBar-button navbar-right btn btn-default'}}
-          Create an event
-        {{/link-to}}
-      {{else}}
-        {{#sign-in-link class='Button FilterBar-button navbar-right btn btn-default'}}
-          Create an event
-        {{/sign-in-link}}
-      {{/if}}
-
-      <button type='submit' class='Button Button--primary FilterBar-button navbar-right btn btn-primary' {{action 'submit'}}>
+    <div class='navbar-right navbar-btn'>
+      <button type='submit' class='Button Button--primary FilterBar-button btn btn-primary' {{action 'submit'}}>
         Find events
       </button>
 
-    </form>
+      <span class='hidden-xs'>
+        {{#if session.currentUser}}
+          {{#link-to 'events.new' class='Button FilterBar-button btn btn-default'}}
+            Create an event
+          {{/link-to}}
+        {{else}}
+          {{#sign-in-link class='Button FilterBar-button btn btn-default'}}
+            Create an event
+          {{/sign-in-link}}
+        {{/if}}
+      </span>
+    </div>
   </div>
 </div><!-- /.container-fluid -->
