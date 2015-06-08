@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   venueAddress: Ember.computed.alias('event.venueAddress'),
   venueCity: Ember.computed.alias('event.venueCity'),
   venueState: Ember.computed.alias('event.venueState'),
-  venueZipcode: Ember.computed.alias('event.venueZipcode'),
+  venueZip: Ember.computed.alias('event.venueZip'),
   venueUrl: Ember.computed.alias('event.venueUrl'),
 
   actions: {
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
         venueAddress: venue.address,
         venueCity: venue.city,
         venueState: venue.state,
-        venueZipcode: venue.zip,
+        venueZip: venue.zip,
         venueUrl: venue.url,
         open: false
       });

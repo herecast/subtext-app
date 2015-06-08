@@ -55,7 +55,7 @@ export default EventCard.extend({
     return defaultValue(this.get('event.venueState'), 'State');
   }.property('event.venueState'),
 
-  venueZipcode: function() {
-    return defaultValue(this.get('event.venueZipcode'), '12345');
-  }.property('event.venueZipcode')
+  venueZip: function() {
+    return defaultValue(this.get('event.venueZip'), '12345');
+  }.property('event.venueZip')
 });

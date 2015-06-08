@@ -21,7 +21,7 @@ function generateEvent(id) {
     venue_address: faker.address.streetAddress(),
     venue_city: faker.address.city(),
     venue_state: 'VT',
-    venue_zipcode: faker.address.zipCode(),
+    venue_zip: faker.address.zipCode(),
     venue_url: `http://${faker.internet.domainName()}`,
     venue_latitude: faker.address.latitude(),
     venue_longitude: faker.address.longitude(),
