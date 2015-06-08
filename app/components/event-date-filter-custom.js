@@ -9,6 +9,13 @@ export default Ember.Component.extend({
     return startDate.format('L');
   }.property('customStartDate'),
 
+  updateMinEndDate: function() {
+    const startDate = this.get('customStartDate');
+    const pikaday = this.get('endInput');
+
+    pikaday.setMinDate(startDate);
+  }.observes('customStartDate'),
+
   endDateLabel: function() {
     const endDate = moment(this.get('customEndDate'));
     return endDate.format('L');
@@ -30,7 +37,7 @@ export default Ember.Component.extend({
       }
     });
 
-    new Pikaday({
+    const endInput = new Pikaday({
       field: this.$('#custom-end-date input')[0],
       firstDay: 0,
       minDate: new Date(),
@@ -48,6 +55,8 @@ export default Ember.Component.extend({
         this.sendAction('afterSelect');
       }
     });
+
+    this.set('endInput', endInput);
   }.on('didInsertElement'),
 
   actions: {
