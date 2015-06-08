@@ -39,7 +39,11 @@
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>
                   {{#if model.venueName}}
-                    {{model.venueName}}
+                    {{#if model.venueUrl}}
+                      <a href='{{model.venueUrl}}' class='EventInfo-headerLink' target='_blank'>{{model.venueName}}</a>
+                    {{else}}
+                      {{model.venueName}}
+                    {{/if}}
                   {{else}}
                     Location
                   {{/if}}
