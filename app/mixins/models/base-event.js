@@ -66,6 +66,16 @@ export default Ember.Mixin.create({
   }.property('venueAddress', 'venueCity', 'venueState'),
 
   directionsUrl: function() {
-    return `https://www.google.com/maps/dir//${this.get('fullAddress')}`;
+    const url = `maps.google.com/maps?daddr=${this.get('fullAddress')}`;
+    const platform = navigator.platform;
+    const isios = (platform.indexOf("iPhone") !== -1) ||
+        (platform.indexOf("iPod") !== -1) ||
+        (platform.indexOf("iPad") !== -1);
+
+    if (isios) {
+      return `maps://${url}`;
+    } else {
+      return `https://${url}`;
+    }
   }.property('fullAddress')
 });
