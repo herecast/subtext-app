@@ -33,10 +33,11 @@ export default Ember.Component.extend({
 
     submit() {
       const flagType = this.get('flagType');
-      const eventId = this.get('eventId');
+      const id = this.get('modelId');
+      const type = this.get('type');
 
       if (flagType) {
-        const url = `/${config.API_NAMESPACE}/events/${eventId}/moderate`;
+        const url = `/${config.API_NAMESPACE}/${type}/${id}/moderate`;
 
         ajax(url, {
           type: 'POST',

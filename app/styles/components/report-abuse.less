@@ -1,12 +1,15 @@
+.ReportAbuse {
+  position: relative;
+}
+
 .ReportAbuse-popover {
   display: block;
-  top: 20px;
-  left: -20px;
+  position: absolute;
   width: 200px;
+}
 
-  @media (min-width: @screen-md-min) {
-    top: 96px;
-  }
+.ReportAbuse-popover.popover.bottom {
+  margin-top: 24px;
 }
 
 .ReportAbuse-flags {
