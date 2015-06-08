@@ -40,7 +40,9 @@
                 <h4 class='EventInfo-header'>
                   {{#if model.venueName}}
                     {{#if model.venueUrl}}
-                      <a href='{{model.venueUrl}}' class='EventInfo-headerLink' target='_blank'>{{model.venueName}}</a>
+                      {{#normalized-link url=model.venueUrl class='EventInfo-headerLink'}}
+                        {{model.venueName}}
+                      {{/normalized-link}}
                     {{else}}
                       {{model.venueName}}
                     {{/if}}
@@ -68,9 +70,9 @@
                   <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
                 </div>
                 <div class='u-textTruncate'>
-                  <a {{bind-attr href=model.eventUrl}} >
+                  {{#normalized-link url=model.eventUrl}}
                     {{model.eventUrl}}
-                  </a>
+                  {{/normalized-link}}
                 </div>
               </div>
             </div>
