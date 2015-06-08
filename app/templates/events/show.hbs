@@ -50,6 +50,16 @@
                 </h4>
                 <div>{{model.venueAddress}}</div>
                 <div>{{model.venueCity}}, {{model.venueState}} {{model.venueZip}}</div>
+
+                {{#if model.directionsUrl}}
+                  <div class='row'>
+                    <div class='col-xs-12'>
+                      <a href='{{model.directionsUrl}}' class='btn btn-primary visible-xs'>
+                        Get Directions
+                      </a>
+                    </div>
+                  </div>
+                {{/if}}
               </div>
             </div>
           {{/if}}
