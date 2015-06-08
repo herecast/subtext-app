@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   venueAddress: Ember.computed.oneWay('event.venueAddress'),
   venueCity: Ember.computed.oneWay('event.venueCity'),
   venueState: Ember.computed.oneWay('event.venueState'),
-  venueZipcode: Ember.computed.oneWay('event.venueZipcode'),
+  venueZip: Ember.computed.oneWay('event.venueZip'),
 
   costType: function() {
     const type = this.get('event.costType');

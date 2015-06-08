@@ -22,7 +22,7 @@ export default Ember.Mixin.create({
   venueName: DS.attr('string'),
   venueState: DS.attr('string'),
   venueUrl: DS.attr('string'),
-  venueZipcode: DS.attr('string'),
+  venueZip: DS.attr('string'),
 
   safeImageUrl: function() {
     if (Ember.isPresent(this.get('imageUrl'))) {
@@ -42,8 +42,8 @@ export default Ember.Mixin.create({
   hasLocationInfo: function() {
     return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) || 
       Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) || 
-      Ember.isPresent(this.get('venueZipcode'));
-  }.property('venueAddress', 'venueCity', 'venueState', 'venueZipcode', 'venueName'),
+      Ember.isPresent(this.get('venueZip'));
+  }.property('venueAddress', 'venueCity', 'venueState', 'venueZip', 'venueName'),
 
   hasContactInfo: function() {
     return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) || 

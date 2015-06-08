@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     const address = this.get('event.venueAddress');
     const city = this.get('event.venueCity');
     const state = this.get('event.venueState');
-    const zip = this.get('event.venueZipcode');
+    const zip = this.get('event.venueZip');
 
     const hasAllFields = Ember.isPresent(address) && Ember.isPresent(city) &&
       Ember.isPresent(state) && Ember.isPresent(zip);
