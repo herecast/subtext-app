@@ -16,11 +16,15 @@
 
   <div class="NavTabs-content">
     <div role="tabpanel" class="tab-pane active">
-      {{input
-        placeholder=costPlaceholder
-        value=cost
-        class='form-control'
-      }}
+      {{#if isNotApplicable}}
+        <p>{{costPlaceholder}}</p>
+      {{else}}
+        {{input
+          placeholder=costPlaceholder
+          value=cost
+          class='form-control'
+        }}
+      {{/if}}
     </div>
   </div>
 </div>
