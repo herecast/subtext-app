@@ -18,8 +18,8 @@ export default Ember.Component.extend({
   costType: function() {
     const type = this.get('event.costType');
 
-    if (type === '') {
-      return 'N/A';
+    if (Ember.isBlank(type)) {
+      return null;
     } else {
       return type;
     }
