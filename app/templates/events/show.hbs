@@ -30,12 +30,12 @@
 
   <main class='container'>
     <div class='row'>
-      <div class='col-sm-12 col-md-8 pull-right'>
+      <div class='col-sm-12 col-md-8 pull-right-md'>
         <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
         <div class='EventShow-info row'>
           {{#if model.hasLocationInfo}}
             <div class='EventInfo col-sm-4'>
-              {{fa-icon 'map-marker EventInfo-icon'}}
+              {{fa-icon 'map-marker EventInfo-icon hidden-xs'}}
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>
                   {{#if model.venueName}}
@@ -68,7 +68,7 @@
 
           {{#if model.hasContactInfo}}
             <div class='EventInfo col-sm-4'>
-              {{fa-icon 'user EventInfo-icon EventInfo-contactIcon'}}
+              {{fa-icon 'user EventInfo-icon EventInfo-contactIcon hidden-xs'}}
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>Event Contact</h4>
                 <div class='u-textTruncate'>
@@ -90,7 +90,7 @@
 
           {{#if model.costType}}
             <div class='EventInfo col-sm-3'>
-              {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon'}}
+              {{fa-icon 'dollar EventInfo-icon EventInfo-costIcon hidden-xs'}}
               <div class='EventInfo-content'>
                 <h4 class='EventInfo-header'>{{model.formattedCostType}}</h4>
                 <div>{{gradient-truncation text=model.cost}}</div>
@@ -105,7 +105,7 @@
 
       </div>
 
-      <aside class='EventShowAside col-sm-12 col-md-4 pull-left'>
+      <aside class='EventShowAside col-sm-12 col-md-4 pull-left-md'>
         <div class='row'>
           {{event-map
             locateName=model.venueLocateName
@@ -137,7 +137,7 @@
         {{event-similar-content similarContent=similarContent}}
       </aside>
 
-      <div class='col-sm-12 col-md-8 pull-right'>
+      <div class='col-sm-12 col-md-8 pull-right-md'>
         {{event-comments
           eventInstanceId=model.id
           eventTitle=model.title
