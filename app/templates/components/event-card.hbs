@@ -18,10 +18,10 @@
     {{/link-to}}
   {{/if}}
 
-  <h5>{{x-truncate text=subtitle maxLength=45}}</h5>
+  <h5 class='hidden-xs'>{{x-truncate text=subtitle maxLength=45}}</h5>
 </div>
 
-{{gradient-truncation stripHtml=true text=content classNames='Card-content hidden-xs'}}
+{{gradient-truncation stripHtml=true text=content classNames='Card-content'}}
 
 {{#if isPreview}}
   <a class='Card-learnMore Card-link'>
