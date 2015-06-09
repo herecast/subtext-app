@@ -1,27 +1,35 @@
 .EventSteps {
-  background: transparent url('/images/gray-dot.png') repeat-x center 15px;
-  margin: 0 auto 35px;
-  position: relative;
-  width: 640px;
+  @media (min-width: @screen-lg-min) {
+    background: transparent url('/images/gray-dot.png') repeat-x center 15px;
+    margin: 0 auto 35px;
+    position: relative;
+    width: 640px;
+  }
 }
 
 .EventSteps:before,
 .EventSteps:after {
-  background-color: white;
-  content: '';
-  display: block;
-  height: 5px;
-  position: absolute;
-  top: 15px;
-  width: 75px;
+  @media (min-width: @screen-lg-min) {
+    background-color: white;
+    content: '';
+    display: block;
+    height: 5px;
+    position: absolute;
+    top: 15px;
+    width: 75px;
+  }
 }
 
 .EventSteps:before {
-  left: 0;
+  @media (min-width: @screen-lg-min) {
+    left: 0;
+  }
 }
 
 .EventSteps:after {
-  right: 0;
+  @media (min-width: @screen-md-min) {
+    right: 0;
+  }
 }
 
 .EventSteps--gray {
@@ -39,7 +47,6 @@
 }
 
 .EventSteps-step {
-  width: 180px; 
   text-align: center;
 }
 
