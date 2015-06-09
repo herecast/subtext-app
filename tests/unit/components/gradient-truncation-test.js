@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('gradient-truncation', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  needs: []
 });
 
 test('it renders', function(assert) {
