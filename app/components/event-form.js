@@ -89,6 +89,15 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    afterDateValidation(datesAreValid) {
+      if (datesAreValid) {
+        this.set('errors.dates', null);
+        delete this.get('errors').dates;
+      } else {
+        this.set('errors.dates', 'Invalid date');
+      }
+    },
+
     next() {
       if (this.isValid()) {
         this.sendAction('afterDetails');
