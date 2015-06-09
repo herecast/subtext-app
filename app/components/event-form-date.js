@@ -9,6 +9,26 @@ export default Ember.Component.extend({
   startsAt: Ember.computed.alias('instance.startsAt'),
   endsAt: Ember.computed.alias('instance.endsAt'),
   subtitle: Ember.computed.alias('instance.subtitle'),
+  isValid: Ember.computed.alias('instance.isValid'),
+
+  error: function() {
+    if (!this.get('isValid')) {
+      return 'End Time cannot be before Start Time';
+    } else {
+      return null;
+    }
+  }.property('isValid'),
+
+  validate: function() {
+    const start = this.get('startsAt');
+    const stop = this.get('endsAt');
+
+    if (start && stop && start > stop) {
+      this.set('isValid', false);
+    } else {
+      this.set('isValid', true);
+    }
+  }.observes('startsAt', 'endsAt'),
 
   subtitleDate: function() {
     const date = this.get('startsAt');

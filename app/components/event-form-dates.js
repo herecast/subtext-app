@@ -6,6 +6,12 @@ export default Ember.Component.extend({
   // removing the last one.
   isRemovable: Ember.computed.gt('eventInstances.length', 1),
 
+  bubbleValidation: function() {
+    const isValid = this.get('eventInstances').isEvery('isValid');
+
+    this.sendAction('afterValidation', isValid);
+  }.observes('eventInstances.@each.isValid'),
+
   addDate: function() {
     const startsAt = this.get('eventInstances.firstObject.startsAt');
     const params = {};

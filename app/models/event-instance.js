@@ -13,6 +13,8 @@ export default DS.Model.extend(BaseEvent, {
   venueLongitude: DS.attr('string'),
   venueLocateName: DS.attr('string'),
 
+  isValid: DS.attr('boolean'),
+
   formattedHours: function() {
     const startTime = this.get('startsAt').format('LT');
 
