@@ -60,13 +60,20 @@
 }
 
 .Card-topContent {
-  min-height: 75px;
+  @media (min-width: @screen-sm-min) {
+    min-height: 75px;
+  }
 }
 
 .Card-content {
   font-size: 14px;
+  margin-bottom: 10px;
   margin-top: 10px;
   height: 60px;
+
+  @media (min-width: @screen-sm-min) {
+    margin-bottom: 0;
+  }
 }
 
 .Card-learnMore {
@@ -90,10 +97,7 @@
 .Card-locationRegion {
   color: @gray-medium;
   font-size: 12px;
-  position: absolute;
-  bottom: 10px;
-  left: 65px;
-  @media (min-width: @screen-sm-min) { 
+  @media (min-width: @screen-sm-min) {
     color: @text-color;
     position: relative;
     bottom: 0;
