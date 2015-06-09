@@ -11,7 +11,8 @@ export default Ember.Component.extend({
     const router = this.get('router');
 
     if (router) {
-      const pathname = router.location.location.pathname;
+      const redirectTo = this.get('redirectTo');
+      const pathname = redirectTo || router.location.location.pathname;
 
       return `/users/sign_in?after_sign_in_path=${pathname}`;
     } else {
