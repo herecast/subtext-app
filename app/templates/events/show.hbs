@@ -105,7 +105,7 @@
 
       </div>
 
-      <aside class='EventShowAside col-sm-12 col-md-4 pull-left-md'>
+      <aside class='EventShowAside {{if model.imageUrl 'EventShowAside--withImage'}} col-sm-12 col-md-4 pull-left-md'>
         <div class='row'>
           {{event-map
             locateName=model.venueLocateName
