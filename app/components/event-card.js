@@ -28,13 +28,11 @@ export default Ember.Component.extend({
   timeRange: Ember.computed.oneWay('event.formattedHours'),
 
   hasVenue: function() {
-    const name = this.get('venueName');
     const address = this.get('venueAddress');
     const city = this.get('venueCity');
     const state = this.get('venueState');
 
-    return isPresent(name) && isPresent(address) && isPresent(city) &&
-      isPresent(state);
+    return isPresent(address) && isPresent(city) && isPresent(state);
 
-  }.property('venueName', 'venueAddress', 'venueCity', 'venueState')
+  }.property('venueAddress', 'venueCity', 'venueState')
 });
