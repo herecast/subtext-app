@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import EventFilter from '../../mixins/routes/event-filter';
+import Track from '../../mixins/routes/track-pageview';
 
-export default Ember.Route.extend(EventFilter, {
+export default Ember.Route.extend(EventFilter, Track, {
   queryParams: {
     r: {
       refreshModel: true

@@ -3,6 +3,8 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from '../../mixins/routes/authorized';
 
 export default Ember.Route.extend(Scroll, Authorized, {
+  mixpanel: Ember.inject.service('mixpanel'),
+
   model() {
     return this.store.createRecord('event', {
       listservIds: []
@@ -28,6 +30,8 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
+
+      this.get('mixpanel').trackEvent('Event Publish');
 
       this.transitionTo('events.show', firstInstanceId);
     },

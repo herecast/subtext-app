@@ -2,8 +2,9 @@ import Ember from 'ember';
 import EventFilter from '../../mixins/routes/event-filter';
 import ajax from 'ic-ajax';
 import config from '../../config/environment';
+import Track from '../../mixins/routes/track-pageview';
 
-export default Ember.Route.extend(EventFilter, {
+export default Ember.Route.extend(EventFilter, Track, {
   model(params) {
     const eventInstance = this.store.getById('event-instance', params.id);
 

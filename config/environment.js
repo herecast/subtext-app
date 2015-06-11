@@ -26,6 +26,11 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.mixpanel = {
+      enabled: true,
+      LOG_EVENT_TRACKING: true,
+      token: 'cc9e3b32dc7554b8450156bb812f70cc'
+    }
   }
 
   if (environment === 'test') {
@@ -38,6 +43,12 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    ENV.mixpanel = {
+      enabled: false,
+      LOG_EVENT_TRACKING: false,
+      token: ''
+    }
   }
 
   if (environment === 'production') {
@@ -45,6 +56,13 @@ module.exports = function(environment) {
     // ENV['ember-cli-mirage'] = {
     //   enabled: true
     // }
+
+    ENV.mixpanel = {
+      enabled: true,
+      LOG_EVENT_TRACKING: false,
+      token: '3e39bf4d0cb67ca4288bae2ec4ac5bb9' // production
+      // token: 'cc9e3b32dc7554b8450156bb812f70cc' // development
+    }
 
     ENV.baseURL = '/events';
   }
