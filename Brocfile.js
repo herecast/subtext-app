@@ -45,4 +45,6 @@ app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.w
 app.import('bower_components/summernote/dist/summernote.js');
 app.import('bower_components/summernote/dist/summernote.css');
 
+app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
+
 module.exports = app.toTree();

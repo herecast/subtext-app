@@ -12,17 +12,18 @@
     </div>
     <div class='col-xs-12 col-sm-4'>
       <label>Start Time</label>
-      {{view "select"
-        content=timeOptions
+      {{input-mask
+        mask='h:s t'
+        placeholder='12:00 am'
         value=startTime
         class='form-control'
       }}
     </div>
     <div class='col-xs-12 col-sm-4'>
       <label>End Time</label>
-      {{view "select"
-        content=timeOptions
-        prompt="N/A"
+      {{input-mask
+        mask='h:s t'
+        placeholder='12:00 am'
         value=endTime
         class='form-control'
       }}

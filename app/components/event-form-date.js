@@ -40,22 +40,6 @@ export default Ember.Component.extend({
     }
   }.property('startsAt'),
 
-  timeOptions: function() {
-    const times = [];
-    const startTime = moment();
-
-    for (let hour = 0; hour < 24; hour += 1) {
-      for (let minutes = 0; minutes < 60; minutes += 15) {
-        startTime.hour(hour);
-        startTime.minutes(minutes);
-
-        times.push(startTime.format(timeFormat));
-      }
-    }
-
-    return times;
-  }.property(),
-
   setupFields: function() {
     let date, startsAt, startTime, endTime;
 
