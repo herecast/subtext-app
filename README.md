@@ -50,7 +50,7 @@ Ember addon for deployment.
 
 ####Deployment Requirements
 
-* AWS account, configured in config/deploy.js
+* AWS account, configured in config/deploy.js (copied from example file)
 * SSH public key setup in the Rails application's Ember admin config
 
 ####How Deployment Works

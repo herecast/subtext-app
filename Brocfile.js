@@ -4,7 +4,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp({
   'fingerprint': {
-    prepend: "https://s3.amazonaws.com/subtext-test-deploys/dist/"
+    prepend: "https://s3.amazonaws.com/subtext-consumer/dist/"
   },
   lessOptions: {
     paths: [
