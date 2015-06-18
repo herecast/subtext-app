@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
+import Authorized from '../../mixins/routes/authorized';
 
-export default Ember.Route.extend(Scroll, {
+export default Ember.Route.extend(Scroll, Authorized, {
   model() {
     return this.store.createRecord('event', {
       listservIds: []
