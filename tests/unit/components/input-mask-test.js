@@ -1,21 +1,19 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-form-date', {
+moduleForComponent('input-mask', 'Unit | Component | input mask', {
   // Specify the other units that are required for this test
-  needs: ['component:pikaday-input', 'helper:fa-icon', 'component:input-mask']
+  // needs: ['component:foo', 'helper:bar'],
+  unit: true
 });
 
 test('it renders', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
 
   // Creates the component instance
   var component = this.subject();
   assert.equal(component._state, 'preRender');
 
   // Renders the component to the page
-  // this.render();
-  // assert.equal(component._state, 'inDOM');
+  this.render();
+  assert.equal(component._state, 'inDOM');
 });
