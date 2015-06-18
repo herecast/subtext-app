@@ -41,7 +41,34 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+This application uses a unique deployment process which mounts the Ember
+application within a Rails application. On the Rails side, we're using
+TED's [front_end_builds](https://github.com/tedconf/front_end_builds)
+Ruby gem and mounting the app at /events. On the ember side, we're using
+the corresponding [ember-cli-front-end-builds](https://github.com/tedconf/ember-cli-front-end-builds)
+Ember addon for deployment.
+
+####Deployment Requirements
+
+* AWS account, configured in config/deploy.js
+* SSH public key setup in the Rails application's Ember admin config
+
+####How Deployment Works
+
+Deployment is done using the following command:
+
+```
+ember deploy --environment=production
+```
+
+When that runs, the following happens:
+
+1. Settings are read from config/deploy.js
+1. Project is built and stored in "dist/".
+1. Compiled application is uploaded to S3 bucket
+1. Rails application is notified of new builds
+1. Rails application automatically makes newest build live (optional,
+   configured in Rails app)
 
 ## Further Reading / Useful Links
 
