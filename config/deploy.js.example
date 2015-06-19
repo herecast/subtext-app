@@ -1,0 +1,17 @@
+module.exports = {
+  "production": {
+    "assets": {
+      "accessKeyId": "",
+      "secretAccessKey": "",
+      "bucket": "subtext-consumer",
+      "prefix": "dist",
+      "distPrefix": "dist-{{SHA}}"
+    },
+    "index": {
+      "app": "events",
+      "endpoints": [
+        "https://dailyuv.com"
+      ]
+    }
+  }
+};
