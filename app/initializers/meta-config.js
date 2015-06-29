@@ -8,7 +8,8 @@ export function initialize() {
     'mixpanel-api-token',
     'intercom-api-token',
     'facebook-app-id',
-    'prerender-io-token'
+    'prerender-io-token',
+    'ganalytics-api-token' // Not an API token, just GA property ID
   ].forEach((name) => {
     const value = Ember.$(`meta[name=${name}]`).attr('content');
 
