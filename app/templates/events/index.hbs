@@ -5,10 +5,9 @@
     </span>
 
     {{#if showReset}}
-      {{link-to 'Reset search filters' 'events'
-        (query-params category=defaultCategory location=defaultLocation query=defaultQuery date_start=defaultStart date_end=defaultEnd r=refreshParam.time)
-        class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'
-      }}
+      <a href='#' {{action 'resetFilters'}} class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'>
+        Reset search filters
+      </a>
     {{/if}}
   </div>
 </div>

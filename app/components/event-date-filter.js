@@ -13,21 +13,7 @@ export default Ember.Component.extend({
     const start = this.get('startDate');
     const stop = this.get('stopDate');
 
-    if (start === Dates.today() && stop === Dates.today()) {
-      return 'Today';
-    } else if (start === Dates.startOfWeek() && stop === Dates.endOfWeek()) {
-      return 'This Week';
-    } else if (start === Dates.startOfWeekend() && stop === Dates.endOfWeekend()) {
-      return 'This Weekend';
-    } else if (start === Dates.startOfMonth() && stop === Dates.endOfMonth()) {
-      return 'This Month';
-    } else if (Ember.isPresent(start) && Ember.isPresent(stop)) {
-      if (start === stop) {
-        return moment(start).format('MMM D');
-      } else {
-        return `${moment(start).format('MMM D')} - ${moment(stop).format('MMM D')}`;
-      }
-    }
+    return Dates.dateSummary(start, stop);
   }.property('startDate', 'stopDate'),
 
   actions: {

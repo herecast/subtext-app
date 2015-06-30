@@ -2,6 +2,7 @@ import Ember from 'ember';
 import EventFilter from '../../mixins/controllers/event-filter';
 
 export default Ember.Controller.extend(EventFilter, {
+  mixpanel: Ember.inject.service('mixpanel'),
   refreshParam: Ember.inject.service('refresh-param'),
 
   showReset: function() {
@@ -14,4 +15,21 @@ export default Ember.Controller.extend(EventFilter, {
     return !isDefaultCategory || !isDefaultLocation || !isDefaultQuery ||
       !isDefaultStart || !isDefaultEnd;
   }.property('category', 'query', 'date_start', 'date_end', 'location'),
+
+  actions: {
+    resetFilters() {
+      this.get('mixpanel').trackEvent('Event Search Reset');
+
+      this.transitionToRoute('events', {
+        queryParams: {
+          category: this.get('defaultCategory'),
+          location: this.get('defaultLocation'),
+          query: this.get('defaultQuery'),
+          date_start: this.get('defaultStart'),
+          date_end: this.get('defaultEnd'),
+          r: this.get('refreshParam.time')
+        }
+      });
+    }
+  }
 });
