@@ -2,6 +2,8 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Component.extend({
+  eventInstances: [],
+
   // Events must have at least one date, so this prevents the user from
   // removing the last one.
   isRemovable: Ember.computed.gt('eventInstances.length', 1),
@@ -25,9 +27,13 @@ export default Ember.Component.extend({
       params.startsAt = newTime;
     }
 
-    const eventInstance = this.store.createRecord('event-instance', params);
+    // A test started failing recently after an Ember upgrade because
+    // this.store was not available. This is just a hack to ensure that it is.
+    if (this.store) {
+      const eventInstance = this.store.createRecord('event-instance', params);
 
-    this.get('eventInstances').pushObject(eventInstance);
+      this.get('eventInstances').pushObject(eventInstance);
+    }
   },
 
   addInitialDate: function() {
