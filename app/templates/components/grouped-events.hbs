@@ -26,19 +26,22 @@
           }}
         </div>
       {{/each}}
-      {{#each event in eventGroup.tailItems}}
-        <div class='col-sm-6 col-md-4 col-lg-3 {{if eventGroup.tailHidden 'hidden'}}'>
-          {{event-card
-            event=event
-            category=category
-            query=query
-            startDate=startDate
-            stopDate=stopDate
-            location=location
-            classNames='Card'
-          }}
-        </div>
-      {{/each}}
+
+      {{#unless eventGroup.tailHidden}}
+        {{#each event in eventGroup.tailItems}}
+          <div class='col-sm-6 col-md-4 col-lg-3'>
+            {{event-card
+              event=event
+              category=category
+              query=query
+              startDate=startDate
+              stopDate=stopDate
+              location=location
+              classNames='Card'
+            }}
+          </div>
+        {{/each}}
+      {{/unless}}
     </div>
 
     {{#if eventGroup.hasHiddenTailItems}}
