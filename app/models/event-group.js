@@ -14,6 +14,6 @@ export default Ember.Object.extend({
   }.property('items.[]'),
 
   tailItems: function() {
-    return this.get('items').slice(this.get('groupHeadCount') + 1, -1);
+    return this.get('items').slice(this.get('groupHeadCount'));
   }.property('items.[]')
 });
