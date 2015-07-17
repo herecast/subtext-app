@@ -10,7 +10,10 @@ export default Ember.Component.extend({
 
     if (instance) {
       return instance.get('eventInstances').filter((item) => {
-        return instance.get('id') !== item.get('id');
+        const differentInstance = instance.get('id') !== item.get('id');
+        const isUpcoming = item.get('startsAt').isAfter();
+
+        return differentInstance && isUpcoming;
       });
     } else {
       return [];
