@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import { ActiveModelSerializer } from 'active-model-adapter';
 
-export default DS.ActiveModelSerializer.extend({
+export default ActiveModelSerializer.extend({
   // The current user endpoint does not take an ID, so we override the ID
   // to be 'self'. This prevents multiple records from being created.
   // Since we also need to send the ID to Mixpanel, we're assigining it to
