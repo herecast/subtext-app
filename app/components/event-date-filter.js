@@ -23,6 +23,9 @@ export default Ember.Component.extend({
       if (period === 'today') {
         startDate = Dates.today();
         stopDate = Dates.today();
+      } else if (period === 'tomorrow') {
+        startDate = Dates.tomorrow();
+        stopDate = Dates.tomorrow();
       } else if (period === 'week') {
         startDate = Dates.startOfWeek();
         stopDate = Dates.endOfWeek();
