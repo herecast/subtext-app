@@ -7,6 +7,8 @@ export default {
   dateSummary(start, stop) {
     if (start === this.today() && stop === this.today()) {
       return 'Today';
+    } else if (start === this.tomorrow() && stop === this.tomorrow()) {
+      return 'Tomorrow';
     } else if (start === this.startOfWeek() && stop === this.endOfWeek()) {
       return 'This Week';
     } else if (start === this.startOfWeekend() && stop === this.endOfWeekend()) {
@@ -24,6 +26,10 @@ export default {
 
   today() {
     return moment().format(dateFormat);
+  },
+
+  tomorrow() {
+    return moment().add(1, 'day').format(dateFormat);
   },
 
   startOfWeek() {
