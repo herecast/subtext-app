@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 
 export default Ember.Component.extend({
   eventInstances: [],
@@ -16,33 +15,13 @@ export default Ember.Component.extend({
 
   addDate: function() {
     const startsAt = this.get('eventInstances.firstObject.startsAt');
-    const params = {};
 
-    if (startsAt) {
-      params.startsAt = startsAt;
-    } else {
-      const newTime = moment();
-      newTime.hour(12);
-      newTime.minute(0);
-      params.startsAt = newTime;
-    }
+    const eventInstance = this.store.createRecord('event-instance', {
+      startsAt: startsAt
+    });
 
-    // A test started failing recently after an Ember upgrade because
-    // this.store was not available. This is just a hack to ensure that it is.
-    if (this.store) {
-      const eventInstance = this.store.createRecord('event-instance', params);
-
-      this.get('eventInstances').pushObject(eventInstance);
-    }
+    this.get('eventInstances').pushObject(eventInstance);
   },
-
-  addInitialDate: function() {
-    const eventInstances = this.get('eventInstances');
-
-    if (eventInstances && Ember.isEmpty(eventInstances)) {
-      this.addDate();
-    }
-  }.on('didInsertElement'),
 
   actions: {
     addNewDate() {
