@@ -13,7 +13,9 @@ export default Ember.Component.extend({
     const startDate = this.get('customStartDate');
     const pikaday = this.get('endInput');
 
-    pikaday.setMinDate(startDate);
+    if (startDate) {
+      pikaday.setMinDate(startDate);
+    }
   }.observes('customStartDate'),
 
   endDateLabel: function() {
