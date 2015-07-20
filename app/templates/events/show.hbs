@@ -107,12 +107,14 @@
 
       <aside class='EventShowAside {{if model.imageUrl 'EventShowAside--withImage'}} col-sm-12 col-md-4 pull-left-md'>
         <div class='row'>
-          {{event-map
-            locateName=model.venueLocateName
-            fullAddress=model.fullAddress
-            directionsUrl=model.directionsUrl
-            class='pull-left col-sm-7 col-md-12 hidden-xs'
-          }}
+          {{#if model.hasLocationInfo}}
+            {{event-map
+              locateName=model.venueLocateName
+              fullAddress=model.fullAddress
+              directionsUrl=model.directionsUrl
+              class='pull-left col-sm-7 col-md-12 hidden-xs'
+            }}
+          {{/if}}
           <div class='pull-right col-xs-12 col-sm-5 col-md-12'>
             {{#unless model.isNew}}
               {{report-abuse modelId=model.eventId type='events'}}
