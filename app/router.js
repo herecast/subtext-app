@@ -8,6 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.resource('events', {path: '/'}, function() {
     this.route('show', {path: '/:id'});
+    this.route('category', {path: '/:category'});
   });
 
   this.route('events.new', {path: '/new'}, function() {
