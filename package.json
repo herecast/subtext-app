@@ -40,6 +40,6 @@
     "ember-export-application-global": "^1.0.2",
     "ember-faker": "^1.0.0",
     "ember-moment": "1.1.1",
-    "ember-pikaday": "git://github.com/beerlington/ember-pikaday.git#abaf9b7ad9476696d1d8f8b1beb85e20edc7d118"
+    "ember-pikaday": "0.10.0"
   }
 }
