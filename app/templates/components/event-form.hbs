@@ -24,11 +24,11 @@
     afterValidation='afterDateValidation'
   }}
 
-  {{#form-group error=errors.image}}
-    <label class='control-label' for="image">Image</label>
-    {{input type='file' class='form-control'}}
-    <span class="help-block">Format: jpg or png. Size: under 5mb</span>
-  {{/form-group}}
+  {{event-form-image
+    image=event.image
+    imageUrl=event.imageUrl
+    error=errors.image
+  }}
 
   <div class="form-group">
     <label class='EventForm-label--required'>Event Price</label>

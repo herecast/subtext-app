@@ -4,15 +4,6 @@ export default Ember.Component.extend({
   tagName: 'form',
   errors: {},
 
-  initAttachFile: function() {
-    this.$('input[type=file]').on('change', (e) => {
-      const file = this.$(e.target).context.files[0];
-
-      this.set('event.image', file);
-      this.set('event.imageUrl', URL.createObjectURL(file));
-    });
-  }.on('didInsertElement'),
-
   removeChangeEvent: function() {
     this.$('input[type=file]').off('change');
   }.on('willDestroyElement'),

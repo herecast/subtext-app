@@ -47,4 +47,10 @@ app.import('bower_components/summernote/dist/summernote.css');
 
 app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
 
+app.import('bower_components/cropper/dist/cropper.js');
+app.import('bower_components/cropper/dist/cropper.css');
+
+app.import('bower_components/blueimp-load-image/js/load-image.all.min.js');
+app.import('bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js');
+
 module.exports = app.toTree();

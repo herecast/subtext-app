@@ -1,14 +1,9 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-form', {
+moduleForComponent('event-form-image', 'Unit | Component | event form image', {
   // Specify the other units that are required for this test
-  needs: ['component:event-form-dates', 'component:summer-note',
-    'component:event-form-cost', 'component:event-form-venue',
-    'helper:fa-icon', 'component:form-group', 'component:event-form-image'
-  ]
+  needs: ['component:form-group'],
+  unit: true
 });
 
 test('it renders', function(assert) {
