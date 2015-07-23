@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     const startDate = this.get('customStartDate');
     const pikaday = this.get('endInput');
 
-    if (startDate) {
+    if (startDate && pikaday) {
       pikaday.setMinDate(startDate);
     }
   }.observes('customStartDate'),
