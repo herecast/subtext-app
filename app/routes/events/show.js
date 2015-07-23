@@ -6,15 +6,26 @@ import Track from '../../mixins/routes/track-pageview';
 
 export default Ember.Route.extend(EventFilter, Track, {
   model(params) {
-    const eventInstance = this.store.getById('event-instance', params.id);
+    const eventIdRegex = /^\d+$/;
 
-    // Force the event instance to reload if it's already found in the store.
-    // This lets us get the more detailed record from the show API endpoint,
-    // rather than relying on what's in the store from the index endpoint.
-    if (eventInstance) {
-      return eventInstance.reload();
+    // Since the event show page and event category landing page share the
+    // same URL format, we need to figure out if we're going to an event first
+    // based on whether the "category" is actually an ID.
+    if (eventIdRegex.test(params.id)) {
+      const eventInstance = this.store.getById('event-instance', params.id);
+
+      // Force the event instance to reload if it's already found in the store.
+      // This lets us get the more detailed record from the show API endpoint,
+      // rather than relying on what's in the store from the index endpoint.
+      if (eventInstance) {
+        return eventInstance.reload();
+      } else {
+        return this.store.find('event-instance', params.id);
+      }
     } else {
-      return this.store.find('event-instance', params.id);
+      const category = params.id.capitalize().replace('-', ' ');
+
+      this.transitionTo('events.index', {queryParams: {category: category}});
     }
   },
 
