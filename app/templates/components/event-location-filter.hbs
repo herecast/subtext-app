@@ -37,7 +37,7 @@
         <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
       </li>
     {{else}}
-      {{#each place in places}}
+      {{#each places as |place|}}
         <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
       {{else}}
         <li class='disabled'><a tabindex='-1'>No Search Results</a></li>

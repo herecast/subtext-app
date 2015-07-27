@@ -2,7 +2,7 @@
   <div class='EventShowAside-similar'>
     <h5 class='EventShowAside-header'>Suggested for You</h5>
     <ul>
-      {{#each content in contentToDisplay}}
+      {{#each contentToDisplay as |content|}}
         <li class='EventShowAside-item'>
           <h4 class='EventShowAside-itemHeader'>
             {{#if content.eventInstanceId}}

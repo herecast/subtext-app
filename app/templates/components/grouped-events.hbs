@@ -1,4 +1,4 @@
-{{#each eventGroup in groupedEvents}}
+{{#each groupedEvents as |eventGroup|}}
   <div class='container'>
     {{#if isFilteredByOneDay}}
       <h1 class='EventGroup-header'>{{eventGroup.displayValue}}</h1>
@@ -13,7 +13,7 @@
     {{/if}}
 
     <div class='row'>
-      {{#each event in eventGroup.headItems}}
+      {{#each eventGroup.headItems as |event|}}
         <div class='col-sm-6 col-md-4 col-lg-3'>
           {{event-card
             event=event
@@ -28,7 +28,7 @@
       {{/each}}
 
       {{#unless eventGroup.tailHidden}}
-        {{#each event in eventGroup.tailItems}}
+        {{#each eventGroup.tailItems as |event|}}
           <div class='col-sm-6 col-md-4 col-lg-3'>
             {{event-card
               event=event

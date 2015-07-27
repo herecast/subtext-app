@@ -2,7 +2,7 @@
   <div class='EventShowAside-otherDates'>
     <h5 class='EventShowAside-header'>Other Dates</h5>
     <ul>
-      {{#each instance in instancesToDisplay}}
+      {{#each instancesToDisplay as |instance|}}
         <li class='EventInfo EventShowAside-item'>
           <h4 class='EventShowAside-itemHeader u-textUnderline'>
             {{#link-to 'events.show' instance.id class='EventShowAside-itemHeaderLink'}}

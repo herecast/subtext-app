@@ -1,4 +1,4 @@
-{{#each listserv in sortedListservs}}
+{{#each sortedListservs as |listserv|}}
   {{event-form-listserv
     listserv=listserv
     selectedIds=event.listservIds

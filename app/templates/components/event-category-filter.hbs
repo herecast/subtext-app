@@ -13,7 +13,7 @@
     </a>
   </li>
   <li role="presentation" class="divider"></li>
-  {{#each category in categoryOptions}}
+  {{#each categoryOptions as |category|}}
     <li>
       <a href='#' {{action 'setCategory' category.value}} tabindex='-1'>
         {{category.label}}
