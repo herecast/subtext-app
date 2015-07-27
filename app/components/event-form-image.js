@@ -6,6 +6,9 @@ export default Ember.Component.extend({
     this.$('input[type=file]').on('change', (e) => {
       const file = this.$(e.target).context.files[0];
 
+      // Set the file type so we can convert it to this format later
+      this.set('originalFileType', file.type);
+
       // Use the "JavaScript Load Image" functionality to parse the file data
       // and get the correct orientation setting from the EXIF Data. This
       // addresses rotation issues with photos taken from mobile devices where
@@ -34,7 +37,8 @@ export default Ember.Component.extend({
   }),
 
   setupCropper(canvas) {
-    const imgDataURL = canvas.toDataURL();
+    const blobFormat = this.get('originalFileType');
+    const imgDataURL = canvas.toDataURL(blobFormat);
     const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
 
     // The .cropper-container element is added by the cropper plugin, so we
@@ -59,11 +63,14 @@ export default Ember.Component.extend({
   },
 
   cropUpdated(img) {
-    const url = img.cropper('getCroppedCanvas').toDataURL();
+    const blobFormat = this.get('originalFileType');
+    const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
     this.set('imageUrl', url);
+
+    const blobQuality = 0.9;
 
     img.cropper('getCroppedCanvas').toBlob((data) => {
       this.set('image', data);
-    });
+    }, blobFormat, blobQuality);
   }
 });
