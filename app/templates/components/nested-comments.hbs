@@ -38,7 +38,7 @@
 {{/if}}
 
 <ol class='Comments-list'>
-  {{#each comment in sortedComments}}
+  {{#each sortedComments as |comment|}}
     {{nested-comments
       row=comment
       eventInstanceId=eventInstanceId

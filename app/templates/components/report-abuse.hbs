@@ -24,7 +24,7 @@
           </div>
         {{/if}}
         <ul class='ReportAbuse-flags'>
-          {{#each flag in flagTypes}}
+          {{#each flagTypes as |flag|}}
             <li class='ReportAbuse-flag'>
               {{#radio-button name='flag-type' value=flag groupValue=flagType}}
                 {{flag}}
