@@ -2,34 +2,48 @@ import Ember from 'ember';
 /* global loadImage */
 
 export default Ember.Component.extend({
+  originalImageFile: null,
+
   initAttachFile: Ember.on('didInsertElement', function() {
     this.$('input[type=file]').on('change', (e) => {
       const file = this.$(e.target).context.files[0];
 
-      // Set the file type so we can convert it to this format later
-      this.set('originalFileType', file.type);
+      // Store the original file on the model so we can access it later
+      this.set('originalImageFile', file);
 
       // Use the "JavaScript Load Image" functionality to parse the file data
       // and get the correct orientation setting from the EXIF Data. This
       // addresses rotation issues with photos taken from mobile devices where
       // the meta data contains the orientation.
-      loadImage.parseMetaData(file, (data) => {
-        const options = {
-          canvas: true,
-
-          // For cropping performance, this reduces the image file size
-          // before opening the cropper.
-          maxWidth: 1000
-        };
-
-        if (data.exif) {
-          options.orientation = data.exif.get('Orientation');
-        }
-
-        loadImage(file, (canvas) => { this.setupCropper(canvas); }, options);
-      });
+      this.loadImageFile(file);
     });
   }),
+
+  editExistingFile: Ember.on('didInsertElement', function() {
+    const file = this.get('originalImageFile');
+
+    if (Ember.isPresent(file)) {
+      this.loadImageFile(file);
+    }
+  }),
+
+  loadImageFile(file) {
+    loadImage.parseMetaData(file, (data) => {
+      const options = {
+        canvas: true,
+
+        // For cropping performance, this reduces the image file size
+        // before opening the cropper.
+        maxWidth: 1000
+      };
+
+      if (data.exif) {
+        options.orientation = data.exif.get('Orientation');
+      }
+
+      loadImage(file, (canvas) => { this.setupCropper(canvas); }, options);
+    });
+  },
 
   unbindAttachFile: Ember.on('willDestroyElement', function() {
     this.$('.js-Cropper-image').cropper('destroy');
@@ -37,7 +51,7 @@ export default Ember.Component.extend({
   }),
 
   setupCropper(canvas) {
-    const blobFormat = this.get('originalFileType');
+    const blobFormat = this.get('originalImageFile.type');
     const imgDataURL = canvas.toDataURL(blobFormat);
     const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
 
@@ -63,7 +77,7 @@ export default Ember.Component.extend({
   },
 
   cropUpdated(img) {
-    const blobFormat = this.get('originalFileType');
+    const blobFormat = this.get('originalImageFile.type');
     const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
     this.set('imageUrl', url);
 
