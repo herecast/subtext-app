@@ -3,8 +3,21 @@ import EventFilter from '../../mixins/routes/event-filter';
 import ajax from 'ic-ajax';
 import config from '../../config/environment';
 import Track from '../../mixins/routes/track-pageview';
+import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 
-export default Ember.Route.extend(EventFilter, Track, {
+export default Ember.Route.extend(EventFilter, Track, RouteMetaMixin, {
+  meta() {
+    const model = this.modelFor(this.routeName);
+
+    return {
+      'property': {
+        'og:image': model.get('imageUrl'),
+        'og:title': model.get('title'),
+        'og:url': `${location.protocol}//${location.host}${location.pathname}`
+      }
+    };
+  },
+
   model(params) {
     const eventIdRegex = /^\d+$/;
 
