@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Service.extend({
   mixpanel: Ember.inject.service('mixpanel'),
+  intercom: Ember.inject.service('intercom'),
 
   getCurrentUser: function() {
     // The current user endpoint does not take an ID, so we pass 'self' so that
@@ -15,6 +16,10 @@ export default Ember.Service.extend({
       mixpanel.peopleSet({
         name: user.get('name')
       });
+
+      const intercom = this.get('intercom');
+
+      intercom.boot(user);
     }).catch(() => {
       this.set('currentUser', null);
     });

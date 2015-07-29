@@ -31,6 +31,10 @@ module.exports = function(environment) {
       LOG_EVENT_TRACKING: true,
       token: 'cc9e3b32dc7554b8450156bb812f70cc'
     }
+
+    ENV.intercom = {
+      id: 'egk6dwbj'
+    }
   }
 
   if (environment === 'test') {
@@ -65,6 +69,11 @@ module.exports = function(environment) {
     }
 
     ENV.baseURL = '/events';
+
+    ENV.intercom = {
+      id: 't4i5jg89' // production
+      // id: 'egk6dwbj' // development
+    }
   }
 
   return ENV;
