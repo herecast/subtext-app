@@ -8,12 +8,7 @@
   {{#if isPreview}}
     <a class='Card-title'>{{x-truncate text=title maxLength=45}}</a>
   {{else}}
-    {{#link-to
-      'events.show'
-      event.id
-      (query-params category=category query=query date_start=startDate date_end=stopDate location=location r=refreshParam.time)
-      class='Card-title'
-    }}
+    {{#link-to 'events.show' event.id class='Card-title'}}
       {{x-truncate text=title maxLength=45}}
     {{/link-to}}
   {{/if}}
@@ -29,12 +24,7 @@
     {{fa-icon 'arrow-right'}}
   </a>
 {{else}}
-  {{#link-to
-    'events.show'
-    event.id
-    (query-params category=category query=query date_start=startDate date_end=stopDate location=location r=refreshParam.time)
-    class='Card-learnMore Card-link hidden-xs'
-  }}
+  {{#link-to 'events.show' event.id class='Card-learnMore Card-link hidden-xs'}}
     Learn more
     {{fa-icon 'arrow-right'}}
   {{/link-to}}

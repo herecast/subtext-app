@@ -3,7 +3,6 @@ import Ember from 'ember';
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
-  refreshParam: Ember.inject.service('refresh-param'),
   isPreview: false,
 
   title: Ember.computed.oneWay('event.title'),

@@ -11,7 +11,7 @@ export default Ember.Mixin.create({
       'category', 'query', 'startDate', 'stopDate', 'location'
     );
 
-    this.controllerFor('events').setProperties(filterParams);
+    this.controllerFor('events/all').setProperties(filterParams);
   }
 });
 

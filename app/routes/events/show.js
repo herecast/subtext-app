@@ -1,11 +1,10 @@
 import Ember from 'ember';
-import EventFilter from '../../mixins/routes/event-filter';
 import ajax from 'ic-ajax';
 import config from '../../config/environment';
 import Track from '../../mixins/routes/track-pageview';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 
-export default Ember.Route.extend(EventFilter, Track, RouteMetaMixin, {
+export default Ember.Route.extend(Track, RouteMetaMixin, {
   meta() {
     const model = this.modelFor(this.routeName);
 
@@ -38,7 +37,7 @@ export default Ember.Route.extend(EventFilter, Track, RouteMetaMixin, {
     } else {
       const category = params.id.capitalize().replace('-', ' ');
 
-      this.transitionTo('events.index', {queryParams: {category: category}});
+      this.transitionTo('events.all', {queryParams: {category: category}});
     }
   },
 
@@ -56,11 +55,5 @@ export default Ember.Route.extend(EventFilter, Track, RouteMetaMixin, {
     controller.set('similarContent', this.store.find('similar-content', {
       event_id: model.get('eventId')
     }));
-  },
-
-  actions: {
-    updateFilter(filterParams) {
-      this.transitionTo('events.index', {queryParams: filterParams});
-    }
   }
 });

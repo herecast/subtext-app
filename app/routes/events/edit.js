@@ -13,7 +13,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
   actions: {
     afterDiscard() {
-      this.transitionTo('events.index');
+      this.transitionTo('events.all');
     },
 
     afterDetails() {
