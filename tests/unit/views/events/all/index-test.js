@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('view:events/index', 'Unit | View | events/index');
+moduleFor('view:events/all/index', 'Unit | View | events/all/index');
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
