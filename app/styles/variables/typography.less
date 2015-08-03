@@ -14,8 +14,56 @@
 
 @font-family-base: 'museo-slab', Georgia, Palatino, serif;
 
-@font-family-sans-serif: 'proxima-nova', Helvetica, Arial, sans-serif;
+@font-family-condensed: 'proxima-nova-extra-condensed', Verdana, Arial, Helvetica, sans-serif;
 
-@font-family-museo-sans: 'museo-sans', Verdana, Arial, Helvetica, sans-serif;
+body {
+  color: #000;
+  font-family: @font-family-base;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+}
 
-@headings-font-weight: 900;
+h1, h2, h3, h4 {
+  font-family: @font-family-condensed;
+  font-weight: 600;
+}
+
+h1 {
+  color: #000;
+  font-size: 36px;
+  text-transform: uppercase;
+}
+
+h2 {
+  color: #000;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+h3 {
+  color: @gray-dark;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+h4 {
+  color: #000;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+h5, h6 {
+  font-family: @font-family-base;
+  font-weight: 300;
+}
+
+h5 {
+  color: @gray-dark;
+  font-size: 14px;
+}
+
+h6 {
+  color: #000;
+  font-size: 14px;
+}
