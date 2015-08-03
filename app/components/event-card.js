@@ -3,6 +3,8 @@ import Ember from 'ember';
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
+  classNames: ['Card', 'EventCard'],
+
   isPreview: false,
 
   title: Ember.computed.oneWay('event.title'),

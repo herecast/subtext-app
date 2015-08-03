@@ -1,0 +1,25 @@
+<div class='container'>
+  <div class='pull-right ContextBar'>
+    <span class='ContextBar-eventCount'>
+      Showing {{model.length}} listings.
+    </span>
+
+    {{#if showReset}}
+      <a href='#' {{action 'resetFilters'}} class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'>
+        Reset search filters
+      </a>
+    {{/if}}
+  </div>
+</div>
+
+{{#if model}}
+  {{grouped-market-posts
+    marketPosts=model
+  }}
+{{else}}
+  <div class='NoResults container text-center'>
+    <p>I can't believe it. No one has posted an item that matches your search.</p>
+    <p>You could try tweaking your search for another listing or&hellip;</p>
+    <p>Seize the opportunity and post your own.</p>
+  </div>
+{{/if}}

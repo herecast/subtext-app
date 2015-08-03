@@ -1,14 +1,14 @@
-<div class='Card-topContent'>
+<div class='EventCard-topContent'>
   {{#if event.imageUrl}}
-    <img src='{{event.imageUrl}}' class='img-responsive Card-image'>
+    <img src='{{event.imageUrl}}' class='img-responsive EventCard-image'>
   {{/if}}
 
-  <div class='Card-time'>{{timeRange}}</div>
+  <div class='EventCard-time'>{{timeRange}}</div>
 
   {{#if isPreview}}
-    <a class='Card-title'>{{x-truncate text=title maxLength=45}}</a>
+    <a class='EventCard-title'>{{x-truncate text=title maxLength=45}}</a>
   {{else}}
-    {{#link-to 'events.show' event.id class='Card-title'}}
+    {{#link-to 'events.show' event.id class='EventCard-title'}}
       {{x-truncate text=title maxLength=45}}
     {{/link-to}}
   {{/if}}
@@ -16,46 +16,46 @@
   <h5 class='hidden-xs'>{{x-truncate text=subtitle maxLength=45}}</h5>
 </div>
 
-{{gradient-truncation stripHtml=true text=content classNames='Card-content'}}
+{{gradient-truncation stripHtml=true text=content classNames='EventCard-content'}}
 
 {{#if isPreview}}
-  <a class='Card-learnMore Card-link'>
+  <a class='EventCard-learnMore EventCard-link'>
     Learn more
     {{fa-icon 'arrow-right'}}
   </a>
 {{else}}
-  {{#link-to 'events.show' event.id class='Card-learnMore Card-link hidden-xs'}}
+  {{#link-to 'events.show' event.id class='EventCard-learnMore EventCard-link hidden-xs'}}
     Learn more
     {{fa-icon 'arrow-right'}}
   {{/link-to}}
 {{/if}}
 
 {{#if hasVenue}}
-  <div class='Card-locationWhere hidden-xs'>Where?</div>
-  <div class='Card-locationName hidden-xs'>{{venueName}}</div>
-  <div class='Card-locationAddress hidden-xs'>{{venueAddress}}</div>
-  <div class='Card-locationRegion'>
+  <div class='EventCard-locationWhere hidden-xs'>Where?</div>
+  <div class='EventCard-locationName hidden-xs'>{{venueName}}</div>
+  <div class='EventCard-locationAddress hidden-xs'>{{venueAddress}}</div>
+  <div class='EventCard-locationRegion'>
     {{venueCity}}, {{venueState}}
-    <span class='Card-locationZipCode hidden-xs'>{{venueZip}}</span>
+    <span class='EventCard-locationZipCode hidden-xs'>{{venueZip}}</span>
   </div>
 {{/if}}
 
-<div class='Card-bottomRow row'>
-  <div class='Card-directions col-sm-4'>
-    <a href='{{event.directionsUrl}}' target='_blank' class='Card-getThere Card-link hidden-xs'>
+<div class='EventCard-bottomRow row'>
+  <div class='EventCard-directions col-sm-4'>
+    <a href='{{event.directionsUrl}}' target='_blank' class='EventCard-getThere EventCard-link hidden-xs'>
       {{fa-icon 'map-marker'}}
       Directions
     </a>
   </div>
 
   {{#if costType}}
-    <div class='Card-cost col-sm-8 hidden-xs'>
-      <span class='Card-costLabel'>Cost</span>
-      <span class='Card-costType'>{{costType}}</span>
+    <div class='EventCard-cost col-sm-8 hidden-xs'>
+      <span class='EventCard-costLabel'>Cost</span>
+      <span class='EventCard-costType'>{{costType}}</span>
       {{x-truncate
         text=event.cost
         maxLength=25
-        class='Card-costValue Truncate--singleLine'
+        class='EventCard-costValue Truncate--singleLine'
       }}
     </div>
   {{/if}}

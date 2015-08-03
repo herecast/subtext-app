@@ -71,6 +71,10 @@ const eventBaseProperties = [
   'title', 'subtitle', 'ends_at', 'starts_at'
 ];
 
+const marketPostBaseProperties = [
+  'id', 'title', 'image_url', 'published_at'
+];
+
 export default function() {
   this.namespace = 'api/v1';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
@@ -235,6 +239,20 @@ export default function() {
       related_promotion: {
         redirect_url: `http://${faker.internet.domainName()}`
       }
+    };
+  });
+
+  this.get('/market_posts', function(db, request) {
+    const params = request.queryParams;
+
+    let posts = db.market_posts.map((post) => {
+      return Ember.getProperties(post, marketPostBaseProperties);
+    });
+
+    posts = filterByDate(posts, params.date_start, params.date_end);
+
+    return {
+      market_posts: posts
     };
   });
 }

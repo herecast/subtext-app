@@ -27,6 +27,10 @@ Router.map(function() {
       this.route('preview');
     });
   });
+
+  this.route('market', function() {
+    this.route('all', {path: '/'}, function() {});
+  });
 });
 
 export default Router;
