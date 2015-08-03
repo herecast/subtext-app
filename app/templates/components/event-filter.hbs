@@ -16,17 +16,17 @@
     </form>
 
     <div class='navbar-right navbar-btn'>
-      <button type='submit' class='Button Button--primary FilterBar-button btn btn-primary' {{action 'submit'}}>
+      <button type='submit' class='Button btn btn-primary' {{action 'submit'}}>
         Find events
       </button>
 
       <span class='hidden-xs'>
         {{#if session.currentUser}}
-          {{#link-to 'events.new' class='Button FilterBar-button btn btn-default'}}
+          {{#link-to 'events.new' class='Button Button--event btn btn-default'}}
             Create an event
           {{/link-to}}
         {{else}}
-          {{#sign-in-link class='Button FilterBar-button btn btn-default' redirectTo='/events/new'}}
+          {{#sign-in-link class='Button btn btn-default' redirectTo='/events/new'}}
             Create an event
           {{/sign-in-link}}
         {{/if}}
