@@ -1,0 +1,151 @@
+.EventCard {
+  background: #FFFFFF;
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
+  position: relative;
+
+  @media (min-width: @screen-sm-min) {
+    padding: 30px 24px 25px 24px;
+  }
+}
+
+.EventCard-link {
+  color: @brand-primary;
+  text-decoration: underline;
+}
+.EventCard-link:hover {
+  color: #CC9900;
+}
+
+.EventCard-title {
+  color: @text-color;
+  display: block;
+  font-weight: 900;
+  margin: 3px 0 20px 0;
+  text-decoration: underline;
+  @media (min-width: @screen-sm-min) {
+    font-size: 18px;
+    display: inline;
+  }
+}
+
+.EventCard-time {
+  color: @gray-medium;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  @media (min-width: @screen-sm-min) {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    font-size: 15px;
+  }
+}
+
+.EventCard-image {
+  border-radius: @border-radius-round;
+  float: left;
+  margin-right: 10px;
+  height: 45px;
+  overflow: hidden;
+  width: 45px;
+  @media (min-width: @screen-sm-min) {
+    height: 75px;
+    width: 75px;
+  }
+}
+
+.EventCard-topContent {
+  @media (min-width: @screen-sm-min) {
+    min-height: 75px;
+  }
+}
+
+.EventCard-content {
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 60px;
+
+  @media (min-width: @screen-sm-min) {
+    margin-bottom: 0;
+  }
+}
+
+.EventCard-learnMore {
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.EventCard-locationWhere {
+  color: @gray-medium;
+  margin-top: 10px;
+}
+
+.EventCard-locationName {
+  font-weight: 900;
+}
+
+.EventCard-locationAddress {
+  font-size: 12px;
+}
+
+.EventCard-locationRegion {
+  color: @gray-medium;
+  font-size: 12px;
+  @media (min-width: @screen-sm-min) {
+    color: @text-color;
+    position: relative;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.EventCard-locationZipCode {
+  display: inline;
+}
+
+.EventCard-bottomRow {
+  top: 370px;
+  position: absolute;
+  width: 100%;
+}
+
+.EventCard-directions {
+  padding-right: 0;
+}
+
+.EventCard-getThere {
+  font-size: 12px;
+}
+
+.EventCard-cost {
+  font-size: 12px;
+  padding-left: 0;
+  padding-right: 36px;
+  text-align: right;
+}
+
+.EventCard-costLabel,
+.EventCard-costType {
+  line-height: 22px;
+}
+
+.EventCard-costLabel {
+  color: @gray-medium;
+  margin-right: 3px;
+}
+
+.EventCard-costType {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.EventCard-costValue {
+  color: @gray-medium;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 11px;
+}

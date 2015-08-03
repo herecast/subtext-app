@@ -1,0 +1,52 @@
+.MarketCard {
+  background: #6C6A6A;
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
+  display: flex;
+  display: -webkit-flex; // Safari
+  flex-direction: column;
+  -webkit-flex-direction: column; // Safari
+  padding: 0;
+  text-align: center;
+}
+
+.MarketCard-content {
+  display: flex;
+  display: -webkit-flex; // Safari
+  flex: 1;
+  -webkit-flex: 1;
+  flex-direction: column;
+  -webkit-flex-direction: column; // Safari
+  justify-content: center;
+  -webkit-justify-content: center;
+
+  @media (min-width: @screen-sm-min) {
+    padding: 0 24px;
+  }
+}
+
+.MarketCard-imageContainer {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 150px;
+  max-width: 100%;
+}
+
+// Most of these weird styles are used to force a max of 2 lines.
+// There may be a better way...
+.MarketCard-title {
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 1.1em;     /* fallback */
+  max-height: 2.2em;      /* fallback */
+  margin-bottom: 12px;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.MarketCard-subtitle {
+  color: white;
+  margin-top: 0;
+}
