@@ -1,0 +1,40 @@
+<h2 class='TalkCard-title u-textTwoLineTruncate u-flexColumn'>
+  {{talk.title}}
+</h2>
+
+<div class='u-flexColumn'>
+  <div class='row'>
+    <div class='col-xs-2'>
+      <img class='TalkCard-authorImage' src={{authorImageUrl}}>
+    </div>
+    <div class='col-xs-10'>
+      Comment by
+      <span class='TalkCard-authorName'>{{talk.authorName}}</span>
+    </div>
+  </div>
+</div>
+
+<div class='TalkCard-stats'>
+  <div class='row'>
+    <div class='col-xs-6'>
+      <div class='TalkCard-stat TalkCard-statLeft'>
+        <div class='TalkCard-statNumber'>
+          {{talk.userCount}}
+        </div>
+        <div class='TalkCard-statText'>
+          {{numberText}}
+        </div>
+      </div>
+    </div>
+    <div class='col-xs-6'>
+      <div class='TalkCard-stat TalkCard-statRight'>
+        <div class='TalkCard-statNumber'>
+          {{talk.pageviewsCount}}
+        </div>
+        <div class='TalkCard-statText'>
+          {{viewText}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
