@@ -31,6 +31,11 @@ Router.map(function() {
   this.route('market', function() {
     this.route('all', {path: '/'}, function() {});
   });
+
+  this.route('news', {path: '/news'});
+  
+  this.route('talk', {path: '/talk'});
+
 });
 
 export default Router;
