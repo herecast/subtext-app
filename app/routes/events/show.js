@@ -36,8 +36,12 @@ export default Ember.Route.extend(Track, RouteMetaMixin, {
       }
     } else {
       const category = params.id.capitalize().replace('-', ' ');
+      const queryParams = {
+        category: category,
+        location: 'All Communities'
+      };
 
-      this.transitionTo('events.all', {queryParams: {category: category}});
+      this.transitionTo('events.all', {queryParams: queryParams});
     }
   },
 
