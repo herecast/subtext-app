@@ -255,4 +255,6 @@ export default function() {
       market_posts: posts
     };
   });
+
+  this.get('/market_posts/:id');
 }

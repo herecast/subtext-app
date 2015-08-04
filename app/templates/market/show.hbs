@@ -1,0 +1,29 @@
+<div class='MarketPost container'>
+  <div class='row'>
+    <div class='col-sm-2'>
+      {{back-button routeName='market'}}
+    </div>
+
+    <div class='col-sm-8'>
+      <h1 class='MarketPost-title'>{{model.title}}</h1>
+
+      <div>{{model.content}}</div>
+
+      <h1 class='MarketPost-price'>{{model.price}}</h1>
+
+      <h2 class='SectionHeader MarketPost-replyHeader'>
+        <div class='SectionHeader-buttonContainer'>
+          <button class='Button Button--market Button--wide btn'>
+            Reply
+          </button>
+        </div>
+      </h2>
+
+      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=775%C3%97150&w=775&h=150">
+    </div>
+
+    <div class='col-sm-2'>
+      {{social-share}}
+    </div>
+  </div>
+</div>
