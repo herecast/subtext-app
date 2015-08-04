@@ -1,6 +1,10 @@
 {{#each groupedPosts as |group|}}
   <div class='container'>
-    <h1 class='EventGroup-header'>{{group.displayValue}}</h1>
+    <h1 class='SectionHeader'>
+      <span class='SectionHeader-text'>
+        {{group.displayValue}}
+      </span>
+    </h1>
 
     <div class='row'>
       {{#each group.headItems as |post|}}
