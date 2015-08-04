@@ -3,6 +3,7 @@ import ajax from 'ic-ajax';
 import config from '../../config/environment';
 import Track from '../../mixins/routes/track-pageview';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
+import Dates from '../../lib/dates';
 
 export default Ember.Route.extend(Track, RouteMetaMixin, {
   meta() {
@@ -38,7 +39,9 @@ export default Ember.Route.extend(Track, RouteMetaMixin, {
       const category = params.id.capitalize().replace('-', ' ');
       const queryParams = {
         category: category,
-        location: 'All Communities'
+        location: 'All Communities',
+        date_start: Dates.startOfMonth(),
+        date_end: Dates.endOfMonth()
       };
 
       this.transitionTo('events.all', {queryParams: queryParams});
