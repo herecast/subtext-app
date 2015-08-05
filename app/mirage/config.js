@@ -80,11 +80,16 @@ export default function() {
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.get('/current_user', function() {
+    const createdAt = moment(faker.date.recent(-30));
+
     return {
       current_user: {
         id: 1,
         name: faker.name.findName(),
-        location: 'Norwich, VT'
+        email: faker.internet.email(),
+        created_at: createdAt.toISOString(),
+        location: 'Norwich, VT',
+        test_group: 'Consumer'
       }
     };
   });
