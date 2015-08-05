@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['Card', 'TalkCard', 'u-flexColumn'],
+  classNames: ['Card', 'TalkCard', 'u-flexColumn-2'],
 
   authorImageUrl: function() {
     const url = this.get('talk.authorImageUrl');

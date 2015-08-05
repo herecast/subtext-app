@@ -80,6 +80,11 @@ const talkBaseProperties = [
   'pageviews_count', 'author_name'
 ];
 
+const newsBaseProperties = [
+  'id', 'title', 'content_snippet', 'published_at', 'author_id', 'author_name',
+  'publication_name','publication_id', 'image_url'
+];
+
 export default function() {
   this.namespace = 'api/v1';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
@@ -279,6 +284,20 @@ export default function() {
 
     return {
       talk: talks
+    };
+  });
+
+  this.get('/news', function(db, request) {
+    const params = request.queryParams;
+
+    let news = db.news.slice(0,14).map((article) => {
+      return Ember.getProperties(article, newsBaseProperties);
+    });
+
+    news = filterByDate(news, params.date_start, params.date_end);
+
+    return {
+      news: news
     };
   });
 }

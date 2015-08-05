@@ -1,10 +1,6 @@
 .MarketCard {
   background: #6C6A6A;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
-  display: flex;
-  display: -webkit-flex; // Safari
-  flex-direction: column;
-  -webkit-flex-direction: column; // Safari
   padding: 0;
   text-align: center;
 }
@@ -14,12 +10,6 @@
 }
 
 .MarketCard-content {
-  display: flex;
-  display: -webkit-flex; // Safari
-  flex: 1;
-  -webkit-flex: 1;
-  flex-direction: column;
-  -webkit-flex-direction: column; // Safari
   justify-content: center;
   -webkit-justify-content: center;
 
@@ -32,6 +22,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  flex-basis: 150px;
+  -webkit-flex-basis: 150px; // safari
   height: 150px;
   max-width: 100%;
 }

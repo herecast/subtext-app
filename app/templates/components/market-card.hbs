@@ -1,11 +1,11 @@
-{{#link-to 'market.show' post.id class='MarketCard-link'}}
+{{#link-to 'market.show' post.id class='MarketCard-link u-flexColumn'}}
   {{#if hasImage}}
-    <div class='MarketCard-imageContainer' style={{backgroundImage}}>
+    <div class='MarketCard-imageContainer u-flexColumn' style={{backgroundImage}}>
     </div>
   {{/if}}
 
-  <div class='MarketCard-content u-textTwoLineTruncate'>
-    <h2 class='MarketCard-title'>
+  <div class='MarketCard-content u-flexColumn-2'>
+    <h2 class='MarketCard-title u-textTwoLineTruncate'>
       {{post.title}}
     </h2>
 
