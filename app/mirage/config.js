@@ -75,6 +75,11 @@ const marketPostBaseProperties = [
   'id', 'title', 'image_url', 'published_at'
 ];
 
+const talkBaseProperties = [
+  'id', 'title', 'author_image_url', 'published_at', 'user_count',
+  'pageviews_count', 'author_name'
+];
+
 export default function() {
   this.namespace = 'api/v1';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
@@ -262,4 +267,18 @@ export default function() {
   });
 
   this.get('/market_posts/:id');
+
+  this.get('/talk', function(db, request) {
+    const params = request.queryParams;
+
+    let talks = db.talks.map((talk) => {
+      return Ember.getProperties(talk, talkBaseProperties);
+    });
+
+    talks = filterByDate(talks, params.date_start, params.date_end);
+
+    return {
+      talk: talks
+    };
+  });
 }

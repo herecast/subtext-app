@@ -7,3 +7,14 @@
 .u-textUnderline {
   text-decoration: underline;
 }
+
+// These weird styles are used to force a max of 2 lines.
+.u-textTwoLineTruncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 1.1em;     /* fallback */
+  max-height: 2.2em;      /* fallback */
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
