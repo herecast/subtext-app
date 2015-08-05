@@ -39,6 +39,7 @@ Router.map(function() {
 
   this.route('talk', function() {
     this.route('all', {path: '/'}, function() {});
+    this.route('show', {path: '/:id'});
   });
 
 });

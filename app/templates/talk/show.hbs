@@ -1,0 +1,52 @@
+<section class='BannerHeader'>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-sm-8 col-sm-offset-2'>
+        <h1 class='BannerHeader-title'>{{model.title}}</h1>
+
+        <div class='row BannerHeader-info'>
+          
+          <div class='col-sm-6'>
+            {{talk-info talk=model}}
+          </div>
+
+          <div class='col-sm-4'>
+            <div class="StatCircle">
+              <div class="StatCircle-number">
+                {{model.userCount}}
+              </div>
+              <div class="StatCircle-text">
+                people
+              </div>
+            </div>
+            <div class="StatCircle">
+              <div class="StatCircle-number">
+                {{model.pageviewsCount}}
+              </div>
+              <div class="StatCircle-text">
+                views
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>      
+  </div>
+</section>
+
+<div class='Talk container'>
+  <div class='row'>
+    <div class='col-sm-2'>
+      {{back-button routeName='talk'}}
+    </div>
+
+    <div class='col-sm-8'>
+      <div>{{model.content}}</div>
+    </div>
+
+    <div class='col-sm-2'>
+      {{social-share}}
+    </div>
+  </div>
+</div>

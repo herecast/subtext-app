@@ -5,11 +5,13 @@ function template(id) {
   const startsAt = moment(faker.date.recent(-30));
 
   // Only a subset of the authors will have an image.
-  const authorImageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=300&h=300' : null;
+  const authorImageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
 
   return {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
+    content: faker.lorem.paragraphs(2),
+    image_url: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250',
     published_at: startsAt.toISOString(),
     user_count: faker.random.number(25),
     pageviews_count: faker.random.number(1000),
