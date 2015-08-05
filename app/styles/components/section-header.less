@@ -1,19 +1,28 @@
 .SectionHeader {
   border-bottom: 1px solid @text-color; 
   line-height: 0; 
-  margin: 45px 0;
   text-align:center; 
 }
 
-.SectionHeader-text {
+.SectionHeader-text, .SectionHeader-buttonContainer {
   background: @body-bg;
   padding: 0 20px;
   position: relative;
+}
+
+.SectionHeader-text {
   top: 3px;
 }
+
+.SectionHeader-buttonContainer {
+  top: 25px;
+  display: inline-block;
+}
+
 
 .SectionHeader-link:hover {
   cursor: pointer;
   text-decoration: underline;
 }
+
 

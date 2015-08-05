@@ -30,6 +30,7 @@ Router.map(function() {
 
   this.route('market', function() {
     this.route('all', {path: '/'}, function() {});
+    this.route('show', {path: '/:id'});
   });
 
   this.route('news', {path: '/news'});
