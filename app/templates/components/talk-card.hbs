@@ -7,7 +7,12 @@
 <div class='u-flexColumn-2'>
   <div class='row'>
     <div class='col-xs-2'>
-      <img class='TalkCard-authorImage' src={{authorImageUrl}}>
+      {{#if talk.authorImageUrl}}
+        <img class='TalkCard-authorImage' src={{talk.authorImageUrl}}>
+      {{else}}
+        <img class='TalkCard-authorImage' src="/images/user-default-avatar.svg">
+
+      {{/if}}
     </div>
     <div class='col-xs-10'>
       Comment by

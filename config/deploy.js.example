@@ -1,17 +1,16 @@
 module.exports = {
   "production": {
+    "store": {
+      "type": "Navis",
+      "appKey": "VK4WrwnVqORle4jWVZOE",
+      "userSecret": process.env.NAVIS_DEPLOY_SECRET,
+      "userKey": process.env.NAVIS_DEPLOY_KEY
+    },
     "assets": {
+      "type": "s3",
       "accessKeyId": "",
       "secretAccessKey": "",
-      "bucket": "subtext-consumer",
-      "prefix": "dist",
-      "distPrefix": "dist-{{SHA}}"
-    },
-    "index": {
-      "app": "events",
-      "endpoints": [
-        "https://dailyuv.com"
-      ]
+      "bucket": ""
     }
   }
 };

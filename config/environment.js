@@ -57,22 +57,20 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // Uncomment to enable mock API in production
-    // ENV['ember-cli-mirage'] = {
-    //   enabled: true
-    // }
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    }
 
     ENV.mixpanel = {
       enabled: true,
       LOG_EVENT_TRACKING: false,
-      token: '3e39bf4d0cb67ca4288bae2ec4ac5bb9' // production
-      // token: 'cc9e3b32dc7554b8450156bb812f70cc' // development
+      // token: '3e39bf4d0cb67ca4288bae2ec4ac5bb9' // production
+      token: 'cc9e3b32dc7554b8450156bb812f70cc' // development
     }
 
-    ENV.baseURL = '/events';
-
     ENV.intercom = {
-      id: 't4i5jg89' // production
-      // id: 'egk6dwbj' // development
+      // id: 't4i5jg89' // production
+      id: 'egk6dwbj' // development
     }
   }
 
