@@ -15,14 +15,16 @@ export default DS.Model.extend(BaseEvent, {
 
   isValid: DS.attr('boolean'),
 
-  formattedHours: function() {
-    const startTime = this.get('startsAt').format('LT');
+  formattedDate: function() {
+    const date = this.get('startsAt').format('MMMM D');
+    const startTime = this.get('startsAt').format('hA');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
-      return `${startTime}`;
+      return `${date} | ${startTime}`;
     } else {
-      const endTime = this.get('endsAt').format('LT');
-      return `${startTime} - ${endTime}`;
+      const endTime = this.get('endsAt').format('hA');
+
+      return `${date} | ${startTime}-${endTime}`;
     }
   }.property('startsAt', 'endsAt'),
 

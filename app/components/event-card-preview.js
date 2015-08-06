@@ -21,23 +21,12 @@ export default EventCard.extend({
     });
   }.on('didInsertElement'),
 
-  timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedHours'),
+  timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedDate'),
 
   title: function() {
     return defaultValue(this.get('event.title'),
       'A short and informative name');
   }.property('event.title'),
-
-  subtitle: function() {
-    const subtitle = this.get('event.eventInstances.firstObject.subtitle');
-
-    return defaultValue(subtitle, "Highlight what's special");
-  }.property('event.eventInstances.firstObject.subtitle'),
-
-  content: function() {
-    return defaultValue(this.get('event.content'),
-      'An inspiring description that will motivate people to attend.');
-  }.property('event.content'),
 
   venueName: function() {
     return defaultValue(this.get('event.venueName'), 'Location Name');
@@ -53,9 +42,5 @@ export default EventCard.extend({
 
   venueState: function() {
     return defaultValue(this.get('event.venueState'), 'State');
-  }.property('event.venueState'),
-
-  venueZip: function() {
-    return defaultValue(this.get('event.venueZip'), '12345');
-  }.property('event.venueZip')
+  }.property('event.venueState')
 });

@@ -1,62 +1,25 @@
-<div class='EventCard-topContent'>
-  {{#if event.imageUrl}}
-    <img src='{{event.imageUrl}}' class='img-responsive EventCard-image'>
-  {{/if}}
+{{#if event.imageUrl}}
+  <div class='EventCard-imageContainer u-flexColumn'>
+    <img src='{{event.imageUrl}}' class='EventCard-image center-block'>
+  </div>
+{{/if}}
 
-  <div class='EventCard-time'>{{timeRange}}</div>
-
+<div class='EventCard-content u-flexColumn-2'>
   {{#if isPreview}}
-    <a class='EventCard-title'>{{x-truncate text=title maxLength=45}}</a>
+    <a href='#'>
+      <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+    </a>
   {{else}}
-    {{#link-to 'events.show' event.id class='EventCard-title'}}
-      {{x-truncate text=title maxLength=45}}
+    {{#link-to 'events.show' event.id}}
+      <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
     {{/link-to}}
   {{/if}}
 
-  <h5 class='hidden-xs'>{{x-truncate text=subtitle maxLength=45}}</h5>
-</div>
+  <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
 
-{{gradient-truncation stripHtml=true text=content classNames='EventCard-content'}}
-
-{{#if isPreview}}
-  <a class='EventCard-learnMore EventCard-link'>
-    Learn more
-    {{fa-icon 'arrow-right'}}
-  </a>
-{{else}}
-  {{#link-to 'events.show' event.id class='EventCard-learnMore EventCard-link hidden-xs'}}
-    Learn more
-    {{fa-icon 'arrow-right'}}
-  {{/link-to}}
-{{/if}}
-
-{{#if hasVenue}}
-  <div class='EventCard-locationWhere hidden-xs'>Where?</div>
-  <div class='EventCard-locationName hidden-xs'>{{venueName}}</div>
-  <div class='EventCard-locationAddress hidden-xs'>{{venueAddress}}</div>
-  <div class='EventCard-locationRegion'>
-    {{venueCity}}, {{venueState}}
-    <span class='EventCard-locationZipCode hidden-xs'>{{venueZip}}</span>
-  </div>
-{{/if}}
-
-<div class='EventCard-bottomRow row'>
-  <div class='EventCard-directions col-sm-4'>
-    <a href='{{event.directionsUrl}}' target='_blank' class='EventCard-getThere EventCard-link hidden-xs'>
-      {{fa-icon 'map-marker'}}
-      Directions
-    </a>
-  </div>
-
-  {{#if costType}}
-    <div class='EventCard-cost col-sm-8 hidden-xs'>
-      <span class='EventCard-costLabel'>Cost</span>
-      <span class='EventCard-costType'>{{costType}}</span>
-      {{x-truncate
-        text=event.cost
-        maxLength=25
-        class='EventCard-costValue Truncate--singleLine'
-      }}
-    </div>
+  {{#if hasVenue}}
+    <h5 class='EventCard-venue'>
+      {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+    </h5>
   {{/if}}
 </div>

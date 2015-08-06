@@ -3,37 +3,28 @@ import Ember from 'ember';
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
-  classNames: ['Card', 'EventCard'],
-
   isPreview: false,
 
   title: Ember.computed.oneWay('event.title'),
-  subtitle: Ember.computed.oneWay('event.subtitle'),
-  content: Ember.computed.oneWay('event.content'),
   venueName: Ember.computed.oneWay('event.venueName'),
   venueAddress: Ember.computed.oneWay('event.venueAddress'),
   venueCity: Ember.computed.oneWay('event.venueCity'),
   venueState: Ember.computed.oneWay('event.venueState'),
-  venueZip: Ember.computed.oneWay('event.venueZip'),
 
-  costType: function() {
-    const type = this.get('event.costType');
+  timeRange: Ember.computed.oneWay('event.formattedDate'),
 
-    if (Ember.isBlank(type)) {
-      return null;
-    } else {
-      return type;
-    }
-  }.property('event.costType'),
+  hasVenue: Ember.computed.notEmpty('venue'),
 
-  timeRange: Ember.computed.oneWay('event.formattedHours'),
-
-  hasVenue: function() {
+  venue: function() {
+    const name = this.get('venueName');
     const address = this.get('venueAddress');
     const city = this.get('venueCity');
     const state = this.get('venueState');
 
-    return isPresent(address) && isPresent(city) && isPresent(state);
-
-  }.property('venueAddress', 'venueCity', 'venueState')
+    if (isPresent(name)) {
+      return name;
+    } else {
+      return [address, city, state].join(', ');
+    }
+  }.property('venueName', 'venueAddress', 'venueCity', 'venueState')
 });

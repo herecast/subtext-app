@@ -1,12 +1,7 @@
+import { generateData, titleize } from '../support/utils';
 import moment from 'moment';
 
-function titleize(words) {
-  return words.split(' ').map((word) => {
-    return word.capitalize();
-  }).join(' ');
-}
-
-function generateEvent(id) {
+function template(id) {
   // All events start at a random time between 7am and 12pm
   const startHour = faker.random.number({min: 7, max: 12});
   const startsAt = moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
@@ -14,6 +9,12 @@ function generateEvent(id) {
   // All are up to 8 hours long so they don't go past midnight
   const hourSpan = faker.random.number({min: 2, max: 8});
   const endsAt = moment(startsAt).add(hourSpan, 'hours');
+
+  // Only a subset of the events will have an image.
+  const imageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Event&w=500&h=500' : null;
+
+  // Only a subset of the events will have a venue name.
+  const venueName = (id % 3 === 0) ? titleize(faker.lorem.words(3).join(' ')) : null;
 
   return {
     id: id,
@@ -30,7 +31,7 @@ function generateEvent(id) {
     contact_email: faker.internet.email(),
     event_url: `http://${faker.internet.domainName()}`,
     venue_id: faker.random.number(1000),
-    venue_name: titleize(faker.lorem.words(3).join(' ')),
+    venue_name: venueName,
     venue_address: faker.address.streetAddress(),
     venue_city: faker.address.city(),
     venue_state: 'VT',
@@ -40,18 +41,9 @@ function generateEvent(id) {
     venue_longitude: '-73.2119',
     venue_locate_name: titleize(faker.lorem.sentences(1)),
     starts_at: startsAt.toISOString(),
-    ends_at: endsAt.toISOString()
+    ends_at: endsAt.toISOString(),
+    image_url: imageUrl
   };
 }
 
-function allInstances() {
-  const events = [];
-
-  for (let i = 1; i < 100; i += 1) {
-    events.push(generateEvent(i));
-  }
-
-  return events;
-}
-
-export default allInstances();
+export default generateData(100, template);
