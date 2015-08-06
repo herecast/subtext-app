@@ -3,16 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['Card', 'TalkCard', 'u-flexColumn-2'],
 
-  authorImageUrl: function() {
-    const url = this.get('talk.authorImageUrl');
-
-    if (Ember.isPresent(url)) {
-      return url;
-    } else {
-      return '/images/user-default-avatar.svg';
-    }
-  }.property('talk.authorImageUrl'),
-
   numberText: function() {
     const count = this.get('talk.userCount');
 
