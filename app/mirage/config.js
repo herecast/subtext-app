@@ -287,6 +287,8 @@ export default function() {
     };
   });
 
+  this.get('/talk/:id');
+
   this.get('/news', function(db, request) {
     const params = request.queryParams;
 

@@ -1,6 +1,8 @@
-<h2 class='TalkCard-title u-textTwoLineTruncate'>
-  {{talk.title}}
-</h2>
+{{#link-to 'talk.show' talk.id}}
+  <h2 class='TalkCard-title u-textTwoLineTruncate'>
+    {{talk.title}}
+  </h2>
+{{/link-to}}
 
 <div class='u-flexColumn-2'>
   <div class='row'>
@@ -17,21 +19,21 @@
 <div class='TalkCard-stats'>
   <div class='row'>
     <div class='col-xs-6'>
-      <div class='TalkCard-stat TalkCard-statLeft'>
-        <div class='TalkCard-statNumber'>
+      <div class='StatCircle StatCircle--left'>
+        <div class='StatCircle-number'>
           {{talk.userCount}}
         </div>
-        <div class='TalkCard-statText'>
+        <div class='StatCircle-text'>
           {{numberText}}
         </div>
       </div>
     </div>
     <div class='col-xs-6'>
-      <div class='TalkCard-stat TalkCard-statRight'>
-        <div class='TalkCard-statNumber'>
+      <div class='StatCircle StatCircle--right'>
+        <div class='StatCircle-number'>
           {{talk.pageviewsCount}}
         </div>
-        <div class='TalkCard-statText'>
+        <div class='StatCircle-text'>
           {{viewText}}
         </div>
       </div>
