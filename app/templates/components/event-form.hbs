@@ -1,11 +1,11 @@
-<div class='EventForm-stepContent'>
+<div class='ContentForm-stepContent'>
 
   {{#form-group error=errors.title}}
-    <label class='control-label EventForm-label--required' for="title">Event Title</label>
+    <label class='control-label ContentForm-label--required' for="title">Event Title</label>
     {{input
       id='title'
       placeholder='A short and informative name'
-      class='form-control EventForm-input'
+      class='form-control'
       value=event.title
     }}
   {{/form-group}}
@@ -24,7 +24,7 @@
     afterValidation='afterDateValidation'
   }}
 
-  {{event-form-image
+  {{content-form-image
     image=event.image
     imageUrl=event.imageUrl
     originalImageFile=event.originalImageFile
@@ -32,7 +32,7 @@
   }}
 
   <div class="form-group">
-    <label class='EventForm-label--required'>Event Price</label>
+    <label class='ContentForm-label--required'>Event Price</label>
     <div>
       {{event-form-cost
         cost=event.cost
@@ -42,7 +42,7 @@
   </div>
 
   {{#form-group error=errors.content}}
-    <label class='control-label EventForm-label--required' for="description">Event Description</label>
+    <label class='control-label ContentForm-label--required' for="description">Event Description</label>
     {{#summer-note content=event.content}}
       {{textarea
         id='description'
@@ -93,20 +93,20 @@
   </div>
 
   <div class='form-group'>
-    <span class='EventForm-requiredIndicator'>*</span> required fields
+    <span class='ContentForm-requiredIndicator'>*</span> required fields
   </div>
 
 </div>
 
-<div class='EventForm-buttonGroup form-group'>
+<div class='ContentForm-buttonGroup form-group'>
   <button class='Button Button--event btn btn-primary pull-right' {{action 'next'}}>
     Next Step
     {{fa-icon 'arrow-right u-iconRight'}}
   </button>
 
   {{#if event.isNew}}
-    <button class='EventForm-buttonLink EventForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-      Discard Event 
+    <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
+      Discard Event
       {{fa-icon 'trash u-iconRight'}}
     </button>
   {{/if}}

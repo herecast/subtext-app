@@ -1,11 +1,9 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-form-header', {
+moduleForComponent('talk-card-preview', 'Unit | Component | talk card preview', {
   // Specify the other units that are required for this test
-  needs: []
+  needs: ['template:components/talk-card'],
+  unit: true
 });
 
 test('it renders', function(assert) {

@@ -3,12 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-form', {
+moduleForComponent('content-form-steps', {
   // Specify the other units that are required for this test
-  needs: ['component:event-form-dates', 'component:summer-note',
-    'component:event-form-cost', 'component:event-form-venue',
-    'helper:fa-icon', 'component:form-group', 'component:content-form-image'
-  ]
+  needs: []
 });
 
 test('it renders', function(assert) {

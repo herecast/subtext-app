@@ -1,0 +1,40 @@
+<div class='row'>
+  <div class='col-sm-3'>
+    {{#link-to editLink class='Button btn btn-default pull-left'}}
+      {{fa-icon 'arrow-left u-iconLeft'}}
+      Edit Talk
+    {{/link-to}}
+  </div>
+  <div class='ContentPreview-summary col-sm-6'>
+    <p>
+      Preview your talk page below. If everything looks good to go, click the
+      “SAVE &amp; PUBLISH” button to submit your talk.
+    </p>
+    <p>
+      Here’s how you’ve chosen to promote your talk:
+    </p>
+    <ul class='ContentPreview-propertyList'>
+      {{#disabled-checkbox
+        checked=model.listEnabled
+        tagName='li'
+        class='ContentPreview-summaryProperty'
+      }}
+        Alert the List
+      {{/disabled-checkbox}}
+    </ul>
+    <div class='ContentPreview-helpText ContentPreview--bottom'>
+      Everything below dotted line is your preview
+      {{fa-icon 'arrow-down'}}
+    </div>
+  </div>
+  <div class='col-sm-3'>
+    {{#async-button action='save' class='Button Button--talk btn btn-primary pull-right'}}
+      {{#if isSaving}}
+        Please Wait&hellip;
+      {{else}}
+        Save &amp; Publish
+        {{fa-icon 'check u-iconRight'}}
+      {{/if}}
+    {{/async-button}}
+  </div>
+</div>

@@ -35,14 +35,6 @@ export default Ember.Component.extend({
           this.sendAction('afterPublish', savedEvent);
         }
       });
-    },
-
-    discard() {
-      if (confirm('Are you sure you want to discard this event?')) {
-        const event = this.get('event');
-        event.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
     }
   }
 });

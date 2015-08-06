@@ -5,7 +5,7 @@
       Edit Event
     {{/link-to}}
   </div>
-  <div class='EventPreview-summary col-sm-6'>
+  <div class='ContentPreview-summary col-sm-6'>
     <p>
       Preview your event page below. If everything looks good to go, click the 
       “SAVE &amp; PUBLISH” button to submit your event.
@@ -13,36 +13,36 @@
     <p>
       Here’s how you’ve chosen to promote your event:
     </p>
-    <ul class='EventPreview-propertyList'>
+    <ul class='ContentPreview-propertyList'>
       {{#disabled-checkbox 
         checked=model.extendedReachEnabled
         tagName='li'
-        class='EventPreview-summaryProperty'
+        class='ContentPreview-summaryProperty'
       }}
         Extend Your Reach
       {{/disabled-checkbox}}
       {{#disabled-checkbox 
         checked=model.categoryEnabled
         tagName='li'
-        class='EventPreview-summaryProperty'
+        class='ContentPreview-summaryProperty'
       }}
         Be Special
       {{/disabled-checkbox}}
       {{#disabled-checkbox 
         checked=model.listsEnabled
         tagName='li'
-        class='EventPreview-summaryProperty'
+        class='ContentPreview-summaryProperty'
       }}
         Alert the List
-      {{/disabled-checkbox}}      
+      {{/disabled-checkbox}}
     </ul>
-    <div class='EventPreview-helpText EventPreview--bottom'>
+    <div class='ContentPreview-helpText ContentPreview--bottom'>
       Everything below dotted line is your preview 
       {{fa-icon 'arrow-down'}}
     </div>
   </div>
   <div class='col-sm-3'>
-    {{#async-button action='save' class='Button Button--event btn-lg btn-primary pull-right'}}
+    {{#async-button action='save' class='Button Button--event btn btn-primary pull-right'}}
       {{#if isSaving}}
         Please Wait&hellip;
       {{else}}

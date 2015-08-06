@@ -1,8 +1,8 @@
 <div class='container'>
   {{content-form-header
     isNew=model.isNew
-    createText='Create an Event'
-    updateText='Update Your Event'
+    createText='Create a Talk'
+    updateText='Update Your Talk'
   }}
 
   <div class='row'>
@@ -11,21 +11,20 @@
         step1State='current'
         step2State='inactive'
         step3State='inactive'
-        type='Event'
+        type='Talk'
       }}
 
-      {{event-form
-        event=model
+      {{talk-form
+        talk=model
         afterDiscard='afterDiscard'
         afterDetails='afterDetails'
       }}
     </div>
 
-    {{event-card-preview
-      event=model
+    {{talk-card-preview
+      talk=model
       isPreview=true
       classNames='col-md-4'
     }}
-
   </div>
 </div>

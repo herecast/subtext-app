@@ -1,7 +1,7 @@
 {{#form-group error=error}}
   <div class='row'>
     <div class='col-xs-12 col-sm-4'>
-      <label class='EventForm-label--required'>Start Date</label>
+      <label class='ContentForm-label--required'>Start Date</label>
       {{pikaday-input
         firstDay=0
         value=date
@@ -12,7 +12,7 @@
       }}
     </div>
     <div class='col-xs-12 col-sm-4'>
-      <label class='EventForm-label--required'>Start Time</label>
+      <label class='ContentForm-label--required'>Start Time</label>
       {{input-mask
         mask='h:s t'
         placeholder='12:00 am'
@@ -44,7 +44,7 @@
     </div>
     <div class='col-xs-12 col-sm-4'>
       {{#if isRemovable}}
-        <button {{action 'removeDate' instance}} class='EventForm-buttonLink EventForm-removeInstanceLink btn btn-link'>
+        <button {{action 'removeDate' instance}} class='ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link'>
           {{fa-icon 'minus-circle u-iconLeft'}}
           Remove date
         </button>

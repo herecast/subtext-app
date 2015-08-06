@@ -1,4 +1,7 @@
+import Ember from 'ember';
+import ajax from 'ic-ajax';
 import DS from 'ember-data';
+import config from '../config/environment';
 import moment from 'moment';
 
 export default DS.Model.extend({
@@ -6,8 +9,27 @@ export default DS.Model.extend({
   authorImageUrl: DS.attr('string'),
   content: DS.attr('string'),
   imageUrl: DS.attr('string'),
+  listservId: DS.attr('number'), // write only
   pageviewsCount: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
-  userCount: DS.attr('number')
+  userCount: DS.attr('number'),
+
+  listEnabled: Ember.computed.notEmpty('listservId'),
+
+  uploadImage() {
+    const url = `/${config.API_NAMESPACE}/talk/${this.get('id')}`;
+    const data = new FormData();
+
+    if (this.get('image')) {
+      data.append('talk[image]', this.get('image'));
+
+      return ajax(url, {
+        data: data,
+        type: 'PUT',
+        contentType: false,
+        processData: false
+      });
+    }
+  }
 });

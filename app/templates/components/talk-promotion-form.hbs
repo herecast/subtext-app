@@ -1,0 +1,44 @@
+<div class='ContentForm-stepContent'>
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
+      Are you subscribed to the {{userLocation}} listserv?
+      Send the list a text-only version of your post with a link back to dailyUV!
+    </p>
+    <div class='row'>
+      <div class='col-sm-2 col-sm-offset-2'>
+        <div {{action 'toggleListserv'}} class='PromotionSection-toggle'>
+          {{#if listEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-8'>
+        {{#if listEnabled}}
+          <strong>{{listservName}}</strong>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='ContentForm-buttonGroup form-group'>
+  <button class='Button btn btn-default pull-left' {{action 'back'}}>
+    {{fa-icon 'arrow-left u-iconLeft'}}
+    Back
+  </button>
+
+  <button class='Button Button--talk btn btn-primary pull-right' {{action 'preview'}}>
+    Next Step
+    {{fa-icon 'arrow-right u-iconRight'}}
+  </button>
+
+  {{#if talk.isNew}}
+    <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
+      Discard Talk
+      {{fa-icon 'trash u-iconRight'}}
+    </button>
+  {{/if}}
+</div>
