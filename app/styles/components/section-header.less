@@ -1,13 +1,17 @@
 .SectionHeader {
-  border-bottom: 1px solid @text-color; 
-  line-height: 0; 
-  text-align:center; 
+  border-bottom: 1px solid @text-color;
+  line-height: 0;
+  text-align:center;
 }
 
 .SectionHeader-text, .SectionHeader-buttonContainer {
-  background: @body-bg;
+  background-color: @body-bg;
   padding: 0 20px;
   position: relative;
+}
+
+.SectionHeader-text--secondaryBg, .SectionHeader-buttonContainer--secondaryBg {
+  background-color: @secondary-bg;
 }
 
 .SectionHeader-text {
