@@ -9,15 +9,25 @@
 }
 
 // These weird styles are used to force a max of 2 lines.
-.u-textTwoLineTruncate {
+.u-twoLineH1 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  line-height: 1.1em;     /* fallback */
-  max-height: 2.2em;      /* fallback */
+  line-height: 31px;     /* fallback */
+  max-height: 61px;      /* fallback */
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
-}
+ }
+
+.u-twoLineH2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 21px;     /* fallback */
+  max-height: 41px;      /* fallback */
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+ }
 
 .u-textThreeLineTruncate {
   overflow: hidden;

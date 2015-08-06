@@ -19,14 +19,20 @@
     <div class='row Section'>
       {{#each eventGroup.headItems as |event|}}
         <div class='col-sm-6 col-md-4 col-lg-3'>
-          {{event-card event=event}}
+          {{event-card
+            event=event
+            class='Card EventCard u-flexColumn'
+          }}
         </div>
       {{/each}}
 
       {{#unless eventGroup.tailHidden}}
         {{#each eventGroup.tailItems as |event|}}
           <div class='col-sm-6 col-md-4 col-lg-3'>
-            {{event-card event=event}}
+            {{event-card
+              event=event
+              class='Card EventCard u-flexColumn'
+            }}
           </div>
         {{/each}}
       {{/unless}}
