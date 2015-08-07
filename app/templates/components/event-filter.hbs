@@ -19,18 +19,6 @@
       <button type='submit' class='Button btn btn-primary' {{action 'submit'}}>
         Find events
       </button>
-
-      <span class='hidden-xs'>
-        {{#if session.currentUser}}
-          {{#link-to 'events.new' class='Button Button--event btn btn-default'}}
-            Create an event
-          {{/link-to}}
-        {{else}}
-          {{#sign-in-link class='Button btn btn-default' redirectTo='/events/new'}}
-            Create an event
-          {{/sign-in-link}}
-        {{/if}}
-      </span>
     </div>
   </div>
 </div><!-- /.container-fluid -->
