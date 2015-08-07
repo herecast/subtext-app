@@ -9,6 +9,7 @@ export default DS.Model.extend({
   contentId: DS.attr('number'),
   contentSnippet: DS.attr('string'),
   imageUrl: DS.attr('string'),
+  images: DS.attr('raw', {defaultValue: []}),
   publicationId: DS.attr('number'),
   publicationName: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
@@ -17,5 +18,9 @@ export default DS.Model.extend({
 
   formattedPublishedAt: function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM Do, YYYY');
-  }.property('publishedAt')
+  }.property('publishedAt'),
+
+  bannerImage: function() {
+    return this.get('images').findBy('primary');
+  }.property('images')
 });
