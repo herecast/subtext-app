@@ -4,9 +4,12 @@
 {{/if}}
 
 <div class='NewsCard-content u-flexColumn-2'>
-  <h1 class='NewsCard-title u-twoLineH1'>
-    {{item.title}}
-  </h1>
+
+  {{#link-to 'news.show' item.id}}
+    <h1 class='NewsCard-title u-twoLineH1'>
+      {{item.title}}
+    </h1>
+  {{/link-to}}
 
   <div class='NewsCard-subtitle'>
     <h3 class='NewsCard-pubAuthor'>{{item.publicationName}} : {{item.authorName}}</h3>

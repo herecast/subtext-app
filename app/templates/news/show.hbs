@@ -1,0 +1,31 @@
+{{#if model.imageUrl}}
+  <section class='NewsPhotoBanner'>
+    <div class='container NewsPhotoBanner-photoContainer'>
+      {{#background-image imageUrl=model.imageUrl class='NewsPhotoBanner-photo'}}
+        <div class='NewsPhotoBanner-captionArea'>
+          Caption area of featured image/ Source: Photographer information
+        </div>
+      {{/background-image}}
+    </div>
+  </section>
+{{/if}}
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-2'>
+      {{back-button routeName='news'}}
+    </div>
+
+    <div class='col-sm-8'>
+      <h1 class='News-title'>{{model.title}}</h1>
+      <h3 class='News-subtitle'>{{model.subtitle}}</h3>
+      <div class='News-publicationInfo'>{{model.publicationName}}: {{model.authorName}}</div>
+      <div class='News-publicationDate'>{{model.formattedPublishedAt}}</div>
+      <div class='News-content'>{{model.content}}</div>
+    </div>
+
+    <div class='col-sm-2'>
+      {{social-share}}
+    </div>
+  </div>
+</div>
