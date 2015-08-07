@@ -35,6 +35,7 @@ Router.map(function() {
 
   this.route('news', function() {
     this.route('all', {path: '/'}, function() {});
+    this.route('show', {path: '/:id'});
   });
 
   this.route('talk', function() {

@@ -302,4 +302,6 @@ export default function() {
       news: news
     };
   });
+
+  this.get('/news/:id');
 }
