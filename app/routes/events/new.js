@@ -5,6 +5,7 @@ import moment from 'moment';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   mixpanel: Ember.inject.service('mixpanel'),
+  intercom: Ember.inject.service('intercom'),
 
   model() {
     // New event instances default to noon.
@@ -43,6 +44,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
 
       this.get('mixpanel').trackEvent('Event Publish');
+      this.get('intercom').trackEvent('published-event');
 
       this.transitionTo('events.show', firstInstanceId);
     },
