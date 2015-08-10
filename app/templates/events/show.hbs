@@ -9,18 +9,15 @@
         </div>
       </div>
     {{/if}}
-    <div class='PhotoBanner'>
+    <div class='PhotoBanner {{if model.imageUrl 'PhotoBanner--padded'}}'>
       {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
       <div class='PhotoBanner-curtain'></div>
       <div class='PhotoBanner-content container'>
         <div class='row'>
           <div class='col-xs-12 {{if model.imageUrl 'col-sm-8 col-sm-offset-4'}}'>
-            {{#link-to 'events' class='EventHeader-link'}}
-              {{fa-icon 'arrow-left EventHeader-linkIcon'}}
-              <span class='EventHeader-linkText'>Back to events</span>
-            {{/link-to}}
-            <h1 class='EventHeader-title'>{{x-truncate text=model.title maxLength=50}}</h1>
-            <h4 class='EventHeader-subtitle'>{{model.subtitle}}</h4>
+            <h1 class='PhotoBanner-title'>{{x-truncate text=model.title maxLength=50}}</h1>
+            <h2 class='PhotoBanner-subtitle'>{{model.subtitle}}</h2>
+            <h2 class='PhotoBanner-subtitle'>{{model.timeRange}}</h2>
           </div>
         </div>
       </div>
@@ -29,8 +26,12 @@
 
   <main class='container'>
     <div class='row'>
-      <div class='col-sm-12 col-md-8 pull-right-md'>
-        <h3 class='EventShow-infoHeader'>{{model.timeRange}}</h3>
+
+      <div class='col-sm-2'>
+        {{back-button routeName='events'}}
+      </div>
+
+      <div class='col-sm-8'>
         <div class='EventShow-info row'>
           {{#if model.hasLocationInfo}}
             <div class='EventInfo col-sm-4'>
@@ -49,6 +50,14 @@
                     Location
                   {{/if}}
                 </h4>
+                {{#if model.hasLocationInfo}}
+                  {{event-map
+                    locateName=model.venueLocateName
+                    fullAddress=model.fullAddress
+                    directionsUrl=model.directionsUrl
+                    class='pull-left col-sm-7 col-md-12 hidden-xs'
+                  }}
+                {{/if}}
                 <div>{{model.venueAddress}}</div>
                 <div>{{model.venueCity}}, {{model.venueState}} {{model.venueZip}}</div>
 
@@ -101,55 +110,47 @@
         <div class='EventShow-content'>
           {{{model.content}}}
         </div>
-
       </div>
 
-      <aside class='EventShowAside {{if model.imageUrl 'EventShowAside--withImage'}} col-sm-12 col-md-4 pull-left-md'>
-        <div class='row'>
-          {{#if model.hasLocationInfo}}
-            {{event-map
-              locateName=model.venueLocateName
-              fullAddress=model.fullAddress
-              directionsUrl=model.directionsUrl
-              class='pull-left col-sm-7 col-md-12 hidden-xs'
-            }}
-          {{/if}}
-          <div class='pull-right col-xs-12 col-sm-5 col-md-12'>
-            {{#unless model.isNew}}
-              {{report-abuse modelId=model.eventId type='events'}}
-            {{/unless}}
+      <div class='col-sm-2'>
+        {{social-share}}
+      </div>
+    </div>
 
-            {{#if model.canEdit}}
-              {{#link-to 'events.edit' model.eventId class='EventShowAside-button btn btn-link hidden-xs'}}
-                Edit this event
-              {{/link-to}}
-            {{/if}}
+    <h1 class='SectionHeader'>
+      <span class='SectionHeader-text'>
+        Future Event Dates
+      </span>
+    </h1>
+    <div class='row'>
+      {{event-other-dates instance=model}}
+    </div>
 
-            {{#if model.adminContentUrl}}
-              <div>
-                <a href='{{model.adminContentUrl}}'>Admin</a>
-              </div>
-            {{/if}}
-          </div>
-        </div>
-
-        {{event-other-dates instance=model}}
-
-        {{event-similar-content similarContent=similarContent}}
-      </aside>
-
-      <div class='col-sm-12 col-md-8 pull-right-md'>
-        {{event-comments
+    <h1 class='SectionHeader'>
+      <span class='SectionHeader-text'>
+        The Conversation
+      </span>
+    </h1>
+    <div class='row'>
+      {{event-comments
           eventInstanceId=model.id
           eventTitle=model.title
           comments=comments
           class='EventShow-content'
           commentingDisabled=model.isNew
         }}
-      </div>
     </div>
   </main>
 
+  <h1 class='SectionHeader'>
+    <span class='SectionHeader-text'>
+      Suggested Content
+    </span>
+  </h1>
+
+  {{event-similar-content similarContent=similarContent}}
+
 
 </article>
+
 
