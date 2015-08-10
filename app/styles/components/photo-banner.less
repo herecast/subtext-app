@@ -1,8 +1,14 @@
 .PhotoBanner {
+  border-top: 2px solid white;
   color: white;
-  height: 250px;
   overflow: hidden;
   position: relative;
+  top: -2px;
+  min-height: 252px;
+}
+
+.PhotoBanner--padded {
+  margin-bottom: 110px;
 }
 
 .PhotoBanner-curtainImage {
@@ -34,4 +40,38 @@
 
 .PhotoBanner-content {
   position: relative;
+  color: white;
+  padding: 35px 0 40px 0;
+}
+
+.PhotoBanner-thumbnail {
+  position: absolute;
+  z-index: 2;
+  top: 1px;
+  left: -9px;
+  background-color: white;
+  background-position: center;
+  background-size: cover;
+
+  @media (min-width: @screen-sm-min) {
+    font-size: 48px;
+    width: 250px;
+    height: 250px;
+  }
+
+  @media (min-width: @screen-lg-min) {
+    font-size: 48px;
+    width: 350px;
+    height: 350px;
+  }
+}
+
+.PhotoBanner-title {
+  font-size: 48px;
+  color: white;
+  margin-top: 0;
+}
+
+.PhotoBanner-info {
+  margin-top: 40px;
 }

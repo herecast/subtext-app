@@ -1,11 +1,22 @@
-<section class='BannerHeader'>
+
+{{#if model.imageUrl}}
   <div class='container'>
     <div class='row'>
-      <div class='col-sm-8 col-sm-offset-2'>
-        <h1 class='BannerHeader-title'>{{model.title}}</h1>
+      <div class='col-md-4 hidden-xs'>
+        {{background-image imageUrl=model.imageUrl class='PhotoBanner-thumbnail'}}
+      </div>
+    </div>
+  </div>
+{{/if}}
 
-        <div class='row BannerHeader-info'>
-          
+<div class='PhotoBanner {{if model.imageUrl 'PhotoBanner--padded'}}'>
+  {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
+  <div class='PhotoBanner-curtain'></div>
+  <div class='PhotoBanner-content container'>
+    <div class='row'>
+      <div class='col-sm-8 {{if model.imageUrl 'col-sm-offset-4' 'col-sm-offset-2'}}'>
+        <h1 class='PhotoBanner-title'>{{model.title}}</h1>
+        <div class='row PhotoBanner-info'>
           <div class='col-sm-6'>
             {{talk-info talk=model}}
           </div>
@@ -29,13 +40,13 @@
             </div>
           </div>
         </div>
-
       </div>
-    </div>      
+    </div>
   </div>
-</section>
+</div>
 
-<div class='Talk container'>
+
+<div class='container Talk'>
   <div class='row'>
     <div class='col-sm-2'>
       {{back-button routeName='talk'}}
