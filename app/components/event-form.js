@@ -1,34 +1,8 @@
 import Ember from 'ember';
+import Validation from '../mixins/components/validation';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Validation, {
   tagName: 'form',
-  errors: {},
-
-  removeChangeEvent: function() {
-    this.$('input[type=file]').off('change');
-  }.on('willDestroyElement'),
-
-  validateTitle() {
-    const title = this.get('event.title');
-
-    if (Ember.isPresent(title)) {
-      this.set('errors.title', null);
-      delete this.get('errors').title;
-    } else {
-      this.set('errors.title', 'Cannot be blank');
-    }
-  },
-
-  validateContent() {
-    const content = this.get('event.content');
-
-    if (Ember.isPresent(content)) {
-      this.set('errors.content', null);
-      delete this.get('errors').content;
-    } else {
-      this.set('errors.content', 'Cannot be blank');
-    }
-  },
 
   validateVenue() {
     const id = this.get('event.venueId');
@@ -72,8 +46,8 @@ export default Ember.Component.extend({
   },
 
   isValid() {
-    this.validateTitle();
-    this.validateContent();
+    this.validatePresenceOf('event.title');
+    this.validatePresenceOf('event.content');
     this.validateVenue();
     this.validateImage();
     return Ember.isBlank(Ember.keys(this.get('errors')));

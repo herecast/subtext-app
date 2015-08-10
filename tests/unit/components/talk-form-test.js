@@ -1,11 +1,11 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-steps', {
+moduleForComponent('talk-form', 'Unit | Component | talk form', {
   // Specify the other units that are required for this test
-  needs: []
+  needs: ['component:form-group', 'component:summer-note',
+    'component:content-form-image', 'helper:fa-icon'
+  ],
+  unit: true
 });
 
 test('it renders', function(assert) {

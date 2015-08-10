@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['Card', 'TalkCard', 'u-flexColumn-2'],
+  title: Ember.computed.oneWay('talk.title'),
 
   numberText: function() {
     const count = this.get('talk.userCount');

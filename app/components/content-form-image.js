@@ -19,6 +19,10 @@ export default Ember.Component.extend({
     });
   }),
 
+  removeChangeEvent: function() {
+    this.$('input[type=file]').off('change');
+  }.on('willDestroyElement'),
+
   editExistingFile: Ember.on('didInsertElement', function() {
     const file = this.get('originalImageFile');
 

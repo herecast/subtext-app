@@ -1,4 +1,4 @@
-.EventSteps {
+.ContentFormSteps {
   @media (min-width: @screen-lg-min) {
     background: transparent url('/images/gray-dot.png') repeat-x center 15px;
     margin: 0 auto 35px;
@@ -7,8 +7,8 @@
   }
 }
 
-.EventSteps:before,
-.EventSteps:after {
+.ContentFormSteps:before,
+.ContentFormSteps:after {
   @media (min-width: @screen-lg-min) {
     background-color: white;
     content: '';
@@ -20,65 +20,66 @@
   }
 }
 
-.EventSteps:before {
+.ContentFormSteps:before {
   @media (min-width: @screen-lg-min) {
     left: 0;
   }
 }
 
-.EventSteps:after {
+.ContentFormSteps:after {
   @media (min-width: @screen-md-min) {
     right: 0;
   }
 }
 
-.EventSteps--gray {
+.ContentFormSteps--gray {
   margin-top: 50px;
 }
 
-.EventSteps--gray:before,
-.EventSteps--gray:after {
+.ContentFormSteps--gray:before,
+.ContentFormSteps--gray:after {
   background-color: @body-bg;
 }
 
-.EventSteps--gray .EventSteps-stepCount {
+.ContentFormSteps--gray .ContentFormSteps-stepCount {
   background-color: @body-bg;
   box-shadow: 0 0 0 10px @body-bg;
 }
 
-.EventSteps-step {
+.ContentFormSteps-step {
   text-align: center;
 }
 
-.EventSteps-stepCount {
+.ContentFormSteps-stepCount {
   background-color: white;
   border-radius: @border-radius-round;
   border: 2px solid @gray-light;
   box-shadow: 0 0 0 10px white;
   color: @gray-light;
   font-size: 18px;
+  height: 36px;
   margin: 0 auto;
-  padding: 4px;
+  padding: 6px;
   text-align: center;
   width: 36px;
 }
 
-.EventSteps-stepCount.current {
+.ContentFormSteps-stepCount.current {
   color: @text-color;
   border: 2px solid @text-color;
 }
 
-.EventSteps-stepCount.complete {
+.ContentFormSteps-stepCount.complete {
   color: #fff;
   background-color: @text-color;
   border: 2px solid @text-color;
 }
 
-.EventSteps-stepTitle {
+.ContentFormSteps-stepTitle {
   color: @gray-light;
 }
 
-.EventSteps-stepTitle.current, .EventSteps-stepTitle.complete {
+.ContentFormSteps-stepTitle.current, .ContentFormSteps-stepTitle.complete {
   color: @text-color;
 }
 

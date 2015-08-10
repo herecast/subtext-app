@@ -99,7 +99,9 @@ export default function() {
         email: faker.internet.email(),
         created_at: createdAt.toISOString(),
         location: 'Norwich, VT',
-        test_group: 'Consumer'
+        test_group: 'Consumer',
+        listserv_id: 1,
+        listserv_name: 'Norwich Listserv'
       }
     };
   });
@@ -288,6 +290,34 @@ export default function() {
   });
 
   this.get('/talk/:id');
+
+  this.post('/talk', function(db, request) {
+    const putData = JSON.parse(request.requestBody);
+
+    const attrs = putData['talk'];
+    const talk = db.talks.insert(attrs);
+
+    // This is so we show the edit button on the talk show page
+    talk.can_edit = true;
+
+    return {
+      talk: talk
+    };
+  });
+
+  this.put('/talk/:id', function(db, request) {
+    if (request && request.requestBody && typeof request.requestBody === 'string') {
+      var id = request.params.id;
+      var putData = JSON.parse(request.requestBody);
+      var attrs = putData['talk'];
+      var data = db.talks.update(id, attrs);
+      return data;
+    } else {
+      // We're using the UPDATE action to upload talk images after the talk
+      // has been created. Mirage can't really handle this, so we ignore it.
+      console.log('Ignoring image upload');
+    }
+  });
 
   this.get('/news', function(db, request) {
     const params = request.queryParams;

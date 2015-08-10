@@ -1,0 +1,38 @@
+<div class='row'>
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step'>
+      <div {{bind-attr class='step1State :ContentFormSteps-stepCount'}}>
+        {{#if step1Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          1
+        {{/if}}
+      </div>
+      <h4 class='ContentFormSteps-Title {{step1State}}'>{{type}} Details</h4>
+    </div>
+  </div>
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step'>
+      <div {{bind-attr class='step2State :ContentFormSteps-stepCount'}}>
+        {{#if step2Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          2
+        {{/if}}
+      </div>
+      <h4 class='ContentFormSteps-stepTitle {{step2State}}'>Promote {{type}}</h4>
+    </div>
+  </div> 
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step'>
+      <div class='ContentFormSteps-stepCount {{step3State}}'>
+        {{#if step3Complete}}
+          {{fa-icon 'check'}}
+        {{else}}
+          3
+        {{/if}}
+      </div>
+      <h4 class='ContentFormSteps-stepTitle {{step3State}}'>Preview & Publish</h4>
+    </div>
+  </div>
+</div>

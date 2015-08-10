@@ -1,8 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-form-image', 'Unit | Component | event form image', {
+moduleForComponent('talk-preview-summary', 'Unit | Component | talk preview summary', {
   // Specify the other units that are required for this test
-  needs: ['component:form-group'],
+  needs: ['component:disabled-checkbox', 'component:async-button', 'helper:fa-icon'],
   unit: true
 });
 

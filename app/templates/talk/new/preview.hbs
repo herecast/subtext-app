@@ -1,19 +1,19 @@
 <div class='container'>
   {{content-form-header
     isNew=model.isNew
-    createText='Create an Event'
-    updateText='Update Your Event'
+    createText='Create a Talk'
+    updateText='Update Your Talk'
   }}
 
   {{content-form-steps
     step1State='complete'
     step2State='complete'
     step3State='current'
-    type='Event'
+    type='Talk'
     class='ContentFormSteps--gray'
   }}
 
-  {{event-preview-summary
+  {{talk-preview-summary
     model=model
     afterDiscard='afterDiscard'
     afterPublish='afterPublish'
@@ -22,5 +22,5 @@
 </div>
 
 {{#content-preview}}
-  {{partial 'events/show'}}
+  {{partial 'talk/show'}}
 {{/content-preview}}

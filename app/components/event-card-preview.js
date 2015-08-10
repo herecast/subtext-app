@@ -10,10 +10,10 @@ function defaultValue(value, placeholder) {
 }
 
 export default EventCard.extend({
-  classNames: ['EventCardPreview'],
+  classNames: ['ContentCardPreview'],
 
   initScrollPositioning: function() {
-    const cardPreview = Ember.$('.EventCardPreview-content');
+    const cardPreview = Ember.$('.ContentCardPreview-content');
     cardPreview.affix({
       offset: {
         top: cardPreview.offset().top - 20
