@@ -1,27 +1,32 @@
 {{#if eventInstances}}
-  <div>
-    <ul>
-      {{#each instancesToDisplay as |instance|}}
-        <li class='EventInfo EventShowAside-item'>
-          <h4 class='EventShowAside-itemHeader u-textUnderline'>
-            {{#link-to 'events.show' instance.id class='EventShowAside-itemHeaderLink'}}
-              {{instance.formattedDate}}<br>
-              {{instance.formattedHours}}
-            {{/link-to}}
-          </h4>
-          <div>{{instance.subtitle}}</div>
-        </li>
-      {{/each}}
-    </ul>
+  <h1 class='SectionHeader'>
+    <span class='SectionHeader-text'>
+      Future Event Dates
+    </span>
+  </h1>
+  <div class='row FutureEvent-list'>
+    {{#each instancesToDisplay as |instance|}}
+      <div class='FutureEvent col-md-3 col-sm-4'>
+        {{#link-to 'events.show' instance.id }}
+          <h2 class='FutureEvent-header'>{{instance.formattedDate}}</h2>
+          <h3 class='FutureEvent-header u-textTruncate'>{{instance.subtitle}}</h3>
+          {{fa-icon 'clock-o FutureEvent-icon'}}
+          <div class='FutureEvent-time'>{{instance.formattedHours}}</div>
+        {{/link-to}}
+      </div>
 
-    {{#if hasMore}}
-      <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
-        {{#if showAll}}
-          View less {{fa-icon 'caret-up'}}
-        {{else}}
-          View more {{fa-icon 'caret-down'}}
-        {{/if}}
-      </button>
-    {{/if}}
+    {{/each}}
   </div>
+
+  {{#if hasMore}}
+    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
+      {{#if showAll}}
+        View less {{fa-icon 'caret-up'}}
+      {{else}}
+        View more {{fa-icon 'caret-down'}}
+      {{/if}}
+    </button>
+  {{/if}}
 {{/if}}
+
+

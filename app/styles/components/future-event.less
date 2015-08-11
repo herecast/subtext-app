@@ -1,0 +1,50 @@
+.FutureEvent {
+  padding: 0 30px;
+  border-left: 1px solid @text-color;
+  margin-bottom: 30px;
+  height: 90px;
+}
+
+.FutureEvent:first-child {
+  border-left: 0;
+}
+
+@media (min-width: @screen-md-min) {
+  .FutureEvent:nth-child(4n + 1) {
+    border-left: 0;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .FutureEvent:nth-child(3n + 1) {
+    border-left: 0;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .FutureEvent {
+    border-left: 0;
+    max-width: 300px;
+    margin: 20px auto;
+  }
+}
+
+.FutureEvent-list {
+  margin: 40px 0;
+}
+
+.FutureEvent-header {
+  text-align: center;
+  margin-top: 0;
+}
+
+.FutureEvent-icon {
+  display: inline;
+  font-size: 20px;
+}
+
+.FutureEvent-time {
+  display: inline;
+  margin-left: 10px;
+  color: @gray-dark;
+}
