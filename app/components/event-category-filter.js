@@ -30,6 +30,10 @@ export default Ember.Component.extend({
     }
   }.observes('category', 'query'),
 
+  initCategoryOrQuery: function() {
+    this.setCategoryOrQuery();
+  }.on('init'),
+
   initInput: function() {
     this.$('input').keyup(() => {
       const query = this.get('categoryOrQuery');
@@ -40,6 +44,11 @@ export default Ember.Component.extend({
   removeQueryInput: function() {
     this.$('input').off('keyUp');
   }.on('willDestroyElement'),
+
+  updateFilter() {
+    this.set('open', false);
+    this.sendAction('submit');
+  },
 
   // Since the input field handles both the hardcoded categories and custom text
   // input, we have to manually manage the values. If the user enters one of the
@@ -67,6 +76,7 @@ export default Ember.Component.extend({
       // This prevents the input from being selected when a user chooses a
       // category from the dropdown menu.
       Ember.run.later(() => {
+        this.updateFilter();
         this.$('input').blur();
       }, 10);
     },

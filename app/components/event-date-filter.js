@@ -16,6 +16,11 @@ export default Ember.Component.extend({
     return Dates.dateSummary(start, stop);
   }.property('startDate', 'stopDate'),
 
+  updateFilter() {
+    this.set('open', false);
+    this.sendAction('submit');
+  },
+
   actions: {
     setDate(period) {
       let startDate, stopDate;
@@ -41,6 +46,8 @@ export default Ember.Component.extend({
         startDate: startDate,
         stopDate: stopDate
       });
+
+      this.updateFilter();
     },
 
     chooseDates() {
@@ -73,6 +80,7 @@ export default Ember.Component.extend({
         stopDate: stopDate.format(dateFormat)
       });
 
+      this.updateFilter();
       this.send('closeCalendar');
     }
   }

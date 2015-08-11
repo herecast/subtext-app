@@ -1,8 +1,7 @@
 import Ember from 'ember';
-import EventFilter from '../../../mixins/routes/event-filter';
 import Track from '../../../mixins/routes/track-pageview';
 
-export default Ember.Route.extend(EventFilter, Track, {
+export default Ember.Route.extend(Track, {
   queryParams: {
     r: {
       refreshModel: true
@@ -21,7 +20,14 @@ export default Ember.Route.extend(EventFilter, Track, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    controller.set('totalEvents', this.store.metadataFor('event-instance').total);
+
+    // Set the query params on the parent events controller so that it's
+    // available in the filter on the index and show pages.
+    const filterParams = controller.getProperties(
+      'category', 'query', 'startDate', 'stopDate', 'location'
+    );
+
+    this.controllerFor('events/all').setProperties(filterParams);
   },
 
   actions: {
