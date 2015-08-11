@@ -17,11 +17,25 @@
   border-color: @text-color;
 }
 
-.Button--event {
+.Button.active {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.Button.active:hover {
+  background-color: #FFF;
+  border-color: @text-color;
+}
+
+.Button--event,
+.Button--event.active,
+.Button--event.active:focus {
   background-color: @event-brand;
 }
 
-.Button--market {
+.Button--market,
+.Button--market.active,
+.Button--market.active:focus {
   background-color: @market-brand;
 }
 
@@ -29,7 +43,9 @@
   background-color: @news-brand;
 }
 
-.Button--talk {
+.Button--talk,
+.Button--talk.active,
+.Button--talk.active:focus {
   background-color: @talk-brand;
 }
 
