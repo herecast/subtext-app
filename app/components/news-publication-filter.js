@@ -13,8 +13,8 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   setInputValue: function() {
-    this.set('inputValue', this.get('location'));
-  }.observes('location'),
+    this.set('inputValue', this.get('publication'));
+  }.observes('publication'),
 
   initInputValue: function() {
     this.setInputValue();
@@ -45,15 +45,15 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const url = `/${config.API_NAMESPACE}/locations`;
+    const url = `/${config.API_NAMESPACE}/publications`;
 
-    this.set('location', value);
+    this.set('publication', value);
 
     ajax(url, {
       data: {query: value}
     }).then((response) => {
       this.setProperties({
-        places: response.locations,
+        publications: response.publications,
         open: true,
         isSearching: false
       });
@@ -61,15 +61,15 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   actions: {
-    setLocation(location) {
+    setPublication(publication) {
       this.setProperties({
-        location: location,
-        inputValue: location,
+        publication: publication,
+        inputValue: publication,
         open: false
       });
 
       // This prevents the input from being selected when a user chooses a
-      // location from the dropdown menu.
+      // publication from the dropdown menu.
       Ember.run.later(() => {
         this.$('input').blur();
         this.updateFilter();
@@ -81,7 +81,7 @@ export default Ember.Component.extend(ManualDropdown, {
         this.$('input').focus();
       }, 50);
 
-      this.send('setLocation', '');
+      this.send('setPublication', '');
     }
   }
 });
