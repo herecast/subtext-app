@@ -1,25 +1,56 @@
 .EventInfo-icon {
-  font-size: 18px;
+  font-size: 24px;
   position: relative;
-  top: 31px;
+  bottom: 4px;
+  margin-right: 10px;
 }
 
-.EventInfo-contactIcon {
-  top: 30px;
-  right: 2px;
+.EventInfo-header {
+  margin-top: 0;
 }
 
-.EventInfo-costIcon {
-  top: 30px;
-  left: 2px;
-}
-
-.EventInfo-content {
-  @media (min-width: @screen-sm-min) {
-    margin-left: 24px;
-  }
+.EventInfo-header--padded {
+  padding-left: 20px;
 }
 
 .EventInfo-headerLink {
   color: inherit;
+}
+
+.EventInfo-address {
+  font-weight: 700;
+}
+
+.EventInfo-contactInfo {
+  margin-top: 13px;
+}
+
+.EventInfo-contactIcon {
+  background-color: @gray-light;
+  border: 1px solid #979797;
+  border-right: 0;
+  display: block;
+  float: left;
+  font-size: 20px;
+  height: 34px;
+  margin: 0;
+  width: 40px;
+  padding: 5px 10px;
+}
+
+.EventInfo-phoneIcon {
+  padding: 7px 12px;
+}
+
+.EventInfo-linkIcon {
+  padding: 7px 11px;
+}
+
+.EventInfo-contactItem {
+  border: 1px solid #979797;
+  float: left;
+  height: 34px;
+  margin: 0;
+  padding: 5px 8px;
+  width: 188px;
 }

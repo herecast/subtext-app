@@ -24,6 +24,8 @@ export default Ember.Mixin.create({
   venueUrl: DS.attr('string'),
   venueZip: DS.attr('string'),
 
+  isPaid: Ember.computed.equal('costType', 'paid'),
+
   safeImageUrl: function() {
     if (Ember.isPresent(this.get('imageUrl'))) {
       return this.get('imageUrl');
@@ -40,13 +42,13 @@ export default Ember.Mixin.create({
   }.property('costType'),
 
   hasLocationInfo: function() {
-    return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) || 
-      Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) || 
+    return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) ||
+      Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) ||
       Ember.isPresent(this.get('venueZip'));
   }.property('venueAddress', 'venueCity', 'venueState', 'venueZip', 'venueName'),
 
   hasContactInfo: function() {
-    return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) || 
+    return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) ||
       Ember.isPresent(this.get('eventUrl'));
   }.property('contactEmail', 'contactPhone', 'eventUrl'),
 
