@@ -17,6 +17,10 @@ export default Ember.Component.extend(ManualDropdown, {
     this.set('inputValue', this.get('location'));
   }.observes('location'),
 
+  initInputValue: function() {
+    this.setInputValue();
+  }.on('init'),
+
   initInput: function() {
     this.$('input').keyup((e) => {
       const value = this.get('inputValue');
@@ -35,6 +39,11 @@ export default Ember.Component.extend(ManualDropdown, {
   removeQueryInput: function() {
     this.$('input').off('keyUp');
   }.on('willDestroyElement'),
+
+  updateFilter() {
+    this.set('open', false);
+    this.sendAction('submit');
+  },
 
   sendSearchQuery(value) {
     const url = `/${config.API_NAMESPACE}/locations`;
@@ -64,6 +73,7 @@ export default Ember.Component.extend(ManualDropdown, {
       // location from the dropdown menu.
       Ember.run.later(() => {
         this.$('input').blur();
+        this.updateFilter();
       }, 10);
     },
 

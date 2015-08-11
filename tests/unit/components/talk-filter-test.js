@@ -1,12 +1,9 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-filter', {
+moduleForComponent('talk-filter', 'Unit | Component | talk filter', {
   // Specify the other units that are required for this test
-  needs: ['component:event-category-filter', 'component:event-date-filter',
-    'component:event-location-filter', 'component:sign-in-link', 'helper:fa-icon']
+  needs: ['component:talk-query-filter', 'helper:fa-icon'],
+  unit: true
 });
 
 test('it renders', function(assert) {

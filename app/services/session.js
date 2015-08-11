@@ -23,5 +23,16 @@ export default Ember.Service.extend({
     }).catch(() => {
       this.set('currentUser', null);
     });
-  }
+  },
+
+  // Sets default location if a user is logged out or does not have a location
+  userLocation: function() {
+    const location = this.get('currentUser.location');
+
+    if (Ember.isPresent(location)) {
+      return location;
+    } else {
+      return 'Hartford, VT';
+    }
+  }.property('currentUser.location')
 });

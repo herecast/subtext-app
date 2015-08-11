@@ -118,10 +118,7 @@ export default function() {
     events = filterByDate(events, params.date_start, params.date_end);
 
     return {
-      event_instances: events,
-      meta: {
-        total: db.events.length
-      }
+      event_instances: events
     };
   });
 

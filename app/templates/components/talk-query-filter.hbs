@@ -1,9 +1,9 @@
 {{input
   placeholder='Search term'
-  class='Dropdown-input FilterBar-input FilterBar--event dropdown-toggle u-textTruncate'
+  class='Dropdown-input FilterBar-input FilterBar--talk dropdown-toggle'
+  value=query
   data-toggle='dropdown'
   aria-expanded='false'
-  value=categoryOrQuery
 }}
 
 <ul class='dropdown-menu' role='menu'>
@@ -12,12 +12,12 @@
       {{fa-icon 'search'}} <i>Custom Search</i>
     </a>
   </li>
+
   <li role="presentation" class="divider"></li>
-  {{#each categoryOptions as |category|}}
-    <li>
-      <a href='#' {{action 'setCategory' category.value}} tabindex='-1'>
-        {{category.label}}
-      </a>
-    </li>
-  {{/each}}
+
+  <li>
+    <a href='#' {{action 'setQuery' 'Everything'}} tabindex='-1'>
+      Everything
+    </a>
+  </li>
 </ul>
