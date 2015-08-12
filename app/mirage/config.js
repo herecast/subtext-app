@@ -86,7 +86,14 @@ const newsBaseProperties = [
 ];
 
 export default function() {
-  this.namespace = 'api/v1';
+  this.post('/users/sign_in', function() {
+    return {
+      token: "FCxUDexiJsyChbMPNSyy",
+      email: "embertest@subtext.org"
+    };
+  });
+
+  this.namespace = 'api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.get('/current_user', function() {
@@ -96,7 +103,7 @@ export default function() {
       current_user: {
         id: 1,
         name: faker.name.findName(),
-        email: faker.internet.email(),
+        email: "embertest@subtext.org",
         created_at: createdAt.toISOString(),
         location: 'Norwich, VT',
         test_group: 'Consumer',

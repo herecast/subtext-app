@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   secondaryBackground: true,
-  session: Ember.inject.service('session'),
 
   queryParams: ['query', 'location', 'r'],
 

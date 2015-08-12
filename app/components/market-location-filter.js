@@ -2,8 +2,6 @@ import Ember from 'ember';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Ember.Component.extend(ManualDropdown, {
-  session: Ember.inject.service('session'),
-
   updateFilter() {
     this.set('open', false);
     this.sendAction('submit');

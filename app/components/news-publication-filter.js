@@ -4,7 +4,6 @@ import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Ember.Component.extend(ManualDropdown, {
-  session: Ember.inject.service('session'),
   isSearching: false,
   hasPerformedSearch: false,
 

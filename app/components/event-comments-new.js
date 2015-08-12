@@ -2,8 +2,6 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Component.extend({
-  session: Ember.inject.service('session'),
-
   submitDisabled: function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
   }.property('disabled', 'newComment'),
