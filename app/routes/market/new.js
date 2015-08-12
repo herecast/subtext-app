@@ -1,0 +1,43 @@
+import Ember from 'ember';
+import moment from 'moment';
+import Scroll from '../../mixins/routes/scroll-to-top';
+import Authorized from '../../mixins/routes/authorized';
+
+export default Ember.Route.extend(Scroll, Authorized, {
+  mixpanel: Ember.inject.service('mixpanel'),
+  session: Ember.inject.service('session'),
+
+  model() {
+    return this.store.createRecord('market-post', {
+      publishedAt: moment()
+    });
+  },
+
+  redirect() {
+    this.transitionTo('market.new.details');
+  },
+
+  actions: {
+    afterDiscard() {
+      this.transitionTo('market.all');
+    },
+
+    afterDetails() {
+      this.transitionTo('market.new.promotion');
+    },
+
+    afterPromotion() {
+      this.transitionTo('market.new.preview');
+    },
+
+    afterPublish(post) {
+      this.get('mixpanel').trackEvent('Market Publish');
+
+      this.transitionTo('market.show', post.get('id'));
+    },
+
+    backToDetails() {
+      this.transitionTo('market.new.details');
+    }
+  }
+});

@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   classNames: ['Card', 'MarketCard'],
+  title: Ember.computed.oneWay('post.title'),
 
   subtitle: function() {
     return moment(this.get('post.publishedAt')).format('L');

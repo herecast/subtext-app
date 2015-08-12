@@ -1,0 +1,47 @@
+<div class='ContentForm-stepContent'>
+  <div class='PromotionSection'>
+    <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
+    <p class='PromotionSection-description'>
+      Are you subscribed to one or more Upper Valley listservs? Send them a
+      text-only version of your market post with a link to the full listing!
+    </p>
+    <div class='row'>
+      <div class='col-sm-2 col-sm-offset-2'>
+        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
+          {{#if listsEnabled}}
+            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+          {{else}}
+            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+          {{/if}}
+        </div>
+      </div>
+      <div class='col-sm-8'>
+        {{#if listsEnabled}}
+          {{content-form-listservs
+            model=post
+            listservs=listservs
+          }}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='ContentForm-buttonGroup form-group'>
+  <button class='Button btn btn-default pull-left' {{action 'back'}}>
+    {{fa-icon 'arrow-left u-iconLeft'}}
+    Back
+  </button>
+
+  <button class='Button Button--market btn btn-primary pull-right' {{action 'preview'}}>
+    Next Step
+    {{fa-icon 'arrow-right u-iconRight'}}
+  </button>
+
+  {{#if post.isNew}}
+    <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
+      Discard Post
+      {{fa-icon 'trash u-iconRight'}}
+    </button>
+  {{/if}}
+</div>

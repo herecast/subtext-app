@@ -1,0 +1,26 @@
+<div class='container'>
+  {{content-form-header
+    isNew=model.isNew
+    createText='Create a Market Listing'
+    updateText='Update Your Market Listing'
+  }}
+
+  {{content-form-steps
+    step1State='complete'
+    step2State='complete'
+    step3State='current'
+    type='Market Listing'
+    class='ContentFormSteps--gray'
+  }}
+
+  {{market-preview-summary
+    model=model
+    afterDiscard='afterDiscard'
+    afterPublish='afterPublish'
+  }}
+
+</div>
+
+{{#content-preview}}
+  {{partial 'market/show'}}
+{{/content-preview}}
