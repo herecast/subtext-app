@@ -1,0 +1,20 @@
+{{input
+  class='Dropdown-input FilterBar-input FilterBar--market FilterBar-inputLocation dropdown-toggle u-textTruncate'
+  value=inputValue
+  data-toggle='dropdown'
+  aria-expanded='false'
+}}
+
+<ul class='dropdown-menu' role='menu'>
+  <li>
+    <a href='#' {{action 'setLocation' 'All Communities'}} tabindex='-1'>
+      All Communities
+    </a>
+  </li>
+
+  <li>
+    <a href='#' {{action 'setLocation' session.userLocation}} tabindex='-1'>
+      {{session.userLocation}}
+    </a>
+  </li>
+</ul>
