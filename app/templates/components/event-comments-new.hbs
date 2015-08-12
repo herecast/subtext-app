@@ -1,14 +1,14 @@
 <div class='form-group'>
   {{textarea
     value=newComment
-    placeholder='Add your message'
-    class='form-control'
+    placeholder='I feel that...'
+    class='form-control CommentSection-replyBox'
   }}
 </div>
 
 <div class='form-group'>
   {{#if submitDisabled}}
-    <button disabled class='Button btn btn-default'>
+    <button disabled class='CommentSection-replyButton Button btn btn-default'>
       Add Comment
     </button>
   {{else}}
@@ -16,7 +16,7 @@
       action='postComment'
       default='Add Comment'
       pending='Saving…'
-      class='Button btn btn-default'
+      class='CommentSection-replyButton Button btn btn-default'
     }}
   {{/if}}
 </div>

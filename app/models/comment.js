@@ -4,5 +4,12 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   eventInstanceId: DS.attr('number'),
   parentCommentId: DS.attr('number'),
-  title: DS.attr('string')
+  title: DS.attr('string'),
+  userName: DS.attr('string'),
+  userImageUrl: DS.attr('string'),
+  postedAt: DS.attr('moment-date'),
+
+  formattedPostedAt: function() {
+    return this.get('postedAt').fromNow();
+  }.property('postedAt')
 });

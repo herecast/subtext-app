@@ -1,23 +1,15 @@
 import moment from 'moment';
 
 function generateComment(id) {
+
+  const userImageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;
+
   return {
     id: id,
     content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
     user_name: faker.name.findName(),
-    posted_at: moment(faker.date.recent(10)).toISOString(),
-    comments: [{
-      id: faker.random.number(100),
-      user_name: faker.name.findName(),
-      content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
-      posted_at: moment(faker.date.recent(10)).toISOString(),
-      comments: [{
-        id: faker.random.number(100),
-        user_name: faker.name.findName(),
-        content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
-        posted_at: moment(faker.date.recent(10)).toISOString()
-      }]
-    }]
+    user_image_url: userImageUrl,
+    posted_at: moment(faker.date.recent(10)).toISOString()
   };
 }
 
