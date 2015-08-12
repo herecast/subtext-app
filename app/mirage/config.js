@@ -272,6 +272,34 @@ export default function() {
 
   this.get('/market_posts/:id');
 
+  this.post('/market_posts', function(db, request) {
+    const putData = JSON.parse(request.requestBody);
+
+    const attrs = putData['market_post'];
+    const post = db.talks.insert(attrs);
+
+    // This is so we show the edit button on the post show page
+    post.can_edit = true;
+
+    return {
+      market_post: post
+    };
+  });
+
+  this.put('/market_posts/:id', function(db, request) {
+    if (request && request.requestBody && typeof request.requestBody === 'string') {
+      var id = request.params.id;
+      var putData = JSON.parse(request.requestBody);
+      var attrs = putData['market_post'];
+      var data = db.market_posts.update(id, attrs);
+      return data;
+    } else {
+      // We're using the UPDATE action to upload market images after the post
+      // has been created. Mirage can't really handle this, so we ignore it.
+      console.log('Ignoring image upload');
+    }
+  });
+
   this.get('/talk', function(db, request) {
     const params = request.queryParams;
 

@@ -7,15 +7,12 @@ function template(id) {
   // Only a subset of the marketplace listings will have an image.
   const imageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Market+Listing&w=300&h=300' : null;
 
-  const address = [faker.address.streetAddress(), faker.address.city(), faker.address.state(), faker.address.zipCode()].join(' ');
-
   return {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
     content: faker.lorem.sentences(5),
     published_at: startsAt.toISOString(),
     image_url: imageUrl,
-    locate_address: address,
     price: '$110, OBO'
   };
 }

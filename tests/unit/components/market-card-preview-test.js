@@ -1,11 +1,9 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-form-listservs', {
+moduleForComponent('market-card-preview', 'Unit | Component | market card preview', {
   // Specify the other units that are required for this test
-  needs: []
+  needs: ['template:components/market-card'],
+  unit: true
 });
 
 test('it renders', function(assert) {

@@ -1,0 +1,33 @@
+<div class='container'>
+  {{content-form-header
+    isNew=model.isNew
+    createText='Create a Market Listing'
+    updateText='Update Your Market Listing'
+  }}
+
+  <div class='row'>
+    <div class='ContentForm-content col-md-8'>
+      {{content-form-steps
+        step1State='complete'
+        step2State='current'
+        step3State='inactive'
+        type='Market Listing'
+      }}
+
+      {{market-promotion-form
+        post=model
+        listservs=listservs
+        afterDiscard='afterDiscard'
+        backToDetails='backToDetails'
+        afterPromotion='afterPromotion'
+      }}
+    </div>
+
+    {{market-card-preview
+      post=model
+      isPreview=true
+      classNames='col-md-4'
+    }}
+
+  </div>
+</div>

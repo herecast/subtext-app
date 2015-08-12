@@ -28,7 +28,8 @@ export default Ember.Component.extend({
   showButton: function() {
     const path = this.get('path');
 
-    return startsWith(path, 'events') || startsWith(path, 'talk');
+    return startsWith(path, 'events') || startsWith(path, 'talk') ||
+      startsWith(path, 'market');
   }.property('path'),
 
   route: function() {

@@ -6,10 +6,6 @@ export default ActiveModelSerializer.extend({
 
     // Remove read only attributes that should not be sent to the API
     delete json.image_url;
-    delete json.author_name;
-    delete json.author_image_url;
-    delete json.pageviews_count;
-    delete json.user_count;
     delete json.published_at;
 
     return json;
