@@ -2,6 +2,12 @@ import Ember from 'ember';
 import Track from '../../../mixins/routes/track-pageview';
 
 export default Ember.Route.extend(Track, {
+  queryParams: {
+    r: {
+      refreshModel: true
+    }
+  },
+
   model(params) {
     return this.store.find('market-post', {
       query: params.query,
@@ -9,5 +15,22 @@ export default Ember.Route.extend(Track, {
       date_end: params.date_end,
       location: params.location
     });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    // Set the query params on the parent events controller so that it's
+    // available in the filter on the index and show pages.
+    const filterParams = controller.getProperties('query', 'location');
+
+    this.controllerFor('market/all').setProperties(filterParams);
+  },
+
+  actions: {
+    updateFilter(filterParams) {
+      this.transitionTo({queryParams: filterParams});
+      this.refresh();
+    }
   }
 });
