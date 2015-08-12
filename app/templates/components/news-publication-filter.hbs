@@ -1,6 +1,6 @@
 {{input
   placeholder='Search term'
-  class='Dropdown-input FilterBar-input FilterBar--event FilterBar-inputLocation dropdown-toggle u-textTruncate'
+  class='Dropdown-input FilterBar-input FilterBar--news dropdown-toggle u-textTruncate'
   value=inputValue
   data-toggle='dropdown'
   aria-expanded='false'
@@ -16,14 +16,8 @@
   <li role="presentation" class="divider"></li>
 
   <li>
-    <a href='#' {{action 'setLocation' 'All Communities'}} tabindex='-1'>
-      All Communities
-    </a>
-  </li>
-
-  <li>
-    <a href='#' {{action 'setLocation' session.userLocation}} tabindex='-1'>
-      {{session.userLocation}}
+    <a href='#' {{action 'setPublication' 'Everyone'}} tabindex='-1'>
+      Everyone
     </a>
   </li>
 
@@ -35,8 +29,8 @@
         <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
       </li>
     {{else}}
-      {{#each places as |place|}}
-        <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
+      {{#each publications as |publication|}}
+        <li><a href='#' {{action 'setPublication' publication}} tabindex='-1'>{{publication}}</a></li>
       {{else}}
         <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
       {{/each}}

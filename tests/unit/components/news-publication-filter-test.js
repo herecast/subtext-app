@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('talk-query-filter', 'Unit | Component | talk query filter', {
+moduleForComponent('news-publication-filter', 'Unit | Component | news publication filter', {
   // Specify the other units that are required for this test
   needs: ['helper:fa-icon'],
   unit: true

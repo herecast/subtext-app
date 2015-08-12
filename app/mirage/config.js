@@ -139,6 +139,23 @@ export default function() {
     };
   });
 
+  // Used by the news filter bar to find publications
+  this.get('/publications', function(db, request) {
+    const publications = [];
+
+    // For demo purposes - if someone starts a search with 'empty' we return
+    // no results so we can see what that looks like in the UI
+    if (request.queryParams.query.indexOf('empty') !== 0) {
+      for (let i = 1; i < 5; i += 1) {
+        publications.push(faker.company.companyName());
+      }
+    }
+
+    return {
+      publications: publications
+    };
+  });
+
   this.get('/event_instances/:id', function(db, request) {
     const event = db.event_instances.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
