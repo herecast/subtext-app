@@ -13,6 +13,7 @@ function template(id) {
     content: faker.lorem.sentences(5),
     published_at: startsAt.toISOString(),
     image_url: imageUrl,
+    can_edit: true,
     price: '$110, OBO'
   };
 }
