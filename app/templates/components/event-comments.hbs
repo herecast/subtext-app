@@ -1,23 +1,23 @@
-<h5>Join the Conversation</h5>
-{{#if session.currentUser}}
-  {{event-comments-new
+<div class='CommentSection'>
+  {{nested-comments
+    comments=comments
     eventInstanceId=eventInstanceId
     eventTitle=eventTitle
-    comments=comments
-    disabled=commentingDisabled
   }}
-{{else}}
-  <p>
-    You need to log in to join this conversation. After
-    <a href='/users/sign_up'>signing up</a> or
-    {{#sign-in-link}}signing in{{/sign-in-link}}, you can return to
-    this listing and share your thoughts.
-  </p>
-{{/if}}
 
-{{nested-comments
-  comments=comments
-  class='EventComments'
-  eventInstanceId=eventInstanceId
-  eventTitle=eventTitle
-}}
+  {{#if session.currentUser}}
+    {{event-comments-new
+      eventInstanceId=eventInstanceId
+      eventTitle=eventTitle
+      comments=comments
+      disabled=commentingDisabled
+    }}
+  {{else}}
+    <p>
+      You need to log in to join this conversation. After
+      <a href='/users/sign_up'>signing up</a> or
+      {{#sign-in-link}}signing in{{/sign-in-link}}, you can return to
+      this listing and share your thoughts.
+    </p>
+  {{/if}}
+</div>

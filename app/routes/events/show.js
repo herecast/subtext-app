@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../../config/environment';
 import Track from '../../mixins/routes/track-pageview';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 import Dates from '../../lib/dates';
@@ -51,13 +49,9 @@ export default Ember.Route.extend(Track, RouteMetaMixin, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    const commentUrl = `/${config.API_NAMESPACE}/comments`;
-
-    // We have to manually get the comments because ember data cannnot handle
-    // the nested data structure that is returned.
-    ajax(commentUrl, {data: {event_id: model.get('eventId')}}).then((response) => {
-      controller.set('comments', response.comments);
-    });
+    controller.set('comments', this.store.find('comment', {
+      content_id: model.get('contentId')
+    }));
 
     controller.set('similarContent', this.store.find('similar-content', {
       event_id: model.get('eventId')

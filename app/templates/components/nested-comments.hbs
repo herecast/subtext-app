@@ -1,51 +1,48 @@
-{{#if row}}
-  <div>
-    {{fa-icon 'fa-comment-o'}}
-    <span class='Comments-userName'>
-      {{row.user_name}}
-    </span>
+<ol class='CommentSection-commentList'>
+  {{#each comments as |comment|}}
+    <li class='Comment'>
+      {{#if comment.userImageUrl}}
+        <img src="{{comment.userImageUrl}}" class='Comment-userAvatar'>
+      {{else}}
+        <img src="/images/user-default-avatar.svg" class='Comment-userAvatar'>
+      {{/if}}
 
-    <span class='Comments-date'>
-      {{postedAt}}
-    </span>
-  </div>
+      <div class='Comment-body'>
+        <div class='Comment-userName'>
+          {{comment.userName}}
+        </div>
 
-  <div class='Comments-content'>
-    {{{row.content}}}
+        <div class='Comment-date'>
+          {{comment.formattedPostedAt}}
+        </div>
 
-    {{#if session.currentUser}}
-      <a class='btn btn-link btn-default' {{action 'reply'}}>
-        Reply
-      </a>
-    {{/if}}
+        <div class='Comment-content'>
+          {{{comment.content}}}
 
-    {{#if showReplyBox}}
-      {{event-comments-new
-        eventInstanceId=eventInstanceId
-        eventTitle=eventTitle
-        parentCommentId=row.id
-        comments=comments
-        afterPost='afterPost'
-      }}
-    {{/if}}
+          {{#if session.currentUser}}
+            <a class='btn btn-link btn-default ResponseButton h4' {{action 'reply'}}>
+              {{fa-icon 'reply ResponseButton-icon'}}
+              Reply
+            </a>
+          {{/if}}
 
-    {{report-abuse
-      modelId=row.id
-      type='comments'
-      tagName='span'
-    }}
-  </div>
-{{/if}}
+          {{#if showReplyBox}}
+            {{event-comments-new
+              eventInstanceId=eventInstanceId
+              eventTitle=eventTitle
+              parentCommentId=comment.id
+              comments=comments
+              afterPost='afterPost'
+            }}
+          {{/if}}
 
-<ol class='Comments-list'>
-  {{#each sortedComments as |comment|}}
-    {{nested-comments
-      row=comment
-      eventInstanceId=eventInstanceId
-      eventTitle=eventTitle
-      comments=comment.comments
-      tagName='li'
-      class='is-nested'
-    }}
+          {{report-abuse
+            modelId=comment.id
+            type='comments'
+            tagName='span'
+          }}
+        </div>
+      </div>
+    </li>
   {{/each}}
 </ol>

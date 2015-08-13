@@ -1,24 +1,19 @@
 import Ember from 'ember';
-import moment from 'moment';
 
 export default Ember.Component.extend({
   classNames: ['Comments'],
   session: Ember.inject.service('session'),
   showReplyBox: false,
 
-  postedAt: function() {
-    return moment(this.get('row.posted_at')).fromNow();
-  }.property('row.posted_at'),
-
   sortedComments: function() {
     const comments = this.get('comments');
 
     if (comments) {
-      return comments.sortBy('posted_at').reverse();
+      return comments.sortBy('postedAt').reverse();
     } else {
       return [];
     }
-  }.property('comments.@each.posted_at'),
+  }.property('comments.@each.postedAt'),
 
   actions: {
     reply() {
