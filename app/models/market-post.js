@@ -5,6 +5,7 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 
 export default DS.Model.extend({
+  canEdit: DS.attr('boolean'),
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
