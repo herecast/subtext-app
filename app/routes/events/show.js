@@ -4,6 +4,8 @@ import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 import Dates from '../../lib/dates';
 
 export default Ember.Route.extend(Track, RouteMetaMixin, {
+  promotion: Ember.inject.service('promotion'),
+
   meta() {
     const model = this.modelFor(this.routeName);
 
@@ -48,6 +50,10 @@ export default Ember.Route.extend(Track, RouteMetaMixin, {
 
   setupController(controller, model) {
     this._super(controller, model);
+
+    this.get('promotion').find(model.get('contentId')).then((promotion) => {
+      controller.set('relatedPromotion', promotion);
+    });
 
     controller.set('comments', this.store.find('comment', {
       content_id: model.get('contentId')
