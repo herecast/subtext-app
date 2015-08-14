@@ -9,6 +9,7 @@ export default DS.Model.extend({
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
+  contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   listservIds: DS.attr('raw', {defaultValue: []}),
   price: DS.attr('string'),

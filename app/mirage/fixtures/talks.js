@@ -12,6 +12,7 @@ function template(id) {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
     content: faker.lorem.paragraphs(2),
+    content_id: faker.random.number(1000),
     image_url: imageUrl,
     published_at: startsAt.toISOString(),
     user_count: faker.random.number(25),
