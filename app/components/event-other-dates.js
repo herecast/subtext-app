@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const initialCount = 3;
+const initialCount = 4;
 
 export default Ember.Component.extend({
   showAll: false,
