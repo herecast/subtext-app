@@ -41,34 +41,74 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-This application uses a unique deployment process which mounts the Ember
-application within a Rails application. On the Rails side, we're using
-TED's [front_end_builds](https://github.com/tedconf/front_end_builds)
-Ruby gem and mounting the app at /events. On the ember side, we're using
-the corresponding [ember-cli-front-end-builds](https://github.com/tedconf/ember-cli-front-end-builds)
-Ember addon for deployment.
+This application uses [Navis](http://navis.io/) to deploy and view the
+static JS and CSS assets.
 
 ####Deployment Requirements
 
 * AWS account, configured in config/deploy.js (copied from example file)
-* SSH public key setup in the Rails application's Ember admin config
+* Navis account, configured in config/deploy.js (copied from example file)
 
-####How Deployment Works
+####Deployment steps:
 
-Deployment is done using the following command:
+1) Make sure you're deploying master and have the latest version:
+
+```
+git checkout master
+git pull master
+```
+
+2) Build and deploy master to AWS and let Navis know it's available:
 
 ```
 ember deploy --environment=production
 ```
 
-When that runs, the following happens:
+If that successfully completes, you will see output like this:
 
-1. Settings are read from config/deploy.js
-1. Project is built and stored in "dist/".
-1. Compiled application is uploaded to S3 bucket
-1. Rails application is notified of new builds
-1. Rails application automatically makes newest build live (optional,
-   configured in Rails app)
+```
+Built project successfully. Stored in "tmp/deploy-dist/".
+Uploading assets...
+Uploading: index.html
+Assets upload successful. Done uploading.
+
+Uploading `tmp/deploy-dist/index.html`...
+
+Index file was successfully uploaded
+
+Upload successful!
+
+Uploaded revision: subtext-ui:53899a6
+```
+
+Note the uploaded revision above (subtext-ui:53899a6), yours will be different.
+
+3) Preview the build
+
+Visit this URL in your browser (replacing the build SHA with yours):
+
+```
+http://subtext-staging.navis.io/?build=subtext-ui:53899a6
+```
+
+4) Activate the build
+
+If the build looks good, you need to activate it so it's available
+without passing the ?build= URL parameter.
+
+Replace this build number with the build you just deployed.
+
+```
+ember deploy:activate --environment=production --revision=subtext-ui:53899a6
+```
+
+5) View your build
+
+Visit this URL in your browser
+
+```
+http://subtext-staging.navis.io/
+```
 
 ## Further Reading / Useful Links
 
