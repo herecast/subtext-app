@@ -298,6 +298,18 @@ export default function() {
 
   this.get('/market_posts/:id');
 
+  this.get('/market_posts/:id/contact', function(db, request) {
+    const post = db.market_posts.find(request.params.id);
+
+    return {
+      market_post: {
+        id: post.id,
+        contact_phone: faker.phone.phoneNumber(),
+        contact_email: faker.internet.email()
+      }
+    };
+  });
+
   this.post('/market_posts', function(db, request) {
     const putData = JSON.parse(request.requestBody);
 

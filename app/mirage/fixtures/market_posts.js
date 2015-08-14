@@ -15,6 +15,7 @@ function template(id) {
     published_at: startsAt.toISOString(),
     image_url: imageUrl,
     can_edit: true,
+    has_contact_info: (id % 2 === 0), // only some posts will have contact info
     price: '$110, OBO'
   };
 }

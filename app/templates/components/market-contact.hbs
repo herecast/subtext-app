@@ -1,0 +1,25 @@
+<h2 class='SectionHeader'>
+  <div class='SectionHeader-buttonContainer'>
+    <button class={{buttonClass}} {{action 'toggleInfo'}}>
+      Reply
+    </button>
+  </div>
+</h2>
+
+<div class='MarketPost-contactInfo row'>
+  {{#if isLoading}}
+    {{x-loader}}
+  {{else if infoLoaded}}
+    {{#if email}}
+      <div class='col-sm-7'>
+        {{fa-icon 'envelope'}} {{email}}
+      </div>
+    {{/if}}
+
+    {{#if phone}}
+      <div class='col-sm-5'>
+        {{fa-icon 'phone'}} {{phone}}
+      </div>
+    {{/if}}
+  {{/if}}
+</div>
