@@ -21,18 +21,19 @@ export default Ember.Component.extend({
       callback(promise);
 
       promise.then((comment) => {
-        const nestedComment = Ember.Object.create({
+        const formattedContent = `<p></p><p>${content}</p><p></p>`;
+        const newComment = Ember.Object.create({
           id: comment.get('id'),
-          posted_at: moment().toISOString(),
-          content: content,
-          user_name: this.get('session.currentUser.name')
+          formattedPostedAt: moment().fromNow(),
+          content: formattedContent,
+          userName: this.get('session.currentUser.name')
         });
 
         if (!this.get('comments')) {
           this.set('comments', []);
         }
 
-        this.get('comments').pushObject(nestedComment);
+        this.get('comments').pushObject(newComment);
 
         this.set('newComment', null);
         this.sendAction('afterPost');

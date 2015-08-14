@@ -55,10 +55,6 @@ export default Ember.Route.extend(Track, RouteMetaMixin, {
       controller.set('relatedPromotion', promotion);
     });
 
-    controller.set('comments', this.store.find('comment', {
-      content_id: model.get('contentId')
-    }));
-
     controller.set('similarContent', this.store.find('similar-content', {
       event_id: model.get('eventId')
     }));

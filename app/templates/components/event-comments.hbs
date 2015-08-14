@@ -1,9 +1,15 @@
 <div class='CommentSection'>
-  {{nested-comments
-    comments=comments
-    eventInstanceId=eventInstanceId
-    eventTitle=eventTitle
-  }}
+
+  <ol class='CommentSection-commentList'>
+    {{#each comments as |comment|}}
+      {{content-comment
+        comment=comment
+        comments=comments
+        eventInstanceId=eventInstanceId
+        eventTitle=eventTitle
+      }}
+    {{/each}}
+  </ol>
 
   {{#if session.currentUser}}
     {{event-comments-new

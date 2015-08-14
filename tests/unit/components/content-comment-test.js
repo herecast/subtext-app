@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('nested-comments', {
+moduleForComponent('content-comment', {
   // Specify the other units that are required for this test
-  needs: []
+  needs: ['component:report-abuse']
 });
 
 test('it renders', function(assert) {
