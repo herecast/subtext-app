@@ -1,11 +1,12 @@
+import Ember from 'ember';
 import {
   moduleForComponent,
-  test
+  test,
 } from 'ember-qunit';
 
 moduleForComponent('event-comments', {
   // Specify the other units that are required for this test
-  needs: ['component:event-comments-new', 'component:nested-comments',
+  needs: ['component:event-comments-new', 'component:content-comment',
     'component:sign-in-link']
 });
 
@@ -13,7 +14,15 @@ test('it renders', function(assert) {
   assert.expect(2);
 
   // Creates the component instance
-  var component = this.subject();
+  var component = this.subject({
+    contentComments: {
+      getComments: function() {
+        return new Ember.RSVP.Promise((resolve) => {
+          resolve([]);
+        });
+      }
+    }
+  });
   assert.equal(component._state, 'preRender');
 
   // Renders the component to the page
