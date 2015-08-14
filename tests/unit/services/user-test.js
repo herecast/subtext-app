@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('service:session', {
+moduleFor('service:user', {
   // Specify the other units that are required for this test.
   // needs: ['service:foo']
 });

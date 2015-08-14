@@ -2,8 +2,6 @@ import Ember from 'ember';
 import Dates from '../../lib/dates';
 
 export default Ember.Mixin.create({
-  session: Ember.inject.service('session'),
-
   queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r'],
 
   // Change this value in the query params to force a refresh.

@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'form',
 
-  session: Ember.inject.service('session'),
   userLocation: Ember.computed.oneWay('session.currentUser.location'),
   listservName: Ember.computed.oneWay('session.currentUser.listservName'),
   listservId: Ember.computed.oneWay('session.currentUser.listservId'),

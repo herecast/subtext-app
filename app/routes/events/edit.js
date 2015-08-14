@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
-import Authorized from '../../mixins/routes/authorized';
+import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   model(params) {

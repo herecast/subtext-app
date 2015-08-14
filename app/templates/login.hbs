@@ -1,0 +1,56 @@
+<div class='container'>
+  <div class='AuthForm'>
+    <h1>Sign-in</h1>
+
+    <h6>
+      Joining DailyUV brings you news, events, market listings, and talk for
+      your community every day.
+    </h6>
+
+    <div class='row Section'>
+      <div class='col-sm-4 col-sm-offset-4'>
+        <form {{action 'authenticate' on='submit'}}>
+          {{#form-group error=error}}
+            {{input
+              value=identification
+              placeholder='Email Address'
+              class='form-control'
+            }}
+          {{/form-group}}
+
+          {{#form-group}}
+            {{input
+              value=password
+              placeholder='Password'
+              type='password'
+              class='form-control'
+            }}
+          {{/form-group}}
+
+          {{async-button
+            action='authenticate'
+            default='Login'
+            pending='Logging in'
+            class='Button Button--primary btn'
+          }}
+        </form>
+      </div>
+    </div>
+
+    <h1 class='SectionHeader'>
+      <span class='SectionHeader-text SectionHeader-text--secondaryBg'>New to the site?</span>
+    </h1>
+
+    <div class='Section'>
+      <h6>
+        Joining DailyUV brings you news, events, market listings, and talk for your community every day.
+      </h6>
+
+      <div>
+        {{#link-to 'register' class='Button Button--primary btn'}}
+          Join
+        {{/link-to}}
+      </div>
+    </div>
+  </div>
+</div>

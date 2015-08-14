@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    API_NAMESPACE: 'api/v1',
+    API_NAMESPACE: 'api/v3',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -18,6 +18,13 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     }
+  };
+
+  // ENV['simple-auth'] = {
+  // }
+
+  ENV['simple-auth-devise'] = {
+    serverTokenEndpoint: '/users/sign_in',
   };
 
   if (environment === 'development') {
@@ -35,6 +42,11 @@ module.exports = function(environment) {
     ENV.intercom = {
       id: 'egk6dwbj'
     }
+
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    }
+
   }
 
   if (environment === 'test') {

@@ -35,6 +35,8 @@
     "ember-cli-meta-tags": "0.1.1",
     "ember-cli-mirage": "0.1.5",
     "ember-cli-qunit": "0.3.15",
+    "ember-cli-simple-auth": "0.8.0",
+    "ember-cli-simple-auth-devise": "0.8.0",
     "ember-cli-uglify": "^1.0.1",
     "ember-data": "1.13.5",
     "ember-deploy-navis": "git+ssh://git@github.com/AgilionApps/ember-deploy-navis.git#686d5997f071db88a46af9ebc9108e06b73befc2",

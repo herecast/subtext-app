@@ -9,7 +9,6 @@ function startsWith(path, searchString) {
 
 export default Ember.Component.extend({
   classNames: ['SectionNavigation-contentCreateButton'],
-  session: Ember.inject.service('session'),
   path: '', // override with the application controller's currentPath
 
   buttonClass: function() {

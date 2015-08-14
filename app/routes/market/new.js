@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
-import Authorized from '../../mixins/routes/authorized';
+import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   mixpanel: Ember.inject.service('mixpanel'),
-  session: Ember.inject.service('session'),
 
   model() {
     return this.store.createRecord('market-post', {

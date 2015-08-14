@@ -5,7 +5,6 @@ export default Ember.Component.extend({
   classNames: ['FilterBar navbar navbar-default'],
 
   mixpanel: Ember.inject.service('mixpanel'),
-  session: Ember.inject.service('session'),
   refreshParam: Ember.inject.service('refresh-param'),
 
   actions: {

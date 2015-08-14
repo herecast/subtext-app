@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   secondaryBackground: true,
   refreshParam: Ember.inject.service('refresh-param'),
-  session: Ember.inject.service('session'),
 
   queryParams: ['query', 'r'],
 
