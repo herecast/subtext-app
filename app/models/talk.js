@@ -8,6 +8,7 @@ export default DS.Model.extend({
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
   content: DS.attr('string'),
+  contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   listservId: DS.attr('number'), // write only
   pageviewsCount: DS.attr('number'),

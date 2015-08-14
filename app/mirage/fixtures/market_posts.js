@@ -11,6 +11,7 @@ function template(id) {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
     content: faker.lorem.sentences(5),
+    content_id: faker.random.number(1000),
     published_at: startsAt.toISOString(),
     image_url: imageUrl,
     can_edit: true,
