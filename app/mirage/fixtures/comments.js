@@ -7,6 +7,7 @@ function generateComment(id) {
   return {
     id: id,
     content: `<p><p>${faker.lorem.paragraph(1)}</p></p>`,
+    content_id: faker.random.number(1000),
     user_name: faker.name.findName(),
     user_image_url: userImageUrl,
     posted_at: moment(faker.date.recent(10)).toISOString()
