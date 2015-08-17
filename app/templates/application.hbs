@@ -1,5 +1,5 @@
 <nav class='MainNav navbar navbar-default'>
-  <div class='container'>
+  <div class='container u-noGutter'>
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class='navbar-header'>
       <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-app-bar'>
@@ -16,18 +16,36 @@
       <ul class='nav navbar-nav navbar-right'>
         {{#if session.isAuthenticated}}
           <li class='dropdown'>
-            <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='MainNav-userLink navbar-link'>
-              {{fa-icon 'user MainNav-avatar'}}
-              {{session.userName}}
-              <span class="caret"></span>
+            <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionsDropdown-dropdownLink navbar-link'>
+              {{#if session.currentUser.imageUrl}}
+                <img src="{{session.currentUser.imageUrl}}" class='ActionsDropdown-userAvatar'>
+              {{else}}
+                <img src="/images/user-default-avatar.svg" class='ActionsDropdown-userAvatar'>
+              {{/if}}
             </a>
 
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li><a href='/users/edit'>My Account</a></li>
-              <li><a href='/dashboard/index'>My Dashboard</a></li>
-              <li><a href='/terms'>Terms of Service</a></li>
-              <li><a href='/privacy'>Privacy Policy</a></li>
-              <li><a href='#' {{action 'signOut'}}>Sign out</a></li>
+              <li>
+                {{#link-to 'events.new.details' classNames='h4 ActionsDropdown-item'}}
+                  Create Event
+                {{/link-to}}
+              </li>
+              <li>
+                {{#link-to 'talk.new.details' classNames='h4 ActionsDropdown-item'}}
+                  Start a Conversation
+                {{/link-to}}
+              </li>
+              <li>
+                {{#link-to 'market.new.details' classNames='h4 ActionsDropdown-item'}}
+                  Post in Marketplace
+                {{/link-to}}
+              </li>
+              <li>
+                <a href='/dashboard/index' class='h4 ActionsDropdown-item'>My Dashboard</a>
+              </li>
+              <li>
+                <a href='#' {{action 'signOut'}} class='h4 ActionsDropdown-item'>Log out</a>
+              </li>
             </ul>
           </li>
         {{else}}

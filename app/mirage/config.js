@@ -105,6 +105,7 @@ export default function() {
         name: faker.name.findName(),
         email: "embertest@subtext.org",
         created_at: createdAt.toISOString(),
+        image_url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200',
         location: 'Norwich, VT',
         test_group: 'Consumer',
         listserv_id: 1,
