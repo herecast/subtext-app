@@ -13,7 +13,7 @@ export default Ember.Component.extend({
         content: content,
         contentId: this.get('contentId'),
         parentComment: this.get('parentComment'),
-        title: `Re: ${this.get('eventTitle')}`,
+        title: `Re: ${this.get('contentTitle')}`,
         userName: this.get('session.currentUser.name')
       });
 
