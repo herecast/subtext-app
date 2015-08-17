@@ -62,4 +62,17 @@
       {{social-share}}
     </div>
   </div>
+
+  <h1 class='SectionHeader SectionHeader--paddedTop'>
+    <span class='SectionHeader-text'>
+      The Conversation
+    </span>
+  </h1>
+  <div class='row'>
+    {{content-comments
+        contentTitle=model.title
+        contentId=model.contentId
+        commentingDisabled=model.isNew
+      }}
+  </div>
 </div>
