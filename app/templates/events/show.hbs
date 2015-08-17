@@ -134,11 +134,9 @@
       </span>
     </h1>
     <div class='row'>
-      {{event-comments
-          eventInstanceId=model.id
-          eventTitle=model.title
+      {{content-comments
+          contentTitle=model.title
           contentId=model.contentId
-          class='EventShow-content'
           commentingDisabled=model.isNew
         }}
     </div>

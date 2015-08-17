@@ -10,10 +10,11 @@ export default Ember.Component.extend({
     postComment(callback) {
       const content = this.get('newComment');
       const comment = this.store.createRecord('comment', {
-        eventInstanceId: this.get('eventInstanceId'),
-        parentCommentId: this.get('parentCommentId'),
         content: content,
-        title: `Re: ${this.get('eventTitle')}`
+        contentId: this.get('contentId'),
+        parentComment: this.get('parentComment'),
+        title: `Re: ${this.get('contentTitle')}`,
+        userName: this.get('session.currentUser.name')
       });
 
       const promise = comment.save();
@@ -26,6 +27,7 @@ export default Ember.Component.extend({
           id: comment.get('id'),
           formattedPostedAt: moment().fromNow(),
           content: formattedContent,
+          parentComment: comment.get('parentComment'),
           userName: this.get('session.currentUser.name')
         });
 

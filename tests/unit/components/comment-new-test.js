@@ -1,9 +1,6 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-comments-new', {
+moduleForComponent('comment-new', 'Unit | Component | comment new', {
   // Specify the other units that are required for this test
   needs: ['component:async-button']
 });

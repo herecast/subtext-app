@@ -1,12 +1,9 @@
 import Ember from 'ember';
-import {
-  moduleForComponent,
-  test,
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('event-comments', {
+moduleForComponent('content-comments', 'Unit | Component | content comments', {
   // Specify the other units that are required for this test
-  needs: ['component:event-comments-new', 'component:content-comment',
+  needs: ['component:comment-new', 'component:content-comment',
     'component:sign-in-link']
 });
 

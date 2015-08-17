@@ -5,16 +5,16 @@
       {{content-comment
         comment=comment
         comments=comments
-        eventInstanceId=eventInstanceId
-        eventTitle=eventTitle
+        contentId=contentId
+        contentTitle=contentTitle
       }}
     {{/each}}
   </ol>
 
   {{#if session.currentUser}}
-    {{event-comments-new
-      eventInstanceId=eventInstanceId
-      eventTitle=eventTitle
+    {{comment-new
+      contentId=contentId
+      contentTitle=contentTitle
       comments=comments
       disabled=commentingDisabled
     }}
