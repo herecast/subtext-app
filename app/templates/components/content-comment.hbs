@@ -14,6 +14,12 @@
   </div>
 
   <div class='Comment-content'>
+    {{#if comment.parentComment.userName}}
+      <span class='Comment-context'>
+        Re: {{comment.parentComment.userName}}
+      </span>
+    {{/if}}
+
     {{{comment.content}}}
 
     {{#if session.currentUser}}
@@ -33,7 +39,7 @@
       {{event-comments-new
         eventInstanceId=eventInstanceId
         eventTitle=eventTitle
-        parentCommentId=comment.id
+        parentComment=comment
         comments=comments
         afterPost='afterPost'
       }}
