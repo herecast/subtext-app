@@ -1,9 +1,8 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  parentComment: DS.belongsTo('comment'),
   content: DS.attr('string'),
-  contentId: DS.attr('number'),
+  parentCntentId: DS.attr('number'),
   title: DS.attr('string'),
   userName: DS.attr('string'),
   userImageUrl: DS.attr('string'),
