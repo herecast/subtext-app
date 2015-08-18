@@ -1,6 +1,6 @@
 {{#if model.bannerImage}}
   <section class='NewsPhotoBanner'>
-    <div class='container NewsPhotoBanner-photoContainer'>
+    <div class='Container--noGutter NewsPhotoBanner-photoContainer'>
       {{#background-image imageUrl=model.bannerImage.url class='NewsPhotoBanner-photo'}}
         <div class='NewsPhotoBanner-captionArea'>
           {{model.bannerImage.caption}} / Source: {{model.bannerImage.credit}}
@@ -10,7 +10,7 @@
   </section>
 {{/if}}
 
-<div class='container News'>
+<div class='Container--noGutter News'>
   <div class='row'>
     <div class='col-sm-2'>
       {{back-button routeName='news'}}

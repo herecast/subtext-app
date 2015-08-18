@@ -6,8 +6,17 @@
 .MainNav-brand {
   font-weight: 900;
   font-size: 18px;
+  padding: 15px;
+  @media (min-width: @screen-sm-min) {
+    padding: 25px 0;
+  }
 }
 
 .navbar-default .navbar-brand {
   color: @text-color;
 }
+
+.Container--noGutter > .navbar-header {
+  margin: 0;
+}
+
