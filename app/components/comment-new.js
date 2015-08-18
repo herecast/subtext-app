@@ -11,8 +11,7 @@ export default Ember.Component.extend({
       const content = this.get('newComment');
       const comment = this.store.createRecord('comment', {
         content: content,
-        contentId: this.get('contentId'),
-        parentComment: this.get('parentComment'),
+        parentContentId: this.get('parentContentId'),
         title: `Re: ${this.get('contentTitle')}`,
         userName: this.get('session.currentUser.name')
       });
@@ -27,7 +26,6 @@ export default Ember.Component.extend({
           id: comment.get('id'),
           formattedPostedAt: moment().fromNow(),
           content: formattedContent,
-          parentComment: comment.get('parentComment'),
           userName: this.get('session.currentUser.name')
         });
 
@@ -38,7 +36,6 @@ export default Ember.Component.extend({
         this.get('comments').pushObject(newComment);
 
         this.set('newComment', null);
-        this.sendAction('afterPost');
       });
     }
   }

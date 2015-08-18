@@ -14,36 +14,12 @@
   </div>
 
   <div class='Comment-content'>
-    {{#if comment.parentComment.userName}}
-      <span class='Comment-context'>
-        Re: {{comment.parentComment.userName}}
-      </span>
-    {{/if}}
-
     {{{comment.content}}}
-
-    {{#if session.currentUser}}
-      <a class='btn btn-link btn-default ResponseButton h4' {{action 'reply'}}>
-        {{fa-icon 'reply ResponseButton-icon'}}
-        Reply
-      </a>
-    {{/if}}
 
     {{report-abuse
       modelId=comment.id
       type='comments'
       tagName='span'
     }}
-
-    {{#if showReplyBox}}
-      {{comment-new
-        contentId=contentId
-        contentTitle=contentTitle
-        parentComment=comment
-        comments=comments
-        afterPost='afterPost'
-      }}
-    {{/if}}
-
   </div>
 </div>
