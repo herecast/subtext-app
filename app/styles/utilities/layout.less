@@ -22,9 +22,13 @@
   }
 }
 
-.u-noGutter {
-  padding-left: 0;
-  padding-right: 0;
+.Container--noGutter {
+  .container;
+
+  @media (min-width: @screen-sm-min) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .u-flexColumn {

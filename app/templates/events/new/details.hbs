@@ -1,31 +1,35 @@
-<div class='container'>
-  {{content-form-header
-    isNew=model.isNew
-    createText='Create an Event'
-    updateText='Update Your Event'
-  }}
-
+<div class='Container--noGutter'>
   <div class='row'>
-    <div class='ContentForm-content col-md-8'>
-      {{content-form-steps
-        step1State='current'
-        step2State='inactive'
-        step3State='inactive'
-        type='Event'
+    <div class='ContentForm col-md-9'>
+      {{content-form-header
+        isNew=model.isNew
+        createText='Create an Event'
+        updateText='Update Your Event'
       }}
 
-      {{event-form
-        event=model
-        afterDiscard='afterDiscard'
-        afterDetails='afterDetails'
-      }}
+      <div class='ContentForm-content'>
+        {{content-form-steps
+          step1State='current'
+          step2State='inactive'
+          step3State='inactive'
+          type='Event'
+        }}
+
+        {{event-form
+          event=model
+          afterDiscard='afterDiscard'
+          afterDetails='afterDetails'
+        }}
+      </div>
     </div>
 
-    {{event-card-preview
-      event=model
-      isPreview=true
-      classNames='col-md-4'
-    }}
+    <div class='col-md-3'>
+      <h1 class='ContentForm-previewHeader'>Preview</h1>
+      {{event-card-preview
+        event=model
+        isPreview=true
+      }}
+    </div>
 
   </div>
 </div>

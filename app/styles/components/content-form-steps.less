@@ -1,7 +1,7 @@
 .ContentFormSteps {
   @media (min-width: @screen-lg-min) {
-    background: transparent url('/images/gray-dot.png') repeat-x center 15px;
-    margin: 0 auto 35px;
+    background: transparent url('/images/gray-dash.png') repeat-x 15px 42px;
+    margin: 60px auto 35px;
     position: relative;
     width: 640px;
   }
@@ -15,8 +15,8 @@
     display: block;
     height: 5px;
     position: absolute;
-    top: 15px;
-    width: 75px;
+    top: 42px;
+    width: 44px;
   }
 }
 
@@ -51,22 +51,30 @@
 }
 
 .ContentFormSteps-stepCount {
-  background-color: white;
+  background-color: @gray-light;
   border-radius: @border-radius-round;
-  border: 2px solid @gray-light;
   box-shadow: 0 0 0 10px white;
-  color: @gray-light;
+  color: white;
   font-size: 18px;
   height: 36px;
   margin: 0 auto;
-  padding: 6px;
+  padding: 1px;
   text-align: center;
-  width: 36px;
+  width: 90px;
+  height: 90px;
 }
 
-.ContentFormSteps-stepCount.current {
-  color: @text-color;
-  border: 2px solid @text-color;
+.ContentFormSteps-stepCount--event.current {
+  background-color: @event-brand;
+}
+.ContentFormSteps-stepCount--market.current {
+  background-color: @market-brand;
+}
+.ContentFormSteps-stepCount--news.current {
+  background-color: @news-brand;
+}
+.ContentFormSteps-stepCount--talk.current {
+  background-color: @talk-brand;
 }
 
 .ContentFormSteps-stepCount.complete {
@@ -76,10 +84,21 @@
 }
 
 .ContentFormSteps-stepTitle {
-  color: @gray-light;
+  color: @gray-dark;
 }
 
 .ContentFormSteps-stepTitle.current, .ContentFormSteps-stepTitle.complete {
   color: @text-color;
+}
+
+.ContentFormSteps-stepNumber {
+  font-size: 48px;
+}
+
+.ContentFormSteps-stepIcon {
+  font-size: 48px;
+  left: 2px;
+  position: relative;
+  top: 18px;
 }
 
