@@ -43,21 +43,19 @@
 
     {{#form-group error=errors.content}}
       <label class='control-label ContentForm-label--required' for="description">Event Description</label>
-      {{#summer-note content=event.content}}
         {{textarea
           id='description'
           placeholder='An inspiring description that will motivate people to attend'
-          class='form-control'
+          class='form-control ContentForm-textArea'
         }}
-      {{/summer-note}}
     {{/form-group}}
 
     <div class="form-group">
       <label>Event Info</label>
       <div class='form-group'>
         <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+          <span class="ContentForm-iconLabel input-group-addon">
+            {{fa-icon 'envelope'}}
           </span>
           {{input
             placeholder='Contact Email'
@@ -68,8 +66,8 @@
       </div>
       <div class='form-group'>
         <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+          <span class="ContentForm-iconLabel input-group-addon">
+            {{fa-icon 'phone'}}
           </span>
           {{input
             placeholder='Contact Phone, ex: 555-555-5555'
@@ -80,8 +78,8 @@
       </div>
       <div class='form-group'>
         <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+          <span class="ContentForm-iconLabel input-group-addon">
+            {{fa-icon 'link'}}
           </span>
           {{input
             placeholder='Web Link, ex: event URL or registration page'
@@ -92,23 +90,23 @@
       </div>
     </div>
 
-    <div class='form-group'>
-      <span class='ContentForm-requiredIndicator'>*</span> required fields
+    <div class='form-group ContentForm-helpText'>
+      <span class='ContentForm-requiredIndicator'>*</span> = required fields
     </div>
 
-  </div>
-
-  <div class='ContentForm-buttonGroup form-group'>
-    <button class='Button Button--event btn btn-primary pull-right' {{action 'next'}}>
-      Next Step
-      {{fa-icon 'arrow-right u-iconRight'}}
-    </button>
-
-    {{#if event.isNew}}
-      <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-        Discard Event
-        {{fa-icon 'trash u-iconRight'}}
+    <div class='ContentForm-buttonGroup form-group'>
+      <button class='Button Button--primary btn btn-primary pull-right' {{action 'next'}}>
+        Next Step
+        {{fa-icon 'arrow-right u-iconRight'}}
       </button>
-    {{/if}}
+
+      {{#if event.isNew}}
+        <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
+          {{fa-icon 'trash u-iconLeft'}}
+          Discard Event
+        </button>
+      {{/if}}
+    </div>
+
   </div>
 </div>
