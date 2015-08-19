@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('content-form', 'Unit | Component | content form', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
+  needs: ['component:content-form-steps', 'component:content-form-header'],
   unit: true
 });
 

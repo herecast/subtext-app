@@ -1,10 +1,11 @@
 <div class='Container--noGutter'>
   <div class='row'>
-    {{#content-form type='event' classNames='col-md-9' }}
+    {{#content-form type='event' class='col-md-9'}}
       {{event-form
-        event=model
+        model=model
         afterDiscard='afterDiscard'
         afterDetails='afterDetails'
+        formattedType='event'
       }}
     {{/content-form}}
 

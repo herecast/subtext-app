@@ -1,48 +1,33 @@
-<div class='ContentForm-stepContent'>
-
-  {{#form-group error=errors.title}}
-    <label class='control-label ContentForm-label--required' for="title">Title</label>
-    {{input
-      id='title'
-      placeholder='Keep it short and informative'
-      class='form-control'
-      value=talk.title
-    }}
-  {{/form-group}}
-
-  {{#form-group error=errors.content}}
-    <label class='control-label ContentForm-label--required' for="description">Conversation</label>
-    {{#summer-note content=talk.content}}
-      {{textarea
-        id='description'
-        placeholder='An informative, civil comment that will encourage people to respond'
-        class='form-control'
-      }}
-    {{/summer-note}}
-  {{/form-group}}
-
-  {{content-form-image
-    image=talk.image
-    imageUrl=talk.imageUrl
-    originalImageFile=talk.originalImageFile
-    error=errors.image
+{{#form-group error=errors.title}}
+  <label class='control-label ContentForm-label--required' for="title">Title</label>
+  {{input
+    id='title'
+    placeholder='Keep it short and informative'
+    class='form-control'
+    value=talk.title
   }}
+{{/form-group}}
 
-  <div class='form-group'>
-    <span class='ContentForm-requiredIndicator'>*</span> required fields
-  </div>
+{{#form-group error=errors.content}}
+  <label class='control-label ContentForm-label--required' for="description">Conversation</label>
+  {{#summer-note content=talk.content}}
+    {{textarea
+      id='description'
+      placeholder='An informative, civil comment that will encourage people to respond'
+      class='form-control'
+    }}
+  {{/summer-note}}
+{{/form-group}}
+
+{{content-form-image
+  image=talk.image
+  imageUrl=talk.imageUrl
+  originalImageFile=talk.originalImageFile
+  error=errors.image
+}}
+
+<div class='form-group ContentForm-helpText'>
+  <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-<div class='ContentForm-buttonGroup form-group'>
-  <button class='Button Button--talk btn btn-primary pull-right' {{action 'next'}}>
-    Next Step
-    {{fa-icon 'arrow-right u-iconRight'}}
-  </button>
-
-  {{#if talk.isNew}}
-    <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-      Discard Talk
-      {{fa-icon 'trash u-iconRight'}}
-    </button>
-  {{/if}}
-</div>
+{{partial 'partials/content-form-buttons'}}

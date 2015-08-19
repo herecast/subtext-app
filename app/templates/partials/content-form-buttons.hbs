@@ -1,0 +1,13 @@
+<div class='ContentForm-buttonGroup form-group'>
+  <button class='Button Button--primary btn btn-primary pull-right' {{action 'next'}}>
+    Next Step
+    {{fa-icon 'arrow-right u-iconRight'}}
+  </button>
+
+  {{#if model.isNew}}
+    <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
+      {{fa-icon 'trash u-iconLeft'}}
+      Discard {{formattedType}}
+    </button>
+  {{/if}}
+</div>

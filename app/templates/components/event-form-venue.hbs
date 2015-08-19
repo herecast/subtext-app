@@ -29,19 +29,21 @@
       value=venueCity
     }}
   </div>
-  <div class='form-group ContentForm-formGroup--left'>
+  <div class='row'>
+    <div class='form-group col-xs-6'>
     {{input
       placeholder='State'
       class='form-control'
       value=venueState
     }}
-  </div>
-  <div class='form-group ContentForm-formGroup--right'>
-    {{input
-      placeholder='ZIP Code'
-      class='form-control'
-      value=venueZip
-    }}
+    </div>
+    <div class='form-group col-xs-6'>
+      {{input
+        placeholder='ZIP Code'
+        class='form-control'
+        value=venueZip
+      }}
+    </div>
   </div>
   <div class='form-group'>
     {{input

@@ -29,7 +29,7 @@
   error=errors.image
 }}
 
-<div class="form-group">
+<div class='form-group'>
   <label class='ContentForm-label--required'>Event Price</label>
   <div>
     {{event-form-cost
@@ -41,14 +41,14 @@
 
 {{#form-group error=errors.content}}
   <label class='control-label ContentForm-label--required' for="description">Event Description</label>
-    {{textarea
-      id='description'
-      placeholder='An inspiring description that will motivate people to attend'
-      class='form-control ContentForm-textArea'
-    }}
+  {{textarea
+    id='description'
+    placeholder='An inspiring description that will motivate people to attend'
+    class='form-control ContentForm-textArea'
+  }}
 {{/form-group}}
 
-<div class="form-group">
+<div class='form-group'>
   <label>Event Info</label>
   <div class='form-group'>
     <div class="input-group">
@@ -92,16 +92,4 @@
   <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-<div class='ContentForm-buttonGroup form-group'>
-  <button class='Button Button--primary btn btn-primary pull-right' {{action 'next'}}>
-    Next Step
-    {{fa-icon 'arrow-right u-iconRight'}}
-  </button>
-
-  {{#if event.isNew}}
-    <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
-      {{fa-icon 'trash u-iconLeft'}}
-      Discard Event
-    </button>
-  {{/if}}
-</div>
+{{partial 'partials/content-form-buttons'}}

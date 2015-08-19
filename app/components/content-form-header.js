@@ -4,9 +4,9 @@ export default Ember.Component.extend({
   tagName: 'h1',
   classNames: ['SectionHeader', 'ContentForm-sectionHeader'],
 
-  formattedEventType: function() {
+  formattedType: function() {
     if (this.get('type') === 'market') {
-      return 'listing'
+      return 'listing';
     } else {
       return this.get('type');
     }
