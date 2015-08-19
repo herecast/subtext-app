@@ -7,8 +7,9 @@
 }
 
 .ContentForm-buttonLink {
-  color: @gray-medium;
+  color: @gray-dark;
   font-weight: 900;
+  font-size: 18px;
   text-decoration: underline;
 }
 
@@ -37,6 +38,10 @@
   color: @brand-danger;
 }
 
+.ContentForm-label {
+  font-size: 18px;
+}
+
 .ContentForm-label--required:after {
   content: "*";
   color: @brand-danger;
@@ -45,4 +50,25 @@
 .ContentForm-previewHeader {
   margin: 53px 0 50px;
   text-align: center;
+}
+
+.ContentForm-formGroup--left {
+  width: 48%;
+  float: left;
+}
+
+.ContentForm-formGroup--right {
+  width: 48%;
+  float: right;
+}
+
+.ContentForm-fileField {
+  padding-top: 14px;
+}
+
+.ContentForm-helpText {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 10px;
 }
