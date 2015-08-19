@@ -1,33 +1,30 @@
 .ContentFormSteps {
-  @media (min-width: @screen-lg-min) {
+  @media (min-width: @screen-sm-min) {
     background: transparent url('/images/gray-dash.png') repeat-x 15px 42px;
-    margin: 60px auto 35px;
-    position: relative;
-    width: 640px;
   }
 }
 
 .ContentFormSteps:before,
 .ContentFormSteps:after {
-  @media (min-width: @screen-lg-min) {
+  @media (min-width: @screen-sm-min) {
     background-color: white;
     content: '';
     display: block;
     height: 5px;
     position: absolute;
     top: 42px;
-    width: 44px;
+    width: 24px;
   }
 }
 
 .ContentFormSteps:before {
-  @media (min-width: @screen-lg-min) {
+  @media (min-width: @screen-sm-min) {
     left: 0;
   }
 }
 
 .ContentFormSteps:after {
-  @media (min-width: @screen-md-min) {
+  @media (min-width: @screen-sm-min) {
     right: 0;
   }
 }
@@ -50,10 +47,20 @@
   text-align: center;
 }
 
+.ContentFormSteps-step.ContentFormSteps-step--1 {
+  width: 115px;
+  float: left;
+}
+
+.ContentFormSteps-step.ContentFormSteps-step--3 {
+  width: 109px;
+  float: right;
+}
+
 .ContentFormSteps-stepCount {
   background-color: @gray-light;
   border-radius: @border-radius-round;
-  box-shadow: 0 0 0 10px white;
+  box-shadow: 0 0 0 5px white;
   color: white;
   font-size: 18px;
   height: 36px;
