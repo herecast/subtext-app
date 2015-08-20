@@ -8,7 +8,7 @@
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content class='ContentForm-formGroup--padded'}}
+{{#form-group error=errors.content class='u-layoutPadT5'}}
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
   {{textarea
     id='description'
@@ -18,7 +18,7 @@
   }}
 {{/form-group}}
 
-<div class="form-group ContentForm-formGroup--padded">
+<div class="form-group u-layoutPadT5">
   <label for='price'>Cost</label>
   {{input
     id='price'
@@ -33,12 +33,12 @@
   imageUrl=post.imageUrl
   originalImageFile=post.originalImageFile
   error=errors.image
-  class='ContentForm-formGroup--padded'
+  class='u-layoutPadT5'
 }}
 
-{{#form-group error=errors.contact class='ContentForm-formGroup--padded'}}
-  <label class='control-label ContentForm-label--noMargin ContentForm-label--required'>Contact Me</label>
-  <div class='ContentForm-helpText ContentForm-helpText--padded'>
+{{#form-group error=errors.contact class='u-layoutPadT5'}}
+  <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
+  <div class='ContentForm-helpText u-layoutPadB2'>
     Choose either option, or both.
   </div>
   <div class="form-group">
