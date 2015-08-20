@@ -1,30 +1,21 @@
 <div class='Container--noGutter'>
-  {{content-form-header
-    isNew=model.isNew
-    createText='Create a Talk'
-    updateText='Update Your Talk'
-  }}
-
   <div class='row'>
-    <div class='ContentForm-content col-md-8'>
-      {{content-form-steps
-        step1State='current'
-        step2State='inactive'
-        step3State='inactive'
-        type='Talk'
-      }}
-
+    {{#content-form type='talk' class='col-md-9'}}
       {{talk-form
-        talk=model
+        model=model
         afterDiscard='afterDiscard'
         afterDetails='afterDetails'
+        formattedType='talk'
+      }}
+    {{/content-form}}
+
+    <div class='col-md-3'>
+      <h1 class='ContentForm-previewHeader'>Preview</h1>
+      {{talk-card-preview
+        talk=model
+        isPreview=true
       }}
     </div>
 
-    {{talk-card-preview
-      talk=model
-      isPreview=true
-      classNames='col-md-4'
-    }}
   </div>
 </div>

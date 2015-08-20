@@ -3,6 +3,7 @@ import Validation from '../mixins/components/validation';
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
+  talk: Ember.computed.alias('model'),
 
   isValid() {
     this.validatePresenceOf('talk.title');

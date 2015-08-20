@@ -3,6 +3,7 @@ import Validation from '../mixins/components/validation';
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
+  post: Ember.computed.alias('model'),
 
   validateContact() {
     const email = this.get('post.contactEmail');

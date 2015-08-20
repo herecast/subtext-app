@@ -5,52 +5,51 @@
 .NavTabs > li > a {
   background-color: #F6F6F6;
   border-radius: 0;
-  border: 1px solid @gray-light;
+  border: 1px solid @gray-medium;
   border-right: 0;
-  color: @gray-light;
-  font-weight: 900;
+  color: @gray-dark;
+  font-weight: 300;
   margin: 0;
-  padding: 5px 12px;
+  padding: 12px 24px;
 }
 
 .NavTabs > li:last-child > a {
-  border-right: 1px solid @gray-light;
+  border-right: 1px solid @gray-dark;
 }
 
 .NavTabs > li > a:hover, .NavTabs > li.active > a:focus {
-  border: 1px solid @gray-light;
+  border: 1px solid @gray-dark;
   border-right: 0;
   background-color: darken(#F6F6F6, 5%);
 }
 
 .NavTabs > li:last-child > a:hover, .NavTabs > li:last-child > a:focus {
-  border-right: 1px solid @gray-light;
+  border-right: 1px solid @gray-dark;
 }
 
 .NavTabs > li.active > a {
   background-color: white;
   color: @text-color;
-  border: 1px solid @gray-light;
+  border: 1px solid @gray-dark;
   border-right: 0;
-  border-bottom-color: transparent;
 }
 
 .NavTabs > li:last-child {
   &.active {
     > a, a:hover, a:focus {
-      border-right: 1px solid @gray-light;
+      border-right: 1px solid @gray-dark;
     }
   }
 }
 
 .NavTabs > li.active > a:hover, .NavTabs > li.active > a:focus {
   background-color: white;
-  border: 1px solid @gray-light;
+  border: 1px solid @gray-dark;
   border-right: 0;
   border-bottom-color: transparent;
 }
 
 .NavTabs-content {
   padding: 20px;
-  border: 1px solid @gray-light;
+  border: 1px solid @gray-dark;
 }

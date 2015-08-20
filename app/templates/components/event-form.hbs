@@ -1,114 +1,95 @@
-<div class='row'>
-  <div class='ContentForm-stepContent col-sm-offset-2 col-sm-8'>
-    {{#form-group error=errors.title}}
-      <label class='control-label ContentForm-label--required' for="title">Event Title</label>
-      {{input
-        id='title'
-        placeholder='A short and informative name'
-        class='form-control'
-        value=event.title
-      }}
-    {{/form-group}}
+{{#form-group error=errors.title}}
+  <label class='control-label ContentForm-label--required' for="title">Event Title</label>
+  {{input
+    id='title'
+    placeholder='A short and informative name'
+    class='form-control'
+    value=event.title
+  }}
+{{/form-group}}
 
-    {{#form-group error=errors.venue}}
-      {{event-form-venue
-        event=event
-        error=errors.venue
-        class='form-group'
-      }}
-    {{/form-group}}
+{{#form-group error=errors.venue}}
+  {{event-form-venue
+    event=event
+    error=errors.venue
+    class='form-group'
+  }}
+{{/form-group}}
 
-    {{event-form-dates
-      eventInstances=event.eventInstances
-      class='form-group'
-      afterValidation='afterDateValidation'
+{{event-form-dates
+  eventInstances=event.eventInstances
+  class='form-group'
+  afterValidation='afterDateValidation'
+}}
+
+{{content-form-image
+  image=event.image
+  imageUrl=event.imageUrl
+  originalImageFile=event.originalImageFile
+  error=errors.image
+}}
+
+<div class='form-group'>
+  <label class='ContentForm-label--required'>Event Price</label>
+  <div>
+    {{event-form-cost
+      cost=event.cost
+      costType=event.costType
     }}
-
-    {{content-form-image
-      image=event.image
-      imageUrl=event.imageUrl
-      originalImageFile=event.originalImageFile
-      error=errors.image
-    }}
-
-    <div class="form-group">
-      <label class='ContentForm-label--required'>Event Price</label>
-      <div>
-        {{event-form-cost
-          cost=event.cost
-          costType=event.costType
-        }}
-      </div>
-    </div>
-
-    {{#form-group error=errors.content}}
-      <label class='control-label ContentForm-label--required' for="description">Event Description</label>
-      {{#summer-note content=event.content}}
-        {{textarea
-          id='description'
-          placeholder='An inspiring description that will motivate people to attend'
-          class='form-control'
-        }}
-      {{/summer-note}}
-    {{/form-group}}
-
-    <div class="form-group">
-      <label>Event Info</label>
-      <div class='form-group'>
-        <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-          </span>
-          {{input
-            placeholder='Contact Email'
-            class='form-control'
-            value=event.contactEmail
-          }}
-        </div>
-      </div>
-      <div class='form-group'>
-        <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-          </span>
-          {{input
-            placeholder='Contact Phone, ex: 555-555-5555'
-            class='form-control'
-            value=event.contactPhone
-          }}
-        </div>
-      </div>
-      <div class='form-group'>
-        <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-          </span>
-          {{input
-            placeholder='Web Link, ex: event URL or registration page'
-            class='form-control'
-            value=event.eventUrl
-          }}
-        </div>
-      </div>
-    </div>
-
-    <div class='form-group'>
-      <span class='ContentForm-requiredIndicator'>*</span> required fields
-    </div>
-
-  </div>
-
-  <div class='ContentForm-buttonGroup form-group'>
-    <button class='Button Button--event btn btn-primary pull-right' {{action 'next'}}>
-      Next Step
-      {{fa-icon 'arrow-right u-iconRight'}}
-    </button>
-
-    {{#if event.isNew}}
-      <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-        Discard Event
-        {{fa-icon 'trash u-iconRight'}}
-      </button>
-    {{/if}}
   </div>
 </div>
+
+{{#form-group error=errors.content}}
+  <label class='control-label ContentForm-label--required' for="description">Event Description</label>
+  {{textarea
+    id='description'
+    placeholder='An inspiring description that will motivate people to attend'
+    class='form-control ContentForm-textArea'
+  }}
+{{/form-group}}
+
+<div class='form-group'>
+  <label>Event Info</label>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'envelope'}}
+      </span>
+      {{input
+        placeholder='Contact Email'
+        class='form-control'
+        value=event.contactEmail
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'phone'}}
+      </span>
+      {{input
+        placeholder='Contact Phone, ex: 555-555-5555'
+        class='form-control'
+        value=event.contactPhone
+      }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class="input-group">
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'link'}}
+      </span>
+      {{input
+        placeholder='Web Link, ex: event URL or registration page'
+        class='form-control'
+        value=event.eventUrl
+      }}
+    </div>
+  </div>
+</div>
+
+<div class='form-group ContentForm-helpText'>
+  <span class='ContentForm-requiredIndicator'>*</span> = required fields
+</div>
+
+{{partial 'partials/content-form-buttons'}}

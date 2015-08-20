@@ -1,3 +1,7 @@
+.ContentForm {
+  margin-bottom: 65px;
+}
+
 .ContentForm-sectionHeader {
   margin: 70px 0;
 }
@@ -7,18 +11,21 @@
 }
 
 .ContentForm-buttonLink {
-  color: @gray-medium;
+  color: @gray-dark;
   font-weight: 900;
+  font-size: 18px;
   text-decoration: underline;
 }
 
 .ContentForm-discardButton {
-  color: @gray-light;
+  color: @gray-dark;
+  margin: 0 20px;
 }
 
 .ContentForm-content {
   background-color: #FFF;
   padding: 60px 0;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
 }
 
 .ContentForm-content .form-group.has-error .note-editor {
@@ -37,6 +44,10 @@
   color: @brand-danger;
 }
 
+.ContentForm-label {
+  font-size: 18px;
+}
+
 .ContentForm-label--required:after {
   content: "*";
   color: @brand-danger;
@@ -45,4 +56,27 @@
 .ContentForm-previewHeader {
   margin: 53px 0 50px;
   text-align: center;
+}
+
+.ContentForm-fileField {
+  padding-top: 14px;
+}
+
+.ContentForm-helpText {
+  color: @gray-dark;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+.ContentForm-textArea.form-control {
+  min-height: 100px;
+  padding: 12px;
+}
+
+.ContentForm-iconLabel {
+  border-radius: 0;
+  font-size: 20px;
+  min-width: 50px;
 }
