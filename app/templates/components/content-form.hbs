@@ -4,13 +4,14 @@
 }}
 
 <div class='ContentForm-content'>
-  {{content-form-steps
-    step1State='current'
-    step2State='inactive'
-    step3State='inactive'
-    type=type
-  }}
-
+  <div class='row'>
+    {{content-form-steps
+      step1State=step1State
+      step2State=step2State
+      step3State=step3State
+      type=type
+    }}
+  </div>
   <div class='row'>
     <div class='ContentForm-stepContent col-sm-offset-2 col-sm-8'>
       {{yield}}

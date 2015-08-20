@@ -1,19 +1,12 @@
 <div class='Container--noGutter'>
-  {{content-form-header
-    isNew=model.isNew
-    createText='Create a Market Listing'
-    updateText='Update Your Market Listing'
-  }}
-
   <div class='row'>
-    <div class='ContentForm-content col-md-8'>
-      {{content-form-steps
-        step1State='complete'
-        step2State='current'
-        step3State='inactive'
-        type='Market Listing'
-      }}
-
+    {{#content-form
+      type='market'
+      class='col-md-9'
+      step1State='complete'
+      step2State='current'
+      step3State='inactive'
+    }}
       {{market-promotion-form
         post=model
         listservs=listservs
@@ -21,13 +14,14 @@
         backToDetails='backToDetails'
         afterPromotion='afterPromotion'
       }}
+    {{/content-form}}
+
+    <div class='col-md-3'>
+      <h1 class='ContentForm-previewHeader'>Preview</h1>
+      {{market-card-preview
+        post=model
+        isPreview=true
+      }}
     </div>
-
-    {{market-card-preview
-      post=model
-      isPreview=true
-      classNames='col-md-4'
-    }}
-
   </div>
 </div>

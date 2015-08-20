@@ -1,79 +1,77 @@
-<div class='ContentForm-stepContent'>
-  <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="extended-reach">Pick Your Audience <span class='PromotionSection-cost'>Coming Soon!</span></label>
-    <p class='PromotionSection-description'>
-      Your event will display to users all across the Upper Valley.
-      Soon we'll add the ability to limit your audience -- for example,
-      to users in your community only.
-    </p>
-    <div class='row'>
-      <div class='col-sm-6'>
-        <div class='PromotionSection-toggle PromotionSection-toggleMap is-disabled'>
-          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-        </div>
-      </div>
-      <div class='col-sm-6'>
-        <img class='img-responsive' src="/images/extended-reach-map.png">
+<div class='PromotionSection'>
+  <label class='PromotionSection-label' for="extended-reach">Pick Your Audience <span class='PromotionSection-cost'>Coming Soon!</span></label>
+  <p class='PromotionSection-description'>
+    Your event will display to users all across the Upper Valley.
+    Soon we'll add the ability to limit your audience -- for example,
+    to users in your community only.
+  </p>
+  <div class='row'>
+    <div class='col-sm-6'>
+      <div class='PromotionSection-toggle PromotionSection-toggleMap is-disabled'>
+        {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
       </div>
     </div>
+    <div class='col-sm-6'>
+      <img class='img-responsive' src="/images/extended-reach-map.png">
+    </div>
   </div>
+</div>
 
-  <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="category-enabled">Be Special <span class='PromotionSection-cost'>Free!</span></label>
-    <p class='PromotionSection-description'>
-      Maybe your event fits one of our pre-defined special searches:
-      Movies, Performing arts, Wellness, or Yard sales. If it does, choose one!
-    </p>
+<div class='PromotionSection'>
+  <label class='PromotionSection-label' for="category-enabled">Be Special <span class='PromotionSection-cost'>Free!</span></label>
+  <p class='PromotionSection-description'>
+    Maybe your event fits one of our pre-defined special searches:
+    Movies, Performing arts, Wellness, or Yard sales. If it does, choose one!
+  </p>
 
-    <div class='row'>
-      <div class='col-sm-6'>
-        <div {{action 'toggleProperty' 'categoryEnabled'}} class='PromotionSection-toggle'>
-          {{#if categoryEnabled}}
-            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-          {{else}}
-            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-          {{/if}}
-        </div>
-      </div>
-      <div class='col-sm-6'>
+  <div class='row'>
+    <div class='col-sm-6'>
+      <div {{action 'toggleProperty' 'categoryEnabled'}} class='PromotionSection-toggle'>
         {{#if categoryEnabled}}
-          {{view "select"
-            content=categories
-            optionLabelPath="content.label"
-            optionValuePath="content.value"
-            prompt="Select a category:"
-            value=event.category
-            class='form-control'
-          }}
+          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+        {{else}}
+          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
         {{/if}}
       </div>
     </div>
+    <div class='col-sm-6'>
+      {{#if categoryEnabled}}
+        {{view "select"
+          content=categories
+          optionLabelPath="content.label"
+          optionValuePath="content.value"
+          prompt="Select a category:"
+          value=event.category
+          class='form-control'
+        }}
+      {{/if}}
+    </div>
   </div>
+</div>
 
-  <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
-    <p class='PromotionSection-description'>
-      Are you subscribed to one or more Upper Valley listservs? Send them a
-      text-only version of your event with a link to the full listing!
-    </p>
-    <div class='row'>
-      <div class='col-sm-2 col-sm-offset-2'>
-        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
-          {{#if listsEnabled}}
-            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-          {{else}}
-            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-          {{/if}}
-        </div>
-      </div>
-      <div class='col-sm-8'>
+<div class='PromotionSection'>
+  <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
+  <p class='PromotionSection-description'>
+    Are you subscribed to one or more Upper Valley listservs? Send them a
+    text-only version of your event with a link to the full listing!
+  </p>
+  <div class='row'>
+    <div class='col-sm-2 col-sm-offset-2'>
+      <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
         {{#if listsEnabled}}
-          {{content-form-listservs
-            model=event
-            listservs=listservs
-          }}
+          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+        {{else}}
+          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
         {{/if}}
       </div>
+    </div>
+    <div class='col-sm-8'>
+      {{#if listsEnabled}}
+        {{content-form-listservs
+          model=event
+          listservs=listservs
+        }}
+      {{/if}}
     </div>
   </div>
 </div>
@@ -84,15 +82,15 @@
     Back
   </button>
 
-  <button class='Button Button--event btn btn-primary pull-right' {{action 'preview'}}>
+  <button class='Button Button--primary btn btn-primary pull-right' {{action 'preview'}}>
     Next Step
     {{fa-icon 'arrow-right u-iconRight'}}
   </button>
 
   {{#if event.isNew}}
-    <button class='ContentForm-buttonLink ContentForm-discardButton btn btn-link pull-right' {{action 'discard'}}>
-      Discard Event 
-      {{fa-icon 'trash u-iconRight'}}
+    <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
+      {{fa-icon 'trash u-iconLeft'}}
+      Discard Event
     </button>
   {{/if}}
 </div>
