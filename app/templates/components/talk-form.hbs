@@ -8,15 +8,13 @@
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content}}
+{{#form-group error=errors.content class='u-layoutPadT5'}}
   <label class='control-label ContentForm-label--required' for="description">Conversation</label>
-  {{#summer-note content=talk.content}}
-    {{textarea
-      id='description'
-      placeholder='An informative, civil comment that will encourage people to respond'
-      class='form-control'
-    }}
-  {{/summer-note}}
+  {{textarea
+    id='description'
+    placeholder='An informative, civil comment that will encourage people to respond'
+    class='form-control ContentForm-textArea'
+  }}
 {{/form-group}}
 
 {{content-form-image
@@ -24,6 +22,7 @@
   imageUrl=talk.imageUrl
   originalImageFile=talk.originalImageFile
   error=errors.image
+  class='u-layoutPadT5'
 }}
 
 <div class='form-group ContentForm-helpText'>
