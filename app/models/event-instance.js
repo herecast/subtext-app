@@ -18,12 +18,12 @@ export default DS.Model.extend(BaseEvent, {
 
   formattedDate: function() {
     const date = this.get('startsAt').format('MMMM D');
-    const startTime = this.get('startsAt').format('hA');
+    const startTime = this.get('startsAt').format('h:mmA');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
       return `${date} | ${startTime}`;
     } else {
-      const endTime = this.get('endsAt').format('hA');
+      const endTime = this.get('endsAt').format('h:mmA');
 
       return `${date} | ${startTime}-${endTime}`;
     }
