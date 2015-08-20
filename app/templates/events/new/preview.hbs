@@ -1,17 +1,18 @@
 <div class='Container--noGutter'>
   {{content-form-header
     isNew=model.isNew
-    createText='Create an Event'
-    updateText='Update Your Event'
+    type='event'
   }}
 
-  {{content-form-steps
-    step1State='complete'
-    step2State='complete'
-    step3State='current'
-    type='Event'
-    class='ContentFormSteps--gray'
-  }}
+  <div class='row'>
+    {{content-form-steps
+      step1State='complete'
+      step2State='complete'
+      step3State='current'
+      type='Event'
+      class='ContentFormSteps--gray'
+    }}
+  </div>
 
   {{event-preview-summary
     model=model

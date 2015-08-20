@@ -30,17 +30,22 @@
 }
 
 .ContentFormSteps--gray {
-  margin-top: 50px;
+  margin-top: 10px;
+  margin-bottom: 35px;
 }
 
 .ContentFormSteps--gray:before,
 .ContentFormSteps--gray:after {
-  background-color: @body-bg;
+  background-color: @secondary-bg;
 }
 
 .ContentFormSteps--gray .ContentFormSteps-stepCount {
-  background-color: @body-bg;
-  box-shadow: 0 0 0 10px @body-bg;
+  background-color: @secondary-bg;
+  box-shadow: 0 0 0 5px @secondary-bg;
+}
+
+.ContentFormSteps--gray .ContentFormSteps-step--3 .ContentFormSteps-stepCount {
+  background-color: @gray-medium;
 }
 
 .ContentFormSteps-step {

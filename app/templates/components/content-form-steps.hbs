@@ -1,40 +1,38 @@
-<div class='ContentFormSteps col-sm-8 col-sm-offset-2'>
-  <div class='row'>
-    <div class='col-sm-4'>
-      <div class='ContentFormSteps-step ContentFormSteps-step--1'>
-        <div {{bind-attr class='step1State stepCountTypeClass :ContentFormSteps-stepCount'}}>
-          {{#if step1Complete}}
-            {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
-          {{else}}
-            <h1 class='ContentFormSteps-stepNumber'>1</h1>
-          {{/if}}
-        </div>
-        <h2 class='ContentFormSteps-stepTitle {{step1State}}'>{{type}} Details</h2>
+<div class='row'>
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step ContentFormSteps-step--1'>
+      <div {{bind-attr class='step1State stepCountTypeClass :ContentFormSteps-stepCount'}}>
+        {{#if step1Complete}}
+          {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
+        {{else}}
+          <h1 class='ContentFormSteps-stepNumber'>1</h1>
+        {{/if}}
       </div>
+      <h2 class='ContentFormSteps-stepTitle {{step1State}}'>{{type}} Details</h2>
     </div>
-    <div class='col-sm-4'>
-      <div class='ContentFormSteps-step ContentFormSteps-step--2'>
-        <div {{bind-attr class='step2State stepCountTypeClass :ContentFormSteps-stepCount'}}>
-          {{#if step2Complete}}
-            {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
-          {{else}}
-            <h1 class='ContentFormSteps-stepNumber'>2</h1>
-          {{/if}}
-        </div>
-        <h2 class='ContentFormSteps-stepTitle {{step2State}}'>Promote</h2>
+  </div>
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step ContentFormSteps-step--2'>
+      <div {{bind-attr class='step2State stepCountTypeClass :ContentFormSteps-stepCount'}}>
+        {{#if step2Complete}}
+          {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
+        {{else}}
+          <h1 class='ContentFormSteps-stepNumber'>2</h1>
+        {{/if}}
       </div>
+      <h2 class='ContentFormSteps-stepTitle {{step2State}}'>Promote</h2>
     </div>
-    <div class='col-sm-4'>
-      <div class='ContentFormSteps-step ContentFormSteps-step--3'>
-        <div class='ContentFormSteps-stepCount stepCountTypeClass {{step3State}}'>
-          {{#if step3Complete}}
-            {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
-          {{else}}
-            <h1 class='ContentFormSteps-stepNumber'>3</h1>
-          {{/if}}
-        </div>
-        <h2 class='ContentFormSteps-stepTitle {{step3State}}'>Publish</h2>
+  </div>
+  <div class='col-sm-4'>
+    <div class='ContentFormSteps-step ContentFormSteps-step--3'>
+      <div class='ContentFormSteps-stepCount stepCountTypeClass {{step3State}}'>
+        {{#if step3Complete}}
+          {{fa-icon 'check' classNames='ContentFormSteps-stepIcon'}}
+        {{else}}
+          <h1 class='ContentFormSteps-stepNumber'>3</h1>
+        {{/if}}
       </div>
+      <h2 class='ContentFormSteps-stepTitle {{step3State}}'>Publish</h2>
     </div>
   </div>
 </div>

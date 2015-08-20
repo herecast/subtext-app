@@ -1,6 +1,12 @@
 <div class='Container--noGutter'>
   <div class='row'>
-    {{#content-form type='market' class='col-md-9'}}
+    {{#content-form
+      type='market'
+      class='col-md-9'
+      step1State='current'
+      step2State='inactive'
+      step3State='inactive'
+    }}
       {{market-form
         model=model
         afterDiscard='afterDiscard'

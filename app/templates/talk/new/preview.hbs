@@ -1,17 +1,18 @@
 <div class='Container--noGutter'>
   {{content-form-header
     isNew=model.isNew
-    createText='Create a Talk'
-    updateText='Update Your Talk'
+    type='talk'
   }}
 
-  {{content-form-steps
-    step1State='complete'
-    step2State='complete'
-    step3State='current'
-    type='Talk'
-    class='ContentFormSteps--gray'
-  }}
+  <div class='row'>
+    {{content-form-steps
+      step1State='complete'
+      step2State='complete'
+      step3State='current'
+      type='Talk'
+      class='ContentFormSteps--gray'
+    }}
+  </div>
 
   {{talk-preview-summary
     model=model

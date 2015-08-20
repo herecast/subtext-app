@@ -1,19 +1,12 @@
 <div class='Container--noGutter'>
-  {{content-form-header
-    isNew=model.isNew
-    createText='Create an Event'
-    updateText='Update Your Event'
-  }}
-
   <div class='row'>
-    <div class='ContentForm-content col-md-8'>
-      {{content-form-steps
-        step1State='complete'
-        step2State='current'
-        step3State='inactive'
-        type='Event'
-      }}
-
+    {{#content-form
+      type='event'
+      class='col-md-9'
+      step1State='complete'
+      step2State='current'
+      step3State='inactive'
+    }}
       {{event-promotion-form
         event=model
         listservs=listservs
@@ -21,13 +14,15 @@
         backToDetails='backToDetails'
         afterPromotion='afterPromotion'
       }}
+    {{/content-form}}
+
+    <div class='col-md-3'>
+      <h1 class='ContentForm-previewHeader'>Preview</h1>
+      {{event-card-preview
+        event=model
+        isPreview=true
+      }}
     </div>
-
-    {{event-card-preview
-      event=model
-      isPreview=true
-      classNames='col-md-4'
-    }}
-
   </div>
 </div>
+

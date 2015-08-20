@@ -1,19 +1,12 @@
 <div class='Container--noGutter'>
-  {{content-form-header
-    isNew=model.isNew
-    createText='Create a Talk'
-    updateText='Update Your Talk'
-  }}
-
   <div class='row'>
-    <div class='ContentForm-content col-md-8'>
-      {{content-form-steps
-        step1State='complete'
-        step2State='current'
-        step3State='inactive'
-        type='Talk'
-      }}
-
+    {{#content-form
+      type='talk'
+      class='col-md-9'
+      step1State='complete'
+      step2State='current'
+      step3State='inactive'
+    }}
       {{talk-promotion-form
         talk=model
         listservs=listservs
@@ -21,13 +14,14 @@
         backToDetails='backToDetails'
         afterPromotion='afterPromotion'
       }}
+    {{/content-form}}
+
+    <div class='col-md-3'>
+      <h1 class='ContentForm-previewHeader'>Preview</h1>
+      {{talk-card-preview
+        talk=model
+        isPreview=true
+      }}
     </div>
-
-    {{talk-card-preview
-      talk=model
-      isPreview=true
-      classNames='col-md-4'
-    }}
-
   </div>
 </div>
