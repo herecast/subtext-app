@@ -1,5 +1,5 @@
 {{#form-group error=errors.title}}
-  <label class='control-label ContentForm-label--required' for="title">Title</label>
+  <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
   {{input
     id='title'
     placeholder='Keep it short and informative'
@@ -8,26 +8,18 @@
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content}}
-  <label class='control-label ContentForm-label--required' for="description">Description</label>
-  {{#summer-note content=post.content}}
-    {{textarea
-      id='description'
-      placeholder='An informative description that will encourage people to respond.'
-      class='form-control'
-    }}
-  {{/summer-note}}
+{{#form-group error=errors.content class='ContentForm-formGroup--padded'}}
+  <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
+  {{textarea
+    id='description'
+    placeholder='An informative description that will encourage people to respond.'
+    class='form-control ContentForm-textArea'
+    value=post.content
+  }}
 {{/form-group}}
 
-{{content-form-image
-  image=post.image
-  imageUrl=post.imageUrl
-  originalImageFile=post.originalImageFile
-  error=errors.image
-}}
-
-<div class="form-group">
-  <label for='price'>Price</label>
+<div class="form-group ContentForm-formGroup--padded">
+  <label for='price'>Cost</label>
   {{input
     id='price'
     placeholder='A dollar figure or text'
@@ -36,14 +28,25 @@
   }}
 </div>
 
-{{#form-group error=errors.contact}}
-  <label class='control-label ContentForm-label--required'>Contact</label>
-  <p>At least one is required. Choose either or both.</p>
+{{content-form-image
+  image=post.image
+  imageUrl=post.imageUrl
+  originalImageFile=post.originalImageFile
+  error=errors.image
+  class='ContentForm-formGroup--padded'
+}}
 
+{{#form-group error=errors.contact class='ContentForm-formGroup--padded'}}
+  <label class='control-label ContentForm-label--noMargin ContentForm-label--required'>Contact Me</label>
+  <div class='ContentForm-helpText ContentForm-helpText--padded'>
+    Choose either option, or both.
+  </div>
   <div class="form-group">
     <label for='email'>Email</label>
     <div class='input-group'>
-      <span class="input-group-addon">{{fa-icon 'envelope'}}</span>
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'envelope'}}
+      </span>
       {{input
         id='email'
         placeholder='Contact Email'
@@ -51,17 +54,25 @@
         value=post.contactEmail
       }}
     </div>
+    <div class='ContentForm-helpText'>
+      Your email will be masked (ex: 4582943@reply.dailyuv.com)
+    </div>
   </div>
   <div class="form-group">
     <label for='phone'>Phone</label>
     <div class='input-group'>
-      <span class="input-group-addon">{{fa-icon 'phone'}}</span>
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'phone'}}
+      </span>
       {{input
         id='phone'
         placeholder='Contact Phone'
         class='form-control'
         value=post.contactPhone
       }}
+    </div>
+    <div class='ContentForm-helpText'>
+      Your phone number will be public
     </div>
   </div>
 {{/form-group}}
