@@ -1,6 +1,9 @@
 .MainNav {
   margin-bottom: 0;
-  border-bottom: 0;
+  border: 0;
+  @media (max-width: @screen-xs-max) {
+    border-bottom: 1px solid @text-color;
+  }
 }
 
 .MainNav-brand {
@@ -12,8 +15,30 @@
   }
 }
 
+.MainNav-content {
+  border-bottom: 1px solid @text-color;
+}
+
+.MainNav-mobileNav {
+  padding: 10px;
+}
+
+.navbar {
+  border-radius: 0;
+}
 .navbar-default .navbar-brand {
   color: @text-color;
+}
+
+.navbar-toggle {
+  float: left;
+  padding: 0;
+  margin: 13px 8px;
+}
+
+.navbar-toggle .icon-bar {
+  width: 50px;
+  height: 5px;
 }
 
 .Container--noGutter > .navbar-header {

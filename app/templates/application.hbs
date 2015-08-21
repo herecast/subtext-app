@@ -1,50 +1,42 @@
 <nav class='MainNav navbar navbar-default'>
-  <div class='Container--noGutter'>
-    <!-- Brand and toggle get grouped for better mobile display -->
+  <div class='MainNav-content Container--noGutter'>
     <div class='navbar-header'>
-      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-app-bar'>
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-      </button>
       <a class='MainNav-brand navbar-brand' href='/'>dailyUV</a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class='collapse navbar-collapse' id='js-app-bar'>
-      <ul class='nav navbar-nav navbar-right'>
+    <div class='hidden-xs'>
+      <ul class='ActionDropdown nav navbar-nav pull-right'>
         {{#if session.isAuthenticated}}
           <li class='dropdown'>
-            <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionsDropdown-dropdownLink navbar-link'>
+            <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
               {{#if session.currentUser.imageUrl}}
-                <img src="{{session.currentUser.imageUrl}}" class='ActionsDropdown-userAvatar'>
+                <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
               {{else}}
-                <img src="/images/user-default-avatar.svg" class='ActionsDropdown-userAvatar'>
+                <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
               {{/if}}
             </a>
 
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li>
-                {{#link-to 'events.new.details' classNames='h4 ActionsDropdown-item'}}
+              <li class='hidden-xs hidden-sm'>
+                {{#link-to 'events.new.details' class='h4 ActionDropdown-item'}}
                   Create Event
                 {{/link-to}}
               </li>
-              <li>
-                {{#link-to 'talk.new.details' classNames='h4 ActionsDropdown-item'}}
+              <li class='hidden-xs hidden-sm'>
+                {{#link-to 'talk.new.details' class='h4 ActionDropdown-item'}}
                   Start a Conversation
                 {{/link-to}}
               </li>
-              <li>
-                {{#link-to 'market.new.details' classNames='h4 ActionsDropdown-item'}}
+              <li class='hidden-xs hidden-sm'>
+                {{#link-to 'market.new.details' class='h4 ActionDropdown-item'}}
                   Post in Marketplace
                 {{/link-to}}
               </li>
-              <li>
-                <a href='/dashboard/index' class='h4 ActionsDropdown-item'>My Dashboard</a>
+              <li class='hidden-xs hidden-sm'>
+                <a href='/dashboard/index' class='h4 ActionDropdown-item'>My Dashboard</a>
               </li>
               <li>
-                <a href='#' {{action 'signOut'}} class='h4 ActionsDropdown-item'>Log out</a>
+                <a href='#' {{action 'signOut'}} class='h4 ActionDropdown-item'>Log out</a>
               </li>
             </ul>
           </li>
@@ -53,10 +45,40 @@
           <li><a href='/users/sign_up'>Sign up</a></li>
         {{/if}}
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 
-  <div class='Container--noGutter SectionNavigation'>
+  <div class='visible-xs-block'>
+    <div class='MainNav-mobileNav clearfix'>
+      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-app-bar'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+
+      <button type='button' class='ActionDropdown-dropdownLink pull-right' data-toggle='collapse' data-target='#mobile-dropdown-menu'>
+        {{#if session.currentUser.imageUrl}}
+          <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
+        {{else}}
+          <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
+        {{/if}}
+      </button>
+    </div>
+
+    <ul class='ActionDropdown collapse' id='mobile-dropdown-menu'>
+      {{#if session.isAuthenticated}}
+        <li class='ActionDropdown-item'>
+          <a href='#' {{action 'signOut'}} class='h4'>Log out</a>
+        </li>
+      {{else}}
+        <li class='ActionDropdown-item'>{{link-to 'Sign in' 'login' class='h4 ActionDropdown-item'}}</li>
+        <li class='ActionDropdown-item'><a href='/users/sign_up' class='h4 ActionDropdown-item'>Sign up</a></li>
+      {{/if}}
+    </ul>
+  </div>
+
+  <div class='Container--noGutter SectionNavigation collapse' id='js-app-bar'>
     <div class='row'>
       <ul class='SectionNavigation-list col-md-6 col-md-offset-3'>
         <li class='SectionNavigation-listItem'>
