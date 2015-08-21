@@ -36,7 +36,7 @@
           {{#if model.hasLocationInfo}}
             <div class='EventInfo col-sm-4'>
               <h1 class='EventInfo-header'>
-                {{fa-icon 'map-marker EventInfo-icon hidden-xs'}}
+                {{fa-icon 'map-marker EventInfo-icon'}}
 
                 {{#if model.venueName}}
                   {{#if model.venueUrl}}
@@ -67,33 +67,35 @@
 
           {{#if model.hasContactInfo}}
             <div class='EventInfo col-sm-4'>
-              <h1 class='EventInfo-header'>
-                {{fa-icon 'user EventInfo-icon hidden-xs'}}
-                Event Info
-              </h1>
+              <div class='hidden-xs'>
+                <h1 class='EventInfo-header'>
+                  {{fa-icon 'user EventInfo-icon'}}
+                  Event Info
+                </h1>
 
-              <div class='EventInfo-contactInfo clearfix'>
-                {{fa-icon 'envelope EventInfo-contactIcon'}}
-                <div class='EventInfo-contactItem u-textTruncate'>
-                  <a href="mailto:{{model.contactEmail}}">
-                    {{model.contactEmail}}
-                  </a>
+                <div class='EventInfo-contactInfo clearfix'>
+                  {{fa-icon 'envelope EventInfo-contactIcon'}}
+                  <div class='EventInfo-contactItem u-textTruncate'>
+                    <a href="mailto:{{model.contactEmail}}">
+                      {{model.contactEmail}}
+                    </a>
+                  </div>
                 </div>
-              </div>
 
-              <div class='EventInfo-contactInfo clearfix'>
-                {{fa-icon 'phone EventInfo-contactIcon EventInfo-phoneIcon'}}
-                <div class='EventInfo-contactItem u-textTruncate'>
-                  <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                <div class='EventInfo-contactInfo clearfix'>
+                  {{fa-icon 'phone EventInfo-contactIcon EventInfo-phoneIcon'}}
+                  <div class='EventInfo-contactItem u-textTruncate'>
+                    <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                  </div>
                 </div>
-              </div>
 
-              <div class='EventInfo-contactInfo clearfix'>
-                {{fa-icon 'link EventInfo-contactIcon EventInfo-linkIcon'}}
-                <div class='EventInfo-contactItem u-textTruncate'>
-                  {{#normalized-link url=model.eventUrl}}
-                    {{model.eventUrl}}
-                  {{/normalized-link}}
+                <div class='EventInfo-contactInfo clearfix'>
+                  {{fa-icon 'link EventInfo-contactIcon EventInfo-linkIcon'}}
+                  <div class='EventInfo-contactItem u-textTruncate'>
+                    {{#normalized-link url=model.eventUrl}}
+                      {{model.eventUrl}}
+                    {{/normalized-link}}
+                  </div>
                 </div>
               </div>
 
@@ -106,7 +108,7 @@
                 {{#if model.isPaid}}
                   {{model.cost}}
                 {{else}}
-                  {{fa-icon 'dollar EventInfo-icon hidden-xs'}}
+                  {{fa-icon 'dollar EventInfo-icon'}}
                   {{model.formattedCostType}}
                 {{/if}}
               </h1>
