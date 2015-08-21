@@ -6,17 +6,30 @@
   @media (min-width: @screen-sm-min) {
     border-bottom: 1px solid @text-color;
     border-top: 0;
+    padding: 0;
+  }
+  @media (max-width: @screen-xs-max) {
+    padding: 0;
+    margin: 0;
   }
 }
 
 .SectionNavigation-list {
   margin-top: 16px;
+  @media (max-width: @screen-xs-max) {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .SectionNavigation-listItem {
   display: inline;
   list-style-type: none;
   margin: 0 12px;
+  @media (max-width: @screen-xs-max) {
+    display: block;
+    margin: 0;
+  }
 }
 
 .SectionNavigation-link {
@@ -24,6 +37,10 @@
   font-family: @font-family-condensed;
   text-transform: uppercase;
   padding: 6px 10px 4px 13px;
+  @media (max-width: @screen-xs-max) {
+    display: block;
+    padding: 10px 0;
+  }
 }
 
 .SectionNavigation-link.active, .SectionNavigation-link:hover {
