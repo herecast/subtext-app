@@ -6,6 +6,9 @@
   overflow: hidden;
   position: relative;
   top: -2px;
+  @media (max-width: @screen-xs-max) {
+    margin-bottom: 20px;
+  }
 }
 
 .PhotoBanner--padded {
@@ -43,6 +46,10 @@
   position: relative;
   color: white;
   padding: 35px 0 40px 0;
+  @media (max-width: @screen-xs-max) {
+    text-align: center;
+    padding: 35px 15px 40px;
+  }
 }
 
 .PhotoBanner-thumbnail {
