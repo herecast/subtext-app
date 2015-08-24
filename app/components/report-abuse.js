@@ -31,11 +31,10 @@ export default Ember.Component.extend({
 
     submit() {
       const flagType = this.get('flagType');
-      const id = this.get('modelId');
-      const type = this.get('type');
+      const id = this.get('contentId');
 
       if (flagType) {
-        const url = `/${config.API_NAMESPACE}/${type}/${id}/moderate`;
+        const url = `/${config.API_NAMESPACE}/contents/${id}/moderate`;
 
         ajax(url, {
           type: 'POST',

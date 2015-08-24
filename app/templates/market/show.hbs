@@ -33,6 +33,8 @@
     <div class='col-sm-2'>
       {{social-share}}
 
+      {{report-content-details contentId=model.contentId}}
+
       {{#if model.canEdit}}
         {{link-to 'Edit Listing' 'market.edit' model.id}}
       {{/if}}
