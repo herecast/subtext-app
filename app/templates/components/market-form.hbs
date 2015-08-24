@@ -10,12 +10,13 @@
 
 {{#form-group error=errors.content class='u-layoutPadT5'}}
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
-  {{textarea
-    id='description'
-    placeholder='An informative description that will encourage people to respond.'
-    class='form-control ContentForm-textArea'
-    value=post.content
-  }}
+  {{#summer-note content=post.content class='ContentForm-textArea'}}
+    {{textarea
+      id='description'
+      placeholder='An informative description that will encourage people to respond.'
+      class='form-control'
+    }}
+  {{/summer-note}}
 {{/form-group}}
 
 <div class="form-group u-layoutPadT5">

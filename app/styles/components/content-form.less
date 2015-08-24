@@ -70,9 +70,19 @@
   margin-top: 10px;
 }
 
-.ContentForm-textArea.form-control {
-  min-height: 100px;
-  padding: 12px;
+.ContentForm-textArea .note-editor {
+  width: 100%;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid @gray-medium;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+// Override the "placeholder" color
+.note-editor .note-editable[contenteditable=true]:empty:not(:focus):before {
+  color: @gray-dark;
 }
 
 .ContentForm-iconLabel {
