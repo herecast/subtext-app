@@ -12,7 +12,9 @@
 }
 
 .PhotoBanner--padded {
-  margin-bottom: 130px;
+  @media (min-width: @screen-sm-min) {
+    margin-bottom: 130px;
+  }
 }
 
 .PhotoBanner-curtainImage {
@@ -87,4 +89,8 @@
 
 .PhotoBanner-info {
   margin-top: 40px;
+  @media (max-width: @screen-xs-max) {
+    margin: 0 auto;
+    width: 200px;
+  }
 }
