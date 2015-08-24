@@ -222,11 +222,7 @@ export default function() {
     };
   });
 
-  this.post('/events/:id/moderate', function() {
-    return { };
-  });
-
-  this.post('/comments/:id/moderate', function() {
+  this.post('/contents/:id/moderate', function() {
     return { };
   });
 
