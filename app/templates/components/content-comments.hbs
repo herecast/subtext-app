@@ -1,6 +1,6 @@
 <div class='CommentSection'>
 
-  <ol class='CommentSection-commentList'>
+  <ol class='CommentSection-commentList {{unless showComments 'hidden-xs'}}'>
     {{#each comments as |comment|}}
       {{content-comment
         comment=comment
@@ -10,6 +10,14 @@
       }}
     {{/each}}
   </ol>
+
+  <button class='btn btn-link CommentSection-toggleButton visible-xs' href='#' {{action 'toggleComments'}}>
+    {{#if showComments}}
+      Hide comments {{fa-icon 'caret-up'}}
+    {{else}}
+      Expand to view {{fa-icon 'caret-down'}}
+    {{/if}}
+  </button>
 
   {{#if session.currentUser}}
     {{comment-new

@@ -9,7 +9,9 @@
 }
 
 .SectionHeader--paddedTop {
-  margin-top: 100px;
+  @media (min-width: @screen-sm-min) {
+    margin-top: 100px;
+  }
 }
 
 .SectionHeader-text, .SectionHeader-buttonContainer {
@@ -24,6 +26,10 @@
 
 .SectionHeader-text {
   top: 3px;
+   @media (max-width: @screen-xs-max) {
+    font-size: 24px;
+    top: 0;
+  }
 }
 
 .SectionHeader-buttonContainer {

@@ -1,6 +1,9 @@
 .CommentSection {
   max-width: 750px;
   margin: 50px auto;
+  @media (max-width: @screen-xs-max) {
+    padding: 0 20px;
+  }
 }
 
 .CommentSection-commentList {
@@ -20,4 +23,10 @@
   color: @text-color;
   display: block;
   margin: 50px auto 0;
+}
+
+.CommentSection-toggleButton {
+  margin: 10px auto 20px;
+  display: block;
+  text-decoration: underline;
 }
