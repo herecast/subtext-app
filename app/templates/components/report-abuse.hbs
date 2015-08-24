@@ -9,10 +9,10 @@
       Report Abuse
     </button>
   {{else}}
-    {{#sign-in-link class='ResponseButton h4 btn btn-default btn-link'}}
+    {{#link-to 'login' class='ResponseButton h4 btn btn-default btn-link'}}
       {{fa-icon 'flag ResponseButton-icon'}}
       Report Abuse
-    {{/sign-in-link}}
+    {{/link-to}}
   {{/if}}
 
   {{#if showAbuseReportMenu}}
@@ -33,8 +33,8 @@
           {{/each}}
         </ul>
 
-        <button class='btn btn-default' {{action 'close'}}>Close</button>
-        <button class='btn btn-primary' {{action 'submit'}}>Flag</button>
+        <button class='btn Button--default' {{action 'close'}}>Close</button>
+        <button class='btn Button--primary' {{action 'submit'}}>Flag</button>
       </div>
     </div>
   {{/if}}
