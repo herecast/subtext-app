@@ -1,5 +1,8 @@
 .News {
   margin-top: 50px;
+  @media (max-width: @screen-xs-max) {
+    text-align: center;
+  }
 }
 
 .News-title {
@@ -7,18 +10,31 @@
 }
 
 .News-subtitle {
-  font-size: 24px;
-  margin: 15px 0;
+  @media (min-width: @screen-sm-min) {
+    font-size: 24px;
+    margin: 15px 0;
+  }
 }
 
 .News-publicationInfo {
   font-weight: 700;
   display: inline;
+  @media (max-width: @screen-xs-max) {
+    color: @gray-dark;
+    font-size: 12px;
+    display: block;
+  }
 }
 
 .News-publicationDate {
-  display: inline;
   margin-left: 40px;
+  display: inline;
+  @media (max-width: @screen-xs-max) {
+    color: @gray-dark;
+    font-size: 12px;
+    display: block;
+    margin-left: 0;
+  }
 }
 
 .News-content {
