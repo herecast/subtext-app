@@ -39,12 +39,12 @@ export default SimpleAuthSession.extend({
 
   userName: Ember.computed.oneWay('currentUser.name'),
 
-  // Sets default location if a user is logged out or does not have a location
+  // Sets default location if a user is logged out
   userLocation: function() {
-    const location = this.get('currentUser.location');
+    const user = this.get('currentUser');
 
-    if (Ember.isPresent(location)) {
-      return location;
+    if (Ember.isPresent(user)) {
+      return user.get('location');
     } else {
       return 'Hartford, VT';
     }
