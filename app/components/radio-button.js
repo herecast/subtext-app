@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'label',
+  classNames: ['ReportAbuse-label'],
   classNameBindings: ['checked:active'],
 
   addChangeEvent: function() {
