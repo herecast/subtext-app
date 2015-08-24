@@ -1,23 +1,27 @@
-<div class='Dashboard'>
-  <img src='{{currentUser.imageUrl}}' class='Dashboard-avatar'>
+<div class='Container'>
+  <div class='Dashboard row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+      <img src='{{currentUser.imageUrl}}' class='Dashboard-avatar'>
 
-  {{inline-edit value=currentUser.name class='Dashboard-userName' action='submit'}}
+      {{inline-edit value=currentUser.name class='Dashboard-userName' action='submit'}}
 
-  {{location-dropdown
-    selectedLocationId=currentUser.locationId
-    class='LocationDropdown'
-    onUpdate='submit'
-  }}
+      {{location-dropdown
+        selectedLocationId=currentUser.locationId
+        class='LocationDropdown'
+        onUpdate='submit'
+      }}
 
-  {{inline-edit value=currentUser.email class='u-layoutPadB30' action='submit'}}
+      {{inline-edit value=currentUser.email class='u-layoutPadB30' action='submit'}}
 
-  {{#if showPasswordForm}}
-    {{password-reset onSubmit='togglePasswordForm'}}
-  {{else}}
-    <a href='#' {{action 'togglePasswordForm'}} class='h2 u-textUnderline'>
-      Change Password
-    </a>
-  {{/if}}
+      {{#if showPasswordForm}}
+        {{password-reset onSubmit='togglePasswordForm'}}
+      {{else}}
+        <a href='#' {{action 'togglePasswordForm'}} class='h2 u-textUnderline'>
+          Change Password
+        </a>
+      {{/if}}
+    </div>
+  </div>
 </div>
 
 <div class='u-colorBgSecondary'>

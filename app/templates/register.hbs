@@ -1,0 +1,83 @@
+<div class='container'>
+  <div class='AuthForm'>
+    <h1>The Connection to your Community</h1>
+
+    <h6>
+      We'd love to have you join the dailyUV community.
+      Signing up lets you see more content, focus in on your town,
+      and post your own market listings, talk, or events. It's free!
+    </h6>
+
+    <div class='row Section'>
+      <div class='col-sm-6 col-sm-offset-3'>
+        <form>
+          {{#form-group error=error.locationId}}
+            <label for='location'>Choose your community</label>
+            {{location-dropdown
+              selectedLocationId=locationId
+              isEditing=true
+            }}
+          {{/form-group}}
+
+          {{#form-group error=error.name}}
+            {{input
+              value=name
+              placeholder='Name'
+              class='form-control'
+            }}
+          {{/form-group}}
+
+          {{#form-group error=error.email}}
+            {{input
+              value=email
+              placeholder='Email Address'
+              class='form-control'
+            }}
+          {{/form-group}}
+
+          {{#form-group error=error.password}}
+            {{input
+              value=password
+              placeholder='Password'
+              type='password'
+              class='form-control'
+            }}
+          {{/form-group}}
+
+          <div class='form-group'>
+            <label>Review test site terms of service</label>
+            {{partial 'terms-of-service'}}
+          </div>
+
+          {{#form-group class='u-textPullLeft'}}
+              {{input
+                id='terms'
+                type="checkbox"
+                checked=termsAccepted
+              }}
+            <label for='terms'>
+              I agree
+            </label>
+          {{/form-group}}
+
+          <p class='u-textPullLeft'>
+            By clicking "I agree", you are agreeing to abide by the test site terms of service above.
+          </p>
+
+          {{#if isValid}}
+            {{async-button
+              action='register'
+              default='Join'
+              pending='Joining'
+              class='Button Button--primary btn'
+            }}
+          {{else}}
+            <button disabled class='Button Button--primary btn disabled'>
+              Join
+            </button>
+          {{/if}}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   isEditing: false,
 
   getLocations: function() {
-    if (this.get('selectedLocationId')) {
+    if (this.get('selectedLocationId') || this.get('isEditing')) {
       ajax(`${config.API_NAMESPACE}/locations`).then(response => {
         this.set('locations', response.locations);
       });
