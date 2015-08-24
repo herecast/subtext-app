@@ -11,13 +11,9 @@
 
       <h1 class='MarketPost-price'>{{model.price}}</h1>
 
-      <h2 class='SectionHeader MarketPost-replyHeader'>
-        <div class='SectionHeader-buttonContainer'>
-          <button class='Button Button--market Button--wide btn'>
-            Reply
-          </button>
-        </div>
-      </h2>
+      {{#if model.hasContactInfo}}
+        {{market-contact postId=model.id}}
+      {{/if}}
 
       {{partial 'partials/related-promotion'}}
     </div>
