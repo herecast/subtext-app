@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EventCard from './event-card';
+import PreviewScroll from '../mixins/components/card-preview-scroll';
 
 function defaultValue(value, placeholder) {
   if (Ember.isPresent(value)) {
@@ -9,16 +10,7 @@ function defaultValue(value, placeholder) {
   }
 }
 
-export default EventCard.extend({
-  initScrollPositioning: function() {
-    const cardPreview = Ember.$('.ContentCardPreview-content');
-    cardPreview.affix({
-      offset: {
-        top: cardPreview.offset().top - 20
-      }
-    });
-  }.on('didInsertElement'),
-
+export default EventCard.extend(PreviewScroll, {
   timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedDate'),
 
   title: function() {
