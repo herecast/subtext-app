@@ -2,9 +2,10 @@
   background: #FFFFFF;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
   position: relative;
-
-  @media (min-width: @screen-sm-min) {
-    padding: 14px 24px;
+  padding: 14px 24px;
+  max-width: 400px;
+  @media (max-width: @screen-xs-max) {
+    margin: 15px auto;
   }
 }
 
@@ -22,11 +23,17 @@
 }
 
 .EventCard-title {
-  text-align: center;
+  font-size: 24px;
+  @media (min-width: @screen-sm-min) {
+    text-align: center;
+  }
 }
 
 .EventCard-time {
   margin: 4px 0;
+  @media (max-width: @screen-xs-max) {
+    text-align: right;
+  }
 }
 
 .EventCard-venue {
@@ -41,23 +48,26 @@
 
 .EventCard-image {
   border-radius: @border-radius-round;
-  height: 45px;
   overflow: hidden;
-  width: 45px;
-  @media (min-width: @screen-sm-min) {
-    height: 112px;
-    width: 112px;
+  height: 112px;
+  width: 112px;
+  @media (max-width: @screen-xs-max) {
+    float: left;
+    height: 75px;
+    margin-right: 10px;
+    width: 75px;
   }
 }
 
 .EventCard-imageContainer {
-  flex-basis: 45px;
-  -webkit-flex-basis: 45px; // safari
+  flex-basis: 75px;
+  -webkit-flex-basis: 75px; // safari
   max-width: 100%;
-  text-align: center;
+  width: 75px;
 
   @media (min-width: @screen-sm-min) {
     flex-basis: 112px;
     -webkit-flex-basis: 112px; // safari
+    width: auto;
   }
 }
