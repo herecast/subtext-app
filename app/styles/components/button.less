@@ -6,6 +6,9 @@
   font-weight: 600;
   padding: 9px 28px 6px 29px;
   text-transform: uppercase;
+  @media (max-width: @screen-xs-max) {
+    font-size: 18px;
+  }
 }
 
 .Button--wide {
@@ -57,6 +60,11 @@
 .Button--talk.active,
 .Button--talk.active:focus {
   background-color: @talk-brand;
+}
+
+.Button--centered {
+  display: block;
+  margin: 0 auto;
 }
 
 .btn {

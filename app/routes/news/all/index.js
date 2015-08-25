@@ -16,6 +16,7 @@ export default Ember.Route.extend(Track, {
 
   setupController(controller, news) {
     controller.set('newsGroups', [news]);
+    controller.set('news', news);
 
     // Set the query params on the parent events controller so that it's
     // available in the filter on the index and show pages.

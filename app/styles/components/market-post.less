@@ -3,13 +3,21 @@
 }
 
 .MarketPost-title {
-  margin: 0 0 50px;
+  margin: 0;
+  @media (min-width: @screen-sm-min) {
+    margin: 0 0 50px;
+  }
 }
 
 .MarketPost-price {
   margin-top: 40px;
 }
 
+.MarketPost-content {
+  @media (max-width: @screen-xs-max) {
+    text-align: left;
+  }
+}
 .MarketPost-contactInfo {
   font-size: 18px;
   padding: 48px 0 32px;

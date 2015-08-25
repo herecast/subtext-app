@@ -3,7 +3,8 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
-
+  showImage: true,
+  displayImage: Ember.computed.and('hasImage', 'showImage'),
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
 
   date: function() {

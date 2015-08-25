@@ -1,10 +1,15 @@
 .ContextBar {
-  margin-top: 20px;
+  margin: 30px 0 15px;
+  @media (max-width: @screen-xs-max) {
+    margin: 20px 0 15px;
+  }
 }
 
 .ContextBar-eventCount {
-  font-weight: 700;
   margin-right: 16px;
+  @media (max-width: @screen-xs-max) {
+    font-size: 12px;
+  }
 }
 
 .ContextBar-filterReset:before {

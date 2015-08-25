@@ -14,9 +14,14 @@
 
 {{#if newsGroups.firstObject}}
   <div class='Container--noGutter'>
-    {{#each newsGroups as |news|}}
-      {{grouped-news news=news}}
-    {{/each}}
+    <div class='hidden-xs'>
+      {{#each newsGroups as |news|}}
+        {{grouped-news news=news}}
+      {{/each}}
+    </div>
+    <div class='visible-xs'>
+      {{ordered-news news=news}}
+    </div>
   </div>
 {{else}}
   <div class='NoResults container text-center'>

@@ -1,4 +1,4 @@
-{{#if similarContent}}
+{{#if content}}
   <div class='EventShowAside-similar'>
     <h5 class='EventShowAside-header'>Suggested for You</h5>
     <ul>
@@ -15,7 +15,7 @@
               </a>
             {{/if}}
           </h4>
-          <h5 class='SimilarContent-author'>{{content.author}}</h5> 
+          <h5 class='SimilarContent-author'>{{content.author}}</h5>
           <div class='SimilarContent-date'>{{content.formattedPubdate}}</div>
           {{x-truncate text=content.content maxLength=90}}
         </li>
