@@ -12,16 +12,16 @@
 
 <div class='Container--noGutter News'>
   <div class='row'>
-    <div class='col-sm-2'>
+    <div class='col-sm-2 hidden-xs'>
       {{back-button routeName='news'}}
     </div>
 
     <div class='col-sm-8'>
       <h1 class='News-title'>{{model.title}}</h1>
       <h3 class='News-subtitle'>{{model.subtitle}}</h3>
-      <div class='News-publicationInfo'>{{model.publicationName}}: {{model.authorName}}</div>
+      <div class='News-publicationInfo'>{{model.publicationName}} : {{model.authorName}}</div>
       <div class='News-publicationDate'>{{model.formattedPublishedAt}}</div>
-      <div class='News-content'>{{model.content}}</div>
+      <div class='News-content ContentText'>{{model.content}}</div>
 
       {{partial 'partials/related-promotion'}}
     </div>

@@ -4,9 +4,9 @@
   </h2>
 {{/link-to}}
 
-<div class='u-flexColumn-2'>
+<div class='u-flexColumn-2 u-layoutPadT10'>
   <div class='row'>
-    <div class='col-xs-2'>
+    <div class='col-xs-2 u-layoutPadR0'>
       {{#if talk.authorImageUrl}}
         <img class='TalkCard-authorImage' src={{talk.authorImageUrl}}>
       {{else}}
@@ -14,7 +14,7 @@
 
       {{/if}}
     </div>
-    <div class='col-xs-10'>
+    <div class='col-xs-10 TalkCard-commentInfo'>
       Comment by
       <span class='TalkCard-authorName'>{{talk.authorName}}</span>
     </div>
@@ -23,7 +23,7 @@
 
 <div class='TalkCard-stats'>
   <div class='row'>
-    <div class='col-xs-6'>
+    <div class='col-xs-offset-1 col-xs-5 col-md-offset-0 col-md-6'>
       <div class='StatCircle StatCircle--left'>
         <div class='StatCircle-number'>
           {{talk.userCount}}
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class='col-xs-6'>
+    <div class='col-md-6 col-xs-5'>
       <div class='StatCircle StatCircle--right'>
         <div class='StatCircle-number'>
           {{talk.pageviewsCount}}

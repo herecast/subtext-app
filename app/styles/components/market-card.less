@@ -26,6 +26,11 @@
   -webkit-flex-basis: 150px; // safari
   height: 150px;
   max-width: 100%;
+  @media (max-width: @screen-xs-max) {
+    flex-basis: 80px;
+    -webkit-flex-basis: 80px; // safari
+    height: 80px;
+  }
 }
 
 .MarketCard-title {

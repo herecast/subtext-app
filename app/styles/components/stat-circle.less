@@ -12,10 +12,15 @@
 
 .StatCircle--left {
   margin-left: 13px;
+  @media (max-width: @screen-xs-max) {
+    float: right;
+  }
 }
 
 .StatCircle--right {
-  float: right;
+  @media (min-width: @screen-sm-min) {
+    float: right;
+  }
   margin-right: 13px;
 }
 

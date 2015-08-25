@@ -8,7 +8,7 @@
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content class='u-layoutPadT5'}}
+{{#form-group error=errors.content class='u-layoutPadT50'}}
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
   {{#summer-note content=post.content class='ContentForm-textArea'}}
     {{textarea
@@ -19,7 +19,7 @@
   {{/summer-note}}
 {{/form-group}}
 
-<div class="form-group u-layoutPadT5">
+<div class="form-group u-layoutPadT50">
   <label for='price'>Cost</label>
   {{input
     id='price'
@@ -34,12 +34,12 @@
   imageUrl=post.imageUrl
   originalImageFile=post.originalImageFile
   error=errors.image
-  class='u-layoutPadT5'
+  class='u-layoutPadT50'
 }}
 
-{{#form-group error=errors.contact class='u-layoutPadT5'}}
+{{#form-group error=errors.contact class='u-layoutPadT50'}}
   <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
-  <div class='ContentForm-helpText u-layoutPadB2'>
+  <div class='ContentForm-helpText u-layoutPadB20'>
     Choose either option, or both.
   </div>
   <div class="form-group">
