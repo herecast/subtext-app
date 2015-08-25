@@ -12,11 +12,14 @@ export default Ember.Component.extend({
   },
 
   setComments: function() {
-    this.get('contentComments').getComments(this.get('contentId')).then(comments => {
-      comments.forEach(comment => {
-        this.get('comments').pushObject(comment);
+    // The content ID will only be available for persisted content, we don't
+    // want to try to get comments when creating new content.
+    if (this.get('contentId')) {
+      this.get('contentComments').getComments(this.get('contentId')).then(comments => {
+        this.set('comments', comments.toArray());
       });
-    });
-
+    } else {
+      this.set('comments', []);
+    }
   }.on('didInsertElement')
 });
