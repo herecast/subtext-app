@@ -38,7 +38,11 @@
       {{report-content-details contentId=model.contentId}}
 
       {{#if model.canEdit}}
-        {{link-to 'Edit Listing' 'market.edit' model.id}}
+        {{edit-content-link
+          id=model.id
+          route='market.edit'
+          text='Edit Listing'
+        }}
       {{/if}}
     </div>
   </div>
