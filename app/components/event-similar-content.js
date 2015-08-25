@@ -1,21 +1,4 @@
 import Ember from 'ember';
+import ExpandableContent from '../mixins/components/expandable-content';
 
-export default Ember.Component.extend({
-  showAll: false,
-
-  contentToDisplay: function() {
-    const allContent = this.get('similarContent');
-
-    if (this.get('showAll')) {
-      return allContent;
-    } else {
-      return allContent.slice(0,3);
-    }
-  }.property('similarContent.[]', 'showAll'),
-
-  actions: {
-    toggleMore() {
-      this.toggleProperty('showAll');
-    }
-  }
-});
+export default Ember.Component.extend(ExpandableContent, {});
