@@ -1,25 +1,55 @@
-{{#if event.imageUrl}}
-  <div class='EventCard-imageContainer u-flexColumn'>
-    <img src='{{event.imageUrl}}' class='EventCard-image center-block'>
+<div class='hidden-xs'>
+  {{#if event.imageUrl}}
+    <div class='EventCard-imageContainer u-flexColumn'>
+      <img src='{{event.imageUrl}}' class='EventCard-image center-block'>
+    </div>
+  {{/if}}
+
+  <div class='EventCard-content u-flexColumn-2'>
+    {{#if isPreview}}
+      <a href='#'>
+        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+      </a>
+    {{else}}
+      {{#link-to 'events.show' event.id}}
+        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+      {{/link-to}}
+    {{/if}}
+
+    <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+
+    {{#if hasVenue}}
+      <h5 class='EventCard-venue'>
+        {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+      </h5>
+    {{/if}}
   </div>
-{{/if}}
+</div>
 
-<div class='EventCard-content u-flexColumn-2'>
-  {{#if isPreview}}
-    <a href='#'>
-      <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
-    </a>
-  {{else}}
-    {{#link-to 'events.show' event.id}}
-      <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
-    {{/link-to}}
-  {{/if}}
+<div class='visible-xs'>
+  <div class='clearfix u-layoutPadB20'>
+    {{#if event.imageUrl}}
+      <img src='{{event.imageUrl}}' class='EventCard-image'>
+    {{/if}}
 
-  <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+    {{#if isPreview}}
+      <a href='#'>
+        <h2 class='EventCard-title'>{{title}}</h2>
+      </a>
+    {{else}}
+      {{#link-to 'events.show' event.id}}
+        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+      {{/link-to}}
+    {{/if}}
+  </div>
 
-  {{#if hasVenue}}
-    <h5 class='EventCard-venue'>
-      {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-    </h5>
-  {{/if}}
+  <div class='row'>
+    {{#if hasVenue}}
+      <h5 class='EventCard-venue col-xs-3'>
+        {{x-truncate text=venue maxLength=8 tagName='span'}}
+      </h5>
+    {{/if}}
+
+    <h5 class='EventCard-time col-xs-9'>{{timeRange}}</h5>
+  </div>
 </div>
