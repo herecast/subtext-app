@@ -1,6 +1,10 @@
 .NewsCard {
   padding: 0;
   text-align: center;
+  @media (max-width: @screen-xs-max) {
+    max-width: 525px;
+    margin: 0 auto 30px;
+  }
 }
 
 .NewsCard--wide {
@@ -26,7 +30,7 @@
 
 .NewsCard h2, .NewsCard h3, .NewsCard h5 {
   margin-top: 0;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .NewsCard-imageContainer {
@@ -37,6 +41,9 @@
   -webkit-flex-basis: 110px; // safari
   height: 110px;
   max-width: 100%;
+  @media (max-width: @screen-xs-max) {
+    margin-bottom: 15px;
+  }
 }
 
 .NewsCard--wide .NewsCard-imageContainer {
@@ -68,4 +75,10 @@
 
 .NewsCard--wide .NewsCard-subtitle {
   margin-bottom: 6px;
+}
+
+.NewsCard-date, .NewsCard-publication {
+  @media (max-width: @screen-xs-max) {
+    font-size: 12px;
+  }
 }
