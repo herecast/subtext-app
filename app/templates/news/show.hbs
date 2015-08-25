@@ -13,7 +13,9 @@
 <div class='Container--noGutter News'>
   <div class='row'>
     <div class='col-sm-2 hidden-xs'>
-      {{back-button routeName='news'}}
+      {{#unless isPreview}}
+        {{back-button routeName='news'}}
+      {{/unless}}
     </div>
 
     <div class='col-sm-8'>

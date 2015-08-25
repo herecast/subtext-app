@@ -28,7 +28,9 @@
     <div class='row'>
 
       <div class='col-sm-2 hidden-xs'>
-        {{back-button routeName='events'}}
+        {{#unless isPreview}}
+          {{back-button routeName='events'}}
+        {{/unless}}
       </div>
 
       <div class='col-sm-8 u-layoutPadL40 u-layoutPadR40'>
