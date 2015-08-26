@@ -1,4 +1,4 @@
-<div class='hidden-xs'>
+{{#if media.isDesktop}}
   {{#if event.imageUrl}}
     <div class='EventCard-imageContainer u-flexColumn'>
       <img src='{{event.imageUrl}}' class='EventCard-image center-block'>
@@ -24,9 +24,9 @@
       </h5>
     {{/if}}
   </div>
-</div>
+{{/if}}
 
-<div class='visible-xs'>
+{{#if media.isMobile}}
   <div class='clearfix u-layoutPadB20'>
     {{#if event.imageUrl}}
       <img src='{{event.imageUrl}}' class='EventCard-image'>
@@ -52,4 +52,4 @@
 
     <h5 class='EventCard-time col-xs-9'>{{timeRange}}</h5>
   </div>
-</div>
+{{/if}}
