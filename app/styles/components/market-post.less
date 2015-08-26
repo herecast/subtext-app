@@ -34,10 +34,12 @@
 
 .MarketPost-imageContainer {
   background-color: @gray-dark;
-  border-top: 2px solid white;
   position: relative;
   text-align: center;
   top: -2px;
+  @media (min-width: @screen-sm-min) {
+    border-top: 2px solid white;
+  }
 }
 
 .MarketPost-image {
