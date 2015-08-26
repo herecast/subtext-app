@@ -71,7 +71,9 @@
 <div class='Container--noGutter'>
   <div class='row'>
     <div class='col-sm-2 hidden-xs'>
-      {{back-button routeName='talk'}}
+      {{#unless isPreview}}
+        {{back-button routeName='talk'}}
+      {{/unless}}
     </div>
 
     <div class='col-sm-8'>
