@@ -10,11 +10,11 @@
     {{/each}}
   </ul>
 
-  <button class='Button Button--news Button--centered btn btn-link' href='#' {{action 'toggleMore'}}>
+  <button class='btn-link Button Button--news Button--centered btn u-layoutPadB40' href='#' {{action 'toggleMore'}}>
     {{#if showAll}}
-      + More news
-    {{else}}
       + Less news
+    {{else}}
+      + More news
     {{/if}}
   </button>
 {{/if}}
