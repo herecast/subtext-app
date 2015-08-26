@@ -399,4 +399,61 @@ export default function() {
   });
 
   this.get('/news/:id');
+
+  this.get('/contents', function(db) {
+    const contents = [];
+
+    db.news.slice(0,2).map((item) => {
+      const record = Ember.getProperties(item, newsBaseProperties);
+      record.content_type = 'news';
+      contents.push(record);
+    });
+
+    db.talks.slice(0,2).map((item) => {
+      const record = Ember.getProperties(item, talkBaseProperties);
+      record.content_type = 'talk_of_the_town';
+      contents.push(record);
+    });
+
+    db.market_posts.slice(0,1).map((item) => {
+      const record = Ember.getProperties(item, marketPostBaseProperties);
+      record.content_type = 'market';
+      contents.push(record);
+    });
+
+    db.event_instances.slice(0,3).map((item) => {
+      const record = Ember.getProperties(item, eventBaseProperties);
+      record.content_type = 'event';
+      contents.push(record);
+    });
+
+    db.market_posts.slice(0,2).map((item) => {
+      const record = Ember.getProperties(item, marketPostBaseProperties);
+      record.content_type = 'market';
+      contents.push(record);
+    });
+
+    db.event_instances.slice(0,1).map((item) => {
+      const record = Ember.getProperties(item, eventBaseProperties);
+      record.content_type = 'event';
+      contents.push(record);
+    });
+
+    db.talks.slice(0,2).map((item) => {
+      const record = Ember.getProperties(item, talkBaseProperties);
+      record.content_type = 'talk_of_the_town';
+      contents.push(record);
+    });
+
+    db.market_posts.slice(0,1).map((item) => {
+      const record = Ember.getProperties(item, marketPostBaseProperties);
+      record.content_type = 'market';
+      contents.push(record);
+    });
+
+
+    return {
+      contents: contents
+    };
+  });
 }

@@ -1,0 +1,18 @@
+{{#if isTalk}}
+  {{talk-card
+    talk=item
+    class='Card TalkCard u-flexColumn-2'
+  }}
+{{else if isNews}}
+  {{news-card item=item}}
+{{else if isMarketPost}}
+  {{market-card
+    post=item
+    class='Card MarketCard u-flexColumn-2'
+  }}
+{{else if isEventInstance}}
+  {{event-card
+    event=item
+    class='Card EventCard u-flexColumn'
+  }}
+{{/if}}
