@@ -336,8 +336,10 @@ export default function() {
 
   this.get('/talk', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let talks = db.talks.map((talk) => {
+    let talks = db.talks.slice(start, stop).map((talk) => {
       return Ember.getProperties(talk, talkBaseProperties);
     });
 
