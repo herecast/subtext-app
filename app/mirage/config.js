@@ -280,8 +280,10 @@ export default function() {
 
   this.get('/market_posts', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let posts = db.market_posts.map((post) => {
+    let posts = db.market_posts.slice(start,stop).map((post) => {
       return Ember.getProperties(post, marketPostBaseProperties);
     });
 
@@ -336,8 +338,10 @@ export default function() {
 
   this.get('/talk', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let talks = db.talks.map((talk) => {
+    let talks = db.talks.slice(start, stop).map((talk) => {
       return Ember.getProperties(talk, talkBaseProperties);
     });
 
@@ -380,8 +384,10 @@ export default function() {
 
   this.get('/news', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let news = db.news.slice(0,14).map((article) => {
+    let news = db.news.slice(start,stop).map((article) => {
       return Ember.getProperties(article, newsBaseProperties);
     });
 

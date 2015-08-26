@@ -42,4 +42,4 @@ function template(id) {
   };
 }
 
-export default generateData(24, template);
+export default generateData(50, template);

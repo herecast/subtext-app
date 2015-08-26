@@ -1,7 +1,7 @@
 <div class='Container--noGutter'>
   <div class='pull-right ContextBar'>
     <span class='ContextBar-eventCount'>
-      Showing {{newsGroups.firstObject.length}} listings.
+      Showing {{model.length}} listings.
     </span>
 
     {{#if showReset}}
@@ -12,7 +12,7 @@
   </div>
 </div>
 
-{{#if newsGroups.firstObject}}
+{{#if model}}
   <div class='Container--noGutter'>
     {{#if media.isDesktop}}
       {{#each newsGroups as |news|}}
@@ -22,6 +22,8 @@
     {{#if media.isMobile}}
       {{ordered-news news=news}}
     {{/if}}
+
+    {{partial 'partials/pagination-nav'}}
   </div>
 {{else}}
   <div class='NoResults container text-center'>
