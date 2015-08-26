@@ -14,11 +14,10 @@
 
 {{#if model}}
   <div class='Container--noGutter'>
-    {{#if media.isDesktop}}
-      {{grouped-news news=model}}
-    {{/if}}
     {{#if media.isMobile}}
       {{ordered-news news=model}}
+    {{else}}
+      {{grouped-news news=model}}
     {{/if}}
 
     {{partial 'partials/pagination-nav'}}

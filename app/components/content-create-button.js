@@ -8,11 +8,10 @@ function startsWith(path, searchString) {
 }
 
 export default Ember.Component.extend({
-  classNames: ['SectionNavigation-contentCreateButton'],
   path: '', // override with the application controller's currentPath
 
   buttonClass: function() {
-    const klass = 'Button btn btn-default';
+    const klass = 'Button SectionNavigation-contentCreateButton btn btn-default';
     const path = this.get('path');
 
     if (startsWith(path, 'events')) {
@@ -45,13 +44,21 @@ export default Ember.Component.extend({
 
   linkText: function() {
     const path = this.get('path');
+    let contentType = '';
 
     if (startsWith(path, 'events')) {
-      return 'Create Event';
+      contentType = 'Event';
     } else if (startsWith(path, 'market')) {
-      return 'Create Listing';
+      contentType = 'Listing';
     } else if (startsWith(path, 'talk')) {
-      return 'Create Talk';
+      contentType = 'Talk';
     }
-  }.property('path')
+
+    if (this.get('media.isTablet')) {
+      return `+ ${contentType}`;
+    } else {
+      return `Create ${contentType}`;
+    }
+
+  }.property('path', 'media.isTablet')
 });

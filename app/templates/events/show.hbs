@@ -12,9 +12,9 @@
     <div class='PhotoBanner {{if model.imageUrl 'PhotoBanner--padded'}}'>
       {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
       <div class='PhotoBanner-curtain'></div>
-      <div class='PhotoBanner-content container'>
+      <div class='PhotoBanner-content Container--noGutter'>
         <div class='row'>
-          <div class='col-xs-12 {{if model.imageUrl 'col-sm-8 col-sm-offset-4'}}'>
+          <div class='col-xs-12 {{if model.imageUrl 'col-sm-7 col-sm-offset-5 col-md-8 col-md-offset-4'}}'>
             <h1 class='PhotoBanner-title'>{{x-truncate text=model.title maxLength=50}}</h1>
             <h2 class='PhotoBanner-subtitle'>{{model.subtitle}}</h2>
             <h2 class='PhotoBanner-subtitle'>{{model.timeRange}}</h2>
@@ -24,16 +24,16 @@
     </div>
   </header>
 
-  <main class='Container--noGutter'>
+  <main class='Container--noGutter ContentBody'>
     <div class='row'>
 
-      <div class='col-sm-2 hidden-xs'>
+      <div class='col-md-2 hidden-sm hidden-xs'>
         {{#unless isPreview}}
           {{back-button routeName='events'}}
         {{/unless}}
       </div>
 
-      <div class='col-sm-8 u-layoutPadL40 u-layoutPadR40'>
+      <div class='col-sm-12 col-md-8'>
         <div class='EventShow-info row'>
           {{#if model.hasLocationInfo}}
             <div class='col-sm-4'>
@@ -135,12 +135,27 @@
           {{/if}}
         </div>
 
-        <div class='EventShow-content'>
-          {{{model.content}}}
+        <div class='row'>
+          <div class='EventShow-content col-md-12 col-sm-9'>
+            {{{model.content}}}
+          </div>
+          <div class='visible-sm col-sm-3'>
+            {{social-share}}
+
+            {{report-content-details contentId=model.contentId}}
+
+            {{#if model.canEdit}}
+              {{edit-content-link
+                id=model.id
+                route='events.edit'
+                text='Edit Event'
+              }}
+            {{/if}}
+          </div>
         </div>
       </div>
 
-      <div class='col-sm-2 u-layoutMobilePadding0'>
+      <div class='col-md-2 hidden-sm hidden-xs u-layoutMobilePadding0'>
         {{social-share}}
 
         {{report-content-details contentId=model.contentId}}
