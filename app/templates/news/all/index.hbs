@@ -14,14 +14,14 @@
 
 {{#if newsGroups.firstObject}}
   <div class='Container--noGutter'>
-    <div class='hidden-xs'>
+    {{#if media.isDesktop}}
       {{#each newsGroups as |news|}}
         {{grouped-news news=news}}
       {{/each}}
-    </div>
-    <div class='visible-xs'>
+    {{/if}}
+    {{#if media.isMobile}}
       {{ordered-news news=news}}
-    </div>
+    {{/if}}
   </div>
 {{else}}
   <div class='NoResults container text-center'>

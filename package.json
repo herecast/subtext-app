@@ -46,5 +46,8 @@
     "ember-faker": "^1.0.0",
     "ember-moment": "1.1.1",
     "ember-pikaday": "0.10.0"
+  },
+  "dependencies": {
+    "ember-responsive": "^1.1.0"
   }
 }
