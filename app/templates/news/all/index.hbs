@@ -15,12 +15,10 @@
 {{#if model}}
   <div class='Container--noGutter'>
     {{#if media.isDesktop}}
-      {{#each newsGroups as |news|}}
-        {{grouped-news news=news}}
-      {{/each}}
+      {{grouped-news news=model}}
     {{/if}}
     {{#if media.isMobile}}
-      {{ordered-news news=news}}
+      {{ordered-news news=model}}
     {{/if}}
 
     {{partial 'partials/pagination-nav'}}
