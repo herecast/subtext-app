@@ -380,8 +380,10 @@ export default function() {
 
   this.get('/news', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let news = db.news.slice(0,14).map((article) => {
+    let news = db.news.slice(start,stop).map((article) => {
       return Ember.getProperties(article, newsBaseProperties);
     });
 
