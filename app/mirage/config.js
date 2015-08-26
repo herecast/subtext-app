@@ -280,8 +280,10 @@ export default function() {
 
   this.get('/market_posts', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
-    let posts = db.market_posts.map((post) => {
+    let posts = db.market_posts.slice(start,stop).map((post) => {
       return Ember.getProperties(post, marketPostBaseProperties);
     });
 
