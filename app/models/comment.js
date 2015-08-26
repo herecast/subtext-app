@@ -6,9 +6,9 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   userName: DS.attr('string'),
   userImageUrl: DS.attr('string'),
-  postedAt: DS.attr('moment-date'),
+  pubdate: DS.attr('moment-date'),
 
   formattedPostedAt: function() {
-    return this.get('postedAt').fromNow();
-  }.property('postedAt')
+    return this.get('pubdate').fromNow();
+  }.property('pubdate')
 });

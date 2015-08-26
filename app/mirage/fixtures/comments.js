@@ -10,7 +10,7 @@ function generateComment(id) {
     parent_content_id: faker.random.number(1000),
     user_name: faker.name.findName(),
     user_image_url: userImageUrl,
-    posted_at: moment(faker.date.recent(10)).toISOString()
+    pubdate: moment(faker.date.recent(10)).toISOString()
   };
 }
 
