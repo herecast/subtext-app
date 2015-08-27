@@ -13,7 +13,10 @@
 
   <div class='NewsCard-subtitle'>
     <h5 class='NewsCard-date'>{{date}}</h5>
-    <h3 class='u-textTruncate NewsCard-publication'>{{item.publicationName}}</h3>
+
+    {{#link-to 'news' (query-params query='Everything' publication=item.publicationName r=refreshParam.time)}}
+      <h3 class='u-textTruncate NewsCard-publication'>{{item.publicationName}}</h3>
+    {{/link-to}}
   </div>
 
   <div class='NewsCard-snippet u-textThreeLineTruncate'>
