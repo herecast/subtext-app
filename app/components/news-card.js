@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   showImage: true,
   displayImage: Ember.computed.and('hasImage', 'showImage'),
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
+  refreshParam: Ember.inject.service('refresh-param'),
 
   date: function() {
     return moment(this.get('item.publishedAt')).format('L');
