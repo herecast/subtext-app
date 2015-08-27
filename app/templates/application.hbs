@@ -4,7 +4,7 @@
       <a class='MainNav-brand navbar-brand' href='/'>dailyUV</a>
     </div>
 
-    {{#if media.isDesktop}}
+    {{#if media.isNotMobile}}
       <ul class='ActionDropdown nav navbar-nav navbar-right'>
         {{#if session.isAuthenticated}}
           <li class='dropdown'>
@@ -80,7 +80,7 @@
 
   <div class='Container--noGutter SectionNavigation collapse' id='js-app-bar'>
     <div class='row'>
-      <ul class='SectionNavigation-list col-md-6 col-md-offset-3'>
+      <ul class='SectionNavigation-list col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2'>
         <li class='SectionNavigation-listItem'>
           {{#link-to 'news' class='SectionNavigation-link SectionNavigation-newsLink'}}
             News
@@ -104,7 +104,7 @@
       </ul>
 
       {{content-create-button
-        class='col-md-3 hidden-xs'
+        class='col-md-3 col-sm-2 hidden-xs u-textPullRight'
         path=currentPath
       }}
     </div>

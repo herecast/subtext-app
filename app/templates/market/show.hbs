@@ -10,15 +10,13 @@
   </div>
 {{/if}}
 
-<div class='MarketPost container'>
+<div class='MarketPost Container--noGutter ContentBody'>
   <div class='row'>
-    <div class='col-sm-2 hidden-xs'>
-      {{#unless isPreview}}
-        {{back-button routeName='market'}}
-      {{/unless}}
+    <div class='col-sm-2 hidden-sm hidden-xs'>
+      {{back-button routeName='market'}}
     </div>
 
-    <div class='col-sm-8 u-layoutPadL40 u-layoutPadR40'>
+    <div class='col-sm-9 col-md-8'>
       <h1 class='MarketPost-title DashedMobileContent'>{{model.title}}</h1>
 
       <h1 class='MarketPost-price visible-xs DashedMobileContent'>{{model.price}}</h1>
@@ -34,7 +32,7 @@
       {{partial 'partials/related-promotion'}}
     </div>
 
-    <div class='col-sm-2 u-layoutMobilePadding0'>
+    <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
       {{social-share}}
 
       {{report-content-details contentId=model.contentId}}

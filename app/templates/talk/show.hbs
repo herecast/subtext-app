@@ -2,7 +2,7 @@
 {{#if model.imageUrl}}
   <div class='Container--noGutter'>
     <div class='row'>
-      <div class='col-md-4 hidden-xs'>
+      <div class='col-md-4 hidden-xs hidden-sm'>
         {{background-image imageUrl=model.imageUrl class='PhotoBanner-thumbnail'}}
       </div>
     </div>
@@ -13,7 +13,7 @@
   {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
   <div class='PhotoBanner-curtain'></div>
   <div class='PhotoBanner-content container'>
-    <div class='row hidden-xs'>
+    <div class='row hidden-sm hidden-xs'>
       <div class='col-sm-8 {{if model.imageUrl 'col-sm-offset-4' 'col-sm-offset-2'}}'>
         <h1 class='PhotoBanner-title'>{{model.title}}</h1>
         <div class='row PhotoBanner-info'>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class='visible-xs'>
+    <div class='visible-xs visible-sm'>
       <h1 class='PhotoBanner-title'>{{model.title}}</h1>
       <div class='PhotoBanner-info'>
         <div class="StatCircle">
@@ -68,17 +68,17 @@
 </div>
 
 
-<div class='Container--noGutter'>
+<div class='Container--noGutter ContentBody'>
   <div class='row'>
-    <div class='col-sm-2 hidden-xs'>
+    <div class='col-md-2 hidden-sm hidden-xs'>
       {{#unless isPreview}}
         {{back-button routeName='talk'}}
       {{/unless}}
     </div>
 
-    <div class='col-sm-8'>
+    <div class='col-sm-9 col-md-8'>
 
-      <div class='visible-xs'>
+      <div class='visible-xs visible-sm'>
         {{talk-info talk=model}}
       </div>
       <div class='ContentText'>{{{model.content}}}</div>
@@ -86,7 +86,7 @@
       {{partial 'partials/related-promotion'}}
     </div>
 
-    <div class='col-sm-2 u-layoutMobilePadding0'>
+    <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
       {{social-share}}
 
       {{report-content-details contentId=model.contentId}}

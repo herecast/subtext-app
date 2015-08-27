@@ -12,13 +12,13 @@
 
 <div class='Container--noGutter News'>
   <div class='row'>
-    <div class='col-sm-2 hidden-xs'>
+    <div class='col-md-2 hidden-sm hidden-xs'>
       {{#unless isPreview}}
         {{back-button routeName='news'}}
       {{/unless}}
     </div>
 
-    <div class='col-sm-8'>
+    <div class='col-md-8 col-sm-9'>
       <h1 class='News-title'>{{model.title}}</h1>
       <h3 class='News-subtitle'>{{model.subtitle}}</h3>
       <div class='News-publicationInfo'>{{model.publicationName}} : {{model.authorName}}</div>
@@ -28,7 +28,7 @@
       {{partial 'partials/related-promotion'}}
     </div>
 
-    <div class='col-sm-2'>
+    <div class='col-md-2 col-sm-3'>
       {{social-share}}
 
       {{report-content-details contentId=model.contentId}}
