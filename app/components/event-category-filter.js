@@ -35,9 +35,17 @@ export default Ember.Component.extend({
   }.on('init'),
 
   initInput: function() {
-    this.$('input').keyup(() => {
+    this.$('input').keyup((e) => {
       const query = this.get('categoryOrQuery');
       this.setInput(query);
+
+      // Don't initiate a search if someone is tabbing through filters
+      // or hits return.
+      if (e.keyCode !== 9 && e.keyCode !== 13) {
+        if (Ember.isPresent(query) && query.length > 2) {
+          Ember.run.debounce(this, this.updateFilter, query, 300);
+        }
+      }
     });
   }.on('didInsertElement'),
 
