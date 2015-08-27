@@ -33,7 +33,9 @@
                 {{/link-to}}
               </li>
               <li class='hidden-xs hidden-sm'>
-                <a href='/dashboard/index' class='h4 ActionDropdown-item'>My Dashboard</a>
+                {{#link-to 'dashboard' class='h4 ActionDropdown-item'}}
+                  My Dashboard
+                {{/link-to}}
               </li>
               <li>
                 <a href='#' {{action 'signOut'}} class='h4 ActionDropdown-item'>Log out</a>

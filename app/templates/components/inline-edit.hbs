@@ -1,0 +1,14 @@
+{{input
+  value=value
+  autoresize=true
+  disabled=disabled
+  class='InlineEdit-input'
+}}
+
+<span {{action 'toggleEditing'}}>
+  {{#if isEditing}}
+    {{fa-icon 'save InlineEdit-icon'}}
+  {{else}}
+    {{fa-icon 'pencil InlineEdit-icon'}}
+  {{/if}}
+</span>
