@@ -1,0 +1,34 @@
+{{#if isTalk}}
+  {{#link-to 'talk'}}
+    <h6>talk</h6>
+  {{/link-to}}
+
+  {{talk-card
+    talk=item
+    class='Card TalkCard u-flexColumn-2'
+  }}
+{{else if isNews}}
+  {{#link-to 'news'}}
+    <h6>news</h6>
+  {{/link-to}}
+
+  {{news-card item=item}}
+{{else if isMarketPost}}
+  {{#link-to 'market'}}
+    <h6>market</h6>
+  {{/link-to}}
+
+  {{market-card
+    post=item
+    class='Card MarketCard u-flexColumn-2'
+  }}
+{{else if isEventInstance}}
+  {{#link-to 'events'}}
+    <h6>events</h6>
+  {{/link-to}}
+
+  {{event-card
+    event=item
+    class='Card EventCard u-flexColumn'
+  }}
+{{/if}}
