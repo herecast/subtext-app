@@ -96,21 +96,19 @@ export default function() {
   this.namespace = 'api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
-  this.get('/current_user', function() {
-    const createdAt = moment(faker.date.recent(-30));
-
+  this.get('/current_user', function(db) {
     return {
-      current_user: {
-        id: 1,
-        name: faker.name.findName(),
-        email: "embertest@subtext.org",
-        created_at: createdAt.toISOString(),
-        image_url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200',
-        location: 'Norwich, VT',
-        test_group: 'Consumer',
-        listserv_id: 1,
-        listserv_name: 'Norwich Listserv'
-      }
+      current_user: db.current_users.find(1)
+    };
+  });
+
+  this.put('/current_user', function(db, request) {
+    var id = 1;
+    var putData = JSON.parse(request.requestBody);
+    var attrs = putData['current_user'];
+    var data = db.current_users.update(id, attrs);
+    return {
+      current_user: data
     };
   });
 
