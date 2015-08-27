@@ -1,13 +1,20 @@
 <nav class='MainNav navbar navbar-default'>
   <div class='MainNav-content Container--noGutter'>
-    <div class='navbar-header'>
-      <a class='MainNav-brand navbar-brand' href='/'>dailyUV</a>
+    <div class='col-sm-8 col-sm-offset-2 u-textCentered'>
+      {{#link-to 'index'}}
+        <h1 class='MainNav-brand'>
+          daily UV
+          {{#if session.isAuthenticated}}
+            <span class='MainNav-location'>{{session.userLocation}}</span>
+          {{/if}}
+        </h1>
+      {{/link-to}}
     </div>
 
     {{#if media.isNotMobile}}
-      <ul class='ActionDropdown nav navbar-nav navbar-right'>
+      <ul class='ActionDropdown col-sm-2 nav navbar-nav navbar-right'>
         {{#if session.isAuthenticated}}
-          <li class='dropdown'>
+          <li class='dropdown pull-right'>
             <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
               {{#if session.currentUser.imageUrl}}
                 <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
