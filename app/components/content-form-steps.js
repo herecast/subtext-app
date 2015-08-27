@@ -7,6 +7,14 @@ export default Ember.Component.extend({
   step3Complete: Ember.computed.equal('step3State', 'complete'),
   type: '',
 
+  formattedType: function() {
+    if (this.get('type') === 'market') {
+      return 'listing';
+    } else {
+      return this.get('type');
+    }
+  }.property('type'),
+
   stepCountTypeClass: function() {
     const formattedType = this.get('type').toLowerCase();
     return `ContentFormSteps-stepCount--${formattedType}`;
