@@ -1,5 +1,17 @@
 <div class='Container--noGutter'>
-  {{grouped-index contents=model}}
+  <h1><!-- for consistent spacing --></h1>
+
+  {{#if media.isMobile}}
+    <ul>
+      {{#each model as |item|}}
+        <li>
+          {{content-card item=item}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    {{grouped-index contents=model}}
+  {{/if}}
 
   {{partial 'partials/pagination-nav'}}
 </div>
