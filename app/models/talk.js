@@ -14,7 +14,7 @@ export default DS.Model.extend({
   pageviewsCount: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
-  userCount: DS.attr('number'),
+  commenterCount: DS.attr('number'),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
 

@@ -76,7 +76,7 @@ const marketPostBaseProperties = [
 ];
 
 const talkBaseProperties = [
-  'id', 'title', 'author_image_url', 'published_at', 'user_count',
+  'id', 'title', 'author_image_url', 'published_at', 'commenter_count',
   'pageviews_count', 'author_name'
 ];
 

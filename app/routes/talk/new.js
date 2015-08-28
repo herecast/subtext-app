@@ -7,7 +7,7 @@ export default Ember.Route.extend(Scroll, {
   model() {
     return this.store.createRecord('talk', {
       pageviewsCount: 0,
-      userCount: 1,
+      commenterCount: 1,
       authorName: this.get('session.currentUser.name')
     });
   },

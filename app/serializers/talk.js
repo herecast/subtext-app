@@ -9,7 +9,7 @@ export default ActiveModelSerializer.extend({
     delete json.author_name;
     delete json.author_image_url;
     delete json.pageviews_count;
-    delete json.user_count;
+    delete json.commenter_count;
     delete json.published_at;
 
     return json;
