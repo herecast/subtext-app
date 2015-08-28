@@ -9,6 +9,7 @@ function allCurrentUsers() {
     created_at: createdAt.toISOString(),
     image_url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200',
     location: 'Norwich, VT',
+    location_id: 1,
     test_group: 'Consumer',
     listserv_id: 1,
     listserv_name: 'Norwich Listserv'

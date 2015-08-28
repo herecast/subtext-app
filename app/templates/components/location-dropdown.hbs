@@ -1,0 +1,20 @@
+{{#if isEditing}}
+  {{view "select"
+    content=formattedLocations
+    optionLabelPath="content.formattedLocation"
+    optionValuePath="content.id"
+    prompt="Select a location:"
+    value=selectedLocationId
+    class='form-control LocationDropdown-select'
+  }}
+{{else}}
+  <span>{{session.currentUser.location}}</span>
+{{/if}}
+
+<span {{action 'toggleEditing'}}>
+  {{#if isEditing}}
+    {{fa-icon 'save InlineEdit-icon'}}
+  {{else}}
+    {{fa-icon 'pencil InlineEdit-icon'}}
+  {{/if}}
+</span>

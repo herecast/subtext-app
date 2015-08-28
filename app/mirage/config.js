@@ -97,8 +97,15 @@ export default function() {
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.get('/current_user', function(db) {
+    var current_user = db.current_users.find(1);
+
+    //mocks location join
+    var location = db.locations.find(current_user.location_id);
+    var locationString = `${location.city}, ${location.state}`;
+    current_user.location = locationString;
+
     return {
-      current_user: db.current_users.find(1)
+      current_user: current_user
     };
   });
 
@@ -106,9 +113,15 @@ export default function() {
     var id = 1;
     var putData = JSON.parse(request.requestBody);
     var attrs = putData['current_user'];
-    var data = db.current_users.update(id, attrs);
+    var current_user = db.current_users.update(id, attrs);
+
+    //mocks location join
+    var location = db.locations.find(current_user.location_id);
+    var locationString = `${location.city}, ${location.state}`;
+    current_user.location = locationString;
+
     return {
-      current_user: data
+      current_user: current_user
     };
   });
 
@@ -128,20 +141,28 @@ export default function() {
     };
   });
 
+   // Used in the user dashboard to find locations
+  this.get('/locations', function(db) {
+    return {
+      locations: db.locations
+    };
+  });
+
+
   // Used by the event filter bar to find locations
   this.get('/venue_locations', function(db, request) {
-    const locations = [];
+    const venue_locations = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
     // no results so we can see what that looks like in the UI
     if (request.queryParams.query.indexOf('empty') !== 0) {
       for (let i = 1; i < 5; i += 1) {
-        locations.push(faker.address.streetAddress());
+        venue_locations.push(faker.address.streetAddress());
       }
     }
 
     return {
-      locations: locations
+      venue_locations: venue_locations
     };
   });
 

@@ -7,6 +7,7 @@ export default DS.Model.extend({
   listservId: DS.attr('number'),
   listservName: DS.attr('string'),
   location: DS.attr('string'),
+  locationId: DS.attr('number'),
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
   userId: DS.attr('string')
