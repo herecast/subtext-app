@@ -1,0 +1,16 @@
+<td>
+  {{#link-to viewRoute content.id}}
+    {{x-truncate text=content.title maxLength=50}}
+  {{/link-to}}
+</td>
+<td class='u-textCentered'>{{contentType}}</td>
+<td class='u-textCentered'>{{publishedAt}}</td>
+<td class='u-textCentered'>{{content.views}}</td>
+<td class='u-textCentered'>{{content.comments}}</td>
+<td class='u-textCentered' colspan='2'>
+  {{link-to 'View' viewRoute content.id class='btn btn-link h4'}}
+
+  {{#if isEditable}}
+    {{link-to 'Edit' editRoute content.id class='btn btn-link h4'}}
+  {{/if}}
+</td>

@@ -454,4 +454,43 @@ export default function() {
       contents: contents
     };
   });
+
+  this.get('/dashboard', function(db) {
+    const contents = [];
+
+    db.event_instances.slice(0,3).map((item) => {
+      const record = Ember.getProperties(item, eventBaseProperties);
+      record.content_type = 'event';
+      record.pageviews_count = faker.random.number(100);
+      record.comments_count = faker.random.number(100);
+      contents.push(record);
+    });
+
+    db.talks.slice(0,2).map((item) => {
+      const record = Ember.getProperties(item, talkBaseProperties);
+      record.content_type = 'talk_of_the_town';
+      record.comments_count = faker.random.number(100);
+      contents.push(record);
+    });
+
+    db.market_posts.slice(0,1).map((item) => {
+      const record = Ember.getProperties(item, marketPostBaseProperties);
+      record.content_type = 'market';
+      record.pageviews_count = faker.random.number(100);
+      record.comments_count = faker.random.number(100);
+      contents.push(record);
+    });
+
+    db.event_instances.slice(0,3).map((item) => {
+      const record = Ember.getProperties(item, eventBaseProperties);
+      record.content_type = 'event';
+      record.pageviews_count = faker.random.number(100);
+      record.comments_count = faker.random.number(100);
+      contents.push(record);
+    });
+
+    return {
+      contents: contents
+    };
+  });
 }
