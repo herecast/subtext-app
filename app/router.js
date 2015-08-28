@@ -11,8 +11,8 @@ Router.map(function() {
 
   this.route('dashboard');
 
-  this.route('login', {path: '/users/sign_in'});
-  this.route('register', {path: '/users/sign_up'});
+  this.route('login', {path: '/sign_in'});
+  this.route('register', {path: '/sign_up'});
 
   this.route('events', {path: '/events'}, function() {
     this.route('all', {path: '/'}, function() {});
