@@ -70,7 +70,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // Uncomment to enable mock API in production
     ENV['ember-cli-mirage'] = {
-      enabled: true
+      enabled: false
     }
 
     ENV.mixpanel = {
