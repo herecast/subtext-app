@@ -45,11 +45,11 @@
 
   <div class='row'>
     {{#if hasVenue}}
-      <h5 class='EventCard-venue col-xs-3'>
-        {{x-truncate text=venue maxLength=8 tagName='span'}}
+      <h5 class='EventCard-venue col-xs-7'>
+        {{x-truncate text=venue maxLength=22 tagName='span'}}
       </h5>
     {{/if}}
 
-    <h5 class='EventCard-time col-xs-9'>{{timeRange}}</h5>
+    <h5 class='EventCard-time col-xs-5'>{{timeRangeMobile}}</h5>
   </div>
 {{/if}}
