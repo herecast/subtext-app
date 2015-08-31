@@ -2,6 +2,13 @@
   <img src='{{model.imageUrl}}' class='Dashboard-avatar'>
 
   {{inline-edit value=model.name class='Dashboard-userName' action='submit'}}
+
+  {{location-dropdown
+    selectedLocationId=model.locationId
+    class='LocationDropdown'
+    onUpdate='submit'
+  }}
+
   {{inline-edit value=model.email class='u-layoutPadB30' action='submit'}}
 
   {{#if showPasswordForm}}
