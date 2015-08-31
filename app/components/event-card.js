@@ -12,6 +12,18 @@ export default Ember.Component.extend({
 
   timeRange: Ember.computed.oneWay('event.formattedDate'),
 
+  timeRangeMobile: function() {
+    const startTime = this.get('event.startsAt').format('h:mmA');
+
+    if (Ember.isEmpty(this.get('event.endsAt'))) {
+      return startTime;
+    } else {
+      const endTime = this.get('event.endsAt').format('h:mmA');
+
+      return `${startTime}-${endTime}`;
+    }
+  }.property('event.{startsAt,endsAt}'),
+
   hasVenue: Ember.computed.notEmpty('venue'),
 
   venue: function() {
