@@ -172,7 +172,9 @@
 
     {{event-other-dates instance=model}}
 
-    {{partial 'partials/related-promotion'}}
+    {{#unless isPreview}}
+      {{partial 'partials/related-promotion'}}
+    {{/unless}}
 
     <h1 class='SectionHeader SectionHeader--paddedTop'>
       <span class='SectionHeader-text'>
