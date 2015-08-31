@@ -19,7 +19,10 @@
     </div>
 
     <div class='col-sm-9 col-md-8'>
-      <h1 class='MarketPost-title DashedMobileContent'>{{model.title}}</h1>
+      <div class='MarketPost-headerContent DashedMobileContent'>
+        <h1>{{model.title}}</h1>
+        <h5><strong>Posted</strong>: {{model.formattedPublishedAt}}</h5>
+      </div>
 
       <h1 class='MarketPost-price visible-xs DashedMobileContent'>{{model.price}}</h1>
 

@@ -19,6 +19,10 @@ export default DS.Model.extend({
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
+  formattedPublishedAt: function() {
+    return this.get('publishedAt').format('dddd, MMMM D, YYYY');
+  }.property('publishedAt'),
+
   uploadImage() {
     const url = `/${config.API_NAMESPACE}/market_posts/${this.get('id')}`;
     const data = new FormData();
