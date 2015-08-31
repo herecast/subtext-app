@@ -31,7 +31,9 @@
         {{market-contact postId=model.id}}
       {{/if}}
 
-      {{partial 'partials/related-promotion'}}
+      {{#unless isPreview}}
+        {{partial 'partials/related-promotion'}}
+      {{/unless}}
     </div>
 
     <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>

@@ -31,7 +31,9 @@
       <div class='News-publicationDate'>{{model.formattedPublishedAt}}</div>
       <div class='News-content ContentText'>{{model.content}}</div>
 
-      {{partial 'partials/related-promotion'}}
+      {{#unless isPreview}}
+        {{partial 'partials/related-promotion'}}
+      {{/unless}}
     </div>
 
     <div class='col-md-2 col-sm-3'>
