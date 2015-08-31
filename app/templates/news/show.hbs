@@ -29,7 +29,7 @@
         : {{model.authorName}}
       </div>
       <div class='News-publicationDate'>{{model.formattedPublishedAt}}</div>
-      <div class='News-content ContentText'>{{model.content}}</div>
+      <div class='News-content ContentText'>{{{model.content}}}</div>
 
       {{#unless isPreview}}
         {{partial 'partials/related-promotion'}}
