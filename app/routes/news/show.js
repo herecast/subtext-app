@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import Redirect from '../../mixins/routes/redirect-after-login';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(Redirect, {
   promotion: Ember.inject.service('promotion'),
 
   model(params)  {

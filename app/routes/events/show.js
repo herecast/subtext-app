@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import Track from '../../mixins/routes/track-pageview';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
+import Redirect from '../../mixins/routes/redirect-after-login';
+
 import Dates from '../../lib/dates';
 
-export default Ember.Route.extend(Track, RouteMetaMixin, {
+export default Ember.Route.extend(Track, RouteMetaMixin, Redirect, {
   promotion: Ember.inject.service('promotion'),
 
   meta() {
