@@ -46,11 +46,47 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
+  validateContactEmail() {
+    const email = this.get('event.contactEmail');
+
+    if (this.hasValidEmail(email)) {
+      this.set('errors.contactEmail', null);
+      delete this.get('errors').contactEmail;
+    } else {
+      this.set('errors.contactEmail', 'Invalid email address');
+    }
+  },
+
+  validateContactPhone() {
+    const phone = this.get('event.contactPhone');
+
+    if (this.hasValidPhone(phone)) {
+      this.set('errors.contactPhone', null);
+      delete this.get('errors').contactPhone;
+    } else {
+      this.set('errors.contactPhone', 'Invalid phone number');
+    }
+  },
+
+  validateEventUrl() {
+    const url = this.get('event.eventUrl') || '';
+
+    if (this.hasValidUrl(url)) {
+      this.set('errors.eventUrl', null);
+      delete this.get('errors').eventUrl;
+    } else {
+      this.set('errors.eventUrl', 'Invalid URL, must start with http or https');
+    }
+  },
+
   isValid() {
     this.validatePresenceOf('event.title');
     this.validatePresenceOf('event.content');
     this.validateVenue();
     this.validateImage();
+    this.validateContactEmail();
+    this.validateContactPhone();
+    this.validateEventUrl();
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
