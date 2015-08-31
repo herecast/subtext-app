@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('controller:events/edit/promotion', {
+moduleFor('controller:market/edit/promotion', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });
