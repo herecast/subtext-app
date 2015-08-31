@@ -14,12 +14,12 @@ export default Ember.Component.extend({
   }.property('talk.commenterCount'),
 
   viewText: function() {
-    const count = this.get('talk.pageviewsCount');
+    const count = this.get('talk.viewCount');
 
     if (count === 1) {
       return 'view';
     } else {
       return 'views';
     }
-  }.property('talk.pageviewsCount')
+  }.property('talk.viewCount')
 });
