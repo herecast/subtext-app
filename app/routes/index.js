@@ -19,7 +19,12 @@ export default Ember.Route.extend(PaginatedFilter, {
   setupController(controller, model) {
     const contentModel = this.get('contentModel');
 
-    const contents = model.contents.map((record) => {
+    const contents = model.contents.reject((record) => {
+      // Filter out any events that do not have a start date. These are events
+      // that have been imported and do not have event instances associated
+      // with them.
+      return record.content_type === 'event' && Ember.isBlank(record.starts_at);
+    }).map((record) => {
       return contentModel.convert(record);
     });
 
