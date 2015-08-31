@@ -15,8 +15,8 @@ function template(id) {
     content_id: faker.random.number(1000),
     image_url: imageUrl,
     published_at: startsAt.toISOString(),
-    user_count: faker.random.number(25),
-    pageviews_count: faker.random.number(1000),
+    commenter_count: faker.random.number(25),
+    view_count: faker.random.number(1000),
     author_name: faker.name.findName(),
     author_image_url: authorImageUrl
   };

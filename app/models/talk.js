@@ -7,14 +7,14 @@ import moment from 'moment';
 export default DS.Model.extend({
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
+  commenterCount: DS.attr('number'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   listservId: DS.attr('number'), // write only
-  pageviewsCount: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
-  userCount: DS.attr('number'),
+  viewCount: DS.attr('number'),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
 
