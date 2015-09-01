@@ -122,14 +122,11 @@
           {{#if model.costType}}
             <div class='col-sm-3'>
               <div class='EventInfo'>
-                <h1 class='EventInfo-header {{if model.isPaid 'EventInfo-header--padded'}}'>
-                  {{#if model.isPaid}}
-                    {{model.cost}}
-                  {{else}}
-                    {{fa-icon 'dollar EventInfo-icon'}}
-                    {{model.formattedCostType}}
-                  {{/if}}
+                <h1 class='EventInfo-header'>
+                  {{fa-icon 'dollar EventInfo-icon'}}
+                  {{model.formattedCostType}}
                 </h1>
+                <strong>{{model.cost}}</strong>
               </div>
             </div>
           {{/if}}
