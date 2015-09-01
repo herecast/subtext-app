@@ -85,6 +85,61 @@ const newsBaseProperties = [
   'publication_name','publication_id', 'image_url'
 ];
 
+function mixedContent(db) {
+  const contents = [];
+
+  db.news.slice(0,2).map((item) => {
+    const record = Ember.getProperties(item, newsBaseProperties);
+    record.content_type = 'news';
+    contents.push(record);
+  });
+
+  db.talks.slice(0,2).map((item) => {
+    const record = Ember.getProperties(item, talkBaseProperties);
+    record.content_type = 'talk_of_the_town';
+    contents.push(record);
+  });
+
+  db.market_posts.slice(0,1).map((item) => {
+    const record = Ember.getProperties(item, marketPostBaseProperties);
+    record.content_type = 'market';
+    contents.push(record);
+  });
+
+  db.event_instances.slice(0,3).map((item) => {
+    const record = Ember.getProperties(item, eventBaseProperties);
+    record.content_type = 'event';
+    contents.push(record);
+  });
+
+  db.market_posts.slice(0,2).map((item) => {
+    const record = Ember.getProperties(item, marketPostBaseProperties);
+    record.content_type = 'market';
+    contents.push(record);
+  });
+
+  db.event_instances.slice(0,1).map((item) => {
+    const record = Ember.getProperties(item, eventBaseProperties);
+    record.content_type = 'event';
+    contents.push(record);
+  });
+
+  db.talks.slice(0,2).map((item) => {
+    const record = Ember.getProperties(item, talkBaseProperties);
+    record.content_type = 'talk_of_the_town';
+    contents.push(record);
+  });
+
+  db.market_posts.slice(0,1).map((item) => {
+    const record = Ember.getProperties(item, marketPostBaseProperties);
+    record.content_type = 'market';
+    contents.push(record);
+  });
+
+  return contents;
+}
+
+
 export default function() {
   this.post('/users/sign_in', function() {
     return {
@@ -282,9 +337,9 @@ export default function() {
 
   this.get('/listservs');
 
-  this.get('/similar_content', function(db) {
+  this.get('/contents/:id/similar_content', function(db) {
     return {
-      similar_content: db.similar_content
+      similar_content: mixedContent(db)
     };
   });
 
@@ -420,98 +475,14 @@ export default function() {
   this.get('/news/:id');
 
   this.get('/contents', function(db) {
-    const contents = [];
-
-    db.news.slice(0,2).map((item) => {
-      const record = Ember.getProperties(item, newsBaseProperties);
-      record.content_type = 'news';
-      contents.push(record);
-    });
-
-    db.talks.slice(0,2).map((item) => {
-      const record = Ember.getProperties(item, talkBaseProperties);
-      record.content_type = 'talk_of_the_town';
-      contents.push(record);
-    });
-
-    db.market_posts.slice(0,1).map((item) => {
-      const record = Ember.getProperties(item, marketPostBaseProperties);
-      record.content_type = 'market';
-      contents.push(record);
-    });
-
-    db.event_instances.slice(0,3).map((item) => {
-      const record = Ember.getProperties(item, eventBaseProperties);
-      record.content_type = 'event';
-      contents.push(record);
-    });
-
-    db.market_posts.slice(0,2).map((item) => {
-      const record = Ember.getProperties(item, marketPostBaseProperties);
-      record.content_type = 'market';
-      contents.push(record);
-    });
-
-    db.event_instances.slice(0,1).map((item) => {
-      const record = Ember.getProperties(item, eventBaseProperties);
-      record.content_type = 'event';
-      contents.push(record);
-    });
-
-    db.talks.slice(0,2).map((item) => {
-      const record = Ember.getProperties(item, talkBaseProperties);
-      record.content_type = 'talk_of_the_town';
-      contents.push(record);
-    });
-
-    db.market_posts.slice(0,1).map((item) => {
-      const record = Ember.getProperties(item, marketPostBaseProperties);
-      record.content_type = 'market';
-      contents.push(record);
-    });
-
-
     return {
-      contents: contents
+      contents: mixedContent(db)
     };
   });
 
   this.get('/dashboard', function(db) {
-    const contents = [];
-
-    db.event_instances.slice(0,3).map((item) => {
-      const record = Ember.getProperties(item, eventBaseProperties);
-      record.content_type = 'event';
-      record.pageviews_count = faker.random.number(100);
-      record.comments_count = faker.random.number(100);
-      contents.push(record);
-    });
-
-    db.talks.slice(0,2).map((item) => {
-      const record = Ember.getProperties(item, talkBaseProperties);
-      record.content_type = 'talk_of_the_town';
-      record.comments_count = faker.random.number(100);
-      contents.push(record);
-    });
-
-    db.market_posts.slice(0,1).map((item) => {
-      const record = Ember.getProperties(item, marketPostBaseProperties);
-      record.content_type = 'market';
-      record.pageviews_count = faker.random.number(100);
-      record.comments_count = faker.random.number(100);
-      contents.push(record);
-    });
-
-    db.event_instances.slice(0,3).map((item) => {
-      const record = Ember.getProperties(item, eventBaseProperties);
-      record.content_type = 'event';
-      record.pageviews_count = faker.random.number(100);
-      record.comments_count = faker.random.number(100);
-      contents.push(record);
-    });
-
     return {
-      contents: contents
+      contents: mixedContent(db)
     };
   });
 }

@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('event-similar-content', {
+moduleForComponent('similar-content', {
   // Specify the other units that are required for this test
   needs: []
 });

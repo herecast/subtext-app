@@ -53,4 +53,11 @@
       {{/if}}
     </div>
   </div>
+
+  {{#unless isPreview}}
+    {{similar-content
+      contentId=model.contentId
+      limit=4
+    }}
+  {{/unless}}
 </div>

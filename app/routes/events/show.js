@@ -56,9 +56,5 @@ export default Ember.Route.extend(Track, RouteMetaMixin, Redirect, {
     this.get('promotion').find(model.get('contentId')).then((promotion) => {
       controller.set('relatedPromotion', promotion);
     });
-
-    controller.set('similarContent', this.store.find('similar-content', {
-      event_id: model.get('eventId')
-    }));
   }
 });

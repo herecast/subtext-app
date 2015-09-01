@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   showAll: false,
   limit: 3,
+  content: [],
 
   contentToDisplay: function() {
     const allContent = this.get('content');

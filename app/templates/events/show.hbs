@@ -188,20 +188,13 @@
           commentingDisabled=model.isNew
         }}
     </div>
+
+    {{#unless isPreview}}
+      {{similar-content
+        contentId=model.contentId
+        limit=4
+      }}
+    {{/unless}}
   </main>
 
-  <h1 class='SectionHeader'>
-    <span class='SectionHeader-text'>
-      Suggested Content
-    </span>
-  </h1>
-
-  {{event-similar-content
-    content=similarContent
-    limit=3
-  }}
-
-
 </article>
-
-
