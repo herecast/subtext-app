@@ -5,6 +5,7 @@ export default ActiveModelSerializer.extend({
     const json = this._super(snapshot, options);
 
     // Remove read only attributes that should not be sent to the API
+    delete json.content_id;
     delete json.image_url;
     delete json.author_name;
     delete json.author_image_url;
