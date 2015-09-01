@@ -1,0 +1,28 @@
+{{#if content}}
+  <h1 class='SectionHeader'>
+    <span class='SectionHeader-text'>
+      Suggested
+    </span>
+  </h1>
+
+  <div class='Section'>
+    <div class='row'>
+      {{#each contentToDisplay as |content|}}
+        <div class='col-md-3'>
+          {{content-card
+            item=content
+            showLink=false
+          }}
+        </div>
+      {{/each}}
+    </div>
+
+    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
+      {{#if showAll}}
+        View less {{fa-icon 'caret-up'}}
+      {{else}}
+        View more {{fa-icon 'caret-down'}}
+      {{/if}}
+    </button>
+  </div>
+{{/if}}
