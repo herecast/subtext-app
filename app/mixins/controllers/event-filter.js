@@ -2,10 +2,15 @@ import Ember from 'ember';
 import Dates from '../../lib/dates';
 
 export default Ember.Mixin.create({
-  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r'],
+  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'r',
+    'page', 'per_page'
+  ],
 
   // Change this value in the query params to force a refresh.
   r: false,
+
+  page: 1,
+  per_page: 24,
 
   defaultCategory: 'Everything',
 

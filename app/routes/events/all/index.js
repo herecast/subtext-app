@@ -1,20 +1,17 @@
 import Ember from 'ember';
 import Track from '../../../mixins/routes/track-pageview';
+import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 
-export default Ember.Route.extend(Track, {
-  queryParams: {
-    r: {
-      refreshModel: true
-    }
-  },
-
+export default Ember.Route.extend(Track, PaginatedFilter, {
   model(params) {
     return this.store.find('event-instance', {
       category: params.category,
       query: params.query,
       date_start: params.date_start,
       date_end: params.date_end,
-      location: params.location
+      location: params.location,
+      page: params.page,
+      per_page: params.per_page
     });
   },
 
@@ -28,12 +25,5 @@ export default Ember.Route.extend(Track, {
     );
 
     this.controllerFor('events/all').setProperties(filterParams);
-  },
-
-  actions: {
-    updateFilter(filterParams) {
-      this.transitionTo({queryParams: filterParams});
-      this.refresh();
-    }
   }
 });
