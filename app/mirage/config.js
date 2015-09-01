@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
 
+/*jshint multistr: true */
+
 // This is just a dumb method to make it look like we're doing filtering
 function filterByCategory(events, category) {
   if (category === 'Everything') {
@@ -487,5 +489,18 @@ export default function() {
     return {
       contents: mixedContent(db)
     };
+  });
+
+  this.get('/weather', function() {
+    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"> \
+    <a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank"> \
+    80° Clear \
+    </a> \
+    </div> \
+    <div class="pull-left" id="forecast_icon"> \
+    <i class="wi wi-day-sunny"></i> \
+    </div>';
+
+    return weather;
   });
 }

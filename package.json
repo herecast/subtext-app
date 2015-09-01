@@ -39,6 +39,7 @@
     "ember-cli-simple-auth": "0.8.0",
     "ember-cli-simple-auth-devise": "0.8.0",
     "ember-cli-uglify": "^1.0.1",
+    "ember-cli-weather-icons": "2.0.0",
     "ember-data": "1.13.5",
     "ember-deploy-navis": "git+ssh://git@github.com/AgilionApps/ember-deploy-navis.git#a5a6f7f1e95ab8a3580ed34f536a6949edcb3dfb",
     "ember-deploy-s3": "0.0.5",
