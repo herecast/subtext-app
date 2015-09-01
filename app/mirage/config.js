@@ -182,6 +182,8 @@ export default function() {
 
   this.get('/event_instances', function(db, request) {
     const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
 
     // The event index endpoint returns a subset of all available properties
     let events = db.event_instances.map((event) => {
@@ -190,6 +192,7 @@ export default function() {
 
     events = filterByCategory(events, params.category);
     events = filterByDate(events, params.date_start, params.date_end);
+    events = events.slice(start, stop);
 
     return {
       event_instances: events

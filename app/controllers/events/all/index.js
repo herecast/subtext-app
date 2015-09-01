@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import EventFilter from '../../../mixins/controllers/event-filter';
+import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
 
-export default Ember.Controller.extend(EventFilter, {
+export default Ember.Controller.extend(EventFilter, PaginatedFilter, {
   secondaryBackground: true,
   mixpanel: Ember.inject.service('mixpanel'),
   refreshParam: Ember.inject.service('refresh-param'),
