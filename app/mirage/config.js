@@ -93,48 +93,64 @@ function mixedContent(db) {
   db.news.slice(0,2).map((item) => {
     const record = Ember.getProperties(item, newsBaseProperties);
     record.content_type = 'news';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.talks.slice(0,2).map((item) => {
     const record = Ember.getProperties(item, talkBaseProperties);
     record.content_type = 'talk_of_the_town';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.market_posts.slice(0,1).map((item) => {
     const record = Ember.getProperties(item, marketPostBaseProperties);
     record.content_type = 'market';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.event_instances.slice(0,3).map((item) => {
     const record = Ember.getProperties(item, eventBaseProperties);
     record.content_type = 'event';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.market_posts.slice(0,2).map((item) => {
     const record = Ember.getProperties(item, marketPostBaseProperties);
     record.content_type = 'market';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.event_instances.slice(0,1).map((item) => {
     const record = Ember.getProperties(item, eventBaseProperties);
     record.content_type = 'event';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.talks.slice(0,2).map((item) => {
     const record = Ember.getProperties(item, talkBaseProperties);
     record.content_type = 'talk_of_the_town';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
   db.market_posts.slice(0,1).map((item) => {
     const record = Ember.getProperties(item, marketPostBaseProperties);
     record.content_type = 'market';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
     contents.push(record);
   });
 
@@ -485,9 +501,13 @@ export default function() {
     };
   });
 
-  this.get('/dashboard', function(db) {
+  this.get('/dashboard', function(db, request) {
+    const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
+
     return {
-      contents: mixedContent(db)
+      contents: mixedContent(db).slice(start, stop)
     };
   });
 

@@ -1,0 +1,68 @@
+<h1 class='SectionHeader'>
+  <span class='SectionHeader-text SectionHeader-text--secondaryBg'>
+    My Postings
+  </span>
+</h1>
+
+<div class='Section'>
+  <table class='ContentTable'>
+    <thead>
+      <tr class='h4'>
+        <th class='ContentTable-name'>
+          {{#link-to 'dashboard' (query-params sort=nameParam)}}
+            Name
+
+            {{#if sortedByName}}
+              {{fa-icon 'caret-down'}}
+            {{/if}}
+          {{/link-to}}
+        </th>
+        <th class='u-textCentered'>
+          {{#link-to 'dashboard' (query-params sort=typeParam)}}
+            Type
+
+            {{#if sortedByType}}
+              {{fa-icon 'caret-down'}}
+            {{/if}}
+          {{/link-to}}
+        </th>
+        <th class='u-textCentered'>
+          {{#link-to 'dashboard' (query-params sort=dateParam)}}
+            Date
+
+            {{#if sortedByDate}}
+              {{fa-icon 'caret-down'}}
+            {{/if}}
+          {{/link-to}}
+        </th>
+        <th class='u-textCentered'>
+          {{#link-to 'dashboard' (query-params sort=viewsParam)}}
+            Views
+
+            {{#if sortedByViews}}
+              {{fa-icon 'caret-down'}}
+            {{/if}}
+          {{/link-to}}
+        </th>
+        <th class='u-textCentered'>
+          {{#link-to 'dashboard' (query-params sort=commentsParam)}}
+            Comments
+
+            {{#if sortedByComments}}
+              {{fa-icon 'caret-down'}}
+            {{/if}}
+          {{/link-to}}
+        </th>
+        <th class='u-textCentered' colspan='2'>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each postings as |content|}}
+        {{dashboard-content-row
+          content=content
+          type=content.contentType
+        }}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
