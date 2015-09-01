@@ -7,23 +7,13 @@
     </h1>
 
     <div class='row Section'>
-      {{#each group.headItems as |post|}}
+      {{#each group.items as |post|}}
         <div class='col-sm-6 col-md-4 col-lg-3'>
           {{market-card post=post
             class='Card MarketCard u-flexColumn-2'
           }}
         </div>
       {{/each}}
-
-      {{#unless group.tailHidden}}
-        {{#each group.tailItems as |post|}}
-          <div class='col-sm-6 col-md-4 col-lg-3'>
-            {{market-card post=post
-              class='Card MarketCard u-flexColumn-2'
-            }}
-          </div>
-        {{/each}}
-      {{/unless}}
     </div>
 
     {{#if group.hasHiddenTailItems}}

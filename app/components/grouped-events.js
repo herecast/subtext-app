@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { buildGroup } from 'subtext-ui/models/concealed-group';
+import { buildGroup } from 'subtext-ui/lib/group-by-date';
 
 export default Ember.Component.extend({
   refreshParam: Ember.inject.service('refresh-param'),
