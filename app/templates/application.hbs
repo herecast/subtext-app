@@ -1,6 +1,11 @@
 <nav class='MainNav navbar navbar-default'>
   <div class='MainNav-content Container--noGutter'>
-    <div class='col-sm-8 col-sm-offset-2 u-textCentered'>
+    {{x-weather
+      class='h2 col-sm-2'
+      autoload=true
+    }}
+
+    <div class='col-sm-8 u-textCentered'>
       {{#link-to 'index'}}
         <h1 class='MainNav-brand'>
           daily UV
