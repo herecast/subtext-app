@@ -52,7 +52,7 @@
 
 <div class='form-group'>
   <label>Event Info</label>
-  <div class='form-group'>
+  {{#form-group error=errors.contactEmail}}
     <div class="input-group">
       <span class="ContentForm-iconLabel input-group-addon">
         {{fa-icon 'envelope'}}
@@ -63,8 +63,9 @@
         value=event.contactEmail
       }}
     </div>
-  </div>
-  <div class='form-group'>
+  {{/form-group}}
+
+  {{#form-group error=errors.contactPhone}}
     <div class="input-group">
       <span class="ContentForm-iconLabel input-group-addon">
         {{fa-icon 'phone'}}
@@ -75,8 +76,9 @@
         value=event.contactPhone
       }}
     </div>
-  </div>
-  <div class='form-group'>
+  {{/form-group}}
+
+  {{#form-group error=errors.eventUrl}}
     <div class="input-group">
       <span class="ContentForm-iconLabel input-group-addon">
         {{fa-icon 'link'}}
@@ -87,7 +89,7 @@
         value=event.eventUrl
       }}
     </div>
-  </div>
+  {{/form-group}}
 </div>
 
 <div class='form-group ContentForm-helpText'>

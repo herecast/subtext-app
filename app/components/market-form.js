@@ -12,8 +12,16 @@ export default Ember.Component.extend(Validation, {
     const hasEitherField = Ember.isPresent(email) || Ember.isPresent(phone);
 
     if (hasEitherField) {
-      this.set('errors.contact', null);
-      delete this.get('errors').contact;
+      if (this.hasValidEmail(email)) {
+        if (this.hasValidPhone(phone)) {
+          this.set('errors.contact', null);
+          delete this.get('errors').contact;
+        } else {
+          this.set('errors.contact', 'Invalid phone number');
+        }
+      } else {
+        this.set('errors.contact', 'Invalid email address');
+      }
     } else {
       this.set('errors.contact', 'Must include contact info');
     }
