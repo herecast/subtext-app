@@ -52,7 +52,7 @@ export default Ember.Component.extend(ManualDropdown, {
       data: {query: value}
     }).then((response) => {
       this.setProperties({
-        places: response.locations,
+        places: response.venue_locations,
         open: true,
         isSearching: false
       });
