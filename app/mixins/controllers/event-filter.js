@@ -50,7 +50,6 @@ export default Ember.Mixin.create({
   }.property('session.currentUser'),
 
   category: Ember.computed.oneWay('defaultCategory'),
-  location: Ember.computed.oneWay('defaultLocation'),
   query: Ember.computed.oneWay('defaultQuery'),
   date_start: Ember.computed.oneWay('defaultStart'),
   date_end: Ember.computed.oneWay('defaultEnd'),

@@ -5,7 +5,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: Ember.inject.service('intercom'),
 
   model() {
-    return this.get('session').getCurrentUser();
+    return this.get('session.currentUser');
   },
 
   actions: {

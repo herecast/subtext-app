@@ -14,6 +14,5 @@ export default Ember.Controller.extend(PaginatedFilter, {
   per_page: 14,
 
   query: 'Everything',
-  location: Ember.computed.oneWay('session.userLocation'),
   publication: 'Everyone'
 });
