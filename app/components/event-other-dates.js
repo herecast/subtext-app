@@ -9,7 +9,13 @@ export default Ember.Component.extend({
     const event = this.get('event');
 
     if (event) {
-      const startsAt = event.get('eventInstances.firstObject.startsAt');
+      let startsAt;
+
+      if (event.get('isNew')) {
+        startsAt = event.get('eventInstances.firstObject.startsAt');
+      } else {
+        startsAt = event.get('startsAt');
+      }
 
       return event.get('eventInstances').filter((instance) => {
         return instance.get('startsAt').isAfter(startsAt);
