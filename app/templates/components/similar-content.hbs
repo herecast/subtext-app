@@ -17,12 +17,14 @@
       {{/each}}
     </div>
 
-    <button class='btn btn-link' href='#' {{action 'toggleMore'}}>
-      {{#if showAll}}
-        View less {{fa-icon 'caret-up'}}
-      {{else}}
-        View more {{fa-icon 'caret-down'}}
-      {{/if}}
-    </button>
+    <div class='u-textCentered'>
+      <button class='Button btn h4' {{action 'toggleMore'}}>
+        {{#if showAll}}
+          View less {{fa-icon 'caret-up'}}
+        {{else}}
+          View more {{fa-icon 'caret-down'}}
+        {{/if}}
+      </button>
+    </div>
   </div>
 {{/if}}
