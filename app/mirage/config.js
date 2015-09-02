@@ -83,7 +83,7 @@ const talkBaseProperties = [
 ];
 
 const newsBaseProperties = [
-  'id', 'title', 'content_snippet', 'published_at', 'author_id', 'author_name',
+  'id', 'title', 'content', 'published_at', 'author_id', 'author_name',
   'publication_name','publication_id', 'image_url'
 ];
 

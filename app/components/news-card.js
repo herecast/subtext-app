@@ -17,5 +17,14 @@ export default Ember.Component.extend({
     const styles = `background-image: url(${url})`;
 
     return new Ember.Handlebars.SafeString(styles);
-  }.property('item.imageUrl')
+  }.property('item.imageUrl'),
+
+  content: function() {
+    const text = this.get('item.content');
+    const tmp = document.createElement("div");
+
+    tmp.innerHTML = text;
+
+    return tmp.textContent;
+  }.property('item.content')
 });

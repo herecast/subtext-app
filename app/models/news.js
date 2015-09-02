@@ -7,7 +7,6 @@ export default DS.Model.extend({
   authorName: DS.attr('string'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),
-  contentSnippet: DS.attr('string'),
   imageUrl: DS.attr('string'),
   images: DS.attr('raw', {defaultValue: []}),
   publicationId: DS.attr('number'),

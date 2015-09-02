@@ -31,7 +31,6 @@ function template(id) {
     author_name: faker.name.findName(),
     content: faker.lorem.paragraphs(4),
     content_id: faker.random.number(1000),
-    content_snippet: faker.lorem.sentences(4),
     image_url: imageUrl,
     images: images,
     publication_id: 1,
