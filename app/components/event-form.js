@@ -57,17 +57,6 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  validateContactPhone() {
-    const phone = this.get('event.contactPhone');
-
-    if (this.hasValidPhone(phone)) {
-      this.set('errors.contactPhone', null);
-      delete this.get('errors').contactPhone;
-    } else {
-      this.set('errors.contactPhone', 'Invalid phone number');
-    }
-  },
-
   validateEventUrl() {
     const url = this.get('event.eventUrl') || '';
 
@@ -85,7 +74,6 @@ export default Ember.Component.extend(Validation, {
     this.validateVenue();
     this.validateImage();
     this.validateContactEmail();
-    this.validateContactPhone();
     this.validateEventUrl();
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },

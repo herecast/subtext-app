@@ -13,12 +13,8 @@ export default Ember.Component.extend(Validation, {
 
     if (hasEitherField) {
       if (this.hasValidEmail(email)) {
-        if (this.hasValidPhone(phone)) {
-          this.set('errors.contact', null);
-          delete this.get('errors').contact;
-        } else {
-          this.set('errors.contact', 'Invalid phone number');
-        }
+        this.set('errors.contact', null);
+        delete this.get('errors').contact;
       } else {
         this.set('errors.contact', 'Invalid email address');
       }

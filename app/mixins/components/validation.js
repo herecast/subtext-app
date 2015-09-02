@@ -23,18 +23,6 @@ export default Ember.Mixin.create({
     return Ember.isBlank(email) || emailRegex.test(email);
   },
 
-  hasValidPhone(phone) {
-    const requiredDigits = 10;
-
-    if (Ember.isBlank(phone)) {
-      return true;
-    } else {
-      const actualDigits = phone.replace(/[^0-9]/g,"").length;
-
-      return requiredDigits === actualDigits;
-    }
-  },
-
   hasValidUrl(url) {
     // Copyright (c) 2010-2013 Diego Perini, MIT licensed
     // https://gist.github.com/dperini/729294
