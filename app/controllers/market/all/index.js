@@ -13,7 +13,6 @@ export default Ember.Controller.extend(PaginatedFilter, {
   per_page: 25,
 
   query: 'Everything',
-  location: Ember.computed.oneWay('session.userLocation'),
 
   isAllCommunities: Ember.computed.equal('location', 'All Communities')
 });

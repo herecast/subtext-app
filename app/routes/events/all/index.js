@@ -4,6 +4,10 @@ import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 
 export default Ember.Route.extend(Track, PaginatedFilter, {
   model(params) {
+    if (typeof params.location === 'undefined') {
+      params.location = this.get('session.userLocation');
+    }
+
     return this.store.find('event-instance', {
       category: params.category,
       query: params.query,
@@ -23,6 +27,10 @@ export default Ember.Route.extend(Track, PaginatedFilter, {
     const filterParams = controller.getProperties(
       'category', 'query', 'startDate', 'stopDate', 'location'
     );
+
+    if (typeof filterParams.location === 'undefined') {
+      filterParams.location = this.get('session.userLocation');
+    }
 
     this.controllerFor('events/all').setProperties(filterParams);
   }
