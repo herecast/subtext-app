@@ -6,19 +6,18 @@ export default Ember.Component.extend({
   showAll: false,
 
   eventInstances: function() {
-    const instance = this.get('instance');
+    const event = this.get('event');
 
-    if (instance) {
-      return instance.get('eventInstances').filter((item) => {
-        const differentInstance = instance.get('id') !== item.get('id');
-        const isUpcoming = item.get('startsAt').isAfter();
+    if (event) {
+      const startsAt = event.get('eventInstances.firstObject.startsAt');
 
-        return differentInstance && isUpcoming;
+      return event.get('eventInstances').filter((instance) => {
+        return instance.get('startsAt').isAfter(startsAt);
       });
     } else {
       return [];
     }
-  }.property('instance.eventInstances.[]'),
+  }.property('event.eventInstances.@each.startsAt'),
 
   hasMore: function() {
     return this.get('eventInstances.length') > initialCount;
