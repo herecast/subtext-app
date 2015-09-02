@@ -2,14 +2,14 @@
   <div class='Container--noGutter'>
     {{#if isFilteredByOneDay}}
       <h1 class='SectionHeader'>
-        <span class='SectionHeader-text SectionHeader-text--secondaryBg'>{{eventGroup.displayValue}}</span>
+        <span class='SectionHeader-text SectionHeader-text--secondaryBg'>{{group.displayValue}}</span>
       </h1>
     {{else}}
       <h1 class='SectionHeader'>
         {{link-to
-          eventGroup.displayValue
+          group.displayValue
           'events.all'
-          (query-params date_start=eventGroup.paramValue date_end=eventGroup.paramValue r=refreshParam.time)
+          (query-params date_start=group.paramValue date_end=group.paramValue r=refreshParam.time)
           tagName='span'
           class='SectionHeader-text SectionHeader-text--secondaryBg SectionHeader-link'
         }}
@@ -26,13 +26,5 @@
         </div>
       {{/each}}
     </div>
-
-    {{#if eventGroup.hasHiddenTailItems}}
-      <div class='center-block EventGroup-more'>
-        <a href='#' class='EventGroup-moreLink' {{action 'showTail' eventGroup}}>
-          Expand to view more {{fa-icon 'chevron-down'}}
-        </a>
-      </div>
-    {{/if}}
   </div>
 {{/each}}
