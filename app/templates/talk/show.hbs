@@ -102,10 +102,12 @@
   </h1>
   <div class='row'>
     {{content-comments
-        contentTitle=model.title
-        contentId=model.contentId
-        commentingDisabled=model.isNew
-      }}
+      comments=comments
+      scrollTo=scrollTo
+      contentTitle=model.title
+      contentId=model.contentId
+      commentingDisabled=model.isNew
+    }}
   </div>
 
   {{#unless isPreview}}

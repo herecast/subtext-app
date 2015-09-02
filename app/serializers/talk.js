@@ -11,6 +11,7 @@ export default ActiveModelSerializer.extend({
     delete json.author_image_url;
     delete json.view_count;
     delete json.commenter_count;
+    delete json.parent_content_id;
     delete json.published_at;
 
     return json;

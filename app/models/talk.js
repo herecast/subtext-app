@@ -12,6 +12,7 @@ export default DS.Model.extend({
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   listservId: DS.attr('number'), // write only
+  parentContentId: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
   viewCount: DS.attr('number'),
