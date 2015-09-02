@@ -10,8 +10,8 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   convert(record) {
     const type = record.content_type;
-    const views = record.pageviews_count;
-    const comments = record.comments_count;
+    const views = record.view_count;
+    const comments = record.comment_count;
     let modelName = '';
 
     if (type === 'news') {
