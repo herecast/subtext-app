@@ -3,6 +3,20 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   title: Ember.computed.oneWay('talk.title'),
 
+  linkId: function() {
+    const parentContentId = this.get('talk.parentContentId');
+
+    if (Ember.isPresent(parentContentId)) {
+      return parentContentId;
+    } else {
+      return this.get('talk.id');
+    }
+  }.property('talk.{id,parentContentId}'),
+
+  anchor: function() {
+    return `comment-${this.get('talk.id')}`;
+  }.property('talk.id'),
+
   numberText: function() {
     const count = this.get('talk.commenterCount');
 

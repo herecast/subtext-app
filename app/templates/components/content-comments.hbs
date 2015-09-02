@@ -1,9 +1,9 @@
 <div class='CommentSection'>
-
   <ol class='CommentSection-commentList {{unless showComments 'hidden-xs'}}'>
     {{#each comments as |comment|}}
       {{content-comment
         comment=comment
+        activeCommentId=activeCommentId
         comments=comments
         contentId=contentId
         contentTitle=contentTitle

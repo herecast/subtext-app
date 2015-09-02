@@ -14,6 +14,7 @@ function template(id) {
     content: faker.lorem.paragraphs(2),
     content_id: faker.random.number(1000),
     image_url: imageUrl,
+    parent_content_id: faker.random.number(1000),
     published_at: startsAt.toISOString(),
     commenter_count: faker.random.number(25),
     view_count: faker.random.number(1000),
