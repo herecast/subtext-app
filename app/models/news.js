@@ -20,6 +20,6 @@ export default DS.Model.extend({
   }.property('publishedAt'),
 
   bannerImage: function() {
-    return this.get('images').findBy('primary');
+    return this.get('images.firstObject');
   }.property('images')
 });
