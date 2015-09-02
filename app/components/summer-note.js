@@ -16,7 +16,17 @@ export default Ember.Component.extend({
       toolbar: [
         ['style', ['bold', 'italic', 'underline', 'clear']],
         ['insert', ['link']]
-      ]
+      ],
+      onCreateLink(url) {
+        url = url.trim();
+        const protocol = /^[a-z]+:/i;
+
+        if (!protocol.test(url)) {
+          url = 'http://' + url;
+        }
+
+        return url;
+      }
     });
 
     var content = this.get('content');
