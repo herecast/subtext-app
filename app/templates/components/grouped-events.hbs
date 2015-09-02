@@ -26,13 +26,5 @@
         </div>
       {{/each}}
     </div>
-
-    {{#if eventGroup.hasHiddenTailItems}}
-      <div class='center-block EventGroup-more'>
-        <a href='#' class='EventGroup-moreLink' {{action 'showTail' eventGroup}}>
-          Expand to view more {{fa-icon 'chevron-down'}}
-        </a>
-      </div>
-    {{/if}}
   </div>
 {{/each}}
