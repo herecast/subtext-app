@@ -56,7 +56,7 @@
           </li>
         {{else}}
           <li>{{link-to 'Sign in' 'login'}}</li>
-          <li><a href='/users/sign_up'>Sign up</a></li>
+          <li>{{link-to 'Sign up' 'register'}}</li>
         {{/if}}
       </ul>
     {{/if}}
@@ -87,7 +87,7 @@
         </li>
       {{else}}
         <li class='ActionDropdown-item'>{{link-to 'Sign in' 'login' class='h4 ActionDropdown-item'}}</li>
-        <li class='ActionDropdown-item'><a href='/users/sign_up' class='h4 ActionDropdown-item'>Sign up</a></li>
+        <li class='ActionDropdown-item'>{{link-to 'Sign up' 'register' class='h4 ActionDropdown-item'}}</li>
       {{/if}}
     </ul>
   {{/if}}
