@@ -52,7 +52,7 @@ export default Ember.Component.extend(ManualDropdown, {
       data: {query: value}
     }).then((response) => {
       this.setProperties({
-        publications: response.publications,
+        publications: response.publications.mapBy('name'),
         open: true,
         isSearching: false
       });

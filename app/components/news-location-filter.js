@@ -44,15 +44,19 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const url = `/${config.API_NAMESPACE}/venue_locations`;
+    const url = `/${config.API_NAMESPACE}/locations`;
 
     this.set('location', value);
 
     ajax(url, {
       data: {query: value}
     }).then((response) => {
+      const locations = response.locations.map((location) => {
+        return `${location.city}, ${location.state}`;
+      });
+
       this.setProperties({
-        places: response.venue_locations,
+        places: locations,
         open: true,
         isSearching: false
       });

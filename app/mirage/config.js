@@ -250,7 +250,10 @@ export default function() {
     // no results so we can see what that looks like in the UI
     if (request.queryParams.query.indexOf('empty') !== 0) {
       for (let i = 1; i < 5; i += 1) {
-        publications.push(faker.company.companyName());
+        publications.push({
+          id: i,
+          name: faker.company.companyName()
+        });
       }
     }
 
