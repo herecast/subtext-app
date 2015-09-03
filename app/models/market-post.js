@@ -10,6 +10,7 @@ export default DS.Model.extend({
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),
+  extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   hasContactInfo: DS.attr('boolean'),
   imageUrl: DS.attr('string'),
   listservIds: DS.attr('raw', {defaultValue: []}),

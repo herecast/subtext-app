@@ -15,6 +15,13 @@
     </p>
     <ul class='ContentPreview-propertyList'>
       {{#disabled-checkbox
+        checked=model.extendedReachEnabled
+        tagName='li'
+        class='ContentPreview-summaryProperty'
+      }}
+        Extend Your Reach
+      {{/disabled-checkbox}}
+      {{#disabled-checkbox
         checked=model.listsEnabled
         tagName='li'
         class='ContentPreview-summaryProperty'

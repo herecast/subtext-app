@@ -1,4 +1,26 @@
 <div class='PromotionSection'>
+  <label class='PromotionSection-label' for="extended-reach">Expand Your Reach! <span class='PromotionSection-cost'>(Free)</span></label>
+  <p class='PromotionSection-description'>
+    By default, your listing will show only to registered users viewing the
+    {{session.userLocation}} Market. If you want your listing shown to all users, turn this on.
+  </p>
+  <div class='row'>
+    <div class='col-sm-6'>
+      <div {{action 'toggleProperty' 'post.extendedReachEnabled'}} class='PromotionSection-toggle'>
+        {{#if post.extendedReachEnabled}}
+          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+        {{else}}
+          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+        {{/if}}
+      </div>
+    </div>
+    <div class='col-sm-6'>
+      <img class='img-responsive' src="/images/extended-reach-map.png">
+    </div>
+  </div>
+</div>
+
+<div class='PromotionSection'>
   <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
   <p class='PromotionSection-description'>
     Are you subscribed to one or more Upper Valley listservs? Send them a
