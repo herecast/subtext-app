@@ -6,7 +6,7 @@ import {
 moduleForComponent('event-filter', {
   // Specify the other units that are required for this test
   needs: ['component:event-category-filter', 'component:event-date-filter',
-    'component:event-location-filter', 'component:sign-in-link', 'helper:fa-icon']
+    'component:event-location-filter', 'helper:fa-icon']
 });
 
 test('it renders', function(assert) {

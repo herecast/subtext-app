@@ -1,9 +1,3 @@
 {{#if showButton}}
-  {{#if session.currentUser}}
-    {{link-to linkText route class=buttonClass}}
-  {{else}}
-    {{#sign-in-link class=buttonClass redirectTo=redirectTo}}
-      {{linkText}}
-    {{/sign-in-link}}
-  {{/if}}
+  {{link-to linkText route class=buttonClass}}
 {{/if}}
