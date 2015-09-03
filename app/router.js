@@ -66,6 +66,9 @@ Router.map(function() {
       this.route('preview');
     });
   });
+
+  this.route('terms');
+  this.route('privacy');
 });
 
 export default Router;
