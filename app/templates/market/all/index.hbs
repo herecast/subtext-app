@@ -12,16 +12,6 @@
   </div>
 </div>
 
-<div class='Container--noGutter'>
-  <div class='ContentDescription'>
-    {{#if isAllCommunities}}
-      A search of all Market listings except for those posters limited to their own town.
-    {{else}}
-      A search of all Market listings intended only for users registered to {{session.userLocation}}.
-    {{/if}}
-  </div>
-</div>
-
 {{#if model}}
   {{grouped-market-posts
     marketPosts=model
