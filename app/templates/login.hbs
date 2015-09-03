@@ -36,20 +36,38 @@
         </form>
       </div>
     </div>
+  </div>
 
+  <div>
     <h1 class='SectionHeader'>
       <span class='SectionHeader-text SectionHeader-text--secondaryBg'>New to the site?</span>
     </h1>
 
-    <div class='Section'>
-      <h6>
-        Joining DailyUV brings you news, events, market listings, and talk for your community every day.
-      </h6>
+    <div class='row Section'>
+      <div class='col-md-8 col-md-offset-2'>
+        <div class='u-textCentered'>
+          {{#link-to 'register' class='Button Button--primary btn'}}
+            Join
+          {{/link-to}}
+        </div>
 
-      <div>
-        {{#link-to 'register' class='Button Button--primary btn'}}
-          Join
-        {{/link-to}}
+        <p class='h6'>
+          By using dailyuv.com, you agree to our
+          {{link-to 'terms of service' 'terms' class='u-textUnderline'}}.
+          Review our {{link-to 'privacy policy' 'privacy' class='u-textUnderline'}}.
+        </p>
+
+        <p class='h6'>
+          A portion of dailyUV.com includes an alternative presentation of
+          content primarily published through email discussion lists maintained
+          by <a href='http://www.vitalcommunities.org/' target='_blank' class='u-textUnderline'>Vital Communities</a>.
+
+          There is no legal or financial affiliation between Vital Communities
+          and Subtext Media, Ltd. Nevertheless, content published through or to
+          these email discussion lists is subject to
+          <a href='http://lists.vitalcommunities.org/lists/lists' target='_blank' class='u-textUnderline'>Vital Communities’ guidelines, rules and legal disclaimers</a>
+          for each individual list.
+        </p>
       </div>
     </div>
   </div>

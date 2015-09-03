@@ -46,15 +46,17 @@
 
           <div class='form-group'>
             <label>Review test site terms of service</label>
-            {{partial 'terms-of-service'}}
+            <div class='TermsOfService well'>
+              {{partial 'terms-of-service'}}
+            </div>
           </div>
 
           {{#form-group class='u-textPullLeft'}}
-              {{input
-                id='terms'
-                type="checkbox"
-                checked=termsAccepted
-              }}
+            {{input
+              id='terms'
+              type="checkbox"
+              checked=termsAccepted
+            }}
             <label for='terms'>
               I agree
             </label>
