@@ -15,6 +15,7 @@ export default Ember.Component.extend({
 
     if (startDate && pikaday) {
       pikaday.setMinDate(startDate);
+      pikaday.gotoDate(startDate);
     }
   }.observes('customStartDate'),
 
