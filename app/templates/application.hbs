@@ -6,7 +6,7 @@
     }}
 
     <div class='col-sm-8 u-textCentered'>
-      {{#link-to 'index'}}
+      {{#link-to 'index' (query-params page=1)}}
         <h1 class='MainNav-brand'>
           daily UV
           {{#if session.isAuthenticated}}
@@ -102,22 +102,22 @@
 
       <ul class='SectionNavigation-list col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-1'>
         <li class='SectionNavigation-listItem'>
-          {{#link-to 'news' class='SectionNavigation-link SectionNavigation-newsLink'}}
+          {{#link-to 'news' (query-params page=1) class='SectionNavigation-link SectionNavigation-newsLink'}}
             News
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem'>
-          {{#link-to 'events' class='SectionNavigation-link SectionNavigation-eventLink'}}
+          {{#link-to 'events' (query-params page=1) class='SectionNavigation-link SectionNavigation-eventLink'}}
             Events
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem'>
-          {{#link-to 'talk' class='SectionNavigation-link SectionNavigation-talkLink'}}
+          {{#link-to 'talk' (query-params page=1) class='SectionNavigation-link SectionNavigation-talkLink'}}
             Talk
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem'>
-          {{#link-to 'market' class='SectionNavigation-link SectionNavigation-marketLink'}}
+          {{#link-to 'market' (query-params page=1) class='SectionNavigation-link SectionNavigation-marketLink'}}
             Market
           {{/link-to}}
         </li>
