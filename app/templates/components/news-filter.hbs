@@ -6,7 +6,7 @@
         <span class='FilterBar-text'>{{fa-icon 'search'}} Show me</span>
         {{content-query-filter
           query=query
-          tagName='span'
+          class='FilterBar-filter'
           submit='submit'
           type='news'
         }}
@@ -15,7 +15,7 @@
         <span class='FilterBar-text'>published by</span>
         {{news-publication-filter
           publication=publication
-          tagName='span'
+          class='FilterBar-filter'
           submit='submit'
         }}
       </div>
@@ -23,7 +23,7 @@
         <span class='FilterBar-text'>in</span>
         {{news-location-filter
           location=location
-          tagName='span'
+          class='FilterBar-filter'
           submit='submit'
         }}
       </div>
