@@ -14,56 +14,62 @@
   </div>
 </div>
 
-<h1 class='SectionHeader'></h1>
+{{#if item3}}
+  <h1 class='SectionHeader'></h1>
 
-<div class='row'>
-  <div class='col-sm-3'>
-    {{content-card item=item3}}
+  <div class='row'>
+    <div class='col-sm-3'>
+      {{content-card item=item3}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item4}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item5}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item6}}
+    </div>
   </div>
-  <div class='col-sm-3'>
-    {{content-card item=item4}}
-  </div>
-  <div class='col-sm-3'>
-    {{content-card item=item5}}
-  </div>
-  <div class='col-sm-3'>
-    {{content-card item=item6}}
-  </div>
-</div>
+{{/if}}
 
-<h1 class='SectionHeader'></h1>
+{{#if newsItem2}}
+  <h1 class='SectionHeader'></h1>
 
-<div class='row'>
-  <div class='col-sm-8'>
-    {{#link-to 'news'}}
-      <h6>news</h6>
-    {{/link-to}}
+  <div class='row'>
+    <div class='col-sm-8'>
+      {{#link-to 'news'}}
+        <h6>news</h6>
+      {{/link-to}}
 
-    {{news-card-wide item=newsItem2}}
+      {{news-card-wide item=newsItem2}}
+    </div>
+    <div class='NewsCard-verticalDivide col-sm-1'>
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item7}}
+      {{content-card item=item8}}
+    </div>
   </div>
-  <div class='NewsCard-verticalDivide col-sm-1'>
-  </div>
-  <div class='col-sm-3'>
-    {{content-card item=item7}}
-    {{content-card item=item8}}
-  </div>
-</div>
+{{/if}}
 
-<h1 class='SectionHeader'></h1>
+{{#if item9}}
+  <h1 class='SectionHeader'></h1>
 
-<div class='row'>
-  <div class='col-sm-3'>
-    {{content-card item=item9}}
+  <div class='row'>
+    <div class='col-sm-3'>
+      {{content-card item=item9}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item10}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item11}}
+    </div>
+    <div class='col-sm-3'>
+      {{content-card item=item12}}
+    </div>
   </div>
-  <div class='col-sm-3'>
-    {{content-card item=item10}}
-  </div>
-  <div class='col-sm-3'>
-    {{content-card item=item11}}
-  </div>
-  <div class='col-sm-3'>
-    {{content-card item=item12}}
-  </div>
-</div>
+{{/if}}
 
 <h1 class='SectionHeader'></h1>
