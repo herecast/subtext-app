@@ -1,8 +1,11 @@
 .NewsPhotoBanner {
-  background-color: @gray-light;
-  border-top: 1px solid @text-color;
+  background-color: @gray-dark;
   position: relative;
-  top: -1px;
+  text-align: center;
+  top: -2px;
+  @media (min-width: @screen-sm-min) {
+    border-top: 2px solid white;
+  }
 }
 
 .NewsPhotoBanner-photoContainer {
@@ -12,15 +15,8 @@
 }
 
 .NewsPhotoBanner-photo {
-  background-color: transparent;
-  background-position: center;
-  background-size: cover;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-  position: absolute;
-  right: 0;
-  top: 0;
+  display: inline;
+  max-height: 500px;
 }
 
 .NewsPhotoBanner-captionArea {

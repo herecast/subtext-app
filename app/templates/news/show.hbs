@@ -1,13 +1,22 @@
 {{#if model.bannerImage}}
-  <section class='NewsPhotoBanner'>
-    <div class='Container--noGutter NewsPhotoBanner-photoContainer'>
-      {{#background-image imageUrl=model.bannerImage.url class='NewsPhotoBanner-photo'}}
-        <div class='NewsPhotoBanner-captionArea'>
-          {{model.bannerImage.caption}} / Source: {{model.bannerImage.credit}}
+  <div class='NewsPhotoBanner'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-8 col-sm-offset-2'>
+          <img class='NewsPhotoBanner-photo img-responsive' src={{model.bannerImage.url}}>
+          {{#if hasCaptionOrCredit}}
+            <div class='NewsPhotoBanner-captionArea'>
+              {{model.bannerImage.caption}}
+
+              {{#if model.bannerImage.credit}}
+                / Source: {{model.bannerImage.credit}}
+              {{/if}}
+            </div>
+          {{/if}}
         </div>
-      {{/background-image}}
+      </div>
     </div>
-  </section>
+  </div>
 {{/if}}
 
 <div class='Container--noGutter News'>

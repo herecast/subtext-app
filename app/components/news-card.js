@@ -15,13 +15,6 @@ export default Ember.Component.extend({
     return moment(this.get('item.publishedAt')).format('L');
   }.property('item.publishedAt'),
 
-  backgroundImage: function() {
-    const url = this.get('item.imageUrl');
-    const styles = `background-image: url(${url})`;
-
-    return new Ember.Handlebars.SafeString(styles);
-  }.property('item.imageUrl'),
-
   content: function() {
     const text = this.get('item.content');
     const tmp = document.createElement("div");
