@@ -29,6 +29,7 @@ function template(id) {
     id: id,
     author_id: 1,
     author_name: faker.name.findName(),
+    comment_count: faker.random.number(8),
     content: faker.lorem.paragraphs(4),
     content_id: faker.random.number(1000),
     image_url: imageUrl,
