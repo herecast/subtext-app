@@ -28,10 +28,6 @@ export default Ember.Route.extend(Track, PaginatedFilter, {
       'category', 'query', 'startDate', 'stopDate', 'location'
     );
 
-    if (typeof filterParams.location === 'undefined') {
-      filterParams.location = this.get('session.userLocation');
-    }
-
-    this.controllerFor('events/all').setProperties(filterParams);
+    this.setupFilter('events/all', filterParams);
   }
 });
