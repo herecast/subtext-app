@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   style: function() {
     const imageUrl = this.get('imageUrl');
 
-    return `background-image: url('${imageUrl}')`.htmlSafe();
+    if (imageUrl) {
+      return `background-image: url('${imageUrl}')`.htmlSafe();
+    }
   }.property('imageUrl')
 });
