@@ -11,7 +11,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   showPasswordForm: false,
   actions: {
     submit() {
-      this.get('model').save();
+      this.get('currentUser.content').save();
     },
     togglePasswordForm() {
       this.toggleProperty('showPasswordForm');
