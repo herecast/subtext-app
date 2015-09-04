@@ -18,6 +18,20 @@ export default Ember.Mixin.create({
     });
   },
 
+  // Set the query params on the parent events controller so that it's
+  // available in the filter on the index and show pages.
+  setupFilter(controllerName, filterParams) {
+    if (typeof filterParams.location === 'undefined') {
+      filterParams.location = this.get('session.userLocation');
+    }
+
+    const controller = this.controllerFor(controllerName);
+
+    if (typeof controller.get('location') === 'undefined') {
+      controller.setProperties(filterParams);
+    }
+  },
+
   actions: {
     updateFilter(filterParams) {
       filterParams.page = 1;

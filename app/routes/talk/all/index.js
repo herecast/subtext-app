@@ -20,6 +20,6 @@ export default Ember.Route.extend(Track, PaginatedFilter, {
     // available in the filter on the index and show pages.
     const filterParams = controller.getProperties('query');
 
-    this.controllerFor('talk/all').setProperties(filterParams);
+    this.setupFilter('talk/all', filterParams);
   }
 });

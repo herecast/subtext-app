@@ -20,16 +20,10 @@ export default Ember.Route.extend(Track, PaginatedFilter, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    // Set the query params on the parent events controller so that it's
-    // available in the filter on the index and show pages.
     const filterParams = controller.getProperties(
       'query', 'location', 'publication'
     );
 
-    if (typeof filterParams.location === 'undefined') {
-      filterParams.location = this.get('session.userLocation');
-    }
-
-    this.controllerFor('news/all').setProperties(filterParams);
+    this.setupFilter('news/all', filterParams);
   }
 });

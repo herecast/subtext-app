@@ -25,10 +25,6 @@ export default Ember.Route.extend(Track, PaginatedFilter, {
     // available in the filter on the index and show pages.
     const filterParams = controller.getProperties('query', 'location');
 
-    if (typeof filterParams.location === 'undefined') {
-      filterParams.location = this.get('session.userLocation');
-    }
-
-    this.controllerFor('market/all').setProperties(filterParams);
+    this.setupFilter('market/all', filterParams);
   }
 });
