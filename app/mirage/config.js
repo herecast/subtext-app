@@ -169,6 +169,8 @@ export default function() {
     };
   });
 
+  this.post('/users/logout', function() {});
+
   this.get('/current_user', function(db) {
     var current_user = db.current_users.find(1);
 

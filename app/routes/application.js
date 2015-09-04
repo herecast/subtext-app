@@ -10,7 +10,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
   actions: {
     signOut() {
-      this.get('session').invalidate();
+      this.get('session').signOut();
     },
 
     didTransition: function() {

@@ -1,10 +1,24 @@
 import Ember from 'ember';
 import SimpleAuthSession from 'simple-auth/session';
+import config from '../config/environment';
+import ajax from 'ic-ajax';
 
 export default SimpleAuthSession.extend({
   userService: Ember.inject.service('user'),
   mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
+
+  signOut() {
+    const url = `${config.API_NAMESPACE}/users/logout`;
+
+    // We do this async and log the user out from ember simple auth just in
+    // case it fails on the API. Don't want the user to not be able to log out.
+    ajax(url, {
+      type: 'POST'
+    });
+
+    this.invalidate();
+  },
 
   getCurrentUser: function() {
     const email = this.get('secure.email');
