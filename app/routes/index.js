@@ -2,8 +2,9 @@ import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 import PaginatedFilter from '../mixins/routes/paginated-filter';
+import History from '../mixins/routes/history';
 
-export default Ember.Route.extend(PaginatedFilter, {
+export default Ember.Route.extend(PaginatedFilter, History, {
   contentModel: Ember.inject.service('content-model'),
 
   model(params) {
