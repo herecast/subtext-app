@@ -16,11 +16,11 @@ export default Ember.Service.extend({
 
     if (type === 'news') {
       modelName = 'news';
-    } else if (type === 'event') {
+    } else if (type === 'event' || type === 'Event') {
       modelName = 'event-instance';
-    } else if (type === 'market') {
+    } else if (type === 'market' || type === 'MarketPost') {
       modelName = 'market-post';
-    } else if (type === 'talk_of_the_town') {
+    } else if (type === 'talk_of_the_town' || type === 'Comment') {
       modelName = 'talk';
     }
 

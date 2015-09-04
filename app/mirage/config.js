@@ -108,7 +108,7 @@ function mixedContent(db) {
 
   db.market_posts.slice(0,1).map((item) => {
     const record = Ember.getProperties(item, marketPostBaseProperties);
-    record.content_type = 'market';
+    record.content_type = 'MarketPost';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
     contents.push(record);
@@ -132,7 +132,7 @@ function mixedContent(db) {
 
   db.event_instances.slice(0,1).map((item) => {
     const record = Ember.getProperties(item, eventBaseProperties);
-    record.content_type = 'event';
+    record.content_type = 'Event';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
     contents.push(record);
@@ -140,7 +140,7 @@ function mixedContent(db) {
 
   db.talks.slice(0,2).map((item) => {
     const record = Ember.getProperties(item, talkBaseProperties);
-    record.content_type = 'talk_of_the_town';
+    record.content_type = 'Comment';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
     contents.push(record);
