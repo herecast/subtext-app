@@ -22,16 +22,16 @@ export default Ember.Controller.extend(EventFilter, PaginatedFilter, {
     resetFilters() {
       this.get('mixpanel').trackEvent('Event Search Reset');
 
-      this.transitionToRoute('events', {
-        queryParams: {
-          category: this.get('defaultCategory'),
-          location: this.get('defaultLocation'),
-          query: this.get('defaultQuery'),
-          date_start: this.get('defaultStart'),
-          date_end: this.get('defaultEnd'),
-          r: this.get('refreshParam.time')
-        }
-      });
+      const params = {
+        category: this.get('defaultCategory'),
+        location: this.get('defaultLocation'),
+        query: this.get('defaultQuery'),
+        date_start: this.get('defaultStart'),
+        date_end: this.get('defaultEnd'),
+        r: this.get('refreshParam.time')
+      };
+
+      this.send('resetFilter', 'events/all', params);
     }
   }
 });
