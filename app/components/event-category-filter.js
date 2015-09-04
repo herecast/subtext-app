@@ -85,7 +85,6 @@ export default Ember.Component.extend({
       // category from the dropdown menu.
       Ember.run.later(() => {
         this.updateFilter();
-        this.$('input').blur();
       }, 10);
     },
 

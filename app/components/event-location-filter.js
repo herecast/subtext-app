@@ -70,7 +70,6 @@ export default Ember.Component.extend(ManualDropdown, {
       // This prevents the input from being selected when a user chooses a
       // location from the dropdown menu.
       Ember.run.later(() => {
-        this.$('input').blur();
         this.updateFilter();
       }, 10);
     },
