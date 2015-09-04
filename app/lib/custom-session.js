@@ -59,8 +59,6 @@ export default SimpleAuthSession.extend({
 
     if (Ember.isPresent(user)) {
       return user.get('location');
-    } else {
-      return 'Hartford, VT';
     }
   }.property('currentUser.location')
 });

@@ -21,11 +21,13 @@
     </a>
   </li>
 
-  <li>
-    <a href='#' {{action 'setLocation' session.userLocation}} tabindex='-1'>
-      {{session.userLocation}}
-    </a>
-  </li>
+  {{#if session.isAuthenticated}}
+    <li>
+      <a href='#' {{action 'setLocation' session.userLocation}} tabindex='-1'>
+        {{session.userLocation}}
+      </a>
+    </li>
+  {{/if}}
 
   {{#if hasPerformedSearch}}
     <li role="presentation" class="divider"></li>
