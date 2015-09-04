@@ -43,6 +43,7 @@
 }
 
 .FilterBar-text {
+  color: @gray-medium;
   margin: 15px 4px 15px 0;
   width: 50%;
 }
@@ -53,7 +54,8 @@
 }
 
 .FilterBar-input {
-  .placeholder(@color: #cccccc);
+  .placeholder(@color: @gray-light);
+  color: #000;
 }
 
 .FilterBar-filter {
@@ -62,20 +64,4 @@
 
 .FilterBar-inputLocation {
   width: 185px;
-}
-
-.FilterBar--event {
-  color: @event-brand;
-}
-
-.FilterBar--talk {
-  color: @talk-brand;
-}
-
-.FilterBar--market {
-  color: @market-brand;
-}
-
-.FilterBar--news {
-  color: @news-brand;
 }

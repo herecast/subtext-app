@@ -2,13 +2,6 @@ import Ember from 'ember';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Ember.Component.extend(ManualDropdown, {
-  inputClass: function() {
-    const klass = 'Dropdown-input FilterBar-input dropdown-toggle';
-    const type = this.get('type');
-
-    return `${klass} FilterBar--${type}`;
-  }.property('type'),
-
   click() {
     this.$('input').select();
   },
