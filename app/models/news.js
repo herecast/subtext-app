@@ -5,6 +5,7 @@ export default DS.Model.extend({
   adminContentUrl: DS.attr('string'),
   authorId: DS.attr('number'),
   authorName: DS.attr('string'),
+  commentCount: DS.attr('number'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),

@@ -7,6 +7,7 @@ import moment from 'moment';
 export default DS.Model.extend({
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
+  commentCount: DS.attr('number'),
   commenterCount: DS.attr('number'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),

@@ -7,6 +7,7 @@ export default DS.Model.extend(BaseEvent, {
   adminContentUrl: DS.attr('string'),
 
   canEdit: DS.attr('boolean'),
+  commentCount: DS.attr('number'),
   contentId: DS.attr('number'),
   eventId: DS.attr('number'),
   eventInstances: DS.hasMany('other-event-instance'),

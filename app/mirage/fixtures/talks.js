@@ -11,6 +11,7 @@ function template(id) {
   return {
     id: id,
     title: titleize(faker.lorem.sentences(1)),
+    comment_count: faker.random.number(8),
     content: faker.lorem.paragraphs(2),
     content_id: faker.random.number(1000),
     image_url: imageUrl,
