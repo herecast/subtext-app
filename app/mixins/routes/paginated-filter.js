@@ -21,10 +21,6 @@ export default Ember.Mixin.create({
   // Set the query params on the parent events controller so that it's
   // available in the filter on the index and show pages.
   setupFilter(controllerName, filterParams) {
-    if (typeof filterParams.location === 'undefined') {
-      filterParams.location = this.get('session.userLocation');
-    }
-
     const controller = this.controllerFor(controllerName);
 
     if (typeof controller.get('location') === 'undefined') {
@@ -50,6 +46,15 @@ export default Ember.Mixin.create({
       const nextPage = this.controller.get('page') + 1;
 
       this.goToPage(nextPage);
+    },
+
+    resetFilter(controllerName, filterParams) {
+      const controller = this.controllerFor(controllerName);
+
+      filterParams['startDate'] = filterParams['date_start'];
+      filterParams['stopDate'] = filterParams['date_end'];
+      controller.setProperties(filterParams);
+      this.send('updateFilter', filterParams);
     }
   }
 });

@@ -18,38 +18,13 @@ export default Ember.Mixin.create({
     return null;
   }.property(),
 
-  defaultLocation: function() {
-    const location = this.get('session.currentUser.location');
+  defaultLocation: 'All Communities',
 
-    if (Ember.isPresent(location)) {
-      return location;
-    } else {
-      return 'All Communities';
-    }
-  }.property('session.currentUser.location'),
-
-  defaultStart: function() {
-    const currentUser = this.get('session.currentUser');
-
-    if (currentUser) {
-      return Dates.startOfMonth();
-    } else {
-      return Dates.today();
-    }
-  }.property('session.currentUser'),
-
-  defaultEnd: function() {
-    const currentUser = this.get('session.currentUser');
-
-    if (currentUser) {
-      return Dates.endOfMonth();
-    } else {
-      return Dates.today();
-    }
-
-  }.property('session.currentUser'),
+  defaultStart: Dates.startOfWeek(),
+  defaultEnd: Dates.endOfWeek(),
 
   category: Ember.computed.oneWay('defaultCategory'),
+  location: Ember.computed.oneWay('defaultLocation'),
   query: Ember.computed.oneWay('defaultQuery'),
   date_start: Ember.computed.oneWay('defaultStart'),
   date_end: Ember.computed.oneWay('defaultEnd'),

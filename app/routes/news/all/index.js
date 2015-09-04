@@ -5,10 +5,6 @@ import History from '../../../mixins/routes/history';
 
 export default Ember.Route.extend(Track, PaginatedFilter, History, {
   model(params) {
-    if (typeof params.location === 'undefined') {
-      params.location = this.get('session.userLocation');
-    }
-
     return this.store.find('news', {
       query: params.query,
       location: params.location,
