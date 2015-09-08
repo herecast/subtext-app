@@ -139,23 +139,25 @@
       </div>
 
       <div class='col-md-2 u-layoutMobilePadding0'>
-        {{!-- {{social-share}} --}}
+        {{#floating-side-column enabled=media.isDesktop}}
+          {{!-- {{social-share}} --}}
 
-        {{report-content-details contentId=model.contentId}}
+          {{report-content-details contentId=model.contentId}}
 
-        {{#if model.canEdit}}
-          {{edit-content-link
-            contentId=model.eventId
-            route='events.edit'
-            text='Edit Event'
+          {{#if model.canEdit}}
+            {{edit-content-link
+              contentId=model.eventId
+              route='events.edit'
+              text='Edit Event'
+            }}
+          {{/if}}
+
+          {{comment-bubble
+            type='event'
+            count=model.commentCount
+            class='hidden-xs hidden-sm'
           }}
-        {{/if}}
-
-        {{comment-bubble
-          type='event'
-          count=model.commentCount
-          class='hidden-xs hidden-sm'
-        }}
+        {{/floating-side-column}}
       </div>
     </div>
 
