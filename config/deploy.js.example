@@ -1,16 +1,17 @@
 module.exports = {
   "production": {
-    "store": {
-      "type": "Navis",
-      "appKey": "VK4WrwnVqORle4jWVZOE",
-      "userSecret": process.env.NAVIS_DEPLOY_SECRET,
-      "userKey": process.env.NAVIS_DEPLOY_KEY
-    },
     "assets": {
-      "type": "s3",
       "accessKeyId": "",
       "secretAccessKey": "",
-      "bucket": ""
+      "bucket": "subtext-consumer",
+      "prefix": "dist",
+      "distPrefix": "dist-{{SHA}}"
+    },
+    "index": {
+      "app": "ux2",
+      "endpoints": [
+        "http://stage-ember.subtext.org"
+      ]
     }
   }
 };

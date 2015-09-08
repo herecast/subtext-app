@@ -4,7 +4,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp({
   'fingerprint': {
-    prepend: '//subtext-test-deploys.s3.amazonaws.com/',
+    prepend: 'https://s3.amazonaws.com/subtext-consumer/dist/',
 
     // SVG images are not fingerprinted by default so we have to specify
     // them along with the others that are in the default list.
