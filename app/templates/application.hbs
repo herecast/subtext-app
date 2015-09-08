@@ -9,9 +9,13 @@
       {{#link-to 'index' (query-params page=1)}}
         <h1 class='MainNav-brand'>
           daily UV
-          {{#if session.isAuthenticated}}
-            <span class='MainNav-location'>{{session.userLocation}}</span>
-          {{/if}}
+          <span class='MainNav-location'>
+            {{#if session.isAuthenticated}}
+              {{session.userLocation}}
+            {{else}}
+              Guest
+            {{/if}}
+          </span>
         </h1>
       {{/link-to}}
     </div>
