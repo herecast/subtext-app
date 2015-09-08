@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   title: Ember.computed.oneWay('talk.title'),
+  isNarrow: false,
 
   linkId: function() {
     const parentContentId = this.get('talk.parentContentId');

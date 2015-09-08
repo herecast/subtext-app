@@ -23,8 +23,8 @@
 
 <div class='TalkCard-stats'>
   <div class='row'>
-    <div class='col-xs-offset-1 col-xs-5 col-md-offset-0 col-md-6'>
-      <div class='StatCircle StatCircle--left'>
+    <div class='{{if isNarrow 'col-sm-6 u-layoutPadding0' 'col-xs-offset-1 col-xs-5 col-md-offset-0 col-md-6'}}'>
+      <div class='StatCircle StatCircle--left {{if isNarrow 'StatCircle--small'}}'>
         <div class='StatCircle-number'>
           {{talk.commenterCount}}
         </div>
@@ -33,8 +33,8 @@
         </div>
       </div>
     </div>
-    <div class='col-md-6 col-xs-5'>
-      <div class='StatCircle StatCircle--right'>
+    <div class='{{if isNarrow 'col-sm-6 u-layoutPadding0' 'col-md-6 col-xs-5'}}'>
+      <div class='StatCircle StatCircle--right {{if isNarrow 'StatCircle--small'}}'>
         <div class='StatCircle-number'>
           {{talk.viewCount}}
         </div>
