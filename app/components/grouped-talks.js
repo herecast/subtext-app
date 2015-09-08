@@ -10,6 +10,6 @@ export default Ember.Component.extend({
 
     return buildGroup(talks, groupBy, 'dddd, MMMM D', function(date) {
       return date.format('L');
-    });
+    }).toArray().reverse();
   }.property('talks.@each.publishedAt')
 });

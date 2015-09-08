@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   news: [],
 
   orderedNews: function() {
-    return this.get('news').sortBy('publishedAt');
+    return this.get('news').sortBy('publishedAt').toArray().reverse();
   }.property('news.@each.publishedAt'),
 
   item1: item(1),
