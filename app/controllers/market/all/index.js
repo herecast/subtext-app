@@ -11,7 +11,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   r: false,
 
   page: 1,
-  per_page: 25,
+  per_page: 24,
 
   defaultQuery: 'Everything',
   defaultLocation: 'All Communities',
