@@ -6,14 +6,20 @@
   <img class='img-responsive' src='/images/comment-bubble-event.svg'>
 {{/if}}
 
-<div class='CommentBubble-content'>
+<div class='CommentBubble-content {{if showCount 'CommentBubble-content--hasCount'}}'>
   <a href='#' {{action 'scrollToComments'}}>
-    <div class='CommentBubble-contentCount'>
-      {{count}}
-    </div>
+    {{#if showCount}}
+      <div class='CommentBubble-contentCount'>
+        {{count}}
+      </div>
 
-    <div class='CommentBubble-contentLabel'>
-      {{commentLabel}}
-    </div>
+      <div class='CommentBubble-contentLabel'>
+        {{commentLabel}}
+      </div>
+    {{else}}
+      <div class='CommentBubble-contentLabel'>
+        Start a discussion
+      </div>
+    {{/if}}
   </a>
 </div>

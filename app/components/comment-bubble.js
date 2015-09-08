@@ -14,6 +14,12 @@ export default Ember.Component.extend({
   isTalk: Ember.computed.equal('type', 'talk'),
   isEvent: Ember.computed.equal('type', 'event'),
 
+  showCount: function() {
+    const count = this.get('count');
+
+    return Ember.isPresent(count) && count > 0;
+  }.property('count'),
+
   commentLabel: function() {
     if (this.get('count') === 1) {
       return 'comment';
