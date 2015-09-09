@@ -9,7 +9,7 @@ export default DS.Model.extend({
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
-  contentId: DS.attr('number'),
+  contentId: Ember.computed.oneWay('id'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   hasContactInfo: DS.attr('boolean'),
   imageUrl: DS.attr('string'),
