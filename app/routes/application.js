@@ -15,6 +15,16 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   actions: {
+    error(errorResponse) {
+      const status = errorResponse.errors[0].status;
+
+      if (status === '404') {
+        this.transitionTo('error-404');
+      } else {
+        return true;
+      }
+    },
+
     signOut(callback) {
       this.get('intercom').shutdown();
       const promise = this.get('session').signOut();
