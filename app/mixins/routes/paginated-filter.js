@@ -23,7 +23,15 @@ export default Ember.Mixin.create({
   setupFilter(controllerName, filterParams) {
     const controller = this.controllerFor(controllerName);
 
-    if (typeof controller.get('location') === 'undefined') {
+    // This logic is used to prevent API requests from returning and overriding
+    // the 'query' inputs as a user is typing. It handles the initial page load,
+    // other filters changing, and the dual-input on the event filter for query
+    // and category.
+    const updateFilterParams = (controller.get('query') === filterParams.query) ||
+      Ember.isBlank(filterParams.query) || Ember.isBlank(controller.get('query')) ||
+      filterParams.query === 'Everything';
+
+    if (updateFilterParams) {
       controller.setProperties(filterParams);
     }
   },
