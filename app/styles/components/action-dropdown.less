@@ -1,5 +1,7 @@
 .ActionDropdown {
   margin-right: 0;
+  padding-right: 0;
+  padding-top: 13px;
   @media (max-width: @screen-xs-max) {
     margin: 0;
     border-top: 1px solid black;
@@ -21,6 +23,9 @@
 
 .navbar-default .navbar-nav > li > .ActionDropdown-dropdownLink {
   padding: 10px 0;
+  @media (max-width: @screen-sm-max) {
+    padding: 5px 0;
+  }
 }
 
 .navbar-default .navbar-nav > li > .ActionDropdown-dropdownLink:hover,
