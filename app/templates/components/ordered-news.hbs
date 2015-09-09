@@ -1,20 +1,7 @@
-{{#if contentToDisplay}}
-  <ul>
+<ul>
+  {{#each orderedNews as |newsItem|}}
     <li>
-      {{news-card item=firstItem}}
+      {{news-card item=newsItem showImage=false}}
     </li>
-    {{#each restOfContent as |newsItem index|}}
-      <li>
-        {{news-card item=newsItem showImage=false}}
-      </li>
-    {{/each}}
-  </ul>
-
-  <button class='btn-link Button Button--news Button--centered btn u-layoutPadB40' href='#' {{action 'toggleMore'}}>
-    {{#if showAll}}
-      + Less news
-    {{else}}
-      + More news
-    {{/if}}
-  </button>
-{{/if}}
+  {{/each}}
+</ul>
