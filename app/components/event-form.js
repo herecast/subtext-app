@@ -64,7 +64,7 @@ export default Ember.Component.extend(Validation, {
       this.set('errors.eventUrl', null);
       delete this.get('errors').eventUrl;
     } else {
-      this.set('errors.eventUrl', 'Invalid URL, must start with http or https');
+      this.set('errors.eventUrl', 'Invalid URL');
     }
   },
 
@@ -104,6 +104,17 @@ export default Ember.Component.extend(Validation, {
         event.destroyRecord();
         this.sendAction('afterDiscard');
       }
+    },
+
+    normalizeUrl() {
+      let url = this.get('event.eventUrl').trim();
+      const protocol = /^[a-z]+:/i;
+
+      if (!protocol.test(url)) {
+        url = 'http://' + url;
+      }
+
+      this.set('event.eventUrl', url);
     }
   }
 });
