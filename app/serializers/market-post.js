@@ -1,6 +1,8 @@
 import { ActiveModelSerializer } from 'active-model-adapter';
 
 export default ActiveModelSerializer.extend({
+  primaryKey: 'content_id',
+
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
 
