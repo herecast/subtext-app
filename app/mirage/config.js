@@ -74,7 +74,7 @@ const eventBaseProperties = [
 ];
 
 const marketPostBaseProperties = [
-  'id', 'title', 'image_url', 'published_at'
+  'id', 'title', 'image_url', 'published_at', 'content_id'
 ];
 
 const talkBaseProperties = [
