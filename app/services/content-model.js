@@ -24,6 +24,12 @@ export default Ember.Service.extend({
       modelName = 'talk';
     }
 
+    // We depend on the content id to be set for all content. If it is not set
+    // we can assume that it is the same as the id attribute.
+    if (!record.content_id) {
+      record.content_id = record.id;
+    }
+
     const item = this.store.push(modelName, this.store.normalize(modelName, record));
 
     item.set('contentType', modelName);
