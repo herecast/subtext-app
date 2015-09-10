@@ -6,6 +6,10 @@ export default Ember.Component.extend({
   showComments: false,
   scrollTo: null,
 
+  contentTitle: Ember.computed.oneWay('content.title'),
+  contentId: Ember.computed.oneWay('content.contentId'),
+  commentingDisabled: Ember.computed.oneWay('content.isNew'),
+
   activeCommentId: function() {
     const scrollTo = this.get('scrollTo');
 
@@ -48,6 +52,10 @@ export default Ember.Component.extend({
   actions: {
     toggleComments() {
       this.toggleProperty('showComments');
+    },
+
+    incrementCommentCount() {
+      this.get('content').incrementProperty('commentCount');
     }
   }
 });

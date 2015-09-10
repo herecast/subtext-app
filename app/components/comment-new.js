@@ -36,6 +36,8 @@ export default Ember.Component.extend({
         this.get('comments').pushObject(newComment);
 
         this.set('newComment', null);
+
+        this.sendAction('afterComment');
       });
     }
   }

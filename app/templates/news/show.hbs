@@ -64,10 +64,8 @@
   </h1>
   <div class='row'>
     {{content-comments
-        contentTitle=model.title
-        contentId=model.contentId
-        commentingDisabled=model.isNew
-      }}
+      content=model
+    }}
   </div>
 
   {{#unless isPreview}}
