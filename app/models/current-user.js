@@ -10,5 +10,5 @@ export default DS.Model.extend({
   locationId: DS.attr('number'),
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
-  userId: DS.attr('string')
+  userId: DS.attr('number')
 });
