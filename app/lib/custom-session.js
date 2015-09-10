@@ -20,28 +20,22 @@ export default SimpleAuthSession.extend({
     this.invalidate();
   },
 
-  getCurrentUser: function() {
-    const email = this.get('secure.email');
+  setupCurrentUser: function() {
+    const user = this.get('currentUser');
 
-    if (Ember.isPresent(email) && Ember.isBlank(this.get('currentUser'))) {
-      return this.get('userService').getCurrentUser().then((user) => {
-        this.set('currentUser', user);
+    if (user && user.get('isLoaded')) {
+      const mixpanel = this.get('mixpanel');
 
-        const mixpanel = this.get('mixpanel');
-
-        mixpanel.identify(user.get('userId'));
-        mixpanel.peopleSet({
-          name: user.get('name')
-        });
-
-        const intercom = this.get('intercom');
-
-        intercom.boot(user);
-      }).catch(() => {
-        this.set('currentUser', null);
+      mixpanel.identify(user.get('userId'));
+      mixpanel.peopleSet({
+        name: user.get('name')
       });
+
+      const intercom = this.get('intercom');
+
+      intercom.boot(user);
     }
-  },
+  }.observes('currentUser.isLoaded'),
 
   currentUser: function() {
     const email = this.get('secure.email');
