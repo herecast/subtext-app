@@ -7,8 +7,12 @@
 }
 
 .StatCircle--small {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
+  @media (min-width: @screen-md-min) {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .StatCircle:first-child {
@@ -30,11 +34,11 @@
 }
 
 .StatCircle--small.StatCircle--right {
-  margin-right: 20%;
+  margin-right: 25%;
 }
 
 .StatCircle--small.StatCircle--left {
-  margin-left: 20%;
+  margin-left: 25%;
 }
 
 .StatCircle-number {
@@ -49,9 +53,12 @@
 
 .StatCircle--small .StatCircle-number {
   font-size: 24px;
-  padding-top: 13px;
+  padding-top: 11px;
   margin-bottom: 0;
   line-height: 17px;
+  @media (min-width: @screen-md-min) {
+    padding-top: 17px;
+  }
 }
 
 .StatCircle-text {
