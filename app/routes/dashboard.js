@@ -4,8 +4,9 @@ import config from '../config/environment';
 import ajax from 'ic-ajax';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from '../mixins/routes/history';
+import Track from '../mixins/routes/track-pageview';
 
-export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
+export default Ember.Route.extend(Authorized, PaginatedFilter, History, Track, {
   queryParams: {
     page: {
       refreshModel: true
