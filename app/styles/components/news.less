@@ -40,3 +40,11 @@
 .News-content {
   margin-top: 30px;
 }
+
+// This mimics class='img-responsive', but we don't have control over the
+// content, so we need to do it manually.
+.News-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
