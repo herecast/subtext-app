@@ -1,11 +1,9 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import ajax from 'ic-ajax';
 
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
-  postId: null, // id of the market post
+  post: null, // the market post
   showInfo: false,
 
   buttonClass: function() {
@@ -27,16 +25,13 @@ export default Ember.Component.extend({
       if (!this.get('showInfo')) {
         this.toggleProperty('showInfo');
 
-        const id = this.get('postId');
-        const url = `${config.API_NAMESPACE}/market_posts/${id}/contact`;
-
         this.set('isLoading', true);
 
-        ajax(url).then((response) => {
+        this.get('post').loadContactInfo().then(() => {
           this.setProperties({
-            email: response.market_post.contact_email,
-            phone: response.market_post.contact_phone,
-            isLoading: false
+            isLoading: false,
+            email: this.get('post.contactEmail'),
+            phone: this.get('post.contactPhone'),
           });
         });
       }

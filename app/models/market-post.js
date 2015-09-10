@@ -38,5 +38,17 @@ export default DS.Model.extend({
         processData: false
       });
     }
+  },
+
+  loadContactInfo() {
+    const id = this.get('id');
+    const url = `${config.API_NAMESPACE}/market_posts/${id}/contact`;
+
+    return ajax(url).then((response) => {
+      this.setProperties({
+        contactEmail: response.market_post.contact_email,
+        contactPhone: response.market_post.contact_phone,
+      });
+    });
   }
 });
