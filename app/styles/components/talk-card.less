@@ -11,6 +11,12 @@
   }
 }
 
+.TalkCard--narrow {
+  @media (min-width: @screen-sm-min) {
+    padding: 8px 18px 32px;
+  }
+}
+
 .TalkCard-title {
   margin-bottom: 4px;
   text-align: center;
@@ -35,5 +41,11 @@
 
   @media (max-width: @screen-xs-max) {
     padding: 5px 0 0 5px;
+  }
+}
+
+.TalkCard--narrow .TalkCard-commentInfo {
+  @media (max-width: @screen-sm-max) {
+    padding-left: 25px;
   }
 }
