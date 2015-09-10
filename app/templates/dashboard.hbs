@@ -1,9 +1,16 @@
 <div class='Container'>
   <div class='Dashboard row'>
     <div class='col-sm-6 col-sm-offset-3'>
-      <img src='{{currentUser.imageUrl}}' class='Dashboard-avatar'>
+      {{avatar-image-editor
+        currentUser=currentUser
+        class='u-layoutPadT50 u-layoutPadB30'
+      }}
 
-      {{inline-edit value=currentUser.name class='Dashboard-userName' action='submit'}}
+      {{inline-edit
+        value=currentUser.name
+        class='Dashboard-userName'
+        action='submit'
+      }}
 
       {{location-dropdown
         selectedLocationId=currentUser.locationId
@@ -11,7 +18,11 @@
         onUpdate='submit'
       }}
 
-      {{inline-edit value=currentUser.email class='u-layoutPadB30' action='submit'}}
+      {{inline-edit
+        value=currentUser.email
+        class='u-layoutPadB30'
+        action='submit'
+      }}
 
       {{#if showPasswordForm}}
         {{password-reset onSubmit='togglePasswordForm'}}

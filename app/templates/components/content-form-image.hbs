@@ -1,9 +1,19 @@
-{{#form-group error=error}}
-  <label class='control-label' for="image">Image</label>
-  {{input type='file' class='form-control ContentForm-fileField'}}
-  <span class="help-block ContentForm-helpText">Format: .jpg or .png  // Size: under 5MB</span>
-{{/form-group}}
-
-<div class='form-group'>
-  <img class='img-responsive js-Cropper-image'>
+<div class='{{if hasBlock 'hidden'}}'>
+  {{#form-group error=error}}
+    <label class='control-label' for="image">
+      Image
+    </label>
+    {{input type='file' class='form-control ContentForm-fileField'}}
+    <span class="help-block ContentForm-helpText">Format: .jpg or .png  // Size: under 5MB</span>
+  {{/form-group}}
 </div>
+
+{{#if displayCropper}}
+  <div class='form-group'>
+    <img class='img-responsive js-Cropper-image'>
+  </div>
+{{/if}}
+
+{{#if hasBlock}}
+  {{yield}}
+{{/if}}

@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   originalImageFile: null,
+  displayCropper: true,
 
   initAttachFile: Ember.on('didInsertElement', function() {
     this.$('input[type=file]').on('change', (e) => {
