@@ -18,6 +18,7 @@ export default Ember.Component.extend({
 
       if (this.get('currentUser.image')) {
         data.append('current_user[image]', this.get('currentUser.image'));
+        data.append('current_user[user_id]', this.get('currentUser.userId'));
 
         return ajax(url, {
           data: data,
