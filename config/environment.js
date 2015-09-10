@@ -81,8 +81,8 @@ module.exports = function(environment) {
     }
 
     ENV.intercom = {
-      // id: 't4i5jg89' // production
-      id: 'egk6dwbj' // development
+      id: 't4i5jg89' // production
+      // id: 'egk6dwbj' // development
     }
   }
 
