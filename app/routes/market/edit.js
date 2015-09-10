@@ -4,7 +4,15 @@ import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   model(params) {
-    return this.store.find('market-post', params.id);
+    return this.store.findRecord('market-post', params.id, {reload: true});
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    if (model.get('hasContactInfo')) {
+      model.loadContactInfo();
+    }
   },
 
   redirect() {

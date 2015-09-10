@@ -31,7 +31,7 @@
       <h1 class='MarketPost-price hidden-xs'>{{model.price}}</h1>
 
       {{#if model.hasContactInfo}}
-        {{market-contact postId=model.id}}
+        {{market-contact post=model}}
       {{/if}}
 
       {{#unless isPreview}}
