@@ -1,13 +1,5 @@
 import ApplicationAdapter from './application';
+import QueryParamsMixin from '../mixins/adapters/query-params';
 
-export default ApplicationAdapter.extend({
-  // When querying for "Everything" we are not sending a parameter to
-  // the API, but still want to show something meaningful to the user.
-  sortQueryParams(params) {
-    if (params.query === 'Everything') {
-      delete params.query;
-    }
-
-    return this._super(params);
-  }
+export default ApplicationAdapter.extend(QueryParamsMixin, {
 });
