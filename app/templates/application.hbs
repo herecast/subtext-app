@@ -2,12 +2,12 @@
   <div class='MainNav-content Container--noGutter'>
     {{#unless media.isMobile}}
       {{x-weather
-        class='h2 col-sm-2'
+        class='h2 col-sm-3'
         autoload=true
       }}
     {{/unless}}
 
-    <div class='col-sm-8 u-textCentered'>
+    <div class='col-sm-6 u-textCentered'>
       {{#link-to 'index' (query-params page=1)}}
         <h1 class='MainNav-brand'>
           daily UV
