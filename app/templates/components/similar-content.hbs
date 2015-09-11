@@ -8,10 +8,11 @@
   <div class='Section'>
     <div class='row'>
       {{#each contentToDisplay as |content|}}
-        <div class='col-md-3'>
+        <div class='col-md-3 col-sm-6'>
           {{content-card
             item=content
             showLink=false
+            isSimilarContent=true
           }}
         </div>
       {{/each}}
