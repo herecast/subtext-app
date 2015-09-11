@@ -5,10 +5,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   mixpanel: Ember.inject.service('mixpanel'),
   secondaryBackground: true,
 
-  queryParams: ['query', 'location', 'r', 'page', 'per_page'],
-
-  // Change this value in the query params to force a refresh.
-  r: false,
+  queryParams: ['query', 'location', 'page', 'per_page'],
 
   page: 1,
   per_page: 24,
@@ -32,8 +29,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
       const params = {
         location: this.get('defaultLocation'),
-        query: this.get('defaultQuery'),
-        r: this.get('refreshParam.time')
+        query: this.get('defaultQuery')
       };
 
       this.send('resetFilter', 'market/all', params);

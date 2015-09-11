@@ -2,7 +2,22 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   queryParams: {
-    r: {
+    query: {
+      refreshModel: true
+    },
+    category: {
+      refreshModel: true
+    },
+    location: {
+      refreshModel: true
+    },
+    publication: {
+      refreshModel: true
+    },
+    date_start: {
+      refreshModel: true
+    },
+    date_end: {
       refreshModel: true
     },
     page: {
@@ -41,7 +56,6 @@ export default Ember.Mixin.create({
       filterParams.page = 1;
 
       this.transitionTo({queryParams: filterParams});
-      this.refresh();
     },
 
     prevPage() {

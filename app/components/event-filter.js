@@ -4,7 +4,6 @@ import Dates from '../lib/dates';
 export default Ember.Component.extend({
   tagName: 'nav',
   classNames: ['FilterBar navbar navbar-default'],
-  refreshParam: Ember.inject.service('refresh-param'),
   mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
 
@@ -16,7 +15,6 @@ export default Ember.Component.extend({
 
       filterParams.date_start = startDate;
       filterParams.date_end = stopDate;
-      filterParams.r = this.get('refreshParam.time');
 
       this.get('mixpanel').trackEvent('Event Search', {
         'Category': this.get('category'),

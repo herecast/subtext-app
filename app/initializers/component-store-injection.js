@@ -4,7 +4,6 @@ export function initialize(container, application) {
   application.inject('service:user', 'store', 'service:store');
   application.inject('service:content-comments', 'store', 'service:store');
   application.inject('service:content-model', 'store', 'service:store');
-  application.inject('service:refresh-param', "applicationController", "controller:application");
 }
 
 export default {
