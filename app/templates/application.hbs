@@ -27,8 +27,8 @@
         {{#if session.isAuthenticated}}
           <li class='dropdown pull-right'>
             <a href='' {{action 'trackMenuOpen'}} data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
-              {{#if session.currentUser.imageUrl}}
-                <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
+              {{#if session.currentUser.userImageUrl}}
+                <img src="{{session.currentUser.userImageUrl}}" class='ActionDropdown-userAvatar'>
               {{else}}
                 <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
               {{/if}}
@@ -84,8 +84,8 @@
       </button>
 
       <button type='button' class='ActionDropdown-dropdownLink pull-right' data-toggle='collapse' data-target='#mobile-dropdown-menu'>
-        {{#if session.currentUser.imageUrl}}
-          <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
+        {{#if session.currentUser.userImageUrl}}
+          <img src="{{session.currentUser.userImageUrl}}" class='ActionDropdown-userAvatar'>
         {{else}}
           <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
         {{/if}}
