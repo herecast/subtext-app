@@ -8,8 +8,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     return this.get('session.currentUser');
   },
 
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    this.get('session').setupCurrentUser();
+  },
+
   actions: {
     signOut() {
+      this.get('intercom').shutdown();
       this.get('session').signOut();
     },
 

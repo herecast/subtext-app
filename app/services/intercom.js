@@ -22,5 +22,9 @@ export default Ember.Service.extend({
     window.Intercom('update', {
       // TODO: pass user attributes here if they change (i.e. email, name, etc)
     });
+  },
+
+  shutdown() {
+    window.Intercom('shutdown');
   }
 });
