@@ -12,11 +12,15 @@ export default DS.Model.extend({
   contentId: Ember.computed.oneWay('id'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   hasContactInfo: DS.attr('boolean'),
-  imageUrl: DS.attr('string'),
+  images: DS.attr('raw', {defaultValue: []}),
   listservIds: DS.attr('raw', {defaultValue: []}),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
+
+  imageUrl: function() {
+    return this.get('images')[0];
+  }.property('images.[]'),
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
