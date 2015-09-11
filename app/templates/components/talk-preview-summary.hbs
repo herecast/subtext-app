@@ -32,7 +32,11 @@
       {{#if isSaving}}
         Please Wait&hellip;
       {{else}}
-        Save &amp; Publish
+        {{#if media.isTablet}}
+          Publish
+        {{else}}
+          Save &amp; Publish
+        {{/if}}
         {{fa-icon 'check u-iconRight'}}
       {{/if}}
     {{/async-button}}
