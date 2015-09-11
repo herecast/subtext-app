@@ -11,13 +11,11 @@ export default SimpleAuthSession.extend({
   signOut() {
     const url = `${config.API_NAMESPACE}/users/logout`;
 
-    // We do this async and log the user out from ember simple auth just in
-    // case it fails on the API. Don't want the user to not be able to log out.
-    ajax(url, {
+    return ajax(url, {
       type: 'POST'
+    }).then(() => {
+      this.invalidate();
     });
-
-    this.invalidate();
   },
 
   setupCurrentUser: function() {

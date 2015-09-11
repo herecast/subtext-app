@@ -56,7 +56,13 @@
                 {{/link-to}}
               </li>
               <li>
-                <a href='#' {{action 'signOut'}} class='h4 ActionDropdown-item'>Log out</a>
+                {{async-button
+                  action='signOut'
+                  default='Log out'
+                  pending='Logging out'
+                  class='h4 ActionDropdown-item'
+                  tagName='a'
+                }}
               </li>
             </ul>
           </li>
