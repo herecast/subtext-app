@@ -8,11 +8,11 @@
   <div class='EventCard-content u-flexColumn-2'>
     {{#if isPreview}}
       <a href='#'>
-        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+        <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
       </a>
     {{else}}
       {{#link-to 'events.show' event.id}}
-        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+        <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
       {{/link-to}}
     {{/if}}
 
