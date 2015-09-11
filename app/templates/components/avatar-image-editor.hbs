@@ -1,6 +1,6 @@
 {{#content-form-image
   image=currentUser.image
-  imageUrl=currentUser.imageUrl
+  imageUrl=currentUser.userImageUrl
   originalImageFile=currentUser.originalImageFile
   error=errors.image
   displayCropper=isEditingImage
@@ -10,8 +10,8 @@
       Save Photo
     </a>
   {{else}}
-    {{#if currentUser.imageUrl}}
-      <img src='{{currentUser.imageUrl}}' class='Dashboard-avatar'>
+    {{#if currentUser.userImageUrl}}
+      <img src='{{currentUser.userImageUrl}}' class='Dashboard-avatar'>
     {{else}}
       <img src='/images/user-default-avatar.svg' class='Dashboard-avatar'>
     {{/if}}
