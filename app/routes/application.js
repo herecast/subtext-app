@@ -15,9 +15,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   actions: {
-    signOut() {
+    signOut(callback) {
       this.get('intercom').shutdown();
-      this.get('session').signOut();
+      const promise = this.get('session').signOut();
+
+      callback(promise);
     },
 
     didTransition: function() {
