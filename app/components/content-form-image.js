@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   originalImageFile: null,
   displayCropper: true,
+  aspectRatio: 1,
 
   initAttachFile: Ember.on('didInsertElement', function() {
     this.$('input[type=file]').on('change', (e) => {
@@ -59,6 +60,7 @@ export default Ember.Component.extend({
     const blobFormat = this.get('originalImageFile.type');
     const imgDataURL = canvas.toDataURL(blobFormat);
     const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
+    const aspectRatio = this.get('aspectRatio');
 
     // The .cropper-container element is added by the cropper plugin, so we
     // can use that to detect if has already been initialized. If it has,
@@ -69,7 +71,7 @@ export default Ember.Component.extend({
       const that = this;
 
       img.cropper({
-        aspectRatio: 1,
+        aspectRatio: aspectRatio,
 
         // Run whenever the cropping area is adjusted
         crop() {
