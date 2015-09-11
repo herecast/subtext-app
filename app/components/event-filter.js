@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   classNames: ['FilterBar navbar navbar-default'],
   refreshParam: Ember.inject.service('refresh-param'),
   mixpanel: Ember.inject.service('mixpanel'),
+  intercom: Ember.inject.service('intercom'),
 
   actions: {
     submit() {
@@ -22,6 +23,13 @@ export default Ember.Component.extend({
         'Query': this.get('query'),
         'Location': this.get('location'),
         'Date Summary': Dates.dateSummary(startDate, stopDate)
+      });
+
+      this.get('intercom').trackEvent('searched-event', {
+        category: this.get('category'),
+        query: this.get('query'),
+        location: this.get('location'),
+        date_summary: Dates.dateSummary(startDate, stopDate)
       });
 
       this.sendAction('updateFilter', filterParams);

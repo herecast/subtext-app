@@ -24,6 +24,10 @@ export default Ember.Service.extend({
     });
   },
 
+  trackEvent(eventName, metadata) {
+    window.Intercom('trackEvent', eventName, metadata);
+  },
+
   shutdown() {
     window.Intercom('shutdown');
   }

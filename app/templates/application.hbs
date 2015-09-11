@@ -26,7 +26,7 @@
       <ul class='ActionDropdown col-sm-2 nav navbar-nav navbar-right'>
         {{#if session.isAuthenticated}}
           <li class='dropdown pull-right'>
-            <a href='' data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
+            <a href='' {{action 'trackMenuOpen'}} data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
               {{#if session.currentUser.imageUrl}}
                 <img src="{{session.currentUser.imageUrl}}" class='ActionDropdown-userAvatar'>
               {{else}}
