@@ -31,7 +31,7 @@
       <h1 class='News-title'>{{model.title}}</h1>
       <h3 class='News-subtitle'>{{model.subtitle}}</h3>
       <div class='News-publicationInfo'>
-        {{#link-to 'news' (query-params query='Everything' publication=model.publicationName r=refreshParam.time)}}
+        {{#link-to 'news' (query-params query='Everything' publication=model.publicationName)}}
           {{model.publicationName}}
         {{/link-to}}
 

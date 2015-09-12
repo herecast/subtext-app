@@ -13,7 +13,7 @@
   {{/link-to}}
 
   <div class='NewsCard-subtitle'>
-    {{#link-to 'news' (query-params query='Everything' publication=item.publicationName r=refreshParam.time)}}
+    {{#link-to 'news' (query-params query='Everything' publication=item.publicationName)}}
       <h3 class='NewsCard-pubAuthor'>{{item.publicationName}}</h3>
     {{/link-to}}
 

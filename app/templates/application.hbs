@@ -114,24 +114,52 @@
 
       <ul class='SectionNavigation-list col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-1'>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'news' (query-params page=1) current-when='news' class='SectionNavigation-link SectionNavigation-newsLink'}}
-            News
-          {{/link-to}}
+          {{link-to 'News' 'news'
+            (query-params
+              page=1
+              query=newsFilter.defaultQuery
+              publication=newsFilter.defaultPublication
+              location=newsFilter.defaultLocation
+            )
+            current-when='news'
+            class='SectionNavigation-link SectionNavigation-newsLink'
+          }}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'events' (query-params page=1) current-when='events' class='SectionNavigation-link SectionNavigation-eventLink'}}
-            Events
-          {{/link-to}}
+          {{link-to 'Events' 'events'
+            (query-params
+              page=1
+              query=eventsFilter.defaultQuery
+              category=eventsFilter.defaultCategory
+              location=eventsFilter.defaultLocation
+              date_start=eventsFilter.defaultStart
+              date_end=eventsFilter.defaultEnd
+            )
+            current-when='events'
+            class='SectionNavigation-link SectionNavigation-eventLink'
+          }}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'talk' (query-params page=1) current-when='talk' class='SectionNavigation-link SectionNavigation-talkLink'}}
-            Talk
-          {{/link-to}}
+          {{link-to 'Talk' 'talk'
+            (query-params
+              page=1
+              query=talkFilter.defaultQuery
+            )
+            current-when='talk'
+            class='SectionNavigation-link
+            SectionNavigation-talkLink'
+          }}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'market' (query-params page=1) current-when='market' class='SectionNavigation-link SectionNavigation-marketLink'}}
-            Market
-          {{/link-to}}
+          {{link-to 'Market' 'market'
+            (query-params
+              page=1
+              query=marketFilter.defaultQuery
+              location=marketFilter.defaultLocation
+            )
+            current-when='market'
+            class='SectionNavigation-link SectionNavigation-marketLink'
+          }}
         </li>
       </ul>
 

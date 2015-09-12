@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   intercom: Ember.inject.service('intercom'),
+  newsFilter: Ember.inject.controller('news/all/index'),
+  eventsFilter: Ember.inject.controller('events/all/index'),
+  talkFilter: Ember.inject.controller('talk/all/index'),
+  marketFilter: Ember.inject.controller('market/all/index'),
 
   backgroundClass: function() {
     const currentController = this.controllerFor(this.get('currentPath'));

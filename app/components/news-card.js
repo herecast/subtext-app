@@ -5,7 +5,6 @@ export default Ember.Component.extend({
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
   classNameBindings: ['missingContent:hidden'],
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
-  refreshParam: Ember.inject.service('refresh-param'),
 
   missingContent: Ember.computed.empty('item'),
 
