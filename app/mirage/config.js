@@ -436,6 +436,18 @@ export default function() {
     }
   });
 
+  this.post('/password_resets', function() {
+    return {};
+  });
+
+  this.put('/password_resets/:token', function() {
+    return {};
+  });
+
+  this.get('/password_resets/:token', function() {
+    return {};
+  });
+
   this.get('/talk', function(db, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
