@@ -19,7 +19,9 @@ export default DS.Model.extend({
   title: DS.attr('string'),
 
   imageUrl: function() {
-    return this.get('images')[0];
+    if (Ember.isPresent(this.get('images'))) {
+      return this.get('images')[0];
+    }
   }.property('images.[]'),
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
