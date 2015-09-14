@@ -32,6 +32,10 @@ Router.map(function() {
     });
   });
 
+  this.resource('forgot-password', function() {
+    this.route('edit', {path: ':reset_token'});
+  });
+
   this.route('market', function() {
     this.route('all', {path: '/'}, function() {});
     this.route('show', {path: '/:id'});

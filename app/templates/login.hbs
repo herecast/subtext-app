@@ -32,9 +32,11 @@
             action='authenticate'
             default='Login'
             pending='Logging in'
-            class='Button Button--primary btn'
+            class='Button Button--primary btn u-layoutPadB40'
           }}
         </form>
+
+        {{link-to 'Forgot your password?' 'forgot-password.index' class='h4 u-textUnderline'}}
       </div>
     </div>
   </div>
