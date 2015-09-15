@@ -9,10 +9,14 @@ export default Ember.Component.extend({
   actions: {
     postComment(callback) {
       const content = this.get('newComment');
+      let title = this.get('contentTitle');
+      if (this.get('contentTitle').indexOf('Re: ') === 1) {
+        title = `Re: ${title}`;
+      }
       const comment = this.store.createRecord('comment', {
         content: content,
         parentContentId: this.get('parentContentId'),
-        title: `Re: ${this.get('contentTitle')}`,
+        title: title,
         userName: this.get('session.currentUser.name')
       });
 
