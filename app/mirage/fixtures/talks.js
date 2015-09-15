@@ -7,6 +7,7 @@ function template(id) {
   // Only a subset of the authors will have an image.
   const authorImageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
   const imageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250' : null;
+  const parentContentType = (Math.random() < 0.5) ? 'event' : 'news';
 
   return {
     id: id,
@@ -16,6 +17,7 @@ function template(id) {
     content_id: faker.random.number(1000),
     image_url: imageUrl,
     parent_content_id: faker.random.number(1000),
+    parent_content_type: parentContentType,
     published_at: startsAt.toISOString(),
     commenter_count: faker.random.number(25),
     view_count: faker.random.number(1000),

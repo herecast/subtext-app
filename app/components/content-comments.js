@@ -22,14 +22,16 @@ export default Ember.Component.extend({
     const scrollTo = this.get('scrollTo');
 
     if (Ember.isPresent(scrollTo)) {
-      const elem = Ember.$(`[data-anchor="${scrollTo}"]`);
-      const offset = (elem && elem.offset && elem.offset()) ? elem.offset().top : null;
+      const $elem = Ember.$(`[data-anchor="${scrollTo}"]`);
+      const offset = ($elem && $elem.offset && $elem.offset()) ? $elem.offset().top : null;
+
+      $elem.addClass('is-active');
 
       if (offset) {
-        Ember.$('body').scrollTop(offset);
+        Ember.$('body').scrollTop(offset - 100);
       }
     }
-  }.on('didInsertElement'),
+  },
 
   setComments: function() {
     // If the comments have already been set in the route, we don't need
@@ -56,6 +58,10 @@ export default Ember.Component.extend({
 
     incrementCommentCount() {
       this.get('content').incrementProperty('commentCount');
+    },
+
+    triggerScrollToComment() {
+      this.scrollToComment();
     }
   }
 });

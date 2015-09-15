@@ -14,11 +14,34 @@ export default DS.Model.extend({
   imageUrl: DS.attr('string'),
   listservId: DS.attr('number'), // write only
   parentContentId: DS.attr('number'),
+  parentContentType: DS.attr('string'),
+  parentEventInstanceId: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
   viewCount: DS.attr('number'),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
+
+  hasParentContent: function() {
+    return Ember.isPresent(this.get('parentContentType')) && Ember.isPresent(this.get('parentContentId'));
+  }.property('parentContentType', 'parentContentId'),
+
+  parentContentRoute: function() {
+    const parentContentType = this.get('parentContentType');
+    if (parentContentType === 'market_post') {
+      return 'market.show';
+    } else if (parentContentType === 'event') {
+      return 'events.show';
+    } else if (parentContentType === 'talk_of_the_town') {
+      return 'talk.show';
+    } else {
+      return `${parentContentType}.show`;
+    }
+  }.property('parentContentType'),
+
+  commentAnchor: function() {
+    return `comment-${this.get('id')}`;
+  }.property('talk.id'),
 
   uploadImage() {
     const url = `/${config.API_NAMESPACE}/talk/${this.get('id')}`;

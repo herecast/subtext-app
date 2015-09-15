@@ -7,10 +7,14 @@ export default Ember.Component.extend({
   attributeBindings: ['dataAnchor:data-anchor'],
 
   dataAnchor: function() {
-    return `comment-${this.get('comment.id')}`;
+    return `comment-${this.get('comment.contentId')}`;
   }.property('comment.id'),
 
   isActive: function() {
-    return this.get('comment.id') === this.get('activeCommentId');
-  }.property('comment.id','activeCommentId')
+    return this.get('comment.contentId') === this.get('activeCommentId');
+  }.property('comment.id','activeCommentId'),
+
+  notifyParentOfRender: function() {
+    this.sendAction('afterRender');
+  }.on('didInsertElement')
 });

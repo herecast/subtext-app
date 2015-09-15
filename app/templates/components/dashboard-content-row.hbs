@@ -1,7 +1,13 @@
 <td>
-  {{#link-to viewRoute content.id}}
-    {{x-truncate text=content.title maxLength=50}}
-  {{/link-to}}
+    {{#if isTalk}}
+      {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor)}}
+        {{x-truncate text=content.title maxLength=50}}
+      {{/link-to}}
+    {{else}}
+      {{#link-to viewRoute content.id}}
+        {{x-truncate text=content.title maxLength=50}}
+      {{/link-to}}
+    {{/if}}
 </td>
 <td class='u-textCentered'>{{contentType}}</td>
 <td class='u-textCentered'>{{publishedAt}}</td>

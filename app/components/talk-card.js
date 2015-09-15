@@ -15,20 +15,6 @@ export default Ember.Component.extend({
     }
   }.property('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop'),
 
-  linkId: function() {
-    const parentContentId = this.get('talk.parentContentId');
-
-    if (Ember.isPresent(parentContentId)) {
-      return parentContentId;
-    } else {
-      return this.get('talk.id');
-    }
-  }.property('talk.{id,parentContentId}'),
-
-  anchor: function() {
-    return `comment-${this.get('talk.id')}`;
-  }.property('talk.id'),
-
   numberText: function() {
     const count = this.get('talk.commenterCount');
 
@@ -38,6 +24,14 @@ export default Ember.Component.extend({
       return 'people';
     }
   }.property('talk.commenterCount'),
+
+  parentContentId: function() {
+    if (this.get('talk.parentContentType') === 'event') {
+      return this.get('talk.parentEventInstanceId');
+    } else {
+      return this.get('talk.parentContentId');
+    }
+  }.property('talk.parentContentId'),
 
   viewText: function() {
     const count = this.get('talk.viewCount');
