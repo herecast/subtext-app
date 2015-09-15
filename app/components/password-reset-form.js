@@ -23,7 +23,8 @@ export default Ember.Component.extend({
         ajax(url, {
           type: 'PUT',
           data: {
-            password: this.get('password')
+            password: this.get('password'),
+            password_confirmation: this.get('passwordConfirmation')
           }
         }).then(() => {
           this.set('showConfirmation', true);
