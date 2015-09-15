@@ -4,6 +4,8 @@ export default Ember.Component.extend({
   tagName: ['tr'],
   type: '',
 
+  isTalk: Ember.computed.equal('type', 'talk'),
+
   contentType: function() {
     const type = this.get('type');
 
@@ -48,6 +50,14 @@ export default Ember.Component.extend({
       return type;
     }
   }.property(),
+
+  parentContentId: function() {
+    if (this.get('content.parentContentType') === 'event') {
+      return this.get('content.parentEventInstanceId');
+    } else {
+      return this.get('content.parentContentId');
+    }
+  }.property('talk.parentContentId'),
 
   viewRoute: function() {
     return `${this.get('parentRoute')}.show`;

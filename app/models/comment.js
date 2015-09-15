@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   content: DS.attr('string'),
+  contentId: DS.attr('number'),
   parentContentId: DS.attr('number'),
   title: DS.attr('string'),
   userName: DS.attr('string'),
