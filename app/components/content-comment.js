@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   }.property('comment.id'),
 
   isActive: function() {
-    return this.get('comment.contentId') === this.get('activeCommentId');
+    return Ember.isPresent(this.get('activeCommentId')) && this.get('comment.contentId') === this.get('activeCommentId');
   }.property('comment.id','activeCommentId'),
 
   notifyParentOfRender: function() {

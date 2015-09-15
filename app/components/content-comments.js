@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   contentComments: Ember.inject.service('content-comments'),
   comments: [],
-  showComments: false,
   scrollTo: null,
 
   contentTitle: Ember.computed.oneWay('content.title'),
@@ -52,10 +51,6 @@ export default Ember.Component.extend({
   }.on('didInsertElement'),
 
   actions: {
-    toggleComments() {
-      this.toggleProperty('showComments');
-    },
-
     incrementCommentCount() {
       this.get('content').incrementProperty('commentCount');
     },
