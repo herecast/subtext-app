@@ -107,9 +107,9 @@
   <div class='Container--noGutter SectionNavigation collapse' id='js-app-bar'>
     <div class='row'>
       <div class='col-sm-1'>
-        <a href='http://dailyuv.net/help/' target='_blank' class='Button btn'>
+        {{#link-to 'news.show' '790848' class='Button btn'}}
           {{fa-icon 'question-circle'}} Help
-        </a>
+        {{/link-to}}
       </div>
 
       <ul class='SectionNavigation-list col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-1'>
@@ -184,7 +184,9 @@
   <a class='Footer-link' href="/copyright">Don't Sue Us</a>
   {{link-to 'Privacy' 'privacy' class='Footer-link'}}
   {{link-to 'Terms of Service' 'terms' class='Footer-link'}}
-  <a class='Footer-link' href="/help">Help</a>
+  {{#link-to 'news.show' '790848' class='Footer-link'}}
+    Help
+  {{/link-to}}
   <a class='Footer-link' href="mailto:dailyuv@subtext.org">Site Feedback</a>
   <a class="pull-right" href="https://mixpanel.com/f/partner" target="_blank">
     <img alt="Mobile Analytics" src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png">
