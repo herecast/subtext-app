@@ -13,7 +13,9 @@ export default Ember.Component.extend({
       ajax(url, {
         type: 'POST',
         data: {
-          email: this.get('email')
+          user: {
+            email: this.get('email')
+          }
         }
       }).then(() => {
         this.set('showConfirmation', true);
