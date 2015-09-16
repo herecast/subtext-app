@@ -17,14 +17,16 @@ export default Ember.Component.extend({
     submit() {
       if (this.get('passwordsMatch')) {
         this.set('showError', false);
-        const token = this.get('token');
-        const url = `${config.API_NAMESPACE}/password_resets/${token}`;
+        const url = `${config.API_NAMESPACE}/password_resets/`;
 
         ajax(url, {
           type: 'PUT',
           data: {
-            password: this.get('password'),
-            password_confirmation: this.get('passwordConfirmation')
+            user: {
+              reset_password_token: this.get('token'),
+              password: this.get('password'),
+              password_confirmation: this.get('passwordConfirmation')
+            }
           }
         }).then(() => {
           this.set('showConfirmation', true);
