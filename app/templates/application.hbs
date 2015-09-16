@@ -177,11 +177,11 @@
 
 <div class='Container--noGutter Footer-container'>
   <footer class='Footer'>
-  <a class='Footer-link' href="/copyright">© 2015 Subtext Media Ltd.</a>
+  {{#link-to 'terms' class='Footer-link'}}© 2015 Subtext Media Ltd.{{/link-to}}
   <a class='Footer-link' href="mailto:dailyuv@subtext.org">Contact Us</a>
   <a class='Footer-link' href="mailto:jobs@subtext.org">Join Us</a>
   <a class='Footer-link' href="mailto:ads@subtext.org">Advertise With Us</a>
-  <a class='Footer-link' href="/copyright">Don't Sue Us</a>
+  {{#link-to 'terms' class='Footer-link'}}Don't Sue Us{{/link-to}}
   {{link-to 'Privacy' 'privacy' class='Footer-link'}}
   {{link-to 'Terms of Service' 'terms' class='Footer-link'}}
   {{#link-to 'news.show' '790848' class='Footer-link'}}
