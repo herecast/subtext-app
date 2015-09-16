@@ -13,16 +13,19 @@ export default DS.Model.extend({
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   hasContactInfo: DS.attr('boolean'),
   images: DS.attr('raw', {defaultValue: []}),
+  imageUrl: DS.attr('string'),
   listservIds: DS.attr('raw', {defaultValue: []}),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
 
-  imageUrl: function() {
+  coverImageUrl: function() {
     if (Ember.isPresent(this.get('images'))) {
       return this.get('images')[0];
+    } else if (Ember.isPresent(this.get('imageUrl'))) {
+      return this.get('imageUrl');
     }
-  }.property('images.[]'),
+  }.property('images.[]', 'imageUrl'),
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
