@@ -5,11 +5,16 @@ import History from '../../../mixins/routes/history';
 
 export default Ember.Route.extend(Track, PaginatedFilter, History, {
   model(params) {
+    let locationId = null;
+    if (params.location === this.get('session.userLocation')) {
+      locationId = this.get('session.currentUser.locationId');
+    }
     return this.store.find('market-post', {
       query: params.query,
       date_start: params.date_start,
       date_end: params.date_end,
       location: params.location,
+      location_id: locationId,
       page: params.page,
       per_page: params.per_page
     });
