@@ -19,5 +19,11 @@ export default Ember.Component.extend({
   sortedByType: equal('sort', 'channel_type ASC, pubdate DESC'),
   sortedByDate: equal('sort', 'pubdate DESC'),
   sortedByViews: equal('sort', 'view_count DESC'),
-  sortedByComments: equal('sort', 'comment_count DESC')
+  sortedByComments: equal('sort', 'comment_count DESC'),
+
+  scrollToPostings: function() {
+    if (Ember.isPresent(this.get('sort'))) {
+      Ember.$('body').scrollTop(this.$().offset().top);
+    }
+  }.on('didInsertElement')
 });
