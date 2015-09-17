@@ -19,9 +19,9 @@ export default Ember.Component.extend({
     const count = this.get('talk.commenterCount');
 
     if (count === 1) {
-      return 'person';
+      return 'post';
     } else {
-      return 'people';
+      return 'posts';
     }
   }.property('talk.commenterCount'),
 
