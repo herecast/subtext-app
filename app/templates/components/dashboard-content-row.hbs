@@ -14,7 +14,15 @@
 <td class='u-textCentered'>{{content.views}}</td>
 <td class='u-textCentered'>{{content.comments}}</td>
 <td class='u-textCentered' colspan='2'>
-  {{link-to 'View' viewRoute content.id class='btn btn-link h4'}}
+  {{#if isTalk}}
+    {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
+      View
+    {{/link-to}}
+  {{else}}
+    {{#link-to viewRoute content.id class='btn btn-link h4'}}
+      View
+    {{/link-to}}
+  {{/if}}
 
   {{#if isEditable}}
     {{link-to 'Edit' editRoute content.id class='btn btn-link h4'}}
