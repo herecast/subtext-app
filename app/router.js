@@ -73,6 +73,8 @@ Router.map(function() {
 
   this.route('terms');
   this.route('privacy');
+  this.route('copyright');
+  this.route('copyright-agent');
 });
 
 export default Router;
