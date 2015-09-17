@@ -36,5 +36,13 @@ export default Ember.Component.extend({
     } else {
       return [city, state].join(', ');
     }
-  }.property('venueName', 'venueCity', 'venueState')
+  }.property('venueName', 'venueCity', 'venueState'),
+
+  eventId: function() {
+    if (Ember.isPresent(this.get('event.eventInstanceId'))) {
+      return this.get('event.eventInstanceId');
+    } else {
+      return this.get('event.id');
+    }
+  }.property('event.id', 'event.eventInstanceId')
 });
