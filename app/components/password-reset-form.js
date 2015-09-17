@@ -4,10 +4,11 @@ import config from '../config/environment';
 
 export default Ember.Component.extend({
   tagName: 'form',
-  showError: false,
+  showErrors: false,
   showConfirmation: false,
   password: '',
   passwordConfirmation: '',
+  serverErrors: [],
 
   passwordsMatch: function() {
     return (this.get('password').length && this.get('password') === this.get('passwordConfirmation'));
@@ -30,9 +31,12 @@ export default Ember.Component.extend({
           }
         }).then(() => {
           this.set('showConfirmation', true);
+        }, (response) => {
+          this.set('serverErrors', response.jqXHR.responseJSON.errors);
+          this.set('showErrors', true);
         });
       } else {
-        this.set('showError', true);
+        this.set('showErrors', true);
       }
     }
   }
