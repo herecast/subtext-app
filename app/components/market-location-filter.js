@@ -1,10 +1,14 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
+import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Ember.Component.extend(ManualDropdown, {
-  updateFilter() {
-    this.set('open', false);
-    this.sendAction('submit');
+  isSearching: false,
+  hasPerformedSearch: false,
+
+  click() {
+    this.$('input').select();
   },
 
   setInputValue: function() {
@@ -14,6 +18,50 @@ export default Ember.Component.extend(ManualDropdown, {
   initInputValue: function() {
     this.setInputValue();
   }.on('init'),
+
+  initInput: function() {
+    this.$('input').keyup((e) => {
+      const value = this.get('inputValue');
+
+      // Don't initiate a search if someone is tabbing through filters
+      if (e.keyCode !== 9) {
+        if (Ember.isPresent(value) && value.length > 2) {
+          this.set('hasPerformedSearch', true);
+          this.set('isSearching', true);
+          Ember.run.debounce(this, this.sendSearchQuery, value, 300);
+        }
+      }
+    });
+  }.on('didInsertElement'),
+
+  removeQueryInput: function() {
+    this.$('input').off('keyUp');
+  }.on('willDestroyElement'),
+
+  updateFilter() {
+    this.set('open', false);
+    this.sendAction('submit');
+  },
+
+  sendSearchQuery(value) {
+    const url = `/${config.API_NAMESPACE}/locations`;
+
+    this.set('location', value);
+
+    ajax(url, {
+      data: {query: value}
+    }).then((response) => {
+      const locations = response.locations.map((location) => {
+        return `${location.city}, ${location.state}`;
+      });
+
+      this.setProperties({
+        places: locations,
+        open: true,
+        isSearching: false
+      });
+    });
+  },
 
   actions: {
     setLocation(location) {
@@ -28,6 +76,14 @@ export default Ember.Component.extend(ManualDropdown, {
       Ember.run.later(() => {
         this.updateFilter();
       }, 10);
+    },
+
+    customSearch() {
+      Ember.run.later(() => {
+        this.$('input').focus();
+      }, 50);
+
+      this.send('setLocation', '');
     }
   }
 });
