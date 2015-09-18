@@ -1,8 +1,14 @@
 <h2 class='SectionHeader'>
   <div class='SectionHeader-buttonContainer'>
-    <button class={{buttonClass}} {{action 'toggleInfo'}}>
-      Reply
-    </button>
+    {{#if isFromListServ}}
+      <a href={{mailToHref}} class={{buttonClass}}>
+        Reply
+      </a>
+    {{else}}
+      <button class={{buttonClass}} {{action 'toggleInfo'}}>
+        Reply
+      </button>
+    {{/if}}
   </div>
 </h2>
 
