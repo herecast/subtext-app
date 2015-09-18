@@ -39,6 +39,26 @@ export default DS.Model.extend({
     }
   }.property('parentContentType'),
 
+  commentCountText: function() {
+    const count = this.get('commentCount');
+
+    if (count === 1) {
+      return 'post';
+    } else {
+      return 'posts';
+    }
+  }.property('commentCount'),
+
+  viewCountText: function() {
+    const count = this.get('talk.viewCount');
+
+    if (count === 1) {
+      return 'view';
+    } else {
+      return 'views';
+    }
+  }.property('viewCount'),
+
   commentAnchor: function() {
     return `comment-${this.get('id')}`;
   }.property('talk.id'),
