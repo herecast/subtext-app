@@ -1,4 +1,10 @@
 <div class='Container--noGutter'>
+  {{#if showPrevPage}}
+    <div class='pull-left u-layoutPadT20'>
+      {{partial 'partials/pagination-nav'}}
+    </div>
+  {{/if}}
+
   <div class='pull-right ContextBar'>
     <span class='ContextBar-eventCount'>
       Showing {{model.length}} listings.
@@ -11,6 +17,8 @@
     {{/if}}
   </div>
 </div>
+
+
 
 {{#if model}}
   {{grouped-market-posts

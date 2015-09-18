@@ -70,6 +70,10 @@ export default Ember.Mixin.create({
       this.goToPage(nextPage);
     },
 
+    firstPage() {
+      this.goToPage(1);
+    },
+
     resetFilter(controllerName, filterParams) {
       const controller = this.controllerFor(controllerName);
 

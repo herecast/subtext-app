@@ -2,6 +2,9 @@
   <button class='btn Button--primary' {{action 'prevPage'}}>
     {{fa-icon 'arrow-left'}} Prev
   </button>
+  <button class='btn Button--primary' {{action 'firstPage'}}>
+    First
+  </button>
 {{/if}}
 
 {{#if showNextPage}}
@@ -9,3 +12,5 @@
     Next {{fa-icon 'arrow-right'}}
   </button>
 {{/if}}
+
+
