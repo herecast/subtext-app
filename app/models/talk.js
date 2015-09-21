@@ -50,7 +50,7 @@ export default DS.Model.extend({
   }.property('commentCount'),
 
   viewCountText: function() {
-    const count = this.get('talk.viewCount');
+    const count = this.get('viewCount');
 
     if (count === 1) {
       return 'view';
