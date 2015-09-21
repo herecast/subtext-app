@@ -12,19 +12,15 @@ export default Ember.Component.extend({
   isValid: Ember.computed.alias('instance.isValid'),
 
   error: function() {
-    if (!this.get('isValid')) {
-      const start = this.get('startsAt');
-      const stop = this.get('endsAt');
+    const start = this.get('startsAt');
+    const stop = this.get('endsAt');
 
-      if (Ember.isBlank(start)) {
-        return 'Please enter a start time';
-      } else if (start && stop && start > stop) {
-        return 'End Time cannot be before Start Time';
-      }
-    } else {
-      return null;
+    if (Ember.isBlank(start) || Ember.isBlank(this.get('startTime'))) {
+      return 'Please enter a start date and time';
+    } else if (start && stop && start > stop) {
+      return 'End Time cannot be before Start Time';
     }
-  }.property('isValid'),
+  }.property('date', 'startTime', 'endTime'),
 
   subtitleDate: function() {
     const date = this.get('startsAt');
