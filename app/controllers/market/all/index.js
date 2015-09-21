@@ -5,16 +5,18 @@ export default Ember.Controller.extend(PaginatedFilter, {
   mixpanel: Ember.inject.service('mixpanel'),
   secondaryBackground: true,
 
-  queryParams: ['query', 'location', 'page', 'per_page'],
+  queryParams: ['query', 'location', 'locationId', 'page', 'per_page'],
 
   page: 1,
   per_page: 24,
 
   defaultQuery: 'Everything',
   defaultLocation: 'All Communities',
+  defaultLocationId: null,
 
   query: Ember.computed.oneWay('defaultQuery'),
   location: Ember.computed.oneWay('defaultLocation'),
+  locationId: Ember.computed.oneWay('defaultLocationId'),
 
   showReset: function() {
     const isDefaultQuery = this.get('defaultQuery') === this.get('query');
@@ -29,6 +31,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
       const params = {
         location: this.get('defaultLocation'),
+        locationId: this.get('defaultLocationId'),
         query: this.get('defaultQuery')
       };
 

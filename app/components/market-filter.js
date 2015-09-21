@@ -7,7 +7,9 @@ export default Ember.Component.extend({
 
   actions: {
     submit() {
-      const filterParams = this.getProperties('query', 'location');
+      const filterParams = this.getProperties(
+        'query', 'location', 'locationId'
+      );
 
       this.get('mixpanel').trackEvent('Market Search', {
         'Query': this.get('query'),

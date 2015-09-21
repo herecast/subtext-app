@@ -52,7 +52,10 @@ export default Ember.Component.extend(ManualDropdown, {
       data: {query: value}
     }).then((response) => {
       const locations = response.locations.map((location) => {
-        return `${location.city}, ${location.state}`;
+        return {
+          name: `${location.city}, ${location.state}`,
+          id: location.id
+        };
       });
 
       this.setProperties({
@@ -64,10 +67,11 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   actions: {
-    setLocation(location) {
+    setLocation(locationName, locationId) {
       this.setProperties({
-        location: location,
-        inputValue: location,
+        location: locationName,
+        locationId: locationId,
+        inputValue: locationId,
         open: false
       });
 
@@ -83,7 +87,7 @@ export default Ember.Component.extend(ManualDropdown, {
         this.$('input').focus();
       }, 50);
 
-      this.send('setLocation', '');
+      this.send('setLocation', '', null);
     }
   }
 });
