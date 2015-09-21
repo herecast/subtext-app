@@ -14,12 +14,7 @@ export default Ember.Component.extend({
   }.observes('eventInstances.@each.isValid'),
 
   addDate: function() {
-    const startsAt = this.get('eventInstances.firstObject.startsAt');
-
-    const eventInstance = this.store.createRecord('event-instance', {
-      startsAt: startsAt
-    });
-
+    const eventInstance = this.store.createRecord('event-instance');
     this.get('eventInstances').pushObject(eventInstance);
   },
 

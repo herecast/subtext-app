@@ -18,26 +18,37 @@ export default DS.Model.extend(BaseEvent, {
   isValid: DS.attr('boolean'),
 
   formattedDate: function() {
-    const date = this.get('startsAt').format('MMMM D');
-    const startTime = this.get('startsAt').format('h:mmA');
+    if (this.get('isValid')) {
+      const date = this.get('startsAt').format('MMMM D');
+      const startTime = this.get('startsAt').format('h:mmA');
 
-    if (Ember.isEmpty(this.get('endsAt'))) {
-      return `${date} | ${startTime}`;
-    } else {
-      const endTime = this.get('endsAt').format('h:mmA');
+      if (Ember.isEmpty(this.get('endsAt'))) {
+        return `${date} | ${startTime}`;
+      } else {
+        const endTime = this.get('endsAt').format('h:mmA');
 
-      return `${date} | ${startTime}-${endTime}`;
+        return `${date} | ${startTime}-${endTime}`;
+      }
     }
   }.property('startsAt', 'endsAt'),
 
   timeRange: function() {
-    const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
+    if (this.get('isValid')) {
+      const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
 
-    if (Ember.isEmpty(this.get('endsAt'))) {
-      return `${startTime}`;
-    } else {
-      const endTime = this.get('endsAt').format('LT');
-      return `${startTime} - ${endTime}`;
+      if (Ember.isEmpty(this.get('endsAt'))) {
+        return `${startTime}`;
+      } else {
+        const endTime = this.get('endsAt').format('LT');
+        return `${startTime} - ${endTime}`;
+      }
     }
-  }.property('startsAt', 'endsAt')
+  }.property('startsAt', 'endsAt'),
+
+  validate: function() {
+    const start = this.get('startsAt');
+    const stop = this.get('endsAt');
+    const isInvalid = Ember.isBlank(start) || (Ember.isPresent(start) && Ember.isPresent(stop) && start > stop);
+    this.set('isValid', !isInvalid);
+  }.observes('startsAt', 'endsAt')
 });
