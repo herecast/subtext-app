@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  scrollMaintainer: Ember.inject.service('scroll-maintainer'),
+
   queryParams: {
     query: {
       refreshModel: true
@@ -27,6 +29,8 @@ export default Ember.Mixin.create({
 
   goToPage(page) {
     const perPage = this.controller.get('per_page');
+
+    this.set('scrollMaintainer.position', 0);
 
     this.transitionTo({
       queryParams: {page: page, per_page: perPage}

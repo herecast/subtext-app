@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  scrollMaintainer: Ember.inject.service('scroll-maintainer'),
+
   scrollingTimeout: 100,
 
   bindScrolling: Ember.on('didInsertElement', function() {
@@ -18,11 +20,11 @@ export default Ember.Mixin.create({
   }),
 
   preservePos: Ember.on('didInsertElement', function() {
-    const position = this.getWithDefault('controller.scrollPosition', 0);
+    const position = this.getWithDefault('scrollMaintainer.position', 0);
     Ember.$(window).scrollTop(position);
   }),
 
   runScrolled() {
-    this.set('controller.scrollPosition', Ember.$(window).scrollTop());
+    this.set('scrollMaintainer.position', Ember.$(window).scrollTop());
   }
 });
