@@ -1,21 +1,13 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
-import moment from 'moment';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
 
   model() {
-    // New event instances default to noon.
-    const startsAt = moment();
-    startsAt.hour(12);
-    startsAt.minute(0);
-
-    const eventInstance = this.store.createRecord('event-instance', {
-      startsAt: startsAt
-    });
+    const eventInstance = this.store.createRecord('event-instance');
 
     return this.store.createRecord('event', {
       listservIds: [],

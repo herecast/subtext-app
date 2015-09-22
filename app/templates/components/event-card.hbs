@@ -16,7 +16,9 @@
       {{/link-to}}
     {{/if}}
 
-    <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+    {{#if timeRange}}
+      <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+    {{/if}}
 
     {{#if hasVenue}}
       <h5 class='EventCard-venue'>

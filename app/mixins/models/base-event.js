@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import moment from 'moment';
 
 export default Ember.Mixin.create({
   contactEmail: DS.attr('string'),
@@ -14,7 +13,7 @@ export default Ember.Mixin.create({
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   imageUrl: DS.attr('string'),
   socialEnabled: DS.attr('boolean', {defaultValue: true}),
-  startsAt: DS.attr('moment-date', {defaultValue: moment()}),
+  startsAt: DS.attr('moment-date'),
   subtitle: DS.attr('string'),
   title: DS.attr('string'),
   venueAddress: DS.attr('string'),
