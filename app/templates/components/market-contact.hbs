@@ -1,14 +1,8 @@
 <h2 class='SectionHeader'>
   <div class='SectionHeader-buttonContainer'>
-    {{#if isFromListServ}}
-      <a href={{mailToHref}} class={{buttonClass}}>
-        Reply
-      </a>
-    {{else}}
-      <button class={{buttonClass}} {{action 'toggleInfo'}}>
-        Reply
-      </button>
-    {{/if}}
+    <button class={{buttonClass}} {{action 'toggleInfo'}}>
+      Reply
+    </button>
   </div>
 </h2>
 
@@ -18,7 +12,9 @@
   {{else if infoLoaded}}
     {{#if email}}
       <div class='col-sm-7'>
-        {{fa-icon 'envelope'}} {{email}}
+        <a href={{mailToHref}}>
+          {{fa-icon 'envelope'}} {{email}}
+        </a>
       </div>
     {{/if}}
 
