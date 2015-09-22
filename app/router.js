@@ -75,6 +75,7 @@ Router.map(function() {
   this.route('privacy');
   this.route('copyright');
   this.route('copyright-agent');
+  this.route('error-404', {path: '/not-found'});
 });
 
 export default Router;
