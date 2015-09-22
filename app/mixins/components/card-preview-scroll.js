@@ -5,7 +5,8 @@ export default Ember.Mixin.create({
     const cardPreview = Ember.$('.ContentCardPreview-content');
     cardPreview.affix({
       offset: {
-        top: cardPreview.offset().top - 20
+        top: cardPreview.offset().top - 20,
+        bottom: 253
       }
     });
   }.on('didInsertElement')
