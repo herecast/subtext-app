@@ -1,12 +1,20 @@
 <div class='Container--noGutter'>
   <div class='AuthForm u-layoutPadB50'>
+    <div class='row'>
+      <div class='col-md-8 col-md-offset-2 u-layoutPadT30'>
+        <h6>
+          To comment, report abuse, or create an event, listing, or Talk post, you need to join the dailyUV community. If you’re new to the site, scroll down this page and click the Join button.
+        </h6>
+
+        <h6>
+          If you’ve already registered, enter your email and password and click Sign In.
+        </h6>
+      </div>
+    </div>
+
     <h1>Sign In</h1>
 
-    <h6>
-      DailyUV brings you news, events, market listings and talk for your community every day.
-    </h6>
-
-    <div class='row Section'>
+    <div class='row'>
       <div class='col-sm-4 col-sm-offset-4'>
         <form {{action 'authenticate' on='submit'}}>
           {{#form-group error=error}}
