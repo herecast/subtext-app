@@ -9,7 +9,7 @@
     <thead>
       <tr class='h4'>
         <th class='ContentTable-name'>
-          {{#link-to 'dashboard' (query-params sort=nameParam)}}
+          {{#link-to 'dashboard' (query-params sort=nameParam sorted=true)}}
             Name
 
             {{#if sortedByName}}
@@ -18,7 +18,7 @@
           {{/link-to}}
         </th>
         <th class='u-textCentered'>
-          {{#link-to 'dashboard' (query-params sort=typeParam)}}
+          {{#link-to 'dashboard' (query-params sort=typeParam sorted=true)}}
             Type
 
             {{#if sortedByType}}
@@ -27,7 +27,7 @@
           {{/link-to}}
         </th>
         <th class='u-textCentered'>
-          {{#link-to 'dashboard' (query-params sort=dateParam)}}
+          {{#link-to 'dashboard' (query-params sort=dateParam sorted=true)}}
             Date
 
             {{#if sortedByDate}}
@@ -36,7 +36,7 @@
           {{/link-to}}
         </th>
         <th class='u-textCentered'>
-          {{#link-to 'dashboard' (query-params sort=viewsParam)}}
+          {{#link-to 'dashboard' (query-params sort=viewsParam sorted=true)}}
             Views
 
             {{#if sortedByViews}}
@@ -45,7 +45,7 @@
           {{/link-to}}
         </th>
         <th class='u-textCentered'>
-          {{#link-to 'dashboard' (query-params sort=commentsParam)}}
+          {{#link-to 'dashboard' (query-params sort=commentsParam sorted=true)}}
             Comments
 
             {{#if sortedByComments}}
