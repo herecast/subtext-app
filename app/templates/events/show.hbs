@@ -77,30 +77,36 @@
                   Contact
                 </h1>
                 <div class='hidden-xs'>
-                  <div class='EventInfo-contactInfo clearfix'>
-                    {{fa-icon 'envelope EventInfo-contactIcon'}}
-                    <div class='EventInfo-contactItem u-textTruncate'>
-                      <a href="mailto:{{model.contactEmail}}">
-                        {{model.contactEmail}}
-                      </a>
+                  {{#if model.contactEmail}}
+                    <div class='EventInfo-contactInfo clearfix'>
+                      {{fa-icon 'envelope EventInfo-contactIcon'}}
+                      <div class='EventInfo-contactItem u-textTruncate'>
+                        <a href="mailto:{{model.contactEmail}}">
+                          {{model.contactEmail}}
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  {{/if}}
 
-                  <div class='EventInfo-contactInfo clearfix'>
-                    {{fa-icon 'phone EventInfo-contactIcon EventInfo-phoneIcon'}}
-                    <div class='EventInfo-contactItem u-textTruncate'>
-                      <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                  {{#if model.contactPhone}}
+                    <div class='EventInfo-contactInfo clearfix'>
+                      {{fa-icon 'phone EventInfo-contactIcon EventInfo-phoneIcon'}}
+                      <div class='EventInfo-contactItem u-textTruncate'>
+                        <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                      </div>
                     </div>
-                  </div>
+                  {{/if}}
 
-                  <div class='EventInfo-contactInfo clearfix'>
-                    {{fa-icon 'link EventInfo-contactIcon EventInfo-linkIcon'}}
-                    <div class='EventInfo-contactItem u-textTruncate'>
-                      {{#normalized-link url=model.eventUrl}}
-                        {{model.eventUrl}}
-                      {{/normalized-link}}
+                  {{#if model.eventUrl}}
+                    <div class='EventInfo-contactInfo clearfix'>
+                      {{fa-icon 'link EventInfo-contactIcon EventInfo-linkIcon'}}
+                      <div class='EventInfo-contactItem u-textTruncate'>
+                        {{#normalized-link url=model.eventUrl}}
+                          {{model.eventUrl}}
+                        {{/normalized-link}}
+                      </div>
                     </div>
-                  </div>
+                  {{/if}}
                 </div>
 
                 <div class='visible-xs'>
