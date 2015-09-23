@@ -38,17 +38,19 @@
     </div>
 
     <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
-      {{!-- {{social-share}} --}}
+      {{#floating-side-column enabled=media.isDesktop}}
+        {{!-- {{social-share}} --}}
 
-      {{report-content-details contentId=model.contentId}}
+        {{report-content-details contentId=model.contentId}}
 
-      {{#if model.canEdit}}
-        {{edit-content-link
-          contentId=model.id
-          route='market.edit'
-          text='Edit Listing'
-        }}
-      {{/if}}
+        {{#if model.canEdit}}
+          {{edit-content-link
+            contentId=model.id
+            route='market.edit'
+            text='Edit Listing'
+          }}
+        {{/if}}
+      {{/floating-side-column}}
     </div>
   </div>
 

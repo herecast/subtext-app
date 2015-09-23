@@ -46,15 +46,17 @@
     </div>
 
     <div class='col-md-2 col-sm-3'>
-      {{!-- {{social-share}} --}}
+      {{#floating-side-column enabled=media.isDesktop}}
+        {{!-- {{social-share}} --}}
 
-      {{report-content-details contentId=model.contentId}}
+        {{report-content-details contentId=model.contentId}}
 
-      {{comment-bubble
-        type='news'
-        count=model.commentCount
-        class='hidden-xs hidden-sm'
-      }}
+        {{comment-bubble
+          type='news'
+          count=model.commentCount
+          class='hidden-xs hidden-sm'
+        }}
+      {{/floating-side-column}}
     </div>
   </div>
 

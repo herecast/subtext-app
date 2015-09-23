@@ -89,15 +89,17 @@
     </div>
 
     <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
-      {{!-- {{social-share}} --}}
+      {{#floating-side-column enabled=media.isDesktop}}
+        {{!-- {{social-share}} --}}
 
-      {{report-content-details contentId=model.contentId}}
+        {{report-content-details contentId=model.contentId}}
 
-      {{comment-bubble
-        type='talk'
-        count=model.commentCount
-        class='hidden-xs hidden-sm'
-      }}
+        {{comment-bubble
+          type='talk'
+          count=model.commentCount
+          class='hidden-xs hidden-sm'
+        }}
+      {{/floating-side-column}}
     </div>
   </div>
 
