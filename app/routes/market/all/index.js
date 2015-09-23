@@ -21,7 +21,7 @@ export default Ember.Route.extend(Track, PaginatedFilter, History, {
 
     // Set the query params on the parent events controller so that it's
     // available in the filter on the index and show pages.
-    const filterParams = controller.getProperties('query', 'location');
+    const filterParams = controller.getProperties('query', 'location', 'locationId');
 
     this.setupFilter('market/all', filterParams);
   }
