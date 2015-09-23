@@ -19,7 +19,7 @@ export default Ember.Route.extend(Track, PaginatedFilter, History, {
     this._super(controller, model);
 
     const filterParams = controller.getProperties(
-      'query', 'location', 'publication'
+      'query', 'location', 'publication', 'locationId'
     );
 
     this.setupFilter('news/all', filterParams);
