@@ -68,6 +68,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.baseURL = '/beta';
+
     // Uncomment to enable mock API in production
     ENV['ember-cli-mirage'] = {
       enabled: false
