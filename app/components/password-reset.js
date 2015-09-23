@@ -22,6 +22,7 @@ export default Ember.Component.extend({
         const url = `/${config.API_NAMESPACE}/current_user`;
         const data = {
           current_user: {
+            user_id: this.get('userId'),
             password: this.get('password'),
             password_confirmation: this.get('passwordConfirmation')
           }
