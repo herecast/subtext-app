@@ -1,0 +1,9 @@
+{{#if promotion.redirect_url}}
+  {{#if promotion.image_url}}
+    <a href='{{promotion.redirect_url}}' target='_blank'>
+      <img class='img-responsive RelatedPromotion' src='{{promotion.image_url}}'>
+    </a>
+  {{/if}}
+{{else if promotion.image_url}}
+  <img class='img-responsive RelatedPromotion' src='{{promotion.image_url}}'>
+{{/if}}
