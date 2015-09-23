@@ -25,7 +25,10 @@
       }}
 
       {{#if showPasswordForm}}
-        {{password-reset onSubmit='togglePasswordForm'}}
+        {{password-reset
+          userId=currentUser.userId
+          onSubmit='togglePasswordForm'
+        }}
       {{else}}
         <a href='#' {{action 'togglePasswordForm'}} class='h2 u-textUnderline'>
           Change Password
