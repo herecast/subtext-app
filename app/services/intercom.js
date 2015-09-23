@@ -3,6 +3,10 @@ import config from '../config/environment';
 
 export default Ember.Service.extend({
   boot(user) {
+    // The existing logged out version of Intercom needs to be shutdown
+    // so that the logged in version can boot up.
+    window.Intercom('shutdown');
+
     const intercomId = config.intercom.id;
 
     window.Intercom('boot', {
