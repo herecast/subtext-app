@@ -9,6 +9,7 @@ function sortBy(sort) {
 }
 
 export default Ember.Component.extend({
+  sorted: false,
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
   dateParam: sortBy('pubdate DESC'),
@@ -22,7 +23,7 @@ export default Ember.Component.extend({
   sortedByComments: equal('sort', 'comment_count DESC'),
 
   scrollToPostings: function() {
-    if (Ember.isPresent(this.get('sort'))) {
+    if (this.get('sorted')) {
       Ember.$('body').scrollTop(this.$().offset().top);
     }
   }.on('didInsertElement')
