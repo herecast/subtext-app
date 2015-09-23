@@ -36,17 +36,16 @@ module.exports = function(environment) {
     ENV.mixpanel = {
       enabled: true,
       LOG_EVENT_TRACKING: true,
-      token: 'cc9e3b32dc7554b8450156bb812f70cc'
-    }
-
-    ENV.intercom = {
-      id: 'egk6dwbj'
     }
 
     ENV['ember-cli-mirage'] = {
       enabled: false
     }
 
+    ENV['consumer-app-uri'] = 'http://stage-consumer.subtext.org';
+    ENV['gmaps-api-token'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
+    ENV['mixpanel-api-token'] = 'cc9e3b32dc7554b8450156bb812f70cc';
+    ENV['intercom-api-token'] = 'egk6dwbj';
   }
 
   if (environment === 'test') {
@@ -63,8 +62,9 @@ module.exports = function(environment) {
     ENV.mixpanel = {
       enabled: false,
       LOG_EVENT_TRACKING: false,
-      token: ''
     }
+
+    ENV['mixpanel-api-token'] = '';
   }
 
   if (environment === 'production') {
@@ -78,13 +78,6 @@ module.exports = function(environment) {
     ENV.mixpanel = {
       enabled: true,
       LOG_EVENT_TRACKING: false,
-      // token: '3e39bf4d0cb67ca4288bae2ec4ac5bb9' // production
-      token: 'cc9e3b32dc7554b8450156bb812f70cc' // development
-    }
-
-    ENV.intercom = {
-      id: 't4i5jg89' // production
-      // id: 'egk6dwbj' // development
     }
   }
 

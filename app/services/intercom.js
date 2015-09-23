@@ -7,7 +7,7 @@ export default Ember.Service.extend({
     // so that the logged in version can boot up.
     window.Intercom('shutdown');
 
-    const intercomId = config.intercom.id;
+    const intercomId = config['intercom-api-token'];
 
     window.Intercom('boot', {
       app_id: intercomId,

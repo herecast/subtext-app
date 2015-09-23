@@ -5,7 +5,7 @@ import Config from '../config/environment';
 export default Ember.Service.extend({
 
   setup: function() {
-    mixpanel.init(Config.mixpanel.token);
+    mixpanel.init(Config['mixpanel-api-token']);
   }.on('init'),
 
   pageHasAnalytics: function() {

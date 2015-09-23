@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'subtext-ui/config/environment';
 
 export default Ember.Component.extend({
   classNames: ['EventShow-map'],
@@ -12,7 +13,7 @@ export default Ember.Component.extend({
   }.property('locateName', 'fullAddress'),
 
   mapSrc: function() {
-    const key = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
+    const key = config['gmaps-api-token'];
     const location = this.get('location');
 
     return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${location}`;
