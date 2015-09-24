@@ -70,7 +70,7 @@ const eventBaseProperties = [
   'venue_zip', 'venue_id', 'venue_latitude', 'venue_longitude',
   'venue_locate_name', 'venue_url',
   'event_url', 'contact_phone', 'contact_email',
-  'title', 'subtitle', 'ends_at', 'starts_at'
+  'title', 'subtitle', 'ends_at', 'starts_at', 'event_id'
 ];
 
 const marketPostBaseProperties = [
@@ -267,7 +267,7 @@ export default function() {
   this.get('/event_instances/:id', function(db, request) {
     const event = db.event_instances.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
-    const showProperties = ['content_id', 'can_edit', 'event_id', 'admin_content_url', 'comment_count'];
+    const showProperties = ['content_id', 'can_edit', 'admin_content_url', 'comment_count'];
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
     data.event_instances = allInstances();
