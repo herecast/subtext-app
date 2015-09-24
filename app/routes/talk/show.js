@@ -1,8 +1,14 @@
 import Ember from 'ember';
+import RouteMetaMixin from '../../mixins/routes/social-tags';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RouteMetaMixin, {
   promotion: Ember.inject.service('promotion'),
   contentComments: Ember.inject.service('content-comments'),
+
+  modelImageKey: 'imageUrl',
+  modelForMetaTags: function() {
+    return this.modelFor(this.routeName).talk;
+  },
 
   model(params)  {
     const comments = new Ember.RSVP.Promise((resolve) => {
