@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RoutesSocialTagsMixin from '../../../mixins/routes/social-tags';
+import RoutesSocialTagsMixin from '../../../../mixins/routes/social-tags';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/social tags');
