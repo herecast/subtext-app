@@ -39,10 +39,7 @@ export default Ember.Controller.extend(Validation, {
           }
         }
       }).then(() => {
-        const data = {password: password, identification: email};
-        const promise = this.get('session').authenticate('simple-auth-authenticator:devise', data);
-
-        callback(promise);
+        this.transitionTo('register.complete');
       }).catch((response) => {
         this.set('error', response.jqXHR.responseJSON.errors);
         const promise = new Ember.RSVP.Promise((resolve, reject) => { reject(); });
