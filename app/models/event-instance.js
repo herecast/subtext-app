@@ -15,8 +15,6 @@ export default DS.Model.extend(BaseEvent, {
   venueLongitude: DS.attr('string'),
   venueLocateName: DS.attr('string'),
 
-  isValid: DS.attr('boolean'),
-
   formattedDate: function() {
     if (this.get('isValid')) {
       const date = this.get('startsAt').format('MMMM D');
@@ -30,7 +28,7 @@ export default DS.Model.extend(BaseEvent, {
         return `${date} | ${startTime}-${endTime}`;
       }
     }
-  }.property('startsAt', 'endsAt'),
+  }.property('isValid', 'startsAt', 'endsAt'),
 
   timeRange: function() {
     if (this.get('isValid')) {
@@ -45,10 +43,11 @@ export default DS.Model.extend(BaseEvent, {
     }
   }.property('startsAt', 'endsAt'),
 
-  validate: function() {
+  isValid: function() {
     const start = this.get('startsAt');
     const stop = this.get('endsAt');
     const isInvalid = Ember.isBlank(start) || (Ember.isPresent(start) && Ember.isPresent(stop) && start > stop);
-    this.set('isValid', !isInvalid);
-  }.observes('startsAt', 'endsAt')
+
+    return !isInvalid;
+  }.property('startsAt', 'endsAt')
 });
