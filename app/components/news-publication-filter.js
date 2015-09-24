@@ -44,7 +44,7 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const url = `/${config.API_NAMESPACE}/publications`;
+    const url = `${config.API_NAMESPACE}/publications`;
 
     this.set('publication', value);
 

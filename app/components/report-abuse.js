@@ -34,7 +34,7 @@ export default Ember.Component.extend({
       const id = this.get('contentId');
 
       if (flagType) {
-        const url = `/${config.API_NAMESPACE}/contents/${id}/moderate`;
+        const url = `${config.API_NAMESPACE}/contents/${id}/moderate`;
 
         ajax(url, {
           type: 'POST',

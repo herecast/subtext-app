@@ -13,7 +13,7 @@ export default Ember.Component.extend({
 
     savePhoto() {
       this.toggleProperty('isEditingImage');
-      const url = `/${config.API_NAMESPACE}/current_user`;
+      const url = `${config.API_NAMESPACE}/current_user`;
       const data = new FormData();
 
       if (this.get('currentUser.image')) {
