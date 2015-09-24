@@ -4,7 +4,7 @@ import ajax from 'ic-ajax';
 
 export default Ember.Service.extend({
   find(contentId) {
-    const promotionUrl = `/${config.API_NAMESPACE}/contents/${contentId}/related_promotion`;
+    const promotionUrl = `${config.API_NAMESPACE}/contents/${contentId}/related_promotion`;
 
     return new Ember.RSVP.Promise((resolve) => {
       ajax(promotionUrl).then((response) => {

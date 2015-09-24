@@ -15,7 +15,7 @@ export default DS.Model.extend(BaseEvent, {
   timeRange: Ember.computed.oneWay('eventInstances.firstObject.timeRange'),
 
   uploadImage() {
-    const url = `/${config.API_NAMESPACE}/events/${this.get('id')}`;
+    const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
     const data = new FormData();
 
     if (this.get('image')) {

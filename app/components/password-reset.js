@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   actions: {
     resetPassword() {
       if (this.get('isValid')) {
-        const url = `/${config.API_NAMESPACE}/current_user`;
+        const url = `${config.API_NAMESPACE}/current_user`;
         const data = {
           current_user: {
             user_id: this.get('userId'),

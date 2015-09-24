@@ -21,7 +21,7 @@ export default Ember.Component.extend(ManualDropdown, {
   }.on('willDestroyElement'),
 
   sendSearchQuery(value) {
-    const url = `/${config.API_NAMESPACE}/venues`;
+    const url = `${config.API_NAMESPACE}/venues`;
 
     ajax(url, {
       data: {query: value}

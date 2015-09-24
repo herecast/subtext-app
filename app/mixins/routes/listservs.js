@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
   setupController(controller, model) {
     this._super(controller, model);
 
-    const url = `/${config.API_NAMESPACE}/listservs`;
+    const url = `${config.API_NAMESPACE}/listservs`;
 
     ajax(url).then((response) => {
       controller.set('listservs', response.listservs);

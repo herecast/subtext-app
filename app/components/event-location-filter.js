@@ -44,7 +44,7 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const url = `/${config.API_NAMESPACE}/venue_locations`;
+    const url = `${config.API_NAMESPACE}/venue_locations`;
 
     this.set('location', value);
 
