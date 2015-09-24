@@ -17,7 +17,7 @@ export default DS.Model.extend(BaseEvent, {
 
   formattedDate: function() {
     if (this.get('isValid')) {
-      const date = this.get('startsAt').format('MMMM D');
+      const date = this.get('startsAt').format('MMM D');
       const startTime = this.get('startsAt').format('h:mmA');
 
       if (Ember.isEmpty(this.get('endsAt'))) {
