@@ -65,5 +65,15 @@ export default Ember.Component.extend({
 
   editRoute: function() {
     return `${this.get('parentRoute')}.edit`;
+  }.property(),
+
+  editId: function() {
+    const type = this.get('type');
+
+    if (type === 'event-instance') {
+      return this.get('content.eventId');
+    } else {
+      return this.get('content.id');
+    }
   }.property()
 });
