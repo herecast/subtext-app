@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    API_NAMESPACE: '/api/v3',
+    API_NAMESPACE: '/admin_api/v3',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -24,7 +24,7 @@ module.exports = function(environment) {
   // }
 
   ENV['simple-auth-devise'] = {
-    serverTokenEndpoint: '/api/v3/users/sign_in',
+    serverTokenEndpoint: '/admin_api/v3/users/sign_in',
   };
 
   if (environment === 'development') {
