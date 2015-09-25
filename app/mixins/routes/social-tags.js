@@ -11,10 +11,16 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     const model = this.modelForMetaTags();
     const imageKey = this.get('modelImageKey');
 
+    // Strip out all HTML tags from the content so it can be used for the description
+    let tmp = document.createElement("DIV");
+    tmp.innerHTML = model.get('content');
+    const description = tmp.textContent || tmp.innerText || "";
+
     return {
       'property': {
         'og:image': model.get(imageKey),
         'og:title': model.get('title'),
+        'og:description': description,
         'og:url': `${location.protocol}//${location.host}${location.pathname}`
       }
     };
