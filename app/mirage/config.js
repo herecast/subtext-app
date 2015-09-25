@@ -169,6 +169,9 @@ export default function() {
     };
   });
 
+  this.post('/users/sign_up', function() {
+  });
+
   this.post('/users/logout', function() {});
 
   this.get('/current_user', function(db) {
@@ -197,6 +200,13 @@ export default function() {
 
     return {
       current_user: current_user
+    };
+  });
+
+  this.post('/users/email_confirmation', function() {
+    return {
+      token: "FCxUDexiJsyChbMPNSyy",
+      email: "embertest@subtext.org"
     };
   });
 

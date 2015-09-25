@@ -13,6 +13,9 @@ Router.map(function() {
 
   this.route('login', {path: '/sign_in'});
   this.route('register', {path: '/sign_up'});
+  this.route('register.complete', {path: '/sign_up/complete'});
+  this.route('register.confirm', {path: '/sign_up/confirm/:token'});
+  this.route('register.error', {path: '/sign_up/error'});
 
   this.route('events', {path: '/events'}, function() {
     this.route('all', {path: '/'}, function() {});
