@@ -47,7 +47,10 @@
 
     <div class='col-md-2 col-sm-3'>
       {{#floating-side-column enabled=media.isDesktop}}
-        {{!-- {{social-share}} --}}
+        {{social-share
+          title=model.title
+          sharedBy=session.userName
+        }}
 
         {{report-content-details contentId=model.contentId}}
 
