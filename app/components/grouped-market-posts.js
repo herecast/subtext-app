@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   marketPosts: [],
 
   groupedPosts: function() {
-    const posts = this.get('marketPosts').sortBy('publishedAt');
+    const posts = this.get('marketPosts').sortBy('publishedAt').reverse();
     const groupBy = 'publishedAt';
 
     return buildGroup(posts, groupBy, 'dddd, MMMM D', function(date) {
