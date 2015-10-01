@@ -9,7 +9,9 @@ export default Ember.Component.extend({
 
   initContentAffixing: function() {
     const contentBody = this.$().closest('.row');
-    if (contentBody.outerHeight() > this.get('minHeight')) {
+    const enabled = this.get('enabled');
+
+    if (enabled && contentBody.outerHeight() > this.get('minHeight')) {
       this.affixContent();
 
       Ember.$(document).on('scroll.column', () => {
