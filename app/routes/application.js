@@ -36,7 +36,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       const currentUser = this.get('session.currentUser');
 
       if (Ember.isPresent(currentUser)) {
-        this.get('intercom').update();
+        Ember.run.next(() => {
+          this.get('intercom').update();
+        });
       }
 
       return true; // Bubble the didTransition event
