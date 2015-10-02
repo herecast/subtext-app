@@ -2,7 +2,6 @@ import Ember from 'ember';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
 
 export default Ember.Route.extend(RouteMetaMixin, {
-  promotion: Ember.inject.service('promotion'),
   contentComments: Ember.inject.service('content-comments'),
 
   modelImageKey: 'imageUrl',
@@ -27,10 +26,6 @@ export default Ember.Route.extend(RouteMetaMixin, {
     controller.setProperties({
       model: model.talk,
       comments: model.comments
-    });
-
-    this.get('promotion').find(model.talk.get('contentId')).then((promotion) => {
-      controller.set('relatedPromotion', promotion);
     });
   }
 });

@@ -6,8 +6,6 @@ import Redirect from '../../mixins/routes/redirect-after-login';
 import Dates from '../../lib/dates';
 
 export default Ember.Route.extend(Track, RouteMetaMixin, Redirect, {
-  promotion: Ember.inject.service('promotion'),
-
   modelImageKey: 'imageUrl',
 
   model(params) {
@@ -38,13 +36,5 @@ export default Ember.Route.extend(Track, RouteMetaMixin, Redirect, {
 
       this.transitionTo('events.all', {queryParams: queryParams});
     }
-  },
-
-  setupController(controller, model) {
-    this._super(controller, model);
-
-    this.get('promotion').find(model.get('contentId')).then((promotion) => {
-      controller.set('relatedPromotion', promotion);
-    });
   }
 });
