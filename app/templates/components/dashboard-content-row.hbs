@@ -11,9 +11,9 @@
 </td>
 <td class='u-textCentered'>{{contentType}}</td>
 <td class='u-textCentered'>{{publishedAt}}</td>
-<td class='u-textCentered'>{{content.views}}</td>
-<td class='u-textCentered'>{{content.comments}}</td>
-<td class='u-textCentered' colspan='2'>
+<td class='u-textCentered hidden-xs'>{{content.views}}</td>
+<td class='u-textCentered hidden-xs'>{{content.comments}}</td>
+<td class='u-textCentered hidden-xs' colspan='2'>
   {{#if isTalk}}
     {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
       View

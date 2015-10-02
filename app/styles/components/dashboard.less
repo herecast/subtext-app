@@ -5,10 +5,15 @@
 
 .Dashboard-avatar {
   display: block;
-  width: 330px;
-  height: 330px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   margin: 0 auto 30px;
+
+  @media (min-width: @screen-sm-min) {
+    width: 330px;
+    height: 330px;
+  }
 }
 
 .Dashboard-userName .InlineEdit-input {

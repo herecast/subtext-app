@@ -50,7 +50,7 @@
                   Create Market Listing
                 {{/link-to}}
               </li>
-              <li class='hidden-xs hidden-sm'>
+              <li>
                 {{#link-to 'dashboard' (query-params sorted=false) class='h4 ActionDropdown-item'}}
                   My Dashboard
                 {{/link-to}}
@@ -94,6 +94,11 @@
 
     <ul class='ActionDropdown collapse' id='mobile-dropdown-menu'>
       {{#if session.isAuthenticated}}
+        <li class='ActionDropdown-item'>
+          {{#link-to 'dashboard' (query-params sorted=false) class='h4'}}
+            My Dashboard
+          {{/link-to}}
+        </li>
         <li class='ActionDropdown-item'>
           <a href='#' {{action 'signOut'}} class='h4'>Log out</a>
         </li>

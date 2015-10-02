@@ -5,3 +5,15 @@
 .ContentTable-name {
   width: 35%;
 }
+
+.ContentTable td, .ContentTable th {
+  @media (max-width: @screen-xs-max) {
+    padding: 4px 8px;
+  }
+}
+
+.ContentTable tbody tr:nth-child(odd) {
+  @media (max-width: @screen-xs-max) {
+    background-color: white;
+  }
+}
