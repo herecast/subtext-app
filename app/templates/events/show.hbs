@@ -173,7 +173,10 @@
     {{event-other-dates event=model}}
 
     {{#unless isPreview}}
-      {{related-promotion promotion=relatedPromotion}}
+      {{related-promotion
+        contentId=model.contentId
+        promotion=relatedPromotion
+      }}
     {{/unless}}
 
     <h1 class='SectionHeader SectionHeader--paddedTop'>

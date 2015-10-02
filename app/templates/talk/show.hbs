@@ -84,7 +84,10 @@
       <div class='ContentText'>{{{model.content}}}</div>
 
       {{#unless isPreview}}
-        {{related-promotion promotion=relatedPromotion}}
+        {{related-promotion
+          contentId=model.contentId
+          promotion=relatedPromotion
+        }}
       {{/unless}}
     </div>
 

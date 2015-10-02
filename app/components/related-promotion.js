@@ -8,8 +8,14 @@ export default Ember.Component.extend({
     // clicks for ones that do.
     if (this.get('promotion.redirect_url')) {
       const bannerId = this.get('promotion.banner_id');
+      const url = `${config.API_NAMESPACE}/promotion_banners/${bannerId}/track_click`;
 
-      ajax(`${config.API_NAMESPACE}/promotion_banners/${bannerId}/track_click`);
+      ajax(url, {
+        type: 'POST',
+        data: {
+          content_id: this.get('contentId')
+        }
+      });
     }
   }
 });
