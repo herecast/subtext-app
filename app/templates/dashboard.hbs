@@ -18,11 +18,14 @@
         onUpdate='submit'
       }}
 
-      {{inline-edit
-        value=currentUser.email
-        class='u-layoutPadB30'
-        action='submit'
-      }}
+      <div class='InlineEdit'>
+        {{input
+          value=currentUser.email
+          autoresize=true
+          disabled=true
+          class='InlineEdit-input u-layoutPadB30'
+        }}
+      </div>
 
       {{#if showPasswordForm}}
         {{password-reset
