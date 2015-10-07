@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    API_NAMESPACE: '/admin_api/v3',
+    API_NAMESPACE: '/api/v3',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -24,7 +24,7 @@ module.exports = function(environment) {
   // }
 
   ENV['simple-auth-devise'] = {
-    serverTokenEndpoint: '/admin_api/v3/users/sign_in',
+    serverTokenEndpoint: '/api/v3/users/sign_in',
   };
 
   if (environment === 'development') {
@@ -42,7 +42,7 @@ module.exports = function(environment) {
       enabled: false
     }
 
-    ENV['consumer-app-uri'] = 'http://stage-consumer.subtext.org/beta';
+    ENV['consumer-app-uri'] = 'http://twe.subtext.org'
     ENV['gmaps-api-token'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
     ENV['mixpanel-api-token'] = 'cc9e3b32dc7554b8450156bb812f70cc';
     ENV['intercom-api-token'] = 'egk6dwbj';
@@ -69,7 +69,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/beta';
+    ENV.baseURL = '/';
 
     // Uncomment to enable mock API in production
     ENV['ember-cli-mirage'] = {

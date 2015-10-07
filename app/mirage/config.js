@@ -159,7 +159,7 @@ function mixedContent(db) {
 
 
 export default function() {
-  this.namespace = 'admin_api/v3';
+  this.namespace = 'api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.post('/users/sign_in', function() {
