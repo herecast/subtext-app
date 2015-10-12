@@ -42,7 +42,8 @@ export default Ember.Controller.extend(Validation, {
         }
       }).then((response) => {
         const mixpanel = this.get('mixpanel');
-        console.log(response);
+        // match the existing subtext_xxxxxxx distinct_id to the user's
+        // ID that the API is returning after creating the user
         mixpanel.alias(response.user.id);
 
         this.transitionTo('register.complete');
