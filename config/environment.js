@@ -42,9 +42,9 @@ module.exports = function(environment) {
       enabled: false
     }
 
-    ENV['consumer-app-uri'] = 'http://stage-consumer.subtext.org/beta';
+    ENV['consumer-app-uri'] = 'http://nick-consumer.subtextdev.org';
     ENV['gmaps-api-token'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
-    ENV['mixpanel-api-token'] = 'cc9e3b32dc7554b8450156bb812f70cc';
+    ENV['mixpanel-api-token'] = '68e07b0ff86c37367d928b5bfe6c7578';
     ENV['intercom-api-token'] = 'egk6dwbj';
     ENV['facebook-app-id'] = '238887832828749';
   }
