@@ -42,7 +42,7 @@ module.exports = function(environment) {
       enabled: false
     }
 
-    ENV['consumer-app-uri'] = 'http://nick-consumer.subtextdev.org';
+    ENV['consumer-app-uri'] = 'http://stage-consumer.subtext.org/beta';
     ENV['gmaps-api-token'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
     ENV['mixpanel-api-token'] = '68e07b0ff86c37367d928b5bfe6c7578';
     ENV['intercom-api-token'] = 'egk6dwbj';
