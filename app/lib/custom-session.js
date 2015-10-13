@@ -32,7 +32,6 @@ export default SimpleAuthSession.extend({
 
       intercom.boot(user);
     } else {
-      console.log('BLARGH: ' + mixpanel.getDistinctId());
       // we have two scenarios here. 1 -- the user is unregistered and has no
       // mixpanel cookie. 2 -- the user is not signed in, but has an existing
       // mixpanel cookie from an old session.
@@ -41,7 +40,7 @@ export default SimpleAuthSession.extend({
       // mixpanel's automatically assigned distinct IDs are long strings
       // of alphanumeric and other characters, whereas our distinct IDs
       // are either email addresses or integers
-      if (!emailRegexp.test(distinct_id) || isNaN(distinct_id)) {
+      if (!emailRegexp.test(distinct_id) && isNaN(distinct_id)) {
         if (~distinct_id.indexOf('subtext')) {
           mixpanel.identify(distinct_id);
         } else {
@@ -51,10 +50,8 @@ export default SimpleAuthSession.extend({
             name: 'subtext_' + distinct_id
           });
         }
-      } else {
-        // no need to people set since this case must already have a profile
-        mixpanel.identify(distinct_id);
-      }
+      } // no need to do anything in the 'else' situation since they are already
+      // identified appropriately.
     }
   }.observes('currentUser.isLoaded'),
 
