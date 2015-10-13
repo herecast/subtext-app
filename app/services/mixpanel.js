@@ -79,7 +79,9 @@ export default Ember.Service.extend({
 
   getDistinctId: function() {
     if (this.pageHasAnalytics()) {
-      return window.mixpanel.get_distinct_id();
+      if (window.mixpanel.__loaded) {
+        return window.mixpanel.get_distinct_id();
+      }
     }
   }
 });
