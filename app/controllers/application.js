@@ -32,20 +32,14 @@ export default Ember.Controller.extend({
     },
 
     trackClick(section) {
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
       const props = {};
-      props['userId'] = this.get('session.currentUser.userId');
-      props['userName'] = this.get('session.currentUser.name');
-      props['userEmail'] = this.get('session.currentUser.email');
-      props['userCommunity'] = this.get('session.currentUser.location');
-      props['testGroup'] = this.get('session.currentUser.testGroup');
-
-      props['channelName'] = section.capitalize();
-      props['pageName'] = section + '.index';
-      props['url'] = window.location.href;
-      props['pageNumber'] = 1;
-
-      props['navControlGroup'] = 'Channel Buttons';
-      props['navControl'] = section;
+  
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, 
+          mixpanel.getChannelProperties(section.capitalize(), section + '.index', 1));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Channel Buttons', section));
 
       this.get('mixpanel').trackEvent('selectNavControl', props);
     }
