@@ -22,7 +22,8 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember server`
+* `ember server --proxy your-admin-url` where your-admin-url points to the application
+hosting the API you're using. I.e. `http://nick-admin.subtextdev.org/`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ### Code Generators
