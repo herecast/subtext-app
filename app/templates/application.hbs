@@ -118,7 +118,7 @@
       </div>
 
       <ul class='SectionNavigation-list col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-1'>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackClick' 'news' }} data-toggle='collapse' data-target='#js-app-bar'>
           {{link-to 'News' 'news'
             (query-params
               page=1
@@ -131,7 +131,7 @@
             class='SectionNavigation-link SectionNavigation-newsLink'
           }}
         </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackClick' 'event' }} data-toggle='collapse' data-target='#js-app-bar'>
           {{link-to 'Events' 'events'
             (query-params
               page=1
@@ -145,7 +145,7 @@
             class='SectionNavigation-link SectionNavigation-eventLink'
           }}
         </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackClick' 'talk' }} data-toggle='collapse' data-target='#js-app-bar'>
           {{link-to 'Talk' 'talk'
             (query-params
               page=1
@@ -156,7 +156,7 @@
             SectionNavigation-talkLink'
           }}
         </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackClick' 'market' }} data-toggle='collapse' data-target='#js-app-bar'>
           {{link-to 'Market' 'market'
             (query-params
               page=1

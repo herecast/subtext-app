@@ -6,6 +6,7 @@ export default Ember.Controller.extend({
   eventsFilter: Ember.inject.controller('events/all/index'),
   talkFilter: Ember.inject.controller('talk/all/index'),
   marketFilter: Ember.inject.controller('market/all/index'),
+  mixpanel: Ember.inject.service('mixpanel'),
 
   backgroundClass: function() {
     const currentController = this.controllerFor(this.get('currentPath'));
@@ -28,6 +29,25 @@ export default Ember.Controller.extend({
       if (menuOpened) {
         this.get('intercom').trackEvent('avatar-user-menu-opened');
       }
+    },
+
+    trackClick(section) {
+      const props = {};
+      props['userId'] = this.get('session.currentUser.userId');
+      props['userName'] = this.get('session.currentUser.name');
+      props['userEmail'] = this.get('session.currentUser.email');
+      props['userCommunity'] = this.get('session.currentUser.location');
+      props['testGroup'] = this.get('session.currentUser.testGroup');
+
+      props['channelName'] = section.capitalize();
+      props['pageName'] = section + '.index';
+      props['url'] = window.location.href;
+      props['pageNumber'] = 1;
+
+      props['navControlGroup'] = 'Channel Buttons';
+      props['navControl'] = section;
+
+      this.get('mixpanel').trackEvent('selectNavControl', props);
     }
   }
 });
