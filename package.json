@@ -27,6 +27,7 @@
     "ember-cli-async-button": "0.5.0",
     "ember-cli-babel": "^5.0.0",
     "ember-cli-dependency-checker": "^1.0.0",
+    "ember-cli-dotenv": "^1.0.4",
     "ember-cli-font-awesome": "0.0.9",
     "ember-cli-front-end-builds": "^0.1.0",
     "ember-cli-htmlbars": "0.7.6",

@@ -42,11 +42,11 @@ module.exports = function(environment) {
       enabled: false
     }
 
-    ENV['consumer-app-uri'] = 'http://stage-consumer.subtext.org/beta';
-    ENV['gmaps-api-token'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
-    ENV['mixpanel-api-token'] = '68e07b0ff86c37367d928b5bfe6c7578';
-    ENV['intercom-api-token'] = 'egk6dwbj';
-    ENV['facebook-app-id'] = '238887832828749';
+    ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;
+    ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN;
+    ENV['mixpanel-api-token'] = process.env.MIXPANEL_API_TOKEN;
+    ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
+    ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
   }
 
   if (environment === 'test') {
