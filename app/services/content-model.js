@@ -14,7 +14,7 @@ export default Ember.Service.extend({
     const comments = record.comment_count;
     let modelName = '';
 
-    if (type === 'news') {
+    if (type === 'news' || type === 'News') {
       modelName = 'news';
     } else if (type === 'event' || type === 'Event') {
       modelName = 'event-instance';
