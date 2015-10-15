@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 import Config from '../config/environment';
 /* global mixpanel */
 
@@ -73,6 +74,14 @@ export default Ember.Service.extend({
 
     if (this.logTrackingEnabled()) {
       this.logTracking('people.set', attributes);
+    }
+  },
+
+  getDistinctId: function() {
+    if (this.pageHasAnalytics()) {
+      if (window.mixpanel.__loaded) {
+        return window.mixpanel.get_distinct_id();
+      }
     }
   }
 });

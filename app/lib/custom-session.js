@@ -20,10 +20,9 @@ export default SimpleAuthSession.extend({
 
   setupCurrentUser: function() {
     const user = this.get('currentUser');
+    const mixpanel = this.get('mixpanel');
 
     if (user && user.get('isLoaded')) {
-      const mixpanel = this.get('mixpanel');
-
       mixpanel.identify(user.get('userId'));
       mixpanel.peopleSet({
         name: user.get('name')
@@ -32,6 +31,27 @@ export default SimpleAuthSession.extend({
       const intercom = this.get('intercom');
 
       intercom.boot(user);
+    } else {
+      // we have two scenarios here. 1 -- the user is unregistered and has no
+      // mixpanel cookie. 2 -- the user is not signed in, but has an existing
+      // mixpanel cookie from an old session.
+      const distinct_id = mixpanel.getDistinctId();
+      const emailRegexp = /\S+@\S+\.\S+/;
+      // mixpanel's automatically assigned distinct IDs are long strings
+      // of alphanumeric and other characters, whereas our distinct IDs
+      // are either email addresses or integers
+      if (!emailRegexp.test(distinct_id) && isNaN(distinct_id)) {
+        if (~distinct_id.indexOf('subtext')) {
+          mixpanel.identify(distinct_id);
+        } else {
+          mixpanel.identify('subtext_' + distinct_id);
+          // ensure creation of a profile
+          mixpanel.peopleSet({
+            name: 'subtext_' + distinct_id
+          });
+        }
+      } // no need to do anything in the 'else' situation since they are already
+      // identified appropriately.
     }
   }.observes('currentUser.isLoaded'),
 
