@@ -38,7 +38,7 @@ export default Ember.Controller.extend({
   
       Ember.merge(props, mixpanel.getUserProperties(currentUser));
       Ember.merge(props, 
-          mixpanel.getChannelProperties(section.capitalize(), section + '.index', 1));
+          mixpanel.getNavigationProperties(section.capitalize(), section + '.index', 1));
       Ember.merge(props, mixpanel.getNavigationControlProperties('Channel Buttons', section));
 
       this.get('mixpanel').trackEvent('selectNavControl', props);

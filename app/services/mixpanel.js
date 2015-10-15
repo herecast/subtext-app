@@ -95,7 +95,7 @@ export default Ember.Service.extend({
     return props;
   },
 
-  getChannelProperties: function(channelName, pageName, pageNumber) {
+  getNavigationProperties: function(channelName, pageName, pageNumber) {
     const props = {};
     props['channelName'] = channelName;
     props['pageName'] = pageName;
