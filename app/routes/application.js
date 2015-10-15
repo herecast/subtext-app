@@ -3,6 +3,7 @@ import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: Ember.inject.service('intercom'),
+  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     return this.get('session.currentUser');
@@ -40,6 +41,23 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           this.get('intercom').update();
         });
       }
+      //track all page exits 
+      const leaveProps = {};
+      const visitProps = {};
+      const mixpanel = this.get('mixpanel');
+      const from = window.location.href;
+
+      Ember.merge(leaveProps, mixpanel.getUserProperties(currentUser));
+      leaveProps['pageUrl'] = from;
+
+      mixpanel.trackEvent('pageLeave', leaveProps);
+
+      //track all page visits
+      Ember.run.next(() => {
+        visitProps['targetPageUrl'] = window.location.href;
+        visitProps['sourcePageUrl'] = from;
+        mixpanel.trackEvent('pageVisit', visitProps);
+      });
 
       return true; // Bubble the didTransition event
     }
