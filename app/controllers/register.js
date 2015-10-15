@@ -8,8 +8,6 @@ const isPresent = Ember.isPresent;
 export default Ember.Controller.extend(Validation, {
   secondaryBackground: true,
 
-  mixpanel: Ember.inject.service('mixpanel'),
-
   isValid: function() {
     const email = this.get('email');
     const password = this.get('password');
@@ -40,12 +38,7 @@ export default Ember.Controller.extend(Validation, {
             password_confirmation: password
           }
         }
-      }).then((response) => {
-        const mixpanel = this.get('mixpanel');
-        // match the existing subtext_xxxxxxx distinct_id to the user's
-        // ID that the API is returning after creating the user
-        mixpanel.alias(response.user.id);
-
+      }).then(() => {
         this.transitionTo('register.complete');
       }).catch((response) => {
         this.set('error', response.jqXHR.responseJSON.errors);
