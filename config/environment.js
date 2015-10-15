@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
-    API_NAMESPACE: '/admin_api/v3',
+    API_NAMESPACE: '/api/v3',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -24,7 +24,7 @@ module.exports = function(environment) {
   // }
 
   ENV['simple-auth-devise'] = {
-    serverTokenEndpoint: '/admin_api/v3/users/sign_in',
+    serverTokenEndpoint: '/api/v3/users/sign_in',
   };
 
   if (environment === 'development') {
@@ -69,7 +69,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/beta';
+    ENV.baseURL = '/';
 
     // Uncomment to enable mock API in production
     ENV['ember-cli-mirage'] = {
