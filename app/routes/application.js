@@ -46,13 +46,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       const visitProps = {};
       const mixpanel = this.get('mixpanel');
       const from = window.location.href;
+      const userProperties = mixpanel.getUserProperties(currentUser);
 
-      Ember.merge(leaveProps, mixpanel.getUserProperties(currentUser));
+      Ember.merge(leaveProps, userProperties);
       leaveProps['pageUrl'] = from;
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
       Ember.run.next(() => {
+        Ember.merge(visitProps, userProperties);
         visitProps['targetPageUrl'] = window.location.href;
         visitProps['sourcePageUrl'] = from;
         mixpanel.trackEvent('pageVisit', visitProps);
