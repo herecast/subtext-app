@@ -83,5 +83,32 @@ export default Ember.Service.extend({
         return window.mixpanel.get_distinct_id();
       }
     }
+  },
+
+  getUserProperties: function(user) {
+    const props = {};
+    props['userId'] = user.get('userId');
+    props['userName'] = user.get('name');
+    props['userEmail'] = user.get('email');
+    props['userCommunity'] = user.get('location');
+    props['testGroup'] = user.get('testGroup');
+    return props;
+  },
+
+  getNavigationProperties: function(channelName, pageName, pageNumber) {
+    const props = {};
+    props['channelName'] = channelName;
+    props['pageName'] = pageName;
+    props['url'] = window.location.href;
+    props['pageNumber'] = pageNumber;
+    return props;
+  },
+
+  getNavigationControlProperties: function(navControlGroup, navControl) {
+    const props = {};
+    props['navControlGroup'] = navControlGroup;
+    props['navControl'] = navControl;
+    return props;
   }
+
 });
