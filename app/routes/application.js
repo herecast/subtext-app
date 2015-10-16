@@ -49,7 +49,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
       Ember.merge(leaveProps, mixpanel.getUserProperties(currentUser));
       leaveProps['pageUrl'] = from;
-
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
