@@ -110,9 +110,11 @@ export default Ember.Component.extend(Validation, {
       let url = this.get('event.eventUrl').trim();
       const protocol = /^[a-z]+:/i;
 
-      if (!protocol.test(url)) {
+      if (url === 'http://') {
+        url = '';
+      } else if (!protocol.test(url) && url.length > 0) {
         url = 'http://' + url;
-      }
+      } 
 
       this.set('event.eventUrl', url);
     }
