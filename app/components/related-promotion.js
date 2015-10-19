@@ -4,13 +4,28 @@ import ajax from 'ic-ajax';
 
 export default Ember.Component.extend({
   promotionService: Ember.inject.service('promotion'),
+  mixpanel: Ember.inject.service('mixpanel'),
 
   getPromotion: function() {
-    const contentId = this.get('contentId');
+    const content = this.get('contentModel');
+    const contentId = content.get('contentId');
 
     if (contentId) {
       this.get('promotionService').find(contentId).then((promotion) => {
         this.set('promotion', promotion);
+        const props = {};
+        const mixpanel = this.get('mixpanel');
+        const currentUser = this.get('session.currentUser');
+        Ember.merge(props, mixpanel.getUserProperties(currentUser));
+        Ember.merge(props, {
+          contentId: contentId,
+          contentTitle: content.get('title'),
+          contentPublication: content.get('publicationName'),
+          contentPubdate: content.get('publishedAt').format(),
+          bannerAdId: promotion.banner_id,
+          bannerUrl: promotion.redirect_url
+        });
+        this.get('mixpanel').trackEvent('displayBannerAd', props);
       });
     }
   }.on('didInsertElement'),
