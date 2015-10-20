@@ -112,7 +112,6 @@ export default Ember.Service.extend({
   },
 
   getContentProperties: function(content) {
-    console.log(content);
     const props = {
       contentId: content.get('contentId'),
       contentTitle: content.get('title'),
