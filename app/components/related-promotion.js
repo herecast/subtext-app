@@ -8,9 +8,9 @@ export default Ember.Component.extend({
 
   getPromotion: function() {
     const content = this.get('contentModel');
-    const contentId = content.get('contentId');
 
-    if (contentId) {
+    if (content) {
+      const contentId = content.get('contentId');
       this.get('promotionService').find(contentId).then((promotion) => {
         this.set('promotion', promotion);
         const props = {};
