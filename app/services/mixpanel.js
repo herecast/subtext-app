@@ -109,6 +109,20 @@ export default Ember.Service.extend({
     props['navControlGroup'] = navControlGroup;
     props['navControl'] = navControl;
     return props;
+  },
+
+  getContentProperties: function(content) {
+    const props = {
+      contentId: content.get('contentId'),
+      contentTitle: content.get('title'),
+      contentPublication: content.get('publicationName'),
+    };
+    const pubdate = content.get('publishedAt');
+    // don't want to throw an error by calling format() on nothing
+    if (pubdate) {
+      props['contentPubdate'] = pubdate.format();
+    }
+    return props;
   }
 
 });
