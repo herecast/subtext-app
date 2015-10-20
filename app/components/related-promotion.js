@@ -20,7 +20,8 @@ export default Ember.Component.extend({
         Ember.merge(props, mixpanel.getContentProperties(content));
         Ember.merge(props, {
           bannerAdId: promotion.banner_id,
-          bannerUrl: promotion.redirect_url
+          bannerUrl: promotion.redirect_url,
+          url: window.location.href
         });
         this.get('mixpanel').trackEvent('displayBannerAd', props);
       });
