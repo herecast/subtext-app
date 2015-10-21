@@ -87,11 +87,13 @@ export default Ember.Service.extend({
 
   getUserProperties: function(user) {
     const props = {};
-    props['userId'] = user.get('userId');
-    props['userName'] = user.get('name');
-    props['userEmail'] = user.get('email');
-    props['userCommunity'] = user.get('location');
-    props['testGroup'] = user.get('testGroup');
+    if (user) {
+      props['userId'] = user.get('userId');
+      props['userName'] = user.get('name');
+      props['userEmail'] = user.get('email');
+      props['userCommunity'] = user.get('location');
+      props['testGroup'] = user.get('testGroup');
+    }
     return props;
   },
 
