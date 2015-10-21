@@ -22,6 +22,11 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
+* You can use Vagrant in local development. The configuration is in Vagrantfile.
+* To get started you will need to install vagrant and a provider (e.g. virtualbox),
+then cd to this directory and run `vagrant up`. That's it. See Vagrant Getting Started guide
+for more info. This directory will be mapped to /vagrant on the VM as a synced folder.
+
 * `ember server --proxy your-admin-url` where your-admin-url points to the application
 hosting the API you're using. I.e. `http://nick-admin.subtextdev.org/`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
