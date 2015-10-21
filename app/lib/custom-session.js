@@ -40,7 +40,7 @@ export default SimpleAuthSession.extend({
       // mixpanel's automatically assigned distinct IDs are long strings
       // of alphanumeric and other characters, whereas our distinct IDs
       // are either email addresses or integers
-      if (!emailRegexp.test(distinct_id) && isNaN(distinct_id)) {
+      if (distinct_id && !emailRegexp.test(distinct_id) && isNaN(distinct_id)) {
         if (~distinct_id.indexOf('subtext')) {
           mixpanel.identify(distinct_id);
         } else {
