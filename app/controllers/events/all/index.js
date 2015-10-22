@@ -4,7 +4,6 @@ import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
 
 export default Ember.Controller.extend(EventFilter, PaginatedFilter, {
   secondaryBackground: true,
-  mixpanel: Ember.inject.service('mixpanel'),
 
   showReset: function() {
     const isDefaultCategory = this.get('defaultCategory') === this.get('category');
@@ -19,7 +18,6 @@ export default Ember.Controller.extend(EventFilter, PaginatedFilter, {
 
   actions: {
     resetFilters() {
-      this.get('mixpanel').trackEvent('Event Search Reset');
 
       const params = {
         category: this.get('defaultCategory'),

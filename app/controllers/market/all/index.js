@@ -2,7 +2,6 @@ import Ember from 'ember';
 import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
 
 export default Ember.Controller.extend(PaginatedFilter, {
-  mixpanel: Ember.inject.service('mixpanel'),
   secondaryBackground: true,
 
   queryParams: ['query', 'location', 'locationId', 'page', 'per_page'],
@@ -27,8 +26,6 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   actions: {
     resetFilters() {
-      this.get('mixpanel').trackEvent('Market Search Reset');
-
       const params = {
         location: this.get('defaultLocation'),
         locationId: this.get('defaultLocationId'),
