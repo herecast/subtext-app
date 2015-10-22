@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     {value: 'Movies', label: 'Movies'},
     {value: 'Performing arts', label: 'Performing arts'},
     {value: 'Wellness', label: 'Wellness'},
-    {value: 'Yard sales', label: 'Yard sales'}
+    {value: 'Holidays', label: 'Holidays'}
   ],
 
   actions: {
