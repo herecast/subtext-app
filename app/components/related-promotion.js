@@ -38,7 +38,7 @@ export default Ember.Component.extend({
       ajax(url, {
         type: 'POST',
         data: {
-          content_id: this.get('contentId')
+          content_id: this.get('contentModel').get('contentId')
         }
       });
     }
