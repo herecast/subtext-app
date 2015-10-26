@@ -79,7 +79,7 @@ export default Ember.Service.extend({
         }
       } // no need to do anything in the 'else' situation since they are already
     } else { 
-      setTimeout(function() { this.establishAnonymousProfile() }.bind(this), 500);
+      setTimeout(function() { this.establishAnonymousProfile(); }.bind(this), 500);
     }
   },
     
