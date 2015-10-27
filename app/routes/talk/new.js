@@ -2,7 +2,6 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 
 export default Ember.Route.extend(Scroll, {
-  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     return this.store.createRecord('talk', {
@@ -31,8 +30,6 @@ export default Ember.Route.extend(Scroll, {
     },
 
     afterPublish(talk) {
-      this.get('mixpanel').trackEvent('Talk Publish');
-
       this.transitionTo('talk.show', talk.get('id'));
     },
 

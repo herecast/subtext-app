@@ -3,7 +3,6 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(Scroll, Authorized, {
-  mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
 
   model() {
@@ -35,7 +34,6 @@ export default Ember.Route.extend(Scroll, Authorized, {
     afterPublish(event) {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
 
-      this.get('mixpanel').trackEvent('Event Publish');
       this.get('intercom').trackEvent('published-event');
 
       this.transitionTo('events.show', firstInstanceId);
