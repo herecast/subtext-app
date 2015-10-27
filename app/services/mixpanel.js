@@ -46,6 +46,44 @@ export default Ember.Service.extend({
     }
   },
 
+  establishProfile: function(user) {
+    if (user && user.get('isLoaded')) {
+      this.identify(user.get('userId'));
+      this.peopleSet({
+        name: user.get('name')
+      });
+    } else {
+      this.establishAnonymousProfile();
+    }
+  },
+
+  establishAnonymousProfile: function() {
+    if (window.mixpanel.__loaded) {
+      // we have two scenarios here. 1 -- the user is unregistered and has no
+      // mixpanel cookie. 2 -- the user is not signed in, but has an existing
+      // mixpanel cookie from an old session.
+      const distinct_id = this.getDistinctId();
+      const emailRegexp = /\S+@\S+\.\S+/;
+      // mixpanel's automatically assigned distinct IDs are long strings
+      // of alphanumeric and other characters, whereas our distinct IDs
+      // are either email addresses or integers
+      if (distinct_id && !emailRegexp.test(distinct_id) && isNaN(distinct_id)) {
+        if (~distinct_id.indexOf('subtext')) {
+          this.identify(distinct_id);
+        } else {
+          this.identify('subtext_' + distinct_id);
+          // ensure creation of a profile
+          this.peopleSet({
+            name: 'subtext_' + distinct_id
+          });
+        }
+      } // no need to do anything in the 'else' situation since they are already
+    } else { 
+      setTimeout(function() { this.establishAnonymousProfile(); }.bind(this), 500);
+    }
+  },
+    
+
   identify: function(userId, traits, options, callback) {
     if (this.pageHasAnalytics()) {
       window.mixpanel.identify(userId, traits, options, callback);
