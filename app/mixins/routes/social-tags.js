@@ -18,6 +18,7 @@ export default Ember.Mixin.create(RouteMetaMixin, {
 
     return {
       'property': {
+        'og:site_name': 'dailyUV',
         'og:image': model.get(imageKey),
         'og:title': model.get('title'),
         'og:description': description,
