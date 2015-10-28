@@ -71,7 +71,7 @@ export default Ember.Component.extend(ManualDropdown, {
       this.setProperties({
         location: locationName,
         locationId: locationId,
-        inputValue: locationId,
+        inputValue: locationName,
         open: false
       });
 
