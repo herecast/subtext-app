@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import Redirect from '../../mixins/routes/redirect-after-login';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
+import RecacheFacebook from '../../mixins/routes/recache-facebook';
 
-export default Ember.Route.extend(Redirect, RouteMetaMixin, {
+export default Ember.Route.extend(Redirect, RouteMetaMixin, RecacheFacebook, {
   modelImageKey: 'coverImageUrl',
 
   model(params)  {
