@@ -30,7 +30,7 @@ export default Ember.Route.extend(Scroll, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id'));
+      this.transitionTo('talk.show', talk.get('id'), {queryParams: { recacheFB: true }} );
     },
 
     backToDetails() {

@@ -36,7 +36,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.show', firstInstanceId);
+      this.transitionTo('events.show', firstInstanceId, {queryParams: { recacheFB: true }});
     },
 
     backToDetails() {

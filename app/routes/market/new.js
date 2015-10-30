@@ -29,7 +29,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.show', post.get('id'));
+      this.transitionTo('market.show', post.get('id'), {queryParams: { recacheFB: true }} );
     },
 
     backToDetails() {

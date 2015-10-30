@@ -27,7 +27,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
     afterPublish(event) {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
 
-      this.transitionTo('events.show', firstInstanceId);
+      this.transitionTo('events.show', firstInstanceId, {queryParams: { recacheFB: true }});
     },
 
     backToDetails() {
