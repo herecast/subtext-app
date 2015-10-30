@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
     if (transition.queryParams.recacheFB) {
       Ember.$.post('https://graph.facebook.com', {
         scrape: true,
-        id: encodeURIComponent(window.location.origin+window.location.pathname)
+        id: window.location.origin+window.location.pathname
       });
     }
   }
