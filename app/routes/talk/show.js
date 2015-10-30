@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
-import RecacheFacebook from '../../mixins/routes/recache-facebook';
 
 export default Ember.Route.extend(RouteMetaMixin, RecacheFacebook, {
   contentComments: Ember.inject.service('content-comments'),

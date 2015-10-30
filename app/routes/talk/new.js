@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
+import Facebook from '../../mixins/routes/facebook';
 
-export default Ember.Route.extend(Scroll, {
+export default Ember.Route.extend(Scroll, Facebook, {
 
   model() {
     return this.store.createRecord('talk', {
@@ -30,7 +31,7 @@ export default Ember.Route.extend(Scroll, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id'), {queryParams: { recacheFB: true }} );
+      this.transitionTo('talk.show', talk.get('id')).then(this.recache);
     },
 
     backToDetails() {

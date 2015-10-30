@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
+import Facebook from '../../mixins/routes/facebook';
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(Scroll, Authorized, Facebook, {
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -33,7 +34,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.show', post.id, {queryParams: { recacheFB: true }});
+      this.transitionTo('market.show', post.id).then(this.recache);
     },
 
     backToDetails() {
