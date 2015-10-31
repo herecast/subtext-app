@@ -17,6 +17,7 @@ export default Ember.Component.extend({
         ['style', ['bold', 'italic', 'underline', 'clear']],
         ['insert', ['link']]
       ],
+      styleWithSpan: false,
       onCreateLink(url) {
         url = url.trim();
         const protocol = /^[a-z]+:/i;
