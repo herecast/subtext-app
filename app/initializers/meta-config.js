@@ -7,7 +7,8 @@ export function initialize() {
     'gmaps-api-token',
     'mixpanel-api-token',
     'intercom-api-token',
-    'facebook-app-id'
+    'facebook-app-id',
+    'prerender-io-token'
   ].forEach((name) => {
     const value = Ember.$(`meta[name=${name}]`).attr('content');
 

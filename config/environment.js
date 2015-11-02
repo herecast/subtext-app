@@ -47,6 +47,7 @@ module.exports = function(environment) {
     ENV['mixpanel-api-token'] = process.env.MIXPANEL_API_TOKEN;
     ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
     ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
+    ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
   }
 
   if (environment === 'test') {

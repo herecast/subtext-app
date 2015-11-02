@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
-import Facebook from '../../mixins/routes/facebook';
+import ShareCaching from '../../mixins/routes/share-caching';
 
-export default Ember.Route.extend(Scroll, Authorized, Facebook, {
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   intercom: Ember.inject.service('intercom'),
 
   model() {
@@ -37,7 +37,7 @@ export default Ember.Route.extend(Scroll, Authorized, Facebook, {
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.show', firstInstanceId).then(this.recache);
+      this.transitionTo('events.show', firstInstanceId).then(this.facebookRecache);
     },
 
     backToDetails() {
