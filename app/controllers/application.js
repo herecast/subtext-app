@@ -42,19 +42,6 @@ export default Ember.Controller.extend({
       Ember.merge(props, mixpanel.getNavigationControlProperties('Channel Buttons', section));
 
       this.get('mixpanel').trackEvent('selectNavControl', props);
-    },
-
-    trackChannelCreation(section) {
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-  
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, 
-          mixpanel.getNavigationProperties(section.capitalize(), section + '.index', 1));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Content', 'Create' + section.capitalize() ));
-
-      this.get('mixpanel').trackEvent('selectNavControl', props);
-    },
+    }
   }
 });
