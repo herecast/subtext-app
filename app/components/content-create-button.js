@@ -8,6 +8,7 @@ function startsWith(path, searchString) {
 }
 
 export default Ember.Component.extend({
+  mixpanel: Ember.inject.service('mixpanel'),
   path: '', // override with the application controller's currentPath
 
   buttonClass: function() {
@@ -60,5 +61,27 @@ export default Ember.Component.extend({
       return `Create ${contentType}`;
     }
 
-  }.property('path', 'media.isTablet')
+  }.property('path', 'media.isTablet'),
+
+  click: function(){
+    const mixpanel = this.get('mixpanel');
+    const currentUser = this.get('session.currentUser');
+    const props = {};
+    const linkText = this.get('linkText');
+    let section = '';
+
+    if (linkText.endsWith('Events')) {
+      section = 'Event';
+    } else if (linkText.endsWith('Listing')) {
+      section = 'Market';
+    } else if (linkText.endsWith('Talk')) {
+      section = 'Talk';
+    }
+    
+    Ember.merge(props, mixpanel.getUserProperties(currentUser));
+    Ember.merge(props, 
+       mixpanel.getNavigationProperties(section, section.toLowerCase() + '.index', 1));
+    Ember.merge(props, mixpanel.getNavigationControlProperties('Create Content', 'Create ' + section));
+    mixpanel.trackEvent('selectNavControl', props);       
+  }
 });
