@@ -34,7 +34,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.show', post.id).then(this.prerenderRecache);
+      this.transitionTo('market.show', post.id).then(this.prerenderRecache.bind(this));
     },
 
     backToDetails() {

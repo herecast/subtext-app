@@ -28,7 +28,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     afterPublish(event) {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
 
-      this.transitionTo('events.show', firstInstanceId).then(this.prerenderRecache);
+      this.transitionTo('events.show', firstInstanceId).then(this.prerenderRecache.bind(this));
     },
 
     backToDetails() {
