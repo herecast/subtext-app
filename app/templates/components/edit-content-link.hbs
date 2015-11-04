@@ -6,6 +6,9 @@
 
 <div class='u-textCentered u-layoutPadT40 u-layoutPadB30 '>
   {{#link-to route contentId class='h4'}}
-    {{fa-icon 'pencil'}} {{text}}
+    <span {{ action 'trackEditClick' text }} >
+      {{fa-icon 'pencil'}} {{text}}
+    </span>
   {{/link-to}}
 </div>
+

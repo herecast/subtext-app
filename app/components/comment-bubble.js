@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['CommentBubble'],
   classNameBindings: ['typeClass'],
+  mixpanel: Ember.inject.service('mixpanel'),
 
   typeClass: function() {
     const type = this.get('type');
@@ -36,6 +37,16 @@ export default Ember.Component.extend({
       if (offset) {
         Ember.$('body').scrollTop(offset - 100);
       }
+    },
+
+    trackDiscussionClick() {
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+      
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Start Discussion', 'Start Discussion'));
+      mixpanel.trackEvent('selectNavControl', props);       
     }
   }
 });

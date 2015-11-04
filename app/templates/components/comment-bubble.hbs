@@ -18,7 +18,9 @@
       </div>
     {{else}}
       <div class='CommentBubble-contentLabel'>
-        Start a discussion
+        <span {{ action 'trackDiscussionClick' }}>
+          Start a discussion
+        </span>
       </div>
     {{/if}}
   </a>
