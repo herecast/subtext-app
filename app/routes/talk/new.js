@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 
 export default Ember.Route.extend(Scroll, {
+  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     return this.store.createRecord('talk', {
@@ -19,6 +20,14 @@ export default Ember.Route.extend(Scroll, {
   actions: {
     afterDiscard() {
       this.transitionTo('talk.all');
+
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Talk', 'Discard Talk'));
+      mixpanel.trackEvent('selectNavControl', props);       
     },
 
     afterDetails() {

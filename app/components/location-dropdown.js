@@ -5,6 +5,7 @@ import ajax from 'ic-ajax';
 export default Ember.Component.extend({
   locations: [],
   isEditing: false,
+  mixpanel: Ember.inject.service('mixpanel'),
 
   getLocations: function() {
     if (this.get('selectedLocationId') || this.get('isEditing')) {
@@ -34,6 +35,21 @@ export default Ember.Component.extend({
         });
         this.sendAction('onUpdate');
       }
+    },
+    
+    trackChangeCommunity() {
+      let location = this.get('formattedLocations').findBy('id', this.get('selectedLocationId'));
+      location = location.formattedLocation;
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, {'userCommunity': location});
+      Ember.merge(props, 
+         mixpanel.getNavigationProperties('User', 'Dashboard', 1));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('User Profile', 'Change Community'));
+      mixpanel.trackEvent('selectNavControl', props);       
     }
   }
 });

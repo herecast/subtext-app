@@ -14,7 +14,9 @@
 {{#if onUpdate}}
   <span {{action 'toggleEditing'}}>
     {{#if isEditing}}
-      {{fa-icon 'save InlineEdit-icon'}}
+      <span {{action 'trackChangeCommunity' }}>
+        {{fa-icon 'save InlineEdit-icon'}}
+      </span>
     {{else}}
       {{fa-icon 'pencil InlineEdit-icon'}}
     {{/if}}

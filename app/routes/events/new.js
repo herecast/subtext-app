@@ -4,6 +4,7 @@ import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(Scroll, Authorized, {
   intercom: Ember.inject.service('intercom'),
+  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     const eventInstance = this.store.createRecord('event-instance');
@@ -21,6 +22,14 @@ export default Ember.Route.extend(Scroll, Authorized, {
   actions: {
     afterDiscard() {
       this.transitionTo('events.all');
+
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Event', 'Discard Event'));
+      mixpanel.trackEvent('selectNavControl', props);       
     },
 
     afterDetails() {
