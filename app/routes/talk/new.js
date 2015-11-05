@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
+import ShareCaching from '../../mixins/routes/share-caching';
 
-export default Ember.Route.extend(Scroll, {
+export default Ember.Route.extend(Scroll, ShareCaching, {
 
   model() {
     return this.store.createRecord('talk', {
@@ -30,7 +31,7 @@ export default Ember.Route.extend(Scroll, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id'));
+      this.transitionTo('talk.show', talk.get('id')).then(this.facebookRecache);
     },
 
     backToDetails() {

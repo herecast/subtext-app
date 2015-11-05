@@ -8,4 +8,5 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, {
   model(params)  {
     return this.store.findRecord('market-post', params.id, { reload: true });
   }
+
 });

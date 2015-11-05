@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
+import ShareCaching from '../../mixins/routes/share-caching';
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   model(params) {
     return this.store.find('event', params.id);
   },
@@ -27,7 +28,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
     afterPublish(event) {
       const firstInstanceId = event.get('eventInstances.firstObject.id');
 
-      this.transitionTo('events.show', firstInstanceId);
+      this.transitionTo('events.show', firstInstanceId).then(this.prerenderRecache.bind(this));
     },
 
     backToDetails() {
