@@ -10,7 +10,7 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, {
     return this.store.findRecord('news', params.id, { reload: true });
   },
 
-  afterModel: function(news, transition) {
+  afterModel: function(news) {
     const path = this.get('container').lookup('router:main').generate(this.get('routeName'), news);
     this.facebookRecache(path);
   }
