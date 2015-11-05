@@ -18,7 +18,10 @@
     {{/link-to}}
   {{/if}}
 
-  {{news-card item=item}}
+  {{news-card 
+    item=item
+    isSimilarContent=isSimilarContent
+  }}
 {{else if isMarketPost}}
   {{#if showLink}}
     {{#link-to 'market'}}
@@ -29,6 +32,7 @@
   {{market-card
     post=item
     class='Card MarketCard u-flexColumn-2'
+    isSimilarContent=isSimilarContent
   }}
 {{else if isEventInstance}}
   {{#if showLink}}
@@ -40,5 +44,6 @@
   {{event-card
     event=item
     class='Card EventCard u-flexColumn'
+    isSimilarContent=isSimilarContent
   }}
 {{/if}}
