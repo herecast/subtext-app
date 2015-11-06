@@ -25,6 +25,7 @@ export default Ember.Component.extend(ExpandableContent, {
         });
 
         this.set('content', contents);
+        this.set('sourceContentId', contentId);
       });
     }
   }.on('init')
