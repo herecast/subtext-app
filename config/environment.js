@@ -5,6 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'subtext-ui',
     environment: environment,
     baseURL: '/',
+    podModulePrefix: 'subtext-ui/pods',
     locationType: 'auto',
     API_NAMESPACE: '/api/v3',
     EmberENV: {

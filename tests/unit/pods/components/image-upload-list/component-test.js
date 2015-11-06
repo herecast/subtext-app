@@ -1,18 +1,10 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import resolver from '../../helpers/resolver';
 
-moduleForComponent('market-form', 'Unit | Component | market form', {
+moduleForComponent('image-upload-list', 'Unit | Component | image upload list', {
   // Specify the other units that are required for this test
-  needs: ['component:summer-note', 'helper:fa-icon', 'component:form-group',
-    'component:image-upload-list'
-  ],
-  unit: true,
-
-  setup: function() {
-    this.container.register('template:partials/content-form-buttons',
-           resolver.resolve('template:partials/content-form-buttons'));
-  }
+  needs: ['component:form-group', 'helper:fa-icon'],
+  unit: true
 });
 
 test('it renders', function(assert) {
@@ -25,6 +17,7 @@ test('it renders', function(assert) {
     })
   });
 
+  // Creates the component instance
   assert.equal(component._state, 'preRender');
 
   // Renders the component to the page

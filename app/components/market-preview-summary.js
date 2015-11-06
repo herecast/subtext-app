@@ -1,5 +1,11 @@
 import Ember from 'ember';
 
+const {
+  get,
+  RSVP,
+  set
+} = Ember;
+
 export default Ember.Component.extend({
   isSaving: false,
 
@@ -16,20 +22,22 @@ export default Ember.Component.extend({
       this.set('isSaving', true);
 
       const post = this.get('model');
+      const images = get(post, 'images').filterBy('file');
       const promise = post.save();
 
       callback(promise);
 
       promise.then((savedPost) => {
-        if (savedPost.get('image')) {
-          savedPost.uploadImage().then(() => {
-            this.set('isSaving', false);
-            this.sendAction('afterPublish', savedPost);
-          });
-        } else {
-          this.set('isSaving', false);
+        images.setEach('contentId', get(savedPost, 'id'));
+
+        RSVP.all(
+          images.map((image) => {
+            return image.save();
+          })
+        ).then(() => {
+          set(this, 'isSaving', false);
           this.sendAction('afterPublish', savedPost);
-        }
+        });
       });
     }
   }

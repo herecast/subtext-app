@@ -4,6 +4,12 @@ import moment from 'moment';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 
+const {
+  computed,
+  get,
+  isPresent
+} = Ember;
+
 export default DS.Model.extend({
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
@@ -14,42 +20,38 @@ export default DS.Model.extend({
   contentId: Ember.computed.oneWay('id'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   hasContactInfo: DS.attr('boolean'),
-  images: DS.attr('raw', {defaultValue: []}),
+  images: DS.hasMany('image'),
   imageUrl: DS.attr('string'),
   listservIds: DS.attr('raw', {defaultValue: []}),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
 
+  populatedImages: computed('images.@each.imageUrl', function() {
+    return get(this, 'images')
+      .filter((image) => isPresent(get(image, 'imageUrl')));
+  }),
+
   coverImageUrl: function() {
-    if (Ember.isPresent(this.get('images'))) {
-      return this.get('images')[0];
-    } else if (Ember.isPresent(this.get('imageUrl'))) {
-      return this.get('imageUrl');
+    const images = get(this, 'populatedImages');
+    const primaryImage = images.findBy('primary');
+
+    // For legacy data where the primary flag may not be set, fall back to
+    // the first image.
+    const image = primaryImage || get(images, 'firstObject');
+
+    if (image) {
+      return get(image, 'imageUrl');
+    } else {
+      return get(this, 'imageUrl');
     }
-  }.property('images.[]', 'imageUrl'),
+  }.property('images.@each.{primary,imageUrl}', 'imageUrl'),
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
   formattedPublishedAt: function() {
     return this.get('publishedAt').format('dddd, MMMM D, YYYY');
   }.property('publishedAt'),
-
-  uploadImage() {
-    const url = `${config.API_NAMESPACE}/market_posts/${this.get('id')}`;
-    const data = new FormData();
-
-    if (this.get('image')) {
-      data.append('market_post[image]', this.get('image'));
-
-      return ajax(url, {
-        data: data,
-        type: 'PUT',
-        contentType: false,
-        processData: false
-      });
-    }
-  },
 
   loadContactInfo() {
     const id = this.get('id');
