@@ -29,13 +29,12 @@ export default Ember.Component.extend({
       const mixpanel = this.get('mixpanel');
       const currentUser = this.get('session.currentUser');
       const props = {};
-      const sourceContentId = window.location.href.split('/').slice(-1).pop();
 
       Ember.merge(props, mixpanel.getUserProperties(currentUser));
       Ember.merge(props, 
          mixpanel.getNavigationProperties('Talk', 'Talk Card', 1));
       Ember.merge(props, mixpanel.getContentProperties(this.get('talk')));
-      Ember.merge(props, {'sourceContentId': sourceContentId});
+      Ember.merge(props, {'sourceContentId': this.get('sourceContentId')});
       mixpanel.trackEvent('selectSimilarContent', props);
     }
   }
