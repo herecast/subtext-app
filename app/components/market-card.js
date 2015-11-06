@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   title: Ember.computed.oneWay('post.title'),
+  isSimilarContent: false,
   mixpanel: Ember.inject.service('mixpanel'),
 
   subtitle: function() {

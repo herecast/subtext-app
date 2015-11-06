@@ -7,9 +7,15 @@
 <div class='NewsCard-content u-flexColumn-2'>
 
   {{#link-to 'news.show' item.id}}
-    <h2 class='Card-title u-twoLineH2'>
-      {{item.title}}
-    </h2>
+    {{#if isSimilarContent}}
+      <h2 {{action 'trackSimilarContentClick'}} class='Card-title u-twoLineH2'>
+        {{item.title}}
+      </h2>
+    {{else}}
+      <h2 class='Card-title u-twoLineH2'>
+        {{item.title}}
+      </h2>
+    {{/if}}
   {{/link-to}}
 
   <div class='NewsCard-subtitle'>
