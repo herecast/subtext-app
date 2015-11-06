@@ -1,8 +1,10 @@
 <h2 class='SectionHeader'>
   <div class='SectionHeader-buttonContainer'>
-    <button class={{buttonClass}} {{action 'toggleInfo'}}>
-      Reply
-    </button>
+    <span {{action 'trackReply'}}>
+      <button  class={{buttonClass}} {{action 'toggleInfo'}}>
+          Reply
+      </button>
+    </span>
   </div>
 </h2>
 
