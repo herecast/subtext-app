@@ -17,9 +17,6 @@ export default Ember.Component.extend({
     if(text.endsWith('Event')) {
       section = 'Event';
       alias = section;
-    } else if (text.endsWith('Talk')) {
-      section = 'Talk';
-      alias = section;
     } else if (text.endsWith('Listing')) {
       section = 'Market';
       alias = 'Listing';
