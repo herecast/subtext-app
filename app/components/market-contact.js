@@ -5,6 +5,7 @@ const isPresent = Ember.isPresent;
 export default Ember.Component.extend({
   post: null, // the market post
   showInfo: false,
+  mixpanel: Ember.inject.service('mixpanel'),
 
   buttonClass: function() {
     const klass = 'Button Button--wide btn';
@@ -52,6 +53,16 @@ export default Ember.Component.extend({
           });
         }
       }
+    },
+
+    trackReply() {
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Reply to Content', 'Reply to Listing'));
+      mixpanel.trackEvent('selectNavControl', props);       
     }
   }
 });

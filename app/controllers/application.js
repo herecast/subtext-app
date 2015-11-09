@@ -31,7 +31,7 @@ export default Ember.Controller.extend({
       }
     },
 
-    trackClick(section) {
+    trackChannelSelection(section) {
       const mixpanel = this.get('mixpanel');
       const currentUser = this.get('session.currentUser');
       const props = {};
@@ -41,7 +41,7 @@ export default Ember.Controller.extend({
           mixpanel.getNavigationProperties(section.capitalize(), section + '.index', 1));
       Ember.merge(props, mixpanel.getNavigationControlProperties('Channel Buttons', section));
 
-      this.get('mixpanel').trackEvent('selectNavControl', props);
+      mixpanel.trackEvent('selectNavControl', props);
     }
   }
 });

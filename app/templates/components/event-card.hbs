@@ -12,7 +12,11 @@
       </a>
     {{else}}
       {{#link-to 'events.show' eventId}}
-        <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
+        {{#if isSimilarContent}}
+          <h2 {{action 'trackSimilarContentClick'}} class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
+        {{else}}
+          <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
+        {{/if}}
       {{/link-to}}
     {{/if}}
 

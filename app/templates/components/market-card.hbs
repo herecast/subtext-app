@@ -5,9 +5,15 @@
   {{/if}}
 
   <div class='MarketCard-content u-flexColumn-2'>
-    <h2 class='MarketCard-title Card-title u-twoLineH2'>
-      {{title}}
-    </h2>
+    {{#if isSimilarContent}}
+      <h2 {{ action 'trackSimilarContentClick' }} class='MarketCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{else}}
+      <h2 class='MarketCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{/if}}
 
     <h5 class='MarketCard-subtitle'>
       {{subtitle}}

@@ -3,6 +3,8 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   title: Ember.computed.oneWay('post.title'),
+  isSimilarContent: false,
+  mixpanel: Ember.inject.service('mixpanel'),
 
   subtitle: function() {
     return moment(this.get('post.publishedAt')).format('L');
@@ -15,5 +17,20 @@ export default Ember.Component.extend({
     const styles = `background-image: url(${url})`;
 
     return new Ember.Handlebars.SafeString(styles);
-  }.property('post.coverImageUrl')
+  }.property('post.coverImageUrl'),
+
+  actions: {
+    trackSimilarContentClick(){
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, 
+         mixpanel.getNavigationProperties('Market', 'Market Card', 1));
+      Ember.merge(props, mixpanel.getContentProperties(this.get('post')));
+      Ember.merge(props, {'sourceContentId': this.get('sourceContentId')});
+      mixpanel.trackEvent('selectSimilarContent', props);
+    }
+  }
 });

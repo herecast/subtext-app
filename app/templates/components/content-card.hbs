@@ -9,6 +9,7 @@
     talk=item
     isContentCard=true
     isSimilarContent=isSimilarContent
+    sourceContentId=sourceContentId
     class='Card TalkCard u-flexColumn-2 TalkCard TalkCard--narrow'
   }}
 {{else if isNews}}
@@ -18,7 +19,11 @@
     {{/link-to}}
   {{/if}}
 
-  {{news-card item=item}}
+  {{news-card 
+    item=item
+    isSimilarContent=isSimilarContent
+    sourceContentId=sourceContentId
+  }}
 {{else if isMarketPost}}
   {{#if showLink}}
     {{#link-to 'market'}}
@@ -29,6 +34,8 @@
   {{market-card
     post=item
     class='Card MarketCard u-flexColumn-2'
+    isSimilarContent=isSimilarContent
+    sourceContentId=sourceContentId
   }}
 {{else if isEventInstance}}
   {{#if showLink}}
@@ -40,5 +47,7 @@
   {{event-card
     event=item
     class='Card EventCard u-flexColumn'
+    isSimilarContent=isSimilarContent
+    sourceContentId=sourceContentId
   }}
 {{/if}}

@@ -1,3 +1,7 @@
 {{#if showButton}}
-  {{link-to linkText route class=buttonClass}}
+  {{#link-to route class=buttonClass}}
+    <span {{ action 'trackContentCreate' linkText }}>
+      {{linkText}}
+    </span>
+  {{/link-to}}
 {{/if}}

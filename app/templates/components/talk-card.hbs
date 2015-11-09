@@ -1,14 +1,26 @@
 {{#if talk.hasParentContent}}
   {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor)}}
-    <h2 class='TalkCard-title Card-title u-twoLineH2'>
-      {{title}}
-    </h2>
+    {{#if isSimilarContent}}
+      <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{else}}
+      <h2 class='TalkCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{/if}}
   {{/link-to}}
 {{else}}
   {{#link-to 'talk.show' talk.id}}
-    <h2 class='TalkCard-title Card-title u-twoLineH2'>
-      {{title}}
-    </h2>
+    {{#if isSimilarContent}}
+      <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{else}}
+      <h2 class='TalkCard-title Card-title u-twoLineH2'>
+        {{title}}
+      </h2>
+    {{/if}}
   {{/link-to}}
 {{/if}}
 

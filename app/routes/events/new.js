@@ -5,6 +5,7 @@ import ShareCaching from '../../mixins/routes/share-caching';
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   intercom: Ember.inject.service('intercom'),
+  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     const eventInstance = this.store.createRecord('event-instance');
@@ -22,6 +23,14 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   actions: {
     afterDiscard() {
       this.transitionTo('events.all');
+
+      const mixpanel = this.get('mixpanel');
+      const currentUser = this.get('session.currentUser');
+      const props = {};
+
+      Ember.merge(props, mixpanel.getUserProperties(currentUser));
+      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Event', 'Discard Event'));
+      mixpanel.trackEvent('selectNavControl', props);       
     },
 
     afterDetails() {
