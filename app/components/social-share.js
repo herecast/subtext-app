@@ -9,7 +9,12 @@ export default Ember.Component.extend({
     const title = this.get('title');
     const sharedBy = this.get('sharedBy');
     const subject = `Shared with you: ${title}`;
-    const body = `${sharedBy} shared the following content from dailyUV.com with you: ${href}`;
+    var body;
+    if (sharedBy) {
+      body = `${sharedBy} shared the following content from dailyUV.com with you: ${href}`;
+    } else {
+      body = `I want to share the following content from dailyUV.com with you: ${href}`;
+    }
 
     return `mailto:?subject=${subject}&body=${body}`;
   }.property('title', 'sharedBy'),
