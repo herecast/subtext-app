@@ -14,10 +14,10 @@ export default Ember.Component.extend({
     const props = {};
     let alias = '';
   
-    if(text.endsWith('Event')) {
+    if(text.match(/Event$/)) {
       section = 'Event';
       alias = section;
-    } else if (text.endsWith('Listing')) {
+    } else if (text.match(/Listing$/)) {
       section = 'Market';
       alias = 'Listing';
     }
@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     Ember.merge(props, mixpanel.getUserProperties(currentUser));
     Ember.merge(props, 
        mixpanel.getNavigationProperties(section, section.toLowerCase() + '.index', 1));
-    Ember.merge(props, mixpanel.getNavigationControlProperties('Edit Content', 'Edit ' + section));
+    Ember.merge(props, mixpanel.getNavigationControlProperties('Edit Content', 'Edit ' + alias));
     mixpanel.trackEvent('selectNavControl', props);       
    }
   }

@@ -71,13 +71,13 @@ export default Ember.Component.extend({
       let section = '';
       let alias = '';
 
-      if (linkText.endsWith('Event')) {
+      if (linkText.match(/Event$/)) {
         section = 'Event';
         alias = section;
-      } else if (linkText.endsWith('Listing')) {
+      } else if (linkText.match(/Listing$/)) {
         section = 'Market';
         alias = 'Listing';
-      } else if (linkText.endsWith('Talk')) {
+      } else if (linkText.match(/Talk$/)) {
         section = 'Talk';
         alias = section;
       }
