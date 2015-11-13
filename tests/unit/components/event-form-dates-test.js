@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('event-form-dates', {
-  needs: ['helper:fa-icon']
+  needs: ['component:fa-icon']
 });
 
 test('it renders', function(assert) {

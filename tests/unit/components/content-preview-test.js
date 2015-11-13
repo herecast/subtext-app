@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('content-preview', {
   needs: ['template:events/show', 'component:content-comments', 'component:report-abuse',
-    'helper:fa-icon', 'component:background-image', 'component:x-truncate',
+    'component:fa-icon', 'component:background-image', 'component:x-truncate',
     'component:event-map', 'component:event-other-dates']
 });
 
