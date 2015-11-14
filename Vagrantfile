@@ -16,7 +16,7 @@ $userScript = <<SCRIPT
    nvm install 0.12.7
    nvm alias default 0.12.7
 
-   npm install -g bower@1.3.12 ember-cli@0.2.7
+   npm install -g bower@1.3.12 ember-cli@1.13.12
    cd /vagrant
    rm -rf node_modules
    rm -rf bower_components
