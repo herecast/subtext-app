@@ -27,6 +27,46 @@
   <main class='Container--noGutter ContentBody'>
     <div class='row'>
       <div class='col-md-4 hidden-sm hidden-xs'>
+        {{#if model.hasRegistrationInfo}}
+          <h2 class='SectionHeader'>
+            <span class='SectionHeader-text'>Registration + Tickets</span>
+          </h2>
+
+          <h2 class='EventInfo-registrationHeader'>
+            Registration Deadline - {{model.formattedRegistrationDeadline}}
+          </h2>
+
+          <div class='EventInfo-contact'>
+            {{#if model.registrationUrl}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'link'}}
+
+                {{#normalized-link url=model.registrationUrl}}
+                  {{model.registrationUrl}}
+                {{/normalized-link}}
+              </div>
+            {{/if}}
+
+            {{#if model.registrationEmail}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'envelope'}}
+
+                <a href="mailto:{{model.registrationEmail}}">
+                  {{model.registrationEmail}}
+                </a>
+              </div>
+            {{/if}}
+
+            {{#if model.registrationPhone}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'phone'}}
+
+                <a href='tel:{{model.registrationPhone}}'>{{model.registrationPhone}}</a>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+
         <h2 class='SectionHeader'>
           <span class='SectionHeader-text'>Location</span>
         </h2>

@@ -68,7 +68,8 @@ const eventBaseProperties = [
   'id', 'content_id', 'content', 'image_url', 'cost', 'cost_type',
   'venue_name', 'venue_address', 'venue_city', 'venue_state',
   'venue_zip', 'venue_id', 'venue_latitude', 'venue_longitude',
-  'venue_locate_name', 'venue_url',
+  'venue_locate_name', 'venue_url', 'registration_deadline',
+  'registration_url', 'registration_phone', 'registration_email',
   'event_url', 'contact_phone', 'contact_email',
   'title', 'subtitle', 'ends_at', 'starts_at', 'event_id'
 ];

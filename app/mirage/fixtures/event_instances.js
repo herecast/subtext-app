@@ -41,6 +41,10 @@ function template(id) {
     venue_latitude: '44.4758',
     venue_longitude: '-73.2119',
     venue_locate_name: titleize(faker.lorem.sentences(1)),
+    registration_deadline: startsAt,
+    registration_url: `http://${faker.internet.domainName()}`,
+    registration_phone: faker.phone.phoneNumber(),
+    registration_email: faker.internet.email(),
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
     image_url: imageUrl
