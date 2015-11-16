@@ -26,121 +26,82 @@
 
   <main class='Container--noGutter ContentBody'>
     <div class='row'>
+      <div class='col-md-4 hidden-sm hidden-xs'>
+        <h2 class='SectionHeader'>
+          <span class='SectionHeader-text'>Location</span>
+        </h2>
 
-      <div class='col-md-2 hidden-sm hidden-xs'>
-        {{#unless isPreview}}
-          {{back-button defaultRouteName='events'}}
-        {{/unless}}
+        {{#if model.hasLocationInfo}}
+          {{event-map
+            locateName=model.venueLocateName
+            fullAddress=model.fullAddress
+            directionsUrl=model.directionsUrl
+            class='hidden-xs'
+          }}
+
+          <div>
+            {{#if model.venueUrl}}
+              {{#normalized-link url=model.venueUrl class='EventInfo-headerLink'}}
+                {{model.venueName}}
+              {{/normalized-link}}
+            {{else}}
+              {{model.venueName}}
+            {{/if}}
+          </div>
+
+          <div>
+            <a href='{{model.directionsUrl}}' target='_blank'>
+              {{model.venueAddress}}, {{model.venueCity}}
+            </a>
+          </div>
+        {{/if}}
+
+        {{#if model.hasContactInfo}}
+          <h2 class='SectionHeader'>
+            <span class='SectionHeader-text'>Event Information</span>
+          </h2>
+          <div class='EventInfo-contact'>
+            {{#if model.eventUrl}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'link'}}
+
+                {{#normalized-link url=model.eventUrl}}
+                  {{model.eventUrl}}
+                {{/normalized-link}}
+              </div>
+            {{/if}}
+
+            {{#if model.contactEmail}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'envelope'}}
+
+                <a href="mailto:{{model.contactEmail}}">
+                  {{model.contactEmail}}
+                </a>
+              </div>
+            {{/if}}
+
+            {{#if model.contactPhone}}
+              <div class='EventInfo-contactItem u-textTruncate'>
+                {{fa-icon 'phone'}}
+
+                <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
       </div>
 
-      <div class='col-sm-12 col-md-8'>
-        <div class='EventShow-info row'>
-          {{#if model.hasLocationInfo}}
-            <div class='col-sm-4'>
-              <div class='EventInfo'>
-                <h1 class='EventInfo-header'>
-                  {{fa-icon 'map-marker EventInfo-icon'}}
-
-                  {{#if model.venueName}}
-                    {{#if model.venueUrl}}
-                      {{#normalized-link url=model.venueUrl class='EventInfo-headerLink'}}
-                        {{model.venueName}}
-                      {{/normalized-link}}
-                    {{else}}
-                      {{model.venueName}}
-                    {{/if}}
-                  {{else}}
-                    Location
-                  {{/if}}
-                </h1>
-
-                {{#if model.hasLocationInfo}}
-                  {{event-map
-                    locateName=model.venueLocateName
-                    fullAddress=model.fullAddress
-                    directionsUrl=model.directionsUrl
-                    class='hidden-xs'
-                  }}
-                  <a href='{{model.directionsUrl}}' target='_blank' class='EventInfo-address'>
-                    {{model.venueAddress}}, {{model.venueCity}}
-                  </a>
-                {{/if}}
-              </div>
-            </div>
-          {{/if}}
-
-          {{#if model.hasContactInfo}}
-            <div class='col-sm-4'>
-              <div class='EventInfo'>
-                <h1 class='EventInfo-header'>
-                  {{fa-icon 'user EventInfo-icon'}}
-                  Contact
-                </h1>
-                <div class='hidden-xs'>
-                  {{#if model.contactEmail}}
-                    <div class='EventInfo-contactInfo clearfix'>
-                      {{fa-icon 'envelope EventInfo-contactIcon'}}
-                      <div class='EventInfo-contactItem u-textTruncate'>
-                        <a href="mailto:{{model.contactEmail}}">
-                          {{model.contactEmail}}
-                        </a>
-                      </div>
-                    </div>
-                  {{/if}}
-
-                  {{#if model.contactPhone}}
-                    <div class='EventInfo-contactInfo clearfix'>
-                      {{fa-icon 'phone EventInfo-contactIcon EventInfo-phoneIcon'}}
-                      <div class='EventInfo-contactItem u-textTruncate'>
-                        <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
-                      </div>
-                    </div>
-                  {{/if}}
-
-                  {{#if model.eventUrl}}
-                    <div class='EventInfo-contactInfo clearfix'>
-                      {{fa-icon 'link EventInfo-contactIcon EventInfo-linkIcon'}}
-                      <div class='EventInfo-contactItem u-textTruncate'>
-                        {{#normalized-link url=model.eventUrl}}
-                          {{model.eventUrl}}
-                        {{/normalized-link}}
-                      </div>
-                    </div>
-                  {{/if}}
-                </div>
-
-                <div class='visible-xs'>
-                  <div class='u-textBold u-textTruncate'>
-                    <a href='tel:{{model.contactPhone}}'>
-                      {{model.contactPhone}}
-                    </a>
-                  </div>
-                  <div class='u-textUnderline u-textTruncate'>
-                    <a href="mailto:{{model.contactEmail}}">
-                      {{model.contactEmail}}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {{/if}}
-
-          {{#if model.costType}}
-            <div class='col-sm-3'>
-              <div class='EventInfo'>
-                <h1 class='EventInfo-header'>
-                  {{fa-icon 'dollar EventInfo-icon'}}
-                  {{model.formattedCostType}}
-                </h1>
-                <strong>{{model.cost}}</strong>
-              </div>
-            </div>
-          {{/if}}
-        </div>
-        <div class='row'>
-          <div class='EventShow-content ContentText col-md-12'>
-            {{{model.content}}}
+      <div class='col-md-6'>
+        {{#if model.costType}}
+          <div class='EventInfo-cost'>
+            {{model.formattedCostType}}
+            {{model.cost}}
           </div>
+        {{/if}}
+
+        <div class='EventShow-content ContentText'>
+          {{{model.content}}}
         </div>
       </div>
 
