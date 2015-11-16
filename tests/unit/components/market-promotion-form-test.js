@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('market-promotion-form', 'Unit | Component | market promotion form', {
   // Specify the other units that are required for this test
-  needs: ['component:content-form-listservs', 'helper:fa-icon'],
+  needs: ['component:content-form-listservs', 'component:fa-icon'],
   unit: true
 });
 

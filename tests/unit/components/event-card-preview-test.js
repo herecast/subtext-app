@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-card-preview', {
   // Specify the other units that are required for this test
-  needs: ['component:x-truncate', 'helper:fa-icon',
+  needs: ['component:x-truncate', 'component:fa-icon',
     'template:components/event-card', 'component:gradient-truncation']
 });
 
