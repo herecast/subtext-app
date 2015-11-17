@@ -34,25 +34,27 @@
 
 <div class='form-group'>
   <div class='row'>
-    <div class='col-xs-12'>
-      <label>Subtitle
-        {{#if subtitleDate}}
-          <small>(for {{subtitleDate}})</small>
-        {{/if}}
-      </label>
+    <div class='col-xs-6'>
       {{input
-        placeholder="Highlight what's special. Ex: Tenth annual, or Grand opening."
+        placeholder="Subtitle ex: 10th Annual"
         class='form-control'
         value=subtitle
       }}
     </div>
-    <div class='col-xs-12 col-sm-4'>
-      {{#if isRemovable}}
-        <button {{action 'removeDate' instance}} class='ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link'>
-          {{fa-icon 'minus-circle u-iconLeft'}}
-          Remove date
-        </button>
-      {{/if}}
+    <div class='col-xs-6'>
+      {{input
+        placeholder="Presenter / Instructor"
+        class='form-control'
+        value=instance.presenterName
+      }}
     </div>
+  </div>
+  <div>
+    {{#if isRemovable}}
+      <button {{action 'removeDate' instance}} class='ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link'>
+        {{fa-icon 'minus-circle u-iconLeft'}}
+        Remove date
+      </button>
+    {{/if}}
   </div>
 </div>

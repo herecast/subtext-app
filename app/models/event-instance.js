@@ -11,6 +11,7 @@ export default DS.Model.extend(BaseEvent, {
   contentId: DS.attr('number'),
   eventId: DS.attr('number'),
   eventInstances: DS.hasMany('other-event-instance'),
+  presenterName: DS.attr('string'),
   venueLatitude: DS.attr('string'),
   venueLongitude: DS.attr('string'),
   venueLocateName: DS.attr('string'),

@@ -3,7 +3,9 @@ import moment from 'moment';
 
 const dateFormat = 'MM/DD/YYYY';
 const timeFormat = 'hh:mm a';
-const isPresent = Ember.isPresent;
+const {
+  isPresent
+} = Ember;
 
 export default Ember.Component.extend({
   startsAt: Ember.computed.alias('instance.startsAt'),
@@ -21,16 +23,6 @@ export default Ember.Component.extend({
       return 'End Time cannot be before Start Time';
     }
   }.property('date', 'startTime', 'endTime'),
-
-  subtitleDate: function() {
-    const date = this.get('startsAt');
-
-    if (date) {
-      return date.format(`${dateFormat}, ${timeFormat}`);
-    } else {
-      return '';
-    }
-  }.property('startsAt'),
 
   setupFields: function() {
     let date, startsAt, startTime, endTime;
