@@ -24,6 +24,9 @@ export default Ember.Mixin.create({
     },
     page: {
       refreshModel: true
+    },
+    event_layout: {
+      refreshModel: true
     }
   },
 

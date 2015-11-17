@@ -1,7 +1,36 @@
 import Ember from 'ember';
 import { buildGroup } from 'subtext-ui/lib/group-by-date';
 
+const {
+  computed,
+  get
+} = Ember;
+
 export default Ember.Component.extend({
+  eventLayout: 'grid',
+  classNameBindings: ['isListLayout:u-colorBgPrimary'],
+
+  isListLayout: computed.equal('eventLayout', 'list'),
+
+  sectionHeaderTextClasses: computed('isListLayout', 'isFilteredByOneDay', function() {
+    const isListLayout = get(this, 'isListLayout');
+    const isFilteredByOneDay = get(this, 'isFilteredByOneDay');
+
+    if (isFilteredByOneDay) {
+      if (isListLayout) {
+        return 'SectionHeader-text';
+      } else {
+        return 'SectionHeader-text SectionHeader-text--secondaryBg';
+      }
+    } else {
+      if (isListLayout) {
+        return 'SectionHeader-text SectionHeader-link';
+      } else {
+        return 'SectionHeader-text SectionHeader-text--secondaryBg SectionHeader-link';
+      }
+    }
+  }),
+
   sortedEvents: function() {
     const events = this.get('events');
 

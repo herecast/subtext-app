@@ -1,30 +1,40 @@
 {{#each groupedEvents as |group|}}
   <div class='Container--noGutter'>
     {{#if isFilteredByOneDay}}
-      <h1 class='SectionHeader'>
-        <span class='SectionHeader-text SectionHeader-text--secondaryBg'>{{group.displayValue}}</span>
+      <h1 class='SectionHeader u-layoutPadT40'>
+        <span class={{sectionHeaderTextClasses}}>
+          {{group.displayValue}}
+        </span>
       </h1>
     {{else}}
-      <h1 class='SectionHeader'>
+      <h1 class='SectionHeader u-layoutPadT40'>
         {{link-to
           group.displayValue
           'events.all'
           (query-params date_start=group.paramValue date_end=group.paramValue)
           tagName='span'
-          class='SectionHeader-text SectionHeader-text--secondaryBg SectionHeader-link'
+          class=sectionHeaderTextClasses
         }}
       </h1>
     {{/if}}
 
-    <div class='row Section'>
-      {{#each group.items as |event|}}
-        <div class='col-sm-6 col-md-4 col-lg-3'>
-          {{event-card
-            event=event
-            class='Card EventCard u-flexColumn'
-          }}
+    <div class='u-layoutPadT50'>
+      {{#if isListLayout}}
+        {{event-list
+          events=group.items
+        }}
+      {{else}}
+        <div class='row'>
+          {{#each group.items as |event|}}
+            <div class='col-sm-6 col-md-4 col-lg-3'>
+              {{event-card
+                event=event
+                class='Card EventCard u-flexColumn'
+              }}
+            </div>
+          {{/each}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
   </div>
 {{/each}}
