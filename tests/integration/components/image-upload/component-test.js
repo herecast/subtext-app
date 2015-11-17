@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -16,7 +15,7 @@ test('the primary image is visually distinct', function(assert) {
 
   const image = {
     imageUrl: imageUrl,
-    primary: 1 
+    primary: 1
   };
 
   this.set('image', image);
