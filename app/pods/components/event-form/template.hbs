@@ -22,11 +22,9 @@
   afterValidation='afterDateValidation'
 }}
 
-{{content-form-image
-  image=event.image
-  imageUrl=event.imageUrl
-  originalImageFile=event.originalImageFile
-  error=errors.image
+{{event-form-registration
+  event=event
+  class='form-group'
 }}
 
 <div class='form-group'>
@@ -38,6 +36,13 @@
     }}
   </div>
 </div>
+
+{{content-form-image
+  image=event.image
+  imageUrl=event.imageUrl
+  originalImageFile=event.originalImageFile
+  error=errors.image
+}}
 
 {{#form-group error=errors.content}}
   <label class='control-label ContentForm-label--required' for="description">Event Description</label>

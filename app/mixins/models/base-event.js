@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import moment from 'moment';
 
 const {
   computed,
@@ -55,7 +56,7 @@ export default Ember.Mixin.create({
     const deadline = get(this, 'registrationDeadline');
 
     if (deadline) {
-      return deadline.format('L');
+      return moment(deadline).format('L');
     }
   }),
 
