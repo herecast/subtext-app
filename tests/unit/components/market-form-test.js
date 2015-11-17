@@ -4,7 +4,7 @@ import resolver from '../../helpers/resolver';
 
 moduleForComponent('market-form', 'Unit | Component | market form', {
   // Specify the other units that are required for this test
-  needs: ['component:summer-note', 'helper:fa-icon', 'component:form-group',
+  needs: ['component:summer-note', 'component:fa-icon', 'component:form-group',
     'component:image-upload-list'
   ],
   unit: true,

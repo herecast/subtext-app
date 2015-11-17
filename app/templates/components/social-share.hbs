@@ -7,12 +7,12 @@
 <div class='row'>
   {{#unless isTalkChannel}}
     <div class='col-xs-offset-4 col-xs-2 col-sm-offset-3 col-md-offset-2 col-md-4 u-textCentered' {{action 'shareFacebook'}}>
-      {{fa-icon 'facebook' size=2 classNames='SocialShare-icon'}}
+      {{fa-icon 'facebook' size=2 class='SocialShare-icon'}}
     </div>
   {{/unless}}
   <div class='col-xs-2 col-md-4 u-textCentered {{if isTalkChannel 'col-xs-offset-5 col-sm-offset-4 col-md-offset-4'}}'>
     <a href={{mailtoLink}} target='_blank'>
-      {{fa-icon 'envelope' size=2 classNames='SocialShare-icon'}}
+      {{fa-icon 'envelope' size=2 class='SocialShare-icon'}}
     </a>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent('market-filter', 'Unit | Component | market filter', {
   // Specify the other units that are required for this test
   needs: ['component:market-location-filter', 'component:content-query-filter',
-    'helper:fa-icon'],
+    'component:fa-icon'],
   unit: true
 });
 

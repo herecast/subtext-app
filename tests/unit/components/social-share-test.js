@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('social-share', 'Unit | Component | social share', {
   // Specify the other units that are required for this test
-  needs: ['helper:fa-icon'],
+  needs: ['component:fa-icon'],
   unit: true
 });
 
