@@ -1,0 +1,43 @@
+.ImageUpload {
+  &.is-primary { }
+}
+
+.ImageUpload-reset {
+  color: @gray-dark;
+  position: absolute;
+  right: 0;
+}
+
+.ImageUpload-preview {
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+  &:hover {
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.18);
+  }
+}
+
+.Image-Upload-previewImage {
+  position: relative;
+  .is-primary & {
+    &:before {
+      content: 'Main image';
+      display: block;
+      padding: 0 5px;
+      background: @market-brand;
+      position: absolute;
+      top: 0;
+    }
+  }
+  padding: 0;
+  img {
+    width: 200px;
+  }
+}
+
+.Image-Upload-previewBody {
+  position: relative;
+  padding: 0 20px;
+}
+
+.Image-Upload-previewFilename {
+  margin-top: 20px;
+}

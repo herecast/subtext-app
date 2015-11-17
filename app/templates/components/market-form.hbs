@@ -29,14 +29,8 @@
   }}
 </div>
 
-{{!-- aspectRatio=0 sets crop tool to allow any ratio --}}
-{{content-form-image
-  image=post.image
-  imageUrl=post.coverImageUrl
-  originalImageFile=post.originalImageFile
-  error=errors.image
-  aspectRatio=0
-  class='u-layoutPadT50'
+{{image-upload-list
+  model=post
 }}
 
 {{#form-group error=errors.contact class='u-layoutPadT50'}}

@@ -1,0 +1,25 @@
+{{#form-group error=error}}
+  <label class='control-label' for="image">
+    Images
+  </label>
+
+  {{#each images as |image|}}
+    {{#if image.isNew}}
+      {{image-upload
+        image=image
+        remove=(action 'removeImage')
+        setPrimary=(action 'setPrimary')
+      }}
+    {{else}}
+      <div class='form-group'>
+        <img src={{image.imageUrl}} class='img-responsive'>
+      </div>
+    {{/if}}
+  {{/each}}
+{{/form-group}}
+
+{{#if underImageLimit}}
+  <button {{action 'addImage'}} class='Button Button--default'>
+    {{fa-icon 'plus-circle'}} Add another image
+  </button>
+{{/if}}

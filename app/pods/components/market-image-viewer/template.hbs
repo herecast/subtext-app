@@ -1,0 +1,26 @@
+<div class='MarketPost-imageContainer'>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-sm-8 col-sm-offset-2'>
+        <div class='MarketPost-imageWrapper'>
+          <img class='MarketPost-image img-responsive' src={{currentImageUrl}}>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='Container--noGutter ContentBody'>
+  <div class='row'>
+    <div class='col-sm-9 col-md-8 col-sm-offset-2'>
+      {{#each imageUrls as |imageUrl|}}
+        {{market-image-selector
+          src=imageUrl
+          currentImageUrl=currentImageUrl
+          mouseEnter=(action 'setCurrentUrl' imageUrl)
+          click=(action 'setCurrentUrl' imageUrl)
+        }}
+      {{/each}}
+    </div>
+  </div>
+</div>

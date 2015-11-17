@@ -422,10 +422,11 @@ export default function() {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
-    const post = db.talks.insert(attrs);
+    const post = db.market_posts.insert(attrs);
 
     // This is so we show the edit button on the post show page
     post.can_edit = true;
+    post.content_id = post.id;
 
     return {
       market_post: post
@@ -549,5 +550,24 @@ export default function() {
     </div>';
 
     return weather;
+  });
+
+  this.post('/images', function(db) {
+    const image = db.images.insert({
+      id: faker.random.number(1000)
+    });
+
+    return {
+      image: image
+    };
+  });
+
+  this.put('/images/:id', function(db, request) {
+    const id = request.params.id;
+    const image = db.images.update(id, {});
+
+    return {
+      image: image
+    };
   });
 }

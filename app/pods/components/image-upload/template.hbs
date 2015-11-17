@@ -1,0 +1,63 @@
+<div class='form-group'>
+  {{#if imageUrl}}
+    <div class="ImageUpload-preview media">
+      <div class="Image-Upload-previewImage media-left">
+        <img class='media-object' src={{imageUrl}}>
+      </div>
+      <div class="Image-Upload-previewBody media-body">
+        <button class='ImageUpload-reset btn btn-link' {{action 'removeImage' image}}>
+          {{fa-icon 'close'}}
+        </button>
+
+        <h4 class="Image-Upload-previewFilename media-heading">
+          {{imageName}}
+        </h4>
+
+        <button class='ImageUpload-showCropper btn btn-link' {{action 'showCropper'}}>
+          {{fa-icon 'fa-crop'}} Crop and resize
+        </button>
+
+        {{#unless image.primary}}
+          <button class='ImageUpload-setPrimary btn btn-link' {{action 'setPrimary' image}}>
+            Set as Main Image
+          </button>
+        {{/unless}}
+      </div>
+    </div>
+  {{else}}
+    <div class='row'>
+      <div class='col-sm-11'>
+        {{image-upload-input
+          addImage=(action 'addImage')
+          class='form-control'
+        }}
+      </div>
+
+      <div class='col-sm-1'>
+        <button class='ImageUpload-remove btn-link' {{action 'removeImage' image}}>
+          {{fa-icon 'close'}}
+        </button>
+      </div>
+    </div>
+    <span class="help-block ContentForm-helpText">Format: .jpg or .png  // Size: under 5MB</span>
+  {{/if}}
+</div>
+
+{{#if showCropper}}
+  {{#modal-dialog
+    close='hideCropper'
+    translucentOverlay=true
+    targetAttachment='none'
+    container-class='ModalDialog-container'
+    overlay-class='ModalDialog-overlay'
+    wrapper-class='ModalDialog-wrapper'
+  }}
+    {{image-cropper
+      type=image.originalImageFile.type
+      aspectRatio=0
+      canvas=canvas
+      updateImage=(action 'updateImageModelProperties')
+      cancel=(action 'hideCropper')
+    }}
+  {{/modal-dialog}}
+{{/if}}

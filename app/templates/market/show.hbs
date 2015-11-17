@@ -1,13 +1,7 @@
-{{#if model.coverImageUrl}}
-  <div class='MarketPost-imageContainer'>
-    <div class='container'>
-      <div class='row'>
-        <div class='col-sm-8 col-sm-offset-2'>
-          <img class='MarketPost-image img-responsive' src={{model.coverImageUrl}}>
-        </div>
-      </div>
-    </div>
-  </div>
+{{#if model.images}}
+  {{market-image-viewer
+    images=model.images
+  }}
 {{/if}}
 
 <div class='MarketPost Container--noGutter ContentBody'>

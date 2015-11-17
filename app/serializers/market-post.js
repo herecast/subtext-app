@@ -1,7 +1,12 @@
+import DS from 'ember-data';
 import { ActiveModelSerializer } from 'active-model-adapter';
 
-export default ActiveModelSerializer.extend({
+export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   primaryKey: 'content_id',
+
+  attrs: {
+    images: { embedded: 'always' },
+  },
 
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
@@ -11,6 +16,7 @@ export default ActiveModelSerializer.extend({
     delete json.content_id;
     delete json.has_contact_info;
     delete json.image_url;
+    delete json.images;
     delete json.published_at;
 
     return json;

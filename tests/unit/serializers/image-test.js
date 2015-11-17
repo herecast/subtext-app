@@ -1,10 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('market-post', 'Unit | Serializer | market-post', {
+moduleForModel('image', 'Unit | Serializer | image', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:market-post', 'transform:raw', 'transform:moment-date',
-    'model:image'
-  ]
+  needs: ['serializer:image']
 });
 
 // Replace this with your real tests.
