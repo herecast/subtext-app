@@ -1,3 +1,9 @@
+{{#if event.registrationDeadline}}
+  <h4 class='EventCard-registrationBanner u-textCentered'>
+    Registration Deadline - {{event.formattedRegistrationDeadline}}
+  </h4>
+{{/if}}
+
 {{#if media.isNotMobile}}
   {{#if event.imageUrl}}
     <div class='EventCard-imageContainer u-flexColumn'>

@@ -16,6 +16,8 @@ function template(id) {
   // Only a subset of the events will have a venue name.
   const venueName = (id % 3 === 0) ? titleize(faker.lorem.words(3).join(' ')) : null;
 
+  const deadline = (id % 4 === 0) ? startsAt : null;
+
   return {
     id: id,
     admin_content_url: `http://${faker.internet.domainName()}`,
@@ -41,7 +43,7 @@ function template(id) {
     venue_latitude: '44.4758',
     venue_longitude: '-73.2119',
     venue_locate_name: titleize(faker.lorem.sentences(1)),
-    registration_deadline: startsAt,
+    registration_deadline: deadline,
     registration_url: `http://${faker.internet.domainName()}`,
     registration_phone: faker.phone.phoneNumber(),
     registration_email: faker.internet.email(),
