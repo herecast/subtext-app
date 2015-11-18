@@ -1,5 +1,12 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import moment from 'moment';
+
+const {
+  computed,
+  get,
+  isPresent
+} = Ember;
 
 export default Ember.Mixin.create({
   contactEmail: DS.attr('string'),
@@ -12,6 +19,10 @@ export default Ember.Mixin.create({
   eventInstanceId: DS.attr('number'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   imageUrl: DS.attr('string'),
+  registrationEmail: DS.attr('string'),
+  registrationUrl: DS.attr('string'),
+  registrationPhone: DS.attr('string'),
+  registrationDeadline: DS.attr('moment-date'),
   socialEnabled: DS.attr('boolean', {defaultValue: true}),
   startsAt: DS.attr('moment-date'),
   subtitle: DS.attr('string'),
@@ -41,6 +52,14 @@ export default Ember.Mixin.create({
     }
   }.property('costType'),
 
+  formattedRegistrationDeadline: computed('registrationDeadline', function() {
+    const deadline = get(this, 'registrationDeadline');
+
+    if (deadline) {
+      return moment(deadline).format('L');
+    }
+  }),
+
   hasLocationInfo: function() {
     return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) ||
       Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) ||
@@ -51,6 +70,14 @@ export default Ember.Mixin.create({
     return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) ||
       Ember.isPresent(this.get('eventUrl'));
   }.property('contactEmail', 'contactPhone', 'eventUrl'),
+
+  hasRegistrationInfo: computed('registrationEmail', 'registrationPhone', 'registrationUrl', function() {
+    const email = get(this, 'registrationEmail');
+    const phone = get(this, 'registrationPhone');
+    const url = get(this, 'registrationUrl');
+
+    return isPresent(email) || isPresent(phone) || isPresent(url);
+  }),
 
   fullAddress: function() {
     let addr = this.get('venueAddress');

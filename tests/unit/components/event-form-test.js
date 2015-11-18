@@ -8,7 +8,8 @@ moduleForComponent('event-form', {
   // Specify the other units that are required for this test
   needs: ['component:event-form-dates', 'component:summer-note',
     'component:event-form-cost', 'component:event-form-venue',
-    'component:fa-icon', 'component:form-group', 'component:content-form-image'
+    'component:fa-icon', 'component:form-group', 'component:content-form-image',
+    'component:event-form-registration'
   ],
 
   setup: function() {

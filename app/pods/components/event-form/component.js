@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Validation from '../mixins/components/validation';
+import Validation from 'subtext-ui/mixins/components/validation';
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
