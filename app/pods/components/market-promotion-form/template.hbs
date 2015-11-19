@@ -1,16 +1,17 @@
 <div class='PromotionSection'>
-  <label class='PromotionSection-label' for="extended-reach">Expand Your Reach! <span class='PromotionSection-cost'>(Free)</span></label>
+  <label class='PromotionSection-label' for="extended-reach">My Town Only <span class='PromotionSection-cost'>(Free)</span></label>
   <p class='PromotionSection-description'>
-    By default, your listing will show only to registered users viewing the
-    {{session.userLocation}} Market. If you want your listing shown to all users, turn this on.
+    Your listing will be shown to users in every community, so it gets the
+    greatest possible exposure. But if you want it shown only to other users
+    from {{session.userLocation}}, turn this feature on.
   </p>
   <div class='row'>
     <div class='col-sm-6'>
       <div {{action 'toggleProperty' 'post.extendedReachEnabled'}} class='PromotionSection-toggle'>
         {{#if post.extendedReachEnabled}}
-          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-        {{else}}
           {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
+        {{else}}
+          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
         {{/if}}
       </div>
     </div>
