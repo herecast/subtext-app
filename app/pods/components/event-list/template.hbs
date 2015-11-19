@@ -1,0 +1,54 @@
+<thead>
+  <tr class='EventList-headerRow'>
+    <th class='h4'>Time</th>
+    <th class='h4'>Event Title</th>
+    <th class='h4'>Location</th>
+    <th class='h4'>Presenter</th>
+    <th class='h4'>Registration Deadline</th>
+  </tr>
+</thead>
+<tbody>
+  {{#each events as |event|}}
+    <tr>
+      <td class='u-textNoWrap'>{{event.timeRangeNoDates}}</td>
+      <td class='EventList-title'>
+        {{#link-to 'events.show' event.id}}
+          {{event.title}}
+
+          {{#if event.subtitle}}
+            <div class='EventList-subtitle'>
+              {{event.subtitle}}
+            </div>
+          {{/if}}
+        {{/link-to}}
+      </td>
+      <td class='EventList-venue'>
+        {{#if event.venueName}}
+          {{event.venueName}}
+        {{else}}
+          {{event.venueAddress}}
+        {{/if}}
+
+        {{#if event.venueCity}}
+          <div class='EventList-subtitle'>
+            {{event.venueCity}}, {{event.venueState}}
+          </div>
+        {{/if}}
+      </td>
+      <td class='u-textCentered'>
+        {{#if event.presenterName}}
+          {{event.presenterName}}
+        {{else}}
+          &mdash;
+        {{/if}}
+      </td>
+      <td class='u-textCentered'>
+        {{#if event.registrationDeadline}}
+          {{event.formattedRegistrationDeadline}}
+        {{else}}
+          &mdash;
+        {{/if}}
+      </td>
+    </tr>
+  {{/each}}
+</tbody>

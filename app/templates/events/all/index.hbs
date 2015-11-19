@@ -1,9 +1,23 @@
 <div class='Container--noGutter'>
-  {{#if showPrevPage}}
-    <div class='pull-left u-layoutPadT20'>
-      {{partial 'partials/pagination-nav'}}
+  <div class='pull-left u-layoutPadT20'>
+    <div class='pull-left ContextBar-layoutToggle'>
+      View
+
+      {{#link-to 'events' (query-params event_layout='list')}}
+        {{fa-icon 'bars' size=2}}
+      {{/link-to}}
+
+      {{#link-to 'events' (query-params event_layout='grid')}}
+        {{fa-icon 'th' size=2}}
+      {{/link-to}}
     </div>
-  {{/if}}
+
+    <div class='pull-left'>
+      {{#if showPrevPage}}
+        {{partial 'partials/pagination-nav'}}
+      {{/if}}
+    </div>
+  </div>
 
   <div class='pull-right ContextBar'>
     <span class='ContextBar-eventCount'>
@@ -23,6 +37,7 @@
     events=model
     startDate=startDate
     stopDate=stopDate
+    eventLayout=event_layout
   }}
 
   <div class='Container--noGutter'>

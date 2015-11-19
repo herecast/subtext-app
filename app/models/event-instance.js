@@ -2,6 +2,12 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 
+const {
+  computed,
+  get,
+  isEmpty
+} = Ember;
+
 export default DS.Model.extend(BaseEvent, {
   // Only returned by the API if the current user is an admin
   adminContentUrl: DS.attr('string'),
@@ -43,6 +49,19 @@ export default DS.Model.extend(BaseEvent, {
       }
     }
   }.property('startsAt', 'endsAt'),
+
+  timeRangeNoDates: computed('startsAt', 'endsAt', function() {
+    const startTime = get(this, 'startsAt').format('h:mmA');
+    const endsAt = get(this, 'endsAt');
+
+    if (isEmpty(endsAt)) {
+      return startTime;
+    } else {
+      const endTime = endsAt.format('h:mmA');
+
+      return `${startTime}-${endTime}`;
+    }
+  }),
 
   isValid: function() {
     const start = this.get('startsAt');
