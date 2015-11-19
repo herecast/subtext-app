@@ -133,12 +133,22 @@
       </div>
 
       <div class='col-md-6'>
-        {{#if model.costType}}
-          <div class='EventInfo-cost'>
-            {{model.formattedCostType}}
-            {{model.cost}}
-          </div>
-        {{/if}}
+        <div class='clearfix EventInfo-instanceInfo'>
+          {{#if model.presenterName}}
+            <div class='u-textBold pull-left EventInfo-presenter'>
+              {{fa-icon 'user' size='lg' class='EventInfo-icon'}}
+              {{model.presenterName}}
+            </div>
+          {{/if}}
+
+          {{#if model.costType}}
+            <div class='u-textBold pull-left'>
+              {{fa-icon 'usd' size='lg' class='EventInfo-icon'}}
+              {{model.formattedCostType}}
+              {{model.cost}}
+            </div>
+          {{/if}}
+        </div>
 
         <div class='EventShow-content ContentText'>
           {{{model.content}}}
