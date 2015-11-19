@@ -18,7 +18,7 @@ export default DS.Model.extend({
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
   contentId: Ember.computed.oneWay('id'),
-  extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
+  extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   hasContactInfo: DS.attr('boolean'),
   images: DS.hasMany('image'),
   imageUrl: DS.attr('string'),
