@@ -3,18 +3,12 @@
     Images
   </label>
 
-  {{#each images as |image|}}
-    {{#if image.isNew}}
-      {{image-upload
-        image=image
-        remove=(action 'removeImage')
-        setPrimary=(action 'setPrimary')
-      }}
-    {{else}}
-      <div class='form-group'>
-        <img src={{image.imageUrl}} class='img-responsive'>
-      </div>
-    {{/if}}
+  {{#each visibleImages as |image|}}
+    {{image-upload
+      image=image
+      remove=(action 'removeImage')
+      setPrimary=(action 'setPrimary')
+    }}
   {{/each}}
 {{/form-group}}
 

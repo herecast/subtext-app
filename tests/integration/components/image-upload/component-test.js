@@ -81,7 +81,8 @@ test('Open the image cropper', function(assert) {
 
   const image = {
     imageUrl: imageUrl,
-    primary: 1
+    primary: 1,
+    isNew: true
   };
 
   this.set('image', image);
@@ -100,6 +101,74 @@ test('Open the image cropper', function(assert) {
   const $cropper = $('.ImageCropper');
 
   assert.ok($cropper.length, 'Image cropper was not opened');
+});
+
+test('The image cropper is not available for existing images', function(assert) {
+  assert.expect(1);
+
+  const image = {
+    imageUrl: imageUrl,
+    primary: 1,
+    isNew: false
+  };
+
+  this.set('image', image);
+
+  this.render(hbs`
+    <div id='modal-overlays'></div>
+    {{image-upload
+      image=image
+    }}
+  `);
+
+  const $showCropper = $('.ImageUpload-showCropper');
+
+  assert.ok(!$showCropper.length, 'Image cropper should not be available');
+});
+
+test('The original image name is used for new images', function(assert) {
+  assert.expect(1);
+
+  const image = {
+    imageUrl: imageUrl,
+    primary: 1,
+    isNew: true,
+    originalImageFile: {name: 'bears.jpg'}
+  };
+
+  this.set('image', image);
+
+  this.render(hbs`
+    {{image-upload
+      image=image
+    }}
+  `);
+
+  const filename = $('.Image-Upload-previewFilename').text().trim();
+
+  assert.equal(filename, 'bears.jpg');
+});
+
+test('The file URL is used for existing images', function(assert) {
+  assert.expect(1);
+
+  const image = {
+    imageUrl: 'http://www.stuff.com/things/bees.png',
+    primary: 1,
+    isNew: false
+  };
+
+  this.set('image', image);
+
+  this.render(hbs`
+    {{image-upload
+      image=image
+    }}
+  `);
+
+  const filename = $('.Image-Upload-previewFilename').text().trim();
+
+  assert.equal(filename, 'bees.png');
 });
 
 test('Set image as primary', function(assert) {

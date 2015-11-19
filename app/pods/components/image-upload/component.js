@@ -56,7 +56,18 @@ export default Ember.Component.extend({
     }
   }.observes('canvas', 'croppedImageUrl'),
 
-  imageName: computed.oneWay('image.originalImageFile.name'),
+  imageName: computed('image.originalImageFile.name', 'imageUrl', function() {
+    const originalFileName = get(this, 'image.originalImageFile.name');
+
+    if (originalFileName) {
+      return originalFileName;
+    } else {
+      // We're not persisting the original file name when an image is uploaded,
+      // so we need to grab it from the file name on S3.
+      const fileName = get(this, 'imageUrl').split('/').get('lastObject');
+      return fileName;
+    }
+  }),
 
   updateCanvas(file) {
     loadImage.parseMetaData(file, (data) => {

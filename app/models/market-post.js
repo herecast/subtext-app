@@ -7,7 +7,8 @@ import config from '../config/environment';
 const {
   computed,
   get,
-  isPresent
+  isPresent,
+  RSVP
 } = Ember;
 
 export default DS.Model.extend({
@@ -31,6 +32,27 @@ export default DS.Model.extend({
     return get(this, 'images')
       .filter((image) => isPresent(get(image, 'imageUrl')));
   }),
+
+  saveWithImages() {
+    const imagesToSave = get(this, 'images').filterBy('imageUrl');
+    const imagesToDelete = get(this, 'images').filterBy('_delete');
+
+    return this.save().then((post) => {
+      imagesToSave.setEach('contentId', get(post, 'id'));
+
+      const savedImages = imagesToSave.map((image) => {
+        return image.save();
+      });
+
+      const deletedImages = imagesToDelete.map((image) => {
+        return image.destroyRecord();
+      });
+
+      const allImages = savedImages.concat(deletedImages);
+
+      return RSVP.all(allImages);
+    });
+  },
 
   coverImageUrl: function() {
     const images = get(this, 'populatedImages');

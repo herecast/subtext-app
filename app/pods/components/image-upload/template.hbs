@@ -13,9 +13,11 @@
           {{imageName}}
         </h4>
 
-        <button class='ImageUpload-showCropper btn btn-link' {{action 'showCropper'}}>
-          {{fa-icon 'fa-crop'}} Crop and resize
-        </button>
+        {{#if image.isNew}}
+          <button class='ImageUpload-showCropper btn btn-link' {{action 'showCropper'}}>
+            {{fa-icon 'fa-crop'}} Crop and resize
+          </button>
+        {{/if}}
 
         {{#unless image.primary}}
           <button class='ImageUpload-setPrimary btn btn-link' {{action 'setPrimary' image}}>

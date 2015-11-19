@@ -19,7 +19,14 @@ export default Ember.Component.extend({
   },
 
   images: computed.alias('model.images'),
-  underImageLimit: computed.lt('images.length', maxImages),
+
+  visibleImages: computed('images.@each._delete', function() {
+    const images = get(this, 'images');
+
+    return images.rejectBy('_delete');
+  }),
+
+  underImageLimit: computed.lt('visibleImages.length', maxImages),
 
   resetProperties() {
     const images = get(this, 'images');
@@ -43,7 +50,15 @@ export default Ember.Component.extend({
     removeImage(image) {
       const isPrimaryImage = get(image, 'primary');
 
-      Ember.run(() => get(this, 'images').removeObject(image));
+      if (get(image, 'isNew')) {
+        Ember.run(() => get(this, 'images').removeObject(image));
+      } else {
+        // If an image has already been persisted, reset imageUrl so it's
+        // hidden from the page, and flag it with "_delete" so it will be
+        // destroyed when the market post is saved.
+        set(image, 'imageUrl', null);
+        set(image, '_delete', true);
+      }
 
       if (isPrimaryImage) {
         const firstImage = get(this, 'images')
