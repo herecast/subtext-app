@@ -1,3 +1,4 @@
+/* global ga */
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
@@ -58,9 +59,14 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         visitProps['targetPageUrl'] = window.location.href;
         visitProps['sourcePageUrl'] = from;
         mixpanel.trackEvent('pageVisit', visitProps);
+        ga('send', 'pageview', {
+          'page': this.get('url'),
+          'title': this.get('url')
+        });
       });
 
       return true; // Bubble the didTransition event
     }
   }
+
 });
