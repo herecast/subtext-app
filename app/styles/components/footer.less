@@ -2,14 +2,47 @@
   background-color: @gray-dark;
   padding: 10px 5px;
   color: white;
+  position: relative;
+}
+
+.Footer-links-list {
+  display: block;
+}
+
+.Footer-links-list-item {
+  float: left;
+  padding: 5px 0;
+  @media (max-width: @screen-xs-max) {
+    line-height: 1;
+  }
+  @media (max-width: @screen-xs) {
+    &:nth-child(odd) {
+      // force two colums to
+      // make room for intercom widget
+      // on a phone's vertical orientation
+      clear: both;
+    }
+  }
 }
 
 .Footer-link {
   color: white;
-  display: inline-block;
-  line-height: 36px;
+  display: block;
   padding: 0 10px;
-  vertical-align: middle;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.Footer-link.Footer-link-logo {
+  display: block;
+  float: left;
+}
+
+.Footer-link-mixpanel {
+  position: absolute;
+  top: 0;
+  right: 15px;
 }
 
 .Footer-container {

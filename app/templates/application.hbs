@@ -187,19 +187,22 @@
     {{top-scroller}}
   </div>
   <div class='Container--noGutter'>
-    <footer class='Footer'>
-      {{#link-to 'copyright' class='Footer-link h4'}}© 2015 Subtext Media Ltd.{{/link-to}}
-      <a class='Footer-link' href="mailto:dailyuv@subtext.org">Contact Us</a>
-      <a class='Footer-link' href="mailto:jobs@subtext.org">Join Us</a>
-      <a class='Footer-link hidden-xs' href="mailto:ads@subtext.org">Advertise With Us</a>
-      {{#link-to 'copyright-agent' class='Footer-link hidden-xs'}}Don't Sue Us{{/link-to}}
-      {{link-to 'Privacy' 'privacy' class='Footer-link hidden-xs'}}
-      {{link-to 'Terms of Service' 'terms' class='Footer-link hidden-sm hidden-xs'}}
-      {{#link-to 'news.show' '790848' class='Footer-link visible-lg-inline-block'}}
-        Help
-      {{/link-to}}
-      <a class='Footer-link visible-lg-inline-block' href="mailto:dailyuv@subtext.org">Site Feedback</a>
-      <a class="pull-right visible-lg-inline-block u-layoutPadT10" href="https://mixpanel.com/f/partner" target="_blank">
+    <footer class='Footer clearfix'>
+      {{#link-to 'copyright' class='Footer-link Footer-link-logo h4'}}© 2015 Subtext Media Ltd.{{/link-to}}
+
+      <ul class='Footer-links-list'>
+        <li class='Footer-links-list-item'>{{link-to 'Terms of Service' 'terms' class='Footer-link'}}</li>
+        <li class='Footer-links-list-item'>{{link-to 'Privacy' 'privacy'        class='Footer-link'}}</li>
+        <li class='Footer-links-list-item'>{{#link-to 'news.show' '790848'      class='Footer-link'}}Help{{/link-to}}</li>
+        <li class='Footer-links-list-item'><a href="mailto:dailyuv@subtext.org" class='Footer-link'>Contact Us</a></li>
+
+        <li class='Footer-links-list-item'><a href="mailto:jobs@subtext.org"        class='Footer-link hidden-xs'>Join Us</a></li>
+        <li class='Footer-links-list-item'><a href="mailto:ads@subtext.org"         class='Footer-link hidden-xs'>Advertise With Us</a></li>
+        <li class='Footer-links-list-item'>{{#link-to 'copyright-agent'             class='Footer-link hidden-xs'}}Don't Sue Us{{/link-to}}</li>
+        <li class='Footer-links-list-item'><a href="mailto:dailyuv@subtext.org"     class='Footer-link hidden-xs'>Site Feedback</a></li>
+      </ul>
+
+      <a href="https://mixpanel.com/f/partner" class="Footer-link-mixpanel pull-right visible-lg-inline-block u-layoutPadT10" target="_blank">
         <img alt="Mobile Analytics" src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png">
       </a>
     </footer>
