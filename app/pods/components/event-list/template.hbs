@@ -10,7 +10,17 @@
 <tbody>
   {{#each events as |event|}}
     <tr>
-      <td class='EventList-column-time u-textNoWrap'>{{event.timeRangeNoDates}}</td>
+      {{#if media.isMobile}}
+        <td class='EventList-column-time u-textNoWrap'>
+          {{#if event.endsAtHour}}
+            {{event.startsAtHour}}-<br />{{event.endsAtHour}}
+          {{else}}
+            {{event.startsAtHour}}
+          {{/if}}
+        </td>
+      {{else}}
+        <td class='EventList-column-time u-textNoWrap'>{{event.timeRangeNoDates}}</td>
+      {{/if}}
       <td class='EventList-title'>
         {{#link-to 'events.show' event.id}}
           {{event.title}}
