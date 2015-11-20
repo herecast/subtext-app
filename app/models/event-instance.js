@@ -38,14 +38,13 @@ export default DS.Model.extend(BaseEvent, {
   }.property('isValid', 'startsAt', 'endsAt'),
 
   startsAtHour: Ember.computed('startsAt', function() {
-    if(this.get('isValid')) {
-      const startsAt = get(this, 'startsAt').format('h:mmA');
-      return `${startsAt}`;
+    if(get(this, 'isValid')) {
+      return get(this, 'startsAt').format('h:mmA');
     }
   }),
 
   endsAtHour: Ember.computed('endsAt', function() {
-    if(this.get('isValid')) {
+    if(get(this, 'isValid')) {
        const endsAt = get(this, 'endsAt');
 
        return (endsAt) ? `${endsAt.format('h:mmA')}` : null;
