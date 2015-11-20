@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          {{#form-group class='u-textPullLeft'}}
+          {{#form-group class='u-textPullLeft' error=error.termsAccepted}}
             {{input
               id='terms'
               type="checkbox"
@@ -67,18 +67,12 @@
             By clicking "I agree", you are agreeing to abide by the test site terms of service above.
           </p>
 
-          {{#if isValid}}
-            {{async-button
-              action='register'
-              default='Join'
-              pending='Joining'
-              class='Button Button--primary btn'
-            }}
-          {{else}}
-            <button disabled class='Button Button--primary btn disabled'>
-              Join
-            </button>
-          {{/if}}
+          {{async-button
+            action='register'
+            default='Join'
+            pending='Joining'
+            class='Button Button--primary btn'
+          }}
         </form>
       </div>
     </div>
