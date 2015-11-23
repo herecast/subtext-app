@@ -50,7 +50,7 @@ export default Ember.Component.extend({
       // or hits return.
       if (e.keyCode !== 9 && e.keyCode !== 13) {
         if (isPresent(query) && query.length > 2) {
-          run.debounce(this, this.updateFilter, query, 600);
+          run.debounce(this, this.updateFilter, query, 300);
         } else if (isBlank(query)) {
           run.later(() => {
             $input.val('');
