@@ -1,95 +1,98 @@
 import Ember from 'ember';
 
+const { run, on, computed, get, set, isPresent, isBlank } = Ember;
+const CATEGORIES = [ 'Everything', 'Movies', 'Performing arts', 'Wellness', 'Holidays' ];
+
 export default Ember.Component.extend({
   classNames: ['dropdown'],
 
-  click() {
-    this.$('input').select();
-  },
+  category: null,
+  query: null,
+  categoryOrQuery: null,
 
-  categories: [
-    'Everything', 'Movies', 'Performing arts', 'Wellness', 'Holidays'
-  ],
-
-  categoryOptions: function() {
-    return this.get('categories').map((category) => {
+  categoryOptions: computed(() => {
+    return CATEGORIES.map((category) => {
       return {
         label: category.capitalize(),
         value: category
       };
     });
-  }.property(),
+  }),
 
-  setCategoryOrQuery: function() {
-    const query = this.get('query');
+  click() {
+    this.$('input').select();
+  },
 
-    if (Ember.isPresent(query)) {
-      this.set('categoryOrQuery', query);
-    } else {
-      this.set('categoryOrQuery', this.get('category'));
-    }
-  }.observes('category', 'query'),
+  didUpdateAttrs() {
+    const category = this.getAttr('category'),
+          query    = this.getAttr('query'),
+          categoryOrQuery = (isPresent(query)) ? query : category;
 
-  initCategoryOrQuery: function() {
-    this.setCategoryOrQuery();
-  }.on('init'),
+    set(this, 'categoryOrQuery', categoryOrQuery);
+  },
 
-  initInput: function() {
-    this.$('input').keyup((e) => {
-      const query = this.get('categoryOrQuery');
-      this.setInput(query);
+  initInput: on('didInsertElement', function() {
+    const $input = this.$('input');
+
+    $input.blur(() => {
+      if ($input.val() === '') {
+        $input.val(CATEGORIES[0].capitalize());
+        this.updateFilter();
+      }
+    });
+
+    $input.keyup((e) => {
+      const query = get(this, 'categoryOrQuery');
+
+      this.setInputValue(query);
 
       // Don't initiate a search if someone is tabbing through filters
       // or hits return.
       if (e.keyCode !== 9 && e.keyCode !== 13) {
-        if (Ember.isPresent(query) && query.length > 2) {
-          Ember.run.debounce(this, this.updateFilter, query, 300);
+        if (isPresent(query) && query.length > 2) {
+          run.debounce(this, this.updateFilter, query, 600);
+        } else if (isBlank(query)) {
+          run.later(() => {
+            $input.val('');
+          });
         }
       }
     });
-  }.on('didInsertElement'),
-
-  removeQueryInput: function() {
-    this.$('input').off('keyUp');
-  }.on('willDestroyElement'),
+  }),
 
   updateFilter() {
-    this.set('open', false);
     this.sendAction('submit');
   },
 
   // Since the input field handles both the hardcoded categories and custom text
   // input, we have to manually manage the values. If the user enters one of the
   // hardcoded categories, it uses that, otherwise it sends it as a custom query.
-  setInput(value) {
-    if (!this.get('categories').contains(value)) {
-      this.setProperties({
-        category: 'Everything',
-        query: value,
-        categoryOrQuery: value,
-      });
-    } else {
-      this.setProperties({
-        categoryOrQuery: value,
-        category: value,
-        query: null
-      });
-    }
+  setInputValue(value) {
+    const valueIsCategory = (CATEGORIES.contains(value));
+
+    this.setProperties({
+      category: (valueIsCategory) ? value : 'Everything',
+      query:    (valueIsCategory) ? null  : value,
+    });
+  },
+
+  willDestroyElement() {
+    this.$('input').off('keyUp').off('blur');
   },
 
   actions: {
     setCategory(category) {
-      this.setInput(category);
+      this.setInputValue(category);
 
       // This prevents the input from being selected when a user chooses a
       // category from the dropdown menu.
-      Ember.run.later(() => {
+      run.later(() => {
         this.updateFilter();
       }, 10);
     },
 
     customSearch() {
-      Ember.run.later(() => {
+      run.later(() => {
         this.$('input').focus();
       }, 50);
 
