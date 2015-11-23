@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
 const {
-  get,
-  RSVP,
   set
 } = Ember;
 
@@ -22,22 +20,13 @@ export default Ember.Component.extend({
       this.set('isSaving', true);
 
       const post = this.get('model');
-      const images = get(post, 'images').filterBy('file');
-      const promise = post.save();
+      const promise = post.saveWithImages();
 
       callback(promise);
 
-      promise.then((savedPost) => {
-        images.setEach('contentId', get(savedPost, 'id'));
-
-        RSVP.all(
-          images.map((image) => {
-            return image.save();
-          })
-        ).then(() => {
-          set(this, 'isSaving', false);
-          this.sendAction('afterPublish', savedPost);
-        });
+      promise.then(() => {
+        set(this, 'isSaving', false);
+        this.sendAction('afterPublish', post);
       });
     }
   }
