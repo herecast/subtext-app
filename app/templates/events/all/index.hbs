@@ -1,23 +1,26 @@
 <div class='Container--noGutter'>
-  <div class='pull-left u-layoutPadT20'>
-    <div class='pull-left ContextBar-layoutToggle'>
-      View
 
-      {{#link-to 'events' (query-params event_layout='list')}}
-        {{fa-icon 'bars' size=2}}
-      {{/link-to}}
+  {{#unless media.isMobile}}
+    <div class='pull-left u-layoutPadT20'>
+      <div class='pull-left ContextBar-layoutToggle'>
+        View
 
-      {{#link-to 'events' (query-params event_layout='grid')}}
-        {{fa-icon 'th' size=2}}
-      {{/link-to}}
+        {{#link-to 'events' (query-params event_layout='list')}}
+          {{fa-icon 'bars' size=2}}
+        {{/link-to}}
+
+        {{#link-to 'events' (query-params event_layout='grid')}}
+          {{fa-icon 'th' size=2}}
+        {{/link-to}}
+      </div>
+
+      <div class='pull-left'>
+        {{#if showPrevPage}}
+          {{partial 'partials/pagination-nav'}}
+        {{/if}}
+      </div>
     </div>
-
-    <div class='pull-left'>
-      {{#if showPrevPage}}
-        {{partial 'partials/pagination-nav'}}
-      {{/if}}
-    </div>
-  </div>
+  {{/unless}}
 
   <div class='pull-right ContextBar'>
     <span class='ContextBar-eventCount'>
