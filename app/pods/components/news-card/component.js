@@ -15,12 +15,20 @@ export default Ember.Component.extend({
   }.property('item.publishedAt'),
 
   content: function() {
-    const text = this.get('item.content');
-    const tmp = document.createElement("div");
+    let text = this.get('item.content');
 
-    tmp.innerHTML = text;
+    if (text) {
+      // Replace <br> and </p> tags with spaces so that they are more readable
+      // on the news card. Otherwise there's no space between sentences.
+      text = text.replace(/(<br +?\/?>)/g, ' ');
+      text = text.replace(/<\/p>/g, '</p> ');
 
-    return tmp.textContent;
+      const tmp = document.createElement("div");
+
+      tmp.innerHTML = text;
+
+      return tmp.textContent;
+    }
   }.property('item.content'),
 
   actions: {
