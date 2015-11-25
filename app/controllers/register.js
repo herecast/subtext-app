@@ -49,11 +49,15 @@ export default Ember.Controller.extend(Validation, {
 
   // If the API returns an error, we need to reset it if the user changes
   // the value in the form so it's no longer displayed.
-  updateRequestErrors: observer('email', function() {
+  updateRequestErrors: observer('email', 'password', function() {
     const email = get(this, 'email');
+    const password = get(this, 'password');
 
     if (isPresent(email)) {
       set(this, 'requestErrors.email', null);
+    }
+    if (isPresent(password)) {
+      set(this, 'requestErrors.password', null);
     }
   }),
 
@@ -78,9 +82,18 @@ export default Ember.Controller.extend(Validation, {
       emailErrorMsg = emailError;
     }
 
+    let passwordErrorMsg;
+    const passwordError = get(this, 'requestErrors.password');
+
+    if (!this.hasValidPassword(password)) {
+      passwordErrorMsg = get(this, 'errors.password');
+    } else if (passwordError) {
+      passwordErrorMsg = passwordError;
+    }
+
     return Ember.Object.create({
       email: emailErrorMsg,
-      password: isPresent(password) ? null : 'Password cannot be blank',
+      password: passwordErrorMsg,
       locationId: isPresent(locationId) ? null : 'Location must be selected',
       name: isPresent(name) ? null : 'Name cannot be blank',
       termsAccepted: termsAccepted ? null : 'You must agree to the terms of service'

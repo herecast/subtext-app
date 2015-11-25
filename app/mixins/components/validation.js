@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { set } = Ember;
+
 export default Ember.Mixin.create({
   errors: {},
 
@@ -13,6 +15,20 @@ export default Ember.Mixin.create({
     } else {
       this.set(`errors.${attrName}`, 'Cannot be blank');
     }
+  },
+
+  hasValidPassword(password) {
+    const isLongEnough = (password.length >= 8) ? true : false;
+
+    if (!isLongEnough) {
+      set(this, 'errors.password', 'Is too short (minimum is 8 characters)');
+    }
+
+    if (password === '') {
+      set(this, 'errors.password', 'Cannot be blank');
+    }
+
+    return isLongEnough;
   },
 
   hasValidEmail(email) {
