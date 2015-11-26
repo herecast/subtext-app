@@ -1,0 +1,117 @@
+<article class='EventShow'>
+  <header>
+    {{#if model.imageUrl}}
+      <div class='container hidden-sm'> {{!-- Container--noGutter --}}
+        <div class='row'>
+          <div class='col-md-3 col-md-offset-8'>
+            {{background-image imageUrl=model.imageUrl class='PhotoBanner-thumbnail'}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class='PhotoBanner'>
+      {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
+      <div class='PhotoBanner-curtain'></div>
+      <div class='PhotoBanner-content Container--noGutter'>
+        <div class='container'>
+          <div class='row'>
+            <div class='col-xs-12 {{if model.imageUrl 'col-md-6 col-md-offset-1'}}'>
+              <h2 class='PhotoBanner-subtitle PhotoBanner-subtitle-date u-layoutPadB10'>{{model.timeRange}}</h2>
+              <h1 class='PhotoBanner-title'>{{x-truncate text=model.title maxLength=50}}</h1>
+              <h2 class='PhotoBanner-subtitle'>{{model.subtitle}}</h2>
+              {{#if model.hasRegistrationInfo}}
+                <h2 class='EventInfo-registrationHeader'>
+                  Registration Deadline - {{model.formattedRegistrationDeadline}}
+                </h2>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class='ContentBody'>
+    <div class='row'>
+      <div class='col-md-9'>
+        <div class='row'>
+          <div class='col-md-10 col-md-offset-2'>
+            <div class='row'>
+              <div class='col-md-8'>
+                <div class='EventShow-content ContentText'>
+                  {{#if model.presenterName}}
+                    <div class='u-textBold pull-left EventInfo-presenter'>
+                      {{fa-icon 'user' size='lg' class='EventInfo-icon'}}
+                      {{model.presenterName}}
+                    </div>
+                  {{/if}}
+                  {{{model.content}}}
+                </div>
+              </div>
+              <div class='col-md-4'>
+                {{partial 'partials/event-meta'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class='col-md-2 u-layoutMobilePadding0  u-layoutPadT20'>
+        {{!--{{#floating-side-column enabled=media.isDesktop}}--}}
+        {{#floating-side-column enabled=false}}
+
+          {{social-share
+            title=model.title
+            sharedBy=session.userName
+          }}
+
+
+          {{#if model.canEdit}}
+            {{edit-content-link
+              contentId=model.eventId
+              route='events.edit'
+              text='Edit Event'
+            }}
+          {{/if}}
+
+          {{comment-bubble
+            type='event'
+            count=model.commentCount
+            class='hidden-xs hidden-sm'
+          }}
+        {{/floating-side-column}}
+      </div>
+    </div>
+{{!--
+    {{event-other-dates event=model}}
+
+    {{#unless isPreview}}
+      {{related-promotion
+        contentModel=model
+      }}
+    {{/unless}}
+
+    <h1 class='SectionHeader SectionHeader--paddedTop'>
+      <span class='SectionHeader-text'>
+        Talk
+      </span>
+    </h1>
+    <div class='row'>
+      {{content-comments
+        content=model
+        scrollTo=scrollTo
+      }}
+    </div>
+
+    {{#unless isPreview}}
+      {{similar-content
+        contentId=model.contentId
+        limit=4
+      }}
+    {{/unless}}
+
+--}}
+  </main>
+
+</article>

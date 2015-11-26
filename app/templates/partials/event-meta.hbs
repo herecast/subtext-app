@@ -1,0 +1,128 @@
+<div class='EventInfo-meta'>
+  <div class='EventInfo-meta-item'>
+    <div class='EventInfo-meta-item-inner'>
+      <div class='EventInfo-instanceInfo'>
+        <div class='EventInfo-instanceInfo-title'>
+          <h2 class='h4 EventInfo-instanceInfo-title-text'>Location</h2>
+        </div>
+        {{#if model.hasLocationInfo}}
+          <div>
+            {{#if model.venueUrl}}
+              {{#normalized-link url=model.venueUrl class='EventInfo-headerLink'}}
+                {{model.venueName}}
+              {{/normalized-link}}
+            {{else}}
+              {{model.venueName}}
+            {{/if}}
+          </div>
+
+          <div>
+          {{fa-icon 'map-marker'}}
+            <a href='{{model.directionsUrl}}' target='_blank'>
+              {{model.venueAddress}}, {{model.venueCity}}
+            </a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class='EventInfo-meta-item'>
+    <div class='EventInfo-meta-item-inner'>
+      <div class='EventInfo-instanceInfo'>
+        <div class='EventInfo-instanceInfo-title'>
+          <h2 class='h4 EventInfo-instanceInfo-title-text'>Price</h2>
+        </div>
+        {{fa-icon 'usd'  class='EventInfo-icon'}}
+        {{dash-if-empty model.formattedCostType}}<br />
+        {{model.cost}}
+      </div>
+    </div>
+  </div>
+
+  <div class='EventInfo-meta-item'>
+    <div class='EventInfo-meta-item-inner'>
+      <div class='EventInfo-instanceInfo'>
+        {{#if model.hasContactInfo}}
+          <div class='EventInfo-instanceInfo-title'>
+            <h2 class='h4 EventInfo-instanceInfo-title-text'>Event Information</h2>
+          </div>
+          <div class=''>
+            {{#if model.eventUrl}}
+              <div class=''>
+                {{fa-icon 'link'}}
+
+                {{#normalized-link url=model.eventUrl}}
+                  {{truncate model.eventUrl length=22}}
+                {{/normalized-link}}
+              </div>
+            {{/if}}
+
+            {{#if model.contactEmail}}
+              <div class=''>
+                {{fa-icon 'envelope'}}
+
+                <a href="mailto:{{model.contactEmail}}">
+                  {{truncate model.contactEmail length=22}}
+                </a>
+              </div>
+            {{/if}}
+
+            {{#if model.contactPhone}}
+              <div class=''>
+                {{fa-icon 'phone'}}
+
+                <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN REGISTRATION INFO -->
+  {{#if model.hasRegistrationInfo}}
+  <div class='EventInfo-meta-item'>
+    <div class='EventInfo-meta-item-inner'>
+      <div class='EventInfo-instanceInfo'>
+        <div class='EventInfo-instanceInfo-title'>
+          <h2 class='h4 EventInfo-instanceInfo-title-text'>Registration + Tickets</h2>
+        </div>
+
+        <div class='EventInfo-contact'>
+          {{#if model.registrationUrl}}
+          <div class='EventInfo-contactItem u-textTruncate'>
+            {{fa-icon 'link'}}
+
+            {{#normalized-link url=model.registrationUrl}}
+            {{model.registrationUrl}}
+            {{/normalized-link}}
+          </div>
+          {{/if}}
+
+          {{#if model.registrationEmail}}
+          <div class='EventInfo-contactItem u-textTruncate'>
+            {{fa-icon 'envelope'}}
+
+            <a href="mailto:{{model.registrationEmail}}">
+              {{model.registrationEmail}}
+            </a>
+          </div>
+          {{/if}}
+
+          {{#if model.registrationPhone}}
+          <div class='EventInfo-contactItem u-textTruncate'>
+            {{fa-icon 'phone'}}
+
+            <a href='tel:{{model.registrationPhone}}'>{{model.registrationPhone}}</a>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+    {{/if}}
+    <!-- END REGISTRATION INFO -->
+    {{report-abuse contentId=contentId}}
+</div>

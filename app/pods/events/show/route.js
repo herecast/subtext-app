@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import Track from '../../mixins/routes/track-pageview';
-import RouteMetaMixin from '../../mixins/routes/social-tags';
-import Redirect from '../../mixins/routes/redirect-after-login';
+import Track from '../../../mixins/routes/track-pageview';
+import RouteMetaMixin from '../../../mixins/routes/social-tags';
+import Redirect from '../../../mixins/routes/redirect-after-login';
 
-import Dates from '../../lib/dates';
+import Dates from '../../../lib/dates';
 
 export default Ember.Route.extend(Track, RouteMetaMixin, Redirect, {
   modelImageKey: 'imageUrl',
