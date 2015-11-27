@@ -42,7 +42,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           this.get('intercom').update();
         });
       }
-      //track all page exits 
+      //track all page exits
       const leaveProps = {};
       const visitProps = {};
       const mixpanel = this.get('mixpanel');
@@ -60,8 +60,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         visitProps['sourcePageUrl'] = from;
         mixpanel.trackEvent('pageVisit', visitProps);
         ga('send', 'pageview', {
-          'page': this.get('url'),
-          'title': this.get('url')
+          'page': window.location.href,
+          'title': $(".News-title").html()
         });
       });
 
