@@ -42,7 +42,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           this.get('intercom').update();
         });
       }
-      //track all page exits 
+      //track all page exits
       const leaveProps = {};
       const visitProps = {};
       const mixpanel = this.get('mixpanel');
@@ -50,23 +50,30 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       const userProperties = mixpanel.getUserProperties(currentUser);
 
       Ember.merge(leaveProps, userProperties);
-      leaveProps['pageUrl'] = from;
+      leaveProps.pageUrl = from;
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
       Ember.run.next(() => {
         Ember.merge(visitProps, userProperties);
-        visitProps['targetPageUrl'] = window.location.href;
-        visitProps['sourcePageUrl'] = from;
+        visitProps.targetPageUrl = window.location.href;
+        visitProps.sourcePageUrl = from;
         mixpanel.trackEvent('pageVisit', visitProps);
+
+        // TODO implement dynamic document tiles and remove this
+        const documentTitle = Ember.$('.News-title').text() ||
+                              Ember.$('.PhotoBanner-title > div').html() ||
+                              Ember.$('.PhotoBanner-title').html() ||
+                              Ember.$('.MarketPost-headerContent > h1').html() ||
+                              Ember.$('.SectionNavigation-link.active').text(); // use the active nav link as title for index pages...
+
         ga('send', 'pageview', {
-          'page': this.get('url'),
-          'title': this.get('url')
+          'page': window.location.href,
+          'title': documentTitle
         });
       });
 
       return true; // Bubble the didTransition event
     }
   }
-
 });
