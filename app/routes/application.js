@@ -2,20 +2,18 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
-const { run, merge, isPresent, get } = Ember;
-
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: Ember.inject.service('intercom'),
   mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
-    return get(this, 'session.currentUser');
+    return this.get('session.currentUser');
   },
 
   setupController(controller, model) {
     this._super(controller, model);
 
-    get(this, 'session').setupCurrentUser();
+    this.get('session').setupCurrentUser();
   },
 
   actions: {
@@ -30,35 +28,35 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     signOut(callback) {
-      get(this, 'intercom').shutdown();
-      const promise = get(this, 'session').signOut();
+      this.get('intercom').shutdown();
+      const promise = this.get('session').signOut();
 
       callback(promise);
     },
 
     didTransition: function() {
-      const currentUser = get(this, 'session.currentUser');
+      const currentUser = this.get('session.currentUser');
 
-      if (isPresent(currentUser)) {
-        run.next(() => {
-          get(this, 'intercom').update();
+      if (Ember.isPresent(currentUser)) {
+        Ember.run.next(() => {
+          this.get('intercom').update();
         });
       }
       //track all page exits
       const leaveProps = {};
       const visitProps = {};
-      const mixpanel = get(this, 'mixpanel');
+      const mixpanel = this.get('mixpanel');
       const from = window.location.href;
       const userProperties = mixpanel.getUserProperties(currentUser);
 
-      merge(leaveProps, userProperties);
+      Ember.merge(leaveProps, userProperties);
       leaveProps.pageUrl = from;
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
-      run.next(() => {
-        merge(visitProps, userProperties);
-        visitProps.targetPageUrl = from;
+      Ember.run.next(() => {
+        Ember.merge(visitProps, userProperties);
+        visitProps.targetPageUrl = window.location.href;
         visitProps.sourcePageUrl = from;
         mixpanel.trackEvent('pageVisit', visitProps);
 
