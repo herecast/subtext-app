@@ -297,7 +297,7 @@ export default function() {
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
 
-    data.event_instances = db.event_instances.slice(0,3);
+    data.schedules = db.schedules;
 
     return {
       event: data
@@ -310,14 +310,16 @@ export default function() {
     const eventAttrs = putData['event'];
     const event = db.events.insert(eventAttrs);
 
-    const instanceAttrs = putData['event']['event_instances'];
-    const instances = db.event_instances.insert(instanceAttrs);
 
-    event.event_instances = instances;
-    event.event_instances.forEach((instance) => {
-      instance.can_edit = true;
-      instance.event_id = event.id;
+    const scheduleAttrs = putData['event']['schedules'];
+    const schedules = db.schedules.insert(scheduleAttrs);
+
+    event.schedules = schedules;
+    event.schedules.forEach((schedule) => {
+      schedule.event_id = event.id;
     });
+
+    event.first_instance_id = 1;
 
     return {
       event: event

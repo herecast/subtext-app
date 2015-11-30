@@ -1,0 +1,64 @@
+<div class='u-layoutPadB20 clearfix'>
+  <h2>Single date</h2>
+
+  {{#form-group error=errors.dateError class='row'}}
+    <div class='col-xs-12 col-sm-6'>
+      <label class='ContentForm-label--required'>Date</label>
+      {{pikaday-input
+        firstDay=0
+        value=startDate
+        placeholder='Date'
+        class='form-control'
+        format="MM/DD/YYYY"
+        yearRange="currentYear,2010"
+      }}
+    </div>
+  {{/form-group}}
+
+  {{#form-group error=errors.timeError class='row'}}
+    {{#form-group error=errors.startTimeError class='col-xs-12 col-sm-6'}}
+      <label class='ContentForm-label--required'>Start Time</label>
+      {{input-mask
+        mask='h:s t'
+        placeholder='12:00 am'
+        value=startTime
+        class='form-control'
+      }}
+    {{/form-group}}
+
+    {{#form-group error=errors.stopTimeError class='col-xs-12 col-sm-6'}}
+      <label>End Time</label>
+      {{input-mask
+        mask='h:s t'
+        placeholder='12:00 am'
+        value=stopTime
+        class='form-control'
+      }}
+    {{/form-group}}
+  {{/form-group}}
+
+  <div class='form-group'>
+    <div class='row'>
+      <div class='col-xs-6'>
+        <label>Subtitle</label>
+        {{input
+          placeholder="Subtitle ex: 10th Annual"
+          class='form-control'
+          value=subtitle
+        }}
+      </div>
+      <div class='col-xs-6'>
+        <label>Presenter/Instructor</label>
+        {{input
+          placeholder="Presenter / Instructor"
+          class='form-control'
+          value=presenterName
+        }}
+      </div>
+    </div>
+  </div>
+
+  {{!-- TODO optional information --}}
+  <button class="Button Button--primary pull-right" {{action 'save'}}>Done</button>
+  <button class="Button ContentForm-discardButton Button--default pull-right" {{action 'cancel'}}>Cancel</button>
+</div>

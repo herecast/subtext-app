@@ -1,0 +1,19 @@
+{{#each displayedSchedules as |schedule|}}
+    {{#if (eq schedule.repeats 'once')}}
+      {{component 'event-form-dates/schedule-list/date-single-summary'
+        validate=attrs.validate
+        save=attrs.save
+        schedule=schedule
+        remove=attrs.removeSchedule
+      }}
+    {{else}}
+      {{component 'event-form-dates/schedule-list/date-recurring-summary'
+        validate=attrs.validate
+        save=attrs.save
+        schedule=schedule
+        remove=attrs.removeSchedule
+        excludeEvent=(action 'excludeEvent' schedule)
+        includeEvent=(action 'includeEvent' schedule)
+      }}
+    {{/if}}
+{{/each}}

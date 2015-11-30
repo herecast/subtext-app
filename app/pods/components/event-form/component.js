@@ -4,6 +4,7 @@ import Validation from 'subtext-ui/mixins/components/validation';
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   event: Ember.computed.alias('model'),
+  schedules: null,
 
   validateVenue() {
     const id = this.get('event.venueId');

@@ -1,0 +1,62 @@
+<style>
+  .Event-schedule-summary {
+    background: #FFF;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
+    position: relative;
+    padding: 14px 24px;
+  }
+</style>
+
+<div class='form-group'>
+  <label class='control-label ContentForm-label--required'>Dates & Times</label><br />
+  {{#if schedules}}
+    <p>Your event will occur on the dates and times listed below.</p>
+  {{else}}
+    <p>You must add at least one date to your event.</p>
+  {{/if}}
+
+  {{component 'event-form-dates/schedule-list'
+      schedules=schedules
+      validate=(action 'validateScheduleData')
+      save=(action 'updateSchedule')
+      removeSchedule=(action 'removeSchedule')
+      excludeEvent=(action 'excludeEvent')
+      includeEvent=(action 'includeEvent')
+  }}
+
+  {{#if (eq showScheduleForm 'recurring')}}
+    {{component 'event-form-dates/schedule-recurring-form'
+      schedule=newSchedule
+      validate=(action 'validateScheduleData')
+      save=(action 'addNewSchedule')
+      cancel=(action 'hideScheduleForm')
+    }}
+  {{/if}}
+
+  {{#if (eq showScheduleForm 'single')}}
+    {{component 'event-form-dates/schedule-single-form'
+      schedule=newSchedule
+      validate=(action 'validateScheduleData')
+      save=(action 'addNewSchedule')
+      cancel=(action 'hideScheduleForm')
+    }}
+  {{/if}}
+
+  {{#unless showScheduleForm}}
+    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}}>
+      {{#if hasSingleDate}}
+        {{fa-icon 'plus-circle u-iconLeft'}} Add more single date(s)
+      {{else}}
+        {{fa-icon 'plus-circle u-iconLeft'}} Add single date(s)
+      {{/if}}
+    </button>
+    <br>
+    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}}>
+      {{#if hasRecurringSchedule}}
+        {{fa-icon 'plus-circle u-iconLeft'}} Add more repeating dates
+      {{else}}
+        {{fa-icon 'plus-circle u-iconLeft'}} Add repeating dates
+      {{/if}}
+    </button>
+  {{/unless}}
+</div>

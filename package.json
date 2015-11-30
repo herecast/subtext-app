@@ -50,7 +50,8 @@
     "ember-faker": "^1.0.0",
     "ember-modal-dialog": "0.8.2",
     "ember-moment": "1.1.1",
-    "ember-pikaday": "0.13.0"
+    "ember-pikaday": "0.13.0",
+    "ember-truth-helpers": "1.2.0"
   },
   "dependencies": {
     "ember-export-application-global": "^1.0.4",

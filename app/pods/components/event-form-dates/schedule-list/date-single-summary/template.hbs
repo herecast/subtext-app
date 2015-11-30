@@ -1,0 +1,28 @@
+{{#if isEditing}}
+  {{component 'event-form-dates/schedule-single-form'
+    schedule=schedule
+    validate=attrs.validate
+    save=attrs.save
+    cancel=(action 'cancel')
+  }}
+{{else}}
+  <a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>
+  <p><b>Summary</b></p>
+  <p>Occurs one time on {{formatted-day schedule.startDate}}.</p>
+
+  <b>Date:</b> {{formatted-day schedule.startDate}}<br />
+  <b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br />
+
+  {{#if schedule.subtitle}}
+    <b>Subtitle:</b> {{schedule.subtitle}}<br />
+  {{/if}}
+
+  {{#if schedule.presenterName}}
+    <b>Presenter/Instructor:</b> {{schedule.presenterName}}<br />
+  {{/if}}
+
+  <hr>
+
+  <button {{action 'remove' (action 'remove')}}>{{fa-icon 'close'}} remove</button>
+  <button {{action 'edit' (action 'edit')}}>{{fa-icon 'pencil'}} edit</button>
+{{/if}}
