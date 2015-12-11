@@ -8,11 +8,8 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
-    const eventInstance = this.store.createRecord('event-instance');
-
     return this.store.createRecord('event', {
-      listservIds: [],
-      eventInstances: [eventInstance]
+      listservIds: []
     });
   },
 
@@ -42,7 +39,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     },
 
     afterPublish(event) {
-      const firstInstanceId = event.get('eventInstances.firstObject.id');
+      const firstInstanceId = event.get('firstInstanceId');
 
       this.get('intercom').trackEvent('published-event');
 

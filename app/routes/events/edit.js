@@ -5,7 +5,7 @@ import ShareCaching from '../../mixins/routes/share-caching';
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   model(params) {
-    return this.store.find('event', params.id);
+    return this.store.findRecord('event', params.id, {reload: true});
   },
 
   redirect() {

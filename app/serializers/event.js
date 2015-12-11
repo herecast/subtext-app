@@ -4,7 +4,7 @@ import { ActiveModelSerializer } from 'active-model-adapter';
 
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
-    eventInstances: { embedded: 'always' }
+    schedules: { embedded: 'always' }
   },
 
   serialize(snapshot, options) {
@@ -22,16 +22,18 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.zip = json.venue_zip;
     }
 
-    // Remove embedded event instance attributes that should not be sent to the API
-    json.event_instances = json.event_instances.map((instance) => {
-      return Ember.Object.create(instance).getProperties(
-        'id', 'subtitle', 'starts_at', 'ends_at', 'presenter_name'
+    // Remove embedded schedule attributes that should not be sent to the API
+    json.schedules = json.schedules.map((schedule) => {
+      return Ember.Object.create(schedule).getProperties(
+        'id', 'subtitle', 'starts_at', 'ends_at', 'presenter_name', 'repeats',
+        'days_of_week', 'overrides', 'weeks_of_month', '_remove'
       );
     });
 
     // Remove read only attributes that should not be sent to the API
     delete json.content_id;
     delete json.ends_at;
+    delete json.first_instance_id;
     delete json.image_url;
     delete json.subtitle;
     delete json.starts_at;

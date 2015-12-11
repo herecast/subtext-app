@@ -19,6 +19,8 @@ module.exports = function(defaults) {
     }
   });
 
+  app.import('bower_components/lodash/lodash.js');
+
   app.import('bower_components/bootstrap/js/affix.js');
   app.import('bower_components/bootstrap/js/collapse.js');
   app.import('bower_components/bootstrap/js/dropdown.js');
@@ -45,6 +47,12 @@ module.exports = function(defaults) {
 
   app.import('bower_components/blueimp-load-image/js/load-image.all.min.js');
   app.import('bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js');
+
+  app.import('bower_components/later/later.js');
+  app.import('bower_components/moment-recur/moment-recur.js');
+
+  app.import('bower_components/fullcalendar/dist/fullcalendar.js');
+  app.import('bower_components/fullcalendar/dist/fullcalendar.css');
 
   return app.toTree();
 };
