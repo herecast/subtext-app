@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const { get, isPresent } = Ember;
+const { get, isPresent, set } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
@@ -102,6 +102,16 @@ export default Ember.Component.extend(Validation, {
 
   actions: {
     toggleRegistration() {
+      const registrationEnabled = get(this, 'registrationEnabled');
+
+      // Reset the registration deadline when disabling registration so we
+      // don't send a value to the API when we shouldn't
+      if (registrationEnabled) {
+        set(this, 'event.registrationDeadline', null);
+        set(this, 'errors.registrationDeadline', null);
+        delete get(this, 'errors').registrationDeadline;
+      }
+
       this.toggleProperty('registrationEnabled');
     },
 

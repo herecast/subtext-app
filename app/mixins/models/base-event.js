@@ -4,8 +4,7 @@ import moment from 'moment';
 
 const {
   computed,
-  get,
-  isPresent
+  get
 } = Ember;
 
 export default Ember.Mixin.create({
@@ -68,11 +67,7 @@ export default Ember.Mixin.create({
       Ember.isPresent(this.get('eventUrl'));
   }.property('contactEmail', 'contactPhone', 'eventUrl'),
 
-  hasRegistrationInfo: computed('registrationDeadline', function() {
-    const deadline = get(this, 'registrationDeadline');
-
-    return isPresent(deadline);
-  }),
+  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 
   fullAddress: function() {
     let addr = this.get('venueAddress');

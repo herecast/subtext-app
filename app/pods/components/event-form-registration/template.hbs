@@ -13,11 +13,7 @@
 </label>
 <div>
   {{#if registrationEnabled}}
-    {{#if error}}
-      {{!-- TODO: style and write sensible error message --}}
-      registration deadline req'd if registration enabled
-    {{/if}}
-    <div class='form-group'>
+    {{#form-group error=error}}
       <div class="input-group">
         <span class="ContentForm-iconLabel input-group-addon">
           {{fa-icon 'calendar'}}
@@ -31,7 +27,7 @@
           yearRange="currentYear,2010"
         }}
       </div>
-    </div>
+    {{/form-group}}
   {{else}}
     Does this event require registration?
   {{/if}}
