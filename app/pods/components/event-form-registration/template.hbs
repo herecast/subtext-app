@@ -13,6 +13,10 @@
 </label>
 <div>
   {{#if registrationEnabled}}
+    {{#if error}}
+      {{!-- TODO: style and write sensible error message --}}
+      registration deadline req'd if registration enabled
+    {{/if}}
     <div class='form-group'>
       <div class="input-group">
         <span class="ContentForm-iconLabel input-group-addon">

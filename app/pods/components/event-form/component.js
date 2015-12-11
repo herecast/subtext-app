@@ -8,6 +8,8 @@ export default Ember.Component.extend(Validation, {
   event: Ember.computed.alias('model'),
   schedules: null,
 
+  registrationEnabled: null,
+
   validateVenue() {
     const id = this.get('event.venueId');
     const address = this.get('event.venueAddress');
@@ -90,10 +92,19 @@ export default Ember.Component.extend(Validation, {
     this.validateContactEmail();
     this.validateEventUrl();
     this.validateEventInstances();
+
+    if (get(this, 'registrationEnabled')) {
+      this.validatePresenceOf('event.registrationDeadline');
+    }
+
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
   actions: {
+    toggleRegistration() {
+      this.toggleProperty('registrationEnabled');
+    },
+
     afterDateValidation(datesAreValid) {
       if (datesAreValid) {
         this.set('errors.dates', null);

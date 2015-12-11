@@ -45,6 +45,7 @@ export default Ember.Component.extend({
 
   actions: {
     toggleRegistration() {
+      this.attrs.toggleRegistration();
       this.toggleProperty('registrationEnabled');
     }
   }
