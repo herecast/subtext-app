@@ -13,7 +13,7 @@ export default DS.DateTransform.extend({
   },
 
   serialize: function(deserialized) {
-    if (moment(deserialized).isValid()) {
+    if (deserialized && moment(deserialized).isValid()) {
       deserialized = moment(deserialized).toISOString();
     } else {
       deserialized = null;
