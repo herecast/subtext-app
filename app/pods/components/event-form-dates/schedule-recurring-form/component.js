@@ -134,6 +134,13 @@ export default Ember.Component.extend(ScheduleSummary, {
       }
     },
 
+    // The daysOfWeek property was not being updated when changing the checked
+    // days after the schedule is created. This forces that property to update.
+    updateCheckedDays() {
+      this.propertyWillChange('checkedDays');
+      this.propertyDidChange('checkedDays');
+    },
+
     cancel() {
       const schedule = get(this, 'schedule');
 
