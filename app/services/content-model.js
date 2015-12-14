@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { isBlank } = Ember;
+
 // This is not an Ember Data model, but more of a factory class.
 // We are getting an array of content "models" from the API where each one is
 // polymorphic, and we use the "content_type" attribute to identify what
@@ -30,12 +32,18 @@ export default Ember.Service.extend({
       record.content_id = record.id;
     }
 
-    const item = this.store.push(modelName, this.store.normalize(modelName, record));
+    // Do not push the item into the store if its type is unrecognized
+    if (isBlank(modelName)) {
+      return false;
+    } else {
+      const item = this.store.push(modelName, this.store.normalize(modelName, record));
 
-    item.set('contentType', modelName);
-    item.set('views', views);
-    item.set('comments', comments);
+      item.set('contentType', modelName);
+      item.set('views', views);
+      item.set('comments', comments);
 
-    return item;
+      return item;
+    }
+
   }
 });
