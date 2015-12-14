@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 
+const { get, isPresent } = Ember;
+
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   event: Ember.computed.alias('model'),
@@ -69,6 +71,17 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
+  validateEventInstances() {
+    const value = get(this, 'event.eventInstances');
+
+    if (isPresent(value)) {
+      this.set(`errors.eventInstances`, null);
+      delete this.get('errors')['eventInstances'];
+    } else {
+      this.set(`errors.eventInstances`, 'Must have at least one valid date');
+    }
+  },
+
   isValid() {
     this.validatePresenceOf('event.title');
     this.validatePresenceOf('event.content');
@@ -76,6 +89,7 @@ export default Ember.Component.extend(Validation, {
     this.validateImage();
     this.validateContactEmail();
     this.validateEventUrl();
+    this.validateEventInstances();
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
