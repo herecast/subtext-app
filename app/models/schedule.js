@@ -66,6 +66,12 @@ export default DS.Model.extend(ScheduleSummary, {
   startTime: getTime('startsAt', 'startDate'),
   stopTime: getTime('endsAt', 'stopDate'),
 
+  hasExcludedDates: computed('overrides.@each.hidden', function() {
+    return get(this, 'overrides').any((override) => {
+      return override.hidden;
+    });
+  }),
+
   schedule: computed('startsAt', 'daysOfWeek', 'repeats', function() {
     const startsAt = get(this, 'startsAt');
     const repeats = get(this, 'repeats');
