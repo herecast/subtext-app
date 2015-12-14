@@ -58,14 +58,11 @@
       </div>
 
       <div class='col-md-2 u-layoutMobilePadding0  u-layoutPadT20'>
-        {{!--{{#floating-side-column enabled=media.isDesktop}}--}}
-        {{#floating-side-column enabled=false}}
-
+        {{#floating-side-column enabled=media.isDesktop}}
           {{social-share
             title=model.title
             sharedBy=session.userName
           }}
-
 
           {{#if model.canEdit}}
             {{edit-content-link
@@ -83,35 +80,36 @@
         {{/floating-side-column}}
       </div>
     </div>
-{{!--
-    {{event-other-dates event=model}}
 
-    {{#unless isPreview}}
-      {{related-promotion
-        contentModel=model
-      }}
-    {{/unless}}
+    <div class='u-layoutPadT40'>
+      {{event-other-dates event=model}}
 
-    <h1 class='SectionHeader SectionHeader--paddedTop'>
-      <span class='SectionHeader-text'>
-        Talk
-      </span>
-    </h1>
-    <div class='row'>
-      {{content-comments
-        content=model
-        scrollTo=scrollTo
-      }}
+      {{#unless isPreview}}
+        {{related-promotion
+          contentModel=model
+        }}
+      {{/unless}}
+
+      <h1 class='SectionHeader SectionHeader--paddedTop'>
+        <span class='SectionHeader-text'>
+          Talk
+        </span>
+      </h1>
+      <div class='row'>
+        {{content-comments
+          content=model
+          scrollTo=scrollTo
+        }}
+      </div>
+
+      {{#unless isPreview}}
+        {{similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+      {{/unless}}
     </div>
 
-    {{#unless isPreview}}
-      {{similar-content
-        contentId=model.contentId
-        limit=4
-      }}
-    {{/unless}}
-
---}}
   </main>
 
 </article>

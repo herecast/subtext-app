@@ -83,45 +83,45 @@
 
   <!-- BEGIN REGISTRATION INFO -->
   {{#if model.hasRegistrationInfo}}
-  <div class='EventInfo-meta-item'>
-    <div class='EventInfo-meta-item-inner'>
-      <div class='EventInfo-instanceInfo'>
-        <div class='EventInfo-instanceInfo-title'>
-          <h2 class='h4 EventInfo-instanceInfo-title-text'>Registration + Tickets</h2>
-        </div>
+      <div class='EventInfo-meta-item'>
+        <div class='EventInfo-meta-item-inner'>
+          <div class='EventInfo-instanceInfo'>
+            <div class='EventInfo-instanceInfo-title'>
+              <h2 class='h4 EventInfo-instanceInfo-title-text'>Registration + Tickets</h2>
+            </div>
 
-        <div class='EventInfo-contact'>
-          {{#if model.registrationUrl}}
-          <div class='EventInfo-contactItem u-textTruncate'>
-            {{fa-icon 'link'}}
+            <div class='EventInfo-contact'>
+              {{#if model.registrationUrl}}
+                <div class='EventInfo-contactItem u-textTruncate'>
+                  {{fa-icon 'link'}}
 
-            {{#normalized-link url=model.registrationUrl}}
-            {{model.registrationUrl}}
-            {{/normalized-link}}
+                  {{#normalized-link url=model.registrationUrl}}
+                  {{model.registrationUrl}}
+                  {{/normalized-link}}
+                </div>
+              {{/if}}
+
+              {{#if model.registrationEmail}}
+                <div class='EventInfo-contactItem u-textTruncate'>
+                  {{fa-icon 'envelope'}}
+
+                  <a href="mailto:{{model.registrationEmail}}">
+                    {{model.registrationEmail}}
+                  </a>
+                </div>
+              {{/if}}
+
+              {{#if model.registrationPhone}}
+                <div class='EventInfo-contactItem u-textTruncate'>
+                  {{fa-icon 'phone'}}
+
+                  <a href='tel:{{model.registrationPhone}}'>{{model.registrationPhone}}</a>
+                </div>
+              {{/if}}
+            </div>
           </div>
-          {{/if}}
-
-          {{#if model.registrationEmail}}
-          <div class='EventInfo-contactItem u-textTruncate'>
-            {{fa-icon 'envelope'}}
-
-            <a href="mailto:{{model.registrationEmail}}">
-              {{model.registrationEmail}}
-            </a>
-          </div>
-          {{/if}}
-
-          {{#if model.registrationPhone}}
-          <div class='EventInfo-contactItem u-textTruncate'>
-            {{fa-icon 'phone'}}
-
-            <a href='tel:{{model.registrationPhone}}'>{{model.registrationPhone}}</a>
-          </div>
-          {{/if}}
         </div>
       </div>
-    </div>
-  </div>
     {{/if}}
     <!-- END REGISTRATION INFO -->
     {{report-abuse contentId=contentId}}
