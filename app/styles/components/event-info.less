@@ -2,8 +2,20 @@
   margin-top: 20px;
 }
 
-.EventInfo-instanceInfo {
-  margin-top: 10px;
+.EventInfo-instanceInfo { }
+
+.EventInfo-instanceInfo-title {
+  border-bottom: 1px solid @gray-medium;
+  line-height: 0;
+  margin: 10px 0 20px 0;
+  text-align: center;
+}
+
+.EventInfo-instanceInfo-title-text {
+  background-color: @gray-light;
+  padding: 0 10px;
+  display: inline;
+  line-height: 0;
 }
 
 .EventInfo-icon {
@@ -25,6 +37,28 @@
 
 .EventInfo-registrationHeader {
   background-color: @event-brand;
-  padding-top: 4px;
-  text-align: center;
+  padding: 4px 10px 0 10px;
+  display: inline-block;
+  color: #000;
+  margin-bottom: 0;
+}
+
+.EventInfo-meta {
+  display: block;
+  background-color: @gray-light;
+  padding: 10px;
+}
+
+.EventInfo-meta-item {
+  display: block;
+  padding: 10px 0;
+
+  @media (min-width: @screen-xs-max) {
+    display: block;
+    padding: 10px 0;
+  }
+}
+
+.EventInfo-meta-item-inner {
+  padding: 0 10px;
 }
