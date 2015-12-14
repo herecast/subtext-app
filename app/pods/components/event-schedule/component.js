@@ -45,10 +45,10 @@ export default Ember.Component.extend({
   }),
 
   _isOverRidden(event, overrides) {
-    const start = event.start.toString();
+    const start = moment(event.start);
 
     return overrides.any((override) => {
-      return start === override.date.toString();
+      return start.isSame(override.date);
     });
   },
 
