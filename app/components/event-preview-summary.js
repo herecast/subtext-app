@@ -21,8 +21,8 @@ export default Ember.Component.extend({
       callback(promise);
 
       promise.then((savedEvent) => {
-        savedEvent.get('eventInstances').filterBy('isNew').forEach((instance) => {
-          instance.destroyRecord();
+        savedEvent.get('schedules').filterBy('isNew').forEach((schedule) => {
+          schedule.destroyRecord();
         });
 
         if (savedEvent.get('image')) {
