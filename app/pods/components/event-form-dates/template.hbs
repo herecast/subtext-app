@@ -7,7 +7,7 @@
   }
 </style>
 
-<div class='form-group'>
+{{#form-group error=error}}
   <label class='control-label ContentForm-label--required'>Dates & Times</label><br />
   {{#if schedules}}
     <p>Your event will occur on the dates and times listed below.</p>
@@ -59,4 +59,4 @@
       {{/if}}
     </button>
   {{/unless}}
-</div>
+{{/form-group}}
