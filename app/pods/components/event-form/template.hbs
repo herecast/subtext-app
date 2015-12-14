@@ -24,8 +24,10 @@
 }}
 
 {{event-form-registration
+  error=errors.registrationDeadline
   event=event
   class='form-group'
+  toggleRegistration=(action 'toggleRegistration')
 }}
 
 <div class='form-group'>

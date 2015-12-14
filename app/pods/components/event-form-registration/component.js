@@ -2,9 +2,9 @@ import Ember from 'ember';
 import moment from 'moment';
 
 const {
+  computed,
   get,
   isPresent,
-  observer,
   set
 } = Ember;
 
@@ -12,7 +12,6 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.resetProperties();
-    this.convertMomentToDate();
   },
 
   resetProperties() {
@@ -23,28 +22,31 @@ export default Ember.Component.extend({
 
   // The date picker requires a date object, so we need to convert the deadline
   // to a date object so it can be used in the template.
-  convertMomentToDate: function() {
-    let deadline = get(this, 'event.registrationDeadline');
+  date: computed('event.registrationDeadline', {
+    get() {
+      let deadline = get(this, 'event.registrationDeadline');
 
-    if (isPresent(deadline)) {
-      deadline = moment(deadline);
+      if (isPresent(deadline)) {
+        deadline = moment(deadline);
 
-      set(this, 'date', deadline.toDate());
-    }
-  },
+        return deadline.toDate();
+      }
+    },
 
-  updateDeadline: observer('date', function() {
-    const date = get(this, 'date');
+    set(key, date) {
+      if (isPresent(date)) {
+        set(this, 'event.registrationDeadline', moment(date));
+      } else {
+        set(this, 'event.registrationDeadline', null);
+      }
 
-    if (isPresent(date)) {
-      set(this, 'event.registrationDeadline', moment(date));
-    } else {
-      set(this, 'event.registrationDeadline', null);
+      return date;
     }
   }),
 
   actions: {
     toggleRegistration() {
+      this.attrs.toggleRegistration();
       this.toggleProperty('registrationEnabled');
     }
   }

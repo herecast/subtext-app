@@ -4,8 +4,7 @@ import moment from 'moment';
 
 const {
   computed,
-  get,
-  isPresent
+  get
 } = Ember;
 
 export default Ember.Mixin.create({
@@ -19,9 +18,6 @@ export default Ember.Mixin.create({
   eventInstanceId: DS.attr('number'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   imageUrl: DS.attr('string'),
-  registrationEmail: DS.attr('string'),
-  registrationUrl: DS.attr('string'),
-  registrationPhone: DS.attr('string'),
   registrationDeadline: DS.attr('moment-date'),
   socialEnabled: DS.attr('boolean', {defaultValue: true}),
   startsAt: DS.attr('moment-date'),
@@ -71,13 +67,7 @@ export default Ember.Mixin.create({
       Ember.isPresent(this.get('eventUrl'));
   }.property('contactEmail', 'contactPhone', 'eventUrl'),
 
-  hasRegistrationInfo: computed('registrationEmail', 'registrationPhone', 'registrationUrl', function() {
-    const email = get(this, 'registrationEmail');
-    const phone = get(this, 'registrationPhone');
-    const url = get(this, 'registrationUrl');
-
-    return isPresent(email) || isPresent(phone) || isPresent(url);
-  }),
+  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 
   fullAddress: function() {
     let addr = this.get('venueAddress');

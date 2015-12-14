@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const { get, isPresent } = Ember;
+const { get, isPresent, set } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   event: Ember.computed.alias('model'),
   schedules: null,
+
+  registrationEnabled: null,
 
   validateVenue() {
     const id = this.get('event.venueId');
@@ -90,10 +92,29 @@ export default Ember.Component.extend(Validation, {
     this.validateContactEmail();
     this.validateEventUrl();
     this.validateEventInstances();
+
+    if (get(this, 'registrationEnabled')) {
+      this.validatePresenceOf('event.registrationDeadline');
+    }
+
     return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
   actions: {
+    toggleRegistration() {
+      const registrationEnabled = get(this, 'registrationEnabled');
+
+      // Reset the registration deadline when disabling registration so we
+      // don't send a value to the API when we shouldn't
+      if (registrationEnabled) {
+        set(this, 'event.registrationDeadline', null);
+        set(this, 'errors.registrationDeadline', null);
+        delete get(this, 'errors').registrationDeadline;
+      }
+
+      this.toggleProperty('registrationEnabled');
+    },
+
     afterDateValidation(datesAreValid) {
       if (datesAreValid) {
         this.set('errors.dates', null);

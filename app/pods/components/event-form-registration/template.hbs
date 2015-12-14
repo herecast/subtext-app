@@ -13,7 +13,7 @@
 </label>
 <div>
   {{#if registrationEnabled}}
-    <div class='form-group'>
+    {{#form-group error=error}}
       <div class="input-group">
         <span class="ContentForm-iconLabel input-group-addon">
           {{fa-icon 'calendar'}}
@@ -27,43 +27,7 @@
           yearRange="currentYear,2010"
         }}
       </div>
-    </div>
-    <div class='form-group'>
-      <div class="input-group">
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'link'}}
-        </span>
-        {{input
-          placeholder='Link to register or buy tickets'
-          class='form-control'
-          value=event.registrationUrl
-        }}
-      </div>
-    </div>
-    <div class='form-group'>
-      <div class="input-group">
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'envelope'}}
-        </span>
-        {{input
-          placeholder='Register by email'
-          class='form-control'
-          value=event.registrationEmail
-        }}
-      </div>
-    </div>
-    <div class='form-group'>
-      <div class="input-group">
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'phone'}}
-        </span>
-        {{input
-          placeholder='Register by phone'
-          class='form-control'
-          value=event.registrationPhone
-        }}
-      </div>
-    </div>
+    {{/form-group}}
   {{else}}
     Does this event require registration?
   {{/if}}
