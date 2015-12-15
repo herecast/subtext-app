@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('talk-card-preview', 'Unit | Component | talk card preview', {
   // Specify the other units that are required for this test
-  needs: ['template:components/talk-card'],
+  needs: ['template:components/talk-card', 'helper:formatted-day'],
   unit: true
 });
 

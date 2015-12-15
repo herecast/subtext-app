@@ -3,7 +3,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent('talk-card', 'Unit | Component | talk card', {
   // Specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar'],
-  unit: true
+  unit: true,
+  needs: ['helper:formatted-day']
 });
 
 test('it renders', function(assert) {

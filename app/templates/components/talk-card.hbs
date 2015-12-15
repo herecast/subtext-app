@@ -9,6 +9,9 @@
         {{title}}
       </h2>
     {{/if}}
+    <div class='col-xs-12'>
+      <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+    </div>
   {{/link-to}}
 {{else}}
   {{#link-to 'talk.show' talk.id}}
@@ -21,6 +24,9 @@
         {{title}}
       </h2>
     {{/if}}
+    <div class='col-xs-12'>
+      <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+    </div>
   {{/link-to}}
 {{/if}}
 
@@ -31,7 +37,6 @@
         <img class='TalkCard-authorImage' src={{talk.authorImageUrl}}>
       {{else}}
         <img class='TalkCard-authorImage' src="/images/user-default-avatar.svg">
-
       {{/if}}
     </div>
     <div class='col-xs-10 TalkCard-commentInfo'>

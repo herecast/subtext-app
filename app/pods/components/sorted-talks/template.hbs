@@ -1,0 +1,12 @@
+<div class='Container--noGutter'>
+  <div class='row Section'>
+    {{#each sortedTalks as |talk|}}
+      <div class='col-sm-6 col-md-4 col-lg-3'>
+        {{talk-card
+          talk=talk
+          class='TalkCard u-flexColumn-2'
+        }}
+      </div>
+    {{/each}}
+  </div>
+</div>
