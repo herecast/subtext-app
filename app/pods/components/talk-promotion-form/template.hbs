@@ -1,8 +1,9 @@
 <div class='PromotionSection'>
   <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
-  <p class='PromotionSection-description'>
-    Are you subscribed to the {{userLocation}} listserv?
-    Send the list a text-only version of your post with a link back to dailyUV!
+  <p class='PromotionSection-description PromotionSection-description--emphasized'>
+    Send a text-only version of your comment to your home-community listserv with a link to your post.
+    You need to be subscribed to the {{userLocation}} list ahead of time in order to do this.
+    Click <a href='https://dailyuv.com/news/812457'>here</a> for instructions on how to subscribe.
   </p>
   <div class='row'>
     <div class='col-sm-2 col-sm-offset-2'>
@@ -21,6 +22,8 @@
     </div>
   </div>
 </div>
+
+{{partial 'partials/promotion-disclaimer'}}
 
 <div class='ContentForm-buttonGroup form-group'>
   <button class='Button btn btn-default pull-left' {{action 'back'}}>

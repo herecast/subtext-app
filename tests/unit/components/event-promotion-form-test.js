@@ -1,11 +1,13 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
+import resolver from '../../helpers/resolver';
 
 moduleForComponent('event-promotion-form', {
-  // Specify the other units that are required for this test
-  needs: ['component:content-form-listservs', 'component:fa-icon']
+  needs: ['component:content-form-listservs', 'component:fa-icon'],
+
+  setup: function() {
+    this.container.register('template:partials/promotion-disclaimer',
+         resolver.resolve('template:partials/promotion-disclaimer'));
+  }
 });
 
 test('it renders', function(assert) {
