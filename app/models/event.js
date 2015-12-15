@@ -25,16 +25,27 @@ export default DS.Model.extend(BaseEvent, {
 
   // This is used to create temporary event instances so they can be displayed
   // on the event preview page in the "other event dates" section.
-  eventInstances: computed('schedules.@each.{startsAt,endsAt,subtitle,_remove}', function() {
+  eventInstances: computed('schedules.@each.{startsAt,endsAt,subtitle,_remove,hasExcludedDates}', function() {
     const schedules = get(this, 'schedules').rejectBy('_remove');
 
     const dates = schedules.map((schedule) => {
       const endsAt = get(schedule, 'endsAt');
       const subtitle = get(schedule, 'subtitle');
       const dates = get(schedule, 'dates');
+      const overrides = get(schedule, 'overrides');
 
       if (dates) {
-        return get(schedule, 'dates').map((date) => {
+        return get(schedule, 'dates').reject((date) => {
+          const momentDate = moment(date);
+
+          if (get(schedule, 'hasExcludedDates')) {
+            return overrides.any((override) => {
+              return momentDate.isSame(override.date);
+            });
+          } else {
+            return false;
+          }
+        }).map((date) => {
           const startsAt = moment(date);
 
           return this.store.createRecord('event-instance', {
