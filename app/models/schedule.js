@@ -5,7 +5,7 @@ import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
 
 /* global later, _ */
 
-const { computed, get, set } = Ember;
+const { computed, get, isPresent, set } = Ember;
 const { attr } = DS;
 const dateFormat = 'MM/DD/YYYY';
 const timeFormat = 'hh:mm a';
@@ -22,7 +22,7 @@ const getDate = function(datetimeKey) {
     set(key, value) {
       set(this, datetimeKey, moment(value));
 
-      return moment(value);
+      return value;
     }
   });
 };
@@ -40,7 +40,7 @@ const getTime = function(datetimeKey, dateKey) {
       const date = get(this, dateKey);
 
       if(date) {
-        const formattedDate = date.format(dateFormat);
+        const formattedDate = moment(date).format(dateFormat);
         const datetime = moment(`${formattedDate} ${value}`, `${dateFormat} ${timeFormat}`);
 
         set(this, datetimeKey, datetime);
@@ -52,7 +52,8 @@ const getTime = function(datetimeKey, dateKey) {
 
 export default DS.Model.extend(ScheduleSummary, {
   daysOfWeek: attr('raw', {defaultValue: []}),
-  endsAt: attr('moment-date'),
+  endsAt: attr('moment-date'), // time of day the event ends
+  endDate: attr('moment-date'), // date that the repeating schedule runs until
   repeats: attr('string'),
   overrides: attr('raw', {defaultValue: []}),
   startsAt: attr('moment-date'),
@@ -62,9 +63,32 @@ export default DS.Model.extend(ScheduleSummary, {
   weeksOfMonth: attr('raw', {defaultValue: []}),
 
   startDate: getDate('startsAt'),
-  stopDate: getDate('endsAt'),
+  stopDate: getDate('endDate'),
   startTime: getTime('startsAt', 'startDate'),
-  stopTime: getTime('endsAt', 'stopDate'),
+
+  stopTime: computed('endsAt', {
+    get() {
+      const datetime = get(this, 'endsAt');
+
+      if (datetime) {
+        return datetime.format(timeFormat);
+      }
+    },
+    set(key, value) {
+      let datetime = null;
+
+      if (isPresent(value)) {
+        const date = moment();
+        const formattedDate = date.format(dateFormat);
+
+        datetime = moment(`${formattedDate} ${value}`, `${dateFormat} ${timeFormat}`);
+      }
+
+      set(this, 'endsAt', datetime);
+
+      return value;
+    }
+  }),
 
   hasExcludedDates: computed('overrides.@each.hidden', function() {
     return get(this, 'overrides').any((override) => {
@@ -72,7 +96,7 @@ export default DS.Model.extend(ScheduleSummary, {
     });
   }),
 
-  schedule: computed('startsAt', 'daysOfWeek', 'repeats', function() {
+  schedule: computed('startsAt', 'endDate', 'daysOfWeek', 'repeats', function() {
     const startsAt = get(this, 'startsAt');
     const repeats = get(this, 'repeats');
     const daysOfWeek = get(this, 'daysOfWeek');
@@ -88,16 +112,19 @@ export default DS.Model.extend(ScheduleSummary, {
     }
   }),
 
-  dates: computed('schedule', function() {
+  dates: computed('schedule', 'startsAt', 'endsAt', function() {
     const repeats = get(this, 'repeats');
 
     if (repeats === 'monthly') {
       return this._monthlyDates();
     } else {
       const start = get(this, 'startsAt').toDate();
-      const stop = get(this, 'endsAt').toDate();
+      const stop = get(this, 'endDate').toDate();
       const schedule = get(this, 'schedule');
       const maxDates = 100;
+
+      stop.setHours(23);
+      stop.setMinutes(59);
 
       if (repeats === 'once') {
         return [start];
@@ -120,11 +147,14 @@ export default DS.Model.extend(ScheduleSummary, {
     // on the nth week of the month. Moment-recur supports this, so we are
     // using it for those occasions.
     const startsAt = get(this, 'startsAt');
-    const endsAt = get(this, 'endsAt');
+    const endDate = get(this, 'endDate');
     const weeksOfMonth = get(this, 'weeksOfMonth');
-    const dayOfWeek = get(this, 'daysOfWeek')-1;
+    const dayOfWeek = get(this, 'daysOfWeek')[0]-1;
 
-    const dates = moment().recur(startsAt, endsAt).every(dayOfWeek).daysOfWeek()
+    endDate.hours(23);
+    endDate.minutes(59);
+
+    const dates = moment().recur(startsAt, endDate).every(dayOfWeek).daysOfWeek()
       .every(weeksOfMonth).weeksOfMonthByDay().all("L")
       .map((date) => { return moment(date).toDate(); });
 

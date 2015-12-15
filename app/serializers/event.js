@@ -26,7 +26,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     json.schedules = json.schedules.map((schedule) => {
       return Ember.Object.create(schedule).getProperties(
         'id', 'subtitle', 'starts_at', 'ends_at', 'presenter_name', 'repeats',
-        'days_of_week', 'overrides', 'weeks_of_month', '_remove'
+        'days_of_week', 'overrides', 'weeks_of_month', '_remove', 'end_date'
       );
     });
 

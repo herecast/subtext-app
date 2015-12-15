@@ -34,7 +34,7 @@ test('saving', function(assert) {
         "startDate": undefined,
         "startTime": "09:00 am",
         "stopDate": undefined,
-        "stopTime": "10:00 am",
+        "stopTime": undefined,
         "subtitle": undefined,
         "weeksOfMonth": [],
       };

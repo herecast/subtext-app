@@ -8,9 +8,10 @@ function template(id) {
 
   // All are up to 8 hours long so they don't go past midnight
   const hourSpan = faker.random.number({min: 2, max: 8});
-  const endsAt = moment(startsAt).add(hourSpan, 'hours').add(20, 'days');
+  const endDate = moment(startsAt).add(hourSpan, 'hours').add(20, 'days');
 
   let repeats, daysOfWeek, weeksOfMonth;
+  let endsAt = null;
 
   if (id % 2 === 0) {
     repeats = 'weekly';
@@ -27,12 +28,17 @@ function template(id) {
     daysOfWeek = [];
   }
 
+  if (id % 2 === 0) {
+    endsAt = moment(startsAt).add(hourSpan, 'hours').toISOString();
+  }
+
   return {
     id: id,
     event_id: faker.random.number(100),
     subtitle: titleize(faker.lorem.sentences(1)),
     starts_at: startsAt.toISOString(),
-    ends_at: endsAt.toISOString(),
+    end_date: endDate.toISOString(),
+    ends_at: endsAt,
     repeats: repeats,
     days_of_week: daysOfWeek,
     weeks_of_month: weeksOfMonth

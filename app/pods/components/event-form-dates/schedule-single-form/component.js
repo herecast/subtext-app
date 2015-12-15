@@ -16,7 +16,7 @@ export default Ember.Component.extend({
       'startDate', 'startTime', 'stopDate', 'stopTime', 'subtitle', 'presenterName');
 
     properties.startTime = schedule.getWithDefault('startTime', '09:00 am');
-    properties.stopTime = schedule.getWithDefault('stopTime', '10:00 am');
+    properties.stopTime = get(schedule, 'stopTime');
     this.setProperties(properties);
   },
 
