@@ -51,16 +51,16 @@ const getTime = function(datetimeKey, dateKey) {
 };
 
 export default DS.Model.extend(ScheduleSummary, {
-  daysOfWeek: attr('raw', {defaultValue: []}),
+  daysOfWeek: attr('raw'),
   endsAt: attr('moment-date'), // time of day the event ends
   endDate: attr('moment-date'), // date that the repeating schedule runs until
   repeats: attr('string'),
-  overrides: attr('raw', {defaultValue: []}),
+  overrides: attr('raw'),
   startsAt: attr('moment-date'),
   subtitle: attr('string'),
   presenterName: attr('string'),
-  _remove: attr('boolean', {defaultValue: false}),
-  weeksOfMonth: attr('raw', {defaultValue: []}),
+  _remove: attr('boolean'),
+  weeksOfMonth: attr('raw'),
 
   startDate: getDate('startsAt'),
   stopDate: getDate('endDate'),
