@@ -26,7 +26,7 @@ export default Ember.Component.extend(ScheduleSummary, {
 
     properties.repeats = schedule.getWithDefault('repeats', 'weekly');
     properties.startTime = schedule.getWithDefault('startTime', '09:00 am');
-    properties.stopTime = schedule.getWithDefault('stopTime', '10:00 am');
+    properties.stopTime = get(schedule, 'stopTime');
     properties.daysOfWeek = schedule.getWithDefault('daysOfWeek', []);
     properties.weeksOfMonth = schedule.getWithDefault('weeksOfMonth', []);
 

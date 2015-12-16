@@ -187,25 +187,26 @@ test('getting and setting endsAt', function(assert) {
     stopTime: '10:00 am',
   });
 
-  const endsAt = schedule.get('endsAt').toDate();
+  const endsAt = schedule.get('endDate').toDate();
 
   // Without the maxDates cap, this would generate > 100 dates
   const dateFormat = 'MM/DD/YYYY';
   const timeFormat = 'hh:mm a';
-  const expected = moment(`01/01/2018 10:00 am`, `${dateFormat} ${timeFormat}`).toDate();
+  const expected = moment(`01/01/2018 00:00 am`, `${dateFormat} ${timeFormat}`).toDate();
 
   assert.deepEqual(endsAt, expected);
 });
 
-test('getting and setting endsAt', function(assert) {
+test('getting and setting start and stop time and date', function(assert) {
   let schedule = this.subject({
     startsAt: moment('2015-11-01 09:00'),
-    endsAt: moment('2018-10-10 02:00')
+    endsAt: moment('2015-11-01 11:00'),
+    endDate: moment('2018-10-10')
   });
 
   assert.equal(schedule.get('startTime'), '09:00 am');
   assert.equal(schedule.get('startDate'), '11/01/2015');
 
-  assert.equal(schedule.get('stopTime'), '02:00 am');
+  assert.equal(schedule.get('stopTime'), '11:00 am');
   assert.equal(schedule.get('stopDate'), '10/10/2018');
 });

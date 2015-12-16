@@ -5,6 +5,7 @@ import BaseEvent from '../mixins/models/base-event';
 const {
   computed,
   get,
+  isPresent,
   isEmpty
 } = Ember;
 
@@ -77,11 +78,17 @@ export default DS.Model.extend(BaseEvent, {
     }
   }),
 
-  isValid: function() {
-    const start = this.get('startsAt');
-    const stop = this.get('endsAt');
-    const isInvalid = Ember.isBlank(start) || (Ember.isPresent(start) && Ember.isPresent(stop) && start > stop);
+  isValid: computed('startsAt', 'endsAt', function() {
+    const start = get(this, 'startsAt');
+    const stop = get(this, 'endsAt');
 
-    return !isInvalid;
-  }.property('startsAt', 'endsAt')
+    if (isPresent(start) && isPresent(stop)) {
+      const earlierByHour = start.hour() < stop.hour();
+      const earlierByMinute = start.hour() === stop.hour() && start.minute() <= stop.minute();
+
+      return earlierByHour || earlierByMinute;
+    } else {
+      return isPresent(start);
+    }
+  })
 });
