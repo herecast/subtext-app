@@ -9,9 +9,8 @@
       <div class='FutureEvent col-md-3 col-sm-4'>
         {{#link-to 'events.show' instance.id }}
           <h2 class='FutureEvent-header'>{{instance.formattedDate}}</h2>
-          <h3 class='FutureEvent-header u-textTruncate'>{{instance.subtitle}}</h3>
-          {{fa-icon 'clock-o FutureEvent-icon hidden-xs'}}
-          <div class='FutureEvent-time'>{{instance.formattedHours}}</div>
+          <p class='FutureEvent-header u-textTruncate'>{{instance.subtitle}}</p>
+          <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
         {{/link-to}}
       </div>
 
