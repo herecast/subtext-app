@@ -8,6 +8,12 @@
   }
 }
 
+.EventCard.hasRegistrationDeadline {
+  @media (max-width: @screen-xs-max) {
+    padding-top: 50px;
+  }
+}
+
 .EventCard-content {
   justify-content: center;
   -webkit-justify-content: center;
@@ -51,6 +57,9 @@
   padding: 8px;
   position: absolute;
   width: 100%;
+  @media (max-width: @screen-xs-max) {
+    top: 14px;
+  }
 }
 
 .EventCard-image {
