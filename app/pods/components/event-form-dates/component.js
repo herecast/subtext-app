@@ -37,7 +37,12 @@ export default Ember.Component.extend({
 
   actions: {
     buildNewSchedule(type) {
-      const schedule = get(this, 'store').createRecord('schedule', { });
+      const schedule = get(this, 'store').createRecord('schedule', {
+        daysOfWeek: [],
+        overrides: [],
+        _remove: false,
+        weeksOfMonth: []
+      });
 
       run(() => { set(this, 'newSchedule', schedule); });
 
