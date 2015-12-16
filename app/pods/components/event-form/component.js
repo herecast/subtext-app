@@ -7,8 +7,20 @@ export default Ember.Component.extend(Validation, {
   tagName: 'form',
   event: Ember.computed.alias('model'),
   schedules: null,
+  error: null,
 
   registrationEnabled: null,
+
+  init() {
+    this._super(...arguments);
+    this.resetProperties();
+  },
+
+  resetProperties: function() {
+    const registrationDeadline = get(this, 'event.registrationDeadline');
+
+    set(this, 'registrationEnabled', (isPresent(registrationDeadline)));
+  },
 
   validateVenue() {
     const id = this.get('event.venueId');
@@ -102,17 +114,13 @@ export default Ember.Component.extend(Validation, {
 
   actions: {
     toggleRegistration() {
-      const registrationEnabled = get(this, 'registrationEnabled');
-
-      // Reset the registration deadline when disabling registration so we
-      // don't send a value to the API when we shouldn't
-      if (registrationEnabled) {
-        set(this, 'event.registrationDeadline', null);
-        set(this, 'errors.registrationDeadline', null);
-        delete get(this, 'errors').registrationDeadline;
-      }
-
       this.toggleProperty('registrationEnabled');
+
+      set(this, 'event.registrationDeadline', null);
+      set(this, 'errors.registrationDeadline', null);
+
+      // don't send a value to the API when we shouldn't
+      delete get(this, 'errors').registrationDeadline;
     },
 
     afterDateValidation(datesAreValid) {

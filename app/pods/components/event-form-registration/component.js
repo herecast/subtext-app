@@ -9,16 +9,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
-  init() {
-    this._super(...arguments);
-    this.resetProperties();
-  },
-
-  resetProperties() {
-    const hasRegistrationInfo = get(this, 'event.hasRegistrationInfo');
-
-    set(this, 'registrationEnabled', hasRegistrationInfo);
-  },
+  hasRegistrationInfo: null,
 
   // The date picker requires a date object, so we need to convert the deadline
   // to a date object so it can be used in the template.
@@ -47,7 +38,6 @@ export default Ember.Component.extend({
   actions: {
     toggleRegistration() {
       this.attrs.toggleRegistration();
-      this.toggleProperty('registrationEnabled');
     }
   }
 });
