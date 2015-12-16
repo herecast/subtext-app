@@ -81,35 +81,40 @@
       </div>
     </div>
 
-    <div class='u-layoutPadT40'>
-      {{event-other-dates event=model}}
-
-      {{#unless isPreview}}
-        {{related-promotion
-          contentModel=model
-        }}
-      {{/unless}}
-
-      <h1 class='SectionHeader SectionHeader--paddedTop'>
-        <span class='SectionHeader-text'>
-          Talk
-        </span>
-      </h1>
+    <div class='container u-layoutPadT50'>
       <div class='row'>
-        {{content-comments
-          content=model
-          scrollTo=scrollTo
-        }}
+        <div class='col-md-10 col-md-offset-1'>
+          <div class='u-layoutPadT40'>
+            {{event-other-dates event=model}}
+
+            {{#unless isPreview}}
+              {{related-promotion
+                contentModel=model
+              }}
+            {{/unless}}
+
+            <h1 class='SectionHeader SectionHeader--paddedTop'>
+              <span class='SectionHeader-text'>
+                Talk
+              </span>
+            </h1>
+            <div class='row'>
+              {{content-comments
+                content=model
+                scrollTo=scrollTo
+              }}
+            </div>
+
+            {{#unless isPreview}}
+              {{similar-content
+                contentId=model.contentId
+                limit=4
+              }}
+            {{/unless}}
+          </div>
+        </div>
       </div>
-
-      {{#unless isPreview}}
-        {{similar-content
-          contentId=model.contentId
-          limit=4
-        }}
-      {{/unless}}
     </div>
-
   </main>
 
 </article>
