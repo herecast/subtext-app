@@ -5,7 +5,7 @@ const { computed, get } = Ember;
 export default Ember.Mixin.create({
   textSummary: computed('repeats','daysOfWeek','weeksOfMonth', function() {
     const repeats = get(this, 'repeats');
-    const daysOfWeek = this.getWithDefault('daysOfWeek', []);
+    const daysOfWeek = get(this, 'daysOfWeek') || [];
 
     const dayMap = { 1: 'Sunday', 2: 'Monday', 3: 'Tuesday', 4: 'Wednesday',
       5: 'Thursday', 6: 'Friday', 7: 'Saturday'};

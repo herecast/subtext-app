@@ -135,7 +135,7 @@ export default Ember.Component.extend({
     },
 
     includeEvent(schedule, event) {
-      const overrides = schedule.get('overrides');
+      const overrides = schedule.get('overrides') || [];
       const eventStart = moment(event.start);
 
       const toRemove = overrides.find((override) => {
@@ -146,10 +146,16 @@ export default Ember.Component.extend({
     },
 
     excludeEvent(schedule, event) {
-      schedule.get('overrides').pushObject({
+      const override = {
         date: event.start.toDate(),
         hidden: true
-      });
+      };
+
+      if (get(schedule, 'overrides')) {
+        get(schedule, 'overrides').pushObject(override);
+      } else {
+        set(schedule, 'overrides', [override]);
+      }
     }
   }
 });

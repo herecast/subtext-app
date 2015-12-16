@@ -91,7 +91,9 @@ export default DS.Model.extend(ScheduleSummary, {
   }),
 
   hasExcludedDates: computed('overrides.@each.hidden', function() {
-    return get(this, 'overrides').any((override) => {
+    const overrides = get(this, 'overrides') || [];
+
+    return overrides.any((override) => {
       return override.hidden;
     });
   }),

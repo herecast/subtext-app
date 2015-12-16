@@ -55,7 +55,7 @@ export default Ember.Component.extend({
   reloadCalendar() {
     const fc = get(this, 'calendar');
     const calendarEvents = get(this, 'calendarEvents');
-    const overrides = get(this, 'schedule.overrides');
+    const overrides = get(this, 'schedule.overrides') || [];
 
     const decoratedEvents = calendarEvents.map((event) => {
       if (this._isOverRidden(event, overrides)) {
