@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 // Used to generate a collection of records that is grouped by a specified
 // date attribute. The group is split into 'headItems' and 'tailItems' which
@@ -17,6 +18,7 @@ function buildGroup(records, dateAttr, displayFormat, convertDate) {
       } else {
         group = Ember.Object.create({
           value: value,
+          sortValue: moment(value).unix(),
           displayValue: date.format(displayFormat),
           paramValue: date.format('YYYY-MM-DD'),
           items: [record]
@@ -27,7 +29,7 @@ function buildGroup(records, dateAttr, displayFormat, convertDate) {
     });
   }
 
-  return groups.sortBy('value');
+  return groups.sortBy('sortValue');
 }
 
 export {
