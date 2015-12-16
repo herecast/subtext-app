@@ -3,6 +3,7 @@ import Ember from 'ember';
 const isPresent = Ember.isPresent;
 
 export default Ember.Component.extend({
+  classNameBindings: ['event.registrationDeadline:hasRegistrationDeadline'],
   isPreview: false,
   title: Ember.computed.oneWay('event.title'),
   venueName: Ember.computed.oneWay('event.venueName'),
