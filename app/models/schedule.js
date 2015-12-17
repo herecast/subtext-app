@@ -120,11 +120,15 @@ export default DS.Model.extend(ScheduleSummary, {
     if (repeats === 'monthly') {
       return this._monthlyDates();
     } else {
-      const start = get(this, 'startsAt').toDate();
-      const stop = get(this, 'endDate').toDate();
+      // We need to wrap the dates in moment() in order to clone the value
+      // so it's not mutated below when we change the hours and minutes.
+      const start = moment(get(this, 'startsAt')).toDate();
+      const stop = moment(get(this, 'endDate')).toDate();
       const schedule = get(this, 'schedule');
       const maxDates = 100;
 
+      start.setHours(0);
+      start.setMinutes(0);
       stop.setHours(23);
       stop.setMinutes(59);
 
@@ -145,17 +149,21 @@ export default DS.Model.extend(ScheduleSummary, {
   }),
 
   _monthlyDates() {
-    // later.js doesn't support monthly events that happen on the same day,
-    // on the nth week of the month. Moment-recur supports this, so we are
-    // using it for those occasions.
     const startsAt = get(this, 'startsAt');
-    const endDate = get(this, 'endDate');
+
+    // We need to wrap the dates in moment() in order to clone the value
+    // so it's not mutated below when we change the hours and minutes.
+    const endDate = moment(get(this, 'endDate'));
+
     const weeksOfMonth = get(this, 'weeksOfMonth');
     const dayOfWeek = get(this, 'daysOfWeek')[0]-1;
 
     endDate.hours(23);
     endDate.minutes(59);
 
+    // later.js doesn't support monthly events that happen on the same day,
+    // on the nth week of the month. Moment-recur supports this, so we are
+    // using it for those occasions.
     const dates = moment().recur(startsAt, endDate).every(dayOfWeek).daysOfWeek()
       .every(weeksOfMonth).weeksOfMonthByDay().all("L")
       .map((date) => { return moment(date).toDate(); });
