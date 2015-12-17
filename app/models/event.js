@@ -30,6 +30,7 @@ export default DS.Model.extend(BaseEvent, {
     const schedules = get(this, 'schedules').rejectBy('_remove');
 
     const dates = schedules.map((schedule) => {
+      const scheduleStartsAt = get(schedule, 'startsAt');
       const endsAt = get(schedule, 'endsAt');
       const subtitle = get(schedule, 'subtitle');
       const dates = get(schedule, 'dates');
@@ -49,6 +50,8 @@ export default DS.Model.extend(BaseEvent, {
           }
         }).map((date) => {
           const startsAt = moment(date);
+          startsAt.hour(scheduleStartsAt.hour());
+          startsAt.minute(scheduleStartsAt.minute());
 
           return this.store.createRecord('event-instance', {
             startsAt: startsAt,
