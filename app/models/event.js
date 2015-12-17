@@ -21,6 +21,7 @@ export default DS.Model.extend(BaseEvent, {
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),
   subtitle: Ember.computed.oneWay('eventInstances.firstObject.subtitle'),
+  presenterName: Ember.computed.oneWay('eventInstances.firstObject.presenterName'),
   timeRange: Ember.computed.oneWay('eventInstances.firstObject.timeRange'),
 
   // This is used to create temporary event instances so they can be displayed
@@ -33,6 +34,7 @@ export default DS.Model.extend(BaseEvent, {
       const subtitle = get(schedule, 'subtitle');
       const dates = get(schedule, 'dates');
       const overrides = get(schedule, 'overrides');
+      const presenterName = get(schedule, 'presenterName');
 
       if (dates) {
         return get(schedule, 'dates').reject((date) => {
@@ -51,7 +53,8 @@ export default DS.Model.extend(BaseEvent, {
           return this.store.createRecord('event-instance', {
             startsAt: startsAt,
             endsAt: endsAt,
-            subtitle: subtitle
+            subtitle: subtitle,
+            presenterName: presenterName
           });
         });
       } else {
