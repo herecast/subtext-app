@@ -57,6 +57,16 @@ export default Ember.Component.extend({
     });
   },
 
+  _invalidTime(time) {
+    if (isEmpty(time)) {
+      return false;
+    } else {
+      const timeRegex = /[0-9]+:[0-9]+ am|pm+/;
+
+      return isEmpty(time.match(timeRegex));
+    }
+  },
+
   actions: {
     buildNewSchedule(type) {
       const schedule = get(this, 'store').createRecord('schedule', {
@@ -97,15 +107,20 @@ export default Ember.Component.extend({
           }
         }
 
-        // time errors
-        if (isEmpty(startTime) || isEmpty(stopTime)) {
-          if (isEmpty(startTime)) {
-            errors.startTimeError = "Start time cannot be blank.";
+        // Time errors
+        if(isEmpty(startTime)) {
+          errors.startTimeError = "Start time cannot be blank.";
+        } else if (this._invalidTime(startTime)) {
+          errors.startTimeError = "Start time format is invalid.";
+        } else {
+          if (isPresent(stopTime)) {
+            if (this._invalidTime(stopTime)) {
+              errors.timeError = "End time format is invalid.";
+            } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
+              errors.timeError = "End time cannot be before start time.";
+            }
           }
-        } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
-          errors.timeError = "End time cannot be before start time.";
         }
-
       } else if (repeatType === 'single') {
         const { startTime, startDate, stopTime } = scheduleData;
 
@@ -113,12 +128,18 @@ export default Ember.Component.extend({
           errors.dateError = "Date cannot be blank.";
         }
 
-        if (isEmpty(startTime) || isEmpty(stopTime)) {
-          if(isEmpty(startTime)) {
-            errors.startTimeError = "Start time cannot be blank.";
+        if(isEmpty(startTime)) {
+          errors.startTimeError = "Start time cannot be blank.";
+        } else if (this._invalidTime(startTime)) {
+          errors.startTimeError = "Start time format is invalid.";
+        } else {
+          if (isPresent(stopTime)) {
+            if (this._invalidTime(stopTime)) {
+              errors.timeError = "End time format is invalid.";
+            } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
+              errors.timeError = "End time cannot be before start time.";
+            }
           }
-        } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
-          errors.timeError = "End time cannot be before start time.";
         }
       }
 
