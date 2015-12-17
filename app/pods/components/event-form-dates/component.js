@@ -123,7 +123,11 @@ export default Ember.Component.extend({
     },
 
     removeSchedule(schedule) {
-      set(schedule, '_remove', true);
+      if (get(schedule, 'isNew')) {
+        schedule.destroyRecord();
+      } else {
+        set(schedule, '_remove', true);
+      }
     },
 
     hideScheduleForm(schedule) {
