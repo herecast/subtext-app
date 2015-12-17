@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     const events = get(this, 'calendarEvents');
 
     const fc = this.$().fullCalendar({
-      timezone: 'UTC',
+      timezone: 'local',
       eventRender: (event, element) => {
         const content = (event.hidden === true) ? '<i class="fa fa-times"></i>': '<i class="fa fa-check"></i>';
 
