@@ -21,6 +21,7 @@ export default DS.Model.extend(BaseEvent, {
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),
   subtitle: Ember.computed.oneWay('eventInstances.firstObject.subtitle'),
+  presenterName: Ember.computed.oneWay('eventInstances.firstObject.presenterName'),
   timeRange: Ember.computed.oneWay('eventInstances.firstObject.timeRange'),
 
   // This is used to create temporary event instances so they can be displayed
@@ -29,10 +30,12 @@ export default DS.Model.extend(BaseEvent, {
     const schedules = get(this, 'schedules').rejectBy('_remove');
 
     const dates = schedules.map((schedule) => {
+      const scheduleStartsAt = get(schedule, 'startsAt');
       const endsAt = get(schedule, 'endsAt');
       const subtitle = get(schedule, 'subtitle');
       const dates = get(schedule, 'dates');
       const overrides = get(schedule, 'overrides');
+      const presenterName = get(schedule, 'presenterName');
 
       if (dates) {
         return get(schedule, 'dates').reject((date) => {
@@ -47,11 +50,14 @@ export default DS.Model.extend(BaseEvent, {
           }
         }).map((date) => {
           const startsAt = moment(date);
+          startsAt.hour(scheduleStartsAt.hour());
+          startsAt.minute(scheduleStartsAt.minute());
 
           return this.store.createRecord('event-instance', {
             startsAt: startsAt,
             endsAt: endsAt,
-            subtitle: subtitle
+            subtitle: subtitle,
+            presenterName: presenterName
           });
         });
       } else {
