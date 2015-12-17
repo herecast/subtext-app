@@ -51,12 +51,12 @@ export default Ember.Component.extend(ScheduleSummary, {
 
   // TODO: switch to attrsDidChange
   setDefaultValues: observer('startDate', 'repeats', function() {
-    const startDate = get(this, 'startDate');
+    const startDate = moment(get(this, 'startDate'));
     const repeats = get(this, 'repeats');
     const daysOfWeek = get(this, 'daysOfWeek');
 
     if (startDate && repeats === 'monthly') {
-      const weekOfMonth = Math.ceil(startDate.getDate()/7)-1;
+      const weekOfMonth = Math.ceil(startDate.date()/7)-1;
 
       set(this, 'weeksOfMonth', [weekOfMonth]);
     }
@@ -64,7 +64,7 @@ export default Ember.Component.extend(ScheduleSummary, {
     const hasDaysOfWeek = (repeats === 'weekly' || repeats === 'bi-weekly');
 
     if (isEmpty(daysOfWeek) && hasDaysOfWeek) {
-      const dayOfWeek = startDate.getDay() + 1;
+      const dayOfWeek = startDate.day() + 1;
 
       run(() => {
         set(this, 'daysOfWeek', [dayOfWeek]);
