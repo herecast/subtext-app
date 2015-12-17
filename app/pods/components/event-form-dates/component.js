@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
 
+/* global _ */
+
 const  { set, get, inject, run, isEmpty, computed } = Ember;
 
 export default Ember.Component.extend({
@@ -34,6 +36,26 @@ export default Ember.Component.extend({
              (repeats === 'monthly');
     });
   }),
+
+  // Finds overrides that no longer fall within the current date range.
+  // Comparison is done using unix timestamp so that integer comparison is used.
+  _findOutOfRangeOverrides(schedule) {
+    const overrides = get(schedule, 'overrides');
+
+    const overrideDates = overrides.map((override) => {
+      return moment(override.date).unix();
+    });
+
+    const dates = get(schedule, 'dates').map((date) => {
+      return moment(date).unix();
+    });
+
+    return _.difference(overrideDates, dates).map((dateToRemove) => {
+      return overrides.find((override) => {
+        return moment(override.date).unix() === dateToRemove;
+      });
+    });
+  },
 
   actions: {
     buildNewSchedule(type) {
@@ -112,14 +134,13 @@ export default Ember.Component.extend({
     },
 
     updateSchedule(schedule, scheduleData) {
-      // For now, we are dumping the
-      // schedule's overrides each time there
-      // is a change to the underlying pattern
-      // since we don't know if an overrides falls
-      // on one of the new dates
-      scheduleData.overrides = [];
+      run(() => {
+        schedule.setProperties(scheduleData);
+      });
 
-      schedule.setProperties(scheduleData);
+      const overridesToRemove = this._findOutOfRangeOverrides(schedule);
+
+      get(schedule, 'overrides').removeObjects(overridesToRemove);
     },
 
     removeSchedule(schedule) {
