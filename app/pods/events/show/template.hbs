@@ -33,84 +33,85 @@
   </header>
 
   <main class='ContentBody'>
-    <div class='row'>
-      <div class='col-md-9'>
-        <div class='row'>
-          <div class='col-md-10 col-md-offset-2'>
-            <div class='row'>
-              <div class='col-md-8'>
-                <div class='EventShow-content ContentText'>
-                  {{#if model.presenterName}}
-                    <div class='u-textBold pull-left EventInfo-presenter u-layoutPadB10'>
-                      {{fa-icon 'user' size='lg' class='EventInfo-icon'}}
-                      {{model.presenterName}}
-                    </div>
-                  {{/if}}
-                  {{{model.content}}}
+    <div class='container'>
+      <div class='row'>
+        <div class='col-md-10 col-md-offset-1'>
+          <div class='row'>
+            <div class='col-md-10'>
+              <div class='row'>
+                <div class='col-md-8'>
+                  <div class='EventShow-content ContentText'>
+                    {{#if model.presenterName}}
+                      <div class='u-textBold pull-left EventInfo-presenter u-layoutPadB10'>
+                        {{fa-icon 'user' size='lg' class='EventInfo-icon'}}
+                        {{model.presenterName}}
+                      </div>
+                    {{/if}}
+                    {{{model.content}}}
+                  </div>
+                </div>
+                <div class='col-md-4'>
+                  {{partial 'partials/event-meta'}}
                 </div>
               </div>
-              <div class='col-md-4'>
-                {{partial 'partials/event-meta'}}
-              </div>
+            </div>
+            <div class='col-md-2 u-layoutMobilePadding0  u-layoutPadT20'>
+              {{#floating-side-column enabled=media.isDesktop}}
+                {{social-share
+                  title=model.title
+                  sharedBy=session.userName
+                }}
+
+                {{#if model.canEdit}}
+                  {{edit-content-link
+                    contentId=model.eventId
+                    route='events.edit'
+                    text='Edit Event'
+                  }}
+                {{/if}}
+
+                {{comment-bubble
+                  type='event'
+                  count=model.commentCount
+                  class='hidden-xs hidden-sm'
+                }}
+              {{/floating-side-column}}
             </div>
           </div>
         </div>
       </div>
 
-      <div class='col-md-2 u-layoutMobilePadding0  u-layoutPadT20'>
-        {{#floating-side-column enabled=media.isDesktop}}
-          {{social-share
-            title=model.title
-            sharedBy=session.userName
-          }}
+      <div class='container u-layoutPadT50'>
+        <div class='row'>
+          <div class='col-md-10 col-md-offset-1'>
+            <div class='u-layoutPadT40'>
+              {{event-other-dates event=model}}
 
-          {{#if model.canEdit}}
-            {{edit-content-link
-              contentId=model.eventId
-              route='events.edit'
-              text='Edit Event'
-            }}
-          {{/if}}
+              {{#unless isPreview}}
+                {{related-promotion
+                  contentModel=model
+                }}
+              {{/unless}}
 
-          {{comment-bubble
-            type='event'
-            count=model.commentCount
-            class='hidden-xs hidden-sm'
-          }}
-        {{/floating-side-column}}
-      </div>
-    </div>
+              <h1 class='SectionHeader SectionHeader--paddedTop'>
+                <span class='SectionHeader-text'>
+                  Talk
+                </span>
+              </h1>
+              <div class='row'>
+                {{content-comments
+                  content=model
+                  scrollTo=scrollTo
+                }}
+              </div>
 
-    <div class='container u-layoutPadT50'>
-      <div class='row'>
-        <div class='col-md-10 col-md-offset-1'>
-          <div class='u-layoutPadT40'>
-            {{event-other-dates event=model}}
-
-            {{#unless isPreview}}
-              {{related-promotion
-                contentModel=model
-              }}
-            {{/unless}}
-
-            <h1 class='SectionHeader SectionHeader--paddedTop'>
-              <span class='SectionHeader-text'>
-                Talk
-              </span>
-            </h1>
-            <div class='row'>
-              {{content-comments
-                content=model
-                scrollTo=scrollTo
-              }}
+              {{#unless isPreview}}
+                {{similar-content
+                  contentId=model.contentId
+                  limit=4
+                }}
+              {{/unless}}
             </div>
-
-            {{#unless isPreview}}
-              {{similar-content
-                contentId=model.contentId
-                limit=4
-              }}
-            {{/unless}}
           </div>
         </div>
       </div>
