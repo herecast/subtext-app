@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   contentComments: Ember.inject.service('content-comments'),
   comments: [],
   scrollTo: null,
+  displayPromotion: false,
 
   contentTitle: Ember.computed.oneWay('content.title'),
   contentId: Ember.computed.oneWay('content.contentId'),
