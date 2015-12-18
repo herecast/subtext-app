@@ -30,6 +30,7 @@ export default Ember.Component.extend({
           id: comment.get('id'),
           formattedPostedAt: moment().fromNow(),
           content: formattedContent,
+          userImageUrl: this.get('session.currentUser.userImageUrl'),
           userName: this.get('session.currentUser.name')
         });
 
