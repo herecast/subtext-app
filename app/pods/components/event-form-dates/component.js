@@ -3,7 +3,7 @@ import moment from 'moment';
 
 /* global _ */
 
-const  { set, get, inject, run, isEmpty, computed } = Ember;
+const  { set, get, inject, run, isEmpty, isPresent, computed } = Ember;
 
 export default Ember.Component.extend({
   store: inject.service(),
@@ -40,7 +40,7 @@ export default Ember.Component.extend({
   // Finds overrides that no longer fall within the current date range.
   // Comparison is done using unix timestamp so that integer comparison is used.
   _findOutOfRangeOverrides(schedule) {
-    const overrides = get(schedule, 'overrides');
+    const overrides = get(schedule, 'overrides') || [];
 
     const overrideDates = overrides.map((override) => {
       return moment(override.date).unix();
@@ -140,7 +140,9 @@ export default Ember.Component.extend({
 
       const overridesToRemove = this._findOutOfRangeOverrides(schedule);
 
-      get(schedule, 'overrides').removeObjects(overridesToRemove);
+      if (isPresent(overridesToRemove)) {
+        get(schedule, 'overrides').removeObjects(overridesToRemove);
+      }
     },
 
     removeSchedule(schedule) {
