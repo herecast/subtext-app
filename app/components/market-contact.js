@@ -30,8 +30,9 @@ export default Ember.Component.extend({
     let tmp = document.createElement("DIV");
     tmp.innerHTML = this.get('post.content');
     const sanitizedContent = tmp.textContent || tmp.innerText || "";
-    const body = `%0D%0A%0D%0A${firstLine}%0D%0A%0D%0A${sanitizedContent}`;
-    return `${mailTo}?subject=${this.get('post.title')}&body=${body}`;
+    const body = `%0D%0A%0D%0A${encodeURIComponent(firstLine)}%0D%0A%0D%0A${encodeURIComponent(sanitizedContent)}`;
+
+    return `${mailTo}?subject=${encodeURIComponent(this.get('post.title'))}&body=${body}`;
   }.property('post.authorName', 'email', 'post.title', 'post.content'),
 
   actions: {
