@@ -3,14 +3,28 @@
   border-bottom: 1px solid @gray-light;
 }
 
+.PromotionSection--disclaimer {
+  padding: 0;
+}
+
 .PromotionSection:first-child {
   border-top: 1px solid @gray-light;
 }
 
-
 .PromotionSection-description {
   color: @gray-medium;
   margin-bottom: 20px;
+}
+
+.PromotionSection-description--emphasized {
+  color: @gray-dark;
+  margin-bottom: 20px;
+  b {
+    color: @text-color;
+  }
+  a {
+    text-decoration: underline;
+  }
 }
 
 .PromotionSection-cost {
