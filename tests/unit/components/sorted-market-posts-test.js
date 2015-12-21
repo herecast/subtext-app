@@ -1,8 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('grouped-market-posts', 'Unit | Component | grouped market posts', {
-  // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
+moduleForComponent('sorted-market-posts', 'Unit | Component | sorted market posts', {
   unit: true
 });
 
