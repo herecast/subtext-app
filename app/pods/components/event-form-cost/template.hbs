@@ -15,11 +15,18 @@
   </ul>
 
   <div role="tabpanel" class="tab-pane active">
-    {{input
-      placeholder=costPlaceholder
-      value=cost
-      class='form-control'
-      disabled=isNotApplicable
-    }}
+    {{#if isNotApplicable}}
+      {{input
+        placeholder=costPlaceholder
+        class='form-control'
+        disabled=true
+      }}
+    {{else}}
+      {{input
+        placeholder=costPlaceholder
+        value=cost
+        class='form-control'
+      }}
+    {{/if}}
   </div>
 </div>
