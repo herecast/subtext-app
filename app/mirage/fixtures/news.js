@@ -1,6 +1,13 @@
 import { generateData, titleize } from '../support/utils';
 import moment from 'moment';
 
+function generateContent(num, opts = {}) {
+  const text = faker.lorem.paragraphs(num);
+  const youtube = (opts.youtube) ? '<iframe width="420" height="315" src="https://www.youtube.com/embed/bUpF2d4H3x8" frameborder="0" allowfullscreen></iframe>' : null;
+
+  return (youtube) ? text + '<br>' + youtube : text;
+}
+
 function template(id) {
   const startsAt = moment(faker.date.recent(-30));
 
@@ -30,7 +37,7 @@ function template(id) {
     author_id: 1,
     author_name: faker.name.findName(),
     comment_count: faker.random.number(8),
-    content: faker.lorem.paragraphs(4),
+    content: generateContent(4, { youtube: (id % 2 === 0) }),
     content_id: faker.random.number(1000),
     image_url: imageUrl,
     images: images,
