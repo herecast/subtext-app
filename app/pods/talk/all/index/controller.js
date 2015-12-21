@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
+import PaginatedFilter from '../../../../mixins/controllers/paginated-filter';
 
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
