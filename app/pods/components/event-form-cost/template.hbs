@@ -1,15 +1,15 @@
 <div role="tabpanel">
   <ul class="nav nav-tabs NavTabs" role="tablist">
-    <li role="presentation" {{bind-attr class='isFree:active'}}>
+    <li role="presentation" class={{if isFree 'active'}}>
       <a href="#" role="tab" {{action 'setCostType' 'free'}}>Free</a>
     </li>
-    <li role="presentation" {{bind-attr class='isPaid:active'}}>
+    <li role="presentation" class={{if isPaid 'active'}}>
       <a href="#" role="tab" {{action 'setCostType' 'paid'}}>Paid</a>
     </li>
-    <li role="presentation" {{bind-attr class='isDonation:active'}}>
+    <li role="presentation" class={{if isDonation 'active'}}>
       <a href="#" role="tab" {{action 'setCostType' 'donation'}}>Donation</a>
     </li>
-    <li role="presentation" {{bind-attr class='isNotApplicable:active'}}>
+    <li role="presentation" class={{if isNotApplicable 'active'}}>
       <a href="#" role="tab" {{action 'setCostType' ''}}>Not Applicable</a>
     </li>
   </ul>
