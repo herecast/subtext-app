@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   isFree: computed.equal('costType', 'free'),
   isPaid: computed.equal('costType', 'paid'),
   isDonation: computed.equal('costType', 'donation'),
-  isNotApplicable: computed.equal('costType', ''),
+  isNotApplicable: computed.empty('costType'),
 
   costPlaceholder: computed('costType', function() {
     if (get(this, 'isFree')) {
