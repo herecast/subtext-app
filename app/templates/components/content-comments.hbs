@@ -12,6 +12,12 @@
     {{/each}}
   </ol>
 
+  {{#if displayPromotion}}
+    {{related-promotion
+      contentModel=content
+    }}
+  {{/if}}
+
   {{#if session.currentUser}}
     {{comment-new
       parentContentId=contentId
