@@ -117,7 +117,7 @@
         {{/link-to}}
       </div>
 
-      <ul class='SectionNavigation-list col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-1'>
+      <ul class='SectionNavigation-list col-lg-6 col-lg-offset-2 col-sm-8 col-sm-offset-1'>
         <li class='SectionNavigation-listItem' {{action 'trackChannelSelection' 'news' }} data-toggle='collapse' data-target='#js-app-bar'>
           {{link-to 'News' 'news'
             (query-params
@@ -168,10 +168,13 @@
             class='SectionNavigation-link SectionNavigation-marketLink'
           }}
         </li>
+        <li class='SectionNavigation-listItem' {{action 'trackChannelSelection' 'directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
+          <a href='http://dailyuv.net/directory' target='_blank' class='SectionNavigation-link SectionNavigation-directoryLink'>Directory</a>
+        </li>
       </ul>
 
       {{content-create-button
-        class='col-md-3 col-sm-2 hidden-xs u-textPullRight'
+        class='col-lg-3 col-sm-2 hidden-xs u-textPullRight'
         path=currentPath
       }}
     </div>

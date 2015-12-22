@@ -55,7 +55,7 @@ export default Ember.Component.extend({
       contentType = 'Talk';
     }
 
-    if (this.get('media.isTablet')) {
+    if (this.get('media.tabletOrSmallDesktop')) {
       return `+ ${contentType}`;
     } else {
       return `Create ${contentType}`;

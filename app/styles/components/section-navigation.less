@@ -30,7 +30,12 @@
 .SectionNavigation-listItem {
   display: inline;
   list-style-type: none;
-  margin: 0 12px;
+  @media(min-width: @screen-md-min) {
+    margin: 0 6px;
+  }
+  @media(min-width: @screen-md-max) {
+    margin: 0 12px;
+  }
   @media (max-width: @screen-xs-max) {
     display: block;
     margin: 0;
@@ -66,6 +71,10 @@
 
 .SectionNavigation-talkLink:hover, .SectionNavigation-talkLink.active {
   background-color: @talk-brand;
+}
+
+.SectionNavigation-directoryLink:hover, .SectionNavigation-directoryLink.active {
+  background-color: @gray-light;
 }
 
 .SectionNavigation-contentCreateButton {
