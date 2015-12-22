@@ -35,7 +35,10 @@
         </div>
         {{fa-icon 'usd'  class='EventInfo-icon'}}
         {{dash-if-empty model.formattedCostType}}<br />
-        {{model.cost}}
+
+        {{#if model.costType}}
+          {{model.cost}}
+        {{/if}}
       </div>
     </div>
   </div>
