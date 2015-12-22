@@ -3,7 +3,7 @@
     {{#unless media.isMobile}}
       {{x-weather
         class='h2 col-sm-3'
-        autoload=true
+        location=session.userLocation
       }}
     {{/unless}}
 
