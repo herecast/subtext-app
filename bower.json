@@ -36,6 +36,10 @@
     "sinonjs": "^1.17.1",
     "justgage-toorshia": "justgage-official#^1.2.2",
     "toastr": "^2.1.2",
-    "selectize": "miguelcobain/selectize.js#master"
+    "selectize": "miguelcobain/selectize.js#master",
+    "moment-recur": "~1.0.5"
+  },
+  "devDependencies": {
+    "blanket": "~1.1.5"
   }
 }
