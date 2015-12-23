@@ -53,7 +53,7 @@ export default DS.Model.extend(BaseEvent, {
           startsAt.hour(scheduleStartsAt.hour());
           startsAt.minute(scheduleStartsAt.minute());
 
-          return this.store.createRecord('event-instance', {
+          return this.store.createRecord('other-event-instance', {
             startsAt: startsAt,
             endsAt: endsAt,
             subtitle: subtitle,
