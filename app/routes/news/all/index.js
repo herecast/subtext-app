@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import Track from '../../../mixins/routes/track-pageview';
 import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 import History from '../../../mixins/routes/history';
 
-export default Ember.Route.extend(Track, PaginatedFilter, History, {
+export default Ember.Route.extend(PaginatedFilter, History, {
   model(params) {
     return this.store.find('news', {
       query: params.query,

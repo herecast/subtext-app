@@ -4,9 +4,8 @@ import config from '../config/environment';
 import ajax from 'ic-ajax';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from '../mixins/routes/history';
-import Track from '../mixins/routes/track-pageview';
 
-export default Ember.Route.extend(Authorized, PaginatedFilter, History, Track, {
+export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
   queryParams: {
     page: {
       refreshModel: true
@@ -15,6 +14,8 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, Track, {
       refreshModel: true
     }
   },
+
+  titleToken: 'Dashboard',
 
   contentModel: Ember.inject.service('content-model'),
 

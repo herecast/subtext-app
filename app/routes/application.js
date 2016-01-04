@@ -2,9 +2,18 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
+const { get, isPresent, isEmpty, merge, inject, run } = Ember;
+
 export default Ember.Route.extend(ApplicationRouteMixin, {
-  intercom: Ember.inject.service('intercom'),
-  mixpanel: Ember.inject.service('mixpanel'),
+  intercom: inject.service(),
+  mixpanel: inject.service(),
+
+  title: function(tokens) {
+    const title = 'dailyUV';
+    const tokenString = tokens.reverse().join(' | ');
+
+    return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
+  },
 
   model() {
     return this.get('session.currentUser');
@@ -13,7 +22,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    this.get('session').setupCurrentUser();
+    get(this, 'session').setupCurrentUser();
   },
 
   actions: {
@@ -28,44 +37,43 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     signOut(callback) {
-      this.get('intercom').shutdown();
-      const promise = this.get('session').signOut();
+      get(this, 'intercom').shutdown();
+      const promise = get(this, 'session').signOut();
 
       callback(promise);
     },
 
-    didTransition: function() {
-      const currentUser = this.get('session.currentUser');
+    didTransition() {
+      this._super(...arguments);
 
-      if (Ember.isPresent(currentUser)) {
-        Ember.run.next(() => {
-          this.get('intercom').update();
+      // TODO refactor all of the analytics code out of here
+      const currentUser = get(this, 'session.currentUser');
+
+      if (isPresent(currentUser)) {
+        run.next(() => {
+          get(this, 'intercom').update();
         });
       }
       //track all page exits
       const leaveProps = {};
       const visitProps = {};
-      const mixpanel = this.get('mixpanel');
+      const mixpanel = get(this, 'mixpanel');
       const from = window.location.href;
       const userProperties = mixpanel.getUserProperties(currentUser);
 
-      Ember.merge(leaveProps, userProperties);
+      merge(leaveProps, userProperties);
       leaveProps.pageUrl = from;
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
-      Ember.run.next(() => {
-        Ember.merge(visitProps, userProperties);
+      run.next(() => {
+        const documentTitle = document.title;
+
+        merge(visitProps, userProperties);
         visitProps.targetPageUrl = window.location.href;
         visitProps.sourcePageUrl = from;
-        mixpanel.trackEvent('pageVisit', visitProps);
 
-        // TODO implement dynamic document tiles and remove this
-        const documentTitle = Ember.$('.News-title').text() ||
-                              Ember.$('.PhotoBanner-title > div').html() ||
-                              Ember.$('.PhotoBanner-title').html() ||
-                              Ember.$('.MarketPost-headerContent > h1').html() ||
-                              Ember.$('.SectionNavigation-link.active').text(); // use the active nav link as title for index pages...
+        mixpanel.trackEvent('pageVisit', visitProps);
 
         ga('send', 'pageview', {
           'page': window.location.href,
