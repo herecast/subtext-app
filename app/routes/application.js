@@ -2,7 +2,7 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
-const { isEmpty } = Ember;
+const { get, isEmpty, merge } = Ember;
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: Ember.inject.service('intercom'),
@@ -43,38 +43,36 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       callback(promise);
     },
 
-    didTransition: function() {
-      const currentUser = this.get('session.currentUser');
+    didTransition() {
+      this._super(...arguments);
+
+      const currentUser = get(this, 'session.currentUser');
 
       if (Ember.isPresent(currentUser)) {
         Ember.run.next(() => {
-          this.get('intercom').update();
+          get(this, 'intercom').update();
         });
       }
       //track all page exits
       const leaveProps = {};
       const visitProps = {};
-      const mixpanel = this.get('mixpanel');
+      const mixpanel = get(this, 'mixpanel');
       const from = window.location.href;
       const userProperties = mixpanel.getUserProperties(currentUser);
 
-      Ember.merge(leaveProps, userProperties);
+      merge(leaveProps, userProperties);
       leaveProps.pageUrl = from;
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
       Ember.run.next(() => {
-        Ember.merge(visitProps, userProperties);
+        const documentTitle = document.title;
+
+        merge(visitProps, userProperties);
         visitProps.targetPageUrl = window.location.href;
         visitProps.sourcePageUrl = from;
-        mixpanel.trackEvent('pageVisit', visitProps);
 
-        // TODO implement dynamic document tiles and remove this
-        const documentTitle = Ember.$('.News-title').text() ||
-                              Ember.$('.PhotoBanner-title > div').html() ||
-                              Ember.$('.PhotoBanner-title').html() ||
-                              Ember.$('.MarketPost-headerContent > h1').html() ||
-                              Ember.$('.SectionNavigation-link.active').text(); // use the active nav link as title for index pages...
+        mixpanel.trackEvent('pageVisit', visitProps);
 
         ga('send', 'pageview', {
           'page': window.location.href,
