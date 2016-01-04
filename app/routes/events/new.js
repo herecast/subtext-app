@@ -3,6 +3,8 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
 
+const { get } = Ember;
+
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   intercom: Ember.inject.service('intercom'),
   mixpanel: Ember.inject.service('mixpanel'),
@@ -17,17 +19,48 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     this.transitionTo('events.new.details');
   },
 
+  discardRecord(event) {
+    if (confirm('Are you sure you want to discard this event?')) {
+      event.destroyRecord();
+
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  // We can't depend on model.hasDirtyAttributes because it is always true,
+  // most likely because we're mutating some values when the form loads.
+  // We can check changedAttributes() instead, but need to account for
+  // setting a default listservIds value.
+  hasDirtyAttributes(event) {
+    return Object.keys(event.changedAttributes()).length > 1;
+  },
+
   actions: {
-    afterDiscard() {
-      this.transitionTo('events.all');
+    willTransition(transition) {
+      this._super(...arguments);
 
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
+      const event = get(this, 'controller.model');
+      const exitSetup = !transition.targetName.match(/^events\.new/);
 
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Event', 'Discard Event'));
-      mixpanel.trackEvent('selectNavControl', props);       
+      if (exitSetup && this.hasDirtyAttributes(event) && !this.discardRecord(event)) {
+        transition.abort();
+      }
+    },
+
+    afterDiscard(event) {
+      if (!this.hasDirtyAttributes(event) || this.discardRecord(event)) {
+        this.transitionTo('events.all');
+
+        const mixpanel = this.get('mixpanel');
+        const currentUser = this.get('session.currentUser');
+        const props = {};
+
+        Ember.merge(props, mixpanel.getUserProperties(currentUser));
+        Ember.merge(props, mixpanel.getNavigationControlProperties('Create Event', 'Discard Event'));
+        mixpanel.trackEvent('selectNavControl', props);
+      }
     },
 
     afterDetails() {

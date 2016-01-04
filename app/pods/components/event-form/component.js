@@ -143,11 +143,9 @@ export default Ember.Component.extend(Validation, {
     },
 
     discard() {
-      if (confirm('Are you sure you want to discard this event?')) {
-        const event = this.get('event');
-        event.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
+      const event = get(this, 'event');
+
+      this.sendAction('afterDiscard', event);
     },
 
     normalizeUrl() {

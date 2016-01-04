@@ -2,8 +2,11 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
+import Editable from 'subtext-ui/mixins/routes/editable';
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+const { get } = Ember;
+
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   model(params) {
     return this.store.findRecord('event', params.id, {reload: true});
   },
@@ -12,11 +15,11 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     this.transitionTo('events.edit.details');
   },
 
-  actions: {
-    afterDiscard() {
-      this.transitionTo('events.all');
-    },
+  hasDirtyAttributes(event) {
+    return get(event, 'hasDirtyAttributes');
+  },
 
+  actions: {
     afterDetails() {
       this.transitionTo('events.edit.promotion');
     },

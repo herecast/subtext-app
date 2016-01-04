@@ -42,11 +42,8 @@ export default Ember.Component.extend(Validation, {
     },
 
     discard() {
-      if (confirm('Are you sure you want to discard this post?')) {
-        const post = this.get('post');
-        post.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
+      const post = this.get('post');
+      this.sendAction('afterDiscard', post);
     }
   }
 });

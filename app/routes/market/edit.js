@@ -2,8 +2,11 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
+import Editable from 'subtext-ui/mixins/routes/editable';
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+const { get } = Ember;
+
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -16,15 +19,25 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     }
   },
 
+  // We can't depend on model.hasDirtyAttributes because it is always true,
+  // most likely because we're mutating some values when the form loads.
+  // We can check changedAttributes() instead, but need to account for
+  // setting the contact info when the model loads. This will give us some
+  // false positives, meaning it will tell the user there are changes when
+  // there are not, but that seems better than false negatives.
+  hasDirtyAttributes(model) {
+    if (get(model, 'hasContactInfo')) {
+      return Object.keys(model.changedAttributes()).length > 1;
+    } else {
+      return get(model, 'hasDirtyAttributes');
+    }
+  },
+
   redirect() {
     this.transitionTo('market.edit.details');
   },
 
   actions: {
-    afterDiscard() {
-      this.transitionTo('market.all');
-    },
-
     afterDetails() {
       this.transitionTo('market.edit.promotion');
     },
