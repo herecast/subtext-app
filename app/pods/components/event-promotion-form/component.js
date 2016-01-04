@@ -21,9 +21,8 @@ export default Ember.Component.extend({
 
   categories: [
     {value: 'Movies', label: 'Movies'},
-    {value: 'Performing arts', label: 'Performing arts'},
     {value: 'Wellness', label: 'Wellness'},
-    {value: 'Holidays', label: 'Holidays'}
+    {value: 'Live Music', label: 'Live Music'}
   ],
 
   actions: {
