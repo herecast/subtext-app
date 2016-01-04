@@ -2,11 +2,11 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
-const { get, isEmpty, merge } = Ember;
+const { get, isPresent, isEmpty, merge, inject, run } = Ember;
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
-  intercom: Ember.inject.service('intercom'),
-  mixpanel: Ember.inject.service('mixpanel'),
+  intercom: inject.service(),
+  mixpanel: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -22,7 +22,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    this.get('session').setupCurrentUser();
+    get(this, 'session').setupCurrentUser();
   },
 
   actions: {
@@ -37,8 +37,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     signOut(callback) {
-      this.get('intercom').shutdown();
-      const promise = this.get('session').signOut();
+      get(this, 'intercom').shutdown();
+      const promise = get(this, 'session').signOut();
 
       callback(promise);
     },
@@ -46,10 +46,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     didTransition() {
       this._super(...arguments);
 
+      // TODO refactor all of the analytics code out of here
       const currentUser = get(this, 'session.currentUser');
 
-      if (Ember.isPresent(currentUser)) {
-        Ember.run.next(() => {
+      if (isPresent(currentUser)) {
+        run.next(() => {
           get(this, 'intercom').update();
         });
       }
@@ -65,7 +66,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
-      Ember.run.next(() => {
+      run.next(() => {
         const documentTitle = document.title;
 
         merge(visitProps, userProperties);
