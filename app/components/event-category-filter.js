@@ -23,7 +23,9 @@ export default Ember.Component.extend({
     this.$('input').select();
   },
 
-  didUpdateAttrs() {
+  didReceiveAttrs() {
+    this._super(...arguments);
+
     const category = this.getAttr('category'),
           query    = this.getAttr('query'),
           categoryOrQuery = (isPresent(query)) ? query : category;
