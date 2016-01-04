@@ -16,9 +16,13 @@ function buildGroup(records, dateAttr, displayFormat, convertDate) {
       if (Ember.isPresent(group)) {
         Ember.get(group, 'items').pushObject(record);
       } else {
+        // When viewing a single day, the value will be the hour of the day.
+        // When viewing events across multiple days, the value is the date.
+        const sortValue = parseInt(value) === value ? value : moment(value).unix();
+
         group = Ember.Object.create({
           value: value,
-          sortValue: moment(value).unix(),
+          sortValue: sortValue,
           displayValue: date.format(displayFormat),
           paramValue: date.format('YYYY-MM-DD'),
           items: [record]
