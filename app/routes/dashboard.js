@@ -16,6 +16,8 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, Track, {
     }
   },
 
+  titleToken: 'Dashboard',
+
   contentModel: Ember.inject.service('content-model'),
 
   model: function(params) {

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
 
+const { set } = Ember;
+
 export default Ember.Route.extend(RouteMetaMixin, {
   contentComments: Ember.inject.service('content-comments'),
 
@@ -20,6 +22,12 @@ export default Ember.Route.extend(RouteMetaMixin, {
       talk: this.store.findRecord('talk', params.id, { reload: true }),
       comments: comments
     });
+  },
+
+  afterModel(model) {
+    const titleToken = model.talk.get('title');
+
+    set(this, 'titleToken', titleToken);
   },
 
   setupController(controller, model) {

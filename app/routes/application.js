@@ -2,9 +2,18 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 
+const { isEmpty } = Ember;
+
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: Ember.inject.service('intercom'),
   mixpanel: Ember.inject.service('mixpanel'),
+
+  title: function(tokens) {
+    const title = 'dailyUV';
+    const tokenString = tokens.reverse().join(' | ');
+
+    return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
+  },
 
   model() {
     return this.get('session.currentUser');
