@@ -40,7 +40,7 @@ module.exports = function(environment) {
     }
 
     ENV['ember-cli-mirage'] = {
-      enabled: true
+      enabled: false
     }
 
     ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;

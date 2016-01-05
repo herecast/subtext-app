@@ -9,11 +9,11 @@
       {{/link-to}}
     {{/if}}
 </td>
-<td class='u-textCentered'>{{contentType}}</td>
-<td class='u-textCentered'>{{publishedAt}}</td>
-<td class='u-textCentered hidden-xs'>{{content.views}}</td>
-<td class='u-textCentered hidden-xs'>{{content.comments}}</td>
-<td class='u-textCentered hidden-xs' colspan='2'>
+<td>{{contentType}}</td>
+<td>{{publishedAt}}</td>
+<td class='hidden-xs'>{{content.views}}</td>
+<td class='hidden-xs'>{{content.comments}}</td>
+<td class='hidden-xs' colspan='2'>
   {{#if isTalk}}
     {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
       View

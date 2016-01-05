@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import moment from 'moment';
+
+const { computed, get } = Ember;
 
 export default Ember.Component.extend({
   tagName: ['tr'],
@@ -6,8 +9,8 @@ export default Ember.Component.extend({
 
   isTalk: Ember.computed.equal('type', 'talk'),
 
-  contentType: function() {
-    const type = this.get('type');
+  contentType: computed(function() {
+    const type = get(this, 'type');
 
     if (type === 'market-post') {
       return 'Market';
@@ -16,31 +19,23 @@ export default Ember.Component.extend({
     } else {
       return type.capitalize();
     }
-  }.property(),
+  }),
 
-  publishedAt: function() {
-    const type = this.get('type');
-    let date;
+  publishedAt: computed(function() {
+    const date = get(this, 'content.publishedAt');
+    const momentDate = (moment.isMoment(date)) ? date : moment(date);
 
-    if (type === 'event-instance') {
-      date = this.get('content.startsAt');
-    } else {
-      date = this.get('content.publishedAt');
-    }
+    return (date) ? momentDate.format('l') : null;
+  }),
 
-    if (date) {
-      return date.format('l');
-    }
-  }.property(),
-
-  isEditable: function() {
-    const type = this.get('type');
+  isEditable: computed(function() {
+    const type = get(this, 'type');
 
     return type === 'market-post' || type === 'event-instance';
-  }.property(),
+  }),
 
-  parentRoute: function() {
-    const type = this.get('type');
+  parentRoute: computed(function() {
+    const type = get(this, 'type');
 
     if (type === 'market-post') {
       return 'market';
@@ -49,31 +44,31 @@ export default Ember.Component.extend({
     } else {
       return type;
     }
-  }.property(),
+  }),
 
-  parentContentId: function() {
-    if (this.get('content.parentContentType') === 'event') {
-      return this.get('content.parentEventInstanceId');
+  parentContentId: computed('talk.parentContentId', function() {
+    if (get(this, 'content.parentContentType') === 'event') {
+      return get(this, 'content.parentEventInstanceId');
     } else {
-      return this.get('content.parentContentId');
+      return get(this, 'content.parentContentId');
     }
-  }.property('talk.parentContentId'),
+  }),
 
-  viewRoute: function() {
-    return `${this.get('parentRoute')}.show`;
-  }.property(),
+  viewRoute: computed(function() {
+    return `${get(this, 'parentRoute')}.show`;
+  }),
 
-  editRoute: function() {
-    return `${this.get('parentRoute')}.edit`;
-  }.property(),
+  editRoute: computed(function() {
+    return `${get(this, 'parentRoute')}.edit`;
+  }),
 
-  editId: function() {
-    const type = this.get('type');
+  editId: computed(function() {
+    const type = get(this, 'type');
 
     if (type === 'event-instance') {
-      return this.get('content.eventId');
+      return get(this, 'content.eventId');
     } else {
-      return this.get('content.id');
+      return get(this, 'content.id');
     }
-  }.property()
+  })
 });
