@@ -23,11 +23,8 @@ export default Ember.Component.extend(Validation, {
     },
 
     discard() {
-      if (confirm('Are you sure you want to discard this talk?')) {
-        const talk = this.get('talk');
-        talk.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
+      const talk = this.get('talk');
+      this.sendAction('afterDiscard', talk);
     }
   }
 });

@@ -4,10 +4,13 @@
     {{fa-icon 'arrow-right u-iconRight'}}
   </button>
 
-  {{#if model.isNew}}
-    <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
-      {{fa-icon 'trash u-iconLeft'}}
+  <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
+    {{fa-icon 'trash u-iconLeft'}}
+
+    {{#if model.isNew}}
       Discard {{formattedType}}
-    </button>
-  {{/if}}
+    {{else}}
+      Discard Changes
+    {{/if}}
+  </button>
 </div>
