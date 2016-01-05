@@ -28,7 +28,7 @@ export default Ember.Component.extend({
       $elem.addClass('is-active');
 
       if (offset) {
-        Ember.$('body').scrollTop(offset - 100);
+        Ember.$(window).scrollTop(offset - 100);
       }
     }
   },

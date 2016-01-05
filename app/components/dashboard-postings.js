@@ -25,7 +25,7 @@ export default Ember.Component.extend({
 
   scrollToPostings: function() {
     if (this.get('sorted')) {
-      Ember.$('body').scrollTop(this.$().offset().top);
+      Ember.$(window).scrollTop(this.$().offset().top);
     }
   }.on('didInsertElement')
 });
