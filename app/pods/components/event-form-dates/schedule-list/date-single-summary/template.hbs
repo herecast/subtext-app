@@ -1,19 +1,12 @@
 {{#if isEditing}}
-  {{#modal-dialog
-    close=(action 'cancel')
-    translucentOverlay=true
-    targetAttachment='none'
-    container-class='ModalDialog-container'
-    overlay-class='ModalDialog-overlay'
-    wrapper-class='ModalDialog-wrapper'
-  }}
+  {{#x-modal close=(action 'cancel')}}
     {{component 'event-form-dates/schedule-single-form'
       schedule=schedule
       validate=attrs.validate
       save=attrs.save
       cancel=(action 'cancel')
     }}
-  {{/modal-dialog}}
+  {{/x-modal}}
 {{/if}}
 
 <a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>

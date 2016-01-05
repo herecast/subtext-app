@@ -33,39 +33,25 @@
 <button {{action 'manage' (action 'manage')}}>{{fa-icon 'calendar-times-o'}} View on Calendar</button>
 
 {{#if isEditing}}
-  {{#modal-dialog
-    close=(action 'cancel')
-    translucentOverlay=true
-    targetAttachment='none'
-    container-class='ModalDialog-container'
-    overlay-class='ModalDialog-overlay'
-    wrapper-class='ModalDialog-wrapper'
-  }}
+  {{#x-modal close=(action 'cancel')}}
     {{component 'event-form-dates/schedule-recurring-form'
       schedule=schedule
       validate=attrs.validate
       save=attrs.save
       cancel=(action 'cancel')
     }}
-  {{/modal-dialog}}
+  {{/x-modal}}
 {{/if}}
 
 
 {{#if isManaging}}
-  {{#modal-dialog
-    close='hideModal'
-    translucentOverlay=true
-    targetAttachment='none'
-    container-class='ModalDialog-container'
-    overlay-class='ModalDialog-overlay'
-    wrapper-class='ModalDialog-wrapper'
-  }}
-  {{event-schedule
-    schedule=schedule
-    excludeEvent=this.attrs.excludeEvent
-    includeEvent=this.attrs.includeEvent
-  }}
-  <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
-  {{/modal-dialog}}
+  {{#x-modal close='hideModal'}}
+    {{event-schedule
+      schedule=schedule
+      excludeEvent=this.attrs.excludeEvent
+      includeEvent=this.attrs.includeEvent
+    }}
+    <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
+  {{/x-modal}}
 {{/if}}
 
