@@ -42,9 +42,13 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
       this._super(...arguments);
 
       const event = get(this, 'controller.model');
-      const exitSetup = !transition.targetName.match(/^events\.new/);
 
-      if (exitSetup && this.hasDirtyAttributes(event) && !this.discardRecord(event)) {
+      // We want to let the user continue to navigate through the new event form
+      // routes (details/promotion/preview) without discarding changes, but as
+      // soon as they try to leave those pages, prompt them with the dialog.
+      const isExitingForm = !transition.targetName.match(/^events\.new/);
+
+      if (isExitingForm && this.hasDirtyAttributes(event) && !this.discardRecord(event)) {
         transition.abort();
       }
     },

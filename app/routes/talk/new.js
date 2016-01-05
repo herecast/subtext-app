@@ -43,9 +43,13 @@ export default Ember.Route.extend(Scroll, ShareCaching, {
       this._super(...arguments);
 
       const model = get(this, 'controller.model');
-      const exitSetup = !transition.targetName.match(/^talk\.new/);
 
-      if (exitSetup && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
+      // We want to let the user continue to navigate through the new talk form
+      // routes (details/promotion/preview) without discarding changes, but as
+      // soon as they try to leave those pages, prompt them with the dialog.
+      const isExitingForm = !transition.targetName.match(/^talk\.new/);
+
+      if (isExitingForm && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
         transition.abort();
       }
     },
