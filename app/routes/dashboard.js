@@ -5,6 +5,8 @@ import ajax from 'ic-ajax';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from '../mixins/routes/history';
 
+const { inject, get, RSVP } = Ember;
+
 export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
   queryParams: {
     page: {
@@ -17,10 +19,10 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
 
   titleToken: 'Dashboard',
 
-  contentModel: Ember.inject.service('content-model'),
+  contentModel: inject.service(),
 
   model: function(params) {
-    const contentModel = this.get('contentModel');
+    const contentModel = get(this, 'contentModel');
     const queryParams = [
       `page=${params.page}`,
       `per_page=${params.per_page}`,
@@ -29,7 +31,7 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
 
     const url = `${config.API_NAMESPACE}/dashboard?${queryParams.join('&')}`;
 
-    return new Ember.RSVP.Promise((resolve) => {
+    return new RSVP.Promise((resolve) => {
       ajax(url).then((response) => {
         const contents = response.contents.map((record) => {
           return contentModel.convert(record);
@@ -43,7 +45,7 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, {
   setupController: function(controller, model) {
     controller.setProperties({
       model: model,
-      currentUser: this.get('session.currentUser')
+      currentUser: get(this, 'session.currentUser')
     });
   }
 });

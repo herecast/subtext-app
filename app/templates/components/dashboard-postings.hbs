@@ -17,7 +17,7 @@
             {{/if}}
           {{/link-to}}
         </th>
-        <th class='u-textCentered'>
+        <th>
           {{#link-to 'dashboard' (query-params sort=typeParam sorted=true)}}
             Type
 
@@ -26,16 +26,16 @@
             {{/if}}
           {{/link-to}}
         </th>
-        <th class='u-textCentered'>
+        <th>
           {{#link-to 'dashboard' (query-params sort=dateParam sorted=true)}}
-            Date
+            Date Created
 
             {{#if sortedByDate}}
               {{fa-icon 'caret-down'}}
             {{/if}}
           {{/link-to}}
         </th>
-        <th class='u-textCentered hidden-xs'>
+        <th class='hidden-xs'>
           {{#link-to 'dashboard' (query-params sort=viewsParam sorted=true)}}
             Views
 
@@ -44,7 +44,7 @@
             {{/if}}
           {{/link-to}}
         </th>
-        <th class='u-textCentered hidden-xs'>
+        <th class='hidden-xs'>
           {{#link-to 'dashboard' (query-params sort=commentsParam sorted=true)}}
             Comments
 
@@ -53,7 +53,7 @@
             {{/if}}
           {{/link-to}}
         </th>
-        <th class='u-textCentered hidden-xs' colspan='2'>&nbsp;</th>
+        <th class='hidden-xs' colspan='2'>&nbsp;</th>
       </tr>
     </thead>
     <tbody>

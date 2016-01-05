@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
-const equal = Ember.computed.equal;
+const { computed } = Ember;
+const { equal } = computed;
 
 function sortBy(sort) {
-  return Ember.computed('postings.[]', function() {
+  return computed('postings.[]', function() {
     return sort;
   });
 }
