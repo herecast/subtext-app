@@ -1,61 +1,57 @@
-{{#if isEditing}}
-  {{component 'event-form-dates/schedule-recurring-form'
-    schedule=schedule
-    validate=attrs.validate
-    save=attrs.save
-    cancel=(action 'cancel')
-  }}
+<a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>
+
+<p><b>Summary</b></p>
+<p>{{schedule.textSummary}}</p>
+
+<b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br />
+
+<b>Starting:</b> {{formatted-day schedule.startDate}}<br />
+<b>Ending:</b> {{formatted-day schedule.stopDate}}<br />
+
+
+<b>Excluded Dates:</b> <br />
+{{#each schedule.overrides as |override|}}
+  {{#if override.hidden}}
+  <span>{{formatted-day override.date}}</span><br />
+  {{/if}}
 {{else}}
-  <a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>
+  <span>N/A</span><br />
+{{/each}}
 
-  <p><b>Summary</b></p>
-  <p>{{schedule.textSummary}}</p>
-
-  <b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br />
-
-  <b>Starting:</b> {{formatted-day schedule.startDate}}<br />
-  <b>Ending:</b> {{formatted-day schedule.stopDate}}<br />
-
-
-  <b>Excluded Dates:</b> <br />
-  {{#each schedule.overrides as |override|}}
-    {{#if override.hidden}}
-    <span>{{formatted-day override.date}}</span><br />
-    {{/if}}
-  {{else}}
-    <span>N/A</span><br />
-  {{/each}}
-
-  {{#if schedule.subtitle}}
-    <b>Subtitle:</b> {{schedule.subtitle}}<br />
-  {{/if}}
-
-  {{#if schedule.presenterName}}
-    <b>Presenter/Instructor:</b> {{schedule.presenterName}}<br />
-  {{/if}}
-
-  <hr>
-
-  <button {{action 'edit' (action 'edit')}}>{{fa-icon 'pencil'}} Edit Details</button>
-  <button {{action 'manage' (action 'manage')}}>{{fa-icon 'fa-minus-square'}} Exclude Dates from Schedule</button>
-  <button {{action 'manage' (action 'manage')}}>{{fa-icon 'calendar-times-o'}} View on Calendar</button>
+{{#if schedule.subtitle}}
+  <b>Subtitle:</b> {{schedule.subtitle}}<br />
 {{/if}}
 
+{{#if schedule.presenterName}}
+  <b>Presenter/Instructor:</b> {{schedule.presenterName}}<br />
+{{/if}}
+
+<hr>
+
+<button {{action 'edit' (action 'edit')}}>{{fa-icon 'pencil'}} Edit Details</button>
+<button {{action 'manage' (action 'manage')}}>{{fa-icon 'fa-minus-square'}} Exclude Dates from Schedule</button>
+<button {{action 'manage' (action 'manage')}}>{{fa-icon 'calendar-times-o'}} View on Calendar</button>
+
+{{#if isEditing}}
+  {{#x-modal close=(action 'cancel')}}
+    {{component 'event-form-dates/schedule-recurring-form'
+      schedule=schedule
+      validate=attrs.validate
+      save=attrs.save
+      cancel=(action 'cancel')
+    }}
+  {{/x-modal}}
+{{/if}}
+
+
 {{#if isManaging}}
-  {{#modal-dialog
-    close='hideModal'
-    translucentOverlay=true
-    targetAttachment='none'
-    container-class='ModalDialog-container'
-    overlay-class='ModalDialog-overlay'
-    wrapper-class='ModalDialog-wrapper'
-  }}
-  {{event-schedule
-    schedule=schedule
-    excludeEvent=this.attrs.excludeEvent
-    includeEvent=this.attrs.includeEvent
-  }}
-  <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
-  {{/modal-dialog}}
+  {{#x-modal close='hideModal'}}
+    {{event-schedule
+      schedule=schedule
+      excludeEvent=this.attrs.excludeEvent
+      includeEvent=this.attrs.includeEvent
+    }}
+    <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
+  {{/x-modal}}
 {{/if}}
 

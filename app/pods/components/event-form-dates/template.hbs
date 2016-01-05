@@ -25,38 +25,40 @@
   }}
 
   {{#if (eq showScheduleForm 'recurring')}}
-    {{component 'event-form-dates/schedule-recurring-form'
-      schedule=newSchedule
-      validate=(action 'validateScheduleData')
-      save=(action 'addNewSchedule')
-      cancel=(action 'hideScheduleForm')
-    }}
+    {{#x-modal close=(action 'hideScheduleForm')}}
+      {{component 'event-form-dates/schedule-recurring-form'
+        schedule=newSchedule
+        validate=(action 'validateScheduleData')
+        save=(action 'addNewSchedule')
+        cancel=(action 'hideScheduleForm')
+      }}
+    {{/x-modal}}
   {{/if}}
 
   {{#if (eq showScheduleForm 'single')}}
-    {{component 'event-form-dates/schedule-single-form'
-      schedule=newSchedule
-      validate=(action 'validateScheduleData')
-      save=(action 'addNewSchedule')
-      cancel=(action 'hideScheduleForm')
-    }}
+    {{#x-modal close=(action 'hideScheduleForm')}}
+      {{component 'event-form-dates/schedule-single-form'
+        schedule=newSchedule
+        validate=(action 'validateScheduleData')
+        save=(action 'addNewSchedule')
+        cancel=(action 'hideScheduleForm')
+      }}
+    {{/x-modal}}
   {{/if}}
 
-  {{#unless showScheduleForm}}
-    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}}>
-      {{#if hasSingleDate}}
-        {{fa-icon 'plus-circle u-iconLeft'}} Add more single date(s)
-      {{else}}
-        {{fa-icon 'plus-circle u-iconLeft'}} Add single date(s)
-      {{/if}}
-    </button>
-    <br>
-    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}}>
-      {{#if hasRecurringSchedule}}
-        {{fa-icon 'plus-circle u-iconLeft'}} Add more repeating dates
-      {{else}}
-        {{fa-icon 'plus-circle u-iconLeft'}} Add repeating dates
-      {{/if}}
-    </button>
-  {{/unless}}
+  <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}}>
+    {{#if hasSingleDate}}
+      {{fa-icon 'plus-circle u-iconLeft'}} Add more single date(s)
+    {{else}}
+      {{fa-icon 'plus-circle u-iconLeft'}} Add single date(s)
+    {{/if}}
+  </button>
+  <br>
+  <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}}>
+    {{#if hasRecurringSchedule}}
+      {{fa-icon 'plus-circle u-iconLeft'}} Add more repeating dates
+    {{else}}
+      {{fa-icon 'plus-circle u-iconLeft'}} Add repeating dates
+    {{/if}}
+  </button>
 {{/form-group}}
