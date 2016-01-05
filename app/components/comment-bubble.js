@@ -35,7 +35,7 @@ export default Ember.Component.extend({
       const offset = (elem && elem.offset && elem.offset()) ? elem.offset().top : null;
 
       if (offset) {
-        Ember.$('body').scrollTop(offset - 100);
+        Ember.$(window).scrollTop(offset - 100);
       }
     },
 
