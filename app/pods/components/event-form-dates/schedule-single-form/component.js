@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-let { get, set } = Ember;
+let { get, set, run } = Ember;
 
 export default Ember.Component.extend({
   schedule: null,
@@ -23,6 +23,13 @@ export default Ember.Component.extend({
   actions: {
     save() {
       const schedule = get(this, 'schedule');
+      const stopTime = get(this, 'stopTime');
+
+      if (stopTime === '__:__ _m') {
+        run(() => {
+          set(this, 'stopTime', null);
+        });
+      }
 
       const scheduleData = {
         repeats:       'once',

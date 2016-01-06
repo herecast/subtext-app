@@ -3,7 +3,7 @@ import moment from 'moment';
 
 /* global _ */
 
-const  { set, get, inject, run, isEmpty, isPresent, computed } = Ember;
+const  { set, get, inject, merge, run, isEmpty, isPresent, computed } = Ember;
 
 export default Ember.Component.extend({
   store: inject.service(),
@@ -57,6 +57,81 @@ export default Ember.Component.extend({
     });
   },
 
+  _isInvalidTime(time) {
+    if (isEmpty(time)) {
+      return false;
+    } else {
+      const timeRegex = /[0-9]+:[0-9]+ am|pm+/;
+
+      return isEmpty(time.match(timeRegex));
+    }
+  },
+
+  _getTimeErrors(startTime, stopTime) {
+    const timeErrors = {};
+
+    // Time errors
+    if(isEmpty(startTime)) {
+      timeErrors.startTimeError = "Start time cannot be blank.";
+    } else if (this._isInvalidTime(startTime)) {
+      timeErrors.startTimeError = "Start time format is invalid.";
+    } else {
+      if (isPresent(stopTime)) {
+        if (this._isInvalidTime(stopTime)) {
+          timeErrors.timeError = "End time format is invalid.";
+        } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
+          timeErrors.timeError = "End time cannot be before start time.";
+        }
+      }
+    }
+
+    return timeErrors;
+  },
+
+  _getRecurringEventErrors(scheduleData) {
+    const { startTime, startDate, stopTime, stopDate, daysOfWeek } = scheduleData;
+    const errors = {};
+
+    // date errors
+    if(isEmpty(startDate) || isEmpty(stopDate)) {
+      if (isEmpty(startDate)) {
+        errors.startDateError = "Start date cannot be blank.";
+      }
+
+      if (isEmpty(stopDate)) {
+        errors.stopDateError = "End date cannot be blank.";
+      }
+    } else if (moment(stopDate).isBefore(moment(startDate))) {
+      errors.dateError = "End date cannot be before start date.";
+    }
+
+    // daysOfWeek errors
+    if (scheduleData.repeats === 'weekly' || scheduleData.repeats === 'bi-weekly') {
+      if (isEmpty(daysOfWeek)) {
+        errors.daysError = "You must choose at least one day of the week.";
+      }
+    }
+
+    const timeErrors = this._getTimeErrors(startTime, stopTime);
+    merge(errors, timeErrors);
+
+    return errors;
+  },
+
+  _getSingleEventErrors(scheduleData) {
+    const { startTime, startDate, stopTime } = scheduleData;
+    const errors = {};
+
+    if(isEmpty(startDate)) {
+      errors.dateError = "Date cannot be blank.";
+    }
+
+    const timeErrors = this._getTimeErrors(startTime, stopTime);
+    merge(errors, timeErrors);
+
+    return errors;
+  },
+
   actions: {
     buildNewSchedule(type) {
       const schedule = get(this, 'store').createRecord('schedule', {
@@ -72,54 +147,12 @@ export default Ember.Component.extend({
     },
 
     validateScheduleData(repeatType, scheduleData) {
-      const errors = {};
+      let errors = {};
 
       if(repeatType === 'recurring') {
-        const { startTime, startDate, stopTime, stopDate, daysOfWeek } = scheduleData;
-
-        // date errors
-        if(isEmpty(startDate) || isEmpty(stopDate)) {
-          if (isEmpty(startDate)) {
-            errors.startDateError = "Start date cannot be blank.";
-          }
-
-          if (isEmpty(stopDate)) {
-            errors.stopDateError = "End date cannot be blank.";
-          }
-        } else if (moment(stopDate).isBefore(moment(startDate))) {
-          errors.dateError = "End date cannot be before start date.";
-        }
-
-        // daysOfWeek errors
-        if (scheduleData.repeats === 'weekly' || scheduleData.repeats === 'bi-weekly') {
-          if (isEmpty(daysOfWeek)) {
-            errors.daysError = "You must choose at least one day of the week.";
-          }
-        }
-
-        // time errors
-        if (isEmpty(startTime) || isEmpty(stopTime)) {
-          if (isEmpty(startTime)) {
-            errors.startTimeError = "Start time cannot be blank.";
-          }
-        } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
-          errors.timeError = "End time cannot be before start time.";
-        }
-
+        errors = this._getRecurringEventErrors(scheduleData);
       } else if (repeatType === 'single') {
-        const { startTime, startDate, stopTime } = scheduleData;
-
-        if(isEmpty(startDate)) {
-          errors.dateError = "Date cannot be blank.";
-        }
-
-        if (isEmpty(startTime) || isEmpty(stopTime)) {
-          if(isEmpty(startTime)) {
-            errors.startTimeError = "Start time cannot be blank.";
-          }
-        } else if (moment(stopTime, 'h:mma').isBefore(moment(startTime, 'h:mma'))) {
-          errors.timeError = "End time cannot be before start time.";
-        }
+        errors = this._getSingleEventErrors(scheduleData);
       }
 
       const hasErrors = Object.keys(errors).length > 0;
