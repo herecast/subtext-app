@@ -49,6 +49,7 @@ module.exports = function(environment) {
     ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
     ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
     ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
+    ENV['ganalytics-api-token'] = process.env.GANALYTICS_API_TOKEN;
   }
 
   if (environment === 'test') {
