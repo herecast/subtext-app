@@ -1,10 +1,20 @@
 import Ember from 'ember';
 /* global loadImage */
 
+const { computed, get, isPresent } = Ember;
+
 export default Ember.Component.extend({
   originalImageFile: null,
   displayCropper: true,
   aspectRatio: 1,
+
+  // Display the JS image cropping tool if the user has attached an image
+  displayJSCropper: computed('displayCropper', 'originalImageFile', function() {
+    const displayCropper = get(this, 'displayCropper');
+    const hasOriginalFile = isPresent(get(this, 'originalImageFile'));
+
+    return displayCropper && hasOriginalFile;
+  }),
 
   initAttachFile: Ember.on('didInsertElement', function() {
     this.$('input[type=file]').on('change', (e) => {

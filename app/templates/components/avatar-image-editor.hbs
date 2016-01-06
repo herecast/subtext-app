@@ -3,12 +3,15 @@
   imageUrl=currentUser.userImageUrl
   originalImageFile=currentUser.originalImageFile
   error=errors.image
-  displayCropper=isEditingImage
+  displayCropper=isEditingImage as |tempImage|
 }}
-  {{#if isEditingImage}}
-    <a href='#' {{action 'savePhoto'}} class='h2 u-textUnderline'>
-      Save Photo
-    </a>
+  {{#if tempImage}}
+    {{async-button
+      action='savePhoto'
+      default='Save Photo'
+      pending='Saving…'
+      class='h2 Button Button--primary'
+    }}
   {{else}}
     {{#if currentUser.userImageUrl}}
       <img src='{{currentUser.userImageUrl}}' class='Dashboard-avatar'>
