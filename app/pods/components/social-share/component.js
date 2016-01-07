@@ -1,13 +1,18 @@
 import Ember from 'ember';
 /* global FB */
 
+const {
+  computed,
+  get
+} = Ember;
+
 export default Ember.Component.extend({
   classNames: ['SocialShare'],
 
-  mailtoLink: function() {
+  mailtoLink: computed('title', 'sharedBy', function() {
     const href = `${location.protocol}//${location.host}${location.pathname}`;
-    const title = encodeURIComponent(this.get('title'));
-    const sharedBy = this.get('sharedBy');
+    const title = encodeURIComponent(get(this, 'title'));
+    const sharedBy = get(this, 'sharedBy');
     const subject = `Shared with you: ${title}`;
     var body;
     if (sharedBy) {
@@ -17,7 +22,7 @@ export default Ember.Component.extend({
     }
 
     return `mailto:?subject=${subject}&body=${body}`;
-  }.property('title', 'sharedBy'),
+  }),
 
   actions: {
     shareFacebook() {
