@@ -23,8 +23,8 @@ export default Ember.Component.extend({
       // been removed.
       text = text.replace(/(<br +?\/?>)/g, '\n\n');
 
-      // Replace </p> tags with spaces so that they are more readable
-      // on the news card. Otherwise there's no space between sentences.
+      // Add a space after </p> tags so that they are more readable on the news
+      // card once we strip out the HTML. Otherwise there's no space between sentences.
       text = text.replace(/<\/p>/g, '</p> ');
 
       const tmp = document.createElement("div");
