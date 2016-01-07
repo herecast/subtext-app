@@ -95,13 +95,19 @@ export default Ember.Component.extend({
 
   cropUpdated(img) {
     const blobFormat = this.get('originalImageFile.type');
-    const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
-    this.set('imageUrl', url);
 
-    const blobQuality = 0.9;
+    // After saving a user avatar, some mobile devices will rerun this function
+    // and it will fail because the originalImageFile is blank.
+    if (isPresent(blobFormat)) {
+      const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
 
-    img.cropper('getCroppedCanvas').toBlob((data) => {
-      this.set('image', data);
-    }, blobFormat, blobQuality);
+      this.set('imageUrl', url);
+
+      const blobQuality = 0.9;
+
+      img.cropper('getCroppedCanvas').toBlob((data) => {
+        this.set('image', data);
+      }, blobFormat, blobQuality);
+    }
   }
 });
