@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { computed: {equal}, set } = Ember;
+
 export default Ember.Component.extend({
   classNameBindings: ['hasError:has-error'],
   hasError: Ember.computed.notEmpty('error'),
@@ -9,8 +11,11 @@ export default Ember.Component.extend({
   venueAddress: Ember.computed.alias('event.venueAddress'),
   venueCity: Ember.computed.alias('event.venueCity'),
   venueState: Ember.computed.alias('event.venueState'),
+  venueStatus: Ember.computed.alias('event.venueStatus'),
   venueZip: Ember.computed.alias('event.venueZip'),
   venueUrl: Ember.computed.alias('event.venueUrl'),
+
+  isPrivate: equal('venueStatus', 'private'),
 
   actions: {
     changeVenue() {
@@ -34,6 +39,14 @@ export default Ember.Component.extend({
 
     validateForm() {
       this.attrs.validateForm();
+    },
+
+    togglePrivacy(isPrivate) {
+      if (isPrivate) {
+        set(this, 'venueStatus', 'new');
+      } else {
+        set(this, 'venueStatus', 'private');
+      }
     }
   }
 });

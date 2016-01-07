@@ -18,6 +18,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.city = json.venue_city;
       json.venue.name = json.venue_name;
       json.venue.state = json.venue_state;
+      json.venue.status = json.venue_status;
       json.venue.venue_url = json.venue_url;
       json.venue.zip = json.venue_zip;
     }
