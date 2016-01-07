@@ -23,24 +23,13 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  isValid() {
+  validateForm() {
     this.validatePresenceOf('post.title');
-    this.validatePresenceOf('post.content');
+    this.validateWYSIWYG('post.content');
     this.validateContact();
-    return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
   actions: {
-    next() {
-      if (this.isValid()) {
-        this.sendAction('afterDetails');
-      } else {
-        // TODO make it more obvious that there's an error and the user
-        // needs to make corrections.
-        console.log(this.get('errors'));
-      }
-    },
-
     discard() {
       const post = this.get('post');
       this.sendAction('afterDiscard', post);

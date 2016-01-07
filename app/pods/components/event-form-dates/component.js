@@ -164,6 +164,8 @@ export default Ember.Component.extend({
       run(() => { schedule.setProperties(scheduleData); });
 
       get(this, 'schedules').pushObject(schedule);
+
+      this.attrs.validateForm();
     },
 
     updateSchedule(schedule, scheduleData) {
@@ -184,6 +186,8 @@ export default Ember.Component.extend({
       } else {
         set(schedule, '_remove', true);
       }
+
+      this.attrs.validateForm();
     },
 
     hideScheduleForm(schedule) {

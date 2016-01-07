@@ -4,7 +4,7 @@ import resolver from '../../helpers/resolver';
 moduleForComponent('talk-form', 'Unit | Component | talk form', {
   // Specify the other units that are required for this test
   needs: ['component:form-group', 'component:summer-note',
-    'component:content-form-image', 'component:fa-icon'
+    'component:content-form-image', 'component:fa-icon', 'helper:form-error'
   ],
   unit: true,
 

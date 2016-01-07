@@ -1,16 +1,21 @@
-{{#form-group error=errors.title}}
+{{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
+  {{form-error errors.title}}
+
   {{input
     id='title'
     placeholder='Keep it short and informative'
     class='form-control'
     value=post.title
+    input=(action 'validateForm')
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content class='u-layoutPadT50'}}
+{{#form-group error=errors.content class='u-layoutPadT50' hideError=true}}
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
-  {{#summer-note content=post.content class='ContentForm-textArea'}}
+  {{form-error errors.content}}
+
+  {{#summer-note content=post.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
     {{textarea
       id='description'
       placeholder='An informative description that will encourage people to respond.'
@@ -33,8 +38,10 @@
   model=post
 }}
 
-{{#form-group error=errors.contact class='u-layoutPadT50'}}
+{{#form-group error=errors.contact hideError=true class='u-layoutPadT50'}}
   <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
+  {{form-error errors.contact}}
+
   <div class='ContentForm-helpText u-layoutPadB20'>
     Choose either, or both. What you enter will be public on the site.
   </div>
@@ -49,6 +56,7 @@
         placeholder='Contact Email'
         class='form-control'
         value=post.contactEmail
+        input=(action 'validateForm')
       }}
     </div>
   </div>
@@ -63,6 +71,7 @@
         placeholder='Contact Phone'
         class='form-control'
         value=post.contactPhone
+        input=(action 'validateForm')
       }}
     </div>
   </div>
@@ -71,6 +80,5 @@
 <div class='form-group'>
   <span class='ContentForm-requiredIndicator'>*</span> required fields
 </div>
-
 
 {{partial 'partials/content-form-buttons'}}

@@ -45,5 +45,9 @@ export default Ember.Component.extend({
   doUpdate: function() {
     var content = this.$('.note-editable').html();
     this.set('content', content);
+
+    if (this.attrs.validateForm) {
+      this.attrs.validateForm();
+    }
   }
 });
