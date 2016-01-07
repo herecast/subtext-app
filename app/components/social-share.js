@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 
   mailtoLink: function() {
     const href = `${location.protocol}//${location.host}${location.pathname}`;
-    const title = this.get('title');
+    const title = encodeURIComponent(this.get('title'));
     const sharedBy = this.get('sharedBy');
     const subject = `Shared with you: ${title}`;
     var body;
