@@ -2,12 +2,16 @@ import Ember from 'ember';
 import config from './../config/environment';
 import ajax from 'ic-ajax';
 
+const {
+  set
+} = Ember;
+
 export default Ember.Component.extend({
   isEditingImage: false,
 
   actions: {
     changePhoto() {
-      this.toggleProperty('isEditingImage');
+      set(this, 'isEditingImage', true);
       this.$('.ContentForm-fileField').click();
     },
 
