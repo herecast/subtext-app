@@ -32,5 +32,16 @@ export default DS.Model.extend({
       const endTime = this.get('endsAt').format('LT');
       return `${startTime} - ${endTime}`;
     }
-  }.property('startsAt', 'endsAt')
+  }.property('startsAt', 'endsAt'),
+
+  timeRange: computed('startsAt', 'endsAt', function() {
+    const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
+
+    if (Ember.isEmpty(this.get('endsAt'))) {
+      return `${startTime}`;
+    } else {
+      const endTime = this.get('endsAt').format('LT');
+      return `${startTime} - ${endTime}`;
+    }
+  })
 });
