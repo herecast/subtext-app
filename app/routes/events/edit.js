@@ -15,8 +15,28 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
     this.transitionTo('events.edit.details');
   },
 
+  // Ember data doesn't automatically rollback relationship records, so we
+  // need to do that manually if the event is rolled back.
+  discardRecord(model) {
+    const recordDiscarded = this._super(...arguments);
+
+    if (recordDiscarded) {
+      get(model, 'schedules').forEach(schedule => schedule.rollbackAttributes());
+    }
+
+    return recordDiscarded;
+  },
+
   hasDirtyAttributes(event) {
-    return get(event, 'hasDirtyAttributes');
+    const eventHasDirtyAttrs = get(event, 'hasDirtyAttributes');
+
+    // Ember data doesn't detect dirty attributes on relationship records,
+    // so we need to do that manually.
+    const scheduleHasDirtyAttrs = get(event, 'schedules').any((schedule) => {
+      return get(schedule, 'hasDirtyAttributes');
+    });
+
+    return eventHasDirtyAttrs || scheduleHasDirtyAttrs;
   },
 
   actions: {
