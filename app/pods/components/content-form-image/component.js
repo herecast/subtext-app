@@ -43,6 +43,26 @@ export default Ember.Component.extend({
     }
   }),
 
+  // TODO: Split out into a separate avatar cropper.
+  //
+  // Currently only used by the dashboard avatar cropper. This component is not
+  // destroyed in that case, and the unbindAttachFile() callback isn't triggered
+  // to destroy the cropper. This results in the cropper remaining on the page
+  // and causing issues on mobile browsers where the crop() callback is called
+  // anytime you touch the screen.
+  didUpdateAttrs(attrs) {
+    const nowDisplayed = attrs.newAttrs.displayCropper.value;
+    const wasDisplayed = attrs.oldAttrs.displayCropper.value;
+    const wasRemoved = wasDisplayed && !nowDisplayed;
+    const wasAdded = !wasDisplayed && nowDisplayed;
+
+    if (wasRemoved) {
+      this.unbindAttachFile();
+    } else if (wasAdded) {
+      this.initAttachFile();
+    }
+  },
+
   loadImageFile(file) {
     loadImage.parseMetaData(file, (data) => {
       const options = {
@@ -96,18 +116,14 @@ export default Ember.Component.extend({
   cropUpdated(img) {
     const blobFormat = this.get('originalImageFile.type');
 
-    // After saving a user avatar, some mobile devices will rerun this function
-    // and it will fail because the originalImageFile is blank.
-    if (isPresent(blobFormat)) {
-      const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
+    const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
 
-      this.set('imageUrl', url);
+    this.set('imageUrl', url);
 
-      const blobQuality = 0.9;
+    const blobQuality = 0.9;
 
-      img.cropper('getCroppedCanvas').toBlob((data) => {
-        this.set('image', data);
-      }, blobFormat, blobQuality);
-    }
+    img.cropper('getCroppedCanvas').toBlob((data) => {
+      this.set('image', data);
+    }, blobFormat, blobQuality);
   }
 });
