@@ -1,19 +1,15 @@
 import Ember from 'ember';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(trackEvent, {
   contentId: null,
   route: '',
   text: '',
-  mixpanel: Ember.inject.service('mixpanel'),
-  
-  actions: {
-   trackEditClick(text) {
+
+  _getTrackingArguments(text) {
     let section = '';
-    const mixpanel = this.get('mixpanel');
-    const currentUser = this.get('session.currentUser');
-    const props = {};
     let alias = '';
-  
+
     if(text.match(/Event$/)) {
       section = 'Event';
       alias = section;
@@ -21,12 +17,10 @@ export default Ember.Component.extend({
       section = 'Market';
       alias = 'Listing';
     }
-    
-    Ember.merge(props, mixpanel.getUserProperties(currentUser));
-    Ember.merge(props, 
-       mixpanel.getNavigationProperties(section, section.toLowerCase() + '.index', 1));
-    Ember.merge(props, mixpanel.getNavigationControlProperties('Edit Content', 'Edit ' + alias));
-    mixpanel.trackEvent('selectNavControl', props);       
-   }
+
+    return {
+       navigationProperties: [section, `${section.toLowerCase()}.index`, 1],
+       navigationControlProperties: ['Edit Content', `Edit ${alias}`]
+    };
   }
 });

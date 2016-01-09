@@ -3,6 +3,8 @@ import Ember from 'ember';
 import Config from '../config/environment';
 /* global mixpanel */
 
+const { get, merge, computed } = Ember;
+
 export default Ember.Service.extend({
 
   setup: function() {
@@ -40,9 +42,42 @@ export default Ember.Service.extend({
     if (this.pageHasAnalytics()) {
       window.mixpanel.track(event, properties, options, callback);
     }
-
     if (this.logTrackingEnabled()) {
       this.logTracking(event, properties, options);
+    }
+  },
+
+  currentUserProperties: computed(function() {
+    const user = this.container.lookup('controller:application').get('session.currentUser');
+    return this.getUserProperties(user);
+  }),
+
+  selectNavControl({ navigationProperties, navigationControlProperties, userCommunity }) {
+    let props = {};
+
+    merge(props, this.getNavigationProperties.apply(this, navigationProperties));
+    merge(props, this.getNavigationControlProperties.apply(this, navigationControlProperties));
+
+    if (userCommunity) {
+      merge(props, { userCommunity: userCommunity });
+    }
+
+    return props;
+  },
+
+  trackEventVersion2(event, properties) {
+    let props = {};
+    const eventProperties = this[event].call(this, properties);
+
+    merge(props, get(this, 'currentUserProperties')); // make sure this line is first so we can override!
+    merge(props, eventProperties);
+
+    if (this.pageHasAnalytics()) {
+      window.mixpanel.track(event, props);
+    }
+
+    if (this.logTrackingEnabled()) {
+      this.logTracking(event, props);
     }
   },
 
@@ -78,11 +113,11 @@ export default Ember.Service.extend({
           });
         }
       } // no need to do anything in the 'else' situation since they are already
-    } else { 
+    } else {
       setTimeout(function() { this.establishAnonymousProfile(); }.bind(this), 500);
     }
   },
-    
+
 
   identify: function(userId, traits, options, callback) {
     if (this.pageHasAnalytics()) {
@@ -138,7 +173,7 @@ export default Ember.Service.extend({
   getNavigationProperties: function(channelName, pageName, pageNumber) {
     const props = {};
     props['channelName'] = channelName;
-    props['pageName'] = pageName;
+    props['pageName'] = pageName; // TODO this.document.title?
     props['url'] = window.location.href;
     props['pageNumber'] = pageNumber;
     return props;
