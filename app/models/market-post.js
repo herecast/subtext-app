@@ -85,5 +85,9 @@ export default DS.Model.extend({
         contactPhone: response.market_post.contact_phone,
       });
     });
+  },
+
+  rollbackImages() {
+    get(this, 'images').forEach(image => image.rollbackAttributes());
   }
 });

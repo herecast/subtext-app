@@ -4,7 +4,10 @@ import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
 import Editable from 'subtext-ui/mixins/routes/editable';
 
-const { get } = Ember;
+const {
+  get,
+  run
+} = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   model(params) {
@@ -25,7 +28,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
     const recordDiscarded = this._super(...arguments);
 
     if (recordDiscarded) {
-      get(model, 'images').forEach(image => image.rollbackAttributes());
+      model.rollbackImages();
     }
 
     return recordDiscarded;
@@ -69,6 +72,16 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
     },
 
     afterPublish(post) {
+      // Rollback the images after persisting changes so that the user can
+      // transition to the show page without seeing a "discard changes" modal.
+      // Normally ember data does this automatically on save, but does not do
+      // it for relationship records.
+      run(() => {
+        if (this.hasDirtyAttributes(post)) {
+          post.rollbackImages();
+        }
+      });
+
       this.transitionTo('market.show', post.id).then(this.prerenderRecache.bind(this));
     },
 
