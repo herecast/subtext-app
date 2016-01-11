@@ -48,7 +48,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
 
     // Ember data doesn't detect dirty attributes on relationship records,
     // so we need to do that manually.
-    const imageHasDirtyAttrs = get(event, 'images').any((image) => {
+    const imageHasDirtyAttrs = get(model, 'images').any((image) => {
       return get(image, 'hasDirtyAttributes');
     });
 
