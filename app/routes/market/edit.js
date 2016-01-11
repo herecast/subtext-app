@@ -19,6 +19,18 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
     }
   },
 
+  // Ember data doesn't automatically rollback relationship records, so we
+  // need to do that manually if the market post is rolled back.
+  discardRecord(model) {
+    const recordDiscarded = this._super(...arguments);
+
+    if (recordDiscarded) {
+      get(model, 'images').forEach(image => image.rollbackAttributes());
+    }
+
+    return recordDiscarded;
+  },
+
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
@@ -26,11 +38,21 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   // false positives, meaning it will tell the user there are changes when
   // there are not, but that seems better than false negatives.
   hasDirtyAttributes(model) {
+    let modelIsDirty;
+
     if (get(model, 'hasContactInfo')) {
-      return Object.keys(model.changedAttributes()).length > 1;
+      modelIsDirty = Object.keys(model.changedAttributes()).length > 1;
     } else {
-      return get(model, 'hasDirtyAttributes');
+      modelIsDirty = get(model, 'hasDirtyAttributes');
     }
+
+    // Ember data doesn't detect dirty attributes on relationship records,
+    // so we need to do that manually.
+    const imageHasDirtyAttrs = get(event, 'images').any((image) => {
+      return get(image, 'hasDirtyAttributes');
+    });
+
+    return modelIsDirty || imageHasDirtyAttrs;
   },
 
   redirect() {

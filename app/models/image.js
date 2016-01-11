@@ -11,6 +11,7 @@ export default DS.Model.extend({
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   primary: DS.attr('number'),
+  _delete: DS.attr('boolean'),
 
   save() {
     if (get(this, 'isNew')) {
