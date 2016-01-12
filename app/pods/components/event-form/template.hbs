@@ -1,18 +1,22 @@
-{{#form-group error=errors.title}}
+{{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Event Title</label>
+  {{form-error errors.title}}
+
   {{input
     id='title'
     placeholder='A short and informative name'
     class='form-control'
     value=event.title
+    input=(action 'validateForm')
   }}
 {{/form-group}}
 
-{{#form-group error=errors.venue}}
+{{#form-group error=errors.venue hideError=true}}
   {{event-form-venue
     event=event
-    error=errors.venue
     class='form-group'
+    error=errors.venue
+    validateForm=(action 'validateForm')
   }}
 {{/form-group}}
 
@@ -20,7 +24,7 @@
   schedules=event.schedules
   error=errors.eventInstances
   class='form-group'
-  afterValidation='afterDateValidation'
+  validateForm=(action 'validateForm')
 }}
 
 {{event-form-registration
@@ -29,6 +33,7 @@
   class='form-group'
   toggleRegistration=(action 'toggleRegistration')
   registrationEnabled=registrationEnabled
+  validateForm=(action 'validateForm')
 }}
 
 <div class='form-group'>
@@ -48,13 +53,16 @@
   error=errors.image
 }}
 
-{{#form-group error=errors.content}}
+{{#form-group error=errors.content hideError=true}}
   <label class='control-label ContentForm-label--required' for="description">Event Description</label>
-  {{#summer-note content=event.content class='ContentForm-textArea'}}
+  {{form-error errors.content}}
+
+  {{#summer-note content=event.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
     {{textarea
       id='description'
       placeholder='An inspiring description that will motivate people to attend'
       class='form-control'
+      input=(action 'validateForm')
     }}
   {{/summer-note}}
 {{/form-group}}
@@ -70,6 +78,7 @@
         placeholder='Contact Email'
         class='form-control'
         value=event.contactEmail
+        input=(action 'validateForm')
       }}
     </div>
   {{/form-group}}
@@ -83,6 +92,7 @@
         placeholder='Contact Phone, ex: 555-555-5555'
         class='form-control'
         value=event.contactPhone
+        input=(action 'validateForm')
       }}
     </div>
   {{/form-group}}
@@ -97,6 +107,7 @@
         class='form-control'
         value=event.eventUrl
         focus-out='normalizeUrl'
+        input=(action 'validateForm')
       }}
     </div>
   {{/form-group}}

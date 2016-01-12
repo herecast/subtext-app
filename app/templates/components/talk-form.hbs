@@ -1,16 +1,21 @@
-{{#form-group error=errors.title}}
+{{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Title</label>
+  {{form-error errors.title}}
+
   {{input
     id='title'
     placeholder='Keep it short and informative'
     class='form-control'
     value=talk.title
+    input=(action 'validateForm')
   }}
 {{/form-group}}
 
-{{#form-group error=errors.content class='u-layoutPadT50'}}
+{{#form-group error=errors.content class='u-layoutPadT50' hideError=true}}
   <label class='control-label ContentForm-label--required' for="description">Text</label>
-  {{#summer-note content=talk.content class='ContentForm-textArea'}}
+  {{form-error errors.content}}
+
+  {{#summer-note content=talk.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
     {{textarea
       id='description'
       placeholder='An informative, civil comment that will encourage people to respond'

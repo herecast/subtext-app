@@ -28,6 +28,12 @@ export default Ember.Component.extend({
         venueUrl: venue.url,
         open: false
       });
+
+      this.attrs.validateForm();
+    },
+
+    validateForm() {
+      this.attrs.validateForm();
     }
   }
 });

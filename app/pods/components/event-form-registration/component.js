@@ -31,6 +31,7 @@ export default Ember.Component.extend({
         set(this, 'event.registrationDeadline', null);
       }
 
+      this.attrs.validateForm();
       return date;
     }
   }),

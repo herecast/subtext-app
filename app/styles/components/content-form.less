@@ -37,6 +37,10 @@
   border-color: @brand-danger;
 }
 
+.ContentForm-content .form-group.has-error .note-editor .note-editing-area .note-editable {
+  background-color: @bg-error;
+}
+
 .ContentForm-content .note-editor .note-dropzone {
   opacity: 0 !important;
 }
@@ -51,6 +55,19 @@
 
 .ContentForm-label {
   font-size: 18px;
+}
+
+.has-error .ContentForm-label--required {
+  color: #000;
+}
+
+.has-error input {
+  background-color: @bg-error;
+}
+
+.ContentForm-error {
+  color: @brand-danger;
+  margin-left: 10px;
 }
 
 .ContentForm-label--required:after {

@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-form-venue', {
   // Specify the other units that are required for this test
-  needs: ['component:event-form-venue-name']
+  needs: ['component:event-form-venue-name', 'helper:form-error']
 });
 
 test('it renders', function(assert) {

@@ -9,7 +9,7 @@ moduleForComponent('event-form', {
   needs: ['component:event-form-dates', 'component:summer-note',
     'component:event-form-cost', 'component:event-form-venue',
     'component:fa-icon', 'component:form-group', 'component:content-form-image',
-    'component:event-form-registration'
+    'component:event-form-registration', 'helper:form-error'
   ],
 
   setup: function() {

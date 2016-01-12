@@ -20,6 +20,7 @@ export default Ember.Component.extend(Validation, {
     const registrationDeadline = get(this, 'event.registrationDeadline');
 
     set(this, 'registrationEnabled', (isPresent(registrationDeadline)));
+    set(this, 'showErrors', false);
   },
 
   validateVenue() {
@@ -96,9 +97,9 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  isValid() {
+  validateForm() {
     this.validatePresenceOf('event.title');
-    this.validatePresenceOf('event.content');
+    this.validateWYSIWYG('event.content');
     this.validateVenue();
     this.validateImage();
     this.validateContactEmail();
@@ -108,8 +109,6 @@ export default Ember.Component.extend(Validation, {
     if (get(this, 'registrationEnabled')) {
       this.validatePresenceOf('event.registrationDeadline');
     }
-
-    return Ember.isBlank(Ember.keys(this.get('errors')));
   },
 
   actions: {
@@ -129,16 +128,6 @@ export default Ember.Component.extend(Validation, {
         delete this.get('errors').dates;
       } else {
         this.set('errors.dates', 'Invalid date');
-      }
-    },
-
-    next() {
-      if (this.isValid()) {
-        this.sendAction('afterDetails');
-      } else {
-        // TODO make it more obvious that there's an error and the user
-        // needs to make corrections.
-        console.log(this.get('errors'));
       }
     },
 

@@ -1,34 +1,38 @@
-<label>
-  Registration
+{{#form-group error=error hideError=true}}
+  <label>
+    Registration
 
-  <span class='EventForm-toggle' {{action 'toggleRegistration'}}>
-    No
+    <span class='EventForm-toggle' {{action 'toggleRegistration'}}>
+      No
+      {{#if registrationEnabled}}
+        {{fa-icon 'toggle-on is-on' size='lg'}}
+      {{else}}
+        {{fa-icon 'toggle-off' size='lg'}}
+      {{/if}}
+      Yes
+    </span>
+  </label>
+  {{form-error error}}
+
+  <div>
     {{#if registrationEnabled}}
-      {{fa-icon 'toggle-on is-on' size='lg'}}
-    {{else}}
-      {{fa-icon 'toggle-off' size='lg'}}
-    {{/if}}
-    Yes
-  </span>
-</label>
-<div>
-  {{#if registrationEnabled}}
-    {{#form-group error=error}}
-      <div class="input-group">
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'calendar'}}
-        </span>
-        {{pikaday-input
-          firstDay=0
-          value=date
-          placeholder='Registration Deadline'
-          class='form-control'
-          format="MM/DD/YYYY"
-          yearRange="currentYear,2010"
-        }}
+      <div class='form-group'>
+        <div class="input-group">
+          <span class="ContentForm-iconLabel input-group-addon">
+            {{fa-icon 'calendar'}}
+          </span>
+          {{pikaday-input
+            firstDay=0
+            value=date
+            placeholder='Registration Deadline'
+            class='form-control'
+            format="MM/DD/YYYY"
+            yearRange="currentYear,2010"
+          }}
+        </div>
       </div>
-    {{/form-group}}
-  {{else}}
-    Does this event require registration?
-  {{/if}}
-</div>
+    {{else}}
+      Does this event require registration?
+    {{/if}}
+  </div>
+{{/form-group}}

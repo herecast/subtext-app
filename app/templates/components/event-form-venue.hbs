@@ -1,4 +1,5 @@
 <label class='control-label ContentForm-label--required'>Location</label>
+{{form-error error}}
 {{#if venueId}}
   <div>
     <div>{{venueName}}</div>
@@ -20,6 +21,7 @@
       placeholder='Address'
       class='form-control'
       value=venueAddress
+      input=(action 'validateForm')
     }}
   </div>
   <div class='form-group'>
@@ -27,21 +29,24 @@
       placeholder='City'
       class='form-control'
       value=venueCity
+      input=(action 'validateForm')
     }}
   </div>
   <div class='row'>
     <div class='form-group col-xs-6'>
-    {{input
-      placeholder='State'
-      class='form-control'
-      value=venueState
-    }}
+      {{input
+        placeholder='State'
+        class='form-control'
+        value=venueState
+        input=(action 'validateForm')
+      }}
     </div>
     <div class='form-group col-xs-6'>
       {{input
         placeholder='ZIP Code'
         class='form-control'
         value=venueZip
+        input=(action 'validateForm')
       }}
     </div>
   </div>
@@ -50,6 +55,7 @@
       placeholder='Venue Website URL'
       class='form-control'
       value=venueUrl
+      input=(action 'validateForm')
     }}
   </div>
 {{/if}}
