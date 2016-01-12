@@ -55,13 +55,13 @@ export default Ember.Component.extend({
       contentType = 'Talk';
     }
 
-    if (this.get('media.tabletOrSmallDesktop')) {
+    if (this.get('media.isTabletOrSmallDesktop')) {
       return `+ ${contentType}`;
     } else {
       return `Create ${contentType}`;
     }
 
-  }.property('path', 'media.isTablet'),
+  }.property('path', 'media.isTabletOrSmallDesktop'),
 
   actions: {
     trackContentCreate(linkText) {
