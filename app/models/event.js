@@ -82,5 +82,9 @@ export default DS.Model.extend(BaseEvent, {
         processData: false
       });
     }
+  },
+
+  rollbackSchedules() {
+    get(this, 'schedules').forEach(schedule => schedule.rollbackAttributes());
   }
 });
