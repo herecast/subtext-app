@@ -11,6 +11,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
 
   model() {
     return this.store.createRecord('event', {
+      venueStatus: 'new',
       listservIds: []
     });
   },
@@ -32,9 +33,9 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
-  // setting a default listservIds value.
+  // setting default listservIds and venueStatus values.
   hasDirtyAttributes(event) {
-    return Object.keys(event.changedAttributes()).length > 1;
+    return Object.keys(event.changedAttributes()).length > 2;
   },
 
   actions: {

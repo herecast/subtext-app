@@ -17,6 +17,26 @@
     class='form-group'
   }}
   <div class='form-group'>
+    <div class='checkbox'>
+      <label>
+        {{input
+          type="checkbox"
+          checked=isPrivate
+          change=(action 'togglePrivacy' isPrivate)
+        }}
+        This is a private residence
+      </label>
+    </div>
+
+    {{#if isPrivate}}
+      <p>
+        Selecting Private will prevent other users from selecting this location
+        for events. You might select Private for a yard sale. You will always be
+        able to see a Private venue that you created.
+      </p>
+    {{/if}}
+  </div>
+  <div class='form-group'>
     {{input
       placeholder='Address'
       class='form-control'

@@ -28,6 +28,7 @@ export default Ember.Mixin.create({
   venueId: DS.attr('number'),
   venueName: DS.attr('string'),
   venueState: DS.attr('string'),
+  venueStatus: DS.attr('string'),
   venueUrl: DS.attr('string'),
   venueZip: DS.attr('string'),
 
