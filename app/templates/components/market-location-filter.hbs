@@ -18,6 +18,12 @@
     </a>
   </li>
 
+  <li>
+    <a href='#' {{action 'setLocation' 'Upper Valley' 0}} tabindex='-1'>
+      Upper Valley
+    </a>
+  </li>
+
   {{#if session.isAuthenticated}}
     <li>
       <a href='#' {{action 'setLocation' session.userLocation session.currentUser.locationId}} tabindex='-1'>
