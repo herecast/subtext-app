@@ -3,6 +3,11 @@ import Ember from 'ember';
 const { computed: {equal}, set } = Ember;
 
 export default Ember.Component.extend({
+  init() {
+    this._super(...arguments);
+    set(this, 'showNewVenueForm', false);
+  },
+
   classNameBindings: ['hasError:has-error'],
   hasError: Ember.computed.notEmpty('error'),
 
@@ -18,8 +23,13 @@ export default Ember.Component.extend({
   isPrivate: equal('venueStatus', 'private'),
 
   actions: {
+    showNewVenueForm() {
+      set(this, 'showNewVenueForm', true);
+    },
+
     changeVenue() {
       this.send('setVenue', {});
+      set(this, 'showNewVenueForm', false);
     },
 
     setVenue(venue) {
