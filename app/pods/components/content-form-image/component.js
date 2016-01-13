@@ -1,10 +1,20 @@
 import Ember from 'ember';
 /* global loadImage */
 
+const { computed, get, isPresent } = Ember;
+
 export default Ember.Component.extend({
   originalImageFile: null,
   displayCropper: true,
   aspectRatio: 1,
+
+  // Display the JS image cropping tool if the user has attached an image
+  displayJSCropper: computed('displayCropper', 'originalImageFile', function() {
+    const displayCropper = get(this, 'displayCropper');
+    const hasOriginalFile = isPresent(get(this, 'originalImageFile'));
+
+    return displayCropper && hasOriginalFile;
+  }),
 
   initAttachFile: Ember.on('didInsertElement', function() {
     this.$('input[type=file]').on('change', (e) => {
@@ -32,6 +42,26 @@ export default Ember.Component.extend({
       this.loadImageFile(file);
     }
   }),
+
+  // TODO: Split out into a separate avatar cropper.
+  //
+  // Currently only used by the dashboard avatar cropper. This component is not
+  // destroyed in that case, and the unbindAttachFile() callback isn't triggered
+  // to destroy the cropper. This results in the cropper remaining on the page
+  // and causing issues on mobile browsers where the crop() callback is called
+  // anytime you touch the screen.
+  didUpdateAttrs(attrs) {
+    const nowDisplayed = attrs.newAttrs.displayCropper.value;
+    const wasDisplayed = attrs.oldAttrs.displayCropper.value;
+    const wasRemoved = wasDisplayed && !nowDisplayed;
+    const wasAdded = !wasDisplayed && nowDisplayed;
+
+    if (wasRemoved) {
+      this.unbindAttachFile();
+    } else if (wasAdded) {
+      this.initAttachFile();
+    }
+  },
 
   loadImageFile(file) {
     loadImage.parseMetaData(file, (data) => {
@@ -85,7 +115,9 @@ export default Ember.Component.extend({
 
   cropUpdated(img) {
     const blobFormat = this.get('originalImageFile.type');
+
     const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
+
     this.set('imageUrl', url);
 
     const blobQuality = 0.9;

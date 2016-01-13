@@ -8,12 +8,10 @@
   {{/form-group}}
 </div>
 
-{{#if displayCropper}}
-  <div class='form-group'>
-    <img class='img-responsive js-Cropper-image'>
-  </div>
-{{/if}}
+<div class='form-group' class={{unless displayJSCropper 'hidden'}}>
+  <img class='img-responsive js-Cropper-image'>
+</div>
 
 {{#if hasBlock}}
-  {{yield}}
+  {{yield originalImageFile}}
 {{/if}}
