@@ -1,68 +1,131 @@
-<h1 class='SectionHeader'>
-  <span class='SectionHeader-text SectionHeader-text--secondaryBg'>
-    My Postings
-  </span>
-</h1>
+<div class='TabNavigation TabNavigation-dashboard u-layoutPadB0  {{if mobileTabsVisible '' 'is-collapsed'}}'>
+  <div class='TabNavigation-summary'>
+    <span class='TabNavgation-summaryLabel'>Showing:</span>
+    <span class='TabNavigation-toggle  TabNavigation-toggle{{capitalize (if type type 'everything')}}' {{action 'toggleMobileTabs'}}>
+      {{#if (eq '' type)}}
+        Everything
+      {{else if (eq 'news' type)}}
+        News
+      {{else if (eq 'events' type)}}
+        Events
+      {{else if (eq 'talk' type)}}
+        Talk
+      {{else if (eq 'market' type)}}
+        Market
+      {{/if}}
+      <i class='TabNavigation-toggleIndicator fa {{if mobileTabsVisible "fa-chevron-up" "fa-chevron-down"}}'></i>
+    </span>
+  </div>
 
-<div class='Section'>
-  <table class='ContentTable'>
-    <thead>
-      <tr class='h4'>
-        <th class='ContentTable-name'>
-          {{#link-to 'dashboard' (query-params sort=nameParam sorted=true)}}
-            Name
-
-            {{#if sortedByName}}
-              {{fa-icon 'caret-down'}}
-            {{/if}}
-          {{/link-to}}
-        </th>
-        <th>
-          {{#link-to 'dashboard' (query-params sort=typeParam sorted=true)}}
-            Type
-
-            {{#if sortedByType}}
-              {{fa-icon 'caret-down'}}
-            {{/if}}
-          {{/link-to}}
-        </th>
-        <th>
-          {{#link-to 'dashboard' (query-params sort=dateParam sorted=true)}}
-            Date Created
-
-            {{#if sortedByDate}}
-              {{fa-icon 'caret-down'}}
-            {{/if}}
-          {{/link-to}}
-        </th>
-        <th class='hidden-xs'>
-          {{#link-to 'dashboard' (query-params sort=viewsParam sorted=true)}}
-            Views
-
-            {{#if sortedByViews}}
-              {{fa-icon 'caret-down'}}
-            {{/if}}
-          {{/link-to}}
-        </th>
-        <th class='hidden-xs'>
-          {{#link-to 'dashboard' (query-params sort=commentsParam sorted=true)}}
-            Comments
-
-            {{#if sortedByComments}}
-              {{fa-icon 'caret-down'}}
-            {{/if}}
-          {{/link-to}}
-        </th>
-        <th class='hidden-xs' colspan='2'>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each postings as |content|}}
-        {{dashboard-content-row
-          content=content
-          type=content.contentType
-        }}
-      {{/each}}
-    </tbody>
-  </table>
+  <ul class='TabNavigation-list'>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'Everything' 'dashboard'
+        (query-params page=1 type='')
+        class='TabNavigation-link TabNavigation-everythingLink'
+      }}
+    </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My News' 'dashboard'
+        (query-params page=1 type='news')
+        class='TabNavigation-link TabNavigation-newsLink'
+      }}
+    </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Events' 'dashboard'
+        (query-params page=1 type='events')
+        class='TabNavigation-link TabNavigation-eventLink'
+      }}
+    </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Talk' 'dashboard'
+        (query-params page=1 type='talk')
+        class='TabNavigation-link TabNavigation-talkLink'
+      }}
+    </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Market' 'dashboard'
+        (query-params page=1 type='market')
+        class='TabNavigation-link TabNavigation-marketLink'
+      }}
+    </li>
+  </ul>
+  
 </div>
+<div class='Dashboard-content'>
+  <div class='Dashboard-addContent u-textPullRight u-layoutPadB20'>
+    {{#if (eq type 'events')}}
+      {{#link-to 'events.new' class='Button Button--event'}}New Event{{/link-to }}
+    {{else if (eq type 'talk')}}
+      {{#link-to 'talk.new' class='Button Button--talk'}}New Talk{{/link-to }}
+    {{else if (eq type 'market')}}
+      {{#link-to 'market.new' class='Button Button--market'}}New Listing{{/link-to }}
+    {{/if}}
+  </div>
+  
+  {{#if isLoading}}
+    {{x-loader}}
+  {{else}}
+    <table class='ContentTable'>
+      <thead>
+        <tr class='h4'>
+          <th class='ContentTable-name'>
+            {{#link-to 'dashboard' (query-params sort=nameParam page=1)}}
+              Name
+
+              {{#if sortedByName}}
+                {{fa-icon 'caret-down'}}
+              {{/if}}
+            {{/link-to}}
+          </th>
+          <th class='hidden-sm hidden-xs'>
+            {{#link-to 'dashboard' (query-params sort=typeParam page=1)}}
+              Type
+
+              {{#if sortedByType}}
+                {{fa-icon 'caret-down'}}
+              {{/if}}
+            {{/link-to}}
+          </th>
+          <th class='{{if media.isMobile 'u-textPullRight'}}'>
+            {{#link-to 'dashboard' (query-params sort=dateParam page=1)}}
+              Created
+
+              {{#if sortedByDate}}
+                {{fa-icon 'caret-down'}}
+              {{/if}}
+            {{/link-to}}
+          </th>
+          <th class='hidden-xs'>
+            {{#link-to 'dashboard' (query-params sort=viewsParam page=1)}}
+              Views
+
+              {{#if sortedByViews}}
+                {{fa-icon 'caret-down'}}
+              {{/if}}
+            {{/link-to}}
+          </th>
+          <th class='hidden-xs'>
+            {{#link-to 'dashboard' (query-params sort=commentsParam page=1)}}
+              Comments
+
+              {{#if sortedByComments}}
+                {{fa-icon 'caret-down'}}
+              {{/if}}
+            {{/link-to}}
+          </th>
+          <th class='hidden-xs' colspan='2'>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each postings as |content|}}
+          {{dashboard-content-row
+            content=content
+            type=content.contentType
+          }}
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+  {{partial 'partials/pagination-nav'}}
+</div>
+

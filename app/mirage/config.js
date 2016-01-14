@@ -88,70 +88,83 @@ const newsBaseProperties = [
   'publication_name','publication_id', 'image_url'
 ];
 
-function mixedContent(db) {
-  const contents = [];
-
-  db.news.slice(0,2).map((item) => {
-    const record = Ember.getProperties(item, newsBaseProperties);
-    record.content_type = 'news';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    contents.push(record);
-  });
-
-  db.talks.slice(0,2).map((item) => {
+function dashboardTalks(db,start,stop) {
+  return db.talks.slice(start,stop).map((item) => {
     const record = Ember.getProperties(item, talkBaseProperties);
     record.content_type = 'talk_of_the_town';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
-    contents.push(record);
+    return record;
   });
-
-  db.market_posts.slice(0,1).map((item) => {
-    const record = Ember.getProperties(item, marketPostBaseProperties);
-    record.content_type = 'MarketPost';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    contents.push(record);
-  });
-
-  db.event_instances.slice(0,3).map((item) => {
-    const record = Ember.getProperties(item, eventBaseProperties);
-    record.content_type = 'event';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    contents.push(record);
-  });
-
-  db.market_posts.slice(0,2).map((item) => {
-    const record = Ember.getProperties(item, marketPostBaseProperties);
-    record.content_type = 'market';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    contents.push(record);
-  });
-
-  db.event_instances.slice(0,1).map((item) => {
-    const record = Ember.getProperties(item, eventBaseProperties);
-    record.content_type = 'Event';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    contents.push(record);
-  });
-
-  db.talks.slice(0,2).map((item) => {
+}
+function dashboardTalkComments(db,start,stop) {
+  return db.news.slice(start,stop).map((item) => {
     const record = Ember.getProperties(item, talkBaseProperties);
     record.content_type = 'Comment';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
+    return record;
+  });
+}
+function dashboardNews(db,start,stop) {
+  return db.news.slice(start,stop).map((item) => {
+    const record = Ember.getProperties(item, newsBaseProperties);
+    record.content_type = 'news';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
+    return record;
+  });
+}
+function dashboardMarketPosts(db,start,stop) {
+  return db.news.slice(start,stop).map((item) => {
+    const record = Ember.getProperties(item, marketPostBaseProperties);
+    record.content_type = 'MarketPost';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
+    return record;
+  });
+}
+function dashboardEvents(db,start,stop) {
+  return db.news.slice(start,stop).map((item) => {
+    const record = Ember.getProperties(item, eventBaseProperties);
+    record.content_type = 'event';
+    record.view_count = faker.random.number(100);
+    record.comment_count = faker.random.number(100);
+    return record;
+  });
+}
+function mixedContent(db) {
+  const contents = [];
+
+  dashboardNews(db,0,2).forEach((record)=> {
+    contents.push(record);
+  });
+  
+  dashboardTalks(db,0,2).forEach((record)=> {
+    contents.push(record);
+  });
+  
+  dashboardMarketPosts(db,0,1).forEach((record)=> {
     contents.push(record);
   });
 
-  db.market_posts.slice(0,1).map((item) => {
-    const record = Ember.getProperties(item, marketPostBaseProperties);
-    record.content_type = 'market';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
+  dashboardEvents(db,0,3).forEach((record)=> {
+    contents.push(record);
+  });
+
+  dashboardMarketPosts(db,0,2).forEach((record)=> {
+    contents.push(record);
+  });
+
+  dashboardEvents(db,0,1).forEach((record)=> {
+    contents.push(record);
+  });
+  
+  dashboardTalkComments(db,0,2).forEach((record)=> {
+    contents.push(record);
+  });
+
+  dashboardMarketPosts(db,0,1).forEach((record)=> {
     contents.push(record);
   });
 
@@ -537,9 +550,23 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
+    
+    let contents = [];
 
+    if(params['channel_type'] === 'news') {
+      contents = dashboardNews(db,start,stop);
+    } else if(params['channel_type'] === 'talk') {
+      contents = dashboardTalks(db,start,stop);
+    } else if(params['channel_type'] === 'events') {
+      contents = dashboardEvents(db,start,stop);
+    } else if(params['channel_type'] === 'market') {
+      contents = dashboardMarketPosts(db,start,stop);
+    } else {
+      contents = mixedContent(db).slice(start, stop);
+    }
+    
     return {
-      contents: mixedContent(db).slice(start, stop)
+      contents: contents
     };
   });
 

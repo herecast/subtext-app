@@ -9,8 +9,8 @@
       {{/link-to}}
     {{/if}}
 </td>
-<td>{{contentType}}</td>
-<td>{{publishedAt}}</td>
+<td class='hidden-xs hidden-sm'>{{contentType}}</td>
+<td class='{{if media.isMobile 'u-textPullRight'}}'>{{publishedAt}}</td>
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
 <td class='hidden-xs' colspan='2'>
