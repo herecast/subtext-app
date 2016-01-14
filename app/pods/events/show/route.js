@@ -2,10 +2,11 @@ import Ember from 'ember';
 import RouteMetaMixin from '../../../mixins/routes/social-tags';
 import Redirect from '../../../mixins/routes/redirect-after-login';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
+import ShareCaching from '../../../mixins/routes/share-caching';
 
 import Dates from '../../../lib/dates';
 
-export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, {
+export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, {
   modelImageKey: 'imageUrl',
 
   model(params) {
@@ -36,5 +37,12 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
 
       this.transitionTo('events.all', {queryParams: queryParams});
     }
+  },
+
+  afterModel: function(event) {
+    this._super(...arguments);
+
+    const path = this.get('container').lookup('router:main').generate(this.get('routeName'), event);
+    this.facebookRecache(path);
   }
 });
