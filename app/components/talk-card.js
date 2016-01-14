@@ -5,6 +5,9 @@ export default Ember.Component.extend({
   isContentCard: false,
   isSimilarContent: false,
   mixpanel: Ember.inject.service('mixpanel'),
+  classNameBindings: ['hasComments:TalkCard--stacked'],
+  
+  hasComments: Ember.computed.gt('talk.commentCount', 0),
 
   isNarrow: function() {
     if (this.get('isContentCard')) {
