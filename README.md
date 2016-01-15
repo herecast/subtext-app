@@ -45,76 +45,68 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember build` (development)
 * `ember build --environment production` (production)
 
-### Deploying
+## Deploying
 
-This application uses [Navis](http://navis.io/) to deploy and view the
-static JS and CSS assets.
+This application uses [front_end_builds](https://github.com/tedconf/front_end_builds) to host the
+static JS and CSS assets. It also uses [ember-cli-front-end-builds](https://github.com/tedconf/ember-cli-front-end-builds)
+to deploy the application to S3 and notify front_end_buils when a new
+version has been deployed.
 
-####Deployment Requirements
+### Deployment Pre-setup Requirements
 
-* AWS account, configured in config/deploy.js (copied from example file)
-* Navis account, configured in config/deploy.js (copied from example file)
+1. Copy `config/deploy.example` to `config/deploy.js`
+2. Setup AWS account, configured in config/deploy.js
 
-####Deployment steps:
+### Deployment steps:
 
-1) Make sure you're deploying master and have the latest version:
+1. Check out the branch you want to deploy and ensure you have the
+latest version.
 
-```
-git checkout master
-git pull master
-```
+    ```
+    git checkout release-3.1.0
+    git pull release-3.1.0
+    ```
 
-2) Build and deploy master to AWS and let Navis know it's available:
+2. **IMPORTANT!** Ensure you don't have any uncommitted changes. When deploying, the
+ember-cli-front-end-builds tool compiles whatever code changes are in your current
+directory, regardless of whether they have been staged or committed.
 
-```
-ember deploy --environment=production
-```
+3. Build and deploy branch to AWS and let front_end_builds know it's available:
 
-If that successfully completes, you will see output like this:
+    ```
+    ember deploy --environment=production
+    ```
 
-```
-Built project successfully. Stored in "tmp/deploy-dist/".
-Uploading assets...
-Uploading: index.html
-Assets upload successful. Done uploading.
+    **Note** - this deploys to staging and QA, and does not actually deploy to production.
+    Ember only has three environments: development, test, and production.
+    Specifying the "production" environment with the deploy command only means that it
+    uses production settings when building the assets. The front_end_builds
+    server that it deploys to is defined in config/deploy.js.
 
-Uploading `tmp/deploy-dist/index.html`...
+    When that successfully completes, you will see output like this:
 
-Index file was successfully uploaded
+    ```
+    Built project successfully. Stored in "dist/".
+    Uploading assets to subtext-consumer/dist...
+    Done uploading assets
+    Uploading assets to subtext-consumer/dist-eaee6f8600f3b8b4da24c464f9964251952ee2da/...
+    Done uploading assets
+    Notifying http://stage-consumer.subtext.org/front_end_builds/builds, http://qa-consumer.subtext.org/front_end_builds/builds...
 
-Upload successful!
+    Notifying http://stage-consumer.subtext.org/front_end_builds/builds, http://qa-consumer.subtext.org/front_end_builds/builds...
+    Endpoints successfully notified.
+    ```
 
-Uploaded revision: subtext-ui:53899a6
-```
+4. Preview the build
 
-Note the uploaded revision above (subtext-ui:53899a6), yours will be different.
+    Visit the front_end_builds application in your browser (i.e. [http://stage-consumer.subtext.org/admin](http://stage-consumer.subtext.org/admin)) and visit the "ux2" app.
+    You should see the branch that you deployed. Click "Launch" to preview
+    the build.
 
-3) Preview the build
+5. Make the build live (optional)
 
-Visit this URL in your browser (replacing the build SHA with yours):
-
-```
-http://subtext-staging.navis.io/?build=subtext-ui:53899a6
-```
-
-4) Activate the build
-
-If the build looks good, you need to activate it so it's available
-without passing the ?build= URL parameter.
-
-Replace this build number with the build you just deployed.
-
-```
-ember deploy:activate --environment=production --revision=subtext-ui:53899a6
-```
-
-5) View your build
-
-Visit this URL in your browser
-
-```
-http://subtext-staging.navis.io/
-```
+    If the build looks good, you need to click the orange "Make Live" button so that deploy is available
+    without passing the ?id= URL parameter.
 
 ## Further Reading / Useful Links
 
