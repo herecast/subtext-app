@@ -49,7 +49,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 This application uses [front_end_builds](https://github.com/tedconf/front_end_builds) to host the
 static JS and CSS assets. It also uses [ember-cli-front-end-builds](https://github.com/tedconf/ember-cli-front-end-builds)
-to deploy the application to S3 and notify front_end_buils when a new
+to deploy the application to S3 and notify front_end_builds when a new
 version has been deployed.
 
 ### Deployment Pre-setup Requirements
