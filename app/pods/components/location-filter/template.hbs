@@ -21,6 +21,15 @@
     </a>
   </li>
 
+  {{#each otherLocations as |location|}}
+    <li>
+      <a href='#' {{action 'setLocation' location.name location.id}} tabindex='-1'>
+        {{location.name}}
+      </a>
+    </li>
+  {{/each}}
+
+
   {{#if session.isAuthenticated}}
     <li>
       <a href='#' {{action 'setLocation' session.userLocation session.currentUser.locationId}} tabindex='-1'>
