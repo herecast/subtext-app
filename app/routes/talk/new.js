@@ -1,12 +1,11 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Scroll, ShareCaching, {
-  mixpanel: Ember.inject.service('mixpanel'),
-
+export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
   model() {
     return this.store.createRecord('talk', {
       viewCount: 0,
@@ -38,6 +37,12 @@ export default Ember.Route.extend(Scroll, ShareCaching, {
     return Object.keys(model.changedAttributes()).length > 4;
   },
 
+  _getTrackingArguments() {
+    return {
+       navigationControlProperties: ['Create Talk', 'Discard Talk']
+    };
+  },
+
   actions: {
     willTransition(transition) {
       this._super(...arguments);
@@ -58,13 +63,8 @@ export default Ember.Route.extend(Scroll, ShareCaching, {
       if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
         this.transitionTo('talk.all');
 
-        const mixpanel = this.get('mixpanel');
-        const currentUser = this.get('session.currentUser');
-        const props = {};
-
-        Ember.merge(props, mixpanel.getUserProperties(currentUser));
-        Ember.merge(props, mixpanel.getNavigationControlProperties('Create Talk', 'Discard Talk'));
-        mixpanel.trackEvent('selectNavControl', props);
+        // TODO this is actually fired twice, this reporting isn't accurate
+        this.trackEvent('selectNavControl');
       }
     },
 

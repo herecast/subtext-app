@@ -1,6 +1,6 @@
 {{#if showButton}}
   {{#link-to route class=buttonClass}}
-    <span {{ action 'trackContentCreate' linkText }}>
+    <span {{action 'trackEvent' 'selectNavControl' linkText}}>
       {{linkText}}
     </span>
   {{/link-to}}

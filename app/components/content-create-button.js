@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 // I think we should be able to use string.startsWith() as part of ES6, but
 // the tests were breaking when I ran `ember test` so I'm using this instead.
@@ -7,8 +8,7 @@ function startsWith(path, searchString) {
   return path.indexOf(searchString) === position;
 }
 
-export default Ember.Component.extend({
-  mixpanel: Ember.inject.service('mixpanel'),
+export default Ember.Component.extend(trackEvent, {
   path: '', // override with the application controller's currentPath
 
   buttonClass: function() {
@@ -63,30 +63,25 @@ export default Ember.Component.extend({
 
   }.property('path', 'media.isTabletOrSmallDesktop'),
 
-  actions: {
-    trackContentCreate(linkText) {
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-      let section = '';
-      let alias = '';
+  _getTrackingArguments(linkText) {
+    let section = '';
+    let alias = '';
 
-      if (linkText.match(/Event$/)) {
-        section = 'Event';
-        alias = section;
-      } else if (linkText.match(/Listing$/)) {
-        section = 'Market';
-        alias = 'Listing';
-      } else if (linkText.match(/Talk$/)) {
-        section = 'Talk';
-        alias = section;
-      }
-      
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, 
-         mixpanel.getNavigationProperties(section, section.toLowerCase() + '.index', 1));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('Create Content', 'Create ' + alias));
-      mixpanel.trackEvent('selectNavControl', props);       
+    if (linkText.match(/Event$/)) {
+      section = 'Event';
+      alias = section;
+    } else if (linkText.match(/Listing$/)) {
+      section = 'Market';
+      alias = 'Listing';
+    } else if (linkText.match(/Talk$/)) {
+      section = 'Talk';
+      alias = section;
     }
+
+    return {
+      // carrying over the route error from the original implementation
+      navigationProperties: [section, `${section.toLowerCase()}.index`, 1],
+      navigationControlProperties: ['Create Content', `Create ${alias}`]
+    };
   }
 });

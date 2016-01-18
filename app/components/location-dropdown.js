@@ -1,8 +1,11 @@
 import Ember from 'ember';
 import config from './../config/environment';
 import ajax from 'ic-ajax';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+const { get } = Ember;
+
+export default Ember.Component.extend(trackEvent, {
   locations: [],
   isEditing: false,
   mixpanel: Ember.inject.service('mixpanel'),
@@ -24,6 +27,17 @@ export default Ember.Component.extend({
     });
   }.property('locations'),
 
+  _getTrackingArguments() {
+    let location = get(this, 'formattedLocations').findBy('id', get(this, 'selectedLocationId'));
+    location = location.formattedLocation;
+
+    return {
+      navigationControlProperties: ['User Profile', 'Change Community'],
+      navigationProperties: ['User', 'Dashboard', 1],
+      userCommunity: location
+    };
+  },
+
   actions: {
     toggleEditing: function() {
       this.toggleProperty('isEditing');
@@ -35,21 +49,6 @@ export default Ember.Component.extend({
         });
         this.sendAction('onUpdate');
       }
-    },
-    
-    trackChangeCommunity() {
-      let location = this.get('formattedLocations').findBy('id', this.get('selectedLocationId'));
-      location = location.formattedLocation;
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, {'userCommunity': location});
-      Ember.merge(props, 
-         mixpanel.getNavigationProperties('User', 'Dashboard', 1));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('User Profile', 'Change Community'));
-      mixpanel.trackEvent('selectNavControl', props);       
     }
   }
 });

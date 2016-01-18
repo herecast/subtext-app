@@ -1,12 +1,12 @@
 import Ember from 'ember';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(trackEvent, {
   intercom: Ember.inject.service('intercom'),
   newsFilter: Ember.inject.controller('news/all/index'),
   eventsFilter: Ember.inject.controller('events/all/index'),
   talkFilter: Ember.inject.controller('talk/all/index'),
   marketFilter: Ember.inject.controller('market/all/index'),
-  mixpanel: Ember.inject.service('mixpanel'),
 
   backgroundClass: function() {
     const currentController = this.controllerFor(this.get('currentPath'));
@@ -20,6 +20,14 @@ export default Ember.Controller.extend({
     return klass;
   }.property('currentPath'),
 
+  _getTrackingArguments(section) {
+    return {
+      // carrying over the route error from original implementation
+      navigationProperties: [section.capitalize(), section + '.index', 1],
+      navigationControlProperties: ['Channel Buttons', section]
+    };
+  },
+
   actions: {
     trackMenuOpen() {
       // The menu opens after the event is fired, so we need to check if it's
@@ -29,19 +37,6 @@ export default Ember.Controller.extend({
       if (menuOpened) {
         this.get('intercom').trackEvent('avatar-user-menu-opened');
       }
-    },
-
-    trackChannelSelection(section) {
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-  
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, 
-          mixpanel.getNavigationProperties(section.capitalize(), section + '.index', 1));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('Channel Buttons', section));
-
-      mixpanel.trackEvent('selectNavControl', props);
     }
   }
 });

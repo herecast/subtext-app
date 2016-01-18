@@ -14,7 +14,7 @@
 {{#if onUpdate}}
   <span {{action 'toggleEditing'}}>
     {{#if isEditing}}
-      <span {{action 'trackChangeCommunity' }}>
+      <span {{action 'trackEvent' 'selectNavControl'}}>
         {{fa-icon 'save InlineEdit-icon'}}
       </span>
     {{else}}

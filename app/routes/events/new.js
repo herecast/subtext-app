@@ -2,12 +2,12 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
   intercom: Ember.inject.service('intercom'),
-  mixpanel: Ember.inject.service('mixpanel'),
 
   model() {
     return this.store.createRecord('event', {
@@ -38,6 +38,12 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     return Object.keys(event.changedAttributes()).length > 2;
   },
 
+  _getTrackingArguments() {
+    return {
+       navigationControlProperties: ['Create Event', 'Discard Event']
+    };
+  },
+
   actions: {
     willTransition(transition) {
       this._super(...arguments);
@@ -58,13 +64,8 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
       if (!this.hasDirtyAttributes(event) || this.discardRecord(event)) {
         this.transitionTo('events.all');
 
-        const mixpanel = this.get('mixpanel');
-        const currentUser = this.get('session.currentUser');
-        const props = {};
-
-        Ember.merge(props, mixpanel.getUserProperties(currentUser));
-        Ember.merge(props, mixpanel.getNavigationControlProperties('Create Event', 'Discard Event'));
-        mixpanel.trackEvent('selectNavControl', props);
+        // TODO this is actually fired twice, this reporting isn't accurate
+        this.trackEvent('selectNavControl');
       }
     },
 

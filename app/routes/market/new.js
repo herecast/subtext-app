@@ -3,11 +3,11 @@ import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
-  mixpanel: Ember.inject.service('mixpanel'),
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
 
   model() {
     return this.store.createRecord('market-post', {
@@ -37,6 +37,12 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
     return Object.keys(model.changedAttributes()).length > 1;
   },
 
+  _getTrackingArguments() {
+    return {
+       navigationControlProperties: ['Create Listing', 'Discard Listing']
+    };
+  },
+
   actions: {
     willTransition(transition) {
       this._super(...arguments);
@@ -57,13 +63,8 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
       if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
         this.transitionTo('market.all');
 
-        const mixpanel = this.get('mixpanel');
-        const currentUser = this.get('session.currentUser');
-        const props = {};
-
-        Ember.merge(props, mixpanel.getUserProperties(currentUser));
-        Ember.merge(props, mixpanel.getNavigationControlProperties('Create Listing', 'Discard Listing'));
-        mixpanel.trackEvent('selectNavControl', props);
+        // TODO this is actually fired twice, this reporting isn't accurate
+        this.trackEvent('selectNavControl');
       }
     },
 

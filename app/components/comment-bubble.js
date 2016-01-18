@@ -1,9 +1,9 @@
 import Ember from 'ember';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(trackEvent, {
   classNames: ['CommentBubble'],
   classNameBindings: ['typeClass'],
-  mixpanel: Ember.inject.service('mixpanel'),
 
   typeClass: function() {
     const type = this.get('type');
@@ -29,6 +29,12 @@ export default Ember.Component.extend({
     }
   }.property('count'),
 
+  _getTrackingArguments() {
+    return {
+      navigationControlProperties: ['Start Discussion', 'Start Discussion']
+    };
+  },
+
   actions: {
     scrollToComments() {
       const elem = Ember.$('.CommentSection');
@@ -37,16 +43,6 @@ export default Ember.Component.extend({
       if (offset) {
         Ember.$(window).scrollTop(offset - 100);
       }
-    },
-
-    trackDiscussionClick() {
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-      
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, mixpanel.getNavigationControlProperties('Start Discussion', 'Start Discussion'));
-      mixpanel.trackEvent('selectNavControl', props);       
     }
   }
 });
