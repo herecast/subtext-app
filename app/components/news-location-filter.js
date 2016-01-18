@@ -3,6 +3,10 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
+const {
+  isPresent
+} = Ember;
+
 export default Ember.Component.extend(ManualDropdown, {
   isSearching: false,
   hasPerformedSearch: false,
@@ -52,8 +56,14 @@ export default Ember.Component.extend(ManualDropdown, {
       data: {query: value}
     }).then((response) => {
       const locations = response.locations.map((location) => {
+        let name = location.city;
+
+        if (isPresent(location.state)) {
+          name = `${name}, ${location.state}`;
+        }
+
         return {
-          name: `${location.city}, ${location.state}`,
+          name: name,
           id: location.id
         };
       });
