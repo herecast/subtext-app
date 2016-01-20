@@ -52,25 +52,28 @@ export default Ember.Service.extend({
     return this.getUserProperties(user);
   }),
 
-  selectNavControl({ navigationProperties, navigationControlProperties, userCommunity }) {
-    let props = {};
+  trackEventVersion2(event, properties) {
+    const applicationController = this.container.lookup('controller:application');
+    const currentRouteName = get(applicationController, 'currentRouteName');
+    const currentController = this.container.lookup(`controller:${currentRouteName}`);
 
-    merge(props, this.getNavigationProperties.apply(this, navigationProperties));
-    merge(props, this.getNavigationControlProperties.apply(this, navigationControlProperties));
+    let props = {
+      url: location.href,
+      pageName: currentRouteName
+    };
 
-    if (userCommunity) {
-      merge(props, { userCommunity: userCommunity });
+    if (get(currentController, 'page')) {
+      props.pageNumber = get(currentController, 'page');
     }
 
-    return props;
-  },
+    const channel = currentRouteName.match(/events|market|news|talk/);
 
-  trackEventVersion2(event, properties) {
-    let props = {};
-    const eventProperties = this[event].call(this, properties);
+    if (channel) {
+      props.channelName = channel[0];
+    }
 
     merge(props, get(this, 'currentUserProperties')); // make sure this line is first so we can override!
-    merge(props, eventProperties);
+    merge(props, properties);
 
     if (this.pageHasAnalytics()) {
       window.mixpanel.track(event, props);
@@ -170,6 +173,7 @@ export default Ember.Service.extend({
     return props;
   },
 
+  // TODO: Remove when refactor is complete
   getNavigationProperties: function(channelName, pageName, pageNumber) {
     const props = {};
     props['channelName'] = channelName;
@@ -179,6 +183,7 @@ export default Ember.Service.extend({
     return props;
   },
 
+  // TODO: Remove when refactor is complete
   getNavigationControlProperties: function(navControlGroup, navControl) {
     const props = {};
     props['navControlGroup'] = navControlGroup;
@@ -186,6 +191,7 @@ export default Ember.Service.extend({
     return props;
   },
 
+  // TODO: Remove when refactor is complete???
   getContentProperties: function(content) {
     const props = {
       contentId: content.get('contentId'),

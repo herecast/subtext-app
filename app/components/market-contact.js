@@ -37,7 +37,8 @@ export default Ember.Component.extend(trackEvent, {
 
   _getTrackingArguments() {
     return {
-      navigationControlProperties: ['Reply to Content', 'Reply to Listing']
+      navControlGroup: 'Reply to Content',
+      navControl: 'Reply to Listing'
     };
   },
 

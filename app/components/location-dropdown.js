@@ -32,8 +32,8 @@ export default Ember.Component.extend(trackEvent, {
     location = location.formattedLocation;
 
     return {
-      navigationControlProperties: ['User Profile', 'Change Community'],
-      navigationProperties: ['User', 'Dashboard', 1],
+      navControlGroup: 'Profile Feature Submit',
+      navControl: 'Submit Community Change',
       userCommunity: location
     };
   },

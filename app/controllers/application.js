@@ -22,9 +22,8 @@ export default Ember.Controller.extend(trackEvent, {
 
   _getTrackingArguments(section) {
     return {
-      // carrying over the route error from original implementation
-      navigationProperties: [section.capitalize(), section + '.index', 1],
-      navigationControlProperties: ['Channel Buttons', section]
+      navControlGroup: 'Channel Buttons',
+      navControl: section
     };
   },
 

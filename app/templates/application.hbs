@@ -118,8 +118,8 @@
       </div>
 
       <ul class='SectionNavigation-list col-lg-6 col-lg-offset-2 col-sm-8 col-sm-offset-1'>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'news'}} data-toggle='collapse' data-target='#js-app-bar'>
-          {{link-to 'News' 'news'
+        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+          {{#link-to 'news'
             (query-params
               page=1
               query=newsFilter.defaultQuery
@@ -130,9 +130,11 @@
             current-when='news'
             class='SectionNavigation-link SectionNavigation-newsLink'
           }}
+            <span {{action 'trackEvent' 'selectNavControl' 'News'}}>News</span>
+          {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'event'}} data-toggle='collapse' data-target='#js-app-bar'>
-          {{link-to 'Events' 'events'
+        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+          {{#link-to 'events'
             (query-params
               page=1
               query=eventsFilter.defaultQuery
@@ -144,9 +146,11 @@
             current-when='events'
             class='SectionNavigation-link SectionNavigation-eventLink'
           }}
+            <span {{action 'trackEvent' 'selectNavControl' 'Events'}}>Events</span>
+          {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'talk'}} data-toggle='collapse' data-target='#js-app-bar'>
-          {{link-to 'Talk' 'talk'
+        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+          {{#link-to 'talk'
             (query-params
               page=1
               query=talkFilter.defaultQuery
@@ -155,9 +159,11 @@
             class='SectionNavigation-link
             SectionNavigation-talkLink'
           }}
+            <span {{action 'trackEvent' 'selectNavControl' 'Talk'}}>Talk</span>
+          {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'market'}} data-toggle='collapse' data-target='#js-app-bar'>
-          {{link-to 'Market' 'market'
+        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
+          {{#link-to 'market'
             (query-params
               page=1
               query=marketFilter.defaultQuery
@@ -167,8 +173,10 @@
             current-when='market'
             class='SectionNavigation-link SectionNavigation-marketLink'
           }}
+            <span {{action 'trackEvent' 'selectNavControl' 'Market'}}>Market</span>
+          {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'Directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
           <a href='http://dailyuv.net/directory' target='_blank' class='SectionNavigation-link SectionNavigation-directoryLink'>Directory</a>
         </li>
       </ul>

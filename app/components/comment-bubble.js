@@ -31,7 +31,7 @@ export default Ember.Component.extend(trackEvent, {
 
   _getTrackingArguments() {
     return {
-      navigationControlProperties: ['Start Discussion', 'Start Discussion']
+      navControl: 'Start Discussion'
     };
   },
 
