@@ -9,7 +9,7 @@
 
     <div class='col-sm-6 u-textCentered'>
       {{#link-to 'index' (query-params page=1)}}
-        <h1 class='MainNav-brand'>
+        <h1 class='MainNav-brand' {{action 'trackHome'}}>
           daily UV
           <span class='MainNav-location'>
             {{#if session.isAuthenticated}}

@@ -28,6 +28,13 @@ export default Ember.Controller.extend(trackEvent, {
       });
     },
 
+    trackHome() {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Header',
+        navControl: 'Home'
+      });
+    },
+
     trackHelp() {
       this.trackEvent('selectNavControl', {
         navControlGroup: 'Header',
