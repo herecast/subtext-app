@@ -37,22 +37,22 @@
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               <li class='hidden-xs hidden-sm'>
                 {{#link-to 'events.new.details' class='h4 ActionDropdown-item'}}
-                  Create Event
+                  <span {{action 'trackUserMenu' 'create event'}}>Create Event</span>
                 {{/link-to}}
               </li>
               <li class='hidden-xs hidden-sm'>
                 {{#link-to 'talk.new.details' class='h4 ActionDropdown-item'}}
-                  Create Talk
+                  <span {{action 'trackUserMenu' 'create talk'}}>Create Talk</span>
                 {{/link-to}}
               </li>
               <li class='hidden-xs hidden-sm'>
                 {{#link-to 'market.new.details' class='h4 ActionDropdown-item'}}
-                  Create Market Listing
+                  <span {{action 'trackUserMenu' 'create market listing'}}>Create Market Listing</span>
                 {{/link-to}}
               </li>
               <li>
                 {{#link-to 'dashboard' (query-params sorted=false) class='h4 ActionDropdown-item'}}
-                  My Dashboard
+                  <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
                 {{/link-to}}
               </li>
               <li>
@@ -104,7 +104,7 @@
       {{#if session.isAuthenticated}}
         <li class='ActionDropdown-item'>
           {{#link-to 'dashboard' (query-params sorted=false) class='h4'}}
-            My Dashboard
+            <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
           {{/link-to}}
         </li>
         <li class='ActionDropdown-item'>

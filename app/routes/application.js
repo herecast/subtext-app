@@ -1,10 +1,11 @@
 /* global ga */
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, isPresent, isEmpty, merge, inject, run } = Ember;
 
-export default Ember.Route.extend(ApplicationRouteMixin, {
+export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   intercom: inject.service(),
   mixpanel: inject.service(),
 
@@ -37,6 +38,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     signOut(callback) {
+      // Force the tracker to run now so it's run before the user logs out
+      // while the tracking properties are available.
+      run(() => {
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'User Account Menu',
+          navControl: 'log out'
+        });
+      });
+
       get(this, 'intercom').shutdown();
       const promise = get(this, 'session').signOut();
 
