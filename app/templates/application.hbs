@@ -67,8 +67,16 @@
             </ul>
           </li>
         {{else}}
-          <li>{{link-to 'Sign in' 'login'}}</li>
-          <li>{{link-to 'Join' 'register'}}</li>
+          <li>
+            {{#link-to 'login'}}
+              <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
+            {{/link-to}}
+          </li>
+          <li>
+            {{#link-to 'register'}}
+              <span {{action 'trackRegistration' 'Join'}}>Join</span>
+            {{/link-to}}
+          </li>
         {{/if}}
       </ul>
     {{/if}}
@@ -103,8 +111,16 @@
           <a href='#' {{action 'signOut'}} class='h4'>Log out</a>
         </li>
       {{else}}
-        <li class='ActionDropdown-item'>{{link-to 'Sign in' 'login' class='h4 ActionDropdown-item'}}</li>
-        <li class='ActionDropdown-item'>{{link-to 'Sign up' 'register' class='h4 ActionDropdown-item'}}</li>
+        <li class='ActionDropdown-item'>
+          {{#link-to 'login' class='h4 ActionDropdown-item'}}
+            <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
+          {{/link-to}}
+        </li>
+        <li class='ActionDropdown-item'>
+          {{#link-to 'register' class='h4 ActionDropdown-item'}}
+            <span {{action 'trackRegistration' 'Join'}}>Join</span>
+          {{/link-to}}
+        </li>
       {{/if}}
     </ul>
   {{/if}}
@@ -130,7 +146,7 @@
             current-when='news'
             class='SectionNavigation-link SectionNavigation-newsLink'
           }}
-            <span {{action 'trackEvent' 'selectNavControl' 'News'}}>News</span>
+            <span {{action 'trackChannel' 'News'}}>News</span>
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
@@ -146,7 +162,7 @@
             current-when='events'
             class='SectionNavigation-link SectionNavigation-eventLink'
           }}
-            <span {{action 'trackEvent' 'selectNavControl' 'Events'}}>Events</span>
+            <span {{action 'trackChannel' 'Events'}}>Events</span>
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
@@ -159,7 +175,7 @@
             class='SectionNavigation-link
             SectionNavigation-talkLink'
           }}
-            <span {{action 'trackEvent' 'selectNavControl' 'Talk'}}>Talk</span>
+            <span {{action 'trackChannel' 'Talk'}}>Talk</span>
           {{/link-to}}
         </li>
         <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
@@ -173,10 +189,10 @@
             current-when='market'
             class='SectionNavigation-link SectionNavigation-marketLink'
           }}
-            <span {{action 'trackEvent' 'selectNavControl' 'Market'}}>Market</span>
+            <span {{action 'trackChannel' 'Market'}}>Market</span>
           {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' {{action 'trackEvent' 'selectNavControl' 'Directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
+        <li class='SectionNavigation-listItem' {{action 'trackChannel' 'Directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
           <a href='http://dailyuv.net/directory' target='_blank' class='SectionNavigation-link SectionNavigation-directoryLink'>Directory</a>
         </li>
       </ul>
