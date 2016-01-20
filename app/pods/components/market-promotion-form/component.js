@@ -1,7 +1,15 @@
 import Ember from 'ember';
+import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
-export default Ember.Component.extend({
+const {
+  computed
+} = Ember;
+
+export default Ember.Component.extend(PromotionForm, {
   tagName: 'form',
+
+  // Required by the promotion form mixin
+  model: computed.alias('post'),
 
   displayListservs: function() {
     if (Ember.isPresent(this.get('post.listservIds'))) {
@@ -15,27 +23,5 @@ export default Ember.Component.extend({
     if (!this.get('listsEnabled')) {
       this.set('post.listservIds', []);
     }
-  }.observes('listsEnabled'),
-
-  actions: {
-    back() {
-      this.sendAction('backToDetails');
-    },
-
-    preview() {
-      this.sendAction('afterPromotion');
-    },
-
-    discard() {
-      if (confirm('Are you sure you want to discard this post?')) {
-        const post = this.get('post');
-        post.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
-    },
-
-    toggleProperty(property) {
-      this.toggleProperty(property);
-    }
-  }
+  }.observes('listsEnabled')
 });

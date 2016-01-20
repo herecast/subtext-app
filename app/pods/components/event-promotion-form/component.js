@@ -1,7 +1,15 @@
 import Ember from 'ember';
+import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
-export default Ember.Component.extend({
+const {
+  computed
+} = Ember;
+
+export default Ember.Component.extend(PromotionForm, {
   tagName: 'form',
+
+  // Required by the promotion form mixin
+  model: computed.alias('event'),
 
   categoryEnabled: Ember.computed.notEmpty('event.category'),
 
@@ -26,29 +34,8 @@ export default Ember.Component.extend({
   ],
 
   actions: {
-    back() {
-      this.sendAction('backToDetails');
-    },
-
-    preview() {
-      this.sendAction('afterPromotion');
-    },
-
-    discard() {
-      if (confirm('Are you sure you want to discard this event?')) {
-        const event = this.get('event');
-        event.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
-    },
-
     toggleEventProperty(property) {
       this.get('event').toggleProperty(property);
-    },
-
-    toggleProperty(property) {
-      this.toggleProperty(property);
     }
-
   }
 });

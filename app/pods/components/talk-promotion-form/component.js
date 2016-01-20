@@ -1,7 +1,15 @@
 import Ember from 'ember';
+import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
-export default Ember.Component.extend({
+const {
+  computed
+} = Ember;
+
+export default Ember.Component.extend(PromotionForm, {
   tagName: 'form',
+
+  // Required by the promotion form mixin
+  model: computed.alias('talk'),
 
   userLocation: Ember.computed.oneWay('session.currentUser.location'),
   listservName: Ember.computed.oneWay('session.currentUser.listservName'),
@@ -10,22 +18,6 @@ export default Ember.Component.extend({
   listEnabled: Ember.computed.notEmpty('talk.listservId'),
 
   actions: {
-    back() {
-      this.sendAction('backToDetails');
-    },
-
-    preview() {
-      this.sendAction('afterPromotion');
-    },
-
-    discard() {
-      if (confirm('Are you sure you want to discard this talk?')) {
-        const talk = this.get('talk');
-        talk.destroyRecord();
-        this.sendAction('afterDiscard');
-      }
-    },
-
     toggleListserv() {
       if (this.get('listEnabled')) {
         this.set('talk.listservId', null);
