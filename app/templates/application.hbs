@@ -129,7 +129,7 @@
     <div class='row'>
       <div class='col-sm-1'>
         {{#link-to 'news.show' '790848' class='Button btn'}}
-          {{fa-icon 'question-circle'}} Help
+          <span {{action 'trackHelp'}}>{{fa-icon 'question-circle'}} Help</span>
         {{/link-to}}
       </div>
 

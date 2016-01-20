@@ -21,6 +21,13 @@ export default Ember.Controller.extend(trackEvent, {
   }.property('currentPath'),
 
   actions: {
+    trackHelp() {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Header',
+        navControl: 'Help'
+      });
+    },
+
     trackChannel(channel) {
       this.trackEvent('selectNavControl', {
         navControlGroup: 'Channel Buttons',
