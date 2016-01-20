@@ -37,12 +37,6 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
     return Object.keys(model.changedAttributes()).length > 4;
   },
 
-  _getTrackingArguments() {
-    return {
-       navigationControlProperties: ['Create Talk', 'Discard Talk']
-    };
-  },
-
   actions: {
     willTransition(transition) {
       this._super(...arguments);
@@ -63,8 +57,10 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
       if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
         this.transitionTo('talk.all');
 
-        // TODO this is actually fired twice, this reporting isn't accurate
-        this.trackEvent('selectNavControl');
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Create Content',
+          navControl: 'Discard Talk Create'
+        });
       }
     },
 

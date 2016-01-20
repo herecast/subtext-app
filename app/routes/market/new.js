@@ -37,12 +37,6 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
     return Object.keys(model.changedAttributes()).length > 1;
   },
 
-  _getTrackingArguments() {
-    return {
-       navigationControlProperties: ['Create Listing', 'Discard Listing']
-    };
-  },
-
   actions: {
     willTransition(transition) {
       this._super(...arguments);
@@ -63,8 +57,10 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
         this.transitionTo('market.all');
 
-        // TODO this is actually fired twice, this reporting isn't accurate
-        this.trackEvent('selectNavControl');
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Create Content',
+          navControl: 'Discard Market Listing Create'
+        });
       }
     },
 

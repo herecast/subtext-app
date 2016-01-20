@@ -64,24 +64,19 @@ export default Ember.Component.extend(trackEvent, {
   }.property('path', 'media.isTabletOrSmallDesktop'),
 
   _getTrackingArguments(linkText) {
-    let section = '';
-    let alias = '';
+    let navControlText = '';
 
     if (linkText.match(/Event$/)) {
-      section = 'Event';
-      alias = section;
+      navControlText = 'Create Event';
     } else if (linkText.match(/Listing$/)) {
-      section = 'Market';
-      alias = 'Listing';
+      navControlText = 'Create Market Listing';
     } else if (linkText.match(/Talk$/)) {
-      section = 'Talk';
-      alias = section;
+      navControlText = 'Create Talk';
     }
 
     return {
-      // carrying over the route error from the original implementation
-      navigationProperties: [section, `${section.toLowerCase()}.index`, 1],
-      navigationControlProperties: ['Create Content', `Create ${alias}`]
+      navControlGroup: 'Create Content',
+      navControl: navControlText
     };
   }
 });

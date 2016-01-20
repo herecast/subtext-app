@@ -20,15 +20,21 @@ export default Ember.Controller.extend(trackEvent, {
     return klass;
   }.property('currentPath'),
 
-  _getTrackingArguments(section) {
-    return {
-      // carrying over the route error from original implementation
-      navigationProperties: [section.capitalize(), section + '.index', 1],
-      navigationControlProperties: ['Channel Buttons', section]
-    };
-  },
-
   actions: {
+    trackChannel(channel) {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Channel Buttons',
+        navControl: channel
+      });
+    },
+
+    trackRegistration(navControlText) {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Registration',
+        navControl: navControlText
+      });
+    },
+
     trackMenuOpen() {
       // The menu opens after the event is fired, so we need to check if it's
       // closed. When the menu closes, the length is 1.
