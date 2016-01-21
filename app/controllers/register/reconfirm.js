@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
   
   actions: {
     reconfirm: function(callback) {
-      const promise = get(this,'userService').resendConfirmation(get(this,'email'))
+      const promise = get(this,'userService').resendConfirmation(get(this,'email'));
       callback(promise);
       promise.then(()=>{
         this.transitionToRoute('register.complete');
