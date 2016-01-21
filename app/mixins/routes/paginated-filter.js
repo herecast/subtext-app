@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(TrackEvent, {
   scrollMaintainer: Ember.inject.service('scroll-maintainer'),
 
   queryParams: {
@@ -68,11 +69,21 @@ export default Ember.Mixin.create({
     prevPage() {
       const prevPage = this.controller.get('page') - 1;
 
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Paging',
+        navControl: 'previous'
+      });
+
       this.goToPage(prevPage);
     },
 
     nextPage() {
       const nextPage = this.controller.get('page') + 1;
+
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Paging',
+        navControl: 'next'
+      });
 
       this.goToPage(nextPage);
     },
