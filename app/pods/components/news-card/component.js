@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
+import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackCard, {
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
   classNameBindings: ['missingContent:hidden'],
   hasImage: Ember.computed.notEmpty('item.imageUrl'),

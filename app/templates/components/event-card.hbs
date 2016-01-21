@@ -18,11 +18,13 @@
       </a>
     {{else}}
       {{#link-to 'events.show' eventId}}
-        {{#if isSimilarContent}}
-          <h2 {{action 'trackSimilarContentClick'}} class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
-        {{else}}
-          <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
-        {{/if}}
+        <div {{action 'trackClick' event}}>
+          {{#if isSimilarContent}}
+            <h2 {{action 'trackSimilarContentClick'}} class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
+          {{else}}
+            <h2 class='EventCard-title Card-title u-twoLineH2'>{{title}}</h2>
+          {{/if}}
+        </div>
       {{/link-to}}
     {{/if}}
 
@@ -50,7 +52,7 @@
       </a>
     {{else}}
       {{#link-to 'events.show' eventId}}
-        <h2 class='EventCard-title u-twoLineH2'>{{title}}</h2>
+        <h2 class='EventCard-title u-twoLineH2' {{action 'trackClick' event}}>{{title}}</h2>
       {{/link-to}}
     {{/if}}
   </div>

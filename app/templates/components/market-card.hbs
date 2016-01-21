@@ -1,22 +1,24 @@
 {{#link-to 'market.show' post.id class='MarketCard-link u-flexColumn'}}
-  {{#if hasImage}}
-    <div class='MarketCard-imageContainer u-flexColumn' style={{backgroundImage}}>
-    </div>
-  {{/if}}
-
-  <div class='MarketCard-content u-flexColumn-2'>
-    {{#if isSimilarContent}}
-      <h2 {{ action 'trackSimilarContentClick' }} class='MarketCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
-    {{else}}
-      <h2 class='MarketCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
+  <div {{action 'trackClick' post}} class='u-height100 u-flexColumn'>
+    {{#if hasImage}}
+      <div class='MarketCard-imageContainer u-flexColumn' style={{backgroundImage}}>
+      </div>
     {{/if}}
 
-    <h5 class='MarketCard-subtitle'>
-      {{subtitle}}
-    </h5>
+    <div class='MarketCard-content u-flexColumn-2'>
+      {{#if isSimilarContent}}
+        <h2 {{ action 'trackSimilarContentClick' }} class='MarketCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{else}}
+        <h2 class='MarketCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{/if}}
+
+      <h5 class='MarketCard-subtitle'>
+        {{subtitle}}
+      </h5>
+    </div>
   </div>
 {{/link-to}}

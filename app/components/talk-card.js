@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackCard, {
   title: Ember.computed.oneWay('talk.title'),
   isContentCard: false,
   isSimilarContent: false,

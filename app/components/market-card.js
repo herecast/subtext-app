@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
+import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackCard, {
   title: Ember.computed.oneWay('post.title'),
   isSimilarContent: false,
   mixpanel: Ember.inject.service('mixpanel'),

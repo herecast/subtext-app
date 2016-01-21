@@ -1,31 +1,35 @@
 {{#if talk.hasParentContent}}
   {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor)}}
-    {{#if isSimilarContent}}
-      <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
-    {{else}}
-      <h2 class='TalkCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
-    {{/if}}
-    <div class='col-xs-12'>
-      <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+    <div {{action 'trackClick' talk}}>
+      {{#if isSimilarContent}}
+        <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{else}}
+        <h2 class='TalkCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{/if}}
+      <div class='col-xs-12'>
+        <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+      </div>
     </div>
   {{/link-to}}
 {{else}}
   {{#link-to 'talk.show' talk.id}}
-    {{#if isSimilarContent}}
-      <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
-    {{else}}
-      <h2 class='TalkCard-title Card-title u-twoLineH2'>
-        {{title}}
-      </h2>
-    {{/if}}
-    <div class='col-xs-12'>
-      <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+    <div {{action 'trackClick' talk}}>
+      {{#if isSimilarContent}}
+        <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{else}}
+        <h2 class='TalkCard-title Card-title u-twoLineH2'>
+          {{title}}
+        </h2>
+      {{/if}}
+      <div class='col-xs-12'>
+        <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
+      </div>
     </div>
   {{/link-to}}
 {{/if}}
