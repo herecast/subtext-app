@@ -1,10 +1,11 @@
 /* global ga */
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get, isPresent, isEmpty, merge, inject, run } = Ember;
+const { get, isPresent, isEmpty, inject, run } = Ember;
 
-export default Ember.Route.extend(ApplicationRouteMixin, {
+export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   intercom: inject.service(),
   mixpanel: inject.service(),
 
@@ -43,37 +44,38 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       callback(promise);
     },
 
+    willTransition() {
+      run(() => {
+        this.trackEvent('pageLeave');
+      });
+    },
+
     didTransition() {
       this._super(...arguments);
 
-      // TODO refactor all of the analytics code out of here
       const currentUser = get(this, 'session.currentUser');
+      const from = window.location.href;
 
       if (isPresent(currentUser)) {
         run.next(() => {
           get(this, 'intercom').update();
         });
       }
-      //track all page exits
-      const leaveProps = {};
-      const visitProps = {};
-      const mixpanel = get(this, 'mixpanel');
-      const from = window.location.href;
-      const userProperties = mixpanel.getUserProperties(currentUser);
-
-      merge(leaveProps, userProperties);
-      leaveProps.pageUrl = from;
-      mixpanel.trackEvent('pageLeave', leaveProps);
 
       //track all page visits
       run.next(() => {
         const documentTitle = document.title;
+        let sourcePageUrl = null;
 
-        merge(visitProps, userProperties);
-        visitProps.targetPageUrl = window.location.href;
-        visitProps.sourcePageUrl = from;
+        // If this is triggered by a page refresh, the href and from variables
+        // will be the same, so we don't want to track the sourcePageUrl.
+        if (window.location.href !== from) {
+          sourcePageUrl = from;
+        }
 
-        mixpanel.trackEvent('pageVisit', visitProps);
+        this.trackEvent('pageVisit', {
+          sourcePageUrl: sourcePageUrl
+        });
 
         ga('send', 'pageview', {
           'page': window.location.href,
