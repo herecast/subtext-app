@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
+import Dates from 'subtext-ui/lib/dates';
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(TrackEvent, {
   scrollMaintainer: Ember.inject.service('scroll-maintainer'),
 
   queryParams: {
@@ -58,9 +60,39 @@ export default Ember.Mixin.create({
     }
   },
 
+  _getTrackingArguments(filterParams) {
+    const trackParams = {};
+
+    if (filterParams.category) {
+      trackParams.category = filterParams.category;
+    }
+
+    if (filterParams.date_start && filterParams.date_end) {
+      trackParams.dateSummary = Dates.dateSummary(
+        filterParams.date_start, filterParams.date_end
+      );
+    }
+
+    if (filterParams.location) {
+      trackParams.location = filterParams.location;
+    }
+
+    if (filterParams.query) {
+      trackParams.query = filterParams.query;
+    }
+
+    if (filterParams.publication) {
+      trackParams.publication = filterParams.publication;
+    }
+
+    return trackParams;
+  },
+
   actions: {
     updateFilter(filterParams) {
       filterParams.page = 1;
+
+      this.trackEvent('searchContent', this._getTrackingArguments(filterParams));
 
       this.transitionTo({queryParams: filterParams});
     },
