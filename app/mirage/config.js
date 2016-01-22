@@ -385,6 +385,7 @@ export default function() {
   this.get('/contents/:content_id/related_promotion', function() {
     return {
       related_promotion: {
+        banner_id: faker.random.number(1000),
         image_url: 'https://placeholdit.imgix.net/~text?txtsize=31&txt=BannerAd&w=750&h=150',
         redirect_url: `http://${faker.internet.domainName()}`
       }

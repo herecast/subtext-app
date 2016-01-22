@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
 import ajax from 'ic-ajax';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   promotionService: Ember.inject.service('promotion'),
-  mixpanel: Ember.inject.service('mixpanel'),
 
   getPromotion: function() {
     const content = this.get('contentModel');
@@ -13,17 +13,11 @@ export default Ember.Component.extend({
       const contentId = content.get('contentId');
       this.get('promotionService').find(contentId).then((promotion) => {
         this.set('promotion', promotion);
-        const props = {};
-        const mixpanel = this.get('mixpanel');
-        const currentUser = this.get('session.currentUser');
-        Ember.merge(props, mixpanel.getUserProperties(currentUser));
-        Ember.merge(props, mixpanel.getContentProperties(content));
-        Ember.merge(props, {
+
+        this.trackEvent('displayBannerAd', {
           bannerAdId: promotion.banner_id,
           bannerUrl: promotion.redirect_url,
-          url: window.location.href
         });
-        this.get('mixpanel').trackEvent('displayBannerAd', props);
       });
     }
   }.on('didInsertElement'),
