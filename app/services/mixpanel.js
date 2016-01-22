@@ -52,6 +52,7 @@ export default Ember.Service.extend({
     return this.getUserProperties(user);
   }),
 
+  // TODO: break this function apart
   trackEventVersion2(event, properties) {
     const applicationController = this.container.lookup('controller:application');
     const currentRouteName = get(applicationController, 'currentRouteName');
@@ -73,6 +74,12 @@ export default Ember.Service.extend({
     }
 
     merge(props, get(this, 'currentUserProperties')); // make sure this line is first so we can override!
+
+    if (get(currentController, 'model.id')) {
+      const model = get(currentController, 'model');
+      merge(props, this.getContentProperties(model));
+    }
+
     merge(props, properties);
 
     if (this.pageHasAnalytics()) {
@@ -191,7 +198,6 @@ export default Ember.Service.extend({
     return props;
   },
 
-  // TODO: Remove when refactor is complete???
   getContentProperties: function(content) {
     const props = {
       contentId: content.get('contentId'),
