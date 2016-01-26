@@ -45,21 +45,22 @@ export default Ember.Component.extend({
 
   // TODO: Split out into a separate avatar cropper.
   //
-  // Currently only used by the dashboard avatar cropper. This component is not
-  // destroyed in that case, and the unbindAttachFile() callback isn't triggered
-  // to destroy the cropper. This results in the cropper remaining on the page
-  // and causing issues on mobile browsers where the crop() callback is called
-  // anytime you touch the screen.
+  // This component is not destroyed in that case, and the unbindAttachFile()
+  // callback isn't triggered to destroy the cropper. This results in the cropper
+  // remaining on the page and causing issues on mobile browsers where the crop()
+  // callback is called anytime you touch the screen.
   didUpdateAttrs(attrs) {
-    const nowDisplayed = attrs.newAttrs.displayCropper.value;
-    const wasDisplayed = attrs.oldAttrs.displayCropper.value;
-    const wasRemoved = wasDisplayed && !nowDisplayed;
-    const wasAdded = !wasDisplayed && nowDisplayed;
+    if (attrs.newAttrs.displayCropper) {
+      const nowDisplayed = attrs.newAttrs.displayCropper.value;
+      const wasDisplayed = attrs.oldAttrs.displayCropper.value;
+      const wasRemoved = wasDisplayed && !nowDisplayed;
+      const wasAdded = !wasDisplayed && nowDisplayed;
 
-    if (wasRemoved) {
-      this.unbindAttachFile();
-    } else if (wasAdded) {
-      this.initAttachFile();
+      if (wasRemoved) {
+        this.unbindAttachFile();
+      } else if (wasAdded) {
+        this.initAttachFile();
+      }
     }
   },
 
