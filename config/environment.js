@@ -21,6 +21,13 @@ module.exports = function(environment) {
     }
   };
 
+  // ENV['simple-auth'] = {
+  // }
+
+  ENV['simple-auth-devise'] = {
+    serverTokenEndpoint: '/api/v3/users/sign_in',
+  };
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -66,6 +73,10 @@ module.exports = function(environment) {
     }
 
     ENV['mixpanel-api-token'] = '';
+
+    ENV['simple-auth'] = {
+      store: 'simple-auth-session-store:ephemeral'
+    }
   }
 
   if (environment === 'production') {
