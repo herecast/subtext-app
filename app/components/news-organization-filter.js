@@ -12,8 +12,8 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   setInputValue: function() {
-    this.set('inputValue', this.get('publication'));
-  }.observes('publication'),
+    this.set('inputValue', this.get('organization'));
+  }.observes('organization'),
 
   initInputValue: function() {
     this.setInputValue();
@@ -44,15 +44,15 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const url = `${config.API_NAMESPACE}/publications`;
+    const url = `${config.API_NAMESPACE}/organizations`;
 
-    this.set('publication', value);
+    this.set('organization', value);
 
     ajax(url, {
       data: {query: value}
     }).then((response) => {
       this.setProperties({
-        publications: response.publications.mapBy('name'),
+        organizations: response.organizations.mapBy('name'),
         open: true,
         isSearching: false
       });
@@ -60,15 +60,15 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   actions: {
-    setPublication(publication) {
+    setOrganization(organization) {
       this.setProperties({
-        publication: publication,
-        inputValue: publication,
+        organization: organization,
+        inputValue: organization,
         open: false
       });
 
       // This prevents the input from being selected when a user chooses a
-      // publication from the dropdown menu.
+      // organization from the dropdown menu.
       Ember.run.later(() => {
         this.updateFilter();
       }, 10);
@@ -79,7 +79,7 @@ export default Ember.Component.extend(ManualDropdown, {
         this.$('input').focus();
       }, 50);
 
-      this.send('setPublication', '');
+      this.send('setOrganization', '');
     }
   }
 });

@@ -30,14 +30,14 @@
     <div class='col-md-8 col-sm-9'>
       <h1 class='News-title'>{{model.title}}</h1>
       <h3 class='News-subtitle'>{{model.subtitle}}</h3>
-      <div class='News-publicationInfo'>
-        {{#link-to 'news' (query-params query='Everything' publication=model.publicationName)}}
-          {{model.publicationName}}
+      <div class='News-organizationInfo'>
+        {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
+          {{model.organizationName}}
         {{/link-to}}
 
         : {{model.authorName}}
       </div>
-      <div class='News-publicationDate'>{{model.formattedPublishedAt}}</div>
+      <div class='News-organizationDate'>{{model.formattedPublishedAt}}</div>
       <div class='News-content ContentText'>{{{model.content}}}</div>
 
       {{#unless isPreview}}

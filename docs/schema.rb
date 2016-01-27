@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
     t.string   "hours"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
-    t.integer  "publication_id"
+    t.integer  "organization_id"
     t.float    "latitude"
     t.float    "longitude"
     t.string   "venue_url"
@@ -47,12 +47,12 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
 
   add_index "consumer_apps_messages", ["consumer_app_id", "message_id"], :name => "consumer_apps_messages_joins_index", :unique => true
 
-  create_table "consumer_apps_publications", :id => false, :force => true do |t|
+  create_table "consumer_apps_organizations", :id => false, :force => true do |t|
     t.integer "consumer_app_id", :null => false
-    t.integer "publication_id",  :null => false
+    t.integer "organization_id",  :null => false
   end
 
-  add_index "consumer_apps_publications", ["consumer_app_id", "publication_id"], :name => "consumer_app_publication_index"
+  add_index "consumer_apps_organizations", ["consumer_app_id", "organization_id"], :name => "consumer_app_organization_index"
 
   create_table "consumer_apps_wufoo_forms", :id => false, :force => true do |t|
     t.integer "consumer_app_id"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
     t.datetime "pubdate"
     t.string   "url"
     t.string   "authoremail"
-    t.integer  "publication_id"
+    t.integer  "organization_id"
     t.boolean  "quarantine",             :default => false
     t.datetime "timestamp"
     t.integer  "parent_id"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
   add_index "contents", ["guid"], :name => "guid"
   add_index "contents", ["parent_id"], :name => "index_contents_on_parent_id"
   add_index "contents", ["pubdate"], :name => "pubdate"
-  add_index "contents", ["publication_id"], :name => "source_id"
+  add_index "contents", ["organization_id"], :name => "source_id"
   add_index "contents", ["published"], :name => "index_contents_on_published"
   add_index "contents", ["title"], :name => "title"
 
@@ -186,17 +186,17 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
   add_index "locations_locations", ["parent_id", "child_id"], :name => "index_locations_locations_on_parent_id_and_child_id"
   add_index "locations_locations", ["parent_id"], :name => "index_locations_locations_on_parent_id"
 
-  create_table "locations_publications", :force => true do |t|
+  create_table "locations_organizations", :force => true do |t|
     t.integer  "location_id"
-    t.integer  "publication_id"
+    t.integer  "organization_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
 
-  add_index "locations_publications", ["location_id", "publication_id"], :name => "index_locations_publications_on_location_id_and_publication_id"
-  add_index "locations_publications", ["location_id"], :name => "index_locations_publications_on_location_id"
-  add_index "locations_publications", ["publication_id", "location_id"], :name => "index_locations_publications_on_publication_id_and_location_id"
-  add_index "locations_publications", ["publication_id"], :name => "index_locations_publications_on_publication_id"
+  add_index "locations_organizations", ["location_id", "organization_id"], :name => "index_locations_organizations_on_location_id_and_organization_id"
+  add_index "locations_organizations", ["location_id"], :name => "index_locations_organizations_on_location_id"
+  add_index "locations_organizations", ["organization_id", "location_id"], :name => "index_locations_organizations_on_organization_id_and_location_id"
+  add_index "locations_organizations", ["organization_id"], :name => "index_locations_organizations_on_organization_id"
 
   create_table "market_posts", :force => true do |t|
     t.string   "cost"
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
   create_table "promotions", :force => true do |t|
     t.boolean  "active"
     t.string   "banner"
-    t.integer  "publication_id"
+    t.integer  "organization_id"
     t.integer  "content_id"
     t.text     "description"
     t.datetime "created_at",     :null => false
@@ -257,9 +257,9 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
   end
 
   add_index "promotions", ["content_id"], :name => "index_promotions_on_content_id"
-  add_index "promotions", ["publication_id"], :name => "index_promotions_on_publication_id"
+  add_index "promotions", ["organization_id"], :name => "index_promotions_on_organization_id"
 
-  create_table "publications", :force => true do |t|
+  create_table "organizations", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
@@ -281,7 +281,7 @@ ActiveRecord::Schema.define(:version => 20150331134549) do
     t.boolean  "can_reverse_publish",   :default => false
   end
 
-  add_index "publications", ["name"], :name => "index_publications_on_name", :unique => true
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"

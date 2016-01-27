@@ -15,7 +15,7 @@ export default Ember.Mixin.create(TrackEvent, {
     location: {
       refreshModel: true
     },
-    publication: {
+    organization: {
       refreshModel: true
     },
     date_start: {
@@ -81,8 +81,8 @@ export default Ember.Mixin.create(TrackEvent, {
       trackParams.query = filterParams.query;
     }
 
-    if (filterParams.publication) {
-      trackParams.publication = filterParams.publication;
+    if (filterParams.organization) {
+      trackParams.organization = filterParams.organization;
     }
 
     return trackParams;

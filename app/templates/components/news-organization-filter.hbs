@@ -16,7 +16,7 @@
   <li role="presentation" class="divider"></li>
 
   <li>
-    <a href='#' {{action 'setPublication' 'Everyone'}} tabindex='-1'>
+    <a href='#' {{action 'setOrganization' 'Everyone'}} tabindex='-1'>
       Everyone
     </a>
   </li>
@@ -29,8 +29,8 @@
         <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
       </li>
     {{else}}
-      {{#each publications as |publication|}}
-        <li><a href='#' {{action 'setPublication' publication}} tabindex='-1'>{{publication}}</a></li>
+      {{#each organizations as |organization|}}
+        <li><a href='#' {{action 'setOrganization' organization}} tabindex='-1'>{{organization}}</a></li>
       {{else}}
         <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
       {{/each}}

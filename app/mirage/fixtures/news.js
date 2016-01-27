@@ -41,8 +41,8 @@ function template(id) {
     content_id: faker.random.number(1000),
     image_url: imageUrl,
     images: images,
-    publication_id: 1,
-    publication_name: faker.company.companyName(),
+    organization_id: 1,
+    organization_name: faker.company.companyName(),
     published_at: startsAt.toISOString(),
     subtitle: titleize(faker.lorem.sentences(1)),
     title: titleize(faker.lorem.sentences(1))

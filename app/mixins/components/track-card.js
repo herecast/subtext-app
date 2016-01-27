@@ -17,7 +17,7 @@ export default Ember.Mixin.create(TrackEvent, {
 
       if (modelName === 'talk' && get(content, 'hasParentContent')) {
         // When clicking on a comment for something other than a talk, we don't
-        // have access to the pub date or the publication name because it hasn't
+        // have access to the pub date or the organization name because it hasn't
         // been loaded yet.
         this.trackEvent('selectContent', {
           contentID: get(content, 'parentContentId'),
@@ -32,7 +32,7 @@ export default Ember.Mixin.create(TrackEvent, {
           contentTitle: get(content, 'title'),
 
           // Only available for news
-          contentPublication: get(content, 'publicationName')
+          contentOrganization: get(content, 'organizationName')
         });
       }
 

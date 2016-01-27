@@ -8,7 +8,7 @@ export default Ember.Route.extend(PaginatedFilter, History, {
       query: params.query,
       location: params.location,
       location_id: params.locationId,
-      publication: params.publication,
+      organization: params.organization,
       page: params.page,
       per_page: params.per_page
     });
@@ -18,7 +18,7 @@ export default Ember.Route.extend(PaginatedFilter, History, {
     this._super(controller, model);
 
     const filterParams = controller.getProperties(
-      'query', 'location', 'publication', 'locationId'
+      'query', 'location', 'organization', 'locationId'
     );
 
     this.setupFilter('news/all', filterParams);
