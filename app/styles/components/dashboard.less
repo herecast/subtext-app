@@ -1,25 +1,59 @@
-.Dashboard {
-  text-align: center;
-  margin-bottom: 50px;
-}
 
 .Dashboard-avatar {
-  display: block;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  margin: 0 auto 30px;
-
-  @media (min-width: @screen-sm-min) {
-    width: 330px;
-    height: 330px;
+  padding-top: 20px;
+  width: 100px;
+  max-width: 100%;
+  .Avatar {
+    text-align: center;
+    
+  }
+  .Avatar-image {
+    border-radius: 50%;
+    max-width: 100%;
+  }
+  @media(min-width: @screen-md-min) {
+    padding-top: 0px;
   }
 }
 
-.Dashboard-userName .InlineEdit-input {
-  font-size: 48px;
-  font-family: @font-family-condensed;
-  text-transform: uppercase;
-  font-weight: 600;
+.Dashboard .InlineEdit-input {
+  font-size: 1.2rem;  
   color: @text-color;
+  text-decoration: underline;
+  max-width: 100%;
+  background: transparent;
 }
+
+.Dashboard .InlineEdit-icon {
+  font-size: 1.2rem;
+}
+
+.Dashboard-email {
+  font-size: 1.2rem;
+  color: @text-color;
+  text-decoration: underline;
+  border: none;
+  background: transparent;
+}
+
+.Dashboard-header {
+  margin-bottom: 40px;
+}
+.Dashboard {
+  .Section {
+    & + .Section {
+      padding-top: 0;
+    }
+    @media(max-width: @screen-md-min) {
+      padding: 20px 0;
+    }
+  }
+}
+.Dashboard-content {
+  background-color: #f9f9f9;
+  padding: 10px;
+  @media(min-width: @screen-md-min) {
+    padding: 40px;  
+  }
+}
+

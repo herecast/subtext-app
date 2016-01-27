@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
-const { equal } = computed;
+const {
+  computed,
+  computed: {equal},
+  get,
+  set
+} = Ember;
 
 function sortBy(sort) {
   return computed('postings.[]', function() {
@@ -10,7 +14,6 @@ function sortBy(sort) {
 }
 
 export default Ember.Component.extend({
-  sorted: false,
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
   dateParam: sortBy('pubdate DESC'),
@@ -22,10 +25,29 @@ export default Ember.Component.extend({
   sortedByDate: equal('sort', 'pubdate DESC'),
   sortedByViews: equal('sort', 'view_count DESC'),
   sortedByComments: equal('sort', 'comment_count DESC'),
-
-  scrollToPostings: function() {
-    if (this.get('sorted')) {
-      Ember.$(window).scrollTop(this.$().offset().top);
+  
+  showPrevPage: computed.gt('page',1),
+  showNextPage: computed('postings.[]','per_page', function() {
+    let per = get(this,'per_page') || 8;
+    let postingsCount = get(this,'postings.length');
+    return postingsCount >= per;
+  }),
+  
+  isLoading: computed.alias('postings.isPending'),
+  mobileTabsVisible: false,
+  
+  actions: {
+    nextPage: function() {
+      this.incrementProperty('page');
+    },
+    prevPage: function() {
+      this.decrementProperty('page');
+    },
+    firstPage: function(){
+      set(this,'page',1);
+    },
+    toggleMobileTabs: function() {
+      this.toggleProperty('mobileTabsVisible');
     }
-  }.on('didInsertElement')
+  }
 });

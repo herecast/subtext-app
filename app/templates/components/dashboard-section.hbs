@@ -1,0 +1,7 @@
+<h4 class='DashboardSection-header' {{action 'toggleCollapsed'}}>
+  {{headerText}}
+  <i class="DashboardSection-collapseIndicator fa {{if isCollapsed 'fa-chevron-down' 'fa-chevron-up'}}"></i>
+</h4>
+<div class='DashboardSection-main'>
+{{yield}}
+</div>

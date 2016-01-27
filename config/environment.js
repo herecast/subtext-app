@@ -38,10 +38,10 @@ module.exports = function(environment) {
       enabled: true,
       LOG_EVENT_TRACKING: true,
     }
-
+    /*
     ENV['ember-cli-mirage'] = {
       enabled: false
-    }
+    }*/
 
     ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;
     ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN;

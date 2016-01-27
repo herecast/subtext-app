@@ -3,6 +3,7 @@
   imageUrl=currentUser.userImageUrl
   originalImageFile=currentUser.originalImageFile
   error=errors.image
+  class="Avatar"
   displayCropper=isEditingImage as |tempImage|
 }}
   {{#if tempImage}}
@@ -14,11 +15,11 @@
     }}
   {{else}}
     {{#if currentUser.userImageUrl}}
-      <img src='{{currentUser.userImageUrl}}' class='Dashboard-avatar'>
+      <img src='{{currentUser.userImageUrl}}' class='Avatar-image'>
     {{else}}
-      <img src='/images/user-default-avatar.svg' class='Dashboard-avatar'>
+      <img src='/images/user-default-avatar.svg' class='Avatar-image'>
     {{/if}}
-    <a href='#' {{action 'changePhoto'}} class='h2 u-textUnderline'>
+    <a href='#' {{action 'changePhoto'}} class='u-textUnderline Avatar-action'>
       Change Photo
     </a>
   {{/if}}
