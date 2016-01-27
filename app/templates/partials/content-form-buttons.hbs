@@ -5,12 +5,14 @@
   </button>
 
   <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
-    {{fa-icon 'trash u-iconLeft'}}
+    <span {{action 'trackEvent' 'selectNavControl'}}>
+      {{fa-icon 'trash u-iconLeft'}}
 
-    {{#if model.isNew}}
-      Discard {{formattedType}}
-    {{else}}
-      Discard Changes
-    {{/if}}
+      {{#if model.isNew}}
+        Discard {{formattedType}}
+      {{else}}
+        Discard Changes
+      {{/if}}
+    </span>
   </button>
 </div>

@@ -2,12 +2,13 @@ import Ember from 'ember';
 import moment from 'moment';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 
+const { get } = Ember;
+
 export default Ember.Component.extend(TrackCard, {
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
   classNameBindings: ['missingContent:hidden'],
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
   isSimilarContent: false,
-  mixpanel: Ember.inject.service('mixpanel'),
 
   missingContent: Ember.computed.empty('item'),
 
@@ -44,17 +45,12 @@ export default Ember.Component.extend(TrackCard, {
   }.property('item.content'),
 
   actions: {
-    trackSimilarContentClick(){
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, 
-         mixpanel.getNavigationProperties('News', 'News Card', 1));
-      Ember.merge(props, mixpanel.getContentProperties(this.get('item')));
-      Ember.merge(props, {'sourceContentId': this.get('sourceContentId')});
-      mixpanel.trackEvent('selectSimilarContent', props);
+    trackSimilarContentClick() {
+      this.trackEvent('selectSimilarContent', {
+        navControl: 'News',
+        navControlGroup: 'News Card',
+        sourceContentId: get(this, 'sourceContentId')
+      });
     }
   }
 });

@@ -75,7 +75,11 @@ export default Ember.Service.extend({
 
     merge(props, get(this, 'currentUserProperties')); // make sure this line is first so we can override!
 
-    if (get(currentController, 'model.id')) {
+    // Automatically track content properties when the controller model property
+    // is an ember data model. Checking for the presence of model id or whether
+    // the model is new is how we're determining if the controller model property
+    // is an ember model as opposed to a collection of models.
+    if (get(currentController, 'model.id') || get(currentController, 'model.isNew')) {
       const model = get(currentController, 'model');
       merge(props, this.getContentProperties(model));
     }

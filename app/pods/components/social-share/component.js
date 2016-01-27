@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 /* global FB */
 
 const {
@@ -6,7 +7,7 @@ const {
   get
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   classNames: ['SocialShare'],
 
   mailtoLink: computed('title', 'sharedBy', function() {
@@ -14,7 +15,8 @@ export default Ember.Component.extend({
     const title = encodeURIComponent(get(this, 'title'));
     const sharedBy = get(this, 'sharedBy');
     const subject = `Shared with you: ${title}`;
-    var body;
+    let body;
+
     if (sharedBy) {
       body = `${sharedBy} shared the following content from dailyUV.com with you: ${href}`;
     } else {
@@ -25,7 +27,23 @@ export default Ember.Component.extend({
   }),
 
   actions: {
+    shareEmail() {
+      const mailto = get(this, 'mailtoLink');
+
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Share Buttons',
+        navControl: 'email'
+      });
+
+      window.open(mailto, '_blank');
+    },
+
     shareFacebook() {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Share Buttons',
+        navControl: 'facebook'
+      });
+
       FB.ui({
         method: 'share',
         href: `${location.protocol}//${location.host}${location.pathname}`

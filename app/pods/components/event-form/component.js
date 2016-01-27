@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, isPresent, set } = Ember;
 
-export default Ember.Component.extend(Validation, {
+export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
   event: Ember.computed.alias('model'),
   schedules: null,
@@ -109,6 +110,13 @@ export default Ember.Component.extend(Validation, {
     if (get(this, 'registrationEnabled')) {
       this.validatePresenceOf('event.registrationDeadline');
     }
+  },
+
+  _getTrackingArguments() {
+    return {
+      navControlGroup: 'Create Content',
+      navControl: 'Discard Event Edit'
+    };
   },
 
   actions: {
