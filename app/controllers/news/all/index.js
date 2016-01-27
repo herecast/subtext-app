@@ -4,33 +4,33 @@ import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackgroundMobile: true,
 
-  queryParams: ['query', 'location', 'locationId', 'publication', 'page', 'per_page'],
+  queryParams: ['query', 'location', 'locationId', 'organization', 'page', 'per_page'],
 
   page: 1,
   per_page: 14,
 
   defaultQuery: 'Everything',
-  defaultPublication: 'Everyone',
+  defaultOrganization: 'Everyone',
   defaultLocation: 'All Communities',
   defaultLocationId: null,
 
   query: Ember.computed.oneWay('defaultQuery'),
-  publication: Ember.computed.oneWay('defaultPublication'),
+  organization: Ember.computed.oneWay('defaultOrganization'),
   location: Ember.computed.oneWay('defaultLocation'),
   locationId: Ember.computed.oneWay('defaultLocationId'),
 
   showReset: function() {
-    const isDefaultPublication = this.get('defaultPublication') === this.get('publication');
+    const isDefaultOrganization = this.get('defaultOrganization') === this.get('organization');
     const isDefaultQuery = this.get('defaultQuery') === this.get('query');
     const isDefaultLocation = this.get('defaultLocation') === this.get('location');
 
-    return !isDefaultPublication || !isDefaultLocation || !isDefaultQuery;
-  }.property('publication', 'query', 'location'),
+    return !isDefaultOrganization || !isDefaultLocation || !isDefaultQuery;
+  }.property('organization', 'query', 'location'),
 
   actions: {
     resetFilters() {
       const params = {
-        publication: this.get('defaultPublication'),
+        organization: this.get('defaultOrganization'),
         location: this.get('defaultLocation'),
         locationId: this.get('defaultLocationId'),
         query: this.get('defaultQuery')

@@ -85,7 +85,7 @@ const talkBaseProperties = [
 
 const newsBaseProperties = [
   'id', 'title', 'content', 'published_at', 'author_id', 'author_name',
-  'publication_name','publication_id', 'image_url'
+  'organization_name','organization_id', 'image_url'
 ];
 
 function dashboardTalks(db,start,stop) {
@@ -139,11 +139,11 @@ function mixedContent(db) {
   dashboardNews(db,0,2).forEach((record)=> {
     contents.push(record);
   });
-  
+
   dashboardTalks(db,0,2).forEach((record)=> {
     contents.push(record);
   });
-  
+
   dashboardMarketPosts(db,0,1).forEach((record)=> {
     contents.push(record);
   });
@@ -159,7 +159,7 @@ function mixedContent(db) {
   dashboardEvents(db,0,1).forEach((record)=> {
     contents.push(record);
   });
-  
+
   dashboardTalkComments(db,0,2).forEach((record)=> {
     contents.push(record);
   });
@@ -268,15 +268,15 @@ export default function() {
     };
   });
 
-  // Used by the news filter bar to find publications
-  this.get('/publications', function(db, request) {
-    const publications = [];
+  // Used by the news filter bar to find organizations
+  this.get('/organizations', function(db, request) {
+    const organizations = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
     // no results so we can see what that looks like in the UI
     if (request.queryParams.query.indexOf('empty') !== 0) {
       for (let i = 1; i < 5; i += 1) {
-        publications.push({
+        organizations.push({
           id: i,
           name: faker.company.companyName()
         });
@@ -284,7 +284,7 @@ export default function() {
     }
 
     return {
-      publications: publications
+      organizations: organizations
     };
   });
 
@@ -550,7 +550,7 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
-    
+
     let contents = [];
 
     if(params['channel_type'] === 'news') {
@@ -564,7 +564,7 @@ export default function() {
     } else {
       contents = mixedContent(db).slice(start, stop);
     }
-    
+
     return {
       contents: contents
     };
