@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 import Validation from '../mixins/components/validation';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
@@ -13,7 +14,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Controller.extend(Validation, {
+export default Ember.Controller.extend(trackEvent, Validation, {
   secondaryBackground: true,
 
   init() {
@@ -108,6 +109,8 @@ export default Ember.Controller.extend(Validation, {
       const password = this.get('password');
       const email = this.get('email');
 
+      this.trackEvent('submitSignUp', { });
+
       if (get(this, 'isValid')) {
         ajax(url, {
           type: 'POST',
@@ -122,15 +125,16 @@ export default Ember.Controller.extend(Validation, {
             }
           }
         }).then(() => {
+          this.trackEvent('createSignup', { });
           this.transitionTo('register.complete');
         }).catch((response) => {
           set(this, 'requestErrors', response.jqXHR.responseJSON.errors);
-
           callback(RSVP.reject());
         });
       } else {
         callback(RSVP.resolve());
       }
+
     }
   }
 });

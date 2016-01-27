@@ -88,7 +88,11 @@
           }}
         </form>
 
-        <p>{{link-to 'Forgot your password?' 'forgot-password.index' class='h4 u-textUnderline'}}</p>
+        <p>
+          {{#link-to 'forgot-password.index' class='h4 u-textUnderline'}}
+            <span {{action 'trackForgotPassword'}}>Forgot your password?</span>
+          {{/link-to}}
+        </p>
         <p>{{link-to 'Resend confirmation email' 'register.reconfirm' class='h4 u-textUnderline'}}</p>
       </div>
     </div>
