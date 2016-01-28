@@ -55,7 +55,7 @@
               <div class=''>
                 {{fa-icon 'link'}}
 
-                {{#normalized-link url=model.eventUrl}}
+                {{#normalized-link url=model.eventUrl action=(action 'trackEventInfoClick' 'website')}}
                   {{truncate model.eventUrl length=22}}
                 {{/normalized-link}}
               </div>
@@ -65,7 +65,7 @@
               <div class=''>
                 {{fa-icon 'envelope'}}
 
-                <a href="mailto:{{model.contactEmail}}">
+                <a href="mailto:{{model.contactEmail}}" {{action 'trackEventInfoClick' 'email' preventDefault=false}} target='_blank'>
                   {{truncate model.contactEmail length=22}}
                 </a>
               </div>
@@ -75,7 +75,9 @@
               <div class=''>
                 {{fa-icon 'phone'}}
 
-                <a href='tel:{{model.contactPhone}}'>{{model.contactPhone}}</a>
+                <a href='tel:{{model.contactPhone}}' {{action 'trackEventInfoClick' 'phone' preventDefault=false}} target='_blank'>
+                  {{model.contactPhone}}
+                </a>
               </div>
             {{/if}}
           </div>

@@ -6,6 +6,13 @@ export default Ember.Controller.extend(TrackEvent, {
   scrollTo: null,
 
   actions: {
+    trackEventInfoClick(type) {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Event Info',
+        navControl: type
+      });
+    },
+
     trackMapClick() {
       this.trackEvent('selectNavControl', {
         navControlGroup: 'Event Info',
