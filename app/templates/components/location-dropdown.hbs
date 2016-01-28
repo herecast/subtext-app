@@ -12,11 +12,9 @@
 {{/if}}
 
 {{#if onUpdate}}
-  <span {{action 'toggleEditing'}}>
+  <span {{action 'toggleEditing' isEditing}}>
     {{#if isEditing}}
-      <span {{action 'trackEvent' 'selectNavControl'}}>
-        {{fa-icon 'save InlineEdit-icon'}}
-      </span>
+      {{fa-icon 'save InlineEdit-icon'}}
     {{else}}
       {{fa-icon 'pencil InlineEdit-icon'}}
     {{/if}}

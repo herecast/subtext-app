@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   classNames: ['PasswordReset'],
   showErrors: false,
 
@@ -28,11 +29,16 @@ export default Ember.Component.extend({
           }
         };
 
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Profile Feature Submit',
+          navControl: 'Submit Password Change'
+        });
+
         ajax(url, {
           type: 'PUT',
           data: data,
         }).then(() => {
-          this.sendAction('onSubmit');
+          this.attrs.onSubmit();
         });
       } else {
         this.toggleProperty('showErrors');

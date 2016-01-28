@@ -1,11 +1,9 @@
 import Ember from 'ember';
 import config from './../config/environment';
 import ajax from 'ic-ajax';
-import trackEvent from 'subtext-ui/mixins/track-event';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get } = Ember;
-
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend(TrackEvent, {
   locations: [],
   isEditing: false,
   mixpanel: Ember.inject.service('mixpanel'),
@@ -27,27 +25,30 @@ export default Ember.Component.extend(trackEvent, {
     });
   }.property('locations'),
 
-  _getTrackingArguments() {
-    let location = get(this, 'formattedLocations').findBy('id', get(this, 'selectedLocationId'));
-    location = location.formattedLocation;
-
-    return {
-      navControlGroup: 'Profile Feature Submit',
-      navControl: 'Submit Community Change',
-      userCommunity: location
-    };
-  },
-
   actions: {
-    toggleEditing: function() {
+    toggleEditing(isEditing) {
       this.toggleProperty('isEditing');
-      if (!this.get('isEditing')) {
+
+      if (isEditing) {
         const location = this.get('formattedLocations').findBy('id', this.get('selectedLocationId'));
+
         this.get('session.currentUser').setProperties({
           locationId:  this.get('selectedLocationId'),
           location: location.formattedLocation
         });
-        this.sendAction('onUpdate');
+
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Profile Feature Submit',
+          navControl: 'Submit Community Change',
+          userCommunity: location.formattedLocation
+        });
+
+        this.attrs.onUpdate();
+      } else {
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Profile Feature Edit',
+          navControl: 'community'
+        });
       }
     }
   }

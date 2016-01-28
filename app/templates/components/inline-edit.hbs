@@ -5,7 +5,7 @@
   class='InlineEdit-input'
 }}
 
-<span {{action 'toggleEditing'}}>
+<span {{action 'toggleEditing' isEditing}}>
   {{#if isEditing}}
     {{fa-icon 'save InlineEdit-icon'}}
   {{else}}
