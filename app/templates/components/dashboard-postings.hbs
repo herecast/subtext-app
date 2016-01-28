@@ -70,47 +70,57 @@
         <tr class='h4'>
           <th class='ContentTable-name'>
             {{#link-to 'dashboard' (query-params sort=nameParam page=1)}}
-              Name
+              <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
+                Name
 
-              {{#if sortedByName}}
-                {{fa-icon 'caret-down'}}
-              {{/if}}
+                {{#if sortedByName}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
             {{/link-to}}
           </th>
           <th class='hidden-sm hidden-xs'>
             {{#link-to 'dashboard' (query-params sort=typeParam page=1)}}
-              Type
+              <span {{action 'trackEvent' 'selectNavControl' 'Type'}}>
+                Type
 
-              {{#if sortedByType}}
-                {{fa-icon 'caret-down'}}
-              {{/if}}
+                {{#if sortedByType}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
             {{/link-to}}
           </th>
           <th class='{{if media.isMobile 'u-textPullRight'}}'>
             {{#link-to 'dashboard' (query-params sort=dateParam page=1)}}
-              Created
+              <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
+                Created
 
-              {{#if sortedByDate}}
-                {{fa-icon 'caret-down'}}
-              {{/if}}
+                {{#if sortedByDate}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
             {{/link-to}}
           </th>
           <th class='hidden-xs'>
             {{#link-to 'dashboard' (query-params sort=viewsParam page=1)}}
-              Views
+              <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
+                Views
 
-              {{#if sortedByViews}}
-                {{fa-icon 'caret-down'}}
-              {{/if}}
+                {{#if sortedByViews}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
             {{/link-to}}
           </th>
           <th class='hidden-xs'>
             {{#link-to 'dashboard' (query-params sort=commentsParam page=1)}}
-              Comments
+              <span {{action 'trackEvent' 'selectNavControl' 'Comments'}}>
+                Comments
 
-              {{#if sortedByComments}}
-                {{fa-icon 'caret-down'}}
-              {{/if}}
+                {{#if sortedByComments}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
             {{/link-to}}
           </th>
           <th class='hidden-xs' colspan='2'>&nbsp;</th>
