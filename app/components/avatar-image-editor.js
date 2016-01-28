@@ -3,11 +3,13 @@ import config from './../config/environment';
 import ajax from 'ic-ajax';
 
 const {
-  set
+  set,
+  Binding
 } = Ember;
 
 export default Ember.Component.extend({
   isEditingImage: false,
+  imageUrl: Binding.oneWay('currentUser.userimageUrl'),
 
   actions: {
     changePhoto() {
@@ -32,10 +34,11 @@ export default Ember.Component.extend({
 
         callback(promise);
 
-        promise.then(() => {
+        promise.then((data) => {
           this.setProperties({
             isEditingImage: false,
-            'currentUser.originalImageFile': undefined
+            'currentUser.originalImageFile': undefined,
+            'currentUser.userImageUrl': data['current_user']['user_image_url']
           });
         });
       }
