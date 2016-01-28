@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {
   get,
   isPresent,
+  isEmpty,
   run,
   set
 } = Ember;
@@ -66,13 +67,13 @@ export default Ember.Mixin.create({
   },
 
   hasValidPassword(password) {
-    const isLongEnough = (password.length >= 8) ? true : false;
+    const isLongEnough = (isPresent(password) && password.length >= 8) ? true : false;
 
     if (!isLongEnough) {
       set(this, 'errors.password', 'Is too short (minimum is 8 characters)');
     }
 
-    if (password === '') {
+    if (isEmpty(password)) {
       set(this, 'errors.password', 'Cannot be blank');
     }
 
