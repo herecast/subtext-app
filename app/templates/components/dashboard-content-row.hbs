@@ -16,15 +16,23 @@
 <td class='hidden-xs' colspan='2'>
   {{#if isTalk}}
     {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
-      View
+      <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
+        View
+      </span>
     {{/link-to}}
   {{else}}
     {{#link-to viewRoute content.id class='btn btn-link h4'}}
-      View
+      <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
+        View
+      </span>
     {{/link-to}}
   {{/if}}
 
   {{#if isEditable}}
-    {{link-to 'Edit' editRoute editId class='btn btn-link h4'}}
+    {{#link-to editRoute editId class='btn btn-link h4'}}
+      <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}}>
+        Edit
+      </span>
+    {{/link-to}}
   {{/if}}
 </td>
