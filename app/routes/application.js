@@ -41,9 +41,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
       // Force the tracker to run now so it's run before the user logs out
       // while the tracking properties are available.
       run(() => {
-        this.trackEvent('selectNavControl', {
+        this.trackEvent('signOut', {
           navControlGroup: 'User Account Menu',
-          navControl: 'log out'
+          navControl: 'Sign Out'
         });
       });
 
