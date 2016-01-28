@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
@@ -13,7 +14,7 @@ function sortBy(sort) {
   });
 }
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
   dateParam: sortBy('pubdate DESC'),
@@ -25,17 +26,24 @@ export default Ember.Component.extend({
   sortedByDate: equal('sort', 'pubdate DESC'),
   sortedByViews: equal('sort', 'view_count DESC'),
   sortedByComments: equal('sort', 'comment_count DESC'),
-  
+
   showPrevPage: computed.gt('page',1),
   showNextPage: computed('postings.[]','per_page', function() {
     let per = get(this,'per_page') || 8;
     let postingsCount = get(this,'postings.length');
     return postingsCount >= per;
   }),
-  
+
   isLoading: computed.alias('postings.isPending'),
   mobileTabsVisible: false,
-  
+
+  _getTrackingArguments(sortBy) {
+    return {
+      navControlGroup: 'Dashboard Controls',
+      navControl: `Sort ${sortBy}`
+    };
+  },
+
   actions: {
     nextPage: function() {
       this.incrementProperty('page');

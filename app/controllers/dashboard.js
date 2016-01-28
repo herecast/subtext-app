@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import config from '../config/environment';
 import ajax from 'ic-ajax';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { inject, get, RSVP, isPresent, computed } = Ember;
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(TrackEvent, {
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type'],
   contentModel: inject.service(),
@@ -15,7 +16,7 @@ export default Ember.Controller.extend({
   type: '',
 
   showPasswordForm: false,
-  
+
   postings: computed('page','sort','type',function() {
     const contentModel = get(this, 'contentModel');
     const page = get(this,'page');
@@ -36,7 +37,7 @@ export default Ember.Controller.extend({
 
     let promise = new RSVP.Promise((resolve) => {
       ajax(url).then((response) => {
-        
+
         const contents = response.contents.map((record) => {
           return contentModel.convert(record);
         });
@@ -44,18 +45,42 @@ export default Ember.Controller.extend({
         resolve(contents);
       });
     });
-    
+
     return Ember.ArrayProxy.extend(Ember.PromiseProxyMixin).create({
       promise: promise
     });
   }),
-  
+
   actions: {
+    saveUsername() {
+      this.TrackEvent('selectNavControl', {
+        navControlGroup: 'Profile Feature Submit',
+        navControl: 'Submit Username Change'
+      });
+
+      this.get('currentUser.content').save();
+    },
+
     submit() {
       this.get('currentUser.content').save();
     },
-    togglePasswordForm() {
+
+    togglePasswordForm(showPasswordForm) {
+      if (!showPasswordForm) {
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Profile Feature Edit',
+          navControl: 'password'
+        });
+      }
+
       this.toggleProperty('showPasswordForm');
+    },
+
+    trackEditName() {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Profile Feature Edit',
+        navControl: 'username'
+      });
     }
   }
 });

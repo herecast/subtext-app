@@ -5,7 +5,7 @@
         <span class='SectionHeader-text SectionHeader-text--secondaryBg'>My Profile</span>
       </h1>
     </header>
-    
+
     <div class='row'>
       <div class='col-sm-5'>
         {{#dashboard-section headerText='Account Details' isCollapsed=true}}
@@ -23,7 +23,8 @@
                   {{inline-edit
                     value=currentUser.name
                     class='Dashboard-userName u-layoutMargin0'
-                    action='submit'
+                    activate=(action 'trackEditName')
+                    action=(action 'saveUsername')
                   }}
                 </dd>
                 <dt>Email</dt>
@@ -40,16 +41,16 @@
                 <dt>Password</dt>
                 <dd>
                 {{#if showPasswordForm}}
-                  <a href='#' {{action 'togglePasswordForm'}} class=' u-textUnderline'>
+                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class=' u-textUnderline'>
                     Cancel
                   </a>
                   {{password-reset
                     userId=currentUser.userId
-                    onSubmit='togglePasswordForm'
+                    onSubmit=(action 'togglePasswordForm' showPasswordForm)
                   }}
-                  
+
                 {{else}}
-                  <a href='#' {{action 'togglePasswordForm'}} class=' u-textUnderline'>
+                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class=' u-textUnderline'>
                     Change Password
                   </a>
                 {{/if}}
@@ -59,7 +60,7 @@
           </div>
         {{/dashboard-section}}
       </div>
-      
+
       <div class='col-sm-7'>
         {{#dashboard-section headerText='My Community' isCollapsed=true}}
           <div class='DashboardSection-row'>
@@ -71,7 +72,7 @@
                 {{location-dropdown
                   selectedLocationId=currentUser.locationId
                   class='Dashboard-location'
-                  onUpdate='submit'
+                  onUpdate=(action 'submit')
                 }}
               </p>
               <p>Your community affects what we highlight on the home page and 
@@ -83,7 +84,7 @@
       </div>
     </div>
   </section>
-  
+
   <div class='Section'>
     <h1 class='SectionHeader Dashboard-header'>
       <span class='SectionHeader-text SectionHeader-text--secondaryBg'>

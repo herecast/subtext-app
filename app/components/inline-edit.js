@@ -5,11 +5,19 @@ export default Ember.Component.extend({
   isEditing: false,
   disabled: Ember.computed.not('isEditing'),
 
+  // Pass in callback action to trigger when inline editing is activated
+  activate: null,
+
   actions: {
-    toggleEditing: function() {
+    toggleEditing(isEditing) {
       this.toggleProperty('isEditing');
-      if (this.get('disabled')) {
+
+      if (isEditing) {
         this.sendAction('action');
+      } else {
+        if (this.attrs.activate) {
+          this.attrs.activate();
+        }
       }
     }
   }

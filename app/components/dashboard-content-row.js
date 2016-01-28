@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import moment from 'moment';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { computed, get } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   tagName: ['tr'],
   type: '',
 
@@ -70,5 +71,12 @@ export default Ember.Component.extend({
     } else {
       return get(this, 'content.id');
     }
-  })
+  }),
+
+  _getTrackingArguments(navControlText) {
+    return {
+      navControlGroup: 'Dashboard',
+      navControl: navControlText
+    };
+  }
 });

@@ -1,18 +1,24 @@
 import Ember from 'ember';
 import config from './../config/environment';
 import ajax from 'ic-ajax';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   set,
   Binding
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   isEditingImage: false,
   imageUrl: Binding.oneWay('currentUser.userimageUrl'),
 
   actions: {
     changePhoto() {
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Profile Feature Edit',
+        navControl: 'photo'
+      });
+
       set(this, 'isEditingImage', true);
       this.$('.ContentForm-fileField').click();
     },
@@ -33,6 +39,11 @@ export default Ember.Component.extend({
         });
 
         callback(promise);
+
+        this.trackEvent('selectNavControl', {
+          navControlGroup: 'Profile Feature Submit',
+          navControl: 'Submit Photo Change'
+        });
 
         promise.then((data) => {
           this.setProperties({
