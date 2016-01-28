@@ -9,12 +9,11 @@ export default Ember.Component.extend(ManualDropdown, {
   initInput: function() {
     this.$('input').keyup((e) => {
       const value = this.get('query');
-
       // Don't initiate a search if someone is tabbing through filters
       // or hits return.
       if (e.keyCode !== 9 && e.keyCode !== 13) {
         if (Ember.isPresent(value) && value.length > 2) {
-          Ember.run.debounce(this, this.updateFilter, value, 300);
+          Ember.run.debounce(this, this.updateFilter, value, 800);
         }
       }
     });

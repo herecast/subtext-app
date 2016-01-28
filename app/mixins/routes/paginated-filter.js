@@ -34,11 +34,12 @@ export default Ember.Mixin.create(TrackEvent, {
 
   goToPage(page) {
     const perPage = this.controller.get('per_page');
-
+    const currentUrl = window.location.href;
     this.set('scrollMaintainer.position', 0);
-
     this.transitionTo({
       queryParams: {page: page, per_page: perPage}
+    }).then(()=>{
+      this.send('trackPageView', currentUrl);
     });
   },
 
