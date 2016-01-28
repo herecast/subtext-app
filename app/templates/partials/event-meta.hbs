@@ -17,8 +17,8 @@
           </div>
 
           <div>
-          {{fa-icon 'map-marker'}}
-            <a href='{{model.directionsUrl}}' target='_blank'>
+            {{fa-icon 'map-marker'}}
+            <a href='{{model.directionsUrl}}' {{action 'trackMapClick' preventDefault=false}} target='_blank'>
               {{model.venueAddress}}, {{model.venueCity}}
             </a>
           </div>
