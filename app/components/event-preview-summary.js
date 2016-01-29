@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   isSaving: false,
 
   editLink: function() {
@@ -10,6 +11,13 @@ export default Ember.Component.extend({
       return 'events.edit.promotion';
     }
   }.property('model.isNew'),
+
+  _getTrackingArguments() {
+    return {
+      navControlGroup: 'Submit Content',
+      navControl: 'Submit Event'
+    };
+  },
 
   actions: {
     save(callback) {

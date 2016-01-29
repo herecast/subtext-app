@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-const isPresent = Ember.isPresent;
+const { get, isPresent } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
   classNameBindings: ['event.registrationDeadline:hasRegistrationDeadline'],
@@ -10,7 +10,6 @@ export default Ember.Component.extend(TrackCard, {
   venueName: Ember.computed.oneWay('event.venueName'),
   venueCity: Ember.computed.oneWay('event.venueCity'),
   venueState: Ember.computed.oneWay('event.venueState'),
-  mixpanel: Ember.inject.service('mixpanel'),
 
   timeRange: Ember.computed.oneWay('event.formattedDate'),
 
@@ -37,17 +36,12 @@ export default Ember.Component.extend(TrackCard, {
   }.property('event.id', 'event.eventInstanceId'),
 
   actions: {
-    trackSimilarContentClick(){
-      const mixpanel = this.get('mixpanel');
-      const currentUser = this.get('session.currentUser');
-      const props = {};
-
-      Ember.merge(props, mixpanel.getUserProperties(currentUser));
-      Ember.merge(props, 
-         mixpanel.getNavigationProperties('Event', 'Event Card', 1));
-      Ember.merge(props, mixpanel.getContentProperties(this.get('event')));
-      Ember.merge(props, {'sourceContentId': this.get('sourceContentId')});
-      mixpanel.trackEvent('selectSimilarContent', props);
+    trackSimilarContentClick() {
+      this.trackEvent('selectSimilarContent', {
+        navControl: 'Event',
+        navControlGroup: 'Event Card',
+        sourceContentId: get(this, 'sourceContentId')
+      });
     }
   }
 });

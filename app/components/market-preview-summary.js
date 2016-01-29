@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   set
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackEvent, {
   isSaving: false,
 
   editLink: function() {
@@ -14,6 +15,13 @@ export default Ember.Component.extend({
       return 'market.edit.promotion';
     }
   }.property('model.isNew'),
+
+  _getTrackingArguments() {
+    return {
+      navControlGroup: 'Submit Content',
+      navControl: 'Submit Market Listing'
+    };
+  },
 
   actions: {
     save(callback) {

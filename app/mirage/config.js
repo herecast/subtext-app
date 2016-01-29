@@ -405,6 +405,8 @@ export default function() {
     };
   });
 
+  this.post('/promotion_banners/:id/track_click', function() {});
+
   this.get('/market_posts', function(db, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);

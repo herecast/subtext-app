@@ -1,8 +1,11 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
+import TrackEvent from 'subtext-ui/mixins/track-event';
 
-export default Ember.Component.extend({
+const { get } = Ember;
+
+export default Ember.Component.extend(TrackEvent, {
   classNames: ['ReportAbuse'],
 
   showAbuseReportMenu: false,
@@ -46,6 +49,11 @@ export default Ember.Component.extend({
       } else {
         this.set('invalid', true);
       }
+
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Report Abuse',
+        navControl: get(this, 'flagType')
+      });
     }
   }
 });
