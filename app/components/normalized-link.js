@@ -5,6 +5,13 @@ export default Ember.Component.extend({
   attributeBindings: ['href', 'target'],
   target: '_blank',
 
+  click() {
+    if (this.attrs.action) {
+      this.attrs.action();
+      return true;
+    }
+  },
+
   href: function() {
     const url = this.get('url');
 
