@@ -3,7 +3,7 @@ import Ember from 'ember';
 import Config from '../config/environment';
 /* global mixpanel */
 
-const { get, merge, computed } = Ember;
+const { get, merge, computed, isEmpty } = Ember;
 
 export default Ember.Service.extend({
 
@@ -85,6 +85,13 @@ export default Ember.Service.extend({
     }
 
     merge(props, properties);
+
+    // remove empty properties
+    for(var k in props) {
+      if(isEmpty(props[k])) {
+        delete props[k];
+      }
+    }
 
     if (this.pageHasAnalytics()) {
       window.mixpanel.track(event, props);
