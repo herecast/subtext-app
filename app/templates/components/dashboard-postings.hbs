@@ -12,6 +12,8 @@
         Talk
       {{else if (eq 'market' type)}}
         Market
+      {{else if (eq 'promotion_banner' type)}}
+        Ads
       {{/if}}
       <i class='TabNavigation-toggleIndicator fa {{if mobileTabsVisible "fa-chevron-up" "fa-chevron-down"}}'></i>
     </span>
@@ -48,8 +50,14 @@
         class='TabNavigation-link TabNavigation-marketLink'
       }}
     </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Ads' 'dashboard'
+        (query-params page=1 type='promotion_banner')
+        class='TabNavigation-link TabNavigation-promotionLink'
+      }}
+    </li>
   </ul>
-  
+
 </div>
 <div class='Dashboard-content'>
   <div class='Dashboard-addContent u-textPullRight u-layoutPadB20'>
@@ -118,6 +126,17 @@
                 Comments
 
                 {{#if sortedByComments}}
+                  {{fa-icon 'caret-down'}}
+                {{/if}}
+              </span>
+            {{/link-to}}
+          </th>
+          <th class='hidden-xs'>
+            {{#link-to 'dashboard' (query-params sort=clicksParam page=1)}}
+              <span {{action 'trackEvent' 'selectNavControl' 'Clicks'}}>
+                Clicks
+
+                {{#if sortedByClicks}}
                   {{fa-icon 'caret-down'}}
                 {{/if}}
               </span>

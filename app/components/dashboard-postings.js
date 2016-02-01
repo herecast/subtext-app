@@ -20,12 +20,14 @@ export default Ember.Component.extend(TrackEvent, {
   dateParam: sortBy('pubdate DESC'),
   viewsParam: sortBy('view_count DESC'),
   commentsParam: sortBy('comment_count DESC'),
+  clicksParam: sortBy('click_count DESC'),
 
   sortedByName: equal('sort', 'title ASC'),
   sortedByType: equal('sort', 'channel_type ASC, pubdate DESC'),
   sortedByDate: equal('sort', 'pubdate DESC'),
   sortedByViews: equal('sort', 'view_count DESC'),
   sortedByComments: equal('sort', 'comment_count DESC'),
+  sortedByClicks: equal('sort', 'click_count DESC'),
 
   showPrevPage: computed.gt('page',1),
   showNextPage: computed('postings.[]','per_page', function() {

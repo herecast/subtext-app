@@ -133,6 +133,16 @@ function dashboardEvents(db,start,stop) {
     return record;
   });
 }
+
+function dashboardAds(db,start,stop) {
+  return db.promotion_banners.slice(start,stop).map((item) => {
+    const record = item;
+    record.content_type = 'promotion_banner';
+    record.view_count = faker.random.number(100);
+    return record;
+  });
+}
+
 function mixedContent(db) {
   const contents = [];
 
@@ -565,6 +575,9 @@ export default function() {
       contents = dashboardMarketPosts(db,start,stop);
     } else {
       contents = mixedContent(db).slice(start, stop);
+
+      const ads = dashboardAds(db, start, stop);
+      contents.pushObjects(ads);
     }
 
     return {

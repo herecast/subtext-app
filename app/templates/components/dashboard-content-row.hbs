@@ -3,6 +3,8 @@
       {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor)}}
         {{x-truncate text=content.title maxLength=50}}
       {{/link-to}}
+    {{else if isPromotion}}
+      {{x-truncate text=content.title maxLength=50}}
     {{else}}
       {{#link-to viewRoute content.id}}
         {{x-truncate text=content.title maxLength=50}}
@@ -13,6 +15,7 @@
 <td class='{{if media.isMobile 'u-textPullRight'}}'>{{publishedAt}}</td>
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
+<td class='hidden-xs'>{{content.clicks}}</td>
 <td class='hidden-xs' colspan='2'>
   {{#if isTalk}}
     {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
@@ -20,6 +23,8 @@
         View
       </span>
     {{/link-to}}
+  {{else if isPromotion}}
+    <!-- Remove this condition and replace with link to metrics when available -->
   {{else}}
     {{#link-to viewRoute viewId class='btn btn-link h4'}}
       <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
