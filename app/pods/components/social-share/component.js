@@ -35,7 +35,7 @@ export default Ember.Component.extend(TrackEvent, {
         navControl: 'email'
       });
 
-      window.open(mailto, '_blank');
+      window.location.href = mailto;
     },
 
     shareFacebook() {
