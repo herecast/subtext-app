@@ -9,7 +9,7 @@ export default Ember.Controller.extend(trackEvent, {
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type'],
   contentModel: inject.service(),
-
+  refresh: null,
   page: 1,
   per_page: 8,
   sort: 'pubdate DESC',
@@ -17,7 +17,7 @@ export default Ember.Controller.extend(trackEvent, {
 
   showPasswordForm: false,
 
-  postings: computed('page','sort','type',function() {
+  postings: computed('page','sort','type','refresh',function() {
     const contentModel = get(this, 'contentModel');
     const page = get(this,'page');
     const per_page = get(this,'per_page');
