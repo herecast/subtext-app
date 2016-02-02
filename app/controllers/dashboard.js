@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import config from '../config/environment';
 import ajax from 'ic-ajax';
-import TrackEvent from 'subtext-ui/mixins/track-event';
+import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { inject, get, RSVP, isPresent, computed } = Ember;
 
-export default Ember.Controller.extend(TrackEvent, {
+export default Ember.Controller.extend(trackEvent, {
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type'],
   contentModel: inject.service(),
@@ -53,7 +53,7 @@ export default Ember.Controller.extend(TrackEvent, {
 
   actions: {
     saveUsername() {
-      this.TrackEvent('selectNavControl', {
+      this.trackEvent('selectNavControl', {
         navControlGroup: 'Profile Feature Submit',
         navControl: 'Submit Username Change'
       });
