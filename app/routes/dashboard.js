@@ -14,9 +14,10 @@ export default Ember.Route.extend(Authorized, History, {
      * It is fetched in controller to avoid a full route reload.
      * Anti-pattern?  Maybe...
      */
-     
+
     controller.setProperties({
-      currentUser: get(this, 'session.currentUser')
+      currentUser: get(this, 'session.currentUser'),
+      refresh: new Date() // Tell the controller to get new data
     });
   }
 });
