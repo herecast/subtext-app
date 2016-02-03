@@ -47,11 +47,27 @@ export default Ember.Component.extend(TrackEvent, {
     }
   }),
 
-  parentContentId: computed('talk.parentContentId', function() {
+  parentContentId: computed('content.parentContentId','content.parentContentType', function() {
     if (get(this, 'content.parentContentType') === 'event') {
       return get(this, 'content.parentEventInstanceId');
     } else {
       return get(this, 'content.parentContentId');
+    }
+  }),
+
+  parentOrSelfId: computed('parentContentId','content.id',function() {
+    if(get(this,'parentContentId')) {
+      return get(this,'parentContentId'); 
+    } else {
+      return get(this,'content.id');
+    }
+  }),
+
+  viewId: computed('isTalk','content.id','parentOrSelfId',function(){
+    if(get(this,'isTalk')){
+      return get(this,'parentOrSelfId');
+    } else {
+      return get(this,'content.id');
     }
   }),
 
