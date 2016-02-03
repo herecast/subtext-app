@@ -7,7 +7,7 @@
     </header>
 
     <div class='row'>
-      <div class='col-sm-5'>
+      <div class='col-sm-6'>
         {{#dashboard-section headerText='Account Details' isCollapsed=true}}
           <div class='DashboardSection-row'>
             <div class='DashboardSection-column'>
@@ -22,7 +22,7 @@
                 <dd>
                   {{inline-edit
                     value=currentUser.name
-                    class='Dashboard-userName u-layoutMargin0'
+                    class='Dashboard-form-value u-layoutMargin0'
                     activate=(action 'trackEditName')
                     action=(action 'saveUsername')
                   }}
@@ -34,14 +34,14 @@
                       value=currentUser.email
                       autoresize=true
                       disabled=true
-                      class='Dashboard-email'
+                      class='Dashboard-form-value Dashboard-email'
                     }}
                   </div>
                 </dd>
                 <dt>Password</dt>
                 <dd>
                 {{#if showPasswordForm}}
-                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class=' u-textUnderline'>
+                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class='Dashboard-form-value u-textUnderline'>
                     Cancel
                   </a>
                   {{password-reset
@@ -50,7 +50,7 @@
                   }}
 
                 {{else}}
-                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class=' u-textUnderline'>
+                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class='Dashboard-form-value u-textUnderline'>
                     Change Password
                   </a>
                 {{/if}}
@@ -61,17 +61,14 @@
         {{/dashboard-section}}
       </div>
 
-      <div class='col-sm-7'>
+      <div class='col-sm-6'>
         {{#dashboard-section headerText='My Community' isCollapsed=true}}
           <div class='DashboardSection-row'>
-            <div class='DashboardSection-column'>
-              <h5 class='h4 u-textUnderline'>Change&nbsp;Community</h5>
-            </div>
             <div class='DashboardSection-column'>
               <p>
                 {{location-dropdown
                   selectedLocationId=currentUser.locationId
-                  class='Dashboard-location'
+                  class='Dashboard-form-value Dashboard-location'
                   onUpdate=(action 'submit')
                 }}
               </p>
