@@ -1,6 +1,6 @@
 <td>
     {{#if isTalk}}
-      {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor)}}
+      {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor)}}
         {{x-truncate text=content.title maxLength=50}}
       {{/link-to}}
     {{else}}
@@ -15,13 +15,13 @@
 <td class='hidden-xs'>{{content.comments}}</td>
 <td class='hidden-xs' colspan='2'>
   {{#if isTalk}}
-    {{#link-to content.parentContentRoute parentContentId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
+    {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
       <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
         View
       </span>
     {{/link-to}}
   {{else}}
-    {{#link-to viewRoute content.id class='btn btn-link h4'}}
+    {{#link-to viewRoute viewId class='btn btn-link h4'}}
       <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
         View
       </span>
