@@ -211,11 +211,11 @@ export default Ember.Service.extend({
 
   getContentProperties: function(content) {
     const props = {
-      contentId: content.get('contentId'),
-      contentTitle: content.get('title'),
-      contentOrganization: content.get('organizationName'),
+      contentId: get(content, 'contentId'),
+      contentTitle: get(content, 'title'),
+      contentOrganization: get(content, 'organizationName'),
     };
-    const pubdate = content.get('publishedAt');
+    const pubdate = get(content, 'publishedAt');
     // don't want to throw an error by calling format() on nothing
     if (pubdate) {
       props['contentPubdate'] = pubdate.format();

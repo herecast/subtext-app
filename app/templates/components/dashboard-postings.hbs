@@ -133,10 +133,11 @@
               <td class='hidden-xs'>{{ad.impressionCount}}</td>
               <td class='hidden-xs'>{{ad.clickCount}}</td>
               <td class='hidden-xs' colspan='2'>
-                <!--  When metrics page is ready, link to it from here -->
-                <span class='u-layoutPadB10 u-layoutPadT10'>
-                  &nbsp; <!-- The view metrics button will create the spacing expected here -->
-                </span>
+                {{#link-to 'ad-metrics.show' ad.id class='btn btn-link h4'}}
+                  <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
+                    Metrics
+                  </span>
+                {{/link-to}}
               </td>
             </tr>
           {{/each}}

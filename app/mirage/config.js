@@ -618,4 +618,16 @@ export default function() {
       image: image
     };
   });
+
+  this.get('/contents/:id/metrics', function(db){
+    return {
+      content_metrics: db['content-metrics'][0]
+    };
+  });
+
+  this.get('/promotion_banners/:id/metrics', function(db){
+    return {
+      promotion_banner_metrics: db['ad-metrics'][0]
+    };
+  });
 }

@@ -18,21 +18,11 @@
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
 <td class='hidden-xs' colspan='2'>
-  {{#if isTalk}}
-    {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}
-      <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
-        View
-      </span>
-    {{/link-to}}
-  {{else if isPromotion}}
-    <!-- Remove this condition and replace with link to metrics when available -->
-  {{else}}
-    {{#link-to viewRoute viewId class='btn btn-link h4'}}
-      <span {{action 'trackEvent' 'selectNavControl' 'View Button'}}>
-        View
-      </span>
-    {{/link-to}}
-  {{/if}}
+  {{#link-to 'content-metrics.show' content.contentId class='btn btn-link h4'}}
+    <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
+      Metrics
+    </span>
+  {{/link-to}}
 
   {{#if isEditable}}
     {{#link-to editRoute editId class='btn btn-link h4'}}
