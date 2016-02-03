@@ -11,7 +11,7 @@ export default Ember.Component.extend(TrackEvent, {
   isTalk: Ember.computed.equal('type', 'talk'),
 
   contentType: computed(function() {
-    const type = get(this, 'type');
+    const type = get(this, 'type') || '';
 
     if (type === 'market-post') {
       return 'Market';
