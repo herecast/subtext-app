@@ -1,9 +1,9 @@
 .TabNavigation {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  @media (max-width: @screen-xs-max) {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+  @media (min-width: @screen-sm-min) {
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 }
 
@@ -18,12 +18,15 @@
   padding: 0;
   margin: 0;
   width: 100%;
+
+  .is-collapsed & {
+    display: none;
+  }
+
   @media (min-width: @screen-sm-min) {
     display: table;
-  }
-  @media (max-width: @screen-sm-min) {
     .is-collapsed & {
-      display: none;
+      display: table;
     }
   }
 }
@@ -40,8 +43,9 @@
   display: table-cell;
   background: @gray-light;
   text-align: right;
-  padding: 0.5em; 
+  padding: 0.5em;
 }
+
 .TabNavigation-toggle {
   font-size: 24px;
   font-family: @font-family-condensed;
@@ -80,15 +84,14 @@
   &:last-of-type {
     border-right: none;
   }
-  
+
   @media(min-width: @screen-sm-min) {
     margin: 0 6px;
     text-align: center;
     display: table-cell;
     border-bottom: none;
     border-right: 2px solid @gray-light;
-  }  
-  
+  }
 }
 
 .TabNavigation-link {
@@ -103,7 +106,7 @@
   }
 }
 
-@media (max-width: @screen-sm-min) {
+@media (max-width: @screen-xs-min) {
   .TabNavigation-link {
     &:before {
       content: "•";
@@ -155,6 +158,6 @@
   }
 
   .TabNavigation-everythingLink:hover, .TabNavigation-everythingLink.active {
-    border-top-color: @gray-light;
+    border-top-color: #000;
   }
 }
