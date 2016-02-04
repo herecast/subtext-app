@@ -45,6 +45,7 @@ export default Ember.Component.extend(TrackEvent, {
         }).then(() => {
           this.set('showSuccess', true);
           this.send('close');
+          this.trackEvent('moderateContent',{});
         });
       } else {
         this.set('invalid', true);
