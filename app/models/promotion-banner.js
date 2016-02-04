@@ -8,9 +8,14 @@ const { computed } = Ember;
 export default DS.Model.extend({
   clickCount: attr('number'),
   imageUrl: attr('string'),
-  impressionCount: attr('number'),
+  redirectUrl: attr('string'),
   pubdate: attr('moment-date', {defaultValue: moment()}),
   title: attr('string'),
+
+  campaign_start: attr('moment-date'),
+  campaign_end: attr('moment-date'),
+  maxImpressions: attr('number'),
+  impressionCount: attr('number'),
 
   publishedAt: computed.oneWay('pubdate'),
   viewCount: computed.oneWay('impressionCount')

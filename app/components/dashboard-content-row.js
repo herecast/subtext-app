@@ -9,7 +9,6 @@ export default Ember.Component.extend(TrackEvent, {
   type: '',
 
   isTalk: computed.equal('type', 'talk'),
-  isPromotion: computed.equal('type', 'promotion-banner'),
 
   contentType: computed(function() {
     const type = get(this, 'type') || '';

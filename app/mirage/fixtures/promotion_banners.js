@@ -11,8 +11,11 @@ function template(id) {
     click_count: faker.random.number(8),
     pubdate: startsAt.toISOString(),
     impression_count: faker.random.number(1000),
+    max_impression: faker.random.number(1000),
     image_url: imageUrl,
-    redirect_url: "http://thelymeinn.com/"
+    redirect_url: "http://thelymeinn.com/",
+    campaign_start: startsAt,
+    compaign_end: faker.date.future()
   };
 }
 

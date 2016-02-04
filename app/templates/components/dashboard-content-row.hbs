@@ -11,11 +11,12 @@
       {{/link-to}}
     {{/if}}
 </td>
-<td class='hidden-xs hidden-sm'>{{contentType}}</td>
+{{#if showTypeColumn}}
+  <td class='hidden-xs hidden-sm'>{{contentType}}</td>
+{{/if}}
 <td class='{{if media.isMobile 'u-textPullRight'}}'>{{publishedAt}}</td>
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
-<td class='hidden-xs'>{{content.clicks}}</td>
 <td class='hidden-xs' colspan='2'>
   {{#if isTalk}}
     {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor) class='btn btn-link h4'}}

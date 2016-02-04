@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { isBlank, isPresent } = Ember;
+const { isBlank } = Ember;
 
 // This is not an Ember Data model, but more of a factory class.
 // We are getting an array of content "models" from the API where each one is
@@ -12,9 +12,9 @@ const { isBlank, isPresent } = Ember;
 export default Ember.Service.extend({
   convert(record) {
     const type = record.content_type;
-    const views = isPresent(record.view_count) ? record.view_count : record.impression_count;
-    const comments = isPresent(record.comment_count) ? record.comment_count : 'N/A';
-    const clicks = isPresent(record.click_count) ? record.click_count : 'N/A';
+    const views = record.view_count;
+    const comments = record.comment_count;
+
     let modelName = '';
 
     if (type === 'news' || type === 'News') {
@@ -25,8 +25,6 @@ export default Ember.Service.extend({
       modelName = 'market-post';
     } else if (type === 'talk_of_the_town' || type === 'Comment') {
       modelName = 'talk';
-    } else if (type === 'promotion_banner') {
-      modelName = 'promotion-banner';
     }
 
     // We depend on the content id to be set for all content. If it is not set
@@ -44,7 +42,6 @@ export default Ember.Service.extend({
       item.set('contentType', modelName);
       item.set('views', views);
       item.set('comments', comments);
-      item.set('clicks', clicks);
 
       return item;
     }
