@@ -5,11 +5,8 @@ export default Ember.Controller.extend({
   isPreview: true,
 
   actions: {
-    trackEventInfoClick(type) {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Event Info',
-        navControl: type
-      });
+    trackEventInfoClick() {
+      /* we aren't going to track here */
     },
   }
 });
