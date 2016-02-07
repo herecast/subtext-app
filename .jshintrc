@@ -5,7 +5,8 @@
     "window",
     "-Promise",
     "faker",
-    "Pikaday"
+    "Pikaday",
+    "sinon"
   ],
   "browser": true,
   "boss": true,

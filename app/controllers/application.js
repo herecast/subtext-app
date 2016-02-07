@@ -1,13 +1,14 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
+const { get, set } = Ember;
+
 export default Ember.Controller.extend(trackEvent, {
   intercom: Ember.inject.service('intercom'),
   newsFilter: Ember.inject.controller('news/all/index'),
   eventsFilter: Ember.inject.controller('events/all/index'),
   talkFilter: Ember.inject.controller('talk/all/index'),
   marketFilter: Ember.inject.controller('market/all/index'),
-
   backgroundClass: function() {
     const currentController = this.controllerFor(this.get('currentPath'));
     let klass = '';
