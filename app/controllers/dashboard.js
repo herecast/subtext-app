@@ -17,12 +17,29 @@ export default Ember.Controller.extend(trackEvent, {
 
   showPasswordForm: false,
 
-  postings: computed('page','sort','type','refresh',function() {
+  ads: computed('page', 'sort', 'type', 'refresh', function() {
+    const page = get(this, 'page');
+    const per_page = get(this, 'per_page');
+    const sort = get(this, 'sort');
+    const type = get(this, 'type');
+
+    if(type === 'promotion-banner') {
+      return this.store.query('promotion-banner', {
+        page: page,
+        per_page: per_page,
+        sort: sort
+      });
+    } else {
+      return []; 
+    }
+  }),
+
+  postings: computed('page', 'sort', 'type', 'refresh',function() {
     const contentModel = get(this, 'contentModel');
-    const page = get(this,'page');
-    const per_page = get(this,'per_page');
-    const sort = get(this,'sort');
-    const type = get(this,'type');
+    const page = get(this, 'page');
+    const per_page = get(this, 'per_page');
+    const sort = get(this, 'sort');
+    const type = get(this, 'type');
     const queryParams = [
       `page=${page}`,
       `per_page=${per_page}`,
@@ -35,20 +52,24 @@ export default Ember.Controller.extend(trackEvent, {
 
     const url = `${config.API_NAMESPACE}/dashboard?${queryParams.join('&')}`;
 
-    let promise = new RSVP.Promise((resolve) => {
-      ajax(url).then((response) => {
+    if(type === 'promotion-banner') {
+      return [];
+    } else {
+      let promise = new RSVP.Promise((resolve) => {
+        ajax(url).then((response) => {
 
-        const contents = response.contents.map((record) => {
-          return contentModel.convert(record);
+          const contents = response.contents.map((record) => {
+            return contentModel.convert(record);
+          });
+
+          resolve(contents);
         });
-
-        resolve(contents);
       });
-    });
 
-    return Ember.ArrayProxy.extend(Ember.PromiseProxyMixin).create({
-      promise: promise
-    });
+      return Ember.ArrayProxy.extend(Ember.PromiseProxyMixin).create({
+        promise: promise
+      });
+    }
   }),
 
   actions: {

@@ -76,6 +76,10 @@
   color: @market-brand;
 }
 
+.TabNavigation-togglePromotion_banner {
+  color: @promotion-brand;
+}
+
 .TabNavigation-listItem {
   text-align: left;
   display: block;
@@ -134,6 +138,11 @@
       color: @talk-brand;
     }
   }
+  .TabNavigation-promotionLink {
+    &:before {
+      color: @promotion-brand;
+    }
+  }
 }
 
 @media (min-width: @screen-sm-min) {
@@ -159,5 +168,8 @@
 
   .TabNavigation-everythingLink:hover, .TabNavigation-everythingLink.active {
     border-top-color: #000;
+  }
+  .TabNavigation-promotionLink:hover, .TabNavigation-promotionLink.active {
+    border-top-color: @promotion-brand;
   }
 }

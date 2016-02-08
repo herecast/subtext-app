@@ -12,6 +12,8 @@
         Talk
       {{else if (eq 'market' type)}}
         Market
+      {{else if (eq 'promotion_banner' type)}}
+        Ads
       {{/if}}
       <i class='TabNavigation-toggleIndicator fa {{if mobileTabsVisible "fa-chevron-up" "fa-chevron-down"}}'></i>
     </span>
@@ -20,36 +22,42 @@
   <ul class='TabNavigation-list'>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'Everything' 'dashboard'
-        (query-params page=1 type='')
+        (query-params page=1 type='' sort=dateParam)
         class='TabNavigation-link TabNavigation-everythingLink'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My News' 'dashboard'
-        (query-params page=1 type='news')
+        (query-params page=1 type='news' sort=dateParam)
         class='TabNavigation-link TabNavigation-newsLink'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Events' 'dashboard'
-        (query-params page=1 type='events')
+        (query-params page=1 type='events' sort=dateParam)
         class='TabNavigation-link TabNavigation-eventLink'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Talk' 'dashboard'
-        (query-params page=1 type='talk')
+        (query-params page=1 type='talk' sort=dateParam)
         class='TabNavigation-link TabNavigation-talkLink'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Market' 'dashboard'
-        (query-params page=1 type='market')
+        (query-params page=1 type='market' sort=dateParam)
         class='TabNavigation-link TabNavigation-marketLink'
       }}
     </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Ads' 'dashboard'
+        (query-params page=1 type='promotion-banner' sort=dateParam)
+        class='TabNavigation-link TabNavigation-promotionLink'
+      }}
+    </li>
   </ul>
-  
+
 </div>
 <div class='Dashboard-content'>
   <div class='Dashboard-addContent u-textPullRight u-layoutPadB20'>
@@ -65,77 +73,158 @@
   {{#if isLoading}}
     {{x-loader}}
   {{else}}
-    <table class='ContentTable'>
-      <thead>
-        <tr class='h4'>
-          <th class='ContentTable-name'>
-            {{#link-to 'dashboard' (query-params sort=nameParam page=1)}}
-              <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
-                Name
+    {{#if (eq type 'promotion-banner')}}
+      <!-- Promotion Banner Records -->
+      <table class='ContentTable ContentTable--ads'>
+        <thead>
+          <tr class='h4'>
+            <th class='ContentTable-name'>
+              {{#link-to 'dashboard' (query-params sort=nameParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
+                  Name
 
-                {{#if sortedByName}}
-                  {{fa-icon 'caret-down'}}
-                {{/if}}
-              </span>
-            {{/link-to}}
-          </th>
-          <th class='hidden-sm hidden-xs'>
-            {{#link-to 'dashboard' (query-params sort=typeParam page=1)}}
-              <span {{action 'trackEvent' 'selectNavControl' 'Type'}}>
-                Type
+                  {{#if sortedByName}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='{{if media.isMobile 'u-textPullRight'}}'>
+              {{#link-to 'dashboard' (query-params sort=dateParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
+                  Created
 
-                {{#if sortedByType}}
-                  {{fa-icon 'caret-down'}}
-                {{/if}}
-              </span>
-            {{/link-to}}
-          </th>
-          <th class='{{if media.isMobile 'u-textPullRight'}}'>
-            {{#link-to 'dashboard' (query-params sort=dateParam page=1)}}
-              <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
-                Created
+                  {{#if sortedByDate}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs'>
+              {{#link-to 'dashboard' (query-params sort=impressionsParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
+                  Views
 
-                {{#if sortedByDate}}
-                  {{fa-icon 'caret-down'}}
-                {{/if}}
-              </span>
-            {{/link-to}}
-          </th>
-          <th class='hidden-xs'>
-            {{#link-to 'dashboard' (query-params sort=viewsParam page=1)}}
-              <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
-                Views
+                  {{#if sortedByImpressions}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs'>
+              {{#link-to 'dashboard' (query-params sort=clicksParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Clicks'}}>
+                  Clicks
 
-                {{#if sortedByViews}}
-                  {{fa-icon 'caret-down'}}
-                {{/if}}
-              </span>
-            {{/link-to}}
-          </th>
-          <th class='hidden-xs'>
-            {{#link-to 'dashboard' (query-params sort=commentsParam page=1)}}
-              <span {{action 'trackEvent' 'selectNavControl' 'Comments'}}>
-                Comments
+                  {{#if sortedByClicks}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs' colspan='2'>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ads as |ad|}}
+            <tr>
+              <td>{{x-truncate text=ad.title maxLength=50}}</td>
+              <td class='{{if media.isMobile 'u-textPullRight'}}'>{{moment-format ad.pubdate 'L'}}</td>
+              <td class='hidden-xs'>{{ad.impressionCount}}</td>
+              <td class='hidden-xs'>{{ad.clickCount}}</td>
+              <td class='hidden-xs' colspan='2'>
+                <!--  When metrics page is ready, link to it from here -->
+                <span class='u-layoutPadB10 u-layoutPadT10'>
+                  &nbsp; <!-- The view metrics button will create the spacing expected here -->
+                </span>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <!-- Normal Content Records -->
+      <table class='ContentTable'>
+        <thead>
+          <tr class='h4'>
+            <th class='ContentTable-name'>
+              {{#link-to 'dashboard' (query-params sort=nameParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
+                  Name
 
-                {{#if sortedByComments}}
-                  {{fa-icon 'caret-down'}}
-                {{/if}}
-              </span>
-            {{/link-to}}
-          </th>
-          <th class='hidden-xs' colspan='2'>&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each postings as |content|}}
-          {{dashboard-content-row
-            content=content
-            type=content.contentType
-          }}
-        {{/each}}
-      </tbody>
-    </table>
+                  {{#if sortedByName}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            {{#if showTypeColumn}}
+              <th class='hidden-sm hidden-xs'>
+                {{#link-to 'dashboard' (query-params sort=typeParam page=1)}}
+                  <span {{action 'trackEvent' 'selectNavControl' 'Type'}}>
+                    Type
+
+                    {{#if sortedByType}}
+                      {{fa-icon 'caret-down'}}
+                    {{/if}}
+                  </span>
+                {{/link-to}}
+              </th>
+            {{/if}}
+            <th class='{{if media.isMobile 'u-textPullRight'}}'>
+              {{#link-to 'dashboard' (query-params sort=dateParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
+                  Created
+
+                  {{#if sortedByDate}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs'>
+              {{#link-to 'dashboard' (query-params sort=viewsParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
+                  Views
+
+                  {{#if sortedByViews}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs'>
+              {{#link-to 'dashboard' (query-params sort=commentsParam page=1)}}
+                <span {{action 'trackEvent' 'selectNavControl' 'Comments'}}>
+                  Comments
+
+                  {{#if sortedByComments}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                </span>
+              {{/link-to}}
+            </th>
+            <th class='hidden-xs' colspan='2'>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if (not-eq type 'promotion-banner')}}
+            {{#each postings as |content|}}
+              {{dashboard-content-row
+                content=content
+                type=content.contentType
+                showTypeColumn=showTypeColumn
+              }}
+            {{/each}}
+          {{else}}
+
+          {{/if}}
+        </tbody>
+      </table>
+    {{/if}}
   {{/if}}
+  <div class='u-layoutPadT10'>
   {{partial 'partials/pagination-nav'}}
+</div>
 </div>
 

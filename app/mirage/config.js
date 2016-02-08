@@ -133,6 +133,11 @@ function dashboardEvents(db,start,stop) {
     return record;
   });
 }
+
+function dashboardAds(db,start,stop) {
+  return db.promotion_banners.slice(start,stop);
+}
+
 function mixedContent(db) {
   const contents = [];
 
@@ -569,6 +574,16 @@ export default function() {
 
     return {
       contents: contents
+    };
+  });
+
+  this.get('/promotion_banners', function(db, request) {
+    const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
+
+    return {
+      promotion_banners: dashboardAds(db,start,stop)
     };
   });
 

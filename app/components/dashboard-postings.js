@@ -3,7 +3,7 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
-  computed: {equal},
+  computed: {equal, empty},
   get,
   set
 } = Ember;
@@ -20,22 +20,36 @@ export default Ember.Component.extend(TrackEvent, {
   dateParam: sortBy('pubdate DESC'),
   viewsParam: sortBy('view_count DESC'),
   commentsParam: sortBy('comment_count DESC'),
+  clicksParam: sortBy('click_count DESC'),
+  impressionsParam: sortBy('impression_count DESC'),
 
   sortedByName: equal('sort', 'title ASC'),
   sortedByType: equal('sort', 'channel_type ASC, pubdate DESC'),
   sortedByDate: equal('sort', 'pubdate DESC'),
   sortedByViews: equal('sort', 'view_count DESC'),
   sortedByComments: equal('sort', 'comment_count DESC'),
+  sortedByClicks: equal('sort', 'click_count DESC'),
+  sortedByImpressions: equal('sort', 'impression_count DESC'),
 
-  showPrevPage: computed.gt('page',1),
-  showNextPage: computed('postings.[]','per_page', function() {
-    let per = get(this,'per_page') || 8;
-    let postingsCount = get(this,'postings.length');
+  content: computed('type', 'postings.[]', 'postings.isPending', 'ads.[]', 'ads.isPending', function() {
+    if(get(this, 'type') === 'promotion-banner') {
+      return get(this, 'ads');
+    } else {
+      return get(this, 'postings'); 
+    }
+  }),
+
+  showPrevPage: computed.gt('page', 1),
+  showNextPage: computed('content.[]', 'per_page', function() {
+    let per = get(this, 'per_page') || 8;
+    let postingsCount = get(this, 'content.length');
     return postingsCount >= per;
   }),
 
-  isLoading: computed.alias('postings.isPending'),
+  isLoading: computed.alias('content.isPending'),
   mobileTabsVisible: false,
+
+  showTypeColumn: empty('type'),
 
   _getTrackingArguments(sortBy) {
     return {
@@ -52,7 +66,7 @@ export default Ember.Component.extend(TrackEvent, {
       this.decrementProperty('page');
     },
     firstPage: function(){
-      set(this,'page',1);
+      set(this, 'page', 1);
     },
     toggleMobileTabs: function() {
       this.toggleProperty('mobileTabsVisible');

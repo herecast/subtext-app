@@ -8,7 +8,7 @@ export default Ember.Component.extend(TrackEvent, {
   tagName: ['tr'],
   type: '',
 
-  isTalk: Ember.computed.equal('type', 'talk'),
+  isTalk: computed.equal('type', 'talk'),
 
   contentType: computed(function() {
     const type = get(this, 'type') || '';
@@ -17,6 +17,8 @@ export default Ember.Component.extend(TrackEvent, {
       return 'Market';
     } else if (type === 'event-instance') {
       return 'Event';
+    } else if (type === 'promotion-banner') {
+      return 'Ad';
     } else {
       return type.capitalize();
     }

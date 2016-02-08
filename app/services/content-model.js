@@ -14,6 +14,7 @@ export default Ember.Service.extend({
     const type = record.content_type;
     const views = record.view_count;
     const comments = record.comment_count;
+
     let modelName = '';
 
     if (type === 'news' || type === 'News') {
