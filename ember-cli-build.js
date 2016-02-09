@@ -54,5 +54,7 @@ module.exports = function(defaults) {
   app.import('bower_components/fullcalendar/dist/fullcalendar.js');
   app.import('bower_components/fullcalendar/dist/fullcalendar.css');
 
+  app.import('bower_components/Chart.js/Chart.js');
+
   return app.toTree();
 };

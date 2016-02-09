@@ -39,6 +39,9 @@ Router.map(function() {
   this.route('register.confirm', {path: '/sign_up/confirm/:token'});
   this.route('register.error', {path: '/sign_up/error'});
 
+  this.route('content-metrics.show', {path: '/metrics/content/:content_id'});
+  this.route('ad-metrics.show', {path: '/metrics/ad/:content_id'});
+
   this.route('events', {path: '/events'}, function() {
     this.route('all', {path: '/'}, function() {});
 
