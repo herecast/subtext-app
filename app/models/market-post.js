@@ -23,9 +23,11 @@ export default DS.Model.extend({
   hasContactInfo: DS.attr('boolean'),
   images: DS.hasMany('image'),
   imageUrl: DS.attr('string'),
-  listservIds: DS.attr('raw', {defaultValue: []}),
+  // Cannot use defaultValue: [] here.
+  // See: https://github.com/emberjs/ember.js/issues/9260
+  listservIds: DS.attr('raw', {defaultValue: function(){ return []; }}),
   price: DS.attr('string'),
-  publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
+  publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   title: DS.attr('string'),
 
   populatedImages: computed('images.@each.imageUrl', function() {
