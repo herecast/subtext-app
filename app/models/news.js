@@ -9,10 +9,12 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
-  images: DS.attr('raw', {defaultValue: []}),
+  // Cannot use defaultValue: [] here.
+  // See: https://github.com/emberjs/ember.js/issues/9260
+  images: DS.attr('raw', {defaultValue: function(){ return [];}}),
   organizationId: DS.attr('number'),
   organizationName: DS.attr('string'),
-  publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
+  publishedAt: DS.attr('moment-date', {defaultValue: function() {return moment();}}),
   subtitle: DS.attr('string'),
   title: DS.attr('string'),
 

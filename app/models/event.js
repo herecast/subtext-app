@@ -15,7 +15,9 @@ const {
 export default DS.Model.extend(BaseEvent, {
   category: DS.attr('string'),
   firstInstanceId: DS.attr('number'),
-  listservIds: DS.attr('raw', {defaultValue: []}),
+  // Cannot use defaultValue: [] here.
+  // See: https://github.com/emberjs/ember.js/issues/9260
+  listservIds: DS.attr('raw', {defaultValue: function() { return []; }}),
   schedules: DS.hasMany('schedule'),
 
   categoryEnabled: Ember.computed.notEmpty('category'),
