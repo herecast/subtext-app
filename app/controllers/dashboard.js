@@ -102,6 +102,13 @@ export default Ember.Controller.extend(trackEvent, {
         navControlGroup: 'Profile Feature Edit',
         navControl: 'username'
       });
+    },
+
+    sortBy(param) {
+      this.setProperties({
+        sort: param,
+        page: 1
+      });
     }
   }
 });
