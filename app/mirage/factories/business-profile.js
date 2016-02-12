@@ -30,5 +30,5 @@ export default Mirage.Factory.extend({
   feedback_num: "10",
   views: "237",
   category_ids: [],
-  biz_type() { return faker.helpers.shuffle('goes_to','comes_to') }
+  biz_type() { return faker.helpers.shuffle('goes_to','comes_to'); }
 });

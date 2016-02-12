@@ -1,54 +1,57 @@
 import Ember from 'ember';
-/* global google */
 
 const {
   get,
   set,
   computed,
-  isEmpty
+  isEmpty,
+  inject
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['GoogleMap'],
 
+  googleMapsService: inject.service('google-maps'),
   userLocation: null,
   defaultLocation: null,
   locations: null,
   markers: null,
-  googleMap: null,
+  googleMapInstance: null,
 
   initGoogleMap() {
+    const googleMapsService = get(this, 'googleMapsService').googleMaps;
     const mapContainer = Ember.$('.GoogleMap-embed');
     const defaultLocation = get(this, 'defaultLocation');
     const userLocation = get(this, 'userLocation');
 
-    if (typeof google !== 'undefined') {
-      const googleMap = new google.maps.Map(mapContainer[0], {
-        center: defaultLocation,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true,
-        zoom: 15 });
+    const googleMapInstance = new googleMapsService.maps.Map(mapContainer[0], {
+      center: defaultLocation,
+      mapTypeId: googleMapsService.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: true,
+      zoom: 15 });
 
-      set(this, 'googleMap', googleMap);
+    set(this, 'googleMapInstance', googleMapInstance);
 
-      if (userLocation) {
-        googleMap.setCenter(userLocation);
-      }
+    if (userLocation) {
+      googleMapInstance.setCenter(userLocation);
     }
   },
 
-  infoWindow: computed(() => {
-    return new google.maps.InfoWindow();
+  infoWindow: computed(function() {
+    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+
+    return new googleMapsService.maps.InfoWindow();
   }),
 
   buildMapMarkers(locations) {
-    const googleMap  = get(this, 'googleMap');
+    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+    const googleMapInstance  = get(this, 'googleMapInstance');
     const infoWindow = get(this, 'infoWindow');
 
     if (!isEmpty(locations)) {
       const markers = get(this, 'locations').map((location) => {
-        return new google.maps.Marker({
-          position: location.position,
+        return new googleMapsService.maps.Marker({
+          position: location.coords,
           title: location.title,
           infoWindowContent: location.content
         });
@@ -58,7 +61,7 @@ export default Ember.Component.extend({
         return marker.addListener('click', function() {
           infoWindow.close();
           infoWindow.setContent(this.infoWindowContent);
-          infoWindow.open(googleMap, this);
+          infoWindow.open(googleMapInstance, this);
         });
       });
 
@@ -84,7 +87,8 @@ export default Ember.Component.extend({
   },
 
   getBounds(markers) {
-    const LatLngBounds = new google.maps.LatLngBounds();
+    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+    const LatLngBounds = new googleMapsService.maps.LatLngBounds();
 
     markers.forEach(marker => {
       return LatLngBounds.extend(marker.position);
@@ -94,14 +98,15 @@ export default Ember.Component.extend({
   },
 
   zoomMap(LatLngBounds, googleMap) {
+    const googleMapsService = get(this, 'googleMapsService').googleMaps;
     // Don't zoom in too far on only one marker
     const offset = 0.005;
 
-    const extendPoint1 = new google.maps.LatLng(
+    const extendPoint1 = new googleMapsService.maps.LatLng(
       LatLngBounds.getNorthEast().lat() + offset,
       LatLngBounds.getNorthEast().lng() + offset);
 
-    const extendPoint2 = new google.maps.LatLng(
+    const extendPoint2 = new googleMapsService.maps.LatLng(
       LatLngBounds.getNorthEast().lat() - offset,
       LatLngBounds.getNorthEast().lng() - offset);
 
@@ -112,7 +117,7 @@ export default Ember.Component.extend({
   },
 
   updateMap() {
-    const googleMap = get(this, 'googleMap');
+    const googleMapInstance = get(this, 'googleMapInstance');
     const locations = get(this, 'locations') || [];
     let newMapMarkers;
     let newLatLngBounds;
@@ -122,8 +127,8 @@ export default Ember.Component.extend({
     newMapMarkers = this.buildMapMarkers(locations) || [];
     newLatLngBounds = this.getBounds(newMapMarkers);
 
-    this.placeMapMarkers(newMapMarkers, googleMap);
-    this.zoomMap(newLatLngBounds, googleMap);
+    this.placeMapMarkers(newMapMarkers, googleMapInstance);
+    this.zoomMap(newLatLngBounds, googleMapInstance);
   },
 
   didInsertElement() {

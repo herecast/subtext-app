@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { get, set } = Ember;
-
 export default Ember.Controller.extend(trackEvent, {
   intercom: Ember.inject.service('intercom'),
   newsFilter: Ember.inject.controller('news/all/index'),
