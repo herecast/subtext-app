@@ -99,14 +99,6 @@ Router.map(function() {
     });
   });
 
-  this.route('directory', function() {
-    this.route('landing', {path: '/'}, function() {});
-    this.route('search', {path: '/s'}, function() {
-      this.route('results', {path: '/'}, function() {});
-      this.route('show', {path: '/:id'});
-    });
-  });
-
   this.route('terms');
   this.route('privacy');
   this.route('copyright');

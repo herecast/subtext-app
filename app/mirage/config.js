@@ -630,40 +630,4 @@ export default function() {
       promotion_banner_metrics: db['ad-metrics'][0]
     };
   });
-
-  this.get('/businesses', function(db) {
-    return {
-      business_profiles: db['business-profiles']
-    };
-  });
-
-  this.get('/businesses/:id', function(db, request) {
-    return {
-      business_profile: db['business-profiles'].find(request.params.id)
-    };
-  });
-
-  this.get('/businesses/categories', function(db, request) {
-    // For coalesceFindRequests
-    const ids = request.queryParams['ids'];
-    let categories = db['business-categories'];
-
-    if( !Ember.isEmpty(ids) ) {
-      categories = categories.filter(function(c) {
-        return ids.contains(c.id.toString());
-      });
-    }
-
-    return {
-      business_categories: categories 
-    };
-  });
-
-  this.get('/businesses/categories/:id', function(db, request){
-    const catId = request.params.id;
-
-    return {
-      business_category: db['business-categories'].find(catId)
-    };
-  });
 }

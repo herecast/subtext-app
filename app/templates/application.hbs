@@ -192,13 +192,8 @@
             <span {{action 'trackChannel' 'Market'}}>Market</span>
           {{/link-to}}
         </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'directory.landing'
-            current-when='directory'
-            class='SectionNavigation-link SectionNavigation-directoryLink'
-          }}
-          {{!-- <span {{action 'trackChannel' 'Directory'}}> --}}Directory {{!-- </span> --}}
-          {{/link-to}}
+        <li class='SectionNavigation-listItem' {{action 'trackChannel' 'Directory' preventDefault=false}} data-toggle='collapse' data-target='#js-app-bar'>
+          <a href='http://dailyuv.net/directory' target='_blank' class='SectionNavigation-link SectionNavigation-directoryLink'>Directory</a>
         </li>
       </ul>
 
