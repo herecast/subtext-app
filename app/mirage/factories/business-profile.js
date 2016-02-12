@@ -7,20 +7,28 @@ export default Mirage.Factory.extend({
   website() { return faker.internet.domainName(); },
   email() { return faker.internet.email(); },
   address() { return faker.address.streetAddress(); },
-  hours: "Mon-Fri 8am-9am",
+  hours: ["Mon-Fri 8am-9am","Sat 8:30pm - 8:35pm"],
   city: "Norwich",
   state: 'VT',
   zip: '05055',
-  lat() { return faker.address.latitude(); },
-  lng() { return faker.address.longitude(); },
+  coords() {
+    return {
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude()
+    };
+  },
   service_radius: "12.5",
+  details() { return faker.company.catchPhrase(); },
   logo() { return faker.image.avatar(); },
   images() { return [faker.image.business(),faker.image.business()]; },
   feedback: {
-    metric1: "0.834",
-    metric2: "0.675",
-    metric3: "0.287",
+    satisfaction: "0.834",
+    cleanliness: "0.675",
+    price: "0.287",
     recommend: "0.687"
   },
-  category_ids: []
+  feedback_num: "10",
+  views: "237",
+  category_ids: [],
+  biz_type() { return faker.helpers.shuffle('goes_to','comes_to') }
 });
