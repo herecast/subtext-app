@@ -1,0 +1,59 @@
+<div class='Container--noGutter'>
+
+  <div class='row u-layoutPadT20 u-layoutPadB20'>
+    <div class='col-md-2 hidden-sm hidden-xs'>
+      <nav class="u-layoutPadT20">
+        {{#link-to 'dashboard' class='BackButton'}}
+          <i class='BackButton-icon fa fa-chevron-circle-left'></i> My Content
+        {{/link-to}}
+      </nav>
+    </div>
+
+    <div class='col-md-8 col-sm-10'>
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class='ContentMetrics-headerWrapper'>
+            <div class='row'>
+              <div class='col-md-6'>
+                <div class='ContentMetrics-header'>
+                  <p>Showing metrics for:</p>
+                  <h1 class='h2'>'{{model.title}}'</h1>
+                  {{#if model.isAd}}
+                    <p><b>Views</b> show how many times your ad was delivered with content<br />
+                       <b>Clicks</b> show how many times someone clicked on your ad<br />
+                       <b>Daily</b> shows the Views or Clicks made each day<br />
+                       <b>Cumulative</b> shows the sum of Views or Clicks over time
+                    </p>
+                  {{else}}
+                    <p><b>Views</b> show how many times your content was seen<br />
+                       <b>Clicks</b> show how many times someone clicked on the banner ad displayed with your content<br />
+                       <b>Daily</b> shows the Views or Clicks made each day<br />
+                       <b>Cumulative</b> shows the sum of Views or Clicks over time
+                    </p>
+                  {{/if}}
+                </div>
+              </div>
+
+              <div class='col-md-6'>
+                <img src={{model.image_url}} class='ContentMetrics-image img-responsive'>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-xs-12'>
+      <div class='row'>
+        {{content-metrics
+          views=model.views
+          clicks=model.clicks
+          class='col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'
+        }}
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -6,5 +6,10 @@ export default Ember.Route.extend({
 
   model(params) {
     return this.get('metrics').findContent(params.content_id);
+  },
+
+  setupController(controller, model) {
+    controller.set('model', model);
+    controller.set('secondaryBackground', true);
   }
 });
