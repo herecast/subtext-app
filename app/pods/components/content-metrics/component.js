@@ -27,7 +27,6 @@ function filteredDataSet(data,startDate,endDate) {
 }
 
 export default Ember.Component.extend({
-  classNames: ['ContentMetrics'],
   views: [],
   clicks: [],
 

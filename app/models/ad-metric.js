@@ -7,6 +7,8 @@ const {
 } = Ember;
 
 export default Ember.Object.extend({
+  isAd: true,
+
   daily_impression_counts: [],
   daily_click_counts: [],
 

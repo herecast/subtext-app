@@ -1,52 +1,57 @@
-<div class='ContentMetrics-dateRange'>
-  {{pikaday-input value=startDate format='MM/DD/YYYY'}}
-  through
-  {{pikaday-input value=endDate format='MM/DD/YYYY'}}
+<div class='ContentMetrics'>
+  <div class='ContentMetrics-titleBar'>
+    <div class='ContentMetrics-dateRange form-inline'>
+      {{pikaday-input class='form-control' value=startDate format='MM/DD/YYYY'}}
+      through
+      {{pikaday-input class='form-control' value=endDate format='MM/DD/YYYY'}}
+    </div>
+
+    <ul class="nav nav-pills">
+      <li role="presentation" class={{if (eq 'views' metricType) 'active'}}>
+        <a href="#" {{action 'setMetric' 'views'}}>Views</a>
+      </li>
+      <li role="presentation" class={{if (eq 'clicks' metricType) 'active'}}>
+        <a href="#" {{action 'setMetric' 'clicks'}}>Clicks</a>
+      </li>
+    </ul>
+  </div>
+
+  {{#if (eq 'views' metricType)}}
+    {{#if cumulative}}
+      {{line-chart
+        labels=viewLabels
+        data=cumulativeViewData
+        chartClass='ContentMetrics-chart'
+      }}
+    {{else}}
+      {{line-chart
+        labels=viewLabels
+        data=viewData
+        chartClass='ContentMetrics-chart'
+      }}
+    {{/if}}
+  {{else}}
+    {{#if cumulative}}
+      {{line-chart
+        labels=clickLabels
+        data=cumulativeClickData
+        chartClass='ContentMetrics-chart'
+      }}
+    {{else}}
+      {{line-chart
+        labels=clickLabels
+        data=clickData
+        chartClass='ContentMetrics-chart'
+      }}
+    {{/if}}
+  {{/if}}
+
+  <ul class="nav nav-tabs nav-tabs--bottom">
+    <li role="presentation" class={{if (eq cumulative false) 'active'}}>
+      <a href="#" {{action 'toggleCumulative'}}>Daily</a>
+    </li>
+    <li role="presentation" class={{if cumulative 'active'}}>
+      <a href="#" {{action 'toggleCumulative'}}>Cumulative</a>
+    </li>
+  </ul>
 </div>
-<ul class="nav nav-tabs">
-  <li role="presentation" class={{if (eq 'views' metricType) 'active'}}>
-    <a href="#" {{action 'setMetric' 'views'}}>Views</a>
-  </li>
-  <li role="presentation" class={{if (eq 'clicks' metricType) 'active'}}>
-    <a href="#" {{action 'setMetric' 'clicks'}}>Clicks</a>
-  </li>
-</ul>
-
-{{#if (eq 'views' metricType)}}
-  {{#if cumulative}}
-    {{line-chart
-      labels=viewLabels
-      data=cumulativeViewData
-      chartClass='ContentMetrics-chart'
-    }}
-  {{else}}
-    {{line-chart
-      labels=viewLabels
-      data=viewData
-      chartClass='ContentMetrics-chart'
-    }}
-  {{/if}}
-{{else}}
-  {{#if cumulative}}
-    {{line-chart
-      labels=clickLabels
-      data=cumulativeClickData
-      chartClass='ContentMetrics-chart'
-    }}
-  {{else}}
-    {{line-chart
-      labels=clickLabels
-      data=clickData
-      chartClass='ContentMetrics-chart'
-    }}
-  {{/if}}
-{{/if}}
-
-<ul class="nav nav-tabs nav-tabs--bottom">
-  <li role="presentation" class={{if (eq cumulative false) 'active'}}>
-    <a href="#" {{action 'toggleCumulative'}}>Daily</a>
-  </li>
-  <li role="presentation" class={{if cumulative 'active'}}>
-    <a href="#" {{action 'toggleCumulative'}}>Cumulative</a>
-  </li>
-</ul>
