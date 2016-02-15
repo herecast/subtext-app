@@ -6,6 +6,8 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend({
+  geo: Ember.inject.service('geolocation'),
+  location: Ember.computed.oneWay('geo.userLocation.human'),
   categories: [{
 	"id":"10000",
 	"name":"Restaurants",

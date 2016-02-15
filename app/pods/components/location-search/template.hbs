@@ -1,0 +1,34 @@
+{{input
+  value=locationQuery
+  class=inputClass
+  type=type
+  enter='updateFromQuery'
+  placeholder=placeholder}}
+
+{{#if displaySuggestions}}
+  <ul class='LocationSearch-suggestions dropdown-menu' role='menu'>
+    <li>
+      <a href='#' {{action 'update' locationQuery}}>
+        <i class='fa fa-search'></i> {{locationQuery}}
+      </a>
+    </li>
+
+    {{#if displayQuickList}}
+      <li class='divider' role='presentation'></li>
+      {{#each quickList as |text|}}
+        <li>
+          <a href='#' {{action 'update' text}}>{{text}}</a>
+        </li>
+      {{/each}}
+    {{/if}}
+
+    {{#if suggestionsProxy}}
+      <li class='divider' role='presentation'></li>
+      {{#each suggestionsProxy as |text|}}
+      <li>
+        <a href='#' {{action 'update' text}}>{{text}}</a>
+      </li>
+      {{/each}}
+    {{/if}}
+  </ul>
+{{/if}}
