@@ -29,7 +29,8 @@ function filteredDataSet(data,startDate,endDate) {
 export default Ember.Component.extend({
   views: [],
   clicks: [],
-
+  hasViewData: computed.notEmpty('views'),
+  hasClickData: computed.notEmpty('clicks'),
   metricType: 'views',
   cumulative: false,
   startDate: computed.oneWay('views.firstObject.report_date'),

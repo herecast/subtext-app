@@ -1,10 +1,12 @@
 <div class='ContentMetrics'>
   <div class='ContentMetrics-titleBar'>
-    <div class='ContentMetrics-dateRange form-inline'>
-      {{pikaday-input class='form-control' value=startDate format='MM/DD/YYYY'}}
-      through
-      {{pikaday-input class='form-control' value=endDate format='MM/DD/YYYY'}}
-    </div>
+    {{#if hasViewData}}
+      <div class='ContentMetrics-dateRange form-inline'>
+        {{pikaday-input class='form-control' value=startDate format='MM/DD/YYYY'}}
+        through
+        {{pikaday-input class='form-control' value=endDate format='MM/DD/YYYY'}}
+      </div>
+    {{/if}}
 
     <ul class="nav nav-pills">
       <li role="presentation" class={{if (eq 'views' metricType) 'active'}}>
@@ -17,32 +19,40 @@
   </div>
 
   {{#if (eq 'views' metricType)}}
-    {{#if cumulative}}
-      {{line-chart
-        labels=viewLabels
-        data=cumulativeViewData
-        chartClass='ContentMetrics-chart'
-      }}
+    {{#if hasViewData}}
+      {{#if cumulative}}
+        {{line-chart
+          labels=viewLabels
+          data=cumulativeViewData
+          chartClass='ContentMetrics-chart'
+        }}
+      {{else}}
+        {{line-chart
+          labels=viewLabels
+          data=viewData
+          chartClass='ContentMetrics-chart'
+        }}
+      {{/if}}
     {{else}}
-      {{line-chart
-        labels=viewLabels
-        data=viewData
-        chartClass='ContentMetrics-chart'
-      }}
+      <p>No data available yet!</p>
     {{/if}}
   {{else}}
-    {{#if cumulative}}
-      {{line-chart
-        labels=clickLabels
-        data=cumulativeClickData
-        chartClass='ContentMetrics-chart'
-      }}
+    {{#if hasClickData}}
+      {{#if cumulative}}
+        {{line-chart
+          labels=clickLabels
+          data=cumulativeClickData
+          chartClass='ContentMetrics-chart'
+        }}
+      {{else}}
+        {{line-chart
+          labels=clickLabels
+          data=clickData
+          chartClass='ContentMetrics-chart'
+        }}
+      {{/if}}
     {{else}}
-      {{line-chart
-        labels=clickLabels
-        data=clickData
-        chartClass='ContentMetrics-chart'
-      }}
+      <p>No data available yet!</p>
     {{/if}}
   {{/if}}
 
