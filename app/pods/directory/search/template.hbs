@@ -1,12 +1,15 @@
-<div style='width: 65%; height:2000px;float:left;'>
+<div class='col-xs-12 col-md-8'>
   {{outlet}}
 </div>
 
-<div style='width:35%;height:400px;float:left'>
+<div class='col-xs-12 col-md-4'>
   {{google-map locations=locations}}
+
+  <div class='row'>
+    <div class='col-xs-12'>
+      <!-- TODO replace this working with Watt's from the Invision prototype comments -->
+      <a href='#'>Are we missing a business or service?</a>
+    </div>
+  </div>
 </div>
 
-<div>
-  <!-- TODO replace this working with Watt's from the Invision prototype comments -->
-  <a href='#'>Are we missing a business or service?</a>
-</div>

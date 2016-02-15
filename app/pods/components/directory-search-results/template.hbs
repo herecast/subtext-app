@@ -1,0 +1,9 @@
+{{#each results as |result|}}
+  <li>
+    {{#link-to 'directory.search.show' 'fakeresult'}}
+      <h2>{{result.name}}</h2>
+      <p>363 River Street, Springfield, VT (373.9 mi)<br />
+      (704) 284-9678</p>
+    {{/link-to}}
+  </li>
+{{/each}}

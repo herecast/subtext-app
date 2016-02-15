@@ -2,14 +2,17 @@
   <div class='DirectorySearch-wrapper'>
     <div class='row'>
       <div class='col-xs-12'>
-        Find a business or service
+        <h1 class='h2'>Find a business or service</h1>
       </div>
 
       <div class='col-xs-12'>
         <div class='clearfix u-layoutPadT10 u-layoutPadB10'>
           <div class='DirectorySearch-inputWrapper'>
             <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
-            <input type='text' class='form-control DirectorySearch-input' placeholder='What are you looking for?'>
+            {{business-search
+              inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+              updateFromQuery=(action 'updateQuery')
+            }}
           </div>
 
           <div class='DirectorySearch-inputWrapper'>
@@ -22,8 +25,8 @@
       <div class='col-xs-12'>
         {{category-tag-list
           categories=categories
-          selectTag=(action 'selectTag')
           removeTag=(action 'removeTag')
+          selectParentCategory=(action 'setParentCategory')
           parentCategory=parentCategory
           subCategory=subCategory
         }}
@@ -31,5 +34,7 @@
     </div>
   </div>
 
-  {{outlet}}
+  <div class='row'>
+    {{outlet}}
+  </div>
 </div>

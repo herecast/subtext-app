@@ -1,26 +1,15 @@
-<p><b>Search results/sub-categories:</b></p>
-
-<hr>
-
-<div style='border:1px solid orange; width 100%; min-height: 2000px; background: #FFFAF2;'>
+{{#if showResults}}
+  {{directory-search-results
+    results=results
+    parentCategory=parentCategory
+    tagName='ul'
+  }}
+{{else}}
   <ul>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
-    <li>{{#link-to 'directory.search.show' 'fakeresult'}}result/sub-category{{/link-to}}</li>
+    {{#each parentCategory.child_categories as |subCategory|}}
+      <li {{action (action 'setSubCategory' subCategory)}} class='DirectoryResults-subCategoryListItem'>
+        {{subCategory.name}} <span class='pull-right'>{{fa-icon 'angle-right'}}</span>
+      </li>
+    {{/each}}
   </ul>
-</div>
+{{/if}}

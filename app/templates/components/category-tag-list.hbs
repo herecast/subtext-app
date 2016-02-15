@@ -15,7 +15,7 @@
     {{#each categories as |category|}}
       {{category-tag
         category=category
-        selectTag=(action 'selectTag')
+        selectTag=(action this.attrs.selectParentCategory category)
         removable=false
       }}
     {{/each}}
