@@ -15,7 +15,7 @@ export default Mirage.Factory.extend({
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        report_date: moment().subtract(i,'days').format('L'),
+        report_date: moment().subtract(i,'days').toDate().toISOString(),
         impression_count: faker.random.number(99)
       });
     }
@@ -27,7 +27,7 @@ export default Mirage.Factory.extend({
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        report_date: moment().subtract(i,'days').format('L'),
+        report_date: moment().subtract(i,'days').toDate().toISOString(),
         click_count: faker.random.number(99)
       });
     }
