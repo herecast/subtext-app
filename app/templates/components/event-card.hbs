@@ -58,12 +58,14 @@
   </div>
 
   <div class='row'>
-    {{#if hasVenue}}
-      <h5 class='EventCard-venue col-xs-7'>
-        {{x-truncate text=venue maxLength=22 tagName='span'}}
-      </h5>
+    {{#if timeRange}}
+      <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
     {{/if}}
 
-    <h5 class='EventCard-time col-xs-5'>{{event.timeRangeNoDates}}</h5>
+    {{#if hasVenue}}
+      <h5 class='EventCard-venue'>
+        {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+      </h5>
+    {{/if}}
   </div>
 {{/if}}
