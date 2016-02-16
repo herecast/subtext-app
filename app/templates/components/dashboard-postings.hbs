@@ -12,7 +12,7 @@
         Talk
       {{else if (eq 'market' type)}}
         Market
-      {{else if (eq 'promotion_banner' type)}}
+      {{else if (eq 'promotion-banner' type)}}
         Ads
       {{/if}}
       <i class='TabNavigation-toggleIndicator fa {{if mobileTabsVisible "fa-chevron-up" "fa-chevron-down"}}'></i>
@@ -24,36 +24,42 @@
       {{link-to 'Everything' 'dashboard'
         (query-params page=1 type='' sort=dateParam)
         class='TabNavigation-link TabNavigation-everythingLink'
+        classNameBindings="typeIsEverything:active"
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My News' 'dashboard'
         (query-params page=1 type='news' sort=dateParam)
         class='TabNavigation-link TabNavigation-newsLink'
+        classNameBindings="typeIsNews:active"
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Events' 'dashboard'
         (query-params page=1 type='events' sort=dateParam)
         class='TabNavigation-link TabNavigation-eventLink'
+        classNameBindings="typeIsEvents:active"
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Talk' 'dashboard'
         (query-params page=1 type='talk' sort=dateParam)
         class='TabNavigation-link TabNavigation-talkLink'
+        classNameBindings="typeIsTalk:active"
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Market' 'dashboard'
         (query-params page=1 type='market' sort=dateParam)
         class='TabNavigation-link TabNavigation-marketLink'
+        classNameBindings="typeIsMarket:active"
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
       {{link-to 'My Ads' 'dashboard'
         (query-params page=1 type='promotion-banner' sort=dateParam)
         class='TabNavigation-link TabNavigation-promotionLink'
+        classNameBindings="typeIsAds:active"
       }}
     </li>
   </ul>
