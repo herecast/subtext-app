@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 
 const {
   get,
@@ -17,7 +16,7 @@ export default Ember.Object.extend({
 
     return data.map(function(i) {
       return Ember.Object.create({
-        report_date: moment(i['report_date'], 'MM/DD/YYYY').toDate(),
+        report_date: new Date(i['report_date']),
         view_count: parseInt(i['impression_count'])
       });
     });
@@ -28,7 +27,7 @@ export default Ember.Object.extend({
 
     return data.map(function(i) {
       return Ember.Object.create({
-        report_date: moment(i['report_date'], 'MM/DD/YYYY').toDate(),
+        report_date: new Date(i['report_date']),
         click_count: parseInt(i['click_count'])
       });
     });
