@@ -110,10 +110,10 @@
             </th>
             <th class='hidden-xs'>
               <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' viewsParam}}>
+                <button class='ContentTable-sortButton' {{action 'sortBy' impressionsParam}}>
                   Views
 
-                  {{#if sortedByViews}}
+                  {{#if sortedByImpressions}}
                     {{#if (eq sortDirection 'ASC')}}
                       {{fa-icon 'caret-up'}}
                     {{else}}
