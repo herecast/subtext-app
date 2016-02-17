@@ -3,7 +3,7 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
-  computed: {empty, match},
+  computed: {empty, match, equal},
   get,
   set
 } = Ember;
@@ -30,6 +30,13 @@ export default Ember.Component.extend(TrackEvent, {
   sortedByComments: match('sort', /^comment_count/),
   sortedByClicks: match('sort', /^click_count/),
   sortedByImpressions: match('sort', /^impression_count/),
+
+  typeIsEverything: empty('type'),
+  typeIsNews: equal('type','news'),
+  typeIsEvents: equal('type','events'),
+  typeIsTalk: equal('type','talk'),
+  typeIsMarket: equal('type','market'),
+  typeIsAds: equal('type','promotion-banner'),
 
   sortDirection: computed('sort', function(){
     const sort = get(this, 'sort') || '';
