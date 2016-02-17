@@ -643,7 +643,7 @@ export default function() {
     };
   });
 
-  this.get('/businesses/categories', function(db, request) {
+  this.get('/business_categories', function(db, request) {
     // For coalesceFindRequests
     const ids = request.queryParams['ids'];
     let categories = db['business-categories'];
@@ -659,7 +659,7 @@ export default function() {
     };
   });
 
-  this.get('/businesses/categories/:id', function(db, request){
+  this.get('/business_categories/:id', function(db, request){
     const catId = request.params.id;
 
     return {
