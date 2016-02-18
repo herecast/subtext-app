@@ -1,25 +1,25 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import startMirage from '../../../../helpers/setup-mirage';
 
 moduleForComponent('directory-feedback-display', 'Integration | Component | directory feedback display', {
-  integration: true
+  integration: true,
+  setup() {
+    startMirage(this.container);
+  }
 });
 
 test('it renders', function(assert) {
-  
+
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs`{{directory-feedback-display}}`);
+  const model = server.create('business-profile');
 
-  assert.equal(this.$().text().trim(), '');
+  this.set('model', model);
 
-  // Template block usage:" + EOL +
-  this.render(hbs`
-    {{#directory-feedback-display}}
-      template block text
-    {{/directory-feedback-display}}
-  `);
+  this.render(hbs`{{directory-feedback-display model=model}}`);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.ok(this.$('.DirectoryFeedback-top-bar').length > 0, 'no pass');
+
 });

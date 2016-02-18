@@ -16,9 +16,8 @@ export default Ember.Component.extend({
   gaugeStyleTop: null,
   gaugeStyleBottom: null,
 
-  percent: null,
-
-  init(params) {
+  
+  init() {
     this._super();
     console.log("ingauge",get(this,'color'));
     //set initial params
