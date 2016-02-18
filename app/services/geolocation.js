@@ -1,18 +1,17 @@
 import Ember from 'ember';
 
-const { RSVP, get, set } = Ember;
+const { RSVP, get, computed } = Ember;
 
 export default Ember.Service.extend({
   mapsService: Ember.inject.service('google-maps'),
-  userLocation: null,
 
-  init() {
+  userLocation: computed('mapsService', function() {
     const locationProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
-    set(this, 'userLocation', locationProxy.create({
+    return locationProxy.create({
       promise: this.getUserLocation()
-    }));
-  },
+    });
+  }),
 
   getUserLocation() {
     return new RSVP.Promise((resolve) => {
@@ -40,6 +39,36 @@ export default Ember.Service.extend({
       }, error => {
         reject(error);
       });
+    });
+  },
+
+  geocode(address) {
+    const mapsService = get(this, 'mapsService');
+    const returnSet = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+
+    return returnSet.create({
+      promise: new Ember.RSVP.Promise(function(resolve, reject) {
+        mapsService.geocode({
+          address: address,
+          componentRestrictions: {
+            country: 'US'
+          }
+        }, function(results, status) {
+          if(status !== "OK") {
+            reject(status);
+          } else {
+            resolve(results.map(item => {
+              return {
+                human: mapsService.cityStateFormat(item),
+                coords: {
+                  lat: item.geometry.location.lat(),
+                  lng: item.geometry.location.lng()
+                }
+              };
+            }));
+          }
+        });
+      })
     });
   }
 

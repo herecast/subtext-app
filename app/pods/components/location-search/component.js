@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   quickList: [],
   displayQuickList: computed.notEmpty('quickList'),
   displaySuggestions: false,
-  suggestService: Ember.inject.service('suggest-places'),
+  geocoderService: Ember.inject.service('geolocation'),
   suggestions: [],
 
   suggestionsProxy: computed('suggestions.[]', 'suggestions.isFulfilled', function() {
@@ -83,9 +83,9 @@ export default Ember.Component.extend({
       const location = get(this, 'location') || "";
 
       if ( query !== location ) {
-        const suggestService = get(this, 'suggestService');
+        const geocoderService = get(this, 'geocoderService');
         set(this, 'suggestions',
-          suggestService.suggest(query)
+          geocoderService.geocode(query)
         );
         set(this, 'displaySuggestions', true);
       }

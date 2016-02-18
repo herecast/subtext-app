@@ -24,9 +24,9 @@
 
     {{#if suggestionsProxy}}
       <li class='divider' role='presentation'></li>
-      {{#each suggestionsProxy as |text|}}
+      {{#each suggestionsProxy as |loc|}}
       <li>
-        <a href='#' {{action 'update' text}}>{{text}}</a>
+        <a href='#' {{action 'update' loc.human loc.coords}}>{{loc.human}}</a>
       </li>
       {{/each}}
     {{/if}}
