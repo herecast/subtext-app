@@ -1,4 +1,7 @@
 import DS from 'ember-data';
+import Ember from 'ember';
+
+const { computed } = Ember;
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -10,7 +13,7 @@ export default DS.Model.extend({
   city: DS.attr('string'),
   state: DS.attr('string'),
   zip: DS.attr('string'),
-  fullAddress: Ember.computed('address', 'city', 'state', 'zip', function(){
+  fullAddress: computed('address', 'city', 'state', 'zip', function(){
     const address = this.get('address');
     const city = this.get('city');
     const state = this.get('state');

@@ -40,7 +40,13 @@
       function ga(){
         /* Define so ga works in tests! */
       }
-      google = {};
+      google = {
+        maps: {
+          Geocoder: function () {
+            this.geocode = function() {};
+          }
+        }
+      };
     </script>
 
     <!-- start Google Maps -->

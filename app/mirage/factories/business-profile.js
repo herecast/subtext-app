@@ -3,7 +3,7 @@ import Mirage, {faker} from 'ember-cli-mirage';
 export default Mirage.Factory.extend({
   organization_id: 0,
   name() { return faker.company.companyName(); },
-  phone() { return '8022951559' },
+  phone() { return '8022951559'; },
   website() { return faker.internet.domainName(); },
   email() { return faker.internet.email(); },
   address() { return faker.address.streetAddress(); },
