@@ -34,11 +34,14 @@ export default Ember.Controller.extend({
     },
 
     removeTag(tagType) {
+      const parentCategory = get(this, 'parentCategory');
+
       if (tagType === 'parent') {
         this.send('removeParent');
       } else if (tagType === 'child') {
+        this.send('updateQuery', parentCategory.name);
         set(this, 'subCategory', null);
-        this.transitionToRoute('directory');
+        this.transitionToRoute('directory.search');
       }
     },
 
@@ -52,13 +55,15 @@ export default Ember.Controller.extend({
 
     setParentCategory(parentCategory) {
       set(this, 'parentCategory', parentCategory);
-      set(this, 'searchTerms', parentCategory.name);
+
+      this.send('updateQuery', parentCategory.name);
       this.transitionToRoute('directory.search');
     },
 
     setSubCategory(subCategory) {
       set(this, 'subCategory', subCategory);
-      set(this, 'searchTerms', subCategory.name);
+
+      this.send('updateQuery', subCategory.name);
     }
   }
 });

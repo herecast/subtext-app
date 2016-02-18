@@ -1,5 +1,5 @@
-<div class='Container--noGutter'>
-  <div class='DirectorySearch-wrapper'>
+<div class='DirectorySearch-wrapper'>
+  <div class='Container--noGutter'>
     <div class='row'>
       <div class='col-xs-12'>
         <h1 class='h2'>Find a business or service</h1>
@@ -11,6 +11,7 @@
             <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
             {{business-search
               inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+              searchTerms=searchTerms
               updateFromQuery=(action 'updateQuery')
             }}
           </div>
@@ -33,7 +34,9 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class='Container--noGutter'>
   <div class='row'>
     {{outlet}}
   </div>

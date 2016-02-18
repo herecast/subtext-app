@@ -228,7 +228,6 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     controller.set('categories', model.categories);
-    controller.set('parentCategory', model.categories[0]);
     controller.set('results', model.results);
   }
 });
