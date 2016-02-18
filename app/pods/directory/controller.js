@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, set } = Ember;
+const { get, set, computed } = Ember;
 
 export default Ember.Controller.extend({
   geo: Ember.inject.service('geolocation'),
@@ -8,6 +8,10 @@ export default Ember.Controller.extend({
   parentCategory: null,
   subCategory: null,
   searchTerms: null,
+
+  toplevelCategories: computed('categories.[]', function() {
+    return get(this, 'categories').filterBy('parents.length', 0);
+  }),
 
   actions: {
     manageTransition() {

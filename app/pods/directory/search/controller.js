@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   categories:     oneWay('directoryController.categories'),
   parentCategory: oneWay('directoryController.parentCategory'),
   subCategory:    oneWay('directoryController.subCategory'),
-  results:        oneWay('directoryController.results'),
+  results: computed.alias('model'),
 
   showResults: computed('parentCategory', 'subCategory', function() {
     const parentCategory = get(this, 'parentCategory');
@@ -22,9 +22,12 @@ export default Ember.Controller.extend({
 
     return results.map((location) => {
       return {
-        coords: { lat: location.coords.lat, lng: location.coords.lng },
-        title: location.name,
-        content: location.name
+        coords: { 
+          lat: parseFloat(location.get('coords.lat')),
+          lng: parseFloat(location.get('coords.lng'))
+        },
+        title: location.get('name'),
+        content: location.get('name')
       };
     });
   })
