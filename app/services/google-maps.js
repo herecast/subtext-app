@@ -1,12 +1,10 @@
 import Ember from 'ember';
 
-const { set } = Ember;
-
 export default Ember.Service.extend({
   // googleMaps set by iniitializer
-  init() {
-    set(this, 'geocoder', new this.googleMaps.maps.Geocoder());
-  },
+  geocoder: Ember.computed('googleMaps', function() {
+    return new this.googleMaps.maps.Geocoder();
+  }),
 
   geocode() {
     const geocoder = this.get('geocoder');
