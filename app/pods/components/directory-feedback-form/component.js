@@ -123,7 +123,6 @@ export default Ember.Component.extend({
       //uptick
       this.incrementProperty('model.feedback_num');
       set(this,'feedbackLeft', true);
-      this.destroy();
     },
     //in development, to be determined best way to do this
     submitFeedback() {

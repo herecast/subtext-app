@@ -3,7 +3,8 @@ import Ember from 'ember';
 const {
   computed,
   get,
-  set
+  set,
+  run
 } = Ember;
 
 export default Ember.Component.extend({
@@ -16,7 +17,7 @@ export default Ember.Component.extend({
   gaugeStyleTop: null,
   gaugeStyleBottom: null,
 
-  
+
   init() {
     this._super();
     console.log("ingauge",get(this,'color'));
@@ -82,12 +83,12 @@ export default Ember.Component.extend({
       let styleTop = new Ember.String.htmlSafe( get(this,'rect') + "background-color:" + get(this,'color') + this.rotation(scoreTop) );
       let styleBottom = new Ember.String.htmlSafe( get(this,'rect') + "background-color:" + get(this,'color') + this.rotation(score) );
       //page render delay
-      setTimeout( () => {
+      run.later( this, function(){
         set(this,'gaugeStyleTop', styleTop );
         if(score > 0.5){
           set(this,'gaugeStyleBottom', styleBottom );
           //bottom half delay
-          setTimeout( ()=>{
+        run.later( this, function(){
             set(this,'coverStyleAtop',new Ember.String.htmlSafe('display:none;'));
           },650);
         }
