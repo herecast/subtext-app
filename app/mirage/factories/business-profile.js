@@ -1,5 +1,9 @@
 import Mirage, {faker} from 'ember-cli-mirage';
 
+function generateLatLng(num) {
+  return (Math.random() * (num - (num + 0.100)) + (num + 0.100)).toFixed(4)
+}
+
 export default Mirage.Factory.extend({
   organization_id: 0,
   name() { return faker.company.companyName(); },
@@ -13,8 +17,9 @@ export default Mirage.Factory.extend({
   zip: '05055',
   coords() {
     return {
-      lat: faker.address.latitude(),
-      lng: faker.address.longitude()
+      // generate coords within limited bounds
+      lat: generateLatLng(40.000),
+      lng: generateLatLng(-80.000)
     };
   },
   service_radius: "12.5",
