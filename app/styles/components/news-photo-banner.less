@@ -1,3 +1,8 @@
+.NewsPhotoWrap{
+  width:100%;
+  position:relative;
+}
+
 .NewsPhotoBanner {
   background-color: @gray-medium;
   position: relative;
@@ -5,6 +10,12 @@
   top: -2px;
   @media (min-width: @screen-sm-min) {
     border-top: 2px solid white;
+  }
+  @media (max-width: @screen-xs-max) {
+  [class^="col"]{
+    padding:0;
+  }
+
   }
 }
 

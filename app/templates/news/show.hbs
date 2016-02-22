@@ -1,23 +1,43 @@
-{{#if model.bannerImage}}
-  <div class='NewsPhotoBanner'>
-    <div class='container'>
-      <div class='row'>
-        <div class='col-sm-8 col-sm-offset-2'>
-          <img class='NewsPhotoBanner-photo img-responsive' src={{model.bannerImage.url}}>
-          {{#if hasCaptionOrCredit}}
-            <div class='NewsPhotoBanner-captionArea'>
-              {{model.bannerImage.caption}}
+  <div class='Container--noGutter NewsHeader'>
+    <div class='row'>
+      <div class='col-md-2 hidden-sm hidden-xs'>
+      </div>
+      <div class='col-md-8 col-sm-9'>
+        <h1 class='News-title'>{{model.title}}</h1>
 
-              {{#if model.bannerImage.credit}}
-                / Source: {{model.bannerImage.credit}}
-              {{/if}}
-            </div>
-          {{/if}}
+        <div class='News-organizationInfo'>
+          {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
+            {{model.organizationName}}
+          {{/link-to}}
+
+          : {{model.authorName}}
         </div>
       </div>
     </div>
   </div>
-{{/if}}
+
+    {{#if model.bannerImage}}
+      <div class='NewsPhotoBanner'>
+        <div class='container'>
+          <div class='row'>
+            <div class='col-sm-8 col-sm-offset-2'>
+              <div class="NewsPhotoWrap">
+                <img class='NewsPhotoBanner-photo img-responsive' src={{model.bannerImage.url}}>
+                {{#if hasCaptionOrCredit}}
+                  <div class='NewsPhotoBanner-captionArea'>
+                    {{model.bannerImage.caption}}
+
+                    {{#if model.bannerImage.credit}}
+                      / Source: {{model.bannerImage.credit}}
+                    {{/if}}
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
 
 <div class='Container--noGutter News'>
   <div class='row'>
@@ -26,17 +46,8 @@
         {{back-button defaultRouteName='news'}}
       {{/unless}}
     </div>
-
     <div class='col-md-8 col-sm-9'>
-      <h1 class='News-title'>{{model.title}}</h1>
       <h3 class='News-subtitle'>{{model.subtitle}}</h3>
-      <div class='News-organizationInfo'>
-        {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
-          {{model.organizationName}}
-        {{/link-to}}
-
-        : {{model.authorName}}
-      </div>
       <div class='News-organizationDate'>{{model.formattedPublishedAt}}</div>
       <div class='News-content ContentText'>{{{model.content}}}</div>
 
