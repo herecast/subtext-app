@@ -25,6 +25,8 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
 
     if (recordDiscarded) {
       model.rollbackSchedules();
+
+      model.set('listservIds',[]);
     }
 
     return recordDiscarded;
@@ -58,10 +60,13 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
       // transition to the show page without seeing a "discard changes" modal.
       // Normally ember data does this automatically on save, but does not do
       // it for relationship records.
-      run(() => {
+      run.next(() => {
         if (this.hasDirtyAttributes(event)) {
           event.rollbackSchedules();
         }
+
+        // Unset so not checked the next time this event is edited.
+        event.set('listservIds',[]);
       });
 
       this.transitionTo('events.show', firstInstanceId).then(this.prerenderRecache.bind(this));
