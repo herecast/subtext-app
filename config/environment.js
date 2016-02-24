@@ -49,7 +49,7 @@ module.exports = function(environment) {
     ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
     ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
     ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
-    ENV['gtm_api_token'] = process.env.GTM_API_TOKEN;
+    ENV['gtm-api-token'] = process.env.GTM_API_TOKEN;
   }
 
   if (environment === 'test') {

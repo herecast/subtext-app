@@ -4,7 +4,7 @@ import Ember from 'ember';
 
 export function initialize(container) {
   const { get, run } = Ember;
-  const propertyId = config['gtm_api_token'] || null;
+  const propertyId = config['gtm-api-token'] || null;
 
   if (propertyId) {
     /* jshint ignore:start */
