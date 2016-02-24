@@ -13,7 +13,7 @@ export default Ember.Component.extend(trackEvent, {
     if (this.get('showInfo')) {
       return `${klass} Button--primary`;
     } else {
-      return `${klass} Button--market`;
+      return `${klass} Button--market market-reply`;//market-reply for google tag manager
     }
   }.property('showInfo'),
 

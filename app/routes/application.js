@@ -1,4 +1,3 @@
-/* global ga */
 import Ember from 'ember';
 import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
 import TrackEvent from 'subtext-ui/mixins/track-event';
@@ -30,17 +29,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, HistoryMix,
 
   actions: {
     trackPageView(sourcePageUrl) {
-      const documentTitle = document.title;
-
       this.trackEvent('pageVisit', {
         sourcePageUrl: sourcePageUrl
       });
-
-      ga('send', 'pageview', {
-        'page': window.location.href,
-        'title': documentTitle
-      });
     },
+
     error(errorResponse) {
       const status = errorResponse.errors[0].status;
 
