@@ -1,29 +1,8 @@
 import Ember from 'ember';
 import config from './config/environment';
-/* global dataLayer */
-
-const {
-  get,
-  run
-} = Ember;
 
 var Router = Ember.Router.extend({
   location: config.locationType
-});
-
-Router.reopen({
-  notifyGoogleAnalytics: function() {
-    // Wrap in run.later so that the page title is available
-    run.later(() => {
-      if (typeof dataLayer !== "undefined") {
-        return dataLayer.push({
-          'event':'VirtualPageview',
-          'virtualPageURL': get(this, 'url'),
-          'virtualPageTitle' : document.title
-        });
-      }
-    });
-  }.on('didTransition')
 });
 
 Router.map(function() {

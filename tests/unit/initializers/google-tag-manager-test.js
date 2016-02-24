@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import GoogleAnalyticsInitializer from '../../../initializers/google-analytics';
+import GoogleTagManagerInitializer from '../../../initializers/google-tag-manager';
 import { module, test } from 'qunit';
 
 let application;
 
-module('Unit | Initializer | google analytics', {
+module('Unit | Initializer | google tag manager', {
   beforeEach() {
     Ember.run(function() {
       application = Ember.Application.create();
@@ -15,7 +15,7 @@ module('Unit | Initializer | google analytics', {
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  GoogleAnalyticsInitializer.initialize(application);
+  GoogleTagManagerInitializer.initialize(application);
 
   // you would normally confirm the results of the initializer here
   assert.ok(true);
