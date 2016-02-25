@@ -2,8 +2,8 @@ import { moduleFor, test } from 'ember-qunit';
 /* global Ember, sinon */
 
 moduleFor('controller:directory', 'Unit | Controller | directory', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['model:business-profile'],
+
   beforeEach() {
     const parentCat = Ember.Object.create({ id: 1, name: 'fooParent', parents: [], child_categories: []});
     const childCat1 = Ember.Object.create({ id: 2, name: 'barChild', parents: [parentCat], child_categories: [] });
@@ -15,7 +15,10 @@ moduleFor('controller:directory', 'Unit | Controller | directory', {
 
     this.subject({
       categories: categories,
-      transitionToRoute: sinon.spy()
+      transitionToRoute: sinon.spy(),
+      store: {
+        query: sinon.spy()
+      }
     });
   }
 });
@@ -37,30 +40,44 @@ test('computing top level categories', function(assert) {
   assert.equal(controller.get('toplevelCategories.firstObject.name'), 'foo', 'it should extract the top level categories');
 });
 
-test('handling search terms', function(assert) {
+test('short searches', function(assert) {
   const controller = this.subject();
 
   controller.send('updateQuery', 'foo');
   assert.equal(controller.get('searchTerms'), 'foo', 'it should update the search terms');
   assert.equal(controller.get('parentCategory'), null, 'it should not set the parent category when searchTerms is less than 4 characters');
   assert.ok(controller.transitionToRoute.calledWith('directory'), 'it should transition to the directory root path');
+});
+
+test('partial matches', function(assert) {
+  const controller = this.subject();
 
   controller.send('updateQuery', 'fooPar');
   assert.equal(controller.get('searchTerms'), 'fooPar', 'it should update the search terms');
   assert.equal(controller.get('parentCategory.name'), 'fooParent', 'it should set the parent category when there is an exact match for a parent category name');
   assert.ok(controller.transitionToRoute.calledWith('directory.search'), 'it should transition to the directory search path');
+});
 
+test('partial matches', function(assert) {
+  const controller = this.subject();
+
+  controller.send('updateQuery', 'fooParent'); // go back to 'directory' and make sure the controller has a parentCategory
   controller.send('updateQuery', 'foo');
   assert.equal(controller.get('searchTerms'), 'foo', 'it should update the search terms');
   assert.equal(controller.get('parentCategory.name'), null, 'it should clear the parent category when searchTerms is less than 4 characters');
   assert.ok(controller.transitionToRoute.calledWith('directory'), 'it should transition back to the directory root path');
+});
+
+test('non category match search terms', function(assert) {
+  const controller = this.subject();
 
   controller.send('updateQuery', 'fooParent'); // go back to 'directory' and make sure the controller has a parentCategory
   controller.send('updateQuery', 'xfhblf');
   assert.equal(controller.get('searchTerms'), 'xfhblf', 'it should update the search terms');
   assert.equal(controller.get('parentCategory.name'), null, 'it should clear the parent category when there is no parent category match');
-  assert.ok(controller.transitionToRoute.calledWith('directory.search'), 'it should transition to the directory search path');
-  // TODO it should also send a query to the server
+  assert.ok(controller.transitionToRoute.calledWith('directory.search.results'), 'it should transition to the directory search path');
+  // TODO called with what?
+  assert.equal(controller.store.query.calledOnce, true, 'it should make a query');
 });
 
 test('setting and removing tags', function(assert) {
@@ -81,4 +98,6 @@ test('setting and removing tags', function(assert) {
   controller.send('setSubCategory', subCategory);
   assert.equal(controller.get('subCategory.name'), 'barChild', 'it sets the subcategory');
   assert.ok(controller.transitionToRoute.calledWith('directory'), 'it should transition to the directory root path');
+  // TODO called with what?
+  assert.equal(controller.store.query.calledOnce, true, 'it should make a query');
 });

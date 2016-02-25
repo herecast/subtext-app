@@ -5,7 +5,6 @@ const {
   set,
   computed,
   inject,
-  isEmpty,
   isPresent
 } = Ember;
 
@@ -15,6 +14,15 @@ export default Ember.Controller.extend({
   parentCategory: null,
   subCategory: null,
   searchTerms: null,
+  results: [],
+
+  category_id: computed('subCategory', function() {
+    const subCategoryId = get(this, 'subCategory.id');
+
+    return (subCategoryId) ? subCategoryId : null;
+  }),
+
+  queryParams: ['query', 'subcategory_id'],
 
   toplevelCategories: computed('categories.[]', function() {
     return get(this, 'categories').filterBy('parents.length', 0);
@@ -34,40 +42,35 @@ export default Ember.Controller.extend({
 
     this.setProperties({
       searchTerms: parentCategory.get('name'),
-      subCategory: null
+      subCategory: null,
+      results: []
     });
     this.transitionToRoute('directory.search');
   },
 
   actions: {
     updateQuery(searchTerms) {
-      const hasParentCategory = (get(this, 'parentCategory'));
       const categories = get(this, 'categories');
-      const searchRegExp = new RegExp(`${searchTerms.toLowerCase().trim()}`);
+      const re = new RegExp(`${searchTerms.trim()}`, 'i');
 
+      // search term is too short
       if (searchTerms.length <= 4) {
         return this.send('clearCategories', searchTerms);
       }
 
       const categoryMatches = categories.filter(category => {
-        return (category.get('name').toLowerCase().match(searchRegExp) && !get(category, 'parents.length'));
+        return (category.get('name').match(re) && !get(category, 'parents.length'));
       });
 
+      // has category match
       if (isPresent(categoryMatches)) {
         return this.send('setParentCategory', categoryMatches[0], searchTerms);
       }
 
-      if (isEmpty(categoryMatches)) {
-        if (!hasParentCategory) {
-          this.send('clearCategories', searchTerms);
-        } else {
-          this.send('clearCategories', searchTerms);
-          this.transitionToRoute('directory.search.results');
-        }
-      } else if (searchTerms) {
-        set(this, 'searchTerms', searchTerms);
-        this.transitionToRoute('directory.search');
-      }
+      // do a normal query
+      this.send('clearCategories', searchTerms);
+      set(this, 'results', this.store.query('business-profile', { query: searchTerms }));
+      this.transitionToRoute('directory.search.results');
     },
 
     removeTag(tagType) {
@@ -78,7 +81,8 @@ export default Ember.Controller.extend({
       this.setProperties({
         searchTerms: searchTerms,
         parentCategory: null,
-        subCategory: null
+        subCategory: null,
+        results: []
       });
       this.transitionToRoute('directory');
     },
@@ -87,7 +91,8 @@ export default Ember.Controller.extend({
       this.setProperties({
         searchTerms: (typeof searchTerms === 'object') ? category.get('name') : searchTerms,
         parentCategory: category,
-        subCategory: null
+        subCategory: null,
+        results: []
       });
       this.transitionToRoute('directory.search');
     },
@@ -97,6 +102,8 @@ export default Ember.Controller.extend({
         searchTerms: category.get('name'),
         subCategory: category
       });
+
+      set(this, 'results', this.store.query('business-profile', { category: get('subCategoryId') }));
       this.transitionToRoute('directory.search.results');
     }
   }

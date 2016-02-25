@@ -59,7 +59,7 @@ test('it saves', function(assert) {
     updateImageModelProperties(image, imageUrl) {
       assert.ok(true, 'updateImageModelProperties is called on the parent');
       assert.deepEqual(typeof image, 'object', 'image should be an object with specified keys');
-      assert.equal(imageUrl.match(/data:/)[0], "data:", 'imageUrl should be a dataURI');
+      assert.deepEqual(imageUrl.match(/data:/)[0], "data:", 'imageUrl should be a dataURI');
     }
   });
 

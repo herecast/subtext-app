@@ -631,10 +631,19 @@ export default function() {
     };
   });
 
-  this.get('/businesses', function(db) {
-    return {
-      business_profiles: db['business-profiles']
-    };
+  this.get('/businesses', function(db, request) {
+    const { query } = request.params; // category location, max_distance, open_at
+    const businessProfiles = db['business-profiles'];
+
+    if (query) {
+      return {
+        business_profiles: businessProfiles[0]
+      };
+    } else {
+      return {
+        business_profiles: businessProfiles
+      };
+    }
   });
 
   this.get('/businesses/:id', function(db, request) {
