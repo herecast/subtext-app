@@ -9,7 +9,9 @@ export function initialize() {
     'intercom-api-token',
     'facebook-app-id',
     'prerender-io-token',
-    'gtm-api-token' // Not an API token, just GTM property ID
+    'gtm-api-token',
+    'gtm-auth',
+    'gtm-preview'
   ].forEach((name) => {
     const value = Ember.$(`meta[name=${name}]`).attr('content');
 
