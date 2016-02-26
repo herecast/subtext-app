@@ -1,4 +1,21 @@
 .ContentText {
+  font-size: 1.7rem;
+  line-height: 1.3;
+  margin: 0.5rem 0;
+
+  p + br {
+    // removes extraneous br tags
+    display: none;
+  }
+
+  @media (min-width: @screen-xs-max) {
+    line-height: 1.4;
+
+    p {
+      padding: 0.5rem 0;
+    }
+  }
+
   @media (max-width: @screen-xs-max) {
     padding: 0;
   }

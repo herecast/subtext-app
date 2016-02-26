@@ -6,11 +6,11 @@
         <h1 class='News-title'>{{model.title}}</h1>
 
         <div class='News-organizationInfo'>
-          {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
-            {{model.organizationName}}
-          {{/link-to}}
-
-          : {{model.authorName}}
+          <p>{{model.formattedPublishedAt}}&emsp;
+            {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
+              {{model.organizationName}}
+            {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;{{model.authorName}}
+          </p>
         </div>
       </div>
     </div>
@@ -47,9 +47,12 @@
       {{/unless}}
     </div>
     <div class='col-md-8 col-sm-9'>
-      <h3 class='News-subtitle'>{{model.subtitle}}</h3>
-      <div class='News-organizationDate'>{{model.formattedPublishedAt}}</div>
-      <div class='News-content ContentText'>{{{model.content}}}</div>
+      {{#if model.subtitle}}
+        <h3 class='News-subtitle'>{{model.subtitle}}</h3>
+      {{/if}}
+      <div class='News-content ContentText'>
+        {{{model.content}}}
+      </div>
 
       {{#unless isPreview}}
         {{related-promotion
