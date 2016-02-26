@@ -1,7 +1,7 @@
 import Mirage, {faker} from 'ember-cli-mirage';
 
 function generateLatLng(num) {
-  return (Math.random() * (num - (num + 0.100)) + (num + 0.100)).toFixed(4)
+  return (Math.random() * (num - (num + 0.100)) + (num + 0.100)).toFixed(4);
 }
 
 export default Mirage.Factory.extend({

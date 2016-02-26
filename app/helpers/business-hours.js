@@ -44,9 +44,9 @@ export function businessHours(params) {
 
     //set the hours portion for return
     if(temp_arr[1] !== undefined){
-      let hours = temp_arr[1].split('-');
-      let start_time = hours[0].split(':');
-      let end_time = hours[1].split(':');
+      let hours_now = temp_arr[1].split('-');
+      let start_time = hours_now[0].split(':');
+      let end_time = hours_now[1].split(':');
 
       let start_hour_raw = parseInt(start_time[0]);
       let start_hour = start_hour_raw > 12 ? parseInt(start_time[0])-12 : parseInt(start_time[0]);
