@@ -50,6 +50,8 @@ module.exports = function(environment) {
     ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
     ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
     ENV['gtm-api-token'] = process.env.GTM_API_TOKEN;
+    ENV['gtm-auth'] = process.env.GTM_AUTH;
+    ENV['gtm-preview'] = process.env.GTM_PREVIEW;
   }
 
   if (environment === 'test') {
