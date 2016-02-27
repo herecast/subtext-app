@@ -17,6 +17,7 @@ moduleFor('controller:directory', 'Unit | Controller | directory', {
       categories: categories,
       transitionToRoute: sinon.spy(),
       store: {
+        // query: sinon.spy(function(model, query) { debugger })
         query: sinon.spy()
       }
     });
@@ -77,7 +78,7 @@ test('non category match search terms', function(assert) {
   assert.equal(controller.get('parentCategory.name'), null, 'it should clear the parent category when there is no parent category match');
   assert.ok(controller.transitionToRoute.calledWith('directory.search.results'), 'it should transition to the directory search path');
   // TODO called with what?
-  assert.equal(controller.store.query.calledOnce, true, 'it should make a query');
+  assert.equal(controller.store.query.calledWithExactly('business-profile', { query: 'xfhblf' }), true, 'it should make a query');
 });
 
 test('setting and removing tags', function(assert) {
@@ -99,5 +100,5 @@ test('setting and removing tags', function(assert) {
   assert.equal(controller.get('subCategory.name'), 'barChild', 'it sets the subcategory');
   assert.ok(controller.transitionToRoute.calledWith('directory'), 'it should transition to the directory root path');
   // TODO called with what?
-  assert.equal(controller.store.query.calledOnce, true, 'it should make a query');
+  assert.equal(controller.store.query.calledWithExactly('business-profile', { category: 2 }), true, 'it should make a query');
 });

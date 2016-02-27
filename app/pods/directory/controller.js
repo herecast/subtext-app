@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
   searchTerms: null,
   results: [],
 
-  category_id: computed('subCategory', function() {
+  categoryId: computed('subCategory', function() {
     const subCategoryId = get(this, 'subCategory.id');
 
     return (subCategoryId) ? subCategoryId : null;
@@ -103,7 +103,7 @@ export default Ember.Controller.extend({
         subCategory: category
       });
 
-      set(this, 'results', this.store.query('business-profile', { category: get('subCategoryId') }));
+      set(this, 'results', this.store.query('business-profile', { category: get(this, 'categoryId') }));
       this.transitionToRoute('directory.search.results');
     }
   }
