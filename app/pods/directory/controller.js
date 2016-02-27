@@ -9,6 +9,8 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend({
+  query: null,
+
   geo: inject.service('geolocation'),
   location: computed.oneWay('geo.userLocation.human'),
   parentCategory: null,
@@ -70,6 +72,7 @@ export default Ember.Controller.extend({
       // do a normal query
       this.send('clearCategories', searchTerms);
       set(this, 'results', this.store.query('business-profile', { query: searchTerms }));
+      set(this, 'query', searchTerms);
       this.transitionToRoute('directory.search.results');
     },
 
@@ -92,7 +95,8 @@ export default Ember.Controller.extend({
         searchTerms: (typeof searchTerms === 'object') ? category.get('name') : searchTerms,
         parentCategory: category,
         subCategory: null,
-        results: []
+        results: [],
+        query: null
       });
       this.transitionToRoute('directory.search');
     },
