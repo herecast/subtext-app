@@ -101,7 +101,7 @@ test('category tags: setting parent category', function(assert) {
   assert.equal(controller.store.query.notCalled, true, 'it should not make a query');
 });
 
-test('category tags: setting and removing tags', function(assert) {
+test('category tags: removing parent category', function(assert) {
   const controller = this.subject();
 
   controller.send('removeTag', 'parent');
@@ -111,7 +111,23 @@ test('category tags: setting and removing tags', function(assert) {
   assert.ok(controller.store.query.notCalled, true, 'it should not make a query');
 });
 
-test('category tags: setting and removing tags', function(assert) {
+
+test('category tags: removing subcategory', function(assert) {
+  const controller = this.subject();
+  const parentCategory = controller.get('categories.firstObject');
+  const subCategory = parentCategory.get('child_categories.firstObject');
+  controller.send('setParentCategory', parentCategory);
+  controller.send('setSubCategory', subCategory);
+  controller.store.query.reset(); // reset spy after sending setSubCategory action, which causes a query
+
+  controller.send('removeTag', 'child');
+
+  assert.equal(controller.get('subCategory'), null, 'it removes the subCategory');
+  assert.equal(controller.get('subcategory_id'), null, 'it should clear the category_id param');
+  assert.ok(controller.store.query.notCalled, true, 'it should not make a query');
+});
+
+test('category tags: setting subcategory', function(assert) {
   const controller = this.subject();
   const parentCategory = controller.get('categories.firstObject');
   const subCategory = parentCategory.get('child_categories.firstObject');
@@ -121,5 +137,6 @@ test('category tags: setting and removing tags', function(assert) {
 
   assert.equal(controller.get('subCategory.name'), 'barChild', 'it sets the subcategory');
   assert.ok(controller.transitionToRoute.calledWith('directory.search.results'), 'it should transition to the directory search results path');
-  assert.equal(controller.store.query.calledWithExactly('business-profile', { category: 2 }), true, 'it should make a query');
+  assert.equal(controller.store.query.calledWithExactly('business-profile', { category_id: 2 }), true, 'it should make a query');
+  assert.equal(controller.get('subcategory_id'), 2, 'it should set the subcategory_id param');
 });

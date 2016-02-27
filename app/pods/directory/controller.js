@@ -10,6 +10,7 @@ const {
 
 export default Ember.Controller.extend({
   query: null,
+  subcategory_id: null,
 
   geo: inject.service('geolocation'),
   location: computed.oneWay('geo.userLocation.human'),
@@ -17,12 +18,6 @@ export default Ember.Controller.extend({
   subCategory: null,
   searchTerms: null,
   results: [],
-
-  categoryId: computed('subCategory', function() {
-    const subCategoryId = get(this, 'subCategory.id');
-
-    return (subCategoryId) ? subCategoryId : null;
-  }),
 
   queryParams: ['query', 'subcategory_id'],
 
@@ -45,6 +40,7 @@ export default Ember.Controller.extend({
     this.setProperties({
       searchTerms: parentCategory.get('name'),
       subCategory: null,
+      subcategory_id: null,
       results: []
     });
     this.transitionToRoute('directory.search');
@@ -104,10 +100,11 @@ export default Ember.Controller.extend({
     setSubCategory(category) {
       this.setProperties({
         searchTerms: category.get('name'),
-        subCategory: category
+        subCategory: category,
+        subcategory_id: category.get('id')
       });
 
-      set(this, 'results', this.store.query('business-profile', { category: get(this, 'categoryId') }));
+      set(this, 'results', this.store.query('business-profile', { category_id: get(this, 'subCategory.id') }));
       this.transitionToRoute('directory.search.results');
     }
   }
