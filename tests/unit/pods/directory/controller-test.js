@@ -51,6 +51,15 @@ test('search terms: short searches', function(assert) {
   assert.equal(controller.store.query.notCalled, true, 'it should not make a query');
 });
 
+test('search terms: short searches should clear the query param', function(assert) {
+  const controller = this.subject();
+  controller.set('query', 'antidisestablishmentarianism');
+
+  controller.send('updateQuery', 'foo');
+
+  assert.equal(controller.get('query'), null, 'it should clear the query parameter');
+});
+
 test('search terms: partial category matches', function(assert) {
   const controller = this.subject();
 
@@ -76,16 +85,33 @@ test('search terms: exact category matches', function(assert) {
   assert.equal(controller.get('query'), null, 'it should clear the query param');
 });
 
-test('search terms: non-category match', function(assert) {
+test('search terms: no category match', function(assert) {
   const controller = this.subject();
 
-  controller.send('updateQuery', 'fooParent'); // go back to 'directory' and make sure the controller has a parentCategory
+  controller.send('updateQuery', 'fooParent'); // go back to 'directory' to make sure the controller has a parentCategory
   controller.send('updateQuery', 'xfhblf');
 
   assert.equal(controller.get('searchTerms'), 'xfhblf', 'it should update the search terms');
   assert.equal(controller.get('parentCategory.name'), null, 'it should clear the parent category when there is no parent category match');
   assert.ok(controller.transitionToRoute.calledWith('directory.search.results'), 'it should transition to the directory search path');
   assert.equal(controller.store.query.calledWithExactly('business-profile', { query: 'xfhblf' }), true, 'it should make a query');
+  assert.equal(controller.get('query'), 'xfhblf', 'it should set the query param');
+});
+
+test('search terms: clear category before making query', function(assert) {
+  const controller = this.subject();
+  const parentCategory = controller.get('categories.firstObject');
+  const subCategory = parentCategory.get('child_categories.firstObject');
+  controller.send('setParentCategory', parentCategory);
+  controller.send('setSubCategory', subCategory);
+
+  assert.equal(controller.get('subcategory_id'), 2, 'it needs to have a subcategory so we can clear it');
+
+  // enter new search terms that don't match a category so that the query is made
+  controller.send('updateQuery', 'xfhblf');
+
+  assert.equal(controller.store.query.calledWithExactly('business-profile', { query: 'xfhblf' }), true, 'it should make a query');
+  assert.equal(controller.get('subcategory_id'), null, 'it should clear the subcategory_id before making a regular query');
   assert.equal(controller.get('query'), 'xfhblf', 'it should set the query param');
 });
 

@@ -69,6 +69,7 @@ export default Ember.Controller.extend({
       this.send('clearCategories', searchTerms);
       set(this, 'results', this.store.query('business-profile', { query: searchTerms }));
       set(this, 'query', searchTerms);
+      set(this, 'subcategory_id', null);
       this.transitionToRoute('directory.search.results');
     },
 
@@ -80,6 +81,7 @@ export default Ember.Controller.extend({
       this.setProperties({
         searchTerms: searchTerms,
         parentCategory: null,
+        query: null,
         subCategory: null,
         results: []
       });
