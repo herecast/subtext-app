@@ -14,6 +14,7 @@ export default Ember.Controller.extend({
 
   geo: inject.service('geolocation'),
   location: computed.oneWay('geo.userLocation.human'),
+  coords: computed.oneWay('geo.userLocation.coords'),
   parentCategory: null,
   subCategory: null,
   searchTerms: null,
@@ -67,7 +68,12 @@ export default Ember.Controller.extend({
 
       // do a normal query
       this.send('clearCategories', searchTerms);
-      set(this, 'results', this.store.query('business-profile', { query: searchTerms }));
+      const query = {
+        query: searchTerms,
+        lat: get(this, 'coords.lat'),
+        lng: get(this, 'coords.lng')
+      };
+      set(this, 'results', this.store.query('business-profile', query));
       set(this, 'query', searchTerms);
       set(this, 'subcategory_id', null);
       this.transitionToRoute('directory.search.results');
@@ -106,7 +112,13 @@ export default Ember.Controller.extend({
         subcategory_id: category.get('id')
       });
 
-      set(this, 'results', this.store.query('business-profile', { category_id: get(this, 'subCategory.id') }));
+      const query = {
+        category_id: get(this, 'subCategory.id'),
+        lat: get(this, 'coords.lat'),
+        lng: get(this, 'coords.lng')
+      };
+
+      set(this, 'results', this.store.query('business-profile', query));
       this.transitionToRoute('directory.search.results');
     }
   }
