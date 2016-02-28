@@ -8,7 +8,7 @@
       }}
     {{else}}
       <ul>
-        {{#each parentCategory.child_categories as |subCategory|}}
+        {{#each subCategories as |subCategory|}}
           <li {{action (action 'setSubCategory' subCategory)}} class='DirectoryResults-subCategoryListItem'>
             {{subCategory.name}} <span class='pull-right'>{{fa-icon 'angle-right'}}</span>
           </li>

@@ -23,7 +23,9 @@ export default Ember.Controller.extend({
   queryParams: ['query', 'subcategory_id'],
 
   toplevelCategories: computed('categories.[]', function() {
-    return get(this, 'categories').filterBy('parents.length', 0);
+    return get(this, 'categories').filter(category => {
+      return category.get('child_ids.length')  >= 1;
+    });
   }),
 
   _removeParent() {

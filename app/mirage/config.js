@@ -658,13 +658,13 @@ export default function() {
     let categories = db['business-categories'];
 
     if( !Ember.isEmpty(ids) ) {
-      categories = categories.filter(function(c) {
-        return ids.contains(c.id.toString());
+      categories = categories.filter(function(category) {
+        return ids.contains(category.id.toString());
       });
     }
 
     return {
-      business_categories: categories 
+      business_categories: categories
     };
   });
 

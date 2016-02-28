@@ -5,11 +5,9 @@ moduleFor('controller:directory', 'Unit | Controller | directory', {
   needs: ['model:business-profile'],
 
   beforeEach() {
-    const parentCat = Ember.Object.create({ id: 1, name: 'fooParent', parents: [], child_categories: []});
-    const childCat1 = Ember.Object.create({ id: 2, name: 'barChild', parents: [parentCat], child_categories: [] });
-    const childCat2 = Ember.Object.create({ id: 3, name: 'bazChild', parents: [parentCat], child_categories: [] });
-
-    parentCat.child_categories.pushObjects([childCat1, childCat2]);
+    const parentCat = Ember.Object.create({ id: 1, name: 'fooParent', parent_ids: [ ], child_ids: [ 2, 3 ] });
+    const childCat1 = Ember.Object.create({ id: 2, name: 'barChild',  parent_ids: [1], child_ids: [ ] });
+    const childCat2 = Ember.Object.create({ id: 3, name: 'bazChild',  parent_ids: [1], child_ids: [ ] });
 
     const categories = [parentCat, childCat1, childCat2];
 
@@ -25,7 +23,6 @@ moduleFor('controller:directory', 'Unit | Controller | directory', {
         }
       },
       store: {
-        // query: sinon.spy(function(model, query) { debugger })
         query: sinon.spy()
       }
     });
@@ -36,16 +33,19 @@ test('computing top level categories', function(assert) {
   const controller = this.subject();
   const category = Ember.Object.create({
     name: 'foo',
-    parents: []
+    parent_ids: [],
+    child_ids: [1]
   });
   const categories = [];
   controller.set('categories', categories);
 
   assert.equal(controller.get('toplevelCategories.length'), 0, 'it should not have top level categories if there are no categories');
 
-  categories.pushObject(category);
+  controller.get('categories').pushObject(category);
 
-  assert.equal(controller.get('toplevelCategories.firstObject.name'), 'foo', 'it should extract the top level categories');
+  assert.equal(controller.get('toplevelCategories.length'), 1, 'it should extract the top level categories');
+  // TODO add at least one child category to test accuracy of ^^
+  // it should filter out the child categories
 });
 
 test('search terms: short searches', function(assert) {
@@ -114,7 +114,8 @@ test('search terms: no category match', function(assert) {
 test('search terms: clear category before making query', function(assert) {
   const controller = this.subject();
   const parentCategory = controller.get('categories.firstObject');
-  const subCategory = parentCategory.get('child_categories.firstObject');
+
+  const subCategory = controller.get('categories').filterBy('id', parentCategory.get('child_ids')[0])[0];
   const expectedQuery = {
     query: 'xfhblf',
     lat: 10.000,
@@ -155,14 +156,16 @@ test('category tags: removing parent category', function(assert) {
   assert.ok(controller.store.query.notCalled, true, 'it should not make a query');
 });
 
-
 test('category tags: removing subcategory', function(assert) {
   const controller = this.subject();
   const parentCategory = controller.get('categories.firstObject');
-  const subCategory = parentCategory.get('child_categories.firstObject');
+  const subCategory = controller.get('categories').filterBy('id', parentCategory.get('child_ids')[0])[0];
+
   controller.send('setParentCategory', parentCategory);
   controller.send('setSubCategory', subCategory);
-  controller.store.query.reset(); // reset spy after sending setSubCategory action, which causes a query
+
+  // reset spy after sending setSubCategory action, which causes a query
+  controller.store.query.reset();
 
   controller.send('removeTag', 'child');
 
@@ -174,7 +177,7 @@ test('category tags: removing subcategory', function(assert) {
 test('category tags: setting subcategory', function(assert) {
   const controller = this.subject();
   const parentCategory = controller.get('categories.firstObject');
-  const subCategory = parentCategory.get('child_categories.firstObject');
+  const subCategory = controller.get('categories').filterBy('id', parentCategory.get('child_ids')[0])[0];
 
   const expectedQuery = {
     category_id: 2,
