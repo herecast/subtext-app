@@ -100,7 +100,7 @@ export default Ember.Component.extend({
   zoomMap(LatLngBounds, googleMap) {
     const googleMapsService = get(this, 'googleMapsService').googleMaps;
     // Don't zoom in too far on only one marker
-    const offset = 0.005;
+    const offset = 0.002;
 
     const extendPoint1 = new googleMapsService.maps.LatLng(
       LatLngBounds.getNorthEast().lat() + offset,
