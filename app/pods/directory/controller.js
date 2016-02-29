@@ -10,6 +10,8 @@ const {
 
 export default Ember.Controller.extend({
   query: null,
+  lat: null,
+  lng: null,
   subcategory_id: null,
 
   geo: inject.service('geolocation'),
@@ -20,7 +22,7 @@ export default Ember.Controller.extend({
   searchTerms: null,
   results: [],
 
-  queryParams: ['query', 'subcategory_id'],
+  queryParams: ['query', 'subcategory_id', 'lat', 'lng'],
 
   toplevelCategories: computed('categories.[]', function() {
     return get(this, 'categories').filter(category => {

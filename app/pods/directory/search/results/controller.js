@@ -11,7 +11,8 @@ export default Ember.Controller.extend({
   results:             oneWay('directoryController.results'),
 
   directorySearchController: inject.controller('directory.search'),
-  showResults:         oneWay('directorySearchController.showResults'),
+
+  showResults: oneWay('directorySearchController.showResults'),
 
   subCategories: computed('parentCategory', function() {
     const parentCategory = get(this, 'parentCategory');
