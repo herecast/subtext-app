@@ -3,62 +3,34 @@ import moment from 'moment';
 
 const {
   computed,
+  observer,
   get,
   set
 } = Ember;
 
-function filteredDataSet(data,startDate,endDate) {
-  const isFormat = /^\d{2}\/\d{2}\/\d{4}/;
-  const mStart = isFormat.test(startDate) ? moment(startDate, 'MM/DD/YYYY') : moment(startDate);
-  const mEnd = isFormat.test(endDate) ? moment(endDate, 'MM/DD/YYYY') : moment(endDate);
-
-  return data.filter(function(i) {
-    let doReturn = true;
-    const reportDate = i.get('report_date');
-
-    if(mStart.isValid()) {
-      doReturn = reportDate >= mStart.toDate();
-    }
-    if(doReturn && mEnd.isValid()) {
-      doReturn = reportDate <= mEnd.toDate();
-    }
-    return doReturn;
-  });
-}
-
 export default Ember.Component.extend({
+  sortBy: ['report_date'],
   views: [],
   clicks: [],
   hasViewData: computed.notEmpty('views'),
   hasClickData: computed.notEmpty('clicks'),
   metricType: 'views',
   cumulative: false,
-  startDate: computed.oneWay('views.firstObject.report_date'),
-  endDate: computed.oneWay('views.lastObject.report_date'),
+  sortedViews: computed.sort('views', 'sortBy'),
+  sortedClicks: computed.sort('clicks', 'sortBy'),
+  calculatedStartDate: computed.oneWay('sortedViews.firstObject.report_date'),
+  calculatedEndDate: computed.oneWay('sortedViews.lastObject.report_date'),
 
-  init() {
-    this._super(...arguments);
-
-  },
-
-  filteredViewCounts: computed('views.[]', 'startDate', 'endDate', function() {
-    const data = get(this, 'views');
-    const startDate = get(this, 'startDate');
-    const endDate = get(this, 'endDate');
-
-    return filteredDataSet(data, startDate, endDate);
-  }),
-
-  viewLabels: computed('filteredViewCounts', function() {
-    const viewCounts = get(this, 'filteredViewCounts');
+  viewLabels: computed('sortedViews', function() {
+    const viewCounts = get(this, 'sortedViews');
 
     return viewCounts.map((row) => {
       return moment(row.report_date).format('L');
     });
   }),
 
-  viewData: computed('filteredViewCounts', function() {
-    const viewCounts = get(this, 'filteredViewCounts');
+  viewData: computed('sortedViews', function() {
+    const viewCounts = get(this, 'sortedViews');
 
     return viewCounts.mapBy('view_count');
   }),
@@ -66,30 +38,23 @@ export default Ember.Component.extend({
   cumulativeViewData: computed('viewData', function() {
     const viewCounts = get(this, 'viewData');
     let count = 0;
+
     return viewCounts.map(function(i){
       count += i;
       return count;
     });
   }),
 
-  filteredClickCounts: computed('clicks.[]', 'startDate', 'endDate', function() {
-    const data = get(this, 'clicks');
-    const startDate = get(this, 'startDate');
-    const endDate = get(this, 'endDate');
-
-    return filteredDataSet(data, startDate, endDate);
-  }),
-
-  clickLabels: computed('filteredClickCounts', function() {
-    const clickCounts = get(this, 'filteredClickCounts');
+  clickLabels: computed('sortedClicks', function() {
+    const clickCounts = get(this, 'sortedClicks');
 
     return clickCounts.map((row) => {
       return moment(row.report_date).format('L');
     });
   }),
 
-  clickData: computed('filteredClickCounts', function() {
-    const clickCounts = get(this, 'filteredClickCounts');
+  clickData: computed('sortedClicks', function() {
+    const clickCounts = get(this, 'sortedClicks');
 
     return clickCounts.mapBy('click_count');
   }),
@@ -97,10 +62,47 @@ export default Ember.Component.extend({
   cumulativeClickData: computed('clickData', function() {
     const clickCounts = get(this, 'clickData');
     let count = 0;
+
     return clickCounts.map(function(i){
       count += i;
       return count;
     });
+  }),
+
+  didReceiveAttrs() {
+    const startDate = moment(this.attrs.startDate);
+    const endDate = moment(this.attrs.endDate);
+
+    set(this, 'views', this.attrs.views.value);
+    set(this, 'clicks', this.attrs.clicks.value);
+
+    if(startDate.isValid()) {
+      set(this, 'startDate', startDate.toDate());
+    } else {
+      set(this, 'startDate', get(this, 'calculatedStartDate'));
+    }
+
+    if(endDate.isValid()) {
+      set(this, 'endDate', endDate.toDate());
+    } else {
+      set(this, 'endDate', get(this, 'calculatedEndDate'));
+    }
+  },
+
+  startDateDidChange: observer('startDate', function() {
+    const startDate = get(this, 'startDate');
+
+    if (startDate !== this.attrs['startDate']) {
+      this.attrs.updateStartDate(startDate);
+    }
+  }),
+
+  endDateDidChange: observer('endDate', function() {
+    const endDate = get(this, 'endDate');
+
+    if (endDate !== this.attrs['endDate']) {
+      this.attrs.updateEndDate(endDate);
+    }
   }),
 
   actions: {
