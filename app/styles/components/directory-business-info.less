@@ -13,46 +13,59 @@
 
 
 .DirectoryBusiness-logo{
-  display:inline-block;
-  margin-right:2%;
-  width:25%;
-  vertical-align:top;
+  display: inline-block;
+  margin-right: 2%;
+  width: 25%;
+  vertical-align: top;
 }
 
 .DirectoryBusiness-logoImg{
-  width:100%;
-  max-height:100px;
-  border-radius:3px;
+  width: 100%;
+  max-height: 100px;
+  border-radius: 3px;
 }
 
 .DirectoryBusiness-info{
-  display:inline-block;
-  width:70%;
+  display: inline-block;
+  width: 70%;
   h2 {
-    font-family:@font-family-base;
-    text-transform:capitalize;
+    font-family: @font-family-base;
+    text-transform: capitalize;
+    margin-top: 0;
   }
 }
 
 .DirectoryBusiness-iconBar{
   text-align:center;
-  padding:3%;
+  padding: 3%;
   div{
-    display:inline-block;
-    width:30%;
+    display: inline-block;
+    width: 30%;
   }
   div:not(:first-of-type){
-    border-left:solid 2px grey;
+    border-left: solid 2px grey;
+  }
+  @media (max-width: @screen-xs-max) {
+    div{
+      width: auto;
+    }
+    div:not(:first-of-type){
+      border-left: solid 2px grey;
+      padding: 0 12px;
+    }
+    div:first-of-type{
+      padding: 0 12px 0 0;
+    }
   }
 }
 
 .DirectoryFeedback-hours,
 .DirectoryFeedback-details{
-  margin:20px 0;
+  margin: 20px 0;
   h2{
     font-family: 'museo-slab', Georgia, Palatino, serif;
     text-transform: capitalize;
-    margin:2px 0px;
+    margin: 2px 0px;
 
   }
 }

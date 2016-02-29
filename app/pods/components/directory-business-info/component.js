@@ -27,23 +27,6 @@ export default Ember.Component.extend({
     return new Ember.String.htmlSafe("background-image: url(" + get(this, 'coverImage') + ")");
   }),
 
-  fullPhone: computed('model.phone', function(){
-    return get(this, 'model.phone'). formattedPhone();
-  }),
-
-  directionsLink: computed('model.fullAddress', function(){
-    return 'http://maps.google.com/?q=' + encodeURIComponent( get(this,'model.fullAddress') + "," + get(this,'model.zip') );
-  }),
-
-  websiteLink: computed('model.website', function(){
-    let website = get(this, 'model.website');
-
-    if( website.match(`^(http|https)://`) === null ){
-        website = "http://"+website;
-    }
-    return website;
-  }),
-
   isOpen: computed(function() {
     //placeholder for testing now vs times open
     return false;

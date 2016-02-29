@@ -26,13 +26,15 @@ export default Mirage.Factory.extend({
   details() { return faker.lorem.sentences(); },
   logo() { return faker.image.avatar(); },
   images() { return [faker.image.business(),faker.image.business()]; },
-  feedback: {
-    satisfaction: Math.random(),
-    cleanliness: Math.random(),
-    price: Math.random(),
-    recommend: Math.random()
+  feedback() {
+    return {
+      satisfaction: Math.random(),
+      cleanliness: Math.random(),
+      price: Math.random(),
+      recommend: Math.random()
+    };
   },
-  feedback_num: Math.floor( Math.random() * 300 ),
+  feedback_num() { return Math.floor( Math.random() * 300 ); },
   views: "237",
   category_ids: [],
   has_retail_location() { return faker.helpers.shuffle(true,false); }

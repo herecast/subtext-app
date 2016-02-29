@@ -24,10 +24,10 @@
     <div><a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}</a></div>
   {{/if}}
   {{#if model.address}}
-    <div><a href="{{directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
+    <div><a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
   {{/if}}
   {{#if model.website}}
-    <div><a href="{{websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
+    <div><a href="{{model.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
   {{/if}}
 </div>
 
