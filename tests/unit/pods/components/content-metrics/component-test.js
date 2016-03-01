@@ -14,13 +14,13 @@ test('cumulative views are incremental', function(assert) {
   var component = this.subject({
       attrs: {
         views: {
-          value: Ember.A([
+          value: [
             Ember.Object.create({report_date: moment('12/21/2015').toDate(), view_count: 5}),
             Ember.Object.create({report_date: moment('12/22/2015').toDate(), view_count: 3}),
             Ember.Object.create({report_date: moment('12/23/2015').toDate(), view_count: 6})
-          ])
+          ]
         },
-        clicks: {value: Ember.A([])}
+        clicks: {value: []}
       },
   });
 
@@ -35,13 +35,13 @@ test('cumulative clicks are incremental', function(assert) {
   var component = this.subject({
     attrs: {
       clicks: {
-        value: Ember.A([
+        value: [
           Ember.Object.create({report_date: moment('12/21/2015').toDate(), click_count: 5}),
           Ember.Object.create({report_date: moment('12/22/2015').toDate(), click_count: 3}),
           Ember.Object.create({report_date: moment('12/23/2015').toDate(), click_count: 6})
-        ])
+        ]
       },
-      views: {value: Ember.A([])},
+      views: {value: []},
       startDate: '12/21/2015', //normally calculated from view count data
       endDate: '12/23/2015' //normally calculated from view count data
     }
