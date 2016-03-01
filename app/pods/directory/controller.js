@@ -122,8 +122,14 @@ export default Ember.Controller.extend({
         lng: get(this, 'coords.lng')
       };
 
-      set(this, 'results', this.store.query('business-profile', query));
-      this.transitionToRoute('directory.search.results');
+      this.store.query('business-profile', query).then((results) => {
+        if (isPresent(results)) {
+          set(this, 'results', results);
+          this.transitionToRoute('directory.search.results');
+        } else {
+          this.transitionToRoute('directory.search.no-results');
+        }
+      });
     }
   }
 });
