@@ -1,12 +1,16 @@
 import Ember from 'ember';
 import moment from 'moment';
 
+const { isEmpty } = Ember;
+
 const dateFormat = 'YYYY-MM-DD';
 
 export default {
   dateSummary(start, stop) {
     if (start === this.today() && stop === this.today()) {
       return 'Today';
+    } else if (isEmpty(start) && isEmpty(stop)) {
+      return 'Anytime';
     } else if (start === this.tomorrow() && stop === this.tomorrow()) {
       return 'Tomorrow';
     } else if (start === this.startOfWeek() && stop === this.endOfWeek()) {
@@ -55,4 +59,5 @@ export default {
   endOfMonth() {
     return moment().add(30, 'days').format(dateFormat);
   }
+
 };

@@ -40,6 +40,9 @@ export default Ember.Component.extend({
       } else if (period === 'month') {
         startDate = Dates.startOfMonth();
         stopDate = Dates.endOfMonth();
+      } else if (period === 'anytime') {
+        startDate = null;
+        stopDate = null;
       }
 
       this.setProperties({
