@@ -12,11 +12,16 @@ export default Ember.Controller.extend({
   query: null,
   lat: null,
   lng: null,
+
   subcategory_id: null,
 
   geo: inject.service('geolocation'),
   location: computed.oneWay('geo.userLocation.human'),
-  coords: computed.oneWay('geo.userLocation.coords'),
+  // coords: computed.oneWay('geo.userLocation.coords'),
+  coords: {
+    lat: 43.6489596,
+    lng: -72.31925790000003
+  },
   parentCategory: null,
   subCategory: null,
   searchTerms: null,

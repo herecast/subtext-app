@@ -15,8 +15,8 @@ export default Ember.Route.extend({
       results: this.store.query('business-profile', {
         query: params.query,
         category_id: params.subcategory_id,
-        lat: params.lat,
-        lng: params.lng
+        lat: 43.6489596,
+        lng: -72.31925790000003
       })
     };
     const query = (params.query || params.subcategory_id) ? merge(baseQuery, resultsQuery) : baseQuery;
