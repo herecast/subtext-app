@@ -38,7 +38,7 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._setInputElement();
     // TODO replace query with actual property
-    const searchTerms = get(this, 'query')
+    const searchTerms = get(this, 'query');
     const $input = get(this, 'input');
     // set initial value
     if (searchTerms) {
