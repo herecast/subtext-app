@@ -11,7 +11,9 @@
             <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
             {{business-search
               inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+              category=subCategory
               searchTerms=searchTerms
+              query=query
               updateFromQuery=(action 'updateQuery')
             }}
           </div>
