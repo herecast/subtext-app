@@ -1,11 +1,23 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  queryParams: {
+    startDate: {
+      refreshModel: true
+    },
+    endDate: {
+      refreshModel: true
+    }
+  },
   titleToken: 'Metrics',
   metrics: Ember.inject.service('content-metrics'),
 
   model(params) {
-    return this.get('metrics').findAd(params.content_id);
+    const query = {
+      start_date: params['startDate'],
+      end_date: params['endDate']
+    };
+    return this.get('metrics').findAd(params.content_id, query);
   },
 
   setupController(controller, model) {

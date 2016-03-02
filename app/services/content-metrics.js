@@ -5,15 +5,22 @@ import ContentMetric from '../models/content-metric';
 import AdMetric from '../models/ad-metric';
 
 export default Ember.Service.extend({
-  findContent(id) {
+  findContent(id, data) {
     const url = `${config.API_NAMESPACE}/contents/${id}/metrics`;
-    return ajax(url).then((response) => {
+
+    return ajax(url, {
+      data: data
+    }).then((response) => {
       return ContentMetric.create(response.content_metrics);
     });
   },
-  findAd(id){
+
+  findAd(id, data){
     const url = `${config.API_NAMESPACE}/promotion_banners/${id}/metrics`;
-    return ajax(url).then((response) => {
+
+    return ajax(url, {
+      data: data
+    }).then((response) => {
       return AdMetric.create(response.promotion_banner_metrics);
     });
   }
