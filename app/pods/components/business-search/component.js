@@ -60,8 +60,6 @@ export default Ember.Component.extend({
     // what should be used for the value
     if (hasCategory) {
       $input.val(searchTerms);
-    } else if (hasParentCategory && !hasCategory) {
-      $input.val(parentCategory.get('name'));
     } else if (!hasCategory && !searchTerms) {
       $input.val('');
     }
