@@ -104,12 +104,6 @@ export default Ember.Component.extend({
       set(this, 'suggestions', []);
     },
 
-    updateFromQuery() {
-      const query = get(this, 'locationQuery');
-
-      this.send('update', query);
-    },
-
     update(val, coords) {
       const location = get(this, 'location');
 
