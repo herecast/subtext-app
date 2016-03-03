@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
     const lng = get(this, 'lng');
     const subcategory_id = get(this, 'subcategory_id');
 
-    if (isEmpty(query) || isEmpty(subcategory_id)) {
+    if (isEmpty(query) && isEmpty(subcategory_id)) {
       return [];
     }
 

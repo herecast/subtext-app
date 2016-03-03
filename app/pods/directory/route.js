@@ -13,14 +13,9 @@ export default Ember.Route.extend({
     let model = {
       categories: this.store.find('business-category'),
       subcategory_id: params.subcategory_id,
-      location: "",
       lat: params.lat,
       lng: params.lng
     };
-
-    if(isPresent(params.lat) && isPresent(params.lng)) {
-      model['location'] = this.get('geo').reverseGeocode(params.lat, params.lng);
-    }
 
     return RSVP.hash(model);
   },
@@ -43,7 +38,9 @@ export default Ember.Route.extend({
         });
       });
     } else {
-      controller.set('location', model.location);
+      this.get('geo').reverseGeocode(model.lat, model.lng).then(function(l) {
+        controller.set('location', l);
+      });
     }
   }
 });
