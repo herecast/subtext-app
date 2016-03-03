@@ -632,12 +632,12 @@ export default function() {
   });
 
   this.get('/businesses', function(db, request) {
-    const { query } = request.params; // category location, max_distance, open_at
+    const { query } = request.queryParams; // category location, max_distance, open_at
     const businessProfiles = db['business-profiles'];
 
-    if (query) {
+    if (query === "nothing") {
       return {
-        business_profiles: businessProfiles[0]
+        business_profiles: []
       };
     } else {
       return {
