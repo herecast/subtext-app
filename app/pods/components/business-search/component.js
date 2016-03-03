@@ -4,7 +4,8 @@ const {
   set,
   get,
   run,
-  isPresent
+  isPresent,
+  isBlank
 } = Ember;
 
 export default Ember.Component.extend({
@@ -37,8 +38,8 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._setInputElement();
-    // TODO replace query with actual property
-    const searchTerms = get(this, 'query');
+
+    const searchTerms = get(this, 'query') || get(this, 'category.name') || null;
     const $input = get(this, 'input');
     // set initial value
     if (searchTerms) {
@@ -50,12 +51,19 @@ export default Ember.Component.extend({
   didUpdateAttrs() {
     const $input = get(this, 'input');
     const searchTerms = get(this, 'attrs.searchTerms.value');
-    const isCategory = get(this, 'attrs.category.value');
+    const hasCategory = get(this, 'attrs.category.value') ? true : false;
+    const parentCategory = get(this, 'attrs.parentCategory.value');
+    const hasParentCategory = (parentCategory) ? true : false;
+
     // we have to manually manage the input value
     // since there is some business logic about
     // what should be used for the value
-    if (isPresent(searchTerms) && isCategory !== null) {
+    if (hasCategory) {
       $input.val(searchTerms);
+    } else if (hasParentCategory && !hasCategory) {
+      $input.val(parentCategory.get('name'));
+    } else if (!hasCategory && !searchTerms) {
+      $input.val('');
     }
   }
 });

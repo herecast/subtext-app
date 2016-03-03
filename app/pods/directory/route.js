@@ -21,11 +21,17 @@ export default Ember.Route.extend({
     };
     const query = (params.query || params.subcategory_id) ? merge(baseQuery, resultsQuery) : baseQuery;
 
-    return RSVP.hash(query);
+    return RSVP.hash(merge(query, { subcategory_id: params.subcategory_id }));
   },
 
   setupController(controller, model) {
     controller.set('categories', model.categories);
+
+    const subCategory = model.categories.findBy('id', model.subcategory_id);
+
+    if (subCategory) {
+      controller.set('subCategory', subCategory);
+    }
 
     if (isPresent(model.results)) {
       controller.set('results', model.results);
