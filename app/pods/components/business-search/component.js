@@ -3,9 +3,7 @@ import Ember from 'ember';
 const {
   set,
   get,
-  run,
-  isPresent,
-  isBlank
+  run
 } = Ember;
 
 export default Ember.Component.extend({
@@ -52,8 +50,6 @@ export default Ember.Component.extend({
     const $input = get(this, 'input');
     const searchTerms = get(this, 'attrs.searchTerms.value');
     const hasCategory = get(this, 'attrs.category.value') ? true : false;
-    const parentCategory = get(this, 'attrs.parentCategory.value');
-    const hasParentCategory = (parentCategory) ? true : false;
 
     // we have to manually manage the input value
     // since there is some business logic about

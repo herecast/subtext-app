@@ -122,15 +122,16 @@ export default Ember.Controller.extend({
       this.setProperties({
         searchTerms: category.get('name'),
         subCategory: category,
-        subcategory_id: category.get('id')
+        subcategory_id: category.get('id'),
+        query: null
       });
 
+/*
       const query = {
         category_id: get(this, 'subCategory.id'),
         lat: get(this, 'lat'),
         lng: get(this, 'lng')
       };
-
       this.store.query('business-profile', query).then((results) => {
         if (isPresent(results)) {
           set(this, 'results', results);
@@ -139,6 +140,7 @@ export default Ember.Controller.extend({
           this.transitionToRoute('directory.search.no-results');
         }
       });
+      */
     },
 
     setLocation(name, coords) {

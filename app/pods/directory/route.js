@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 const {
   RSVP,
-  isPresent,
   isEmpty,
   inject
 } = Ember;
