@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, set, run, computed } = Ember;
+const { get, set, run, computed, isPresent } = Ember;
 
 export default Ember.Component.extend({
   type: 'text',
@@ -110,11 +110,11 @@ export default Ember.Component.extend({
       this.send('update', query);
     },
 
-    update(val) {
+    update(val, coords) {
       const location = get(this, 'location');
 
-      if(location !== val) {
-        this.sendAction('setLocation',val);
+      if(location !== val && isPresent(coords)) {
+        this.sendAction('setLocation', val, coords);
       }
 
       set(this, 'displaySuggestions', false);

@@ -4,9 +4,18 @@ const { RSVP, get, computed } = Ember;
 
 export default Ember.Service.extend({
   mapsService: Ember.inject.service('google-maps'),
+  defaultLocation: {
+    human: 'Lebanon, NH',
+    coords: {
+      lat: 43.645,
+      lng: -72.243
+    }
+  },
 
   userLocation: computed('mapsService', function() {
-    const locationProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+    const locationProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
+      content: get(this, 'defaultLocation')
+    });
 
     return locationProxy.create({
       promise: this.getUserLocation()
@@ -22,11 +31,22 @@ export default Ember.Service.extend({
           lng: position.coords.longitude
         };
 
+        /**************
+        * Remove this when location allowed outside test market
+        */
+        const defaultLocation = get(this, 'defaultLocation');
+        const distance = this.distance(defaultLocation.coords, coords) * 0.621371;
+        if(distance >= 50) {
+          return resolve(defaultLocation);
+        }
+        /****/
+
         mapsService.geocode({location: coords}, (results) =>{
-          resolve({
+          const loc = {
             coords: coords,
             human: mapsService.cityStateFormat(results[0])
-          });
+          };
+          resolve(loc);
         });
       });
     });
@@ -70,6 +90,42 @@ export default Ember.Service.extend({
         });
       })
     });
+  },
+
+  reverseGeocode(lat, lng) {
+    const mapsService = get(this, 'mapsService');
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      mapsService.geocode({
+        location: {
+          lat: parseFloat(lat),
+          lng: parseFloat(lng)
+        }
+      }, function(results, status) {
+          if(status !== "OK") {
+            reject(status);
+          } else {
+            resolve(mapsService.cityStateFormat(results[0]));
+          }
+      });
+    });
+  },
+
+  distance(p1,p2) {
+    const lat1 = p1.lat,
+          lon1 = p1.lng,
+          lat2 = p2.lat,
+          lon2 = p2.lng;
+
+    const R = 6371; // km (change this constant to get miles)
+    var dLat = (lat2-lat1) * Math.PI / 180;
+    var dLon = (lon2-lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d;
   }
 
 });

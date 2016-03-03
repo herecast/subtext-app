@@ -4,28 +4,19 @@ const {
   get,
   set,
   computed,
-  inject,
-  isPresent
+  isPresent,
+  isEmpty
 } = Ember;
 
 export default Ember.Controller.extend({
   query: null,
+  subcategory_id: null,
   lat: null,
   lng: null,
-
-  subcategory_id: null,
-
-  geo: inject.service('geolocation'),
-  location: computed.oneWay('geo.userLocation.human'),
-  // coords: computed.oneWay('geo.userLocation.coords'),
-  coords: {
-    lat: 43.6489596,
-    lng: -72.31925790000003
-  },
+  location: "",
   parentCategory: null,
   subCategory: null,
   searchTerms: null,
-  results: [],
 
   queryParams: ['query', 'subcategory_id', 'lat', 'lng'],
 
@@ -33,6 +24,27 @@ export default Ember.Controller.extend({
     return get(this, 'categories').filter(category => {
       return category.get('child_ids.length')  >= 1;
     });
+  }),
+
+  results: computed('lat', 'lng', 'query', 'subcategory_id', function() {
+    const query = get(this, 'query');
+    const lat = get(this, 'lat');
+    const lng = get(this, 'lng');
+    const subcategory_id = get(this, 'subcategory_id');
+
+    if (isEmpty(query) || isEmpty(subcategory_id)) {
+      return [];
+    }
+
+    let apiQuery = {
+      query: query,
+      category_id: subcategory_id,
+      lat: lat,
+      lng: lng
+    };
+
+    return this.store.query('business-profile', apiQuery);
+
   }),
 
   _removeParent() {
@@ -50,8 +62,7 @@ export default Ember.Controller.extend({
     this.setProperties({
       searchTerms: parentCategory.get('name'),
       subCategory: null,
-      subcategory_id: null,
-      results: []
+      subcategory_id: null
     });
     this.transitionToRoute('directory.search');
   },
@@ -77,12 +88,7 @@ export default Ember.Controller.extend({
 
       // do a normal query
       this.send('clearCategories', searchTerms);
-      const query = {
-        query: searchTerms,
-        lat: get(this, 'coords.lat'),
-        lng: get(this, 'coords.lng')
-      };
-      set(this, 'results', this.store.query('business-profile', query));
+      //set(this, 'results', this.store.query('business-profile', query));
       set(this, 'query', searchTerms);
       set(this, 'subcategory_id', null);
       this.transitionToRoute('directory.search.results');
@@ -97,8 +103,7 @@ export default Ember.Controller.extend({
         searchTerms: searchTerms,
         parentCategory: null,
         query: null,
-        subCategory: null,
-        results: []
+        subCategory: null
       });
       this.transitionToRoute('directory');
     },
@@ -108,7 +113,6 @@ export default Ember.Controller.extend({
         searchTerms: (typeof searchTerms === 'object') ? category.get('name') : searchTerms,
         parentCategory: category,
         subCategory: null,
-        results: [],
         query: null
       });
       this.transitionToRoute('directory.search');
@@ -123,8 +127,8 @@ export default Ember.Controller.extend({
 
       const query = {
         category_id: get(this, 'subCategory.id'),
-        lat: get(this, 'coords.lat'),
-        lng: get(this, 'coords.lng')
+        lat: get(this, 'lat'),
+        lng: get(this, 'lng')
       };
 
       this.store.query('business-profile', query).then((results) => {
@@ -134,6 +138,14 @@ export default Ember.Controller.extend({
         } else {
           this.transitionToRoute('directory.search.no-results');
         }
+      });
+    },
+
+    setLocation(name, coords) {
+      this.setProperties({
+        location: name,
+        lat: coords.lat,
+        lng: coords.lng
       });
     }
   }

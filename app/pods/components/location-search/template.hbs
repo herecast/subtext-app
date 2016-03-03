@@ -15,9 +15,9 @@
 
     {{#if displayQuickList}}
       <li class='divider' role='presentation'></li>
-      {{#each quickList as |text|}}
+      {{#each quickList as |loc|}}
         <li>
-          <a href='#' {{action 'update' text}}>{{text}}</a>
+          <a href='#' {{action 'update' loc.human loc.coords}}>{{loc.human}}</a>
         </li>
       {{/each}}
     {{/if}}

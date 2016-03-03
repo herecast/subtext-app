@@ -2,26 +2,27 @@ import Ember from 'ember';
 
 const {
   RSVP,
-  merge,
-  isPresent
+  isPresent,
+  isEmpty,
+  inject
 } = Ember;
 
 export default Ember.Route.extend({
+  geo: inject.service('geolocation'),
   model(params) {
-    const baseQuery = {
-      categories: this.store.find('business-category')
+    let model = {
+      categories: this.store.find('business-category'),
+      subcategory_id: params.subcategory_id,
+      location: "",
+      lat: params.lat,
+      lng: params.lng
     };
-    const resultsQuery = {
-      results: this.store.query('business-profile', {
-        query: params.query,
-        category_id: params.subcategory_id,
-        lat: 43.6489596,
-        lng: -72.31925790000003
-      })
-    };
-    const query = (params.query || params.subcategory_id) ? merge(baseQuery, resultsQuery) : baseQuery;
 
-    return RSVP.hash(merge(query, { subcategory_id: params.subcategory_id }));
+    if(isPresent(params.lat) && isPresent(params.lng)) {
+      model['location'] = this.get('geo').reverseGeocode(params.lat, params.lng);
+    }
+
+    return RSVP.hash(model);
   },
 
   setupController(controller, model) {
@@ -33,8 +34,16 @@ export default Ember.Route.extend({
       controller.set('subCategory', subCategory);
     }
 
-    if (isPresent(model.results)) {
-      controller.set('results', model.results);
+    if (isEmpty(model.lat) || isEmpty(model.lng)) {
+      this.get('geo.userLocation').then(function(loc) {
+        controller.setProperties({
+          location: loc.human,
+          lat: loc.coords.lat,
+          lng: loc.coords.lng
+        });
+      });
+    } else {
+      controller.set('location', model.location);
     }
   }
 });
