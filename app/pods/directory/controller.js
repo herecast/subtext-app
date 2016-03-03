@@ -125,6 +125,7 @@ export default Ember.Controller.extend({
         subcategory_id: category.get('id'),
         query: null
       });
+      this.transitionToRoute('directory.search.results');
 
 /*
       const query = {
