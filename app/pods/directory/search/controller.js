@@ -5,12 +5,15 @@ const { oneWay } = computed;
 
 export default Ember.Controller.extend({
   directoryController: inject.controller('directory'),
-  results:        oneWay('directoryController.results'),
+  queryParams: ['lat', 'lng', 'query', 'category_id'],
+  category_id: null,
+  query: null,
+  results: computed.alias('model'),
 
-  showResults: computed.gte('results.[].length', 1),
+  showResults: computed.gte('results.length', 1),
 
-  locations: computed('results.[]', 'results.@each', function() {
-    const results = get(this, 'results');
+  locations: computed('results.[]', function() {
+    const results = get(this, 'results') || [];
 
     return results.map((location) => {
       return {

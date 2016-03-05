@@ -3,153 +3,90 @@ import Ember from 'ember';
 const {
   get,
   set,
+  inject,
   computed,
   isPresent,
   isEmpty
 } = Ember;
 
 export default Ember.Controller.extend({
-  query: null,
-  subcategory_id: null,
-  lat: null,
-  lng: null,
   location: "",
-  parentCategory: null,
-  subCategory: null,
-  searchTerms: null,
-
-  queryParams: ['query', 'subcategory_id', 'lat', 'lng'],
+  coords: null,
+  category: null,
+  query: "",
 
   toplevelCategories: computed('categories.[]', function() {
-    return get(this, 'categories').filter(category => {
+    return (get(this, 'categories') || []).filter(category => {
       return category.get('child_ids.length')  >= 1;
     });
   }),
 
-  results: computed('lat', 'lng', 'query', 'subcategory_id', function() {
+  isReadyForSearch: computed('query', 'category', 'coords', function(){
     const query = get(this, 'query');
-    const lat = get(this, 'lat');
-    const lng = get(this, 'lng');
-    const subcategory_id = get(this, 'subcategory_id');
+    const category = get(this, 'category');
+    const coords = get(this, 'coords');
 
-    if (isEmpty(query) && isEmpty(subcategory_id)) {
-      return [];
-    }
-
-    let apiQuery = {
-      query: query,
-      category_id: subcategory_id,
-      lat: lat,
-      lng: lng
-    };
-
-    return this.store.query('business-profile', apiQuery);
-
+    return (query.length > 3 || isPresent(category)) && isPresent(coords);
   }),
 
-  _removeParent() {
-    this.setProperties({
-      parentCategory: null,
-      subCategory: null,
-      searchTerms: null
-    });
-    this.transitionToRoute('directory');
-  },
 
-  _removeChild() {
-    const parentCategory = get(this, 'parentCategory');
+  doSearch() {
+    const category_id = get(this, 'category.id');
+    const query = get(this, 'query');
+    const lat = get(this, 'coords.lat');
+    const lng = get(this, 'coords.lng');
 
-    this.setProperties({
-      searchTerms: parentCategory.get('name'),
-      subCategory: null,
-      subcategory_id: null
-    });
-    this.transitionToRoute('directory.search');
+    if(get(this, 'isReadyForSearch')) {
+      this.transitionToRoute('directory.search', {queryParams: {
+        lat: lat,
+        lng: lng,
+        query: query,
+        category_id: category_id
+      }});
+    }
   },
 
   actions: {
-    updateQuery(searchTerms) {
-      const categories = get(this, 'categories');
-      const re = new RegExp(`${searchTerms.trim()}`, 'i');
-
-      // search term is too short
-      if (searchTerms.length <= 4) {
-        return this.send('clearCategories', searchTerms);
-      }
-
-      const categoryMatches = categories.filter(category => {
-        return (category.get('name').match(re) && !get(category, 'parents.length'));
+    updateQuery(query) {
+      this.setProperties({
+        /* don't know what searchTerms is for */
+        searchTerms: query,
+        query: query,
+        category: null
       });
 
-      // has category match
-      if (isPresent(categoryMatches)) {
-        return this.send('setParentCategory', categoryMatches[0], searchTerms);
+      if (query.length <= 3) {
+        this.transitionToRoute('directory');
+      } else {
+        this.doSearch();
       }
-
-      // do a normal query
-      this.send('clearCategories', searchTerms);
-      //set(this, 'results', this.store.query('business-profile', query));
-      set(this, 'query', searchTerms);
-      set(this, 'subcategory_id', null);
-      this.transitionToRoute('directory.search.results');
     },
 
-    removeTag(tagType) {
-      return (tagType === 'parent') ? this._removeParent() : this._removeChild();
-    },
-
-    clearCategories(searchTerms) {
+    setCategory(category) {
       this.setProperties({
-        searchTerms: searchTerms,
-        parentCategory: null,
-        query: null,
-        subCategory: null
-      });
-      this.transitionToRoute('directory');
-    },
-
-    setParentCategory(category, searchTerms) {
-      this.setProperties({
-        searchTerms: (typeof searchTerms === 'object') ? category.get('name') : searchTerms,
-        parentCategory: category,
-        subCategory: null,
+        category: category,
         query: null
       });
-      this.transitionToRoute('directory.search');
+      this.doSearch();
     },
 
-    setSubCategory(category) {
-      this.setProperties({
-        searchTerms: category.get('name'),
-        subCategory: category,
-        subcategory_id: category.get('id'),
-        query: null
-      });
-      this.transitionToRoute('directory.search.results');
+    removeTag(){},
 
-/*
-      const query = {
-        category_id: get(this, 'subCategory.id'),
-        lat: get(this, 'lat'),
-        lng: get(this, 'lng')
-      };
-      this.store.query('business-profile', query).then((results) => {
-        if (isPresent(results)) {
-          set(this, 'results', results);
-          this.transitionToRoute('directory.search.results');
-        } else {
-          this.transitionToRoute('directory.search.no-results');
-        }
-      });
-      */
+    clearCategories() {
+    },
+
+    setParentCategory() {
+    },
+
+    setSubCategory() {
     },
 
     setLocation(name, coords) {
       this.setProperties({
         location: name,
-        lat: coords.lat,
-        lng: coords.lng
+        coords: coords
       });
+      this.doSearch();
     }
   }
 });
