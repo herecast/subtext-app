@@ -17,11 +17,17 @@ export default Ember.Route.extend({
 
     let apiQuery = {
       query: params.query,
-      category_id: params.subcategory_id,
+      category_id: params.category_id,
       lat: params.lat,
       lng: params.lng
     };
 
     return this.store.query('business-profile', apiQuery);
+  },
+
+  afterModel(results, transition) {
+    if (results.get('length') === 0) {
+      this.transitionTo('directory.no-results');
+    }
   }
 });
