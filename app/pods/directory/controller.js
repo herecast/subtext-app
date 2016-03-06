@@ -3,10 +3,8 @@ import Ember from 'ember';
 const {
   get,
   set,
-  inject,
   computed,
-  isPresent,
-  isEmpty
+  isPresent
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -15,41 +13,29 @@ export default Ember.Controller.extend({
   category: null,
   query: "",
 
-  toplevelCategories: computed('categories.[]', function() {
-    return (get(this, 'categories') || []).filter(category => {
-      return category.get('child_ids.length')  >= 1;
-    });
-  }),
-
-  isReadyForSearch: computed('query', 'category', 'coords', function(){
-    const query = get(this, 'query');
-    const category = get(this, 'category');
-    const coords = get(this, 'coords');
+  canSearch: computed('query', 'category', 'coords', function() {
+    const query = get(this, 'query') || '';
+    const { category, coords } = this;
 
     return (query.length > 3 || isPresent(category)) && isPresent(coords);
   }),
 
-
   doSearch() {
     const category_id = get(this, 'category.id');
     const query = get(this, 'query');
-    const lat = get(this, 'coords.lat');
-    const lng = get(this, 'coords.lng');
+    const { lat, lng } = get(this, 'coords');
 
-    if(get(this, 'isReadyForSearch')) {
-      this.transitionToRoute('directory.search', {queryParams: {
-        lat: lat,
-        lng: lng,
-        query: query,
-        category_id: category_id
-      }});
-    }
+    this.transitionToRoute('directory.search', { queryParams: {
+      lat: lat,
+      lng: lng,
+      query: query,
+      category_id: category_id
+    }});
   },
 
   actions: {
     updateQuery(query) {
       this.setProperties({
-        /* don't know what searchTerms is for */
         searchTerms: query,
         query: query,
         category: null
@@ -58,7 +44,9 @@ export default Ember.Controller.extend({
       if (query.length <= 3) {
         this.transitionToRoute('directory');
       } else {
-        this.doSearch();
+        if (get(this, 'canSearch')) {
+          this.doSearch();
+        }
       }
     },
 
@@ -67,18 +55,10 @@ export default Ember.Controller.extend({
         category: category,
         query: null
       });
-      this.doSearch();
-    },
 
-    removeTag(){},
-
-    clearCategories() {
-    },
-
-    setParentCategory() {
-    },
-
-    setSubCategory() {
+      if (get(this, 'canSearch')) {
+        this.doSearch();
+      }
     },
 
     setLocation(name, coords) {
@@ -86,7 +66,10 @@ export default Ember.Controller.extend({
         location: name,
         coords: coords
       });
-      this.doSearch();
+
+      if (get(this, 'canSearch')) {
+        this.doSearch();
+      }
     }
   }
 });

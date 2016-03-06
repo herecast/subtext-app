@@ -1,24 +1,13 @@
 import Ember from 'ember';
 
-const {
-  isEmpty,
-  RSVP
-} = Ember;
+const { isEmpty } = Ember;
 
 export default Ember.Route.extend({
   queryParams: {
-    lat: {
-      refreshModel:true
-    },
-    lng: {
-      refreshModel:true
-    },
-    query: {
-      refreshModel:true
-    },
-    category_id: {
-      refreshModel:true
-    },
+    lat:         { refreshModel: true },
+    lng:         { refreshModel: true },
+    query:       { refreshModel: true },
+    category_id: { refreshModel: true },
   },
 
   model(params) {

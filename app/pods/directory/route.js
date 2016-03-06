@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const {
+  get,
   RSVP,
   isEmpty,
   isPresent,
@@ -43,15 +44,15 @@ export default Ember.Route.extend({
         lng: model.params.lng
       };
       controller.set('coords', coords);
-      this.get('geo').reverseGeocode(coords.lat, coords.lng).then(function(loc) {
-        controller.set('location', loc);
+      get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
+        controller.set('location', location);
       });
     } else {
-      this.get('geo.userLocation').then(function(loc) {
+      get(this, 'geo.userLocation').then(location => {
         if(isEmpty(controller.get('coords'))) {
           controller.setProperties({
-            location: loc.human,
-            coords: loc.coords
+            location: location.human,
+            coords: location.coords
           });
         }
       });
