@@ -1,5 +1,9 @@
 <div class="DirectoryBusiness-backButton">
-  <h2>{{#link-to 'directory.search.results'}}{{fa-icon 'fa-angle-left'}} BACK{{/link-to}}</h2>
+  {{#if fromSearch}}
+    <h2>{{#link-to 'directory.search.results'}}{{fa-icon 'fa-angle-left'}} BACK{{/link-to}}</h2>
+  {{else}}
+    <h2>{{#link-to 'directory'}}{{fa-icon 'fa-angle-left'}} SEARCH{{/link-to}}</h2>
+  {{/if}}
 </div>
 
 <div class="DirectoryBusiness-detailWrap">
