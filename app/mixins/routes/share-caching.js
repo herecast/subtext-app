@@ -25,7 +25,7 @@ export default Ember.Mixin.create({
 
   prerenderRecache: function() {
     const prerenderToken = config['prerender-io-token'];
-    ajax('http://api.prerender.io/recache', {
+    ajax('https://api.prerender.io/recache', {
       type: 'POST',
       data: {
         prerenderToken: prerenderToken,
