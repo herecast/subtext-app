@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
-import Dates from 'subtext-ui/lib/dates';
+//import Dates from 'subtext-ui/lib/dates';
 
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
@@ -21,8 +21,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   defaultLocation: 'All Communities',
 
-  defaultStart: Dates.startOfWeek(),
-  defaultEnd: Dates.endOfWeek(),
+  defaultStart: null,
+  defaultEnd: null,
 
   category: Ember.computed.oneWay('defaultCategory'),
   location: Ember.computed.oneWay('defaultLocation'),
