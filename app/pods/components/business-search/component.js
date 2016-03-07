@@ -36,7 +36,6 @@ export default Ember.Component.extend({
     }, 100);
   },
 
-  // TODO use this method or fold it into _bindUpdateFunction
   keyUp(e) {
     const esc = 27;
 
@@ -48,12 +47,11 @@ export default Ember.Component.extend({
   },
 
   _bindUpdateFunction(input) {
-    input.keyup(event => {
+    input.on('input',  () => {
       const value = this.$('input').val();
 
-      if (event.keyCode !== 9 && event.keyCode !== 13) {
-        run.debounce(this, this.updateSearchTerms, value, 200);
-      }
+      run.debounce(this, this.updateCategoryMatches, value, 200);
+      run.debounce(this, this.updateSearchTerms, value, 500);
     });
   },
 
@@ -69,6 +67,24 @@ export default Ember.Component.extend({
     this.attrs.updateFromQuery(value);
   },
 
+  updateCategoryMatches(searchTerms) {
+    if (searchTerms.length >= 2) {
+      const categories = get(this, 'categories');
+      const categoryMatches = this._getCategoryMatches(categories, searchTerms);
+
+      if (isPresent(categoryMatches)) {
+        set(this, 'categoryMatches', categoryMatches);
+        set(this, 'displaySuggestions', true);
+      } else {
+        set(this, 'categoryMatches', []);
+        set(this, 'displaySuggestions', false);
+      }
+    } else {
+      set(this, 'categoryMatches', []);
+      set(this, 'displaySuggestions', false);
+    }
+  },
+
   didInsertElement() {
     const searchTerms = get(this, 'query') || get(this, 'category.name') || null;
 
@@ -80,24 +96,7 @@ export default Ember.Component.extend({
   },
 
   didUpdateAttrs() {
-    const searchTerms = get(this, 'attrs.searchTerms.value');
     const category = get(this, 'attrs.category.value');
-
-    if (searchTerms.length >= 3) {
-      const categories = get(this, 'categories');
-      const categoryMatches = this._getCategoryMatches(categories, searchTerms);
-
-      if (categoryMatches) {
-        set(this, 'categoryMatches', categoryMatches);
-        set(this, 'displaySuggestions', true);
-      } else {
-        set(this, 'categoryMatches', []);
-        set(this, 'displaySuggestions', false);
-      }
-    } else {
-      set(this, 'categoryMatches', []);
-      set(this, 'displaySuggestions', false);
-    }
 
     // we have to manually manage the input value
     // since there is some business logic about
