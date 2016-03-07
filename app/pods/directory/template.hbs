@@ -6,13 +6,14 @@
       </div>
 
       <div class='col-xs-12'>
-        <div class='clearfix u-layoutPadT10 u-layoutPadB10'>
+        <div class='clearfix u-layoutPadT10 u-layoutPadB20'>
           <div class='DirectorySearch-inputWrapper'>
             <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
             {{business-search
               inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
-              category=subCategory
-              parentCategory=parentCategory
+              categories=categories
+              category=category
+              setCategory=(action 'setCategory')
               searchTerms=searchTerms
               query=query
               updateFromQuery=(action 'updateQuery')
@@ -24,16 +25,6 @@
             {{location-search inputClass='form-control DirectorySearch-input' placeholder='Where?' location=location setLocation=(action 'setLocation')}}
           </div>
         </div>
-      </div>
-
-      <div class='col-xs-12'>
-        {{category-tag-list
-          categories=toplevelCategories
-          removeTag=(action 'removeTag')
-          selectParentCategory=(action 'setParentCategory')
-          parentCategory=parentCategory
-          subCategory=subCategory
-        }}
       </div>
     </div>
   </div>

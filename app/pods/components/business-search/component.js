@@ -3,61 +3,113 @@ import Ember from 'ember';
 const {
   set,
   get,
-  run
+  run,
+  computed,
+  isPresent
 } = Ember;
 
 export default Ember.Component.extend({
+  classNameBindings: ['displaySuggestions:open'],
+
   input: null,
   query: null,
+  categories: null,
+  category: null,
+  hasCategory: computed('category', function() {
+    return (isPresent(get(this, 'category')));
+  }),
+  categoryMatches: null,
 
-  _setInputElement() {
-    const input = this.$('input');
+  suggestions: [],
+  displaySuggestions: false,
 
-    set(this, 'input', input);
+  click() {
+    this.$('input').select();
+  },
+
+  focusOut() {
+    run.later(() => {
+      const stillHasFocus = this.$(':focus').length;
+      if(! stillHasFocus) {
+        set(this, 'displaySuggestions', false);
+      }
+    }, 100);
+  },
+
+  keyUp(e) {
+    const esc = 27;
+
+    switch(e.keyCode) {
+      case esc:
+        this.$('input').blur();
+        break;
+    }
   },
 
   _bindUpdateFunction(input) {
-    input.keyup(event => {
-      const value = get(this, 'input').val();
+    input.on('input',  () => {
+      const value = this.$('input').val();
 
-      if (event.keyCode !== 9 && event.keyCode !== 13) {
-        run.debounce(this, this.updateSearchTerms, value, 200);
-      }
+      run.debounce(this, this.updateSearchTerms, value, 200);
+    });
+  },
+
+  _getCategoryMatches(categories, searchTerms) {
+    const re = new RegExp(searchTerms, 'i');
+
+    return categories.filter(category => {
+      return category.get('name').match(re);
     });
   },
 
   updateSearchTerms(value) {
+    this.updateCategoryMatches(value);
     this.attrs.updateFromQuery(value);
   },
 
-  click() {
-    get(this, 'input').select();
+  updateCategoryMatches(searchTerms) {
+    if (searchTerms.length >= 2) {
+      const categories = get(this, 'categories');
+      const categoryMatches = this._getCategoryMatches(categories, searchTerms);
+
+      if (isPresent(categoryMatches)) {
+        set(this, 'categoryMatches', categoryMatches);
+        set(this, 'displaySuggestions', true);
+      } else {
+        set(this, 'categoryMatches', []);
+        set(this, 'displaySuggestions', false);
+      }
+    } else {
+      set(this, 'categoryMatches', []);
+      set(this, 'displaySuggestions', false);
+    }
   },
 
   didInsertElement() {
-    this._setInputElement();
-
     const searchTerms = get(this, 'query') || get(this, 'category.name') || null;
-    const $input = get(this, 'input');
+
     // set initial value
     if (searchTerms) {
-      $input.val(searchTerms);
+      this.$('input').val(searchTerms);
     }
-    this._bindUpdateFunction($input);
+    this._bindUpdateFunction(this.$('input'));
   },
 
   didUpdateAttrs() {
-    const $input = get(this, 'input');
-    const searchTerms = get(this, 'attrs.searchTerms.value');
-    const hasCategory = get(this, 'attrs.category.value') ? true : false;
+    const category = get(this, 'attrs.category.value');
 
     // we have to manually manage the input value
     // since there is some business logic about
     // what should be used for the value
-    if (hasCategory) {
-      $input.val(searchTerms);
-    } else if (!hasCategory && !searchTerms) {
-      $input.val('');
+    if (category) {
+      this.$('input').val(category.get('name'));
+    }
+  },
+
+  actions: {
+    chooseCategory(category) {
+      this.attrs.setCategory(category);
+      set(this, 'displaySuggestions', false);
     }
   }
 });

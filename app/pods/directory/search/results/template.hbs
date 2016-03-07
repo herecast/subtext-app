@@ -1,19 +1,8 @@
 <div class='row'>
   <div class='col-xs-12'>
-    {{#if showResults}}
-      {{directory-search-results
-        results=results
-        parentCategory=parentCategory
-        tagName='ul'
-      }}
-    {{else}}
-      <ul>
-        {{#each subCategories as |subCategory|}}
-          <li {{action (action 'setSubCategory' subCategory)}} class='DirectoryResults-subCategoryListItem'>
-            {{subCategory.name}} <span class='pull-right'>{{fa-icon 'angle-right'}}</span>
-          </li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    {{directory-search-results
+      results=results
+      tagName='ul'
+    }}
   </div>
 </div>

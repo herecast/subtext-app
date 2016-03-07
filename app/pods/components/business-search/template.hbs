@@ -4,3 +4,13 @@
   enter=(action this.attrs.updateFromQuery)
   placeholder='What are you looking for?'
 }}
+
+{{#if displaySuggestions}}
+  <ul class='dropdown-menu' role='menu'>
+    {{#each categoryMatches as |category|}}
+      <li>
+        <a href='#' {{action 'chooseCategory' category}}>{{category.name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}

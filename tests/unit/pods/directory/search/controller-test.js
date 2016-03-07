@@ -1,8 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:directory/search', 'Unit | Controller | directory/search', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
 });
 
 // Replace this with your real tests.

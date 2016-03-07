@@ -1,45 +1,69 @@
 import Ember from 'ember';
 
 const {
+  get,
   RSVP,
   isEmpty,
+  isPresent,
   inject
 } = Ember;
 
 export default Ember.Route.extend({
   geo: inject.service('geolocation'),
-  model(params) {
+
+  model() {
     let model = {
-      categories: this.store.find('business-category'),
-      subcategory_id: params.subcategory_id,
-      lat: params.lat,
-      lng: params.lng
+      categories: this.store.find('business-category')
     };
 
     return RSVP.hash(model);
   },
 
+  // This is to grab the query params from the sub route
+  // for restfulness.
+  afterModel(model, transition) {
+    const queryParams = transition.queryParams;
+    model.params = queryParams;
+  },
+
+
   setupController(controller, model) {
-    controller.set('categories', model.categories);
+    controller.setProperties({
+      categories: model.categories,
+      query: model.params['query'] || ""
+    });
 
-    const subCategory = model.categories.findBy('id', model.subcategory_id);
-
-    if (subCategory) {
-      controller.set('subCategory', subCategory);
+    // Setup Category
+    if(isPresent(model.params['category_id'])) {
+      controller.set('category', model.categories.findBy('id', model.params.category_id));
     }
 
-    if (isEmpty(model.lat) || isEmpty(model.lng)) {
-      this.get('geo.userLocation').then(function(loc) {
-        controller.setProperties({
-          location: loc.human,
-          lat: loc.coords.lat,
-          lng: loc.coords.lng
-        });
+    // Location
+    if(isPresent(model.params['lat']) && isPresent(model.params['lng'])) {
+      const coords = {
+        lat: model.params.lat,
+        lng: model.params.lng
+      };
+      controller.set('coords', coords);
+      get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
+        controller.set('location', location);
       });
     } else {
-      this.get('geo').reverseGeocode(model.lat, model.lng).then(function(l) {
-        controller.set('location', l);
+      get(this, 'geo.userLocation').then(location => {
+        if(isEmpty(controller.get('coords'))) {
+          controller.setProperties({
+            location: location.human,
+            coords: location.coords
+          });
+        }
       });
+    }
+  },
+
+  actions: {
+    deactivate() {
+      // Reset Query
+      this.controller.set('query', "");
     }
   }
 });

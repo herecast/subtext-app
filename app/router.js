@@ -79,10 +79,10 @@ Router.map(function() {
   });
 
   this.route('directory', function() {
-    this.route('landing', {path: '/'}, function() {});
+    this.route('landing', {path: '/'});
+    this.route('no-results', {path: '/nothing-found'});
     this.route('search', {path: '/s'}, function() {
-      this.route('results', {path: '/'}, function() {});
-      this.route('no-results', {path: '/nothing-found'}, function() {});
+      this.route('results', {path: '/'});
       this.route('show', {path: '/:id'});
     });
   });
