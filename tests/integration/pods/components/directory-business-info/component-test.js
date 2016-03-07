@@ -7,12 +7,13 @@ moduleForComponent('directory-business-info', 'Integration | Component | directo
 
 test('it renders', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  const model = {
+    details: '<p></p>'
+  };
+  
+  this.set('model', model);
 
-
-
-  this.render(hbs`{{directory-business-info}}`);
+  this.render(hbs`{{directory-business-info model=model}}`);
 
   assert.equal(this.$().text().trim(), '');
 

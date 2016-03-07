@@ -23,7 +23,7 @@ export default Mirage.Factory.extend({
     };
   },
   service_radius: "12.5",
-  details() { return faker.lorem.sentences(); },
+  details() { return "<p>" + faker.lorem.sentences() + "</p>"; },
   logo() { return faker.image.avatar(); },
   images() { return [faker.image.business(),faker.image.business()]; },
   feedback() {

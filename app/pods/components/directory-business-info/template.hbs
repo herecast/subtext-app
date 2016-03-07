@@ -42,9 +42,9 @@
   </div>
 {{/if}}
 
-{{#if model.details}}
+{{#unless (is-blank-or-empty-html-tags model.details)}}
   <div class="DirectoryFeedback-details">
     <h2>Business details</h2>
-    <div>{{model.details}}</div>
+    <div>{{detailsHTML}}</div>
   </div>
-{{/if}}
+{{/unless}}
