@@ -26,6 +26,7 @@ export default Ember.Route.extend({
     model.params = queryParams;
   },
 
+
   setupController(controller, model) {
     controller.setProperties({
       categories: model.categories,
@@ -56,6 +57,13 @@ export default Ember.Route.extend({
           });
         }
       });
+    }
+  },
+
+  actions: {
+    deactivate() {
+      // Reset Query
+      this.controller.set('query', "");
     }
   }
 });
