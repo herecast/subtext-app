@@ -1,51 +1,67 @@
 .News {
-  margin-top: 50px;
+  padding-top: 2rem;
   @media (max-width: @screen-xs-max) {
-    text-align: center;
+    text-align: left;
+  }
+  iframe{
+    margin:8px 0;
+    width:100%;
   }
 }
 
+.NewsHeader{
+  margin-bottom: 20px;
+  padding: 3rem 0 1rem 0;
+
+  @media (max-width: @screen-xs-max) {
+    margin-bottom:15px;
+
+  }
+}
 .News-title {
   margin: 0;
+  font-size: 4.2rem;
+
+  @media (max-width: @screen-xs-min) {
+  font-size: 30px;
+  }
 }
 
 .News-subtitle {
+  margin:0;
+
   @media (min-width: @screen-sm-min) {
     font-size: 24px;
     margin: 15px 0;
   }
+
 }
 
 .News-organizationInfo {
   font-weight: 700;
   display: inline;
+  color: @gray-dark;
   @media (max-width: @screen-xs-max) {
-    color: @gray-dark;
     font-size: 12px;
     display: block;
   }
 }
 
 .News-organizationDate {
-  margin-left: 40px;
-  display: inline;
-  @media (max-width: @screen-md-max) {
-    color: @gray-dark;
-    font-size: 12px;
-    display: block;
-    margin-left: 0;
-  }
+  font-size: 0.87em;
 }
 
 .News-content {
-  margin-top: 30px;
-
+  padding-bottom: 2rem;
+  margin-top: 10px;
   // wordpress image captions come in this way
   // and we want the font to look like the image banner
   // caption
   .image-caption {
     font-size: 12px;
     font-style: italic;
+  }
+  @media (min-width: @screen-sm-min) {
   }
 }
 
