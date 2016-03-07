@@ -25,7 +25,7 @@ export default Ember.Route.extend({
     return this.store.query('business-profile', apiQuery);
   },
 
-  afterModel(results, transition) {
+  afterModel(results) {
     if (results.get('length') === 0) {
       this.transitionTo('directory.no-results');
     }
