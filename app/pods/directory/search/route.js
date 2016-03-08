@@ -27,7 +27,7 @@ export default Ember.Route.extend({
   },
 
   afterModel(results, transition) {
-    const targetIsSearch = /^directory\.(search|search\.results)$/.test(transition.targetName)
+    const targetIsSearch = /^directory\.(search|search\.results)$/.test(transition.targetName);
     if (targetIsSearch) {
       const queryParamsEmpty = jQuery.isEmptyObject(transition.queryParams);
 

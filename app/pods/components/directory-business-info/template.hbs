@@ -15,7 +15,13 @@
 
   <div class="DirectoryBusiness-info">
     <h2>{{model.name}}</h2>
-    <div>{{fa-icon 'fa-map-marker'}} {{model.fullAddress}} {{model.milesFromUser}}</div>
+    <div>
+      {{fa-icon 'fa-map-marker'}} 
+      {{model.fullAddress}} 
+      {{#if myCoords}}
+        ({{round (geo-distance model.coords myCoords) 1}} Mi)
+      {{/if}}
+    </div>
   </div>
 </div>
 
