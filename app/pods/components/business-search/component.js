@@ -23,10 +23,6 @@ export default Ember.Component.extend({
   suggestions: [],
   displaySuggestions: false,
 
-  click() {
-    this.$('input').select();
-  },
-
   focusOut() {
     run.later(() => {
       const stillHasFocus = this.$(':focus').length;

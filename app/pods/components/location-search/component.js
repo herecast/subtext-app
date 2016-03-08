@@ -22,10 +22,6 @@ export default Ember.Component.extend({
     }
   }),
 
-  click() {
-    this.$('input').select();
-  },
-
   focusIn() {
     const displayQuickList = get(this, "displayQuickList");
 
