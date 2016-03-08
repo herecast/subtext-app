@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import jQuery from 'jquery';
 
 const { isEmpty } = Ember;
 
@@ -25,9 +26,16 @@ export default Ember.Route.extend({
     return this.store.query('business-profile', apiQuery);
   },
 
-  afterModel(results) {
-    if (results.get('length') === 0) {
-      this.transitionTo('directory.no-results');
+  afterModel(results, transition) {
+    const targetIsSearch = /^directory\.(search|search\.results)$/.test(transition.targetName)
+    if (targetIsSearch) {
+      const queryParamsEmpty = jQuery.isEmptyObject(transition.queryParams);
+
+      if (queryParamsEmpty) {
+        this.transitionTo('directory');
+      } else if (results.get('length') === 0) {
+        this.transitionTo('directory.no-results');
+      }
     }
   }
 });
