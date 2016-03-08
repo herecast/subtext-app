@@ -27,6 +27,10 @@ export default Ember.Component.extend({
     return new Ember.String.htmlSafe("background-image: url(" + get(this, 'coverImage') + ")");
   }),
 
+  detailsHTML: computed('model.details', function() {
+    return new Ember.String.htmlSafe( get(this, 'model.details'));
+  }),
+
   isOpen: computed(function() {
     //placeholder for testing now vs times open
     return false;
