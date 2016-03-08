@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   query: null,
   results: computed.alias('model'),
 
-  locations: computed('results.[]', function() {
+  locations: computed('results.[]', 'results.@each', function () {
     const results = get(this, 'results') || [];
 
     return results.map(location => {
@@ -18,7 +18,10 @@ export default Ember.Controller.extend({
           lng: parseFloat(location.get('coords.lng'))
         },
         title: location.get('name'),
-        content: location.get('name')
+        content: `<h2>${location.get('name')}</h2>
+                  <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
+                  <div><i class="fa fa-phone"></i> ${location.get('phone')}</div>
+                  <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
       };
     });
   })
