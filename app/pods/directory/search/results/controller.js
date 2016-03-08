@@ -4,5 +4,8 @@ const { inject, computed } = Ember;
 
 export default Ember.Controller.extend({
   searchController: inject.controller('directory.search'),
-  results: computed.oneWay('searchController.results')
+  results: computed.oneWay('searchController.results'),
+  lat: computed.oneWay('searchController.lat'),
+  lng: computed.oneWay('searchController.lng'),
+  query: computed.oneWay('searchController.query'),
 });
