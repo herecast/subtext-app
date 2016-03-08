@@ -5,7 +5,11 @@
         {{#link-to 'directory.search.show' result}}
           <h2>{{result.name}}</h2>
         {{/link-to}}
-        <div>{{fa-icon 'fa-map-marker'}} {{result.fullAddress}} {{result.milesFromUser}}</div>
+        <div>
+          {{fa-icon 'fa-map-marker'}}
+          {{result.fullAddress}}
+          ({{round (geo-distance result.coords searchCoords) 1}} mi)
+        </div>
       </div>
       <div class="link-bar">
         {{#if result.phone}}
