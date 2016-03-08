@@ -93,12 +93,15 @@ export default Ember.Component.extend({
 
   didUpdateAttrs() {
     const category = get(this, 'attrs.category.value');
+    const query = get(this, 'attrs.query.value');
 
     // we have to manually manage the input value
     // since there is some business logic about
     // what should be used for the value
     if (category) {
       this.$('input').val(category.get('name'));
+    } else {
+      this.$('input').val(query);
     }
   },
 

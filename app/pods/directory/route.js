@@ -60,7 +60,21 @@ export default Ember.Route.extend({
     }
   },
 
+
   actions: {
+    /**
+     * The below actions need to be cleaned up.
+     * They are a quick hack to clear out the query, and
+     * are probably only here due to time contraints
+     *  - NikP
+     */
+    willTransition: function(transition) {
+      if(transition.targetName === 'directory.landing') {
+        if(this.controller.get('query').length > 3 ) {
+          this.controller.set('query',"");
+        }
+      }
+    },
     deactivate() {
       // Reset Query
       this.controller.set('query', "");
