@@ -26,7 +26,6 @@ export default Ember.Route.extend({
     model.params = queryParams;
   },
 
-
   setupController(controller, model) {
     controller.setProperties({
       categories: model.categories,

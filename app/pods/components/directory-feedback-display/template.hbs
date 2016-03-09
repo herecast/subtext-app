@@ -1,8 +1,7 @@
-
   <div class="DirectoryFeedback-top-bar">
     {{directory-feedback-gauge
       value=model.feedback.recommend
-      size='110'
+      size='90'
     }}
     <div class="DirectoryFeedback-top-bar-side">
       <h2>Score {{score}}</h2>
@@ -13,15 +12,12 @@
     </div>
   </div>
 
-  
-
   <div class="DirectoryFeedback-ratings-title">
-    <h2>Community member feedback</h2>
-    <h3>From {{model.feedback_num}} community members</h3>
+    <h2 class='h4 text-center'>Community member feedback</h2>
+    <h3 class='h4 text-center'>From {{model.feedback_num}} community members</h3>
   </div>
 
   {{#each answers as |answer|}}
-
     <div class="DirectoryFeedback-answerBox">
       <div class="title">{{answer.title}}</div>
       {{directory-feedback-gauge
@@ -31,7 +27,5 @@
       <div class="text">
         {{answer.text}}
       </div>
-
     </div>
-
   {{/each}}
