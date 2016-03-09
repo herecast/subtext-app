@@ -1,0 +1,31 @@
+  <div class="DirectoryFeedback-top-bar">
+    {{directory-feedback-gauge
+      value=model.feedback.recommend
+      size='90'
+    }}
+    <div class="DirectoryFeedback-top-bar-side">
+      <h2>Score {{score}}</h2>
+      <h3>Based on {{model.feedback_num}} ratings</h3>
+    </div>
+    <div class="DirectoryFeedback-buttonWrap">
+      {{directory-feedback-form model=model}}
+    </div>
+  </div>
+
+  <div class="DirectoryFeedback-ratings-title">
+    <h2 class='h4 text-center'>Community member feedback</h2>
+    <h3 class='h4 text-center'>From {{model.feedback_num}} community members</h3>
+  </div>
+
+  {{#each answers as |answer|}}
+    <div class="DirectoryFeedback-answerBox">
+      <div class="title">{{answer.title}}</div>
+      {{directory-feedback-gauge
+        value=answer.value
+        size='70'
+      }}
+      <div class="text">
+        {{answer.text}}
+      </div>
+    </div>
+  {{/each}}

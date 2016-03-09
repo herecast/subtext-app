@@ -1,0 +1,9 @@
+<span class='CategoryTag-body' {{action 'selectTag' category}}>
+  {{fa-icon category.icon_class}} {{category.name}}
+</span>
+
+{{#if removable}}
+  <span {{action 'selectTag' category}} class='CategoryTag-close'>
+    {{fa-icon 'fa-close'}}
+  </span>
+{{/if}}

@@ -22,6 +22,7 @@ export default Ember.Component.extend({
 
   affixContent() {
     const contentBody = this.$().closest('.row');
+    contentBody.css('outline:3px solid red');
     const bottomOffset = contentBody.offset().top + contentBody.outerHeight() - this.$().outerHeight();
     const scrollHeight = document.body.scrollTop || window.scrollY;
 

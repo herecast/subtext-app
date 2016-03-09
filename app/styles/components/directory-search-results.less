@@ -1,0 +1,61 @@
+.DirectoryListings {
+  .name-bar {
+    h2 {
+      font-family: @font-family-base;
+      text-transform: capitalize;
+      margin: 0 0 2px 0;
+      font-size: 18px;
+    }
+  }
+  .listing-info {
+    display: inline-block;
+    vertical-align: top;
+    &.left {
+      width: 75%;
+      margin-right:2%;
+    }
+    &.right {
+      width: 20%;
+      text-align: center;
+    }
+    .link-bar {
+      text-align:left;
+      padding: 18px 0 0 0;
+      div{
+        display: inline-block;
+      }
+      div:not(:first-of-type) {
+        border-left: solid 2px grey;
+        padding: 0 12px;
+      }
+      div:first-of-type {
+        padding: 0 12px 0 0;
+      }
+      @media (max-width: @screen-xs-max) {
+        div {
+          display: block;
+          border: none !important;
+          padding: 2px 0 !important;
+        }
+      }
+    }
+  }
+  li {
+    border: 1px solid #DEDEDE;
+    padding: 15px;
+    background: #fff;
+    margin-bottom: -1px;
+  }
+}
+
+.DirectoryNoResults{
+  h2 {
+    font-family: @font-family-base;
+    text-transform: capitalize;
+    margin: 8px 0;
+  }
+  div:not(.block){
+    display: inline-block;
+    margin: 15px;
+  }
+}

@@ -1,0 +1,37 @@
+<div class='DirectorySearch-wrapper'>
+  <div class='Container--noGutter'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <h1 class='h2'>Find a business or service</h1>
+      </div>
+
+      <div class='col-xs-12'>
+        <div class='clearfix u-layoutPadT10 u-layoutPadB20'>
+          <div class='DirectorySearch-inputWrapper'>
+            <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
+            {{business-search
+              inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+              categories=categories
+              category=category
+              setCategory=(action 'setCategory')
+              searchTerms=searchTerms
+              query=query
+              updateFromQuery=(action 'updateQuery')
+            }}
+          </div>
+
+          <div class='DirectorySearch-inputWrapper'>
+            <span class='DirectorySearch-pseudoInputText'><b>Near</b></span>
+            {{location-search inputClass='form-control DirectorySearch-input' placeholder='Where?' location=location setLocation=(action 'setLocation')}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='Container--noGutter'>
+  <div class='row'>
+    {{liquid-outlet class='useFade'}}
+  </div>
+</div>

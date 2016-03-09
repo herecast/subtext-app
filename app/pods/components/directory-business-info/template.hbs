@@ -1,0 +1,56 @@
+{{#if model.images}}
+  <div class="DirectoryBusiness-coverImages">
+    {{#liquid-bind coverImage as |image|}}
+      <div class="DirectoryBusiness-coverImage" style={{coverImageStyle}}></div>
+    {{/liquid-bind}}
+  </div>
+{{/if}}
+
+<div class="DirectoryBusiness-infoBar">
+  {{#if model.logo}}
+    <div class="DirectoryBusiness-logo">
+      <img class="DirectoryBusiness-logoImg" {{bind-attr src=model.logo}} alt="logo">
+    </div>
+  {{/if}}
+
+  <div class="DirectoryBusiness-info">
+    <h2>{{model.name}}</h2>
+    <div>
+      {{fa-icon 'fa-map-marker'}} 
+      {{model.fullAddress}} 
+      {{#if myCoords}}
+        ({{round (geo-distance model.coords myCoords) 1}} Mi)
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<div class="DirectoryBusiness-iconBar">
+  {{#if model.phone}}
+    <div><a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}</a></div>
+  {{/if}}
+  {{#if model.address}}
+    <div><a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
+  {{/if}}
+  {{#if model.website}}
+    <div><a href="{{model.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
+  {{/if}}
+</div>
+
+{{#if model.hours}}
+  <div class="DirectoryFeedback-hours">
+    <h2 class='h4'>Business hours {{#if isOpen}}<span> Open</span>{{/if}}</h2>
+    <ul>
+      {{#each (business-hours model.hours) as |hour|}}
+        <li><strong>{{hour.days}}:</strong> {{hour.open}} - {{hour.close}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+{{#unless (is-blank-or-empty-html-tags model.details)}}
+  <div class="DirectoryFeedback-details">
+    <h2>Business details</h2>
+    <div>{{detailsHTML}}</div>
+  </div>
+{{/unless}}

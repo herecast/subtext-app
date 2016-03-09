@@ -1,0 +1,23 @@
+<ul class='CategoryTag-list list-inline'>
+  {{#if parentCategory}}
+    {{category-tag category=parentCategory
+      selectTag=(action 'removeTag' 'parent')
+      removable=true
+    }}
+    {{#if subCategory}}
+      {{category-tag category=subCategory
+        selectTag=(action 'removeTag' 'child')
+        removeTag=(action 'removeTag' 'child')
+        removable=true
+      }}
+    {{/if}}
+  {{else}}
+    {{#each categories as |category|}}
+      {{category-tag
+        category=category
+        selectTag=(action this.attrs.selectParentCategory category)
+        removable=false
+      }}
+    {{/each}}
+  {{/if}}
+</ul>

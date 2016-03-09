@@ -7,7 +7,6 @@ export default Ember.Controller.extend(trackEvent, {
   eventsFilter: Ember.inject.controller('events/all/index'),
   talkFilter: Ember.inject.controller('talk/all/index'),
   marketFilter: Ember.inject.controller('market/all/index'),
-
   backgroundClass: function() {
     const currentController = this.controllerFor(this.get('currentPath'));
     let klass = '';

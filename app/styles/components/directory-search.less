@@ -1,0 +1,42 @@
+.DirectorySearch {}
+
+.DirectorySearch-wrapper {
+  background: #efefef;
+}
+
+.DirectorySearch-inputWrapper {
+  display: table;
+  background: #fff;
+  border: 1px solid #DEDEDE;
+  padding: 0 12px;
+  float:left;
+  width: 50%;
+
+  .open {
+    // needed so that input submenu
+    // is positiioned correctly
+    position: relative;
+  }
+}
+
+.DirectorySearch-pseudoInputText {
+  display: table-cell;
+  vertical-align: middle;
+  b {
+    margin-right: -50px;
+  }
+}
+
+.DirectorySearch-input {
+  padding-left: 40px;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-width: 0;
+  box-shadow: none;
+  &:focus {
+    outline-color: transparent;
+    outline-style: none;
+    box-shadow: none;
+  }
+}

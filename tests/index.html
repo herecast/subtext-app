@@ -21,6 +21,7 @@
 
     {{content-for 'body'}}
     {{content-for 'test-body'}}
+
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/subtext-ui.js"></script>
@@ -34,6 +35,34 @@
        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
     </script>
     <!-- end Mixpanel -->
+
+    <script>
+      function ga(){
+        /* Define so ga works in tests! */
+      }
+      google = {
+        maps: {
+          Geocoder: function () {
+            this.geocode = function() {};
+          }
+        }
+      };
+    </script>
+
+    <!-- start Google Maps -->
+    <!--<script src="https://maps.googleapis.com/maps/api/js"></script>-->
+    <!--<script>
+      google = {
+        maps: {
+          Map: function(args) {},
+          InfoWindow: function(args) {},
+          MapTypeId: {
+           ROADMAP: 'roadmap'
+          }
+        }
+      };
+    </script> -->
+    <!-- end Google Maps -->
 
     {{content-for 'body-footer'}}
     {{content-for 'test-body-footer'}}
