@@ -675,4 +675,13 @@ export default function() {
       business_category: db['business-categories'].find(catId)
     };
   });
+
+  this.post('/businesses/:id/feedback', function(){
+
+    return {
+      id: 3,
+      user_id: 1,
+      business_id: 7
+    };
+  });
 }

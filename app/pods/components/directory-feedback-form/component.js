@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
+import config from '../../../config/environment';
 
 const {
   computed,
@@ -130,11 +132,16 @@ export default Ember.Component.extend({
       get(this,'questions').forEach( function(question) {
         feedbackToSend[question.category] = question.yes === 'checked';
       });
-      feedbackToSend.id = get(this, 'model.id');
-      console.log('submitFeedback', feedbackToSend);
-      //ajax call with promise?
-      this.send('updateFeedback', feedbackToSend);
-      this.toggleProperty('isOpen');
+      //send to the api
+      const url = `${config.API_NAMESPACE}/businesses/${get(this, 'model.id')}/feedback`;
+
+      ajax(url, {
+        type: 'POST',
+        data: feedbackToSend
+      }).then( () => { 
+        this.send('updateFeedback', feedbackToSend);
+        this.toggleProperty('isOpen');
+      });
     }
 }
 });
