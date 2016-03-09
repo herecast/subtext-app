@@ -13,7 +13,8 @@ function allCurrentUsers() {
     location_id: 1,
     test_group: 'Consumer',
     listserv_id: 1,
-    listserv_name: 'Norwich Listserv'
+    listserv_name: 'Norwich Listserv',
+    managed_organization_ids: [1, 2, 3]
   }];
 }
 

@@ -29,6 +29,7 @@ export default DS.Model.extend({
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   title: DS.attr('string'),
+  organization: DS.belongsTo('organization'),
 
   populatedImages: computed('images.@each.imageUrl', function() {
     return get(this, 'images')

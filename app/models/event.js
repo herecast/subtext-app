@@ -19,6 +19,7 @@ export default DS.Model.extend(BaseEvent, {
   // See: https://github.com/emberjs/ember.js/issues/9260
   listservIds: DS.attr('raw', {defaultValue: function() { return []; }}),
   schedules: DS.hasMany('schedule'),
+  organization: DS.belongsTo('organization'),
 
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),

@@ -1,12 +1,12 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('talk', 'Unit | Model | talk', {
+moduleForModel('organization', 'Unit | Model | organization', {
   // Specify the other units that are required for this test.
-  needs: ['model:organization']
+  needs: []
 });
 
 test('it exists', function(assert) {
-  var model = this.subject();
-  // var store = this.store();
+  let model = this.subject();
+  // let store = this.store();
   assert.ok(!!model);
 });

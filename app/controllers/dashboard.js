@@ -14,37 +14,52 @@ export default Ember.Controller.extend(trackEvent, {
   per_page: 8,
   sort: 'pubdate DESC',
   type: '',
+  organization: null,
+  organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
   showPasswordForm: false,
 
-  ads: computed('page', 'sort', 'type', 'refresh', function() {
+  ads: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const page = get(this, 'page');
     const per_page = get(this, 'per_page');
     const sort = get(this, 'sort');
     const type = get(this, 'type');
+    const organizationId = get(this, 'organization.id');
+
+    const queryParams = {
+      page: page,
+      per_page: per_page,
+      sort: sort
+    };
+
+    if (organizationId) {
+      queryParams.organization_id = organizationId;
+    }
 
     if(type === 'promotion-banner') {
-      return this.store.query('promotion-banner', {
-        page: page,
-        per_page: per_page,
-        sort: sort
-      });
+      return this.store.query('promotion-banner', queryParams);
     } else {
-      return []; 
+      return [];
     }
   }),
 
-  postings: computed('page', 'sort', 'type', 'refresh',function() {
+  postings: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const contentModel = get(this, 'contentModel');
     const page = get(this, 'page');
     const per_page = get(this, 'per_page');
     const sort = get(this, 'sort');
     const type = get(this, 'type');
+    const organizationId = get(this, 'organization.id');
+
     const queryParams = [
       `page=${page}`,
       `per_page=${per_page}`,
       `sort=${sort}`
     ];
+
+    if (organizationId) {
+      queryParams.push(`organization_id=${organizationId}`);
+    }
 
     if (isPresent(type)) {
       queryParams.push(`channel_type=${type}`);
@@ -70,6 +85,19 @@ export default Ember.Controller.extend(trackEvent, {
         promise: promise
       });
     }
+  }),
+
+  contentOwnerName: computed('session.currentUser.name', 'organization.name', function() {
+    const orgName = get(this, 'organization.name');
+
+    return orgName ? orgName : get(this, 'session.currentUser.name');
+  }),
+
+  organizationId: computed('organization.id', function() {
+    const orgId = get(this, 'organization.id');
+
+    // Must return null, not undefined.
+    return orgId ? orgId : null;
   }),
 
   actions: {

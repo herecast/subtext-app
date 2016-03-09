@@ -9,15 +9,24 @@ const { get } = Ember;
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
   intercom: Ember.inject.service('intercom'),
 
-  model() {
-    return this.store.createRecord('event', {
+  model(params, transition) {
+    const newRecordValues = {
       venueStatus: 'new',
       listservIds: []
-    });
+    };
+
+    if ('organization_id' in transition.queryParams) {
+      return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
+        newRecordValues.organization = organization;
+        return this.store.createRecord('event', newRecordValues);
+      });
+    } else {
+      return this.store.createRecord('event', newRecordValues);
+    }
   },
 
-  redirect() {
-    this.transitionTo('events.new.details');
+  redirect(params, transition) {
+    this.transitionTo('events.new.details', { queryParams: transition.queryParams });
   },
 
   discardRecord(event) {

@@ -2,13 +2,15 @@ import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get, isPresent, set } = Ember;
+const { get, isPresent, set, computed } = Ember;
 
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
-  event: Ember.computed.alias('model'),
+  event: computed.alias('model'),
   schedules: null,
   error: null,
+
+  organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
   registrationEnabled: null,
 
@@ -153,7 +155,7 @@ export default Ember.Component.extend(Validation, TrackEvent, {
         url = '';
       } else if (!protocol.test(url) && url.length > 0) {
         url = 'http://' + url;
-      } 
+      }
 
       this.set('event.eventUrl', url);
     }
