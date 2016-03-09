@@ -1,39 +1,41 @@
-{{#each results as |result|}}
-  <li>
-    <div class="listing-info left">
-      <div class="name-bar">
-        {{#link-to 'directory.search.show' result}}
-          <h2>{{result.name}}</h2>
-        {{/link-to}}
-        <div>
-          {{fa-icon 'fa-map-marker'}}
-          {{result.fullAddress}}
-          ({{round (geo-distance result.coords searchCoords) 1}} mi)
+<ul>
+  {{#each results as |result|}}
+    <li>
+      <div class="listing-info left">
+        <div class="name-bar">
+          {{#link-to 'directory.search.show' result}}
+            <h2>{{result.name}}</h2>
+          {{/link-to}}
+          <div>
+            {{fa-icon 'fa-map-marker'}}
+            {{result.fullAddress}}
+            ({{round (geo-distance result.coords searchCoords) 1}} mi)
+          </div>
+        </div>
+        <div class="link-bar">
+          {{#if result.phone}}
+            <div><a href="tel:+1{{result.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}</a></div>
+          {{/if}}
+          {{#if result.address}}
+            <div><a href="{{result.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
+          {{/if}}
+          {{#if result.website}}
+            <div><a href="{{result.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
+          {{/if}}
         </div>
       </div>
-      <div class="link-bar">
-        {{#if result.phone}}
-          <div><a href="tel:+1{{result.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}</a></div>
-        {{/if}}
-        {{#if result.address}}
-          <div><a href="{{result.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
-        {{/if}}
-        {{#if result.website}}
-          <div><a href="{{result.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
-        {{/if}}
+      <div class="listing-info right">
+        <div>
+          {{#link-to 'directory.search.show' result}}
+            <span>Details {{fa-icon 'fa-angle-right'}}</span>
+          {{/link-to}}
+        </div>
+        {{directory-feedback-gauge
+          value=result.feedback.recommend
+          size='50'
+        }}
+        <div>{{result.feedback_num}} ratings</div>
       </div>
-    </div>
-    <div class="listing-info right">
-      <div>
-        {{#link-to 'directory.search.show' result}}
-          <span>Details {{fa-icon 'fa-angle-right'}}</span>
-        {{/link-to}}
-      </div>
-      {{directory-feedback-gauge
-        value=result.feedback.recommend
-        size='50'
-      }}
-      <div>{{result.feedback_num}} ratings</div>
-    </div>
-  </li>
-{{/each}}
+    </li>
+  {{/each}}
+</ul>
