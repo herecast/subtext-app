@@ -39,7 +39,7 @@
 
 {{#if model.hours}}
   <div class="DirectoryFeedback-hours">
-    <h2>Business hours {{#if isOpen}}<span> Open</span>{{/if}}</h2>
+    <h2 class='h4'>Business hours {{#if isOpen}}<span> Open</span>{{/if}}</h2>
     <ul>
       {{#each (business-hours model.hours) as |hour|}}
         <li><strong>{{hour.days}}:</strong> {{hour.open}} - {{hour.close}}</li>

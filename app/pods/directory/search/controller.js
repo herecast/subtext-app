@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { computed, get, isEmpty } = Ember;
 
 export default Ember.Controller.extend({
+  secondaryBackground: true,
   queryParams: ['lat', 'lng', 'query', 'category_id'],
   category_id: null,
   query: null,
