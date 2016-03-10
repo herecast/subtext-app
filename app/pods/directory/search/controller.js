@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
-const { computed, get, isEmpty } = Ember;
+const { computed, inject, get, isEmpty } = Ember;
 
 export default Ember.Controller.extend({
   secondaryBackground: true,
+  directoryController: inject.controller('directory'),
   queryParams: ['lat', 'lng', 'query', 'category_id'],
   category_id: null,
   query: null,
@@ -51,5 +52,11 @@ export default Ember.Controller.extend({
                   <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
       };
     });
-  })
+  }),
+
+  actions: {
+    contactUs() {
+      get(this, 'directoryController').send('contactUs');
+    }
+  }
 });
