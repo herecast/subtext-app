@@ -11,6 +11,21 @@ export default Ember.Service.extend({
     return geocoder.geocode(...arguments);
   },
 
+  boundingBox(location, distance) {
+    const lat = location.lat || location.get('lat');
+    const lng = location.lng || location.get('lng');
+    const mi_per_deg = 1.1132 / 1609.34 ;//miles per degree
+    const deg = distance * mi_per_deg;
+
+    return new this.googleMaps.maps.LatLngBounds({
+      lat: lat - deg,
+      lng: lng - deg
+    },{
+      lat: lat + deg,
+      lng: lng + deg
+    });
+  },
+
   cityStateFormat(item) {
     var city = "", 
         state = "";

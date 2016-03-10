@@ -65,15 +65,23 @@ export default Ember.Service.extend({
   geocode(address) {
     const mapsService = get(this, 'mapsService');
     const returnSet = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+    const userLocation = get(this, 'userLocation');
 
     return returnSet.create({
       promise: new Ember.RSVP.Promise(function(resolve, reject) {
-        mapsService.geocode({
+        var geoArgs = {
           address: address,
           componentRestrictions: {
             country: 'US'
           }
-        }, function(results, status) {
+        };
+
+        // Create a bias to 100 bounding box from user location
+        if(userLocation.get('isSettled')) {
+          geoArgs['bounds'] = mapsService.boundingBox(userLocation.get('coords'), 100);
+        }
+
+        mapsService.geocode(geoArgs, function(results, status) {
           if(status !== "OK") {
             reject(status);
           } else {
@@ -111,7 +119,7 @@ export default Ember.Service.extend({
     });
   },
 
-  distance(p1,p2) {
+  distance(p1, p2) {
     const lat1 = p1.lat,
           lon1 = p1.lng,
           lat2 = p2.lat,
