@@ -10,5 +10,10 @@ export default Ember.Component.extend({
       lat: get(this, 'lat'),
       lng: get(this, 'lng')
     };
-  })
+  }),
+  actions: {
+    buildGaugeTitle(result) {
+      return `Based on ${(result.get('feedback_num')) || 0} ratings`;
+    }
+  }
 });

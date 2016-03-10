@@ -25,16 +25,14 @@
         </div>
       </div>
       <div class="listing-info right">
-        <div>
-          {{#link-to 'directory.search.show' result}}
-            <span>Details {{fa-icon 'fa-angle-right'}}</span>
-          {{/link-to}}
-        </div>
-        {{directory-feedback-gauge
+        {{x-gage
+          record=result
           value=result.feedback.recommend
-          size='50'
+          feedback_num=result.feedback_num
+          title=(action 'buildGaugeTitle')
+          width=150
+          height=100
         }}
-        <div>{{result.feedback_num}} ratings</div>
       </div>
     </li>
   {{/each}}
