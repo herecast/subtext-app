@@ -41,8 +41,6 @@
     "ember-cli-moment-shim": "0.7.2",
     "ember-cli-qunit": "^1.0.4",
     "ember-cli-release": "0.2.8",
-    "ember-cli-simple-auth": "0.8.0",
-    "ember-cli-simple-auth-devise": "0.8.0",
     "ember-cli-sri": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-cli-weather-icons": "2.0.0",
@@ -52,6 +50,7 @@
     "ember-modal-dialog": "0.8.2",
     "ember-moment": "5.0.2",
     "ember-pikaday": "0.13.0",
+    "ember-simple-auth": "1.0.1",
     "ember-sinon": "^0.3.0",
     "ember-truth-helpers": "1.2.0",
     "liquid-fire": "0.23.0"

@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import SimpleAuthSession from 'simple-auth/session';
+import SessionService from 'ember-simple-auth/services/session';
 import config from '../config/environment';
 import ajax from 'ic-ajax';
 
-export default SimpleAuthSession.extend({
+export default SessionService.extend({
   userService: Ember.inject.service('user'),
   mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
@@ -31,12 +31,12 @@ export default SimpleAuthSession.extend({
   }.observes('currentUser.isLoaded'),
 
   currentUser: function() {
-    const email = this.get('secure.email');
+    const email = this.get('data.authenticated.email');
 
     if (Ember.isPresent(email)) {
       return this.get('userService').getCurrentUser();
     }
-  }.property('secure.email'),
+  }.property('data.authenticated.email'),
 
   userName: Ember.computed.oneWay('currentUser.name'),
 

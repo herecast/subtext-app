@@ -26,12 +26,13 @@ export default Ember.Controller.extend(trackEvent,{
       set(this, 'error', null);
     },
     authenticate: function(callback) {
-      const data = this.getProperties('identification', 'password');
-      const promise = get(this, 'session').authenticate('simple-auth-authenticator:devise', data);
+      let { identification, password } =  this.getProperties('identification', 'password');
+      const promise = get(this, 'session').authenticate('authenticator:application', identification, password);
 
       callback(promise);
 
       return promise.catch((response) => {
+        debugger;
         // resend confirmation email
         if (response.error.indexOf('confirm') !== -1) {
           set(this,'userMustConfirm', true);
