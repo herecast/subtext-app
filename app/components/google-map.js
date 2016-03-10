@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     const googleMapInstance = new googleMapsService.maps.Map(mapContainer[0], {
       center: defaultLocation,
       mapTypeId: googleMapsService.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: true,
+      disableDefaultUI: false,
       zoom: 15 });
 
     set(this, 'googleMapInstance', googleMapInstance);
