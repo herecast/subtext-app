@@ -68,16 +68,9 @@ export default Ember.Component.extend({
 
   backButtonVisible: computed.gt('questionNumber', 1),
 
-  user: computed('session.currentUser', function(){
-    set(this,'user', {
-      name: get(this, 'session.currentUser.name'),
-      email: get(this, 'session.currentUser.email')
-    });
-  }),
+  user: computed.alias('session.currentUser'),
 
-  isSignedIn: computed('user',function(){
-    return typeof get(this, 'session.currentUser') !== 'undefined' ;
-  }),
+  isSignedIn: computed.notEmpty('user'),
 
   actions: {
 
