@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 const { computed, inject, get, isEmpty } = Ember;
 
+function formatPhone(phone) {
+  return phone.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "($1) $2-$3");
+}
+
 export default Ember.Controller.extend({
   secondaryBackground: true,
   directoryController: inject.controller('directory'),
@@ -31,7 +35,7 @@ export default Ember.Controller.extend({
       title: location.get('name'),
       content: `<h2>${location.get('name')}</h2>
                 <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
-                <div><i class="fa fa-phone"></i> ${location.get('phone')}</div>
+                <div><a href="tel:+1${location.get('phone')}"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</a></div>
                 <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
     }];
   }),
@@ -48,7 +52,7 @@ export default Ember.Controller.extend({
         title: location.get('name'),
         content: `<h2>${location.get('name')}</h2>
                   <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
-                  <div><i class="fa fa-phone"></i> ${location.get('phone')}</div>
+                  <div><a href="tel:+1${location.get('phone')}"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</a></div>
                   <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
       };
     });

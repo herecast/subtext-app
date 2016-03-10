@@ -5,11 +5,24 @@ const {
   set,
   computed,
   isEmpty,
+  isPresent,
   inject
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['GoogleMap'],
+
+  useMapOverlay: computed(function() {
+    // The overlay requires a click before the user can pan or
+    // scroll the map. This helps usability on touchscreens.
+    const media = get(this, 'media');
+
+    if (isPresent(media)) {
+      const { isMobile, isTablet } = get(this, 'media');
+
+      return (isMobile || isTablet);
+    }
+  }),
 
   googleMapsService: inject.service('google-maps'),
   userLocation: null,

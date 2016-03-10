@@ -1,78 +1,65 @@
 {{#unless feedbackLeft}}
-  <button class="DirectoryFeedback-startButton" {{action 'toggleDisplay'}}>Leave Feedback</button>
+  <p>Have experience with this business?</p>
+  <button class="btn DirectoryFeedback-startButton" {{action 'toggleDisplay'}}>Leave Feedback</button>
 
-
-{{#if isOpen}}
-  {{#x-modal close=(action 'toggleDisplay')}}
-
-
-    <div class="DirectoryFeedback-wrap">
-
-      <div {{action 'toggleDisplay'}}>
-        {{fa-icon 'times DirectoryFeedback-close'}}
-      </div>
-
-      {{#if isAsking}}
-
-        <h2 class="DirectoryFeedback-title">Please rate your experience with {{model.name}}</h2>
-
-        <div class="DirectoryFeedback-box">
-          <div class="DirectoryFeedback-questionsTitle">
-            <h3>Question {{questionNumber}} of {{questionsLength}}</h3>
-          </div>
-
-          {{#liquid-bind questionCurrent class="DirectoryFeedback-questionBox" as |question|}}
-            <div>{{question.text}}</div>
-            <div class="DirectoryFeedback-questionButton no {{question.no}}" {{action 'checkAnswer' false}}>
-              <span>No</span>
-            </div>
-            <div class="DirectoryFeedback-questionButton yes {{question.yes}}" {{action 'checkAnswer' true}}>
-              <span>Yes</span>
-            </div>
-          {{/liquid-bind}}
-
+  {{#if isOpen}}
+    {{#x-modal close=(action 'toggleDisplay')}}
+      <div class="DirectoryFeedback-wrap">
+        <div {{action 'toggleDisplay'}}>
+          {{fa-icon 'times DirectoryFeedback-close'}}
         </div>
-      <div>Your feedback is important to the community.</div>
 
+        {{#if isAsking}}
+          <h2 class="DirectoryFeedback-title">Please rate your experience with {{model.name}}</h2>
 
-      {{else}}
-
-        {{#if isSignedIn}}
-          <h2 class="DirectoryFeedback-title">You're all set to leave feedback</h2>
-          <div class="DirectoryFeedback-questionsTitle">
-            <h3>You are signed in as {{user.name}}</h3>
-            <br>
-            <h3>Just click below to submit.</h3>
-          </div>
-          <div class="DirectoryFeedback-submitFields">
-            <button {{action 'submitFeedback'}} class="DirectoryFeedback-submitButton">Leave Verified Feedback</button>
-          </div>
-        {{else}}
-          <h2 class="DirectoryFeedback-title">We'd love to get feedback from real users.</h2>
+          <div class="DirectoryFeedback-box">
             <div class="DirectoryFeedback-questionsTitle">
-              <h3>In order to keep ratings real, you must be signed in.</h3>
-              <br>
-              <h3>{{#link-to "login" target="_blank"}}Click here to sign in.{{/link-to}}</h3>
+              <h3>Question {{questionNumber}} of {{questionsLength}}</h3>
             </div>
 
+            {{#liquid-bind questionCurrent class="DirectoryFeedback-questionBox" as |question|}}
+              <div>{{question.text}}</div>
+              <div class="DirectoryFeedback-questionButton no {{question.no}}" {{action 'checkAnswer' false}}>
+                <span>No</span>
+              </div>
+              <div class="DirectoryFeedback-questionButton yes {{question.yes}}" {{action 'checkAnswer' true}}>
+                <span>Yes</span>
+              </div>
+            {{/liquid-bind}}
+          </div>
+          <div>Your feedback is important to the community.</div>
+        {{else}}
+          {{#if isSignedIn}}
+            <h2 class="DirectoryFeedback-title">You're all set to leave feedback</h2>
+            <div class="DirectoryFeedback-questionsTitle">
+              <h3>You are signed in as {{user.name}}</h3>
+              <br>
+              <h3>Just click below to submit.</h3>
+            </div>
+            <div class="DirectoryFeedback-submitFields">
+              <button {{action 'submitFeedback'}} class="DirectoryFeedback-submitButton">Leave Verified Feedback</button>
+            </div>
+          {{else}}
+            <h2 class="DirectoryFeedback-title">We'd love to get feedback from real users.</h2>
+              <div class="DirectoryFeedback-questionsTitle">
+                <h3>In order to keep ratings real, you must be signed in.</h3>
+                <br>
+                <h3>{{#link-to "login" target="_blank"}}Click here to sign in.{{/link-to}}</h3>
+              </div>
+          {{/if}}
+          <div class="DirectoryFeedback-questionsFooter">
+            <div>Ratings are always anonymous.</div>
+            <div>We promise not to share your rating information with anyone else.</div>
+          </div>
         {{/if}}
-        <div class="DirectoryFeedback-questionsFooter">
-          <div>Ratings are always anonymous.</div>
-          <div>We promise not to share your rating information with anyone else.</div>
-        </div>
 
-
-
-      {{/if}}
-
-      {{#if backButtonVisible}}
-        <a class="DirectoryFeedback-backButton" href="#" {{action 'previousQuestion'}}>{{fa-icon 'angle-left'}}  Back</a>
-      {{/if}}
-    </div>
-
-  {{/x-modal}}
+        {{#if backButtonVisible}}
+          <a class="DirectoryFeedback-backButton" href="#" {{action 'previousQuestion'}}>{{fa-icon 'angle-left'}}  Back</a>
+        {{/if}}
+      </div>
+    {{/x-modal}}
   {{/if}}
 
 {{else}}
-<h2>Your feedback was received. Thank you!</h2>
+  <h2>Your feedback was received. Thank you!</h2>
 {{/unless}}
