@@ -22,6 +22,7 @@ export default Ember.Component.extend({
   didInsertElement() {
     const cssId = get(this, 'cssId');
     let title = get(this, 'title');
+    const value = (get(this, 'value') * 100) || 0;
 
     if (typeof title === 'function') {
       title = title(get(this, 'record'));
@@ -32,7 +33,7 @@ export default Ember.Component.extend({
     new JustGage({
       id: cssId,
       // value: (Math.random() * 100), // uncomment to simulate data
-      value: get(this, 'value') || 0,
+      value: value,
       min: 0,
       max: 100,
       symbol: '%',
