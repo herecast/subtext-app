@@ -1,9 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  setupController(controller) {
-    controller.set('secondaryBackground', true);
-  },
   afterModel() {
     const currentRoute = this.container.lookup('controller:application').currentRouteName;
 

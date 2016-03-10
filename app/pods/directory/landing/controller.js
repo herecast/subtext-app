@@ -3,7 +3,6 @@ import Ember from 'ember';
 const { computed } = Ember;
 
 export default Ember.Controller.extend({
-  secondaryBackground: true,
   news: computed(function() {
     const query = {
       'category': 'sponsored_content',

@@ -7,7 +7,6 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend({
-  secondaryBackground: true,
   location: "",
   coords: null,
   category: null,
