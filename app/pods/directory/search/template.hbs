@@ -2,7 +2,9 @@
   {{liquid-outlet}}
 </div>
 
-<div class='col-xs-12 col-md-4'>
-  {{google-map locations=locationsToRender}}
-  <a href='#' {{action 'contactUs'}}>Are we missing a business or service?</a>
+<div class='col-xs-12 col-md-4 FloatingSideMap'>
+  {{#floating-side-column enabled=media.isDesktop}}
+    {{google-map locations=locationsToRender}}
+    <a href='#' {{action 'contactUs'}}>Are we missing a business or service?</a>
+  {{/floating-side-column}}
 </div>

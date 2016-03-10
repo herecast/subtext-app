@@ -2,10 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['FloatingSideColumn'],
-  classNameBindings: ['enabled:is-enabled'],
+  classNameBindings: ['enabled:is-enabled', 'floating:is-floating'],
   floatOffset: 30,
   minHeight: 550,
   bottomGap: 150,
+  floating: false,
 
   initContentAffixing: function() {
     const contentBody = this.$().closest('.row');
@@ -34,13 +35,16 @@ export default Ember.Component.extend({
     if (scrollHeight < topBreakpoint) {
       this.$().css('position', '');
       this.$().css('top', '');
+      this.set('floating', false);
     } else if (scrollHeight >= topBreakpoint && scrollHeight <= bottomBreakpoint) {
       this.$().css('position', 'fixed');
       this.$().css('top', '10px');
+      this.set('floating', true);
     } else if (scrollHeight > bottomBreakpoint) {
       this.$().css('position', 'relative');
       const relativePosition = contentBody.outerHeight() - this.$().outerHeight() - this.get('floatOffset') - this.get('bottomGap');
       this.$().css('top', relativePosition);
+      this.set('floating', false);
     }
   },
 
