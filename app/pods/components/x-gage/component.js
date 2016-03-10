@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global JustGage */
 
 const { set, get } = Ember;
 
@@ -28,7 +29,7 @@ export default Ember.Component.extend({
       title = get(this, 'title') || '';
     }
 
-    const gauge = new JustGage({
+    new JustGage({
       id: cssId,
       // value: (Math.random() * 100), // uncomment to simulate data
       value: get(this, 'value') || 0,

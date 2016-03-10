@@ -1,34 +1,49 @@
-.DirectoryFeedback-top-bar{
-  text-align:center;
+.DirectoryFeedback-top-bar {
+  text-align: center;
+  padding: 0px;
+  border: solid 1px #DEDEDE;
 }
 
-.DirectoryFeedback-top-bar-side{
-  display:inline-block;
-  padding-top:50px;
+.DirectoryFeedback-top-bar-side {
+  display: inline-block;
+  padding-top: 2rem;
   text-align: left;
   margin-left: 10px;
-  h2, h3{
+  h2, h3 {
     font-family: 'museo-slab', Georgia, Palatino, serif;
     text-transform: capitalize;
     margin:2px 0px;
   }
 }
 
-.DirectoryFeedback-buttonWrap{
-  text-align:center;
+.DirectoryFeedback-buttonWrap {
   margin-top:12px;
-  .DirectoryFeedback-startButton{
-    padding:8px;
-    width: 300px;
+  .DirectoryFeedback {
+    margin-top: 3rem;
+    width: 50%;
+  }
+  .DirectoryFeedback-startButton {
+    padding: 0.7em 1.5em;
+    background: #EDEBEB;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    width: auto;
+    &:hover {
+      background: darken(#EDEBEB, 3%);
+    }
   }
 }
 
-.DirectoryFeedback-ratings-title{
+.DirectoryFeedback-ratings-title {
   margin:20px 0;
-  h2, h3{
+  h2, h3 {
     font-family: 'museo-slab', Georgia, Palatino, serif;
     text-transform: capitalize;
     margin:2px 0px;
+    &.titleSecondary {
+      font-weight: 400;
+    }
   }
 }
 
@@ -37,13 +52,10 @@
     width: 49%;
     vertical-align: top;
     margin-bottom:10px;
-    .text{
-      display:inline-block;
-      width:50%;
-      line-height:100%;
-      margin-top:8px;
+    .text {
+      line-height: 1.2;
     }
-    .title{
+    .title {
       font-weight:600;
     }
 }
