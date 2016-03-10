@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
   category_id: null,
   query: null,
   results: computed.alias('model'),
-  locationsToRender: computed('selectedLocation', function() {
+  locationsToRender: computed('locations.[]','selectedLocation', function() {
     const selectedLocation = get(this, 'selectedLocation');
     const locations = get(this, 'locations');
 
