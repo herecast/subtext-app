@@ -46,7 +46,8 @@ export default Ember.Component.extend({
     input.on('input',  () => {
       const value = this.$('input').val();
 
-      run.debounce(this, this.updateSearchTerms, value, 200);
+      run.debounce(this, this.updateCategoryMatches, value, 200);
+      run.debounce(this, this.updateSearchTerms, value, 900);
     });
   },
 
@@ -59,7 +60,6 @@ export default Ember.Component.extend({
   },
 
   updateSearchTerms(value) {
-    this.updateCategoryMatches(value);
     this.attrs.updateFromQuery(value);
   },
 
