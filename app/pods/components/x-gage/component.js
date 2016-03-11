@@ -52,9 +52,8 @@ export default Ember.Component.extend({
 
   didUpdateAttrs() {
     const gauge = get(this, 'gauge');
-    const newValue = this.attrs.value.value;
+    const newValue = this.attrs.value.value * 100;
 
     gauge.refresh(newValue);
   }
 });
-
