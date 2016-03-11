@@ -8,6 +8,7 @@ let counter = 0;
 export default Ember.Component.extend({
   cssId: null,
   value: null,
+  gauge: null,
   feedback_num: null,
   title: null,
   titlePosition: 'below',
@@ -30,7 +31,7 @@ export default Ember.Component.extend({
       title = get(this, 'title') || '';
     }
 
-    new JustGage({
+    set(this, 'gauge', new JustGage({
       id: cssId,
       // value: (Math.random() * 100), // uncomment to simulate data
       value: value,
@@ -46,7 +47,13 @@ export default Ember.Component.extend({
       height: get(this, 'height') || get(this, 'width'),
       gaugeWidthScale: 0.625,
       hideMinMax: true
-    });
+    }));
+  },
+
+  didUpdateAttrs() {
+    const gauge = get(this, 'gauge');
+    const newValue = this.attrs.value.value * 100;
+
+    gauge.refresh(newValue);
   }
 });
-
