@@ -28,9 +28,10 @@ export default Ember.Component.extend(PromotionForm, {
   }.observes('listsEnabled'),
 
   categories: [
+    {value: 'Arts', label: 'Arts'},
+    {value: 'Live Music', label: 'Live Music'},
     {value: 'Movies', label: 'Movies'},
     {value: 'Wellness', label: 'Wellness'},
-    {value: 'Live Music', label: 'Live Music'}
   ],
 
   actions: {
