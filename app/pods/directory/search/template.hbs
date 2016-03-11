@@ -5,6 +5,10 @@
 <div class='col-xs-12 col-md-4 FloatingSideMap'>
   {{#floating-side-column enabled=media.isDesktop}}
     {{google-map locations=locationsToRender}}
-    <a href='#' {{action 'contactUs'}}>Are we missing a business or service?</a>
+
+    <div>
+    <h2>Help us build this directory</h2>
+    <button class='btn DirectoryButton darker' {{action 'contactUs'}}>Submit a missing business</button>
+    </div>
   {{/floating-side-column}}
 </div>

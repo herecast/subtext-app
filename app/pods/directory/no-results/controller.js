@@ -1,11 +1,13 @@
 import Ember from 'ember';
 
-const { inject, get } = Ember;
+const { inject, get, computed: { alias } } = Ember;
 
 export default Ember.Controller.extend({
   directoryController: inject.controller('directory'),
-
-  intercom: inject.service('intercom'),
+  intercom:    inject.service('intercom'),
+  category:    alias('directoryController.category'),
+  searchTerms: alias('directoryController.searchTerms'),
+  location:    alias('directoryController.location'),
 
   actions: {
     contactUs() {

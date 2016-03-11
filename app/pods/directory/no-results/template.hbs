@@ -1,9 +1,9 @@
 <div class='col-xs-12 DirectoryNoResults'>
   <div class="well DirectoryNoResults-well">
-    {{#if directoryController.category}}
-      <p class='DirectoryNoResults-text'>We didn't find any business listings in '{{directoryController.category.name}}' in {{directoryController.location}}.</p>
+    {{#if category}}
+      <p class='DirectoryNoResults-text'>We didn't find any business listings in '{{category.name}}' in {{location}}.</p>
     {{else}}
-      <p class='DirectoryNoResults-text'>We didn't find any business listings matching '{{directoryController.searchTerms}}' in {{directoryController.location}}.</p>
+      <p class='DirectoryNoResults-text'>We didn't find any business listings matching '{{searchTerms}}' in {{location}}.</p>
     {{/if}}
     <div>
       <p class='DirectoryNoResults-text'>Please {{#link-to 'directory'}}try your search again.{{/link-to}}</p>
