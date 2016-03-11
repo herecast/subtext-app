@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const { run, on, computed, get, set, isPresent, isBlank } = Ember;
-const CATEGORIES = [ 'Everything', 'Movies', 'Wellness', 'Live Music' ];
+const CATEGORIES = [ 'Everything', 'Arts', 'Movies', 'Live Music', 'Wellness' ];
 
 export default Ember.Component.extend({
   classNames: ['dropdown'],
