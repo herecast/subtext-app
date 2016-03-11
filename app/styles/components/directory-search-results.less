@@ -55,12 +55,29 @@
     margin: 8px 0;
   }
   .well {
-    margin-top: 3rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: @screen-xs-max) {
+    .well {
+      margin-top: 3rem;
+    }
   }
 }
 .DirectoryNoResults-text {
-  font-size: 2rem;
   a {
     text-decoration: underline;
   }
-};
+  @media (min-width: @screen-xs-max) {
+    font-size: 2rem;
+  }
+}
+.DirectoryNoResults-well {
+  @media (min-width: @screen-xs-max) {
+    padding: 4rem 5rem;
+  }
+}
+.DirectoryNoResults-secondaryCTA {
+  @media (min-width: @screen-xs-max) {
+    margin-top: 4rem;
+  }
+}

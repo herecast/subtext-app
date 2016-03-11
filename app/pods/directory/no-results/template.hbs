@@ -1,14 +1,16 @@
 <div class='col-xs-12 DirectoryNoResults'>
-  <div class="well">
+  <div class="well DirectoryNoResults-well">
     {{#if directoryController.category}}
       <p class='DirectoryNoResults-text'>We didn't find any business listings in '{{directoryController.category.name}}' in {{directoryController.location}}.</p>
     {{else}}
       <p class='DirectoryNoResults-text'>We didn't find any business listings matching '{{directoryController.searchTerms}}' in {{directoryController.location}}.</p>
     {{/if}}
-    <p class='DirectoryNoResults-text'>Please {{#link-to 'directory'}}try your search again.{{/link-to}}</p>
+    <div>
+      <p class='DirectoryNoResults-text'>Please {{#link-to 'directory'}}try your search again.{{/link-to}}</p>
+    </div>
   </div>
-  <div>
-    <h2>Are we missing your business?</h2>
+  <div class='DirectoryNoResults-secondaryCTA'>
+    <p class='DirectoryNoResults-text'><b>Are we missing your business?</b></p>
     <p class='DirectoryNoResults-text'>Business owners, please <a href='#' {{action "contactUs"}}> get in touch</a></p>
   </div>
 </div>
