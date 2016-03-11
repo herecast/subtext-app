@@ -48,14 +48,36 @@
   }
 }
 
-.DirectoryNoResults{
+.DirectoryNoResults {
   h2 {
     font-family: @font-family-base;
     text-transform: capitalize;
     margin: 8px 0;
   }
-  div:not(.block){
-    display: inline-block;
-    margin: 15px;
+  .well {
+    margin-top: 1rem;
+  }
+  @media (min-width: @screen-xs-max) {
+    .well {
+      margin-top: 3rem;
+    }
+  }
+}
+.DirectoryNoResults-text {
+  a {
+    text-decoration: underline;
+  }
+  @media (min-width: @screen-xs-max) {
+    font-size: 2rem;
+  }
+}
+.DirectoryNoResults-well {
+  @media (min-width: @screen-xs-max) {
+    padding: 4rem 5rem;
+  }
+}
+.DirectoryNoResults-secondaryCTA {
+  @media (min-width: @screen-xs-max) {
+    margin-top: 4rem;
   }
 }

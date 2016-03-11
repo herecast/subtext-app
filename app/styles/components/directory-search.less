@@ -9,13 +9,28 @@
   background: #fff;
   border: 1px solid #DEDEDE;
   padding: 0 12px;
-  float:left;
-  width: 50%;
+  width: 100%;
+  margin-bottom: 0.5rem;
 
   .open {
     // needed so that input submenu
     // is positiioned correctly
     position: relative;
+  }
+
+  @media (min-width: @screen-xs-max) {
+    float:left;
+    width: 50%;
+    margin-bottom: 0;
+  }
+}
+.DirectorySearch-InnerWrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @media (min-width: @screen-xs-max) {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
   }
 }
 
