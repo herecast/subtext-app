@@ -130,7 +130,9 @@ export default Ember.Component.extend({
 
       ajax(url, {
         type: 'POST',
-        data: feedbackToSend
+        data: {
+          feedback: feedbackToSend
+        }
       }).then( () => { 
         this.send('updateFeedback', feedbackToSend);
         this.toggleProperty('isOpen');
