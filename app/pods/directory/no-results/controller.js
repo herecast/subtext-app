@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
   actions: {
     contactUs() {
       get(this, 'directoryController').send('contactUs');
+      get(this, 'intercom').trackEvent('directory-nothing-found-contactus');
     }
   }
 });
