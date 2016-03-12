@@ -6,17 +6,26 @@ import trackEvent from 'subtext-ui/mixins/track-event';
 const { get } = Ember;
 
 export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
-  model() {
-    return this.store.createRecord('talk', {
+  model(params, transition) {
+    let newRecordValues = {
       viewCount: 0,
       commenterCount: 1,
       commentCount: 1,
       authorName: this.get('session.currentUser.name')
-    });
+    };
+
+    if ('organization_id' in transition.queryParams) {
+      return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
+        newRecordValues.organization = organization;
+        return this.store.createRecord('talk', newRecordValues);
+      });
+    } else {
+      return this.store.createRecord('talk', newRecordValues);
+    }
   },
 
-  redirect() {
-    this.transitionTo('talk.new.details');
+  redirect(params, transition) {
+    this.transitionTo('talk.new.details', { queryParams: transition.queryParams });
   },
 
   discardRecord(model) {

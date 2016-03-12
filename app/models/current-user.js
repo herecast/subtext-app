@@ -10,5 +10,6 @@ export default DS.Model.extend({
   locationId: DS.attr('number'),
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
-  userId: DS.attr('number')
+  userId: DS.attr('number'),
+  managed_organizations: DS.hasMany('organizations', { async: true })
 });

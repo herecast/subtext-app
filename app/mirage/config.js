@@ -275,23 +275,26 @@ export default function() {
 
   // Used by the news filter bar to find organizations
   this.get('/organizations', function(db, request) {
-    const organizations = [];
+    let organizations;
 
     // For demo purposes - if someone starts a search with 'empty' we return
     // no results so we can see what that looks like in the UI
-    if (request.queryParams.query.indexOf('empty') !== 0) {
-      for (let i = 1; i < 5; i += 1) {
-        organizations.push({
-          id: i,
-          name: faker.company.companyName()
-        });
-      }
+    if ('query' in request.queryParams && request.queryParams.query.indexOf('empty') === 0) {
+      organizations = [];
+    } else if ('ids' in request.queryParams) {
+      organizations = db.organizations.filter((org) => {
+        return request.queryParams.ids.indexOf(String(org.id)) !== -1;
+      });
+    } else {
+      organizations = db.organizations;
     }
 
     return {
       organizations: organizations
     };
   });
+
+  this.get('/organizations/:id');
 
   this.get('/event_instances/:id', function(db, request) {
     const event = db.event_instances.find(request.params.id);

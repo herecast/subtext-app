@@ -19,6 +19,7 @@ export default DS.Model.extend({
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
   viewCount: DS.attr('number'),
+  organization: DS.belongsTo('organization'),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
 

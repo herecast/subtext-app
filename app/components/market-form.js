@@ -2,9 +2,12 @@ import Ember from 'ember';
 import Validation from '../mixins/components/validation';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
+const { oneWay } = Ember.computed;
+
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
   post: Ember.computed.alias('model'),
+  organizations: oneWay('session.currentUser.managed_organizations'),
 
   validateContact() {
     const email = this.get('post.contactEmail');

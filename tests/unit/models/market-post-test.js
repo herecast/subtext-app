@@ -3,7 +3,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('market-post', 'Unit | Model | market post', {
   // Specify the other units that are required for this test.
-  needs: ['model:image']
+  needs: ['model:image', 'model:organization']
 });
 
 test('coverImageUrl should update as images change', function(assert) {

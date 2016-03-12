@@ -9,14 +9,23 @@ const { get } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
 
-  model() {
-    return this.store.createRecord('market-post', {
+  model(params, transition) {
+    const newRecordValues = {
       publishedAt: moment()
-    });
+    };
+
+    if ('organization_id' in transition.queryParams) {
+      return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
+        newRecordValues.organization = organization;
+        return this.store.createRecord('market-post', newRecordValues);
+      });
+    } else {
+      return this.store.createRecord('market-post', newRecordValues);
+    }
   },
 
-  redirect() {
-    this.transitionTo('market.new.details');
+  redirect(params, transition) {
+    this.transitionTo('market.new.details', { queryParams: transition.queryParams });
   },
 
   discardRecord(model) {

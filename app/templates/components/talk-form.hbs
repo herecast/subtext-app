@@ -1,3 +1,10 @@
+{{#if organizations}}
+  {{#form-group error=errors.title hideError=true}}
+      <label class='control-label ContentForm-label--required' for="title">Content Owner</label>
+      {{organization-dropdown selection=talk.organization class="with-border"}}
+  {{/form-group}}
+{{/if}}
+
 {{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Title</label>
   {{form-error errors.title}}

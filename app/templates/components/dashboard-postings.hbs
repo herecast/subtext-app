@@ -66,16 +66,6 @@
 
 </div>
 <div class='Dashboard-content'>
-  <div class='Dashboard-addContent u-textPullRight u-layoutPadB20'>
-    {{#if (eq type 'events')}}
-      {{#link-to 'events.new' class='Button Button--event'}}New Event{{/link-to }}
-    {{else if (eq type 'talk')}}
-      {{#link-to 'talk.new' class='Button Button--talk'}}New Talk{{/link-to }}
-    {{else if (eq type 'market')}}
-      {{#link-to 'market.new' class='Button Button--market'}}New Listing{{/link-to }}
-    {{/if}}
-  </div>
-  
   {{#if isLoading}}
     {{x-loader}}
   {{else}}

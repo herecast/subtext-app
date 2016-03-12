@@ -5,7 +5,7 @@ import {
 
 moduleForModel('event', {
   // Specify the other units that are required for this test.
-  needs: ['model:event-instance', 'model:other-event-instance', 'model:schedule']
+  needs: ['model:event-instance', 'model:other-event-instance', 'model:schedule', 'model:organization']
 });
 
 test('it exists', function(assert) {
