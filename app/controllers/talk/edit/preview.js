@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  isPreview: true
+  isPreview: true,
+  displayPromotion: false
 });
