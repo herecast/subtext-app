@@ -5,7 +5,8 @@ import config from '../../../config/environment';
 const {
   computed,
   get,
-  set
+  set,
+  setProperties
 } = Ember;
 
 export default Ember.Component.extend({
@@ -73,13 +74,12 @@ export default Ember.Component.extend({
   isSignedIn: computed.notEmpty('user'),
 
   actions: {
-
     toggleDisplay() {
       this.toggleProperty('isOpen');
     },
 
-    checkAnswer: function(bool){
-      Ember.setProperties( get(this, 'questionCurrent'), {
+    checkAnswer(bool) {
+      setProperties( get(this, 'questionCurrent'), {
         no: bool ? 'notchecked' : 'checked',
         yes: bool ? 'checked' : 'notchecked'
       });
@@ -103,25 +103,18 @@ export default Ember.Component.extend({
       }
     },
 
-    updateFeedback(feedbackToSend) {
-      let feedback_num = get(this, 'model.feedback_num');
-      let feedbackFromModel = get(this, 'model.feedback');
-      let categories = Object.keys(feedbackFromModel);
-      //go through and recalculate each one.
-      categories.forEach( (category) => {
-        let total = feedbackFromModel[category] * feedback_num;
-        let newRating = (total + feedbackToSend[category] ) / (feedback_num + 1);
+    updateFeedback() {
+      const model = get(this, 'model');
 
-        set(this, 'model.feedback.' + category, newRating);
+      model.reload();
 
-      });
-      //uptick
-      this.incrementProperty('model.feedback_num');
       set(this,'feedbackLeft', true);
     },
+
     //in development, to be determined best way to do this
     submitFeedback() {
       let feedbackToSend = {};
+
       get(this,'questions').forEach( function(question) {
         feedbackToSend[question.category] = question.yes === 'checked';
       });
@@ -133,10 +126,10 @@ export default Ember.Component.extend({
         data: {
           feedback: feedbackToSend
         }
-      }).then( () => { 
+      }).then( () => {
         this.send('updateFeedback', feedbackToSend);
         this.toggleProperty('isOpen');
       });
     }
-}
+  }
 });

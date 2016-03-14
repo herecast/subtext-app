@@ -2,21 +2,14 @@ import Ember from 'ember';
 
 const {
   computed,
-  get,
-  set
+  get
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['DirectoryBusinessFeedback'],
-  answers: null,
   model: null,
 
-  init() {
-    this._super();
-    this.answersMake();
-  },
-
-  answersMake() {
+  answers: computed('model.{name,has_retail_location}', 'model.feedback', function() {
     let name = get(this, 'model.name');
     let feedback = get(this, 'model.feedback');
     //{satisfaction: "0.834", cleanliness: "0.675", price: "0.287", recommend: "0.687"}
@@ -37,12 +30,10 @@ export default Ember.Component.extend({
           {title: "Recommended", text: `said they would recommend ${name}`, value: feedback.recommend}
         ];
     }
-    set(this, 'answers', answers);
-  },
+    return answers;
+  }),
 
   score: computed('model.feedback.recommend', function(){
     return parseInt( get(this,'model.feedback.recommend') * 100 ) + '%';
   }),
-
-
 });
