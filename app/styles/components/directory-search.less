@@ -1,7 +1,32 @@
 .DirectorySearch {}
 
+// TODO move this somewhere else
+.DirectoryButton {
+  padding: 0.7em 1.5em;
+  background: #EDEBEB;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  width: auto;
+  &:hover {
+    background: darken(#EDEBEB, 3%);
+  }
+  // When the button is on a grey bg
+  &.darker {
+    background: darken(#EDEBEB, 4%);
+    &.hover {
+    background: darken(#EDEBEB, 5%);
+    }
+  }
+}
+
 .DirectorySearch-wrapper {
   background: #efefef;
+  padding-top: 1.5rem;
+
+  @media (min-width: @screen-xs-max) {
+    padding-top: 3rem;
+  }
 }
 
 .DirectorySearch-inputWrapper {
@@ -32,6 +57,10 @@
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
+}
+
+.DirectorySearch-title {
+  margin: 0;
 }
 
 .DirectorySearch-pseudoInputText {
