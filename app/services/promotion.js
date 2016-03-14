@@ -1,13 +1,15 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import ajax from 'ic-ajax';
+
+const { inject, get } = Ember;
 
 export default Ember.Service.extend({
+  api: inject.service('api'),
+
   find(contentId) {
-    const promotionUrl = `${config.API_NAMESPACE}/contents/${contentId}/related_promotion`;
+    const api = get(this, 'api');
 
     return new Ember.RSVP.Promise((resolve) => {
-      ajax(promotionUrl).then((response) => {
+      api.getContentPromotion(contentId).then((response) => {
         resolve(response.related_promotion);
       });
     });

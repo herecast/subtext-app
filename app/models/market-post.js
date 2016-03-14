@@ -1,17 +1,17 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
 
 const {
   computed,
   get,
+  inject,
   isPresent,
   RSVP
 } = Ember;
 
 export default DS.Model.extend({
+  api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
   canEdit: DS.attr('boolean'),
@@ -79,10 +79,10 @@ export default DS.Model.extend({
   }.property('publishedAt'),
 
   loadContactInfo() {
-    const id = this.get('id');
-    const url = `${config.API_NAMESPACE}/market_posts/${id}/contact`;
+    const api = get(this, 'api');
+    const id = get(this, 'id');
 
-    return ajax(url).then((response) => {
+    return api.getMarketContactInfo(id).then((response) => {
       this.setProperties({
         contactEmail: response.market_post.contact_email,
         contactPhone: response.market_post.contact_phone,

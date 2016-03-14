@@ -6,7 +6,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
   model: function(params) {
     const token = params.token;
-    const promise = this.get('session').authenticate('subtext-ui:confirmation-authenticator', token);
+    const promise = this.get('session').authenticate('authenticator:confirmation', token);
 
     return promise;
   },
