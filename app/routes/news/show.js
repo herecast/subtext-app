@@ -8,7 +8,9 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTit
   modelImageKey: 'bannerImage.url',
 
   model(params)  {
-    return this.store.findRecord('news', params.id, { reload: true });
+    return this.store.findRecord('news', params.id, { reload: true }).catch(() => {
+      this.replaceWith('error-404');
+    });
   },
 
   afterModel: function(news) {
