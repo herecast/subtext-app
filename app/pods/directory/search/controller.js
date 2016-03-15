@@ -44,13 +44,15 @@ export default Ember.Controller.extend({
     const results = get(this, 'results') || [];
 
     return results.map(location => {
+      let detailsUrl = this.get('target').generate('directory.search.show', location);
+
       return {
         coords: {
           lat: parseFloat(location.get('coords.lat')),
           lng: parseFloat(location.get('coords.lng'))
         },
         title: location.get('name'),
-        content: `<h2>${location.get('name')}</h2>
+        content: `<h2><a href="${detailsUrl}">${location.get('name')}</a></h2>
                   <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
                   <div><a href="tel:+1${location.get('phone')}"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</a></div>
                   <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
