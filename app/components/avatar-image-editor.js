@@ -5,12 +5,14 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   set,
-  Binding
+  computed
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   isEditingImage: false,
-  imageUrl: Binding.oneWay('currentUser.userimageUrl'),
+  imageUrl: computed.oneWay('currentUser.userimageUrl'),
+  originalImageFile: computed.alias('currentUser.originalImageFile'),
+  errorMessage: null,
 
   actions: {
     changePhoto() {
@@ -48,11 +50,26 @@ export default Ember.Component.extend(TrackEvent, {
         promise.then((data) => {
           this.setProperties({
             isEditingImage: false,
-            'currentUser.originalImageFile': undefined,
+            errorMessage: null,
+            originalImageFile: undefined,
             'currentUser.userImageUrl': data['current_user']['user_image_url']
           });
+        }).catch((response) => {
+          if (response.jqXHR.status === 422) {
+            const responseJSON = response.jqXHR.responseJSON;
+
+            set(this, 'errorMessage', responseJSON['messages'][0]);
+          }
         });
       }
+    },
+
+    cancel() {
+      this.setProperties({
+        isEditingImage: false,
+        errorMessage: null,
+        originalImageFile: undefined
+      });
     }
   }
 });

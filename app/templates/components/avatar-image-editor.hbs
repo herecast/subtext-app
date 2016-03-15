@@ -1,8 +1,8 @@
 {{#content-form-image
   image=currentUser.image
   imageUrl=imageUrl
-  originalImageFile=currentUser.originalImageFile
-  error=errors.image
+  originalImageFile=originalImageFile
+  error=errorMessage
   class="Avatar"
   displayCropper=isEditingImage as |tempImage|
 }}
@@ -13,6 +13,11 @@
       pending='Saving…'
       class='h2 Button Button--primary'
     }}
+    {{#if errorMessage}}
+      <p class='text-danger'>{{errorMessage}}</p>
+    {{/if}}
+    
+    <button class='Button' {{action 'cancel'}}>Cancel</button>
   {{else}}
     {{#if currentUser.userImageUrl}}
       <img src='{{currentUser.userImageUrl}}' class='Avatar-image'>
