@@ -43,6 +43,29 @@ export default Ember.Mixin.create({
     }
   },
 
+  validateImage() {
+    const image = this.get('image');
+
+    if (Ember.isBlank(image)) {
+      this.set('errors.image', null);
+      delete this.get('errors').image;
+      return true;
+    }
+
+    const isJPG = image.type === 'image/jpeg';
+    const isPNG = image.type === 'image/png';
+    const maxSize = 5242880; // 5MB
+
+    if (!isJPG && !isPNG) {
+      this.set('errors.image', 'must be a jpg or png');
+    } else if (image.size > maxSize) {
+      this.set('errors.image', 'must be < 5MB');
+    } else {
+      this.set('errors.image', null);
+      delete this.get('errors').image;
+    }
+  },
+
   validateWYSIWYG(attr) {
     let value = this.get(attr);
     const attrName = Ember.A(attr.split('.')).get('lastObject');

@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'input',
-  attributeBindings: ['type'],
-
+  attributeBindings: ['type', 'accept'],
+  accept: ".jpg,.jpeg,.png",
   type: 'file',
 
   change() {
