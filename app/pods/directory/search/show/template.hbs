@@ -9,5 +9,16 @@
 <div class="DirectoryBusiness-detailWrap">
   {{directory-business-info myCoords=myCoords model=model}}
 
-  {{directory-feedback-display model=model claimBusiness=(action 'contactUs')}}
+  {{directory-feedback-display model=model claimBusiness=(action 'contactUs') editBusiness=(action 'showEditForm')}}
+
+  {{#if editFormIsVisible}}
+    {{#x-modal close=(action 'cancelEditForm')}}
+      {{business-profile-form
+      model=model
+      categories=businessCategories
+      save='savedEditForm'
+      cancel='cancelEditForm'
+      }}
+    {{/x-modal}}
+  {{/if}}
 </div>

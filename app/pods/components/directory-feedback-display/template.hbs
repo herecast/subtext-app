@@ -22,7 +22,11 @@
         {{directory-feedback-form model=model}}
       </div>
       <div class="DirectoryFeedback-buttonWrap">
-        <button class='btn DirectoryButton' {{action 'claim'}}>Claim Business</button>
+        {{#if model.can_edit}}
+          <button class='btn DirectoryButton' {{action 'edit'}}>Edit Business</button>
+        {{else}}
+          <button class='btn DirectoryButton' {{action 'claim'}}>Claim Business</button>
+        {{/if}}
       </div>
     </div>
   </div>

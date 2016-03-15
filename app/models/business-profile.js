@@ -44,6 +44,7 @@ export default DS.Model.extend({
   feedback_num: DS.attr('number'),
   has_retail_location: DS.attr('boolean'),
   views: DS.attr('number'),
+  can_edit: DS.attr('boolean'),
 
   organization_id: DS.attr('number'), //To be replaced by relationship
   categories: DS.hasMany('business-category', {async: true})

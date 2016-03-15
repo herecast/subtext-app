@@ -1,12 +1,16 @@
 import Ember from 'ember';
+import Validation from '../../../mixins/components/validation';
 
-const { computed, inject, get, isEmpty } = Ember;
+const { computed, inject, get, set, isEmpty } = Ember;
 
 function formatPhone(phone) {
   return phone.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "($1) $2-$3");
 }
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(Validation, {
+  newBusinessProfile: null,
+  businessProfileFormIsVisible: false,
+
   secondaryBackground: true,
   directoryController: inject.controller('directory'),
   queryParams: ['lat', 'lng', 'query', 'category_id'],
@@ -40,6 +44,10 @@ export default Ember.Controller.extend({
     }];
   }),
 
+  businessCategories: computed(function () {
+    return get(this, 'store').find('business-category');
+  }),
+
   locations: computed('results.[]', 'results.@each', function () {
     const results = get(this, 'results') || [];
 
@@ -60,9 +68,33 @@ export default Ember.Controller.extend({
     });
   }),
 
+  _closeBusinessProfileForm() {
+    set(this, 'newBusinessProfile', null);
+    set(this, 'businessProfileFormIsVisible', false);
+  },
+
   actions: {
     contactUs() {
       get(this, 'directoryController').send('contactUs');
+    },
+
+    showBusinessProfileForm() {
+      let newBusinessProfile = get(this, 'store').createRecord('business-profile');
+      set(this, 'newBusinessProfile', newBusinessProfile);
+      set(this, 'businessProfileFormIsVisible', true);
+    },
+
+    cancelBusinessProfileForm() {
+      if (get(this, 'newBusinessProfile.hasDirtyAttributes')) {
+        if (confirm('Are you sure you want to discard your changes without saving?')) {
+          get(this, 'newBusinessProfile').rollbackAttributes();
+          this._closeBusinessProfileForm();
+        }
+      }
+    },
+
+    savedBusinessProfileForm() {
+      this._closeBusinessProfileForm();
     }
   }
 });

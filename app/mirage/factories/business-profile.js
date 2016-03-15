@@ -37,5 +37,6 @@ export default Mirage.Factory.extend({
   feedback_num() { return Math.floor( Math.random() * 300 ); },
   views: "237",
   category_ids: [],
-  has_retail_location() { return faker.helpers.shuffle(true,false); }
+  has_retail_location() { return faker.helpers.shuffle(true,false); },
+  can_edit() { return faker.helpers.shuffle(true,false); }
 });

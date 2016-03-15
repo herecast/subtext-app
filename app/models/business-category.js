@@ -18,5 +18,8 @@ export default DS.Model.extend({
   child_ids: computed.alias('original_child_ids'),
 
   parents: DS.hasMany('business-category', {async: true, inverse: 'child_categories'}),
-  child_categories: DS.hasMany('business-category', {async: true, inverse: 'parents'})
+  child_categories: DS.hasMany('business-category', {async: true, inverse: 'parents'}),
+
+  businesses: DS.hasMany('business-profile', {async: true})
+
 });
