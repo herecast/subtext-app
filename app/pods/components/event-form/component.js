@@ -9,6 +9,7 @@ export default Ember.Component.extend(Validation, TrackEvent, {
   event: computed.alias('model'),
   schedules: null,
   error: null,
+  image: computed.alias('model.image'),
 
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
@@ -41,29 +42,6 @@ export default Ember.Component.extend(Validation, TrackEvent, {
       delete this.get('errors').venue;
     } else {
       this.set('errors.venue', 'Cannot be blank');
-    }
-  },
-
-  validateImage() {
-    const image = this.get('event.image');
-
-    if (Ember.isBlank(image)) {
-      this.set('errors.image', null);
-      delete this.get('errors').image;
-      return true;
-    }
-
-    const isJPG = image.type === 'image/jpeg';
-    const isPNG = image.type === 'image/png';
-    const maxSize = 5242880; // 5MB
-
-    if (!isJPG && !isPNG) {
-      this.set('errors.image', 'must be a jpg or png');
-    } else if (image.size > maxSize) {
-      this.set('errors.image', 'must be < 5MB');
-    } else {
-      this.set('errors.image', null);
-      delete this.get('errors').image;
     }
   },
 
