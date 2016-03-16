@@ -18,6 +18,13 @@ export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
         return this.store.createRecord('news');
     }
   },
+
+  setupController(controller, model) {
+    controller.set('model', model);
+    controller.set('title', 'Create your news post');
+    controller.set('secondaryBackground', true);
+  },
+
   afterModel(model) {
     // TODO we need to save for the ember data dirty
     // state flags to work properly. This is a

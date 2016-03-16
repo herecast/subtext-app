@@ -46,6 +46,8 @@ module.exports = function(defaults) {
   app.import('bower_components/summernote/dist/summernote.js');
   app.import('bower_components/summernote/dist/summernote.css');
 
+  app.import('bower_components/sanitize.js/lib/sanitize.js');
+
   app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
 
   app.import('bower_components/cropper/dist/cropper.js');

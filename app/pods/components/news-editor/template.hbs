@@ -1,7 +1,7 @@
 <div class='Container--noGutter'>
   <div class='row'>
     <div class='col-md-9'>
-      <h1 class='text-center'>Create Your News Post</h1>
+      <h1 class='text-center'>{{title}}</h1>
     </div>
     <div class='col-md-3'>
       <div class='pull-right'>
@@ -59,16 +59,23 @@
               {{/if}}
 
               {{#if isScheduled}}
-                <p><span class='h4'>This post is set to go live on</span> {{formatted-date news.publishedAt}}
-                   <a href='#' {{action 'unpublish'}}>Cancel Publish</a>
-                </p>
-                <button class='btn btn-primary btn-lg' {{action 'publish'}}>Publish Now</button>
+                {{#if hasUnpublishedChanges}}
+                  <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
+                  <div class="alert alert-warning" role="alert"><p>Your post has changes that will not be included when your post goes live unless you save them.</p></div>
+                  <button {{action 'publish'}} class='btn btn-primary btn-lg'>Save Changes</button><br />
+                  <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
+                {{else}}
+                  <p>This post is set to go live on {{formatted-date news.publishedAt}}
+                    <a href='#' {{action 'unpublish'}}>Cancel Publish</a>
+                  </p>
+                  <button class='btn btn-primary btn-lg' {{action 'publish'}}>Publish Now</button>
+                {{/if}}
               {{/if}}
 
               {{#if isPublished}}
                 Published {{formatted-date news.publishedAt}}.
                 {{#if hasUnpublishedChanges}}
-                  <p>Your post has changes that are not published.</p>
+                  <div class="alert alert-warning" role="alert"><p>Your post has changes that are not published.</p></div>
                   <button {{action 'publish'}} class='btn btn-primary btn-lg'>Publish Changes</button><br />
                   <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
                 {{/if}}
@@ -149,7 +156,9 @@
         {{form-error errors.content}}
         {{#summer-note
           content=news.content
+          toolbar=(mut editorConfig)
           validateForm=(action 'notifyChange')
+          uploadImage=(action 'saveImage')
           class='ContentForm-textArea'
         }}
           {{textarea

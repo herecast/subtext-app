@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
+import ajax from 'ic-ajax';
+import config from './../../../config/environment';
 
 const {
   computed,
@@ -16,6 +18,13 @@ export default Ember.Component.extend(Validation, {
   news: null,
   selectedPubDate: null,
   isPickingScheduleDate: false,
+
+  editorConfig: [
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['insert', ['link']],
+    ['para', ['ul', 'ol']],
+    ['insert', ['picture', 'link', 'video']]
+  ],
 
   toast: inject.service(),
 
@@ -58,8 +67,10 @@ export default Ember.Component.extend(Validation, {
     return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
   }),
 
-  hasUnpublishedChanges: computed('news', 'news.isSaving', 'news.isPublished', 'news.hasDirtyAttributes', 'didOrgChange', function() {
-    return get(this, 'isPublished') &&
+  hasUnpublishedChanges: computed('news', 'news.isSaving', 'news.isPublished', 'news.isScheduled', 'news.hasDirtyAttributes', 'didOrgChange', function() {
+    const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
+
+    return isScheduledOrPublished &&
       (get(this, 'news.hasDirtyAttributes') || get(this, 'didOrgChange')) &&
       (!get(this, 'news.isSaving'));
   }),
@@ -80,11 +91,7 @@ export default Ember.Component.extend(Validation, {
   _save() {
     const news = get(this, 'news');
 
-    // TODO why does ember data lose the association
-    // to the model after saving
-    news.save().then((response) => {
-      get(this, 'toast').success('Post successfully saved.');
-      set(this, 'news', response);
+    news.save().then(() => {
       set(this, 'didOrgChange', false);
     });
   },
@@ -190,6 +197,38 @@ export default Ember.Component.extend(Validation, {
       const news = get(this, 'news');
 
       news.rollbackAttributes();
-    }
+    },
+
+    saveImage(file, callback) {
+      const url = `${config.API_NAMESPACE}/images`;
+      const data = new FormData();
+
+      data.append('image', {
+        image: file,
+        primary: 0,
+        content_id: 500
+      });
+
+      const promise = ajax(url, {
+        data: data,
+        type: 'POST',
+        primary: 0,
+        contentType: false,
+        processData: false
+      });
+
+      callback(promise);
+
+      promise.then(response => {
+        alert('this should happen first');
+        get(this, 'news.images').push(response.image);
+      }).catch(response => {
+        if (response.jqXHR.status === 422) {
+          const responseJSON = response.jqXHR.responseJSON;
+
+          set(this, 'errorMessage', responseJSON['messages'][0]);
+        }
+      });
+    },
   }
 });

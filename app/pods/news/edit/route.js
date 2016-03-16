@@ -5,5 +5,11 @@ export default Ember.Route.extend({
 
   model(params) {
     return this.store.find('news', params.id);
+  },
+
+  setupController(controller, model) {
+    controller.set('model', model);
+    controller.set('title', 'Edit your news post');
+    controller.set('secondaryBackground', true);
   }
 });
