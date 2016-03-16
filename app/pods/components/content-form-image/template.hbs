@@ -3,7 +3,7 @@
     <label class='control-label' for="image">
       Image
     </label>
-    {{input type='file' class='form-control ContentForm-fileField' accept=".jpg,.jpeg,.png"}}
+    {{file-input fileError=(action 'fileError') allowedExtensions='.jpg,.jpeg,.png' inputClass='form-control ContentForm-fileField' action=(action "filesSelected")}}
     <span class="help-block ContentForm-helpText">Format: .jpg or .png  // Size: under 5MB</span>
   {{/form-group}}
 </div>

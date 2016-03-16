@@ -208,9 +208,16 @@ export default function() {
 
   this.put('/current_user', function(db, request) {
     var id = 1;
-    var putData = JSON.parse(request.requestBody);
-    var attrs = putData['current_user'];
-    var current_user = db.current_users.update(id, attrs);
+    var current_user;
+
+    if(request.requestHeaders['Content-Type'].indexOf('application/json') > -1) {
+
+      var putData = JSON.parse(request.requestBody);
+      var attrs = putData['current_user'];
+      current_user = db.current_users.update(id, attrs);
+    } else {
+      current_user = db.current_users.find(id);
+    }
 
     //mocks location join
     var location = db.locations.find(current_user.location_id);

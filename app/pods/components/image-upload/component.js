@@ -111,6 +111,10 @@ export default Ember.Component.extend({
       this.setupImage(file);
     },
 
+    filesSelected(files) {
+      this.send('addImage', files[0]);
+    },
+
     showCropper() {
       set(this, 'showCropper', true);
     },

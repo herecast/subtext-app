@@ -1,7 +1,7 @@
 import Ember from 'ember';
 /* global loadImage */
 
-const { computed, get, isPresent } = Ember;
+const { computed, get, set, isPresent } = Ember;
 
 export default Ember.Component.extend({
   originalImageFile: null,
@@ -15,25 +15,6 @@ export default Ember.Component.extend({
 
     return displayCropper && hasOriginalFile;
   }),
-
-  initAttachFile: Ember.on('didInsertElement', function() {
-    this.$('input[type=file]').on('change', (e) => {
-      const file = this.$(e.target).context.files[0];
-
-      // Store the original file on the model so we can access it later
-      this.set('originalImageFile', file);
-
-      // Use the "JavaScript Load Image" functionality to parse the file data
-      // and get the correct orientation setting from the EXIF Data. This
-      // addresses rotation issues with photos taken from mobile devices where
-      // the meta data contains the orientation.
-      this.loadImageFile(file);
-    });
-  }),
-
-  removeChangeEvent: function() {
-    this.$('input[type=file]').off('change');
-  }.on('willDestroyElement'),
 
   editExistingFile: Ember.on('didInsertElement', function() {
     const file = this.get('originalImageFile');
@@ -54,15 +35,12 @@ export default Ember.Component.extend({
       const nowDisplayed = attrs.newAttrs.displayCropper.value;
       const wasDisplayed = attrs.oldAttrs.displayCropper.value;
       const wasRemoved = wasDisplayed && !nowDisplayed;
-      const wasAdded = !wasDisplayed && nowDisplayed;
 
       if (wasRemoved) {
         this.unbindAttachFile();
-      } else if (wasAdded) {
-        this.initAttachFile();
       }
     }
-  },
+ },
 
   loadImageFile(file) {
     loadImage.parseMetaData(file, (data) => {
@@ -84,7 +62,6 @@ export default Ember.Component.extend({
 
   unbindAttachFile: Ember.on('willDestroyElement', function() {
     this.$('.js-Cropper-image').cropper('destroy');
-    this.$('input[type=file]').off('change');
   }),
 
   setupCropper(canvas) {
@@ -126,5 +103,29 @@ export default Ember.Component.extend({
     img.cropper('getCroppedCanvas').toBlob((data) => {
       this.set('image', data);
     }, blobFormat, blobQuality);
+  },
+
+  actions: {
+    filesSelected(files) {
+      const file = files[0];
+
+      set(this, 'error', null);
+
+      // Store the original file on the model so we can access it later
+      this.set('originalImageFile', file);
+
+      // Use the "JavaScript Load Image" functionality to parse the file data
+      // and get the correct orientation setting from the EXIF Data. This
+      // addresses rotation issues with photos taken from mobile devices where
+      // the meta data contains the orientation.
+      this.loadImageFile(file);
+    },
+
+    fileError(msg) {
+      this.setProperties({
+        error: msg,
+        originalImageFile: null
+      });
+    }
   }
 });
