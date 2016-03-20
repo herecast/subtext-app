@@ -36,4 +36,10 @@ export default Ember.Component.extend({
   score: computed('model.feedback.recommend', function(){
     return parseInt( get(this,'model.feedback.recommend') * 100 ) + '%';
   }),
+
+  actions: {
+    claim() {
+      this.attrs.claimBusiness();
+    }
+  }
 });
