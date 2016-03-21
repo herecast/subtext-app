@@ -1,0 +1,8 @@
+<div class='DirectoryResultsControls-control DirectoryResultsControls-sort'>
+  <label>Sort By</label>
+  {{#x-select value=sortBy action='changeSort'}}
+    {{#each sortOptions as |option|}}
+    {{#x-option value=option.value}}{{option.label}}{{/x-option}}
+    {{/each}}
+  {{/x-select}}
+</div>

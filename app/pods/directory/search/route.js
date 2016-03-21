@@ -9,6 +9,7 @@ export default Ember.Route.extend({
     lng:         { refreshModel: true },
     query:       { refreshModel: true },
     category_id: { refreshModel: true },
+    sort_by:     { refreshModel: true }
   },
 
   model(params) {
@@ -20,7 +21,8 @@ export default Ember.Route.extend({
       query: params.query,
       category_id: params.category_id,
       lat: params.lat,
-      lng: params.lng
+      lng: params.lng,
+      sort_by: params.sort_by
     };
 
     return this.store.query('business-profile', apiQuery);

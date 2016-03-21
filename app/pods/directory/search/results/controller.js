@@ -8,5 +8,6 @@ export default Ember.Controller.extend({
   results: computed.oneWay('searchController.results'),
   lat: computed.oneWay('searchController.lat'),
   lng: computed.oneWay('searchController.lng'),
-  query: computed.oneWay('searchController.query')
+  query: computed.oneWay('searchController.query'),
+  sort_by: computed.alias('searchController.sort_by')
 });

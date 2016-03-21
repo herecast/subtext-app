@@ -54,6 +54,7 @@
     "ember-pikaday": "0.13.0",
     "ember-sinon": "^0.3.0",
     "ember-truth-helpers": "1.2.0",
+    "emberx-select": "2.1.0",
     "liquid-fire": "0.23.0"
   },
   "dependencies": {

@@ -9,9 +9,10 @@ function formatPhone(phone) {
 export default Ember.Controller.extend({
   secondaryBackground: true,
   directoryController: inject.controller('directory'),
-  queryParams: ['lat', 'lng', 'query', 'category_id'],
+  queryParams: ['lat', 'lng', 'query', 'category_id', 'sort_by'],
   category_id: null,
   query: null,
+  sort_by: 'score_desc',
   results: computed.alias('model'),
   locationsToRender: computed('locations.[]','selectedLocation', function() {
     const selectedLocation = get(this, 'selectedLocation');
