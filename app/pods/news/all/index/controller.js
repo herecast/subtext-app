@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
+import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 
 const { computed } = Ember;
 

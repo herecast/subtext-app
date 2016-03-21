@@ -5,11 +5,16 @@ import moment from 'moment';
 const { computed } = Ember;
 
 export default DS.Model.extend({
+  status: DS.attr('string', {defaultValue: 'draft'}), // published // scheduled
+
+  title: DS.attr('string'),
+  subtitle: DS.attr('string'),
+  content: DS.attr('string'),
+
   adminContentUrl: DS.attr('string'),
   authorId: DS.attr('number'),
   authorName: DS.attr('string'),
   commentCount: DS.attr('number'),
-  content: DS.attr('string'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   // Cannot use defaultValue: [] here.
@@ -18,8 +23,6 @@ export default DS.Model.extend({
   organizationId: DS.attr('number'),
   organizationName: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function() {return moment();}}),
-  subtitle: DS.attr('string'),
-  title: DS.attr('string'),
 
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');

@@ -1,0 +1,79 @@
+{{#with model as |news|}}
+  {{#news-form
+    validateForm='validateForm'
+    news=news as |news validateForm autosave|
+  }}
+  <div class='Container--noGutter'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <h1 class='text-center'>new post</h1>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-3 col-md-push-9'>
+        {{#if autosave}}
+          {{#auto-save-indicator model=news as |saveStatus|}}
+            {{saveStatus}}
+          {{/auto-save-indicator}}
+        {{/if}}
+      </div>
+      <div class='col-md-9 col-md-pull-3'>
+        {{#form-group
+          error=errors.title
+          hideError=true
+          news=news as |news|
+        }}
+          <label class='control-label ContentForm-label--required' for="title">Title</label>
+          {{form-error errors.title}}
+
+          {{input
+            id='title'
+            placeholder='A short and informative title'
+            class='form-control'
+            value=news.title
+            data-test-field='title'
+          }}
+        {{/form-group}}
+
+        {{#form-group
+          error=errors.subtitle
+          hideError=true
+          news=news as |news|
+        }}
+          <label class='control-label ContentForm-label--required' for="title">Subtitle</label>
+          {{form-error errors.subtitle}}
+
+          {{input
+            id='subtitle'
+            placeholder='A short and informative subtitle'
+            class='form-control'
+            value=news.subtitle
+            data-test-field='subtitle'
+          }}
+        {{/form-group}}
+
+        {{#form-group
+          error=errors.content
+          hideError=true
+          news=news as |news|
+        }}
+          <label class='control-label ContentForm-label--required' for="description">Content</label>
+          {{form-error errors.content}}
+
+          {{#summer-note
+            content=news.content
+            class='ContentForm-textArea'
+          }}
+            {{textarea
+              id='content'
+              placeholder='Enter your content here...'
+              class='form-control'
+              data-test-textarea='content'
+            }}
+          {{/summer-note}}
+        {{/form-group}}
+      </div>
+    </div>
+  </div>
+  {{/news-form}}
+{{/with}}
