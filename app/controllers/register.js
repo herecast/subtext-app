@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
 import Validation from '../mixins/components/validation';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
@@ -104,25 +102,20 @@ export default Ember.Controller.extend(trackEvent, Validation, {
   actions: {
     register(callback) {
       set(this, 'showErrors', true);
-
-      const url = `${config.API_NAMESPACE}/users/sign_up`;
+      const api = get(this, 'api');
       const password = this.get('password');
       const email = this.get('email');
 
       this.trackEvent('submitSignUp', { });
 
       if (get(this, 'isValid')) {
-        ajax(url, {
-          type: 'POST',
-          dataType: "json",
-          data: {
-            user: {
-              name: this.get('name'),
-              location_id: this.get('locationId'),
-              email: email,
-              password: password,
-              password_confirmation: password
-            }
+        api.createRegistration({
+          user: {
+            name: this.get('name'),
+            location_id: this.get('locationId'),
+            email: email,
+            password: password,
+            password_confirmation: password
           }
         }).then(() => {
           this.trackEvent('createSignup', { });

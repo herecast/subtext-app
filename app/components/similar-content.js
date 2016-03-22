@@ -1,18 +1,18 @@
 import Ember from 'ember';
 import ExpandableContent from '../mixins/components/expandable-content';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
+
+const { get, inject } = Ember;
 
 export default Ember.Component.extend(ExpandableContent, {
   contentModel: Ember.inject.service('content-model'),
+  api: inject.service('api'),
 
   getSimilarContent: function() {
     const contentId = this.get('contentId');
+    const api = get(this, 'api');
 
     if (contentId) {
-      const url = `${config.API_NAMESPACE}/contents/${contentId}/similar_content`;
-
-      ajax(url).then((response) => {
+      api.getSimilarContent(contentId).then((response) => {
         const contentModel = this.get('contentModel');
 
         // Filter out any events that do not have a start date. These are events

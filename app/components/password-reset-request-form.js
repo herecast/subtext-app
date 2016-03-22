@@ -1,23 +1,18 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
+
+const { get, inject } = Ember;
 
 export default Ember.Component.extend({
+  api: inject.service('api'),
   tagName: 'form',
   showConfirmation: false,
 
   actions: {
     submit() {
-      const url = `${config.API_NAMESPACE}/password_resets`;
+      const api = get(this, 'api');
+      const email = get(this, 'email');
 
-      ajax(url, {
-        type: 'POST',
-        data: {
-          user: {
-            email: this.get('email')
-          }
-        }
-      }).then(() => {
+      api.requestPasswordReset(email).then(() => {
         this.set('showConfirmation', true);
       });
     }

@@ -21,13 +21,6 @@ module.exports = function(environment) {
     }
   };
 
-  // ENV['simple-auth'] = {
-  // }
-
-  ENV['simple-auth-devise'] = {
-    serverTokenEndpoint: '/api/v3/users/sign_in',
-  };
-
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;

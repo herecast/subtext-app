@@ -1,13 +1,11 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get } = Ember;
+const { get, inject } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   classNames: ['ReportAbuse'],
-
+  api: inject.service('api'),
   showAbuseReportMenu: false,
   showSuccess: false,
   flagType: null,
@@ -35,14 +33,10 @@ export default Ember.Component.extend(TrackEvent, {
     submit() {
       const flagType = this.get('flagType');
       const id = this.get('contentId');
+      const api = get(this, 'api');
 
       if (flagType) {
-        const url = `${config.API_NAMESPACE}/contents/${id}/moderate`;
-
-        ajax(url, {
-          type: 'POST',
-          data: {flag_type: flagType}
-        }).then(() => {
+        api.reportAbuse(id, flagType).then(() => {
           this.set('showSuccess', true);
           this.send('close');
           this.trackEvent('moderateContent',{});

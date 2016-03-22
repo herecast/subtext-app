@@ -1,14 +1,16 @@
 import Ember from 'ember';
-import config from './../config/environment';
-import ajax from 'ic-ajax';
+import { InvalidError } from 'ember-ajax/errors';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   set,
+  get,
+  inject,
   computed
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
+  api: inject.service('api'),
   isEditingImage: false,
   imageUrl: computed.oneWay('currentUser.userimageUrl'),
   originalImageFile: computed.alias('currentUser.originalImageFile'),
@@ -26,19 +28,14 @@ export default Ember.Component.extend(TrackEvent, {
     },
 
     savePhoto(callback) {
-      const url = `${config.API_NAMESPACE}/current_user`;
+      const api = get(this, 'api');
       const data = new FormData();
 
       if (this.get('currentUser.image')) {
         data.append('current_user[image]', this.get('currentUser.image'));
         data.append('current_user[user_id]', this.get('currentUser.userId'));
 
-        const promise = ajax(url, {
-          data: data,
-          type: 'PUT',
-          contentType: false,
-          processData: false
-        });
+        const promise = api.updateCurrentUserAvatar(data);
 
         callback(promise);
 
@@ -55,10 +52,10 @@ export default Ember.Component.extend(TrackEvent, {
             'currentUser.userImageUrl': data['current_user']['user_image_url']
           });
         }).catch((response) => {
-          if (response.jqXHR.status === 422) {
-            const responseJSON = response.jqXHR.responseJSON;
+          if (response instanceof InvalidError) {
+            const serverError = response.errors[0];
 
-            set(this, 'errorMessage', responseJSON['messages'][0]);
+            set(this, 'errorMessage', serverError.detail.messages[0]);
           }
         });
       }
