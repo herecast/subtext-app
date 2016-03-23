@@ -1,6 +1,6 @@
 <div class='row'>
   <div class='col-xs-12'>
-    {{directory-results-controls sortBy=sort_by on-update=(action (mut sort_by))}}
+    {{directory-results-sort sortBy=sort_by on-update=(action (mut sort_by))}}
 
     {{directory-search-results
       results=results

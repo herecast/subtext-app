@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { set } = Ember;
 
 export default Ember.Component.extend({
-  classNames: ['DirectoryResultsControls'],
+  classNames: ['DirectoryResultsSort'],
   _sortBy: null,
   sortOptions: [
     {label: "Best Score", value: 'score_desc'},

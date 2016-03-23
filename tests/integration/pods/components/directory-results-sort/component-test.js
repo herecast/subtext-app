@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 /* global sinon */
 
-moduleForComponent('directory-results-controls', 'Integration | Component | directory results controls', {
+moduleForComponent('directory-results-sort', 'Integration | Component | directory results sort', {
   integration: true
 });
 
@@ -15,8 +15,8 @@ test('it renders with expected options', function(assert) {
     {label: "Z to A", value: 'alpha_desc'}
   ];
 
-  this.render(hbs`{{directory-results-controls}}`);
-  const $select = this.$('.DirectoryResultsControls-sort select');
+  this.render(hbs`{{directory-results-sort}}`);
+  const $select = this.$('.DirectoryResultsSort select');
 
   expectedOptions.forEach( (option) => {
     var $option = $select.find(`option[value=${option.value}]`);
@@ -29,8 +29,8 @@ test('it renders with expected options', function(assert) {
 test('Sort value is set by sortBy parameter', function(assert) {
   this.set('sortBy', 'score_desc');
 
-  this.render(hbs`{{directory-results-controls sortBy=sortBy}}`);
-  var $select = this.$('.DirectoryResultsControls-sort select');
+  this.render(hbs`{{directory-results-sort sortBy=sortBy}}`);
+  var $select = this.$('.DirectoryResultsSort select');
 
   assert.equal($select.val(), 'score_desc');
 
@@ -41,9 +41,9 @@ test('Sort value is set by sortBy parameter', function(assert) {
 test('Selecting a sortBy option triggers on-update action with the correct value', function(assert) {
   let myAction = sinon.spy();
   this.set('myAction', myAction);
-  this.render(hbs`{{directory-results-controls on-update=(action myAction)}}`);
+  this.render(hbs`{{directory-results-sort on-update=(action myAction)}}`);
 
-  let $select = this.$('.DirectoryResultsControls-sort select');
+  let $select = this.$('.DirectoryResultsSort select');
 
   $select.val('distance_asc').change();
   assert.ok(myAction.calledWith('distance_asc'));
