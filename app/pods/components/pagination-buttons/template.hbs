@@ -1,0 +1,16 @@
+{{#if showPrevPage}}
+  <button class='PaginationButtons-prev btn Button--primary' {{action 'prevPage'}}>
+    {{fa-icon 'arrow-left'}} Prev
+  </button>
+  <button class='PaginationButtons-first btn Button--primary' {{action 'firstPage'}}>
+    First
+  </button>
+{{/if}}
+
+{{#if showNextPage}}
+  <button class='PaginationButtons-next btn Button--primary' {{action 'nextPage'}}>
+    Next {{fa-icon 'arrow-right'}}
+  </button>
+{{/if}}
+
+
