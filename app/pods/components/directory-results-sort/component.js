@@ -3,8 +3,8 @@ import Ember from 'ember';
 const { set } = Ember;
 
 export default Ember.Component.extend({
-  classNames: ['DirectoryResultsSort'],
-  _sortBy: null,
+  classNames: ['DirectoryResults-sort'],
+  sortBy: null,
   sortOptions: [
     {label: "Best Score", value: 'score_desc'},
     {label: "Closest", value: 'distance_asc'},

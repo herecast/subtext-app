@@ -1,6 +1,6 @@
-<label>Sort By</label>
-{{#x-select value=sortBy action='changeSort'}}
+<label class='h4'>Sort By&nbsp;</label>
+{{#x-select value=sortBy action='changeSort' class='form-control'}}
   {{#each sortOptions as |option|}}
-  {{#x-option value=option.value}}{{option.label}}{{/x-option}}
+    {{#x-option value=option.value}}{{option.label}}{{/x-option}}
   {{/each}}
 {{/x-select}}

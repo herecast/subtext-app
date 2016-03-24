@@ -16,7 +16,7 @@ test('it renders with expected options', function(assert) {
   ];
 
   this.render(hbs`{{directory-results-sort}}`);
-  const $select = this.$('.DirectoryResultsSort select');
+  const $select = this.$('.DirectoryResults-sort select');
 
   expectedOptions.forEach( (option) => {
     var $option = $select.find(`option[value=${option.value}]`);
@@ -30,7 +30,7 @@ test('Sort value is set by sortBy parameter', function(assert) {
   this.set('sortBy', 'score_desc');
 
   this.render(hbs`{{directory-results-sort sortBy=sortBy}}`);
-  var $select = this.$('.DirectoryResultsSort select');
+  var $select = this.$('.DirectoryResults-sort select');
 
   assert.equal($select.val(), 'score_desc');
 
@@ -43,7 +43,7 @@ test('Selecting a sortBy option triggers on-update action with the correct value
   this.set('myAction', myAction);
   this.render(hbs`{{directory-results-sort on-update=(action myAction)}}`);
 
-  let $select = this.$('.DirectoryResultsSort select');
+  let $select = this.$('.DirectoryResults-sort select');
 
   $select.val('distance_asc').change();
   assert.ok(myAction.calledWith('distance_asc'));
