@@ -53,6 +53,7 @@
     "ember-simple-auth": "1.0.1",
     "ember-sinon": "^0.3.0",
     "ember-truth-helpers": "1.2.0",
+    "emberx-select": "2.1.0",
     "liquid-fire": "0.23.0"
   },
   "dependencies": {

@@ -1,5 +1,11 @@
 <div class='row'>
   <div class='col-xs-12'>
+    {{directory-results-sort
+      sortBy=sort_by
+      on-update=(action (mut sort_by))
+      class='form-inline'
+    }}
+
     {{directory-search-results
       results=results
       query=query
