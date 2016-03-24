@@ -97,7 +97,7 @@ test('NextPage button not visible when results < per_page', function(assert) {
   assert.equal($nextButton.length, 0);
 });
 
-test('NextPage button visible when results >= per_page', function(assert) {
+test('Given no total parameter; NextPage button visible when results >= per_page', function(assert) {
   this.setProperties({
     myAction: function() {},
     page: 2,
@@ -107,6 +107,46 @@ test('NextPage button visible when results >= per_page', function(assert) {
 
   this.render(hbs`{{pagination-buttons
                       on-update-page=(action myAction)
+                      page=page
+                      perPage=per_page
+                      results=results}}`);
+  let $nextButton = this.$('.PaginationButtons-next');
+
+  assert.equal($nextButton.length, 1);
+});
+
+test('Given a total parameter; NextPage button visible when page * per_page < total', function(assert) {
+  this.setProperties({
+    myAction: function() {},
+    total: 5,
+    page: 2,
+    per_page: 2,
+    results: [{test: 'me'}]
+  });
+
+  this.render(hbs`{{pagination-buttons
+                      on-update-page=(action myAction)
+                      total=total
+                      page=page
+                      perPage=per_page
+                      results=results}}`);
+  let $nextButton = this.$('.PaginationButtons-next');
+
+  assert.equal($nextButton.length, 1);
+});
+
+test('Given a total parameter; NextPage button not visible when page * per_page = total and per_page == results', function(assert) {
+  this.setProperties({
+    myAction: function() {},
+    total: 3,
+    page: 2,
+    per_page: 1,
+    results: [{test: 'me'}]
+  });
+
+  this.render(hbs`{{pagination-buttons
+                      on-update-page=(action myAction)
+                      total=total
                       page=page
                       perPage=per_page
                       results=results}}`);

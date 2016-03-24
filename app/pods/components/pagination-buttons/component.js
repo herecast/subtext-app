@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   computed,
-  get
+  get,
+  isEmpty
 } = Ember;
 
 export default Ember.Component.extend({
@@ -18,12 +19,19 @@ export default Ember.Component.extend({
     return (parseInt(page)) > 1;
   }),
 
-  showNextPage: computed('resultCount', 'perPage', function(){
+  showNextPage: computed('resultCount', 'perPage', 'total', 'page', function(){
     const resultCount = get(this, 'resultCount');
     const perPage = get(this, 'perPage');
+    const page = get(this, 'page');
+    const total = get(this, 'total');
 
-    return resultCount >= perPage;
+    if (isEmpty(total)) {
+      return resultCount >= perPage;
+    } else {
+      return (perPage * page) < total;
+    }
   }),
+
   actions: {
     prevPage: function() {
       const page = get(this, 'page');

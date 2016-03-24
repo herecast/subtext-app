@@ -1,28 +1,28 @@
 .DirectoryResults {}
 
 .DirectoryResults-controls {
-  display: table;
   width: 100%;
 
+  @media (min-width: @screen-sm-min) {
+    display: table;
+  }
+
   .DirectoryResults-control {
-    display: table-cell;
-  }
-
-  .DirectoryResults-sort {
     margin-bottom: 0.5rem;
-    label {
-      vertical-align: middle;
-    }
-    .x-select {
-      height: 30px;
-    }
-    .x-option {}
-  }
 
-  .DirectoryResults-resultCounter {
-    text-align: right;
+    @media (min-width: @screen-sm-min) {
+      display: table-cell;
+      &:last-child {
+        text-align: right;
+      }
+      label {
+        height: 30px;
+      }
+      .form-control {
+        height: 30px;
+      }
+    }
   }
-
 }
 
 
