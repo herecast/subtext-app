@@ -1,0 +1,19 @@
+{{#if hasBlock}}
+<!--
+File inputs are hard to test. Yield the component for injecting a different 
+input type for testing.
+/-->
+{{yield this}}
+
+{{else}}
+
+<input type="file"
+  class={{inputClass}}
+  disabled={{disabled}}
+  multiple={{multiple}}
+  tabindex={{tabindex}}
+  accept={{accept}}
+  onchange={{action 'didSelectFiles' value='target.files'}}
+/>
+
+{{/if}}

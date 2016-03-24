@@ -13,10 +13,6 @@
       pending='Saving…'
       class='h2 Button Button--primary'
     }}
-    {{#if errorMessage}}
-      <p class='text-danger'>{{errorMessage}}</p>
-    {{/if}}
-    
     <button class='Button' {{action 'cancel'}}>Cancel</button>
   {{else}}
     {{#if currentUser.userImageUrl}}
@@ -28,4 +24,8 @@
       Change Photo
     </a>
   {{/if}}
+
+    {{#if errorMessage}}
+      <p class='text-danger'>{{errorMessage}}</p>
+    {{/if}}
 {{/content-form-image}}

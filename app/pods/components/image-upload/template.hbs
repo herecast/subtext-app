@@ -29,10 +29,9 @@
   {{else}}
     <div class='row'>
       <div class='col-sm-11'>
-        {{image-upload-input
-          addImage=(action 'addImage')
-          class='form-control'
-        }}
+        {{#form-group error=fileErrorMessage}}
+          {{file-input allowedExtensions='.jpg,.jpeg,.png' action=(action 'filesSelected') inputClass='form-control' fileError=(action (mut fileErrorMessage))}}
+        {{/form-group}}
       </div>
 
       <div class='col-sm-1'>
