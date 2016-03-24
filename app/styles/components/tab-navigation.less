@@ -143,6 +143,16 @@
       color: @promotion-brand;
     }
   }
+  .TabNavigation-promotionLink {
+    &:before {
+      color: @promotion-brand;
+    }
+  }
+  .TabNavigation-businessLink {
+    &:before {
+      color: @business-brand;
+    }
+  }
 }
 
 @media (min-width: @screen-sm-min) {
@@ -171,5 +181,8 @@
   }
   .TabNavigation-promotionLink:hover, .TabNavigation-promotionLink.active {
     border-top-color: @promotion-brand;
+  }
+  .TabNavigation-businessLink:hover, .TabNavigation-businessLink.active {
+    border-top-color: @business-brand;
   }
 }

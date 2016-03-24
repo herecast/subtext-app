@@ -14,6 +14,8 @@
         Market
       {{else if (eq 'promotion-banner' type)}}
         Ads
+      {{else if (eq 'business' type)}}
+        Businesses
       {{/if}}
       <i class='TabNavigation-toggleIndicator fa {{if mobileTabsVisible "fa-chevron-up" "fa-chevron-down"}}'></i>
     </span>
@@ -60,6 +62,13 @@
         (query-params page=1 type='promotion-banner' sort=dateParam)
         class='TabNavigation-link TabNavigation-promotionLink'
         classNameBindings="typeIsAds:active"
+      }}
+    </li>
+    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+      {{link-to 'My Businesses' 'dashboard'
+        (query-params page=1 type='business' sort=dateParam)
+        class='TabNavigation-link TabNavigation-businessLink'
+        classNameBindings="typeIsBusinesses:active"
       }}
     </li>
   </ul>
@@ -153,6 +162,37 @@
               </td>
             </tr>
           {{/each}}
+        </tbody>
+      </table>
+    {{else if (eq 'business' type)}}
+      <table class="ContentTable">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Email</th>
+          <th>Phone</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each postings as |business|}}
+          <tr>
+            <td>
+              {{#link-to 'directory.search.show' business}}
+                {{business.name}}
+              {{/link-to}}
+            </td>
+            <td>{{business.address}}</td>
+            <td>{{business.city}}</td>
+            <td>{{business.state}}</td>
+            <td>{{business.zip}}</td>
+            <td>{{business.email}}</td>
+            <td>{{business.phone}}</td>
+          </tr>
+        {{/each}}
         </tbody>
       </table>
     {{else}}
@@ -249,8 +289,6 @@
                 showTypeColumn=showTypeColumn
               }}
             {{/each}}
-          {{else}}
-
           {{/if}}
         </tbody>
       </table>
