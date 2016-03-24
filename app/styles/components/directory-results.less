@@ -1,13 +1,14 @@
 .DirectoryResults {}
 
 .DirectoryResults-controls {
-  overflow: hidden;
+  display: table;
+  width: 100%;
 
   .DirectoryResults-control {
+    display: table-cell;
   }
 
   .DirectoryResults-sort {
-    float: left;
     margin-bottom: 0.5rem;
     label {
       vertical-align: middle;
@@ -19,7 +20,7 @@
   }
 
   .DirectoryResults-resultCounter {
-    float: right;
+    text-align: right;
   }
 
 }
