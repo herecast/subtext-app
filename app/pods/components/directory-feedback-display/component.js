@@ -40,6 +40,9 @@ export default Ember.Component.extend({
   actions: {
     claim() {
       this.attrs.claimBusiness();
+    },
+    edit() {
+      this.attrs.editBusiness();
     }
   }
 });

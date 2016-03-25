@@ -24,6 +24,12 @@ module.exports = function(environment) {
   // ENV['simple-auth'] = {
   // }
 
+  ENV['ember-toastr'] = {
+    toastrOptions: {
+      progressBar: false
+    }
+  };
+
   ENV['simple-auth-devise'] = {
     serverTokenEndpoint: '/api/v3/users/sign_in',
   };

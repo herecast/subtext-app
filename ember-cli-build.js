@@ -16,6 +16,9 @@ module.exports = function(defaults) {
       paths: [
         'bower_components/bootstrap/less'
       ]
+    },
+    'ember-cli-selectize': {
+      'theme': 'bootstrap3'
     }
   });
 

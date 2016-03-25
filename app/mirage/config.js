@@ -667,6 +667,9 @@ export default function() {
     };
   });
 
+  this.post('/businesses');
+  this.put('/businesses/:id');
+
   this.get('/business_categories', function(db, request) {
     // For coalesceFindRequests
     const ids = request.queryParams['ids'];
