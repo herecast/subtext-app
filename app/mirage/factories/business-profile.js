@@ -38,5 +38,6 @@ export default Mirage.Factory.extend({
   views: "237",
   category_ids: [],
   has_retail_location() { return faker.helpers.shuffle(true,false); },
-  can_edit() { return faker.helpers.shuffle(true,false); }
+  can_edit() { return faker.helpers.shuffle(true,false); },
+  content_type: 'business'
 });
