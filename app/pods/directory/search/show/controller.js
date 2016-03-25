@@ -36,6 +36,8 @@ export default Ember.Controller.extend({
           get(this, 'model').rollbackAttributes();
           this.closeEditForm();
         }
+      } else {
+        this.closeEditForm();
       }
     },
 
