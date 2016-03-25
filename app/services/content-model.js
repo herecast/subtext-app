@@ -25,8 +25,6 @@ export default Ember.Service.extend({
       modelName = 'market-post';
     } else if (type === 'talk_of_the_town' || type === 'Comment') {
       modelName = 'talk';
-    } else if (type === 'business') {
-      modelName = 'business-profile';
     }
 
     // We depend on the content id to be set for all content. If it is not set

@@ -64,13 +64,15 @@
         classNameBindings="typeIsAds:active"
       }}
     </li>
-    <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
-      {{link-to 'My Businesses' 'dashboard'
-        (query-params page=1 type='business' sort=dateParam)
-        class='TabNavigation-link TabNavigation-businessLink'
-        classNameBindings="typeIsBusinesses:active"
-      }}
-    </li>
+    {{#if organizations}}
+      <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
+        {{link-to 'My Businesses' 'dashboard'
+          (query-params page=1 type='business' sort=dateParam)
+          class='TabNavigation-link TabNavigation-businessLink'
+          classNameBindings="typeIsBusinesses:active"
+        }}
+      </li>
+    {{/if}}
   </ul>
 
 </div>
@@ -165,36 +167,52 @@
         </tbody>
       </table>
     {{else if (eq 'business' type)}}
-      <table class="ContentTable">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip</th>
-          <th>Email</th>
-          <th>Phone</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each postings as |business|}}
-          <tr>
-            <td>
-              {{#link-to 'directory.search.show' business}}
-                {{business.name}}
-              {{/link-to}}
-            </td>
-            <td>{{business.address}}</td>
-            <td>{{business.city}}</td>
-            <td>{{business.state}}</td>
-            <td>{{business.zip}}</td>
-            <td>{{business.email}}</td>
-            <td>{{business.phone}}</td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
+      {{#if selectedOrganization}}
+        {{#if businesses.isLoading}}
+          {{x-loader}}
+        {{else}}
+          {{#if businesses}}
+            <table class="ContentTable">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{#each businesses as |business|}}
+                <tr>
+                  <td>
+                    {{#link-to 'directory.search.show' business}}
+                      {{business.name}}
+                    {{/link-to}}
+                  </td>
+                  <td>{{business.address}}</td>
+                  <td>{{business.city}}</td>
+                  <td>{{business.state}}</td>
+                  <td>{{business.zip}}</td>
+                  <td>{{business.email}}</td>
+                  <td>{{business.phone}}</td>
+                </tr>
+              {{/each}}
+              </tbody>
+            </table>
+          {{else}}
+            <h3 class="text-center">
+              No businesses found for this Organization
+            </h3>
+          {{/if}}
+        {{/if}}
+      {{else}}
+        <h3 class="text-center">
+          Please select an Organization
+        </h3>
+      {{/if}}
     {{else}}
       <!-- Normal Content Records -->
       <table class='ContentTable'>
