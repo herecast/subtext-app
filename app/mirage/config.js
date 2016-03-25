@@ -139,12 +139,6 @@ function dashboardAds(db,start,stop) {
   return db.promotion_banners.slice(start,stop);
 }
 
-function dashboardBusinesses(db,start,stop) {
-  return db['business-profiles'].filter((business) => {
-    return business.can_edit;
-  }).slice(start,stop);
-}
-
 function mixedContent(db) {
   const contents = [];
 
@@ -594,8 +588,6 @@ export default function() {
       contents = dashboardEvents(db,start,stop);
     } else if(params['channel_type'] === 'market') {
       contents = dashboardMarketPosts(db,start,stop);
-    } else if(params['channel_type'] === 'business') {
-      contents = dashboardBusinesses(db,start,stop);
     } else {
       contents = mixedContent(db).slice(start, stop);
     }
@@ -658,6 +650,13 @@ export default function() {
     if (query === "nothing") {
       return {
         business_profiles: []
+      };
+    } else if ('organization_id' in request.queryParams) {
+      const organizationId = Number(request.queryParams.organization_id);
+      return {
+        business_profiles: businessProfiles.filter((item) => {
+          return item.organization_id === organizationId;
+        })
       };
     } else {
       return {

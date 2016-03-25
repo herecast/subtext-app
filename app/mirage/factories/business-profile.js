@@ -5,10 +5,10 @@ function generateLatLng(num) {
 }
 
 export default Mirage.Factory.extend({
-  organization_id: 0,
+  organization_id() { return faker.random.number(5); },
   name() { return faker.company.companyName(); },
   phone() { return '8022951559'; },
-  website() { return faker.internet.domainName(); },
+  website() { return 'http://' + faker.internet.domainName(); },
   email() { return faker.internet.email(); },
   address() { return faker.address.streetAddress(); },
   hours: ["Mo-Fr|08:00-16:30","Sa|10:00-16:00"],
@@ -38,6 +38,5 @@ export default Mirage.Factory.extend({
   views: "237",
   category_ids: [],
   has_retail_location() { return faker.helpers.shuffle(true,false); },
-  can_edit() { return faker.helpers.shuffle(true,false); },
-  content_type: 'business'
+  can_edit() { return faker.helpers.shuffle(true,false); }
 });
