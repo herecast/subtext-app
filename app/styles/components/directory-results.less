@@ -1,15 +1,30 @@
 .DirectoryResults {}
 
-.DirectoryResults-sort {
-  margin-bottom: 0.5rem;
-  label {
-    vertical-align: middle;
+.DirectoryResults-controls {
+  width: 100%;
+
+  @media (min-width: @screen-sm-min) {
+    display: table;
   }
-  .x-select {
-    height: 30px;
+
+  .DirectoryResults-control {
+    margin-bottom: 0.5rem;
+
+    @media (min-width: @screen-sm-min) {
+      display: table-cell;
+      &:last-child {
+        text-align: right;
+      }
+      label {
+        height: 30px;
+      }
+      .form-control {
+        height: 30px;
+      }
+    }
   }
-  .x-option {}
 }
+
 
 .DirectoryResults-businessList {}
 .DirectoryResults-businessListItem {}

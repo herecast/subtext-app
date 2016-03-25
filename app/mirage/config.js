@@ -653,7 +653,10 @@ export default function() {
       };
     } else {
       return {
-        business_profiles: businessProfiles
+        business_profiles: businessProfiles,
+        meta: {
+          total: 9987
+        }
       };
     }
   });
