@@ -31,7 +31,7 @@ export default Ember.Component.extend({
     //defined the question set
     if( get(this,'model.has_retail_location') ){
       questions = [
-          {text:`Were you satisfied with the services performed or offered by ${name}?`, category:'satisfaction'},
+          {text:`Were you satisfied with the services performed or goods offered by ${name}?`, category:'satisfaction'},
           {text:`Were their facilities clean and attractive?`, category:'cleanliness'},
           {text:`Do you feel that what you paid for the services or products was reasonable?`, category:'price'},
           {text:`Would you recommend ${name} to a friend?`, category:'recommend'}

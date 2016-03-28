@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     //defined the question set
     if( get(this, 'model.has_retail_location') ){
       answers = [
-          {title: "Satisfaction", text: `said they were satisfied with the services ${name} performed or offered`, value: feedback.satisfaction},
+          {title: "Satisfaction", text: `said they were satisfied with the services performed or goods offered by ${name}`, value: feedback.satisfaction},
           {title: "Cleanliness", text: `said their facilities were clean and attractive?`, value: feedback.cleanliness},
           {title: "Price", text: `said the costs or prices were what they expected`, value: feedback.price},
           {title: "Recommended", text: `said they would recommend ${name}`, value:feedback.recommend}
