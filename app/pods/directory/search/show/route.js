@@ -10,5 +10,6 @@ export default Ember.Route.extend({
 
     controller.set('secondaryBackground', true);
     controller.set('model', model);
+    controller.set('editFormIsVisible', false);
   }
 });
