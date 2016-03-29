@@ -30,6 +30,8 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete result.logo;
     delete result.can_edit;
     delete result.organization_id;
+    delete result.feedback;
+    delete result.coords;
 
     return result;
   }
