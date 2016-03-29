@@ -29,10 +29,16 @@ export default Ember.Controller.extend(Validation, {
   selectedResult: null,
   selectedLocation: computed('selectedResult', function() {
     const location = get(this, 'selectedResult');
+    const isMobile = get(this, 'media.isMobile');
 
     if (isEmpty(location)) {
       return null;
     }
+
+    const phone = (isMobile) ?
+      `<a href="tel:+1${location.get('phone')}">`+
+      `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`+
+      `</a>` : `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`;
 
     return [{
       coords: {
@@ -41,9 +47,8 @@ export default Ember.Controller.extend(Validation, {
       },
       title: location.get('name'),
       content: `<h2>${location.get('name')}</h2>
-                <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
-                <div><a href="tel:+1${location.get('phone')}"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</a></div>
-                <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
+      <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
+      <div>${phone}</div><div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
     }];
   }),
 
@@ -53,9 +58,15 @@ export default Ember.Controller.extend(Validation, {
 
   locations: computed('results.[]', 'results.@each', function () {
     const results = get(this, 'results') || [];
+    const isMobile = get(this, 'media.isMobile');
 
     return results.map(location => {
       let detailsUrl = this.get('target').generate('directory.search.show', location);
+
+      const phone = (isMobile) ?
+      `<a href="tel:+1${location.get('phone')}">`+
+      `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`+
+      `</a>` : `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`;
 
       return {
         coords: {
@@ -65,7 +76,7 @@ export default Ember.Controller.extend(Validation, {
         title: location.get('name'),
         content: `<h2><a href="${detailsUrl}">${location.get('name')}</a></h2>
                   <div><i class="fa fa-map-marker"></i> ${location.get('fullAddress')}</div>
-                  <div><a href="tel:+1${location.get('phone')}"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</a></div>
+                  <div>${phone}</div>
                   <div><a href="${location.get('directionsLink')}" target="_blank"><i class="fa fa-automobile"></i> Directions</a></div>`
       };
     });

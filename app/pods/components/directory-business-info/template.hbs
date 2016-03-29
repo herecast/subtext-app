@@ -9,15 +9,15 @@
 <div class="DirectoryBusiness-infoBar">
   {{#if model.logo}}
     <div class="DirectoryBusiness-logo">
-      <img class="DirectoryBusiness-logoImg" {{bind-attr src=model.logo}} alt="logo">
+      <img class="DirectoryBusiness-logoImg" src={{model.logo}} alt="logo">
     </div>
   {{/if}}
 
   <div class="DirectoryBusiness-info">
     <h2>{{model.name}}</h2>
     <div>
-      {{fa-icon 'fa-map-marker'}} 
-      {{model.fullAddress}} 
+      {{fa-icon 'fa-map-marker'}}
+      {{model.fullAddress}}
       {{#if myCoords}}
         ({{round (geo-distance model.coords myCoords) 1}} Mi)
       {{/if}}
@@ -27,7 +27,13 @@
 
 <div class="DirectoryBusiness-iconBar">
   {{#if model.phone}}
-    <div><a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}</a></div>
+    <div>
+      {{#if media.isMobile}}
+        <a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}</a>
+      {{else}}
+        {{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}
+      {{/if}}
+    </div>
   {{/if}}
   {{#if model.address}}
     <div><a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
