@@ -28,7 +28,8 @@ export default Ember.Controller.extend({
       lat: lat,
       lng: lng,
       query: query,
-      category_id: category_id
+      category_id: category_id,
+      page: 1
     }});
   },
 
