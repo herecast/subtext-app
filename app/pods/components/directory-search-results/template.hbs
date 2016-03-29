@@ -13,7 +13,15 @@
       </div>
       <div class="link-bar">
         {{#if result.phone}}
-          <div><a href="tel:+1{{result.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}</a></div>
+        <div>
+          {{#if media.isMobile}}
+            <a href="tel:+1{{result.phone}}">
+              {{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}
+            </a>
+          {{else}}
+            {{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}
+          {{/if}}
+        </div>
         {{/if}}
         {{#if result.address}}
           <div><a href="{{result.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
