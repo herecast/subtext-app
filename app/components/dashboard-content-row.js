@@ -39,7 +39,7 @@ export default Ember.Component.extend(TrackEvent, {
   isEditable: computed(function() {
     const type = get(this, 'type');
 
-    return type === 'market-post' || type === 'event-instance';
+    return type === 'market-post' || type === 'event-instance' || type === 'news';
   }),
 
   parentRoute: computed(function() {
