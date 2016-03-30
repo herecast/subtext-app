@@ -584,6 +584,21 @@ export default function() {
 
   this.get('/news/:id');
 
+  this.post('news');
+
+  this.put('news/:id', function(db, request) {
+    const id = request.params.id;
+    const data = JSON.parse(request.requestBody);
+
+    if (data.status === 'published') {
+      data.news.published_at = new Date;
+    }
+
+    const news = db.news.update(id, data['news']);
+
+    return { news: news };
+  });
+
   this.get('/contents', function(db) {
     return {
       contents: mixedContent(db)

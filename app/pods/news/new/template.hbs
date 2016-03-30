@@ -1,7 +1,7 @@
 {{#with model as |news|}}
   {{#news-form
     validateForm='validateForm'
-    news=news as |news validateForm autosave|
+    news=news as |news validateForm canAutosave isDraft isScheduled isPublished publish unpublish hasUnpublishedChanges|
   }}
   <div class='Container--noGutter'>
     <div class='row'>
@@ -11,12 +11,46 @@
     </div>
     <div class='row'>
       <div class='col-md-3 col-md-push-9'>
-        {{#if autosave}}
-          {{#auto-save-indicator model=news as |saveStatus|}}
-            {{saveStatus}}
-          {{/auto-save-indicator}}
-        {{/if}}
+        <div class='Sidebar'>
+          <div class='Sidebar-widget'>
+            isDirty: {{news.hasDirtyAttributes}}<br />
+            canAutoSave: {{canAutosave}}<br />
+            {{#if canAutosave}}
+              {{#auto-save-indicator model=news as |saveStatus|}}
+                {{saveStatus}}
+              {{/auto-save-indicator}}
+            {{/if}}
+          </div>
+          <div class='Sidebar-widget'>
+            <div class='News-publishSettings'>
+              <h2>Publish Settings</h2>
+              <div data-test-publish-status>
+                Status: {{news.status}}<br>
+
+                {{#if isDraft}}
+                  <a href='#'>Delete</a>
+                  <button {{action publish}}>Publish</button>
+                {{/if}}
+
+                {{#if isScheduled}}
+                  <a href='#'>Publish Now</a>
+                  <p>This post is set to go live on Janufeb 39th, 2053</p>
+                  <button>Cancel Publish</button>
+                {{/if}}
+
+                {{#if isPublished}}
+                   Published on {{news.publishedAt}}.
+                  {{#if hasUnpublishedChanges}}
+                    <p>Your post has changes that are not published.</p>
+                  {{/if}}
+                   <a href='#' {{action unpublish}}>Un-publish</a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class='col-md-9 col-md-pull-3'>
         {{#form-group
           error=errors.title

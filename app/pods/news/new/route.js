@@ -22,7 +22,11 @@ export default Ember.Route.extend(Authorized, Scroll, ShareCaching, trackEvent, 
     //     return this.store.createRecord('news-draft', newRecordValues);
     //   });
     // } else {
-      return this.store.createRecord('news');
+         return this.store.createRecord('news');
     // }
+  },
+  afterModel(model, transition) {
+    // TODO sad path
+    model.save();
   }
 });

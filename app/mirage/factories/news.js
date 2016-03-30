@@ -1,10 +1,12 @@
 import Mirage, {faker} from 'ember-cli-mirage';
+import moment from 'moment';
 
 export default Mirage.Factory.extend({
+  status: 'draft',
   title()    { return faker.lorem.sentence(); },
   subtitle() { return faker.lorem.sentence(); },
   content()  { return faker.lorem.paragraphs(); },
-  publishedAt: null,
+  published_at() { return moment(faker.date.recent(-30)); },
   author_id: 1,
   author_name: faker.name.findName(),
   content_id: faker.random.number(1000),
