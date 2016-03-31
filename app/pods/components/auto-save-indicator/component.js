@@ -6,12 +6,12 @@ export default Ember.Component.extend({
   attributeBindings: ['data-test-autosave-indicator'],
   model: null,
   status: computed('model{isSaving,hasDirtyAttributes}', function() {
-    const model = get(this, 'model');
-
-    if (model.isSaving) {
-      return 'saving';
-    } else if (model.hasDirtyAttributes) {
-      return 'dsfjdslfjdsfs';
+    if (get(this, 'model.isSaving')) {
+      return 'saving...';
+    } else if (!get(this, 'model.hasDirtyAttributes')) {
+      return 'all changes saved.';
+    } else {
+      return 'you have unsaved changes';
     }
   })
 });

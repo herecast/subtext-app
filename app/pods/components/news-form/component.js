@@ -3,7 +3,8 @@ import Ember from 'ember';
 const {
   computed,
   get,
-  set
+  set,
+  run: { throttle }
 } = Ember;
 
 export default Ember.Component.extend({
@@ -29,7 +30,9 @@ export default Ember.Component.extend({
     return get(this, 'isPublished')  && get(this, 'news.hasDirtyAttributes');
   }),
 
-  _save(news) {
+  _save() {
+    const news = get(this, 'news');
+
     news.save().then((response) => {
       set(this, 'news', response);
     });
@@ -41,14 +44,28 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    autosave() {
+    validateForm() {
+      this._validateForm();
+    },
+
+    notifyChange() {
+      // TODO this is currently NOT working
+      Ember.run.debounce(() => {
+        if (get(this, 'canAutosave')) {
+          const myContext = this;
+          const autosave = get(this, '_save');
+          // We don't need to validate because autosave
+          // can only happen in draft mode
+          Ember.run.throttle(myContext, autosave, 500);
+        }
+      }, 500);
     },
 
     unpublish() {
       const news = get(this, 'news');
 
       set(news, 'status', 'draft');
-      this._save(news);
+      this._save();
     },
 
     publish() {
@@ -57,7 +74,7 @@ export default Ember.Component.extend({
 
       if (isValid) {
         set(news, 'status', 'published');
-        this._save(news);
+        this._save();
       }
     },
 
@@ -71,7 +88,7 @@ export default Ember.Component.extend({
           published_at: pubdate
         });
 
-        this._save(news);
+        this._save();
       }
     },
 

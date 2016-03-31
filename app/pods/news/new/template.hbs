@@ -2,13 +2,24 @@
   {{#news-form
     validateForm='validateForm'
     news=news as |news
-    validateForm
-    canAutosave isDraft isScheduled isPublished publish unpublish hasUnpublishedChanges discardChanges schedulePublish|
+      validateForm
+      canAutosave
+      isDraft
+      isScheduled
+      isPublished
+      publish
+      unpublish
+      hasUnpublishedChanges
+      discardChanges
+      schedulePublish
+      notifyChange|
   }}
   <div class='Container--noGutter'>
     <div class='row'>
-      <div class='col-xs-12'>
-        <h1 class='text-center'>new post</h1>
+      <div class='col-md-9'>
+        <h1 class='text-center'>Create Your News Post</h1>
+      </div>
+      <div class='col-md-3'>
         <div class='pull-right'>
           {{#if canAutosave}}
             {{#auto-save-indicator model=news as |saveStatus|}}
@@ -26,7 +37,7 @@
               <h2 class='SidebarWidget-title'>Publish Settings</h2>
               <div data-test-publish-status>
                 <div class='PublishSettings-statusIndicator'>
-                  Status: {{news.status}}
+                  <p><b>Status: {{news.status}}</b></p>
                 </div>
 
                 {{#if isDraft}}
@@ -37,7 +48,7 @@
                 {{#if isScheduled}}
                   <a href='#' {{action publish}}>Publish Now</a>
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
-                  <button {{action unpublish}} class='btn btn-primary'>Cancel Publish</button>
+                  <button {{action unpublish}} class='btn'>Cancel Publish</button>
                 {{/if}}
 
                 {{#if isPublished}}
@@ -82,6 +93,7 @@
             class='form-control'
             value=news.title
             data-test-field='title'
+            input=notifyChange
           }}
         {{/form-group}}
 
@@ -99,6 +111,7 @@
             class='form-control'
             value=news.subtitle
             data-test-field='subtitle'
+            input=notifyChange
           }}
         {{/form-group}}
 
@@ -119,6 +132,7 @@
               placeholder='Enter your content here...'
               class='form-control'
               data-test-textarea='content'
+              input=notifyChange
             }}
           {{/summer-note}}
         {{/form-group}}
