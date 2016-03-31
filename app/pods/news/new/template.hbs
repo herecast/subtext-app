@@ -1,53 +1,69 @@
 {{#with model as |news|}}
   {{#news-form
     validateForm='validateForm'
-    news=news as |news validateForm canAutosave isDraft isScheduled isPublished publish unpublish hasUnpublishedChanges|
+    news=news as |news
+    validateForm
+    canAutosave isDraft isScheduled isPublished publish unpublish hasUnpublishedChanges discardChanges schedulePublish|
   }}
   <div class='Container--noGutter'>
     <div class='row'>
       <div class='col-xs-12'>
         <h1 class='text-center'>new post</h1>
+        <div class='pull-right'>
+          {{#if canAutosave}}
+            {{#auto-save-indicator model=news as |saveStatus|}}
+              {{saveStatus}}
+            {{/auto-save-indicator}}
+          {{/if}}
+        </div>
       </div>
     </div>
     <div class='row'>
       <div class='col-md-3 col-md-push-9'>
         <div class='Sidebar'>
-          <div class='Sidebar-widget'>
-            isDirty: {{news.hasDirtyAttributes}}<br />
-            canAutoSave: {{canAutosave}}<br />
-            {{#if canAutosave}}
-              {{#auto-save-indicator model=news as |saveStatus|}}
-                {{saveStatus}}
-              {{/auto-save-indicator}}
-            {{/if}}
-          </div>
-          <div class='Sidebar-widget'>
-            <div class='News-publishSettings'>
-              <h2>Publish Settings</h2>
+          <div class='SidebarWidget'>
+            <div class='PublishSettings'>
+              <h2 class='SidebarWidget-title'>Publish Settings</h2>
               <div data-test-publish-status>
-                Status: {{news.status}}<br>
+                <div class='PublishSettings-statusIndicator'>
+                  Status: {{news.status}}
+                </div>
 
                 {{#if isDraft}}
-                  <a href='#'>Delete</a>
-                  <button {{action publish}}>Publish</button>
+                  <button {{action publish}} class='btn btn-primary'>Publish</button><br />
+                  <a href='#' {{action schedulePublish}}>Schedule Publish</a>
                 {{/if}}
 
                 {{#if isScheduled}}
-                  <a href='#'>Publish Now</a>
-                  <p>This post is set to go live on Janufeb 39th, 2053</p>
-                  <button>Cancel Publish</button>
+                  <a href='#' {{action publish}}>Publish Now</a>
+                  <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
+                  <button {{action unpublish}} class='btn btn-primary'>Cancel Publish</button>
                 {{/if}}
 
                 {{#if isPublished}}
-                   Published on {{news.publishedAt}}.
+                  Published {{formatted-date news.publishedAt}}.
                   {{#if hasUnpublishedChanges}}
                     <p>Your post has changes that are not published.</p>
+                    <button {{action publish}} class='btn btn-primary'>Publish Changes</button><br />
+                    <button {{action discardChanges}} class='btn'>Discard changes</button>
+                  {{else}}
+                    <button {{action unpublish}} class='btn'>Unpublish</button>
                   {{/if}}
-                   <a href='#' {{action unpublish}}>Un-publish</a>
                 {{/if}}
               </div>
             </div>
           </div>
+          <div class='dev-flags'>
+              <hr>
+              <hr>
+              isDirty: {{news.hasDirtyAttributes}}<br />
+              canAutoSave: {{canAutosave}}<br />
+              <hr>
+              isDraft: {{isDraft}}<br />
+              isScheduled: {{isScheduled}}<br />
+              isPublished: {{isPublished}}<br />
+              hasUnpublishedChanges: {{hasUnpublishedChanges}}<br />
+            </div>
         </div>
       </div>
 

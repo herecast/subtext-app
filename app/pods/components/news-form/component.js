@@ -35,28 +35,50 @@ export default Ember.Component.extend({
     });
   },
 
-  actions: {
-    validateForm() {
-      console.log('validating form... not');
-    },
+  _validateForm() {
+    console.log('validating form... not');
+    return true;
+  },
 
+  actions: {
     autosave() {
     },
-    setAsDraft() {
-    },
+
     unpublish() {
       const news = get(this, 'news');
 
       set(news, 'status', 'draft');
       this._save(news);
     },
+
     publish() {
       const news = get(this, 'news');
+      const isValid = this._validateForm();
 
-      set(news, 'status', 'published');
-      this._save(news);
+      if (isValid) {
+        set(news, 'status', 'published');
+        this._save(news);
+      }
     },
-    schedule() {
+
+    schedulePublish(pubdate) {
+      const news = get(this, 'news');
+      const isValid = this._validateForm();
+
+      if (isValid) {
+        news.setProperties({
+          status: 'scheduled',
+          published_at: pubdate
+        });
+
+        this._save(news);
+      }
+    },
+
+    discardChanges() {
+      const news = get(this, 'news');
+
+      news.rollbackAttributes();
     }
   }
 });
