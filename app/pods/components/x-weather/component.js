@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from 'subtext-ui/config/environment';
 
-const { set } = Ember;
+const { set, get, inject } = Ember;
 
 export default Ember.Component.extend({
+  api: inject.service('api'),
   classNames: ['Weather'],
 
   init() {
@@ -14,9 +13,9 @@ export default Ember.Component.extend({
   },
 
   _getWeather() {
-    const url = `${config.API_NAMESPACE}/weather`;
+    const api = get(this, 'api');
 
-    ajax(url).then((response) => {
+    api.getWeather().then((response) => {
       set(this, 'weatherHTML', response);
     });
   },

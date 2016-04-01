@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
+
+const { get, inject } = Ember;
 
 const { computed } = Ember;
 
 export default Ember.Component.extend({
+  api: inject.service('api'),
   tagName: 'form',
   showErrors: false,
   showConfirmation: false,
@@ -20,16 +21,13 @@ export default Ember.Component.extend({
     submit() {
       if (this.get('passwordsMatch')) {
         this.set('showError', false);
-        const url = `${config.API_NAMESPACE}/password_resets/`;
+        const api = get(this, 'api');
 
-        ajax(url, {
-          type: 'PUT',
-          data: {
-            user: {
-              reset_password_token: this.get('token'),
-              password: this.get('password'),
-              password_confirmation: this.get('passwordConfirmation')
-            }
+        api.resetPassword({
+          user: {
+            reset_password_token: this.get('token'),
+            password: this.get('password'),
+            password_confirmation: this.get('passwordConfirmation')
           }
         }).then(() => {
           this.set('showConfirmation', true);

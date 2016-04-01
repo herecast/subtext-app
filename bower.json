@@ -17,7 +17,6 @@
     "ember-qunit": "0.4.16",
     "ember-qunit-notifications": "0.1.0",
     "ember-resolver": "~0.1.20",
-    "ember-simple-auth": "0.8.0",
     "jquery": "1.11.3",
     "jquery.inputmask": "~3.1.63",
     "loader.js": "ember-cli/loader.js#3.2.1",

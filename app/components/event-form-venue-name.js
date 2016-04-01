@@ -1,14 +1,15 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 const {
   set,
-  on
+  on,
+  get,
+  inject
 } = Ember;
 
 export default Ember.Component.extend(ManualDropdown, {
+  api: inject.service('api'),
   venues: [],
 
   init() {
@@ -37,11 +38,9 @@ export default Ember.Component.extend(ManualDropdown, {
   }),
 
   sendSearchQuery(value) {
-    const url = `${config.API_NAMESPACE}/venues`;
+    const api = get(this, 'api');
 
-    ajax(url, {
-      data: {query: value}
-    }).then((response) => {
+    api.getVenues(value).then((response) => {
       this.setProperties({
         venues: response.venues,
         open: true,
