@@ -79,6 +79,10 @@ module.exports = function(environment) {
     }
 
     ENV['mixpanel-api-token'] = '';
+
+    ENV['simple-auth'] = {
+      store: 'simple-auth-session-store:ephemeral'
+    }
   }
 
   if (environment === 'production') {
