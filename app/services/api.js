@@ -19,6 +19,8 @@ export default AjaxService.extend({
         });
       }
 
+      headers['Consumer-App-Uri'] = config['consumer-app-uri'];
+
       return headers;
     }
   }),
