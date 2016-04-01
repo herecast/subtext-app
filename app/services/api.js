@@ -50,7 +50,7 @@ export default AjaxService.extend({
   },
 
   getContents(data) {
-    return this.request('/contents', data);
+    return this.request('/contents', {data: data});
   },
 
   getContentMetrics(id, data) {
