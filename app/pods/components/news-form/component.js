@@ -1,16 +1,20 @@
 import Ember from 'ember';
 import moment from 'moment';
+import Validation from 'subtext-ui/mixins/components/validation';
 
 const {
   computed,
+  isBlank,
   get,
   set,
   run,
   getProperties
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Validation, {
   news: null,
+  selectedPubDate: null,
+  isPickingScheduleDate: false,
 
   canAutosave: computed('isDraft', 'news.hasDirtyAttributes', function() {
     return get(this, 'isDraft') && get(this, 'news.hasDirtyAttributes');
@@ -49,17 +53,38 @@ export default Ember.Component.extend({
     return get(this, 'isPublished')  && get(this, 'news.hasDirtyAttributes') && (!get(this, 'news.isSaving'));
   }),
 
+  _clearSchedulePubDate() {
+    this.setProperties({
+      selectedPubDate: null,
+      isPickingScheduleDate: false
+    });
+  },
+
   _save() {
     const news = get(this, 'news');
 
+    // TODO why does ember data lose the association
+    // to the model after saving
     news.save().then((response) => {
       set(this, 'news', response);
     });
   },
 
-  _validateForm() {
-    console.log('validating form... not');
-    return true;
+  validateForm() {
+    this.validatePresenceOf('news.title');
+    this.validatePresenceOf('news.subtitle');
+    this.validateContent();
+  },
+
+  validateContent() {
+    const content = get(this, 'news.content');
+
+    if (isBlank(content) || content.replace(/<[^>]*>/g, '') === '') {
+      set(this, 'errors.content', "News can't be blank.");
+    } else {
+      set(this, 'errors.content', null);
+      delete get(this, 'errors')['content'];
+    }
   },
 
   doAutoSave() {
@@ -70,10 +95,6 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    validateForm() {
-      this._validateForm();
-    },
-
     notifyChange() {
       run.debounce(this, this.doAutoSave, 500);
     },
@@ -87,23 +108,31 @@ export default Ember.Component.extend({
 
     publish() {
       const news = get(this, 'news');
-      const isValid = this._validateForm();
 
-      if (isValid) {
+      if (this.isValid()) {
+        // TODO should this be a separate action?
         if (!get(this, 'isPublished')) {
           set(news, 'publishedAt', moment());
         }
         this._save();
       }
     },
-
     schedulePublish() {
-      const news = get(this, 'news');
-      const isValid = this._validateForm();
+      if (this.isValid()) {
+        set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
 
-      if (isValid) {
-        set(news, 'publishedAt', moment().add(1, 'day'));
+        this._save();
+        this._clearSchedulePubDate();
       }
+    },
+    cancelSchedulePublish() {
+      this._clearSchedulePubDate();
+    },
+    choosePubDate() {
+      this.setProperties({
+        selectedPubDate: moment().add(1, 'day').milliseconds(0).seconds(0).minutes(0).add(1, 'hour'),
+        isPickingScheduleDate: true
+      });
     },
 
     discardChanges() {

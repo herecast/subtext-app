@@ -40,6 +40,7 @@
     "moment-recur": "~1.0.5"
   },
   "devDependencies": {
-    "blanket": "~1.1.5"
+    "blanket": "~1.1.5",
+    "pickadate": "^3.5.6"
   }
 }

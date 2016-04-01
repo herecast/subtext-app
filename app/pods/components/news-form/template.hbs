@@ -25,14 +25,44 @@
               </div>
 
               {{#if isDraft}}
-                <button {{action 'publish'}} class='btn btn-primary btn-lg'>Publish</button><br />
-                <a href='#' {{action 'schedulePublish'}}>Schedule Publish</a>
+                {{#if isPickingScheduleDate}}
+                  {{#form-group error=errors.publishedAt}}
+                    <label class='control-label ContentForm-label--required' for="scheduled_date">
+                      Publish Date
+                    </label>
+                    {{pick-a-date
+                      date=(readonly selectedPubDate)
+                      on-selected=(action (mut selectedPubDate))
+                      placeholder="Pick a date"
+                      class='form-control'
+                      id="scheduled_date"
+                    }}
+                  {{/form-group}}
+                  {{#form-group error=errors.publishedAt hideError=true}}
+                    <label class='control-label ContentForm-label--required' for="scheduled_time">
+                      Publish Time
+                    </label>
+                    {{pick-a-time
+                      date=(readonly selectedPubDate)
+                      on-selected=(action (mut selectedPubDate))
+                      placeholder="Pick a time"
+                      class='form-control'
+                      id="scheduled_time"
+                    }}
+                  {{/form-group}}
+                  <button {{action 'schedulePublish'}} class='btn btn-primary btn-lg'>Confirm</button>
+                  <button {{action 'cancelSchedulePublish'}} class='btn btn-lg'>Cancel</button>
+                {{else}}
+                  <button {{action 'publish'}} class='btn btn-primary btn-lg'>Publish Now</button><br />
+                  <button {{action 'choosePubDate'}} class='btn btn-lg'>Schedule Publish</button>
+                {{/if}}
               {{/if}}
 
               {{#if isScheduled}}
-                <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
+                <p><span class='h4'>This post is set to go live on</span> {{formatted-date news.publishedAt}}
+                   <a href='#' {{action 'unpublish'}}>Cancel Publish</a>
+                </p>
                 <button class='btn btn-primary btn-lg' {{action 'publish'}}>Publish Now</button>
-                <button {{action 'unpublish'}} class='btn'>Cancel Publish</button>
               {{/if}}
 
               {{#if isPublished}}

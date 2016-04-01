@@ -18,7 +18,10 @@ module.exports = function(defaults) {
       ]
     },
     'ember-cli-selectize': {
-      'theme': 'bootstrap3'
+      theme: 'bootstrap3'
+    },
+    'ember-cli-pickadate': {
+      theme: 'classic'
     }
   });
 
