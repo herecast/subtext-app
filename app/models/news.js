@@ -5,8 +5,6 @@ import moment from 'moment';
 const { computed } = Ember;
 
 export default DS.Model.extend({
-  status: DS.attr('string', {defaultValue: 'draft'}), // published // scheduled
-
   title: DS.attr('string'),
   subtitle: DS.attr('string'),
   content: DS.attr('string'),
@@ -22,7 +20,7 @@ export default DS.Model.extend({
   images: DS.attr('raw', {defaultValue: function(){ return [];}}),
   organizationId: DS.attr('number'),
   organizationName: DS.attr('string'),
-  publishedAt: DS.attr('moment-date', {defaultValue: function() {return moment();}}),
+  publishedAt: DS.attr('moment-date'),
 
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');

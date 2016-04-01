@@ -590,10 +590,6 @@ export default function() {
     const id = request.params.id;
     const data = JSON.parse(request.requestBody);
 
-    if (data.status === 'published') {
-      data.news.published_at = new Date;
-    }
-
     const news = db.news.update(id, data['news']);
 
     return { news: news };
