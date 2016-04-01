@@ -8,13 +8,16 @@ const {
   get,
   set,
   run,
-  getProperties
+  getProperties,
+  inject
 } = Ember;
 
 export default Ember.Component.extend(Validation, {
   news: null,
   selectedPubDate: null,
   isPickingScheduleDate: false,
+
+  toast: inject.service(),
 
   canAutosave: computed('isDraft', 'news.hasDirtyAttributes', function() {
     return get(this, 'isDraft') && get(this, 'news.hasDirtyAttributes');
@@ -66,6 +69,8 @@ export default Ember.Component.extend(Validation, {
     // TODO why does ember data lose the association
     // to the model after saving
     news.save().then((response) => {
+      get(this, 'toast').success('Post successfully saved.');
+
       set(this, 'news', response);
     });
   },
@@ -87,6 +92,16 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
+  isValid() {
+    const isValid = this._super(...arguments);
+
+    if (!isValid) {
+      get(this, 'toast').error('Please fill out all required fields');
+    }
+
+    return isValid;
+  },
+
   doAutoSave() {
     if (get(this, 'canAutosave')) {
       // No need for validations
@@ -96,7 +111,7 @@ export default Ember.Component.extend(Validation, {
 
   actions: {
     notifyChange() {
-      run.debounce(this, this.doAutoSave, 500);
+      run.debounce(this, this.doAutoSave, 900);
     },
 
     unpublish() {

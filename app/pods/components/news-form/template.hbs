@@ -134,9 +134,9 @@
       }}
         <label class='control-label ContentForm-label--required' for="description">Content</label>
         {{form-error errors.content}}
-
         {{#summer-note
           content=news.content
+          validateForm=(action 'notifyChange')
           class='ContentForm-textArea'
         }}
           {{textarea
@@ -144,7 +144,6 @@
             placeholder='Enter your content here...'
             class='form-control'
             data-test-textarea='content'
-            input=(action 'notifyChange')
           }}
         {{/summer-note}}
       {{/form-group}}
