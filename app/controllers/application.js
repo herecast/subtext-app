@@ -1,5 +1,8 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
+import moment from 'moment';
+
+const { computed } = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
   intercom: Ember.inject.service('intercom'),
@@ -18,6 +21,10 @@ export default Ember.Controller.extend(trackEvent, {
     }
     return klass;
   }.property('currentPath'),
+
+  copyrightYear: computed(function() {
+    return moment().format('YYYY');
+  }),
 
   actions: {
     trackUserMenu(navControlText) {
