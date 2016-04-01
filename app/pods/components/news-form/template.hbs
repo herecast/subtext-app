@@ -1,1 +1,125 @@
-{{yield news (action 'validateForm') canAutosave isDraft isScheduled isPublished (action 'publish') (action 'unpublish') hasUnpublishedChanges (action 'discardChanges') (action 'schedulePublish') (action 'notifyChange')}}
+<div class='Container--noGutter'>
+  <div class='row'>
+    <div class='col-md-9'>
+      <h1 class='text-center'>Create Your News Post</h1>
+    </div>
+    <div class='col-md-3'>
+      <div class='pull-right'>
+        {{#if canAutosave}}
+          {{#auto-save-indicator model=news as |saveStatus|}}
+            {{saveStatus}}
+          {{/auto-save-indicator}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-3 col-md-push-9'>
+      <div class='Sidebar'>
+        <div class='SidebarWidget'>
+          <div class='PublishSettings'>
+            <h2 class='SidebarWidget-title'>Publish Settings</h2>
+            <div data-test-publish-status>
+              <div class='PublishSettings-statusIndicator'>
+                <p><b>Status: {{news.status}}</b></p>
+              </div>
+
+              {{#if isDraft}}
+                <button {{action 'publish'}} class='btn btn-primary'>Publish</button><br />
+                <a href='#' {{action 'schedulePublish'}}>Schedule Publish</a>
+              {{/if}}
+
+              {{#if isScheduled}}
+                <a href='#' {{action 'publish'}}>Publish Now</a>
+                <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
+                <button {{action 'unpublish'}} class='btn'>Cancel Publish</button>
+              {{/if}}
+
+              {{#if isPublished}}
+                Published {{formatted-date news.publishedAt}}.
+                {{#if hasUnpublishedChanges}}
+                  <p>Your post has changes that are not published.</p>
+                  <button {{action 'publish'}} class='btn btn-primary'>Publish Changes</button><br />
+                  <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
+                {{else}}
+                  <button {{action 'unpublish'}} class='btn'>Unpublish</button>
+                {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class='dev-flags'>
+            <hr>
+            <hr>
+            isDirty: {{news.hasDirtyAttributes}}<br />
+            canAutoSave: {{canAutosave}}<br />
+            <hr>
+            isDraft: {{isDraft}}<br />
+            isScheduled: {{isScheduled}}<br />
+            isPublished: {{isPublished}}<br />
+            hasUnpublishedChanges: {{hasUnpublishedChanges}}<br />
+          </div>
+      </div>
+    </div>
+
+    <div class='col-md-9 col-md-pull-3'>
+      {{#form-group
+        error=errors.title
+        hideError=true
+        news=news as |news|
+      }}
+        <label class='control-label ContentForm-label--required' for="title">Title</label>
+        {{form-error errors.title}}
+
+        {{input
+          id='title'
+          placeholder='A short and informative title'
+          class='form-control'
+          value=news.title
+          data-test-field='title'
+          input=(action 'notifyChange')
+        }}
+      {{/form-group}}
+
+      {{#form-group
+        error=errors.subtitle
+        hideError=true
+        news=news as |news|
+      }}
+        <label class='control-label ContentForm-label--required' for="title">Subtitle</label>
+        {{form-error errors.subtitle}}
+
+        {{input
+          id='subtitle'
+          placeholder='A short and informative subtitle'
+          class='form-control'
+          value=news.subtitle
+          data-test-field='subtitle'
+          input=(action 'notifyChange')
+        }}
+      {{/form-group}}
+
+      {{#form-group
+        error=errors.content
+        hideError=true
+        news=news as |news|
+      }}
+        <label class='control-label ContentForm-label--required' for="description">Content</label>
+        {{form-error errors.content}}
+
+        {{#summer-note
+          content=news.content
+          class='ContentForm-textArea'
+        }}
+          {{textarea
+            id='content'
+            placeholder='Enter your content here...'
+            class='form-control'
+            data-test-textarea='content'
+            input=(action 'notifyChange')
+          }}
+        {{/summer-note}}
+      {{/form-group}}
+    </div>
+  </div>
+</div>
