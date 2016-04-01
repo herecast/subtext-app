@@ -4,7 +4,7 @@ const {
   computed,
   get,
   set,
-  run: { throttle }
+  run
 } = Ember;
 
 export default Ember.Component.extend({
@@ -43,22 +43,20 @@ export default Ember.Component.extend({
     return true;
   },
 
+  doAutoSave() {
+    if (get(this, 'canAutosave')) {
+      // No need for validations
+      this._save();
+    }
+  },
+
   actions: {
     validateForm() {
       this._validateForm();
     },
 
     notifyChange() {
-      // TODO this is currently NOT working
-      Ember.run.debounce(() => {
-        if (get(this, 'canAutosave')) {
-          const myContext = this;
-          const autosave = get(this, '_save');
-          // We don't need to validate because autosave
-          // can only happen in draft mode
-          Ember.run.throttle(myContext, autosave, 500);
-        }
-      }, 500);
+      run.debounce(this, this.doAutoSave, 500);
     },
 
     unpublish() {
