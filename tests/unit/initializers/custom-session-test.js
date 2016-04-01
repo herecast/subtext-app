@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import SessionInitializer from '../../../initializers/session';
+import { initialize } from '../../../initializers/custom-session';
 import { module, test } from 'qunit';
 
-let container, application;
+var container, application;
 
-module('Unit | Initializer | session', {
-  beforeEach() {
+module('Unit | Initializer | custom session', {
+  beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();
       container = application.__container__;
@@ -16,7 +16,7 @@ module('Unit | Initializer | session', {
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  SessionInitializer.initialize(container, application);
+  initialize(container, application);
 
   // you would normally confirm the results of the initializer here
   assert.ok(true);

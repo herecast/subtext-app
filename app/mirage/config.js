@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import moment from 'moment';
-import Mirage from 'ember-cli-mirage';
 
 /*jshint multistr: true */
 
@@ -181,15 +180,6 @@ function mixedContent(db) {
 export default function() {
   this.namespace = 'api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
-
-  this.pretender.prepareBody = function(body) {
-    if (typeof body === "string") {
-      // For text/html requests
-      return body;
-    } else {
-      return body ? JSON.stringify(body) : '{"error" : "not found"}';
-    }
-  };
 
   this.post('/users/sign_in', function() {
     return {
@@ -608,8 +598,16 @@ export default function() {
   });
 
   this.get('/weather', function() {
-    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"><a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank">80° Clear</a></div><div class="pull-left" id="forecast_icon"><i class="wi wi-day-sunny"></i></div>';
-    return new Mirage.Response(200, {'Content-Type': 'text/html'}, weather);
+    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"> \
+    <a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank"> \
+    80° Clear \
+    </a> \
+    </div> \
+    <div class="pull-left" id="forecast_icon"> \
+    <i class="wi wi-day-sunny"></i> \
+    </div>';
+
+    return weather;
   });
 
   this.post('/images', function(db) {

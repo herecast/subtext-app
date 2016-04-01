@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
+import config from '../../../config/environment';
 
 const {
   computed,
-  inject,
   get,
   set,
   setProperties
@@ -10,7 +11,6 @@ const {
 
 export default Ember.Component.extend({
   classNames: ['DirectoryFeedback'],
-  api: inject.service('api'),
   isOpen: false,
   isAsking: true,
   feedbackLeft: false,
@@ -113,16 +113,19 @@ export default Ember.Component.extend({
 
     //in development, to be determined best way to do this
     submitFeedback() {
-      const api = get(this, 'api');
-      const model_id = get(this, 'model.id');
       let feedbackToSend = {};
 
       get(this,'questions').forEach( function(question) {
         feedbackToSend[question.category] = question.yes === 'checked';
       });
+      //send to the api
+      const url = `${config.API_NAMESPACE}/businesses/${get(this, 'model.id')}/feedback`;
 
-      api.createFeedback(model_id, {
-        feedback: feedbackToSend
+      ajax(url, {
+        type: 'POST',
+        data: {
+          feedback: feedbackToSend
+        }
       }).then( () => {
         this.send('updateFeedback', feedbackToSend);
         this.toggleProperty('isOpen');

@@ -1,13 +1,13 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ajax from 'ic-ajax';
+import config from 'subtext-ui/config/environment';
 
 const {
-  get,
-  inject
+  get
 } = Ember;
 
 export default DS.Model.extend({
-  api: inject.service('api'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   primary: DS.attr('number'),
@@ -27,7 +27,7 @@ export default DS.Model.extend({
   // has been updated with adapterWillCommit() and adapterDidCommit() so that
   // the record is not in the "isNew" state after saving.
   _create() {
-    const api = get(this, 'api');
+    const url = `${config.API_NAMESPACE}/images`;
     const data = new FormData();
     const internalModel = this._internalModel;
 
@@ -37,7 +37,12 @@ export default DS.Model.extend({
 
     internalModel.adapterWillCommit();
 
-    return api.createImage(data).then((response) => {
+    return ajax(url, {
+      data: data,
+      type: 'POST',
+      contentType: false,
+      processData: false
+    }).then((response) => {
       const id = get(response, 'image.id');
       internalModel.setId(id);
       internalModel.adapterDidCommit();

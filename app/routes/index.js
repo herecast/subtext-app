@@ -1,19 +1,19 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
+import config from '../config/environment';
 import PaginatedFilter from '../mixins/routes/paginated-filter';
 import History from '../mixins/routes/history';
 
-const { get, inject } = Ember;
-
 export default Ember.Route.extend(PaginatedFilter, History, {
-  api: inject.service('api'),
   contentModel: Ember.inject.service('content-model'),
 
   model(params) {
-    const api = get(this, 'api');
-
-    return api.getContents({
-      page: params.page,
-      per_page: params.per_page
+    const url = `${config.API_NAMESPACE}/contents`;
+    return ajax(url, {
+      data: {
+        page: params.page,
+        per_page: params.per_page
+      }
     });
   },
 

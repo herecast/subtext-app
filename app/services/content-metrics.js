@@ -1,24 +1,26 @@
 import Ember from 'ember';
+import config from '../config/environment';
+import ajax from 'ic-ajax';
 import ContentMetric from '../models/content-metric';
 import AdMetric from '../models/ad-metric';
 
-const { get, inject } = Ember;
-
 export default Ember.Service.extend({
-  api: inject.service('api'),
-
   findContent(id, data) {
-    const api = get(this, 'api');
+    const url = `${config.API_NAMESPACE}/contents/${id}/metrics`;
 
-    return api.getContentMetrics(id, data).then((response) => {
+    return ajax(url, {
+      data: data
+    }).then((response) => {
       return ContentMetric.create(response.content_metrics);
     });
   },
 
   findAd(id, data){
-    const api = get(this, 'api');
+    const url = `${config.API_NAMESPACE}/promotion_banners/${id}/metrics`;
 
-    return api.getPromotionBannerMetrics(id, data).then((response) => {
+    return ajax(url, {
+      data: data
+    }).then((response) => {
       return AdMetric.create(response.promotion_banner_metrics);
     });
   }

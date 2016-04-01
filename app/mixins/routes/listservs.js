@@ -1,16 +1,14 @@
 import Ember from 'ember';
-
-const { inject, get } = Ember;
+import ajax from 'ic-ajax';
+import config from '../../config/environment';
 
 export default Ember.Mixin.create({
-  api: inject.service('api'),
-
   setupController(controller, model) {
     this._super(controller, model);
 
-    const api = get(this, 'api');
+    const url = `${config.API_NAMESPACE}/listservs`;
 
-    api.getListServs().then((response) => {
+    ajax(url).then((response) => {
       controller.set('listservs', response.listservs);
     });
   }

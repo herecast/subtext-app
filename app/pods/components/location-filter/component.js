@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
+import config from 'subtext-ui/config/environment';
 import ManualDropdown from 'subtext-ui/mixins/components/manual-dropdown';
 
 const {
-  isPresent,
-  get
+  isPresent
 } = Ember;
 
 export default Ember.Component.extend(ManualDropdown, {
@@ -50,11 +51,13 @@ export default Ember.Component.extend(ManualDropdown, {
   },
 
   sendSearchQuery(value) {
-    const api = get(this, 'api');
+    const url = `${config.API_NAMESPACE}/locations`;
 
     this.set('location', value);
 
-    api.getLocations(value).then((response) => {
+    ajax(url, {
+      data: {query: value}
+    }).then((response) => {
       const locations = response.locations.map((location) => {
         let name = location.city;
 

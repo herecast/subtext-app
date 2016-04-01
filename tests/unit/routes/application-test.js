@@ -6,13 +6,6 @@ import {
 moduleFor('route:application', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
-  needs: [
-    'service:session',
-    'service:api',
-    'service:user',
-    'service:mixpanel',
-    'service:intercom'
-  ]
 });
 
 test('it exists', function(assert) {

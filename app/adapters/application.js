@@ -1,9 +1,7 @@
 import DS from 'ember-data';
 import config from './../config/environment';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-export default DS.ActiveModelAdapter.extend(DataAdapterMixin, {
+export default DS.ActiveModelAdapter.extend({
   namespace: config.API_NAMESPACE,
-  coalesceFindRequests: true,
-  authorizer: 'authorizer:application'
+  coalesceFindRequests: true
 });

@@ -1,16 +1,19 @@
 import Ember from 'ember';
-import SessionService from 'ember-simple-auth/services/session';
+import SimpleAuthSession from 'simple-auth/session';
+import config from '../config/environment';
+import ajax from 'ic-ajax';
 
-export default SessionService.extend({
-  api: Ember.inject.service('api'),
+export default SimpleAuthSession.extend({
   userService: Ember.inject.service('user'),
   mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
 
   signOut() {
-    const api = this.get('api');
+    const url = `${config.API_NAMESPACE}/users/logout`;
 
-    return api.signOut().then(() => {
+    return ajax(url, {
+      type: 'POST'
+    }).then(() => {
       this.invalidate();
     });
   },
@@ -24,16 +27,16 @@ export default SessionService.extend({
     if (user && user.get('isLoaded')) {
       const intercom = this.get('intercom');
       intercom.boot(user);
-    }
+    } 
   }.observes('currentUser.isLoaded'),
 
   currentUser: function() {
-    const email = this.get('data.authenticated.email');
+    const email = this.get('secure.email');
 
     if (Ember.isPresent(email)) {
       return this.get('userService').getCurrentUser();
     }
-  }.property('data.authenticated.email'),
+  }.property('secure.email'),
 
   userName: Ember.computed.oneWay('currentUser.name'),
 

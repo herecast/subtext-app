@@ -1,19 +1,16 @@
 import Ember from 'ember';
+import config from './../config/environment';
+import ajax from 'ic-ajax';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get, inject } = Ember;
-
 export default Ember.Component.extend(TrackEvent, {
-  api: inject.service('api'),
   locations: [],
   isEditing: false,
   mixpanel: Ember.inject.service('mixpanel'),
 
   getLocations: function() {
-    const api = get(this, 'api');
-
     if (this.get('selectedLocationId') || this.get('isEditing')) {
-      api.getLocations().then(response => {
+      ajax(`${config.API_NAMESPACE}/locations`).then(response => {
         this.set('locations', response.locations);
       });
     }

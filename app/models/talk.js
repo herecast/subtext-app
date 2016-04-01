@@ -1,11 +1,10 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
 import DS from 'ember-data';
+import config from '../config/environment';
 import moment from 'moment';
 
-const { get, inject } = Ember;
-
 export default DS.Model.extend({
-  api: inject.service('api'),
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
   commentCount: DS.attr('number'),
@@ -66,14 +65,18 @@ export default DS.Model.extend({
   }.property('talk.id'),
 
   uploadImage() {
-    if (this.get('image')) {
-      const api = get(this, 'api');
-      const talk_id = get(this, 'id');
-      const data = new FormData();
+    const url = `${config.API_NAMESPACE}/talk/${this.get('id')}`;
+    const data = new FormData();
 
+    if (this.get('image')) {
       data.append('talk[image]', this.get('image'));
 
-      return api.updateTalkImage(talk_id, data);
+      return ajax(url, {
+        data: data,
+        type: 'PUT',
+        contentType: false,
+        processData: false
+      });
     }
   }
 });

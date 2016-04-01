@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import config from '../config/environment';
+import ajax from 'ic-ajax';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { inject, get, RSVP, isPresent, computed } = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
-  api: inject.service('api'),
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type'],
   contentModel: inject.service(),
@@ -55,7 +56,6 @@ export default Ember.Controller.extend(trackEvent, {
   }),
 
   postings: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
-    const api = get(this, 'api');
     const contentModel = get(this, 'contentModel');
     const page = get(this, 'page');
     const per_page = get(this, 'per_page');
@@ -63,25 +63,27 @@ export default Ember.Controller.extend(trackEvent, {
     const type = get(this, 'type');
     const organizationId = get(this, 'organization.id');
 
-    let queryParams = {
-      page: page,
-      per_page: per_page,
-      sort: sort
-    };
+    const queryParams = [
+      `page=${page}`,
+      `per_page=${per_page}`,
+      `sort=${sort}`
+    ];
 
     if (organizationId) {
-      queryParams['organization_id'] = organizationId;
+      queryParams.push(`organization_id=${organizationId}`);
     }
 
     if (isPresent(type)) {
-      queryParams['channel_type'] = type;
+      queryParams.push(`channel_type=${type}`);
     }
 
     if (type === 'promotion-banner' || type === 'business') {
       return [];
     } else {
+      const url = `${config.API_NAMESPACE}/dashboard?${queryParams.join('&')}`;
       let promise = new RSVP.Promise((resolve) => {
-        api.getDashboard(queryParams).then((response) => {
+        ajax(url).then((response) => {
+
           const contents = response.contents.map((record) => {
             return contentModel.convert(record);
           });

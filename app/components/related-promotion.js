@@ -1,14 +1,15 @@
 import Ember from 'ember';
+import config from 'subtext-ui/config/environment';
+import ajax from 'ic-ajax';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
-  get,
-  inject
+  get
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   promotionService: Ember.inject.service('promotion'),
-  api: inject.service('api'),
+
   getPromotion: function() {
     const content = this.get('contentModel');
 
@@ -30,15 +31,18 @@ export default Ember.Component.extend(TrackEvent, {
     // clicks for ones that do.
     if (this.get('promotion.redirect_url')) {
       const bannerId = this.get('promotion.banner_id');
-      const api = get(this, 'api');
+      const url = `${config.API_NAMESPACE}/promotion_banners/${bannerId}/track_click`;
 
       this.trackEvent('clickBannerAd', {
         bannerAdId: get(this, 'promotion.banner_id'),
         bannerUrl: get(this, 'promotion.redirect_url')
       });
 
-      api.recordPromoBannerClick(bannerId, {
-        content_id: this.get('contentModel.contentId')
+      ajax(url, {
+        type: 'POST',
+        data: {
+          content_id: this.get('contentModel.contentId')
+        }
       });
     }
   }
