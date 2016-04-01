@@ -18,6 +18,7 @@ export default Ember.Component.extend(Validation, {
   isPickingScheduleDate: false,
 
   toast: inject.service(),
+  organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
   canAutosave: computed('isDraft', 'news.hasDirtyAttributes', function() {
     return get(this, 'isDraft') && get(this, 'news.hasDirtyAttributes');

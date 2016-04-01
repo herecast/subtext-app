@@ -76,6 +76,17 @@
             </div>
           </div>
         </div>
+        <div>
+         {{#form-group hideError=true}}
+           <label class='control-label ContentForm-label--required'>Content Owner</label>
+           {{organization-dropdown
+             defaultName='Please choose an org'
+             selection=news.organization
+             class="with-border"
+             updated=(action 'notifyChange')
+           }}
+         {{/form-group}}
+        </div>
         <div class='dev-flags'>
             <hr>
             <hr>

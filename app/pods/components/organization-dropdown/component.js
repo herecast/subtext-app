@@ -16,6 +16,9 @@ export default Ember.Component.extend({
   actions: {
     selectOrganization: function(org) {
       set(this, 'selection', org);
+      if ('updated' in this.attrs) {
+        this.attrs.updated();
+      }
     }
   }
 });
