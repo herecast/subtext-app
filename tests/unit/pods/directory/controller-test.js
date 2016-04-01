@@ -36,7 +36,8 @@ test('updateQuery action: long enough query', function(assert) {
       lat: 10,
       lng: 12,
       query: '4chr',
-      category_id: null
+      category_id: null,
+      page: 1
     }
   }), "Transition to Search Route");
 });
@@ -67,7 +68,8 @@ test('setCategory action', function(assert) {
       lat: 10,
       lng: 12,
       query: null,
-      category_id: category.id
+      category_id: category.id,
+      page: 1
     }
   }), "Transition to Search Route with category_id, and not query");
 });
@@ -110,7 +112,8 @@ test('setLocation action', function(assert) {
       lat: location.coords.lat,
       lng: location.coords.lng,
       query: 'test',
-      category_id: null
+      category_id: null,
+      page: 1
     }
   }), "Transition to Search Route with correct coords");
 });
