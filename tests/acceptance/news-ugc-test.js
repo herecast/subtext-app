@@ -129,4 +129,4 @@ test('I can create content title, subtitle and content body', function(assert) {
     assert.equal($(testSelector('autosave-indicator')).text().trim(), 'saved', 'content should be autosaved');
   });
 });
-*/
+// 'I can edit content title, subtitle and content body'

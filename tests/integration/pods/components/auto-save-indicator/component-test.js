@@ -22,9 +22,9 @@ test('it renders', function(assert) {
     {{/auto-save-indicator}}
   `);
 
-  assert.equal(this.$().text().trim(), 'saved');
+  assert.equal(this.$().text().trim(), 'all changes saved.');
 
-  this.set('subject.status', 'published');
+  this.set('subject.pubDate', new Date());
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().text().trim(), 'all changes saved.');
 });
