@@ -77,13 +77,14 @@
           </div>
         </div>
         <div>
-         {{#form-group hideError=true}}
+         {{#form-group error=errors.organization}}
            <label class='control-label ContentForm-label--required'>Content Owner</label>
            {{organization-dropdown
              defaultName='Please choose an org'
-             selection=news.organization
+             selection=(readonly news.organization)
+             organizations=filteredOrganizations
              class="with-border"
-             updated=(action 'notifyChange')
+             updated=(action 'changeOrganization')
            }}
          {{/form-group}}
         </div>
@@ -97,6 +98,7 @@
             isScheduled: {{isScheduled}}<br />
             isPublished: {{isPublished}}<br />
             hasUnpublishedChanges: {{hasUnpublishedChanges}}<br />
+            didOrgChange: {{didOrgChange}}<br />
           </div>
       </div>
     </div>

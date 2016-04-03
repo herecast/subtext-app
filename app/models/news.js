@@ -18,12 +18,14 @@ export default DS.Model.extend({
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   images: DS.attr('raw', {defaultValue: function(){ return [];}}),
-  organizationId: computed.oneWay('organization.id'),
-  organization: DS.belongsTo('Organization'),
-  organizationName: DS.attr('string'),
+  organization: DS.belongsTo('Organization', {async: true}),
+
   publishedAt: DS.attr('moment-date'),
 
-  formattedPublishedAt: computed('publishedAt', function() {
+  organizationId: computed.oneWay('organization.id'),
+  organizationName: computed.oneWay('organization.name'),
+
+  formattedPublishedAt: function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
   }),
 

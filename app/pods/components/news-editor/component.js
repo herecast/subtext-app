@@ -10,7 +10,7 @@ const {
   run,
   getProperties,
   inject
-} = Ember;
+  } = Ember;
 
 export default Ember.Component.extend(Validation, {
   news: null,
@@ -18,10 +18,15 @@ export default Ember.Component.extend(Validation, {
   isPickingScheduleDate: false,
 
   toast: inject.service(),
-  organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
-  canAutosave: computed('isDraft', 'news.hasDirtyAttributes', function() {
-    return get(this, 'isDraft') && get(this, 'news.hasDirtyAttributes');
+  organizations: computed.oneWay('session.currentUser.managed_organizations'),
+  didOrgChange: false,
+
+  canAutosave: computed('isDraft', 'news.hasDirtyAttributes', 'didOrgChange', function() {
+    const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
+      orgChanged = get(this, 'didOrgChange');
+
+    return get(this, 'isDraft') && (hasDirtyAttributes || orgChanged);
   }),
 
   status: computed('isDraft', 'isScheduled', 'isPublished', function() {
@@ -53,8 +58,16 @@ export default Ember.Component.extend(Validation, {
     return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
   }),
 
-  hasUnpublishedChanges: computed('news', 'news.isSaving', 'news.isPublished', 'news.hasDirtyAttributes', function() {
-    return get(this, 'isPublished')  && get(this, 'news.hasDirtyAttributes') && (!get(this, 'news.isSaving'));
+  hasUnpublishedChanges: computed('news', 'news.isSaving', 'news.isPublished', 'news.hasDirtyAttributes', 'didOrgChange', function() {
+    return get(this, 'isPublished') &&
+      (get(this, 'news.hasDirtyAttributes') || get(this, 'didOrgChange')) &&
+      (!get(this, 'news.isSaving'));
+  }),
+
+  filteredOrganizations: computed('organizations.@each.can_publish_news', function() {
+    return get(this, 'organizations').filter((item) => {
+      return get(item, 'can_publish_news');
+    });
   }),
 
   _clearSchedulePubDate() {
@@ -71,8 +84,8 @@ export default Ember.Component.extend(Validation, {
     // to the model after saving
     news.save().then((response) => {
       get(this, 'toast').success('Post successfully saved.');
-
       set(this, 'news', response);
+      set(this, 'didOrgChange', false);
     });
   },
 
@@ -80,6 +93,18 @@ export default Ember.Component.extend(Validation, {
     this.validatePresenceOf('news.title');
     this.validatePresenceOf('news.subtitle');
     this.validateContent();
+    this.validateOrganization();
+  },
+
+  validateOrganization() {
+    const canPublishNews = get(this, 'news.organization.can_publish_news');
+
+    if (canPublishNews) {
+      set(this, 'errors.organization', null);
+      delete get(this, 'errors')['organization'];
+    } else {
+      set(this, 'errors.organization', 'A valid Organization is required');
+    }
   },
 
   validateContent() {
@@ -133,6 +158,7 @@ export default Ember.Component.extend(Validation, {
         this._save();
       }
     },
+
     schedulePublish() {
       if (this.isValid()) {
         set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
@@ -141,14 +167,23 @@ export default Ember.Component.extend(Validation, {
         this._clearSchedulePubDate();
       }
     },
+
     cancelSchedulePublish() {
       this._clearSchedulePubDate();
     },
+
     choosePubDate() {
       this.setProperties({
         selectedPubDate: moment().add(1, 'day').milliseconds(0).seconds(0).minutes(0).add(1, 'hour'),
         isPickingScheduleDate: true
       });
+    },
+
+    changeOrganization(organization) {
+      set(this, 'news.organization', organization);
+      set(this, 'didOrgChange', true);
+
+      this.send('notifyChange');
     },
 
     discardChanges() {
