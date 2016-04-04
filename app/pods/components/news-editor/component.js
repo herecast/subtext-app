@@ -15,6 +15,8 @@ const {
   } = Ember;
 
 export default Ember.Component.extend(Validation, {
+  classNames: ['NewsEditor'],
+
   showDevFlags: false,
   news: null,
   editorHeight: computed(function() {
@@ -33,6 +35,7 @@ export default Ember.Component.extend(Validation, {
 
   toast: inject.service(),
 
+  featuredImageUrl: computed.oneWay('news.bannerImage.url'),
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
   didOrgChange: false,
 
@@ -146,6 +149,17 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
+  _saveImage(file, primary = 0) {
+    const id = get(this, 'news.id');
+    const data = new FormData();
+
+    data.append('image[primary]', primary);
+    data.append('image[image]', file);
+    data.append('image[content_id]', id);
+
+    return get(this, 'api').createImage(data);
+  },
+
   actions: {
     notifyChange() {
       run.debounce(this, this.doAutoSave, 900);
@@ -225,15 +239,24 @@ export default Ember.Component.extend(Validation, {
       get(this, 'toast').success('Changes discarded.');
     },
 
-    saveImage(file, primary=0) {
-      const id = get(this, 'news.id');
-      const data = new FormData();
+    saveImage(file) {
+      return this._saveImage(file);
+    },
 
-      data.append('image[primary]', primary);
-      data.append('image[image]', file);
-      data.append('image[content_id]', id);
+    saveFeaturedImage(file) {
+      const toast = get(this, 'toast');
 
-      return get(this, 'api').createImage(data);
+      return this._saveImage(file, 1).then(
+        (response) => {
+          const url = get(response, 'image.url');
+
+          set(this, 'featuredImageUrl', url);
+          toast.success('Featured image saved successfully!');
+        },
+        () => {
+          toast.error('Error: Unable to save featured image.');
+        }
+      );
     }
   }
 });

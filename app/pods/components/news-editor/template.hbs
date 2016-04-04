@@ -112,6 +112,17 @@
          {{/if}}
         </div>
 
+        {{#form-group}}
+          <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Featured Image</span></h2>
+          <div class='SidebarWidget-body'>
+          {{thumbnail-image-modal
+          imageUrl=featuredImageUrl
+          title="Featured Image"
+          saveImage=(action 'saveFeaturedImage')
+          }}
+          </div>
+        {{/form-group}}
+
         {{#if showDevFlags}}
         <div class='dev-flags'>
           <hr>

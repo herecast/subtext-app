@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 
-const { computed } = Ember;
+const { computed, get } = Ember;
 
 export default DS.Model.extend({
   title: DS.attr('string'),
@@ -25,11 +25,13 @@ export default DS.Model.extend({
   organizationId: computed.oneWay('organization.id'),
   organizationName: computed.oneWay('organization.name'),
 
-  formattedPublishedAt: function() {
+  formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
-  },
+  }),
 
   bannerImage: computed('images', function() {
-    return this.get('images.firstObject');
+    return get(this, 'images').find((image) => {
+      return get(image, 'primary') === true;
+    });
   })
 });

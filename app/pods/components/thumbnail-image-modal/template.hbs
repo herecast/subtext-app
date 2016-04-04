@@ -1,0 +1,25 @@
+<div class="text-center">
+  {{#if imageUrl}}
+    <img src="{{imageUrl}}" alt="Selected Image" class="img-responsive center-block" {{action 'openImageModal'}} />
+  {{else}}
+    <button class="ThumbnailImageModal-choose-image-button" {{action 'openImageModal'}}>
+      <h1>{{fa-icon 'camera'}}</h1>
+      Choose Image
+    </button>
+  {{/if}}
+</div>
+
+{{#if _showImageModal}}
+  {{#x-modal close=(action 'closeImageModal')}}
+    <h1 class="text-center">{{title}}</h1>
+    {{content-form-image
+    image=_selectedImage
+    error=errors.image
+    aspectRatio=aspectRatio
+    }}
+    <div class="ThumbnailImageModal-buttons">
+      <button class="btn btn-lg Button--news" {{action 'saveImage'}} disabled={{not _selectedImage}}>Save Image</button>
+      <button class="btn btn-lg" {{action 'closeImageModal'}}>Cancel</button>
+    </div>
+  {{/x-modal}}
+{{/if}}
