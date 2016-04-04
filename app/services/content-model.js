@@ -14,18 +14,11 @@ export default Ember.Service.extend({
     const type = record.content_type;
     const views = record.view_count;
     const comments = record.comment_count;
+    const parentContentType = this.convertType(record.parent_content_type);
+    const parentId = record.parent_content_id;
+    const parentEventInstanceId = record.parent_event_instance_id;
 
-    let modelName = '';
-
-    if (type === 'news' || type === 'News') {
-      modelName = 'news';
-    } else if (type === 'event' || type === 'Event') {
-      modelName = 'event-instance';
-    } else if (type === 'market' || type === 'MarketPost') {
-      modelName = 'market-post';
-    } else if (type === 'talk_of_the_town' || type === 'Comment') {
-      modelName = 'talk';
-    }
+    let modelName = this.convertType(type, parentContentType);
 
     // We depend on the content id to be set for all content. If it is not set
     // we can assume that it is the same as the id attribute.
@@ -42,9 +35,32 @@ export default Ember.Service.extend({
       item.set('contentType', modelName);
       item.set('views', views);
       item.set('comments', comments);
+      item.set('parentContentType', parentContentType);
+      item.set('parentId', parentId);
+      item.set('parentEventInstanceId', parentEventInstanceId);
 
       return item;
     }
 
+  },
+
+  convertType(type, parentContentType) {
+    parentContentType = parentContentType ? parentContentType : null;
+
+    if (type === 'news' || type === 'News') {
+      return 'news';
+    } else if (type === 'event' || type === 'Event') {
+      return'event-instance';
+    } else if (type === 'market' || type === 'MarketPost') {
+      return 'market-post';
+    } else if (type === 'Comment' && parentContentType !== null) {
+      return 'comment';
+    } else if (type === 'talk_of_the_town' || ( type === 'Comment' && parentContentType === null) ) {
+      return 'talk';
+    } else {
+      return null;
+    }
   }
+
+
 });

@@ -1,6 +1,6 @@
 <td>
-    {{#if isTalk}}
-      {{#link-to viewRoute viewId (query-params scrollTo=content.commentAnchor)}}
+    {{#if isTalkOrComment}}
+      {{#link-to viewRoute viewId (query-params scrollTo=contentAnchor)}}
         {{x-truncate text=content.title maxLength=50}}
       {{/link-to}}
     {{else if isPromotion}}

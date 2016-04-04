@@ -34,6 +34,7 @@ export default Ember.Component.extend(TrackEvent, {
   typeIsEverything: empty('type'),
   typeIsNews: equal('type','news'),
   typeIsEvents: equal('type','events'),
+  typeIsComment: equal('type','comment'),
   typeIsTalk: equal('type','talk'),
   typeIsMarket: equal('type','market'),
   typeIsAds: equal('type','promotion-banner'),
@@ -49,7 +50,7 @@ export default Ember.Component.extend(TrackEvent, {
     if(get(this, 'type') === 'promotion-banner') {
       return get(this, 'ads');
     } else {
-      return get(this, 'postings'); 
+      return get(this, 'postings');
     }
   }),
 
