@@ -103,7 +103,7 @@ export default AjaxService.extend({
 
 
   getSimilarContent(content_id) {
-    return this.request(`/contents/${content_id}/simliar_content`);
+    return this.request(`/contents/${content_id}/similar_content`);
   },
 
   getVenues(query) {

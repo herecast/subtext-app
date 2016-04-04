@@ -6,6 +6,7 @@ export default Devise.extend({
   mixpanel: Ember.inject.service('mixpanel'),
 
   authorize(data, header) {
+    header('Consumer-App-Uri', config['consumer-app-uri']);
     const mixpanel = this.get('mixpanel');
     const d_id = mixpanel.getDistinctId();
     // if mixpanel is not initialized yet, getDistinctId() returns undefined
