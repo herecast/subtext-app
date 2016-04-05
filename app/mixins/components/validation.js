@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
   isValid() {
     this.validateForm();
 
-    return Ember.isBlank(Ember.keys(this.get('errors')));
+    return Ember.isBlank(Object.keys(this.get('errors')));
   },
 
   validatePresenceOf(attr) {
