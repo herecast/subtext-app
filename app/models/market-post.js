@@ -21,7 +21,7 @@ export default DS.Model.extend({
   contentId: Ember.computed.oneWay('id'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   hasContactInfo: DS.attr('boolean'),
-  images: DS.hasMany('image'),
+  images: DS.hasMany('image', { async: false }),
   imageUrl: DS.attr('string'),
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
