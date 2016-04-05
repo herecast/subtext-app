@@ -56,7 +56,7 @@ export default Ember.Controller.extend(Validation, {
     return get(this, 'store').find('business-category');
   }),
 
-  locations: computed('results.[]', 'results.@each', function () {
+  locations: computed('results.[]', function () {
     const results = get(this, 'results') || [];
     const isMobile = get(this, 'media.isMobile');
 
