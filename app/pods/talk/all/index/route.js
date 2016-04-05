@@ -4,7 +4,7 @@ import History from '../../../../mixins/routes/history';
 
 export default Ember.Route.extend(PaginatedFilter, History, {
   model(params) {
-    return this.store.find('talk', {
+    return this.store.query('talk', {
       query: params.query,
       date_start: params.date_start,
       date_end: params.date_end,
