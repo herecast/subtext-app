@@ -36,14 +36,12 @@
     </div>
     <div class='col-sm-6'>
       {{#if categoryEnabled}}
-        {{view "select"
-          content=categories
-          optionLabelPath="content.label"
-          optionValuePath="content.value"
-          prompt="Select a category:"
-          value=event.category
-          class='form-control'
-        }}
+        {{#x-select value=event.category class='form-control'}}
+          {{#x-option value=null}}Select a category:{{/x-option}}
+          {{#each categories as |category|}}
+            {{#x-option value=category}}{{category.label}}{{/x-option}}
+          {{/each}}
+        {{/x-select}}
       {{/if}}
     </div>
   </div>

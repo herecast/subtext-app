@@ -1,12 +1,10 @@
 {{#if isEditing}}
-  {{view "select"
-    content=formattedLocations
-    optionLabelPath="content.formattedLocation"
-    optionValuePath="content.id"
-    prompt="Select a location:"
-    value=selectedLocationId
-    class='form-control'
-  }}
+  {{#x-select value=selectedLocationId class='form-control'}}
+    {{#x-option value=null}}Select a location:{{/x-option}}
+    {{#each formattedLocations as |location|}}
+      {{#x-option value=location.id}}{{location.formattedLocation}}{{/x-option}}
+    {{/each}}
+  {{/x-select}}
 {{else}}
   <span>{{session.currentUser.location}}</span>
 {{/if}}
