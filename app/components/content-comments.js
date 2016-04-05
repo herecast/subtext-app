@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { computed, on } = Ember;
+
 export default Ember.Component.extend({
   contentComments: Ember.inject.service('content-comments'),
   comments: [],
@@ -10,13 +12,13 @@ export default Ember.Component.extend({
   contentId: Ember.computed.oneWay('content.contentId'),
   commentingDisabled: Ember.computed.oneWay('content.isNew'),
 
-  activeCommentId: function() {
+  activeCommentId: computed('scrollTo', function() {
     const scrollTo = this.get('scrollTo');
 
     if (Ember.isPresent(scrollTo)) {
       return scrollTo.split('-')[1];
     }
-  }.property('scrollTo'),
+  }),
 
   scrollToComment: function() {
     const scrollTo = this.get('scrollTo');
@@ -33,7 +35,7 @@ export default Ember.Component.extend({
     }
   },
 
-  setComments: function() {
+  setComments: on('didInsertElement', function() {
     // If the comments have already been set in the route, we don't need
     // to load them again.
     if (Ember.isPresent(this.get('comments'))) {
@@ -49,7 +51,7 @@ export default Ember.Component.extend({
     } else {
       this.set('comments', []);
     }
-  }.on('didInsertElement'),
+  }),
 
   actions: {
     incrementCommentCount() {

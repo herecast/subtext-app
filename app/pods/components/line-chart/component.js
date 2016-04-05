@@ -4,7 +4,8 @@ import Ember from 'ember';
 
 const {
   get,
-  set
+  set,
+  on
 } = Ember;
 
 export default Ember.Component.extend({
@@ -13,7 +14,7 @@ export default Ember.Component.extend({
   data: [],
   metricType: null,
 
-  setupChart: function() {
+  setupChart: on('didRender', function() {
     this._super(...arguments);
 
     const labels = get(this, 'labels');
@@ -46,9 +47,9 @@ export default Ember.Component.extend({
     };
 
     set(this, 'chart', new Chart(ctx).Line(chartData, options));
-  }.on('didRender'),
+  }),
 
-  updateChart: function() {
+  updateChart: on('didUpdateAttrs', function() {
     this.rerender();
-  }.on('didUpdateAttrs')
+  })
 });

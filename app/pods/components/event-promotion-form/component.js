@@ -2,7 +2,9 @@ import Ember from 'ember';
 import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
 const {
-  computed
+  computed,
+  on,
+  observer
 } = Ember;
 
 export default Ember.Component.extend(PromotionForm, {
@@ -13,19 +15,19 @@ export default Ember.Component.extend(PromotionForm, {
 
   categoryEnabled: Ember.computed.notEmpty('event.category'),
 
-  displayListservs: function() {
+  displayListservs: on('didInsertElement', function() {
     if (Ember.isPresent(this.get('event.listservIds'))) {
       this.set('listsEnabled', true);
     }
-  }.on('didInsertElement'),
+  }),
 
   // When the user unchecks the button to add listservs, reset the array
   // so that we don't subscribe them to a list without their knowledge.
-  resetListservs: function() {
+  resetListservs: observer('listsEnabled', function() {
     if (!this.get('listsEnabled')) {
       this.set('event.listservIds', []);
     }
-  }.observes('listsEnabled'),
+  }),
 
   categories: [
     {value: 'Arts', label: 'Arts'},

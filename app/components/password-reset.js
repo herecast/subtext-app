@@ -3,19 +3,21 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
+const { observer, computed } = Ember;
+
 export default Ember.Component.extend(TrackEvent, {
   classNames: ['PasswordReset'],
   showErrors: false,
 
-  isValid: function() {
+  isValid: computed('password', 'passwordConfirmation', function() {
     return Ember.isPresent(this.get('password')) && Ember.isPresent(this.get('passwordConfirmation')) && (this.get('password') === this.get('passwordConfirmation'));
-  }.property('password', 'passwordConfirmation'),
+  }),
 
-  hideErrors: function() {
+  hideErrors: observer('isValid', function() {
     if (this.get('isValid')) {
       this.set('showErrors', false);
     }
-  }.observes('isValid'),
+  }),
 
   actions: {
     resetPassword() {

@@ -4,7 +4,10 @@ import moment from 'moment';
 const dateFormat = 'MM/DD/YYYY';
 const timeFormat = 'hh:mm a';
 const {
-  isPresent
+  isPresent,
+  observer,
+  computed,
+  on
 } = Ember;
 
 export default Ember.Component.extend({
@@ -13,7 +16,7 @@ export default Ember.Component.extend({
   subtitle: Ember.computed.alias('instance.subtitle'),
   isValid: Ember.computed.alias('instance.isValid'),
 
-  error: function() {
+  error: computed('date', 'startTime', 'endTime', function() {
     const start = this.get('startsAt');
     const stop = this.get('endsAt');
 
@@ -22,9 +25,9 @@ export default Ember.Component.extend({
     } else if (start && stop && start > stop) {
       return 'End Time cannot be before Start Time';
     }
-  }.property('date', 'startTime', 'endTime'),
+  }),
 
-  setupFields: function() {
+  setupFields: on('init', function() {
     let date, startsAt, startTime, endTime;
 
     if (isPresent(this.get('startsAt'))) {
@@ -42,9 +45,9 @@ export default Ember.Component.extend({
       startTime: startTime,
       endTime: endTime
     });
-  }.on('init'),
+  }),
 
-  updateAttrs: function() {
+  updateAttrs: observer('date', 'startTime', 'endTime', function() {
     let date = this.get('date');
 
     if (Ember.isBlank(date)) {
@@ -69,7 +72,7 @@ export default Ember.Component.extend({
         endsAt: endsAt
       });
     }
-  }.observes('date', 'startTime', 'endTime'),
+  }),
 
   actions: {
     removeDate(instance) {

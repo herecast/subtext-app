@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 const {
   computed,
+  observer,
   get,
   set
 } = Ember;
@@ -44,7 +45,7 @@ export default Ember.Component.extend({
 
   imageUrl: computed.oneWay('image.imageUrl'),
 
-  setImageUrl: function() {
+  setImageUrl: observer('canvas', 'croppedImageUrl', function() {
     const croppedImageUrl = get(this, 'croppedImageUrl');
     const canvas = get(this, 'canvas');
     const image = get(this, 'image');
@@ -54,7 +55,7 @@ export default Ember.Component.extend({
 
       set(image, 'imageUrl', url);
     }
-  }.observes('canvas', 'croppedImageUrl'),
+  }),
 
   imageName: computed('image.originalImageFile.name', 'imageUrl', function() {
     const originalFileName = get(this, 'image.originalImageFile.name');

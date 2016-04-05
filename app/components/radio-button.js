@@ -1,21 +1,23 @@
 import Ember from 'ember';
 
+const { computed, on } = Ember;
+
 export default Ember.Component.extend({
   tagName: 'label',
   classNames: ['ReportAbuse-label'],
   classNameBindings: ['checked:active'],
 
-  addChangeEvent: function() {
+  addChangeEvent: on('didInsertElement', function() {
     this.$('input').on('change', () => {
       this.set('groupValue', this.get('value'));
     });
-  }.on('didInsertElement'),
+  }),
 
-  removeChangeEvent: function() {
+  removeChangeEvent: on('willDestroyElement', function() {
     this.$('input').off('change');
-  }.on('willDestroyElement'),
+  }),
 
-  checked: function () {
+  checked: computed('value', 'groupValue', function () {
     return this.get('value') === this.get('groupValue');
-  }.property('value', 'groupValue')
+  })
 });

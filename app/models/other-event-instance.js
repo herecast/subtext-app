@@ -23,7 +23,7 @@ export default DS.Model.extend({
     }
   }),
 
-  formattedHours: function() {
+  formattedHours: computed('startsAt', 'endsAt', function() {
     const startTime = this.get('startsAt').format('LT');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
@@ -32,7 +32,7 @@ export default DS.Model.extend({
       const endTime = this.get('endsAt').format('LT');
       return `${startTime} - ${endTime}`;
     }
-  }.property('startsAt', 'endsAt'),
+  }),
 
   timeRange: computed('startsAt', 'endsAt', function() {
     const startTime = this.get('startsAt').format('MMMM D, YYYY LT');

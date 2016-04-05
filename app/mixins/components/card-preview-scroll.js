@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
+const { on } = Ember;
+
 export default Ember.Mixin.create({
-  initScrollPositioning: function() {
+  initScrollPositioning: on('didInsertElement', function() {
     const cardPreview = Ember.$('.ContentCardPreview-content');
     cardPreview.affix({
       offset: {
@@ -9,5 +11,5 @@ export default Ember.Mixin.create({
         bottom: 253
       }
     });
-  }.on('didInsertElement')
+  })
 });

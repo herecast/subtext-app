@@ -4,7 +4,9 @@ import config from 'subtext-ui/config/environment';
 import ManualDropdown from 'subtext-ui/mixins/components/manual-dropdown';
 
 const {
-  isPresent
+  isPresent,
+  observer,
+  on
 } = Ember;
 
 export default Ember.Component.extend(ManualDropdown, {
@@ -18,15 +20,15 @@ export default Ember.Component.extend(ManualDropdown, {
     this.$('input').select();
   },
 
-  setInputValue: function() {
+  setInputValue: observer('location', function() {
     this.set('inputValue', this.get('location'));
-  }.observes('location'),
+  }),
 
-  initInputValue: function() {
+  initInputValue: on('init', function() {
     this.setInputValue();
-  }.on('init'),
+  }),
 
-  initInput: function() {
+  initInput: on('didInsertElement', function() {
     this.$('input').keyup((e) => {
       const value = this.get('inputValue');
 
@@ -39,11 +41,11 @@ export default Ember.Component.extend(ManualDropdown, {
         }
       }
     });
-  }.on('didInsertElement'),
+  }),
 
-  removeQueryInput: function() {
+  removeQueryInput: on('willDestroyElement', function() {
     this.$('input').off('keyUp');
-  }.on('willDestroyElement'),
+  }),
 
   updateFilter() {
     this.set('open', false);

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
-//import Dates from 'subtext-ui/lib/dates';
+
+const { computed } = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
@@ -15,9 +16,9 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   defaultCategory: 'Everything',
 
-  defaultQuery: function() {
+  defaultQuery: computed(function() {
     return null;
-  }.property(),
+  }),
 
   defaultLocation: 'All Communities',
 
@@ -35,7 +36,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   startDate: Ember.computed.alias('date_start'),
   stopDate: Ember.computed.alias('date_end'),
 
-  showReset: function() {
+  showReset: computed('category', 'query', 'date_start', 'date_end', 'location', function() {
     const isDefaultCategory = this.get('defaultCategory') === this.get('category');
     const isDefaultQuery = this.get('defaultQuery') === this.get('query');
     const isDefaultLocation = this.get('defaultLocation') === this.get('location');
@@ -44,7 +45,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
     return !isDefaultCategory || !isDefaultLocation || !isDefaultQuery ||
       !isDefaultStart || !isDefaultEnd;
-  }.property('category', 'query', 'date_start', 'date_end', 'location'),
+  }),
 
   actions: {
     resetFilters() {

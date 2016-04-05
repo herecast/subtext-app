@@ -24,7 +24,7 @@ export default DS.Model.extend(BaseEvent, {
   venueLocateName: DS.attr('string'),
   publishedAt: DS.attr('moment-date'),
 
-  formattedDate: function() {
+  formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (this.get('isValid')) {
       const date = this.get('startsAt').format('MMM D');
       const startTime = this.get('startsAt').format('h:mmA');
@@ -37,7 +37,7 @@ export default DS.Model.extend(BaseEvent, {
         return `${date} | ${startTime}-${endTime}`;
       }
     }
-  }.property('isValid', 'startsAt', 'endsAt'),
+  }),
 
   startsAtHour: Ember.computed('startsAt', function() {
     if(get(this, 'isValid')) {
@@ -53,7 +53,7 @@ export default DS.Model.extend(BaseEvent, {
      }
   }),
 
-  timeRange: function() {
+  timeRange: computed('startsAt', 'endsAt', function() {
     if (this.get('isValid')) {
       const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
 
@@ -64,7 +64,7 @@ export default DS.Model.extend(BaseEvent, {
         return `${startTime} - ${endTime}`;
       }
     }
-  }.property('startsAt', 'endsAt'),
+  }),
 
   timeRangeNoDates: computed('startsAt', 'endsAt', function() {
     const startTime = get(this, 'startsAt').format('h:mmA');

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
+const { computed } = Ember;
+
 // I think we should be able to use string.startsWith() as part of ES6, but
 // the tests were breaking when I ran `ember test` so I'm using this instead.
 function startsWith(path, searchString) {
@@ -11,7 +13,7 @@ function startsWith(path, searchString) {
 export default Ember.Component.extend(trackEvent, {
   path: '', // override with the application controller's currentPath
 
-  buttonClass: function() {
+  buttonClass: computed('path', function() {
     const klass = 'Button SectionNavigation-contentCreateButton btn btn-default';
     const path = this.get('path');
 
@@ -22,28 +24,28 @@ export default Ember.Component.extend(trackEvent, {
     } else if (startsWith(path, 'talk')) {
       return `${klass} Button--talk`;
     }
-  }.property('path'),
+  }),
 
-  showButton: function() {
+  showButton: computed('path', function() {
     const path = this.get('path');
 
     return startsWith(path, 'events') || startsWith(path, 'talk') ||
       startsWith(path, 'market');
-  }.property('path'),
+  }),
 
-  route: function() {
+  route: computed('path', function() {
     const path = this.get('path');
 
     return `${path.split('.')[0]}.new.details`;
-  }.property('path'),
+  }),
 
-  redirectTo: function() {
+  redirectTo: computed('path', function() {
     const path = this.get('path');
 
     return `/${path.split('.')[0]}/new/details`;
-  }.property('path'),
+  }),
 
-  linkText: function() {
+  linkText: computed('path', 'media.isTabletOrSmallDesktop', function() {
     const path = this.get('path');
     let contentType = '';
 
@@ -61,7 +63,7 @@ export default Ember.Component.extend(trackEvent, {
       return `Create ${contentType}`;
     }
 
-  }.property('path', 'media.isTabletOrSmallDesktop'),
+  }),
 
   _getTrackingArguments(linkText) {
     let navControlText = '';

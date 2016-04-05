@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, set, run, computed, isPresent } = Ember;
+const { get, set, run, computed, isPresent, observer } = Ember;
 
 export default Ember.Component.extend({
   type: 'text',
@@ -52,13 +52,13 @@ export default Ember.Component.extend({
     }
   },
 
-  locationQueryChanged: function() {
+  locationQueryChanged: observer('locationQuery', function() {
     const query = get(this, 'locationQuery') || "";
 
     if(query.length > 3) {
       run.debounce(this, this.getSuggestions, 900);
     }
-  }.observes('locationQuery'),
+  }),
 
   didInitAttrs() {
     this._super(...arguments);

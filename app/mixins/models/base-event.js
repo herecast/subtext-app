@@ -34,20 +34,20 @@ export default Ember.Mixin.create({
 
   isPaid: Ember.computed.equal('costType', 'paid'),
 
-  safeImageUrl: function() {
+  safeImageUrl: computed('imageUrl', function() {
     if (Ember.isPresent(this.get('imageUrl'))) {
       return this.get('imageUrl');
     } else {
       return '//placehold.it/800x600&text=+';
     }
-  }.property('imageUrl'),
+  }),
 
-  formattedCostType: function() {
+  formattedCostType: computed('costType', function() {
     const costType = this.get('costType');
     if (Ember.isPresent(costType)) {
       return costType.charAt(0).toUpperCase() + costType.slice(1);
     }
-  }.property('costType'),
+  }),
 
   formattedRegistrationDeadline: computed('registrationDeadline', function() {
     const deadline = get(this, 'registrationDeadline');
@@ -57,20 +57,20 @@ export default Ember.Mixin.create({
     }
   }),
 
-  hasLocationInfo: function() {
+  hasLocationInfo: computed('venueAddress', 'venueCity', 'venueState', 'venueZip', 'venueName', function() {
     return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) ||
       Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) ||
       Ember.isPresent(this.get('venueZip'));
-  }.property('venueAddress', 'venueCity', 'venueState', 'venueZip', 'venueName'),
+  }),
 
-  hasContactInfo: function() {
+  hasContactInfo: computed('contactEmail', 'contactPhone', 'eventUrl', function() {
     return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) ||
       Ember.isPresent(this.get('eventUrl'));
-  }.property('contactEmail', 'contactPhone', 'eventUrl'),
+  }),
 
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 
-  fullAddress: function() {
+  fullAddress: computed('venueAddress', 'venueCity', 'venueState', function() {
     let addr = this.get('venueAddress');
     let city = this.get('venueCity');
     const state = this.get('venueState');
@@ -83,9 +83,9 @@ export default Ember.Mixin.create({
     } else {
       return '';
     }
-  }.property('venueAddress', 'venueCity', 'venueState'),
+  }),
 
-  directionsUrl: function() {
+  directionsUrl: computed('fullAddress', function() {
     const url = `maps.google.com/maps?daddr=${this.get('fullAddress')}`;
     const platform = navigator.platform;
     const isios = (platform.indexOf("iPhone") !== -1) ||
@@ -97,5 +97,5 @@ export default Ember.Mixin.create({
     } else {
       return `https://${url}`;
     }
-  }.property('fullAddress')
+  })
 });

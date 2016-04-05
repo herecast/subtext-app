@@ -33,10 +33,10 @@ export default DS.Model.extend({
   }),
   coords: DS.attr(),
   service_radius: DS.attr('number'),
-  milesFromUser: function() {
+  milesFromUser: computed('coords', function() {
     //@todo inject location service
     return '(00.0 mi)';
-  }.property('coords'),
+  }),
   details: DS.attr('string'),
   logo: DS.attr('string'),
   images: DS.attr('raw', {defaultValue: () => [] }),
