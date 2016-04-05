@@ -21,10 +21,10 @@
   "devDependencies": {
     "active-model-adapter": "1.13.5",
     "broccoli-asset-rev": "^2.2.0",
+    "ember-async-button": "0.7.0",
     "ember-autoresize": "0.5.3",
     "ember-cli": "1.13.12",
     "ember-cli-app-version": "^1.0.0",
-    "ember-cli-async-button": "0.5.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-dependency-checker": "^1.1.0",
     "ember-cli-document-title": "0.3.0",
