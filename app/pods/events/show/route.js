@@ -24,7 +24,7 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
       if (eventInstance) {
         return eventInstance.reload();
       } else {
-        return this.store.find('event-instance', params.id);
+        return this.store.findRecord('event-instance', params.id);
       }
     } else {
       const category = params.id.capitalize().replace('-', ' ');
