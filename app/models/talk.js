@@ -4,6 +4,8 @@ import DS from 'ember-data';
 import config from '../config/environment';
 import moment from 'moment';
 
+const { computed } = Ember;
+
 export default DS.Model.extend({
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
@@ -23,11 +25,11 @@ export default DS.Model.extend({
 
   listEnabled: Ember.computed.notEmpty('listservId'),
 
-  hasParentContent: function() {
+  hasParentContent: computed('parentContentType', 'parentContentId', function() {
     return Ember.isPresent(this.get('parentContentType')) && Ember.isPresent(this.get('parentContentId'));
-  }.property('parentContentType', 'parentContentId'),
+  }),
 
-  parentContentRoute: function() {
+  parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
     if (parentContentType === 'market_post') {
       return 'market.show';
@@ -38,9 +40,9 @@ export default DS.Model.extend({
     } else {
       return `${parentContentType}.show`;
     }
-  }.property('parentContentType'),
+  }),
 
-  commentCountText: function() {
+  commentCountText: computed('commentCount', function() {
     const count = this.get('commentCount');
 
     if (count === 1) {
@@ -48,9 +50,9 @@ export default DS.Model.extend({
     } else {
       return 'posts';
     }
-  }.property('commentCount'),
+  }),
 
-  viewCountText: function() {
+  viewCountText:computed('viewCount',  function() {
     const count = this.get('viewCount');
 
     if (count === 1) {
@@ -58,11 +60,11 @@ export default DS.Model.extend({
     } else {
       return 'views';
     }
-  }.property('viewCount'),
+  }),
 
-  commentAnchor: function() {
+  commentAnchor: computed('talk.id', function() {
     return `comment-${this.get('id')}`;
-  }.property('talk.id'),
+  }),
 
   uploadImage() {
     const url = `${config.API_NAMESPACE}/talk/${this.get('id')}`;

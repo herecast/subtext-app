@@ -2,10 +2,12 @@ import Ember from 'ember';
 import moment from 'moment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend(TrackEvent, {
-  submitDisabled: function() {
+  submitDisabled: computed('disabled', 'newComment', function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
-  }.property('disabled', 'newComment'),
+  }),
 
   actions: {
     postComment(callback) {

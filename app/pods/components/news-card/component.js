@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-const { get } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
@@ -12,11 +12,11 @@ export default Ember.Component.extend(TrackCard, {
 
   missingContent: Ember.computed.empty('item'),
 
-  date: function() {
+  date: computed('item.publishedAt', function() {
     return moment(this.get('item.publishedAt')).format('L');
-  }.property('item.publishedAt'),
+  }),
 
-  content: function() {
+  content: computed('item.content', function() {
     let text = this.get('item.content');
 
     if (text) {
@@ -42,7 +42,7 @@ export default Ember.Component.extend(TrackCard, {
 
       return text;
     }
-  }.property('item.content'),
+  }),
 
   actions: {
     trackSimilarContentClick() {

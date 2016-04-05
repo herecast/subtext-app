@@ -1,9 +1,11 @@
 import Ember from 'ember';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['Truncate'],
 
-  truncatedText: function() {
+  truncatedText: computed('text', function() {
     const text = this.get('text');
     const displayTextLength = this.stripHtml(text).length;
     const maxLength = this.get('maxLength');
@@ -16,7 +18,7 @@ export default Ember.Component.extend({
         return text;
       }
     }
-  }.property('text'),
+  }),
 
   stripHtml: function(text) {
     const tmp = document.createElement("div");

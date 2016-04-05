@@ -3,27 +3,29 @@ import config from './../config/environment';
 import ajax from 'ic-ajax';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
+const { on, computed } = Ember;
+
 export default Ember.Component.extend(TrackEvent, {
   locations: [],
   isEditing: false,
   mixpanel: Ember.inject.service('mixpanel'),
 
-  getLocations: function() {
+  getLocations: on('init', function() {
     if (this.get('selectedLocationId') || this.get('isEditing')) {
       ajax(`${config.API_NAMESPACE}/locations`).then(response => {
         this.set('locations', response.locations);
       });
     }
-  }.on('init'),
+  }),
 
-  formattedLocations: function() {
+  formattedLocations: computed('locations', function() {
     return this.get('locations').map(function(location) {
       return {
         id: location.id,
         formattedLocation: `${location.city}, ${location.state}`
       };
     });
-  }.property('locations'),
+  }),
 
   actions: {
     toggleEditing(isEditing) {

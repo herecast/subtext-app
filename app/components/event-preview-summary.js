@@ -1,16 +1,18 @@
 import Ember from 'ember';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend(TrackEvent, {
   isSaving: false,
 
-  editLink: function() {
+  editLink: computed('model.isNew', function() {
     if (this.get('model.isNew')) {
       return 'events.new.promotion';
     } else {
       return 'events.edit.promotion';
     }
-  }.property('model.isNew'),
+  }),
 
   _getTrackingArguments() {
     return {

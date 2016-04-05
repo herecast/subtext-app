@@ -1,10 +1,12 @@
 import Ember from 'ember';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['GradientTruncation'],
   stripHtml: false,
 
-  formattedText: function() {
+  formattedText: computed('text', function() {
     if (this.get('stripHtml')) {
       const tmp = document.createElement("div");
       tmp.innerHTML = this.get('text');
@@ -13,5 +15,5 @@ export default Ember.Component.extend({
       return this.get('text');
     }
 
-  }.property('text')
+  })
 });

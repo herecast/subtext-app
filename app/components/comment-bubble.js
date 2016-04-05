@@ -1,33 +1,35 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend(trackEvent, {
   classNames: ['CommentBubble'],
   classNameBindings: ['typeClass'],
 
-  typeClass: function() {
+  typeClass: computed('type', function() {
     const type = this.get('type');
 
     return `CommentBubble--${type}`;
-  }.property('type'),
+  }),
 
   isNews: Ember.computed.equal('type', 'news'),
   isTalk: Ember.computed.equal('type', 'talk'),
   isEvent: Ember.computed.equal('type', 'event'),
 
-  showCount: function() {
+  showCount: computed('count', function() {
     const count = this.get('count');
 
     return Ember.isPresent(count) && count > 0;
-  }.property('count'),
+  }),
 
-  commentLabel: function() {
+  commentLabel: computed('count', function() {
     if (this.get('count') === 1) {
       return 'comment';
     } else {
       return 'comments';
     }
-  }.property('count'),
+  }),
 
   _getTrackingArguments() {
     return {

@@ -2,6 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import Dates from '../lib/dates';
 
+const { computed } = Ember;
 const dateFormat = 'YYYY-MM-DD';
 
 export default Ember.Component.extend({
@@ -9,12 +10,12 @@ export default Ember.Component.extend({
 
   showCustomCalendar: false,
 
-  dateSummary: function() {
+  dateSummary: computed('startDate', 'stopDate', function() {
     const start = this.get('startDate');
     const stop = this.get('stopDate');
 
     return Dates.dateSummary(start, stop);
-  }.property('startDate', 'stopDate'),
+  }),
 
   updateFilter() {
     this.set('open', false);

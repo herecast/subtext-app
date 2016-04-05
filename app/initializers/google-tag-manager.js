@@ -2,6 +2,8 @@ import config from 'subtext-ui/config/environment';
 import Ember from 'ember';
 /* global dataLayer */
 
+const { on } = Ember;
+
 let referrer = window.location.href;
 
 export function initialize(container) {
@@ -27,7 +29,7 @@ export function initialize(container) {
     const Router = container.lookup('router:main');
 
     Router.reopen({
-      notifyGoogleTagManager: function() {
+      notifyGoogleTagManager: on('didTransition', function() {
         // Wrap in run.later so that the page title is available
         return run.later(() => {
           if (typeof dataLayer !== "undefined") {
@@ -43,7 +45,7 @@ export function initialize(container) {
             referrer = currentUrl;
           }
         });
-      }.on('didTransition')
+      })
     });
   } else {
     console.log('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.');

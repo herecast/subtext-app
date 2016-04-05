@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { computed } = Ember;
+
 function item(number) {
   return Ember.computed('orderedNews.[]', function() {
     const objectIndex = number - 1;
@@ -10,9 +12,9 @@ function item(number) {
 export default Ember.Component.extend({
   news: [],
 
-  orderedNews: function() {
+  orderedNews: computed('news.@each.publishedAt', function() {
     return this.get('news').sortBy('publishedAt').toArray().reverse();
-  }.property('news.@each.publishedAt'),
+  }),
 
   item1: item(1),
   item2: item(2),

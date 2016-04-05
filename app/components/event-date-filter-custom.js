@@ -1,15 +1,17 @@
 import Ember from 'ember';
 import moment from 'moment';
 
+const { observer, computed, on } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['popover', 'bottom', 'in', 'EventFilter-calendar'],
 
-  startDateLabel: function() {
+  startDateLabel: computed('customStartDate', function() {
     const startDate = moment(this.get('customStartDate'));
     return startDate.format('L');
-  }.property('customStartDate'),
+  }),
 
-  updateMinEndDate: function() {
+  updateMinEndDate: observer('customStartDate', function() {
     const startDate = this.get('customStartDate');
     const pikaday = this.get('endInput');
 
@@ -17,14 +19,14 @@ export default Ember.Component.extend({
       pikaday.setMinDate(startDate);
       pikaday.gotoDate(startDate);
     }
-  }.observes('customStartDate'),
+  }),
 
-  endDateLabel: function() {
+  endDateLabel: computed('customEndDate', function() {
     const endDate = moment(this.get('customEndDate'));
     return endDate.format('L');
-  }.property('customEndDate'),
+  }),
 
-  setupCalendars: function() {
+  setupCalendars: on('didInsertElement', function() {
     new Pikaday({
       field: this.$('#custom-start-date input')[0],
       firstDay: 0,
@@ -60,7 +62,7 @@ export default Ember.Component.extend({
     });
 
     this.set('endInput', endInput);
-  }.on('didInsertElement'),
+  }),
 
   actions: {
     closeCalendar() {

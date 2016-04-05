@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { on, observer } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['FloatingSideColumn'],
   classNameBindings: ['enabled:is-enabled', 'floating:is-floating'],
@@ -8,7 +10,7 @@ export default Ember.Component.extend({
   bottomGap: 150,
   floating: false,
 
-  initContentAffixing: function() {
+  initContentAffixing: on('didInsertElement', function() {
     const contentBody = this.$().closest('.row');
     const enabled = this.get('enabled');
 
@@ -19,7 +21,7 @@ export default Ember.Component.extend({
         Ember.run.debounce(this, this.affixContent, 8);
       });
     }
-  }.on('didInsertElement'),
+  }),
 
   affixContent() {
     const contentBody = this.$().closest('.row');
@@ -48,18 +50,18 @@ export default Ember.Component.extend({
     }
   },
 
-  removeContentAffixing: function() {
+  removeContentAffixing: on('willDestroyElement', function() {
     this.$().css('position', '');
     this.$().css('top', '');
     Ember.$(document).off('scroll.column');
-  }.on('willDestroyElement'),
+  }),
 
-  toggle: function() {
+  toggle: observer('enabled', function() {
     if (this.get('enabled')) {
       this.removeContentAffixing();
       this.initContentAffixing();
     } else {
       this.removeContentAffixing();
     }
-  }.observes('enabled')
+  })
 });

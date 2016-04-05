@@ -3,6 +3,8 @@ import SimpleAuthSession from 'simple-auth/session';
 import config from '../config/environment';
 import ajax from 'ic-ajax';
 
+const { observer, computed } = Ember;
+
 export default SimpleAuthSession.extend({
   userService: Ember.inject.service('user'),
   mixpanel: Ember.inject.service('mixpanel'),
@@ -18,7 +20,7 @@ export default SimpleAuthSession.extend({
     });
   },
 
-  setupCurrentUser: function() {
+  setupCurrentUser: observer('currentUser.isLoaded', function() {
     const user = this.get('currentUser');
     const mixpanel = this.get('mixpanel');
 
@@ -27,25 +29,25 @@ export default SimpleAuthSession.extend({
     if (user && user.get('isLoaded')) {
       const intercom = this.get('intercom');
       intercom.boot(user);
-    } 
-  }.observes('currentUser.isLoaded'),
+    }
+  }),
 
-  currentUser: function() {
+  currentUser: computed('secure.email', function() {
     const email = this.get('secure.email');
 
     if (Ember.isPresent(email)) {
       return this.get('userService').getCurrentUser();
     }
-  }.property('secure.email'),
+  }),
 
   userName: Ember.computed.oneWay('currentUser.name'),
 
   // Sets default location if a user is logged out
-  userLocation: function() {
+  userLocation: computed('currentUser.location', function() {
     const user = this.get('currentUser');
 
     if (Ember.isPresent(user)) {
       return user.get('location');
     }
-  }.property('currentUser.location')
+  })
 });

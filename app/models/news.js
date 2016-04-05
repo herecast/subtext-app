@@ -1,5 +1,8 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
+
+const { computed } = Ember;
 
 export default DS.Model.extend({
   adminContentUrl: DS.attr('string'),
@@ -18,11 +21,11 @@ export default DS.Model.extend({
   subtitle: DS.attr('string'),
   title: DS.attr('string'),
 
-  formattedPublishedAt: function() {
+  formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
-  }.property('publishedAt'),
+  }),
 
-  bannerImage: function() {
+  bannerImage: computed('images', function() {
     return this.get('images.firstObject');
-  }.property('images')
+  })
 });

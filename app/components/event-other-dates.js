@@ -2,12 +2,12 @@ import Ember from 'ember';
 
 const initialCount = 4;
 
-const { get, isBlank } = Ember;
+const { get, isBlank, computed } = Ember;
 
 export default Ember.Component.extend({
   showAll: false,
 
-  eventInstances: function() {
+  eventInstances: computed('event.eventInstances.@each.startsAt', function() {
     const event = this.get('event');
 
     if (event) {
@@ -26,13 +26,13 @@ export default Ember.Component.extend({
     } else {
       return [];
     }
-  }.property('event.eventInstances.@each.startsAt'),
+  }),
 
-  hasMore: function() {
+  hasMore: computed('eventInstances.[]', function() {
     return this.get('eventInstances.length') > initialCount;
-  }.property('eventInstances.[]'),
+  }),
 
-  instancesToDisplay: function() {
+  instancesToDisplay: computed('eventInstances.[]', 'showAll', function() {
     const allContent = this.get('eventInstances');
 
     if (this.get('showAll')) {
@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     } else {
       return allContent.slice(0, initialCount);
     }
-  }.property('eventInstances.[]', 'showAll'),
+  }),
 
   actions: {
     toggleMore() {
