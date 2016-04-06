@@ -7,6 +7,7 @@ export default function(server) {
   server.createList('ad-metric',1);
   server.createList('organization',5);
   server.create('current-user');
+  server.createList('talk', 50);
 
   /**
    * Business Categories
