@@ -51,7 +51,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-faker": "^1.0.0",
     "ember-get-helper": "1.0.4",
-    "ember-modal-dialog": "0.8.2",
+    "ember-modal-dialog": "0.8.3",
     "ember-moment": "5.0.2",
     "ember-pikaday": "0.13.0",
     "ember-sinon": "^0.3.0",
