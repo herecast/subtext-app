@@ -3,10 +3,11 @@ import RouteMetaMixin from '../../../mixins/routes/social-tags';
 import Redirect from '../../../mixins/routes/redirect-after-login';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
 import ShareCaching from '../../../mixins/routes/share-caching';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 import Dates from '../../../lib/dates';
 
-export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, {
+export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'imageUrl',
 
   model(params) {
