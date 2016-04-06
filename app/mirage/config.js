@@ -204,7 +204,7 @@ export default function() {
   this.post('/users/logout', function() {});
 
   this.get('/current_user', function(db) {
-    var current_user = db.current_users.find(1);
+    var current_user = db['current-users'].find(1);
 
     //mocks location join
     var location = db.locations.find(current_user.location_id);
@@ -224,9 +224,9 @@ export default function() {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['current_user'];
-      current_user = db.current_users.update(id, attrs);
+      current_user = db['current-users'].update(id, attrs);
     } else {
-      current_user = db.current_users.find(id);
+      current_user = db['current-users'].find(id);
     }
 
     //mocks location join
