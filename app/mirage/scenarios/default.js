@@ -9,6 +9,7 @@ export default function(server) {
   server.create('current-user');
   server.createList('talk', 50);
   server.createList('comment',8);
+  server.createList('promotion-banner', 50);
 
   /**
    * Business Categories
