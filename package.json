@@ -54,6 +54,7 @@
     "ember-pikaday": "0.13.0",
     "ember-simple-auth": "1.0.1",
     "ember-sinon": "^0.3.0",
+    "ember-test-selectors": "0.0.2",
     "ember-toastr": "1.4.0",
     "ember-truth-helpers": "1.2.0",
     "emberx-select": "2.1.0",
