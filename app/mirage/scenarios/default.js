@@ -8,6 +8,7 @@ export default function(server) {
   server.createList('organization',5);
   server.create('current-user');
   server.createList('talk', 50);
+  server.createList('comment',8);
 
   /**
    * Business Categories
