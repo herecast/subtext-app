@@ -3,8 +3,9 @@ import Redirect from '../../mixins/routes/redirect-after-login';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
 import DocTitleFromContent from '../../mixins/routes/title-token-from-content';
 import ShareCaching from '../../mixins/routes/share-caching';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
-export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, ShareCaching, {
+export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'coverImageUrl',
 
   model(params)  {

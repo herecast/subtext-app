@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import ResetScroll from 'subtext-ui/mixins/reset-scroll';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(ResetScroll, {
   model(params) {
     return this.store.findRecord('business-profile', params.id);
   },
