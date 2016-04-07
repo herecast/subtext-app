@@ -10,6 +10,7 @@ export default function(server) {
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('promotion-banner', 50);
+  server.createList('market-post', 100);
 
   /**
    * Business Categories
