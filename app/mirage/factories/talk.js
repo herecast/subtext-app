@@ -6,7 +6,7 @@ export default Mirage.Factory.extend({
   title() { return titleize(faker.lorem.sentences(1)); },
   comment_count() { return faker.random.number(8); },
   content() { return faker.lorem.paragraphs(2); },
-  content_id() { return faker.random.number(1000); },
+  content_id(id) { return id; },
   image_url(i) {
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250' : null;
   },

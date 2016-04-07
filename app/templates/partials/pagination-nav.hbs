@@ -1,16 +1,14 @@
 {{#if showPrevPage}}
-  <button class='btn Button--primary' {{action 'prevPage'}}>
+  <button class='btn Button--primary' {{action 'prevPage'}} data-test-pagination-prev>
     {{fa-icon 'arrow-left'}} Prev
   </button>
-  <button class='btn Button--primary' {{action 'firstPage'}}>
+  <button class='btn Button--primary' {{action 'firstPage'}} data-test-pagination-first>
     First
   </button>
 {{/if}}
 
 {{#if showNextPage}}
-  <button class='btn Button--primary' {{action 'nextPage'}}>
+  <button class='btn Button--primary' {{action 'nextPage'}} data-test-pagination-next>
     Next {{fa-icon 'arrow-right'}}
   </button>
 {{/if}}
-
-

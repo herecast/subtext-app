@@ -1,5 +1,5 @@
 {{#if showButton}}
-  {{#link-to route class=buttonClass}}
+  {{#link-to route class=buttonClass data-test-link='content-create-button'}}
     <span {{action 'trackEvent' 'selectNavControl' linkText}}>
       {{linkText}}
     </span>

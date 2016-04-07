@@ -15,7 +15,7 @@
   <div class='PhotoBanner-content container'>
     <div class='row hidden-sm hidden-xs'>
       <div class='col-sm-8 {{if model.imageUrl 'col-sm-offset-4' 'col-sm-offset-2'}}'>
-        <h1 class='PhotoBanner-title'>{{model.title}}</h1>
+        <h1 class='PhotoBanner-title' data-test-talk-title>{{model.title}}</h1>
         <div class='row PhotoBanner-info'>
           <div class='col-sm-6'>
             {{talk-info talk=model}}
@@ -83,7 +83,7 @@
       <div class='visible-xs visible-sm'>
         {{talk-info talk=model}}
       </div>
-      <div class='ContentText'>{{{model.content}}}</div>
+      <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
     </div>
 
     <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
