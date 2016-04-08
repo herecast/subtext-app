@@ -93,6 +93,8 @@ module.exports = function(environment) {
       enabled: false
     }
 
+    ENV.fb_enabled = true;
+
     ENV.mixpanel = {
       enabled: true,
       LOG_EVENT_TRACKING: false,
