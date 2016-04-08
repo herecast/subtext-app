@@ -6,7 +6,7 @@
       </button>
     {{else}}
       <span {{action 'trackEvent' 'selectNavControl'}}>
-        <button  class={{buttonClass}} {{action 'toggleInfo'}}>
+        <button  class={{buttonClass}} {{action 'toggleInfo'}} data-test-market-reply-button>
             Reply
         </button>
       </span>
@@ -20,14 +20,14 @@
   {{else if infoLoaded}}
     {{#if email}}
       <div class='col-sm-7'>
-        <a href={{mailToHref}}>
+        <a href="{{mailToHref}}" data-test-market-contact-email>
           {{fa-icon 'envelope'}} {{email}}
         </a>
       </div>
     {{/if}}
 
     {{#if phone}}
-      <div class='col-sm-5'>
+      <div class='col-sm-5' data-test-market-contact-phone>
         {{fa-icon 'phone'}} {{phone}}
       </div>
     {{/if}}

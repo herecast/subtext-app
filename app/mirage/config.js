@@ -443,7 +443,7 @@ export default function() {
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
 
-    let posts = db.market_posts.slice(start,stop).map((post) => {
+    let posts = db['market-posts'].slice(start,stop).map((post) => {
       return Ember.getProperties(post, marketPostBaseProperties);
     });
 
@@ -454,10 +454,10 @@ export default function() {
     };
   });
 
-  this.get('/market_posts/:id');
+  this.get('/market_posts/:id', 'market-post');
 
   this.get('/market_posts/:id/contact', function(db, request) {
-    const post = db.market_posts.find(request.params.id);
+    const post = db['market-posts'].find(request.params.id);
 
     return {
       market_post: {
@@ -472,7 +472,7 @@ export default function() {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
-    const post = db.market_posts.insert(attrs);
+    const post = db['market-posts'].insert(attrs);
 
     // This is so we show the edit button on the post show page
     post.can_edit = true;
@@ -488,8 +488,7 @@ export default function() {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['market_post'];
-      var data = db.market_posts.update(id, attrs);
-      return data;
+      return db['market-posts'].update(id, attrs);
     } else {
       // We're using the UPDATE action to upload market images after the post
       // has been created. Mirage can't really handle this, so we ignore it.

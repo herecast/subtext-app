@@ -5,6 +5,9 @@ import TrackCard from 'subtext-ui/mixins/components/track-card';
 const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
+  attributeBindings: ['data-test-market-card'],
+  'data-test-market-card': Ember.computed.oneWay('post.id'),
+
   title: Ember.computed.oneWay('post.title'),
   isSimilarContent: false,
 
