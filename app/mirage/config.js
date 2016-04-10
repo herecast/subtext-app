@@ -142,6 +142,9 @@ function dashboardAds(db,start,stop) {
 function mixedContent(db) {
   const contents = [];
 
+  // TODO Scrap This whole thing and replace with
+  // adjust the default scenario to create mixed content
+  // dashboard endpoint should return whatever was in the default scenario
   dashboardNews(db,0,2).forEach((record)=> {
     contents.push(record);
   });
