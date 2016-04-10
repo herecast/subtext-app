@@ -24,7 +24,7 @@ export default AjaxService.extend({
   }),
 
   createRegistration(data) {
-    return this.post('/users/signup', {
+    return this.post('/users/sign_up', {
       data: data
     });
   },

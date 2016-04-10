@@ -4,6 +4,7 @@ import trackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
+  inject,
   get,
   isBlank,
   isPresent,
@@ -13,6 +14,7 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend(trackEvent, Validation, {
+  api: inject.service(),
   secondaryBackground: true,
 
   init() {
