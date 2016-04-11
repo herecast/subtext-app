@@ -1,11 +1,10 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { observer, computed } = Ember;
+const { get, inject, observer, computed } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
+  api: inject.service('api'),
   classNames: ['PasswordReset'],
   showErrors: false,
 
@@ -22,7 +21,7 @@ export default Ember.Component.extend(TrackEvent, {
   actions: {
     resetPassword() {
       if (this.get('isValid')) {
-        const url = `${config.API_NAMESPACE}/current_user`;
+        const api = get(this, 'api');
         const data = {
           current_user: {
             user_id: this.get('userId'),
@@ -36,10 +35,7 @@ export default Ember.Component.extend(TrackEvent, {
           navControl: 'Submit Password Change'
         });
 
-        ajax(url, {
-          type: 'PUT',
-          data: data,
-        }).then(() => {
+        api.updateCurrentUserPassword(data).then(() => {
           this.attrs.onSubmit();
         });
       } else {

@@ -6,7 +6,8 @@ export default Ember.Component.extend({
   classNames: ['Comment'],
   classNameBindings: ['isActive:is-active'],
   tagName: 'li',
-  attributeBindings: ['dataAnchor:data-anchor'],
+  attributeBindings: ['dataAnchor:data-anchor', 'data-test-content-comment'],
+  'data-test-content-comment': Ember.computed.oneWay('comment.id'),
 
   dataAnchor: computed('comment.id', function() {
     return `comment-${this.get('comment.contentId')}`;

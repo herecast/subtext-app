@@ -6,6 +6,11 @@ export default function(server) {
   server.createList('content-metric',1);
   server.createList('ad-metric',1);
   server.createList('organization',5);
+  server.create('current-user');
+  server.createList('talk', 50);
+  server.createList('comment',8);
+  server.createList('promotion-banner', 50);
+  server.createList('market-post', 100);
 
   /**
    * Business Categories

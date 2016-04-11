@@ -5,6 +5,9 @@ import TrackCard from 'subtext-ui/mixins/components/track-card';
 const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
+  attributeBindings: ['data-test-news-card'],
+  'data-test-news-card': computed.oneWay('item.title'),
+
   classNames: ['Card', 'NewsCard', 'u-flexColumn'],
   classNameBindings: ['missingContent:hidden'],
   hasImage: Ember.computed.notEmpty('item.imageUrl'),

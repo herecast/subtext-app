@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 import History from '../mixins/routes/history';
 

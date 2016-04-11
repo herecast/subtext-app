@@ -9,6 +9,9 @@ export default Ember.Component.extend(TrackCard, {
   isSimilarContent: false,
   classNameBindings: ['hasComments:TalkCard--stacked'],
 
+  attributeBindings:["data-test-talk-card"],
+  'data-test-talk-card': Ember.computed.oneWay('talk.id'),
+
   hasComments: Ember.computed.gt('talk.commentCount', 0),
 
   isNarrow: computed('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop', function() {

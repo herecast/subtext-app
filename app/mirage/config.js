@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+import Mirage from 'ember-cli-mirage';
 
 /*jshint multistr: true */
 
@@ -141,6 +142,9 @@ function dashboardAds(db,start,stop) {
 function mixedContent(db) {
   const contents = [];
 
+  // TODO Scrap This whole thing and replace with
+  // adjust the default scenario to create mixed content
+  // dashboard endpoint should return whatever was in the default scenario
   dashboardNews(db,0,2).forEach((record)=> {
     contents.push(record);
   });
@@ -178,8 +182,23 @@ function mixedContent(db) {
 
 
 export default function() {
+  this.pretender.post.call(
+    this.pretender,
+    '/write-blanket-coverage',
+    this.pretender.passthrough
+  );
+
   this.namespace = 'api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
+
+  this.pretender.prepareBody = function(body) {
+    if (typeof body === "string") {
+      // For text/html requests
+      return body;
+    } else {
+      return body ? JSON.stringify(body) : '{"error" : "not found"}';
+    }
+  };
 
   this.post('/users/sign_in', function() {
     return {
@@ -194,7 +213,7 @@ export default function() {
   this.post('/users/logout', function() {});
 
   this.get('/current_user', function(db) {
-    var current_user = db.current_users.find(1);
+    var current_user = db['current-users'].find(1);
 
     //mocks location join
     var location = db.locations.find(current_user.location_id);
@@ -214,9 +233,9 @@ export default function() {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['current_user'];
-      current_user = db.current_users.update(id, attrs);
+      current_user = db['current-users'].update(id, attrs);
     } else {
-      current_user = db.current_users.find(id);
+      current_user = db['current-users'].find(id);
     }
 
     //mocks location join
@@ -427,7 +446,7 @@ export default function() {
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
 
-    let posts = db.market_posts.slice(start,stop).map((post) => {
+    let posts = db['market-posts'].slice(start,stop).map((post) => {
       return Ember.getProperties(post, marketPostBaseProperties);
     });
 
@@ -438,10 +457,10 @@ export default function() {
     };
   });
 
-  this.get('/market_posts/:id');
+  this.get('/market_posts/:id', 'market-post');
 
   this.get('/market_posts/:id/contact', function(db, request) {
-    const post = db.market_posts.find(request.params.id);
+    const post = db['market-posts'].find(request.params.id);
 
     return {
       market_post: {
@@ -456,7 +475,7 @@ export default function() {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
-    const post = db.market_posts.insert(attrs);
+    const post = db['market-posts'].insert(attrs);
 
     // This is so we show the edit button on the post show page
     post.can_edit = true;
@@ -472,8 +491,7 @@ export default function() {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['market_post'];
-      var data = db.market_posts.update(id, attrs);
-      return data;
+      return db['market-posts'].update(id, attrs);
     } else {
       // We're using the UPDATE action to upload market images after the post
       // has been created. Mirage can't really handle this, so we ignore it.
@@ -598,16 +616,8 @@ export default function() {
   });
 
   this.get('/weather', function() {
-    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"> \
-    <a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank"> \
-    80° Clear \
-    </a> \
-    </div> \
-    <div class="pull-left" id="forecast_icon"> \
-    <i class="wi wi-day-sunny"></i> \
-    </div>';
-
-    return weather;
+    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"><a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank">80° Clear</a></div><div class="pull-left" id="forecast_icon"><i class="wi wi-day-sunny"></i></div>';
+    return new Mirage.Response(200, {'Content-Type': 'text/html'}, weather);
   });
 
   this.post('/images', function(db) {

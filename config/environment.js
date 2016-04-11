@@ -79,6 +79,10 @@ module.exports = function(environment) {
     }
 
     ENV['mixpanel-api-token'] = '';
+
+    ENV['simple-auth'] = {
+      store: 'simple-auth-session-store:ephemeral'
+    }
   }
 
   if (environment === 'production') {
@@ -88,6 +92,8 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: false
     }
+
+    ENV.fb_enabled = true;
 
     ENV.mixpanel = {
       enabled: true,

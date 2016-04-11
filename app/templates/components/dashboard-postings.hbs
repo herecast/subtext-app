@@ -27,6 +27,7 @@
         (query-params page=1 type='' sort=dateParam)
         class='TabNavigation-link TabNavigation-everythingLink'
         classNameBindings="typeIsEverything:active"
+        data-test-link='everything'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
@@ -34,6 +35,7 @@
         (query-params page=1 type='news' sort=dateParam)
         class='TabNavigation-link TabNavigation-newsLink'
         classNameBindings="typeIsNews:active"
+        data-test-link='news'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
@@ -41,6 +43,7 @@
         (query-params page=1 type='events' sort=dateParam)
         class='TabNavigation-link TabNavigation-eventLink'
         classNameBindings="typeIsEvents:active"
+        data-test-link='events'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
@@ -48,6 +51,7 @@
         (query-params page=1 type='talk' sort=dateParam)
         class='TabNavigation-link TabNavigation-talkLink'
         classNameBindings="typeIsTalk:active"
+        data-test-link='talk'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
@@ -55,6 +59,7 @@
         (query-params page=1 type='market' sort=dateParam)
         class='TabNavigation-link TabNavigation-marketLink'
         classNameBindings="typeIsMarket:active"
+        data-test-link='market'
       }}
     </li>
     <li class='TabNavigation-listItem' {{action 'toggleMobileTabs'}}>
@@ -62,6 +67,7 @@
         (query-params page=1 type='promotion-banner' sort=dateParam)
         class='TabNavigation-link TabNavigation-promotionLink'
         classNameBindings="typeIsAds:active"
+        data-test-link='ad'
       }}
     </li>
     {{#if organizations}}
@@ -70,6 +76,7 @@
           (query-params page=1 type='business' sort=dateParam)
           class='TabNavigation-link TabNavigation-businessLink'
           classNameBindings="typeIsBusinesses:active"
+          data-test-link='business'
         }}
       </li>
     {{/if}}

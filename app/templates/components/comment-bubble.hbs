@@ -9,7 +9,7 @@
 <div class='CommentBubble-content {{if showCount 'CommentBubble-content--hasCount'}}'>
   <a href='#' {{action 'scrollToComments'}}>
     {{#if showCount}}
-      <div class='CommentBubble-contentCount'>
+      <div class='CommentBubble-contentCount' data-test-comment-count>
         {{count}}
       </div>
 

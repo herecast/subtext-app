@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 import HistoryMix from 'subtext-ui/mixins/routes/history';
 

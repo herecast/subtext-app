@@ -1,7 +1,5 @@
 import DS from 'ember-data';
-import ajax from 'ic-ajax';
 import Ember from 'ember';
-import config from '../config/environment';
 import BaseEvent from '../mixins/models/base-event';
 import moment from 'moment';
 
@@ -9,10 +7,12 @@ import moment from 'moment';
 
 const {
   computed,
+  inject,
   get
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, {
+  api: inject.service('api'),
   category: DS.attr('string'),
   firstInstanceId: DS.attr('number'),
   // Cannot use defaultValue: [] here.
@@ -72,18 +72,14 @@ export default DS.Model.extend(BaseEvent, {
   }),
 
   uploadImage() {
-    const url = `${config.API_NAMESPACE}/events/${this.get('id')}`;
+    const event_id = get(this, 'id');
+    const api = get(this, 'api');
     const data = new FormData();
 
     if (this.get('image')) {
       data.append('event[image]', this.get('image'));
 
-      return ajax(url, {
-        data: data,
-        type: 'PUT',
-        contentType: false,
-        processData: false
-      });
+      return api.updateEventImage(event_id, data);
     }
   },
 

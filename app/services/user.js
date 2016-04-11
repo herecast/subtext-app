@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import config from '../config/environment';
+
+const { get, inject } = Ember;
 
 export default Ember.Service.extend({
-
+  api: inject.service('api'),
   getCurrentUser: function() {
     // The current user endpoint does not take an ID, so we pass 'self' so that
     // it requests a single resource
@@ -11,14 +11,8 @@ export default Ember.Service.extend({
   },
 
   resendConfirmation: function(identification) {
-    const url = `${config.API_NAMESPACE}/users/resend_confirmation`;
-    return ajax(url, {
-      type: 'POST',
-      data: {
-        user: {
-          email: identification
-        }
-      }
-    });
+    const api = get(this, 'api');
+
+    return api.resendConfirmation(identification);
   }
 });
