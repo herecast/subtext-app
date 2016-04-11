@@ -80,7 +80,7 @@ export default Ember.Controller.extend(trackEvent, Validation, {
     } else if (!this.hasValidEmail(email)) {
       emailErrorMsg = 'Email format is invalid';
     } else if (emailError) {
-      emailErrorMsg = emailError;
+      emailErrorMsg = emailError[0];
     }
 
     let passwordErrorMsg;
@@ -89,7 +89,7 @@ export default Ember.Controller.extend(trackEvent, Validation, {
     if (!this.hasValidPassword(password)) {
       passwordErrorMsg = get(this, 'errors.password');
     } else if (passwordError) {
-      passwordErrorMsg = passwordError;
+      passwordErrorMsg = passwordError[0];
     }
 
     return Ember.Object.create({
@@ -123,7 +123,8 @@ export default Ember.Controller.extend(trackEvent, Validation, {
           this.trackEvent('createSignup', { });
           this.transitionTo('register.complete');
         }).catch((response) => {
-          set(this, 'requestErrors', response.jqXHR.responseJSON.errors);
+          set(this, 'requestErrors', response.errors);
+
           callback(RSVP.reject());
         });
       } else {
