@@ -4,10 +4,11 @@
   position: relative;
   padding: 8px 25px 25px;
   margin: 0 auto 15px;
+  overflow: hidden;
 
   @media (min-width: @screen-sm-min) {
     padding: 8px 24px 32px;
-    height: 290px;
+    height: 250px;
   }
 }
 
@@ -56,8 +57,25 @@
 
 .TalkCard--stacked {
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.18),
-    -3px 4px 0px 0px #f2f2f2, 
+    -3px 4px 0px 0px #f2f2f2,
     -5px 5px 5px 0px rgba(0, 0, 0, 0.18),
     -7px 7px 0px 0px #f2f2f2,
     -9px 8px 7px 0px rgba(0, 0, 0, 0.18);
+}
+
+.StatBox{
+  padding: 5px 8px 5px 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  div {
+    .h4;
+    text-align: right;
+    color: @gray-dark;
+    font-family: @font-family-regular;
+
+  }
+  i {
+    margin-left: 4px;
+  }
 }
