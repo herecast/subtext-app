@@ -62,13 +62,14 @@
                   pending='Logging out'
                   class='h4 ActionDropdown-item'
                   tagName='a'
+                  data-test-component='logout-link'
                 }}
               </li>
             </ul>
           </li>
         {{else}}
           <li>
-            {{#link-to 'login'}}
+            {{#link-to 'login' data-test-link='login-link'}}
               <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
             {{/link-to}}
           </li>
@@ -108,11 +109,11 @@
           {{/link-to}}
         </li>
         <li class='ActionDropdown-item'>
-          <a href='#' {{action 'signOut'}} class='h4'>Log out</a>
+          <a href='#' {{action 'signOut'}} class='h4' data-test-component="logout-link">Log out</a>
         </li>
       {{else}}
         <li class='ActionDropdown-item'>
-          {{#link-to 'login' class='h4 ActionDropdown-item'}}
+          {{#link-to 'login' class='h4 ActionDropdown-item' data-test-link='login-link'}}
             <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
           {{/link-to}}
         </li>

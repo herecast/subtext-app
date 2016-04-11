@@ -59,6 +59,7 @@
               placeholder='Email Address'
               class='form-control'
               input=(action 'clearErrors')
+              data-test-component='login-email'
             }}
             {{#if userMustConfirm}}
               <div class='help-block'>
@@ -77,6 +78,7 @@
               placeholder='Password'
               type='password'
               class='form-control'
+              data-test-component='login-password'
             }}
           {{/form-group}}
 
@@ -85,6 +87,7 @@
             default='Sign in'
             pending='Signing in'
             class='Button Button--primary btn u-layoutPadB40'
+            data-test-component='login-submit'
           }}
         </form>
 
