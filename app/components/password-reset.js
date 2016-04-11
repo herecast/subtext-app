@@ -4,12 +4,19 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 const { get, inject, observer, computed } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
-  api: inject.service('api'),
+  api: inject.service(),
+  toast: inject.service(),
+
   classNames: ['PasswordReset'],
   showErrors: false,
 
   isValid: computed('password', 'passwordConfirmation', function() {
-    return Ember.isPresent(this.get('password')) && Ember.isPresent(this.get('passwordConfirmation')) && (this.get('password') === this.get('passwordConfirmation'));
+    const password = get(this, 'password'),
+      passwordConfirmation = get(this, 'passwordConfirmation');
+
+    return Ember.isPresent(password) &&
+      password === passwordConfirmation &&
+      password.length >= 8;
   }),
 
   hideErrors: observer('isValid', function() {
@@ -20,6 +27,8 @@ export default Ember.Component.extend(TrackEvent, {
 
   actions: {
     resetPassword() {
+      const toast = get(this, 'toast');
+
       if (this.get('isValid')) {
         const api = get(this, 'api');
         const data = {
@@ -35,10 +44,22 @@ export default Ember.Component.extend(TrackEvent, {
           navControl: 'Submit Password Change'
         });
 
-        api.updateCurrentUserPassword(data).then(() => {
+        api.updateCurrentUserPassword(data).then(
+          () => { toast.success('Saved New Password!'); },
+          (error) => {
+            if ('messages' in error) {
+              error.messages.forEach((message) => {
+                toast.error('Error: ' + message);
+              });
+            } else {
+              toast.error('Error: Unable to save password!');
+            }
+          }
+        ).then(() => {
           this.attrs.onSubmit();
         });
       } else {
+        toast.error('Error: Unable to save password!');
         this.toggleProperty('showErrors');
       }
     }
