@@ -1,5 +1,5 @@
 {{#if isEditing}}
-  {{#x-select value=selectedLocationId class='form-control'}}
+  {{#x-select value=selectedLocationId class='form-control' data-test-component='location-dropdown'}}
     {{#x-option value=null}}Select a location:{{/x-option}}
     {{#each formattedLocations as |location|}}
       {{#x-option value=location.id}}{{location.formattedLocation}}{{/x-option}}
