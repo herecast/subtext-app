@@ -13,6 +13,7 @@ export default Ember.Component.extend(TrackCard, {
   'data-test-talk-card': Ember.computed.oneWay('talk.id'),
 
   hasComments: Ember.computed.gt('talk.commentCount', 0),
+  hasViews: Ember.computed.gt('talk.viewCount', 0),
 
   isNarrow: computed('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop', function() {
     if (this.get('isContentCard')) {

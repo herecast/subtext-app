@@ -2,7 +2,7 @@
   background: #FFFFFF;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.18);
   position: relative;
-  padding: 14px 24px;
+  padding: 0;
   @media (max-width: @screen-xs-max) {
     margin: 15px auto;
   }
@@ -17,6 +17,7 @@
 .EventCard-content {
   justify-content: center;
   -webkit-justify-content: center;
+  padding: 14px 24px;
 }
 
 .EventCard-link {
@@ -29,11 +30,15 @@
 
 .EventCard-title {
   font-size: 24px;
+  .uppercase-bold-condensed;
   @media (min-width: @screen-sm-min) {
     text-align: center;
   }
 }
-
+.EventCard-meta {
+  line-height: 1;
+  margin-bottom: 0;
+}
 .EventCard-time {
   margin: 4px 0;
   @media (max-width: @screen-xs-max) {
@@ -57,8 +62,9 @@
 }
 
 .EventCard-registrationBanner {
+  .uppercase-bold-condensed;
   background-color: @event-brand;
-  margin: -14px -24px 0;
+  margin: 0;
   padding: 8px;
   position: absolute;
   width: 100%;
@@ -71,14 +77,15 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-radius: @border-radius-round;
-  height: 112px;
-  overflow: hidden;
-  width: 112px;
+  height: 140px;
+  width: 100%;
+  max-width: 100%;
   @media (max-width: @screen-xs-max) {
+    overflow: hidden;
+    border-radius: @border-radius-round;
     float: left;
     height: 75px;
-    margin-right: 10px;
+    margin: 8px 8px 0;
     width: 75px;
   }
 }

@@ -21,7 +21,7 @@
   {{/link-to}}
 
   <div class='NewsCard-subtitle'>
-    <h5 class='NewsCard-date'>{{date}}</h5>
+    <span class='NewsCard-date'>{{date}}</span>
 
     {{#link-to 'news' (query-params query='Everything' organization=item.organizationName page=1)}}
       <h3 class='u-textTruncate NewsCard-organization'>{{item.organizationName}}</h3>

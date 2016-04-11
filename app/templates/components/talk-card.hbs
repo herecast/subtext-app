@@ -34,7 +34,7 @@
   {{/link-to}}
 {{/if}}
 
-<div class='u-flexColumn-2 u-layoutPadT10'>
+<div class='u-layoutPadT10'>
   <div class='row'>
     <div class='col-xs-2 u-layoutPadR0'>
       {{#if talk.authorImageUrl}}
@@ -50,27 +50,19 @@
   </div>
 </div>
 
-<div class='TalkCard-stats'>
-  <div class='row'>
-    <div class='{{if isNarrow 'col-sm-6 u-layoutPadding0' 'col-xs-offset-1 col-xs-5 col-md-offset-0 col-md-6'}}'>
-      <div class='StatCircle StatCircle--left {{if isNarrow 'StatCircle--small'}}'>
-        <div class='StatCircle-number'>
-          {{talk.commentCount}}
-        </div>
-        <div class='StatCircle-text'>
-          {{talk.commentCountText}}
-        </div>
+<div class='row'>
+  <div class="StatBox">
+    {{#if hasComments}}
+      <div class="StatBox-comments" title="Comments">
+        {{talk.commentCount}}{{fa-icon 'comment-o'}}
       </div>
-    </div>
-    <div class='{{if isNarrow 'col-sm-6 u-layoutPadding0' 'col-md-6 col-xs-5'}}'>
-      <div class='StatCircle StatCircle--right {{if isNarrow 'StatCircle--small'}}'>
-        <div class='StatCircle-number'>
-          {{talk.viewCount}}
-        </div>
-        <div class='StatCircle-text'>
-          {{talk.viewCountText}}
-        </div>
+    {{/if}}
+    {{#if hasViews}}
+      <div class="StatBox-views" title="Views">
+        {{talk.viewCount}}{{fa-icon 'eye'}}
       </div>
-    </div>
+    {{/if}}
   </div>
+
+
 </div>

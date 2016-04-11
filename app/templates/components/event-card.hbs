@@ -6,9 +6,11 @@
 
 {{#if media.isNotMobile}}
   {{#if event.imageUrl}}
-    <div class='EventCard-imageContainer u-flexColumn'>
-      {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
-    </div>
+    {{#link-to 'events.show' eventId}}
+      <div class='EventCard-imageContainer u-flexColumn'>
+        {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
+      </div>
+    {{/link-to}}
   {{/if}}
 
   <div class='EventCard-content u-flexColumn-2'>
@@ -29,13 +31,13 @@
     {{/if}}
 
     {{#if timeRange}}
-      <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+      <span class='EventCard-meta EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</span>
     {{/if}}
 
     {{#if hasVenue}}
-      <h5 class='EventCard-venue'>
+      <span class='EventCard-meta EventCard-venue'>
         {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-      </h5>
+      </span>
     {{/if}}
   </div>
 {{/if}}
@@ -43,7 +45,9 @@
 {{#if media.isMobile}}
   <div class='clearfix u-layoutPadB20'>
     {{#if event.imageUrl}}
-      <img src='{{event.imageUrl}}' class='EventCard-image'>
+      {{#link-to 'events.show' eventId}}
+        <img src='{{event.imageUrl}}' class='EventCard-image'>
+      {{/link-to}}
     {{/if}}
 
     {{#if isPreview}}

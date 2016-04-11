@@ -11,6 +11,10 @@ export default Ember.Component.extend({
 
   imageUrls: computed.mapBy('images', 'imageUrl'),
 
+  leadImageUrl: computed('imageUrls', function() {
+    return get(this, 'imageUrls').objectAt(0);
+  }),
+
   hasOneImage: computed('imageUrls', function() {
     return (get(this, 'imageUrls.length') === 1);
   }),

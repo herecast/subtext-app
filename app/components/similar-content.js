@@ -6,6 +6,8 @@ const { get, inject } = Ember;
 const { on } = Ember;
 
 export default Ember.Component.extend(ExpandableContent, {
+  classNames:[ 'SimilarContent'],
+  
   contentModel: Ember.inject.service('content-model'),
   api: inject.service('api'),
 
