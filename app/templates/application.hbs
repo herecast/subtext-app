@@ -4,11 +4,12 @@
       {{x-weather
         class='h2 col-sm-3'
         location=session.userLocation
+        data-test-component='weather'
       }}
     {{/unless}}
 
     <div class='col-sm-6 u-textCentered'>
-      {{#link-to 'index' (query-params page=1)}}
+      {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
         <h1 class='MainNav-brand' {{action 'trackHome'}}>
           daily UV
           <span class='MainNav-location'>
@@ -129,7 +130,7 @@
   <div class='Container--noGutter SectionNavigation collapse' id='js-app-bar'>
     <div class='row'>
       <div class='col-sm-1'>
-        {{#link-to 'news.show' '790848' class='Button btn'}}
+        {{#link-to 'news.show' '790848' class='Button btn' data-test-link='help-button'}}
           <span {{action 'trackHelp'}}>{{fa-icon 'question-circle'}} Help</span>
         {{/link-to}}
       </div>
@@ -146,6 +147,7 @@
             )
             current-when='news'
             class='SectionNavigation-link SectionNavigation-newsLink'
+            data-test-link='news-channel'
           }}
             <span {{action 'trackChannel' 'News'}}>News</span>
           {{/link-to}}
@@ -162,6 +164,7 @@
             )
             current-when='events'
             class='SectionNavigation-link SectionNavigation-eventLink'
+            data-test-link='events-channel'
           }}
             <span {{action 'trackChannel' 'Events'}}>Events</span>
           {{/link-to}}
@@ -175,6 +178,7 @@
             current-when='talk'
             class='SectionNavigation-link
             SectionNavigation-talkLink'
+            data-test-link='talk-channel'
           }}
             <span {{action 'trackChannel' 'Talk'}}>Talk</span>
           {{/link-to}}
@@ -189,6 +193,7 @@
             )
             current-when='market'
             class='SectionNavigation-link SectionNavigation-marketLink'
+            data-test-link='market-channel'
           }}
             <span {{action 'trackChannel' 'Market'}}>Market</span>
           {{/link-to}}
@@ -197,6 +202,7 @@
           {{#link-to 'directory.landing'
             current-when='directory'
             class='SectionNavigation-link SectionNavigation-directoryLink'
+            data-test-link='directory-channel'
           }}
           {{!-- <span {{action 'trackChannel' 'Directory'}}> --}}Directory {{!-- </span> --}}
           {{/link-to}}
