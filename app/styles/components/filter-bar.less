@@ -1,7 +1,6 @@
 .FilterBar {
   border-top: 0;
   margin: 0;
-  font-size: 18px;
   font-weight: 700;
   @media (max-width: @screen-sm-max) {
     border-bottom: 1px solid @text-color;
@@ -43,18 +42,18 @@
 }
 
 .FilterBar-text {
+  .h4;
   color: @gray-medium;
   margin: 15px 4px 15px 0;
   width: 50%;
 }
 
 .FilterBar-input {
+  .placeholder(@color: @gray-light);
+  font-size: 18px;
+  font-weight: 700;
   width: 165px;
   margin: 0 4px;
-}
-
-.FilterBar-input {
-  .placeholder(@color: @gray-light);
   color: #000;
 }
 

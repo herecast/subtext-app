@@ -15,6 +15,10 @@
 @font-family-base: 'museo-slab', Georgia, Palatino, serif;
 
 @font-family-condensed: 'proxima-nova-extra-condensed', Verdana, Arial, Helvetica, sans-serif;
+@font-family-regular: 'proxima-nova', Verdana, Arial, Helvetica, sans-serif;
+@font-weight-regular: 400;
+@font-weight-semibold: 600;
+@font-style-normal: 'normal';
 
 body {
   color: @text-color;
@@ -24,14 +28,28 @@ body {
   line-height: 21px;
 }
 
-h1, h2, .h2, h3, h4, .h4 {
+.text-base-font-size {
+  font-size: 1rem; // 14px
+}
+.text-smaller {
+  font-size: 0.8571428571rem; // 12px
+}
+// use .h2 .h4, .h5
+
+.uppercase-bold-condensed {
   font-family: @font-family-condensed;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
-h1 {
+// h1, h2, .h2, h3, h4, .h4 {
+  // font-family: @font-family-condensed;
+  // font-weight: 600;
+// }
+
+h1, .h1 {
   font-size: 36px;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   @media (max-width: @screen-xs-max) {
     font-size: 24px;
   }
@@ -39,39 +57,37 @@ h1 {
 
 h2, .h2 {
   font-size: 24px;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   @media (max-width: @screen-xs-max) {
     font-size: 18px;
   }
 }
 
-h3 {
-  color: @gray-dark;
+h3, .h3 {
+  // TODO we need a step between 18 and 24px
+  // color: @gray-dark;
+  // font-size: 1.2857142857rem; // 18px
   font-size: 18px;
-  text-transform: uppercase;
+  // text-transform: uppercase;
 }
 
 h4, .h4 {
+  font-size: 1.2857142857rem; // 18px
   font-size: 18px;
-  text-transform: uppercase;
+  // text-transform: uppercase;
 }
 
-h5, h6 {
-  font-family: @font-family-base;
-  font-weight: 300;
-}
-
-h5 {
-  color: @gray-dark;
-  font-size: 14px;
+h5, .h5 {
+  // color: @gray-dark;
+  font-size: 1.1428571429rem; // 16px
   @media (max-width: @screen-xs-max) {
     font-size: 12px;
   }
 }
 
-h6 {
-  font-size: 14px;
+h6, .h6 {
+  font-size: 1.1428571429rem; // 16px
   @media (max-width: @screen-xs-max) {
-    font-size: 12px;
+    font-size: 0.8571428571rem; // 12px
   }
 }

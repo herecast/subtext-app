@@ -2,20 +2,17 @@
   <div class='AuthForm u-layoutPadB50'>
     <div class='row'>
       <div class='col-md-8 col-md-offset-2 u-layoutPadT30'>
-        <h6>
+        <p>
           To comment, report abuse, or create an event, listing, or Talk post, you need to join the dailyUV community.
-        </h6>
-
-        <h6>
+          <br />
           If you’ve already registered, enter your email and password and click Sign In.
-        </h6>
+        </p>
       </div>
     </div>
+  <div>
 
-    <div>
 
-
-      <div class='row Section'>
+      <div class='row u-layoutPadB20'>
         <div class='col-md-8 col-md-offset-2'>
           <div class='u-textCentered'>
             {{#link-to 'register' class='Button Button--primary btn'}}
@@ -23,13 +20,13 @@
             {{/link-to}}
           </div>
 
-          <p class='h6'>
+          <p class='h4'>
             By using dailyuv.com, you agree to our
             {{link-to 'terms of service' 'terms' class='u-textUnderline'}}.
             Review our {{link-to 'privacy policy' 'privacy' class='u-textUnderline'}}.
           </p>
 
-          <p class='h6'>
+          <p class='h4'>
             A portion of dailyUV.com includes an alternative presentation of
             content primarily published through email discussion lists maintained
             by <a href='http://www.vitalcommunities.org/' target='_blank' class='u-textUnderline'>Vital Communities</a>.
@@ -86,17 +83,17 @@
             action='authenticate'
             default='Sign in'
             pending='Signing in'
-            class='Button Button--primary btn u-layoutPadB40'
+            class='Button Button--primary btn u-layoutPadB20'
             data-test-component='login-submit'
           }}
         </form>
 
         <p>
-          {{#link-to 'forgot-password.index' class='h4 u-textUnderline'}}
+          {{#link-to 'forgot-password.index' class='u-textUnderline'}}
             <span {{action 'trackForgotPassword'}}>Forgot your password?</span>
           {{/link-to}}
         </p>
-        <p>{{link-to 'Resend confirmation email' 'register.reconfirm' class='h4 u-textUnderline'}}</p>
+        <p>{{link-to 'Resend confirmation email' 'register.reconfirm' class='u-textUnderline'}}</p>
       </div>
     </div>
   </div>

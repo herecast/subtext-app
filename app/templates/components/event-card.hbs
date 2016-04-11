@@ -29,13 +29,13 @@
     {{/if}}
 
     {{#if timeRange}}
-      <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+      <span class='EventCard-meta EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</span>
     {{/if}}
 
     {{#if hasVenue}}
-      <h5 class='EventCard-venue'>
+      <span class='EventCard-meta EventCard-venue'>
         {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-      </h5>
+      </span>
     {{/if}}
   </div>
 {{/if}}
