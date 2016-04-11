@@ -74,7 +74,7 @@
             {{/link-to}}
           </li>
           <li>
-            {{#link-to 'register'}}
+            {{#link-to 'register' data-test-link='join-link'}}
               <span {{action 'trackRegistration' 'Join'}}>Join</span>
             {{/link-to}}
           </li>
@@ -118,7 +118,7 @@
           {{/link-to}}
         </li>
         <li class='ActionDropdown-item'>
-          {{#link-to 'register' class='h4 ActionDropdown-item'}}
+          {{#link-to 'register' class='h4 ActionDropdown-item' data-test-link='join-link'}}
             <span {{action 'trackRegistration' 'Join'}}>Join</span>
           {{/link-to}}
         </li>

@@ -24,6 +24,7 @@
               value=name
               placeholder='Name'
               class='form-control'
+              data-test-component='register-name-input'
             }}
           {{/form-group}}
 
@@ -33,6 +34,7 @@
               type='email'
               placeholder='Email Address'
               class='form-control'
+              data-test-component='register-email-input'
             }}
           {{/form-group}}
 
@@ -42,6 +44,7 @@
               placeholder='Password'
               type='password'
               class='form-control'
+              data-test-component='register-password-input'
             }}
           {{/form-group}}
 
@@ -72,6 +75,7 @@
             default='Join'
             pending='Joining'
             class='Button Button--primary btn'
+            data-test-component='register-submit-button'
           }}
         </form>
       </div>
