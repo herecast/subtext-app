@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-const { get } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
   title: Ember.computed.oneWay('talk.title'),
@@ -11,7 +11,7 @@ export default Ember.Component.extend(TrackCard, {
 
   hasComments: Ember.computed.gt('talk.commentCount', 0),
 
-  isNarrow: function() {
+  isNarrow: computed('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop', function() {
     if (this.get('isContentCard')) {
       if (this.get('isSimilarContent')) {
         return this.get('media.isSmallDesktop');
@@ -19,15 +19,15 @@ export default Ember.Component.extend(TrackCard, {
         return this.get('media.isTabletOrSmallDesktop');
       }
     }
-  }.property('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop'),
+  }),
 
-  parentContentId: function() {
+  parentContentId: computed('talk.parentContentId', function() {
     if (this.get('talk.parentContentType') === 'event') {
       return this.get('talk.parentEventInstanceId');
     } else {
       return this.get('talk.parentContentId');
     }
-  }.property('talk.parentContentId'),
+  }),
 
   actions: {
     trackSimilarContentClick() {

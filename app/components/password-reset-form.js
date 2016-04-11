@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend({
   tagName: 'form',
   showErrors: false,
@@ -10,9 +12,9 @@ export default Ember.Component.extend({
   passwordConfirmation: '',
   serverErrors: [],
 
-  passwordsMatch: function() {
+  passwordsMatch: computed('password', 'passwordConfirmation', function() {
     return (this.get('password').length && this.get('password') === this.get('passwordConfirmation'));
-  }.property('password', 'passwordConfirmation'),
+  }),
 
   actions: {
     submit() {

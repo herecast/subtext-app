@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 
   model() {
     let model = {
-      categories: this.store.find('business-category')
+      categories: this.store.findAll('business-category')
     };
 
     return RSVP.hash(model);

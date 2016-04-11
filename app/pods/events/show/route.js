@@ -3,10 +3,11 @@ import RouteMetaMixin from '../../../mixins/routes/social-tags';
 import Redirect from '../../../mixins/routes/redirect-after-login';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
 import ShareCaching from '../../../mixins/routes/share-caching';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 import Dates from '../../../lib/dates';
 
-export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, {
+export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'imageUrl',
 
   model(params) {
@@ -16,7 +17,7 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
     // same URL format, we need to figure out if we're going to an event first
     // based on whether the "category" is actually an ID.
     if (eventIdRegex.test(params.id)) {
-      const eventInstance = this.store.getById('event-instance', params.id);
+      const eventInstance = this.store.peekRecord('event-instance', params.id);
 
       // Force the event instance to reload if it's already found in the store.
       // This lets us get the more detailed record from the show API endpoint,
@@ -24,7 +25,7 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
       if (eventInstance) {
         return eventInstance.reload();
       } else {
-        return this.store.find('event-instance', params.id);
+        return this.store.findRecord('event-instance', params.id);
       }
     } else {
       const category = params.id.capitalize().replace('-', ' ');

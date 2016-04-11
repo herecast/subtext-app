@@ -3,13 +3,13 @@ import Ember from 'ember';
 import Config from '../config/environment';
 /* global mixpanel */
 
-const { get, merge, computed, isEmpty } = Ember;
+const { get, merge, computed, isEmpty, on } = Ember;
 
 export default Ember.Service.extend({
 
-  setup: function() {
+  setup: on('init', function() {
     mixpanel.init(Config['mixpanel-api-token']);
-  }.on('init'),
+  }),
 
   pageHasAnalytics: function() {
     return window.mixpanel && typeof window.mixpanel === "object" && Config.mixpanel.enabled;

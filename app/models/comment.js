@@ -1,4 +1,7 @@
+import Ember from 'ember';
 import DS from 'ember-data';
+
+const { computed } = Ember;
 
 export default DS.Model.extend({
   content: DS.attr('string'),
@@ -9,7 +12,7 @@ export default DS.Model.extend({
   userImageUrl: DS.attr('string'),
   pubdate: DS.attr('moment-date'),
 
-  formattedPostedAt: function() {
+  formattedPostedAt: computed('pubdate', function() {
     return this.get('pubdate').fromNow();
-  }.property('pubdate')
+  })
 });

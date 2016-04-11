@@ -3,7 +3,7 @@ import ajax from 'ic-ajax';
 import config from '../config/environment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { get } = Ember;
+const { get, observer } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   classNames: ['ReportAbuse'],
@@ -13,9 +13,9 @@ export default Ember.Component.extend(TrackEvent, {
   flagType: null,
   invalid: false,
 
-  revalidate: function() {
+  revalidate: observer('flagType', function() {
     this.set('invalid', false);
-  }.observes('flagType'),
+  }),
 
   flagTypes: ['Offensive', 'Inflammatory', 'Personal Attack', 'Spam'],
 

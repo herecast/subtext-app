@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { observer, on } = Ember;
+
 export default Ember.Mixin.create({
   classNames: ['dropdown'],
   classNameBindings: ['open'],
@@ -7,7 +9,7 @@ export default Ember.Mixin.create({
   // Since we're manually toggling the dropdown when results are found, we need
   // to manualy manage the click binding state. Otherwise the menu would not
   // close when a user clicks outside of it.
-  initDropdownToggle: function() {
+  initDropdownToggle: observer('open', function() {
     if (this.get('open')) {
       Ember.$('html').on('click.manual-dropdown', () => {
         this.set('open', false);
@@ -15,9 +17,9 @@ export default Ember.Mixin.create({
     } else {
       Ember.$('html').off('click.manual-dropdown');
     }
-  }.observes('open'),
+  }),
 
-  removeManualClick: function() {
+  removeManualClick: on('willDestroyElement', function() {
     Ember.$('html').off('click.manual-dropdown');
-  }.on('willDestroyElement')
+  })
 });

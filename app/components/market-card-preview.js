@@ -2,8 +2,10 @@ import Ember from 'ember';
 import MarketCard from './market-card';
 import PreviewScroll from '../mixins/components/card-preview-scroll';
 
+const { computed } = Ember;
+
 export default MarketCard.extend(PreviewScroll, {
-  title: function() {
+  title: computed('post.title', function() {
     const title = this.get('post.title');
 
     if (Ember.isPresent(title)) {
@@ -11,5 +13,5 @@ export default MarketCard.extend(PreviewScroll, {
     } else {
       return 'A short and informative title';
     }
-  }.property('post.title'),
+  })
 });

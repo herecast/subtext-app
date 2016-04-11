@@ -4,7 +4,8 @@ import config from '../config/environment';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 const {
-  set
+  set,
+  on
 } = Ember;
 
 export default Ember.Component.extend(ManualDropdown, {
@@ -15,7 +16,7 @@ export default Ember.Component.extend(ManualDropdown, {
     set(this, 'hasPerformedSearch', false);
   },
 
-  initInput: function() {
+  initInput: on('didInsertElement', function() {
     this.$('input').keyup(() => {
       const name = this.get('venueName');
 
@@ -29,11 +30,11 @@ export default Ember.Component.extend(ManualDropdown, {
         Ember.run.debounce(this, this.sendSearchQuery, name, 300);
       }
     });
-  }.on('didInsertElement'),
+  }),
 
-  removeQueryInput: function() {
+  removeQueryInput: on('willDestroyElement', function() {
     this.$('input').off('keyUp');
-  }.on('willDestroyElement'),
+  }),
 
   sendSearchQuery(value) {
     const url = `${config.API_NAMESPACE}/venues`;

@@ -1,13 +1,14 @@
 import Ember from 'ember';
 
+const { computed, String: { htmlSafe }  } = Ember;
+
 export default Ember.Component.extend({
   attributeBindings: ['style'],
 
-  style: function() {
-    const imageUrl = this.get('imageUrl');
+  style: computed('imageUrl', function() {
+    const imageUrl = this.get('imageUrl'),
+      style = (imageUrl) ? `background-image: url('${imageUrl}')` : '';
 
-    if (imageUrl) {
-      return `background-image: url('${imageUrl}')`.htmlSafe();
-    }
-  }.property('imageUrl')
+    return htmlSafe(style);
+  })
 });

@@ -1,22 +1,28 @@
 import Ember from 'ember';
 
+const {
+  get,
+  computed
+} = Ember;
+
 export default Ember.Component.extend({
   classNames: ['ContentFormSteps', 'col-sm-8', 'col-sm-offset-2'],
-  step1Complete: Ember.computed.equal('step1State', 'complete'),
-  step2Complete: Ember.computed.equal('step2State', 'complete'),
-  step3Complete: Ember.computed.equal('step3State', 'complete'),
+  step1Complete: computed.equal('step1State', 'complete'),
+  step2Complete: computed.equal('step2State', 'complete'),
+  step3Complete: computed.equal('step3State', 'complete'),
   type: '',
 
-  formattedType: function() {
-    if (this.get('type') === 'market') {
+  formattedType: computed('type', function() {
+    if (get(this, 'type') === 'market') {
       return 'listing';
     } else {
-      return this.get('type');
+      return get(this, 'type');
     }
-  }.property('type'),
+  }),
 
-  stepCountTypeClass: function() {
-    const formattedType = this.get('type').toLowerCase();
+  stepCountTypeClass: computed('type', function() {
+    const formattedType = get(this, 'type').toLowerCase();
+
     return `ContentFormSteps-stepCount--${formattedType}`;
-  }.property('type')
+  })
 });

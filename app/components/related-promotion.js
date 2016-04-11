@@ -4,13 +4,13 @@ import ajax from 'ic-ajax';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
-  get
+  get, on
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   promotionService: Ember.inject.service('promotion'),
 
-  getPromotion: function() {
+  getPromotion: on('didInsertElement', function() {
     const content = this.get('contentModel');
 
     if (content) {
@@ -24,7 +24,7 @@ export default Ember.Component.extend(TrackEvent, {
         });
       });
     }
-  }.on('didInsertElement'),
+  }),
 
   click() {
     // Some banners may not have a redirect URL, so we only want to track the

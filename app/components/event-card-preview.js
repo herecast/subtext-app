@@ -2,6 +2,8 @@ import Ember from 'ember';
 import EventCard from './event-card';
 import PreviewScroll from '../mixins/components/card-preview-scroll';
 
+const { computed } = Ember;
+
 function defaultValue(value, placeholder) {
   if (Ember.isPresent(value)) {
     return value;
@@ -13,24 +15,24 @@ function defaultValue(value, placeholder) {
 export default EventCard.extend(PreviewScroll, {
   timeRange: Ember.computed.oneWay('event.eventInstances.firstObject.formattedDate'),
 
-  title: function() {
+  title: computed('event.title', function() {
     return defaultValue(this.get('event.title'),
       'A short and informative name');
-  }.property('event.title'),
+  }),
 
-  venueName: function() {
+  venueName: computed('event.venueName', function() {
     return defaultValue(this.get('event.venueName'), 'Location Name');
-  }.property('event.venueName'),
+  }),
 
-  venueAddress: function() {
+  venueAddress: computed('event.venueAddress', function() {
     return defaultValue(this.get('event.venueAddress'), 'Address');
-  }.property('event.venueAddress'),
+  }),
 
-  venueCity: function() {
+  venueCity: computed('event.venueCity', function() {
     return defaultValue(this.get('event.venueCity'), 'City');
-  }.property('event.venueCity'),
+  }),
 
-  venueState: function() {
+  venueState: computed('event.venueState', function() {
     return defaultValue(this.get('event.venueState'), 'State');
-  }.property('event.venueState')
+  })
 });

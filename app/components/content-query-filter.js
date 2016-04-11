@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
+const { on } = Ember;
+
 export default Ember.Component.extend(ManualDropdown, {
   click() {
     this.$('input').select();
   },
 
-  initInput: function() {
+  initInput: on('didInsertElement', function() {
     this.$('input').keyup((e) => {
       const value = this.get('query');
       // Don't initiate a search if someone is tabbing through filters
@@ -17,7 +19,7 @@ export default Ember.Component.extend(ManualDropdown, {
         }
       }
     });
-  }.on('didInsertElement'),
+  }),
 
   updateFilter() {
     if (Ember.isPresent(this.get('query'))) {
@@ -26,9 +28,9 @@ export default Ember.Component.extend(ManualDropdown, {
     }
   },
 
-  removeQueryInput: function() {
+  removeQueryInput: on('willDestroyElement', function() {
     this.$('input').off('keyUp');
-  }.on('willDestroyElement'),
+  }),
 
   actions: {
     setQuery(query) {

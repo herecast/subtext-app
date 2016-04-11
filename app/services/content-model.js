@@ -30,7 +30,7 @@ export default Ember.Service.extend({
     if (isBlank(modelName)) {
       return false;
     } else {
-      const item = this.store.push(modelName, this.store.normalize(modelName, record));
+      const item = this.store.push(this.store.normalize(modelName, record));
 
       item.set('contentType', modelName);
       item.set('views', views);

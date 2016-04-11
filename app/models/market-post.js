@@ -21,7 +21,7 @@ export default DS.Model.extend({
   contentId: Ember.computed.oneWay('id'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   hasContactInfo: DS.attr('boolean'),
-  images: DS.hasMany('image'),
+  images: DS.hasMany('image', { async: false }),
   imageUrl: DS.attr('string'),
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
@@ -57,7 +57,7 @@ export default DS.Model.extend({
     });
   },
 
-  coverImageUrl: function() {
+  coverImageUrl: computed('images.@each.{primary,imageUrl}', 'imageUrl', function() {
     const images = get(this, 'populatedImages');
     const primaryImage = images.findBy('primary');
 
@@ -70,13 +70,13 @@ export default DS.Model.extend({
     } else {
       return get(this, 'imageUrl');
     }
-  }.property('images.@each.{primary,imageUrl}', 'imageUrl'),
+  }),
 
   listsEnabled: Ember.computed.notEmpty('listservIds'),
 
-  formattedPublishedAt: function() {
+  formattedPublishedAt: computed('publishedAt', function() {
     return this.get('publishedAt').format('dddd, MMMM D, YYYY');
-  }.property('publishedAt'),
+  }),
 
   loadContactInfo() {
     const id = this.get('id');

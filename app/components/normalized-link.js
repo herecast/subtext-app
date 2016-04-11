@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { computed } = Ember;
+
 export default Ember.Component.extend({
   tagName: 'a',
   attributeBindings: ['href', 'target'],
@@ -12,7 +14,7 @@ export default Ember.Component.extend({
     }
   },
 
-  href: function() {
+  href: computed('url', function() {
     const url = this.get('url');
 
     if (url && url.indexOf('http') === 0) {
@@ -20,5 +22,5 @@ export default Ember.Component.extend({
     } else {
       return `http://${url}`;
     }
-  }.property('url')
+  })
 });

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-const { get, isPresent } = Ember;
+const { get, isPresent, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
   classNameBindings: ['event.registrationDeadline:hasRegistrationDeadline'],
@@ -15,7 +15,7 @@ export default Ember.Component.extend(TrackCard, {
 
   hasVenue: Ember.computed.notEmpty('venue'),
 
-  venue: function() {
+  venue: computed('venueName', 'venueCity', 'venueState', function() {
     const name = this.get('venueName');
     const city = this.get('venueCity');
     const state = this.get('venueState');
@@ -25,15 +25,15 @@ export default Ember.Component.extend(TrackCard, {
     } else {
       return [city, state].join(', ');
     }
-  }.property('venueName', 'venueCity', 'venueState'),
+  }),
 
-  eventId: function() {
+  eventId: computed('event.id', 'event.eventInstanceId', function() {
     if (Ember.isPresent(this.get('event.eventInstanceId'))) {
       return this.get('event.eventInstanceId');
     } else {
       return this.get('event.id');
     }
-  }.property('event.id', 'event.eventInstanceId'),
+  }),
 
   actions: {
     trackSimilarContentClick() {

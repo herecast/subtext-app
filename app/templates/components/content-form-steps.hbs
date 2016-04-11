@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='col-sm-4'>
     <div class='ContentFormSteps-step ContentFormSteps-step--1'>
-      <div {{bind-attr class='step1State stepCountTypeClass :ContentFormSteps-stepCount'}}>
+      <div class='ContentFormSteps-stepCount {{step1State}} {{stepCountTypeClass}}'>
         {{#if step1Complete}}
           {{fa-icon 'check' class='ContentFormSteps-stepIcon'}}
         {{else}}
@@ -13,7 +13,7 @@
   </div>
   <div class='col-sm-4'>
     <div class='ContentFormSteps-step ContentFormSteps-step--2'>
-      <div {{bind-attr class='step2State stepCountTypeClass :ContentFormSteps-stepCount'}}>
+      <div class='ContentFormSteps-stepCount {{step2State}} {{stepCountTypeClass}}'>
         {{#if step2Complete}}
           {{fa-icon 'check' class='ContentFormSteps-stepIcon'}}
         {{else}}

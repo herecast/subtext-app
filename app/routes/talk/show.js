@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import RouteMetaMixin from '../../mixins/routes/social-tags';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 const { set } = Ember;
 
-export default Ember.Route.extend(RouteMetaMixin, {
+export default Ember.Route.extend(RouteMetaMixin, ResetScroll, {
   contentComments: Ember.inject.service('content-comments'),
 
   modelImageKey: 'imageUrl',

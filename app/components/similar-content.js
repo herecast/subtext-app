@@ -3,10 +3,12 @@ import ExpandableContent from '../mixins/components/expandable-content';
 import ajax from 'ic-ajax';
 import config from '../config/environment';
 
+const { on } = Ember;
+
 export default Ember.Component.extend(ExpandableContent, {
   contentModel: Ember.inject.service('content-model'),
 
-  getSimilarContent: function() {
+  getSimilarContent: on('init', function() {
     const contentId = this.get('contentId');
 
     if (contentId) {
@@ -28,5 +30,5 @@ export default Ember.Component.extend(ExpandableContent, {
         this.set('sourceContentId', contentId);
       });
     }
-  }.on('init')
+  })
 });

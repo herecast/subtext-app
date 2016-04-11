@@ -2,25 +2,33 @@ import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 import moment from 'moment';
 
-const { computed } = Ember;
+const {
+  computed,
+  inject,
+  get
+} = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
-  intercom: Ember.inject.service('intercom'),
-  newsFilter: Ember.inject.controller('news/all/index'),
-  eventsFilter: Ember.inject.controller('events/all/index'),
-  talkFilter: Ember.inject.controller('talk/all/index'),
-  marketFilter: Ember.inject.controller('market/all/index'),
-  backgroundClass: function() {
-    const currentController = this.controllerFor(this.get('currentPath'));
+  currentController: inject.service('current-controller'),
+  intercom: inject.service('intercom'),
+  newsFilter: inject.controller('news/all/index'),
+  eventsFilter: inject.controller('events/all/index'),
+  talkFilter: inject.controller('talk/all/index'),
+  marketFilter: inject.controller('market/all/index'),
+
+  backgroundClass: computed('currentPath', function() {
+    const secondaryBackground = get(this, 'currentController.secondaryBackground');
+    const secondaryBackgroundMobile = get(this, 'currentController.secondaryBackgroundMobile');
     let klass = '';
-    if (Ember.isPresent(currentController) && currentController.get('secondaryBackground')) {
+
+    if (secondaryBackground) {
       klass += 'u-colorBgSecondary';
     }
-    if (Ember.isPresent(currentController) && currentController.get('secondaryBackgroundMobile')) {
+    if (secondaryBackgroundMobile) {
       klass += ' u-colorBgSecondary--mobile';
     }
     return klass;
-  }.property('currentPath'),
+  }),
 
   copyrightYear: computed(function() {
     return moment().format('YYYY');

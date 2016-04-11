@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import PaginatedFilter from '../../../mixins/controllers/paginated-filter';
 
+const { computed } = Ember;
+
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
@@ -17,12 +19,12 @@ export default Ember.Controller.extend(PaginatedFilter, {
   location: Ember.computed.oneWay('defaultLocation'),
   locationId: Ember.computed.oneWay('defaultLocationId'),
 
-  showReset: function() {
+  showReset: computed('query', 'location', function() {
     const isDefaultQuery = this.get('defaultQuery') === this.get('query');
     const isDefaultLocation = this.get('defaultLocation') === this.get('location');
 
     return !isDefaultLocation || !isDefaultQuery;
-  }.property('query', 'location'),
+  }),
 
   actions: {
     resetFilters() {
