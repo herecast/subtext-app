@@ -1,8 +1,11 @@
 import Ember from 'ember';
 
-const { get, inject } = Ember;
-
-const { computed } = Ember;
+const {
+  get, set,
+  inject,
+  computed,
+  isBlank
+} = Ember;
 
 export default Ember.Component.extend({
   api: inject.service('api'),
@@ -14,29 +17,37 @@ export default Ember.Component.extend({
   serverErrors: [],
 
   passwordsMatch: computed('password', 'passwordConfirmation', function() {
-    return (this.get('password').length && this.get('password') === this.get('passwordConfirmation'));
+    return (get(this, 'password').length && get(this, 'password') === get(this, 'passwordConfirmation'));
   }),
 
   actions: {
     submit() {
-      if (this.get('passwordsMatch')) {
-        this.set('showError', false);
+      if (get(this, 'passwordsMatch')) {
         const api = get(this, 'api');
+        set(this, 'showErrors', false);
 
         api.resetPassword({
           user: {
-            reset_password_token: this.get('token'),
-            password: this.get('password'),
-            password_confirmation: this.get('passwordConfirmation')
+            reset_password_token: get(this, 'token'),
+            password: get(this, 'password'),
+            password_confirmation: get(this, 'passwordConfirmation')
           }
         }).then(() => {
-          this.set('showConfirmation', true);
+          // TODO this success condition will never fire
+          // because Ember isn't interpreting a 200 ok header
+          // with a blank response as success
+          set(this, 'showConfirmation', true);
         }, (response) => {
-          this.set('serverErrors', response.jqXHR.responseJSON.errors);
-          this.set('showErrors', true);
+          if (isBlank(response)) {
+            // assuming a blank response is a 200 ok
+            set(this, 'showConfirmation', true);
+          } else {
+            set(this, 'serverErrors', response.errors);
+            set(this, 'showErrors', true);
+          }
         });
       } else {
-        this.set('showErrors', true);
+        set(this, 'showErrors', true);
       }
     }
   }

@@ -504,7 +504,7 @@ export default function() {
   });
 
   this.put('/password_resets/:token', function() {
-    return {};
+    return ' ';
   });
 
   this.get('/password_resets/:token', function() {
