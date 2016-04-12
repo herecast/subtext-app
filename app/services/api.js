@@ -209,7 +209,7 @@ export default AjaxService.extend({
   },
 
   resetPassword(data) {
-    return this.post('/password_resets', {data: data});
+    return this.put('/password_resets', {data: data});
   },
 
   signOut() {
