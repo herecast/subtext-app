@@ -18,8 +18,10 @@
 
     {{#if model.bannerImage}}
       <div class='NewsPhotoBanner'>
-        {{background-image imageUrl=model.bannerImage.url class='PhotoBanner-curtainImage'}}
-        <div class='PhotoBanner-curtain'></div>
+        <div class='PhotoBanner-wrap'>
+          {{background-image imageUrl=model.bannerImage.url class='PhotoBanner-curtainImage'}}
+          <div class='PhotoBanner-curtain'></div>
+        </div>
         <div class='container'>
           <div class='row'>
             <div class='col-sm-8 col-sm-offset-2'>
