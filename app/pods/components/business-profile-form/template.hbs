@@ -31,7 +31,11 @@
 
     {{#form-group error=errors.hours}}
       <label class='control-label ContentForm-label--required' for="business-hours">Business Hours</label>
-      {{business-hours-editor class="BusinessProfileForm-hoursEditor" hours=model.hours on-update=(action (mut model.hours))}}
+      {{business-hours-editor
+        class="BusinessProfileForm-hoursEditor"
+        hours=model.hours
+        on-update=(action (mut model.hours))
+      }}
     {{/form-group}}
 
     {{#form-group error=errors.categories}}

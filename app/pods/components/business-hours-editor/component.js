@@ -92,6 +92,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     const hoursObj = bizHours.deserialize(this.attrs.hours.value || []);
+
     set(this, 'model', hoursObj);
     set(this, 'daysOpen', extractDaysOpen(hoursObj));
     set(this, 'openTimes', extractOpenTimes(hoursObj));
@@ -108,25 +109,31 @@ export default Ember.Component.extend({
   actions: {
     updateOpen(day, value) {
       const model = get(this, 'model');
+
       model[day] = model[day] || {open: "00:00", close: "00:00"};
       model[day].open = value;
+
       this.triggerUpdate();
     },
 
     updateClose(day, value) {
       const model = get(this, 'model');
+
       model[day] = model[day] || {open: "00:00", close: "00:00"};
       model[day].close = value;
+
       this.triggerUpdate();
     },
 
     toggleOpen(day) {
       const model = get(this, 'model');
+
       if(isPresent(model[day])) {
         delete model[day];
       } else {
         model[day] = {open: "00:00", close: "00:00"};
       }
+
       this.triggerUpdate();
     }
   }
