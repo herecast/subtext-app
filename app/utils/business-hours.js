@@ -1,4 +1,3 @@
-
 const days = {
   Sunday: 'Su',
   Monday: 'Mo',
@@ -22,7 +21,7 @@ function sortByDayOrderIndex(a, b) {
 }
 
 export default {
-  deserialize: function(list) {
+  deserialize(list) {
     let output = {};
     list.forEach((str) => {
       let [daysStr, hoursStr] = str.split("|");
@@ -31,17 +30,27 @@ export default {
 
       let dayList = [];
       if (daySplit.length > 1) {
-        if( daySplit.length === 2 &&
+        if (daySplit.length === 2 &&
             daySplit.contains('Sa') &&
             daySplit.contains('Su')) {
-          // This is a weekend schedule,
-          dayList.push('Sa');
-          dayList.push('Su');
+          if (daySplit.indexOf('Sa') < daySplit.indexOf('Su')) {
+            // This is a weekend schedule,
+            dayList.push('Sa');
+            dayList.push('Su');
+          } else {
+            // This is a full-week schedule,
+            let day1Index = dayOrder.indexOf(daySplit[0]);
+            let day2Index = dayOrder.indexOf(daySplit[1]);
+
+            for(let i = day1Index; i <= day2Index; i++) {
+              dayList.push( dayOrder[i] );
+            }
+          }
         } else {
           let day1Index = dayOrder.indexOf(daySplit[0]);
           let day2Index = dayOrder.indexOf(daySplit[1]);
 
-          for(var i = day1Index; i <= day2Index; i++) {
+          for(let i = day1Index; i <= day2Index; i++) {
             dayList.push( dayOrder[i] );
           }
         }
@@ -60,7 +69,7 @@ export default {
     return output;
   },
 
-  serialize: function(data) {
+  serialize(data) {
     // Group days by same open & close time
     const groupedData = {};
     for(var k in data) {

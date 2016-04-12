@@ -52,6 +52,8 @@ test('deserialize [Mo-Fr|9:00-17:00, Sa|10:30-14:30, Su|11:00-13:00]', function(
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const open = '9:00';
   const close = '17:00';
+
+  // expect 14 assertions
   assert.expect(dayNames.length * 2 + 4);
 
   dayNames.forEach( (day)=> {
@@ -74,6 +76,8 @@ test('deserialize [Mo-Fr|9:00-17:00, Sa-Su|10:30-14:30]', function(assert) {
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const open = '9:00';
   const close = '17:00';
+
+  // expect 14 assertions
   assert.expect(dayNames.length * 2 + 4);
 
   dayNames.forEach( (day)=> {
@@ -86,6 +90,46 @@ test('deserialize [Mo-Fr|9:00-17:00, Sa-Su|10:30-14:30]', function(assert) {
 
   assert.equal(result['Sunday']['open'], '10:30');
   assert.equal(result['Sunday']['close'], '14:30');
+});
+
+test('deserialize [Su-Sa|00:00-00:00] , it deserializes a full-week schedule', function(assert) {
+  /*
+   * The order of Su-Sa vs. Sa-Su is important.
+   */
+  const result = businessHours.deserialize([
+    'Su-Sa|10:30-14:30'
+  ]);
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const open = '10:30';
+  const close = '14:30';
+
+  // expect 14 assertions
+  assert.expect(dayNames.length * 2);
+
+  dayNames.forEach(day => {
+    assert.equal(result[day].open, open);
+    assert.equal(result[day].close, close);
+  });
+});
+
+test('deserialize [Sa-Su|00:00-00:00] , it deserializes a weekend schedule', function(assert) {
+  /*
+   * The order of Su-Sa vs. Sa-Su is important.
+   */
+  const result = businessHours.deserialize([
+    'Sa-Su|10:30-14:30'
+  ]);
+  const dayNames = ['Sunday', 'Saturday'];
+  const open = '10:30';
+  const close = '14:30';
+
+  // expect 2 assertions
+  assert.expect(dayNames.length * 2);
+
+  dayNames.forEach(day => {
+    assert.equal(result[day].open, open);
+    assert.equal(result[day].close, close);
+  });
 });
 
 /***********************************
@@ -272,4 +316,54 @@ test('serialize Sunday, 8:00-17:30; Monday - Wednesday, 9:00-12:00; Friday, 9:00
   };
   const result = businessHours.serialize(data);
   assert.deepEqual(result, ['Su|8:00-17:30','Mo-We|9:00-12:00','Fr|9:00-12:00','Sa|8:00-12:00']);
+});
+
+test('serialize Saturday-Sunday, 8:00-17:30', function(assert) {
+  const data = {
+    Saturday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Sunday: {
+      open: '8:00',
+      close: '17:30'
+    }
+  };
+  const result = businessHours.serialize(data);
+  assert.deepEqual(result, ['Sa-Su|8:00-17:30']);
+});
+
+test('serialize Sunday-Saturday 8:00-17:30', function(assert) {
+  const data = {
+    Sunday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Monday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Tuesday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Wednesday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Thursday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Friday: {
+      open: '8:00',
+      close: '17:30'
+    },
+    Saturday: {
+      open: '8:00',
+      close: '17:30'
+    }
+  };
+  const result = businessHours.serialize(data);
+  assert.deepEqual(result, ['Su-Sa|8:00-17:30']);
 });
