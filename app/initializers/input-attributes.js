@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export function initialize(/* container, application */) {
   Ember.TextField.reopen({
-    attributeBindings: ['data-toggle', 'aria-expanded']
+    attributeBindings: ['data-toggle', 'aria-expanded', 'autocomplete']
   });
 }
 
