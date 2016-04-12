@@ -5,12 +5,14 @@ const {
   isPresent,
   observer,
   on,
-  get
+  get,
+  inject
 } = Ember;
 
 export default Ember.Component.extend(ManualDropdown, {
   isSearching: false,
   hasPerformedSearch: false,
+  api: inject.service(),
 
   // Pass key/value pairs to add additional hardcoded options to the list.
   otherLocations: [],
