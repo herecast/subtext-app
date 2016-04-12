@@ -10,8 +10,10 @@
 {{/if}}
 
 <div class='PhotoBanner {{if model.imageUrl 'PhotoBanner--padded'}}'>
-  {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
-  <div class='PhotoBanner-curtain'></div>
+  <div class='PhotoBanner-wrap'>
+    {{background-image imageUrl=model.imageUrl class='PhotoBanner-curtainImage'}}
+    <div class='PhotoBanner-curtain'></div>
+  </div>
   <div class='PhotoBanner-content container'>
     <div class='row hidden-sm hidden-xs'>
       <div class='col-sm-8 {{if model.imageUrl 'col-sm-offset-4' 'col-sm-offset-2'}}'>
