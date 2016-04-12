@@ -391,8 +391,17 @@ export default function() {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['event'];
-      var data = db.events.update(id, attrs);
-      return data;
+      var event = db.events.update(id, attrs);
+
+      const scheduleAttrs = putData['event']['schedules'];
+      event.schedules = db.schedules.insert(scheduleAttrs);
+      event.schedules.forEach((schedule) => {
+        schedule.event_id = event.id;
+      });
+
+      event.first_instance_id = 1;
+
+      return {event: event};
     } else {
       // We're using the UPDATE action to upload event images after the event
       // has been created. Mirage can't really handle this, so we ignore it.

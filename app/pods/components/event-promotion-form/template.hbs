@@ -39,7 +39,7 @@
         {{#x-select value=event.category class='form-control'}}
           {{#x-option value=null}}Select a category:{{/x-option}}
           {{#each categories as |category|}}
-            {{#x-option value=category}}{{category.label}}{{/x-option}}
+            {{#x-option value=category.value}}{{category.label}}{{/x-option}}
           {{/each}}
         {{/x-select}}
       {{/if}}
