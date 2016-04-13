@@ -82,7 +82,9 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
     },
 
     afterPublish(post) {
-      this.transitionTo('market.show', post.get('id')).then(this.facebookRecache);
+      this.transitionTo('market.show', post.get('id')).then(() => {
+        this.facebookRecache();
+      });
     },
 
     backToDetails() {
