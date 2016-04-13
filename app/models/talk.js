@@ -32,7 +32,7 @@ export default DS.Model.extend({
     const parentContentType = this.get('parentContentType');
     if (parentContentType === 'market_post') {
       return 'market.show';
-    } else if (parentContentType === 'event') {
+    } else if (parentContentType === 'event' || parentContentType === 'event_instance') {
       return 'events.show';
     } else if (parentContentType === 'talk_of_the_town') {
       return 'talk.show';
