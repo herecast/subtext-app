@@ -20,6 +20,42 @@ function sortByDayOrderIndex(a, b) {
   return dayOrder.indexOf(a) - dayOrder.indexOf(b);
 }
 
+function groupDaysByProximity(timeGroup, timeRange, returnData) {
+  let pGroups = [];
+  let index = 0;
+  let day;
+  let lastday;
+  let lastDay;
+  let dayCountDifference;
+  let group;
+  let firstDay;
+
+
+  timeGroup.forEach(function(day) {
+    dayCountDifference = (dayOrder.indexOf(day) - dayOrder.indexOf(lastday));
+
+    if(pGroups.length > 0 && dayCountDifference > 1) {
+       index++;
+    }
+
+    lastday = day;
+    pGroups[index] = pGroups[index] || [];
+    pGroups[index].push(day);
+  });
+
+  pGroups.forEach(function(group) {
+     if (group.length > 1) {
+       firstDay = group[0];
+       lastDay = group.slice(-1)[0];
+
+       returnData.push(`${firstDay}-${lastDay}|${timeRange}`);
+     } else {
+       returnData.push(`${group[0]}|${timeRange}`);
+     }
+  });
+  return returnData;
+}
+
 export default {
   deserialize(list) {
     let output = {};
@@ -70,23 +106,29 @@ export default {
   },
 
   serialize(data) {
-    // Group days by same open & close time
+    // data example: {'Monday': {'close': '00:00', 'open': '00:00' }}
+    let returnData = [];
     const groupedData = {};
-    for(var k in data) {
-      var open = data[k].open;
-      var close = data[k].close;
-      var dateString = `${open}-${close}`;
+
+    // Group days by same open & close time
+    for(let k in data) {
+      // k is the full day name ie., 'Tuesday'
+      let open = data[k].open;
+      let close = data[k].close;
+      let dateString = `${open}-${close}`;
 
       groupedData[dateString] = groupedData[dateString] || [];
+
+      // days are key/value pairs ('Tuesday':'Tu'),
       groupedData[dateString].push(days[k]);
     }
 
-    const returnData = [];
-
-    for(k in groupedData) {
+    for(let k in groupedData) {
+      // k is a time range e.g. '00:00-00:00'
+      // groupedData: { '00:00-00:00': ['Mo', 'Tu'], ... }
       if(groupedData.hasOwnProperty(k)) {
-        var timeRange = k;
-        var timeGroup = groupedData[timeRange];
+        let timeRange = k;
+        let timeGroup = groupedData[timeRange];
 
         if(timeGroup.length > 1) {
           timeGroup.sort(sortByDayOrderIndex);
@@ -98,35 +140,7 @@ export default {
             // Group Sa & Su together
             returnData.push(`Sa-Su|${timeRange}`);
           } else {
-            // group by proximity (next/prev day)
-            var pGroups = [];
-            var lastday;
-            var index = 0;
-            for(k in timeGroup) {
-              if(timeGroup.hasOwnProperty(k)) {
-                var day = timeGroup[k];
-                var dayCountDifference = (dayOrder.indexOf(day) - dayOrder.indexOf(lastday));
-                if(pGroups.length > 0 && dayCountDifference > 1) {
-                   index++;
-                }
-                lastday = day;
-                pGroups[index] = pGroups[index] || [];
-                pGroups[index].push(day);
-              }
-            }
-
-            for(k in pGroups) {
-              if(pGroups.hasOwnProperty(k)) {
-                var group = pGroups[k];
-                if (group.length > 1) {
-                  var firstDay = group[0];
-                  var lastDay = group.slice(-1)[0];
-                  returnData.push(`${firstDay}-${lastDay}|${timeRange}`);
-                } else {
-                  returnData.push(`${group[0]}|${timeRange}`);
-                }
-              }
-            }
+            returnData = groupDaysByProximity(timeGroup, timeRange, returnData);
           }
         } else {
           returnData.push(`${timeGroup[0]}|${timeRange}`);
