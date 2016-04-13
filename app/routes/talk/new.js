@@ -82,7 +82,9 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id')).then(this.facebookRecache);
+      this.transitionTo('talk.show', talk.get('id')).then(() => {
+        this.facebookRecache();
+      });
     },
 
     backToDetails() {
