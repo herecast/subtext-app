@@ -23,11 +23,9 @@ function sortByDayOrderIndex(a, b) {
 function groupDaysByProximity(timeGroup, timeRange, returnData) {
   let pGroups = [];
   let index = 0;
-  let day;
   let lastday;
   let lastDay;
   let dayCountDifference;
-  let group;
   let firstDay;
 
 
