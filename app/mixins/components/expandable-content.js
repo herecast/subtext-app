@@ -18,6 +18,10 @@ export default Ember.Mixin.create(TrackEvent, {
     }
   }),
 
+  hasMore: computed('content.[]', 'limit', function() {
+    return get(this, 'content.length') > get(this, 'limit');
+  }),
+
   actions: {
     toggleMore() {
       const moreOrLess = (get(this, 'showAll')) ? 'less' : 'more';
