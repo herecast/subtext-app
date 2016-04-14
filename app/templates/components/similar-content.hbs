@@ -19,6 +19,7 @@
       {{/each}}
     </div>
 
+    {{#if hasMore}}
     <div class='u-textCentered'>
       <button class='Button btn h4' {{action 'toggleMore'}}>
         {{#if showAll}}
@@ -28,5 +29,6 @@
         {{/if}}
       </button>
     </div>
+    {{/if}}
   </div>
 {{/if}}
