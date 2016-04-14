@@ -2,34 +2,32 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
-import Editable from 'subtext-ui/mixins/routes/editable';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+  discardRecord(model) {
+    // Ember data doesn't automatically rollback relationship records, so we
+    // need to do that manually if the event is rolled back.
+    if (confirm('Are you sure you want to discard your changes without saving?')) {
+      model.rollbackAttributes();
+      model.rollbackSchedules();
+      model.set('listservIds',[]);
+      return true;
+    } else {
+      return false;
+    }
+  },
+
   model(params) {
     return this.store.findRecord('event', params.id, {reload: true});
   },
 
   redirect() {
     this.transitionTo('events.edit.details');
-  },
-
-  // Ember data doesn't automatically rollback relationship records, so we
-  // need to do that manually if the event is rolled back.
-  discardRecord(model) {
-    const recordDiscarded = this._super(...arguments);
-
-    if (recordDiscarded) {
-      model.rollbackSchedules();
-
-      model.set('listservIds',[]);
-    }
-
-    return recordDiscarded;
   },
 
   hasDirtyAttributes(event) {
@@ -45,6 +43,31 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   },
 
   actions: {
+    willTransition(transition) {
+      const model = get(this, 'controller.model');
+      // We want to let the user continue to navigate through the
+      // event/market/talk edit form routes without discarding changes,
+      // but as soon as they try to leave those pages, prompt them with the dialog.
+      const match = new RegExp(`^events\\.edit`);
+      const isExitingForm = !transition.targetName.match(match);
+      const isTransitioningToShowPage = transition.targetName === 'events.show';
+
+      // If we are transitioning to the an event show page,
+      // that means the user clicked the publish button, so we don't
+      // want to prompt them to disard their changes
+      if (!isTransitioningToShowPage) {
+        if (isExitingForm && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
+          transition.abort();
+        }
+      }
+    },
+
+    afterDiscard(model) {
+      if (!get(model, 'hasDirtyAttributes')) {
+        this.transitionTo(`events.all`);
+      }
+    },
+
     afterDetails() {
       this.transitionTo('events.edit.promotion');
     },
