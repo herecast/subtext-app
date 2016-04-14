@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
+const { get } = Ember;
+
 export default Ember.Mixin.create({
   actions: {
     didTransition() {
-      this._super(...arguments);
-
       const scrollPosition = this.controller.get('scrollPosition');
 
       if (scrollPosition) {
@@ -12,11 +12,14 @@ export default Ember.Mixin.create({
           window.scrollTo(0, scrollPosition);
         });
       }
-    },
-    willTransition() {
-      this._super(...arguments);
 
-      this.controller.set('scrollPosition', window.pageYOffset);
+      return true; // bubble action
+    },
+    willTransition(transition) {
+      const scrollPosition = (transition.targetName === get(this, 'routeName')) ? 0 : window.pageYOffset;
+      this.controller.set('scrollPosition', scrollPosition);
+
+      return true; // bubble action
     }
   }
 });
