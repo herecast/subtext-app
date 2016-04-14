@@ -43,33 +43,41 @@
 {{/if}}
 
 {{#if media.isMobile}}
-  <div class='clearfix u-layoutPadB20'>
-    {{#if event.imageUrl}}
-      {{#link-to 'events.show' eventId}}
-        <img src='{{event.imageUrl}}' class='EventCard-image'>
-      {{/link-to}}
-    {{/if}}
+  <div class="media">
 
-    {{#if isPreview}}
-      <a href='#'>
-        <h2 class='EventCard-title'>{{title}}</h2>
-      </a>
-    {{else}}
-      {{#link-to 'events.show' eventId}}
-        <h2 class='EventCard-title' {{action 'trackClick' event}}>{{title}}</h2>
-      {{/link-to}}
-    {{/if}}
-  </div>
+    <div class="media-left">
+      {{#if event.imageUrl}}
+        {{#link-to 'events.show' eventId}}
+          <img src='{{event.imageUrl}}' class='EventCard-image-tile media-object'>
+        {{/link-to}}
+      {{else}}
+        <div class="EventCard-image-placeholder">
+          {{fa-icon 'camera'}}
+        </div>
+      {{/if}}
+    </div>
 
-  <div class='row'>
-    {{#if timeRange}}
-      <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
-    {{/if}}
+    <div class="media-body EventCard-body">
 
-    {{#if hasVenue}}
-      <h5 class='EventCard-venue'>
-        {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-      </h5>
-    {{/if}}
+      {{#if isPreview}}
+        <h2 class="media-heading EventCard-title">{{title}}</h2>
+      {{else}}
+        {{#link-to 'events.show' eventId}}
+          <h2 class='media-heading EventCard-title' {{action 'trackClick' event}}>{{title}}</h2>
+        {{/link-to}}
+      {{/if}}
+
+      {{#if timeRange}}
+        <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
+      {{/if}}
+
+      {{#if hasVenue}}
+        <h5 class='EventCard-venue'>
+          {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+        </h5>
+      {{/if}}
+
+    </div>
+
   </div>
 {{/if}}
