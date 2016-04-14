@@ -15,10 +15,8 @@ export default Ember.Mixin.create({
         share_url = window.location.href;
       }
       Ember.$.post('https://graph.facebook.com', {
-        data: {
-          scrape: true,
-          id: share_url
-        }
+        scrape: true,
+        id: share_url
       });
     }
   },
@@ -27,10 +25,8 @@ export default Ember.Mixin.create({
     const prerenderToken = config['prerender-io-token'];
 
     Ember.$.post('https://api.prerender.io/recache', {
-      data: {
-        prerenderToken: prerenderToken,
-        url: window.location.href
-      }
+      prerenderToken: prerenderToken,
+      url: window.location.href
     }).then(() => {
       this.facebookRecache();
     });
