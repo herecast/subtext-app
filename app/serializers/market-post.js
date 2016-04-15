@@ -19,6 +19,8 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.image_url;
     delete json.images;
     delete json.published_at;
+    delete json.author_name
+    delete json.author_email
 
     return json;
   }
