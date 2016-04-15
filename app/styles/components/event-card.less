@@ -89,6 +89,12 @@
   -webkit-flex-basis: 75px; // safari
   max-width: 100%;
   width: 75px;
+
+  @media (min-width: @screen-sm-min) {
+    flex-basis: 112px;
+    -webkit-flex-basis: 112px; // safari
+    width: auto;
+  }
 }
 
 .EventCard-image-tile {
