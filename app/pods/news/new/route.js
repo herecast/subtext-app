@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
-import Authorized from 'simple-auth/mixins/authenticated-route-mixin';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
 export default Ember.Route.extend(Authorized, Scroll, trackEvent, {

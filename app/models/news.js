@@ -27,7 +27,7 @@ export default DS.Model.extend({
 
   formattedPublishedAt: function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
-  }),
+  },
 
   bannerImage: computed('images', function() {
     return this.get('images.firstObject');
