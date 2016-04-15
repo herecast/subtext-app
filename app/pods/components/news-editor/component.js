@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
-import ajax from 'ic-ajax';
+import ajax from 'ember-ajax';
 import config from './../../../config/environment';
 
 const {
