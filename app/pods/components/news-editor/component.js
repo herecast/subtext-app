@@ -199,7 +199,7 @@ export default Ember.Component.extend(Validation, {
       news.rollbackAttributes();
     },
 
-    saveImage(file, callback) {
+    saveImage(file) {
       const url = `${config.API_NAMESPACE}/images`;
       const data = new FormData();
 
@@ -209,26 +209,19 @@ export default Ember.Component.extend(Validation, {
         content_id: 500
       });
 
-      const promise = ajax(url, {
+      return ajax(url, {
         data: data,
         type: 'POST',
         primary: 0,
         contentType: false,
         processData: false
       });
-
-      callback(promise);
-
-      promise.then(response => {
-        alert('this should happen first');
-        get(this, 'news.images').push(response.image);
-      }).catch(response => {
-        if (response.jqXHR.status === 422) {
-          const responseJSON = response.jqXHR.responseJSON;
-
-          set(this, 'errorMessage', responseJSON['messages'][0]);
-        }
-      });
     },
+
+    updateImages(imageData) {
+      get(this, 'news.images').push(imageData);
+
+      this.send('notifyChange');
+    }
   }
 });

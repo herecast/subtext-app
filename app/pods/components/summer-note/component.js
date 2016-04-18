@@ -32,7 +32,15 @@ export default Ember.Component.extend({
       toolbar = get(this, 'defaultToolbar');
     }
 
-    this.$('textarea').summernote({
+    const $editor = this.$('textarea');
+
+    function insertImage(image) {
+      $editor.summernote('insertImage', image.url);
+
+      return image;
+    }
+
+    $editor.summernote({
       height: height,
       toolbar: toolbar,
 
@@ -44,13 +52,22 @@ export default Ember.Component.extend({
           // (for video embeds)
           this.send('doUpdate');
         },
-        onImageUpload: (file) => {
-          function doSomethingElse(something) {
-            alert('this should happen last');
-            // TODO construct image node, and insert into post via
-            // insertion api
+        onCreateLink: (url) => {
+          url = url.trim();
+          const protocol = /^[a-z]+:/i;
+
+          if (!protocol.test(url)) {
+            url = 'http://' + url;
           }
-          this.attrs.uploadImage(file[0], doSomethingElse);
+
+          return url;
+        },
+        onImageUpload: (file) => {
+          return this.attrs.uploadImage(file[0]).then(({image}) => {
+            return insertImage(image);
+          }).then(imageData => {
+            this.attrs.updateParentImageData(imageData);
+          });
         },
         onPaste: () => {
           // TODO modify this to prevent default
@@ -66,17 +83,6 @@ export default Ember.Component.extend({
             this.send('doUpdate');
           });
         }
-      },
-
-      onCreateLink(url) {
-        url = url.trim();
-        const protocol = /^[a-z]+:/i;
-
-        if (!protocol.test(url)) {
-          url = 'http://' + url;
-        }
-
-        return url;
       }
     });
 
@@ -92,10 +98,10 @@ export default Ember.Component.extend({
 
       set(this, 'content', content);
 
-      // TODO i don't like this ~cm
-      // The upper context should be notified of changes
-      // and should have the responsiblity for deciding
-      // what to do
+      // TODO The upper context should simply be notified of
+      // changes and should have the responsiblity for deciding
+      // what to do. The text editor should no concept of
+      // form validation
       if (this.attrs.validateForm) {
         this.attrs.validateForm();
       }

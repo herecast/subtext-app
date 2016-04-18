@@ -642,7 +642,9 @@ export default function() {
 
   this.post('/images', function(db) {
     const image = db.images.insert({
-      id: faker.random.number(1000)
+      id: faker.random.number(1000),
+      primary: false,
+      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
     });
 
     return {
