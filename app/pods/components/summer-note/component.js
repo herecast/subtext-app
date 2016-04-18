@@ -36,8 +36,6 @@ export default Ember.Component.extend({
 
     function insertImage(image) {
       $editor.summernote('insertImage', image.url);
-
-      return image;
     }
 
     $editor.summernote({
@@ -65,8 +63,6 @@ export default Ember.Component.extend({
         onImageUpload: (file) => {
           return this.attrs.uploadImage(file[0]).then(({image}) => {
             return insertImage(image);
-          }).then(imageData => {
-            this.attrs.updateParentImageData(imageData);
           });
         },
         onPaste: () => {

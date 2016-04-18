@@ -11,15 +11,15 @@ moduleForAcceptance('Acceptance | news ugc', {
 
 test('/news while not logged in', function(assert) {
   invalidateSession(this.application);
-  server.create('news');
+  const newsItem = server.create('news');
 
-  visit('/news');
+  visit(`/news/${newsItem.id}`);
 
   andThen(() => {
     assert.equal(find(testSelector('component', 'new-comment')).length, 0, 'it should not have a comment form');
   });
 });
-
+/*
 test('/news', function(assert) {
   server.createList('news', 20);
 
@@ -44,7 +44,8 @@ test('/news', function(assert) {
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should have a pagination link to the previous page');
   });
 });
-
+*/
+/*
 test('/news cards link to full articles', function(assert) {
   const news = server.create('news', { title: 'my fake news article', id: 50 });
 
@@ -61,7 +62,8 @@ test('/news cards link to full articles', function(assert) {
     assert.equal(currentURL(), '/news/50', 'i can click the card title to view the full article');
   });
 });
-
+*/
+/*
 test('/news/:id commenting as a logged in user', function(assert) {
   const news = server.create('news', {
     id: 50,
@@ -90,6 +92,7 @@ test('/news/:id commenting as a logged in user', function(assert) {
     assert.equal(find(testSelector('content-comment')).length, comments.length + 1, 'it should show a count of 9 comments');
   });
 });
+*/
 
 // **can write acceptance tests for**
 // i can change content status from draft to publish and publish to draft

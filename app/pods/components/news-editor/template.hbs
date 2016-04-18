@@ -18,7 +18,7 @@
       <div class='Sidebar'>
         <div class='SidebarWidget'>
           <div class='PublishSettings'>
-            <h2 class='SidebarWidget-title'>Publish Settings</h2>
+            <h2 class='h4 SidebarWidget-title'>Publish Settings</h2>
             <div data-test-publish-status>
               <div class='PublishSettings-statusIndicator'>
                 <p><b>Status: {{status}}</b></p>
@@ -83,9 +83,10 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class='SidebarWidget'>
          {{#form-group error=errors.organization}}
-           <label class='control-label ContentForm-label--required'>Content Owner</label>
+           <h2 class='SidebarWidget-title'>Organization</h2>
+           <label class='h5 control-label ContentForm-label--required'>Content Owner</label>
            {{organization-dropdown
              defaultName='Please choose an org'
              selection=(readonly news.organization)
@@ -128,48 +129,48 @@
           input=(action 'notifyChange')
         }}
       {{/form-group}}
-
-      {{#form-group
-        error=errors.subtitle
-        hideError=true
-        news=news as |news|
-      }}
-        <label class='control-label ContentForm-label--required' for="title">Subtitle</label>
-        {{form-error errors.subtitle}}
-
-        {{input
-          id='subtitle'
-          placeholder='A short and informative subtitle'
-          class='form-control'
-          value=news.subtitle
-          data-test-field='subtitle'
-          input=(action 'notifyChange')
+      <div class='NewsEditor-postBody'>
+        {{#form-group
+          error=errors.subtitle
+          hideError=true
+          news=news as |news|
         }}
-      {{/form-group}}
+          <label class='control-label ContentForm-label--required' for="title">Subtitle</label>
+          {{form-error errors.subtitle}}
 
-      {{#form-group
-        error=errors.content
-        hideError=true
-        news=news as |news|
-      }}
-        <label class='control-label ContentForm-label--required' for="description">Content</label>
-        {{form-error errors.content}}
-        {{#summer-note
-          content=news.content
-          toolbar=(mut editorConfig)
-          validateForm=(action 'notifyChange')
-          uploadImage=(action 'saveImage')
-          updateParentImageData=(action 'updateImages')
-          class='ContentForm-textArea'
-        }}
-          {{textarea
-            id='content'
-            placeholder='Enter your content here...'
+          {{input
+            id='subtitle'
+            placeholder='A short and informative subtitle'
             class='form-control'
-            data-test-textarea='content'
+            value=news.subtitle
+            data-test-field='subtitle'
+            input=(action 'notifyChange')
           }}
-        {{/summer-note}}
-      {{/form-group}}
+        {{/form-group}}
+
+        {{#form-group
+          error=errors.content
+          hideError=true
+          news=news as |news|
+        }}
+          <label class='control-label ContentForm-label--required' for="description">Content</label>
+          {{form-error errors.content}}
+          {{#summer-note
+            content=news.content
+            toolbar=(mut editorConfig)
+            validateForm=(action 'notifyChange')
+            uploadImage=(action 'saveImage')
+            class='ContentForm-textArea'
+          }}
+            {{textarea
+              id='content'
+              placeholder='Enter your content here...'
+              class='form-control'
+              data-test-textarea='content'
+            }}
+          {{/summer-note}}
+        {{/form-group}}
+      </div>
     </div>
   </div>
 </div>

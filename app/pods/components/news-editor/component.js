@@ -18,6 +18,7 @@ export default Ember.Component.extend(Validation, {
   news: null,
   selectedPubDate: null,
   isPickingScheduleDate: false,
+  api: inject.service(),
 
   editorConfig: [
     ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -200,28 +201,16 @@ export default Ember.Component.extend(Validation, {
     },
 
     saveImage(file) {
-      const url = `${config.API_NAMESPACE}/images`;
+      const id = get(this, 'news.id');
       const data = new FormData();
 
       data.append('image', {
         image: file,
         primary: 0,
-        content_id: 500
+        content_id: id
       });
 
-      return ajax(url, {
-        data: data,
-        type: 'POST',
-        primary: 0,
-        contentType: false,
-        processData: false
-      });
-    },
-
-    updateImages(imageData) {
-      get(this, 'news.images').push(imageData);
-
-      this.send('notifyChange');
+      return get(this, 'api').createImage(data);
     }
   }
 });
