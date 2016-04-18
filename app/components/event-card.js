@@ -6,7 +6,6 @@ const { get, isPresent, computed } = Ember;
 export default Ember.Component.extend(TrackCard, {
   classNameBindings: ['event.registrationDeadline:hasRegistrationDeadline'],
   isPreview: false,
-  title: Ember.computed.oneWay('event.title'),
   venueName: Ember.computed.oneWay('event.venueName'),
   venueCity: Ember.computed.oneWay('event.venueCity'),
   venueState: Ember.computed.oneWay('event.venueState'),
@@ -14,6 +13,13 @@ export default Ember.Component.extend(TrackCard, {
   timeRange: Ember.computed.oneWay('event.formattedDate'),
 
   hasVenue: Ember.computed.notEmpty('venue'),
+
+  title: computed('event.title', function() {
+    // Trim the title to avoid overflow.
+    // CSS text-overflow: ellipsis does not work on multi-line overflows.
+    const title = get(this, 'event.title');
+    return title.length > 45 ? title.substr(0, 45) + '...' : title;
+  }),
 
   venue: computed('venueName', 'venueCity', 'venueState', function() {
     const name = this.get('venueName');
