@@ -10,3 +10,14 @@ test('it exists', function(assert) {
   // let store = this.store();
   assert.ok(!!model);
 });
+
+test('slug is equal to id plus title, dasherized.', function(assert) {
+  let model = this.subject()
+
+  Ember.run(()=> {
+    model.setProperties({id: 5, name: "White River Pizza"});
+  });
+
+  assert.equal(model.get('slug'), "5-white-river-pizza");
+
+});
