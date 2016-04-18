@@ -1,7 +1,7 @@
-import Ember from 'ember';
-
-import Config from '../config/environment';
 /* global mixpanel */
+
+import Ember from 'ember';
+import Config from '../config/environment';
 
 const { get, merge, computed, isEmpty, on } = Ember;
 
@@ -12,7 +12,7 @@ export default Ember.Service.extend({
   }),
 
   pageHasAnalytics: function() {
-    return window.mixpanel && typeof window.mixpanel === "object" && Config.mixpanel.enabled;
+    return mixpanel && typeof mixpanel === "object" && Config.mixpanel.enabled;
   },
 
   logTrackingEnabled: function() {
@@ -30,7 +30,7 @@ export default Ember.Service.extend({
         page = loc.hash ? loc.hash.substring(1) : loc.pathname + loc.search;
       }
 
-      window.mixpanel.track("visit", {pageName: page});
+      mixpanel.track("visit", {pageName: page});
     }
 
     if (this.logTrackingEnabled()) {
@@ -40,7 +40,7 @@ export default Ember.Service.extend({
 
   trackEvent: function(event, properties, options, callback) {
     if (this.pageHasAnalytics()) {
-      window.mixpanel.track(event, properties, options, callback);
+      mixpanel.track(event, properties, options, callback);
     }
     if (this.logTrackingEnabled()) {
       this.logTracking(event, properties, options);
@@ -94,7 +94,7 @@ export default Ember.Service.extend({
     }
 
     if (this.pageHasAnalytics()) {
-      window.mixpanel.track(event, props);
+      mixpanel.track(event, props);
     }
 
     if (this.logTrackingEnabled()) {
@@ -114,7 +114,7 @@ export default Ember.Service.extend({
   },
 
   establishAnonymousProfile: function() {
-    if (window.mixpanel.__loaded) {
+    if (mixpanel.__loaded) {
       // we have two scenarios here. 1 -- the user is unregistered and has no
       // mixpanel cookie. 2 -- the user is not signed in, but has an existing
       // mixpanel cookie from an old session.
@@ -142,7 +142,7 @@ export default Ember.Service.extend({
 
   identify: function(userId, traits, options, callback) {
     if (this.pageHasAnalytics()) {
-      window.mixpanel.identify(userId, traits, options, callback);
+      mixpanel.identify(userId, traits, options, callback);
     }
 
     if (this.logTrackingEnabled()) {
@@ -152,7 +152,7 @@ export default Ember.Service.extend({
 
   alias: function(userId, previousId, options, callback) {
     if (this.pageHasAnalytics()) {
-      window.mixpanel.alias(userId, previousId, options, callback);
+      mixpanel.alias(userId, previousId, options, callback);
     }
 
     if (this.logTrackingEnabled()) {
@@ -163,7 +163,7 @@ export default Ember.Service.extend({
   peopleSet: function(attributes) {
 
     if (this.pageHasAnalytics()) {
-      window.mixpanel.people.set(attributes);
+      mixpanel.people.set(attributes);
     }
 
     if (this.logTrackingEnabled()) {
@@ -173,8 +173,8 @@ export default Ember.Service.extend({
 
   getDistinctId: function() {
     if (this.pageHasAnalytics()) {
-      if (window.mixpanel.__loaded) {
-        return window.mixpanel.get_distinct_id();
+      if (mixpanel.__loaded) {
+        return mixpanel.get_distinct_id();
       }
     }
   },

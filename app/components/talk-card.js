@@ -25,8 +25,9 @@ export default Ember.Component.extend(TrackCard, {
     }
   }),
 
-  parentContentId: computed('talk.parentContentId', function() {
-    if (this.get('talk.parentContentType') === 'event') {
+  parentContentId: computed('talk.parentContentType', 'talk.parentContentId', 'talk.parentContentType', function() {
+    const parentType = this.get('talk.parentContentType');
+    if (['event','event-instance','event_instance'].contains(parentType)) {
       return this.get('talk.parentEventInstanceId');
     } else {
       return this.get('talk.parentContentId');
