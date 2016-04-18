@@ -8,6 +8,8 @@ export default ActiveModelSerializer.extend({
 
     // Remove read only attributes that should not be sent to the API
     delete result.can_publish_news;
+    delete result.logo;
+    delete result.background_image;
 
     return result;
   }
