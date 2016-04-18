@@ -50,6 +50,9 @@ module.exports = function(environment) {
       enabled: false
     }
     */
+    if(process.env.FACEBOOK_API_ID) {
+      ENV.fb_enabled = true;
+    }
 
     ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;
     ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN;
