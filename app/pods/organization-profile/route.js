@@ -13,5 +13,11 @@ export default Ember.Route.extend({
 
       return this.store.findRecord('organization', id);
     }
+  },
+
+  setupController(controller, model) {
+    controller.set('model', model);
+
+    // SET featured items here
   }
 });

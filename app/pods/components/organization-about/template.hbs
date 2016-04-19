@@ -1,6 +1,8 @@
-<h1 class='OrganizationAbout-title'>About</h1>
-<img src='http://placehold.it/200x200' class='OrganizationAbout-avatar'>
-<p class='OrganizationAbout-location'>Lebanon, NH</p>
-<p class='OrganizationAbout-description'>
-  Lorem ipsum dolor sit amet, cu pericula cotidieque nam, minim splendide quo an, tantas exerci reformidans est in. Vel zril appetere reprimique ne. Eum malorum fuisset cu. In fastidii perpetua accommodare sit, nam ut malis volumus. Veri salutandi vix id. Cum eripuit apeirian ad, at qui mazim mediocritatem, mea cu sale iriure splendide.
+<h1 class='OrganizationAbout-title'>
+  About
+  {{model.name}}
+</h1>
+<img src={{model.logo}} data-test-organization-image class='OrganizationAbout-avatar'>
+<p class='OrganizationAbout-description' data-test-organization-description>
+  {{model.description}}
 </p>

@@ -1,6 +1,8 @@
 <article class='OrganizationProfile Container--noGutter'>
   <header class='OrganizationProfile-header row'>
-    <h1 class='OrganizationProfile-headerTitle col-sm-9'><span>{{model.name}}</span></h1>
+    <h1 class='OrganizationProfile-headerTitle col-sm-9' data-test-organization-name>
+      <span>{{model.name}}</span>
+    </h1>
     <div class='OrganizationProfile-connect col-sm-3'>
       <a class='OrganizationProfile-subscribe Button' href="">Subscribe</a>
     </div>
@@ -23,7 +25,7 @@
     </div>
 
     <aside class='OrganizationProfile-publisher col-sm-3'>
-      {{organization-about tagName='section' class='OrganizationProfile-about'}}
+      {{organization-about model=model tagName='section' class='OrganizationProfile-about'}}
       <section class='OrganizationProfile-contribute'>
         CONTRIBUTE SECTION
       </section>
