@@ -1,1 +1,32 @@
-{{outlet}}
+<article class='OrganizationProfile Container--noGutter'>
+  <header class='OrganizationProfile-header row'>
+    <h1 class='OrganizationProfile-headerTitle col-sm-9'><span>{{model.name}}</span></h1>
+    <div class='OrganizationProfile-connect col-sm-3'>
+      <a class='OrganizationProfile-subscribe Button' href="">Subscribe</a>
+    </div>
+  </header>
+
+  <div class='row'>
+    <div class='OrganizationProfile-main col-sm-9'>
+      <section class='OrganizationProfile-featured'>
+        {{featured-content horizontal=true}}
+        {{featured-content horizontal=true}}
+      </section>
+
+      <section class='OrganizationProfile-moreContent'>
+        <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
+        <div class='OrganizationProfile-contentControls'>
+          {{search-input value=query action=(mut query)}}
+        </div>
+        {{content-grid}}
+      </section>
+    </div>
+
+    <aside class='OrganizationProfile-publisher col-sm-3'>
+      {{organization-about tagName='section' class='OrganizationProfile-about'}}
+      <section class='OrganizationProfile-contribute'>
+        CONTRIBUTE SECTION
+      </section>
+    </aside>
+  </div>
+</article>
