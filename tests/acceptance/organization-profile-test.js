@@ -1,6 +1,7 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import moment from 'moment';
 
 moduleForAcceptance('Acceptance | organization profile');
 
@@ -35,5 +36,45 @@ test('Displays organization info', function(assert) {
       element.html().trim(),
       organization.description.trim(),
       "Organization Description");
+  });
+});
+
+test('Given an organization with 3 news items; The newest 2 display in the featured area.', function(assert) {
+  let organization = server.create('organization');
+  let news = [];
+
+  news.push(server.create('news', {
+    organization_id: organization.id,
+    publishedAt: moment().subtract(1,'days').format()
+  }));
+  news.push(server.create('news', {
+    organization_id: organization.id,
+    publishedAt: moment().subtract(2,'days').format()
+  }));
+  news.push(server.create('news', {
+    organization_id: organization.id,
+    publishedAt: moment().subtract(3,'days').format()
+  }));
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(() =>{
+    let $featuredContent = find(testSelector('featured-content'));
+    assert.equal($featuredContent.length, 2);
+
+    assert.equal(
+      find(testSelector('featured-content', news[0].id)).length,
+      1,
+      "First item is featured");
+
+    assert.equal(
+      find(testSelector('featured-content', news[1].id)).length,
+      1,
+      "Second item is featured");
+
+    assert.equal(
+      find(testSelector('featured-content', news[2].id)).length,
+      0,
+      "Third item is not featured");
   });
 });

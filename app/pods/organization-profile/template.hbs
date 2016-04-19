@@ -11,8 +11,9 @@
   <div class='row'>
     <div class='OrganizationProfile-main col-sm-9'>
       <section class='OrganizationProfile-featured'>
-        {{featured-content horizontal=true}}
-        {{featured-content horizontal=true}}
+        {{#each featuredNews as |newsItem|}}
+          {{featured-content model=newsItem horizontal=true}}
+        {{/each}}
       </section>
 
       <section class='OrganizationProfile-moreContent'>

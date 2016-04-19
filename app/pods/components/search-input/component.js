@@ -17,6 +17,6 @@ export default Ember.Component.extend({
   },
 
   _updateAction() {
-    this.attrs.action(get(this, value));
+    this.attrs.action(get(this, 'value'));
   }
 });

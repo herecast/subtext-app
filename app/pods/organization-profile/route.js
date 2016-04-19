@@ -17,7 +17,11 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     controller.set('model', model);
-
-    // SET featured items here
+    controller.set('featuredNews', this.store.query('news', {
+      organization_id: model.id,
+      sort_by: 'published_at desc',
+      page: 1,
+      per_page: 2
+    }));
   }
 });

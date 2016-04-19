@@ -1,4 +1,5 @@
 import { moduleForModel, test } from 'ember-qunit';
+import Ember from 'ember';
 
 moduleForModel('organization', 'Unit | Model | organization', {
   // Specify the other units that are required for this test.
@@ -12,7 +13,7 @@ test('it exists', function(assert) {
 });
 
 test('slug is equal to id plus title, dasherized.', function(assert) {
-  let model = this.subject()
+  let model = this.subject();
 
   Ember.run(()=> {
     model.setProperties({id: 5, name: "White River Pizza"});

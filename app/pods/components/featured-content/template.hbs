@@ -1,15 +1,19 @@
 <div class='FeaturedContent-featuredImage'>
-  <a href=""><img src='http://placehold.it/400x250'></a>
+  <a href={{contentUrl}}>
+    <img src={{imageUrl}}>
+  </a>
 </div>
 <div class='FeaturedContent-main'>
-  <h1 class='FeaturedContent-title'><a href="">Content Title</a></h1>
-  <span class='FeaturedContent-teaserContent'>
-    Bacon ipsum dolor amet pork loin turducken swine, shoulder alcatra doner shankle pancetta short loin tenderloin prosciutto kielbasa leberkas tongue landjaeger. Meatloaf salami swine short loin ball tip chicken cow ham frankfurter tri-tip sirloin turkey jowl. Shankle spare ribs swine meatloaf ribeye flank shank bresaola kielbasa alcatra. Brisket sausage prosciutto rump spare ribs. Ham fatback bacon brisket drumstick swine tongue chicken ground round prosciutto porchetta pork. Meatball pastrami landjaeger tri-tip sausage short ribs drumstick jerky pancetta tongue ribeye spare ribs sirloin ball tip.
+  <h1 class='FeaturedContent-title'>
+    <a href={{contentUrl}}>{{title}}</a>
+  </h1>
+  <span class='FeaturedContent-content'>
+    {{content}}
   </span>
-  <a class='FeaturedContent-link'>More</a>
+  <a href={{contentUrl}} class='FeaturedContent-more FeaturedContent-link'>more</a>
 </div>
 <footer class='FeaturedContent-meta'>
-  <a href=""><img class='FeaturedContent-publisherAvatar' src='http://placehold.it/200x200'></a>
-  <p class="FeaturedContent-whenPublished">Published a few minutes ago.</p>
-  <a class="FeaturedContent-publisher" href='' rel='author'>Author Name</a>
+  <a href={{organizationUrl}}><img class='FeaturedContent-publisherAvatar' src={{organizationImage}}></a>
+  <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
+  <a class="FeaturedContent-publisher" href={{organizationUrl}} rel='author'>{{organizationName}}</a>
 </footer>

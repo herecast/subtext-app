@@ -5,21 +5,68 @@ moduleForComponent('featured-content', 'Integration | Component | featured conte
   integration: true
 });
 
-test('it renders', function(assert) {
-  
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+test('It displays content image', function(assert) {
+  this.set('content', {
+    imageUrl: 'http://ex.test/img.jpg'
+  });
 
-  this.render(hbs`{{featured-content}}`);
+  this.render(hbs`{{featured-content model=content}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  let $img = this.$('.FeaturedContent-featuredImage img');
+  assert.equal($img.attr('src'), 'http://ex.test/img.jpg');
+});
 
-  // Template block usage:" + EOL +
-  this.render(hbs`
-    {{#featured-content}}
-      template block text
-    {{/featured-content}}
-  `);
+test('It displays content title', function(assert) {
+  this.set('content', {
+    title: 'This is rad'
+  });
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  this.render(hbs`{{featured-content model=content}}`);
+
+  let $title = this.$('.FeaturedContent-title');
+  assert.equal($title.text().trim(), 'This is rad');
+});
+
+test('It displays the content', function(assert) {
+  let content = {
+    content: 'This Content will be excerpted with css'
+  };
+
+  this.set('content', content);
+
+  this.render(hbs`{{featured-content model=content}}`);
+
+  let $teaser = this.$('.FeaturedContent-content');
+  assert.equal($teaser.text().trim(), content.content);
+});
+
+test('It displays relative published at time', function(assert) {
+  let content = {
+    publishedAt: new Date()
+  };
+
+  this.set('content', content);
+
+  this.render(hbs`{{featured-content model=content}}`);
+
+  let $when = this.$('.FeaturedContent-whenPublished');
+  assert.equal($when.text().trim(), 'a few seconds ago');
+});
+
+test('It displays organization info', function(assert) {
+  let organization = {
+    logo: 'http://go.test/this',
+    name: "Test Blog"
+  };
+  this.set('content', {
+    organization: organization
+  });
+
+  this.render(hbs`{{featured-content model=content}}`);
+
+  let $pub = this.$('.FeaturedContent-publisher');
+  assert.equal($pub.text().trim(), organization.name);
+
+  let $pubImage = this.$('.FeaturedContent-publisherAvatar');
+  assert.equal($pubImage.attr('src'), organization.logo);
 });
