@@ -15,6 +15,7 @@ const {
   } = Ember;
 
 export default Ember.Component.extend(Validation, {
+  showDevFlags: false,
   news: null,
   selectedPubDate: null,
   isPickingScheduleDate: false,
@@ -200,15 +201,13 @@ export default Ember.Component.extend(Validation, {
       news.rollbackAttributes();
     },
 
-    saveImage(file) {
+    saveImage(file, primary=0) {
       const id = get(this, 'news.id');
       const data = new FormData();
 
-      data.append('image', {
-        image: file,
-        primary: 0,
-        content_id: id
-      });
+      data.append('image[primary]', primary);
+      data.append('image[image]', file);
+      data.append('image[content_id]', id);
 
       return get(this, 'api').createImage(data);
     }
