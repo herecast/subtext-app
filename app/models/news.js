@@ -25,6 +25,8 @@ export default DS.Model.extend({
   organizationId: computed.oneWay('organization.id'),
   organizationName: computed.oneWay('organization.name'),
 
+  organization: DS.belongsTo('organization', {async: true}),
+
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
   }),
