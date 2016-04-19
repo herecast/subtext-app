@@ -22,13 +22,16 @@
 
 .SidebarWidget-header {
   margin: 0;
-  margin-bottom: 10px;
-  text-align: center;
-  .uppercase-bold-condensed;
+  margin-bottom: 25px;
+  .SectionHeader;
+  .SidebarWidget:not(:first-child) & {
+    margin-top: 25px;
+  }
 }
 
 .SidebarWidget-text {
-
+  .SectionHeader-text;
+  .SectionHeader-text--secondaryBg;
 }
 
 .SidebarWidget-body {

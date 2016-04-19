@@ -93,14 +93,13 @@ export default Ember.Component.extend(Validation, {
   _save() {
     const news = get(this, 'news');
 
-    news.save().then(() => {
+    return news.save().then(() => {
       set(this, 'didOrgChange', false);
     });
   },
 
   validateForm() {
     this.validatePresenceOf('news.title');
-    this.validatePresenceOf('news.subtitle');
     this.validateContent();
     this.validateOrganization();
   },
@@ -153,18 +152,23 @@ export default Ember.Component.extend(Validation, {
       const news = get(this, 'news');
 
       set(news, 'publishedAt', null);
-      this._save();
+
+      this._save().then(() => {
+        get(this, 'toast').success('Scheduled publication canceled');
+      });
     },
 
     publish() {
       const news = get(this, 'news');
 
       if (this.isValid()) {
-        // TODO should this be a separate action?
         if (!get(this, 'isPublished')) {
           set(news, 'publishedAt', moment());
         }
-        this._save();
+
+        this._save().then(() => {
+          get(this, 'toast').success('Your post has been published');
+        });
       }
     },
 
@@ -172,7 +176,10 @@ export default Ember.Component.extend(Validation, {
       if (this.isValid()) {
         set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
 
-        this._save();
+
+        this._save().then(() => {
+          get(this, 'toast').success('Publication is scheduled for this post');
+        });
         this._clearSchedulePubDate();
       }
     },

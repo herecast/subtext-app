@@ -84,19 +84,26 @@
           </div>
         </div>
         <div class='SidebarWidget'>
-         {{#form-group error=errors.organization}}
-           <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
-           <div class='SidebarWidget-body'>
-             <label class='h5 control-label ContentForm-label--required'>Content Owner</label>
-             {{organization-dropdown
-               defaultName='Please choose an org'
-               selection=(readonly news.organization)
-               organizations=filteredOrganizations
-               class="with-border"
-               updated=(action 'changeOrganization')
-             }}
-           </div>
-         {{/form-group}}
+          {{#if isPublished}}
+            <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
+            <div class='SidebarWidget-body'>
+              <p>This content is owned by <i>{{news.organization.name}}</i>.</p>
+            </div>
+          {{else}}
+            {{#form-group error=errors.organization}}
+              <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
+              <div class='SidebarWidget-body'>
+                <label class='h5 control-label ContentForm-label--required'>Content Owner</label>
+                {{organization-dropdown
+                defaultName='Please choose an org'
+                selection=(readonly news.organization)
+                organizations=filteredOrganizations
+                class="with-border"
+                updated=(action 'changeOrganization')
+                }}
+              </div>
+            {{/form-group}}
+         {{/if}}
         </div>
 
         {{#if showDevFlags}}
