@@ -172,6 +172,16 @@ export default Ember.Component.extend(Validation, {
       }
     },
 
+    publishChanges() {
+      const news = get(this, 'news');
+
+      if (this.isValid()) {
+        this._save().then(() => {
+          get(this, 'toast').success('Your changes have been saved');
+        });
+      }
+    },
+
     schedulePublish() {
       if (this.isValid()) {
         set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
@@ -189,10 +199,12 @@ export default Ember.Component.extend(Validation, {
     },
 
     choosePubDate() {
-      this.setProperties({
-        selectedPubDate: moment().add(1, 'day').milliseconds(0).seconds(0).minutes(0).add(1, 'hour'),
-        isPickingScheduleDate: true
-      });
+      if (this.isValid()) {
+        this.setProperties({
+          selectedPubDate: moment().add(1, 'day').milliseconds(0).seconds(0).minutes(0).add(1, 'hour'),
+          isPickingScheduleDate: true
+        });
+      }
     },
 
     changeOrganization(organization) {
@@ -206,6 +218,8 @@ export default Ember.Component.extend(Validation, {
       const news = get(this, 'news');
 
       news.rollbackAttributes();
+
+      get(this, 'toast').success('Changes discarded.');
     },
 
     saveImage(file, primary=0) {

@@ -1,14 +1,20 @@
 <div class='Container--noGutter'>
   <div class='row'>
     <div class='col-md-9'>
-      <h1 class='text-center'>{{title}}</h1>
+      <div class='NewsEditor-titleWrapper'>
+        <h1 class='SectionHeader NewsEditor-title'>
+          <span class='Section-text SectionHeader-text--secondaryBg'>{{title}}</span>
+        </h1>
+      </div>
     </div>
     <div class='col-md-3'>
-      <div class='pull-right'>
+      <div class='NewsEditor-autoSaveIndicator'>
         {{#if isDraft}}
-          {{#auto-save-indicator model=news as |saveStatus|}}
-            {{saveStatus}}
-          {{/auto-save-indicator}}
+          <div>
+            {{#auto-save-indicator model=news as |saveStatus|}}
+              {{saveStatus}}
+            {{/auto-save-indicator}}
+          </div>
         {{/if}}
       </div>
     </div>
@@ -62,11 +68,11 @@
                 {{#if hasUnpublishedChanges}}
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
                   <div class="alert alert-warning" role="alert"><p>Your post has changes that will not be included when your post goes live unless you save them.</p></div>
-                  <button {{action 'publish'}} class='btn btn-primary'>Save Changes</button><br />
+                  <button {{action 'publishChanges'}} class='btn btn-primary'>Save Changes</button><br />
                   <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
                 {{else}}
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}
-                    <a href='#' {{action 'unpublish'}}>Cancel Publish</a>
+                    <a href='#' {{action 'unpublish'}} class='text-danger'><br />Cancel Scheduled Publish</a>
                   </p>
                   <button class='btn btn-primary' {{action 'publish'}}>Publish Now</button>
                 {{/if}}
@@ -141,13 +147,14 @@
           input=(action 'notifyChange')
         }}
       {{/form-group}}
-      <div class='NewsEditor-postBody'>
+
+      <div class='NewsEditor-postBody u-dropShadow'>
         {{#form-group
           error=errors.subtitle
           hideError=true
           news=news as |news|
         }}
-          <label class='control-label ContentForm-label--required' for="title">Subtitle</label>
+          <label class='control-label' for="title">Subtitle</label>
           {{form-error errors.subtitle}}
 
           {{input
