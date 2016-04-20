@@ -17,6 +17,7 @@
         {{/each}}
       </section>
       {{/if}}
+      {{#if moreContent}}
       <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
         <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
         <div class='OrganizationProfile-contentControls'>
@@ -27,12 +28,15 @@
           {{pagination-buttons resultCount=totalCount page=page on-update-page=(action (mut page)) perPage=perPage}}
         </footer>
       </section>
+      {{/if}}
     </div>
 
     <aside class='OrganizationProfile-publisher col-sm-3'>
-      {{organization-about model=model tagName='section' class='OrganizationProfile-about'}}
+      {{#if showAboutSection}}
+        {{organization-about model=model tagName='section' class='OrganizationProfile-about' data-test-component='about-section'}}
+      {{/if}}
       <section class='OrganizationProfile-contribute'>
-        CONTRIBUTE SECTION
+        <!-- CONTRIBUTE SECTION -->
       </section>
     </aside>
   </div>

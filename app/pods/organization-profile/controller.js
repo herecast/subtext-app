@@ -13,6 +13,12 @@ export default Ember.Controller.extend({
   query: null,
   totalCount: computed.oneWay('news.content.meta.total'),
 
+  showAboutSection: computed('model.logo', 'model.description', function(){
+    const logo = get(this, 'model.logo');
+    const description = get(this, 'model.description');
+    return isPresent(logo) || isPresent(description);
+  }),
+
   news: computed('model.id', 'page', 'perPage', 'query', function() {
     const organizationId = get(this, 'model.id');
     const page = get(this, 'page');
