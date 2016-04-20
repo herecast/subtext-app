@@ -19,7 +19,7 @@ export default Ember.Route.extend({
     willTransition(transition) {
       const model = get(this, 'controller.model');
 
-      if (model.hasDirtyAttributes) {
+      if (model.get('hasUnpublishedChanges')) {
         if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
           model.rollbackAttributes();
         } else {

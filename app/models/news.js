@@ -33,5 +33,32 @@ export default DS.Model.extend({
     return get(this, 'images').find((image) => {
       return get(image, 'primary') === true;
     });
-  })
+  }),
+
+  isDraft: computed('publishedAt', function() {
+    return (!get(this, 'publishedAt'));
+  }),
+
+  isScheduled: computed('publishedAt', function() {
+    return moment(get(this, 'publishedAt')).isAfter(new Date());
+  }),
+
+  isPublished: computed('publishedAt', function() {
+    const publishedAt = get(this, 'publishedAt');
+    const now = new Date();
+
+    return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
+  }),
+
+  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', function() {
+    const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
+
+    return isScheduledOrPublished &&
+      (get(this, 'hasDirtyAttributes') || get(this, 'didOrgChange')) &&
+      (!get(this, 'isSaving'));
+  }),
+
+  // Used to notify hasUnpublishedChanges when a new organization is changed
+  // Since Ember Data does not set hasDirtyAttributes to true when a child relationship changes
+  didOrgChange: false
 });

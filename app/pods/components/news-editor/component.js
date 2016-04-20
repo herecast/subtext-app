@@ -10,8 +10,8 @@ const {
   get,
   set,
   run,
-  getProperties,
-  inject
+  inject,
+  getProperties
   } = Ember;
 
 export default Ember.Component.extend(Validation, {
@@ -25,6 +25,7 @@ export default Ember.Component.extend(Validation, {
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: inject.service(),
+  toast: inject.service(),
 
   editorConfig: [
     ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -33,54 +34,28 @@ export default Ember.Component.extend(Validation, {
     ['insert', ['picture', 'link', 'video']]
   ],
 
-  toast: inject.service(),
-
   featuredImageUrl: computed.oneWay('news.bannerImage.url'),
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
-  didOrgChange: false,
 
-  canAutosave: computed('isDraft', 'news.hasDirtyAttributes', 'didOrgChange', function() {
+  canAutosave: computed('isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', function() {
     const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
-      orgChanged = get(this, 'didOrgChange');
+      orgChanged = get(this, 'news.didOrgChange');
 
     return get(this, 'isDraft') && (hasDirtyAttributes || orgChanged);
   }),
 
-  status: computed('isDraft', 'isScheduled', 'isPublished', function() {
-    const { isDraft, isScheduled, isPublished } = getProperties(this, 'isDraft', 'isScheduled', 'isPublished');
+  status: computed('news.isDraft', 'news.isScheduled', 'news.isPublished', function() {
+    const { isDraft, isScheduled, isPublished } = getProperties(this, 'news.isDraft', 'news.isScheduled', 'news.isPublished');
 
     if (isDraft) {
-      return 'draft';
+      return 'Draft';
     } else if (isScheduled) {
-      return 'scheduled';
+      return 'Scheduled';
     } else if (isPublished) {
-      return 'published';
+      return 'Published';
     } else {
-      return 'unknown status';
+      return 'Unknown status';
     }
-  }),
-
-  isDraft: computed('news.publishedAt', function() {
-    return (!get(this, 'news.publishedAt'));
-  }),
-
-  isScheduled: computed('news.publishedAt', function() {
-    return moment(get(this, 'news.publishedAt')).isAfter(new Date());
-  }),
-
-  isPublished: computed('news.publishedAt', function() {
-    const publishedAt = get(this, 'news.publishedAt');
-    const now = new Date();
-
-    return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
-  }),
-
-  hasUnpublishedChanges: computed('news', 'news.isSaving', 'news.isPublished', 'news.isScheduled', 'news.hasDirtyAttributes', 'didOrgChange', function() {
-    const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
-
-    return isScheduledOrPublished &&
-      (get(this, 'news.hasDirtyAttributes') || get(this, 'didOrgChange')) &&
-      (!get(this, 'news.isSaving'));
   }),
 
   filteredOrganizations: computed('organizations.@each.can_publish_news', function() {
@@ -100,7 +75,7 @@ export default Ember.Component.extend(Validation, {
     const news = get(this, 'news');
 
     return news.save().then(() => {
-      set(this, 'didOrgChange', false);
+      set(this, 'news.didOrgChange', false);
     });
   },
 
@@ -179,7 +154,7 @@ export default Ember.Component.extend(Validation, {
       const news = get(this, 'news');
 
       if (this.isValid()) {
-        if (!get(this, 'isPublished')) {
+        if (!get(this, 'news.isPublished')) {
           set(news, 'publishedAt', moment());
         }
 
@@ -226,7 +201,7 @@ export default Ember.Component.extend(Validation, {
 
     changeOrganization(organization) {
       set(this, 'news.organization', organization);
-      set(this, 'didOrgChange', true);
+      set(this, 'news.didOrgChange', true);
 
       this.send('notifyChange');
     },
