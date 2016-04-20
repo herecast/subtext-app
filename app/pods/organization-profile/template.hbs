@@ -16,12 +16,12 @@
         {{/each}}
       </section>
 
-      <section class='OrganizationProfile-moreContent'>
+      <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
         <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
         <div class='OrganizationProfile-contentControls'>
           {{search-input value=query action=(mut query)}}
         </div>
-        {{content-grid}}
+        {{content-grid model=moreContent}}
       </section>
     </div>
 

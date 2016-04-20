@@ -570,8 +570,15 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
+    const organizationId = params.organization_id;
 
-    let news = db.news.slice(start,stop).map((article) => {
+    let news = db.news;
+    if(organizationId) {
+      news = news.filter((item)=> {
+        return item.organization_id.toString() === organizationId;
+      });
+    }
+    news = news.slice(start,stop).map((article) => {
       return Ember.getProperties(article, newsBaseProperties);
     });
 

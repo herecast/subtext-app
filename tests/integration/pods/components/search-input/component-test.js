@@ -14,12 +14,4 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().text().trim(), '');
 
-  // Template block usage:" + EOL +
-  this.render(hbs`
-    {{#search-input}}
-      template block text
-    {{/search-input}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

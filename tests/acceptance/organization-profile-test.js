@@ -78,3 +78,35 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
       "Third item is not featured");
   });
 });
+
+test("Given an organization with less than 7 news items; it renders them as news cards in the 'More Content' area", function(assert) {
+  let organization = server.create('organization');
+  let news = [];
+
+  for(var i = 1; i < 7; i++) {
+    news.push(server.create('news', {
+      organization_id: organization.id
+    }));
+  }
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(()=>{
+    let $moreContent = find(testSelector('organization-profile-more-content'));
+    assert.equal( find(testSelector('news-card'), $moreContent).length, news.length, "it has all the news items" );
+  });
+});
+
+test("Given news items exist not owned by orgnization; it does not include them in the more-content area", function(assert) {
+  let organization = server.create('organization');
+  let org2 = server.create('organization');
+
+  server.create('news', {organization_id: org2.id });
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(()=>{
+    let $moreContent = find(testSelector('organization-profile-more-content'));
+    assert.equal( find(testSelector('news-card'), $moreContent).length, 0);
+  });
+});

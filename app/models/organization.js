@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-const { computed, get } = Ember;
+const {
+  computed,
+  get,
+  isPresent
+} = Ember;
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -13,7 +17,7 @@ export default DS.Model.extend({
   slug: computed('name', 'id', function() {
     const id = get(this, 'id');
     const name = get(this, 'name');
-    const paramName = name.trim().dasherize();
+    const paramName = isPresent(name) ? name.trim().dasherize() : "";
 
     return `${id}-${paramName}`;
   })
