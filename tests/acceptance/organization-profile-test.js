@@ -79,11 +79,13 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
   });
 });
 
-test("Given an organization with less than 7 news items; it renders them as news cards in the 'More Content' area", function(assert) {
+test("Given an organization with less than 9 news items; it renders the last 6 as news cards in the 'More Content' area", function(assert) {
+  assert.expect(7);
+
   let organization = server.create('organization');
   let news = [];
 
-  for(var i = 1; i < 7; i++) {
+  for(var i = 1; i < 9; i++) {
     news.push(server.create('news', {
       organization_id: organization.id
     }));
@@ -93,7 +95,11 @@ test("Given an organization with less than 7 news items; it renders them as news
 
   andThen(()=>{
     let $moreContent = find(testSelector('organization-profile-more-content'));
-    assert.equal( find(testSelector('news-card'), $moreContent).length, news.length, "it has all the news items" );
+    assert.equal( find(testSelector('news-card'), $moreContent).length, news.length - 2, "it has all the news items" );
+
+     news.slice(2).forEach(function(item) {
+       assert.ok( find(testSelector('news-card', item.title)).length > 0, "News item exists" );
+     });
   });
 });
 
@@ -109,4 +115,68 @@ test("Given news items exist not owned by orgnization; it does not include them 
     let $moreContent = find(testSelector('organization-profile-more-content'));
     assert.equal( find(testSelector('news-card'), $moreContent).length, 0);
   });
+});
+
+test('Pagination, featured content is not display on subsequent pages', function(assert) {
+
+  let organization = server.create('organization');
+  let news = [];
+  for(var i = 1; i < 10; i++) {
+    news.push(server.create('news', {organization_id: organization.id}));
+  }
+  let firstPage = news.slice(2,6);
+  let nextPage = news.slice(9);
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(()=>{
+    click( testSelector('next-page') ).then( ()=>{
+      let $featuredContent = find(testSelector('featured-content'));
+      assert.equal($featuredContent.length, 0, "Featured content is gone");
+
+      let $moreContent = find(testSelector('organization-profile-more-content'));
+      firstPage.forEach((item)=>{
+        assert.equal( find(testSelector('news-card', item.title), $moreContent).length, 0, "First page news item not in list");
+      });
+      nextPage.forEach((item)=>{
+        assert.equal( find(testSelector('news-card', item.title), $moreContent).length, 1, "Next page news item");
+      });
+
+    });
+  });
+});
+
+test("Searching content: returns records matching query. Featured items gone.", function(assert) {
+
+  let organization = server.create('organization');
+  let news = [];
+  for(var i = 1; i < 3; i++) {
+    news.push(server.create('news', {organization_id: organization.id}));
+  }
+
+  let matchingArticle = server.create('news', {
+    title: 'TheMatch'
+  });
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(()=>{
+    let $searchBox = find('input', testSelector('component','news-search'));
+    fillIn( $searchBox, 'TheMatch');
+    triggerEvent($searchBox, 'input');
+    andThen( ()=>{
+      let $featuredContent = find(testSelector('featured-content'));
+      assert.equal($featuredContent.length, 0, "Featured content is gone");
+
+      let $moreContent = find(testSelector('organization-profile-more-content'));
+
+      assert.equal( find(testSelector('news-card', matchingArticle.title), $moreContent).length, 1, "shows matching article");
+
+      news.forEach((item)=>{
+        assert.equal( find(testSelector('news-card', item.title), $moreContent).length, 0, "non-matches don't show up");
+      });
+
+    });
+  });
+
 });

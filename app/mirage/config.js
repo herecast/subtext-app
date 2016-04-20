@@ -2,6 +2,8 @@ import Ember from 'ember';
 import moment from 'moment';
 import Mirage from 'ember-cli-mirage';
 
+const { isPresent } = Ember;
+
 /*jshint multistr: true */
 
 // This is just a dumb method to make it look like we're doing filtering
@@ -571,13 +573,22 @@ export default function() {
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
     const organizationId = params.organization_id;
+    const query = params.query;
 
     let news = db.news;
-    if(organizationId) {
+    if(isPresent(organizationId)) {
       news = news.filter((item)=> {
         return item.organization_id.toString() === organizationId;
       });
     }
+
+    if(isPresent(query)) {
+      news = news.filter((item)=> {
+        return isPresent(item.title) && (item.title.indexOf(query) > -1);
+      });
+    }
+
+    let total = news.length;
     news = news.slice(start,stop).map((article) => {
       return Ember.getProperties(article, newsBaseProperties);
     });
@@ -585,7 +596,10 @@ export default function() {
     news = filterByDate(news, params.date_start, params.date_end);
 
     return {
-      news: news
+      news: news,
+      meta: {
+        total: total
+      }
     };
   });
 

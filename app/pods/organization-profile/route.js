@@ -13,15 +13,5 @@ export default Ember.Route.extend({
 
       return this.store.findRecord('organization', id);
     }
-  },
-
-  setupController(controller, model) {
-    controller.set('model', model);
-    controller.set('featuredNews', this.store.query('news', {
-      organization_id: model.id,
-      sort_by: 'published_at desc',
-      page: 1,
-      per_page: 2
-    }));
   }
 });

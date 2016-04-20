@@ -9,14 +9,14 @@ export default Ember.Component.extend({
   value: null,
   placeholder: 'Search ...',
 
-  input() {
-    const value = this.$('input').val();
-    const debounceWait = get(this, 'debounceWait');
-
-    run.debounce(this._updateAction, value, debounceWait);
+  _updateAction(value) {
+    this.attrs.update(value);
   },
 
-  _updateAction() {
-    this.attrs.action(get(this, 'value'));
+  actions: {
+    update(val) {
+      const debounceWait = get(this, 'debounceWait');
+      run.debounce(this, this._updateAction, val,  debounceWait);
+    }
   }
 });

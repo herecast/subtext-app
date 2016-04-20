@@ -10,18 +10,22 @@
 
   <div class='row'>
     <div class='OrganizationProfile-main col-sm-9'>
+      {{#if featuredNews}}
       <section class='OrganizationProfile-featured'>
         {{#each featuredNews as |newsItem|}}
           {{featured-content model=newsItem horizontal=true}}
         {{/each}}
       </section>
-
+      {{/if}}
       <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
         <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
         <div class='OrganizationProfile-contentControls'>
-          {{search-input value=query action=(mut query)}}
+          {{search-input value=query update=(action (mut query)) data-test-component='news-search' debouncWait=500}}
         </div>
         {{content-grid model=moreContent}}
+        <footer>
+          {{pagination-buttons resultCount=totalCount page=page on-update-page=(action (mut page)) perPage=perPage}}
+        </footer>
       </section>
     </div>
 
