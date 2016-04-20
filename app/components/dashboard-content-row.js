@@ -96,8 +96,6 @@ export default Ember.Component.extend(TrackEvent, {
     }else{
       return get(this, 'content.contentAnchor');
     }
-
-
   }),
 
   editRoute: computed(function() {
