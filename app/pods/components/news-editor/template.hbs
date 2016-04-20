@@ -176,6 +176,7 @@
           {{form-error errors.content}}
           {{#summer-note
             content=news.content
+            editorHeight=editorHeight
             toolbar=(mut editorConfig)
             validateForm=(action 'notifyChange')
             uploadImage=(action 'saveImage')

@@ -17,6 +17,9 @@ const {
 export default Ember.Component.extend(Validation, {
   showDevFlags: false,
   news: null,
+  editorHeight: computed(function() {
+    return get(this, 'media.isMobile') ? 300 : 500;
+  }),
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: inject.service(),
