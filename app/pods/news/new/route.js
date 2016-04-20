@@ -3,6 +3,8 @@ import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
+const { get } = Ember;
+
 export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
   titleToken: 'Create News',
 
@@ -32,5 +34,19 @@ export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
     // out when a model isNew and
     // has changes so we can avoid doing this
     model.save();
+  },
+
+  actions: {
+    willTransition(transition) {
+      const model = get(this, 'controller.model');
+
+      if (model.hasDirtyAttributes) {
+        if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
+          model.rollbackAttributes();
+        } else {
+          transition.abort();
+        }
+      }
+    }
   }
 });
