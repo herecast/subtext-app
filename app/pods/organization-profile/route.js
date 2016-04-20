@@ -13,5 +13,14 @@ export default Ember.Route.extend({
 
       return this.store.findRecord('organization', id);
     }
+  },
+
+  setupController(controller, model) {
+    controller.set('model', model);
+    debugger;
+    controller.setProperties({
+      page: 1,
+      query: null
+    });
   }
 });

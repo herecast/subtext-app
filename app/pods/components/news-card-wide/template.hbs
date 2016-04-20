@@ -15,7 +15,7 @@
   {{/link-to}}
 
   <div class='NewsCard-subtitle'>
-    {{#link-to 'news' (query-params query='Everything' organization=item.organizationName page=1)}}
+    {{#link-to 'organization-profile' item.organization.id}}
       <h3 class='NewsCard-organization'>{{item.organizationName}}</h3>
     {{/link-to}}
 

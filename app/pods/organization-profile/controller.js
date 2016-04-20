@@ -7,6 +7,7 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend({
+  queryParams: ['query', 'page'],
   page: 1,
   perPage: 8,
   query: null,
@@ -47,5 +48,15 @@ export default Ember.Controller.extend({
     } else {
       return news.slice(2);
     }
-  })
+  }),
+
+  actions: {
+    updateQuery(q) {
+      if(q.length > 2) {
+        set(this, 'query', q);
+      } else {
+        set(this, 'query', null);
+      }
+    }
+  }
 });
