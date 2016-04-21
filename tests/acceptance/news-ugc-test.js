@@ -20,9 +20,10 @@ test('/news while not logged in', function(assert) {
     assert.equal(find(testSelector('component', 'new-comment')).length, 0, 'it should not have a comment form');
   });
 });
-/*
+
 test('/news', function(assert) {
   server.createList('news', 20);
+  server.create('organization', { can_publish_news: true });
 
   visit('/news');
 
@@ -45,9 +46,10 @@ test('/news', function(assert) {
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should have a pagination link to the previous page');
   });
 });
-*/
-/*
+
 test('/news cards link to full articles', function(assert) {
+  server.create('organization', { can_publish_news: true });
+
   const news = server.create('news', { title: 'my fake news article', id: 50 });
 
   visit('/news');
@@ -63,9 +65,10 @@ test('/news cards link to full articles', function(assert) {
     assert.equal(currentURL(), '/news/50', 'i can click the card title to view the full article');
   });
 });
-*/
-/*
+
 test('/news/:id commenting as a logged in user', function(assert) {
+  server.create('organization', { can_publish_news: true });
+
   const news = server.create('news', {
     id: 50,
     content_id: 50,
@@ -73,6 +76,7 @@ test('/news/:id commenting as a logged in user', function(assert) {
     comment_count: 8,
     author_name: 'Barry Manilow'
   });
+
   const comments = server.createList('comment', 8, {
     content_id: news.content_id
   });
@@ -93,7 +97,6 @@ test('/news/:id commenting as a logged in user', function(assert) {
     assert.equal(find(testSelector('content-comment')).length, comments.length + 1, 'it should show a count of 9 comments');
   });
 });
-*/
 
 // **can write acceptance tests for**
 // i can change content status from draft to publish and publish to draft
