@@ -10,7 +10,7 @@ test('it hides the edit link for talk', function(assert) {
   const talk = {
     publishedAt: new Date(),
     title: 'this is a talk'
-  }
+  };
 
   this.set('talk', talk);
 
@@ -30,7 +30,7 @@ test('it shows the edit link for market', function(assert) {
   const market = {
     publishedAt: new Date(),
     title: 'this is a market post'
-  }
+  };
 
   this.set('market', market);
 
@@ -50,7 +50,7 @@ test('it shows the edit link for events', function(assert) {
   const event = {
     publishedAt: new Date(),
     title: 'this is an event'
-  }
+  };
 
   this.set('event', event);
 
@@ -70,7 +70,7 @@ test('it shows the edit link for news', function(assert) {
   const news = {
     publishedAt: new Date(),
     title: 'this is a news post'
-  }
+  };
 
   this.set('news', news);
 
@@ -88,9 +88,9 @@ test('it shows the edit link for news', function(assert) {
 
 test('it shows the news pubdate when news is published', function(assert) {
   const news = {
-    publishedAt: new moment().subtract(10, 'day'),
+    publishedAt: moment().subtract(10, 'day'),
     title: 'this is a published news post'
-  }
+  };
 
   this.set('news', news);
 
@@ -110,7 +110,7 @@ test('it identifies news content as draft when not published', function(assert) 
   const news = {
     publishedAt: null,
     title: 'this news post is not yet published'
-  }
+  };
 
   this.set('news', news);
 

@@ -20,4 +20,4 @@ export function sanitizeContent(rawContent) {
   });
 
   return s.clean_node(rawContent);
-};
+}

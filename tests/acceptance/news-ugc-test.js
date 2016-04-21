@@ -11,6 +11,7 @@ moduleForAcceptance('Acceptance | news ugc', {
 
 test('/news while not logged in', function(assert) {
   invalidateSession(this.application);
+  server.create('organization', { can_publish_news: true });
   const newsItem = server.create('news');
 
   visit(`/news/${newsItem.id}`);

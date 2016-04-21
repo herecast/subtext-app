@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
-import ajax from 'ember-ajax';
-import config from './../../../config/environment';
 
 const {
   computed,
@@ -165,8 +163,6 @@ export default Ember.Component.extend(Validation, {
     },
 
     publishChanges() {
-      const news = get(this, 'news');
-
       if (this.isValid()) {
         this._save().then(() => {
           get(this, 'toast').success('Your changes have been saved');
