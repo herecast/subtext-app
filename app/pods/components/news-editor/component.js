@@ -42,14 +42,14 @@ export default Ember.Component.extend(Validation, {
     return get(this, 'isDraft') && (hasDirtyAttributes || orgChanged);
   }),
 
-  status: computed('news.isDraft', 'news.isScheduled', 'news.isPublished', function() {
-    const { isDraft, isScheduled, isPublished } = getProperties(this, 'news.isDraft', 'news.isScheduled', 'news.isPublished');
+  status: computed('news.publishedAt', function() {
+    const news = get(this, 'news');
 
-    if (isDraft) {
+    if (news.get('isDraft')) {
       return 'Draft';
-    } else if (isScheduled) {
+    } else if (news.get('isScheduled')) {
       return 'Scheduled';
-    } else if (isPublished) {
+    } else if (news.get('isPublished')) {
       return 'Published';
     } else {
       return 'Unknown status';

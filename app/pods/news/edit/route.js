@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   titleToken: 'Edit News',
 
   model(params) {
-    return this.store.find('news', params.id);
+    return this.store.findRecord('news', params.id, { reload: true });
   },
 
   setupController(controller, model) {
