@@ -8,8 +8,7 @@ const {
   get,
   set,
   run,
-  inject,
-  getProperties
+  inject
   } = Ember;
 
 export default Ember.Component.extend(Validation, {
@@ -42,14 +41,12 @@ export default Ember.Component.extend(Validation, {
     return get(this, 'isDraft') && (hasDirtyAttributes || orgChanged);
   }),
 
-  status: computed('news.publishedAt', function() {
-    const news = get(this, 'news');
-
-    if (news.get('isDraft')) {
+  status: computed('news.isDraft', 'news.isScheduled', 'news.publishedAt', function() {
+    if (get(this, 'news.isDraft')) {
       return 'Draft';
-    } else if (news.get('isScheduled')) {
+    } else if (get(this, 'news.isScheduled')) {
       return 'Scheduled';
-    } else if (news.get('isPublished')) {
+    } else if (get(this, 'news.isPublished')) {
       return 'Published';
     } else {
       return 'Unknown status';
