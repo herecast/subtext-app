@@ -18,18 +18,6 @@ export default Ember.Controller.extend(trackEvent, {
 
   showPasswordForm: false,
 
-  businesses: computed('organization.id', function() {
-    const organizationId = get(this, 'organization.id');
-
-    if (organizationId) {
-      return this.store.query('business-profile', {
-        organization_id: organizationId
-      });
-    } else {
-      return [];
-    }
-  }),
-
   ads: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const page = get(this, 'page');
     const per_page = get(this, 'per_page');
@@ -77,7 +65,7 @@ export default Ember.Controller.extend(trackEvent, {
       queryParams['channel_type'] = type;
     }
 
-    if (type === 'promotion-banner' || type === 'business') {
+    if (type === 'promotion-banner') {
       return [];
     } else {
       let promise = new RSVP.Promise((resolve) => {
