@@ -185,8 +185,25 @@ export default Ember.Component.extend(Validation, {
 
     choosePubDate() {
       if (this.isValid()) {
+        // There is a bug with the date/time picker.
+        // It will round the minutes to the nearest half hour on the UI,
+        // while not updating the selectedPubDate until you click on a specific time.
+        // To address this issue, we're going to align the selectedPubDate
+        // to the default it would display in the date/time picker
+
+        let now = moment(),
+          hours = now.get('h'),
+          minutes = now.get('m');
+
+        if (minutes > 0 && minutes < 30) {
+          minutes = 30;
+        } else if (minutes > 30) {
+          hours += 1;
+          minutes = 0;
+        }
+
         this.setProperties({
-          selectedPubDate: moment().add(1, 'day').milliseconds(0).seconds(0).minutes(0).add(1, 'hour'),
+          selectedPubDate: now.milliseconds(0).seconds(0).minutes(minutes).hours(hours),
           isPickingScheduleDate: true
         });
       }
