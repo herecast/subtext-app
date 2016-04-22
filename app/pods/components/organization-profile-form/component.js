@@ -28,7 +28,7 @@ export default Ember.Component.extend(Validation, {
       model.save().then(()=>{
         if(isPresent(model.get('logo'))) {
           model.uploadLogo().then(()=>{
-            this.notifySaved()
+            this.notifySaved();
           });
         } else {
           this.notifySaved();

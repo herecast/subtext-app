@@ -55,7 +55,7 @@ test('It displays relative published at time', function(assert) {
 
 test('It displays organization info', function(assert) {
   let organization = {
-    logo: 'http://go.test/this',
+    logoUrl: 'http://go.test/this',
     name: "Test Blog"
   };
   this.set('content', {
@@ -68,5 +68,5 @@ test('It displays organization info', function(assert) {
   assert.equal($pub.text().trim(), organization.name);
 
   let $pubImage = this.$('.FeaturedContent-publisherAvatar');
-  assert.equal($pubImage.attr('src'), organization.logo);
+  assert.equal($pubImage.attr('src'), organization.logoUrl);
 });

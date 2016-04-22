@@ -11,7 +11,7 @@ moduleForAcceptance('Acceptance | organization profile');
 
 test('Displays organization info', function(assert) {
   const organization = server.create('organization', {
-    logo: 'http://placehold.it/200x200',
+    logoUrl: 'http://placehold.it/200x200',
     name: 'Foo Blog',
     description: 'A blog about foo, and bar; and how they came to be.'
   });
@@ -24,7 +24,7 @@ test('Displays organization info', function(assert) {
     element = find(testSelector('organization-image'));
     assert.equal(
       element.attr('src'),
-      organization.logo,
+      organization.logoUrl,
       "Organization Logo");
 
     // Name
@@ -45,7 +45,7 @@ test('Displays organization info', function(assert) {
 
 test("About section only shows when image and/or description", function(assert) {
   let org1 = server.create('organization');
-  let org2 = server.create('organization', {logo: null, description: ""});
+  let org2 = server.create('organization', {logoUrl: null, description: null});
 
   visit(`/organizations/${org1.id}`).then(()=>{
     let $aboutSection = find( testSelector('component', 'about-section') );

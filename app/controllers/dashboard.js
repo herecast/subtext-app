@@ -197,11 +197,11 @@ export default Ember.Controller.extend(trackEvent, {
       }
     },
 
-    saveBlog(blog) {
+    saveBlog() {
       set(this, 'editingBlog', null);
     },
 
-    saveBusiness(biz) {
+    saveBusiness() {
       set(this, 'editingBusiness', null);
     }
   }
