@@ -193,12 +193,14 @@
             uploadImage=(action 'saveImage')
             class='ContentForm-textArea'
           }}
-            {{textarea
-              id='content'
-              placeholder='Enter your content here...'
-              class='form-control'
-              data-test-textarea='content'
-            }}
+            <div class='ContentText'>
+              {{textarea
+                id='content'
+                placeholder='Enter your content here...'
+                class='form-control'
+                data-test-textarea='content'
+              }}
+            </div>
           {{/summer-note}}
         {{/form-group}}
       </div>
