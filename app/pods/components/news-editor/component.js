@@ -63,9 +63,9 @@ export default Ember.Component.extend(Validation, {
     }
   }),
 
-  filteredOrganizations: computed('organizations.@each.can_publish_news', function() {
+  filteredOrganizations: computed('organizations.@each.canPublishNews', function() {
     return get(this, 'organizations').filter((item) => {
-      return get(item, 'can_publish_news');
+      return get(item, 'canPublishNews');
     });
   }),
 
@@ -109,7 +109,7 @@ export default Ember.Component.extend(Validation, {
   },
 
   validateOrganization() {
-    const canPublishNews = get(this, 'news.organization.can_publish_news');
+    const canPublishNews = get(this, 'news.organization.canPublishNews');
 
     if (canPublishNews) {
       set(this, 'errors.organization', null);
