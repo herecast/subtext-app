@@ -33,8 +33,8 @@ export default DS.Model.extend({
     return `${id}-${paramName}`;
   }),
   
-  isBlog: computed.equal('orgType', 'blog'),
-  isBusiness: computed.equal('orgType', 'business'),
+  isBlog: computed.equal('orgType', 'Blog'),
+  isBusiness: computed.equal('orgType', 'Business'),
   
   uploadLogo() {
     const id = get(this, 'id');

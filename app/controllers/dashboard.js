@@ -103,6 +103,10 @@ export default Ember.Controller.extend(trackEvent, {
     // Must return null, not undefined.
     return orgId ? orgId : null;
   }),
+  
+  organizationIsBlogOrBusiness: computed('organization.isBlog', 'organization.isBusiness', function() {
+    return get(this, 'organization.isBusiness') || get(this, 'organization.isBlog');
+  }),
 
   actions: {
     saveUsername() {
