@@ -154,7 +154,10 @@ export default Ember.Component.extend(Validation, {
     data.append('image[primary]', primary);
     data.append('image[image]', file);
     data.append('image[content_id]', id);
-    data.append('image[caption]', caption);
+
+    if (caption) {
+      data.append('image[caption]', caption);
+    }
 
     return get(this, 'api').createImage(data);
   },
