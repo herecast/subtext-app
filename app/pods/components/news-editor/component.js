@@ -78,7 +78,6 @@ export default Ember.Component.extend(Validation, {
 
   _save() {
     const news = get(this, 'news');
-    console.log('doing auto save');
 
     return news.save().then(() => {
       set(this, 'news.didOrgChange', false);
