@@ -584,6 +584,17 @@ export default function() {
 
   this.get('/news/:id');
 
+  this.post('news');
+
+  this.put('news/:id', function(db, request) {
+    const id = request.params.id;
+    const data = JSON.parse(request.requestBody);
+
+    const news = db.news.update(id, data['news']);
+
+    return { news: news };
+  });
+
   this.get('/contents', function(db) {
     return {
       contents: mixedContent(db)
@@ -631,7 +642,9 @@ export default function() {
 
   this.post('/images', function(db) {
     const image = db.images.insert({
-      id: faker.random.number(1000)
+      id: faker.random.number(1000),
+      primary: false,
+      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
     });
 
     return {

@@ -8,6 +8,8 @@ test('visiting /', function(assert) {
   server.createList('market-post', 5);
   server.createList('talk', 8);
   server.createList('news', 12);
+  server.create('current-user', { can_publish_news: true });
+  server.create('organization', { can_publish_news: true });
 
   visit('/');
 

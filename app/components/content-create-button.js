@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { computed } = Ember;
+const { computed, get } = Ember;
 
 // I think we should be able to use string.startsWith() as part of ES6, but
 // the tests were breaking when I ran `ember test` so I'm using this instead.
@@ -12,12 +12,15 @@ function startsWith(path, searchString) {
 
 export default Ember.Component.extend(trackEvent, {
   path: '', // override with the application controller's currentPath
+  canPublishNews: computed.oneWay('session.currentUser.canPublishNews'),
 
   buttonClass: computed('path', function() {
     const klass = 'Button SectionNavigation-contentCreateButton btn btn-default';
     const path = this.get('path');
 
-    if (startsWith(path, 'events')) {
+    if (startsWith(path, 'news')) {
+      return `${klass} Button--news`;
+    } else if (startsWith(path, 'events')) {
       return `${klass} Button--event`;
     } else if (startsWith(path, 'market')) {
       return `${klass} Button--market`;
@@ -28,15 +31,20 @@ export default Ember.Component.extend(trackEvent, {
 
   showButton: computed('path', function() {
     const path = this.get('path');
+    const canShowNewsBtn = (path === 'news.all.index' || path === 'news.show') && get(this, 'canPublishNews');
 
-    return startsWith(path, 'events') || startsWith(path, 'talk') ||
+    return canShowNewsBtn || startsWith(path, 'events') || startsWith(path, 'talk') ||
       startsWith(path, 'market');
   }),
 
   route: computed('path', function() {
-    const path = this.get('path');
+    const path = get(this, 'path');
 
-    return `${path.split('.')[0]}.new.details`;
+    if (startsWith(path, 'news')) {
+      return 'news.new';
+    } else {
+      return `${path.split('.')[0]}.new.details`;
+    }
   }),
 
   redirectTo: computed('path', function() {
@@ -49,7 +57,9 @@ export default Ember.Component.extend(trackEvent, {
     const path = this.get('path');
     let contentType = '';
 
-    if (startsWith(path, 'events')) {
+    if (startsWith(path, 'news')) {
+      contentType = 'News';
+    } else if (startsWith(path, 'events')) {
       contentType = 'Event';
     } else if (startsWith(path, 'market')) {
       contentType = 'Listing';
@@ -68,7 +78,9 @@ export default Ember.Component.extend(trackEvent, {
   _getTrackingArguments(linkText) {
     let navControlText = '';
 
-    if (linkText.match(/Event$/)) {
+    if (linkText.match(/News/)) {
+      navControlText = 'Create News';
+    } else if (linkText.match(/Event$/)) {
       navControlText = 'Create Event';
     } else if (linkText.match(/Listing$/)) {
       navControlText = 'Create Market Listing';

@@ -14,5 +14,6 @@ export default Mirage.Factory.extend({
   test_group: 'Consumer',
   listserv_id: 1,
   listserv_name: 'Norwich Listserv',
-  managed_organization_ids() { return [1, 2, 3]; }
+  managed_organization_ids() { return [1, 2, 3]; },
+  can_publish_news: true
 });

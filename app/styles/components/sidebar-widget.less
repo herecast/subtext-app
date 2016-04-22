@@ -1,0 +1,45 @@
+.SidebarWidget {
+  margin-bottom: 20px;
+
+  .btn {
+    color: @text-color;
+    background-color: #e6e6e6;
+    border: none;
+    margin-top: 0.5rem;
+  }
+  .btn.btn-secondary {
+  }
+  .btn.btn-primary {
+    background: @news-brand;
+     &:hover {
+       background: darken(@news-brand, 3%);
+     }
+  }
+  a {
+    text-decoration: underline;
+  }
+}
+
+.SidebarWidget-header {
+  margin: 0;
+  margin-bottom: 25px;
+  .SectionHeader;
+  .SidebarWidget:not(:first-child) & {
+    margin-top: 25px;
+  }
+}
+
+.SidebarWidget-text {
+  .SectionHeader-text;
+  .SectionHeader-text--secondaryBg;
+}
+
+.SidebarWidget-body {
+  background: #fff;
+  padding: 20px;
+  .u-dropShadow;
+}
+
+.SidebarWidget-image-preview {
+  max-width: 100%;
+}

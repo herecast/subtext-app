@@ -141,6 +141,16 @@
                       <span>Create Market Listing</span>
                   {{/link-to}}
                 </li>
+
+                {{#if organization.can_publish_news}}
+                  <li role="separator" class="divider"></li>
+
+                  <li>
+                    {{#link-to 'news.new' (query-params organization_id=organizationId)}}
+                        <span>Create News Post</span>
+                    {{/link-to}}
+                  </li>
+                {{/if}}
               </ul>
             </div>
           {{/unless}}

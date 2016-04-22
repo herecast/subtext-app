@@ -61,6 +61,8 @@ Router.map(function() {
   this.route('news', function() {
     this.route('all', {path: '/'}, function() {});
     this.route('show', {path: '/:id'});
+    this.route('new');
+    this.route('edit', {path: '/:id/edit'});
   });
 
   this.route('talk', function() {

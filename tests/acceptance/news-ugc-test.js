@@ -11,9 +11,10 @@ moduleForAcceptance('Acceptance | news ugc', {
 
 test('/news while not logged in', function(assert) {
   invalidateSession(this.application);
-  server.create('news');
+  server.create('organization', { can_publish_news: true });
+  const newsItem = server.create('news');
 
-  visit('/news');
+  visit(`/news/${newsItem.id}`);
 
   andThen(() => {
     assert.equal(find(testSelector('component', 'new-comment')).length, 0, 'it should not have a comment form');
@@ -22,6 +23,7 @@ test('/news while not logged in', function(assert) {
 
 test('/news', function(assert) {
   server.createList('news', 20);
+  server.create('organization', { can_publish_news: true });
 
   visit('/news');
 
@@ -46,6 +48,8 @@ test('/news', function(assert) {
 });
 
 test('/news cards link to full articles', function(assert) {
+  server.create('organization', { can_publish_news: true });
+
   const news = server.create('news', { title: 'my fake news article', id: 50 });
 
   visit('/news');
@@ -63,6 +67,8 @@ test('/news cards link to full articles', function(assert) {
 });
 
 test('/news/:id commenting as a logged in user', function(assert) {
+  server.create('organization', { can_publish_news: true });
+
   const news = server.create('news', {
     id: 50,
     content_id: 50,
@@ -70,6 +76,7 @@ test('/news/:id commenting as a logged in user', function(assert) {
     comment_count: 8,
     author_name: 'Barry Manilow'
   });
+
   const comments = server.createList('comment', 8, {
     content_id: news.content_id
   });
@@ -130,3 +137,4 @@ test('I can create content title, subtitle and content body', function(assert) {
   });
 });
 */
+// 'I can edit content title, subtitle and content body'
