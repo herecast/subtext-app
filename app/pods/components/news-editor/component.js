@@ -28,7 +28,7 @@ export default Ember.Component.extend(Validation, {
     ['style', ['bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
-    ['insert', ['picture', 'link', 'video']]
+    ['insert', ['picture', 'video']]
   ],
 
   featuredImageUrl: computed.oneWay('news.bannerImage.url'),
