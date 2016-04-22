@@ -5,7 +5,7 @@ export default Mirage.Factory.extend({
   logo_url() { return faker.image.avatar(); },
   subscribe_url() { return 'http://example.org/subscribe'; },
   org_type() { return faker.random.array_element(["business", "blog"]); },
-  background_image() { return faker.image.business(); },
+  background_image_url() { return faker.image.business(); },
   description() { return faker.lorem.paragraph(); },
   can_publish_news() { return true; },
   can_edit() { return true; },
