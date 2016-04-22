@@ -22,7 +22,7 @@
   {{content-form-image
     image=model.logo
     imageUrl=model.logoUrl
-    error=errors.image
+    error=errors.logo
   }}
 
 {{#form-group error=errors.description}}
@@ -40,5 +40,5 @@
 {{/form-group}}
 
 <div class='text-center'>
-  <button class='btn btn-lg btn-secondary' {{action "save"}}>Save Changes</button>
+  <button class='btn btn-lg btn-secondary'>Save Changes</button>
 </div>

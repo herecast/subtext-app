@@ -142,7 +142,7 @@ export default Ember.Controller.extend(trackEvent, {
         page: 1
       });
     },
-    
+
     viewProfile(org) {
       if(org.get('isBlog')) {
         this.transitionToRoute('organization-profile', org);
@@ -155,7 +155,7 @@ export default Ember.Controller.extend(trackEvent, {
         alert('Feature not available yet');
       }
     },
-    
+
     editProfile(org) {
       if( org.get('isBlog') ) {
         set(this, 'editingBlog', org);  
@@ -168,7 +168,7 @@ export default Ember.Controller.extend(trackEvent, {
         alert('Feature not available yet');  
       }
     },
-  
+
     cancelEditingBlog() {
       const org = get(this, 'editingBlog');
       if(isPresent(org)) {
@@ -182,7 +182,7 @@ export default Ember.Controller.extend(trackEvent, {
         }
       }
     },
-    
+
     cancelEditingBusiness() {
       const biz = get(this, 'editingBusiness');
       if(isPresent(biz)) {
@@ -196,11 +196,11 @@ export default Ember.Controller.extend(trackEvent, {
         }
       }
     },
-    
+
     saveBlog(blog) {
       set(this, 'editingBlog', null);
     },
-    
+
     saveBusiness(biz) {
       set(this, 'editingBusiness', null);
     }

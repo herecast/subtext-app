@@ -4,10 +4,13 @@ import DS from 'ember-data';
 const {
   computed,
   get,
+  inject,
   isPresent
 } = Ember;
 
 export default DS.Model.extend({
+  api: inject.service('api'),
+  
   name: DS.attr('string'),
   logoUrl: DS.attr('string'),
   logo: DS.attr(),
@@ -31,4 +34,16 @@ export default DS.Model.extend({
   
   isBlog: computed.equal('orgType', 'blog'),
   isBusiness: computed.equal('orgType', 'business'),
+  
+  uploadLogo() {
+    const id = get(this, 'id');
+    const api = get(this, 'api');
+    const data = new FormData();
+
+    if (isPresent(this.get('logo'))) {
+      data.append('organization[logo]', this.get('logo'));
+
+      return api.updateOrganizationLogo(id, data);
+    }
+  },
 });

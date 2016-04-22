@@ -43,12 +43,13 @@ export default Ember.Mixin.create({
     }
   },
 
-  validateImage() {
-    const image = this.get('image');
+  validateImage(name) {
+    const attrKey = name || 'image';
+    const image = this.get(attrKey);
 
     if (Ember.isBlank(image)) {
-      this.set('errors.image', null);
-      delete this.get('errors').image;
+      this.set(`errors.${attrKey}`, null);
+      delete this.get('errors')[attrKey];
       return true;
     }
 
@@ -57,12 +58,12 @@ export default Ember.Mixin.create({
     const maxSize = 5242880; // 5MB
 
     if (!isJPG && !isPNG) {
-      this.set('errors.image', 'must be a jpg or png');
+      this.set(`errors.${attrKey}`, 'must be a jpg or png');
     } else if (image.size > maxSize) {
-      this.set('errors.image', 'must be < 5MB');
+      this.set(`errors.${attrKey}`, 'must be < 5MB');
     } else {
-      this.set('errors.image', null);
-      delete this.get('errors').image;
+      this.set(`errors.${attrKey}`, null);
+      delete this.get('errors')[attrKey];
     }
   },
 
