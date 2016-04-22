@@ -6,6 +6,7 @@ const {
   computed,
   isBlank,
   get,
+  getProperties,
   set,
   run,
   inject
@@ -24,6 +25,8 @@ export default Ember.Component.extend(Validation, {
   api: inject.service(),
   toast: inject.service(),
 
+  pendingFeaturedImage: null,
+
   editorConfig: [
     ['style', ['bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
@@ -32,13 +35,20 @@ export default Ember.Component.extend(Validation, {
   ],
 
   featuredImageUrl: computed.oneWay('news.bannerImage.url'),
+  featuredImageCaption: computed.oneWay('news.bannerImage.caption'),
+
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
-  canAutosave: computed('isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', function() {
-    const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
-      orgChanged = get(this, 'news.didOrgChange');
+  hasUnpublishedChanges: computed('news.hasUnpublishedChanges', 'pendingFeaturedImage', function() {
+    return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
+  }),
 
-    return get(this, 'isDraft') && (hasDirtyAttributes || orgChanged);
+  canAutosave: computed('news.isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', 'pendingFeaturedImage', function() {
+    const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
+      orgChanged = get(this, 'news.didOrgChange'),
+      pendingFeaturedImage = get(this, 'pendingFeaturedImage');
+
+    return get(this, 'news.isDraft') && (hasDirtyAttributes || orgChanged || pendingFeaturedImage);
   }),
 
   status: computed('news.isDraft', 'news.isScheduled', 'news.publishedAt', function() {
@@ -68,9 +78,27 @@ export default Ember.Component.extend(Validation, {
 
   _save() {
     const news = get(this, 'news');
+    console.log('doing auto save');
 
     return news.save().then(() => {
       set(this, 'news.didOrgChange', false);
+
+      const featuredImage = get(this, 'pendingFeaturedImage');
+
+      if (featuredImage) {
+        set(this, 'pendingFeaturedImage', null);
+        const { file, caption } = getProperties(featuredImage, 'file', 'caption');
+
+        return this._saveImage(file, 1, caption).then(
+          (response) => {
+            const url = get(response, 'image.url');
+            set(this, 'featuredImageUrl', url);
+          },
+          () => {
+            get(this, 'toast').error('Error: Unable to save featured image.');
+          }
+        );
+      }
     });
   },
 
@@ -119,13 +147,14 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  _saveImage(file, primary = 0) {
+  _saveImage(file, primary = 0, caption = null) {
     const id = get(this, 'news.id');
     const data = new FormData();
 
     data.append('image[primary]', primary);
     data.append('image[image]', file);
     data.append('image[content_id]', id);
+    data.append('image[caption]', caption);
 
     return get(this, 'api').createImage(data);
   },
@@ -228,20 +257,11 @@ export default Ember.Component.extend(Validation, {
       return this._saveImage(file);
     },
 
-    saveFeaturedImage(file) {
-      const toast = get(this, 'toast');
-
-      return this._saveImage(file, 1).then(
-        (response) => {
-          const url = get(response, 'image.url');
-
-          set(this, 'featuredImageUrl', url);
-          toast.success('Featured image saved successfully!');
-        },
-        () => {
-          toast.error('Error: Unable to save featured image.');
-        }
-      );
+    saveFeaturedImage(file, caption) {
+      // Save the featured image data to be committed
+      // the next time the rest of the form is saved.
+      set(this, 'pendingFeaturedImage', {file, caption});
+      this.send('notifyChange');
     }
   }
 });

@@ -10,6 +10,7 @@ export default Ember.Component.extend({
 
   // Should be set when component is instantiated
   imageUrl: null,
+  caption: null,
   title: 'Upload Image',
   aspectRatio: 4 / 3,
 
@@ -24,7 +25,7 @@ export default Ember.Component.extend({
     },
 
     saveImage() {
-      this.attrs.saveImage(get(this, '_selectedImage'));
+      this.attrs.saveImage(get(this, '_selectedImage'), get(this, 'caption'));
       this.send('closeImageModal');
     }
   }
