@@ -3,9 +3,12 @@
     <h1 class='OrganizationProfile-headerTitle col-sm-9' data-test-organization-name>
       <span>{{model.name}}</span>
     </h1>
-    <div class='OrganizationProfile-actions col-sm-3'>
+    <div class='OrganizationProfile-connect col-sm-3'>
       {{#if model.subscribeUrl}}
-        <a class='OrganizationProfile-subscribe Button' href={{model.subscribeUrl}}>Subscribe</a>
+        <a class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+          {{fa-icon 'heart'}}
+          Subscribe
+        </a>
       {{/if}}
     </div>
   </header>

@@ -9,6 +9,7 @@
 }
 
 .FeaturedContent-featuredImage {
+  padding-bottom: 20px;
   img {
     max-width: 100%;
   }
@@ -36,24 +37,24 @@
 .FeaturedContent-whenPublished {
   margin-bottom: 0;
 }
-
-.FeaturedContent--horizontal {
-  position: relative;
-  padding-left: 50%;
-
-  .FeaturedContent-featuredImage {
-    position: absolute;
-    width: 49%;
-    left: 0;
-    img {
-      width: 100%;
-      padding-right: 20px;
-    }
-  }
-}
-
 .FeaturedContent-more {
   text-decoration: underline;
   font-weight: darker;
+}
+
+@media(min-width: @screen-sm-min) {
+  .FeaturedContent-featuredImage {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0 20px 20px 0;
+    float: left;
+  }
+  .FeaturedContent-main, .FeaturedContent-meta {
+    box-sizing: border-box;
+    width: 50%;
+    float: right;
+    clear: right;
+    
+  }
 }
 

@@ -1,11 +1,13 @@
-.ContentGrid {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: left;
-}
+@media(min-width: @screen-sm-min) {
+  .ContentGrid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+  }
 
-.ContentGrid-item {
-  flex: 0 1 33%;
-  margin-bottom: 20px;
-  img { max-width: 100%; }
+  .ContentGrid-item {
+    flex: 0 1 33%;
+    margin-bottom: 20px;
+    img { max-width: 100%; }
+  }
 }
