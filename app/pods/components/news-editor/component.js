@@ -250,6 +250,13 @@ export default Ember.Component.extend(Validation, {
 
       news.rollbackAttributes();
 
+      // Roll back featured image selection
+      this.setProperties({
+        featuredImageUrl: get(news, 'bannerImage.url'),
+        featuredImageCaption: get(news, 'bannerImage.caption'),
+        pendingFeaturedImage: null
+      });
+
       get(this, 'toast').success('Changes discarded.');
     },
 
