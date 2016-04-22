@@ -3,8 +3,10 @@
     <h1 class='OrganizationProfile-headerTitle col-sm-9' data-test-organization-name>
       <span>{{model.name}}</span>
     </h1>
-    <div class='OrganizationProfile-connect col-sm-3'>
-      <a class='OrganizationProfile-subscribe Button' href="">Subscribe</a>
+    <div class='OrganizationProfile-actions col-sm-3'>
+      {{#if model.subscribeUrl}}
+        <a class='OrganizationProfile-subscribe Button' href={{model.subscribeUrl}}>Subscribe</a>
+      {{/if}}
     </div>
   </header>
 
@@ -17,11 +19,11 @@
         {{/each}}
       </section>
       {{/if}}
-      {{#if moreContent}}
+      {{#if showMoreContent}}
       <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
         <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
         <div class='OrganizationProfile-contentControls'>
-          {{search-input value=query update=(action (mut query)) data-test-component='news-search' debouncWait=500}}
+          {{search-input value=query update=(action (mut query)) data-test-component='news-search' debouncWait=900}}
         </div>
         {{content-grid model=moreContent}}
         <footer>
@@ -32,6 +34,11 @@
     </div>
 
     <aside class='OrganizationProfile-publisher col-sm-3'>
+      {{#if model.canEdit}}
+        <div>
+          <button class='btn btn-secondary' {{action 'editProfile'}}>Edit Profile</button>
+        </div>
+      {{/if}}
       {{#if showAboutSection}}
         {{organization-about model=model tagName='section' class='OrganizationProfile-about' data-test-component='about-section'}}
       {{/if}}
@@ -41,3 +48,9 @@
     </aside>
   </div>
 </article>
+{{#if editMode}}
+  {{#x-modal close=(action 'cancelEdit')}}
+    <h4 class='h2'>Edit Profile</h4>
+    {{organization-profile-form model=model didSave=(action "closeModal")}}
+  {{/x-modal}}
+{{/if}}

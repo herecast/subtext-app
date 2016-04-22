@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   title: computed.alias('model.title'),
   imageUrl: computed.alias('model.imageUrl'),
   organizationName: computed.alias('model.organization.name'),
-  organizationImage: computed.alias('model.organization.logo'),
+  organizationImage: computed.alias('model.organization.logoUrl'),
 
   contentUrl: computed('model.id', function() {
     const id = get(this, 'model.id');

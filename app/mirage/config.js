@@ -316,7 +316,6 @@ export default function() {
     } else {
       organizations = db.organizations;
     }
-
     return {
       organizations: organizations
     };

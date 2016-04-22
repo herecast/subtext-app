@@ -1,7 +1,14 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { inject, get, RSVP, isPresent, computed } = Ember;
+const {
+  inject,
+  get,
+  set,
+  RSVP,
+  isPresent,
+  computed
+} = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
   api: inject.service('api'),
@@ -134,6 +141,68 @@ export default Ember.Controller.extend(trackEvent, {
         sort: param,
         page: 1
       });
+    },
+    
+    viewProfile(org) {
+      if(org.get('isBlog')) {
+        this.transitionToRoute('organization-profile', org);
+      } else if(org.get('isBusiness')) {
+        const bid = org.get('businessProfileId');
+        this.store.findRecord('business-profile', bid).then((rec)=>{
+          this.transitionToRoute('directory.search.show', rec);
+        });
+      } else {
+        alert('Feature not available yet');
+      }
+    },
+    
+    editProfile(org) {
+      if( org.get('isBlog') ) {
+        set(this, 'editingBlog', org);  
+      } else if(org.get('isBusiness')) {
+        const bid = org.get('businessProfileId');
+        this.store.findRecord('business-profile', bid).then((rec)=>{
+          set(this, 'editingBusiness', rec);
+        });
+      } else {
+        alert('Feature not available yet');  
+      }
+    },
+  
+    cancelEditingBlog() {
+      const org = get(this, 'editingBlog');
+      if(isPresent(org)) {
+        if( org.get('hasDirtyAttributes')) {
+          if (confirm('Are you sure you want to discard your changes without saving?')) {
+            org.rollbackAttributes();
+            set(this, 'editingBlog', null);
+          }
+        } else {
+          set(this, 'editingBlog', null);
+        }
+      }
+    },
+    
+    cancelEditingBusiness() {
+      const biz = get(this, 'editingBusiness');
+      if(isPresent(biz)) {
+        if (biz.get('hasDirtyAttributes')) {
+          if (confirm('Are you sure you want to discard your changes without saving?')) {
+            biz.rollbackAttributes();
+            set(this, 'editingBusiness', null);
+          }
+        } else {
+          set(this, 'editingBusiness', null);
+        }
+      }
+    },
+    
+    saveBlog(blog) {
+      set(this, 'editingBlog', null);
+    },
+    
+    saveBusiness(biz) {
+      set(this, 'editingBusiness', null);
     }
   }
 });

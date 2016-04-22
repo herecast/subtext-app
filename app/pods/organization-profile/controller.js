@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {
   computed,
   get,
+  set,
   isPresent
 } = Ember;
 
@@ -10,13 +11,17 @@ export default Ember.Controller.extend({
   queryParams: ['query', 'page'],
   page: 1,
   perPage: 8,
-  query: null,
+  query: "",
   totalCount: computed.oneWay('news.content.meta.total'),
 
-  showAboutSection: computed('model.logo', 'model.description', function(){
-    const logo = get(this, 'model.logo');
+  showAboutSection: computed('model.logoUrl', 'model.description', function(){
+    const logo = get(this, 'model.logoUrl');
     const description = get(this, 'model.description');
     return isPresent(logo) || isPresent(description);
+  }),
+  
+  showMoreContent: computed('moreContent.[]', 'query', function() {
+    return get(this, 'moreContent.length') || get(this, 'query.length');
   }),
 
   news: computed('model.id', 'page', 'perPage', 'query', function() {
@@ -63,6 +68,24 @@ export default Ember.Controller.extend({
       } else {
         set(this, 'query', null);
       }
+    },
+
+    editProfile() {
+      set(this, 'editMode', true);
+    },
+
+    cancelEdit() {
+      if(get('model.hasDirtyAttributes')) {
+        if(confirm('You have unsaved changes. Cancel editing?')) {
+          set(this, 'editMode', false);
+        }
+      } else {
+      set(this, 'editMode', false);
+      }
+    },
+
+    closeModal() {
+      set(this, 'editMode', false);
     }
   }
 });

@@ -17,10 +17,10 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     controller.set('model', model);
-    debugger;
     controller.setProperties({
       page: 1,
-      query: null
+      query: ""
     });
   }
+
 });

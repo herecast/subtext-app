@@ -2,7 +2,9 @@
   About
   {{model.name}}
 </h1>
-<img src={{model.logo}} data-test-organization-image class='OrganizationAbout-avatar'>
+{{#if model.logoUrl}}
+  <img src={{model.logoUrl}} data-test-organization-image class='OrganizationAbout-avatar'>
+{{/if}}
 <p class='OrganizationAbout-description' data-test-organization-description>
   {{model.description}}
 </p>
