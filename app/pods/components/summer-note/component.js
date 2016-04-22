@@ -85,8 +85,22 @@ export default Ember.Component.extend({
 
     if (content) {
       // Initialize editor with content
-      Ember.$('.note-editable').html(content);
+      this._setEditorContent(content);
     }
+  },
+
+  _setEditorContent(content) {
+    Ember.$('.note-editable').html(content);
+  },
+
+  didReceiveAttrs() {
+    // Update the editor if we have new content
+    const content = get(this, 'attrs.content.value');
+    if (get(this, 'content') !== content) {
+      this._setEditorContent(content);
+    }
+
+    this._super();
   },
 
   actions: {
