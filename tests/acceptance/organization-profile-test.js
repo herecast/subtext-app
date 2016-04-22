@@ -59,6 +59,18 @@ test("About section only shows when image and/or description", function(assert) 
   });
 });
 
+test("About section html description is rendered by browser", function(assert) {
+  let organization = server.create('organization', {
+    description: "<b class='BoldText'>html content</b> <a class='MailToLink' href='mailto://you@example.org'>Click Me</a>"
+  });
+  
+  visit(`/organizations/${organization.id}`).then(()=>{
+    $aboutSection = find( testSelector('component', 'about-section') );
+    assert.ok(find('b.BoldText', $aboutSection).length > 0);
+    assert.equal(find('a.MailToLink').attr('href'), 'mailto://you@example.org');
+  });
+});
+
 /******************************************
  * Featured Content
  */
@@ -229,3 +241,56 @@ test("Searching content: returns records matching query. Featured items gone.", 
 
 });
 
+/****************************
+ * Other acceptance criteria
+ */
+test('Subscribe link, when subscribe url', function(assert) {
+  let org1 = server.create('organization', {
+    subscribe_url: 'http://click.to/subscribe'
+  });
+  
+  visit(`/organizations/${org1.id}`).then(()=>{
+    let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
+    assert.equal($subscribeLink.attr('href'), org1.subscribe_url);
+  });
+  
+  let org2 = server.create('organization', {
+    subscribe_url: null 
+  });
+  
+  visit(`/organizations/${org2.id}`).then(()=>{
+    let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
+    assert.equal($subscribeLink.length, 0);
+  });
+});
+
+test('Visiting news landing page, clicking organization name brings me to profile page', function(assert) {
+  let organization = server.create('organization', {name: 'meta tauta'});
+  let news = server.create('news', {
+    organization_id: organization.id,
+    title: 'revelation'
+  });
+  
+  visit('/news').then(()=>{
+    let $newsCard = find(testSelector('news-card', 'revelation'));
+    let $orgLink = find(testSelector('component', 'organization-link'), $newsCard);
+    click($orgLink).then(()=>{
+      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`)  
+    });
+  });
+});
+
+test('Visiting news item page, clicking organization name brings me to profile page', function(assert) {
+  let organization = server.create('organization', {name: 'meta tauta'});
+  let news = server.create('news', {
+    organization_id: organization.id,
+    title: 'revelation'
+  });
+  
+  visit(`/news/${news.id}`).then(()=>{
+    let $orgLink = find(testSelector('component', 'news-show-organization-link'));
+    click($orgLink).then(()=>{
+      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`)  
+    });
+  });
+});
