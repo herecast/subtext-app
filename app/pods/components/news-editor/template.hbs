@@ -141,25 +141,25 @@
     </div>
 
     <div class='col-md-9 col-md-pull-3'>
-      {{#form-group
-        error=errors.title
-        hideError=true
-        news=news as |news|
-      }}
-        <label class='control-label ContentForm-label--required' for="title">Title</label>
-        {{form-error errors.title}}
-
-        {{input
-          id='title'
-          placeholder='A short and informative title'
-          class='form-control'
-          value=news.title
-          data-test-field='title'
-          input=(action 'notifyChange')
-        }}
-      {{/form-group}}
-
       <div class='NewsEditor-postBody u-dropShadow'>
+        {{#form-group
+          error=errors.title
+          hideError=true
+          news=news as |news|
+        }}
+          <label class='control-label ContentForm-label--required' for="title">Title</label>
+          {{form-error errors.title}}
+
+          {{input
+            id='title'
+            placeholder='A short and informative title'
+            class='form-control'
+            value=news.title
+            data-test-field='title'
+            input=(action 'notifyChange')
+          }}
+        {{/form-group}}
+
         {{#form-group
           error=errors.subtitle
           hideError=true
