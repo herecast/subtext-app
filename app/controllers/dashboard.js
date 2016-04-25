@@ -1,7 +1,14 @@
 import Ember from 'ember';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { inject, get, RSVP, isPresent, computed } = Ember;
+const {
+  inject,
+  get,
+  set,
+  RSVP,
+  isPresent,
+  computed
+} = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
   api: inject.service('api'),
@@ -17,18 +24,6 @@ export default Ember.Controller.extend(trackEvent, {
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
   showPasswordForm: false,
-
-  businesses: computed('organization.id', function() {
-    const organizationId = get(this, 'organization.id');
-
-    if (organizationId) {
-      return this.store.query('business-profile', {
-        organization_id: organizationId
-      });
-    } else {
-      return [];
-    }
-  }),
 
   ads: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const page = get(this, 'page');
@@ -77,7 +72,7 @@ export default Ember.Controller.extend(trackEvent, {
       queryParams['channel_type'] = type;
     }
 
-    if (type === 'promotion-banner' || type === 'business') {
+    if (type === 'promotion-banner') {
       return [];
     } else {
       let promise = new RSVP.Promise((resolve) => {
@@ -107,6 +102,10 @@ export default Ember.Controller.extend(trackEvent, {
 
     // Must return null, not undefined.
     return orgId ? orgId : null;
+  }),
+  
+  organizationIsBlogOrBusiness: computed('organization.isBlog', 'organization.isBusiness', function() {
+    return get(this, 'organization.isBusiness') || get(this, 'organization.isBlog');
   }),
 
   actions: {
@@ -146,6 +145,68 @@ export default Ember.Controller.extend(trackEvent, {
         sort: param,
         page: 1
       });
+    },
+
+    viewProfile(org) {
+      if(org.get('isBlog')) {
+        this.transitionToRoute('organization-profile', org);
+      } else if(org.get('isBusiness')) {
+        const bid = org.get('businessProfileId');
+        this.store.findRecord('business-profile', bid).then((rec)=>{
+          this.transitionToRoute('directory.search.show', rec);
+        });
+      } else {
+        alert('Feature not available yet');
+      }
+    },
+
+    editProfile(org) {
+      if( org.get('isBlog') ) {
+        set(this, 'editingBlog', org);  
+      } else if(org.get('isBusiness')) {
+        const bid = org.get('businessProfileId');
+        this.store.findRecord('business-profile', bid).then((rec)=>{
+          set(this, 'editingBusiness', rec);
+        });
+      } else {
+        alert('Feature not available yet');  
+      }
+    },
+
+    cancelEditingBlog() {
+      const org = get(this, 'editingBlog');
+      if(isPresent(org)) {
+        if( org.get('hasDirtyAttributes')) {
+          if (confirm('Are you sure you want to discard your changes without saving?')) {
+            org.rollbackAttributes();
+            set(this, 'editingBlog', null);
+          }
+        } else {
+          set(this, 'editingBlog', null);
+        }
+      }
+    },
+
+    cancelEditingBusiness() {
+      const biz = get(this, 'editingBusiness');
+      if(isPresent(biz)) {
+        if (biz.get('hasDirtyAttributes')) {
+          if (confirm('Are you sure you want to discard your changes without saving?')) {
+            biz.rollbackAttributes();
+            set(this, 'editingBusiness', null);
+          }
+        } else {
+          set(this, 'editingBusiness', null);
+        }
+      }
+    },
+
+    saveBlog() {
+      set(this, 'editingBlog', null);
+    },
+
+    saveBusiness() {
+      set(this, 'editingBusiness', null);
     }
   }
 });

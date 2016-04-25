@@ -7,7 +7,7 @@
 
         <div class='News-organizationInfo'>
           <p>{{model.formattedPublishedAt}}&emsp;
-            {{#link-to 'news' (query-params query='Everything' organization=model.organizationName)}}
+            {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
               {{model.organizationName}}
             {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
           </p>

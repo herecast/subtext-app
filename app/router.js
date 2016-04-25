@@ -94,6 +94,10 @@ Router.map(function() {
   this.route('copyright');
   this.route('copyright-agent');
   this.route('error-404', {path: '/not-found'});
+
+  this.route('organization-profile', {path: '/organizations/:slug'}, function() {
+    this.route('edit');
+  });
 });
 
 export default Router;

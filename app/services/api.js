@@ -157,6 +157,16 @@ export default AjaxService.extend({
       processData: false
     });
   },
+  
+  updateOrganizationLogo(id, data) {
+    return this.request(`/organizations/${id}`, {
+      type: 'PUT',
+      //data is FormData
+      data: data,
+      contentType: false,
+      processData: false
+    });
+  },
 
   updateTalkImage(id, data) {
     return this.request(`/talk/${id}`, {

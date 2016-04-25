@@ -23,7 +23,7 @@
   <div class='NewsCard-subtitle'>
     <span class='NewsCard-date'>{{date}}</span>
 
-    {{#link-to 'news' (query-params query='Everything' organization=item.organizationName page=1)}}
+    {{#link-to 'organization-profile' item.organization.slug data-test-component="organization-link"}}
       <h3 class='u-textTruncate NewsCard-organization'>{{item.organizationName}}</h3>
     {{/link-to}}
   </div>

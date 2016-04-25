@@ -1,11 +1,11 @@
-<button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown">
-    {{#if selection}}
-      {{ selection.name }}
-    {{else}}
-      {{ defaultName }}
-    {{/if}}
-  {{fa-icon 'chevron-down'}}
-</button>
+  <button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown">
+      {{#if selection}}
+        {{ selection.name }}
+      {{else}}
+        {{ defaultName }}
+      {{/if}}
+    {{fa-icon 'chevron-down'}}
+  </button>
 <ul class="dropdown-menu Organization-Dropdown-Menu">
     {{#if helpMessage}}
         <li class="Organization-Dropdown-Menu-Title">
