@@ -65,7 +65,7 @@ test("About section html description is rendered by browser", function(assert) {
   });
   
   visit(`/organizations/${organization.id}`).then(()=>{
-    $aboutSection = find( testSelector('component', 'about-section') );
+    let $aboutSection = find( testSelector('component', 'about-section') );
     assert.ok(find('b.BoldText', $aboutSection).length > 0);
     assert.equal(find('a.MailToLink').attr('href'), 'mailto://you@example.org');
   });
@@ -266,7 +266,7 @@ test('Subscribe link, when subscribe url', function(assert) {
 
 test('Visiting news landing page, clicking organization name brings me to profile page', function(assert) {
   let organization = server.create('organization', {name: 'meta tauta'});
-  let news = server.create('news', {
+  server.create('news', {
     organization_id: organization.id,
     title: 'revelation'
   });
@@ -275,7 +275,7 @@ test('Visiting news landing page, clicking organization name brings me to profil
     let $newsCard = find(testSelector('news-card', 'revelation'));
     let $orgLink = find(testSelector('component', 'organization-link'), $newsCard);
     click($orgLink).then(()=>{
-      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`)  
+      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });
   });
 });
@@ -290,7 +290,7 @@ test('Visiting news item page, clicking organization name brings me to profile p
   visit(`/news/${news.id}`).then(()=>{
     let $orgLink = find(testSelector('component', 'news-show-organization-link'));
     click($orgLink).then(()=>{
-      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`)  
+      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });
   });
 });
