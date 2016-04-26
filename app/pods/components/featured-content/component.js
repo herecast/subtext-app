@@ -36,11 +36,6 @@ export default Ember.Component.extend({
     let text = this.get('model.content');
 
     if (text) {
-      // Replace <br> tags with two line breaks so that we can later replace
-      // those "double breaks" with <br> tags once all other HTML tags have
-      // been removed.
-      text = text.replace(/(<br +?\/?>)/g, '\n\n');
-
       // Add a space after </p> tags so that they are more readable on the news
       // card once we strip out the HTML. Otherwise there's no space between sentences.
       text = text.replace(/<\/p>/g, '</p> ');
@@ -52,12 +47,7 @@ export default Ember.Component.extend({
       // Remove all HTML tags
       text = tmp.textContent;
 
-      // Replace "double breaks" added above with <br> tags so the news card
-      // has a line break for new paragraphs.
-      text = text.replace('\n\n', '<br>');
-
       return text;
     }
-  }),
-
+  })
 });
