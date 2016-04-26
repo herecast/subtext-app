@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   originalImageFile: null,
   displayCropper: true,
   aspectRatio: 1,
+  zoomable: true,
 
   // Display the JS image cropping tool if the user has attached an image
   displayJSCropper: computed('displayCropper', 'originalImageFile', function() {
@@ -69,6 +70,7 @@ export default Ember.Component.extend({
     const imgDataURL = canvas.toDataURL(blobFormat);
     const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
     const aspectRatio = this.get('aspectRatio');
+    const zoomable = this.get('zoomable');
 
     // The .cropper-container element is added by the cropper plugin, so we
     // can use that to detect if has already been initialized. If it has,
@@ -80,6 +82,7 @@ export default Ember.Component.extend({
 
       img.cropper({
         aspectRatio: aspectRatio,
+        zoomable: zoomable,
 
         // Run whenever the cropping area is adjusted
         crop() {
