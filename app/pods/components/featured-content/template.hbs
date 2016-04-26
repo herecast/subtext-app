@@ -1,23 +1,19 @@
-<div class="row">
-  <div class='col-md-2 col-sm-3 FeaturedContent-featuredImage'>
-    <a href={{contentUrl}}>
-      <img src="{{imageUrl}}" class="img-responsive"/>
-    </a>
-  </div>
-  <div class="col-md-10 col-sm-9">
-    <div class='FeaturedContent-main'>
-      <h1 class='FeaturedContent-title'>
-        <a href={{contentUrl}}>{{title}}</a>
-      </h1>
-      <span class='FeaturedContent-content'>
-        {{content}}
-      </span>
-      <a href={{contentUrl}} class='FeaturedContent-more FeaturedContent-link'>more</a>
-    </div>
-    <footer class='FeaturedContent-meta'>
-      <a href={{organizationUrl}}><img class='FeaturedContent-publisherAvatar' src={{organizationImage}}></a>
-      <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
-      <a class="FeaturedContent-publisher" href={{organizationUrl}} rel='author'>{{organizationName}}</a>
-    </footer>
-  </div>
+<div class='FeaturedContent-featuredImage'>
+  <a href={{contentUrl}}>
+    <img src={{imageUrl}}>
+  </a>
 </div>
+<div class='FeaturedContent-main'>
+  <h1 class='FeaturedContent-title'>
+    <a href={{contentUrl}}>{{title}}</a>
+  </h1>
+  <span class='FeaturedContent-content'>
+    {{content}}
+  </span>
+  <a href={{contentUrl}} class='FeaturedContent-more FeaturedContent-link'>more</a>
+</div>
+<footer class='FeaturedContent-meta'>
+  <a href={{organizationUrl}}><img class='FeaturedContent-publisherAvatar' src={{organizationImage}}></a>
+  <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
+  <a class="FeaturedContent-publisher" href={{organizationUrl}} rel='author'>{{organizationName}}</a>
+</footer>
