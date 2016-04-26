@@ -1,6 +1,7 @@
 {{#if model.logoUrl}}
   <img src={{model.logoUrl}} data-test-organization-image class='OrganizationAbout-avatar'>
 {{/if}}
+{{#if model.description}}
 <h1 class='OrganizationAbout-title'>
   About
   {{model.name}}
@@ -8,3 +9,4 @@
 <p class='OrganizationAbout-description' data-test-organization-description>
   {{descriptionHtml}}
 </p>
+{{/if}}
