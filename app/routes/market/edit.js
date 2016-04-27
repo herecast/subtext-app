@@ -2,14 +2,13 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
-import Editable from 'subtext-ui/mixins/routes/editable';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
+export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -64,6 +63,31 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
   },
 
   actions: {
+    willTransition(transition) {
+      const model = get(this, 'controller.model');
+      // We want to let the user continue to navigate through the
+      // event/market/talk edit form routes without discarding changes,
+      // but as soon as they try to leave those pages, prompt them with the dialog.
+      const match = new RegExp(`^market\\.edit`);
+      const isExitingForm = !transition.targetName.match(match);
+      const isTransitioningToShowPage = transition.targetName === 'market.show';
+
+      // If we are transitioning to the an event show page,
+      // that means the user clicked the publish button, so we don't
+      // want to prompt them to disard their changes
+      if (!isTransitioningToShowPage) {
+        if (isExitingForm && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
+          transition.abort();
+        }
+      }
+    },
+
+    afterDiscard(model) {
+      if (!get(model, 'hasDirtyAttributes')) {
+        this.transitionTo(`market.all`);
+      }
+    },
+    
     afterDetails() {
       this.transitionTo('market.edit.promotion');
     },
