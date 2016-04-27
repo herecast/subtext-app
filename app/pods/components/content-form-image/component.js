@@ -5,16 +5,17 @@ const { computed, get, set, isPresent } = Ember;
 
 export default Ember.Component.extend({
   originalImageFile: null,
+  originalImageUrl: null,
   displayCropper: true,
   aspectRatio: 1,
   zoomable: true,
 
   // Display the JS image cropping tool if the user has attached an image
-  displayJSCropper: computed('displayCropper', 'originalImageFile', function() {
+  displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', function() {
     const displayCropper = get(this, 'displayCropper');
     const hasOriginalFile = isPresent(get(this, 'originalImageFile'));
 
-    return displayCropper && hasOriginalFile;
+    return displayCropper && (hasOriginalFile || get(this, 'originalImageUrl'));
   }),
 
   editExistingFile: Ember.on('didInsertElement', function() {
@@ -22,6 +23,8 @@ export default Ember.Component.extend({
 
     if (Ember.isPresent(file)) {
       this.loadImageFile(file);
+    } else if (get(this, 'originalImageUrl')) {
+      this.initializeCropper(get(this, 'originalImageUrl'));
     }
   }),
 
@@ -68,7 +71,11 @@ export default Ember.Component.extend({
   setupCropper(canvas) {
     const blobFormat = this.get('originalImageFile.type');
     const imgDataURL = canvas.toDataURL(blobFormat);
-    const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
+    this.initializeCropper(imgDataURL);
+  },
+
+  initializeCropper(imageUrl) {
+    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
     const aspectRatio = this.get('aspectRatio');
     const zoomable = this.get('zoomable');
 
@@ -90,8 +97,13 @@ export default Ember.Component.extend({
         }
       });
     } else {
-      img.cropper('replace', imgDataURL);
+      img.cropper('replace', imageUrl);
     }
+
+    img.on('load', () => {
+      Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
+    });
+    Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
   },
 
   cropUpdated(img) {
