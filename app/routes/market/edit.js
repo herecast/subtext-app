@@ -29,6 +29,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
 
     if (recordDiscarded) {
       model.rollbackImages();
+      model.set('listservIds', []);
     }
 
     return recordDiscarded;
@@ -76,10 +77,12 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, Editable, {
       // transition to the show page without seeing a "discard changes" modal.
       // Normally ember data does this automatically on save, but does not do
       // it for relationship records.
-      run(() => {
+      run.next(() => {
         if (this.hasDirtyAttributes(post)) {
           post.rollbackImages();
         }
+        
+        post.set('listservIds', []);
       });
 
       this.transitionTo('market.show', post.id).then(this.prerenderRecache.bind(this));
