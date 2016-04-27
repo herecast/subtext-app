@@ -4,7 +4,7 @@ import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { get } = Ember;
+const { get, run } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
   intercom: Ember.inject.service('intercom'),
@@ -89,6 +89,10 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
 
       this.transitionTo('events.show', firstInstanceId).then(() => {
         this.facebookRecache();
+      });
+      
+      run.next(() => {
+        event.set('listservIds',[]);
       });
     },
 

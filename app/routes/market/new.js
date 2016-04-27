@@ -5,7 +5,7 @@ import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import ShareCaching from '../../mixins/routes/share-caching';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { get } = Ember;
+const { get, run } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
 
@@ -84,6 +84,10 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
     afterPublish(post) {
       this.transitionTo('market.show', post.get('id')).then(() => {
         this.facebookRecache();
+      });
+      
+      run.next(()=>{
+        post.set('listservIds', []);
       });
     },
 
