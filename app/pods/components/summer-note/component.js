@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
+/*global jQuery*/
 
 const {
   run,
@@ -69,15 +70,20 @@ export default Ember.Component.extend({
           });
         },
         onPaste: (e) => {
-          const buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html'),
-                domParser = new DOMParser(), 
-                doc = domParser.parseFromString(buffer),
-                cleanContent = sanitizeContent(doc);
-                
           e.preventDefault();
           
+          const buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+          const div = document.createElement('div');
+          div.innerHTML = buffer;
+          
           run.later(() => {
-            $editor.summernote('insertNode', cleanContent);
+            const cleanNodes = sanitizeContent(div);
+            const $div = jQuery('<div>').append(cleanNodes);
+            // Strip styles from images to prevent weird positioning and floating.
+            $div.find('img[style]').removeAttr('style');
+            
+            const cleanHtml = $div.html();
+            $editor.summernote('pasteHTML', cleanHtml);
 
             this.send('doUpdate');
           });
