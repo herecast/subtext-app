@@ -68,16 +68,16 @@ export default Ember.Component.extend({
             return insertImage(image);
           });
         },
-        onPaste: () => {
-          // TODO modify this to prevent default
-          // and prevent insecure content from
-          // ever being inserted into the DOM as per
-          // https://github.com/summernote/summernote/issues/303#issuecomment-110885954
+        onPaste: (e) => {
+          const buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html'),
+                domParser = new DOMParser(), 
+                doc = domParser.parseFromString(buffer),
+                cleanContent = sanitizeContent(doc);
+                
+          e.preventDefault();
+          
           run.later(() => {
-            const el = Ember.$('.note-editable'),
-                  cleanContent = sanitizeContent(el[0]);
-
-            el.html(cleanContent);
+            $editor.summernote('insertNode', cleanContent);
 
             this.send('doUpdate');
           });
