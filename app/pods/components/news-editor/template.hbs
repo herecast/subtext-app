@@ -192,6 +192,10 @@
             updateContent=updateContent
             editorHeight=editorHeight
             toolbar=(mut editorConfig)
+            buttons=editorButtons
+            modules=editorModules
+            popover=editorPopover
+            validateForm=(action 'notifyChange')
             uploadImage=(action 'saveImage')
             notifyChange=(action 'saveContent')
             class='ContentForm-textArea'

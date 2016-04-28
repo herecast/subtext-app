@@ -36,8 +36,17 @@ export default Ember.Component.extend(Validation, {
     ['style', ['bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
-    ['insert', ['picture', 'video']]
+    ['insert', ['picture', 'imgCaption', 'video']]
   ],
+  
+  editorPopover: {
+    image: [
+      ['custom', ['imageAttributes']],
+      ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+      ['float', ['floatLeft', 'floatRight', 'floatNone']],
+      ['remove', ['removeMedia']]
+    ]
+  },
 
   featuredImageUrl: computed.oneWay('news.bannerImage.url'),
   featuredImageCaption: computed.oneWay('news.bannerImage.caption'),
