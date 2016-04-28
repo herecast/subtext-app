@@ -7,8 +7,12 @@ export default Ember.Component.extend({
   originalImageFile: null,
   originalImageUrl: null,
   displayCropper: true,
+
+  // JsCropper properties
   aspectRatio: 1,
   zoomable: true,
+  minWidth: 50,
+  minHeight: 50,
 
   // Display the JS image cropping tool if the user has attached an image
   displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', function() {
@@ -46,21 +50,45 @@ export default Ember.Component.extend({
     }
  },
 
+  validateCanvasDimensions(canvas) {
+    const $canvas = Ember.$(canvas);
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
+
+    if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
+      set(this, 'error', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
+      return false;
+    } else {
+      set(this, 'error', null);
+      return true;
+    }
+  },
+
   loadImageFile(file) {
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
+
     loadImage.parseMetaData(file, (data) => {
+
       const options = {
         canvas: true,
 
         // For cropping performance, this reduces the image file size
         // before opening the cropper.
-        maxWidth: 1000
+        maxWidth: 1000,
+        minHeight: minHeight,
+        minWidth: minWidth
       };
 
       if (data.exif) {
         options.orientation = data.exif.get('Orientation');
       }
 
-      loadImage(file, (canvas) => { this.setupCropper(canvas); }, options);
+      loadImage(file, (canvas) => {
+        if (this.validateCanvasDimensions(canvas)) {
+          this.setupCropper(canvas);
+        }
+      }, options);
     });
   },
 
@@ -75,9 +103,13 @@ export default Ember.Component.extend({
   },
 
   initializeCropper(imageUrl) {
-    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
     const aspectRatio = this.get('aspectRatio');
     const zoomable = this.get('zoomable');
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
+    const that = this;
+
+    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
 
     // The .cropper-container element is added by the cropper plugin, so we
     // can use that to detect if has already been initialized. If it has,
@@ -85,11 +117,14 @@ export default Ember.Component.extend({
     const cropperExists = Ember.isPresent(this.$('.cropper-container'));
 
     if (!cropperExists) {
-      const that = this;
-
       img.cropper({
         aspectRatio: aspectRatio,
         zoomable: zoomable,
+
+        minCropBoxHeight: minHeight,
+        minCropBoxWidth: minWidth,
+
+        maxCropBoxWidth: 1000,
 
         // Run whenever the cropping area is adjusted
         crop() {
@@ -100,24 +135,29 @@ export default Ember.Component.extend({
       img.cropper('replace', imageUrl);
     }
 
-    img.on('load', () => {
-      Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
+    // Just in case we need to wait for the image to load
+    img.on('load', function() {
+      Ember.run.later(that, () => { that.cropUpdated(img); }, 500);
     });
+
+    // Ensure it runs at least once after initialize
     Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
   },
 
   cropUpdated(img) {
-    const blobFormat = this.get('originalImageFile.type');
+    const canvas = img.cropper('getCroppedCanvas');
 
-    const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
+    if (this.validateCanvasDimensions(canvas)) {
+      const blobFormat = this.get('originalImageFile.type');
+      const url = canvas.toDataURL(blobFormat);
+      const blobQuality = 0.9;
 
-    this.set('imageUrl', url);
+      this.set('imageUrl', url);
 
-    const blobQuality = 0.9;
-
-    img.cropper('getCroppedCanvas').toBlob((data) => {
-      this.set('image', data);
-    }, blobFormat, blobQuality);
+      canvas.toBlob((data) => {
+        this.set('image', data);
+      }, blobFormat, blobQuality);
+    }
   },
 
   actions: {

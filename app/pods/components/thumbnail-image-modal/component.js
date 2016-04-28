@@ -33,9 +33,8 @@ export default Ember.Component.extend({
     },
 
     cancelImageModal() {
-      set(this, '_showImageModal', false);
-      set(this, '_selectedImage', null);
       set(this, 'imageUrl', get(this, '_originalImageUrl'));
+      set(this, '_showImageModal', false);
     },
 
     save() {

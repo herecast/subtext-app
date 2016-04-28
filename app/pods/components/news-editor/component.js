@@ -98,8 +98,15 @@ export default Ember.Component.extend(Validation, {
             const url = get(response, 'image.url');
             set(this, 'featuredImageUrl', url);
           },
-          () => {
-            get(this, 'toast').error('Error: Unable to save featured image.');
+          (error) => {
+            const serverError = get(error, 'errors.image');
+            let errorMessage = 'Error: Unable to save featured image.';
+
+            if (serverError) {
+              errorMessage += ' ' + serverError;
+            }
+
+            get(this, 'toast').error(errorMessage);
           }
         );
       }
