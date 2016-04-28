@@ -27,6 +27,11 @@ export default Ember.Component.extend(Validation, {
 
   pendingFeaturedImage: null,
 
+  // flag to notify summer note to update the editor contents
+  // otherwise, updates to content are ignored due to a bug in summer note
+  // which causes the cursor to jump
+  updateContent: false,
+
   editorConfig: [
     ['style', ['bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
@@ -256,6 +261,7 @@ export default Ember.Component.extend(Validation, {
       this.setProperties({
         featuredImageUrl: get(news, 'bannerImage.url'),
         featuredImageCaption: get(news, 'bannerImage.caption'),
+        updateContent: true,
         pendingFeaturedImage: null
       });
 
@@ -270,6 +276,11 @@ export default Ember.Component.extend(Validation, {
       // Save the featured image data to be committed
       // the next time the rest of the form is saved.
       set(this, 'pendingFeaturedImage', {file, caption});
+      this.send('notifyChange');
+    },
+
+    saveContent: function(newContent) {
+      set(this, 'news.content', newContent);
       this.send('notifyChange');
     }
   }
