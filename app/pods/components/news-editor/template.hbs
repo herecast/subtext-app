@@ -188,11 +188,12 @@
           <label class='control-label ContentForm-label--required' for="description">Content</label>
           {{form-error errors.content}}
           {{#summer-note
-            content=news.content
+            content=(readonly news.content)
+            updateContent=updateContent
             editorHeight=editorHeight
             toolbar=(mut editorConfig)
-            validateForm=(action 'notifyChange')
             uploadImage=(action 'saveImage')
+            notifyChange=(action 'saveContent')
             class='ContentForm-textArea'
           }}
             <div class='ContentText'>

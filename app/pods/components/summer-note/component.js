@@ -17,6 +17,8 @@ export default Ember.Component.extend({
   editorHeight: null, // editor will use this for height if set
   height: 120,
   defaultToolbar: defaultToolbarOpts,
+  content: null,
+  updateContent: false,
 
   willDestroyElement() {
     this.$('textarea').summernote('destroy');
@@ -93,19 +95,27 @@ export default Ember.Component.extend({
     Ember.$('.note-editable').html(content);
   },
 
-  didReceiveAttrs() {
-    // Update the editor if we have new content
-    const content = get(this, 'attrs.content.value');
-    if (get(this, 'content') !== content) {
-      this._setEditorContent(content);
-    }
+  didUpdateAttrs(attrs) {
+    this._super(...arguments);
 
-    this._super();
+    // Only update the editor with new content if updateContent flag is set
+    // This avoids a bug where the cursor jumps when the user types
+    const updateContent = get(attrs, 'newAttrs.updateContent.value');
+
+    if (updateContent) {
+      this._setEditorContent(get(attrs, 'newAttrs.content'));
+      set(this, 'updateContent', false);
+    }
   },
 
   actions: {
     doUpdate() {
       const content = this.$('.note-editable').html();
+
+      // Notify new content
+      if ('notifyChange' in this.attrs) {
+        this.attrs.notifyChange(content);
+      }
 
       set(this, 'content', content);
 
