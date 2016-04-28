@@ -5,8 +5,8 @@
 
 <b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br />
 
-<b>Starting:</b> {{formatted-day schedule.startAt}}<br />
-<b>Ending:</b> {{formatted-day schedule.endAt}}<br />
+<b>Starting:</b> {{formatted-day schedule.startDate}}<br />
+<b>Ending:</b> {{formatted-day schedule.endDate}}<br />
 
 
 <b>Excluded Dates:</b> <br />
@@ -54,4 +54,3 @@
     <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
   {{/x-modal}}
 {{/if}}
-
