@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
+/*global jQuery*/
 
 const {
   run,
@@ -68,16 +69,21 @@ export default Ember.Component.extend({
             return insertImage(image);
           });
         },
-        onPaste: () => {
-          // TODO modify this to prevent default
-          // and prevent insecure content from
-          // ever being inserted into the DOM as per
-          // https://github.com/summernote/summernote/issues/303#issuecomment-110885954
+        onPaste: (e) => {
+          e.preventDefault();
+          
+          const buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+          const div = document.createElement('div');
+          div.innerHTML = buffer;
+          
           run.later(() => {
-            const el = Ember.$('.note-editable'),
-                  cleanContent = sanitizeContent(el[0]);
-
-            el.html(cleanContent);
+            const cleanNodes = sanitizeContent(div);
+            const $div = jQuery('<div>').append(cleanNodes);
+            // Strip styles from images to prevent weird positioning and floating.
+            $div.find('img[style]').removeAttr('style');
+            
+            const cleanHtml = $div.html();
+            $editor.summernote('pasteHTML', cleanHtml);
 
             this.send('doUpdate');
           });

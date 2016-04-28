@@ -26,7 +26,8 @@ export function sanitizeContent(rawContent) {
       a: { href: ['http', 'https', 'mailto'] }
     },
     add_attributes: {
-      a: { rel: 'nofollow' }
+      a: { rel: 'nofollow' },
+      img: { class: 'img-responsive' }
       // iframe: {} // TODO responsive video embed classes
     }
   });
