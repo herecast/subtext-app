@@ -5,7 +5,7 @@ const { get, run } = Ember;
 export default Ember.Component.extend({
   tagName: 'span',
   classNames: ['SearchInput'],
-  debounceWait: 200,
+  debounceWait: 900,
   value: null,
   placeholder: 'Search ...',
 
