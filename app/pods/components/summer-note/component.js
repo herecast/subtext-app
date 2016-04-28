@@ -141,16 +141,6 @@ export default Ember.Component.extend({
       if ('notifyChange' in this.attrs) {
         this.attrs.notifyChange(content);
       }
-
-      set(this, 'content', content);
-
-      // TODO The upper context should simply be notified of
-      // changes and should have the responsiblity for deciding
-      // what to do. The text editor should no concept of
-      // form validation
-      if (this.attrs.validateForm) {
-        this.attrs.validateForm();
-      }
     }
   }
 });

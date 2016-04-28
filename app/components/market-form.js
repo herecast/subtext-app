@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Validation from '../mixins/components/validation';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { oneWay } = Ember.computed;
+const { set, oneWay } = Ember.computed;
 
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
@@ -44,6 +44,10 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     discard() {
       const post = this.get('post');
       this.sendAction('afterDiscard', post);
+    },
+    updateContent(content) {
+      set(this, 'post.content', content);
+      this.send('validateForm');
     }
   }
 });
