@@ -28,7 +28,7 @@ export default Ember.Component.extend({
   }),
 
   publishedAt: computed('model.publishedAt', function() {
-    return moment(get('model.publishedAt')).fromNow();
+    return moment(get(this, 'model.publishedAt')).fromNow();
   }),
 
   // untested, and copied from news-card...
