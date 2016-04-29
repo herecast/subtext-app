@@ -1,2 +1,16 @@
-<i class='glyphicon glyphicon-search SearchInput-icon'></i>
-<input type='search' oninput={{action "update" value="target.value"}} value={{value}} placeholder={{placeholder}} disabled={{disabled}} class='form-control'>
+<div class='SearchInput-inputGroup'>
+  <i class='fa fa-search SearchInput-icon'></i>
+
+  <input type='search' 
+    oninput={{action "update" value="target.value"}} 
+    value={{value}} 
+    placeholder={{placeholder}} 
+    disabled={{disabled}} 
+    class='form-control SearchInput-input'>
+    
+  {{#if value}}
+  <button class='SearchInput-clear' title={{clearTooltip}} {{action "update" ""}}>
+    <i class='fa fa-times'></i>
+  </button>
+  {{/if}}
+</div>
