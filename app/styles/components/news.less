@@ -55,19 +55,24 @@
 .News-content {
   padding-bottom: 2rem;
   margin-top: 10px;
-  // wordpress image captions come in this way
-  // and we want the font to look like the image banner
-  // caption
-  .image-caption {
-    font-size: 12px;
-    font-style: italic;
-  }
   @media (min-width: @screen-sm-min) {
   }
 }
 
-.News-content img {
-  .center-block;
-  .img-responsive;
-  padding: 10px;
+.NewsEditor .wysiwyg-editor,
+.News-content {
+  img {
+    .center-block;
+    .img-responsive;
+    padding: 10px;
+  }
+  // wordpress image captions come in this way
+  // and we want the font to look like the image banner
+  // caption
+  img + .image-caption {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    clear: both;
+  }
 }
