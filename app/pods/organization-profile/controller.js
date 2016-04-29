@@ -66,8 +66,9 @@ export default Ember.Controller.extend({
       if(q.length > 2) {
         set(this, 'query', q);
       } else {
-        set(this, 'query', null);
+        set(this, 'query', "");
       }
+      set(this, 'page', 1);
     },
 
     editProfile() {
