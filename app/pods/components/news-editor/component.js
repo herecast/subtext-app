@@ -92,10 +92,18 @@ export default Ember.Component.extend(Validation, {
       if (featuredImage) {
         set(this, 'pendingFeaturedImage', null);
         const { file, caption } = getProperties(featuredImage, 'file', 'caption');
+        let promise;
 
-        return this._saveImage(file, 1, caption).then(
+        if (file) {
+          promise = this._saveImage(file, 1, caption);
+        } else {
+          promise = this._saveImageCaption(get(this, 'news.bannerImage.id'), caption);
+        }
+
+        return promise.then(
           (response) => {
             const url = get(response, 'image.url');
+            get(this, 'news.images').unshift(response);
             set(this, 'featuredImageUrl', url);
           },
           (error) => {
@@ -171,6 +179,10 @@ export default Ember.Component.extend(Validation, {
     }
 
     return get(this, 'api').createImage(data);
+  },
+
+  _saveImageCaption(id, caption) {
+    return get(this, 'api').updateImageCaption(id, caption);
   },
 
   actions: {
@@ -283,6 +295,17 @@ export default Ember.Component.extend(Validation, {
       // Save the featured image data to be committed
       // the next time the rest of the form is saved.
       set(this, 'pendingFeaturedImage', {file, caption});
+      this.send('notifyChange');
+    },
+
+    saveFeaturedImageCaption(caption) {
+      // Save the featured image caption to be committed
+      // the next time the rest of the form is saved.
+      let pendingFeaturedImage = get(this, 'pendingFeaturedImage') || {};
+      pendingFeaturedImage.caption = caption;
+
+      set(this, 'pendingFeaturedImage', pendingFeaturedImage);
+
       this.send('notifyChange');
     },
 

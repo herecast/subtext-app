@@ -47,6 +47,12 @@ export default AjaxService.extend({
     });
   },
 
+  updateImageCaption(id, caption) {
+    return this.put(`/images/${id}`, {
+      caption: caption
+    });
+  },
+
   getDashboard(data) {
     return this.request('/dashboard', {data: data});
   },
@@ -157,7 +163,7 @@ export default AjaxService.extend({
       processData: false
     });
   },
-  
+
   updateOrganizationLogo(id, data) {
     return this.request(`/organizations/${id}`, {
       type: 'PUT',
