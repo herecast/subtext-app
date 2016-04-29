@@ -61,10 +61,12 @@ export default Ember.Component.extend({
     }
 
     $editor.summernote({
-      height: height,
+      // DO NOT set height.  It causes all kinds of issues
+      // with summernote's absolute positioned overlays.
+      //height: height,
       modules: modules,
       toolbar: toolbar,
-      buttons: buttons,  
+      buttons: buttons,
       popover: popover,
       styleWithSpan: false,
 
