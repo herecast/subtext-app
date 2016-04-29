@@ -17,12 +17,16 @@ export default Ember.Component.extend({
 
   imageFormVisible: false,
 
-  needsImage: computed('imageUrl', function() {
-    return isBlank(get(this, 'imageUrl'));
+  needsImage: computed('_originalImageUrl', function() {
+    return isBlank(get(this, '_originalImageUrl'));
   }),
 
   displayImageForm: computed('needsImage', 'imageFormVisible', function() {
     return get(this, 'needsImage') || get(this, 'imageFormVisible');
+  }),
+
+  saveDisabled: computed('_originalImageUrl', '_selectedImage', function() {
+    return ! get(this, 'imageUrl') && ! get(this, '_selectedImage');
   }),
 
   actions: {

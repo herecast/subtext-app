@@ -41,7 +41,7 @@
       }}
     {{/form-group}}
     <div class="ThumbnailImageModal-buttons">
-      <button class="btn btn-lg Button--news" {{action 'save'}} disabled={{not imageUrl}}>Save Image</button>
+      <button class="btn btn-lg Button--news" {{action 'save'}} disabled={{saveDisabled}}>Save Image</button>
       <button class="btn btn-lg" {{action 'cancelImageModal'}}>Cancel</button>
     </div>
   {{/x-modal}}
