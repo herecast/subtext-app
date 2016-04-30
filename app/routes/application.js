@@ -7,6 +7,7 @@ const { get, isPresent, isEmpty, inject, run } = Ember;
 export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   intercom: inject.service(),
   mixpanel: inject.service(),
+  history: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
