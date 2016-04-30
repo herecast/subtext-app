@@ -14,8 +14,8 @@ function fixBadLists(content) {
 export function sanitizeContent(rawContent) {
   // TODO TDD actual Sanitizer config
   const s = new Sanitize({
-    elements: ['a', 'p', 'ul', 'ol', 'li', 'b', 'i', 'div',
-               'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'iframe', 'br'],
+    elements: ['a', 'p', 'ul', 'ol', 'li', 'b', 'i', 'blockquote', 'pre', 'div',
+               'h1','h2', 'h3', 'h4', 'h5', 'h6', 'img', 'iframe', 'br'],
     attributes: {
      a: ['href', 'title', 'target'],
      div: ['class'],
