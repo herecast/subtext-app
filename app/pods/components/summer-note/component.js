@@ -57,9 +57,7 @@ export default Ember.Component.extend({
     const $editor = this.$('textarea');
 
     function insertImage(image) {
-      $editor.summernote('insertImage', image.url, function($img) {
-        $img.attr('title', image.caption);
-      });
+      $editor.summernote('insertImage', image.url);
     }
 
     $editor.summernote({
