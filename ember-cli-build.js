@@ -46,6 +46,8 @@ module.exports = function(defaults) {
   app.import('bower_components/summernote/dist/summernote.js');
   app.import('bower_components/summernote/dist/summernote.css');
 
+  app.import('vendor/summernote-rename-float-none.js');
+  
   app.import('bower_components/sanitize.js/lib/sanitize.js');
 
   app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
