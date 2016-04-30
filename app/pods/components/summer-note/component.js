@@ -15,8 +15,6 @@ const defaultToolbarOpts = [
 
 export default Ember.Component.extend({
   classNames: ['wysiwyg-editor'],
-  editorHeight: null, // editor will use this for height if set
-  height: 120,
   defaultToolbar: defaultToolbarOpts,
   content: null,
   updateContent: false,
@@ -26,7 +24,6 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    const height = get(this, 'editorHeight') || get(this, 'height');
     let toolbar, buttons, popover, modules;
     const content = get(this, 'content');
 
