@@ -14,17 +14,9 @@ export default Ember.Component.extend({
   organizationName: computed.alias('model.organization.name'),
   organizationImage: computed.alias('model.organization.logoUrl'),
 
-  contentUrl: computed('model.id', function() {
-    const id = get(this, 'model.id');
-    // @TODO: make a helper for determining content url
-    //
-    return `/news/${id}`;
-  }),
-
-  organizationUrl: computed('model.organization.slug', function() {
-    const orgSlug = get(this, 'model.organization.slug');
-
-    return `/organizations/${orgSlug}`;
+  contentRoute: computed('model', function() {
+    // @TODO: determine correct route from content type
+    return 'news.show';
   }),
 
   publishedAt: computed('model.publishedAt', function() {

@@ -1,10 +1,14 @@
 import Ember from 'ember';
+import History from 'subtext-ui/mixins/routes/history';
 
-const { isEmpty } = Ember;
+const { isEmpty, set } = Ember;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(History, {
+  historyRouteName: 'organization-profile',
   model: function(params) {
     const slug = params.slug;
+    set(this, 'historyRouteModel', slug);
+
     const numerics = slug.match(/\d+/);
     if(isEmpty(numerics)) {
       return {};

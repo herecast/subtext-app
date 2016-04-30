@@ -1,4 +1,15 @@
+{{#if routeModel}}
+
+{{#link-to routeName routeModel class='BackButton'}}
+  {{fa-icon 'chevron-circle-left' class='BackButton-icon'}}
+  Back
+{{/link-to}}
+
+{{else}}
+
 {{#link-to routeName class='BackButton'}}
   {{fa-icon 'chevron-circle-left' class='BackButton-icon'}}
   Back
 {{/link-to}}
+
+{{/if}}

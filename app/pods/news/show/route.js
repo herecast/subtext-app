@@ -7,6 +7,7 @@ import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTitleFromContent, ResetScroll, {
   modelImageKey: 'bannerImage.url',
+  history: Ember.inject.service(),
 
   model(params)  {
     return this.store.findRecord('news', params.id, { reload: true }).catch(() => {
