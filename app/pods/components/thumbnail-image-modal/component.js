@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   }),
 
   saveDisabled: computed('_originalImageUrl', '_selectedImage', function() {
-    return ! get(this, 'imageUrl') && ! get(this, '_selectedImage');
+    return isBlank(get(this, 'imageUrl')) && isBlank(get(this, '_selectedImage'));
   }),
 
   actions: {
