@@ -37,7 +37,7 @@
     "justgage-toorshia": "justgage-official#^1.2.2",
     "toastr": "^2.1.2",
     "selectize": "miguelcobain/selectize.js#master",
-    "moment-recur": "~1.0.5"
+    "summernote-image-attributes": "^0.1.2"
   },
   "devDependencies": {
     "blanket": "~1.1.5",

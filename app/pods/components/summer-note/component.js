@@ -27,13 +27,31 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     const height = get(this, 'editorHeight') || get(this, 'height');
-    let toolbar;
+    let toolbar, buttons, popover, modules;
     const content = get(this, 'content');
 
     if (isPresent(this.attrs.toolbar)) {
       toolbar = this.attrs.toolbar.value;
     } else {
       toolbar = get(this, 'defaultToolbar');
+    }
+    
+    if (isPresent(this.attrs.buttons)) {
+      buttons = this.attrs.buttons.value;
+    } else {
+      buttons = {};
+    }
+    
+    if (isPresent(this.attrs.modules)) {
+      modules = this.attrs.modules.value;
+    } else {
+      modules = {};
+    }
+    
+    if (isPresent(this.attrs.popover)) {
+      popover = this.attrs.popover.value;
+    } else {
+      popover = {};
     }
 
     const $editor = this.$('textarea');
@@ -44,8 +62,10 @@ export default Ember.Component.extend({
 
     $editor.summernote({
       height: height,
+      modules: modules,
       toolbar: toolbar,
-
+      buttons: buttons,  
+      popover: popover,
       styleWithSpan: false,
 
       callbacks: {
