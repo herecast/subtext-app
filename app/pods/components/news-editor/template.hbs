@@ -80,7 +80,7 @@
 
               {{#if news.isPublished}}
                 Published {{formatted-date news.publishedAt}}.
-                {{link-to 'View it now' 'news.show' news}}
+                {{link-to 'View it now' 'news.show' news.id}}
                 {{#if hasUnpublishedChanges}}
                   <div class="alert alert-warning" role="alert"><p>Your post has changes that are not published.</p></div>
                   <button {{action 'publish'}} class='btn btn-primary'>Publish Changes</button><br />
