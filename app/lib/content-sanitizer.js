@@ -30,8 +30,10 @@ export function sanitizeContent(rawContent) {
       a: { rel: 'nofollow' },
       img: { class: 'img-responsive' }
       // iframe: {} // TODO responsive video embed classes
-    }
+    },
+    remove_contents: ['style', 'script']
   });
-  
-  return fixBadLists( s.clean_node(rawContent) );
+  const cleanedContent = s.clean_node(rawContent);
+  const listsFixed = fixBadLists(cleanedContent);
+  return listsFixed;
 }
