@@ -5,7 +5,7 @@
     </h1>
     <div class='OrganizationProfile-connect col-sm-3'>
       {{#if model.subscribeUrl}}
-        <a data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+        <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
           {{fa-icon 'heart'}}
           Subscribe
         </a>
