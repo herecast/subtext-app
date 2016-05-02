@@ -24,7 +24,6 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    let toolbar, buttons, popover, modules;
     const content = get(this, 'content');
     const $editor = this.$('textarea');
 
