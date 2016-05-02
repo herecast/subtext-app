@@ -1,13 +1,15 @@
 <div class="row">
   <div class='col-md-2 col-sm-3 col-xs-12 FeaturedContent-featuredImage'>
-    <a href={{contentUrl}}>
+    {{#link-to contentRoute model}}
       <img src="{{imageUrl}}" class="img-responsive"/>
-    </a>
+    {{/link-to}}
   </div>
   <div class="col-md-10 col-sm-9 col-xs-12">
     <div class='FeaturedContent-main'>
       <h1 class='FeaturedContent-title'>
-        <a href={{contentUrl}}>{{title}}</a>
+        {{#link-to contentRoute model}}
+          {{title}}
+        {{/link-to}}
       </h1>
       <span class='FeaturedContent-content'>
         {{content}}
@@ -15,9 +17,13 @@
       <a href={{contentUrl}} class='FeaturedContent-more FeaturedContent-link'>more</a>
     </div>
     <footer class='FeaturedContent-meta'>
-      <a href={{organizationUrl}}><img class='FeaturedContent-publisherAvatar' src={{organizationImage}}></a>
+      {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link"}}
+        <img class='FeaturedContent-publisherAvatar' src={{organizationImage}}>
+      {{/link-to}}
       <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
-      <a class="FeaturedContent-publisher" href={{organizationUrl}} rel='author'>{{organizationName}}</a>
+      {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link" class="FeaturedContent-publisher" rel='author'}}
+        {{organizationName}}
+      {{/link-to}}
     </footer>
   </div>
 </div>

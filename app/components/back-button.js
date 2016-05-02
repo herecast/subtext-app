@@ -7,5 +7,10 @@ export default Ember.Component.extend({
 
   routeName: computed('history.routeName', 'defaultRouteName', function() {
     return this.get('history.routeName') || this.get('defaultRouteName');
+  }),
+
+  routeModel: computed('history.routeModel', function() {
+    return this.get('history.routeModel');
   })
+
 });

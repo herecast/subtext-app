@@ -1,14 +1,13 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import TrackEvent from 'subtext-ui/mixins/track-event';
-import HistoryMix from 'subtext-ui/mixins/routes/history';
-
 
 const { get, isPresent, isEmpty, inject, run } = Ember;
 
-export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, HistoryMix, {
+export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   intercom: inject.service(),
   mixpanel: inject.service(),
+  history: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
