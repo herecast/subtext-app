@@ -10,9 +10,6 @@
             {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
               {{model.organizationName}}
             {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
-            {{#if canEdit}}
-              <p>{{#link-to 'news.edit' model}}Edit this post{{/link-to}}</p>
-            {{/if}}
           </p>
         </div>
       </div>
@@ -75,6 +72,14 @@
           sharedBy=session.userName
         }}
 
+        {{#if canEdit}}
+          {{edit-content-link
+          contentId=model.id
+          route='news.edit'
+          text='Edit Post'
+          }}
+        {{/if}}
+
         {{report-content-details contentId=model.contentId}}
 
         {{comment-bubble
@@ -82,6 +87,7 @@
           count=model.commentCount
           class='hidden-xs hidden-sm'
         }}
+
       {{/floating-side-column}}
     </div>
   </div>
