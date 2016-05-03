@@ -74,7 +74,18 @@ export default Ember.Component.extend({
             $div.find('img[style]').removeAttr('style');
 
             const cleanHtml = $div.html();
+
             $editor.summernote('pasteHTML', cleanHtml);
+
+            // SummerNote likes to add a <p><br></p> when pasting multi-line content
+            // This causes the spacing to expand, which is undesirable
+            // So clear it out, but only change the editor contents if necessary
+            // as this could screw up the cursor position
+            const editorContent = this.$('.note-editable').html();
+            let newContent = editorContent.replace(/<p><br><\/p>/g, '');
+            if (editorContent !== newContent) {
+              this._setEditorContent(newContent);
+            }
 
             this.send('doUpdate');
           });
