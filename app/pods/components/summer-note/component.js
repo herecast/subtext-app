@@ -15,7 +15,7 @@ const defaultToolbarOpts = [
 
 export default Ember.Component.extend({
   classNames: ['wysiwyg-editor'],
-  defaultToolbar: defaultToolbarOpts,
+  toolbar: defaultToolbarOpts,
   content: null,
   updateContent: false,
 
@@ -24,6 +24,7 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
+    const toolbar = get(this, 'toolbar');
     const content = get(this, 'content');
     const $editor = this.$('textarea');
 
@@ -36,6 +37,7 @@ export default Ember.Component.extend({
       // with summernote's absolute positioned overlays.
       //height: height,
       styleWithSpan: false,
+      toolbar: toolbar,
 
       callbacks: {
         onChange: () => {
@@ -79,10 +81,6 @@ export default Ember.Component.extend({
         }
       }
     };
-
-    if (isPresent(this.attrs.toolbar)) {
-      summerNoteConfig.toolbar = this.attrs.toolbar.value;
-    }
 
     if (isPresent(this.attrs.buttons)) {
       summerNoteConfig.buttons = this.attrs.buttons.value;
