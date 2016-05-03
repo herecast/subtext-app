@@ -21,8 +21,8 @@
     {{#if displayImageForm}}
       {{content-form-image
       image=_selectedImage
-      imageUrl=imageUrl
-      originalImageUrl=_originalImageUrl
+      imageUrl=(readonly imageUrl)
+      originalImageUrl=(readonly _originalImageUrl)
       error=errors.image
       aspectRatio=aspectRatio
       zoomable=false
