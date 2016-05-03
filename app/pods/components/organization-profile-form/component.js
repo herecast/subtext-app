@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import Validation from '../../../mixins/components/validation';
 
-const { get, set, isPresent } = Ember;
+const { get, set, isPresent, isBlank, computed } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
+
+  _originalImageUrl: computed.oneWay('model.logoUrl'),
 
   submit(e) {
     e.preventDefault();
@@ -21,6 +23,12 @@ export default Ember.Component.extend(Validation, {
       this.attrs.didSave(get(this, 'model'));
     }
   },
+
+  imageFormVisible: false,
+
+  displayImageForm: computed('model.logoUrl', 'imageFormVisible', function() {
+    return get(this, 'imageFormVisible') || isBlank(get(this, 'model.logoUrl'));
+  }),
 
   save() {
     if(this.isValid()) {
@@ -43,6 +51,9 @@ export default Ember.Component.extend(Validation, {
     },
     updateContent(content) {
       set(this, 'model.description', content);
+    },
+    showImageForm() {
+      set(this, 'imageFormVisible', true);
     }
   }
 });
