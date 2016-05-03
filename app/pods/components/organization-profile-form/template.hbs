@@ -19,11 +19,21 @@
   </div>
 {{/form-group}}
 
+{{#if displayImageForm}}
   {{content-form-image
-    image=model.logo
-    imageUrl=model.logoUrl
-    error=errors.logo
+  image=model.logo
+  imageUrl=(readonly model.logoUrl)
+  originalImageUrl=(readonly _originalImageUrl)
+  error=errors.logo
+  zoomable=false
   }}
+{{else}}
+  <label class='control-label ContentForm-label'>Selected Image</label>
+  <img src="{{model.logoUrl}}" alt="Selected Image" class="ThumbnailImageModal-preview" {{action 'showImageForm'}} />
+  <div class="text-center">
+    <button class="btn btn-lg" {{action 'showImageForm'}}>Edit</button>
+  </div>
+{{/if}}
 
 {{#form-group error=errors.description}}
   <label class='control-label' for='profile-description'>About</label>

@@ -11,8 +11,8 @@ export default Ember.Component.extend({
   // JsCropper properties
   aspectRatio: 1,
   zoomable: true,
-  minWidth: 50,
-  minHeight: 50,
+  minWidth: 200,
+  minHeight: 200,
 
   // Display the JS image cropping tool if the user has attached an image
   displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', function() {
