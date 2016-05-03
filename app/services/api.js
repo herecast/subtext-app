@@ -13,7 +13,7 @@ export default AjaxService.extend({
       const session = get(this, 'session');
       const isAuthenticated = session.get('isAuthenticated');
 
-      if(isAuthenticated) {
+      if (isAuthenticated) {
         session.authorize('authorizer:application', (headerName, headerValue) => {
           headers[headerName] = headerValue;
         });
@@ -47,9 +47,11 @@ export default AjaxService.extend({
     });
   },
 
-  updateImageCaption(id, caption) {
-    return this.put(`/images/${id}`, {
-      caption: caption
+  updateImage(imageId, imageData) {
+    return this.put(`/images/${imageId}`, {
+      data: {
+        image: imageData
+      }
     });
   },
 

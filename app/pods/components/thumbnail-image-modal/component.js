@@ -31,6 +31,7 @@ export default Ember.Component.extend({
 
   actions: {
     openImageModal() {
+      set(this, '_selectedImage', null);
       set(this, '_originalImageUrl', get(this, 'imageUrl'));
       set(this, 'imageFormVisible', false);
       set(this, '_showImageModal', true);

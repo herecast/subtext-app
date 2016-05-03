@@ -38,7 +38,7 @@ export default Ember.Component.extend(Validation, {
     ['para', ['ul', 'ol']],
     ['insert', ['picture', 'imgCaption', 'video']]
   ],
-  
+
   editorPopover: {
     image: [
       ['custom', ['imageAttributes']],
@@ -106,7 +106,12 @@ export default Ember.Component.extend(Validation, {
         if (file) {
           promise = this._saveImage(file, 1, caption);
         } else {
-          promise = this._saveImageCaption(get(this, 'news.bannerImage.id'), caption);
+          const image = get(this, 'news.bannerImage');
+          promise = get(this, 'api').updateImage(get(image, 'id'), {
+            caption: caption,
+            primary: 1,
+            content_id: get(this, 'news.id')
+          });
         }
 
         return promise.then(
@@ -188,10 +193,6 @@ export default Ember.Component.extend(Validation, {
     }
 
     return get(this, 'api').createImage(data);
-  },
-
-  _saveImageCaption(id, caption) {
-    return get(this, 'api').updateImageCaption(id, caption);
   },
 
   actions: {
