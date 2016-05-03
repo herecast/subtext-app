@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from '../mixins/components/validation';
 
-const {computed, computed: { oneWay } } = Ember;
+const {set, computed, computed: { oneWay } } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
@@ -19,6 +19,10 @@ export default Ember.Component.extend(Validation, {
     discard() {
       const talk = this.get('talk');
       this.sendAction('afterDiscard', talk);
+    },
+    updateContent(content) {
+      set(this, 'talk.content', content);
+      this.send('validateForm');
     }
   }
 });

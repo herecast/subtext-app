@@ -1,6 +1,6 @@
 {{#form-group error=errors.name}}
   <label class='control-label' for='profile-name'>Name</label>
-  {{input 
+  {{input
     id='profile-name'
     class='form-control'
     value=model.name
@@ -9,7 +9,7 @@
 
 {{#form-group error=errors.subscribeUrl}}
   <label class='control-label' for='subscribe-url'>Subscribe URL</label>
-    {{input 
+    {{input
       id='subscribe-url'
       class='form-control'
       value=model.subscribeUrl
@@ -18,7 +18,7 @@
     A url to a mailing list form.
   </div>
 {{/form-group}}
-  
+
   {{content-form-image
     image=model.logo
     imageUrl=model.logoUrl
@@ -30,7 +30,7 @@
   <div class='help-block'>
     Shouldn't be longer than 1 or 2 paragraphs
   </div>
-  {{#summer-note content=model.description}}
+  {{#summer-note content=(readonly model.description) notifyChange=(action 'updateContent')}}
     {{textarea
       id='profile-description'
       placeholder='An informative description about your organization or blog.'

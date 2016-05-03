@@ -24,47 +24,17 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    let toolbar, buttons, popover, modules;
     const content = get(this, 'content');
-
-    if (isPresent(this.attrs.toolbar)) {
-      toolbar = this.attrs.toolbar.value;
-    } else {
-      toolbar = get(this, 'defaultToolbar');
-    }
-    
-    if (isPresent(this.attrs.buttons)) {
-      buttons = this.attrs.buttons.value;
-    } else {
-      buttons = {};
-    }
-    
-    if (isPresent(this.attrs.modules)) {
-      modules = this.attrs.modules.value;
-    } else {
-      modules = {};
-    }
-    
-    if (isPresent(this.attrs.popover)) {
-      popover = this.attrs.popover.value;
-    } else {
-      popover = {};
-    }
-
     const $editor = this.$('textarea');
 
     function insertImage(image) {
       $editor.summernote('insertImage', image.url);
     }
 
-    $editor.summernote({
+    let summerNoteConfig = {
       // DO NOT set height.  It causes all kinds of issues
       // with summernote's absolute positioned overlays.
       //height: height,
-      modules: modules,
-      toolbar: toolbar,
-      buttons: buttons,
-      popover: popover,
       styleWithSpan: false,
 
       callbacks: {
@@ -90,17 +60,17 @@ export default Ember.Component.extend({
         },
         onPaste: (e) => {
           e.preventDefault();
-          
+
           const buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
           const div = document.createElement('div');
           div.innerHTML = buffer;
-          
+
           run.later(() => {
             const cleanNodes = sanitizeContent(div);
             const $div = jQuery('<div>').append(cleanNodes);
             // Strip styles from images to prevent weird positioning and floating.
             $div.find('img[style]').removeAttr('style');
-            
+
             const cleanHtml = $div.html();
             $editor.summernote('pasteHTML', cleanHtml);
 
@@ -108,7 +78,25 @@ export default Ember.Component.extend({
           });
         }
       }
-    });
+    };
+
+    if (isPresent(this.attrs.toolbar)) {
+      summerNoteConfig.toolbar = this.attrs.toolbar.value;
+    }
+
+    if (isPresent(this.attrs.buttons)) {
+      summerNoteConfig.buttons = this.attrs.buttons.value;
+    }
+
+    if (isPresent(this.attrs.modules)) {
+      summerNoteConfig.modules = this.attrs.modules.value;
+    }
+
+    if (isPresent(this.attrs.popover)) {
+      summerNoteConfig.popover = this.attrs.popover.value;
+    }
+
+    $editor.summernote(summerNoteConfig);
 
     if (content) {
       // Initialize editor with content
@@ -140,16 +128,6 @@ export default Ember.Component.extend({
       // Notify new content
       if ('notifyChange' in this.attrs) {
         this.attrs.notifyChange(content);
-      }
-
-      set(this, 'content', content);
-
-      // TODO The upper context should simply be notified of
-      // changes and should have the responsiblity for deciding
-      // what to do. The text editor should no concept of
-      // form validation
-      if (this.attrs.validateForm) {
-        this.attrs.validateForm();
       }
     }
   }
