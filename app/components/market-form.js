@@ -9,6 +9,11 @@ export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
   post: Ember.computed.alias('model'),
   organizations: oneWay('session.currentUser.managed_organizations'),
+  
+  submit(e) {
+    // prevent browser reload when user presses enter in modal dialog
+    e.preventDefault();
+  },
 
   validateContact() {
     const email = this.get('post.contactEmail');
