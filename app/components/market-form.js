@@ -2,7 +2,8 @@ import Ember from 'ember';
 import Validation from '../mixins/components/validation';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
-const { set, oneWay } = Ember.computed;
+const { oneWay } = Ember.computed;
+const { set } = Ember;
 
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
