@@ -36,7 +36,12 @@ export default Ember.Component.extend(Validation, {
       model.save().then(()=>{
         if(isPresent(model.get('logo'))) {
           model.uploadLogo().then(()=>{
-            this.notifySaved();
+
+            // Reload to update the logoUrl - one is not provided in the uploadLogo response
+            model.reload().then(() => {
+              this.notifySaved();
+            });
+
           });
         } else {
           this.notifySaved();
