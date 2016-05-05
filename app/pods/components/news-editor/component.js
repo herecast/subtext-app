@@ -33,7 +33,7 @@ export default Ember.Component.extend(Validation, {
   updateContent: false,
 
   editorConfig: [
-    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+    ['style', ['bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
     ['insert', ['picture', 'imgCaption', 'video']]
@@ -41,9 +41,7 @@ export default Ember.Component.extend(Validation, {
 
   editorPopover: {
     image: [
-      ['custom', ['imageAttributes']],
       ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-      ['float', ['floatLeft', 'floatRight', 'floatNone']],
       ['remove', ['removeMedia']]
     ]
   },
