@@ -94,5 +94,8 @@ console.log('starting deploy');
 execSync('ember deploy ' + process.argv.slice(2).join(' '), {
   stdio: ['inherit', 'inherit', 'inherit']
 });
-console.log('activating new build');
-activateBuild(endpoint);
+// don't auto-activate prod, to prevent accidents
+if (environment != 'production') {
+  console.log('activating new build');
+  activateBuild(endpoint);
+}
