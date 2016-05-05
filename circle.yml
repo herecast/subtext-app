@@ -9,3 +9,9 @@ dependencies:
   override:
     - npm install
     - bower install
+
+deployment:
+  development:
+    branch: feature/autodeploy
+    commands:
+      - ./deploy.js --environment=qa
