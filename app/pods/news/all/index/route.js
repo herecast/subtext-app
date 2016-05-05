@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import PaginatedFilter from '../../../mixins/routes/paginated-filter';
-import History from '../../../mixins/routes/history';
+import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
+import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 
 export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {

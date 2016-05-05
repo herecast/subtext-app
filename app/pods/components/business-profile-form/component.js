@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from '../../../mixins/components/validation';
 
-const { inject, get, set, isBlank } = Ember;
+const { inject, get, set, isBlank, computed } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
@@ -10,9 +10,12 @@ export default Ember.Component.extend(Validation, {
 
   // Required when component is rendered
   model: null,
-  categories: null,
-
+  categories: computed(function () {
+    return get(this, 'store').find('business-category');
+  }),
+  
   toast: inject.service(),
+  store: inject.service(),
 
   submit(e) {
     e.preventDefault();

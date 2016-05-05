@@ -91,18 +91,21 @@
 
     <div class="row">
 
-      <div class="col-sm-10 Dashboard-Content-Header">
+      <div class="col-sm-10 Dashboard-contentHeader">
         {{#if organizations}}
-        <div class="row">
-          <h2 class="col-sm-6 Dashboard-Content-Header-text">Showing Content For:</h2>
-          <div class="col-sm-6">
+          <h2 class="Dashboard-contentHeaderText">Showing Content For:</h2>
+          <div class='btn-group Dashboard-contentHeaderControl'>
             {{organization-dropdown
-            selection=organization
-            helpMessage='Switch dashboard context'
-            asFormControl=false
+              selection=organization
+              helpMessage='Switch dashboard context'
+              asFormControl=false
+              class='btn-group'
             }}
+            {{#if organizationIsBlogOrBusiness}}
+              <button class='btn btn-default btn-lg' {{action 'viewProfile' organization}}>View Profile</button>
+              <button class='btn btn-default btn-lg' {{action 'editProfile' organization}}>Edit Profile</button>
+            {{/if}}
           </div>
-        </div>
         {{/if}}
       </div>
 
@@ -141,6 +144,16 @@
                       <span>Create Market Listing</span>
                   {{/link-to}}
                 </li>
+
+                {{#if organization.canPublishNews}}
+                  <li role="separator" class="divider"></li>
+
+                  <li>
+                    {{#link-to 'news.new' (query-params organization_id=organizationId)}}
+                        <span>Create News Post</span>
+                    {{/link-to}}
+                  </li>
+                {{/if}}
               </ul>
             </div>
           {{/unless}}
@@ -162,3 +175,20 @@
   </div>
 
 </div>
+
+{{#if editingBusiness}}
+  {{#x-modal close=(action 'cancelEditingBusiness')}}
+    {{business-profile-form
+      model=editingBusiness
+      save=(action 'saveBusiness')
+      cancel=(action 'cancelEditingBusiness')
+    }}
+  {{/x-modal}}
+{{/if}}
+
+{{#if editingBlog}}
+  {{#x-modal close=(action 'cancelEditingBlog')}}
+    <h4 class='h1 u-textCenter'>Edit Profile</h4>
+    {{organization-profile-form model=editingBlog didSave=(action "saveBlog")}}
+  {{/x-modal}}
+{{/if}}

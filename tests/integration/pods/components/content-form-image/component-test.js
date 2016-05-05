@@ -11,7 +11,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{content-form-image}}`);
 
-  assert.ok(this.$().text().trim().match(/^Image/));
+  assert.ok(this.$().text().trim().match(/^Choose Image/));
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -20,5 +20,5 @@ test('it renders', function(assert) {
     {{/content-form-image}}
   `);
 
-  assert.ok(this.$().text().trim().match(/^Image/));
+  assert.ok(this.$().text().trim().match(/^Choose Image/));
 });

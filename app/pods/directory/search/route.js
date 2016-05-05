@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import jQuery from 'jquery';
+import History from 'subtext-ui/mixins/routes/history';
 
 const { isEmpty } = Ember;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(History, {
   queryParams: {
     lat:         { refreshModel: true },
     lng:         { refreshModel: true },

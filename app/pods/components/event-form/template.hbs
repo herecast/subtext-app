@@ -1,10 +1,18 @@
 {{#if organizations}}
-  {{#if event.isNew}}
-    {{#form-group error=errors.title hideError=true}}
-      <label class='control-label ContentForm-label--required'>Content Owner</label>
+  {{#form-group hideError=true}}
+    <label class='control-label ContentForm-label--required'>Content Owner</label>
+    {{#if event.isNew}}
       {{organization-dropdown selection=event.organization class="with-border"}}
-    {{/form-group}}
-   {{/if}}
+    {{else}}
+      <div class='form-control-static'>
+      {{#if event.organization}}
+        {{event.organization.name}}
+      {{else}}
+        {{session.currentUser.name}}
+      {{/if}}
+      </div>
+    {{/if}}
+  {{/form-group}}
 {{/if}}
 
 {{#form-group error=errors.title hideError=true}}
@@ -66,7 +74,7 @@
   <label class='control-label ContentForm-label--required' for="description">Event Description</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=event.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
+  {{#summer-note content=(readonly event.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
     {{textarea
       id='description'
       placeholder='An inspiring description that will motivate people to attend'

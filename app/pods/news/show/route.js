@@ -1,12 +1,13 @@
 import Ember from 'ember';
-import Redirect from '../../mixins/routes/redirect-after-login';
-import RouteMetaMixin from '../../mixins/routes/social-tags';
-import ShareCaching from '../../mixins/routes/share-caching';
-import DocTitleFromContent from '../../mixins/routes/title-token-from-content';
+import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
+import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
+import ShareCaching from 'subtext-ui/mixins/routes/share-caching';
+import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
 import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTitleFromContent, ResetScroll, {
   modelImageKey: 'bannerImage.url',
+  history: Ember.inject.service(),
 
   model(params)  {
     return this.store.findRecord('news', params.id, { reload: true }).catch(() => {

@@ -2,6 +2,8 @@ import Ember from 'ember';
 import moment from 'moment';
 import Mirage from 'ember-cli-mirage';
 
+const { isPresent } = Ember;
+
 /*jshint multistr: true */
 
 // This is just a dumb method to make it look like we're doing filtering
@@ -314,13 +316,26 @@ export default function() {
     } else {
       organizations = db.organizations;
     }
-
     return {
       organizations: organizations
     };
   });
 
   this.get('/organizations/:id');
+  this.put('/organizations/:id', function(db, request) {
+    if (request && request.requestBody && typeof request.requestBody === 'string') {
+      var id = request.params.id;
+      var putData = JSON.parse(request.requestBody);
+      var attrs = putData['organization'];
+      var org = db.organizations.update(id, attrs);
+
+      return {organization: org};
+    } else {
+      // We're using the UPDATE action to upload event images after the event
+      // has been created. Mirage can't really handle this, so we ignore it.
+      console.log('Ignoring image upload');
+    }
+  });
 
   this.get('/event_instances/:id', function(db, request) {
     const event = db.event_instances.find(request.params.id);
@@ -570,19 +585,49 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
+    const organizationId = params.organization_id;
+    const query = params.query;
 
-    let news = db.news.slice(start,stop).map((article) => {
+    let news = db.news;
+    if(isPresent(organizationId)) {
+      news = news.filter((item)=> {
+        return item.organization_id.toString() === organizationId;
+      });
+    }
+
+    if(isPresent(query)) {
+      news = news.filter((item)=> {
+        return isPresent(item.title) && (item.title.indexOf(query) > -1);
+      });
+    }
+
+    let total = news.length;
+    news = news.slice(start,stop).map((article) => {
       return Ember.getProperties(article, newsBaseProperties);
     });
 
     news = filterByDate(news, params.date_start, params.date_end);
 
     return {
-      news: news
+      news: news,
+      meta: {
+        total: total
+      }
     };
   });
 
   this.get('/news/:id');
+
+  this.post('news');
+
+  this.put('news/:id', function(db, request) {
+    const id = request.params.id;
+    const data = JSON.parse(request.requestBody);
+
+    const news = db.news.update(id, data['news']);
+
+    return { news: news };
+  });
 
   this.get('/contents', function(db) {
     return {
@@ -631,7 +676,9 @@ export default function() {
 
   this.post('/images', function(db) {
     const image = db.images.insert({
-      id: faker.random.number(1000)
+      id: faker.random.number(1000),
+      primary: false,
+      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
     });
 
     return {

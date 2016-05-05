@@ -11,5 +11,6 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
   userId: DS.attr('number'),
-  managed_organizations: DS.hasMany('organizations', { async: true })
+  managed_organizations: DS.hasMany('organizations', { async: true }),
+  canPublishNews: DS.attr('boolean')
 });

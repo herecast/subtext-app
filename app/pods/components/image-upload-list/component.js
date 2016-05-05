@@ -69,6 +69,8 @@ export default Ember.Component.extend({
           set(firstImage, 'primary', 1);
         }
       }
+
+      this.resetProperties();
     },
 
     setPrimary(image) {

@@ -1,10 +1,18 @@
 {{#if organizations}}
-  {{#if post.isNew}}
-    {{#form-group error=errors.title hideError=true}}
-      <label class='control-label ContentForm-label--required' for="title">Content Owner</label>
+  {{#form-group hideError=true}}
+    <label class='control-label ContentForm-label--required'>Content Owner</label>
+    {{#if post.isNew}}
       {{organization-dropdown selection=post.organization class="with-border"}}
-    {{/form-group}}
-  {{/if}}
+    {{else}}
+      <div class='form-control-static'>
+      {{#if post.organization}}
+        {{post.organization.name}}
+      {{else}}
+        {{session.currentUser.name}}
+      {{/if}}
+      </div>
+    {{/if}}
+  {{/form-group}}
 {{/if}}
 
 {{#form-group error=errors.title hideError=true}}
@@ -24,7 +32,7 @@
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=post.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
+  {{#summer-note content=(readonly post.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
     {{textarea
       id='description'
       placeholder='An informative description that will encourage people to respond.'

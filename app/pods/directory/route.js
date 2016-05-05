@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import History from 'subtext-ui/mixins/routes/history';
 
 const {
   get,
@@ -8,7 +9,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(History, {
   geo: inject.service('geolocation'),
 
   model() {

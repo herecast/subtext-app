@@ -1,0 +1,4 @@
+{{#each model as |item|}}
+  {{! @TODO: switch to content-card when proper model detection available }}
+  {{news-card item=item class="ContentGrid-item" data-test-news-card=item.title}}
+{{/each}}

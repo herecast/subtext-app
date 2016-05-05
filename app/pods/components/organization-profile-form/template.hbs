@@ -1,0 +1,54 @@
+{{#form-group error=errors.name}}
+  <label class='control-label' for='profile-name'>Name</label>
+  {{input
+    id='profile-name'
+    class='form-control'
+    value=model.name
+  }}
+{{/form-group}}
+
+{{#form-group error=errors.subscribeUrl}}
+  <label class='control-label' for='subscribe-url'>Subscribe URL</label>
+    {{input
+      id='subscribe-url'
+      class='form-control'
+      value=model.subscribeUrl
+    }}
+  <div class='help-block'>
+    A url to a mailing list form.
+  </div>
+{{/form-group}}
+
+{{#if displayImageForm}}
+  {{content-form-image
+  image=model.logo
+  imageUrl=(readonly model.logoUrl)
+  originalImageUrl=(readonly _originalImageUrl)
+  error=errors.logo
+  zoomable=false
+  }}
+{{else}}
+  <label class='control-label ContentForm-label'>Selected Image</label>
+  <img src="{{model.logoUrl}}" alt="Selected Image" class="ThumbnailImageModal-preview" {{action 'showImageForm'}} />
+  <div class="text-center">
+    <button class="btn btn-lg" {{action 'showImageForm'}}>Edit</button>
+  </div>
+{{/if}}
+
+{{#form-group error=errors.description}}
+  <label class='control-label' for='profile-description'>About</label>
+  <div class='help-block'>
+    Shouldn't be longer than 1 or 2 paragraphs
+  </div>
+  {{#summer-note content=(readonly model.description) notifyChange=(action 'updateContent')}}
+    {{textarea
+      id='profile-description'
+      placeholder='An informative description about your organization or blog.'
+      class='form-control'
+    }}
+  {{/summer-note}}
+{{/form-group}}
+
+<div class='text-center'>
+  <button class='btn btn-lg btn-secondary'>Save Changes</button>
+</div>

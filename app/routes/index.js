@@ -12,8 +12,7 @@ export default Ember.Route.extend(PaginatedFilter, History, {
     const api = get(this, 'api');
 
     return api.getContents({
-      page: params.page,
-      per_page: params.per_page
+      page: params.page
     });
   },
 

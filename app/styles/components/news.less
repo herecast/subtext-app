@@ -55,21 +55,26 @@
 .News-content {
   padding-bottom: 2rem;
   margin-top: 10px;
+  @media (min-width: @screen-sm-min) {
+  }
+}
+
+.NewsEditor .wysiwyg-editor,
+.News-content {
+  overflow-wrap: break-word;
+  img {
+    .center-block;
+    .img-responsive;
+    padding: 10px;
+  }
   // wordpress image captions come in this way
   // and we want the font to look like the image banner
   // caption
   .image-caption {
     font-size: 12px;
     font-style: italic;
+    text-align: center;
+    clear: both;
+    margin: 0 20px 1rem 20px;
   }
-  @media (min-width: @screen-sm-min) {
-  }
-}
-
-// This mimics class='img-responsive', but we don't have control over the
-// content, so we need to do it manually.
-.News-content img {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }

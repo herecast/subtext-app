@@ -1,10 +1,13 @@
 <div class='{{if hasBlock 'hidden'}}'>
   {{#form-group error=error}}
     <label class='control-label' for="image">
-      Image
+      Choose Image
     </label>
     {{file-input fileError=(action 'fileError') allowedExtensions='.jpg,.jpeg,.png' inputClass='form-control ContentForm-fileField' action=(action "filesSelected")}}
-    <span class="help-block ContentForm-helpText">Format: .jpg or .png  // Size: under 5MB</span>
+    <span class="help-block ContentForm-helpText">
+      Format: .jpg or .png  // Size: under 5MB
+      <br>Min width x height: {{minWidth}} x {{minHeight}}
+    </span>
   {{/form-group}}
 </div>
 

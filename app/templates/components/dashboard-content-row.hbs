@@ -14,7 +14,7 @@
 {{#if showTypeColumn}}
   <td class='hidden-xs hidden-sm'>{{contentType}}</td>
 {{/if}}
-<td class='{{if media.isMobile 'u-textPullRight'}}'>{{publishedAt}}</td>
+<td class='{{if media.isMobile 'u-textPullRight'}}'>{{if publishedAt publishedAt 'Draft'}}</td>
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
 <td class='hidden-xs' colspan='2'>

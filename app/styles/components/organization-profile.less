@@ -1,0 +1,78 @@
+.OrganizationProfile {
+  padding-top: 40px;
+
+  img { max-width: 100%; }
+}
+
+.OrganizationProfile-main {
+  margin-bottom: 40px;
+}
+
+.OrganizationProfile-headerTitle {
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 0;
+  height: 1.25em;
+
+  span {
+    background: #fff;
+    padding: 10px;
+  }
+
+  &:after {
+    border-bottom: 1px solid #000;
+    width: 100%;
+    height: 2px;
+    display: block;
+    content: " ";
+    margin-top: -0.5em;
+    margin-bottom: 0.5em;
+  }
+}
+
+.OrganizationProfile-connect {
+  text-align: center;
+}
+
+.OrganizationProfile-subscribe {
+  border-color: @text-color;
+  border-radius: 2em;
+  .fa {
+    margin-right: 1em;  
+  }
+}
+
+
+.OrganizationProfile-about {
+  overflow: hidden;
+  border: 1px solid #eee;
+  padding: 20px;
+  margin-bottom: 40px;
+  
+  .OrganizationAbout-avatar {
+    max-width: 128px;
+    max-height: 128px;
+    float: left;
+    margin: 0 1em 1em 0;
+    
+    @media(min-width: @screen-sm-min) {
+      float: none;
+    }
+  }
+
+  .OrganizationAbout-title {
+    .h4;
+  }
+}
+
+.OrganizationProfile-moreContentTitle {
+  .h2;
+  text-transform: uppercase;
+  text-align: center;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #eee;
+}
+
+.OrganizationProfile-contentControls {
+  margin-bottom: 40px;
+}

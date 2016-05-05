@@ -1,0 +1,45 @@
+.SearchInput {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  background: white;
+}
+
+.SearchInput-inputGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: 2em;
+  border: 1px solid #979797;
+}
+
+.SearchInput-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.SearchInput-icon {
+  padding: 14px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  flex-shrink: 0;
+}
+
+.SearchInput-clear {
+  flex-shrink: 0;
+  padding: 14px;
+  font-size: 1.2em;
+  line-height: 1.42857143;
+  border: none;
+  background: none;
+  color: #979797;
+  &:focus {
+    outline: none;
+  }
+}
