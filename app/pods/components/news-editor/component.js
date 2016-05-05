@@ -27,12 +27,26 @@ export default Ember.Component.extend(Validation, {
 
   pendingFeaturedImage: null,
 
+  // flag to notify summer note to update the editor contents
+  // otherwise, updates to content are ignored due to a bug in summer note
+  // which causes the cursor to jump
+  updateContent: false,
+
   editorConfig: [
-    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
-    ['insert', ['picture', 'video']]
+    ['insert', ['picture', 'imgCaption', 'video']]
   ],
+
+  editorPopover: {
+    image: [
+      ['custom', ['imageAttributes']],
+      ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+      ['float', ['floatLeft', 'floatRight', 'floatNone']],
+      ['remove', ['removeMedia']]
+    ]
+  },
 
   featuredImageUrl: computed.oneWay('news.bannerImage.url'),
   featuredImageCaption: computed.oneWay('news.bannerImage.caption'),
@@ -87,14 +101,34 @@ export default Ember.Component.extend(Validation, {
       if (featuredImage) {
         set(this, 'pendingFeaturedImage', null);
         const { file, caption } = getProperties(featuredImage, 'file', 'caption');
+        let promise;
 
-        return this._saveImage(file, 1, caption).then(
+        if (file) {
+          promise = this._saveImage(file, 1, caption);
+        } else {
+          const image = get(this, 'news.bannerImage');
+          promise = get(this, 'api').updateImage(get(image, 'id'), {
+            caption: caption,
+            primary: 1,
+            content_id: get(this, 'news.id')
+          });
+        }
+
+        return promise.then(
           (response) => {
             const url = get(response, 'image.url');
+            get(this, 'news.images').unshift(response);
             set(this, 'featuredImageUrl', url);
           },
-          () => {
-            get(this, 'toast').error('Error: Unable to save featured image.');
+          (error) => {
+            const serverError = get(error, 'errors.image');
+            let errorMessage = 'Error: Unable to save featured image.';
+
+            if (serverError) {
+              errorMessage += ' ' + serverError;
+            }
+
+            get(this, 'toast').error(errorMessage);
           }
         );
       }
@@ -256,6 +290,7 @@ export default Ember.Component.extend(Validation, {
       this.setProperties({
         featuredImageUrl: get(news, 'bannerImage.url'),
         featuredImageCaption: get(news, 'bannerImage.caption'),
+        updateContent: true,
         pendingFeaturedImage: null
       });
 
@@ -270,6 +305,22 @@ export default Ember.Component.extend(Validation, {
       // Save the featured image data to be committed
       // the next time the rest of the form is saved.
       set(this, 'pendingFeaturedImage', {file, caption});
+      this.send('notifyChange');
+    },
+
+    saveFeaturedImageCaption(caption) {
+      // Save the featured image caption to be committed
+      // the next time the rest of the form is saved.
+      let pendingFeaturedImage = get(this, 'pendingFeaturedImage') || {};
+      pendingFeaturedImage.caption = caption;
+
+      set(this, 'pendingFeaturedImage', pendingFeaturedImage);
+
+      this.send('notifyChange');
+    },
+
+    saveContent: function(newContent) {
+      set(this, 'news.content', newContent);
       this.send('notifyChange');
     }
   }

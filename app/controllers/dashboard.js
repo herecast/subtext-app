@@ -11,7 +11,8 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
-  api: inject.service('api'),
+  api: inject.service(),
+  toast: inject.service(),
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type'],
   contentModel: inject.service(),
@@ -103,7 +104,7 @@ export default Ember.Controller.extend(trackEvent, {
     // Must return null, not undefined.
     return orgId ? orgId : null;
   }),
-  
+
   organizationIsBlogOrBusiness: computed('organization.isBlog', 'organization.isBusiness', function() {
     return get(this, 'organization.isBusiness') || get(this, 'organization.isBlog');
   }),
@@ -162,14 +163,14 @@ export default Ember.Controller.extend(trackEvent, {
 
     editProfile(org) {
       if( org.get('isBlog') ) {
-        set(this, 'editingBlog', org);  
+        set(this, 'editingBlog', org);
       } else if(org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
           set(this, 'editingBusiness', rec);
         });
       } else {
-        alert('Feature not available yet');  
+        alert('Feature not available yet');
       }
     },
 
@@ -203,6 +204,7 @@ export default Ember.Controller.extend(trackEvent, {
 
     saveBlog() {
       set(this, 'editingBlog', null);
+      get(this, 'toast').success('Blog profile saved successfully!');
     },
 
     saveBusiness() {

@@ -5,12 +5,22 @@ const { get, run } = Ember;
 export default Ember.Component.extend({
   tagName: 'span',
   classNames: ['SearchInput'],
-  debounceWait: 200,
+  debounceWait: 900,
   value: null,
   placeholder: 'Search ...',
+  clearTooltip: 'Clear Search',
+  
+  keyUp: function(e) {
+    const esc = 27;
+    if(e.which === esc) {
+      this._updateAction("");
+    }  
+  },
 
   _updateAction(value) {
-    this.attrs.update(value);
+    if('update' in this.attrs) {
+      this.attrs.update(value);
+    }
   },
 
   actions: {

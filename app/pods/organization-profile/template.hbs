@@ -5,7 +5,7 @@
     </h1>
     <div class='OrganizationProfile-connect col-sm-3'>
       {{#if model.subscribeUrl}}
-        <a data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+        <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
           {{fa-icon 'heart'}}
           Subscribe
         </a>
@@ -26,7 +26,7 @@
       <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
         <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
         <div class='OrganizationProfile-contentControls'>
-          {{search-input value=query update=(action (mut query)) data-test-component='news-search' debouncWait=900}}
+          {{search-input value=query update=(action "updateQuery") data-test-component='news-search' debouncWait=900}}
         </div>
         {{content-grid model=moreContent}}
         <footer>

@@ -1,7 +1,12 @@
 <div class="text-center">
   {{#if imageUrl}}
-    <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail" {{action 'openImageModal'}} />
-    <em>{{caption}}</em>
+    <div class="ThumbnailImageModal-thumbnail-container" {{action 'openImageModal'}}>
+      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail" />
+      {{#if caption}}
+        <div class="ThumbnailImageModal-caption">{{caption}}</div>
+      {{/if}}
+    </div>
+    <button class="btn btn-lg" {{action 'openImageModal'}}>Edit</button>
   {{else}}
     <button class="ThumbnailImageModal-choose-image-button" {{action 'openImageModal'}}>
       <h1>{{fa-icon 'camera'}}</h1>
@@ -11,15 +16,26 @@
 </div>
 
 {{#if _showImageModal}}
-  {{#x-modal close=(action 'closeImageModal')}}
+  {{#x-modal}}
     <h1 class="text-center">{{title}}</h1>
-    {{content-form-image
-    image=_selectedImage
-    imageUrl=imageUrl
-    error=errors.image
-    aspectRatio=aspectRatio
-    zoomable=false
-    }}
+    {{#if displayImageForm}}
+      {{content-form-image
+      image=_selectedImage
+      imageUrl=(readonly imageUrl)
+      originalImageUrl=(readonly _originalImageUrl)
+      error=errors.image
+      aspectRatio=aspectRatio
+      zoomable=false
+      minWidth=200
+      minHeight=200
+      }}
+    {{else}}
+      <label class='control-label ContentForm-label'>Selected Image</label>
+      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-preview" {{action 'showImageForm'}} />
+      <div class="text-center">
+        <button class="btn btn-lg" {{action 'showImageForm'}}>Edit</button>
+      </div>
+    {{/if}}
     {{#form-group hideError=true}}
       <label class='control-label ContentForm-label' for="caption">Caption</label>
       {{input
@@ -30,8 +46,8 @@
       }}
     {{/form-group}}
     <div class="ThumbnailImageModal-buttons">
-      <button class="btn btn-lg Button--news" {{action 'saveImage'}} disabled={{not _selectedImage}}>Save Image</button>
-      <button class="btn btn-lg" {{action 'closeImageModal'}}>Cancel</button>
+      <button class="btn btn-lg Button--news" {{action 'save'}} disabled={{saveDisabled}}>Submit</button>
+      <button class="btn btn-lg" {{action 'cancelImageModal'}}>Cancel</button>
     </div>
   {{/x-modal}}
 {{/if}}

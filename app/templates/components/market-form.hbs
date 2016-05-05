@@ -32,7 +32,7 @@
   <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=post.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
+  {{#summer-note content=(readonly post.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
     {{textarea
       id='description'
       placeholder='An informative description that will encourage people to respond.'

@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import moment from 'moment';
 
 moduleForComponent('featured-content', 'Integration | Component | featured content', {
   integration: true
@@ -51,6 +52,9 @@ test('It displays relative published at time', function(assert) {
 
   let $when = this.$('.FeaturedContent-whenPublished');
   assert.equal($when.text().trim(), 'a few seconds ago');
+  
+  this.set('content.publishedAt', moment().subtract(4, 'days').toDate()); 
+  assert.equal($when.text().trim(), '4 days ago');
 });
 
 test('It displays organization info', function(assert) {

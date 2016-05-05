@@ -72,6 +72,14 @@
           sharedBy=session.userName
         }}
 
+        {{#if canEdit}}
+          {{edit-content-link
+          contentId=model.id
+          route='news.edit'
+          text='Edit Post'
+          }}
+        {{/if}}
+
         {{report-content-details contentId=model.contentId}}
 
         {{comment-bubble
@@ -79,6 +87,7 @@
           count=model.commentCount
           class='hidden-xs hidden-sm'
         }}
+
       {{/floating-side-column}}
     </div>
   </div>

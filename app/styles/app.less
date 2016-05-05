@@ -116,3 +116,11 @@
 @import 'utilities/icons';
 @import 'utilities/layout';
 @import 'utilities/text';
+
+//
+// Overrides
+//
+/* The default interferes with app modals */
+body.modal-open > .modal-backdrop {
+  z-index: 60;  
+}

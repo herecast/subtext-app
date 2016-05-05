@@ -15,7 +15,7 @@
   <label class='control-label ContentForm-label--required' for="description">Text</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=talk.content class='ContentForm-textArea' validateForm=(action 'validateForm')}}
+  {{#summer-note content=(readonly talk.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
     {{textarea
       id='description'
       placeholder='An informative, civil comment that will encourage people to respond'

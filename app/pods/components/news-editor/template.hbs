@@ -80,7 +80,7 @@
 
               {{#if news.isPublished}}
                 Published {{formatted-date news.publishedAt}}.
-                {{link-to 'View it now' 'news.show' news}}
+                {{link-to 'View it now' 'news.show' news.id}}
                 {{#if hasUnpublishedChanges}}
                   <div class="alert alert-warning" role="alert"><p>Your post has changes that are not published.</p></div>
                   <button {{action 'publish'}} class='btn btn-primary'>Publish Changes</button><br />
@@ -121,6 +121,7 @@
           caption=featuredImageCaption
           title="Featured Image"
           saveImage=(action 'saveFeaturedImage')
+          saveCaption=(action 'saveFeaturedImageCaption')
           }}
           </div>
         {{/form-group}}
@@ -188,11 +189,16 @@
           <label class='control-label ContentForm-label--required' for="description">Content</label>
           {{form-error errors.content}}
           {{#summer-note
-            content=news.content
+            content=(readonly news.content)
+            updateContent=updateContent
             editorHeight=editorHeight
             toolbar=(mut editorConfig)
+            buttons=editorButtons
+            modules=editorModules
+            popover=editorPopover
             validateForm=(action 'notifyChange')
             uploadImage=(action 'saveImage')
+            notifyChange=(action 'saveContent')
             class='ContentForm-textArea'
           }}
             <div class='ContentText'>

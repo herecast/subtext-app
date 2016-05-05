@@ -1,7 +1,5 @@
 .FeaturedContent {
-  clear: left;
   margin-bottom: 40px;
-  overflow: hidden;
 }
 
 .FeaturedContent-content {
@@ -12,7 +10,7 @@
 .FeaturedContent-featuredImage {
   padding-bottom: 20px;
   img {
-    max-width: 100%;
+    max-height: 120px;
   }
 }
 
@@ -42,20 +40,3 @@
   text-decoration: underline;
   font-weight: darker;
 }
-
-@media(min-width: @screen-sm-min) {
-  .FeaturedContent-featuredImage {
-    box-sizing: border-box;
-    width: 50%;
-    padding: 0 20px 20px 0;
-    float: left;
-  }
-  .FeaturedContent-main, .FeaturedContent-meta {
-    box-sizing: border-box;
-    width: 50%;
-    float: right;
-    clear: right;
-    
-  }
-}
-

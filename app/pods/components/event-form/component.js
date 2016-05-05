@@ -136,6 +136,11 @@ export default Ember.Component.extend(Validation, TrackEvent, {
       }
 
       this.set('event.eventUrl', url);
+    },
+
+    updateContent(content) {
+      set(this, 'event.content', content);
+      this.send('validateForm');
     }
   }
 });

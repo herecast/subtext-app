@@ -13,7 +13,7 @@ export default AjaxService.extend({
       const session = get(this, 'session');
       const isAuthenticated = session.get('isAuthenticated');
 
-      if(isAuthenticated) {
+      if (isAuthenticated) {
         session.authorize('authorizer:application', (headerName, headerValue) => {
           headers[headerName] = headerValue;
         });
@@ -44,6 +44,14 @@ export default AjaxService.extend({
       type: 'POST',
       contentType: false,
       processData: false
+    });
+  },
+
+  updateImage(imageId, imageData) {
+    return this.put(`/images/${imageId}`, {
+      data: {
+        image: imageData
+      }
     });
   },
 
@@ -157,7 +165,7 @@ export default AjaxService.extend({
       processData: false
     });
   },
-  
+
   updateOrganizationLogo(id, data) {
     return this.request(`/organizations/${id}`, {
       type: 'PUT',
