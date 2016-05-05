@@ -60,7 +60,8 @@
     "ember-toastr": "1.4.0",
     "ember-truth-helpers": "1.2.0",
     "emberx-select": "2.1.0",
-    "liquid-fire": "0.23.0"
+    "liquid-fire": "0.23.0",
+    "request": "~2.72.0"
   },
   "dependencies": {
     "ember-export-application-global": "^1.0.4",
