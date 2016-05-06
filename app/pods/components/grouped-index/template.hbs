@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='col-sm-3'>
-    {{content-card item=item1}}
-    {{content-card item=item2}}
+    {{content-card item=items.item1}}
+    {{content-card item=items.item2}}
   </div>
   <div class='NewsCard-verticalDivide col-sm-1'>
   </div>
@@ -10,30 +10,30 @@
       <h6>news</h6>
     {{/link-to}}
 
-    {{news-card-wide item=newsItem1}}
+    {{news-card-wide item=items.newsItem1}}
   </div>
 </div>
 
-{{#if item3}}
+{{#if items.newsItem3}}
   <h1 class='SectionHeader'></h1>
 
   <div class='row'>
     <div class='col-sm-3'>
-      {{content-card item=item3}}
+      {{content-card item=items.newsItem3}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item4}}
+      {{content-card item=items.newsItem4}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item5}}
+      {{content-card item=items.newsItem5}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item6}}
+      {{content-card item=items.newsItem6}}
     </div>
   </div>
 {{/if}}
 
-{{#if newsItem2}}
+{{#if items.newsItem2}}
   <h1 class='SectionHeader'></h1>
 
   <div class='row'>
@@ -42,32 +42,32 @@
         <h6>news</h6>
       {{/link-to}}
 
-      {{news-card-wide item=newsItem2}}
+      {{news-card-wide item=items.newsItem2}}
     </div>
     <div class='NewsCard-verticalDivide col-sm-1'>
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item7}}
-      {{content-card item=item8}}
+      {{content-card item=items.item3}}
+      {{content-card item=items.item4}}
     </div>
   </div>
 {{/if}}
 
-{{#if item9}}
+{{#if items.item5}}
   <h1 class='SectionHeader'></h1>
 
   <div class='row'>
     <div class='col-sm-3'>
-      {{content-card item=item9}}
+      {{content-card item=items.item5}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item10}}
+      {{content-card item=items.item6}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item11}}
+      {{content-card item=items.item7}}
     </div>
     <div class='col-sm-3'>
-      {{content-card item=item12}}
+      {{content-card item=items.item8}}
     </div>
   </div>
 {{/if}}

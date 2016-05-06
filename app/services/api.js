@@ -157,7 +157,7 @@ export default AjaxService.extend({
       processData: false
     });
   },
-  
+
   updateOrganizationLogo(id, data) {
     return this.request(`/organizations/${id}`, {
       type: 'PUT',
