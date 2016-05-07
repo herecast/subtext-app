@@ -29,6 +29,31 @@ export default Ember.Component.extend(TrackEvent, {
     }
   }),
 
+  newsDateStatus: computed('content.publishedAt', 'content{isDraft,isScheduled,isPublished}', function() {
+    const content = get(this, 'content'),
+          isNews  = get(this, 'type') === 'news';
+    let dateStatus;
+
+    if (isNews) {
+      if (get(content, 'isDraft')) {
+        dateStatus = `Draft last updated ${get(this, 'updatedAt')}`;
+      } else if (get(content, 'isScheduled')) {
+        dateStatus = `Scheduled to go live ${get(this, 'publishedAt')}`;
+      } else if (get(content, 'isPublished')) {
+        dateStatus = `Publish date ${get(this, 'publishedAt')}`;
+      }
+    }
+
+    return dateStatus;
+  }),
+
+  updatedAt: computed(function() {
+    const date = get(this, 'content.updatedAt');
+    const momentDate = (moment.isMoment(date)) ? date : moment(date);
+
+    return (date) ? momentDate.format('l') : null;
+  }),
+
   publishedAt: computed(function() {
     const date = get(this, 'content.publishedAt');
     const momentDate = (moment.isMoment(date)) ? date : moment(date);
