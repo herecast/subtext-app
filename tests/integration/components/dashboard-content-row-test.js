@@ -1,6 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
+import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 moduleForComponent('dashboard-content-row', 'Integration | Component | dashboard content row', {
   integration: true
@@ -124,4 +125,69 @@ test('it identifies news content as draft when not published', function(assert) 
   const re = new RegExp(/Draft/);
 
   assert.ok(this.$().text().match(re));
+});
+
+test('it does not show delete link for non-news content', function(assert) {
+  const content = {
+    publishedAt: null,
+    title: 'this content isn\'t news',
+    contentType: 'market-post'
+  };
+
+  this.set('content', content);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=content
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 0, "delete link should not be present");
+});
+
+test('it shows the delete link for news items in draft state', function(assert) {
+  const news = {
+    publishedAt: null,
+    title: 'this news post is not yet published',
+    isDraft: true,
+    contentType: 'news'
+  };
+
+  this.set('news', news);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 1, "delete link should be present if news post is draft");
+});
+
+test('it shows the delete link for news items in draft state', function(assert) {
+  const news = {
+    publishedAt: null,
+    title: 'this news post is not yet published',
+    isDraft: false,
+    contentType: 'news'
+  };
+
+  this.set('news', news);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 0, "delete link should not be present unless news post is draft");
 });

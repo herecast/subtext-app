@@ -43,7 +43,7 @@ function template(id) {
     images: images,
     organization_id: 1,
     organization_name: faker.company.companyName(),
-    published_at: startsAt.toISOString(),
+    published_at: (id % 2 === 0) ? startsAt.toISOString() : null,
     subtitle: titleize(faker.lorem.sentences(1)),
     title: titleize(faker.lorem.sentences(1))
   };

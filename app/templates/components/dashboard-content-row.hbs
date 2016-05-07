@@ -31,4 +31,12 @@
       </span>
     {{/link-to}}
   {{/if}}
+
+  {{#if isDeletable}}
+    <a href='#' class='btn btn-link h4' {{action (action deleteContent content)}} data-test-action-delete>
+      <span {{action 'trackEvent' 'selectNavControl' 'Delete Button'}}>
+        Delete
+      </span>
+    </a>
+  {{/if}}
 </td>

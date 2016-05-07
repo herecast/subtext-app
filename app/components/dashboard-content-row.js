@@ -42,6 +42,13 @@ export default Ember.Component.extend(TrackEvent, {
     return type === 'market-post' || type === 'event-instance' || type === 'news';
   }),
 
+  isDeletable: computed(function() {
+    const isNews  = get(this, 'type') === 'news',
+          isDraft = get(this, 'content.isDraft');
+
+    return isNews && isDraft;
+  }),
+
   parentRoute: computed(function() {
     const type = get(this, 'type');
 

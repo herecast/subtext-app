@@ -618,6 +618,7 @@ export default function() {
   });
 
   this.get('/news/:id');
+  this.delete('/news/:id');
 
   this.post('news');
 

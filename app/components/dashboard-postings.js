@@ -4,8 +4,8 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 const {
   computed,
   computed: {empty, match, equal},
-  get,
-  set
+  get, set,
+  inject
 } = Ember;
 
 function sortBy(sort) {
@@ -15,6 +15,7 @@ function sortBy(sort) {
 }
 
 export default Ember.Component.extend(TrackEvent, {
+  toast: inject.service(),
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
   dateParam: sortBy('pubdate DESC'),
@@ -99,6 +100,15 @@ export default Ember.Component.extend(TrackEvent, {
         this.send('reverseSort');
       } else {
         this.sendAction('sortBy', newSort);
+      }
+    },
+    deleteContent(record) {
+      const toast = get(this, 'toast');
+
+      if (confirm('Are you sure you want to permanently delete this post?')) {
+        record.destroyRecord().then(() => {
+          return toast.success('Post deleted');
+        });
       }
     }
   }
