@@ -106,6 +106,26 @@ test('it shows the news pubdate when news is published', function(assert) {
   assert.notOk(this.$().text().match(re));
 });
 
+test('it fills in blank news draft titles', function(assert) {
+  const news = {
+    publishedAt: null,
+    title: ''
+  };
+
+  this.set('news', news);
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  const re = new RegExp(/Untitled Draft/);
+
+  assert.ok(this.$().text().match(re));
+});
+
 test('it identifies news content as draft when not published', function(assert) {
   const news = {
     publishedAt: null,

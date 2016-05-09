@@ -13,6 +13,8 @@ export default Ember.Component.extend(TrackEvent, {
     return type === 'talk' || type === 'comment';
   }),
 
+  hasTitle: computed.notEmpty('content.title'),
+
   contentType: computed(function() {
     const type = get(this, 'type') || '';
 

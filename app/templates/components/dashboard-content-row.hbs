@@ -5,6 +5,12 @@
       {{/link-to}}
     {{else if isPromotion}}
       {{x-truncate text=content.title maxLength=50}}
+    {{else if (eq type 'news')}}
+      {{#if hasTitle}}
+        {{x-truncate text=content.title maxLength=50}}
+      {{else}}
+        Untitled Draft
+      {{/if}}
     {{else}}
       {{#link-to viewRoute content.id}}
         {{x-truncate text=content.title maxLength=50}}
