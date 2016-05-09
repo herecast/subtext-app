@@ -9,7 +9,7 @@ function generateContent(num, opts = {}) {
 }
 
 function template(id) {
-  const startsAt = moment(faker.date.recent(-30));
+  const randomDate = moment(faker.date.recent(-30));
 
   // Only a subset of news will have images.
   let imageUrl = null;
@@ -43,7 +43,8 @@ function template(id) {
     images: images,
     organization_id: 1,
     organization_name: faker.company.companyName(),
-    published_at: startsAt.toISOString(),
+    published_at: (id % 2 === 0) ? randomDate.toISOString() : null,
+    updated_at: (id % 2 === 0) ? randomDate.toISOString() : null,
     subtitle: titleize(faker.lorem.sentences(1)),
     title: titleize(faker.lorem.sentences(1))
   };

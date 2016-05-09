@@ -1,6 +1,8 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
+import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 moduleForComponent('dashboard-content-row', 'Integration | Component | dashboard content row', {
   integration: true
@@ -86,10 +88,12 @@ test('it shows the edit link for news', function(assert) {
   assert.ok(this.$().text().match(re));
 });
 
-test('it shows the news pubdate when news is published', function(assert) {
+test('it shows the news pubdate when news is scheduled', function(assert) {
   const news = {
-    publishedAt: moment().subtract(10, 'day'),
-    title: 'this is a published news post'
+    publishedAt: moment().add(10, 'day'),
+    title: 'this is a future news post',
+    isScheduled: true,
+    contentType: 'news'
   };
 
   this.set('news', news);
@@ -101,9 +105,31 @@ test('it shows the news pubdate when news is published', function(assert) {
     }}
   `);
 
-  const re = new RegExp(/Draft/);
+  const re = new RegExp(/Scheduled to go live /);
 
-  assert.notOk(this.$().text().match(re));
+  assert.ok(this.$().text().trim().match(re));
+});
+
+test('it shows the news pubdate when news is published', function(assert) {
+  const news = {
+    publishedAt: moment().subtract(10, 'day'),
+    title: 'this is a published news post',
+    isPublished: true,
+    contentType: 'news'
+  };
+
+  this.set('news', news);
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  const re = new RegExp(/Publish date/);
+
+  assert.ok(this.$().text().trim().match(re));
 });
 
 test('it fills in blank news draft titles', function(assert) {
@@ -129,6 +155,9 @@ test('it fills in blank news draft titles', function(assert) {
 test('it identifies news content as draft when not published', function(assert) {
   const news = {
     publishedAt: null,
+    updatedAt: moment(new Date()).toISOString(),
+    isDraft: true,
+    contentType: 'news',
     title: 'this news post is not yet published'
   };
 
@@ -141,7 +170,73 @@ test('it identifies news content as draft when not published', function(assert) 
     }}
   `);
 
-  const re = new RegExp(/Draft/);
+  const re = new RegExp(/Draft last updated/);
 
-  assert.ok(this.$().text().match(re));
+  assert.ok(this.$().text().trim().match(re));
+});
+
+test('it does not show delete link for non-news content', function(assert) {
+  const content = {
+    publishedAt: null,
+    title: 'this content isn\'t news',
+    contentType: 'market-post'
+  };
+
+  this.set('content', content);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=content
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 0, "delete link should not be present");
+});
+
+test('it shows the delete link for news items in draft state', function(assert) {
+  const news = Ember.Object.create({
+    publishedAt: null,
+    updatedAt: moment(new Date()).toISOString(),
+    title: 'this news post is not yet published',
+    isDraft: true,
+    contentType: 'news'
+  });
+
+  this.set('news', news);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 1, "delete link should be present if news post is draft");
+});
+
+test('it shows the delete link for news items in draft state', function(assert) {
+  const news = {
+    publishedAt: null,
+    title: 'this news post is not yet published',
+    isDraft: false,
+    contentType: 'news'
+  };
+
+  this.set('news', news);
+  this.set('actions', { deleteContent() {} });
+
+  this.render(hbs`
+    {{dashboard-content-row
+      type='news'
+      content=news
+    }}
+  `);
+
+  let $deleteLink = this.$(testSelector('action-delete'));
+  assert.ok($deleteLink.length === 0, "delete link should not be present unless news post is draft");
 });

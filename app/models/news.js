@@ -21,6 +21,7 @@ export default DS.Model.extend({
   organization: DS.belongsTo('Organization', {async: true}),
 
   publishedAt: DS.attr('moment-date'),
+  updatedAt: DS.attr('moment-date'),
 
   organizationId: computed.oneWay('organization.id'),
   organizationName: computed.oneWay('organization.name'),

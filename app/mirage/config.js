@@ -115,6 +115,7 @@ function dashboardNews(db,start,stop) {
     record.content_type = 'news';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
+    record.updated_at = moment(faker.date.recent(-30)).toISOString();
     return record;
   });
 }
@@ -618,6 +619,7 @@ export default function() {
   });
 
   this.get('/news/:id');
+  this.delete('/news/:id');
 
   this.post('news');
 
