@@ -10,11 +10,13 @@
     <div class='col-md-3'>
       <div class='NewsEditor-autoSaveIndicator'>
         {{#if news.isDraft}}
-          <div>
-            {{#auto-save-indicator model=news as |saveStatus|}}
-              {{saveStatus}}
-            {{/auto-save-indicator}}
-          </div>
+          {{#unless (eq news.dirtyType 'created')}}
+            <div>
+              {{#auto-save-indicator model=news as |saveStatus|}}
+                {{saveStatus}}
+              {{/auto-save-indicator}}
+            </div>
+          {{/unless}}
         {{/if}}
       </div>
     </div>
@@ -131,6 +133,7 @@
           <hr>
           <hr>
           isDirty: {{news.hasDirtyAttributes}}<br />
+          dirtyType: {{news.dirtyType}}<br />
           canAutoSave: {{canAutosave}}<br />
           <hr>
           isDraft: {{news.isDraft}}<br />
