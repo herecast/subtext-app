@@ -10,6 +10,8 @@ export default Ember.Component.extend({
 
   canvas: null,
   type: null,
+  minWidth: 200,
+  minHeight: 200,
 
   init() {
     this._super(...arguments);
@@ -35,6 +37,8 @@ export default Ember.Component.extend({
       const imgDataURL = canvas.toDataURL(blobFormat);
       const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
       const aspectRatio = this.get('aspectRatio');
+      const minHeight = get(this, 'minHeight');
+      const minWidth = get(this, 'minWidth');
 
       // The .cropper-container element is added by the cropper plugin, so we
       // can use that to detect if has already been initialized. If it has,
@@ -47,6 +51,8 @@ export default Ember.Component.extend({
         Ember.run(() => {
           img.cropper({
             aspectRatio: aspectRatio,
+            minCropBoxHeight: minHeight,
+            minCropBoxWidth: minWidth,
 
             // Run whenever the cropping area is adjusted
             crop() {

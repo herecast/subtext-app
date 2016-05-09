@@ -11,6 +11,8 @@ const {
 export default Ember.Component.extend({
   classNames: ['ImageUpload'],
   classNameBindings: ['isPrimary'],
+  minWidth: 200,
+  minHeight: 200,
 
   image: null,
 
@@ -71,6 +73,9 @@ export default Ember.Component.extend({
   }),
 
   updateCanvas(file) {
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
+
     loadImage.parseMetaData(file, (data) => {
       const options = {
         // Convert to a canvas object so that we can pass it to the Cropper lib
@@ -78,7 +83,9 @@ export default Ember.Component.extend({
 
         // For cropping performance, this reduces the image file size
         // before opening the cropper.
-        maxWidth: 1000
+        maxWidth: 1000,
+        minHeight: minHeight,
+        minWidth: minWidth
       };
 
       // Reorient images that have orientation data. This usually affects iPhone
@@ -90,15 +97,21 @@ export default Ember.Component.extend({
       // Because loadImage is asynchronous, when the canvas property is
       // changed, it triggers a function that updates the imageUrl on an image.
       loadImage(file, (canvas) => {
-        set(this, 'canvas', canvas);
+        const $canvas = Ember.$(canvas);
+        if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
+          set(this, 'fileErrorMessage', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
+          return false;
+        } else {
+          set(this, 'fileErrorMessage', null);
+          set(this, 'canvas', canvas);
+          set(this, 'image.file', file);
+        }
       }, options);
     });
   },
 
   setupImage(file) {
     this.updateCanvas(file);
-
-    set(this, 'image.file', file);
   },
 
   actions: {
