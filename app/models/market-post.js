@@ -26,6 +26,7 @@ export default DS.Model.extend({
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   listservIds: DS.attr('raw', {defaultValue: function(){ return []; }}),
+  myTownOnly: DS.attr('boolean'),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   title: DS.attr('string'),

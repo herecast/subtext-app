@@ -19,6 +19,12 @@
       <span class='MarketCard-subtitle'>
         {{subtitle}}
       </span>
+
+      {{#if post.myTownOnly}}
+      <span class='MarketCard-subtitle'>
+        {{userLocation}} Only
+      </span>
+      {{/if}}
     </div>
   </div>
 {{/link-to}}
