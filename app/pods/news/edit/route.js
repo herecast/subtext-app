@@ -10,7 +10,7 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model) {
-    controller.set('model', model);
+    controller.set('news', model);
     controller.set('title', 'Edit your news post');
     controller.set('secondaryBackground', true);
   },

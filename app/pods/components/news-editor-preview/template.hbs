@@ -1,0 +1,22 @@
+{{#x-modal
+  close=(action 'closePreview')
+  wrapper-class='ModalDialog-fullScreenWrapper'
+  overlay-class='ModalDialog-fullscreenOverlay'
+}}
+  <div class='NewsEditor-previewHeader'>
+    <div>
+      <a href='#' {{action (action 'closePreview')}}>
+        {{fa-icon 'arrow-left'}} Back to the editor
+      </a>
+    </div>
+    <div class='NewsEditor-previewHeader-title'>Preview Post</div>
+    <div>&nbsp;</div>
+  </div>
+
+  <div {{action 'closePreview'}}>
+    {{news-detail
+      model=news
+      isPreview=true
+    }}
+  </div>
+{{/x-modal}}

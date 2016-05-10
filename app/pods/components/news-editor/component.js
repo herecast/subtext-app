@@ -17,6 +17,7 @@ export default Ember.Component.extend(Validation, {
 
   showDevFlags: false,
   news: null,
+  showPreview: false,
   editorHeight: computed(function() {
     return get(this, 'media.isMobile') ? 300 : 500;
   }),
@@ -79,6 +80,14 @@ export default Ember.Component.extend(Validation, {
     return get(this, 'organizations').filter((item) => {
       return get(item, 'canPublishNews');
     });
+  }),
+
+  showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,hasUnpublishedChanges}', function() {
+    const news = get(this, 'news');
+    const showLink = (get(news, 'isDraft') || get(news, 'isScheduled') ||
+                      get(news, 'hasUnpublishedChanges')) ? true : false;
+
+    return showLink;
   }),
 
   _clearSchedulePubDate() {
@@ -317,9 +326,13 @@ export default Ember.Component.extend(Validation, {
       this.send('notifyChange');
     },
 
-    saveContent: function(newContent) {
+    saveContent(newContent) {
       set(this, 'news.content', newContent);
       this.send('notifyChange');
+    },
+
+    togglePreview() {
+      this.toggleProperty('showPreview');
     }
   }
 });
