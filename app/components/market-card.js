@@ -17,6 +17,8 @@ export default Ember.Component.extend(TrackCard, {
 
   hasImage: Ember.computed.notEmpty('post.coverImageUrl'),
 
+  userLocation: computed.oneWay('session.currentUser.location'),
+
   backgroundImage: computed('post.coverImageUrl', function() {
     const url = this.get('post.coverImageUrl');
     const styles = `background-image: url(${url})`;
