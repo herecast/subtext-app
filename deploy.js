@@ -91,7 +91,13 @@ var activateBuild = function(endpoint) {
 };
 
 console.log('starting deploy');
-execSync('./node_modules/.bin/ember deploy ' + process.argv.slice(2).join(' '), {
+execSync('./node_modules/.bin/ember build --environment=production', {
+  stdio: ['inherit', 'inherit', 'inherit']
+});
+execSync('./node_modules/.bin/ember deploy:assets ' + process.argv.slice(2).join(' '), {
+  stdio: ['inherit', 'inherit', 'inherit']
+});
+execSync('./node_modules/.bin/ember deploy:index ' + process.argv.slice(2).join(' '), {
   stdio: ['inherit', 'inherit', 'inherit']
 });
 // don't auto-activate prod, to prevent accidents
