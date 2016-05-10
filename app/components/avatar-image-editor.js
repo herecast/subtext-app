@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { InvalidError } from 'ember-ajax/errors';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
@@ -10,62 +9,38 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
-  api: inject.service('api'),
-  isEditingImage: false,
-  imageUrl: computed.oneWay('currentUser.userimageUrl'),
-  originalImageFile: computed.alias('currentUser.originalImageFile'),
-  errorMessage: null,
+  api: inject.service(),
+  toast: inject.service(),
+  imageUrl: computed.oneWay('currentUser.userImageUrl'),
 
   actions: {
-    changePhoto() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Profile Feature Edit',
-        navControl: 'photo'
-      });
-
-      set(this, 'isEditingImage', true);
-      this.$('.ContentForm-fileField').click();
-    },
-
-    savePhoto(callback) {
+    savePhoto(image) {
+      const toast = get(this, 'toast');
       const api = get(this, 'api');
       const data = new FormData();
 
-      if (this.get('currentUser.image')) {
-        data.append('current_user[image]', this.get('currentUser.image'));
-        data.append('current_user[user_id]', this.get('currentUser.userId'));
+      data.append('current_user[image]', image);
+      data.append('current_user[user_id]', this.get('currentUser.userId'));
 
-        const promise = api.updateCurrentUserAvatar(data);
+      const promise = api.updateCurrentUserAvatar(data);
 
-        callback(promise);
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Profile Feature Submit',
+        navControl: 'Submit Photo Change'
+      });
 
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Profile Feature Submit',
-          navControl: 'Submit Photo Change'
-        });
+      promise.then((data) => {
+        set(this, 'currentUser.userImageUrl', data['current_user']['user_image_url']);
+        toast.success('Avatar saved successfully!');
+      }).catch((error) => {
+        const serverError = get(error, 'errors.image');
+        let errorMessage = 'Error: Unable to save avatar.';
 
-        promise.then((data) => {
-          this.setProperties({
-            isEditingImage: false,
-            errorMessage: null,
-            originalImageFile: undefined,
-            'currentUser.userImageUrl': data['current_user']['user_image_url']
-          });
-        }).catch((response) => {
-          if (response instanceof InvalidError) {
-            const serverError = response.errors[0];
+        if (serverError) {
+          errorMessage += ' ' + serverError;
+        }
 
-            set(this, 'errorMessage', serverError.detail.messages[0]);
-          }
-        });
-      }
-    },
-
-    cancel() {
-      this.setProperties({
-        isEditingImage: false,
-        errorMessage: null,
-        originalImageFile: undefined
+        toast.error(errorMessage);
       });
     }
   }

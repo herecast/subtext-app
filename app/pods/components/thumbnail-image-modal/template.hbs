@@ -2,7 +2,7 @@
   {{#if imageUrl}}
     <div class="ThumbnailImageModal-thumbnail-container" {{action 'openImageModal'}}>
       <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail" />
-      {{#if caption}}
+      {{#if (and enableCaption caption)}}
         <div class="ThumbnailImageModal-caption">{{caption}}</div>
       {{/if}}
     </div>
@@ -36,15 +36,19 @@
         <button class="btn btn-lg" {{action 'showImageForm'}}>Edit</button>
       </div>
     {{/if}}
-    {{#form-group hideError=true}}
-      <label class='control-label ContentForm-label' for="caption">Caption</label>
-      {{input
-      id='caption'
-      placeholder='Optional image caption'
-      class='form-control'
-      value=caption
-      }}
-    {{/form-group}}
+
+    {{#if enableCaption}}
+      {{#form-group hideError=true}}
+        <label class='control-label ContentForm-label' for="caption">Caption</label>
+        {{input
+        id='caption'
+        placeholder='Optional image caption'
+        class='form-control'
+        value=caption
+        }}
+      {{/form-group}}
+    {{/if}}
+
     <div class="ThumbnailImageModal-buttons">
       <button class="btn btn-lg Button--news" {{action 'save'}} disabled={{saveDisabled}}>Submit</button>
       <button class="btn btn-lg" {{action 'cancelImageModal'}}>Cancel</button>
