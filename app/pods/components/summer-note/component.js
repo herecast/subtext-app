@@ -1,11 +1,13 @@
+/*global jQuery, loadImage */
+
 import Ember from 'ember';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
-/*global jQuery*/
 
 const {
   run,
   get, set,
-  isPresent
+  isPresent,
+  inject
 } = Ember;
 
 const defaultToolbarOpts = [
@@ -18,6 +20,10 @@ export default Ember.Component.extend({
   toolbar: defaultToolbarOpts,
   content: null,
   updateContent: false,
+  imageMinHeight: 200,
+  imageMinWidth: 200,
+
+  toast: inject.service(),
 
   willDestroyElement() {
     this.$('textarea').summernote('destroy');
@@ -56,8 +62,34 @@ export default Ember.Component.extend({
           return url;
         },
         onImageUpload: (file) => {
-          return this.attrs.uploadImage(file[0]).then(({image}) => {
-            return insertImage(image);
+          const imageMinHeight = get(this, 'imageMinHeight');
+          const imageMinWidth = get(this, 'imageMinWidth');
+          const toast = get(this, 'toast');
+
+          const selectedFile = file[0];
+
+          // load the image into a canvas to validate its dimensions
+          loadImage.parseMetaData(selectedFile, (data) => {
+
+            const options = {
+              canvas: true
+            };
+
+            if (data.exif) {
+              options.orientation = data.exif.get('Orientation');
+            }
+
+            loadImage(selectedFile, (canvas) => {
+              const $canvas = Ember.$(canvas);
+              if ($canvas.attr('width') < imageMinWidth || $canvas.attr('height') < imageMinHeight) {
+                toast.error(`Image must be at least ${imageMinWidth}px wide by ${imageMinHeight}px tall`);
+              } else {
+                // saved the image to the appropriate resource
+                this.attrs.uploadImage(selectedFile).then(({image}) => {
+                  insertImage(image);
+                });
+              }
+            }, options);
           });
         },
         onPaste: (e) => {
