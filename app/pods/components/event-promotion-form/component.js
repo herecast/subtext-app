@@ -9,11 +9,12 @@ const {
 
 export default Ember.Component.extend(PromotionForm, {
   tagName: 'form',
+  category: computed.oneWay('event.category'),
 
   // Required by the promotion form mixin
   model: computed.alias('event'),
 
-  categoryEnabled: Ember.computed.notEmpty('event.category'),
+  categoryEnabled: computed.notEmpty('event.category'),
 
   displayListservs: on('didInsertElement', function() {
     if (Ember.isPresent(this.get('event.listservIds'))) {

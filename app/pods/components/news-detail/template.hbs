@@ -1,4 +1,4 @@
-  <div class='Container--noGutter NewsHeader'>
+<div class='Container--noGutter NewsHeader'>
     <div class='row'>
       <div class='col-md-2 hidden-sm hidden-xs'>
       </div>
@@ -66,47 +66,49 @@
     </div>
 
     <div class='col-md-2 col-sm-3'>
-      {{#floating-side-column enabled=media.isDesktop}}
-        {{social-share
-          title=model.title
-          sharedBy=session.userName
-        }}
-
-        {{#if canEdit}}
-          {{edit-content-link
-          contentId=model.id
-          route='news.edit'
-          text='Edit Post'
+      {{#unless isPreview}}
+        {{#floating-side-column enabled=media.isDesktop}}
+          {{social-share
+            title=model.title
+            sharedBy=session.userName
           }}
-        {{/if}}
 
-        {{report-content-details contentId=model.contentId}}
+          {{#if canEdit}}
+            {{edit-content-link
+            contentId=model.id
+            route='news.edit'
+            text='Edit Post'
+            }}
+          {{/if}}
 
-        {{comment-bubble
-          type='news'
-          count=model.commentCount
-          class='hidden-xs hidden-sm'
-        }}
+          {{report-content-details contentId=model.contentId}}
 
-      {{/floating-side-column}}
+          {{comment-bubble
+            type='news'
+            count=model.commentCount
+            class='hidden-xs hidden-sm'
+          }}
+        {{/floating-side-column}}
+      {{/unless}}
     </div>
   </div>
 
-  <div class='CommentSection'>
-    <h1 class='SectionHeader'>
-      <span class='SectionHeader-text'>
-        Talk
-      </span>
-    </h1>
-  </div>
-  <div class='row'>
-    {{content-comments
-      content=model
-      scrollTo=scrollTo
-    }}
-  </div>
-
   {{#unless isPreview}}
+    <div class='CommentSection'>
+      <h1 class='SectionHeader'>
+        <span class='SectionHeader-text'>
+          Talk
+        </span>
+      </h1>
+    </div>
+
+    <div class='row'>
+      {{content-comments
+        content=model
+        scrollTo=scrollTo
+      }}
+    </div>
+
     {{similar-content
       contentId=model.contentId
       limit=4
