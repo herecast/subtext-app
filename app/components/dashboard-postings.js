@@ -15,6 +15,9 @@ function sortBy(sort) {
 }
 
 export default Ember.Component.extend(TrackEvent, {
+  postings: null,
+  ads: null,
+
   toast: inject.service(),
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
@@ -104,10 +107,12 @@ export default Ember.Component.extend(TrackEvent, {
     },
     deleteContent(record) {
       const toast = get(this, 'toast');
+      const postings = get(this, 'postings');
 
       if (confirm('Are you sure you want to permanently delete this post?')) {
-        record.destroyRecord().then(() => {
-          return toast.success('Post deleted');
+        record.destroyRecord().then((record) => {
+          postings.removeObject(record);
+          toast.success('Post deleted');
         });
       }
     }
