@@ -83,9 +83,7 @@ export default Ember.Component.extend({
 
         // For cropping performance, this reduces the image file size
         // before opening the cropper.
-        maxWidth: 1000,
-        minHeight: minHeight,
-        minWidth: minWidth
+        maxWidth: 1000
       };
 
       // Reorient images that have orientation data. This usually affects iPhone
