@@ -4,7 +4,7 @@
   {{#form-group error=errors.dateError class='row'}}
     {{#form-group error=errors.startDateError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Starts on</label>
-      {{pikaday-input
+      {{modify-ember-pickaday
         firstDay=0
         value=startDate
         placeholder='Date'
@@ -16,7 +16,7 @@
 
     {{#form-group error=errors.stopDateError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Ends</label>
-      {{pikaday-input
+      {{modify-ember-pickaday
         firstDay=0
         value=stopDate
         placeholder='Date'
