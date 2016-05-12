@@ -45,16 +45,6 @@ export default Ember.Component.extend({
           // (for video embeds)
           this.send('doUpdate');
         },
-        onCreateLink: (url) => {
-          url = url.trim();
-          const protocol = /^[a-z]+:/i;
-
-          if (!protocol.test(url)) {
-            url = 'http://' + url;
-          }
-
-          return url;
-        },
         onImageUpload: (file) => {
           return this.attrs.uploadImage(file[0]).then(({image}) => {
             return insertImage(image);
@@ -94,6 +84,16 @@ export default Ember.Component.extend({
             this.send('doUpdate');
           });
         }
+      },
+      onCreateLink: (url) => {
+        url = url.trim();
+        var protocol = /^[a-z]+:/i;
+
+        if (!protocol.test(url)) {
+          url = 'http://' + url;
+        }
+
+        return url;
       }
     };
 
