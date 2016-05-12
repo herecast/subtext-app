@@ -78,7 +78,7 @@ const eventBaseProperties = [
 ];
 
 const marketPostBaseProperties = [
-  'id', 'title', 'image_url', 'published_at', 'content_id'
+  'id', 'title', 'image_url', 'published_at', 'content_id', 'my_town_only'
 ];
 
 const talkBaseProperties = [
@@ -115,6 +115,7 @@ function dashboardNews(db,start,stop) {
     record.content_type = 'news';
     record.view_count = faker.random.number(100);
     record.comment_count = faker.random.number(100);
+    record.updated_at = moment(faker.date.recent(-30)).toISOString();
     return record;
   });
 }
@@ -141,13 +142,15 @@ function dashboardAds(db,start,stop) {
   return db.promotion_banners.slice(start,stop);
 }
 
-function mixedContent(db) {
+function mixedContent(db, params={}) {
   const contents = [];
 
-  // TODO Scrap This whole thing and replace with
-  // adjust the default scenario to create mixed content
-  // dashboard endpoint should return whatever was in the default scenario
-  dashboardNews(db,0,2).forEach((record)=> {
+  // per_page is the number of non-news content items returned by the api and
+  // when combined with news_per_page is ADDITIVE, ie: {news_per_page: 5, per_page: 2}
+  // will result in 7 items being returned from the api
+  const {news_per_page} = params || 2;
+
+  dashboardNews(db, 0, news_per_page).forEach(record => {
     contents.push(record);
   });
 
@@ -181,7 +184,6 @@ function mixedContent(db) {
 
   return contents;
 }
-
 
 export default function() {
   this.pretender.post.call(
@@ -617,6 +619,7 @@ export default function() {
   });
 
   this.get('/news/:id');
+  this.delete('/news/:id');
 
   this.post('news');
 
@@ -629,9 +632,9 @@ export default function() {
     return { news: news };
   });
 
-  this.get('/contents', function(db) {
+  this.get('/contents', function(db, request) {
     return {
-      contents: mixedContent(db)
+      contents: mixedContent(db, request.queryParams)
     };
   });
 

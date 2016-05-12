@@ -21,6 +21,7 @@ export default DS.Model.extend({
   organization: DS.belongsTo('Organization', {async: true}),
 
   publishedAt: DS.attr('moment-date'),
+  updatedAt: DS.attr('moment-date'),
 
   organizationId: computed.oneWay('organization.id'),
   organizationName: computed.oneWay('organization.name'),
@@ -47,14 +48,18 @@ export default DS.Model.extend({
     const publishedAt = get(this, 'publishedAt');
     const now = new Date();
 
-    return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
+    if (publishedAt) {
+      return moment(publishedAt).isBefore(now) || moment(publishedAt).isSame(now);
+    }
+      return null;
   }),
 
-  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', function() {
+  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', 'dirtyType', function() {
     const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
+    const isNew = (get(this, 'dirtyType') === 'created');
 
     return isScheduledOrPublished &&
-      (get(this, 'hasDirtyAttributes') || get(this, 'didOrgChange')) &&
+      ((get(this, 'hasDirtyAttributes') && !isNew) || get(this, 'didOrgChange')) &&
       (!get(this, 'isSaving'));
   }),
 

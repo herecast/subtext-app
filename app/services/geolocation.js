@@ -85,7 +85,9 @@ export default Ember.Service.extend({
           if(status !== "OK") {
             reject(status);
           } else {
-            resolve(results.map(item => {
+            resolve(results.reject(item => {
+              return !item.types.contains('locality');
+            }).map(item => {
               return {
                 human: mapsService.cityStateFormat(item),
                 coords: {

@@ -15,11 +15,9 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
-config/deploy.js
 .env
 *.swp
 .vagrant
 
 # RubyMine project files
 .idea
-

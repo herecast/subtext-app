@@ -5,6 +5,12 @@
       {{/link-to}}
     {{else if isPromotion}}
       {{x-truncate text=content.title maxLength=50}}
+    {{else if (eq type 'news')}}
+      {{#if hasTitle}}
+        {{x-truncate text=content.title maxLength=50}}
+      {{else}}
+        Untitled Draft
+      {{/if}}
     {{else}}
       {{#link-to viewRoute content.id}}
         {{x-truncate text=content.title maxLength=50}}
@@ -14,7 +20,15 @@
 {{#if showTypeColumn}}
   <td class='hidden-xs hidden-sm'>{{contentType}}</td>
 {{/if}}
-<td class='{{if media.isMobile 'u-textPullRight'}}'>{{if publishedAt publishedAt 'Draft'}}</td>
+
+<td class='{{if media.isMobile 'u-textPullRight'}}' data-test-news-date>
+  {{#if (eq content.contentType 'news')}}
+    {{newsDateStatus}}
+  {{else}}
+    {{content.publishedAt}}
+  {{/if}}
+</td>
+
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
 <td class='hidden-xs' colspan='2'>
@@ -30,5 +44,13 @@
         Edit
       </span>
     {{/link-to}}
+  {{/if}}
+
+  {{#if isDeletable}}
+    <a href='#' class='btn btn-link h4' {{action (action deleteContent content)}} data-test-action-delete>
+      <span {{action 'trackEvent' 'selectNavControl' 'Delete Button'}}>
+        Delete
+      </span>
+    </a>
   {{/if}}
 </td>

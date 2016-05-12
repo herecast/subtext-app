@@ -17,7 +17,7 @@ export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
         return this.store.createRecord('news', newRecordValues);
       });
     } else {
-        return this.store.createRecord('news');
+      return this.store.createRecord('news');
     }
   },
 
@@ -25,15 +25,6 @@ export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
     controller.set('model', model);
     controller.set('title', 'Create your news post');
     controller.set('secondaryBackground', true);
-  },
-
-  afterModel(model) {
-    // TODO we need to save for the ember data dirty
-    // state flags to work properly. This is a
-    // hack for now -- we will need to figure
-    // out when a model isNew and
-    // has changes so we can avoid doing this
-    model.save();
   },
 
   actions: {
