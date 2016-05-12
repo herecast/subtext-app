@@ -65,9 +65,6 @@ export default Ember.Component.extend({
   },
 
   loadImageFile(file) {
-    const minHeight = get(this, 'minHeight');
-    const minWidth = get(this, 'minWidth');
-
     loadImage.parseMetaData(file, (data) => {
 
       const options = {
@@ -75,9 +72,7 @@ export default Ember.Component.extend({
 
         // For cropping performance, this reduces the image file size
         // before opening the cropper.
-        maxWidth: 1000,
-        minHeight: minHeight,
-        minWidth: minWidth
+        maxWidth: 1000
       };
 
       if (data.exif) {
