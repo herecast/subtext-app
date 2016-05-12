@@ -3,7 +3,7 @@
     <h1 class='OrganizationProfile-headerTitle col-sm-9' data-test-organization-name>
       <span>{{model.name}}</span>
     </h1>
-    <div class='OrganizationProfile-connect col-sm-3'>
+    <div class='OrganizationProfile-connect col-sm-3 hidden-xs'>
       {{#if model.subscribeUrl}}
         <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
           {{fa-icon 'heart'}}
@@ -44,6 +44,14 @@
       {{/if}}
       {{#if showAboutSection}}
         {{organization-about model=model tagName='section' class='OrganizationProfile-about' data-test-component='about-section'}}
+      {{/if}}
+      {{#if (and media.isMobile model.subscribeUrl)}}
+        <div class='OrganizationProfile-connect-mobile'>
+          <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+            {{fa-icon 'heart'}}
+            Subscribe
+          </a>
+        </div>
       {{/if}}
       <section class='OrganizationProfile-contribute'>
         <!-- CONTRIBUTE SECTION -->
