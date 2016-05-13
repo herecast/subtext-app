@@ -19,14 +19,13 @@ export default DS.Model.extend({
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
   contentId: Ember.computed.oneWay('id'),
-  extendedReachEnabled: DS.attr('boolean', {defaultValue: true}),
   hasContactInfo: DS.attr('boolean'),
   images: DS.hasMany('image', { async: false }),
   imageUrl: DS.attr('string'),
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   listservIds: DS.attr('raw', {defaultValue: function(){ return []; }}),
-  myTownOnly: DS.attr('boolean'),
+  myTownOnly: DS.attr('boolean', {defaultValue: false}),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   title: DS.attr('string'),
