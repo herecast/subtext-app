@@ -4,7 +4,10 @@ import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 const {
   computed,
   observer,
-  on
+  on,
+  isPresent,
+  get,
+  set
 } = Ember;
 
 export default Ember.Component.extend(PromotionForm, {
@@ -12,6 +15,22 @@ export default Ember.Component.extend(PromotionForm, {
 
   // Required by the promotion form mixin
   model: computed.alias('post'),
+
+  listServAvailable: computed('post.myTownOnly', 'currentUserListserv.id', function() {
+    // If My Town Only is selected, we can only choose a listserv if one is available on the currentUser
+    if (get(this, 'post.myTownOnly')) {
+      return isPresent(get(this, 'currentUserListserv.id'));
+    } else {
+      return true;
+    }
+  }),
+
+  currentUserListserv: computed('session.currentUser.listservId', 'session.currentUser.listservName', function() {
+    return {
+      id: get(this, 'session.currentUser.listservId'),
+      name: get(this, 'session.currentUser.listservName')
+    };
+  }),
 
   displayListservs: on('didInsertElement', function() {
     if (Ember.isPresent(this.get('post.listservIds'))) {
@@ -25,5 +44,18 @@ export default Ember.Component.extend(PromotionForm, {
     if (!this.get('listsEnabled')) {
       this.set('post.listservIds', []);
     }
-  })
+  }),
+
+  actions: {
+    toggleMyTownOnly: function() {
+      let myTownOnly = get(this, 'post.myTownOnly');
+
+      // If enabling My Town Only, we need to clear the listservs if any
+      if (! myTownOnly) {
+        set(this, 'post.listservIds', []);
+      }
+
+      set(this, 'post.myTownOnly', ! myTownOnly);
+    }
+  }
 });
