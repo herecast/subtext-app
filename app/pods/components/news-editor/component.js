@@ -44,6 +44,9 @@ export default Ember.Component.extend(Validation, {
     image: [
       ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
       ['remove', ['removeMedia']]
+    ],
+    link: [
+      ['link', ['linkDialogShow', 'unlink']]
     ]
   },
 
