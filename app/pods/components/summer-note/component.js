@@ -44,6 +44,12 @@ export default Ember.Component.extend({
       //height: height,
       styleWithSpan: false,
       toolbar: toolbar,
+      styleTags: [
+        {tag: 'p', title: 'Normal'},
+        {tag: 'h2', title: 'Heading'},
+        {tag: 'h3', title: 'Sub Heading'},
+        {tag: 'blockquote', title: 'Quote'}
+      ],
 
       callbacks: {
         onChange: () => {
