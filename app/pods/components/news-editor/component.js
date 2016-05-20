@@ -37,13 +37,14 @@ export default Ember.Component.extend(Validation, {
     ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
-    ['insert', ['picture', 'imgCaption', 'video']]
+    ['insert', ['subtextImageModal', 'video']]
   ],
 
   editorPopover: {
     image: [
-      ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-      ['remove', ['removeMedia']]
+      ['imagesize', ['subtextImageSize100', 'subtextImageSize50', 'subtextImageSize25']],
+      ['float', ['subtextFloatLeft', 'subtextFloatNone', 'subtextFloatRight']],
+      ['remove', ['subtextRemoveMedia']]
     ],
     link: [
       ['link', ['linkDialogShow', 'unlink']]

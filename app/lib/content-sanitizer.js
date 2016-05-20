@@ -3,7 +3,7 @@
 function fixBadLists(content) {
   // This filter is to fix <ul><ul><li></li></ul></ul>
   // pastes.  This can happen from google docs.
-  // The editor doesn't understand them, 
+  // The editor doesn't understand them,
   // and it makes it hard to undo the formatting.
   let $content = jQuery(content).clone();
   $content.find('ul > ul').wrap('<li>');
@@ -18,7 +18,7 @@ export function sanitizeContent(rawContent) {
                'h1','h2', 'h3', 'h4', 'h5', 'h6', 'img', 'iframe', 'br'],
     attributes: {
      a: ['href', 'title', 'target'],
-     div: ['class'],
+     div: ['class', 'style'],
      span: ['style'],
      img: ['src', 'style', 'title','alt','class'],
      iframe: ['width', 'height', 'frameborder', 'src', 'class'] // youtube
