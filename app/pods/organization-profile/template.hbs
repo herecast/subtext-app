@@ -20,6 +20,14 @@
         {{#each featuredNews as |newsItem|}}
           {{featured-content model=newsItem horizontal=true}}
         {{/each}}
+        {{#if (and media.isMobile model.subscribeUrl)}}
+          <div class='OrganizationProfile-connect-mobile'>
+            <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+              {{fa-icon 'heart'}}
+              Subscribe
+            </a>
+          </div>
+        {{/if}}
       </section>
       {{/if}}
       {{#if showMoreContent}}
@@ -44,14 +52,6 @@
       {{/if}}
       {{#if showAboutSection}}
         {{organization-about model=model tagName='section' class='OrganizationProfile-about' data-test-component='about-section'}}
-      {{/if}}
-      {{#if (and media.isMobile model.subscribeUrl)}}
-        <div class='OrganizationProfile-connect-mobile'>
-          <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
-            {{fa-icon 'heart'}}
-            Subscribe
-          </a>
-        </div>
       {{/if}}
       <section class='OrganizationProfile-contribute'>
         <!-- CONTRIBUTE SECTION -->
