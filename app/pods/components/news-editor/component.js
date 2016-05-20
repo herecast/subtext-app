@@ -34,7 +34,7 @@ export default Ember.Component.extend(Validation, {
   updateContent: false,
 
   editorConfig: [
-    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+    ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
     ['insert', ['picture', 'imgCaption', 'video']]
