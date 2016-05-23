@@ -125,10 +125,8 @@ export default Ember.Component.extend(Validation, {
         }
 
         return promise.then(
-          (response) => {
-            const url = get(response, 'image.url');
-            get(this, 'news.images').unshift(response);
-            set(this, 'featuredImageUrl', url);
+          () => {
+            news.reload();
           },
           (error) => {
             const serverError = get(error, 'errors.image');

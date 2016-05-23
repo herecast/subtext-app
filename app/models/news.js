@@ -31,7 +31,7 @@ export default DS.Model.extend({
   }),
 
   bannerImage: computed('images', function() {
-    return get(this, 'images').find((image) => {
+    return get(this, 'images').find(image => {
       return get(image, 'primary') === true;
     });
   }),
