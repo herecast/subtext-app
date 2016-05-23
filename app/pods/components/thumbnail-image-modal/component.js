@@ -15,6 +15,7 @@ export default Ember.Component.extend({
   title: 'Upload Image',
   aspectRatio: 4 / 3,
   enableCaption: true,
+  isCircle: false,
 
   imageFormVisible: false,
 
