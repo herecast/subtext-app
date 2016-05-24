@@ -13,7 +13,7 @@ export default Ember.Component.extend(Validation, {
   categories: computed(function () {
     return get(this, 'store').find('business-category');
   }),
-  
+
   toast: inject.service(),
   store: inject.service(),
 

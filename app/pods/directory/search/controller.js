@@ -4,6 +4,7 @@ import Validation from '../../../mixins/components/validation';
 const { computed, inject, get, set, isEmpty } = Ember;
 
 function formatPhone(phone) {
+  phone = phone === null ? '' : phone;
   return phone.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "($1) $2-$3");
 }
 
