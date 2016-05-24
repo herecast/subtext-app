@@ -28,22 +28,22 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
     this.transitionTo('market.new.details', { queryParams: transition.queryParams });
   },
 
-  discardRecord(model) {
-    if (confirm('Are you sure you want to discard this post?')) {
-      model.destroyRecord();
-
-      return true;
-    } else {
-      return false;
-    }
-  },
-
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
   // setting a default publishedAt value.
   hasDirtyAttributes(model) {
     return Object.keys(model.changedAttributes()).length > 1;
+  },
+
+  attemptDiscard(model, transition) {
+    const confirmed = confirm('Are you sure you want to discard this post?');
+
+    if (confirmed) {
+      model.destroyRecord();
+    } else {
+      transition.abort();
+    }
   },
 
   actions: {
@@ -57,20 +57,18 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       // soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(/^market\.new/);
 
-      if (isExitingForm && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
-        transition.abort();
+      if (isExitingForm && this.hasDirtyAttributes(model)) {
+        this.attemptDiscard(model, transition);
       }
     },
 
-    afterDiscard(model) {
-      if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
-        this.transitionTo('market.all');
-
+    afterDiscard() {
+      this.transitionTo('market.all').then(() => {
         this.trackEvent('selectNavControl', {
           navControlGroup: 'Create Content',
           navControl: 'Discard Market Listing Create'
         });
-      }
+      });
     },
 
     afterDetails() {
@@ -85,7 +83,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       this.transitionTo('market.show', post.get('id')).then(() => {
         this.facebookRecache();
       });
-      
+
       run.next(()=>{
         post.set('listservIds', []);
       });
