@@ -11,12 +11,17 @@ export default Ember.Controller.extend({
   coords: null,
   category: null,
   query: "",
+  isCalculatingLocation: false,
 
   canSearch: computed('query', 'category', 'coords', function() {
     const query = get(this, 'query') || '';
     const { category, coords } = this;
 
     return (query.length > 3 || isPresent(category)) && isPresent(coords);
+  }),
+
+  searchLocationPlaceholder: computed('isCalculatingLocation', function() {
+    return get(this, 'isCalculatingLocation') ? "Calculating your location..." : "Where?";
   }),
 
   doSearch() {
