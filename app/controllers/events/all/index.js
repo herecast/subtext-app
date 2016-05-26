@@ -6,35 +6,28 @@ const { computed } = Ember;
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
-  queryParams: ['category', 'query', 'date_start', 'date_end', 'location',
-    'page', 'per_page', 'event_layout'
-  ],
+  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'page', 'per_page', 'event_layout' ],
 
   page: 1,
   per_page: 24,
   event_layout: 'grid', // list or grid
 
   defaultCategory: 'Everything',
-
-  defaultQuery: computed(function() {
-    return null;
-  }),
-
+  defaultQuery: null,
   defaultLocation: 'All Communities',
-
   defaultStart: null,
   defaultEnd: null,
 
-  category: Ember.computed.oneWay('defaultCategory'),
-  location: Ember.computed.oneWay('defaultLocation'),
-  query: Ember.computed.oneWay('defaultQuery'),
-  date_start: Ember.computed.oneWay('defaultStart'),
-  date_end: Ember.computed.oneWay('defaultEnd'),
+  category: 'Everything',
+  location: 'All Communities',
+  query: null,
+  date_start: null,
+  date_end: null,
 
   // Used to make the variable names more JSish and still let us pass the
   // right params to the API.
-  startDate: Ember.computed.alias('date_start'),
-  stopDate: Ember.computed.alias('date_end'),
+  startDate: null,
+  stopDate: null,
 
   showReset: computed('category', 'query', 'date_start', 'date_end', 'location', function() {
     const isDefaultCategory = this.get('defaultCategory') === this.get('category');
