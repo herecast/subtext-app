@@ -21,10 +21,10 @@
   "devDependencies": {
     "active-model-adapter": "2.1.0",
     "broccoli-asset-rev": "^2.2.0",
-    "ember-async-button": "0.7.0",
     "ember-ajax": "2.0.0-beta.2",
+    "ember-async-button": "0.7.0",
     "ember-autoresize": "0.5.3",
-    "ember-cli": "1.13.12",
+    "ember-cli": "^2.5.1",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-blanket": "0.7.0",
@@ -64,6 +64,8 @@
   },
   "dependencies": {
     "ember-export-application-global": "^1.0.4",
-    "ember-responsive": "^1.1.0"
+    "ember-load-initializers": "^0.5.1",
+    "ember-responsive": "^1.1.0",
+    "loader.js": "^4.0.1"
   }
 }
