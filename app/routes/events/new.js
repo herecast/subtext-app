@@ -29,22 +29,22 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
     this.transitionTo('events.new.details', { queryParams: transition.queryParams });
   },
 
-  discardRecord(event) {
-    if (confirm('Are you sure you want to discard this event?')) {
-      event.destroyRecord();
-
-      return true;
-    } else {
-      return false;
-    }
-  },
-
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
   // setting default listservIds and venueStatus values.
   hasDirtyAttributes(event) {
     return Object.keys(event.changedAttributes()).length > 2;
+  },
+
+  attemptDiscard(event, transition) {
+    const confirmed = confirm('Are you sure you want to discard this event?');
+
+    if (confirmed) {
+      event.destroyRecord();
+    } else {
+      transition.abort();
+    }
   },
 
   actions: {
@@ -58,20 +58,18 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       // soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(/^events\.new/);
 
-      if (isExitingForm && this.hasDirtyAttributes(event) && !this.discardRecord(event)) {
-        transition.abort();
+      if (isExitingForm && this.hasDirtyAttributes(event)) {
+        this.attemptDiscard(event, transition);
       }
     },
 
-    afterDiscard(event) {
-      if (!this.hasDirtyAttributes(event) || this.discardRecord(event)) {
-        this.transitionTo('events.all');
-
+    afterDiscard() {
+      this.transitionTo('events.all').then(() => {
         this.trackEvent('selectNavControl', {
           navControlGroup: 'Create Event',
           navControl: 'Discard Event Create'
         });
-      }
+      });
     },
 
     afterDetails() {
@@ -90,7 +88,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       this.transitionTo('events.show', firstInstanceId).then(() => {
         this.facebookRecache();
       });
-      
+
       run.next(() => {
         event.set('listservIds',[]);
       });

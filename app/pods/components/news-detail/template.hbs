@@ -6,7 +6,7 @@
         <h1 class='News-title' data-test-news-title='{{model.title}}'>{{model.title}}</h1>
 
         <div class='News-organizationInfo'>
-          <p>{{model.formattedPublishedAt}}&emsp;
+          <p>{{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}&emsp;
             {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
               {{model.organizationName}}
             {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
@@ -41,6 +41,18 @@
           </div>
         </div>
       </div>
+    {{else}}
+      {{#if isPreview}}
+      <div class='Container--noGutter'>
+        <div class='row'>
+          <div class='col-xs-12'>
+            <div class='News-preview-Empty'>
+              <p class='text-center'>Please consider adding a featured image.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
     {{/if}}
 
 <div class='Container--noGutter News'>

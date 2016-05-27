@@ -1,7 +1,7 @@
 <div class="text-center">
   {{#if imageUrl}}
     <div class="ThumbnailImageModal-thumbnail-container" {{action 'openImageModal'}}>
-      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail" />
+      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail {{if isCircle 'img-circle'}}" />
       {{#if (and enableCaption caption)}}
         <div class="ThumbnailImageModal-caption">{{caption}}</div>
       {{/if}}
@@ -21,7 +21,7 @@
     {{#if displayImageForm}}
       {{content-form-image
       image=_selectedImage
-      imageUrl=(readonly imageUrl)
+      imageUrl=imageUrl
       originalImageUrl=(readonly _originalImageUrl)
       error=errors.image
       aspectRatio=aspectRatio

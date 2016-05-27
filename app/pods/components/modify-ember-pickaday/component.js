@@ -7,16 +7,19 @@ export default PikadayInputComponent.extend({
   onPikadayOpen() {
     Ember.$('body, html').css('overflow', 'hidden');
   },
+
   onPikadayClose() {
     Ember.$('body, html').css('overflow', 'visible');
   },
+
   onPikadayRedraw() {
     const pikaday = get(this, 'pikaday', pikaday);
 
     run.later(() => {
-      return pikaday.adjustPosition();
-    });
+      pikaday.adjustPosition();
+    }, 300);
   },
+
   willDestroyElement() {
     Ember.$('body, html').css('overflow', 'visible');
   }

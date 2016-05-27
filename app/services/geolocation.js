@@ -48,12 +48,18 @@ export default Ember.Service.extend({
           };
           resolve(loc);
         });
+      }, () => {
+          /*
+          * This is for the case that the user has blocked geopositioning in the browser
+          */
+          return resolve(get(this, 'defaultLocation'));
       });
     });
   },
 
   getCurrentPosition() {
     return new RSVP.Promise((resolve, reject) => {
+
       navigator.geolocation.getCurrentPosition(position => {
         resolve(position);
       }, error => {

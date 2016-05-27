@@ -34,7 +34,7 @@ export default Ember.Component.extend(Validation, {
   updateContent: false,
 
   editorConfig: [
-    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+    ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
     ['insert', ['picture', 'imgCaption', 'video']]
@@ -125,10 +125,8 @@ export default Ember.Component.extend(Validation, {
         }
 
         return promise.then(
-          (response) => {
-            const url = get(response, 'image.url');
-            get(this, 'news.images').unshift(response);
-            set(this, 'featuredImageUrl', url);
+          () => {
+            news.reload();
           },
           (error) => {
             const serverError = get(error, 'errors.image');
@@ -192,6 +190,16 @@ export default Ember.Component.extend(Validation, {
 
   _saveImage(file, primary = 0, caption = null) {
     const id = get(this, 'news.id');
+    if (isBlank(id)) {
+      return get(this, 'news').save().then((news) => {
+        return this._saveImageWithId(get(news, 'id'), file, primary, caption);
+      });
+    } else {
+      return this._saveImageWithId(id, file, primary, caption);
+    }
+  },
+
+  _saveImageWithId(id, file, primary = 0, caption = null) {
     const data = new FormData();
 
     data.append('image[primary]', primary);

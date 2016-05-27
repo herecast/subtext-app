@@ -9,7 +9,7 @@
   <ul class='dropdown-menu' role='menu'>
     {{#each categoryMatches as |category|}}
       <li>
-        <a href='#' {{action 'chooseCategory' category}}>{{category.name}}</a>
+        <a href='#' {{action 'chooseCategory' category}}>{{category.fullName}}</a>
       </li>
     {{/each}}
   </ul>
