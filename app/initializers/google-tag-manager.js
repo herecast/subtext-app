@@ -48,7 +48,7 @@ export function initialize(container) {
       })
     });
   } else {
-    Ember.warn('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.');
+    Ember.warn('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.', false, { id: 'gtm-initializer/setting-config-variables'});
   }
 }
 
