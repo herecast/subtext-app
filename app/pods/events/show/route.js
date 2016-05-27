@@ -7,6 +7,8 @@ import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 import Dates from '../../../lib/dates';
 
+const { getOwner } = Ember;
+
 export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'imageUrl',
 
@@ -43,7 +45,7 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
   afterModel: function(event) {
     this._super(...arguments);
 
-    const path = this.get('container').lookup('router:main').generate(this.get('routeName'), event);
+    const path = getOwner(this).lookup('router:main').generate(this.get('routeName'), event);
     this.facebookRecache(path);
   }
 });

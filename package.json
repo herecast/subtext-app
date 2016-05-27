@@ -47,7 +47,7 @@
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-cli-weather-icons": "3.0.0",
-    "ember-data": "2.1.0",
+    "ember-data": "2.3.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-faker": "^1.0.0",
     "ember-modal-dialog": "0.8.4",

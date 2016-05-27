@@ -8,6 +8,5 @@ export function initialize(application) {
 
 export default {
   name: 'component-store-injection',
-  after: 'store',
   initialize: initialize
 };
