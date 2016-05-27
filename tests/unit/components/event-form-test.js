@@ -13,7 +13,7 @@ moduleForComponent('event-form', {
   ],
 
   setup: function() {
-    this.container.register('template:partials/content-form-buttons',
+    this.container.registry.register('template:partials/content-form-buttons',
            resolver.resolve('template:partials/content-form-buttons'));
   }
 });

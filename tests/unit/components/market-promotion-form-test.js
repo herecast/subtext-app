@@ -5,7 +5,7 @@ moduleForComponent('market-promotion-form', 'Unit | Component | market promotion
   needs: ['component:content-form-listservs', 'component:fa-icon'],
 
   setup: function() {
-    this.container.register('template:partials/promotion-disclaimer',
+    this.container.registry.register('template:partials/promotion-disclaimer',
          resolver.resolve('template:partials/promotion-disclaimer'));
   }
 });
