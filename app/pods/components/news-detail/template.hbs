@@ -1,4 +1,4 @@
-  <div class='Container--noGutter NewsHeader'>
+<div class='Container--noGutter NewsHeader'>
     <div class='row'>
       <div class='col-md-2 hidden-sm hidden-xs'>
       </div>
@@ -6,7 +6,7 @@
         <h1 class='News-title' data-test-news-title='{{model.title}}'>{{model.title}}</h1>
 
         <div class='News-organizationInfo'>
-          <p>{{model.formattedPublishedAt}}&emsp;
+          <p>{{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}&emsp;
             {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
               {{model.organizationName}}
             {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
@@ -41,6 +41,18 @@
           </div>
         </div>
       </div>
+    {{else}}
+      {{#if isPreview}}
+      <div class='Container--noGutter'>
+        <div class='row'>
+          <div class='col-xs-12'>
+            <div class='News-preview-Empty'>
+              <p class='text-center'>Please consider adding a featured image.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
     {{/if}}
 
 <div class='Container--noGutter News'>
@@ -66,47 +78,49 @@
     </div>
 
     <div class='col-md-2 col-sm-3'>
-      {{#floating-side-column enabled=media.isDesktop}}
-        {{social-share
-          title=model.title
-          sharedBy=session.userName
-        }}
-
-        {{#if canEdit}}
-          {{edit-content-link
-          contentId=model.id
-          route='news.edit'
-          text='Edit Post'
+      {{#unless isPreview}}
+        {{#floating-side-column enabled=media.isDesktop}}
+          {{social-share
+            title=model.title
+            sharedBy=session.userName
           }}
-        {{/if}}
 
-        {{report-content-details contentId=model.contentId}}
+          {{#if canEdit}}
+            {{edit-content-link
+            contentId=model.id
+            route='news.edit'
+            text='Edit Post'
+            }}
+          {{/if}}
 
-        {{comment-bubble
-          type='news'
-          count=model.commentCount
-          class='hidden-xs hidden-sm'
-        }}
+          {{report-content-details contentId=model.contentId}}
 
-      {{/floating-side-column}}
+          {{comment-bubble
+            type='news'
+            count=model.commentCount
+            class='hidden-xs hidden-sm'
+          }}
+        {{/floating-side-column}}
+      {{/unless}}
     </div>
   </div>
 
-  <div class='CommentSection'>
-    <h1 class='SectionHeader'>
-      <span class='SectionHeader-text'>
-        Talk
-      </span>
-    </h1>
-  </div>
-  <div class='row'>
-    {{content-comments
-      content=model
-      scrollTo=scrollTo
-    }}
-  </div>
-
   {{#unless isPreview}}
+    <div class='CommentSection'>
+      <h1 class='SectionHeader'>
+        <span class='SectionHeader-text'>
+          Talk
+        </span>
+      </h1>
+    </div>
+
+    <div class='row'>
+      {{content-comments
+        content=model
+        scrollTo=scrollTo
+      }}
+    </div>
+
     {{similar-content
       contentId=model.contentId
       limit=4

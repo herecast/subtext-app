@@ -32,3 +32,33 @@
     vertical-align: middle;
   }
 }
+.NewsEditor-previewHeader {
+  width: 100%;
+  height: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #efefef;
+  z-index: 50;
+  display: table;
+  overflow: hidden;
+  a {
+    float: right;
+    background: @news-brand;
+    padding: 10px 20px;
+    color: #fff;
+  }
+  div:last-child, div:first-child {
+    // spacers
+    vertical-align: middle;
+    display: table-cell;
+    width: 20%;
+  }
+  .NewsEditor-previewHeader-title {
+    .h3;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 60%;
+  }
+}

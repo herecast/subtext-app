@@ -1,21 +1,30 @@
-  <div class="DirectoryFeedback-ratings-title">
-    <h2 class='h4 text-center'>Community member feedback</h2>
-    <h3 class='h4 text-center titleSecondary'>From {{model.feedback_num}} community members</h3>
-  </div>
 
   <div class='row'>
     <div class='col-md-offset-1 col-md-6'>
       <div class="DirectoryFeedback-top-bar">
         <div class="DirectoryFeedback-top-bar-side">
-          <h2 class='h3'>Total Score</h2>
-          <div>Based on {{model.feedback_num}} ratings</div>
+          <h2 class='h3'>Community member feedback</h2>
         </div>
         {{x-gage
           value=model.feedback.recommend
           class='DirectoryFeedbackGauge'
           width=200
         }}
+        {{#if model.feedback_num}}
+          <div>
+            of {{model.feedback_num}} community members
+          </div>
+          <div>
+            said they would recommend {{model.name}} to a friend
+          </div>
+        {{else}}
+          <div>
+            No one has rated {{model.name}} yet. Why don't you?
+          </div>
+        {{/if}}
+
       </div>
+
     </div>
     <div class='col-md-5 DirectoryFeedback-actions'>
       <div class="DirectoryFeedback-buttonWrap">
@@ -28,28 +37,5 @@
           <button class='btn DirectoryButton' {{action 'claim'}}>Claim Business</button>
         {{/if}}
       </div>
-    </div>
-  </div>
-
-  <div class="DirectoryFeedback-ratings-title">
-    <h2 class='h4 text-center'>Community Feedback breakdown</h2>
-  </div>
-
-  <div class='row'>
-    <div class='col-md-offset-1 col-md-10'>
-    {{#each answers as |answer|}}
-        <div class="DirectoryFeedback-answerBox">
-          <div class="title">{{answer.title}}</div>
-          {{x-gage
-            value=answer.value
-            class='DirectoryFeedbackGauge'
-            width=140
-            height=90
-           }}
-          <div class="text">
-            {{answer.text}}
-          </div>
-        </div>
-    {{/each}}
     </div>
   </div>

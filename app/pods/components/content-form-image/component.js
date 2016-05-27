@@ -140,18 +140,20 @@ export default Ember.Component.extend({
   },
 
   cropUpdated(img) {
-    const canvas = img.cropper('getCroppedCanvas');
+    if (! get(this, 'isDestroyed')) {
+      const canvas = img.cropper('getCroppedCanvas');
 
-    if (this.validateCanvasDimensions(canvas)) {
-      const blobFormat = this.get('originalImageFile.type');
-      const url = canvas.toDataURL(blobFormat);
-      const blobQuality = 0.9;
+      if (this.validateCanvasDimensions(canvas)) {
+        const blobFormat = this.get('originalImageFile.type');
+        const url = canvas.toDataURL(blobFormat);
+        const blobQuality = 0.9;
 
-      this.set('imageUrl', url);
+        this.set('imageUrl', url);
 
-      canvas.toBlob((data) => {
-        this.set('image', data);
-      }, blobFormat, blobQuality);
+        canvas.toBlob((data) => {
+          this.set('image', data);
+        }, blobFormat, blobQuality);
+      }
     }
   },
 

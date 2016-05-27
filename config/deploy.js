@@ -11,7 +11,7 @@ module.exports = {
     },
     "index": {
       "app": "ux2",
-      "endpoints": ["http://dailyuv.com"],
+      "endpoints": ["https://dailyuv.com"],
       "privateKey": sshkey
     }
   },
@@ -35,7 +35,7 @@ module.exports = {
     },
     "index": {
       "app": "ux2",
-      "endpoints": ["http://qa-consumer.subtext.org"],
+      "endpoints": ["https://qa-consumer.subtext.org"],
       "privateKey": sshkey
     }
   }

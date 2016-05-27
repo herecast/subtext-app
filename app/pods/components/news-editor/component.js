@@ -17,6 +17,7 @@ export default Ember.Component.extend(Validation, {
 
   showDevFlags: false,
   news: null,
+  showPreview: false,
   editorHeight: computed(function() {
     return get(this, 'media.isMobile') ? 300 : 500;
   }),
@@ -33,7 +34,7 @@ export default Ember.Component.extend(Validation, {
   updateContent: false,
 
   editorConfig: [
-    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
     ['insert', ['link']],
     ['para', ['ul', 'ol']],
     ['insert', ['picture', 'imgCaption', 'video']]
@@ -43,6 +44,9 @@ export default Ember.Component.extend(Validation, {
     image: [
       ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
       ['remove', ['removeMedia']]
+    ],
+    link: [
+      ['link', ['linkDialogShow', 'unlink']]
     ]
   },
 
@@ -81,6 +85,14 @@ export default Ember.Component.extend(Validation, {
     });
   }),
 
+  showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,hasUnpublishedChanges}', function() {
+    const news = get(this, 'news');
+    const showLink = (get(news, 'isDraft') || get(news, 'isScheduled') ||
+                      get(news, 'hasUnpublishedChanges')) ? true : false;
+
+    return showLink;
+  }),
+
   _clearSchedulePubDate() {
     this.setProperties({
       selectedPubDate: null,
@@ -113,10 +125,8 @@ export default Ember.Component.extend(Validation, {
         }
 
         return promise.then(
-          (response) => {
-            const url = get(response, 'image.url');
-            get(this, 'news.images').unshift(response);
-            set(this, 'featuredImageUrl', url);
+          () => {
+            news.reload();
           },
           (error) => {
             const serverError = get(error, 'errors.image');
@@ -180,6 +190,16 @@ export default Ember.Component.extend(Validation, {
 
   _saveImage(file, primary = 0, caption = null) {
     const id = get(this, 'news.id');
+    if (isBlank(id)) {
+      return get(this, 'news').save().then((news) => {
+        return this._saveImageWithId(get(news, 'id'), file, primary, caption);
+      });
+    } else {
+      return this._saveImageWithId(id, file, primary, caption);
+    }
+  },
+
+  _saveImageWithId(id, file, primary = 0, caption = null) {
     const data = new FormData();
 
     data.append('image[primary]', primary);
@@ -317,9 +337,13 @@ export default Ember.Component.extend(Validation, {
       this.send('notifyChange');
     },
 
-    saveContent: function(newContent) {
+    saveContent(newContent) {
       set(this, 'news.content', newContent);
       this.send('notifyChange');
+    },
+
+    togglePreview() {
+      this.toggleProperty('showPreview');
     }
   }
 });

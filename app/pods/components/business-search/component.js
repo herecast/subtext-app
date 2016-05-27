@@ -53,10 +53,27 @@ export default Ember.Component.extend({
 
   _getCategoryMatches(categories, searchTerms) {
     const re = new RegExp(searchTerms, 'i');
+    const allCategories = get(this, 'categories');
 
-    return categories.filter(category => {
+    let categoryMatches = categories.filter(category => {
       return category.get('name').match(re);
     });
+
+    categoryMatches.forEach(category => {
+
+      let parent_ids = category.get('parent_ids') || [];
+
+      if (parent_ids.length > 0) {
+        let parent = allCategories.find( category => {
+          return parseInt(category.id) === parseInt(parent_ids[0]);
+        });
+        category.set('fullName', `${parent.get('name')} > ${category.get('name')}`);
+      } else {
+        category.set('fullName', `${category.get('name')}`);
+      }
+    });
+
+    return categoryMatches;
   },
 
   updateSearchTerms(value) {

@@ -1,31 +1,8 @@
-{{#content-form-image
-  image=currentUser.image
-  imageUrl=imageUrl
-  originalImageFile=originalImageFile
-  error=errorMessage
-  class="Avatar"
-  displayCropper=isEditingImage as |tempImage|
+{{thumbnail-image-modal
+imageUrl=imageUrl
+enableCaption=false
+title="Avatar Image"
+saveImage=(action 'savePhoto')
+aspectRatio=1
+isCircle=true
 }}
-  {{#if tempImage}}
-    {{async-button
-      action='savePhoto'
-      default='Save Photo'
-      pending='Saving…'
-      class='h2 Button Button--primary'
-    }}
-    <button class='Button' {{action 'cancel'}}>Cancel</button>
-  {{else}}
-    {{#if currentUser.userImageUrl}}
-      <img src='{{currentUser.userImageUrl}}' class='Avatar-image'>
-    {{else}}
-      <img src='/images/user-default-avatar.svg' class='Avatar-image'>
-    {{/if}}
-    <a href='#' {{action 'changePhoto'}} class='u-textUnderline Avatar-action'>
-      Change Photo
-    </a>
-  {{/if}}
-
-    {{#if errorMessage}}
-      <p class='text-danger'>{{errorMessage}}</p>
-    {{/if}}
-{{/content-form-image}}

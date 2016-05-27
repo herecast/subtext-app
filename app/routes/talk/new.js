@@ -28,16 +28,6 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
     this.transitionTo('talk.new.details', { queryParams: transition.queryParams });
   },
 
-  discardRecord(model) {
-    if (confirm('Are you sure you want to discard this talk?')) {
-      model.destroyRecord();
-
-      return true;
-    } else {
-      return false;
-    }
-  },
-
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
@@ -46,31 +36,39 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
     return Object.keys(model.changedAttributes()).length > 4;
   },
 
+  attemptDiscard(event, transition) {
+    const confirmed = confirm('Are you sure you want to discard this talk?');
+
+    if (confirmed) {
+      event.destroyRecord();
+    } else {
+      transition.abort();
+    }
+  },
+
   actions: {
     willTransition(transition) {
       this._super(...arguments);
 
-      const model = get(this, 'controller.model');
+      const talk = get(this, 'controller.model');
 
       // We want to let the user continue to navigate through the new talk form
       // routes (details/promotion/preview) without discarding changes, but as
       // soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(/^talk\.new/);
 
-      if (isExitingForm && this.hasDirtyAttributes(model) && !this.discardRecord(model)) {
-        transition.abort();
+      if (isExitingForm && this.hasDirtyAttributes(talk)) {
+        this.attemptDiscard(talk, transition);
       }
     },
 
-    afterDiscard(model) {
-      if (!this.hasDirtyAttributes(model) || this.discardRecord(model)) {
-        this.transitionTo('talk.all');
-
+    afterDiscard() {
+      this.transitionTo('talk.all').then(() => {
         this.trackEvent('selectNavControl', {
           navControlGroup: 'Create Content',
           navControl: 'Discard Talk Create'
         });
-      }
+      });
     },
 
     afterDetails() {

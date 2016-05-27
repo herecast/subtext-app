@@ -23,6 +23,7 @@ export default Ember.Component.extend({
   imageMinHeight: 200,
   imageMinWidth: 200,
 
+  $editor: null,
   toast: inject.service(),
 
   willDestroyElement() {
@@ -33,6 +34,7 @@ export default Ember.Component.extend({
     const toolbar = get(this, 'toolbar');
     const content = get(this, 'content');
     const $editor = this.$('textarea');
+    set(this, '$editor', $editor);
 
     function insertImage(image) {
       $editor.summernote('insertImage', image.url);
@@ -50,16 +52,6 @@ export default Ember.Component.extend({
           // must use onChange and not keyUp
           // (for video embeds)
           this.send('doUpdate');
-        },
-        onCreateLink: (url) => {
-          url = url.trim();
-          const protocol = /^[a-z]+:/i;
-
-          if (!protocol.test(url)) {
-            url = 'http://' + url;
-          }
-
-          return url;
         },
         onImageUpload: (file) => {
           const imageMinHeight = get(this, 'imageMinHeight');
@@ -126,12 +118,20 @@ export default Ember.Component.extend({
             this.send('doUpdate');
           });
         }
+      },
+      onCreateLink: (url) => {
+        url = url.trim();
+        var protocol = /^[a-z]+:/i;
+
+        if (!protocol.test(url)) {
+          url = 'http://' + url;
+        }
+
+        return url;
       }
     };
 
-    if (isPresent(this.attrs.buttons)) {
-      summerNoteConfig.buttons = this.attrs.buttons.value;
-    }
+    summerNoteConfig.buttons = this._getButtons();
 
     if (isPresent(this.attrs.modules)) {
       summerNoteConfig.modules = this.attrs.modules.value;
@@ -147,6 +147,57 @@ export default Ember.Component.extend({
       // Initialize editor with content
       this._setEditorContent(content);
     }
+  },
+
+  _getButtons() {
+    const buttonsParam = get(this, 'buttons');
+    let buttons = isPresent(buttonsParam) ? buttonsParam : {};
+    buttons.subtextStyleButtonMenu = this._getSubtextStyleButtonMenu();
+
+    return buttons;
+  },
+
+  _getSubtextStyleButtonMenu() {
+    const ui = Ember.$.summernote.ui;
+    const $editor = get(this, '$editor');
+
+    return ui.buttonGroup([
+      ui.button({
+        className: 'dropdown-toggle',
+        contents: '<i class="fa fa-magic"></i> <span class="caret"></span>',
+        tooltip: 'Style',
+        data: {
+          toggle: 'dropdown'
+        }
+      }),
+      ui.dropdown({
+        className: 'dropdown-style',
+        items: [
+          {tag: 'p', title: 'Normal'},
+          {tag: 'h2', title: 'Heading'},
+          {tag: 'h3', title: 'Sub Heading'},
+          {tag: 'blockquote', title: 'Quote'}
+        ],
+        template: function (item) {
+
+          if (typeof item === 'string') {
+            item = { tag: item, title: item };
+          }
+
+          var tag = item.tag;
+          var title = item.title;
+          var style = item.style ? ' style="' + item.style + '" ' : '';
+          var className = item.className ? ' className="' + item.className + '"' : '';
+
+          return '<' + tag + style + className + '>' + title + '</' + tag +  '>';
+        },
+        click(e) {
+          e.preventDefault();
+          const tagName = Ember.$(e.target).prop('tagName');
+          $editor.summernote('formatBlock', tagName);
+        }
+      })
+    ]).render();
   },
 
   _setEditorContent(content) {

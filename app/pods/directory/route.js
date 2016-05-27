@@ -49,6 +49,8 @@ export default Ember.Route.extend(History, {
         controller.set('location', location);
       });
     } else {
+    //user needs to know that position is calculating as it may take up to 5 seconds
+      controller.set('isCalculatingLocation', true);
       get(this, 'geo.userLocation').then(location => {
         if(isEmpty(controller.get('coords'))) {
           controller.setProperties({
@@ -56,6 +58,7 @@ export default Ember.Route.extend(History, {
             coords: location.coords
           });
         }
+        controller.set('isCalculatingLocation', false);
       });
     }
   },

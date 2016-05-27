@@ -22,14 +22,14 @@ export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
   },
 
   setupController(controller, model) {
-    controller.set('model', model);
+    controller.set('news', model);
     controller.set('title', 'Create your news post');
     controller.set('secondaryBackground', true);
   },
 
   actions: {
     willTransition(transition) {
-      const model = get(this, 'controller.model');
+      const model = get(this, 'controller.news');
 
       if (model.get('hasUnpublishedChanges')) {
         if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
