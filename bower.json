@@ -42,5 +42,8 @@
     "blanket": "~1.1.5",
     "pickadate": "^3.5.6",
     "sanitize.js": "^1.0.0"
+  },
+  "resolutions": {
+    "ember": "2.4.0"
   }
 }
