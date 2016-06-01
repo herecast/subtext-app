@@ -3,7 +3,6 @@ import RegisterGoogleMapsInitializer from '../../../initializers/register-google
 import { module, test } from 'qunit';
 
 let application;
-let container;
 
 module('Unit | Initializer | register google maps', {
   beforeEach() {
@@ -16,7 +15,7 @@ module('Unit | Initializer | register google maps', {
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  RegisterGoogleMapsInitializer.initialize(container, application);
+  RegisterGoogleMapsInitializer.initialize(application);
 
   // you would normally confirm the results of the initializer here
   assert.ok(true);

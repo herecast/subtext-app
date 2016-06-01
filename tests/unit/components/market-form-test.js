@@ -9,8 +9,8 @@ moduleForComponent('market-form', 'Unit | Component | market form', {
   ],
   unit: true,
 
-  setup: function() {
-    this.container.register('template:partials/content-form-buttons',
+  setup() {
+    this.container.registry.register('template:partials/content-form-buttons',
            resolver.resolve('template:partials/content-form-buttons'));
   }
 });

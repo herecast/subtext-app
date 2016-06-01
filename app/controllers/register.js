@@ -121,7 +121,7 @@ export default Ember.Controller.extend(trackEvent, Validation, {
           }
         }).then(() => {
           this.trackEvent('createSignup', { });
-          this.transitionTo('register.complete');
+          this.transitionToRoute('register.complete');
         }).catch((response) => {
           set(this, 'requestErrors', response.errors);
 

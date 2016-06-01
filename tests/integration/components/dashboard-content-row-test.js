@@ -5,7 +5,10 @@ import moment from 'moment';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 moduleForComponent('dashboard-content-row', 'Integration | Component | dashboard content row', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    this.set('deleteContent', () => {});
+  }
 });
 
 test('it hides the edit link for talk', function(assert) {
@@ -20,6 +23,7 @@ test('it hides the edit link for talk', function(assert) {
     {{dashboard-content-row
       type='Talk'
       content=talk
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -40,6 +44,7 @@ test('it shows the edit link for market', function(assert) {
     {{dashboard-content-row
       type='market-post'
       content=market
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -60,6 +65,7 @@ test('it shows the edit link for events', function(assert) {
     {{dashboard-content-row
       type='event-instance'
       content=event
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -80,6 +86,7 @@ test('it shows the edit link for news', function(assert) {
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -102,6 +109,7 @@ test('it shows the news pubdate when news is scheduled', function(assert) {
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -124,6 +132,7 @@ test('it shows the news pubdate when news is published', function(assert) {
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -144,6 +153,7 @@ test('it fills in blank news draft titles', function(assert) {
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -167,6 +177,7 @@ test('it identifies news content as draft when not published', function(assert) 
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -183,12 +194,12 @@ test('it does not show delete link for non-news content', function(assert) {
   };
 
   this.set('content', content);
-  this.set('actions', { deleteContent() {} });
 
   this.render(hbs`
     {{dashboard-content-row
       type='news'
       content=content
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -206,12 +217,12 @@ test('it shows the delete link for news items in draft state', function(assert) 
   });
 
   this.set('news', news);
-  this.set('actions', { deleteContent() {} });
 
   this.render(hbs`
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 
@@ -228,12 +239,12 @@ test('it shows the delete link for news items in draft state', function(assert) 
   };
 
   this.set('news', news);
-  this.set('actions', { deleteContent() {} });
 
   this.render(hbs`
     {{dashboard-content-row
       type='news'
       content=news
+      deleteContent=(action deleteContent)
     }}
   `);
 

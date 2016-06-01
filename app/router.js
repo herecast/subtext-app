@@ -39,7 +39,7 @@ Router.map(function() {
     });
   });
 
-  this.resource('forgot-password', function() {
+  this.route('forgot-password', function() {
     this.route('edit', {path: ':reset_token'});
   });
 

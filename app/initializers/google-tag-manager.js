@@ -6,7 +6,7 @@ const { on } = Ember;
 
 let referrer = window.location.href;
 
-export function initialize(container) {
+export function initialize(application) {
   const { get, run } = Ember;
   const gtmId      = config['gtm-api-token'] || null;
   const gtmAuth    = config['gtm-auth'] || null;
@@ -26,7 +26,7 @@ export function initialize(container) {
     })(window, document, 'script', 'dataLayer', gtmId, gtmAuth, gtmPreview);
     /* jshint ignore:end */
 
-    const Router = container.lookup('router:main');
+    const Router = Ember.getOwner(application).lookup('router:main');
 
     Router.reopen({
       notifyGoogleTagManager: on('didTransition', function() {
@@ -48,7 +48,7 @@ export function initialize(container) {
       })
     });
   } else {
-    console.log('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.');
+    Ember.warn('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.', false, { id: 'gtm-initializer/setting-config-variables'});
   }
 }
 

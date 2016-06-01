@@ -5,7 +5,7 @@ moduleForComponent('talk-promotion-form', 'Unit | Component | talk promotion for
   needs: ['component:fa-icon'],
 
   setup: function() {
-    this.container.register('template:partials/promotion-disclaimer',
+    this.container.registry.register('template:partials/promotion-disclaimer',
          resolver.resolve('template:partials/promotion-disclaimer'));
   }
 });

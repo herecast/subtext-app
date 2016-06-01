@@ -6,18 +6,18 @@ const { computed } = Ember;
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
-  queryParams: ['query', 'location', 'locationId', 'page', 'per_page'],
-
   page: 1,
   per_page: 24,
+
+  queryParams: ['query', 'location', 'locationId', 'page', 'per_page'],
 
   defaultQuery: 'Everything',
   defaultLocation: 'All Communities',
   defaultLocationId: null,
 
-  query: Ember.computed.oneWay('defaultQuery'),
-  location: Ember.computed.oneWay('defaultLocation'),
-  locationId: Ember.computed.oneWay('defaultLocationId'),
+  query: 'Everything',
+  location: 'All Communities',
+  locationId: null,
 
   showReset: computed('query', 'location', function() {
     const isDefaultQuery = this.get('defaultQuery') === this.get('query');

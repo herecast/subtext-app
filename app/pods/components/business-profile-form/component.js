@@ -11,7 +11,7 @@ export default Ember.Component.extend(Validation, {
   // Required when component is rendered
   model: null,
   categories: computed(function () {
-    return get(this, 'store').find('business-category');
+    return get(this, 'store').findAll('business-category');
   }),
 
   toast: inject.service(),

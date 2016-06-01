@@ -4,8 +4,8 @@ import resolver from '../../helpers/resolver';
 moduleForComponent('event-promotion-form', {
   needs: ['component:content-form-listservs', 'component:fa-icon'],
 
-  setup: function() {
-    this.container.register('template:partials/promotion-disclaimer',
+  setup() {
+    this.container.registry.register('template:partials/promotion-disclaimer',
          resolver.resolve('template:partials/promotion-disclaimer'));
   }
 });

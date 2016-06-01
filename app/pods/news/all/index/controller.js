@@ -16,10 +16,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
   defaultLocation: 'All Communities',
   defaultLocationId: null,
 
-  query: Ember.computed.oneWay('defaultQuery'),
-  organization: Ember.computed.oneWay('defaultOrganization'),
-  location: Ember.computed.oneWay('defaultLocation'),
-  locationId: Ember.computed.oneWay('defaultLocationId'),
+  query: 'Everything',
+  organization: 'Everyone',
+  location: 'All Communities',
+  locationId: null,
 
   showReset: computed('organization', 'query', 'location', function() {
     const isDefaultOrganization = this.get('defaultOrganization') === this.get('organization');

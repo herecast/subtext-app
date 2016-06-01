@@ -3,7 +3,7 @@
 import Ember from 'ember';
 import Config from '../config/environment';
 
-const { get, merge, computed, isEmpty, on } = Ember;
+const { get, merge, computed, isEmpty, on, getOwner } = Ember;
 
 export default Ember.Service.extend({
 
@@ -48,15 +48,15 @@ export default Ember.Service.extend({
   },
 
   currentUserProperties: computed(function() {
-    const user = this.container.lookup('controller:application').get('session.currentUser');
+    const user = getOwner(this).lookup('controller:application').get('session.currentUser');
     return this.getUserProperties(user);
   }),
 
   // TODO: break this function apart
   trackEventVersion2(event, properties) {
-    const applicationController = this.container.lookup('controller:application');
+    const applicationController = getOwner(this).lookup('controller:application');
     const currentRouteName = get(applicationController, 'currentRouteName');
-    const currentController = this.container.lookup(`controller:${currentRouteName}`);
+    const currentController = getOwner(this).lookup(`controller:${currentRouteName}`);
 
     let props = {
       url: location.href,

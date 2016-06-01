@@ -10,5 +10,5 @@ export default Ember.Controller.extend(PaginatedFilter, {
   per_page: 24,
 
   defaultQuery: 'Everything',
-  query: Ember.computed.oneWay('defaultQuery')
+  query: 'Everything'
 });

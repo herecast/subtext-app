@@ -5,6 +5,8 @@ import ShareCaching from 'subtext-ui/mixins/routes/share-caching';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
 import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
+const { getOwner } = Ember;
+
 export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTitleFromContent, ResetScroll, {
   modelImageKey: 'bannerImage.url',
   history: Ember.inject.service(),
@@ -18,7 +20,7 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTit
   afterModel: function(news) {
     this._super(...arguments);
 
-    const path = this.get('container').lookup('router:main').generate(this.get('routeName'), news);
+    const path = getOwner(this).lookup('router:main').generate(this.get('routeName'), news);
     this.facebookRecache(path);
   }
 
