@@ -2,12 +2,15 @@ import config from 'subtext-ui/config/environment';
 import Ember from 'ember';
 /* global dataLayer */
 
-const { on } = Ember;
+const {
+  get,
+  on,
+  run
+} = Ember;
 
 let referrer = window.location.href;
 
 export function initialize(application) {
-  const { get, run } = Ember;
   const gtmId      = config['gtm-api-token'] || null;
   const gtmAuth    = config['gtm-auth'] || null;
   const gtmPreview = config['gtm-preview'] || null;
@@ -26,7 +29,7 @@ export function initialize(application) {
     })(window, document, 'script', 'dataLayer', gtmId, gtmAuth, gtmPreview);
     /* jshint ignore:end */
 
-    const Router = Ember.getOwner(application).lookup('router:main');
+    const Router = application.lookup('router:main');
 
     Router.reopen({
       notifyGoogleTagManager: on('didTransition', function() {
