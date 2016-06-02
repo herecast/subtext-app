@@ -4,29 +4,20 @@ var request  = require('request');
 var execSync = require('child_process').execSync;
 
 var env_endpoints = {
-  "production": "http://dailyuv.com",
-  "staging": "http://stage-consumer.subtext.org",
-  "qa": "http://qa-consumer.subtext.org",
+  "production": "https://dailyuv.com",
+  "staging": "https://stage-consumer.subtext.org",
+  "qa": "https://qa-consumer.subtext.org",
 }
 
 if (!process.env['HTTP_USERNAME'] || !process.env['HTTP_PASSWORD']) {
   throw new Error('HTTP_USERNAME and HTTP_PASSWORD must me set to authenticate to admin')
 }
 
-var environment;
-process.argv.forEach(function(val, index, arrary) {
-  if (val.indexOf('--environment') == 0) {
-    if (start = val.indexOf('=')) {
-      environment = val.substring(start + 1);
-    } else {
-      environment = process.argv[index + 1];
-    }
-  }
-});
+var environment = process.argv[2];
 
-// default to production, since that is what ember-cli will do anyways
+// default to qa, since that is what ember-cli will do anyways
 if (!environment) {
-  environment = 'production'
+  environment = 'qa'
 }
 
 var endpoint = env_endpoints[environment]
@@ -90,14 +81,8 @@ var activateBuild = function(endpoint) {
   });
 };
 
-console.log('starting deploy');
-execSync('./node_modules/.bin/ember build --environment=production', {
-  stdio: ['inherit', 'inherit', 'inherit']
-});
-execSync('./node_modules/.bin/ember deploy:assets ' + process.argv.slice(2).join(' '), {
-  stdio: ['inherit', 'inherit', 'inherit']
-});
-execSync('./node_modules/.bin/ember deploy:index ' + process.argv.slice(2).join(' '), {
+console.log('starting deploy for environment ' + environment);
+execSync('./node_modules/.bin/ember deploy ' + process.argv.slice(2).join(' '), {
   stdio: ['inherit', 'inherit', 'inherit']
 });
 // don't auto-activate prod, to prevent accidents

@@ -14,8 +14,8 @@ deployment:
   development:
     branch: develop
     commands:
-      - ./deploy.js --environment=qa
+      - ./deploy.js qa
   staging:
     branch: release/next-release-candidate
     commands:
-      - ./deploy.js --environment=staging
+      - ./deploy.js staging
