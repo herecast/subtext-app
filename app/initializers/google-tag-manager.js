@@ -29,7 +29,7 @@ export function initialize(application) {
     })(window, document, 'script', 'dataLayer', gtmId, gtmAuth, gtmPreview);
     /* jshint ignore:end */
 
-    const Router = application.lookup('router:main');
+    const Router = application.__container__.lookup('router:main');
 
     Router.reopen({
       notifyGoogleTagManager: on('didTransition', function() {
