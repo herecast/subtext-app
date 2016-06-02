@@ -1,6 +1,6 @@
 var app = 'ux2';
 var qaHost = 'https://qa-consumer.subtext.org';
-var stagingHost = 'http://stage-consumer.subtext.org';
+var stagingHost = 'https://stage-consumer.subtext.org';
 var productionHost = 'https://dailyuv.com';
 var path = require('path');
 var sshkey = process.env['EMBER_SSH_KEY'] ? process.env['EMBER_SSH_KEY'] : path.join(process.env['HOME'], '.ssh/id_rsa');
