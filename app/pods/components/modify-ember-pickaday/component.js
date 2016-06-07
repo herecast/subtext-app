@@ -13,7 +13,7 @@ export default PikadayInputComponent.extend({
   },
 
   onPikadayRedraw() {
-    const pikaday = get(this, 'pikaday', pikaday);
+    const pikaday = get(this, 'pikaday');
 
     run.later(() => {
       pikaday.adjustPosition();

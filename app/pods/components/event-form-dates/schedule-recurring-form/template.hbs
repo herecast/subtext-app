@@ -43,7 +43,12 @@
         <label class='ContentForm-label--required'>On</label><br />
         {{#each days as |day|}}
           <label class="checkbox-inline">
-            {{input type='checkbox' checked=day.isChecked change=(action 'updateCheckedDays')}} {{day.key}}
+            {{input
+              type='checkbox'
+              checked=day.isChecked
+              change=(action 'updateAndNotifyCheckedDaysDidChange' day)
+            }}
+            {{day.key}}
           </label>
         {{/each}}
       {{/form-group}}

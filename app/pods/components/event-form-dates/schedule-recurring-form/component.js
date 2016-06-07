@@ -43,6 +43,8 @@ export default Ember.Component.extend(ScheduleSummary, {
     days.forEach((day) => {
       if (daysOfWeek.contains(day.value)) {
         set(day, 'isChecked', true);
+      } else {
+        set(day, 'isChecked', false);
       }
     });
 
@@ -143,7 +145,15 @@ export default Ember.Component.extend(ScheduleSummary, {
 
     // The daysOfWeek property was not being updated when changing the checked
     // days after the schedule is created. This forces that property to update.
-    updateCheckedDays() {
+    updateAndNotifyCheckedDaysDidChange(day) {
+      // the checked property of the checkbox input helper
+      // no longer binds properly to day.isChecked
+      if (day.isChecked === true) {
+        set(day, 'isChecked', false);
+      } else {
+        set(day, 'isChecked', true);
+      }
+
       this.propertyWillChange('checkedDays');
       this.propertyDidChange('checkedDays');
     },
