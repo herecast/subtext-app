@@ -41,16 +41,18 @@
     {{#if weeklyOrBiWeekly}}
       {{#form-group error=errors.daysError}}
         <label class='ContentForm-label--required'>On</label><br />
-        {{#each days as |day|}}
-          <label class="checkbox-inline">
-            {{input
-              type='checkbox'
-              checked=day.isChecked
-              change=(action 'updateAndNotifyCheckedDaysDidChange' day)
-            }}
-            {{day.key}}
-          </label>
-        {{/each}}
+        <div class='ContentForm-checkboxGroup'>
+          {{#each days as |day|}}
+            <label class="checkbox-inline">
+              {{input
+                type='checkbox'
+                checked=day.isChecked
+                change=(action 'updateAndNotifyCheckedDaysDidChange' day)
+              }}
+              {{day.key}}
+            </label>
+          {{/each}}
+        </div>
       {{/form-group}}
 
     {{else if (eq repeats 'daily')}}

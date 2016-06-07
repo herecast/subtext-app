@@ -31,6 +31,9 @@
   background-color: #FFF;
   padding: 60px 0;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+  @media (max-width: @screen-xs-max) {
+    padding: 12px 8px;
+  }
 }
 
 .ContentForm-content .form-group.has-error .note-editor {
@@ -47,6 +50,9 @@
 
 .ContentForm-stepContent {
   margin-top: 70px;
+  @media (max-width: @screen-xs-max) {
+    margin-top: 10px;
+  }
 }
 
 .ContentForm-requiredIndicator {
@@ -79,6 +85,9 @@
   margin: 53px 0 49px;
   text-align: center;
   .uppercase-bold-condensed;
+  @media (max-width: @screen-xs-max) {
+    margin: 10px;
+  }
 }
 
 .ContentForm-fileField {
@@ -113,4 +122,27 @@
   border-radius: 0;
   font-size: 20px;
   min-width: 50px;
+}
+
+.ContentForm-checkboxGroup {
+  @media (max-width: @screen-xs-max) {
+    .checkbox-inline {
+      display: inline-block;
+      margin-top: 0;
+      line-height: 30px;
+      width: 20%;
+      height: 50px;
+    }
+    .checkbox-inline:first-of-type {
+      margin-left: 10px !important;
+    }
+    input[type="checkbox"] {
+      height: 25px;
+      width: 25px;
+      margin-left: -25px;
+    }
+    span {
+      margin-left: 5px;
+    }
+  }
 }

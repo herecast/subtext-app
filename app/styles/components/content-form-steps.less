@@ -2,6 +2,16 @@
   @media (min-width: @screen-sm-min) {
     background: transparent url('/images/gray-dash.png') repeat-x 15px 42px;
   }
+  @media (max-width: @screen-xs-max) {
+    text-align: center;
+  }
+  .steps{
+    @media (max-width: @screen-xs-max) {
+      width: 30%;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
 }
 
 .ContentFormSteps:before,
@@ -75,6 +85,10 @@
   text-align: center;
   width: 90px;
   height: 90px;
+  @media (max-width: @screen-xs-max) {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .ContentFormSteps-stepCount--event.current {
@@ -107,6 +121,10 @@
 
 .ContentFormSteps-stepNumber {
   font-size: 48px;
+  @media (max-width: @screen-xs-max) {
+    font-size: 30px;
+    margin-top: 6px !important;
+  }
 }
 
 .ContentFormSteps-stepIcon {
@@ -114,5 +132,9 @@
   left: 2px;
   position: relative;
   top: 18px;
+  @media (max-width: @screen-xs-max) {
+    font-size: 30px;
+    left: 0px;
+    top: 2px;
+  }
 }
-

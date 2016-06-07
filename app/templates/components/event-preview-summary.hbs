@@ -1,9 +1,27 @@
 <div class='row'>
-  <div class='col-sm-3'>
-    {{#link-to editLink class='Button btn btn-default pull-left'}}
-      {{fa-icon 'arrow-left u-iconLeft'}}
-      Edit Event
-    {{/link-to}}
+  <div class='ContentPreview-navigation'>
+    <div class='col-sm-3 editLink'>
+      {{#link-to editLink class='Button btn btn-default pull-left'}}
+        {{fa-icon 'arrow-left u-iconLeft'}}
+        Edit Event
+      {{/link-to}}
+    </div>
+    <div class='col-sm-3 publishLink'>
+      {{#async-button action='save' class='Button Button--event btn btn-primary pull-right save-and-publish'}}
+        <span {{action 'trackEvent' 'submitContent'}}>
+          {{#if isSaving}}
+            Please Wait&hellip;
+          {{else}}
+            {{#if media.isTablet}}
+              Publish
+            {{else}}
+              Save &amp; Publish
+            {{/if}}
+            {{fa-icon 'check u-iconRight'}}
+          {{/if}}
+        </span>
+      {{/async-button}}
+    </div>
   </div>
   <div class='ContentPreview-summary col-sm-6'>
     <p>
@@ -40,21 +58,5 @@
       Everything below dotted line is your preview
       {{fa-icon 'arrow-down'}}
     </div>
-  </div>
-  <div class='col-sm-3'>
-    {{#async-button action='save' class='Button Button--event btn btn-primary pull-right save-and-publish'}}
-      <span {{action 'trackEvent' 'submitContent'}}>
-        {{#if isSaving}}
-          Please Wait&hellip;
-        {{else}}
-          {{#if media.isTablet}}
-            Publish
-          {{else}}
-            Save &amp; Publish
-          {{/if}}
-          {{fa-icon 'check u-iconRight'}}
-        {{/if}}
-      </span>
-    {{/async-button}}
   </div>
 </div>
