@@ -15,9 +15,14 @@ export default DS.Model.extend({
   commentCount: DS.attr('number'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
+
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   images: DS.attr('raw', {defaultValue: function(){ return [];}}),
+
+  featuredImageUrl: computed.oneWay('bannerImage.url'),
+  featuredImageCaption: computed.oneWay('bannerImage.caption'),
+
   organization: DS.belongsTo('Organization', {async: true}),
 
   publishedAt: DS.attr('moment-date'),
