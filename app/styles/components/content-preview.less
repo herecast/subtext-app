@@ -4,9 +4,33 @@
   border-top: 2px dashed @gray-light;
 }
 
+.ContentPreview-navigation {
+  @media (max-width: @screen-xs-max) {
+    height: 100px;
+  }
+  .editLink {
+    float: left;
+    @media (max-width: @screen-xs-max) {
+      float: none;
+    }
+  }
+  .publishLink {
+    float: right;
+    @media (max-width: @screen-xs-max) {
+      float: none;
+    }
+  }
+}
+
 .ContentPreview-summary {
   text-align: center;
   padding: 0;
+  display: block;
+  width: 100%;
+  padding: 0 25%;
+  @media (max-width: @screen-xs-max) {
+    padding: 0 2%;
+  }
 }
 
 .ContentPreview-propertyList {

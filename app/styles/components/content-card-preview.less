@@ -1,5 +1,9 @@
 .ContentCardPreview-content {
   max-width: 270px;
+  @media (max-width: @screen-xs-max) {
+    margin: 0 auto;
+    max-width: none;
+  }
 }
 
 .ContentCardPreview-content.affix {
