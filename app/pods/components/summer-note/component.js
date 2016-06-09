@@ -1,4 +1,4 @@
-/*global jQuery, loadImage */
+/*global jQuery*/
 
 import Ember from 'ember';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
@@ -23,7 +23,9 @@ export default Ember.Component.extend({
   imageMinHeight: 200,
   imageMinWidth: 200,
 
+  showImageModal: false,
   $editor: null,
+
   toast: inject.service(),
 
   willDestroyElement() {
@@ -36,53 +38,24 @@ export default Ember.Component.extend({
     const $editor = this.$('textarea');
     set(this, '$editor', $editor);
 
-    function insertImage(image) {
-      $editor.summernote('insertImage', image.url);
-    }
-
     let summerNoteConfig = {
       // DO NOT set height.  It causes all kinds of issues
       // with summernote's absolute positioned overlays.
       //height: height,
       styleWithSpan: false,
       toolbar: toolbar,
+      styleTags: [
+        {tag: 'p', title: 'Normal'},
+        {tag: 'h2', title: 'Heading'},
+        {tag: 'h3', title: 'Sub Heading'},
+        {tag: 'blockquote', title: 'Quote'}
+      ],
 
       callbacks: {
         onChange: () => {
           // must use onChange and not keyUp
           // (for video embeds)
           this.send('doUpdate');
-        },
-        onImageUpload: (file) => {
-          const imageMinHeight = get(this, 'imageMinHeight');
-          const imageMinWidth = get(this, 'imageMinWidth');
-          const toast = get(this, 'toast');
-
-          const selectedFile = file[0];
-
-          // load the image into a canvas to validate its dimensions
-          loadImage.parseMetaData(selectedFile, (data) => {
-
-            const options = {
-              canvas: true
-            };
-
-            if (data.exif) {
-              options.orientation = data.exif.get('Orientation');
-            }
-
-            loadImage(selectedFile, (canvas) => {
-              const $canvas = Ember.$(canvas);
-              if ($canvas.attr('width') < imageMinWidth || $canvas.attr('height') < imageMinHeight) {
-                toast.error(`Image must be at least ${imageMinWidth}px wide by ${imageMinHeight}px tall`);
-              } else {
-                // saved the image to the appropriate resource
-                this.attrs.uploadImage(selectedFile).then(({image}) => {
-                  insertImage(image);
-                });
-              }
-            }, options);
-          });
         },
         onPaste: (e) => {
           e.preventDefault();
@@ -150,11 +123,121 @@ export default Ember.Component.extend({
   },
 
   _getButtons() {
+    const ui = Ember.$.summernote.ui;
     const buttonsParam = get(this, 'buttons');
-    let buttons = isPresent(buttonsParam) ? buttonsParam : {};
-    buttons.subtextStyleButtonMenu = this._getSubtextStyleButtonMenu();
+    const $editor = get(this, '$editor');
 
-    return buttons;
+    return Ember.$.extend({}, {
+      subtextFloatLeft: ui.button({
+        contents: '<i class="fa fa-align-left"/>',
+        tooltip: 'Float Left',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .parent()
+              .addClass('pull-left')
+              .removeClass('pull-right');
+          }))();
+        }
+      }).render(),
+      subtextFloatRight: ui.button({
+        contents: '<i class="fa fa-align-right"/>',
+        tooltip: 'Float Right',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .parent()
+              .addClass('pull-right')
+              .removeClass('pull-left');
+          }))();
+        }
+      }).render(),
+      subtextFloatNone: ui.button({
+        contents: '<i class="fa fa-align-justify"/>',
+        tooltip: 'Center Image',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .parent()
+              .removeClass('pull-left pull-right');
+          }))();
+        }
+      }).render(),
+      subtextRemoveMedia: ui.button({
+        contents: '<i class="fa fa-trash"/>',
+        tooltip: 'Remove Image',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .parent()
+              .remove();
+          }))();
+        }
+      }).render(),
+      subtextImageSize100: ui.button({
+        contents: '<span class="note-fontsize-10">100%</span>',
+        tooltip: 'Resize Full',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .css({width: 'auto', height: 'auto'})
+              .parent()
+              .removeClass('width25 width50');
+          }))();
+        }
+      }).render(),
+      subtextImageSize50: ui.button({
+        contents: '<span class="note-fontsize-10">50%</span>',
+        tooltip: 'Resize Half',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .css({width: 'auto', height: 'auto'})
+              .parent()
+              .addClass('width50')
+              .removeClass('width25');
+          }))();
+        }
+      }).render(),
+      subtextImageSize25: ui.button({
+        contents: '<span class="note-fontsize-10">25%</span>',
+        tooltip: 'Resize Quarter',
+        click(e) {
+          e.preventDefault();
+          ($editor.summernote('wrapCommand', function() {
+            Ember.$($editor.summernote('restoreTarget'))
+              .css({width: 'auto', height: 'auto'})
+              .parent()
+              .addClass('width25')
+              .removeClass('width50');
+          }))();
+        }
+      }).render(),
+      subtextImageModal: this._getSubtextImageButton(),
+      subtextStyleButtonMenu: this._getSubtextStyleButtonMenu()
+    }, buttonsParam);
+  },
+
+  _getSubtextImageButton() {
+    const ui = Ember.$.summernote.ui;
+    const self = this;
+
+    // create button
+    const button = ui.button({
+      contents: '<i class="fa fa-picture-o"/>',
+      tooltip: 'Picture',
+      click() {
+        set(self, 'showImageModal', true);
+      }
+    });
+
+    return button.render();
   },
 
   _getSubtextStyleButtonMenu() {
@@ -225,6 +308,24 @@ export default Ember.Component.extend({
       if ('notifyChange' in this.attrs) {
         this.attrs.notifyChange(content);
       }
+    },
+
+    cancelImageModal() {
+      set(this, 'showImageModal', false);
+    },
+
+    saveImageModal(selectedImage, caption) {
+      caption = caption || '';
+
+      this.attrs.uploadImage(selectedImage).then(({image}) => {
+        let $imageWrapper = Ember.$('<div class="ContentImage"></div>');
+        $imageWrapper.append(`<img src="${image.url}" />`);
+        $imageWrapper.append(`<p>${caption}</p>`);
+
+        get(this, '$editor').summernote('insertNode', $imageWrapper[0]);
+      });
+
+      set(this, 'showImageModal', false);
     }
   }
 });
