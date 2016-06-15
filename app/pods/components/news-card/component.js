@@ -32,12 +32,12 @@ export default Ember.Component.extend(TrackCard, {
       // card once we strip out the HTML. Otherwise there's no space between sentences.
       text = text.replace(/<\/p>/g, '</p> ');
 
-      const tmp = document.createElement("div");
-
-      tmp.innerHTML = text;
+      // Convert html text into jquery element and remove image captions
+      const $element = Ember.$('<div/>').html(text);
+      $element.find('.ContentImage p').remove();
 
       // Remove all HTML tags
-      text = tmp.textContent;
+      text = $element.text();
 
       // Replace "double breaks" added above with <br> tags so the news card
       // has a line break for new paragraphs.
