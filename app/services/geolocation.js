@@ -68,10 +68,11 @@ export default Ember.Service.extend({
     });
   },
 
-  geocode(address) {
+  geocode(address, whitelist) {
     const mapsService = get(this, 'mapsService');
     const returnSet = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
     const userLocation = get(this, 'userLocation');
+    const upperCaseFilters = whitelist.filters.map((value) => { return value.toUpperCase(); });
 
     return returnSet.create({
       promise: new Ember.RSVP.Promise(function(resolve, reject) {
@@ -82,17 +83,28 @@ export default Ember.Service.extend({
           }
         };
 
-        // Create a bias to 100 bounding box from user location
+        // Create a bias to 50 bounding box from user location
         if(userLocation.get('isSettled')) {
-          geoArgs['bounds'] = mapsService.boundingBox(userLocation.get('coords'), 100);
+          geoArgs['bounds'] = mapsService.boundingBox(userLocation.get('coords'), 25);
         }
 
         mapsService.geocode(geoArgs, function(results, status) {
           if(status !== "OK") {
             reject(status);
           } else {
-            resolve(results.reject(item => {
-              return !item.types.contains('locality');
+            resolve(results.filter(item => {
+              let keepItem = false;
+              if (item.types.contains('locality') && whitelist) {
+                item.address_components.forEach((address_component) => {
+                  //if this is the right type of filter to check
+                  if(address_component.types.contains(whitelist.type)) {
+                    keepItem = upperCaseFilters.contains(address_component.short_name.toUpperCase());
+                  }
+                });
+              } else {
+                keepItem = item.types.contains('locality');
+              }
+              return keepItem;
             }).map(item => {
               return {
                 human: mapsService.cityStateFormat(item),
