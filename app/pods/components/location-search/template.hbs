@@ -22,6 +22,10 @@
         <a href='#' {{action 'update' loc.human loc.coords}}>{{loc.human}}</a>
       </li>
       {{/each}}
+    {{else}}
+      <li>
+        <a href='#' onclick="return false;">No Matches Yet</a>
+      </li>
     {{/if}}
   </ul>
 {{/if}}

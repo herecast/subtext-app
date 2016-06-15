@@ -12,6 +12,10 @@ export default Ember.Component.extend({
   displaySuggestions: false,
   geocoderService: Ember.inject.service('geolocation'),
   suggestions: [],
+  whitelist: {
+    type: 'administrative_area_level_1',
+    filters: ['NH', 'VT']
+  },
 
   suggestionsProxy: computed('suggestions.[]', 'suggestions.isFulfilled', function() {
     const values = get(this, 'suggestions');
@@ -81,7 +85,7 @@ export default Ember.Component.extend({
       if ( query !== location ) {
         const geocoderService = get(this, 'geocoderService');
         set(this, 'suggestions',
-          geocoderService.geocode(query)
+          geocoderService.geocode(query, get(this, 'whitelist'))
         );
         set(this, 'displaySuggestions', true);
       }
