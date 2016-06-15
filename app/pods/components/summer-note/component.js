@@ -322,7 +322,9 @@ export default Ember.Component.extend({
         $imageWrapper.append(`<img src="${image.url}" />`);
         $imageWrapper.append(`<p>${caption}</p>`);
 
-        get(this, '$editor').summernote('insertNode', $imageWrapper[0]);
+        const $editor = get(this, '$editor');
+        $editor.summernote('insertParagraph');
+        $editor.summernote('insertNode', $imageWrapper[0]);
       });
 
       set(this, 'showImageModal', false);
