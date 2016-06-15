@@ -227,12 +227,14 @@ export default Ember.Component.extend({
   _getSubtextImageButton() {
     const ui = Ember.$.summernote.ui;
     const self = this;
+    const $editor = get(this, '$editor');
 
     // create button
     const button = ui.button({
       contents: '<i class="fa fa-picture-o"/>',
       tooltip: 'Picture',
       click() {
+        $editor.summernote('saveRange');
         set(self, 'showImageModal', true);
       }
     });
@@ -323,7 +325,7 @@ export default Ember.Component.extend({
         $imageWrapper.append(`<p>${caption}</p>`);
 
         const $editor = get(this, '$editor');
-        $editor.summernote('insertParagraph');
+        $editor.summernote('restoreRange');
         $editor.summernote('insertNode', $imageWrapper[0]);
       });
 
