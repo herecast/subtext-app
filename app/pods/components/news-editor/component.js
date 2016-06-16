@@ -7,6 +7,7 @@ const {
   isBlank,
   get,
   getProperties,
+  setProperties,
   set,
   run,
   inject
@@ -50,9 +51,6 @@ export default Ember.Component.extend(Validation, {
       ['link', ['linkDialogShow', 'unlink']]
     ]
   },
-
-  featuredImageUrl: computed.oneWay('news.bannerImage.url'),
-  featuredImageCaption: computed.oneWay('news.bannerImage.caption'),
 
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
@@ -117,8 +115,9 @@ export default Ember.Component.extend(Validation, {
         if (file) {
           promise = this._saveImage(file, 1, caption);
         } else {
-          const image = get(this, 'news.bannerImage');
-          promise = get(this, 'api').updateImage(get(image, 'id'), {
+          const imageID = get(this, 'news.bannerImage.id');
+
+          promise = get(this, 'api').updateImage(imageID, {
             caption: caption,
             primary: 1,
             content_id: get(this, 'news.id')
@@ -129,7 +128,7 @@ export default Ember.Component.extend(Validation, {
           () => {
             news.reload();
           },
-          (error) => {
+          error => {
             const serverError = get(error, 'errors.image');
             let errorMessage = 'Error: Unable to save featured image.';
 
@@ -306,9 +305,12 @@ export default Ember.Component.extend(Validation, {
       news.rollbackAttributes();
 
       // Roll back featured image selection
-      this.setProperties({
+      setProperties(news, {
         featuredImageUrl: get(news, 'bannerImage.url'),
-        featuredImageCaption: get(news, 'bannerImage.caption'),
+        featuredImageCaption: get(news, 'bannerImage.caption')
+      });
+
+      this.setProperties({
         updateContent: true,
         pendingFeaturedImage: null
       });
@@ -324,6 +326,7 @@ export default Ember.Component.extend(Validation, {
       // Save the featured image data to be committed
       // the next time the rest of the form is saved.
       set(this, 'pendingFeaturedImage', {file, caption});
+
       this.send('notifyChange');
     },
 
