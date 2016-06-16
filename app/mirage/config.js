@@ -460,7 +460,9 @@ export default function() {
       related_promotion: {
         banner_id: faker.random.number(1000),
         image_url: 'https://placeholdit.imgix.net/~text?txtsize=31&txt=BannerAd&w=750&h=150',
-        redirect_url: `http://${faker.internet.domainName()}`
+        redirect_url: `http://${faker.internet.domainName()}`,
+        advertiser: faker.company.companyName,
+        promotion_id: faker.random.number(1000)
       }
     };
   });
