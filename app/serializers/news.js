@@ -12,7 +12,6 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     // Remove read only attributes that should not be sent to the API
     delete json.admin_content_url;
     delete json.author_id;
-    delete json.author_name;
     delete json.comment_count;
     delete json.content_id;
     delete json.image_url;

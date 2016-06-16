@@ -232,6 +232,58 @@
               </div>
             {{/summer-note}}
           {{/form-group}}
+
+          {{#form-group
+            error=errors.author
+            hideError=true
+            news=news as |news|
+          }}
+            <label>
+              Author Override
+              <span class='NewsEditor-toggle' {{action 'toggleAuthorOverride'}}>
+                No
+                {{#if authorOverrideEnabled}}
+                  {{fa-icon 'toggle-on is-on' size='lg'}}
+                {{else}}
+                  {{fa-icon 'toggle-off' size='lg'}}
+                {{/if}}
+                Yes
+              </span>
+            </label>
+            {{form-error errors.author}}
+            <div class="NewsEditor-authorOverride">
+              {{#if authorOverrideEnabled}}
+                <div>
+                  {{input
+                    id='authorIsBlank'
+                    type='checkbox'
+                    checked=hasAuthorName
+                    change=(action 'toggleAuthorName')
+                  }}
+                  <span>
+                    {{#if hasAuthorName}}
+                      The author name indicated will be displayed. Click the box to display no author.
+                    {{else}}
+                      No author will be displayed. Click the box or enter a name to display a different author.
+                    {{/if}}
+                  </span>
+                </div>
+                <div>
+                  {{input
+                    id='authorName'
+                    placeholder='Change author name to...'
+                    class='form-control'
+                    value=news.authorName
+                    data-test-field='authorName'
+                    input=(action 'notifyChange')
+                  }}
+                </div>
+              {{else}}
+                The current author will be set as <b>{{currentUser.name}}</b>. Do you want to override this?
+              {{/if}}
+            </div>
+          {{/form-group}}
+
         </div>
       </div>
     </div>
