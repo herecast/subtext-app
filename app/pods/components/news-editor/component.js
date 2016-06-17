@@ -54,7 +54,7 @@ export default Ember.Component.extend(Validation, {
 
   organizations: computed.oneWay('session.currentUser.managed_organizations'),
 
-  hasUnpublishedChanges: computed('news.hasUnpublishedChanges', 'pendingFeaturedImage', function() {
+  hasUnpublishedChanges: computed('news{hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
   }),
 
@@ -84,12 +84,10 @@ export default Ember.Component.extend(Validation, {
     });
   }),
 
-  showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,hasUnpublishedChanges}', function() {
+  showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,isPublished,hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     const news = get(this, 'news');
-    const showLink = (get(news, 'isDraft') || get(news, 'isScheduled') ||
-                      get(news, 'hasUnpublishedChanges')) ? true : false;
 
-    return showLink;
+    return get(news, 'hasUnpublishedChanges');
   }),
 
   _clearSchedulePubDate() {
