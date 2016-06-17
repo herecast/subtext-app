@@ -2,6 +2,8 @@ import Ember from 'ember';
 import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
 const {
+  get,
+  set,
   computed,
   on,
   observer
@@ -39,8 +41,14 @@ export default Ember.Component.extend(PromotionForm, {
   ],
 
   actions: {
-    toggleEventProperty(property) {
-      this.get('event').toggleProperty(property);
+    toggleCategoryEnabled() {
+      const event = get(this, 'event');
+
+      if (get(event, 'category')) {
+        set(event, 'category', null);
+      } else {
+        set(event, 'category', get(this, 'categories.firstObject'));
+      }
     }
   }
 });
