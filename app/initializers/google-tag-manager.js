@@ -4,6 +4,7 @@ import Ember from 'ember';
 
 const {
   get,
+  inject,
   on,
   run
 } = Ember;
@@ -32,17 +33,25 @@ export function initialize(application) {
     const Router = application.__container__.lookup('router:main');
 
     Router.reopen({
+      session: inject.service(),
+
       notifyGoogleTagManager: on('didTransition', function() {
         // Wrap in run.later so that the page title is available
         return run.later(() => {
+          const currentUser          = get(this, 'session.currentUser');
+          const currentUserID        = (currentUser) ? get(currentUser, 'id') : 'anonymous';
+          const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
+
           if (typeof dataLayer !== "undefined") {
             const currentUrl = window.location.href;
 
             dataLayer.push({
               'event':'VirtualPageview',
-              'virtualPageURL': get(this, 'url'),
-              'virtualPageTitle': document.title,
-              'VirtualPageReferrer': referrer
+              'virtualPageURL'      : get(this, 'url'),
+              'virtualPageTitle'    : document.title,
+              'virtualUserID'       : currentUserID,
+              'virtualCommunity'    : currentUserCommunity,
+              'VirtualPageReferrer' : referrer
             });
 
             referrer = currentUrl;

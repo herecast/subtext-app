@@ -16,20 +16,20 @@
     </div>
   </div>
 
-    {{#if model.bannerImage}}
+    {{#if model.featuredImageUrl}}
       <div class='NewsPhotoBanner'>
         <div class='PhotoBanner-wrap'>
-          {{background-image imageUrl=model.bannerImage.url class='PhotoBanner-curtainImage'}}
+          {{background-image imageUrl=model.featuredImageUrl class='PhotoBanner-curtainImage'}}
           <div class='PhotoBanner-curtain'></div>
         </div>
         <div class='container'>
           <div class='row'>
             <div class='col-sm-8 col-sm-offset-2'>
               <div class="NewsPhotoWrap">
-                <img class='NewsPhotoBanner-photo img-responsive' src={{model.bannerImage.url}}>
+                <img class='NewsPhotoBanner-photo img-responsive' src={{model.featuredImageUrl}}>
                 {{#if hasCaptionOrCredit}}
                   <div class='NewsPhotoBanner-captionArea'>
-                    {{model.bannerImage.caption}}
+                    {{model.featuredImageCaption}}
 
                     {{#if model.bannerImage.credit}}
                       / Source: {{model.bannerImage.credit}}

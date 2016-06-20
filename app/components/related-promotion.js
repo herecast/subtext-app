@@ -1,30 +1,93 @@
 import Ember from 'ember';
 import TrackEvent from 'subtext-ui/mixins/track-event';
+import InViewportMixin from 'ember-in-viewport';
+/* global dataLayer */
 
 const {
-  get, on,
-  inject
+  get,
+  set,
+  run,
+  inject,
+  setProperties
 } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend(TrackEvent, InViewportMixin, {
   api: inject.service('api'),
-  promotionService: Ember.inject.service('promotion'),
+  promotionService: inject.service('promotion'),
 
-  getPromotion: on('didInsertElement', function() {
-    const content = this.get('contentModel');
+  _canSendImpression: true,
+
+  _viewportOptionsOverride() {
+    // ensures the ad is at least 50% visible
+    // before it is considered visible
+    setProperties(this, {
+      viewportUseRAF   : true,
+      viewportSpy      : true,
+      viewportTolerance: {
+        top    : 75, // half the ad height
+        bottom : 75, // half the ad height
+        left   : 20,
+        right  : 20
+      }
+    });
+  },
+
+  _sendImpression() {
+    this.toggleProperty('_canSendImpression');
+
+    if (typeof dataLayer !== "undefined") {
+      dataLayer.push({
+        'event'         : 'VirtualAdImpresion',
+        'advertiser'    : get(this, 'promotion.organization_name'),
+        'promotion_id'  : get(this, 'promotion.promotion_id'),
+        'banner_id'     : get(this, 'promotion.banner_id'),
+        'redirect_url'  : get(this, 'promotion.redirect_url')
+      });
+    }
+  },
+
+  didEnterViewport() {
+    if (get(this, '_canSendImpression')) {
+      set(this, '_pendingImpression', run.later(this, this._sendImpression, 1000));
+    }
+  },
+
+  didExitViewport() {
+    run.cancel(get(this, '_pendingImpression'));
+  },
+
+  _getPromotion() {
+    const content = get(this, 'contentModel');
 
     if (content) {
       const contentId = content.get('contentId');
-      this.get('promotionService').find(contentId).then((promotion) => {
-        this.set('promotion', promotion);
+
+      get(this, 'promotionService').find(contentId).then(promotion => {
+        set(this, 'promotion', promotion);
+
+        if (typeof dataLayer !== "undefined") {
+          dataLayer.push({
+            'event'         : 'VirtualAdLoaded',
+            'advertiser'    : promotion.organization_name,
+            'promotion_id'  : promotion.promotion_id,
+            'banner_id'     : promotion.banner_id,
+            'redirect_url'  : promotion.redirect_url,
+          });
+        }
 
         this.trackEvent('displayBannerAd', {
-          bannerAdId: promotion.banner_id,
-          bannerUrl: promotion.redirect_url,
+          bannerAdId : promotion.banner_id,
+          bannerUrl  : promotion.redirect_url,
         });
       });
     }
-  }),
+  },
+
+  didInsertElement() {
+    this._super();
+    this._viewportOptionsOverride();
+    this._getPromotion();
+  },
 
   click() {
     // Some banners may not have a redirect URL, so we only want to track the
@@ -34,13 +97,23 @@ export default Ember.Component.extend(TrackEvent, {
       const api = get(this, 'api');
 
       this.trackEvent('clickBannerAd', {
-        bannerAdId: get(this, 'promotion.banner_id'),
-        bannerUrl: get(this, 'promotion.redirect_url')
+        bannerAdId : get(this, 'promotion.banner_id'),
+        bannerUrl  : get(this, 'promotion.redirect_url')
       });
 
       api.recordPromoBannerClick(bannerId, {
-        content_id: this.get('contentModel.contentId')
+        content_id: get(this, 'contentModel.contentId')
       });
+
+      if (typeof dataLayer !== "undefined") {
+        dataLayer.push({
+          'event'        : 'VirtualAdClicked',
+          'advertiser'   : get(this, 'promotion.organization_name'),
+          'promotion_id' : get(this, 'promotion.promotion_id'),
+          'banner_id'    : get(this, 'promotion.banner_id'),
+          'redirect_url' : get(this, 'promotion.redirect_url'),
+        });
+      }
     }
   }
 });
