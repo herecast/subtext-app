@@ -2,6 +2,8 @@ import Ember from 'ember';
 import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
 const {
+  get,
+  set,
   computed,
   on,
   observer
@@ -31,15 +33,22 @@ export default Ember.Component.extend(PromotionForm, {
   }),
 
   categories: [
-    {value: 'Arts', label: 'Arts'},
-    {value: 'Live Music', label: 'Live Music'},
-    {value: 'Movies', label: 'Movies'},
-    {value: 'Wellness', label: 'Wellness'},
+    {value: 'arts', label: 'Arts'},
+    {value: 'live_music', label: 'Live Music'},
+    {value: 'movies', label: 'Movies'},
+    {value: 'wellness', label: 'Wellness'},
+    {value: 'first_friday', label: 'First Friday'},
   ],
 
   actions: {
-    toggleEventProperty(property) {
-      this.get('event').toggleProperty(property);
+    toggleCategoryEnabled() {
+      const event = get(this, 'event');
+
+      if (get(event, 'category')) {
+        set(event, 'category', null);
+      } else {
+        set(event, 'category', get(this, 'categories.firstObject'));
+      }
     }
   }
 });
