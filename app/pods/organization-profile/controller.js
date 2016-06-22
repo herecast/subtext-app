@@ -76,7 +76,7 @@ export default Ember.Controller.extend({
     },
 
     cancelEdit() {
-      if(get('model.hasDirtyAttributes')) {
+      if(get(this, 'model.hasDirtyAttributes')) {
         if(confirm('You have unsaved changes. Cancel editing?')) {
           set(this, 'editMode', false);
         }
