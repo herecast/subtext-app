@@ -20,7 +20,7 @@ export default Ember.Component.extend(Validation, {
   showDevFlags: false,
   news: null,
   showPreview: false,
-  //note need to change logic here
+
   authorOverrideEnabled: computed(function() {
     const authorName = get(this, 'news.authorName');
     return authorName !== get(this, 'currentUser.name') && (isPresent(authorName) || authorName === null);

@@ -262,22 +262,24 @@
                   }}
                   <span>
                     {{#if hasAuthorName}}
-                      The author name indicated will be displayed. Click the box to display no author.
+                      The author name indicated will be displayed. Uncheck the box to display no author.
                     {{else}}
-                      No author will be displayed. Click the box or enter a name to display a different author.
+                      No author will be displayed. Check the box to display a different author.
                     {{/if}}
                   </span>
                 </div>
-                <div>
-                  {{input
-                    id='authorName'
-                    placeholder='Change author name to...'
-                    class='form-control'
-                    value=news.authorName
-                    data-test-field='authorName'
-                    input=(action 'notifyChange')
-                  }}
-                </div>
+                {{#if hasAuthorName}}
+                  <div>
+                    {{input
+                      id='authorName'
+                      placeholder='Change author name to...'
+                      class='form-control'
+                      value=news.authorName
+                      data-test-field='authorName'
+                      input=(action 'notifyChange')
+                    }}
+                  </div>
+                {{/if}}
               {{else}}
                 The current author will be set as <b>{{currentUser.name}}</b>. Do you want to override this?
               {{/if}}
