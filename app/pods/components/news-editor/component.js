@@ -5,6 +5,7 @@ import Validation from 'subtext-ui/mixins/components/validation';
 const {
   computed,
   isBlank,
+  isPresent,
   get,
   getProperties,
   setProperties,
@@ -19,6 +20,21 @@ export default Ember.Component.extend(Validation, {
   showDevFlags: false,
   news: null,
   showPreview: false,
+
+  authorOverrideEnabled: computed(function() {
+    const authorName = get(this, 'news.authorName');
+    return authorName !== get(this, 'currentUser.name') && (isPresent(authorName) || authorName === null);
+  }),
+  hasAuthorName: computed.notEmpty('news.authorName'),
+
+  authorName() {
+    if ( get(this, 'authorOverrideEnabled') ) {
+      return get(this, 'news.authorName');
+    } else {
+      return get(this, 'currentUser.name');
+    }
+  },
+
   editorHeight: computed(function() {
     return get(this, 'media.isMobile') ? 300 : 500;
   }),
@@ -28,6 +44,8 @@ export default Ember.Component.extend(Validation, {
   toast: inject.service(),
 
   pendingFeaturedImage: null,
+
+  currentUser: computed.alias('session.currentUser'),
 
   // flag to notify summer note to update the editor contents
   // otherwise, updates to content are ignored due to a bug in summer note
@@ -100,6 +118,8 @@ export default Ember.Component.extend(Validation, {
   _save() {
     const news = get(this, 'news');
 
+    set(this, 'news.authorName', this.authorName());
+
     return news.save().then(() => {
       set(this, 'news.didOrgChange', false);
 
@@ -145,6 +165,7 @@ export default Ember.Component.extend(Validation, {
     this.validatePresenceOf('news.title');
     this.validateContent();
     this.validateOrganization();
+    this.validateAuthor();
   },
 
   validateOrganization() {
@@ -166,6 +187,19 @@ export default Ember.Component.extend(Validation, {
     } else {
       set(this, 'errors.content', null);
       delete get(this, 'errors')['content'];
+    }
+  },
+
+  validateAuthor() {
+    const author = get(this, 'news.authorName');
+    const hasAuthorName = get(this, 'hasAuthorName');
+    const overridden = get(this, 'authorOverrideEnabled');
+
+    if ( overridden && hasAuthorName === isBlank(author) ) {
+      set(this, 'errors.author', "Must choose no author or provide an author name");
+    } else {
+      set(this, 'errors.author', null);
+      delete get(this, 'errors')['author'];
     }
   },
 
@@ -346,6 +380,26 @@ export default Ember.Component.extend(Validation, {
 
     togglePreview() {
       this.toggleProperty('showPreview');
+    },
+
+    toggleAuthorOverride() {
+      this.toggleProperty('authorOverrideEnabled');
+
+      if (!get(this, 'authorOverrideEnabled') ) {
+        set(this, 'news.authorName', get(this, 'currentUser.name'));
+      }
+      this.send('notifyChange');
+
+    },
+
+    toggleAuthorName() {
+      if (get(this,'hasAuthorName')) {
+        set(this, 'news.authorName', null);
+      } else {
+        //default to currentUser.name in case that they uncheck box with empty input
+        set(this, 'news.authorName', get(this, 'currentUser.name'));
+      }
+      this.send('notifyChange');
     }
   }
 });
