@@ -13,6 +13,7 @@ test('Displays organization info', function(assert) {
   const organization = server.create('organization', {
     logo_url: 'http://placehold.it/200x200',
     name: 'Foo Blog',
+    profile_title: 'About Foo Blog inc.',
     description: 'A blog about foo, and bar; and how they came to be.'
   });
   visit(`/organizations/${organization.id}`);
@@ -33,6 +34,13 @@ test('Displays organization info', function(assert) {
       element.text().trim(),
       organization.name,
       "Organization Name");
+
+    // Title
+    element = find(testSelector('organization-profile-title'));
+    assert.equal(
+      element.text().trim(),
+      organization.profile_title,
+      "Organization Profile Title");
 
     // Description
     element = find(testSelector('organization-description'));

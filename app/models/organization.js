@@ -10,8 +10,9 @@ const {
 
 export default DS.Model.extend({
   api: inject.service('api'),
-  
+
   name: DS.attr('string'),
+  profileTitle: DS.attr('string'),
   logoUrl: DS.attr('string'),
   logo: DS.attr(),
   subscribeUrl: DS.attr('string'),
@@ -32,10 +33,10 @@ export default DS.Model.extend({
 
     return `${id}-${paramName}`;
   }),
-  
+
   isBlog: computed.equal('orgType', 'Blog'),
   isBusiness: computed.equal('orgType', 'Business'),
-  
+
   uploadLogo() {
     const id = get(this, 'id');
     const api = get(this, 'api');
