@@ -2,9 +2,8 @@
   <img src={{model.logoUrl}} data-test-organization-image class='OrganizationAbout-avatar'>
 {{/if}}
 {{#if model.description}}
-<h1 class='OrganizationAbout-title'>
-  About
-  {{model.name}}
+<h1 class='OrganizationAbout-title' data-test-organization-profile-title>
+  {{model.profileTitle}}
 </h1>
 <p class='OrganizationAbout-description' data-test-organization-description>
   {{descriptionHtml}}
