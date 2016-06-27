@@ -34,14 +34,14 @@ function template(id) {
 
   return {
     id: id,
-    event_id: faker.random.number(100),
+    eventId: faker.random.number(100),
     subtitle: titleize(faker.lorem.sentences(1)),
-    starts_at: startsAt.toISOString(),
-    end_date: endDate.toISOString(),
-    ends_at: endsAt,
+    startsAt: startsAt.toISOString(),
+    endDate: endDate.toISOString(),
+    endsAt: endsAt,
     repeats: repeats,
-    days_of_week: daysOfWeek,
-    weeks_of_month: weeksOfMonth
+    daysOfWeek: daysOfWeek,
+    weeksOfMonth: weeksOfMonth
   };
 }
 

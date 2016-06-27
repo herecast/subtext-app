@@ -28,23 +28,23 @@ function template(id) {
         credit: faker.name.findName(),
         primary: false,
         url: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=1800%C3%971200&w=1800&h=1200'
-      },
+      }
     ];
   }
 
   return {
     id: id,
-    author_id: 1,
-    author_name: faker.name.findName(),
-    comment_count: faker.random.number(8),
+    authorId: 1,
+    authorName: faker.name.findName(),
+    commentCount: faker.random.number(8),
     content: generateContent(4, { youtube: (id % 2 === 0) }),
-    content_id: faker.random.number(1000),
-    image_url: imageUrl,
+    contentId: faker.random.number(1000),
+    imageUrl: imageUrl,
     images: images,
-    organization_id: 1,
-    organization_name: faker.company.companyName(),
-    published_at: (id % 2 === 0) ? randomDate.toISOString() : null,
-    updated_at: (id % 2 === 0) ? randomDate.toISOString() : null,
+    organizationId: 1,
+    organizationName: faker.company.companyName(),
+    publishedAt: (id % 2 === 0) ? randomDate.toISOString() : null,
+    updatedAt: (id % 2 === 0) ? randomDate.toISOString() : null,
     subtitle: titleize(faker.lorem.sentences(1)),
     title: titleize(faker.lorem.sentences(1))
   };

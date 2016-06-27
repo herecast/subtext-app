@@ -23,7 +23,7 @@ export default DS.Model.extend({
   canPublishNews: DS.attr('boolean'),
   canEdit: DS.attr('boolean'),
 
-  // Temporary for dashboard edit button  
+  // Temporary for dashboard edit button
   businessProfileId: DS.attr(),
 
   slug: computed('name', 'id', function() {

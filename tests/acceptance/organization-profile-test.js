@@ -11,9 +11,9 @@ moduleForAcceptance('Acceptance | organization profile');
 
 test('Displays organization info', function(assert) {
   const organization = server.create('organization', {
-    logo_url: 'http://placehold.it/200x200',
+    logoUrl: 'http://placehold.it/200x200',
     name: 'Foo Blog',
-    profile_title: 'About Foo Blog inc.',
+    profileTitle: 'About Foo Blog inc.',
     description: 'A blog about foo, and bar; and how they came to be.'
   });
   visit(`/organizations/${organization.id}`);
@@ -25,7 +25,7 @@ test('Displays organization info', function(assert) {
     element = find(testSelector('organization-image'));
     assert.equal(
       element.attr('src'),
-      organization.logo_url,
+      organization.logoUrl,
       "Organization Logo");
 
     // Name
@@ -39,7 +39,7 @@ test('Displays organization info', function(assert) {
     element = find(testSelector('organization-profile-title'));
     assert.equal(
       element.text().trim(),
-      organization.profile_title,
+      organization.profileTitle,
       "Organization Profile Title");
 
     // Description
@@ -53,7 +53,7 @@ test('Displays organization info', function(assert) {
 
 test("About section only shows when image and/or description", function(assert) {
   let org1 = server.create('organization');
-  let org2 = server.create('organization', {logo_url: null, description: null});
+  let org2 = server.create('organization', {logoUrl: null, description: null});
 
   visit(`/organizations/${org1.id}`).then(()=>{
     let $aboutSection = find( testSelector('component', 'about-section') );
@@ -71,7 +71,7 @@ test("About section html description is rendered by browser", function(assert) {
   let organization = server.create('organization', {
     description: "<b class='BoldText'>html content</b> <a class='MailToLink' href='mailto://you@example.org'>Click Me</a>"
   });
-  
+
   visit(`/organizations/${organization.id}`).then(()=>{
     let $aboutSection = find( testSelector('component', 'about-section') );
     assert.ok(find('b.BoldText', $aboutSection).length > 0);
@@ -88,15 +88,15 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
   let news = [];
 
   news.push(server.create('news', {
-    organization_id: organization.id,
+    organizationId: organization.id,
     publishedAt: moment().subtract(1,'days').format()
   }));
   news.push(server.create('news', {
-    organization_id: organization.id,
+    organizationId: organization.id,
     publishedAt: moment().subtract(2,'days').format()
   }));
   news.push(server.create('news', {
-    organization_id: organization.id,
+    organizationId: organization.id,
     publishedAt: moment().subtract(3,'days').format()
   }));
 
@@ -133,7 +133,7 @@ test("More Content not visible unless there is content to show there", function(
   // Create content for featured area, but not enough for 'more content'
   for(var i = 1; i < 3; i++) {
     server.create('news', {
-      organization_id: organization.id
+      organizationId: organization.id
     });
   }
 
@@ -155,7 +155,7 @@ test("Given an organization with less than 9 news items; it renders the last 6 a
 
   for(var i = 1; i < 9; i++) {
     news.push(server.create('news', {
-      organization_id: organization.id
+      organizationId: organization.id
     }));
   }
 
@@ -175,7 +175,7 @@ test("Given news items exist not owned by orgnization; it does not include them 
   let organization = server.create('organization');
   let org2 = server.create('organization');
 
-  server.create('news', {organization_id: org2.id });
+  server.create('news', {organizationId: org2.id });
 
   visit(`/organizations/${organization.id}`);
 
@@ -190,7 +190,7 @@ test('Pagination, featured content is not display on subsequent pages', function
   let organization = server.create('organization');
   let news = [];
   for(var i = 1; i < 10; i++) {
-    news.push(server.create('news', {organization_id: organization.id}));
+    news.push(server.create('news', {organizationId: organization.id}));
   }
   let firstPage = news.slice(2,6);
   let nextPage = news.slice(9);
@@ -219,7 +219,7 @@ test("Searching content: returns records matching query. Featured items gone.", 
   let organization = server.create('organization');
   let news = [];
   for(var i = 1; i < 3; i++) {
-    news.push(server.create('news', {organization_id: organization.id}));
+    news.push(server.create('news', {organizationId: organization.id}));
   }
 
   let matchingArticle = server.create('news', {
@@ -254,18 +254,18 @@ test("Searching content: returns records matching query. Featured items gone.", 
  */
 test('Subscribe link, when subscribe url', function(assert) {
   let org1 = server.create('organization', {
-    subscribe_url: 'http://click.to/subscribe'
+    subscribeUrl: 'http://click.to/subscribe'
   });
-  
+
   visit(`/organizations/${org1.id}`).then(()=>{
     let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
-    assert.equal($subscribeLink.attr('href'), org1.subscribe_url);
+    assert.equal($subscribeLink.attr('href'), org1.subscribeUrl);
   });
-  
+
   let org2 = server.create('organization', {
-    subscribe_url: null 
+    subscribeUrl: null
   });
-  
+
   visit(`/organizations/${org2.id}`).then(()=>{
     let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
     assert.equal($subscribeLink.length, 0);
@@ -275,10 +275,10 @@ test('Subscribe link, when subscribe url', function(assert) {
 test('Visiting news landing page, clicking organization name brings me to profile page', function(assert) {
   let organization = server.create('organization', {name: 'meta tauta'});
   server.create('news', {
-    organization_id: organization.id,
+    organizationId: organization.id,
     title: 'revelation'
   });
-  
+
   visit('/news').then(()=>{
     let $newsCard = find(testSelector('news-card', 'revelation'));
     let $orgLink = find(testSelector('component', 'organization-link'), $newsCard);
@@ -291,10 +291,10 @@ test('Visiting news landing page, clicking organization name brings me to profil
 test('Visiting news item page, clicking organization name brings me to profile page', function(assert) {
   let organization = server.create('organization', {name: 'meta tauta'});
   let news = server.create('news', {
-    organization_id: organization.id,
+    organizationId: organization.id,
     title: 'revelation'
   });
-  
+
   visit(`/news/${news.id}`).then(()=>{
     let $orgLink = find(testSelector('component', 'news-show-organization-link'));
     click($orgLink).then(()=>{

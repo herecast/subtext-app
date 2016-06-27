@@ -17,54 +17,18 @@ function filterByCategory(events, category) {
   }
 }
 
-function filterByDate(events, startDate, endDate) {
-  if (!!startDate && !!endDate) {
-    const queryStart = moment(startDate);
-    const queryEnd = moment(endDate).endOf('day');
+function filterCollectionByDate(mirageCollection, queryStart, queryEnd) {
+  if (isPresent(queryStart) && isPresent(queryEnd)) {
+    return mirageCollection.where((item) => {
+      const itemStart = moment(item.startsAt);
+      const itemEnd = moment(item.endsAt);
 
-    return events.filter((event) => {
-      const eventStart = moment(event.starts_at);
-      const eventEnd = moment(event.ends_at);
-
-      return (eventStart >= queryStart && eventStart <= queryEnd) ||
-        (eventEnd >= queryStart && eventEnd <= queryEnd);
+      return (itemStart >= queryStart && itemStart <= queryEnd) ||
+        (itemEnd >= queryStart && itemEnd <= queryEnd);
     });
   } else {
-    return events;
+    return mirageCollection.all();
   }
-}
-
-function titleize(words) {
-  return words.split(' ').map((word) => {
-    return word.capitalize();
-  }).join(' ');
-}
-
-function generateInstance(id) {
-  // All events start at a random time between 7am and 12pm
-  const startHour = faker.random.number({min: 7, max: 12});
-  const startsAt = moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
-
-  // All are up to 8 hours long so they don't go past midnight
-  const hourSpan = faker.random.number({min: 2, max: 8});
-  const endsAt = moment(startsAt).add(hourSpan, 'hours');
-
-  return {
-    id: id,
-    subtitle: titleize(faker.lorem.sentences(1)),
-    starts_at: startsAt.toISOString(),
-    ends_at: endsAt.toISOString()
-  };
-}
-
-function allInstances() {
-  const events = [];
-
-  for (let i = 1; i < 10; i += 1) {
-    events.push(generateInstance(i));
-  }
-
-  return events;
 }
 
 const eventBaseProperties = [
@@ -78,7 +42,7 @@ const eventBaseProperties = [
 ];
 
 const marketPostBaseProperties = [
-  'id', 'title', 'image_url', 'published_at', 'content_id', 'my_town_only'
+  'id', 'title', 'imageUrl', 'publishedAt', 'contentId', 'myTownOnly'
 ];
 
 const talkBaseProperties = [
@@ -87,8 +51,8 @@ const talkBaseProperties = [
 ];
 
 const newsBaseProperties = [
-  'id', 'title', 'content', 'published_at', 'author_id', 'author_name',
-  'organization_name','organization_id', 'image_url'
+  'id', 'title', 'content', 'publishedAt', 'authorId', 'authorName',
+  'organizationName','organizationId', 'imageUrl', 'organization'
 ];
 
 function dashboardTalks(db,start,stop) {
@@ -139,7 +103,7 @@ function dashboardEvents(db,start,stop) {
 }
 
 function dashboardAds(db,start,stop) {
-  return db.promotion_banners.slice(start,stop);
+  return db.promotionBanners.slice(start,stop);
 }
 
 function mixedContent(db, params={}) {
@@ -216,39 +180,39 @@ export default function() {
 
   this.post('/users/logout', function() {});
 
-  this.get('/current_user', function(db) {
-    var current_user = db['current-users'].find(1);
+  this.get('/current_user', function({ db }) {
+    var currentUser = db.currentUsers.find(1);
 
     //mocks location join
-    var location = db.locations.find(current_user.location_id);
+    var location = db.locations.find(currentUser.locationId);
     var locationString = `${location.city}, ${location.state}`;
-    current_user.location = locationString;
+    currentUser.location = locationString;
 
     return {
-      current_user: current_user
+      current_user: currentUser
     };
   });
 
-  this.put('/current_user', function(db, request) {
+  this.put('/current_user', function({ db }, request) {
     var id = 1;
-    var current_user;
+    var currentUser;
 
     if(request.requestHeaders['Content-Type'].indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
-      var attrs = putData['current_user'];
-      current_user = db['current-users'].update(id, attrs);
+      var attrs = putData['currentUser'];
+      currentUser = db.currentUsers.update(id, attrs);
     } else {
-      current_user = db['current-users'].find(id);
+      currentUser = db.currentUsers.find(id);
     }
 
     //mocks location join
-    var location = db.locations.find(current_user.location_id);
+    var location = db.locations.find(currentUser.locationId);
     var locationString = `${location.city}, ${location.state}`;
-    current_user.location = locationString;
+    currentUser.location = locationString;
 
     return {
-      current_user: current_user
+      current_user: currentUser
     };
   });
 
@@ -259,27 +223,20 @@ export default function() {
     };
   });
 
-  this.get('/event_instances', function(db, request) {
+  this.get('/event_instances', function({ eventInstances }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
 
-    // The event index endpoint returns a subset of all available properties
-    let events = db.event_instances.map((event) => {
-      return Ember.getProperties(event, eventBaseProperties);
-    });
+    let results = filterCollectionByDate(eventInstances, params.date_start, params.date_end);
+    results.models = filterByCategory(results.models, params.category);
+    results.models = results.models.slice(start, stop);
 
-    events = filterByCategory(events, params.category);
-    events = filterByDate(events, params.date_start, params.date_end);
-    events = events.slice(start, stop);
-
-    return {
-      event_instances: events
-    };
+    return results;
   });
 
    // Used in the user dashboard to find locations
-  this.get('/locations', function(db) {
+  this.get('/locations', function({ db }) {
     return {
       locations: db.locations
     };
@@ -287,24 +244,24 @@ export default function() {
 
 
   // Used by the event filter bar to find locations
-  this.get('/venue_locations', function(db, request) {
-    const venue_locations = [];
+  this.get('/venue_locations', function({ db }, request) {
+    const venueLocations = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
     // no results so we can see what that looks like in the UI
     if (request.queryParams.query.indexOf('empty') !== 0) {
       for (let i = 1; i < 5; i += 1) {
-        venue_locations.push(faker.address.streetAddress());
+        venueLocations.push(faker.address.streetAddress());
       }
     }
 
     return {
-      venue_locations: venue_locations
+      venue_locations: venueLocations
     };
   });
 
   // Used by the news filter bar to find organizations
-  this.get('/organizations', function(db, request) {
+  this.get('/organizations', function({ db }, request) {
     let organizations;
 
     // For demo purposes - if someone starts a search with 'empty' we return
@@ -324,7 +281,7 @@ export default function() {
   });
 
   this.get('/organizations/:id');
-  this.put('/organizations/:id', function(db, request) {
+  this.put('/organizations/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
@@ -339,24 +296,13 @@ export default function() {
     }
   });
 
-  this.get('/event_instances/:id', function(db, request) {
-    const event = db.event_instances.find(request.params.id);
-    const baseProperties = Ember.copy(eventBaseProperties);
-    const showProperties = ['content_id', 'can_edit', 'admin_content_url', 'comment_count'];
-    const properties = baseProperties.concat(showProperties);
-    const data = Ember.getProperties(event, properties);
-    data.event_instances = allInstances();
+  this.get('/event_instances/:id', 'event-instance');
 
-    return {
-      event_instance: data
-    };
-  });
-
-  this.get('/events/:id', function(db, request) {
+  this.get('/events/:id', function({ db }, request) {
     const event = db.events.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
     const showProperties = [
-      'content_id', 'category'
+      'contentId', 'category'
     ];
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
@@ -368,7 +314,7 @@ export default function() {
     };
   });
 
-  this.post('/events', function(db, request) {
+  this.post('/events', function({ db }, request) {
     const putData = JSON.parse(request.requestBody);
 
     const eventAttrs = putData['event'];
@@ -390,7 +336,7 @@ export default function() {
     };
   });
 
-  this.post('/events/:id/publish', function(db, request) {
+  this.post('/events/:id/publish', function({ db }, request) {
     db.events.update(request.params.id, {published: true});
     const event = db.events.find(request.params.id);
 
@@ -403,7 +349,7 @@ export default function() {
     return { };
   });
 
-  this.put('/events/:id', function(db, request) {
+  this.put('/events/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
@@ -429,7 +375,7 @@ export default function() {
   this.del('/events/:id');
 
   // Used by the event creation page to find venues
-  this.get('/venues', function(db, request) {
+  this.get('/venues', function({ db }, request) {
     let venues = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
@@ -449,7 +395,7 @@ export default function() {
 
   this.get('/listservs');
 
-  this.get('/contents/:id/similar_content', function(db) {
+  this.get('/contents/:id/similar_content', function({ db }) {
     return {
       similar_content: mixedContent(db)
     };
@@ -469,26 +415,25 @@ export default function() {
 
   this.post('/promotion_banners/:id/track_click', function() {});
 
-  this.get('/market_posts', function(db, request) {
+  this.get('/market_posts', function({ marketPosts }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
+    const queryStart = params.date_start;
+    const queryEnd = params.date_end;
+    let results;
 
-    let posts = db['market-posts'].slice(start,stop).map((post) => {
-      return Ember.getProperties(post, marketPostBaseProperties);
-    });
+    results = filterCollectionByDate(marketPosts, queryStart, queryEnd);
 
-    posts = filterByDate(posts, params.date_start, params.date_end);
+    results.models = results.models.slice(start, stop);
 
-    return {
-      market_posts: posts
-    };
+    return results;
   });
 
   this.get('/market_posts/:id', 'market-post');
 
-  this.get('/market_posts/:id/contact', function(db, request) {
-    const post = db['market-posts'].find(request.params.id);
+  this.get('/market_posts/:id/contact', function({ db }, request) {
+    const post = db.marketPosts.find(request.params.id);
 
     return {
       market_post: {
@@ -499,11 +444,11 @@ export default function() {
     };
   });
 
-  this.post('/market_posts', function(db, request) {
+  this.post('/market_posts', function({ db }, request) {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
-    const post = db['market-posts'].insert(attrs);
+    const post = db.marketPosts.insert(attrs);
 
     // This is so we show the edit button on the post show page
     post.can_edit = true;
@@ -514,12 +459,12 @@ export default function() {
     };
   });
 
-  this.put('/market_posts/:id', function(db, request) {
+  this.put('/market_posts/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['market_post'];
-      return db['market-posts'].update(id, attrs);
+      return db.marketPosts.update(id, attrs);
     } else {
       // We're using the UPDATE action to upload market images after the post
       // has been created. Mirage can't really handle this, so we ignore it.
@@ -539,39 +484,34 @@ export default function() {
     return {};
   });
 
-  this.get('/talk', function(db, request) {
+  this.get('/talk', function({ talks }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
 
-    let talks = db.talks.slice(start, stop).map((talk) => {
-      return Ember.getProperties(talk, talkBaseProperties);
-    });
+    let results = filterCollectionByDate(talks, params.date_start, params.dateEnd);
+    results.models = results.models.slice(start, stop);
 
-    talks = filterByDate(talks, params.date_start, params.date_end);
-
-    return {
-      talk: talks
-    };
+    return results;
   });
 
   this.get('/talk/:id');
 
-  this.post('/talk', function(db, request) {
+  this.post('/talk', function({ db }, request) {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['talk'];
     const talk = db.talks.insert(attrs);
 
     // This is so we show the edit button on the talk show page
-    talk.can_edit = true;
+    talk.canEdit = true;
 
     return {
       talk: talk
     };
   });
 
-  this.put('/talk/:id', function(db, request) {
+  this.put('/talk/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
@@ -585,39 +525,38 @@ export default function() {
     }
   });
 
-  this.get('/news', function(db, request) {
+  this.get('/news', function({ news }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
-    const organizationId = params.organization_id;
+    const organizationId = params.organizationId;
     const query = params.query;
 
-    let news = db.news;
+    let results = filterCollectionByDate(news, params.date_start, params.dateEnd);
+
     if(isPresent(organizationId)) {
-      news = news.filter((item)=> {
-        return item.organization_id.toString() === organizationId;
+      results.models = results.models.filter((item)=> {
+        return item.organizationId.toString() === organizationId;
       });
     }
 
     if(isPresent(query)) {
-      news = news.filter((item)=> {
+      results.models = results.models.filter((item)=> {
         return isPresent(item.title) && (item.title.indexOf(query) > -1);
       });
     }
 
-    let total = news.length;
-    news = news.slice(start,stop).map((article) => {
-      return Ember.getProperties(article, newsBaseProperties);
-    });
+    // Get the total number of results, then cut the results by the current start and stop points
+    let total = results.models.length;
+    results.models = results.models.slice(start,stop);
 
-    news = filterByDate(news, params.date_start, params.date_end);
-
-    return {
-      news: news,
-      meta: {
-        total: total
-      }
+    // Build the response with the meta total
+    let response =  this.serializerOrRegistry.serialize(results, request);
+    response.meta = {
+      total: total
     };
+
+    return new Mirage.Response(200, {}, response);
   });
 
   this.get('/news/:id');
@@ -625,7 +564,7 @@ export default function() {
 
   this.post('news');
 
-  this.put('news/:id', function(db, request) {
+  this.put('news/:id', function({ db }, request) {
     const id = request.params.id;
     const data = JSON.parse(request.requestBody);
 
@@ -634,13 +573,13 @@ export default function() {
     return { news: news };
   });
 
-  this.get('/contents', function(db, request) {
+  this.get('/contents', function({ db }, request) {
     return {
       contents: mixedContent(db, request.queryParams)
     };
   });
 
-  this.get('/dashboard', function(db, request) {
+  this.get('/dashboard', function({ db }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
@@ -664,13 +603,13 @@ export default function() {
     };
   });
 
-  this.get('/promotion_banners', function(db, request) {
+  this.get('/promotion_banners', function({ db }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
 
     return {
-      promotion_banners: dashboardAds(db,start,stop)
+      promotionBanners: dashboardAds(db,start,stop)
     };
   });
 
@@ -679,7 +618,7 @@ export default function() {
     return new Mirage.Response(200, {'Content-Type': 'text/html'}, weather);
   });
 
-  this.post('/images', function(db) {
+  this.post('/images', function({ db }) {
     const image = db.images.insert({
       id: faker.random.number(1000),
       primary: false,
@@ -691,7 +630,7 @@ export default function() {
     };
   });
 
-  this.put('/images/:id', function(db, request) {
+  this.put('/images/:id', function({ db }, request) {
     const id = request.params.id;
     const image = db.images.update(id, {});
 
@@ -700,36 +639,36 @@ export default function() {
     };
   });
 
-  this.get('/contents/:id/metrics', function(db){
+  this.get('/contents/:id/metrics', function({ db }){
     return {
-      content_metrics: db['content-metrics'][0]
+      content_metrics: db.contentMetrics[0]
     };
   });
 
-  this.get('/promotion_banners/:id/metrics', function(db){
+  this.get('/promotion_banners/:id/metrics', function({ db }){
     return {
-      promotion_banner_metrics: db['ad-metrics'][0]
+      promotion_banner_metrics: db.adMetrics[0]
     };
   });
 
-  this.get('/businesses', function(db, request) {
-    const { query } = request.queryParams; // category location, max_distance, open_at
-    const businessProfiles = db['business-profiles'];
+  this.get('/businesses', function({ db }, request) {
+    const { query } = request.queryParams; // category location, maxDistance, openAt
+    const businessProfiles = db.businessProfiles;
 
     if (query === "nothing") {
       return {
-        business_profiles: []
+        businessProfiles: []
       };
-    } else if ('organization_id' in request.queryParams) {
-      const organizationId = Number(request.queryParams.organization_id);
+    } else if ('organizationId' in request.queryParams) {
+      const organizationId = Number(request.queryParams.organizationId);
       return {
-        business_profiles: businessProfiles.filter((item) => {
-          return item.organization_id === organizationId;
+        businessProfiles: businessProfiles.filter((item) => {
+          return item.organizationId === organizationId;
         })
       };
     } else {
       return {
-        business_profiles: businessProfiles,
+        businessProfiles: businessProfiles,
         meta: {
           total: 9987
         }
@@ -737,19 +676,19 @@ export default function() {
     }
   });
 
-  this.get('/businesses/:id', function(db, request) {
+  this.get('/businesses/:id', function({ db }, request) {
     return {
-      business_profile: db['business-profiles'].find(request.params.id)
+      businessProfile: db.businessProfiles.find(request.params.id)
     };
   });
 
   this.post('/businesses');
   this.put('/businesses/:id');
 
-  this.get('/business_categories', function(db, request) {
+  this.get('/business_categories', function({ db }, request) {
     // For coalesceFindRequests
     const ids = request.queryParams['ids'];
-    let categories = db['business-categories'];
+    let categories = db.businessCategories;
 
     if( !Ember.isEmpty(ids) ) {
       categories = categories.filter(function(category) {
@@ -758,15 +697,15 @@ export default function() {
     }
 
     return {
-      business_categories: categories
+      businessCategories: categories
     };
   });
 
-  this.get('/business_categories/:id', function(db, request){
+  this.get('/business_categories/:id', function({ db }, request){
     const catId = request.params.id;
 
     return {
-      business_category: db['business-categories'].find(catId)
+      businessCategory: db.businessCategories.find(catId)
     };
   });
 

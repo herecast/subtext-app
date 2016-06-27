@@ -34,6 +34,10 @@ module.exports = function(environment) {
     serverTokenEndpoint: '/api/v3/users/sign_in',
   };
 
+  ENV['ember-cli-mirage'] = {
+    directory: 'app/mirage'
+  };
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;

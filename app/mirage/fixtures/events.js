@@ -10,22 +10,22 @@ function generateEvent(id) {
     title: titleize(faker.lorem.sentences(1)),
     subtitle: titleize(faker.lorem.sentences(1)),
     content: `<p>${faker.lorem.paragraph(5)}</p>`,
-    content_id: faker.random.number(1000),
-    cost_type: 'paid', // free, paid, donation
+    contentId: faker.random.number(1000),
+    costType: 'paid', // free, paid, donation
     cost: '$15-$55',
-    contact_phone: faker.phone.phoneNumber(),
-    contact_email: faker.internet.email(),
-    event_url: `http://${faker.internet.domainName()}`,
-    venue_id: faker.random.number(1000),
-    venue_name: titleize(faker.lorem.words(3).join(' ')),
-    venue_address: faker.address.streetAddress(),
-    venue_city: faker.address.city(),
-    venue_state: 'VT',
-    venue_zip: faker.address.zipCode(),
-    venue_url: `http://${faker.internet.domainName()}`,
-    venue_latitude: faker.address.latitude(),
-    venue_longitude: faker.address.longitude(),
-    venue_locate_name: titleize(faker.lorem.sentences(1))
+    contactPhone: faker.phone.phoneNumber(),
+    contactEmail: faker.internet.email(),
+    eventUrl: `http://${faker.internet.domainName()}`,
+    venueId: faker.random.number(1000),
+    venueName: titleize(faker.lorem.words(3).join(' ')),
+    venueAddress: faker.address.streetAddress(),
+    venueCity: faker.address.city(),
+    venueState: 'VT',
+    venueZip: faker.address.zipCode(),
+    venueUrl: `http://${faker.internet.domainName()}`,
+    venueLatitude: faker.address.latitude(),
+    venueLongitude: faker.address.longitude(),
+    venueLocateName: titleize(faker.lorem.sentences(1))
   };
 }
 
