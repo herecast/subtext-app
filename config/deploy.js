@@ -42,5 +42,10 @@ module.exports = function(deployTarget) {
     ENV['front-end-builds'].endpoint = productionHost;
   }
 
+  if (deployTarget == 'fe') {
+    ENV.build.environment = 'production';
+    ENV['front-end-builds'].endpoint = process.env['FE_ENDPOINT'];
+  }
+
   return ENV;
 };

@@ -7,22 +7,25 @@ var env_endpoints = {
   "production": "https://dailyuv.com",
   "staging": "https://stage-consumer.subtext.org",
   "qa": "https://qa-consumer.subtext.org",
+  "fe": process.env['FE_ENDPOINT']
 }
 
 if (!process.env['HTTP_USERNAME'] || !process.env['HTTP_PASSWORD']) {
-  throw new Error('HTTP_USERNAME and HTTP_PASSWORD must me set to authenticate to admin')
+  throw new Error('HTTP_USERNAME and HTTP_PASSWORD must be set to authenticate to admin');
 }
 
 var environment = process.argv[2];
 
 // default to qa, since that is what ember-cli will do anyways
 if (!environment) {
-  environment = 'qa'
+  environment = 'qa';
+} else if (environment == 'fe' && !process.env['FE_ENDPOINT']) {
+  throw new Error('the FE_ENDPOINT environment variable must be set for FE deploys');
 }
 
 var endpoint = env_endpoints[environment]
 if (typeof endpoint == 'undefined') {
-  throw new Error('unkown envrionment: ' + environment)
+  throw new Error('unkown envrionment: ' + environment);
 }
 
 var getSHA = function() {
