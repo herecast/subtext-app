@@ -22,7 +22,7 @@ export default Mirage.Factory.extend({
       lng: generateLatLng(-80.000)
     };
   },
-  service_radius: "12.5",
+  serviceRadius: "12.5",
   details() { return "<p>" + faker.lorem.sentences() + "</p>"; },
   logo() { return faker.image.avatar(); },
   images() { return [faker.image.business(),faker.image.business()]; },
@@ -34,9 +34,8 @@ export default Mirage.Factory.extend({
       recommend: Math.random()
     };
   },
-  feedback_num() { return Math.floor( Math.random() * 300 ); },
+  feedbackNum() { return Math.floor( Math.random() * 300 ); },
   views: "237",
-  category_ids: [],
-  has_retail_location() { return faker.helpers.shuffle(true,false); },
-  can_edit() { return faker.helpers.shuffle(true,false); }
+  hasRetailLocation() { return faker.helpers.shuffle(true,false); },
+  canEdit() { return faker.helpers.shuffle(true,false); }
 });

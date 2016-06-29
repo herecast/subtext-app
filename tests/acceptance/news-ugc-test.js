@@ -11,7 +11,7 @@ moduleForAcceptance('Acceptance | news ugc', {
 
 test('/news while not logged in', function(assert) {
   invalidateSession(this.application);
-  server.create('organization', { can_publish_news: true });
+  server.create('organization', { canPublishNews: true });
   const newsItem = server.create('news');
 
   visit(`/news/${newsItem.id}`);
@@ -23,7 +23,7 @@ test('/news while not logged in', function(assert) {
 
 test('/news', function(assert) {
   server.createList('news', 20);
-  server.create('organization', { can_publish_news: true });
+  server.create('organization', { canPublishNews: true });
 
   visit('/news');
 
@@ -48,7 +48,7 @@ test('/news', function(assert) {
 });
 
 test('/news cards link to full articles', function(assert) {
-  server.create('organization', { can_publish_news: true });
+  server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', { title: 'my fake news article', id: 50 });
 
@@ -67,18 +67,18 @@ test('/news cards link to full articles', function(assert) {
 });
 
 test('/news/:id commenting as a logged in user', function(assert) {
-  server.create('organization', { can_publish_news: true });
+  server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', {
     id: 50,
-    content_id: 50,
+    contentId: 50,
     title: 'my fake news article',
-    comment_count: 8,
-    author_name: 'Barry Manilow'
+    commentCount: 8,
+    authorName: 'Barry Manilow'
   });
 
   const comments = server.createList('comment', 8, {
-    content_id: news.content_id
+    contentId: news.contentId
   });
 
   visit('/news/50');
@@ -86,7 +86,7 @@ test('/news/:id commenting as a logged in user', function(assert) {
   andThen(() => {
     assert.equal(currentURL(), '/news/50', 'it should be at the url for "/news/50"');
     assert.equal(find(testSelector('news-title')).text(), news.title, 'it should show the title');
-    assert.equal(find(testSelector('author-name')).first().text().trim(), news.author_name, "it should show the author's name");
+    assert.equal(find(testSelector('author-name')).first().text().trim(), news.authorName, "it should show the author's name");
     assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
   });
 
