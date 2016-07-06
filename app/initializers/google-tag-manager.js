@@ -39,7 +39,7 @@ export function initialize(application) {
         // Wrap in run.later so that the page title is available
         return run.later(() => {
           const currentUser          = get(this, 'session.currentUser');
-          const currentUserID        = (currentUser) ? get(currentUser, 'id') : 'anonymous';
+          const currentUserID        = (currentUser) ? get(currentUser, 'userId') : 'anonymous';
           const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
 
           if (typeof dataLayer !== "undefined") {
