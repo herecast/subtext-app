@@ -20,6 +20,7 @@ export default DS.Model.extend(BaseEvent, {
   listservIds: DS.attr('raw', {defaultValue: function() { return []; }}),
   schedules: DS.hasMany('schedule'),
   organization: DS.belongsTo('organization'),
+  ownerName: DS.attr('string'),
 
   categoryEnabled: Ember.computed.notEmpty('category'),
   listsEnabled: Ember.computed.notEmpty('listservIds'),

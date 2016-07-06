@@ -5,11 +5,11 @@
       {{organization-dropdown selection=event.organization class="with-border"}}
     {{else}}
       <div class='form-control-static'>
-      {{#if event.organization}}
-        {{event.organization.name}}
-      {{else}}
-        {{session.currentUser.name}}
-      {{/if}}
+        {{#if event.ownerName}}
+          {{event.ownerName}}
+        {{else}}
+          {{session.currentUser.name}}
+        {{/if}}
       </div>
     {{/if}}
   {{/form-group}}
