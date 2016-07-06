@@ -3,32 +3,32 @@ import moment from 'moment';
 
 export default Mirage.Factory.extend({
   title() { return faker.lorem.sentence(); },
-  image_url() { return faker.image.image(); },
+  imageUrl() { return faker.image.image(); },
   pubdate() { return new Date(); },
 
-  impression_count() { return faker.random.number(999); },
-  max_impressions() { return faker.random.number(999); },
-  click_count() { return faker.random.number(999); },
+  impressionCount() { return faker.random.number(999); },
+  maxImpressions() { return faker.random.number(999); },
+  clickCount() { return faker.random.number(999); },
 
-  daily_impression_counts() {
+  dailyImpressionCounts() {
     const dailyCounts = [];
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        report_date: moment().subtract(i,'days').toDate().toISOString(),
-        impression_count: faker.random.number(99)
+        reportDate: moment().subtract(i,'days').toDate().toISOString(),
+        impressionCount: faker.random.number(99)
       });
     }
 
     return dailyCounts;
   },
-  daily_click_counts() {
+  dailyClickCounts() {
     const dailyCounts = [];
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        report_date: moment().subtract(i,'days').toDate().toISOString(),
-        click_count: faker.random.number(99)
+        reportDate: moment().subtract(i,'days').toDate().toISOString(),
+        clickCount: faker.random.number(99)
       });
     }
 

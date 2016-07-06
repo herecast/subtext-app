@@ -7,15 +7,15 @@ const imageUrl = 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Market+List
 export default Mirage.Factory.extend({
   title() { return titleize(faker.lorem.sentences(1)); },
   content() { return faker.lorem.sentences(5); },
-  content_id(id) { return id; },
-  published_at() { return moment(faker.date.recent(-30)).toISOString(); },
-  image_url(id) {
+  contentId(id) { return id; },
+  publishedAt() { return moment(faker.date.recent(-30)).toISOString(); },
+  imageUrl(id) {
     return (id % 2 === 0) ? imageUrl : null;
   },
-  can_edit: true,
-  has_contact_info(id) { return (id % 2 === 0); }, // only some posts will have contact info
+  canEdit: true,
+  hasContactInfo(id) { return (id % 2 === 0); }, // only some posts will have contact info
   price: '$110, OBO',
-  my_town_only() { return faker.helpers.shuffle(true,false); },
+  myTownOnly() { return faker.helpers.shuffle(true,false); },
   images(id) {
     let images = [];
 
