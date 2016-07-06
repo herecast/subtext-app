@@ -68,11 +68,10 @@ export default Ember.Service.extend({
     });
   },
 
-  geocode(address, whitelist) {
+  geocode(address, filterParams) {
     const mapsService = get(this, 'mapsService');
     const returnSet = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
     const userLocation = get(this, 'userLocation');
-    const upperCaseFilters = whitelist.filters.map((value) => { return value.toUpperCase(); });
 
     return returnSet.create({
       promise: new Ember.RSVP.Promise(function(resolve, reject) {
@@ -82,8 +81,7 @@ export default Ember.Service.extend({
             country: 'US'
           }
         };
-
-        // Create a bias to 50 bounding box from user location
+        // Create a bias to 25 bounding box from user location
         if(userLocation.get('isSettled')) {
           geoArgs['bounds'] = mapsService.boundingBox(userLocation.get('coords'), 25);
         }
@@ -93,18 +91,21 @@ export default Ember.Service.extend({
             reject(status);
           } else {
             resolve(results.filter(item => {
-              let keepItem = false;
-              if (item.types.contains('locality') && whitelist) {
-                item.address_components.forEach((address_component) => {
-                  //if this is the right type of filter to check
-                  if(address_component.types.contains(whitelist.type)) {
-                    keepItem = upperCaseFilters.contains(address_component.short_name.toUpperCase());
-                  }
+              const isLocality = item.types.contains('locality');
+
+              if (isLocality && filterParams) {
+                const {filterType, filterArray} = filterParams;
+                const filterMatch = item.address_components.find(address_component => {
+                  return address_component.types.contains(filterType);
+                });
+
+                return filterArray.any(filterItem => {
+                  const pattern = new RegExp(filterMatch.short_name, 'i');
+                  return filterItem.match(pattern);
                 });
               } else {
-                keepItem = item.types.contains('locality');
+                return isLocality;
               }
-              return keepItem;
             }).map(item => {
               return {
                 human: mapsService.cityStateFormat(item),
