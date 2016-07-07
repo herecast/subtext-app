@@ -14,7 +14,7 @@ function template(id) {
   const imageUrl = (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Event&w=500&h=500' : null;
 
   // Only a subset of the events will have a venue name.
-  const venueName = (id % 3 === 0) ? titleize(faker.lorem.words(3).join(' ')) : null;
+  const venueName = (id % 3 === 0) ? titleize(faker.lorem.words(3)) : null;
 
   const deadline = (id % 4 === 0) ? startsAt : null;
 

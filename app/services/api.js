@@ -37,6 +37,12 @@ export default AjaxService.extend({
     return this.post(url, {data: data});
   },
 
+  updateFeedback(id, data) {
+    const url = `/businesses/${id}/feedback`;
+
+    return this.put(url, {data: data});
+  },
+
   createImage(data) {
     return this.post("/images", {
       //data is FormData

@@ -15,7 +15,7 @@ export default Mirage.Factory.extend({
   canEdit: true,
   hasContactInfo(id) { return (id % 2 === 0); }, // only some posts will have contact info
   price: '$110, OBO',
-  myTownOnly() { return faker.helpers.shuffle(true,false); },
+  myTownOnly() { return faker.random.boolean(); },
   images(id) {
     let images = [];
 

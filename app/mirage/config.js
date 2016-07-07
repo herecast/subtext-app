@@ -651,9 +651,9 @@ export default function() {
     };
   });
 
-  this.get('/businesses', function({ db }, request) {
+  this.get('/businesses', function({ db, businessProfiles }, request) {
     const { query } = request.queryParams; // category location, maxDistance, openAt
-    const businessProfiles = db.businessProfiles;
+    let profiles = this.serialize(businessProfiles.all());
 
     if (query === "nothing") {
       return {
@@ -661,56 +661,53 @@ export default function() {
       };
     } else if ('organizationId' in request.queryParams) {
       const organizationId = Number(request.queryParams.organizationId);
+
       return {
-        businessProfiles: businessProfiles.filter((item) => {
+        businessProfiles: profiles.filter((item) => {
           return item.organizationId === organizationId;
         })
       };
     } else {
       return {
-        businessProfiles: businessProfiles,
-        meta: {
-          total: 9987
-        }
+        businesses: profiles['business_profiles']
       };
     }
   });
 
-  this.get('/businesses/:id', function({ db }, request) {
-    return {
-      businessProfile: db.businessProfiles.find(request.params.id)
-    };
+  this.get('/businesses/:id', function({ db, businessProfiles }, request) {
+    return this.serialize(businessProfiles.find(request.params.id));
   });
 
   this.post('/businesses');
   this.put('/businesses/:id');
 
-  this.get('/business_categories', function({ db }, request) {
+  this.get('/business_categories', function({ db, businessCategories }, request) {
     // For coalesceFindRequests
     const ids = request.queryParams['ids'];
-    let categories = db.businessCategories;
+    let categories = this.serialize(businessCategories.all());
 
     if( !Ember.isEmpty(ids) ) {
-      categories = categories.filter(function(category) {
+      categories.filter(function(category) {
         return ids.contains(category.id.toString());
       });
     }
 
-    return {
-      businessCategories: categories
-    };
+    return categories;
   });
 
-  this.get('/business_categories/:id', function({ db }, request){
-    const catId = request.params.id;
-
-    return {
-      businessCategory: db.businessCategories.find(catId)
-    };
+  this.get('/business_categories/:id', function({ db, businessCategories }, request){
+    return this.serialize(businessCategories.find(request.params.id));
   });
 
   this.post('/businesses/:id/feedback', function(){
+    return {
+      id: 3,
+      user_id: 1,
+      business_id: 7
+    };
+  });
 
+  this.put('/businesses/:id/feedback', function(){
     return {
       id: 3,
       user_id: 1,

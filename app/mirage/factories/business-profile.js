@@ -5,7 +5,7 @@ function generateLatLng(num) {
 }
 
 export default Mirage.Factory.extend({
-  organization_id() { return faker.random.number(5); },
+  organizationId() { return faker.random.number(5); },
   name() { return faker.company.companyName(); },
   phone() { return '8022951559'; },
   website() { return 'http://' + faker.internet.domainName(); },
@@ -34,8 +34,9 @@ export default Mirage.Factory.extend({
       recommend: Math.random()
     };
   },
-  feedbackNum() { return Math.floor( Math.random() * 300 ); },
+  feedbackNum() { return Math.floor( Math.random() * 10 ); },
   views: "237",
-  hasRetailLocation() { return faker.helpers.shuffle(true,false); },
-  canEdit() { return faker.helpers.shuffle(true,false); }
+  hasRetailLocation() { return faker.random.boolean(); },
+  canEdit() { return faker.random.boolean(); },
+  hasRated() { return faker.random.boolean(); }
 });

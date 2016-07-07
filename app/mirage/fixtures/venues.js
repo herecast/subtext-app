@@ -7,7 +7,7 @@ function titleize(words) {
 function generateVenue(id) {
   return {
     id: id,
-    name: titleize(faker.lorem.words(3).join(' ')),
+    name: titleize(faker.lorem.words(3)),
     address: faker.address.streetAddress(),
     city: faker.address.city(),
     state: 'VT',

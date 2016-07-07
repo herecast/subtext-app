@@ -1,6 +1,6 @@
 
 
-.DirectoryFeedback-wrap{
+.DirectoryFeedback-wrap {
   width:500px;
   @media (max-width: @screen-xs-max) {
     width:100%;
@@ -14,7 +14,7 @@
     right:8px;
 }
 
-.DirectoryFeedback-title{
+.DirectoryFeedback-title {
     text-transform:none !important;
     margin-bottom:20px;
     text-align:center;
@@ -26,9 +26,8 @@
     position:relative;
     text-align:center;
 }
-.DirectoryFeedback-questionsTitle{
+.DirectoryFeedback-questionsTitle {
   text-align:center;
-  margin-top:-20px;
   h3{
     margin:0;
     text-transform:none;
@@ -36,9 +35,12 @@
     padding: 0 8px;
     display: inline-block;
   }
+  &.liftTop {
+    margin-top:-20px;
+  }
 }
 
-.DirectoryFeedback-questionsFooter{
+.DirectoryFeedback-questionsFooter {
   text-align:left;
   div{
     margin:0;
@@ -60,10 +62,10 @@
     margin: 10px 25px;
     min-width: 100px;
     .h4;
-    &.notchecked{
+    &.notchecked {
         background: rgba(0,0,0,.2);
     }
-    &.unchecked{
+    &.unchecked {
         background: #FFA382;
         span:before {
             content: "\f096";
@@ -73,11 +75,11 @@
             margin-right: 10px;
         }
     }
-    &.checked{
-      &.no{
+    &.checked {
+      &.no {
           background: #69C2F8;
       }
-      &.yes{
+      &.yes {
           background: #C0E248;
       }
       span:before {
@@ -90,12 +92,13 @@
     }
 }
 
-.DirectoryFeedback-backButton{
+.DirectoryFeedback-backButton {
   float:left;
   margin-top:8px;
 }
-.DirectoryFeedback-submitFields{
-  input,button{
+
+.DirectoryFeedback-submitFields {
+  input,button {
     display:block;
     width:100%;
     margin:10px 0;

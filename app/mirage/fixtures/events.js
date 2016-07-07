@@ -17,7 +17,7 @@ function generateEvent(id) {
     contactEmail: faker.internet.email(),
     eventUrl: `http://${faker.internet.domainName()}`,
     venueId: faker.random.number(1000),
-    venueName: titleize(faker.lorem.words(3).join(' ')),
+    venueName: titleize(faker.lorem.words(3)),
     venueAddress: faker.address.streetAddress(),
     venueCity: faker.address.city(),
     venueState: 'VT',
