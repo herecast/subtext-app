@@ -108,6 +108,13 @@ export default Ember.Component.extend(Validation, {
     return get(news, 'hasUnpublishedChanges');
   }),
 
+  hasCaptionOrCredit: computed('news.images.@each.{caption,credit}', function() {
+    return get(this, 'news.images').any(image => {
+      return image.primary && ( isPresent(image.caption) ||
+                                isPresent(image.credit) );
+    });
+  }),
+
   _clearSchedulePubDate() {
     this.setProperties({
       selectedPubDate: null,
