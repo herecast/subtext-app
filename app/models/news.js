@@ -28,8 +28,8 @@ export default DS.Model.extend({
   publishedAt: DS.attr('moment-date'),
   updatedAt: DS.attr('moment-date'),
 
-  organizationId: computed.oneWay('organization.id'),
-  organizationName: computed.oneWay('organization.name'),
+  organizationId: DS.attr('number'),
+  organizationName: DS.attr('string'),
 
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');

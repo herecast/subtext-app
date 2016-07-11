@@ -11,6 +11,7 @@ const { getOwner } = Ember;
 
 export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'imageUrl',
+  modelChannel: 'events',
 
   model(params) {
     const eventIdRegex = /^\d+$/;

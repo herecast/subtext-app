@@ -8,6 +8,8 @@ export default Ember.Route.extend(RouteMetaMixin, ResetScroll, {
   contentComments: Ember.inject.service('content-comments'),
 
   modelImageKey: 'imageUrl',
+  modelChannel: 'talk',
+  
   modelForMetaTags: function() {
     return this.modelFor(this.routeName).talk;
   },

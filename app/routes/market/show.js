@@ -9,6 +9,7 @@ const { getOwner } = Ember;
 
 export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, ShareCaching, ResetScroll, {
   modelImageKey: 'coverImageUrl',
+  modelChannel: 'market',
 
   model(params)  {
     return this.store.findRecord('market-post', params.id, { reload: true });

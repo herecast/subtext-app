@@ -9,6 +9,7 @@ const { getOwner } = Ember;
 
 export default Ember.Route.extend(Redirect, RouteMetaMixin, ShareCaching, DocTitleFromContent, ResetScroll, {
   modelImageKey: 'bannerImage.url',
+  modelChannel: 'news',
   history: Ember.inject.service(),
 
   model(params)  {
