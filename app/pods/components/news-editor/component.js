@@ -102,6 +102,16 @@ export default Ember.Component.extend(Validation, {
     });
   }),
 
+  chosenOrganization: computed('filteredOrganizations', function() {
+    const filteredOrganizations = get(this, 'filteredOrganizations');
+    if (filteredOrganizations.length === 1) {
+      set(this, 'news.organization', filteredOrganizations[0]);
+      return filteredOrganizations[0];
+    } else {
+      return get(this, 'news.organization');
+    }
+  }),
+
   showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,isPublished,hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     const news = get(this, 'news');
 
