@@ -2,14 +2,11 @@ import Ember from 'ember';
 import RouteMetaMixin from '../../../mixins/routes/social-tags';
 import Redirect from '../../../mixins/routes/redirect-after-login';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
-import ShareCaching from '../../../mixins/routes/share-caching';
 import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 import Dates from '../../../lib/dates';
 
-const { getOwner } = Ember;
-
-export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ShareCaching, ResetScroll, {
+export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ResetScroll, {
   modelImageKey: 'imageUrl',
   modelChannel: 'events',
 
@@ -41,12 +38,5 @@ export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent,
 
       this.transitionTo('events.all', {queryParams: queryParams});
     }
-  },
-
-  afterModel: function(event) {
-    this._super(...arguments);
-
-    const path = getOwner(this).lookup('router:main').generate(this.get('routeName'), event);
-    this.facebookRecache(path);
   }
 });

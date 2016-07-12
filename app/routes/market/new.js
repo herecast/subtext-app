@@ -2,12 +2,12 @@ import Ember from 'ember';
 import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ShareCaching from '../../mixins/routes/share-caching';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, run } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
+export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
   model(params, transition) {
     const newRecordValues = {
@@ -81,7 +81,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
 
     afterPublish(post) {
       this.transitionTo('market.show', post.get('id')).then(() => {
-        this.facebookRecache();
+        SocialSharing.createShareCache();
       });
 
       run.next(()=>{

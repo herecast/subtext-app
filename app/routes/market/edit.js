@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ShareCaching from '../../mixins/routes/share-caching';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+export default Ember.Route.extend(Scroll, Authorized, {
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -106,7 +106,9 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
         post.set('listservIds', []);
       });
 
-      this.transitionTo('market.show', post.id).then(this.prerenderRecache.bind(this));
+      this.transitionTo('market.show', post.id).then(() => {
+        SocialSharing.updateShareCache();
+      });
     },
 
     backToDetails() {

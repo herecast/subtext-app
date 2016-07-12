@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ShareCaching from '../../mixins/routes/share-caching';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
+export default Ember.Route.extend(Scroll, Authorized, {
   discardRecord(model) {
     // Ember data doesn't automatically rollback relationship records, so we
     // need to do that manually if the event is rolled back.
@@ -92,7 +92,9 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, {
         event.set('listservIds',[]);
       });
 
-      this.transitionTo('events.show', firstInstanceId).then(this.prerenderRecache.bind(this));
+      this.transitionTo('events.show', firstInstanceId).then(() => {
+        SocialSharing.updateShareCache();
+      });
     },
 
     backToDetails() {

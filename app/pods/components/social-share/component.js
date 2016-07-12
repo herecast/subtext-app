@@ -1,14 +1,21 @@
 import Ember from 'ember';
 import TrackEvent from 'subtext-ui/mixins/track-event';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 /* global FB */
 
 const {
   computed,
-  get
+  get,
+  set,
+  inject
 } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   classNames: ['SocialShare'],
+
+  toast: inject.service(),
+
+  isCaching: false,
 
   mailtoLink: computed('title', 'sharedBy', function() {
     const href = `${location.protocol}//${location.host}${location.pathname}`;
@@ -39,15 +46,20 @@ export default Ember.Component.extend(TrackEvent, {
     },
 
     shareFacebook() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Share Buttons',
-        navControl: 'facebook'
+      const toast = get(this, 'toast');
+      set(this, 'isCaching', true);
+
+      SocialSharing.checkFacebookCache().then(() => {
+        set(this, 'isCaching', false);
+        FB.ui({
+          method: 'share',
+          href: `${location.protocol}//${location.host}${location.pathname}`
+        }, function(){});
+      }, (error) => {
+        set(this, 'isCaching', false);
+        toast.error(`Error: ${error} Please try again.`);
       });
 
-      FB.ui({
-        method: 'share',
-        href: `${location.protocol}//${location.host}${location.pathname}`
-      }, function(){});
     }
   }
 });

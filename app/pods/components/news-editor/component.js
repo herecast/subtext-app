@@ -287,6 +287,7 @@ export default Ember.Component.extend(Validation, {
 
         this._save().then(() => {
           get(this, 'toast').success('Your post has been published');
+          this.sendAction('afterPublish');
         });
       }
     },
@@ -295,6 +296,7 @@ export default Ember.Component.extend(Validation, {
       if (this.isValid()) {
         this._save().then(() => {
           get(this, 'toast').success('Your changes have been saved');
+          this.sendAction('afterPublish');
         });
       }
     },

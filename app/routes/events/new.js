@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ShareCaching from '../../mixins/routes/share-caching';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, run } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, {
+export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
   intercom: Ember.inject.service('intercom'),
 
   model(params, transition) {
@@ -86,7 +86,7 @@ export default Ember.Route.extend(Scroll, Authorized, ShareCaching, trackEvent, 
       this.get('intercom').trackEvent('published-event');
 
       this.transitionTo('events.show', firstInstanceId).then(() => {
-        this.facebookRecache();
+        SocialSharing.createShareCache();
       });
 
       run.next(() => {

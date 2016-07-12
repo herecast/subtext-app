@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const { get } = Ember;
 
@@ -17,7 +18,7 @@ export default Ember.Route.extend({
 
   actions: {
     willTransition(transition) {
-      const model = get(this, 'controller.model');
+      const model = get(this, 'controller.news');
 
       if (model.get('hasUnpublishedChanges')) {
         if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
@@ -26,6 +27,12 @@ export default Ember.Route.extend({
           transition.abort();
         }
       }
+    },
+
+    afterPublish() {
+      const modelId = get(this, 'controller.news.id');
+
+      SocialSharing.updateShareCache(`/news/${modelId}`);
     }
   }
 });
