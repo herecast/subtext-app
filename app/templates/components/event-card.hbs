@@ -11,7 +11,7 @@
         {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
       </div>
     {{else}}
-      {{#link-to 'events.show' eventId}}
+    {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
         <div class='EventCard-imageContainer u-flexColumn'>
           {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
         </div>
@@ -21,11 +21,9 @@
 
   <div class='EventCard-content u-flexColumn-2'>
     {{#if isPreview}}
-
-        <h2 class='EventCard-title Card-title'>{{title}}</h2>
-      
+      <h2 class='EventCard-title Card-title'>{{title}}</h2>
     {{else}}
-      {{#link-to 'events.show' eventId}}
+      {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
         <div {{action 'trackClick' event}}>
           {{#if isSimilarContent}}
             <h2 {{action 'trackSimilarContentClick'}} class='EventCard-title Card-title'>{{title}}</h2>
@@ -53,7 +51,7 @@
 
     <div class="media-left">
       {{#if event.imageUrl}}
-        {{#link-to 'events.show' eventId}}
+        {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
           <img src='{{event.imageUrl}}' class='EventCard-image-tile media-object'>
         {{/link-to}}
       {{else}}
@@ -68,7 +66,7 @@
       {{#if isPreview}}
         <h2 class="media-heading EventCard-title">{{title}}</h2>
       {{else}}
-        {{#link-to 'events.show' eventId}}
+        {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
           <h2 class='media-heading EventCard-title' {{action 'trackClick' event}}>{{title}}</h2>
         {{/link-to}}
       {{/if}}

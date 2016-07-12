@@ -6,7 +6,7 @@
 
 <div class='NewsCard-content u-flexColumn-2'>
 
-  {{#link-to 'news.show' item.id data-test-link=item.title }}
+  {{#link-to 'news.show' item.id data-test-link=item.title  classNameBindings="isSimilarContent:SimilarContentLink"}}
     <div {{action 'trackClick' item}}>
       {{#if isSimilarContent}}
         <h2 {{action 'trackSimilarContentClick'}} class='Card-title u-twoLineH2'>

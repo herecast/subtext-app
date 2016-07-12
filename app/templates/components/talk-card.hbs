@@ -1,5 +1,5 @@
 {{#if talk.hasParentContent}}
-  {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor)}}
+  {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink"}}
     <div {{action 'trackClick' talk}}>
       {{#if isSimilarContent}}
         <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
@@ -16,7 +16,7 @@
     </div>
   {{/link-to}}
 {{else}}
-  {{#link-to 'talk.show' talk.id}}
+  {{#link-to 'talk.show' talk.id classNameBindings="isSimilarContent:SimilarContentLink"}}
     <div {{action 'trackClick' talk}}>
       {{#if isSimilarContent}}
         <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
