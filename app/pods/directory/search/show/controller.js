@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
   editFormIsVisible: false,
 
   businessCategories: computed(function () {
-    return get(this, 'store').find('business-category');
+    return get(this, 'store').findAll('business-category');
   }),
 
   closeEditForm() {

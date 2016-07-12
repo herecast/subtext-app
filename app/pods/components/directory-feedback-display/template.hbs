@@ -32,10 +32,13 @@
       </div>
       <div class="DirectoryFeedback-buttonWrap">
         {{#if model.can_edit}}
-          <button class='btn DirectoryButton' {{action 'edit'}}>Edit Business</button>
+          <button class='btn DirectoryButton' {{action (action attrs.editBusiness)}}>Edit Business</button>
         {{else}}
-          <button class='btn DirectoryButton' {{action 'claim'}}>Claim Business</button>
+          <a href="{{claimEmail}}" class="btn DirectoryButton" data-test-claim-email>Claim Business</a>
         {{/if}}
+      </div>
+      <div class="DirectoryFeedback-buttonWrap">
+         <a href="{{reportIncorrectInfoEmail}}" class="btn DirectoryButton" data-test-report-email>Report Info</a>
       </div>
     </div>
   </div>

@@ -63,10 +63,12 @@ export default {
       let hours = hoursStr.split('-');
 
       let dayList = [];
+
       if (daySplit.length > 1) {
         if (daySplit.length === 2 &&
             daySplit.contains('Sa') &&
             daySplit.contains('Su')) {
+
           if (daySplit.indexOf('Sa') < daySplit.indexOf('Su')) {
             // This is a weekend schedule,
             dayList.push('Sa');
@@ -76,9 +78,13 @@ export default {
             let day1Index = dayOrder.indexOf(daySplit[0]);
             let day2Index = dayOrder.indexOf(daySplit[1]);
 
-            for(let i = day1Index; i <= day2Index; i++) {
+            for (let i = day1Index; i <= day2Index; i++) {
               dayList.push( dayOrder[i] );
             }
+          }
+        } else if (daySplit.length === 2 && daySplit.contains('Mo') && daySplit.contains('Su')) {
+          if (daySplit.indexOf('Mo') < daySplit.indexOf('Su')) {
+            dayList = dayOrder;
           }
         } else {
           let day1Index = dayOrder.indexOf(daySplit[0]);

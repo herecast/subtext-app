@@ -29,6 +29,20 @@ test('deserialize [Mo|9:00-17:00, Tu|8:00-16:00]', function(assert) {
   assert.equal(result['Tuesday']['close'], '16:00');
 });
 
+test('deserialize ["Mo-Su|00:00-23:59"]', function(assert) {
+  const result = businessHours.deserialize(["Mo-Su|00:00-23:59"]);
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const open = '00:00';
+  const close = '23:59';
+
+  assert.expect(dayNames.length * 2);
+
+  dayNames.forEach(day => {
+    assert.equal(result[day]['open'], open);
+    assert.equal(result[day]['close'], close);
+  });
+});
+
 test('deserialize [Mo-Fr|9:00-17:00]', function(assert) {
   const result = businessHours.deserialize(['Mo-Fr|9:00-17:00']);
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];

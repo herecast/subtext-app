@@ -18,8 +18,16 @@ test('it renders', function(assert) {
 
   this.set('model', model);
 
-  this.render(hbs`{{directory-feedback-display model=model}}`);
+  this.set('actions', {
+    editBusiness() {},
+    claimBusiness() {},
+  });
+
+  this.render(hbs`{{directory-feedback-display
+        model=model
+        editBusiness=(action 'editBusiness')
+        claimBusiness=(action 'claimBusiness')
+  }}`);
 
   assert.ok(this.$('.DirectoryFeedback-top-bar').length > 0, 'no pass');
-
 });

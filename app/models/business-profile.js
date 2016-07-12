@@ -14,7 +14,7 @@ export default DS.Model.extend({
     }
     return siteLink;
   }),
-  hours: DS.attr('raw', {defaultValue: () => []}),
+  hours: DS.attr('raw', { defaultValue: () => { return []; }}),
   email: DS.attr('string'),
   address: DS.attr('string'),
   city: DS.attr('string'),
@@ -39,7 +39,7 @@ export default DS.Model.extend({
   }),
   details: DS.attr('string'),
   logo: DS.attr('string'),
-  images: DS.attr('raw', {defaultValue: () => [] }),
+  images: DS.attr('raw', { defaultValue: () => { return []; }}),
   feedback: DS.attr(),
   feedback_num: DS.attr('number'),
   has_retail_location: DS.attr('boolean'),
