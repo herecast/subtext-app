@@ -6,6 +6,7 @@ function template(id) {
   const startHour = faker.random.number({min: 7, max: 12});
   const startsAt = moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
 
+  const updatedAt = moment(faker.date.recent(-1));
   // All are up to 8 hours long so they don't go past midnight
   const hourSpan = faker.random.number({min: 2, max: 8});
   const endsAt = moment(startsAt).add(hourSpan, 'hours');
@@ -49,7 +50,8 @@ function template(id) {
     registrationEmail: faker.internet.email(),
     startsAt: startsAt.toISOString(),
     endsAt: endsAt.toISOString(),
-    imageUrl: imageUrl
+    imageUrl: imageUrl,
+    updatedAt: updatedAt
   };
 }
 

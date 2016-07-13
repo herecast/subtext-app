@@ -28,6 +28,7 @@ export default DS.Model.extend({
   myTownOnly: DS.attr('boolean', {defaultValue: false}),
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
+  updatedAt: DS.attr('moment-date'),
   title: DS.attr('string'),
   organization: DS.belongsTo('organization'),
 

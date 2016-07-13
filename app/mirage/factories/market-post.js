@@ -9,6 +9,7 @@ export default Mirage.Factory.extend({
   content() { return faker.lorem.sentences(5); },
   contentId(id) { return id; },
   publishedAt() { return moment(faker.date.recent(-30)).toISOString(); },
+  updatedAt() { return moment(faker.date.recent(-30)); },
   imageUrl(id) {
     return (id % 2 === 0) ? imageUrl : null;
   },

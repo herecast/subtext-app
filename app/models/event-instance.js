@@ -23,6 +23,7 @@ export default DS.Model.extend(BaseEvent, {
   venueLongitude: DS.attr('string'),
   venueLocateName: DS.attr('string'),
   publishedAt: DS.attr('moment-date'),
+  updatedAt: DS.attr('moment-date'),
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (this.get('isValid')) {
