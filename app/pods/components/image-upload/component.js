@@ -76,7 +76,7 @@ export default Ember.Component.extend({
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
-    loadImage.parseMetaData(file, (data) => {
+    loadImage.parseMetaData(file, () => {
       const options = {
         // Convert to a canvas object so that we can pass it to the Cropper lib
         canvas: true,
@@ -85,13 +85,6 @@ export default Ember.Component.extend({
         // before opening the cropper.
         maxWidth: 1000
       };
-
-      // Reorient images that have orientation data. This usually affects iPhone
-      // images that normally appear rotated on their side.
-      if (data.exif) {
-        options.orientation = data.exif.get('Orientation');
-      }
-
       // Because loadImage is asynchronous, when the canvas property is
       // changed, it triggers a function that updates the imageUrl on an image.
       loadImage(file, (canvas) => {

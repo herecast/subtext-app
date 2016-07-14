@@ -47,12 +47,13 @@ export default Ember.Component.extend({
 
       if (!cropperExists) {
         const that = this;
-
+        
         Ember.run(() => {
           img.cropper({
             aspectRatio: aspectRatio,
             minCropBoxHeight: minHeight,
             minCropBoxWidth: minWidth,
+            checkOrientation: 0,
 
             // Run whenever the cropping area is adjusted
             crop() {
@@ -88,6 +89,12 @@ export default Ember.Component.extend({
 
     cancel() {
       this.attrs.cancel();
+    },
+
+    rotateImage(direction) {
+      const rotation = direction === 'left' ? -90 : 90;
+
+      this.$('.js-Cropper-image').cropper("rotate", rotation);
     }
   }
 });

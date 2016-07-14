@@ -65,7 +65,7 @@ export default Ember.Component.extend({
   },
 
   loadImageFile(file) {
-    loadImage.parseMetaData(file, (data) => {
+    loadImage.parseMetaData(file, () => {
 
       const options = {
         canvas: true,
@@ -74,10 +74,6 @@ export default Ember.Component.extend({
         // before opening the cropper.
         maxWidth: 1000
       };
-
-      if (data.exif) {
-        options.orientation = data.exif.get('Orientation');
-      }
 
       loadImage(file, (canvas) => {
         if (this.validateCanvasDimensions(canvas)) {
@@ -178,6 +174,12 @@ export default Ember.Component.extend({
         error: msg,
         originalImageFile: null
       });
+    },
+
+    rotateImage(direction) {
+      const rotation = direction === 'left' ? -90 : 90;
+
+      this.$('.js-Cropper-image').cropper("rotate", rotation);
     }
   }
 });
