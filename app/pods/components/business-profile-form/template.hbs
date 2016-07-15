@@ -44,8 +44,10 @@
       {{ember-selectize
       content=categories
       optionValuePath="content.id"
-      optionLabelPath="content.name"
+      optionLabelPath="content.fullName"
       selection=model.categories
+      sortField="fullName"
+      sortDirection="asc"
       placeholder="Categories"
       loading=categories.isLoading
       class='BusinessProfileForm-categories'

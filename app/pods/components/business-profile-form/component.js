@@ -10,12 +10,31 @@ export default Ember.Component.extend(Validation, {
 
   // Required when component is rendered
   model: null,
-  categories: computed(function () {
-    return get(this, 'store').findAll('business-category');
-  }),
 
   toast: inject.service(),
   store: inject.service(),
+
+  categories: computed(function() {
+    return get(this, 'store').findAll('business-category').then( categories => {
+      categories.forEach(category => {
+
+        const parent_ids = category.get('parent_ids') || [];
+
+        if (parent_ids.length > 0) {
+          const parent = categories.find( category => {
+            return parseInt(category.id) === parseInt(parent_ids[0]);
+          });
+          category.set('fullName', `${parent.get('name')} > ${category.get('name')}`);
+        } else {
+          category.set('fullName', `${category.get('name')}`);
+        }
+      });
+
+      return categories;
+    });
+
+
+  }),
 
   submit(e) {
     e.preventDefault();
