@@ -17,6 +17,7 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     let tmp = document.createElement("DIV");
     tmp.innerHTML = model.get('content');
     const description = tmp.textContent || tmp.innerText || "";
+    const url = `${location.protocol}//${location.host}${location.pathname}`;
 
     let metaProperty = {
       'property': {
@@ -25,7 +26,14 @@ export default Ember.Mixin.create(RouteMetaMixin, {
         'og:image': model.get(imageKey) || this.defaultImage(channel),
         'og:title': model.get('title'),
         'og:description': description,
-        'og:url': `${location.protocol}//${location.host}${location.pathname}`
+        'og:url': url,
+        'twitter:card': 'summary_large_image',
+        'twitter:site': '@thedailyUV',
+        'twitter:creator': '@thedailyUV',
+        'twitter:url': url,
+        'twitter:title': model.get('title'),
+        'twitter:description': description,
+        'twitter:image': model.get(imageKey) || this.defaultImage(channel)
       }
     };
 
