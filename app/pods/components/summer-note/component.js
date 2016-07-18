@@ -59,8 +59,8 @@ export default Ember.Component.extend({
         },
         onPaste: (e) => {
           e.preventDefault();
-
-          let buffer = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+          const event = ((e.originalEvent || e).clipboardData || window.clipboardData);
+          let buffer = event.getData('text/html') || event.getData('text');
 
           // Replace bold-but-not-bold element with span
           buffer = buffer.replace(/<b style="font-weight:normal;"/g, '<span');
