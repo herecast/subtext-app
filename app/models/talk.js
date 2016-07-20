@@ -30,7 +30,7 @@ export default DS.Model.extend({
 
   parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
-    if (parentContentType === 'market_post') {
+    if (parentContentType === 'market-post') {
       return 'market.show';
     } else if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
       return 'events.show';
