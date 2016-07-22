@@ -63,10 +63,17 @@ export default Ember.Component.extend(TrackEvent, {
     return (date) ? momentDate.format('l') : null;
   }),
 
-  isEditable: computed(function() {
+  isEditable: computed('type', 'content.publishedAt', function() {
+    console.log(get(this, 'content'));
+
     const type = get(this, 'type');
 
-    return type === 'market-post' || type === 'event-instance' || type === 'news';
+    if (type === 'event-instance') {
+      const publishedAtDate = get(this, 'content.publishedAt');
+      return (publishedAtDate && moment(publishedAtDate).isAfter('2015-12-18'));
+    }
+
+    return type === 'market-post' || type === 'news';
   }),
 
   isDeletable: computed(function() {

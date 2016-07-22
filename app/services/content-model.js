@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { isBlank } = Ember;
+const { get, set, isBlank, isPresent } = Ember;
 
 // This is not an Ember Data model, but more of a factory class.
 // We are getting an array of content "models" from the API where each one is
@@ -39,6 +39,10 @@ export default Ember.Service.extend({
       item.set('parentId', parentId);
       item.set('parentEventInstanceId', parentEventInstanceId);
 
+      if (isBlank(get(item, 'publishedAt')) && isPresent(get(record, 'publishedAt'))) {
+        set(item, 'publishedAt', get(record, 'publishedAt'));
+      }
+
       return item;
     }
 
@@ -50,7 +54,7 @@ export default Ember.Service.extend({
     if (type === 'news' || type === 'News') {
       return 'news';
     } else if (type === 'event' || type === 'Event') {
-      return'event-instance';
+      return 'event-instance';
     } else if (type === 'market' || type === 'MarketPost') {
       return 'market-post';
     } else if (type === 'Comment' && parentContentType !== null) {

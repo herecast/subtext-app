@@ -40,7 +40,7 @@
 
   {{#if isEditable}}
     {{#link-to editRoute editId class='btn btn-link h4'}}
-      <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}}>
+      <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}} data-test-dashboard-content-edit-button>
         Edit
       </span>
     {{/link-to}}

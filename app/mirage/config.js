@@ -38,7 +38,7 @@ const eventBaseProperties = [
   'venue_locate_name', 'venue_url', 'registration_deadline',
   'registration_url', 'registration_phone', 'registration_email',
   'event_url', 'contact_phone', 'contact_email',
-  'title', 'subtitle', 'ends_at', 'starts_at', 'event_id'
+  'title', 'subtitle', 'ends_at', 'starts_at', 'event_id', 'publishedAt'
 ];
 
 const marketPostBaseProperties = [
@@ -84,7 +84,7 @@ function dashboardNews(db,start,stop) {
   });
 }
 function dashboardMarketPosts(db,start,stop) {
-  return db.news.slice(start,stop).map((item) => {
+  return db.marketPosts.slice(start,stop).map((item) => {
     const record = Ember.getProperties(item, marketPostBaseProperties);
     record.content_type = 'MarketPost';
     record.view_count = faker.random.number(100);
@@ -93,7 +93,7 @@ function dashboardMarketPosts(db,start,stop) {
   });
 }
 function dashboardEvents(db,start,stop) {
-  return db.news.slice(start,stop).map((item) => {
+  return db.eventInstances.slice(start,stop).map((item) => {
     const record = Ember.getProperties(item, eventBaseProperties);
     record.content_type = 'event';
     record.view_count = faker.random.number(100);
