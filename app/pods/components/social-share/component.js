@@ -14,7 +14,6 @@ const {
 
 export default Ember.Component.extend(TrackEvent, {
   classNames: ['SocialShare'],
-  isTalkChannel: false,
 
   updatedAt: null,
 
@@ -72,18 +71,14 @@ export default Ember.Component.extend(TrackEvent, {
     return `mailto:?subject=${subject}&body=${body}`;
   }),
 
-  twitterLink: computed('title', function() {
-    const title = encodeURIComponent(get(this, 'title'));
-    const url = `${location.protocol}//${location.host}${location.pathname}`;
-    const via = 'thedailyUV';
-    const hashtags = 'UpperValley';
-
-    return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}&hashtags=${hashtags}`);
-  }),
-
   actions: {
     shareEmail() {
       const mailto = get(this, 'mailtoLink');
+
+      this.trackEvent('selectNavControl', {
+        navControlGroup: 'Share Buttons',
+        navControl: 'email'
+      });
 
       window.location.href = mailto;
     },

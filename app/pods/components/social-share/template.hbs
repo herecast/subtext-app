@@ -6,7 +6,7 @@
 
 <div class='row'>
   {{#unless isTalkChannel}}
-    <div class='col-xs-2 col-md-4 u-textCentered'>
+    <div class='col-xs-offset-4 col-xs-2 col-sm-offset-3 col-md-offset-2 col-md-4 u-textCentered'>
       {{#unless isCaching}}
         <a href='#' {{action 'shareFacebook'}}>
           {{fa-icon 'facebook' size=2 class='SocialShare-icon'}}
@@ -15,11 +15,6 @@
         {{fa-icon 'cog' size=2 class='fa-spin'}}
         <br />Waiting for Facebook...
       {{/unless}}
-    </div>
-    <div class='col-xs-2 col-md-4 u-textCentered'>
-      <a href={{twitterLink}}>
-        {{fa-icon 'twitter' size=2 class='SocialShare-icon'}}
-      </a>
     </div>
   {{/unless}}
   <div class='col-xs-2 col-md-4 u-textCentered {{if isTalkChannel 'col-xs-offset-5 col-sm-offset-4 col-md-offset-4'}}'>
