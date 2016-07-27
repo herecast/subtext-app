@@ -17,6 +17,8 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     let tmp = document.createElement("DIV");
     tmp.innerHTML = model.get('content');
     const description = tmp.textContent || tmp.innerText || "";
+    const descriptionTruncated = this.truncateDescription(description);
+    const url = `${location.protocol}//${location.host}${location.pathname}`;
 
     let metaProperty = {
       'property': {
@@ -24,8 +26,17 @@ export default Ember.Mixin.create(RouteMetaMixin, {
         'og:site_name': 'dailyUV',
         'og:image': model.get(imageKey) || this.defaultImage(channel),
         'og:title': model.get('title'),
-        'og:description': description,
-        'og:url': `${location.protocol}//${location.host}${location.pathname}`
+        'og:description': descriptionTruncated,
+        'og:url': url,
+      },
+      'name': {
+        'twitter:card': 'summary_large_image',
+        'twitter:site': '@thedailyUV',
+        'twitter:creator': '@thedailyUV',
+        'twitter:url': url,
+        'twitter:title': model.get('title'),
+        'twitter:description': descriptionTruncated,
+        'twitter:image': model.get(imageKey) || this.defaultImage(channel)
       }
     };
 
@@ -47,5 +58,9 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     };
 
     return defaultImages[channel];
+  },
+
+  truncateDescription(description, characters=300) {
+    return (description.length > characters) ? description.substr(0, characters-1) + '...' : description;
   }
 });
