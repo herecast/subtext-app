@@ -1,26 +1,25 @@
 import Ember from 'ember';
 import moment from 'moment';
-import TrackCard from 'subtext-ui/mixins/components/track-card';
 
 const { get, computed } = Ember;
 
-export default Ember.Component.extend(TrackCard, {
+export default Ember.Component.extend({
   attributeBindings: ['data-test-news-card'],
   'data-test-news-card': computed.oneWay('item.title'),
 
-  classNames: ['Card', 'NewsCard', 'u-flexColumn'],
-  classNameBindings: ['missingContent:hidden'],
+  classNames: ['Card'],
+  classNameBindings: ['missingContent:hidden', 'variant:Card--vertical'],
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
   isSimilarContent: false,
 
   missingContent: Ember.computed.empty('item'),
 
   date: computed('item.publishedAt', function() {
-    return moment(this.get('item.publishedAt')).format('L');
+    return moment(get(this, 'item.publishedAt')).format('L');
   }),
 
   content: computed('item.content', function() {
-    let text = this.get('item.content');
+    let text = get(this, 'item.content');
 
     if (text) {
       // Replace <br> tags with two line breaks so that we can later replace
@@ -48,12 +47,11 @@ export default Ember.Component.extend(TrackCard, {
   }),
 
   actions: {
-    trackSimilarContentClick() {
-      this.trackEvent('selectSimilarContent', {
-        navControl: 'News',
-        navControlGroup: 'News Card',
-        sourceContentId: get(this, 'sourceContentId')
-      });
+    onTitleClick() {
+      if (this.attrs.onTitleClick) {
+        this.attrs.onTitleClick();
+      }
+      return true;
     }
   }
 });

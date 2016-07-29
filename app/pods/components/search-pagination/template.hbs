@@ -1,0 +1,25 @@
+{{#if (eq search.searchType searchType)}}
+
+  {{#if (gt search.searchPage 1)}}
+    {{#link-to (query-params searchPage=1) class="Button Button--primary"}}
+      First
+    {{/link-to}}
+    {{#link-to (query-params searchPage=1) class="Button Button--primary"}}
+      Prev
+    {{/link-to}}
+  {{/if}}
+
+  {{#if (gte results.length 20)}}
+    {{#link-to (query-params searchPage=nextPage) class="Button Button--primary"}}
+      Next
+    {{/link-to}}
+  {{/if}}
+
+{{else}}
+
+  {{#if (gte search.searchEvents.length 5)}}
+    {{#link-to (query-params searchType=searchType searchPage=1 searchPerPage=20) class="SearchPagination-seeAll-button"}}
+      See all {{searchType}}
+    {{/link-to}}
+  {{/if}}
+{{/if}}

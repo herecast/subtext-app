@@ -1,0 +1,21 @@
+<button class="btn btn-default dropdown-toggle EventCategoryDropdown-Button" type="button" data-toggle="dropdown">
+  {{#if category}}
+    {{ category }}
+  {{else}}
+    Choose a Category
+  {{/if}}
+  {{fa-icon 'chevron-down'}}
+</button>
+<ul class="dropdown-menu EventCategoryDropdown-Menu">
+  <li>
+    <a href="#" {{action 'setCategory' null}} tabindex='-1'><em>Clear selection</em></a>
+  </li>
+  <li role="separator" class="divider"></li>
+  {{#each categoryOptions as |category|}}
+    <li>
+      <a href='#' {{action 'setCategory' category}} tabindex='-1'>
+        {{category}}
+      </a>
+    </li>
+  {{/each}}
+</ul>

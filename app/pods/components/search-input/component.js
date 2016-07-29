@@ -9,12 +9,15 @@ export default Ember.Component.extend({
   value: null,
   placeholder: 'Search ...',
   clearTooltip: 'Clear Search',
-  
+  showIcon: true,
+  inputType: 'search',
+  clearButtonText: null,
+
   keyUp: function(e) {
     const esc = 27;
     if(e.which === esc) {
       this._updateAction("");
-    }  
+    }
   },
 
   _updateAction(value) {

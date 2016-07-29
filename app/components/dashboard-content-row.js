@@ -64,8 +64,6 @@ export default Ember.Component.extend(TrackEvent, {
   }),
 
   isEditable: computed('type', 'content.publishedAt', function() {
-    console.log(get(this, 'content'));
-
     const type = get(this, 'type');
 
     if (type === 'event-instance') {

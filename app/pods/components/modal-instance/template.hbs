@@ -1,0 +1,17 @@
+{{#modal-wrapper close=(action 'close')}}
+  <div class="alert alert-info">
+    <strong>This is the default modal instance</strong><br />
+    You should extend modal-instance in your modal.
+    {{#link-to 'index'}}
+    Go Home
+    {{/link-to}}
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <button class="btn btn-success" {{action "ok" "result-here"}}>
+        Ok
+      </button>
+      <button class="btn" {{action "cancel"}}>Cancel</button>
+    </div>
+  </div>
+{{/modal-wrapper}}

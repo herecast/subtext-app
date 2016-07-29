@@ -31,21 +31,22 @@
 
 <td class='hidden-xs'>{{content.views}}</td>
 <td class='hidden-xs'>{{content.comments}}</td>
-<td class='hidden-xs' colspan='2'>
-  {{#link-to 'content-metrics.show' content.contentId class='btn btn-link h4'}}
-    <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
+<td colspan='2'>
+  <span class='hidden-xs'>
+    {{#link-to 'content-metrics.show' content.contentId class='btn btn-link h4'}}
+      <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
       Metrics
     </span>
-  {{/link-to}}
+    {{/link-to}}
 
-  {{#if isEditable}}
-    {{#link-to editRoute editId class='btn btn-link h4'}}
-      <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}} data-test-dashboard-content-edit-button>
+    {{#if isEditable}}
+      {{#link-to editRoute editId class='btn btn-link h4'}}
+        <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}} data-test-dashboard-content-edit-button>
         Edit
       </span>
-    {{/link-to}}
-  {{/if}}
-
+      {{/link-to}}
+    {{/if}}
+  </span>
   {{#if isDeletable}}
     <a href='#' class='btn btn-link h4' {{action (action deleteContent content)}} data-test-action-delete>
       <span {{action 'trackEvent' 'selectNavControl' 'Delete Button'}}>

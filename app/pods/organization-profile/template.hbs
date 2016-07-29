@@ -60,8 +60,8 @@
   </div>
 </article>
 {{#if editMode}}
-  {{#x-modal close=(action 'cancelEdit')}}
+  {{#modal-wrapper close=(action 'cancelEdit')}}
     <h4 class='h2'>Edit Profile</h4>
     {{organization-profile-form model=model didSave=(action "closeModal")}}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

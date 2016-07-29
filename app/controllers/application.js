@@ -5,16 +5,63 @@ import moment from 'moment';
 const {
   computed,
   inject,
-  get
-} = Ember;
+  get,
+  set,
+  observer
+  } = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
+  queryParams: [
+    {searchType: {as: 't'}},
+    {searchQuery: {as: 'q'}},
+    {searchPage: {as: 'pg'}},
+    {searchPerPage: {as: 'pp'}},
+    {searchLocation: {as: 'loc'}},
+    {searchLocationId: {as: 'lid'}},
+    {searchDateStart: {as: 'start'}},
+    {searchDateEnd: {as: 'end'}},
+    {searchOrganization: {as: 'org'}},
+    {searchCategory: {as: 'cat'}}
+  ],
+
+  search: inject.service(),
+  modals: inject.service(),
+
+  onPathChange: Ember.observer('currentPath', function() {
+    get(this, 'modals').clearModals();
+  }),
+
   currentController: inject.service('current-controller'),
   intercom: inject.service('intercom'),
   newsFilter: inject.controller('news/all/index'),
   eventsFilter: inject.controller('events/all/index'),
   talkFilter: inject.controller('talk/all/index'),
   marketFilter: inject.controller('market/all/index'),
+
+  searchType: computed.alias('search.searchType'),
+  searchQuery: computed.alias('search.searchQuery'),
+  searchPage: computed.alias('search.searchPage'),
+  searchPerPage: computed.alias('search.searchPerPage'),
+  searchLocation: computed.alias('search.searchLocation'),
+  searchLocationId: computed.alias('search.searchLocationId'),
+  searchDateStart: computed.alias('search.searchDateStart'),
+  searchDateEnd: computed.alias('search.searchDateEnd'),
+  searchOrganization: computed.alias('search.searchOrganization'),
+  searchCategory: computed.alias('search.searchCategory'),
+
+  showHeader: computed.alias('currentController.showHeader'),
+
+  showOrHideSearch: observer('currentPath', function() {
+    const shouldShow = get(this, 'searchQuery') || get(this, 'search.hasFilter');
+
+    if (shouldShow) {
+      if (!get(this, 'search.showSearch')) {
+        get(this, 'search').openSearch();
+      }
+    } else {
+      set(this, 'search.showSearch', false);
+    }
+  }),
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
@@ -35,6 +82,10 @@ export default Ember.Controller.extend(trackEvent, {
   }),
 
   actions: {
+    openSearch() {
+      get(this, 'search').openSearch();
+    },
+
     trackUserMenu(navControlText) {
       this.trackEvent('selectNavControl', {
         navControlGroup: 'User Account Menu',
@@ -78,6 +129,10 @@ export default Ember.Controller.extend(trackEvent, {
       if (menuOpened) {
         this.get('intercom').trackEvent('avatar-user-menu-opened');
       }
+    },
+
+    signOut() {
+      get(this, 'session').signOut();
     }
   }
 });

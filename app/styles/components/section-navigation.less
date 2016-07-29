@@ -3,105 +3,96 @@
   padding-top: 30px;
   padding-bottom: 30px;
   text-align: center;
-  .btn {
+
+  &-list {
+    text-align: center;
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    margin: 0 auto;
+    width: 80%;
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+      width: auto;
+      margin-left: 20px;
+    }
+
+    @media (max-width: @screen-xs-max) {
+      padding: 0;
+    }
+  }
+
+  &-listItem {
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    list-style-type: none;
+  }
+
+  &-link {
+    .h2;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1rem;
     margin: 0;
+    position: relative;
+
+    &.active, &:hover {
+      text-decoration: none;
+
+      &:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: -13px;
+        width: calc(100% - 27px);
+        height: 7px;
+      }
+    }
+
+    &--eventLink {
+      &.active:before {
+        background-color: @event-brand;
+      }
+    }
+
+    &--newsLink {
+      &.active:before {
+        background-color: @news-brand;
+      }
+    }
+
+    &--marketLink {
+      &.active:before {
+        background-color: @market-brand;
+      }
+    }
+
+    &--talkLink {
+      &.active:before {
+        background-color: @talk-brand;
+      }
+    }
+
+    &--directoryLink {
+      &.active:before {
+        background-color: @gray-light;
+      }
+    }
   }
-  @media (min-width: @screen-sm-min) {
-    border-bottom: 1px solid @text-color;
-    border-top: 0;
-  }
-  @media (max-width: @screen-xs-max) {
-    padding: 0;
-    margin: 0;
-  }
-}
 
-.SectionNavigation-dashboard {
-  padding-bottom: 15px;
-  padding-top: 0px;
-}
-
-.SectionNavigation.collapse {
-  @media (min-width: @screen-sm-min) {
-    display: block;
-  }
-}
-
-.SectionNavigation-list {
-  margin-top: 16px;
-  @media (max-width: @screen-xs-max) {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.SectionNavigation-listItem {
-  display: inline;
-  list-style-type: none;
-  @media(min-width: @screen-md-min) {
-    margin: 0 6px;
-  }
-  @media(min-width: @screen-md-max) {
-    margin: 0 12px;
-  }
-  @media (max-width: @screen-xs-max) {
-    display: block;
-    margin: 0;
-  }
-}
-
-.SectionNavigation-link {
-  font-size: 24px;
-  font-family: @font-family-condensed;
-  text-transform: uppercase;
-  padding: 6px 10px 4px 13px;
-  @media (max-width: @screen-xs-max) {
-    display: block;
-    padding: 10px 0;
-  }
-}
-
-.SectionNavigation-link.active, .SectionNavigation-link:hover {
-  text-decoration: none;
-}
-
-.SectionNavigation-eventLink:hover, .SectionNavigation-eventLink.active {
-  background-color: @event-brand;
-}
-
-.SectionNavigation-newsLink:hover, .SectionNavigation-newsLink.active {
-  background-color: @news-brand;
-}
-
-.SectionNavigation-marketLink:hover, .SectionNavigation-marketLink.active {
-  background-color: @market-brand;
-}
-
-.SectionNavigation-talkLink:hover, .SectionNavigation-talkLink.active {
-  background-color: @talk-brand;
-}
-
-.SectionNavigation-directoryLink:hover, .SectionNavigation-directoryLink.active {
-  background-color: @gray-light;
-}
-
-.SectionNavigation-everythingLink:hover, .SectionNavigation-everythingLink.active {
-  background-color: #9CAAB3;
-}
-
-.SectionNavigation-contentCreateButton {
-  @media (max-width: @screen-sm-max) {
-    font-size: 20px;
-    margin-top: 5px;
-    padding: 7px 21px 5px 23px;
+  &-contentCreateButton {
+    @media (max-width: @screen-sm-max) {
+      font-size: 20px;
+      padding: 7px 21px 5px 23px;
+    }
   }
 }
 
 .SectionNavigation-contentCreateButtonMobile {
   .btn {
-    @media (max-width: @screen-xs-max) {
-      float: left;
-      margin-top: 15px;
-    }
+    margin: 0;
   }
 }

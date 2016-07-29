@@ -1,68 +1,59 @@
-{{#if talk.hasParentContent}}
-  {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink"}}
-    <div {{action 'trackClick' talk}}>
-      {{#if isSimilarContent}}
-        <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
-          {{title}}
-        </h2>
-      {{else}}
-        <h2 class='TalkCard-title Card-title u-twoLineH2'>
-          {{title}}
-        </h2>
-      {{/if}}
-      <div class='col-xs-12'>
-        <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
-      </div>
-    </div>
-  {{/link-to}}
+{{#if minimal}}
+  <h2 class='Card-title' {{action 'onTitleClick'}}>
+    {{#if talk.hasParentContent}}
+      {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor)}}{{title}}{{/link-to}}
+    {{else}}
+      {{#link-to 'talk.show' talk.id}}{{title}}{{/link-to}}
+    {{/if}}
+  </h2>
+
+  {{#if hasComments}}
+    <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} comments</span>
+  {{/if}}
+
+  <span>{{formatted-day talk.publishedAt}}</span>
+
+  {{#if talk.authorName}}
+    by <span>{{talk.authorName}}</span>
+  {{/if}}
 {{else}}
-  {{#link-to 'talk.show' talk.id classNameBindings="isSimilarContent:SimilarContentLink"}}
-    <div {{action 'trackClick' talk}}>
-      {{#if isSimilarContent}}
-        <h2 {{ action 'trackSimilarContentClick' }} class='TalkCard-title Card-title u-twoLineH2'>
-          {{title}}
-        </h2>
-      {{else}}
-        <h2 class='TalkCard-title Card-title u-twoLineH2'>
-          {{title}}
-        </h2>
-      {{/if}}
-      <div class='col-xs-12'>
-        <div class='TalkCard-date'>{{formatted-day talk.publishedAt}}</div>
-      </div>
-    </div>
-  {{/link-to}}
-{{/if}}
-
-<div class='u-layoutPadT10'>
-  <div class='row'>
-    <div class='col-xs-2 u-layoutPadR0'>
+  <div class="media">
+    <div class="media-left">
       {{#if talk.authorImageUrl}}
-        <img class='TalkCard-authorImage' src={{talk.authorImageUrl}}>
+        <img class='Card-authorImage' src="{{talk.authorImageUrl}}">
       {{else}}
-        <img class='TalkCard-authorImage' src="/images/user-default-avatar.svg">
+        <div class='Card-authorImage'>&nbsp;</div>
       {{/if}}
     </div>
-    <div class='col-xs-10 TalkCard-commentInfo'>
-      Comment by
-      <span class='TalkCard-authorName'>{{talk.authorName}}</span>
+
+    <div class="media-body Card-content">
+      <h2 class='Card-title' {{action 'onTitleClick'}}>
+        {{#if talk.hasParentContent}}
+          {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink"}}{{title}}{{/link-to}}
+        {{else}}
+          {{#link-to 'talk.show' talk.id classNameBindings="isSimilarContent:SimilarContentLink"}}{{title}}{{/link-to}}
+        {{/if}}
+      </h2>
+
+
+      <div class='Card-commentInfo'>
+
+        {{#if hasComments}}
+          <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} comments</span>
+        {{/if}}
+
+        <span class='Card-date'>{{formatted-day talk.publishedAt}}</span>
+
+        {{#if talk.authorName}}
+          by: <span class='Card-authorName'>{{talk.authorName}}</span>
+        {{/if}}
+      </div>
+
+      <div class="Card-statBox">
+        {{#if hasViews}}
+          <span class="Card-statBox-views" title="Views">{{talk.viewCount}}{{fa-icon 'eye'}}</span>
+        {{/if}}
+      </div>
     </div>
   </div>
-</div>
-
-<div class='row'>
-  <div class="StatBox">
-    {{#if hasComments}}
-      <div class="StatBox-comments" title="Comments">
-        {{talk.commentCount}}{{fa-icon 'comment-o'}}
-      </div>
-    {{/if}}
-    {{#if hasViews}}
-      <div class="StatBox-views" title="Views">
-        {{talk.viewCount}}{{fa-icon 'eye'}}
-      </div>
-    {{/if}}
-  </div>
-
-
-</div>
+{{/if}}

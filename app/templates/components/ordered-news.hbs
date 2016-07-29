@@ -1,7 +1,11 @@
 <ul>
   {{#each orderedNews as |newsItem|}}
     <li>
-      {{news-card item=newsItem}}
+      {{news-card
+        item=newsItem
+        imagePosition='right'
+        classNames='Card Card--news'
+      }}
     </li>
   {{/each}}
 </ul>

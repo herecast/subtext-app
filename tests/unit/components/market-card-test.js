@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('market-card', 'Unit | Component | market card', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
+   needs: ['helper:eq'],
   unit: true
 });
 

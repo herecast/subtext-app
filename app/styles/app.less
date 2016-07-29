@@ -2,15 +2,32 @@
 // Vendor
 //
 @import 'bootstrap';
+@import 'vendor/freestyle';
 
 //
-// Components
+// UX3 Components
+//
+@import 'components/footer-nav';
+@import 'components/main-nav';
+@import 'components/mobile-header';
+@import 'components/section-navigation';
+@import 'components/user-menu';
+@import 'components/user-menu-modal';
+@import 'components/list-component';
+@import 'components/card';
+@import 'components/channel-topper';
+@import 'components/grouped-cards';
+@import 'components/pagination-nav';
+@import 'components/copyright';
+//
+
+//
+// UX2 Components
 //
 @import 'components/action-dropdown';
 @import 'components/auth-form';
 @import 'components/back-button';
 @import 'components/button';
-@import 'components/card';
 @import 'components/comment';
 @import 'components/comment-bubble';
 @import 'components/comment-section';
@@ -38,10 +55,9 @@
 @import 'components/directory-search-results';
 @import 'components/directory-results';
 @import 'components/dropdown';
-@import 'components/event-card';
 @import 'components/event-filter';
 @import 'components/event-form';
-@import 'components/event-group';
+@import 'components/event-group'; // TODO is this being used?
 @import 'components/event-header';
 @import 'components/event-info';
 @import 'components/event-list';
@@ -50,7 +66,6 @@
 @import 'components/featured-content';
 @import 'components/filter-bar';
 @import 'components/floating-side-column';
-@import 'components/footer';
 @import 'components/future-event';
 @import 'components/google-map';
 @import 'components/gradient-truncation';
@@ -60,13 +75,11 @@
 @import 'components/loader';
 @import 'components/location-dropdown';
 @import 'components/location-search';
-@import 'components/main-nav';
-@import 'components/market-card';
 @import 'components/market-post';
+@import 'components/modal';
 @import 'components/modal-dialog';
 @import 'components/nav-tabs';
 @import 'components/news';
-@import 'components/news-card';
 @import 'components/news-editor';
 @import 'components/news-photo-banner';
 @import 'components/no-results';
@@ -79,17 +92,18 @@
 @import 'components/related-promotion';
 @import 'components/report-abuse';
 @import 'components/response-button';
+@import 'components/search-filters';
 @import 'components/search-input';
-@import 'components/section';
+@import 'components/search-nav';
+@import 'components/search-pagination';
 @import 'components/section-header';
-@import 'components/section-navigation';
 @import 'components/sidebar-widget';
 @import 'components/similar-content';
 @import 'components/social-share';
 @import 'components/stat-circle';
+@import 'components/sticky-item';
 @import 'components/summer-note';
 @import 'components/tab-navigation';
-@import 'components/talk-card';
 @import 'components/talk-info';
 @import 'components/terms-of-service';
 @import 'components/text-area';
@@ -121,7 +135,71 @@
 //
 // Overrides
 //
+body {
+  background-color: @secondary-bg;
+}
 /* The default interferes with app modals */
 body.modal-open > .modal-backdrop {
   z-index: 60;
+}
+// added to the main element when sticky mobile header is on screen.
+main {
+  padding-top: 80px;
+
+  &.padBody {
+    padding-top: 18px;
+
+    &.is-mobile {
+      padding-top: 36px;
+    }
+  }
+}
+
+// reduce padding on mobile
+.is-mobile [class*=col] {
+  // padding: 0 7px;
+  // TODO this interferes with ux2 detail pages.
+  // We should uncomment this line when new detail pages are in place.
+}
+
+// reposition intercom launcher button on mobile
+#intercom-launcher {
+  left: -200px;
+}
+
+
+.GroupHeader {
+  margin-bottom: 10px;
+  .clearfix;
+
+  &-moreLink {
+    padding: 5px 10px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-weight: 700;
+    margin: 0;
+    float: right;
+    color: #6b6b6b;
+  }
+
+  &-moreLink--news {
+    float: left;
+    background: @news-brand;
+    color: #000;
+  }
+  &-moreLink--market {
+    float: left;
+    background: @market-brand;
+    color: #000;
+  }
+  &-moreLink--talk {
+    float: left;
+    background: @talk-brand;
+    color: #000;
+  }
+  &-moreLink--events {
+    float: left;
+    background: @event-brand;
+    color: #000;
+  }
 }

@@ -1,0 +1,58 @@
+<div class="SearchFilters-overlay" {{action 'closeFiltersMenu'}} {{action 'closeFiltersMenu' on="touchMove"}}></div>
+<div class="SearchFilters-container">
+
+  <header class="SearchFilters-header">
+    <h1 class="SearchFilters-header-title">
+      Filter <span class="text-uppercase">{{search.searchType}}</span> by:
+    </h1>
+    <button {{action 'closeFiltersMenu'}} class="SearchFilters-header-close">&times;</button>
+  </header>
+
+  {{#if (eq search.searchType 'news')}}
+    {{#form-group}}
+      <h4>Published By</h4>
+      {{news-organization-filter
+      organization=search.searchOrganization
+      }}
+    {{/form-group}}
+
+    {{#form-group}}
+      <h4>Community</h4>
+      <p>Restrict search results to a specific town or community</p>
+      {{location-filter
+      location=search.searchLocation
+      locationId=search.searchLocationId
+      }}
+    {{/form-group}}
+  {{else if (eq search.searchType 'events')}}
+    {{#form-group}}
+      {{event-category-dropdown
+      category=search.searchCategory
+      }}
+    {{/form-group}}
+    {{#form-group}}
+      <h4>Community</h4>
+      <p>Restrict search results to a specific town or community</p>
+      {{event-location-filter
+      location=search.searchLocation
+      }}
+    {{/form-group}}
+    {{#form-group}}
+      <h4>Dates</h4>
+      {{event-date-filter
+      startDate=search.searchDateStart
+      stopDate=search.searchDateEnd
+      }}
+    {{/form-group}}
+  {{else if (eq search.searchType 'market')}}
+    {{#form-group}}
+      <h4>Community</h4>
+      <p>Restrict search results to a specific town or community</p>
+      {{location-filter
+      location=search.searchLocation
+      locationId=search.searchLocationId
+      }}
+    {{/form-group}}
+
+  {{/if}}
+</div>

@@ -1,61 +1,69 @@
 .MainNav {
-  margin-bottom: 0;
-  border: 0;
-  @media (max-width: @screen-xs-max) {
-    border-bottom: 1px solid @text-color;
+  &-wrapper {
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 51;
   }
-}
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
 
-.MainNav-brand {
-  font-size: 64px;
-  .uppercase-bold-condensed;
-  @media (max-width: @screen-md-max) {
-    font-size: 52px;
+  &-brand {
+    -webkit-flex: 0 1 20%;
+    flex: 0 1 20%;
+    .uppercase-bold-condensed;
+
+    &-logo {
+      .h1;
+      line-height: 0.85;
+      margin: 0;
+    }
+
+    &-location {
+      color: @gray-medium;
+    }
   }
-  @media (max-width: @screen-sm-max) {
-    font-size: 40px;
-    margin-top: 24px;
+
+  &-channels {
+    -webkit-flex: 0 1 80%;
+    flex: 0 1 80%;
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+      -webkit-flex: 0 1 90%;
+      flex: 0 1 90%;
+    }
   }
-  @media (max-width: @screen-xs-max) {
-    font-size: 36px;
-    padding-top: 2px
+
+  &-search {
+    -webkit-flex: 0 1 20%;
+    flex: 0 1 20%;
+    > ul {
+      display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+      display: -ms-flexbox;  /* TWEENER - IE 10 */
+      display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
+    &-searchButton {
+      .h2;
+      padding-right: 26px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
-  @media (max-width: 380px) {
-    font-size: 30px;
+
+  &-moreLink .dropdown-menu {
+    left: initial;
+    right: 10px;
   }
-}
-
-.MainNav-location {
-  color: #9B9B9B;
-}
-
-.MainNav-content {
-  border-bottom: 1px solid @text-color;
-}
-
-.MainNav-mobileNav {
-  padding: 10px;
-}
-
-.navbar {
-  border-radius: 0;
-}
-
-.navbar-default {
-  background-color: white;
-}
-
-.navbar-default .navbar-brand {
-  color: @text-color;
-}
-
-.navbar-toggle {
-  float: left;
-  padding: 0;
-  margin: 13px 8px;
-}
-
-.navbar-toggle .icon-bar {
-  width: 50px;
-  height: 5px;
 }

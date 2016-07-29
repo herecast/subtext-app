@@ -21,10 +21,20 @@
   text-decoration: underline;
 }
 
+.ContentForm-button {
+  &--edit {
+    padding-left: 0;
+  }
+}
+
 .ContentForm-discardButton {
   .uppercase-bold-condensed;
   color: @gray-dark;
   margin: 20px 20px 10px 20px;
+
+  @media (max-width: @screen-xs-max) {
+    margin: 20px 0px 10px 0px;
+  }
 }
 
 .ContentForm-modalCloseButton {
@@ -36,6 +46,7 @@
   background-color: #FFF;
   padding: 60px 0;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+
   @media (max-width: @screen-xs-max) {
     padding: 12px 8px;
   }

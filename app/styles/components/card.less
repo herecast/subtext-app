@@ -1,14 +1,443 @@
 .Card {
-  margin: 0 auto 15px;
+  margin-top: 0;
+  background: #fff;
+  margin: 0 auto 1px;
   overflow: hidden;
-  padding: 10px;
-  max-width: 400px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+  position: relative;
+  padding: 0;
+
+  @media (max-width: @screen-xs-max) {
+    // margin: 1px auto;
+    border-bottom: 1px solid #efefef;
+  }
 
   @media (min-width: @screen-sm-min) {
-    height: 266px;
+    height: 115px;
+  }
+
+  &-title {
+    .h4;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.1;
+    margin-bottom: 0;
+
+    @media (max-width: @screen-xs-max) {
+      margin: 10px 0;
+    }
+  }
+
+  &-titleGroup {
+    line-height: 1;
+  }
+
+  &-subtitle { margin-top: 0; }
+
+  &-body {} // what's the difference between content and body?
+
+  &-content {
+    .fa {
+      display: inline-block;
+      text-align: center;
+      width: 16px;
+    }
+  }
+
+  &-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+
+    height: 100%;
+    width: 100%;
+  }
+
+  &-imageContainer {
+  }
+
+  &-image-tile {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+
+    height: 115px;
+    width: 133px;
+  }
+
+  &-image-placeholder {
+    line-height: 100px;
+    font-size: 80px;
+    width: 100px;
+    color: lighten(@gray-medium, 20%);
+    text-align: center;
+  }
+
+  &-infoBanner {
+    background: @event-brand;
+    line-height: 1;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  &-authorImage {
+    border-radius: 1000px;
+    height: 31px;
+    width: 31px;
+  }
+
+  &-pubAuthor {
+    float: left;
+    margin-right: 68px;
+  }
+
+  &-organization {
+    color: @gray-dark;
+
+    text-transform: uppercase;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1;
+
+    &:hover {
+      text-decoration: none;
+      color: darkent(@news-brand, 2%) !important;
+    }
+  }
+
+  &-authorName {
+    font-weight: 700;
+  }
+
+  &-commentInfo { }
+
+  &-statBox {
+    padding: 5px 8px 5px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    div {
+      .h4;
+      text-align: right;
+      color: @gray-dark;
+      font-family: @font-family-regular;
+
+    }
+    i {
+      margin-left: 4px;
+    }
+  }
+
+  &-isolatedDate {
+    padding-top: 1em;
+    border-top: 1px solid #d2d2d2;
+  }
+
+  &--stacked {
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.18),
+    -3px 4px 0px 0px #f2f2f2,
+    -5px 5px 5px 0px rgba(0, 0, 0, 0.18),
+    -7px 7px 0px 0px #f2f2f2,
+    -9px 8px 7px 0px rgba(0, 0, 0, 0.18);
+  }
+
+  &--grouped {
+    box-shadow: none;
+    margin-bottom: 0;
+    border-bottom: 1px solid #efefef;
+  }
+  &-groupedWrapper {
+    @media (min-width: @screen-md-min) {
+      background: #e8e8e8;
+
+      .Card--event {
+        .Card-image-tile {
+          height: 80px;
+          width: 106px;
+        }
+        .Card-body {
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  &--narrow { }
+
+  &-wrapper {
+    &--columnVertical2Up {
+      .Card {
+        &:first-child {
+          margin-bottom: 24px;
+        }
+      }
+
+      @media (max-width: @screen-md-max) {
+        .Card-image-tile {
+          width: 100px;
+        }
+      }
+    }
+
+    &--columnVertical4Up {
+      .Card:nth-last-child(n+2) {
+        margin-bottom: 24px;
+      }
+    }
+  }
+
+  &--fullImageCover {
+    position: relative;
+
+    .Card-content {
+      background: none;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: auto !important;
+    }
+
+    .Card-imageContainer {
+      height: 100% !important;
+      position: relative;
+
+      &:after {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        bottom: 0;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+98&0+0,0.65+62 */
+        background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 62%, rgba(0,0,0,0.65) 98%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 62%,rgba(0,0,0,0.65) 98%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 62%,rgba(0,0,0,0.65) 98%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+      }
+
+      .Card-image {
+        height: 100%;
+        width: auto;
+        min-width: 100%;
+      }
+    }
+
+    .Card-snippet,
+    .Card-title a {
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.27);
+    }
+
+    .Card-title {
+      a:first-child {
+        .h1;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 0;
+        font-size: 42px !important;
+        line-height: 1;
+      }
+    }
+
+    .Card-titleGroup {
+      margin-bottom: 1em;
+    }
+
+    .Card-organization {
+      font-size: 1.2em;
+      padding-top: 0.3em;
+      display: block;
+      color: #fff;
+    }
+  }
+
+  &--talk {
+    height: auto;
+    padding: 20px;
+
+    .Card-title {
+      margin: 0;
+    }
+
+    .Card-authorImage {
+      width: 36px;
+      height: 36px;
+    }
+
+    .Card-authorName {
+      margin-top: 0;
+    }
+
+    @media (min-width: @screen-sm-min) {
+      .Card-authorImage {
+        width: 48px;
+        height: 48px;
+        position: absolute;
+        top: 12px;
+        left: -24px;
+      }
+
+      &.Card {
+        overflow: visible;
+        position: relative;
+        padding-left: 30px;
+      }
+    }
+  }
+
+  &--news,
+  &--market {
+    @media (max-width: @screen-sm-max) {
+      padding: 10px;
+    }
+  }
+
+  &--event,
+  &--market {
+    height: auto;
+    padding: 10px;
+
+    @media (max-width: @screen-sm-max) {
+      .Card-infoBanner {
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+        max-width: 95px;
+
+        &-label {
+          font-weight: 700;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .Card-image-placeholder {
+      width: auto;
+    }
+    .Card-title {
+      margin: 0;
+    }
+
+  }
+
+  &--withoutImage {
+    .Card-title {
+      .h1;
+      font-weight: 700;
+    }
+  }
+
+  &--minimal {
+    height: auto;
+  }
+
+  &.hasInfoBanner {
+    .Card-title { }
+    p {
+      margin: 5px 0;
+    }
   }
 }
 
-.Card-title {
-  .uppercase-bold-condensed;
+.Card--wide {
+  max-width: none;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+
+  .Card-content {
+    padding: 10px;
+  }
+
+  .Card-imageContainer {
+    overflow: hidden;
+  }
+
+  .Card-title {
+    .h2;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .Card-subtitle {
+    margin-bottom: 6px;
+  }
+
+  .Card-organization {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    margin-top: 0.2em;
+  }
+
+  .Card-image {
+    width: 100%;
+  }
+}
+
+.Card--vertical {
+  height: 253px;
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .Card-title {
+    margin-top: 0;
+  }
+
+  .Card-imageContainer,
+  .Card-content {
+    overflow: hidden;
+  }
+
+  .Card-imageContainer {
+    height: 70%;
+  }
+
+  .Card-content {
+    height: 30%;
+    padding: 10px;
+  }
+}
+
+.Card--solo {
+  height: 530px;
+
+  .Card-imageContainer {
+    height: 70%;
+  }
+
+  .Card-content {
+    height: 30%;
+    padding: 10px;
+  }
+}
+
+.CardGroup {
+  outline: 1px dotted red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+
+  flex: 0 1 auto;
+  flex-basis: 100%;
+
+  .Card {
+    width: 100%;
+    height: 50%;
+  }
 }

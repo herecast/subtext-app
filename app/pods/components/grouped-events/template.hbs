@@ -1,40 +1,47 @@
-{{#each groupedEvents as |group|}}
-  <div class='Container--noGutter'>
-    {{#if isFilteredByOneDay}}
-      <h1 class='SectionHeader u-layoutPadT40'>
+{{#sticky-container position="grouped-events" as |sticky|}}
+  {{#each groupedEvents as |group|}}
+    {{#sticky.item}}
+      <h1 class='SectionHeader SectionHeader--no-margin'>
         <span class={{sectionHeaderTextClasses}}>
           {{group.displayValue}}
         </span>
       </h1>
-    {{else}}
-      <h1 class='SectionHeader u-layoutPadT40'>
-        {{link-to
-          group.displayValue
-          'events.all'
-          (query-params date_start=group.paramValue date_end=group.paramValue page=1)
-          tagName='span'
-          class=sectionHeaderTextClasses
-        }}
-      </h1>
-    {{/if}}
+    {{/sticky.item}}
 
-    <div class='u-layoutPadT50'>
-      {{#if isListLayout}}
-        {{event-list
-          events=group.items
-        }}
-      {{else}}
-        <div class='row'>
-          {{#each group.items as |event|}}
-            <div class='col-sm-6 col-md-4 col-lg-3'>
-              {{event-card
-                event=event
-                class='Card EventCard u-flexColumn'
-              }}
-            </div>
-          {{/each}}
+    <div class='Container--noGutter'>
+      <div class='row'>
+        <div class='col-xs-12 col-md-8 col-md-push-2'>
+          <div class='Card-groupedWrapper'>
+              {{#each group.items as |event|}}
+
+                {{#if media.isNotMobile}}
+                  <div class='row'>
+                    <div class='col-sm-3'>
+                      <span class='Card-isolatedDate pull-right'>
+                        {{event.timeRangeNoDates}}
+                      </span>
+                    </div>
+                    <div class='col-sm-9'>
+                      {{event-card
+                        event=event
+                        variant=cardLayout
+                        class='Card Card--event Card--grouped'
+                      }}
+                    </div>
+                  </div>
+                {{else}}
+                  {{event-card
+                    event=event
+                    variant=cardLayout
+                    imagePosition='right'
+                    class='Card Card--event Card--grouped'
+                  }}
+                {{/if}}
+
+              {{/each}}
+          </div>
         </div>
-      {{/if}}
+      </div>
     </div>
-  </div>
-{{/each}}
+    {{/each}}
+{{/sticky-container}}

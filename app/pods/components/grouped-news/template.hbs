@@ -1,66 +1,81 @@
-<div class='row'>
+<h1 class='h2'>Top Stories</h1>
+
+<div class='row' data-row='row-1'>
+  <div class='col-sm-6'>
+    {{news-card-wide
+      item=item3
+      class='Card--solo'
+      variant='full'
+    }}
+  </div>
+
   <div class='col-sm-3'>
-    {{news-card item=item1}}
-    {{news-card item=item2}}
+    {{news-card
+      item=item1
+      variant='vertical'
+    }}
+
+    <div class='Card-wrapper--columnVertical2Up'>
+      {{news-card
+        item=item4
+      }}
+
+      {{news-card
+        item=item5
+      }}
+    </div>
   </div>
-  <div class='NewsCard-verticalDivide col-sm-1'>
-  </div>
-  <div class='col-sm-8'>
-    {{news-card-wide item=item3}}
+  <div class='col-sm-3'>
+    {{news-card
+      item=item2
+      variant='vertical'
+    }}
+
+    <div class='Card-wrapper--columnVertical2Up'>
+      {{news-card
+        item=item6
+      }}
+
+      {{news-card
+        item=item7
+      }}
+    </div>
   </div>
 </div>
 
-{{#if item4}}
-  <h1 class='SectionHeader'></h1>
-
-  <div class='row'>
-    <div class='col-sm-3'>
-      {{news-card item=item4}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item5}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item6}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item7}}
-    </div>
-  </div>
-{{/if}}
+<h1 class='SectionHeader'></h1>
 
 {{#if item9}}
   <h1 class='SectionHeader'></h1>
 
-  <div class='row'>
-    <div class='col-sm-8'>
-      {{news-card-wide item=item10}}
-    </div>
-    <div class='NewsCard-verticalDivide col-sm-1'>
+  <div class='row' data-row='row-2'>
+    <div class='col-sm-6'>
+      {{news-card-wide
+        class='Card--solo Card--wide'
+        item=item10
+      }}
     </div>
     <div class='col-sm-3'>
-      {{news-card item=item8}}
-      {{news-card item=item9}}
+      {{news-card
+        item=item8
+        variant='vertical'
+      }}
+      {{news-card
+        item=item9
+        variant='vertical'
+      }}
     </div>
-  </div>
-{{/if}}
 
-{{#if item11}}
-  <h1 class='SectionHeader'></h1>
-
-  <div class='row'>
-    <div class='col-sm-3'>
-      {{news-card item=item11}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item12}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item13}}
-    </div>
-    <div class='col-sm-3'>
-      {{news-card item=item14}}
-    </div>
+    {{#if item11}}
+      <div class='col-sm-3'>
+        <div class='Card-wrapper--columnVertical4Up'>
+          {{news-card item=item11}}
+          {{news-card item=item12}}
+          {{news-card item=item14}}
+          {{news-card item=item13}}
+        </div>
+      </div>
+    {{/if}}
   </div>
 {{/if}}
 

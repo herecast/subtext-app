@@ -1,10 +1,9 @@
 import Ember from 'ember';
 import moment from 'moment';
-import TrackCard from 'subtext-ui/mixins/components/track-card';
 
 const { get, computed } = Ember;
 
-export default Ember.Component.extend(TrackCard, {
+export default Ember.Component.extend({
   attributeBindings: ['data-test-market-card'],
   'data-test-market-card': Ember.computed.oneWay('post.id'),
 
@@ -12,7 +11,7 @@ export default Ember.Component.extend(TrackCard, {
   isSimilarContent: false,
 
   subtitle: computed('post.publishedAt', function() {
-    return moment(this.get('post.publishedAt')).format('L');
+    return moment(get(this, 'post.publishedAt')).format('L');
   }),
 
   hasImage: Ember.computed.notEmpty('post.coverImageUrl'),
@@ -20,19 +19,19 @@ export default Ember.Component.extend(TrackCard, {
   userLocation: computed.oneWay('session.currentUser.location'),
 
   backgroundImage: computed('post.coverImageUrl', function() {
-    const url = this.get('post.coverImageUrl');
+    const url = get(this, 'post.coverImageUrl');
     const styles = `background-image: url(${url})`;
 
     return new Ember.Handlebars.SafeString(styles);
   }),
 
   actions: {
-    trackSimilarContentClick() {
-      this.trackEvent('selectSimilarContent', {
-        navControl: 'Market',
-        navControlGroup: 'Market Card',
-        sourceContentId: get(this, 'sourceContentId')
-      });
+    onTitleClick() {
+      if (this.attrs.onTitleClick) {
+        this.attrs.onTitleClick();
+      }
+
+      return true;
     }
   }
 });

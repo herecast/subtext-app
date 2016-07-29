@@ -1,4 +1,5 @@
 .DirectorySearch {}
+.Directory-wrapper {}
 
 // TODO move this somewhere else
 .DirectoryButton {
@@ -27,6 +28,7 @@
   @media (min-width: @screen-xs-max) {
     padding-top: 3rem;
   }
+
 }
 
 .DirectorySearch-inputWrapper {
@@ -46,11 +48,18 @@
     // is positiioned correctly
     position: relative;
   }
+  .dropdown-menu {
+    @media (max-width: @screen-xs-max) {
+      width: 100%;
+      overflow: hidden;
+    }
+  }
 
   @media (min-width: @screen-xs-max) {
     float:left;
     width: 50%;
     margin-bottom: 0;
+
   }
 }
 .DirectorySearch-InnerWrapper {

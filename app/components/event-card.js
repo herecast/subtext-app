@@ -1,18 +1,21 @@
 import Ember from 'ember';
-import TrackCard from 'subtext-ui/mixins/components/track-card';
 
-const { get, isPresent, computed } = Ember;
+const {
+  get,
+  isPresent,
+  computed
+} = Ember;
 
-export default Ember.Component.extend(TrackCard, {
-  classNameBindings: ['event.registrationDeadline:hasRegistrationDeadline'],
+export default Ember.Component.extend({
+  classNameBindings: ['event.registrationDeadline:hasInfoBanner'],
   isPreview: false,
-  venueName: Ember.computed.oneWay('event.venueName'),
-  venueCity: Ember.computed.oneWay('event.venueCity'),
-  venueState: Ember.computed.oneWay('event.venueState'),
+  venueName: computed.oneWay('event.venueName'),
+  venueCity: computed.oneWay('event.venueCity'),
+  venueState: computed.oneWay('event.venueState'),
 
-  timeRange: Ember.computed.oneWay('event.formattedDate'),
+  timeRange: computed.oneWay('event.formattedDate'),
 
-  hasVenue: Ember.computed.notEmpty('venue'),
+  hasVenue: computed.notEmpty('venue'),
 
   title: computed('event.title', function() {
     // Trim the title to avoid overflow.
@@ -22,9 +25,9 @@ export default Ember.Component.extend(TrackCard, {
   }),
 
   venue: computed('venueName', 'venueCity', 'venueState', function() {
-    const name = this.get('venueName');
-    const city = this.get('venueCity');
-    const state = this.get('venueState');
+    const name  = get(this, 'venueName'),
+          city  = get(this, 'venueCity'),
+          state = get(this, 'venueState');
 
     if (isPresent(name)) {
       return name;
@@ -34,20 +37,19 @@ export default Ember.Component.extend(TrackCard, {
   }),
 
   eventId: computed('event.id', 'event.eventInstanceId', function() {
-    if (Ember.isPresent(this.get('event.eventInstanceId'))) {
-      return this.get('event.eventInstanceId');
+    if (isPresent(get(this, 'event.eventInstanceId'))) {
+      return get(this, 'event.eventInstanceId');
     } else {
-      return this.get('event.id');
+      return get(this, 'event.id');
     }
   }),
 
   actions: {
-    trackSimilarContentClick() {
-      this.trackEvent('selectSimilarContent', {
-        navControl: 'Event',
-        navControlGroup: 'Event Card',
-        sourceContentId: get(this, 'sourceContentId')
-      });
+    onTitleClick() {
+      if (this.attrs.onTitleClick) {
+        this.attrs.onTitleClick();
+      }
+      return true;
     }
   }
 });

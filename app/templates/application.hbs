@@ -1,249 +1,49 @@
-<nav class='MainNav navbar navbar-default'>
-  <div class='MainNav-content Container--noGutter'>
-    {{#unless media.isMobile}}
-      {{x-weather
-        class='h2 col-sm-3'
-        location=session.userLocation
-        data-test-component='weather'
-      }}
-    {{/unless}}
+{{#if media.isNotMobile}}
+  {{global-header
+    page=page
 
-    <div class='col-sm-6 u-textCentered'>
-      {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
-        <h1 class='MainNav-brand' {{action 'trackHome'}}>
-          daily UV
-          <span class='MainNav-location'>
-            {{#if session.isAuthenticated}}
-              {{session.userLocation}}
-            {{else}}
-              Guest
-            {{/if}}
-          </span>
-        </h1>
-      {{/link-to}}
-    </div>
+    eventsFilter=eventsFilter
+    newsFilter=newsFilter
+    talkFilter=talkFilter
+    marketFilter=marketFilter
 
-    {{#if media.isNotMobile}}
-      <ul class='ActionDropdown col-sm-2 nav navbar-nav navbar-right'>
-        {{#if session.isAuthenticated}}
-          <li class='dropdown pull-right'>
-            <a href='' {{action 'trackMenuOpen'}} data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class='ActionDropdown-dropdownLink navbar-link'>
-              {{#if session.currentUser.userImageUrl}}
-                <img src="{{session.currentUser.userImageUrl}}" class='ActionDropdown-userAvatar'>
-              {{else}}
-                <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
-              {{/if}}
-            </a>
+    trackChannel=(action 'trackChannel')
+    trackHome=(action 'trackHome')
+    trackRegistration=(action 'trackRegistration')
+    trackUserMenu=(action 'trackUserMenu')
+    trackMenuOpen=(action 'trackMenuOpen')
 
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li>
-                {{#link-to 'events.new.details' class='h4 ActionDropdown-item'}}
-                  <span {{action 'trackUserMenu' 'create event'}}>Create Event</span>
-                {{/link-to}}
-              </li>
-              <li>
-                {{#link-to 'talk.new.details' class='h4 ActionDropdown-item'}}
-                  <span {{action 'trackUserMenu' 'create talk'}}>Create Talk</span>
-                {{/link-to}}
-              </li>
-              <li>
-                {{#link-to 'market.new.details' class='h4 ActionDropdown-item'}}
-                  <span {{action 'trackUserMenu' 'create market listing'}}>Create Market Listing</span>
-                {{/link-to}}
-              </li>
-              <li>
-                {{#link-to 'dashboard' (query-params sorted=false) class='h4 ActionDropdown-item'}}
-                  <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
-                {{/link-to}}
-              </li>
-              <li>
-                {{async-button
-                  action='signOut'
-                  default='Log out'
-                  pending='Logging out'
-                  class='h4 ActionDropdown-item'
-                  tagName='a'
-                  data-test-component='logout-link'
-                }}
-              </li>
-            </ul>
-          </li>
-        {{else}}
-          <li>
-            {{#link-to 'login' data-test-link='login-link'}}
-              <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
-            {{/link-to}}
-          </li>
-          <li>
-            {{#link-to 'register' data-test-link='join-link'}}
-              <span {{action 'trackRegistration' 'Join'}}>Join</span>
-            {{/link-to}}
-          </li>
-        {{/if}}
-      </ul>
-    {{/if}}
-  </div>
+    openSearch='openSearch'
 
-  {{#if media.isMobile}}
-    <div class='MainNav-mobileNav clearfix'>
-      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#js-app-bar'>
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-      </button>
+    signOut=(action 'signOut')
+  }}
+{{else}}
+  {{mobile-header
+    openSearch='openSearch'
+    signOut=(action 'signOut')
+  }}
+{{/if}}
 
-      <button type='button' class='ActionDropdown-dropdownLink pull-right' data-toggle='collapse' data-target='#mobile-dropdown-menu'>
-        {{#if session.currentUser.userImageUrl}}
-          <img src="{{session.currentUser.userImageUrl}}" class='ActionDropdown-userAvatar'>
-        {{else}}
-          <img src="/images/user-default-avatar.svg" class='ActionDropdown-userAvatar'>
-        {{/if}}
-      </button>
-    </div>
+{{#if search.showSearch class='search'}}
+  {{search-nav}}
+{{else}}
+  <main class="{{backgroundClass}} {{if showHeader 'padBody'}} {{if media.isMobile 'is-mobile'}}">
+    {{outlet}}
+  </main>
+  {{modal-manager}}
+{{/if}}
 
-    <ul class='ActionDropdown collapse' id='mobile-dropdown-menu'>
-      {{#if session.isAuthenticated}}
-        <li class='ActionDropdown-item'>
-          {{#link-to 'dashboard' (query-params sorted=false) class='h4'}}
-            <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
-          {{/link-to}}
-        </li>
-        <li class='ActionDropdown-item'>
-          <a href='#' {{action 'signOut'}} class='h4' data-test-component="logout-link">Log out</a>
-        </li>
-      {{else}}
-        <li class='ActionDropdown-item'>
-          {{#link-to 'login' class='h4 ActionDropdown-item' data-test-link='login-link'}}
-            <span {{action 'trackRegistration' 'Sign In'}}>Sign in</span>
-          {{/link-to}}
-        </li>
-        <li class='ActionDropdown-item'>
-          {{#link-to 'register' class='h4 ActionDropdown-item' data-test-link='join-link'}}
-            <span {{action 'trackRegistration' 'Join'}}>Join</span>
-          {{/link-to}}
-        </li>
-      {{/if}}
-    </ul>
-  {{/if}}
+{{#link-to 'copyright' class='Copyright h6'}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
 
-  <div class='Container--noGutter SectionNavigation collapse' id='js-app-bar'>
-    <div class='row'>
-      <div class='col-sm-1'>
-        {{#link-to 'news.show' '790848' class='Button btn' data-test-link='help-button'}}
-          <span {{action 'trackHelp'}}>{{fa-icon 'question-circle'}} Help</span>
-        {{/link-to}}
-      </div>
+{{#if media.isMobile}}
+  {{footer-nav
+    page=page
 
-      <ul class='SectionNavigation-list col-lg-6 col-lg-offset-2 col-sm-8 col-sm-offset-1'>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'news'
-            (query-params
-              page=1
-              query=newsFilter.defaultQuery
-              organization=newsFilter.defaultOrganization
-              location=newsFilter.defaultLocation
-              locationId=newsFilter.defaultLocationId
-            )
-            current-when='news'
-            class='SectionNavigation-link SectionNavigation-newsLink'
-            data-test-link='news-channel'
-          }}
-            <span {{action 'trackChannel' 'News'}}>News</span>
-          {{/link-to}}
-        </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'events'
-            (query-params
-              page=1
-              query=eventsFilter.defaultQuery
-              category=eventsFilter.defaultCategory
-              location=eventsFilter.defaultLocation
-              date_start=eventsFilter.defaultStart
-              date_end=eventsFilter.defaultEnd
-            )
-            current-when='events'
-            class='SectionNavigation-link SectionNavigation-eventLink'
-            data-test-link='events-channel'
-          }}
-            <span {{action 'trackChannel' 'Events'}}>Events</span>
-          {{/link-to}}
-        </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'talk'
-            (query-params
-              page=1
-              query=talkFilter.defaultQuery
-            )
-            current-when='talk'
-            class='SectionNavigation-link
-            SectionNavigation-talkLink'
-            data-test-link='talk-channel'
-          }}
-            <span {{action 'trackChannel' 'Talk'}}>Talk</span>
-          {{/link-to}}
-        </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'market'
-            (query-params
-              page=1
-              query=marketFilter.defaultQuery
-              location=marketFilter.defaultLocation
-              locationId=marketFilter.defaultLocationId
-            )
-            current-when='market'
-            class='SectionNavigation-link SectionNavigation-marketLink'
-            data-test-link='market-channel'
-          }}
-            <span {{action 'trackChannel' 'Market'}}>Market</span>
-          {{/link-to}}
-        </li>
-        <li class='SectionNavigation-listItem' data-toggle='collapse' data-target='#js-app-bar'>
-          {{#link-to 'directory.landing'
-            current-when='directory'
-            class='SectionNavigation-link SectionNavigation-directoryLink'
-            data-test-link='directory-channel'
-          }}
-          {{!-- <span {{action 'trackChannel' 'Directory'}}> --}}Directory {{!-- </span> --}}
-          {{/link-to}}
-        </li>
-      </ul>
+    eventsFilter=eventsFilter
+    newsFilter=newsFilter
+    talkFilter=talkFilter
+    marketFilter=marketFilter
 
-      {{content-create-button
-        class='col-lg-3 col-sm-2 hidden-xs u-textPullRight'
-        path=currentPath
-      }}
-    </div>
-  </div>
-</nav>
-
-<main class={{backgroundClass}}>
-  {{outlet}}
-</main>
-
-<div class='Footer-container {{backgroundClass}}'>
-  <div class='Container--noGutter'>
-    {{top-scroller}}
-  </div>
-  <div class='Container--noGutter'>
-    <footer class='Footer clearfix'>
-      {{#link-to 'copyright' class='Footer-link Footer-link-logo h4'}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
-
-      <ul class='Footer-links-list'>
-        <li class='Footer-links-list-item'>{{link-to 'Terms of Service' 'terms' class='Footer-link'}}</li>
-        <li class='Footer-links-list-item'>{{link-to 'Privacy' 'privacy'        class='Footer-link'}}</li>
-        <li class='Footer-links-list-item'>{{#link-to 'news.show' '790848'      class='Footer-link'}}Help{{/link-to}}</li>
-        <li class='Footer-links-list-item'><a href="mailto:dailyuv@subtext.org" class='Footer-link'>Contact Us</a></li>
-
-        <li class='Footer-links-list-item'><a href="mailto:jobs@subtext.org"        class='Footer-link hidden-xs'>Join Us</a></li>
-        <li class='Footer-links-list-item'><a href="mailto:ads@subtext.org"         class='Footer-link hidden-xs'>Advertise With Us</a></li>
-        <li class='Footer-links-list-item'>{{#link-to 'copyright-agent'             class='Footer-link hidden-xs'}}Don't Sue Us{{/link-to}}</li>
-        <li class='Footer-links-list-item'><a href="mailto:dailyuv@subtext.org"     class='Footer-link hidden-xs'>Site Feedback</a></li>
-      </ul>
-
-      <a href="https://mixpanel.com/f/partner" class="Footer-link-mixpanel pull-right visible-lg-inline-block u-layoutPadT10" target="_blank">
-        <img alt="Mobile Analytics" src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png">
-      </a>
-    </footer>
-  </div>
-</div>
+    trackChannel=(action 'trackChannel')
+  }}
+{{/if}}

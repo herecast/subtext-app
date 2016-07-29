@@ -1,52 +1,31 @@
 {{#if isTalk}}
-  {{#if showLink}}
-    {{#link-to 'talk'}}
-      <h6>talk</h6>
-    {{/link-to}}
-  {{/if}}
-
   {{talk-card
     talk=item
     isContentCard=true
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId
-    class='Card TalkCard u-flexColumn-2 TalkCard TalkCard--narrow'
+    class='Card Card--narrow'
   }}
-{{else if isNews}}
-  {{#if showLink}}
-    {{#link-to 'news'}}
-      <h6>news</h6>
-    {{/link-to}}
-  {{/if}}
 
-  {{news-card 
+{{else if isNews}}
+  {{news-card
     item=item
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId
   }}
-{{else if isMarketPost}}
-  {{#if showLink}}
-    {{#link-to 'market'}}
-      <h6>market</h6>
-    {{/link-to}}
-  {{/if}}
 
+{{else if isMarketPost}}
   {{market-card
     post=item
-    class='Card MarketCard u-flexColumn-2'
+    class='Card'
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId
   }}
-{{else if isEventInstance}}
-  {{#if showLink}}
-    {{#link-to 'events'}}
-      <h6>events</h6>
-    {{/link-to}}
-  {{/if}}
 
+{{else if isEventInstance}}
   {{event-card
     event=item
-    class='Card EventCard u-flexColumn'
+    class='Card u-flexColumn'
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId
   }}

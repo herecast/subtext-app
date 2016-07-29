@@ -1,31 +1,41 @@
 <div class='Container--noGutter'>
-  <div class='pull-right ContextBar'>
-    <span class='ContextBar-eventCount' data-test-news-length='{{model.length}}'>
-      Showing {{model.length}} listings.
-    </span>
+  <div class='row'>
+    <div class='col-xs-12'>
+        <div class='ChannelTopper clearfix'>
+          {{#if media.isMobile}}
+            <h1 class='h2 ChannelTopper-title'>Local News</h1>
+          {{/if}}
 
-    {{#if showReset}}
-      <a href='#' {{action 'resetFilters'}} class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'>
-        Reset search filters
-      </a>
-    {{/if}}
+          {{content-create-button
+            class='SectionNavigation-contentCreateButtonMobile pull-right'
+            path='news.new'
+            canPublishNews=session.currentUser.canPublishNews
+          }}
+        </div>
+    </div>
   </div>
 </div>
 
-{{#if model}}
-  <div class='Container--noGutter'>
+<div class='Container--noGutter'>
+  {{#if model}}
     {{#if media.isMobile}}
       {{ordered-news news=model}}
     {{else}}
       {{grouped-news news=model}}
     {{/if}}
+  {{/if}}
+</div>
 
-    {{partial 'partials/pagination-nav'}}
-  </div>
-{{else}}
-  <div class='NoResults container text-center'>
-    <p>I can't believe it. No one has posted any news that matches your search.</p>
-    <p>You could try tweaking your search or&hellip;</p>
-    <p>Seize the opportunity and post your own.</p>
+{{#if model}}
+  <div class='Container--noGutter'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <div class='PaginationNav-wrapper'>
+          <div class='PaginationNav PaginationNav--bottom'>
+            {{partial 'partials/pagination-nav'}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {{/if}}

@@ -1,0 +1,45 @@
+{{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close')}}
+<div class="Modal-dialogHeader">
+    <span class='UserMenu-user  Modal-dialogHeader-block'>
+      <img class='UserMenu-avatar' src="{{avatarUrl}}">
+      <span class='UserMenu-avatarText'>{{model.name}}</span>
+    </span>
+    <button class="Modal-action Modal-actionClose" {{action 'close'}}>
+     ×
+    </button>
+</div>
+
+<ul class='nav nav-stacked'>
+  <li class='UserMenuModal-menuItem'>
+  {{#link-to 'events.new.details'}}
+    <span {{action 'trackUserMenu' 'create event'}}>Create Event</span>
+  {{/link-to}}
+  </li>
+  <li class='UserMenuModal-menuItem'>
+  {{#link-to 'talk.new.details'}}
+    <span {{action 'trackUserMenu' 'create talk'}}>Create Talk</span>
+  {{/link-to}}
+  </li>
+  <li class='UserMenuModal-menuItem'>
+  {{#link-to 'market.new.details'}}
+    <span {{action 'trackUserMenu' 'create market listing'}}>Create Market Listing</span>
+  {{/link-to}}
+  </li>
+  <li class='UserMenuModal-menuItem'>
+  {{#link-to 'dashboard' (query-params sorted=false)}}
+    <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
+  {{/link-to}}
+  </li>
+  <li class='UserMenuModal-menuItem'>
+  {{async-button
+    action=(action 'signOut')
+    default='Log out'
+    pending='Logging out'
+    class=''
+    tagName='a'
+    data-test-component='logout-link'
+  }}
+  </li>
+</ul>
+
+{{/modal-wrapper}}

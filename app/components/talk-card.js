@@ -7,7 +7,6 @@ export default Ember.Component.extend(TrackCard, {
   title: Ember.computed.oneWay('talk.title'),
   isContentCard: false,
   isSimilarContent: false,
-  classNameBindings: ['hasComments:TalkCard--stacked'],
 
   attributeBindings:["data-test-talk-card"],
   'data-test-talk-card': Ember.computed.oneWay('talk.id'),
@@ -35,6 +34,15 @@ export default Ember.Component.extend(TrackCard, {
   }),
 
   actions: {
+    onTitleClick() {
+      if (this.attrs.onTitleClick) {
+        this.attrs.onTitleClick();
+      }
+
+      this.sendAction('trackClick', get(this, 'talk'));
+
+      return true;
+    },
     trackSimilarContentClick() {
       this.trackEvent('selectSimilarContent', {
         navControl: 'Talk',

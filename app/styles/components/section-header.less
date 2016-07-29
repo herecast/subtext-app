@@ -1,11 +1,16 @@
 .SectionHeader {
-  border-bottom: 1px solid @text-color;
-  line-height: 0;
-  text-align:center;
   .uppercase-bold-condensed;
+  .h1;
+  text-align:center;
+  line-height: normal;
+
   @media (max-width: @screen-xs-max) {
     margin-left: -15px;
     margin-right: -15px;
+  }
+
+  &--no-margin {
+    margin: 0;
   }
 }
 
@@ -16,20 +21,11 @@
 }
 
 .SectionHeader-text, .SectionHeader-buttonContainer {
-  background-color: @body-bg;
   padding: 0 20px;
   position: relative;
 }
 
 .SectionHeader-text--secondaryBg, .SectionHeader-buttonContainer--secondaryBg {
-  background-color: @secondary-bg;
-}
-
-.SectionHeader-text {
-  top: 3px;
-   @media (max-width: @screen-xs-max) {
-    top: 2px;
-  }
 }
 
 .SectionHeader-buttonContainer {

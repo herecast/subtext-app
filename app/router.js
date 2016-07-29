@@ -98,6 +98,8 @@ Router.map(function() {
   this.route('organization-profile', {path: '/organizations/:slug'}, function() {
     this.route('edit');
   });
+
+  this.route('freestyle');
 });
 
 export default Router;

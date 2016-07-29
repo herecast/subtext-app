@@ -26,9 +26,6 @@ export default Ember.Mixin.create(TrackEvent, {
     },
     page: {
       refreshModel: true
-    },
-    event_layout: {
-      refreshModel: true
     }
   },
 

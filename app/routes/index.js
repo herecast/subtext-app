@@ -17,9 +17,8 @@ export default Ember.Route.extend(PaginatedFilter, History, {
 
     const query = {
       page: params.page,
-      // api returns 8 non-news and 6 news items
-      per_page: 8,
-      news_per_page: 6
+      per_page: 100,
+      news_per_page: 7
     };
 
     return api.getContents(query);

@@ -1,0 +1,16 @@
+<div class='Modal-dialog {{if (or media.isMobile fullscreen) "Modal-dialog--fullscreen"}} {{if visible "Modal-dialog--visible"}}'>
+  {{#if showHeader}}
+    <div class='Modal-dialogHeader'>
+      {{#if close}}
+        <button class=' Modal-action Modal-actionClose' onclick={{action close}}>
+         ×
+        </button>
+      {{/if}}
+      {{#if title}}
+        <span class='Modal-dialogTitle'>{{title}}</span>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{yield}}
+</div>

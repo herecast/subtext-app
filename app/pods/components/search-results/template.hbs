@@ -1,0 +1,18 @@
+{{#if showContent}}
+  {{#if promise.isPending}}
+    {{x-loader}}
+  {{else}}
+    {{#if promise.length}}
+      <div class='row'>
+        {{yield}}
+      </div>
+    {{else}}
+      {{#if (gt search.searchPage 1)}}
+        <p>There are no more results found.</p>
+      {{else}}
+        <p>No results found.</p>
+      {{/if}}
+    {{/if}}
+    {{search-pagination results=promise searchType=searchType}}
+  {{/if}}
+{{/if}}

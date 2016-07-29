@@ -3,7 +3,8 @@ import Ember from 'ember';
 const {
   get,
   computed,
-  isPresent
+  isPresent,
+  inject
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -12,6 +13,8 @@ export default Ember.Controller.extend({
   category: null,
   query: "",
   isCalculatingLocation: false,
+
+  intercom: inject.service(),
 
   canSearch: computed('query', 'category', 'coords', function() {
     const query = get(this, 'query') || '';
@@ -78,12 +81,7 @@ export default Ember.Controller.extend({
     },
 
     contactUs() {
-      let intercomButton = Ember.$('.intercom-launcher-button');
-      if(intercomButton.length > 0){
-        intercomButton[0].click();
-      }else{
-        window.location.href = "mailto:dailyuv@subtext.org?subject=My Business on dailyUV";
-      }
+      get(this, 'intercom').contactUs("My Business on dailyUV");
     }
   }
 });

@@ -1,30 +1,19 @@
 <div class='Container--noGutter'>
-  {{#if media.isMobile}}
-    {{content-create-button
-      class='col-lg-3 col-sm-2 u-textPullRight SectionNavigation-contentCreateButtonMobile'
-      path='market.new.details'
-    }}
-  {{/if}}
-  {{#if showPrevPage}}
-    <div class='pull-left u-layoutPadT20'>
-      {{partial 'partials/pagination-nav'}}
+  <div class='row'>
+    <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='ChannelTopper clearfix'>
+          {{#if media.isMobile}}
+            <h1 class='h2 ChannelTopper-title'>Local Market</h1>
+          {{/if}}
+
+          {{content-create-button
+            class='SectionNavigation-contentCreateButtonMobile pull-right'
+            path='market.new.details'
+          }}
+        </div>
     </div>
-  {{/if}}
-
-  <div class='pull-right ContextBar'>
-    <span class='ContextBar-eventCount'>
-      Showing <span data-test-market-length>{{model.length}}</span> listings.
-    </span>
-
-    {{#if showReset}}
-      <a href='#' {{action 'resetFilters'}} class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'>
-        Reset search filters
-      </a>
-    {{/if}}
   </div>
 </div>
-
-
 
 {{#if model}}
   {{sorted-market-posts
@@ -32,12 +21,14 @@
   }}
 
   <div class='Container--noGutter'>
-    {{partial 'partials/pagination-nav'}}
-  </div>
-{{else}}
-  <div class='NoResults container text-center'>
-    <p>I can't believe it. No one has posted an item that matches your search.</p>
-    <p>You could try tweaking your search for another listing or&hellip;</p>
-    <p>Seize the opportunity and post your own.</p>
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='PaginationNav-wrapper'>
+          <div class='PaginationNav PaginationNav--bottom'>
+            {{partial 'partials/pagination-nav'}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {{/if}}

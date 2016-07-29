@@ -1,42 +1,19 @@
+{{sticky-position name="grouped-events"}}
+
 <div class='Container--noGutter'>
-  {{#if media.isMobile}}
-    {{content-create-button
-      class='col-lg-3 col-sm-2 u-textPullRight SectionNavigation-contentCreateButtonMobile'
-      path='events.new.details'
-    }}
-  {{/if}}
-  {{#unless media.isMobile}}
-    <div class='pull-left u-layoutPadT20'>
-      <div class='pull-left ContextBar-layoutToggle'>
-        View
-
-        {{#link-to 'events' (query-params event_layout='list')}}
-          {{fa-icon 'bars' size=2}}
-        {{/link-to}}
-
-        {{#link-to 'events' (query-params event_layout='grid')}}
-          {{fa-icon 'th' size=2}}
-        {{/link-to}}
-      </div>
-
-      <div class='pull-left'>
-        {{#if showPrevPage}}
-          {{partial 'partials/pagination-nav'}}
+  <div class='row'>
+    <div class='col-xs-12 col-md-8 col-md-push-2'>
+      <div class='ChannelTopper clearfix'>
+        {{#if media.isMobile}}
+          <h1 class='h2 ChannelTopper-title'>Local Events</h1>
         {{/if}}
+
+        {{content-create-button
+          class='SectionNavigation-contentCreateButtonMobile pull-right'
+          path='events.new.details'
+        }}
       </div>
     </div>
-  {{/unless}}
-
-  <div class='pull-right ContextBar'>
-    <span class='ContextBar-eventCount'>
-      Showing {{model.length}} events.
-    </span>
-
-    {{#if showReset}}
-      <a href='#' {{action 'resetFilters'}} class='ContextBar-filterReset btn-default btn-xs fa fa-times-circle'>
-        Reset search filters
-      </a>
-    {{/if}}
   </div>
 </div>
 
@@ -45,16 +22,18 @@
     events=model
     startDate=startDate
     stopDate=stopDate
-    eventLayout=event_layout
+    cardLayout='wide'
   }}
 
   <div class='Container--noGutter'>
-    {{partial 'partials/pagination-nav'}}
-  </div>
-{{else}}
-  <div class='NoResults container text-center'>
-    <p>I can't believe it. No one is hosting an event that matches your search.</p>
-    <p>You could try tweaking your search for another event or&hellip;</p>
-    <p>Seize the opportunity and host your own.</p>
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='PaginationNav-wrapper'>
+          <div class='PaginationNav PaginationNav--bottom'>
+            {{partial 'partials/pagination-nav'}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {{/if}}

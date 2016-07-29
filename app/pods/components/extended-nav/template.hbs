@@ -1,0 +1,42 @@
+<li {{action 'onLinkClick'}}>
+  {{#link-to 'terms'}}
+    Terms of Service
+  {{/link-to}}
+</li>
+
+<li {{action 'onLinkClick'}}>
+  {{#link-to 'privacy'}}
+  Privacy
+  {{/link-to}}
+</li>
+
+<li {{action 'onLinkClick'}}>
+  {{#link-to 'news.show' '790848'}}
+    Help
+  {{/link-to}}
+</li>
+
+<li {{action 'onLinkClick'}}>
+  {{#link-to 'copyright-agent'}}
+    Don't Sue Us
+  {{/link-to}}
+</li>
+
+<li>
+  <a href="mailto:dailyuv@subtext.org" {{action 'onLinkClick' preventDefault=false}}>
+    Contact Us
+  </a>
+</li>
+
+
+<li>
+  <a href="mailto:ads@subtext.org" {{action 'onLinkClick' preventDefault=false}}>
+    Advertise With Us
+  </a>
+</li>
+
+<li>
+  <a href="#" {{action 'sendFeedback'}}>
+    Site Feedback
+  </a>
+</li>

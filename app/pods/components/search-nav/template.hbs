@@ -1,0 +1,255 @@
+<!-- BEGIN FIXED ELEMENTS -->
+<div class='SearchNav-activeFilters-wrapper'>
+  <div class="SearchNav-closeButton-container">
+    <div class='container'>
+      <div class='row'>
+        <div class='col-xs-12 col-md-8 col-md-push-2'>
+          <button {{action 'closeSearch'}} class="SearchNav-closeButton">&times;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if search.searchType}}
+    <div class='SearchNav-activeFilters-searchType-wrapper'>
+      <div class='container'>
+        <div class='row'>
+          <div class='col-xs-12 col-md-8 col-md-push-2'>
+            <p class="SearchNav-activeFilters-searchType SearchNav-activeFilters-searchType--{{search.searchType}}">
+              Searching in:
+              <a href='#' {{action 'clearSearchType'}}
+                 class="SearchNav-activeFilters-btn SearchNav-activeFilters-btn--{{search.searchType}}">
+                {{search.searchType}}
+                <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class="SearchNav-activeFilters">
+          {{#if search.searchType}}
+            {{#if (eq search.searchType 'news')}}
+              {{#if (not-eq search.searchOrganization search.defaultSearchParams.searchOrganization)}}
+                <p>
+                  Published By
+                  {{#link-to (query-params searchOrganization=search.defaultSearchParams.searchOrganization searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchOrganization}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+              {{#if (not-eq search.searchLocationId search.defaultSearchParams.searchLocationId)}}
+                <p>
+                  Community
+                  {{#link-to (query-params searchLocation=search.defaultSearchParams.searchLocation searchLocationId=search.defaultSearchParams.searchLocationId searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchLocation}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+            {{/if}}
+
+            {{#if (eq search.searchType 'events')}}
+              {{#if (not-eq search.searchCategory search.defaultSearchParams.searchCategory)}}
+                <p>
+                  Category
+                  {{#link-to (query-params searchCategory=search.defaultSearchParams.searchCategory searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchCategory}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+              {{#if (not-eq search.searchLocationId search.defaultSearchParams.searchLocationId)}}
+                <p>
+                  Community
+                  {{#link-to (query-params searchLocation=search.defaultSearchParams.searchLocation searchLocationId=search.defaultSearchParams.searchLocationId searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchLocation}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+              {{#if (not-eq search.searchDateStart search.defaultSearchParams.searchDateStart)}}
+                <p>
+                  Dates
+                  {{#link-to (query-params searchDateStart=search.defaultSearchParams.searchDateStart searchDateEnd=search.defaultSearchParams.searchDateEnd searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchDateStart}} - {{search.searchDateEnd}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+            {{/if}}
+
+            {{#if (eq search.searchType 'market')}}
+              {{#if (not-eq search.searchLocationId search.defaultSearchParams.searchLocationId)}}
+                <p>
+                  Community
+                  {{#link-to (query-params searchLocation=search.defaultSearchParams.searchLocation searchLocationId=search.defaultSearchParams.searchLocationId searchPage=1) class="SearchNav-activeFilters-btn"}}
+                    {{search.searchLocation}}
+                    <span class="SearchNav-activeFilters-searchType-close">&times;</span>
+                  {{/link-to}}
+                </p>
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        </div>
+        <div class="SearchNav-searchInput-container">
+          {{search-input
+          value=search.searchQuery
+          class="SearchNav-searchInput"
+          update=(action 'updateQuery')
+          showIcon=false
+          inputType='text'
+          placeholder=placeholder
+          clearButtonText='Clear'
+          }}
+          {{#if canFilter}}
+            <button {{action 'openFiltersMenu'}} class="SearchNav-showFiltersButton {{if search.hasFilter 'active'}}">
+              Filter {{fa-icon 'sliders'}}
+            </button>
+          {{/if}}
+          {{sticky-position name='search-results'}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END FIXED ELEMENTS -->
+
+{{#sticky-container position='search-results' scrollTarget='.SearchNav' as |sticky|}}
+<div class='SearchNav-searchResults-wrapper'>
+  <div class='container'>
+    <div class="row">
+      <div class="col-xs-12 col-md-8 col-md-push-2">
+        {{#if (or search.searchQuery search.hasFilter)}}
+          {{#if showNoResultsMessage}}
+          <p>Your search didn't match any content.<br />Some suggestions:</p>
+            <ul>
+              <li>Make sure all words are spelled correctly</li>
+              <li>Try entering different keywords</li>
+              <li>Try using more general keywords</li>
+              <li>Try fewer keywords</li>
+            </ul>
+          {{/if}}
+
+          {{#each sortedSearchResultChannels as |channel|}}
+
+            {{#if (eq channel.name 'news')}}
+              {{#search-results promise=search.searchNews searchType='news'}}
+                {{#sticky.item class='StickyItem--default-background'}}
+                  {{search-title searchType='news' total=search.searchNewsTotal}}
+                {{/sticky.item}}
+                {{#each search.searchNews as |news|}}
+                  <div class='col-xs-12'>
+                    {{news-card
+                    item=news
+                    minimal=true
+                    class='Card Card--minimal'
+                    onTitleClick=(action 'closeSearch')
+                    data-test-news-card=news.title
+                    }}
+                  </div>
+                {{/each}}
+              {{/search-results}}
+
+            {{else if (eq channel.name 'events')}}
+              {{#search-results promise=search.searchEvents searchType='events'}}
+                {{#sticky.item class='StickyItem--default-background'}}
+                  {{search-title searchType='events' total=search.searchEventsTotal}}
+                {{/sticky.item}}
+                {{#each search.searchEvents as |event|}}
+                  <div class='col-xs-12'>
+                    {{event-card
+                    event=event
+                    minimal=true
+                    class='Card Card--minimal'
+                    onTitleClick=(action 'closeSearch')
+                    data-test-event-card=event.title
+                    }}
+                  </div>
+                {{/each}}
+              {{/search-results}}
+
+            {{else if (eq channel.name 'talk')}}
+              {{#search-results promise=search.searchTalk searchType='talk'}}
+                {{#sticky.item class='StickyItem--default-background'}}
+                  {{search-title searchType='talk' total=search.searchTalkTotal}}
+                {{/sticky.item}}
+                {{#each search.searchTalk as |talk|}}
+                  <div class='col-xs-12'>
+                    {{talk-card
+                    talk=talk
+                    minimal=true
+                    class='Card Card--minimal'
+                    isContentCard=true
+                    isSimilarContent=false
+                    onTitleClick=(action 'closeSearch')
+                    data-test-talk-card=talk.title
+                    }}
+                  </div>
+                {{/each}}
+              {{/search-results}}
+
+            {{else if (eq channel.name 'market')}}
+              {{#search-results promise=search.searchMarket searchType='market'}}
+                {{#sticky.item class='StickyItem--default-background'}}
+                  {{search-title searchType='market' total=search.searchMarketTotal}}
+                {{/sticky.item}}
+                {{#each search.searchMarket as |market|}}
+                  <div class='col-xs-12'>
+                    {{market-card
+                    post=market
+                    minimal=true
+                    isContentCard=true
+                    isSimilarContent=false
+                    data-test-maket-card=market.title
+                    onTitleClick=(action 'closeSearch')
+                    class='Card Card--minimal'
+                    }}
+                  </div>
+                {{/each}}
+              {{/search-results}}
+            {{/if}}
+
+          {{/each}}
+        {{else}}
+        {{!--
+          <span class='h3'>Or search in:</span><br />
+
+          <ul class="SearchNav-searchTypeList">
+            {{#if search.searchType}}
+              <li>{{#link-to (query-params searchType=null searchPage=1)}}Everything{{/link-to}}</li>
+            {{/if}}
+
+            {{#unless (eq search.searchType 'news')}}
+              <li>{{#link-to (query-params searchType='news' searchPage=1)}}News{{/link-to}}</li>
+            {{/unless}}
+
+            {{#unless (eq search.searchType 'events')}}
+              <li>{{#link-to (query-params searchType='events' searchPage=1)}}Events{{/link-to}}</li>
+            {{/unless}}
+
+            {{#unless (eq search.searchType 'talk')}}
+              <li>{{#link-to (query-params searchType='talk' searchPage=1)}}Talk{{/link-to}}</li>
+            {{/unless}}
+
+            {{#unless (eq search.searchType 'market')}}
+              <li>{{#link-to (query-params searchType='market' searchPage=1)}}Market{{/link-to}}</li>
+            {{/unless}}
+          </ul>
+          --}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/sticky-container}}
+
+{{#if search.showFiltersMenu class='filtertray'}}
+  {{search-filters}}
+{{/if}}

@@ -1,75 +1,126 @@
-<div class='row'>
-  <div class='col-sm-3'>
-    {{content-card item=items.item1}}
-    {{content-card item=items.item2}}
-  </div>
-  <div class='NewsCard-verticalDivide col-sm-1'>
-  </div>
-  <div class='col-sm-8'>
-    {{#link-to 'news'}}
-      <h6>news</h6>
-    {{/link-to}}
+<h1 class='GroupHeader GroupHeader--news'>
+  {{#link-to 'news' class='GroupHeader-moreLink GroupHeader-moreLink--news h3'}}
+    News
+  {{/link-to}}
 
-    {{news-card-wide item=items.newsItem1}}
-  </div>
+  {{#link-to 'news' class='GroupHeader-moreLink pull-right h5'}}
+    view all
+  {{/link-to}}
+</h1>
+
+<div class='row' data-row='row-1'>
+  {{#if media.isNotMobile}}
+    <div class='col-sm-6'>
+      {{#if newsItems.[0].imageUrl}}
+        {{news-card-wide
+          class='Card--solo'
+          item=newsItems.[0]
+          variant='full'
+        }}
+      {{else}}
+        {{news-card-wide
+          class='Card--solo Card--wide'
+          item=newsItems.[0]
+        }}
+      {{/if}}
+    </div>
+
+    <div class='col-sm-3'>
+      {{news-card
+        item=newsItems.[1]
+        variant='vertical'
+      }}
+
+      <div class='Card-wrapper--columnVertical2Up'>
+        {{news-card item=newsItems.[2] }}
+        {{news-card item=newsItems.[3] }}
+      </div>
+    </div>
+
+    <div class='col-sm-3'>
+     {{news-card
+        item=newsItems.[4]
+        variant='vertical'
+      }}
+
+      <div class='Card-wrapper--columnVertical2Up'>
+        {{news-card item=newsItems.[5] }}
+        {{news-card item=newsItems.[6] }}
+      </div>
+    </div>
+  {{else}}
+
+    <div class='col-sm-6'>
+      {{#each newsItems as |newsItem|}}
+        {{news-card
+          item=newsItem
+          imagePosition='right'
+          classNames='Card Card--news'
+        }}
+      {{/each}}
+    </div>
+  {{/if}}
 </div>
 
-{{#if items.newsItem3}}
-  <h1 class='SectionHeader'></h1>
-
-  <div class='row'>
-    <div class='col-sm-3'>
-      {{content-card item=items.newsItem3}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.newsItem4}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.newsItem5}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.newsItem6}}
-    </div>
-  </div>
-{{/if}}
-
-{{#if items.newsItem2}}
-  <h1 class='SectionHeader'></h1>
-
-  <div class='row'>
-    <div class='col-sm-8'>
-      {{#link-to 'news'}}
-        <h6>news</h6>
+<div class='row' data-row='row-2'>
+  <div class="{{if currentUser 'col-sm-5' 'col-sm-6'}}">
+    <h1 class='GroupHeader GroupHeader--events'>
+      {{#link-to 'events' class='GroupHeader-moreLink GroupHeader-moreLink--events h3'}}
+        Events
       {{/link-to}}
 
-      {{news-card-wide item=items.newsItem2}}
-    </div>
-    <div class='NewsCard-verticalDivide col-sm-1'>
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.item3}}
-      {{content-card item=items.item4}}
-    </div>
+      {{#link-to 'events' class='GroupHeader-moreLink pull-right h5'}}
+        view all
+      {{/link-to}}
+    </h1>
+
+    {{#each eventItems as |event|}}
+      {{event-card
+        event=event
+        imagePosition=(if media.isNotMobile 'left' 'right')
+        classNames='Card Card--event'
+      }}
+    {{/each}}
   </div>
-{{/if}}
 
-{{#if items.item5}}
-  <h1 class='SectionHeader'></h1>
+  <div class="{{if currentUser 'col-sm-4' 'col-sm-6'}}">
+    <h1 class='GroupHeader GroupHeader--market'>
+      {{#link-to 'market' class='GroupHeader-moreLink GroupHeader-moreLink--market h3'}}
+        Market
+      {{/link-to}}
 
-  <div class='row'>
-    <div class='col-sm-3'>
-      {{content-card item=items.item5}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.item6}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.item7}}
-    </div>
-    <div class='col-sm-3'>
-      {{content-card item=items.item8}}
-    </div>
+      {{#link-to 'market' class='GroupHeader-moreLink pull-right h5'}}
+        view all
+      {{/link-to}}
+    </h1>
+
+    {{#each marketItems as |post|}}
+      {{market-card
+        classNames='Card Card--market'
+        imagePosition=(if media.isNotMobile 'left' 'right')
+        post=post
+      }}
+    {{/each}}
   </div>
-{{/if}}
 
-<h1 class='SectionHeader'></h1>
+  {{#if currentUser}}
+  <div class='col-sm-3'>
+    <h1 class='GroupHeader GroupHeader--talk'>
+      {{#link-to 'talk' class='GroupHeader-moreLink GroupHeader-moreLink--talk h3'}}
+        Talk
+      {{/link-to}}
+
+      {{#link-to 'talk' class='GroupHeader-moreLink pull-right h5'}}
+        view all
+      {{/link-to}}
+    </h1>
+
+    {{#each talkItems as |talk|}}
+      {{talk-card
+        talk=talk
+        class='Card Card--talk'
+      }}
+    {{/each}}
+  </div>
+  {{/if}}
+</div>

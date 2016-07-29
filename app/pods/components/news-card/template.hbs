@@ -1,34 +1,83 @@
-{{#if hasImage}}
-  <div class='NewsCard-imageContainer u-textCentered'>
-    <img class='NewsCard-image img-responsive' src={{item.imageUrl}}>
-  </div>
-{{/if}}
+{{#if minimal}}
+  <h2 class='Card-title' {{action 'onTitleClick'}}>
+    {{#link-to 'news.show' item.id}}
+      {{item.title}}
+    {{/link-to}}
+  </h2>
 
-<div class='NewsCard-content u-flexColumn-2'>
+  <span class='Card-subtitle'>{{subtitle}}</span> <span class='Card-subtitle'>{{item.organizationName}}</span>
+{{else}}
+  {{#unless variant}}
+    <div class="media">
+      {{#unless (eq imagePosition 'right')}}
+        <div class="media-left">
+          {{#if hasImage}}
+            <div class='Card-imageContainer'>
+              {{#link-to 'news.show' item.id}}
+                <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+              {{/link-to}}
+            </div>
+          {{/if}}
+        </div>
+      {{/unless}}
 
-  {{#link-to 'news.show' item.id data-test-link=item.title  classNameBindings="isSimilarContent:SimilarContentLink"}}
-    <div {{action 'trackClick' item}}>
-      {{#if isSimilarContent}}
-        <h2 {{action 'trackSimilarContentClick'}} class='Card-title u-twoLineH2'>
-          {{item.title}}
-        </h2>
-      {{else}}
-        <h2 class='Card-title u-twoLineH2'>
-          {{item.title}}
-        </h2>
+      <div class="media-body Card-body">
+        <div class='Card-titleGroup'>
+          <h2 class='Card-title' {{action 'onTitleClick'}}>
+            {{#link-to 'news.show' item.id data-test-link=item.title}}
+              {{x-truncate text=item.title maxLength=(if media.isDesktop 70 20) tagName='span'}}
+            {{/link-to}}<br />
+          </h2>
+
+          {{#link-to 'organization-profile'
+            item.organization.slug
+            class='Card-organization'
+            tagName='a'
+            data-test-component="organization-link"
+          }}
+            {{item.organizationName}}
+          {{/link-to}}
+        </div>
+      </div>
+
+      {{#if (eq imagePosition 'right')}}
+        <div class="media-right">
+          {{#if hasImage}}
+            <div class='Card-imageContainer'>
+              {{#link-to 'news.show' item.id}}
+                <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+              {{/link-to}}
+            </div>
+          {{/if}}
+        </div>
       {{/if}}
     </div>
-  {{/link-to}}
+  {{else}}
+    {{#if hasImage}}
+      <div class='Card-imageContainer'>
+        {{#link-to 'news.show' item.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+          <div class='Card-image img-responsive' style="background-image:url({{item.imageUrl}})"></div>
+        {{/link-to}}
+      </div>
+    {{/if}}
 
-  <div class='NewsCard-subtitle'>
-    <span class='NewsCard-date'>{{date}}</span>
+    <div class='Card-content'>
+      <div class='Card-titleGroup'>
+        <h2 class='Card-title'>
+          {{#link-to 'news.show' item.id data-test-link=item.title }}
+            {{item.title}}
+          {{/link-to}}<br />
+        </h2>
 
-    {{#link-to 'organization-profile' item.organization.slug data-test-component="organization-link"}}
-      <h3 class='u-textTruncate NewsCard-organization'>{{item.organizationName}}</h3>
-    {{/link-to}}
-  </div>
-
-  <div class='NewsCard-snippet u-textThreeLineTruncate'>
-    {{{content}}}
-  </div>
-</div>
+        {{#link-to 'organization-profile'
+          item.organization.slug
+          class='Card-organization'
+          tagName='a'
+          data-test-component="organization-link"
+        }}
+          {{item.organizationName}}
+        {{/link-to}}
+      </div>
+    </div>
+  {{/unless}}
+{{/if}}

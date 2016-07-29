@@ -28,6 +28,19 @@ export default Ember.Service.extend({
     });
   },
 
+  contactUs(subject) {
+    let intercomButton = Ember.$('.intercom-launcher-button');
+    if(intercomButton.length > 0){
+      intercomButton[0].click();
+    } else {
+      let url = "mailto:dailyuv@subtext.org?";
+      if (subject) {
+        url += `subject=${subject}`;
+      }
+      window.location.href = url;
+    }
+  },
+
   trackEvent(eventName, metadata) {
     window.Intercom('trackEvent', eventName, metadata);
   },

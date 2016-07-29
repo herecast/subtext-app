@@ -17,4 +17,19 @@ export default function(){
     this.hasClass('useFade'),
     this.use('fade')
   );
+
+  this.transition(
+    this.hasClass('filtertray'),
+
+    this.toValue(true),
+    this.use('toLeft', {duration: 300}),
+    this.reverse('toRight', {duration: 300})
+  );
+this.transition(
+    this.hasClass('search'),
+
+    this.toValue(true),
+    this.use('toLeft', {duration: 300}),
+    this.reverse('toRight', {duration: 300})
+  );
 }

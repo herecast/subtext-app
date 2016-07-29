@@ -14,12 +14,12 @@
 </div>
 
 {{#if newBusinessProfile}}
-  {{#x-modal close=(action 'cancelBusinessProfileForm')}}
+  {{#modal-wrapper close=(action 'cancelBusinessProfileForm')}}
     {{business-profile-form
     model=newBusinessProfile
     categories=businessCategories
     save='savedBusinessProfileForm'
     cancel='cancelBusinessProfileForm'
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

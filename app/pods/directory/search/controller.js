@@ -54,7 +54,7 @@ export default Ember.Controller.extend(Validation, {
   }),
 
   businessCategories: computed(function () {
-    return get(this, 'store').find('business-category');
+    return get(this, 'store').findAll('business-category');
   }),
 
   locations: computed('results.[]', function () {

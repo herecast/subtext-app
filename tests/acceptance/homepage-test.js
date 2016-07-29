@@ -15,9 +15,6 @@ test('visiting /', function(assert) {
 
   andThen(function() {
     assert.equal(currentURL(), '/');
-    assert.equal(find(testSelector('content-card')).length > 0, true, 'it should show content');
-    assert.equal(find(testSelector('component', 'weather')).length, 1, 'it should show the weather');
-    assert.equal(find(testSelector('link', 'help-button')).length, 1, 'it should show the help button');
     assert.equal(find(testSelector('link', 'news-channel')).length, 1, 'it should show the news channel link');
     assert.equal(find(testSelector('link', 'events-channel')).length, 1, 'it should show the events channel link');
     assert.equal(find(testSelector('link', 'talk-channel')).length, 1, 'it should show the talk channel link');

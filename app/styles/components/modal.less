@@ -1,0 +1,100 @@
+.Modal {
+  width: 100vw;
+  height: 100%;
+  background: rgba(3,3,3, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  overflow: auto;
+
+}
+
+.Modal-dialog {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 500px;
+  max-width: 100%;
+  background: #fff;
+  box-shadow: 3px 3px 15px #333;
+  padding: 10px;
+  margin: auto;
+  transform: translateX(-50%) translateY(50%);
+  opacity: 0;
+  transition: all 0.3s;
+
+  &--visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  &--fullscreen {
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    overflow: auto;
+    transform: translateY(50%);
+
+    &.Modal-dialog--visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+  }
+
+  .form-actions {
+    text-align: center;
+  }
+}
+
+.Modal-actionClose {
+}
+
+
+.Modal-dialogHeader {
+  background: rgba(0,0,0, 0.02);
+  padding: 8px 40px 8px 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0, 0.2);
+  margin: -10px -10px 20px -10px;
+  overflow: hidden;
+  font-weight: bold;
+  position: relative;
+  min-height: 35px;
+
+
+  .Modal-actionClose {
+    background: none;
+    border: 0;
+    font-size: 50px;
+    font-weight: normal;
+    padding: 0;
+    display: block;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    vertical-align: middle;
+  }
+}
+
+.Modal-dialog--fullscreen .Modal-dialogHeader {
+  padding: 8px 8px 8px 40px;
+
+  .Modal-actionClose {
+    left: 8px;
+  }
+}
+
+.Modal-dialogFooter {
+  padding: 0 4px 10px 4px;
+  text-align: center;
+  margin: 10px -10px -10px -10px;
+}
+
+

@@ -12,7 +12,7 @@ function startsWith(path, searchString) {
 
 export default Ember.Component.extend(trackEvent, {
   path: '', // override with the application controller's currentPath
-  canPublishNews: computed.oneWay('session.currentUser.canPublishNews'),
+  canPublishNews: null,
 
   buttonClass: computed('path', function() {
     const klass = 'Button SectionNavigation-contentCreateButton btn btn-default';
@@ -31,9 +31,8 @@ export default Ember.Component.extend(trackEvent, {
 
   showButton: computed('path', function() {
     const path = this.get('path');
-    const canShowNewsBtn = (path === 'news.all.index' || path === 'news.show') && get(this, 'canPublishNews');
 
-    return canShowNewsBtn || startsWith(path, 'events') || startsWith(path, 'talk') ||
+    return get(this, 'canPublishNews') || startsWith(path, 'events') || startsWith(path, 'talk') ||
       startsWith(path, 'market');
   }),
 

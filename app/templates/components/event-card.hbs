@@ -1,87 +1,123 @@
-{{#if event.registrationDeadline}}
-  <h4 class='EventCard-registrationBanner u-textCentered'>
-    Registration Deadline - {{event.formattedRegistrationDeadline}}
-  </h4>
-{{/if}}
-
-{{#if media.isNotMobile}}
-  {{#if event.imageUrl}}
-    {{#if isPreview}}
-      <div class='EventCard-imageContainer u-flexColumn'>
-        {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
-      </div>
-    {{else}}
+{{#if minimal}}
+  <h2 class='Card-title' {{action 'onTitleClick'}}>
     {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-        <div class='EventCard-imageContainer u-flexColumn'>
-          {{background-image imageUrl=event.imageUrl class='EventCard-image center-block'}}
-        </div>
-      {{/link-to}}
-    {{/if}}
+      {{title}}
+    {{/link-to}}
+  </h2>
+
+  {{#if timeRange}}
+    <span>{{fa-icon 'clock-o'}} {{timeRange}}</span>
   {{/if}}
 
-  <div class='EventCard-content u-flexColumn-2'>
-    {{#if isPreview}}
-      <h2 class='EventCard-title Card-title'>{{title}}</h2>
-    {{else}}
-      {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-        <div {{action 'trackClick' event}}>
-          {{#if isSimilarContent}}
-            <h2 {{action 'trackSimilarContentClick'}} class='EventCard-title Card-title'>{{title}}</h2>
+  {{#if hasVenue}}
+    <span>{{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=40 tagName='span'}}</span>
+  {{/if}}
+
+  <span>Fee: {{event.costType}}</span>
+{{else}}
+  {{#if (and media.isNotMobile (eq variant 'wide'))}}
+    <div class="media">
+      <div class="media-body Card-body">
+        {{#if isPreview}}
+          <h2 class="media-heading Card-title">{{title}}</h2>
+        {{else}}
+          <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
+            {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
+                {{title}}
+            {{/link-to}}
+          </h2>
+        {{/if}}
+
+        {{#if hasVenue}}
+          {{#if media.isNotMobile}}
+            {{fa-icon 'map-marker'}} <span>{{venue}}</span><br />
           {{else}}
-            <h2 class='EventCard-title Card-title'>{{title}}</h2>
+            <p class='h5'>
+              {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+            </p>
+          {{/if}}
+        {{/if}}
+
+        <p class='h5'>{{event.costType}}</p>
+
+        {{#if event.registrationDeadline}}
+          <p class='Card-infoBanner'>
+            Register by {{event.formattedRegistrationDeadline}}
+          </p>
+        {{/if}}
+
+      </div>
+
+      <div class="media-right">
+        {{#if event.imageUrl classNameBindings="isSimilarContent:SimilarContentLink"}}
+          {{#link-to 'events.show' eventId}}
+            <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+          {{/link-to}}
+        {{/if}}
+      </div>
+
+    </div>
+
+  {{else}}
+
+    <div class="media">
+      {{#unless (eq imagePosition 'right')}}
+        <div class="media-left">
+          {{#if event.imageUrl}}
+            {{#link-to 'events.show' eventId}}
+              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+            {{/link-to}}
+          {{else}}
+            <div class="Card-image-placeholder">
+              <div class='media-object Card-image-tile'></div>
+            </div>
           {{/if}}
         </div>
-      {{/link-to}}
-    {{/if}}
+      {{/unless}}
 
-    {{#if timeRange}}
-      <span class='EventCard-meta EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</span>
-    {{/if}}
+      <div class="media-body Card-body">
+        {{#if isPreview}}
+          <h2 class="media-heading Card-title">{{title}}</h2>
+        {{else}}
+          <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
+            {{#link-to 'events.show' eventId}}
+                {{title}}
+            {{/link-to}}
+          </h2>
+        {{/if}}
 
-    {{#if hasVenue}}
-      <span class='EventCard-meta EventCard-venue'>
-        {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-      </span>
-    {{/if}}
-  </div>
-{{/if}}
+        {{#if timeRange}}
+          <p class='h5'>{{fa-icon 'clock-o'}} {{timeRange}}</p>
+        {{/if}}
 
-{{#if media.isMobile}}
-  <div class="media">
+        {{#if hasVenue}}
+          <p class='h5'>
+            {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+          </p>
+        {{/if}}
 
-    <div class="media-left">
-      {{#if event.imageUrl}}
-        {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-          <img src='{{event.imageUrl}}' class='EventCard-image-tile media-object'>
-        {{/link-to}}
-      {{else}}
-        <div class="EventCard-image-placeholder">
-          {{fa-icon 'camera'}}
+        <p class='h5'>{{event.costType}}</p>
+
+        {{#if event.registrationDeadline}}
+          <p class='Card-infoBanner h6'>
+            <span class='Card-infoBanner-label'>Register by </span>{{event.formattedRegistrationDeadline}}
+          </p>
+        {{/if}}
+      </div>
+
+      {{#if (eq imagePosition 'right')}}
+        <div class="media-right">
+          {{#if event.imageUrl}}
+            {{#link-to 'events.show' eventId}}
+              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+            {{/link-to}}
+          {{else}}
+            <div class="Card-image-placeholder">
+              <div class='media-object Card-image-tile'></div>
+            </div>
+          {{/if}}
         </div>
       {{/if}}
     </div>
-
-    <div class="media-body EventCard-body">
-
-      {{#if isPreview}}
-        <h2 class="media-heading EventCard-title">{{title}}</h2>
-      {{else}}
-        {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-          <h2 class='media-heading EventCard-title' {{action 'trackClick' event}}>{{title}}</h2>
-        {{/link-to}}
-      {{/if}}
-
-      {{#if timeRange}}
-        <h5 class='EventCard-time'>{{fa-icon 'clock-o'}} {{timeRange}}</h5>
-      {{/if}}
-
-      {{#if hasVenue}}
-        <h5 class='EventCard-venue'>
-          {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
-        </h5>
-      {{/if}}
-
-    </div>
-
-  </div>
+  {{/if}}
 {{/if}}

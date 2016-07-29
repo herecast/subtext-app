@@ -1,11 +1,11 @@
 .DirectoryListings {
   .name-bar {
-    h2 {
+    h4 {
+      .h4;
       font-family: @font-family-base;
       font-weight: 800;
       text-transform: capitalize;
       margin: 0 0 2px 0;
-      .h4;
     }
   }
   .listing-info {
@@ -26,33 +26,32 @@
         margin: 0;
       }
     }
-    .link-bar {
-      text-align:left;
-      padding: 18px 0 0 0;
-      div{
-        display: inline-block;
-      }
-      div:not(:first-of-type) {
-        border-left: solid 1px #DEDEDE;
-        padding: 0 12px;
-      }
-      div:first-of-type {
-        padding: 0 12px 0 0;
-      }
-      @media (max-width: @screen-xs-max) {
-        div {
-          display: block;
-          border: none !important;
-          padding: 2px 0 !important;
-        }
-      }
+    .recommended-badge {
+      border-radius: 4px;
+      padding: 3px 8px;
+      background-color: @directory-brand;
+      font-weight: bold;
+      color: #fff;
+    }
+    .miles {
+      color: @gray-dark;
     }
   }
-  li {
+  &-result {
     border: 1px solid #DEDEDE;
     padding: 15px;
     background: #fff;
     margin-bottom: -1px;
+  }
+  &-linkBar {
+    margin: 15px 0 0 0;
+    display: table;
+    width: 100%;
+
+    &-item {
+      display: table-cell;
+      width: 33%;
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const {
   get,
-  set
+  setProperties
 } = Ember;
 
 export default Ember.Component.extend({
@@ -10,26 +10,22 @@ export default Ember.Component.extend({
   items: null,
 
   _setupItems() {
-    const contents = get(this, 'contents').toArray(),
-          arrangedContent = Ember.Object.create();
-    let newsItem;
+    const contents = get(this, 'contents').toArray();
 
-    // set up the news items
-    for (let i = 1; i <= 6; i++) {
-      newsItem = contents.findBy('contentType', 'news');
-      contents.removeObject(newsItem);
-      arrangedContent[`newsItem${i}`] = newsItem;
-    }
+    const newsItems   = contents.filterBy('contentType', 'news').sortBy('publishedAt').toArray().reverse(),
+          eventItems  = contents.filterBy('contentType', 'event-instance').reject(function(item) { return !get(item, 'imageUrl'); }).slice(0, 5),
+          talkItems   = contents.filterBy('contentType', 'talk').slice(0, 6),
+          marketItems = contents.filterBy('contentType', 'market-post').slice(0, 5);
 
-    // set up the non-news items
-    for (let i = 1; i <= 8; i++) {
-      arrangedContent[`item${i}`] = contents.shiftObject();
-    }
-
-    return arrangedContent;
+    setProperties(this, {
+      newsItems: newsItems,
+      eventItems: eventItems,
+      talkItems: talkItems,
+      marketItems: marketItems
+    });
   },
 
   willInsertElement() {
-    set(this, 'items', this._setupItems());
+    this._setupItems();
   }
 });

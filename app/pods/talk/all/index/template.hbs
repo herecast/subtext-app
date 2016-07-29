@@ -1,20 +1,21 @@
 <div class='Container--noGutter'>
-  {{#if media.isMobile}}
-    {{content-create-button
-      class='col-lg-3 col-sm-2 u-textPullRight SectionNavigation-contentCreateButtonMobile'
-      path='talk.new.details'
-    }}
-  {{/if}}
-  {{#if showPrevPage}}
-    <div class='pull-left u-layoutPadT20'>
-      {{partial 'partials/pagination-nav'}}
-    </div>
-  {{/if}}
+  <div class='row'>
+    <div class='col-xs-12 col-md-8 col-md-push-2'>
+      <div class='ChannelTopper clearfix'>
+        {{#if media.isMobile}}
+          <h1 class='h2 ChannelTopper-title'>Local Talk</h1>
+        {{/if}}
 
-  <div class='pull-right ContextBar'>
-    <span class='ContextBar-eventCount'>
-      Showing <span data-test-talk-length>{{model.length}}</span> talks.
-    </span>
+        {{#unless media.isMobile}}
+          {{partial 'partials/pagination-nav'}}
+        {{/unless}}
+
+        {{content-create-button
+          class='SectionNavigation-contentCreateButtonMobile pull-right'
+          path='talk.new.details'
+        }}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -25,12 +26,14 @@
   }}
 
   <div class='Container--noGutter'>
-    {{partial 'partials/pagination-nav'}}
-  </div>
-{{else}}
-  <div class='NoResults container text-center'>
-    <p>I can't believe it. No one has posted a talk that matches your search.</p>
-    <p>You could try tweaking your search or&hellip;</p>
-    <p>Seize the opportunity and post your own.</p>
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='PaginationNav-wrapper'>
+          <div class='PaginationNav PaginationNav--bottom'>
+            {{partial 'partials/pagination-nav'}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {{/if}}

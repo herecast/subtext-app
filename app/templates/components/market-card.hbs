@@ -1,30 +1,50 @@
-{{#link-to 'market.show' post.id class='MarketCard-link' classNameBindings="isSimilarContent:SimilarContentLink"}}
-  <div {{action 'trackClick' post}} class='u-height100 u-flexColumn'>
-    {{#if hasImage}}
-      <div class='MarketCard-imageContainer u-flexColumn' style={{backgroundImage}}>
+{{#if isMinimal}}
+  <h2 class='Card-title' {{action 'onTitleClick'}}>
+    {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+      {{title}}
+    {{/link-to}}
+  </h2>
+  <span class='Card-subtitle'>{{post.price}}</span><span class='Card-subtitle'>{{subtitle}}</span>
+{{else}}
+  <div class="media">
+    {{#unless (eq imagePosition 'right')}}
+      <div class="media-left" >
+        {{#if hasImage}}
+          <div {{action 'onTitleClick'}}>
+            {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+              <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+            {{/link-to}}
+          </div>
+        {{/if}}
       </div>
-    {{/if}}
+    {{/unless}}
 
-    <div class='MarketCard-content u-flexColumn-2'>
-      {{#if isSimilarContent}}
-        <h2 {{ action 'trackSimilarContentClick' }} class='MarketCard-title Card-title u-twoLineH2'>
+    <div class="media-body Card-content">
+      <h2 class='Card-title' {{action 'onTitleClick'}}>
+        {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
           {{title}}
-        </h2>
-      {{else}}
-        <h2 class='MarketCard-title Card-title u-twoLineH2'>
-          {{title}}
-        </h2>
-      {{/if}}
+        {{/link-to}}
+      </h2>
 
-      <span class='MarketCard-subtitle'>
-        {{subtitle}}
-      </span>
+      <span class='Card-subtitle'>{{subtitle}}</span>
 
       {{#if post.myTownOnly}}
-      <span class='MarketCard-subtitle'>
-        {{userLocation}} Only
-      </span>
+        <span class='Card-subtitle'>{{userLocation}} Only</span>
       {{/if}}
+      <span class='Card-subtitle'>{{post.price}}</span>
     </div>
+
+
+    {{#if (eq imagePosition 'right')}}
+      <div class="media-right" >
+        {{#if hasImage}}
+          <div {{action 'onTitleClick'}}>
+            {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+              <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+            {{/link-to}}
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
   </div>
-{{/link-to}}
+{{/if}}

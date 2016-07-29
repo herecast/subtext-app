@@ -19,25 +19,25 @@
     }}
 
     {{#if (eq showScheduleForm 'recurring')}}
-      {{#x-modal close=(action 'hideScheduleForm')}}
+      {{#modal-wrapper close=(action 'hideScheduleForm') showHeader=false}}
         {{component 'event-form-dates/schedule-recurring-form'
           schedule=newSchedule
           validate=(action 'validateScheduleData')
           save=(action 'addNewSchedule')
           cancel=(action 'hideScheduleForm')
         }}
-      {{/x-modal}}
+      {{/modal-wrapper}}
     {{/if}}
 
     {{#if (eq showScheduleForm 'single')}}
-      {{#x-modal close=(action 'hideScheduleForm')}}
+      {{#modal-wrapper close=(action 'hideScheduleForm') showHeader=false}}
         {{component 'event-form-dates/schedule-single-form'
           schedule=newSchedule
           validate=(action 'validateScheduleData')
           save=(action 'addNewSchedule')
           cancel=(action 'hideScheduleForm')
         }}
-      {{/x-modal}}
+      {{/modal-wrapper}}
     {{/if}}
 
     <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}}>

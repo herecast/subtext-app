@@ -1,0 +1,7 @@
+{{#each modals as |modal|}}
+  {{component modal.componentName
+    model=modal.context
+    onOk=(action "closeModalResolve" modal)
+    onCancel=(action "closeModalReject" modal)
+  }}
+{{/each}}

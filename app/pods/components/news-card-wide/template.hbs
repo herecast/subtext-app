@@ -1,28 +1,28 @@
-{{#if hasImage}}
-  <div class='NewsCard-imageContainer u-textCentered hidden-xs'>
-    <img class='NewsCard-image img-responsive' src={{item.imageUrl}}>
-  </div>
-{{/if}}
-
-<div class='NewsCard-content u-flexColumn-2'>
-
-  {{#link-to 'news.show' item.id}}
-    <div {{action 'trackClick' item}}>
-      <h1 class='NewsCard-title Card-title u-twoLineH1'>
-        {{item.title}}
-      </h1>
-    </div>
-  {{/link-to}}
-
-  <div class='NewsCard-subtitle'>
-    {{#link-to 'organization-profile' item.organization.slug}}
-      <h3 class='NewsCard-organization'>{{item.organizationName}}</h3>
+  <div class='Card-imageContainer'>
+    {{#link-to 'news.show' item.id}}
+      <div class='Card-image img-responsive' style="background-image: url({{if item.imageUrl item.imageUrl item.organization.logoUrl}})"></div>
     {{/link-to}}
-
-    <span class='NewsCard-date'>{{date}}</span>
   </div>
 
-  <div class='NewsCard-snippet u-textThreeLineTruncate'>
-    {{{content}}}
+  <div class='Card-content'>
+    <div class='Card-titleGroup'>
+      <h2 class='Card-title'>
+        {{#link-to 'news.show' item.id data-test-link=item.title}}
+          {{item.title}}
+        {{/link-to}}<br />
+      </h2>
+
+      {{#link-to 'organization-profile'
+        item.organization.slug
+        class='Card-organization'
+        tagName='a'
+        data-test-component="organization-link"
+      }}
+        {{item.organizationName}}
+      {{/link-to}}
+    </div>
+
+    <div class='Card-snippet u-textThreeLineTruncate'>
+      {{{content}}}
+    </div>
   </div>
-</div>

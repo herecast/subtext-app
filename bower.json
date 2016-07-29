@@ -36,7 +36,9 @@
     "justgage-toorshia": "justgage-official#^1.2.2",
     "toastr": "^2.1.2",
     "selectize": "miguelcobain/selectize.js#master",
-    "summernote-image-attributes": "^0.1.2"
+    "summernote-image-attributes": "^0.1.2",
+    "remarkable": "1.6.2",
+    "highlightjs": "9.1.0"
   },
   "devDependencies": {
     "blanket": "~1.1.5",

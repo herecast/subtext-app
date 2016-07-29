@@ -1,0 +1,64 @@
+.MobileHeader {
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-align-items: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 51;
+  background-color: #fff;
+  transition: background-color 300ms;
+  border-bottom: 1px solid #efefef;
+
+  &-user, &-brand, &-search {
+    line-height: 1;
+  }
+
+  &-brand {
+    -webkit-flex: 0 1 100%;
+    flex: 0 1 100%;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  &-user {
+    -webkit-flex: 0 0 50px;
+    flex: 0 0 50px;
+    margin-left: 1rem;
+    text-transform: uppercase;
+  }
+
+  &-search {
+    -webkit-flex: 0 0 50px;
+    flex: 0 0 50px;
+    text-align: right;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+
+    &-button {
+      border: 0;
+      -webkit-appearance: none;
+      background: none;
+      padding: 5px;
+    }
+  }
+
+  &--talk,
+  &--market,
+  &--news,
+  &--events,
+  &--directory {
+    border-bottom: none;
+  }
+
+  &--talk      { background-color: @talk-brand; }
+  &--market    { background-color: @market-brand; }
+  &--news      { background-color: @news-brand; }
+  &--events    { background-color: @event-brand; }
+  &--directory { background-color: #3dce72; }
+}

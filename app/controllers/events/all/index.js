@@ -6,11 +6,10 @@ const { computed } = Ember;
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
-  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'page', 'per_page', 'event_layout' ],
+  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'page', 'per_page'],
 
   page: 1,
   per_page: 24,
-  event_layout: 'grid', // list or grid
 
   defaultCategory: 'Everything',
   defaultQuery: null,
