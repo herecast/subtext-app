@@ -41,7 +41,8 @@ export default {
   cachePrerender(url) {
     return new RSVP.Promise((resolve, reject) => {
       const prerenderToken = config['prerender-io-token'];
-      if (url && prerenderToken) {
+      if (url && prerenderToken && config.prerender_enabled) {
+
         //Will return 500 if url is invalid (e.g. has localhost in url)
         Ember.$.post('https://api.prerender.io/recache', {
           prerenderToken: prerenderToken,
@@ -54,7 +55,7 @@ export default {
           }
         });
       } else {
-        reject('Prerender token unavailable');
+        reject('Prerender unavailable');
       }
     });
   },
@@ -67,7 +68,7 @@ export default {
     } else {
       shareUrl = window.location.href;
     }
-
+    
     return shareUrl;
   }
 };

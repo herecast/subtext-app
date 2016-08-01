@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get } = Ember;
+const { get, inject, run } = Ember;
 
 export default Ember.Route.extend({
   titleToken: 'Edit News',
+
+  delayedJobs: inject.service(),
 
   model(params) {
     return this.store.findRecord('news', params.id, { reload: true });
@@ -31,8 +33,16 @@ export default Ember.Route.extend({
 
     afterPublish() {
       const modelId = get(this, 'controller.news.id');
+      const sharePath = `/news/${modelId}`;
 
-      SocialSharing.updateShareCache(`/news/${modelId}`);
+      SocialSharing.updateShareCache(sharePath);
+
+      let delayedJob =
+        run.later(this, () => {
+          SocialSharing.checkFacebookCache(sharePath);
+        }, 60 * 1e3);
+
+      get(this, 'delayedJobs').queueJob(`facebookRecache${sharePath}`, delayedJob);
     }
   }
 });

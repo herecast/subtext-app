@@ -19,6 +19,7 @@ export default Ember.Component.extend(TrackEvent, {
   updatedAt: null,
 
   toast: inject.service(),
+  delayedJobs: inject.service(),
 
   isCaching: false,
 
@@ -30,20 +31,27 @@ export default Ember.Component.extend(TrackEvent, {
       if (timeSinceUpdate > 0 && timeSinceUpdate < 60) {
         const secondsToWait = Math.round(60 - timeSinceUpdate);
         const toast = get(this, 'toast');
+        const sharePath = window.location.pathname;
 
         set(this, 'isCaching', true);
         let text = `Give it about ${secondsToWait} seconds. If you want share to FB - please don’t leave the page.`;
         let title = 'Facebook Share Loading...';
+
+        toast.clear();
         toast.warning(text, title, {
           timeOut: secondsToWait * 1e3
         });
 
-        run.later(this, () => {
-          SocialSharing.checkFacebookCache().then(() => {
-            set(this, 'isCaching', false);
-            toast.success('Facebook sharing is ready');
-          });
-        }, secondsToWait * 1e3);
+        let delayedJob =
+          run.later(this, () => {
+            SocialSharing.checkFacebookCache(sharePath).then(() => {
+              set(this, 'isCaching', false);
+              toast.clear();
+              toast.success('Facebook sharing is ready');
+            });
+          }, secondsToWait * 1e3);
+
+        get(this, 'delayedJobs').queueJob(`facebookRecache${sharePath}`, delayedJob);
       }
     }
   },
