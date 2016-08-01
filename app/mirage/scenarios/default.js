@@ -14,6 +14,7 @@ export default function(server) {
   server.createList('promotion-banner', 50);
   server.createList('market-post', 100);
   server.createList('location', 8);
+  server.createList('listserv', 3);
 
   /**
    * Business Categories

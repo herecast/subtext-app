@@ -1,0 +1,19 @@
+{{#modal-wrapper 
+  close=(action 'ok')
+  class="ReversePublishAlert" }}
+  <h3>WARNING about Posting to the Listservs!</h3>
+  <p>
+    You selected to 'Alert the List. When you choose 'Save and Publish', you will send a version of this post to your selected Listserv(s).
+  </p>
+  <p>
+    If you edit and send to the lists again, it WILL NOT replace the old post, but instead send the new version in a separate post.
+  </p>
+  <p>
+    Use this preview to identify edits you would like to make before publishing to avoid sending multiples to the lists. Happy Posting!
+  </p>
+  <div class='modal-actions text-right'>
+    <button class="Button Button--primary" {{action 'ok'}}>
+      Ok
+    </button>
+  </div>
+{{/modal-wrapper}}
