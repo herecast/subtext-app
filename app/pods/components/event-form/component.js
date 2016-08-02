@@ -11,7 +11,7 @@ export default Ember.Component.extend(Validation, TrackEvent, {
   error: null,
   image: computed.alias('model.image'),
 
-  organizations: computed.oneWay('session.currentUser.managed_organizations'),
+  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   registrationEnabled: null,
 

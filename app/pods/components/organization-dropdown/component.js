@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   classNames: ['dropdown Organization-Dropdown'],
 
   defaultName: oneWay('session.currentUser.name'),
-  organizations: oneWay('session.currentUser.managed_organizations'),
+  organizations: oneWay('session.currentUser.managedOrganizations'),
 
   // Should be passed in when component is instantiated
   selection: null,

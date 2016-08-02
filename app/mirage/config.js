@@ -180,20 +180,18 @@ export default function() {
 
   this.post('/users/logout', function() {});
 
-  this.get('/current_user', function({ db }) {
-    var currentUser = db.currentUsers.find(1);
+  this.get('/current_user', function({ db, currentUsers }) {
+    var currentUser = currentUsers.find(1);
 
     //mocks location join
     var location = db.locations.find(currentUser.locationId);
     var locationString = `${location.city}, ${location.state}`;
     currentUser.location = locationString;
 
-    return {
-      current_user: currentUser
-    };
+    return currentUser;
   });
 
-  this.put('/current_user', function({ db }, request) {
+  this.put('/current_user', function({ db, currentUsers }, request) {
     var id = 1;
     var currentUser;
 
@@ -201,9 +199,9 @@ export default function() {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['currentUser'];
-      currentUser = db.currentUsers.update(id, attrs);
+      currentUser = currentUsers.update(id, attrs);
     } else {
-      currentUser = db.currentUsers.find(id);
+      currentUser = currentUsers.find(id);
     }
 
     //mocks location join
@@ -211,9 +209,7 @@ export default function() {
     var locationString = `${location.city}, ${location.state}`;
     currentUser.location = locationString;
 
-    return {
-      current_user: currentUser
-    };
+    return currentUser;
   });
 
   this.post('/users/email_confirmation', function() {

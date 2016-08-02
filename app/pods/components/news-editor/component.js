@@ -70,7 +70,7 @@ export default Ember.Component.extend(Validation, {
     ]
   },
 
-  organizations: computed.oneWay('session.currentUser.managed_organizations'),
+  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   hasUnpublishedChanges: computed('news{hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');

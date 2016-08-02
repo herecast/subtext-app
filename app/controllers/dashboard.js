@@ -22,7 +22,7 @@ export default Ember.Controller.extend(trackEvent, {
   sort: 'pubdate DESC',
   type: '',
   organization: null,
-  organizations: computed.oneWay('session.currentUser.managed_organizations'),
+  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   showPasswordForm: false,
 

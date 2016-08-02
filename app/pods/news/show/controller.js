@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
   queryParams: ['scrollTo'],
   scrollTo: null,
 
-  organizations: computed.oneWay('session.currentUser.managed_organizations'),
+  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   hasCaptionOrCredit: computed('model.bannerImage.{caption,credit}', function() {
     return Ember.isPresent(this.get('model.bannerImage.caption')) ||
