@@ -11,8 +11,7 @@ test('it renders with expected options', function(assert) {
     {label: "Best Score", value: 'score_desc'},
     {label: "Closest", value: 'distance_asc'},
     {label: "Most Rated", value: 'rated_desc'},
-    {label: "A to Z", value: 'alpha_asc'},
-    {label: "Z to A", value: 'alpha_desc'}
+    {label: "A to Z", value: 'alpha_asc'}
   ];
 
   this.render(hbs`{{directory-results-sort}}`);
