@@ -68,8 +68,5 @@ module.exports = function(defaults) {
 
   app.import('bower_components/Chart.js/Chart.js');
 
-  app.import('bower_components/justgage-toorshia/raphael-2.1.4.min.js');
-  app.import('bower_components/justgage-toorshia/justgage.js');
-
   return app.toTree();
 };

@@ -1,0 +1,14 @@
+<div style="{{contentStyle}}" class="ExpandableContent-contentWrapper {{if isContentExpanded 'isExpanded' 'isCollapsed'}}">
+  {{{yield}}}
+</div>
+{{#if needsToggleButton}}
+  <div class="text-center">
+    <button {{action 'toggle'}} class="ExpandableContent-toggleButton">
+      {{#if isExpanded}}
+        View less {{fa-icon 'caret-up'}}
+      {{else}}
+        View more {{fa-icon 'caret-down'}}
+      {{/if}}
+    </button>
+  </div>
+{{/if}}

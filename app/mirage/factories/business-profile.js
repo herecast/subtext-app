@@ -25,7 +25,10 @@ export default Mirage.Factory.extend({
   serviceRadius: "12.5",
   details() { return "<p>" + faker.lorem.sentences() + "</p>"; },
   logo() { return faker.image.avatar(); },
-  images() { return [faker.image.business(),faker.image.business()]; },
+  images() { return [
+    {primary: true, url: faker.image.business()},
+    {primary: false, url: faker.image.business()}
+  ]; },
   feedback() {
     return {
       satisfaction: Math.random(),

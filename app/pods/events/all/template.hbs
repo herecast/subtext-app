@@ -1,0 +1,40 @@
+{{sticky-position name="grouped-events"}}
+
+<div class='Container--noGutter'>
+  <div class='row'>
+    <div class='col-xs-12 col-md-8 col-md-push-2'>
+      <div class='ChannelTopper clearfix'>
+        {{#if media.isMobile}}
+          <h1 class='h2 ChannelTopper-title'>Local Events</h1>
+        {{/if}}
+
+        {{content-create-button
+          class='SectionNavigation-contentCreateButtonMobile pull-right'
+          path='events.new.details'
+        }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if model}}
+  {{grouped-events
+    events=model
+    startDate=startDate
+    stopDate=stopDate
+    cardLayout='wide'
+  }}
+
+  <div class='Container--noGutter'>
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='PaginationNav-wrapper'>
+          <div class='PaginationNav PaginationNav--bottom'>
+            {{partial 'partials/pagination-nav'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}
+{{outlet}}

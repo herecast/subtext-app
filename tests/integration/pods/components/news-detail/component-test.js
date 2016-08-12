@@ -1,8 +1,20 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
+const promotionStub = Ember.Service.extend({
+  find() {
+    return { then() {} };
+  }
+});
+
 moduleForComponent('news-detail', 'Integration | Component | news detail', {
-  integration: true
+  integration: true,
+
+  beforeEach() {
+    this.register('service:promotion', promotionStub);
+    this.inject.service('promotion');
+  }
 });
 
 test('it renders', function(assert) {

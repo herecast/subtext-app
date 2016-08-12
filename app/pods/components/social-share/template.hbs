@@ -1,33 +1,14 @@
-<div class='container-fluid'>
-  <h2 class='SectionHeader SocialShare-header'>
-    <span class='SectionHeader-text SocialShare-headerText'>
-      Share
-    </span>
-  </h2>
+<span class='SocialShare-title'>Share&nbsp;</span>
 
-  <div class='row'>
-    {{#unless isTalkChannel}}
-      <div class='col-xs-2 col-md-4 u-textCentered'>
-        {{#unless isCaching}}
-          <a href='#' {{action 'shareFacebook'}}>
-            {{fa-icon 'facebook' size=2 class='SocialShare-icon'}}
-          </a>
-        {{else}}
-          {{fa-icon 'cog' size=2 class='fa-spin'}}
-          <br/>Waiting for Facebook...
-        {{/unless}}
-      </div>
-      <div class='col-xs-2 col-md-4 u-textCentered'>
-        <a href={{twitterLink}}>
-          {{fa-icon 'twitter' size=2 class='SocialShare-icon'}}
-        </a>
-      </div>
-    {{/unless}}
-    <div class='col-xs-2 col-md-4 u-textCentered {{if isTalkChannel 'col-xs-offset-5 col-sm-offset-4 col-md-offset-4'}}'>
-      <a href='#' {{action 'shareEmail'}}>
-        {{fa-icon 'envelope' size=2 class='SocialShare-icon'}}
-      </a>
-    </div>
-  </div>
+{{#unless isTalkChannel}}
+  <a href='#' {{action 'shareFacebook'}} class='SocialShare-icon'>
+    {{fa-icon 'facebook'}}
+  </a>
+  <a href='{{twitterLink}}' class='SocialShare-icon'>
+    {{fa-icon 'twitter'}}
+  </a>
+{{/unless}}
 
-</div>
+<a href='#' {{action 'shareEmail'}} class='SocialShare-icon'>
+  {{fa-icon 'envelope'}}
+</a>

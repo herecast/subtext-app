@@ -32,6 +32,25 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   organization: DS.belongsTo('organization'),
 
+  // TODO: does the API provide market-post address data?
+  address: DS.attr('string'),
+  city: DS.attr('string'),
+  state: DS.attr('string'),
+  zip: DS.attr('string'),
+
+  fullAddress: computed('address', 'city', 'state', 'zip', function() {
+    const address = this.get('address');
+    const city = this.get('city');
+    const state = this.get('state');
+
+    return `${address}, ${city}, ${state}`;
+  }),
+
+  directionsLink: computed('fullAddress', function() {
+    const addressLink = get(this,'fullAddress') + "," + get(this,'zip');
+    return 'http://maps.google.com/?q=' + encodeURIComponent( addressLink );
+  }),
+
   populatedImages: computed('images.@each.imageUrl', function() {
     return get(this, 'images')
       .filter((image) => isPresent(get(image, 'imageUrl')));
@@ -83,12 +102,16 @@ export default DS.Model.extend({
     const api = get(this, 'api');
     const id = get(this, 'id');
 
-    return api.getMarketContactInfo(id).then((response) => {
-      this.setProperties({
-        contactEmail: response.market_post.contact_email,
-        contactPhone: response.market_post.contact_phone,
+    if (isPresent(id)) {
+      return api.getMarketContactInfo(id).then((response) => {
+        this.setProperties({
+          contactEmail: response.market_post.contact_email,
+          contactPhone: response.market_post.contact_phone
+        });
       });
-    });
+    } else {
+      return null;
+    }
   },
 
   rollbackImages() {

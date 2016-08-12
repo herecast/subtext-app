@@ -4,6 +4,6 @@ export default Ember.Component.extend({
   classNames: ['TopScroller'],
 
   click: function() {
-    window.scrollTo(0,0);
+    Ember.$('.ember-application > .ember-view').scrollTop(0);
   }
 });

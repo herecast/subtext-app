@@ -32,11 +32,13 @@ export default Ember.Controller.extend(trackEvent,{
       callback(promise);
 
       return promise.catch((response) => {
-        // resend confirmation email
-        if (response.error.indexOf('confirm') !== -1) {
-          set(this,'userMustConfirm', true);
-        } else {
-          set(this, 'error', response.error);
+        if (!get(this, 'isDestroyed')) {
+          // resend confirmation email
+          if (response.error.indexOf('confirm') !== -1) {
+            set(this, 'userMustConfirm', true);
+          } else {
+            set(this, 'error', response.error);
+          }
         }
       }).then(() => {
         this.trackEvent('signIn', {});

@@ -1,62 +1,85 @@
-{{#if model.images}}
-  <div class="DirectoryBusiness-coverImages">
-    {{#liquid-bind coverImage as |image|}}
-      <div class="DirectoryBusiness-coverImage" style={{coverImageStyle}}></div>
-    {{/liquid-bind}}
-  </div>
-{{/if}}
+<div class="DirectoryBusiness-headerContainer">
+  <div class="DirectoryBusiness-infoBar">
+    {{#if model.logo}}
+      <div class="DirectoryBusiness-logo">
+        <img class="DirectoryBusiness-logoImg" src={{model.logo}} alt="logo">
+      </div>
+    {{/if}}
 
-<div class="DirectoryBusiness-infoBar">
-  {{#if model.logo}}
-    <div class="DirectoryBusiness-logo">
-      <img class="DirectoryBusiness-logoImg" src={{model.logo}} alt="logo">
+    <div class="DirectoryBusiness-info">
+      <h2>{{model.name}}</h2>
+      <div>
+        {{fa-icon 'fa-map-marker'}}
+        {{model.fullAddress}}
+        {{#if myCoords}}
+          ({{round (geo-distance model.coords myCoords) 1}} Mi)
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="DirectoryBusiness-feedback">
+    {{directory-feedback-form model=model}}
+  </div>
+
+  <div class="DirectoryBusiness-iconBar">
+
+    <div class="DirectoryBusiness-iconBar-item">
+      {{#if model.phone}}
+        {{#if media.isMobile}}
+          <a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} Call</a>
+        {{else}}
+          {{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}
+        {{/if}}
+      {{/if}}
+    </div>
+
+    <div class="DirectoryBusiness-iconBar-item text-center">
+      {{#if model.address}}
+        <a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a>
+      {{/if}}
+    </div>
+
+    <div class="DirectoryBusiness-iconBar-item text-right">
+      {{#if model.website}}
+        <div><a href="{{model.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Web</a></div>
+      {{/if}}
+    </div>
+  </div>
+
+</div>
+
+<div class="DirectoryBusiness-detailWrap">
+  {{#if model.hours}}
+    <div class="DirectoryBusiness-hours">
+      <h2 class='h2'>Business hours {{#if isOpen}}<span class="text-success"> Open</span>{{/if}}</h2>
+      <ul>
+        {{#each (business-hours model.hours) as |hour|}}
+          <li><strong>{{hour.days}}:</strong> {{hour.open}} - {{hour.close}}</li>
+        {{/each}}
+      </ul>
     </div>
   {{/if}}
 
-  <div class="DirectoryBusiness-info">
-    <h2>{{model.name}}</h2>
-    <div>
-      {{fa-icon 'fa-map-marker'}}
+  {{#unless (is-blank-or-empty-html-tags model.details)}}
+    <div class="DirectoryBusiness-details">
+      <h2 class="h2">About</h2>
+      {{#expandable-content}}
+        <div>
+          {{{detailsHTML}}}
+        </div>
+      {{/expandable-content}}
+    </div>
+  {{/unless}}
+
+  <div class="DirectoryBusiness-location row">
+    <div class="col-sm-3">
+      <h2 class="DirectoryBusiness-location-title">Location</h2>
       {{model.fullAddress}}
-      {{#if myCoords}}
-        ({{round (geo-distance model.coords myCoords) 1}} Mi)
-      {{/if}}
+    </div>
+    <div class="col-sm-9">
+      {{google-map locations=selectedLocation}}
     </div>
   </div>
+
 </div>
-
-<div class="DirectoryBusiness-iconBar">
-  {{#if model.phone}}
-    <div>
-      {{#if media.isMobile}}
-        <a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}</a>
-      {{else}}
-        {{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}
-      {{/if}}
-    </div>
-  {{/if}}
-  {{#if model.address}}
-    <div><a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a></div>
-  {{/if}}
-  {{#if model.website}}
-    <div><a href="{{model.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Website</a></div>
-  {{/if}}
-</div>
-
-{{#if model.hours}}
-  <div class="DirectoryFeedback-hours">
-    <h2 class='h4'>Business hours {{#if isOpen}}<span> Open</span>{{/if}}</h2>
-    <ul>
-      {{#each (business-hours model.hours) as |hour|}}
-        <li><strong>{{hour.days}}:</strong> {{hour.open}} - {{hour.close}}</li>
-      {{/each}}
-    </ul>
-  </div>
-{{/if}}
-
-{{#unless (is-blank-or-empty-html-tags model.details)}}
-  <div class="DirectoryFeedback-details">
-    <h2>Business details</h2>
-    <div>{{detailsHTML}}</div>
-  </div>
-{{/unless}}

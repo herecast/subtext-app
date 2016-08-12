@@ -11,6 +11,8 @@ moduleForAcceptance('Acceptance | dashboard', {
 });
 
 test('visiting /dashboard as an unauthenticated user', function(assert) {
+  assert.expect(1);
+
   invalidateSession(this.application);
   visit('/dashboard');
 
@@ -36,6 +38,8 @@ test('/dashboard change org drop down', function(assert) {
 });
 
 test('/dashboard tabs with content', function(assert) {
+  assert.expect(5);
+
   // TODO the mixedContent method in mirage/config is throwing off the totals
   const news = server.createList('news', 2); // news is created twice
   const talk = server.createList('talk', 2);
@@ -74,6 +78,8 @@ test('/dashboard tabs with content', function(assert) {
 });
 
 test('/dashboard events tab only shows Edit link when publishedAt is after 2015-12-18', function(assert) {
+  assert.expect(2);
+
   const events = server.createList('event-instance', 2);
   server.create('event-instance', {
     publishedAt: moment('2015-12-18').toISOString()
@@ -89,6 +95,8 @@ test('/dashboard events tab only shows Edit link when publishedAt is after 2015-
 });
 
 test('/dashboard tabs without content', function(assert) {
+  assert.expect(1);
+
   visit('/dashboard');
 
   andThen(function() {
@@ -97,6 +105,8 @@ test('/dashboard tabs without content', function(assert) {
 });
 
 test('visiting /dashboard as an authenticated user with no content', function(assert) {
+  assert.expect(1);
+
   visit('/dashboard');
 
   andThen(function() {

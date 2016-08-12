@@ -32,5 +32,9 @@ export default Mirage.Factory.extend({
     }
 
     return images;
-  }
+  },
+  address() { return faker.address.streetAddress(); },
+  city: "Norwich",
+  state: 'VT',
+  zip: '05055'
 });

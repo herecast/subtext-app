@@ -1,0 +1,42 @@
+.ExpandableContent {
+  &-contentWrapper {
+    width: 100%;
+
+    &.isCollapsed {
+      overflow: hidden;
+      padding-bottom: 5px;
+      border-bottom: solid lighten(@gray-medium, 10%) 1px;
+      position: relative;
+
+      &:after {
+        content: ' ';
+        display: block;
+        width: 100%;
+        height: 100px;
+        bottom: 0;
+        position: absolute;
+
+        background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 67%, rgba(255,255,255,1) 98%);
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 67%,rgba(255,255,255,1) 98%);
+        background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 67%,rgba(255,255,255,1) 98%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+      }
+    }
+
+    &.isExpanded {
+    }
+  }
+
+  &-toggleButton {
+    .h5;
+    background: white;
+    padding: 10px;
+    border: solid 1px transparent;
+    margin: 5px 0 0 0;
+
+    &:focus,
+    &:hover {
+      border-color: black;
+    }
+  }
+}

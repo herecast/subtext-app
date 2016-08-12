@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('news-card', 'Unit | Component | news card', {
   // Specify the other units that are required for this test
-  needs: ['helper:eq', 'component:x-truncate'],
+  needs: ['helper:eq', 'component:truncate-text'],
   unit: true
 });
 

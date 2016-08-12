@@ -10,6 +10,8 @@ moduleForAcceptance('Acceptance | talk/index', {
 });
 
 test('visiting /talk/ while not logged in', function(assert) {
+  assert.expect(1);
+
   invalidateSession(this.application);
   visit('/talk/');
 
@@ -19,6 +21,8 @@ test('visiting /talk/ while not logged in', function(assert) {
 });
 
 test('visiting /talk/', function(assert) {
+  assert.expect(2);
+
   visit('/talk/');
 
   andThen(function() {
@@ -28,6 +32,8 @@ test('visiting /talk/', function(assert) {
 });
 
 test('visiting /talk/ with 10 items lists all 10 items', function(assert) {
+  assert.expect(3);
+
   server.createList('talk', 10);
 
   visit('/talk/');
@@ -41,6 +47,8 @@ test('visiting /talk/ with 10 items lists all 10 items', function(assert) {
 });
 
 test('visiting /talk/ with 50 items is paginated', function(assert) {
+  assert.expect(15);
+
   server.createList('talk', 50);
 
   visit('/talk/');

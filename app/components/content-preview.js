@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 
   bindScrollEvent: on('didInsertElement', function() {
     this.$('.ContentPreview-scrollButton').on('click.scroll-top', () => {
-      Ember.$('html,body').animate({ scrollTop: 0 }, 'slow');
+      Ember.$('.ember-application > .ember-view').animate({ scrollTop: 0 }, 'slow');
     });
   })
 

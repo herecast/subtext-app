@@ -1,13 +1,19 @@
 <div class='Container--noGutter'>
   <div class='row'>
-      <div class='col-xs-12 col-md-8 col-md-push-2'>
-        {{#each sortedPosts as |post|}}
-          {{market-card
-            post=post
-            imagePosition='right'
-            class='Card Card--market'
-          }}
-        {{/each}}
-      </div>
+    <div class='col-xs-12 col-md-8 col-md-push-2'>
+      {{#each sortedPosts as |post index|}}
+        {{#if (eq index 4)}}
+          <div class='AdBanner-wrapper AdBanner-wrapper--market'>
+            {{ad-banner}}
+          </div>
+        {{/if}}
+
+        {{market-card
+          post=post
+          imagePosition='right'
+          class='Card Card--market'
+        }}
+      {{/each}}
+    </div>
   </div>
 </div>

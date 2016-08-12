@@ -8,7 +8,7 @@ moduleForComponent('event-other-dates', 'Integration | Component | event other d
 });
 
 test('it renders', function(assert) {
-  
+
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
@@ -41,9 +41,7 @@ test('it shows future event dates', function(assert) {
 
   this.render(hbs`{{event-other-dates event=eventinst}}`);
 
-  let $futureList = this.$('.FutureEvent-list');
-
-  assert.equal($futureList.find('.FutureEvent').length, 2);
+  assert.equal(this.$('.FutureEvent').length, 2);
 });
 
 test('it does not show dates in the past', function(assert) {
@@ -70,8 +68,6 @@ test('it does not show dates in the past', function(assert) {
 
   this.render(hbs`{{event-other-dates event=eventinst}}`);
 
-  let $futureList = this.$('.FutureEvent-list');
-
-  assert.equal($futureList.find('.FutureEvent').length, 1);
-  assert.equal($futureList.find('.FutureEvent .FutureEvent-header:first').text(), instance2.startsAt.format('MMMM D, YYYY'));
+  assert.equal(this.$('.FutureEvent').length, 1);
+  assert.equal(this.$('.FutureEvent .FutureEvent-header:first').text(), instance2.startsAt.format('MMMM D, YYYY'));
 });

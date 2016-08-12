@@ -1,6 +1,6 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
+    {{#link-to 'events.all.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
       {{title}}
     {{/link-to}}
   </h2>
@@ -10,10 +10,10 @@
   {{/if}}
 
   {{#if hasVenue}}
-    <span>{{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=40 tagName='span'}}</span>
+    <span>{{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=40 tagName='span'}}</span>
   {{/if}}
 
-  <span>Fee: {{event.costType}}</span>
+  <span>Fee: {{event.formattedCostType}}</span>
 {{else}}
   {{#if (and media.isNotMobile (eq variant 'wide'))}}
     <div class="media">
@@ -22,7 +22,7 @@
           <h2 class="media-heading Card-title">{{title}}</h2>
         {{else}}
           <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
-            {{#link-to 'events.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
+            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
                 {{title}}
             {{/link-to}}
           </h2>
@@ -33,12 +33,12 @@
             {{fa-icon 'map-marker'}} <span>{{venue}}</span><br />
           {{else}}
             <p class='h5'>
-              {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+              {{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=22 tagName='span'}}
             </p>
           {{/if}}
         {{/if}}
 
-        <p class='h5'>{{event.costType}}</p>
+        <p class='h5'>{{event.formattedCostType}}</p>
 
         {{#if event.registrationDeadline}}
           <p class='Card-infoBanner'>
@@ -49,10 +49,12 @@
       </div>
 
       <div class="media-right">
-        {{#if event.imageUrl classNameBindings="isSimilarContent:SimilarContentLink"}}
-          {{#link-to 'events.show' eventId}}
+        {{#if event.imageUrl}}
+          {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
             <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
           {{/link-to}}
+        {{else}}
+          <div class='media-object Card-image-tile'></div>
         {{/if}}
       </div>
 
@@ -64,13 +66,11 @@
       {{#unless (eq imagePosition 'right')}}
         <div class="media-left">
           {{#if event.imageUrl}}
-            {{#link-to 'events.show' eventId}}
+            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
               <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
             {{/link-to}}
           {{else}}
-            <div class="Card-image-placeholder">
-              <div class='media-object Card-image-tile'></div>
-            </div>
+            <div class='media-object Card-image-tile'></div>
           {{/if}}
         </div>
       {{/unless}}
@@ -80,7 +80,7 @@
           <h2 class="media-heading Card-title">{{title}}</h2>
         {{else}}
           <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
-            {{#link-to 'events.show' eventId}}
+            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
                 {{title}}
             {{/link-to}}
           </h2>
@@ -92,11 +92,11 @@
 
         {{#if hasVenue}}
           <p class='h5'>
-            {{fa-icon 'map-marker'}} {{x-truncate text=venue maxLength=22 tagName='span'}}
+            {{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=22 tagName='span'}}
           </p>
         {{/if}}
 
-        <p class='h5'>{{event.costType}}</p>
+        <p class='h5'>{{event.formattedCostType}}</p>
 
         {{#if event.registrationDeadline}}
           <p class='Card-infoBanner h6'>
@@ -108,13 +108,11 @@
       {{#if (eq imagePosition 'right')}}
         <div class="media-right">
           {{#if event.imageUrl}}
-            {{#link-to 'events.show' eventId}}
+            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
               <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
             {{/link-to}}
           {{else}}
-            <div class="Card-image-placeholder">
-              <div class='media-object Card-image-tile'></div>
-            </div>
+            <div class='media-object Card-image-tile'></div>
           {{/if}}
         </div>
       {{/if}}

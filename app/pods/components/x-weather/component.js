@@ -16,7 +16,9 @@ export default Ember.Component.extend({
     const api = get(this, 'api');
 
     api.getWeather().then((response) => {
-      set(this, 'weatherHTML', response);
+      if (!get(this, 'isDestroyed')) {
+        set(this, 'weatherHTML', response);
+      }
     });
   },
 

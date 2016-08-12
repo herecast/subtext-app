@@ -5,6 +5,8 @@ import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 moduleForAcceptance('Acceptance | homepage');
 
 test('visiting /', function(assert) {
+  assert.expect(9);
+
   server.createList('market-post', 5);
   server.createList('talk', 8);
   server.createList('news', 12);

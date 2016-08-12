@@ -9,7 +9,7 @@ export default function(){
   );
   this.transition(
     this.fromRoute('directory.search.results'),
-    this.toRoute('directory.search.show'),
+    this.toRoute('directory.show'),
     this.use('toLeft',{duration:300}),
     this.reverse('toRight',{duration:300})
   );

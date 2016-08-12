@@ -126,7 +126,12 @@ export default Ember.Component.extend(TrackEvent, {
   }),
 
   viewRoute: computed(function() {
-    return `${get(this, 'parentRoute')}.show`;
+    const parentRoute = get(this, 'parentRoute');
+    if (parentRoute === 'directory') {
+      return 'directory.show';
+    } else {
+      return `${parentRoute}.all.show`;
+    }
   }),
 
   contentAnchor: computed(function() {

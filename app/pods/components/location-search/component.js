@@ -37,8 +37,10 @@ export default Ember.Component.extend({
       // do my children have focus?
       const stillHasFocus = this.$(':focus').length;
       if(! stillHasFocus) {
-        set(this, 'displaySuggestions', false);
-        this.send('reset');
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'displaySuggestions', false);
+          this.send('reset');
+        }
       }
     }, 100);
   },
@@ -58,7 +60,7 @@ export default Ember.Component.extend({
     const query = get(this, 'locationQuery') || "";
 
     if(query.length > 3) {
-      run.debounce(this, this.getSuggestions, 900);
+      run.throttle(this, this.getSuggestions, 500);
     }
   }),
 

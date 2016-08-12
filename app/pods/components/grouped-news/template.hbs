@@ -3,7 +3,7 @@
 <div class='row' data-row='row-1'>
   <div class='col-sm-6'>
     {{news-card-wide
-      item=item3
+      item=item1
       class='Card--solo'
       variant='full'
     }}
@@ -11,68 +11,57 @@
 
   <div class='col-sm-3'>
     {{news-card
-      item=item1
-      variant='vertical'
-    }}
-
-    <div class='Card-wrapper--columnVertical2Up'>
-      {{news-card
-        item=item4
-      }}
-
-      {{news-card
-        item=item5
-      }}
-    </div>
-  </div>
-  <div class='col-sm-3'>
-    {{news-card
       item=item2
       variant='vertical'
     }}
 
-    <div class='Card-wrapper--columnVertical2Up'>
-      {{news-card
-        item=item6
-      }}
+    <div class='AdBanner-wrapper AdBanner-wrapper--news'>
+      {{ad-banner}}
+    </div>
+  </div>
+  <div class='col-sm-3'>
+    {{news-card
+      item=item3
+      variant='vertical'
+    }}
 
-      {{news-card
-        item=item7
-      }}
+    <div class='Card-wrapper--columnVertical2Up'>
+      {{news-card item=item4}}
+      {{news-card item=item5}}
     </div>
   </div>
 </div>
 
 <h1 class='SectionHeader'></h1>
 
-{{#if item9}}
+{{#if item6}}
   <h1 class='SectionHeader'></h1>
 
   <div class='row' data-row='row-2'>
     <div class='col-sm-6'>
       {{news-card-wide
         class='Card--solo Card--wide'
-        item=item10
+        item=item6
       }}
     </div>
     <div class='col-sm-3'>
       {{news-card
-        item=item8
+        item=item7
         variant='vertical'
       }}
       {{news-card
-        item=item9
+        item=item8
         variant='vertical'
       }}
     </div>
 
-    {{#if item11}}
+    {{#if item9}}
       <div class='col-sm-3'>
         <div class='Card-wrapper--columnVertical4Up'>
+          {{news-card item=item9}}
+          {{news-card item=item10}}
           {{news-card item=item11}}
           {{news-card item=item12}}
-          {{news-card item=item14}}
-          {{news-card item=item13}}
         </div>
       </div>
     {{/if}}

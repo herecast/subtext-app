@@ -1,14 +1,11 @@
-{{#unless hasRated}}
-  <p>Have experience with this business?</p>
-  <button class="btn DirectoryButton" {{action 'toggleDisplay'}}>Rate Business</button>
-{{else}}
-  <p>Looks like you've already rated this business?</p>
-  <button class="btn DirectoryButton" {{action 'toggleDisplay'}}>Rerate Business</button>
-{{/unless}}
+{{business-feedback-badge result=model}}
 
+<button class="DirectoryBusiness-feedback-button" {{action 'toggleDisplay'}}>
+  {{if hasRated 'Rerate' 'Rate'}} Business
+</button>
 
 {{#if isOpen}}
-  {{#x-modal close=(action 'toggleDisplay')}}
+  {{#modal-wrapper close=(action 'toggleDisplay') showHeader=false}}
     <div class="DirectoryFeedback-wrap">
       <div {{action 'toggleDisplay'}}>
         {{fa-icon 'times DirectoryFeedback-close'}}
@@ -59,5 +56,5 @@
         {{/if}}
       {{/unless}}
     </div>
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

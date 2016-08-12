@@ -22,7 +22,7 @@
         <td class='EventList-column-time u-textNoWrap'>{{event.timeRangeNoDates}}</td>
       {{/if}}
       <td class='EventList-title'>
-        {{#link-to 'events.show' event.id}}
+        {{#link-to 'events.all.show' event.id}}
           {{event.title}}
 
           {{#if event.subtitle}}

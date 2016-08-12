@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import History from 'subtext-ui/mixins/routes/history';
+import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 
 const {
   get,
@@ -9,7 +10,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Route.extend(History, {
+export default Ember.Route.extend(History, MaintainScroll, {
   geo: inject.service('geolocation'),
 
   model() {
@@ -33,11 +34,6 @@ export default Ember.Route.extend(History, {
       query: model.params['query'] || ""
     });
 
-    // Setup Category
-    if(isPresent(model.params['category_id'])) {
-      controller.set('category', model.categories.findBy('id', model.params.category_id));
-    }
-
     // Location
     if(isPresent(model.params['lat']) && isPresent(model.params['lng'])) {
       const coords = {
@@ -55,32 +51,13 @@ export default Ember.Route.extend(History, {
         if(isEmpty(controller.get('coords'))) {
           controller.setProperties({
             location: location.human,
-            coords: location.coords
+            coords: location.coords,
+            lat: location.coords.lat,
+            lng: location.coords.lng
           });
         }
         controller.set('isCalculatingLocation', false);
       });
-    }
-  },
-
-
-  actions: {
-    /**
-     * The below actions need to be cleaned up.
-     * They are a quick hack to clear out the query, and
-     * are probably only here due to time contraints
-     *  - NikP
-     */
-    willTransition: function(transition) {
-      if(transition.targetName === 'directory.landing') {
-        if(this.controller.get('query').length > 3 ) {
-          this.controller.set('query',"");
-        }
-      }
-    },
-    deactivate() {
-      // Reset Query
-      this.controller.set('query', "");
     }
   }
 });

@@ -11,6 +11,8 @@ moduleForAcceptance('Acceptance | login', {
 });
 
 test('logging in works', function(assert) {
+  assert.expect(2);
+
   server.create('current-user');
   server.create('location');
 
@@ -31,6 +33,8 @@ test('logging in works', function(assert) {
 });
 
 test('visiting protected page while not logged in redirects to login page then back', function(assert) {
+  assert.expect(2);
+
   server.create('current-user');
   server.create('location');
 
@@ -53,6 +57,8 @@ test('visiting protected page while not logged in redirects to login page then b
 });
 
 test('logging out works', function(assert) {
+  assert.expect(4);
+
   authenticateSession(this.application);
 
   visit('/');
@@ -71,6 +77,8 @@ test('logging out works', function(assert) {
 });
 
 test('visiting log in page while already authenticated redirects to root page', function(assert) {
+  assert.expect(1);
+
   authenticateSession(this.application);
 
   visit('/sign_in');
@@ -81,6 +89,8 @@ test('visiting log in page while already authenticated redirects to root page', 
 });
 
 test('clicking sign in link redirects to login page', function(assert) {
+  assert.expect(2);
+
   visit('/');
 
   andThen(function() {

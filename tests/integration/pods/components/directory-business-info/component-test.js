@@ -10,11 +10,10 @@ test('it renders', function(assert) {
   const model = {
     details: '<p></p>'
   };
-  
+
   this.set('model', model);
 
   this.render(hbs`{{directory-business-info model=model}}`);
-
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$());
 
 });

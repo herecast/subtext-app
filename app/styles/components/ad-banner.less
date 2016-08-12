@@ -1,0 +1,66 @@
+.AdBanner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+
+  @media (max-width: @screen-xs-max) {
+    margin:10px auto;
+  }
+
+  @media (min-width: @screen-xs-max) {
+    max-width: 380px;
+  }
+}
+
+.AdBanner-wrapper {
+  @media (min-width: @screen-xs-max) {
+    padding: 20px;
+  }
+
+  .AdBanner {
+    @media (min-width: @screen-xs-max) {
+      width: 100%;
+    }
+  }
+
+  &--index,
+  &--news {
+    @media (min-width: @screen-xs-max) {
+      padding: 0;
+    }
+  }
+
+  &--talk,
+  &--market,
+  &--bsd,
+  &--events,
+  &--detail {
+    @media (min-width: @screen-xs-max) {
+      background: #fff;
+      padding: 10px 0;
+
+      .AdBanner {
+        max-width: 380px;
+      }
+    }
+  }
+
+  &--bsd {
+    @media (min-width: @screen-xs-max) {
+      border-top: 1px solid #dedede;
+    }
+  }
+
+  &--talk,
+  &--market {
+    @media (min-width: @screen-xs-max) {
+      border-bottom: 1px solid #dedede;
+    }
+  }
+
+  &--events {
+    @media (min-width: @screen-xs-max) {
+      background: none;
+    }
+  }
+}

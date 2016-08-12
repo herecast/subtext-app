@@ -80,7 +80,7 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.show', post.get('id')).then(() => {
+      this.transitionTo('market.all.show', post.get('id')).then(() => {
         SocialSharing.createShareCache();
       });
 

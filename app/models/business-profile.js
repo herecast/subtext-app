@@ -44,9 +44,20 @@ export default DS.Model.extend({
   feedback_num: DS.attr('number'),
   has_retail_location: DS.attr('boolean'),
   views: DS.attr('number'),
-  can_edit: DS.attr('boolean'),
+  canEdit: DS.attr('boolean'),
   has_rated: DS.attr('boolean'),
 
   organization_id: DS.attr('number'), //To be replaced by relationship
-  categories: DS.hasMany('business-category', {async: true})
+  categories: DS.hasMany('business-category', {async: true}),
+
+  featuredImage: computed('images.@each.primary', function() {
+    const images = get(this, 'images');
+    if (images && images.length) {
+      return images.find(image => {
+        return get(image, 'primary') === true;
+      });
+    } else {
+      return null;
+    }
+  })
 });

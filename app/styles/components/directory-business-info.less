@@ -1,3 +1,39 @@
+.DirectoryBusiness {
+  &-feedback {
+    text-align: center;
+    margin: 15px 0;
+
+    &-button {
+      .Button;
+      .Button--small;
+      .Button--directory;
+      margin-left: 5px;
+    }
+  }
+
+  &-iconBar {
+    .h3;
+    margin: 15px 0 0 0;
+    padding-top: 15px;
+    border-top: solid 1px darken(@gray-light, 10%);
+    display: table;
+    width: 100%;
+
+    &-item {
+      display: table-cell;
+      width: 33%;
+      text-align: center;
+    }
+  }
+
+  &-location {
+    &-title {
+      .h2;
+      margin-top: 0;
+    }
+  }
+}
+
 .DirectoryBusiness-coverImages {
   width: 100%;
   height: 200px;
@@ -31,39 +67,8 @@
     margin-top: 1rem;
   }
 }
-.DirectoryBusiness-iconBar {
-  text-align: center;
-  padding: 1.5rem;
-  border-top: solid 1px #DEDEDE;
-  border-bottom: solid 1px #DEDEDE;
-  margin: 2rem 0 0;
-  div {
-    display: inline-block;
-    width: 30%;
-  }
-  div:not(:first-of-type) {
-    border-left: solid 1px #DEDEDE;
-  }
-  @media (max-width: @screen-xs-max) {
-    div {
-      width: auto;
-    }
-    div:not(:first-of-type) {
-      border-left: solid 2px grey;
-      padding: 0 12px;
-    }
-    div:first-of-type {
-      padding: 0 12px 0 0;
-    }
-  }
-}
-.DirectoryFeedback-hours,
-.DirectoryFeedback-details {
+
+.DirectoryBusiness-hours,
+.DirectoryBusiness-details {
   margin: 20px 0;
-  h2 {
-    font-weight: 700;
-    font-family: 'museo-slab', Georgia, Palatino, serif;
-    text-transform: capitalize;
-    margin: 2px 0px;
-  }
 }

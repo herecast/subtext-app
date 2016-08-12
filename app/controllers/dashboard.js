@@ -154,7 +154,7 @@ export default Ember.Controller.extend(trackEvent, {
       } else if(org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
-          this.transitionToRoute('directory.search.show', rec);
+          this.transitionToRoute('directory.show', rec);
         });
       } else {
         alert('Feature not available yet');

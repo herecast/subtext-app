@@ -8,6 +8,10 @@
   text-transform: uppercase;
 }
 
+.Button--small {
+  .h5;
+}
+
 .Button--wide {
   padding: 9px 49px 6px 50px;
 }
@@ -67,6 +71,12 @@
   background-color: @talk-brand;
 }
 
+.Button--directory,
+.Button--directory.active,
+.Button--directory.active:focus {
+  background-color: @directory-brand;
+}
+
 .Button--centered {
   display: block;
   margin: 0 auto;
@@ -78,4 +88,18 @@
 
 .async-button.pending {
   background-color: white !important;
+}
+
+.Button--viewMoreBtn {
+    .h5;
+    background: white;
+    padding: 10px;
+    border: solid 1px transparent;
+    margin: 5px 0 0 0;
+    text-transform: none !important;
+
+    &:focus,
+    &:hover {
+      border-color: black;
+    }
 }

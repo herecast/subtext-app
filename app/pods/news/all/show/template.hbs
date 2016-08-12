@@ -1,0 +1,9 @@
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeNewsDetailPage') showHeader=false}}
+  {{news-detail
+    model=model
+    organizations=organizations
+    hasCaptionOrCredit=hasCaptionOrCredit
+    canEdit=canEdit
+    isPreview=false
+  }}
+{{/modal-wrapper}}

@@ -10,6 +10,8 @@ moduleForAcceptance('Acceptance | news ugc', {
 });
 
 test('/news while not logged in', function(assert) {
+  assert.expect(1);
+
   invalidateSession(this.application);
   server.create('organization', { canPublishNews: true });
   const newsItem = server.create('news');
@@ -22,6 +24,8 @@ test('/news while not logged in', function(assert) {
 });
 
 test('/news', function(assert) {
+  assert.expect(11);
+
   server.createList('news', 20);
   server.create('organization', { canPublishNews: true });
 
@@ -31,7 +35,7 @@ test('/news', function(assert) {
     assert.equal(currentURL(), '/news', 'it should have the correct url');
     assert.ok(find(testSelector('news-length', '14')), 'it should display the total number of news items on the page');
     assert.equal(find(testSelector('link', 'content-create-button')).length, 0, 'it should not show a content create button');
-    assert.equal(find(testSelector('news-card')).length, 14, 'it should list news articles');
+    assert.equal(find(testSelector('news-card')).length, 12, 'it should list news articles');
     assert.equal(find(testSelector('pagination-next')).length, 1, 'it should have pagination link to next page');
     assert.equal(find(testSelector('pagination-prev')).length, 0, 'it should not have a pagination link to the previous page');
   });
@@ -48,6 +52,8 @@ test('/news', function(assert) {
 });
 
 test('/news cards link to full articles', function(assert) {
+  assert.expect(3);
+
   server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', { title: 'my fake news article', id: 50 });
@@ -67,6 +73,8 @@ test('/news cards link to full articles', function(assert) {
 });
 
 test('/news/:id commenting as a logged in user', function(assert) {
+  assert.expect(5);
+
   server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', {

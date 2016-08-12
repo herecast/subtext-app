@@ -7,6 +7,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('index', {path: '/'}, function() {
+    this.route('show', {path: ':id'});
   });
 
   this.route('dashboard');
@@ -22,9 +23,10 @@ Router.map(function() {
   this.route('ad-metrics.show', {path: '/metrics/ad/:content_id'});
 
   this.route('events', {path: '/events'}, function() {
-    this.route('all', {path: '/'}, function() {});
 
-    this.route('show', {path: '/:id'});
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: ':id'});
+    });
 
     this.route('new', {path: '/new'}, function() {
       this.route('details');
@@ -44,8 +46,9 @@ Router.map(function() {
   });
 
   this.route('market', function() {
-    this.route('all', {path: '/'}, function() {});
-    this.route('show', {path: '/:id'});
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+    });
     this.route('new', {path: '/new'}, function() {
       this.route('details');
       this.route('promotion');
@@ -59,15 +62,17 @@ Router.map(function() {
   });
 
   this.route('news', function() {
-    this.route('all', {path: '/'}, function() {});
-    this.route('show', {path: '/:id'});
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+    });
     this.route('new');
     this.route('edit', {path: '/:id/edit'});
   });
 
   this.route('talk', function() {
-    this.route('all', {path: '/'}, function() {});
-    this.route('show', {path: '/:id'});
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+    });
     this.route('new', {path: '/new'}, function() {
       this.route('details');
       this.route('promotion');
@@ -81,12 +86,7 @@ Router.map(function() {
   });
 
   this.route('directory', function() {
-    this.route('landing', {path: '/'});
-    this.route('no-results', {path: '/nothing-found'});
-    this.route('search', {path: '/s'}, function() {
-      this.route('results', {path: '/'});
-      this.route('show', {path: '/:id'});
-    });
+    this.route('show', {path: ':id'});
   });
 
   this.route('terms');

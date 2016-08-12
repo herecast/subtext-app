@@ -1,19 +1,19 @@
 <td data-test-content-row>
     {{#if isTalkOrComment}}
       {{#link-to viewRoute viewId (query-params scrollTo=contentAnchor)}}
-        {{x-truncate text=content.title maxLength=50}}
+        {{truncate-text text=content.title maxLength=50}}
       {{/link-to}}
     {{else if isPromotion}}
-      {{x-truncate text=content.title maxLength=50}}
+      {{truncate-text text=content.title maxLength=50}}
     {{else if (eq type 'news')}}
       {{#if hasTitle}}
-        {{x-truncate text=content.title maxLength=50}}
+        {{truncate-text text=content.title maxLength=50}}
       {{else}}
         Untitled Draft
       {{/if}}
     {{else}}
       {{#link-to viewRoute content.id}}
-        {{x-truncate text=content.title maxLength=50}}
+        {{truncate-text text=content.title maxLength=50}}
       {{/link-to}}
     {{/if}}
 </td>

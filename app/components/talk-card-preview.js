@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import TalkCard from './talk-card';
-import PreviewScroll from '../mixins/components/card-preview-scroll';
+import TalkCard from 'subtext-ui/pods/components/talk-card/component';
+import PreviewScroll from 'subtext-ui/mixins/components/card-preview-scroll';
 
 const { computed } = Ember;
 

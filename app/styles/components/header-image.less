@@ -1,0 +1,11 @@
+.HeaderImage {
+  height: 360px; // 4:3 ratio. on desktop this is 480x360
+  background-color: @gray-light;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  @media (max-width: @screen-xs-max) {
+    height: 225px; // 4:3 ratio. on mobile this is 300x225
+  }
+}

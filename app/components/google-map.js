@@ -33,7 +33,7 @@ export default Ember.Component.extend({
 
   initGoogleMap() {
     const googleMapsService = get(this, 'googleMapsService').googleMaps;
-    const mapContainer = Ember.$('.GoogleMap-embed');
+    const mapContainer = this.$().find('.GoogleMap-embed');
     const defaultLocation = get(this, 'defaultLocation');
     const userLocation = get(this, 'userLocation');
 

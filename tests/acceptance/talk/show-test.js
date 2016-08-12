@@ -10,6 +10,8 @@ moduleForAcceptance('Acceptance | talk/show', {
 });
 
 test('visiting /talk/:id', function(assert) {
+  assert.expect(9);
+
   const talk = server.create('talk', {
     title: 'East Coast 4 life',
     content: 'Biggie Smalls was the illest',

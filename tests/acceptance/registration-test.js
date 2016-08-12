@@ -6,6 +6,8 @@ import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 moduleForAcceptance('Acceptance | registration');
 
 test('clicking join link redirects to registration page', function(assert) {
+  assert.expect(1);
+
   visit('/');
 
   click(testSelector('link', 'join-link'));
@@ -16,6 +18,8 @@ test('clicking join link redirects to registration page', function(assert) {
 });
 
 test('registration works', function(assert) {
+  assert.expect(2);
+
   const locations = server.createList('location', 8);
   visit('/sign_up');
 
@@ -36,6 +40,8 @@ test('registration works', function(assert) {
 });
 
 test('registration requires clicking I agree', function(assert) {
+  assert.expect(2);
+
   const locations = server.createList('location', 8);
   visit('/sign_up');
 
@@ -55,6 +61,8 @@ test('registration requires clicking I agree', function(assert) {
 });
 
 test('visiting registration page while already authenticated redirects to root page', function(assert) {
+  assert.expect(1);
+
   authenticateSession(this.application);
   visit('/sign_up');
 

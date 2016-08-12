@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
+import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 
 const { computed, get, inject } = Ember;
 
@@ -16,6 +17,9 @@ export default DS.Model.extend({
   listservId: DS.attr('number'), // write only
   parentContentId: DS.attr('number'),
   parentContentType: DS.attr('string'),
+  normalizedParentContentType: computed(function() {
+    return normalizeContentType(get(this, 'parentContentType'));
+  }),
   parentEventInstanceId: DS.attr('number'),
   publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
   title: DS.attr('string'),
@@ -30,29 +34,31 @@ export default DS.Model.extend({
 
   parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
-    if (parentContentType === 'market-post') {
-      return 'market.show';
+    if (parentContentType === 'market-post' || parentContentType === 'market') {
+      return 'market.all.show';
     } else if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
-      return 'events.show';
+      return 'events.all.show';
     } else if (parentContentType === 'talk_of_the_town') {
-      return 'talk.show';
+      return 'talk.all.show';
+    } else if (parentContentType === 'news') {
+      return 'news.all.show';
     } else {
-      return `${parentContentType}.show`;
+      return `${parentContentType}.all.show`;
     }
   }),
 
   commentCountText: computed('commentCount', function() {
-    const count = this.get('commentCount');
+    const count = get(this, 'commentCount');
 
     if (count === 1) {
-      return 'post';
+      return 'comment';
     } else {
-      return 'posts';
+      return 'comments';
     }
   }),
 
   viewCountText:computed('viewCount',  function() {
-    const count = this.get('viewCount');
+    const count = get(this, 'viewCount');
 
     if (count === 1) {
       return 'view';

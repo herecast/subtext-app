@@ -1,0 +1,185 @@
+<header class="DetailPage-navTop-container">
+  {{#unless isPreview}}
+    <div class="DetailPage-navTop clearfix">
+      {{#unless media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--events pull-left"}}
+          {{fa-icon 'arrow-left'}} {{closeLabel}}
+        {{/link-to}}
+      {{/unless}}
+
+      {{#if media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--events"}}
+          {{fa-icon 'close'}}
+        {{/link-to}}
+      {{/if}}
+
+      <div class="pull-right">
+        {{social-share
+        title=model.title
+        sharedBy=session.userName
+        updatedAt=model.updatedAt
+        }}
+      </div>
+    </div>
+  {{/unless}}
+  {{#if model.imageUrl}}
+    {{header-image imageUrl=model.imageUrl}}
+  {{/if}}
+</header>
+
+<div class="DetailPage-headerContainer">
+  <div class="DetailPage-headerSection">
+    <h1 class="DetailPage-title h2">{{model.title}}</h1>
+
+    {{#if model.subtitle}}
+      <p class='DetailPage-subtitle h2'>{{model.subtitle}}</p>
+    {{/if}}
+
+    <p>{{model.timeRange}}</p>
+
+    {{#if model.hasRegistrationInfo}}
+      <p>Register by {{model.formattedRegistrationDeadline}}</p>
+    {{/if}}
+
+    {{#if model.presenterName}}
+      <p>Presenter: {{model.presenterName}}</p>
+    {{/if}}
+  </div>
+  <div class="DetailPage-headerSection">
+    <div class="DetailPage-headerNav">
+      <div class="DetailPage-headerNavItem">
+        <p>{{fa-icon 'dollar' size=2}}</p>
+        {{#if model.costType}}
+          <div {{action 'scrollToMoreContent'}}>
+            <span class='DetailPage-costType'>{{model.formattedCostType}}</span>
+          </div>
+        {{else}}
+           &mdash;
+        {{/if}}
+      </div>
+      <div class="DetailPage-headerNavItem">
+        <p>{{fa-icon 'map-marker' size=2}}</p>
+        <a href='{{model.directionsUrl}}' target='_blank'>
+          {{model.venueAddress}},
+          <br/>{{model.venueCity}} {{model.venueState}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#unless isPreview}}
+  {{report-content-details
+  contentId=model.contentId
+  }}
+{{/unless}}
+
+<div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-section DetailPage-content">
+    <h3 class='DetailPage-sectionTitle'>From the Organizer</h3>
+    {{#expandable-content}}
+      {{{ model.content }}}
+    {{/expandable-content}}
+  </div>
+</div>
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-startDiscussion'>
+      <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
+        {{#if model.commentCount}}
+          {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
+        {{else}}
+           {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+        {{/if}}
+      </button>
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+{{/unless}}
+
+<div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-section">
+    <h3 class='DetailPage-sectionTitle'>All Dates</h3>
+    {{event-other-dates event=model}}
+  </div>
+</div>
+
+<div class='DetailPage-sectionWrapper'>
+  <div class='DetailPage-section DetailPage-moreContent'>
+    <div class="row">
+      <div class="col-xs-6">
+        <h4 class="DetailPage-sectionTitle">Price</h4>
+        <p><em>{{dash-if-empty model.formattedCostType}}</em></p>
+        {{#if model.costType}}
+          {{model.cost}}
+        {{/if}}
+      </div>
+      <div class="col-xs-6">
+        <h4 class="DetailPage-sectionTitle">Contact</h4>
+        {{#if model.eventUrl}}
+          <div>
+            {{#normalized-link url=model.eventUrl}}
+              {{truncate model.eventUrl length=22}}
+            {{/normalized-link}}
+          </div>
+        {{/if}}
+        {{#if model.contactEmail}}
+          <div>
+            <a href="mailto:{{model.contactEmail}}" target='_blank'>
+              {{truncate model.contactEmail length=22}}
+            </a>
+          </div>
+        {{/if}}
+        {{#if model.contactPhone}}
+          <div>
+            <a href='tel:{{model.contactPhone}}' target='_blank'>
+              {{model.contactPhone}}
+            </a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#unless isPreview}}
+  {{#if canEdit}}
+    {{edit-content-link
+    contentId=model.eventId
+    route='events.edit'
+    text='Edit Event'
+    }}
+  {{/if}}
+{{/unless}}
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-similarContent'>
+      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
+
+      {{similar-content
+      contentId=model.contentId
+      limit=4
+      }}
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-comments">
+      <h1 class='DetailPage-sectionTitle h2'>Talk</h1>
+
+      {{content-comments
+      content=model
+      scrollTo=scrollTo
+      }}
+    </div>
+  </div>
+{{/unless}}

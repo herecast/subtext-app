@@ -1,0 +1,6 @@
+{{#if result.feedback_num}}
+  <span class="BusinessFeedbackBadge-recommended-badge">{{round (times result.feedback.recommend 100)}}%</span>
+  of {{result.feedback_num}} review(s)
+{{else}}
+  <small>Not yet rated</small>
+{{/if}}

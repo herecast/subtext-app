@@ -14,12 +14,14 @@
       {{#if newsItems.[0].imageUrl}}
         {{news-card-wide
           class='Card--solo'
+          routeName='index.show'
           item=newsItems.[0]
           variant='full'
         }}
       {{else}}
         {{news-card-wide
           class='Card--solo Card--wide'
+          routeName='index.show'
           item=newsItems.[0]
         }}
       {{/if}}
@@ -28,35 +30,43 @@
     <div class='col-sm-3'>
       {{news-card
         item=newsItems.[1]
+        routeName='index.show'
         variant='vertical'
       }}
 
       <div class='Card-wrapper--columnVertical2Up'>
-        {{news-card item=newsItems.[2] }}
-        {{news-card item=newsItems.[3] }}
+        <div class='AdBanner-wrapper AdBanner-wrapper--index'>
+          {{ad-banner}}
+        </div>
       </div>
     </div>
 
     <div class='col-sm-3'>
      {{news-card
-        item=newsItems.[4]
+        item=newsItems.[2]
+        routeName='index.show'
         variant='vertical'
       }}
 
       <div class='Card-wrapper--columnVertical2Up'>
-        {{news-card item=newsItems.[5] }}
-        {{news-card item=newsItems.[6] }}
+        {{news-card item=newsItems.[3] routeName='index.show' }}
+        {{news-card item=newsItems.[4] routeName='index.show' }}
       </div>
     </div>
   {{else}}
 
     <div class='col-sm-6'>
-      {{#each newsItems as |newsItem|}}
-        {{news-card
-          item=newsItem
-          imagePosition='right'
-          classNames='Card Card--news'
-        }}
+      {{#each newsItems as |newsItem index|}}
+        {{#unless (eq index 3)}}
+          {{news-card
+            item=newsItem
+            routeName='index.show'
+            imagePosition='right'
+            classNames='Card Card--news'
+          }}
+        {{else}}
+          {{ad-banner}}
+        {{/unless}}
       {{/each}}
     </div>
   {{/if}}
@@ -77,6 +87,7 @@
     {{#each eventItems as |event|}}
       {{event-card
         event=event
+        routeName='index.show'
         imagePosition=(if media.isNotMobile 'left' 'right')
         classNames='Card Card--event'
       }}
@@ -97,6 +108,7 @@
     {{#each marketItems as |post|}}
       {{market-card
         classNames='Card Card--market'
+        routeName='index.show'
         imagePosition=(if media.isNotMobile 'left' 'right')
         post=post
       }}
@@ -118,6 +130,7 @@
     {{#each talkItems as |talk|}}
       {{talk-card
         talk=talk
+        routeName='index.show'
         class='Card Card--talk'
       }}
     {{/each}}

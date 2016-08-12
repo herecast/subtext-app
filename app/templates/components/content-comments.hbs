@@ -1,37 +1,39 @@
-<div class='CommentSection'>
-  <ol class='CommentSection-commentList'>
-    {{#each comments as |comment|}}
-      {{content-comment
-        comment=comment
-        activeCommentId=activeCommentId
-        comments=comments
-        contentId=contentId
-        contentTitle=contentTitle
-        afterRender='triggerScrollToComment'
-      }}
-    {{/each}}
-  </ol>
+<div class='CommentSection-wrapper'>
+  <div class='CommentSection'>
+    <ol class='CommentSection-commentList'>
+      {{#each comments as |comment|}}
+        {{content-comment
+          comment=comment
+          activeCommentId=activeCommentId
+          comments=comments
+          contentId=contentId
+          contentTitle=contentTitle
+          afterRender='triggerScrollToComment'
+        }}
+      {{/each}}
+    </ol>
 
   {{#if displayPromotion}}
-    {{related-promotion
+    {{ad-banner
       contentModel=content
     }}
   {{/if}}
 
-  {{#if session.isAuthenticated}}
-    {{comment-new
-      parentContentId=contentId
-      contentTitle=contentTitle
-      comments=comments
-      disabled=commentingDisabled
-      afterComment='incrementCommentCount'
-    }}
-  {{else}}
-    <p class='CommentSection-helpText'>
-      You need to log in to join this conversation. After
-      {{link-to 'signing up' 'register' class='u-textUnderline'}} or
-      {{link-to 'signing in' 'login' class='u-textUnderline'}}, you can return to
-      this listing and share your thoughts.
-    </p>
-  {{/if}}
+    {{#if session.isAuthenticated}}
+      {{comment-new
+        parentContentId=contentId
+        contentTitle=contentTitle
+        comments=comments
+        disabled=commentingDisabled
+        afterComment='incrementCommentCount'
+      }}
+    {{else}}
+      <p class='CommentSection-helpText'>
+        You need to log in to join this conversation. After
+        {{link-to 'signing up' 'register' class='u-textUnderline'}} or
+        {{link-to 'signing in' 'login' class='u-textUnderline'}}, you can return to
+        this listing and share your thoughts.
+      </p>
+    {{/if}}
+  </div>
 </div>

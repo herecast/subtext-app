@@ -27,7 +27,7 @@ export default Ember.Component.extend({
     let scrollThreshold = 100;
 
     const scroller = () => {
-      const scrollPosition = Ember.$(window).scrollTop();
+      const scrollPosition = Ember.$('.ember-application > .ember-view').scrollTop();
 
       if (scrollPosition > lastScrollPosition) {
         const triggerHide = ((scrollPosition - lastScrollPosition) > scrollThreshold);
@@ -49,14 +49,14 @@ export default Ember.Component.extend({
       lastScrollPosition = scrollPosition;
     };
 
-    Ember.$(document).on('scroll.footerNav.handleScrollDirection',
+    Ember.$('.ember-application > .ember-view').on('scroll.footerNav.handleScrollDirection',
                          () => { run.debounce(this, scroller, 25); });
   },
 
   willDestroyElement() {
     this._super(...arguments);
 
-    Ember.$(document).off('scroll.footerNav');
+    Ember.$('.ember-application > .ember-view').off('scroll.footerNav');
   },
 
   actions: {

@@ -1,6 +1,6 @@
 {{#if isMinimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+    {{#link-to 'market.all.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
       {{title}}
     {{/link-to}}
   </h2>
@@ -11,7 +11,7 @@
       <div class="media-left" >
         {{#if hasImage}}
           <div {{action 'onTitleClick'}}>
-            {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+            {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
               <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
             {{/link-to}}
           </div>
@@ -21,7 +21,7 @@
 
     <div class="media-body Card-content">
       <h2 class='Card-title' {{action 'onTitleClick'}}>
-        {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+        {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
           {{title}}
         {{/link-to}}
       </h2>
@@ -39,9 +39,11 @@
       <div class="media-right" >
         {{#if hasImage}}
           <div {{action 'onTitleClick'}}>
-            {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-            {{/link-to}}
+            <div {{action 'onTitleClick'}}>
+              {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
+                <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+              {{/link-to}}
+            </div>
           </div>
         {{/if}}
       </div>

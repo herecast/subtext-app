@@ -7,13 +7,13 @@
       <div class='DirectorySearch-inputWrapper'>
         <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
         {{business-search
-          inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
-          categories=categories
-          category=category
-          setCategory=(action 'setCategory')
-          searchTerms=searchTerms
-          query=query
-          updateFromQuery=(action 'updateQuery')
+        inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+        categories=categories
+        category=category
+        setCategory=(action 'setCategory')
+        searchTerms=searchTerms
+        query=query
+        updateFromQuery=(action 'updateQuery')
         }}
       </div>
 
@@ -27,6 +27,38 @@
 
 <div class='Container--noGutter'>
   <div class='row'>
-    {{liquid-outlet class='useFade Directory-wrapper'}}
+    {{#if searchBusinesses}}
+      {{directory-search
+      model=searchBusinesses
+      total=total
+      lat=lat
+      lng=lng
+      category_id=category_id
+      query=query
+      sort_by=sort_by
+      page=page
+      per_page=per_page
+      target=target
+      contactUs=(action 'contactUs')
+      store=store
+      }}
+    {{else}}
+      {{#if canSearch}}
+        {{#if isLoading}}
+          {{x-loader}}
+        {{else}}
+          {{directory-no-results
+          category=category
+          searchTerms=query
+          location=location
+          contactUs=(action 'contactUs')
+          }}
+        {{/if}}
+      {{else}}
+        {{directory-landing}}
+      {{/if}}
+    {{/if}}
   </div>
 </div>
+
+{{outlet}}

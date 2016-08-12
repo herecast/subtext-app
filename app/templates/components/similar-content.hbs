@@ -1,14 +1,8 @@
 {{#if content}}
-  <h1 class='SectionHeader'>
-    <span class='SectionHeader-text'>
-      Suggested
-    </span>
-  </h1>
-
   <div class='Section'>
     <div class='row'>
       {{#each contentToDisplay as |content|}}
-        <div class='col-md-3 col-sm-6'>
+        <div class='col-xs-12'>
           {{content-card
             item=content
             showLink=false
@@ -21,7 +15,7 @@
 
     {{#if hasMore}}
     <div class='u-textCentered'>
-      <button class='Button btn h4' {{action 'toggleMore'}}>
+      <button class='Button btn h4 Button--viewMoreBtn' {{action 'toggleMore'}}>
         {{#if showAll}}
           View less {{fa-icon 'caret-up'}}
         {{else}}

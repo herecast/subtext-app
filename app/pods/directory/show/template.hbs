@@ -1,0 +1,40 @@
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeBSDDetailPage') showHeader=false}}
+  <div class="DirectoryBusiness-backButton">
+    {{#link-to 'directory'}}
+      {{fa-icon 'arrow-left'}} Back To Search Results
+    {{/link-to}}
+  </div>
+
+  {{#if model.featuredImage.url}}
+    {{header-image imageUrl=model.featuredImage.url}}
+  {{/if}}
+
+  {{directory-business-info myCoords=myCoords model=model}}
+
+  <div class="DirectoryBusiness-buttonWrap">
+    <h2 class="h2">Is this your business?</h2>
+    <p class="text-center">
+      {{#if model.canEdit}}
+        <button class='DirectoryBusiness-directoryButton' {{action 'showEditForm'}}>Edit Business</button>
+      {{else}}
+        <a href="{{claimEmail}}" class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
+      {{/if}}
+
+      or
+
+      <a href="{{reportIncorrectInfoEmail}}" class="DirectoryBusiness-reportButton">
+        Report Info
+      </a>
+    </p>
+  </div>
+{{/modal-wrapper}}
+
+{{#if editFormIsVisible}}
+  {{#modal-wrapper close=(action 'cancelEditForm')}}
+    {{business-profile-form
+    model=model
+    save='savedEditForm'
+    cancel='cancelEditForm'
+    }}
+  {{/modal-wrapper}}
+{{/if}}

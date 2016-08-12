@@ -1,23 +1,28 @@
 .SocialShare {
-  padding-bottom: 20px;
-}
+  margin-right: 10px;
 
-.SocialShare-header {
-  margin: 15px 0 40px;
-}
+  &-title {
+    margin-right: 5px;
+  }
 
-.SocialShare-headerText {
-  top: 2px;
-}
+  &-title,
+  &-icon,
+  &-icon:focus {
+    color: #fff;
+    text-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
+    line-height: 50px;
+    display: inline-block;
+  }
 
-.SocialShare-icon {
-  border-radius: 4px;
-  padding: 8px;
-  text-align: center;
-}
+  &-icon {
+    .h2;
+    margin: 0 15px 0 0;
+    text-align: center;
+    color: #fff;
 
-.SocialShare-icon:hover {
-  background-color: black;
-  color: white;
-  cursor: pointer;
+    &:hover {
+      color: rgba(255, 255, 255, 0.75);
+      cursor: pointer;
+    }
+  }
 }

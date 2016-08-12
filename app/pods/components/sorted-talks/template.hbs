@@ -2,7 +2,13 @@
   <div class='row'>
     <div class='col-xs-12 col-md-8 col-md-push-2'>
       <div class='Card-groupedWrapper'>
-        {{#each sortedTalks as |talk|}}
+        {{#each sortedTalks as |talk index|}}
+          {{#if (eq index 4)}}
+            <div class='AdBanner-wrapper AdBanner-wrapper--talk'>
+              {{ad-banner}}
+            </div>
+          {{/if}}
+
           {{talk-card
             talk=talk
             class='Card Card--talk Card--grouped'

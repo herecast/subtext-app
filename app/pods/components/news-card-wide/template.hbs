@@ -1,5 +1,5 @@
   <div class='Card-imageContainer'>
-    {{#link-to 'news.show' item.id}}
+    {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
       <div class='Card-image img-responsive' style="background-image: url({{if item.imageUrl item.imageUrl item.organization.logoUrl}})"></div>
     {{/link-to}}
   </div>
@@ -7,9 +7,9 @@
   <div class='Card-content'>
     <div class='Card-titleGroup'>
       <h2 class='Card-title'>
-        {{#link-to 'news.show' item.id data-test-link=item.title}}
+        {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title}}
           {{item.title}}
-        {{/link-to}}<br />
+        {{/link-to}}
       </h2>
 
       {{#link-to 'organization-profile'

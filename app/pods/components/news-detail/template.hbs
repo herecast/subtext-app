@@ -1,131 +1,161 @@
-<div class='NewsHeader-wrapper'>
-  <div class='Container--noGutter NewsHeader'>
-    <div class='row'>
-      <div class='col-md-2 hidden-sm hidden-xs'></div>
-      <div class='col-md-8 col-sm-9'>
-        <h1 class='News-title' data-test-news-title='{{model.title}}'>{{model.title}}</h1>
+{{!--
+  ContentText
 
-        <div class='News-organizationInfo'>
-          <p>{{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}&emsp;
-            {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
-              {{model.organizationName}}
-            {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
-          </p>
-        </div>
+  // classes removed from this template
+  CommentSection
+  SectionHeader
+  SectionHeader-text
+  News
+  News-title
+  News-subtitle
+  News-organizationInfo
+  NewsPhotoWrap
+  PhotoBanner-wrap
+  News-preview-Empty
+  PhotoBanner-curtain
+  PhotoBanner-curtainImage
+
+  //components removed
+  floating-side-column
+  social-share
+  back-button
+  comment-bubble
+--}}
+<header class="DetailPage-navTop-container">
+  {{#unless isPreview}}
+    <div class="DetailPage-navTop clearfix">
+      {{#unless media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--news pull-left"}}
+          {{fa-icon 'arrow-left'}} {{closeLabel}}
+        {{/link-to}}
+      {{/unless}}
+
+      {{#if media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--news"}}
+          {{fa-icon 'close'}}
+        {{/link-to}}
+      {{/if}}
+
+      <div class="pull-right">
+        {{social-share
+        title=model.title
+        sharedBy=session.userName
+        updatedAt=model.updatedAt
+        }}
       </div>
     </div>
-  </div>
-</div>
+  {{/unless}}
 
-    {{#if model.featuredImageUrl}}
-      <div class='NewsPhotoBanner'>
-        <div class='PhotoBanner-wrap'>
-          {{background-image imageUrl=model.featuredImageUrl class='PhotoBanner-curtainImage'}}
-          <div class='PhotoBanner-curtain'></div>
-        </div>
-        <div class='container'>
-          <div class='row'>
-            <div class='col-sm-8 col-sm-offset-2'>
-              <div class="NewsPhotoWrap">
-                <img class='NewsPhotoBanner-photo img-responsive' src={{model.featuredImageUrl}}>
-                {{#if hasCaptionOrCredit}}
-                  <div class='NewsPhotoBanner-captionArea'>
-                    {{model.featuredImageCaption}}
+  {{#if model.featuredImageUrl}}
+    <div class='DetailPage-headerImage-wrapper'>
+      <div class='DetailPage-headerImage'>
+        <img class='img-responsive' src={{model.featuredImageUrl}}>
+      </div>
 
-                    {{#if model.bannerImage.credit}}
-                      / Source: {{model.bannerImage.credit}}
-                    {{/if}}
-                  </div>
-                {{/if}}
-              </div>
-            </div>
-          </div>
+      {{#if hasCaptionOrCredit}}
+        <div class='DetailPage-headerImageCaption'>
+          {{model.featuredImageCaption}}
+
+          {{#if model.bannerImage.credit}}
+            / Source: {{model.bannerImage.credit}}
+          {{/if}}
         </div>
-      </div>
-    {{else}}
-      {{#if isPreview}}
-      <div class='Container--noGutter'>
-        <div class='row'>
-          <div class='col-xs-12'>
-            <div class='News-preview-Empty'>
-              <p class='text-center'>Please consider adding a featured image.</p>
-            </div>
-          </div>
-        </div>
-      </div>
       {{/if}}
+    </div>
+  {{else}}
+    {{#if isPreview}}
+      <p class='text-center'>Please consider adding a featured image.</p>
+    {{/if}}
+  {{/if}}
+</header>
+
+<div class="DetailPage-headerContainer">
+  <div class="DetailPage-headerSection">
+    <h1 class='DetailPage-title h2' data-test-news-title='{{model.title}}'>{{model.title}}</h1>
+
+    {{#if model.subtitle}}
+      <h2 class='DetailPage-subtitle h2'>{{model.subtitle}}</h2>
     {{/if}}
 
-<div class='Container--noGutter News'>
-  <div class='row'>
-    <div class='col-md-2 hidden-sm hidden-xs'>
-      {{#unless isPreview}}
-        {{back-button defaultRouteName='news'}}
-      {{/unless}}
-    </div>
-    <div class='col-md-8 col-sm-9'>
-      {{#if model.subtitle}}
-        <h3 class='News-subtitle'>{{model.subtitle}}</h3>
-      {{/if}}
-      <div class='News-content ContentText'>
-        {{{model.content}}}
-      </div>
+    <p>{{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}&emsp;
+      {{#link-to 'organization-profile' model.organization.slug data-test-component='news-show-organization-link'}}
+        {{model.organizationName}}
+      {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
+    </p>
+  </div>
+</div>
 
-      {{#unless isPreview}}
-        {{related-promotion
-          contentModel=model
-        }}
-      {{/unless}}
-    </div>
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    {{report-content-details
+    contentId=model.contentId
+    }}
+  </div>
+{{/unless}}
 
-    <div class='col-md-2 col-sm-3'>
-      {{#unless isPreview}}
-        {{#floating-side-column enabled=media.isDesktop}}
-          {{social-share
-            title=model.title
-            sharedBy=session.userName
-            updatedAt=model.updatedAt
-          }}
+<div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-content News-content ContentText">
+    {{#expandable-content}}
+      {{{ model.content }}}
+    {{/expandable-content}}
+  </div>
+</div>
 
-          {{#if canEdit}}
-            {{edit-content-link
-            contentId=model.id
-            route='news.edit'
-            text='Edit Post'
-            }}
-          {{/if}}
-
-          {{report-content-details contentId=model.contentId}}
-
-          {{comment-bubble
-            type='news'
-            count=model.commentCount
-            class='hidden-xs hidden-sm'
-          }}
-        {{/floating-side-column}}
-      {{/unless}}
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-startDiscussion'>
+      <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
+        {{#if model.commentCount}}
+          {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
+        {{else}}
+           {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+        {{/if}}
+      </button>
     </div>
   </div>
 
-  {{#unless isPreview}}
-    <div class='CommentSection'>
-      <h1 class='SectionHeader'>
-        <span class='SectionHeader-text'>
-          Talk
-        </span>
-      </h1>
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section'>
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        {{ad-banner
+          contentModel=model
+        }}
+      </div>
     </div>
+  </div>
+{{/unless}}
 
-    <div class='row'>
-      {{content-comments
-        content=model
-        scrollTo=scrollTo
-      }}
-    </div>
+{{#unless isPreview}}
+  {{#if canEdit}}
+    {{edit-content-link
+    contentId=model.id
+    route='news.edit'
+    text='Edit Post'
+    }}
+  {{/if}}
 
-    {{similar-content
+{{/unless}}
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-similarContent'>
+      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
+
+      {{similar-content
       contentId=model.contentId
       limit=4
-    }}
-  {{/unless}}
-</div>
+      }}
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-comments'>
+      <h2 class='DetailPage-sectionTitle h2'>Talk</h2>
+
+      {{content-comments
+      content=model
+      scrollTo=scrollTo
+      }}
+    </div>
+  </div>
+{{/unless}}

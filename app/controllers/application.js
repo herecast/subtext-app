@@ -33,10 +33,10 @@ export default Ember.Controller.extend(trackEvent, {
 
   currentController: inject.service('current-controller'),
   intercom: inject.service('intercom'),
-  newsFilter: inject.controller('news/all/index'),
-  eventsFilter: inject.controller('events/all/index'),
-  talkFilter: inject.controller('talk/all/index'),
-  marketFilter: inject.controller('market/all/index'),
+  newsFilter: inject.controller('news/all'),
+  eventsFilter: inject.controller('events/all'),
+  talkFilter: inject.controller('talk/all'),
+  marketFilter: inject.controller('market/all'),
 
   searchType: computed.alias('search.searchType'),
   searchQuery: computed.alias('search.searchQuery'),

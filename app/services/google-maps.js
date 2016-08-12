@@ -27,7 +27,7 @@ export default Ember.Service.extend({
   },
 
   cityStateFormat(item) {
-    var city = "", 
+    var city = "",
         state = "";
 
     item.address_components.forEach(function(c) {

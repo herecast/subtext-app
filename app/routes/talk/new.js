@@ -80,7 +80,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id'));
+      this.transitionTo('talk.all.show', talk.get('id'));
     },
 
     backToDetails() {

@@ -68,7 +68,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
       // event/market/talk edit form routes without discarding changes,
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(`^market\\.edit`);
-      const isTransitioningToShowPage = transition.targetName === 'market.show';
+      const isTransitioningToShowPage = transition.targetName === 'market.all.show';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -106,7 +106,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
         post.set('listservIds', []);
       });
 
-      this.transitionTo('market.show', post.id).then(() => {
+      this.transitionTo('market.all.show', post.id).then(() => {
         SocialSharing.updateShareCache();
       });
     },

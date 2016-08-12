@@ -1,0 +1,122 @@
+<header class="DetailPage-navTop-container">
+  {{#unless isPreview}}
+    <div class="DetailPage-navTop clearfix">
+      {{#unless media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--market pull-left"}}
+          {{fa-icon 'arrow-left'}} {{closeLabel}}
+        {{/link-to}}
+      {{/unless}}
+
+      {{#if media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--market"}}
+          {{fa-icon 'close'}}
+        {{/link-to}}
+      {{/if}}
+
+      <div class="pull-right">
+        {{social-share
+        title=model.title
+        sharedBy=session.userName
+        updatedAt=model.updatedAt
+        }}
+      </div>
+    </div>
+  {{/unless}}
+  {{#if activeImage}}
+    {{header-image imageUrl=activeImage}}
+  {{/if}}
+</header>
+
+<div class="DetailPage-headerContainer">
+  {{#if showThumbnails}}
+    <div class="DetailPage-headerSection">
+      {{#each model.images as |image|}}
+        <img src="{{image.imageUrl}}" {{action 'chooseImage' image.imageUrl}} class="DetailPage-thumbnail"/>
+      {{/each}}
+    </div>
+  {{/if}}
+  <div class="DetailPage-headerSection">
+    <h1 class="DetailPage-title h2" data-test-market-title>{{model.title}}</h1>
+  </div>
+  <div class="DetailPage-headerSection">
+    <div class="DetailPage-headerNav">
+      {{#if model.contactEmail}}
+        <div class="DetailPage-headerNavItem">
+          <a href='mailto:{{model.contactEmail}}' target='_blank'>
+            <p>{{fa-icon 'reply' size=2}}</p>
+            Email
+          </a>
+        </div>
+      {{/if}}
+
+      {{#if model.contactPhone}}
+        <div class="DetailPage-headerNavItem">
+          <a href="tel:+1{{model.contactPhone}}">
+            <p>{{fa-icon 'phone' size=2}}</p>
+            {{#if media.isMobile}}
+              Call
+            {{else}}
+              {{formatted-phone model.contactPhone}}
+            {{/if}}
+          </a>
+        </div>
+      {{/if}}
+
+      {{#if model.address}}
+        <div class="DetailPage-headerNavItem">
+          <a href='{{model.directionsLink}}' target='_blank'>
+            <p>{{fa-icon 'map-marker' size=2}}</p>
+            Map
+          </a>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+{{#unless isPreview}}
+  {{report-content-details
+  contentId=model.contentId
+  }}
+{{/unless}}
+
+<div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-section DetailPage-content">
+    {{#if model.price}}Price: {{model.price}}{{/if}}
+    {{#expandable-content}}
+      <span data-test-market-content>{{{ model.content }}}</span>
+    {{/expandable-content}}
+  </div>
+</div>
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+{{/unless}}
+
+{{#unless isPreview}}
+  {{#if canEdit}}
+    {{edit-content-link
+    contentId=model.id
+    route='market.edit'
+    text='Edit Listing'
+    }}
+  {{/if}}
+{{/unless}}
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-similarContent">
+      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
+      {{similar-content
+      contentId=model.contentId
+      limit=4
+      }}
+    </div>
+  </div>
+{{/unless}}

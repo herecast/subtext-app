@@ -397,11 +397,11 @@ export default function() {
     };
   });
 
-  this.get('/contents/:content_id/related_promotion', function() {
+  this.get('/promotion', () => {
     return {
-      related_promotion: {
+      promotion: {
         banner_id: faker.random.number(1000),
-        image_url: 'https://placeholdit.imgix.net/~text?txtsize=31&txt=BannerAd&w=750&h=150',
+        image_url: `https://placehold.it/600x500/61e49c/ffffff/&text=Ad`,
         redirect_url: `http://${faker.internet.domainName()}`,
         advertiser: faker.company.companyName,
         promotion_id: faker.random.number(1000)

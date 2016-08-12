@@ -1,7 +1,13 @@
 .ContentPreview {
-  background-color: white;
+  background-color: @gray-dark;
   border-bottom: 2px dashed @gray-light;
   border-top: 2px dashed @gray-light;
+
+  &-content {
+    max-width: 500px;
+    margin: auto;
+    background-color: white;
+  }
 }
 
 .ContentPreview-navigation {
@@ -44,24 +50,6 @@
 
 .ContentPreview-summaryProperty:first-child {
   margin-left: 0;
-}
-
-.ContentPreview-helpText {
-  background: white;
-  border: 2px dashed @gray-light;
-  color: @gray-medium;
-  display: inline-block;
-  padding: 5px;
-  position: relative;
-  top: 18px;
-  z-index: 10;
-}
-
-.ContentPreview-helpText--bottom {
-  display: block;
-  margin: 0 auto;
-  padding: 2px 11px;
-  width: 140px;
 }
 
 .ContentPreview-scrollButton:focus {

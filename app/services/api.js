@@ -75,8 +75,8 @@ export default AjaxService.extend({
     });
   },
 
-  getContentPromotion(id) {
-    return this.request(`/contents/${id}/related_promotion`);
+  getContentPromotion(content_id) {
+    return this.request((content_id) ? `/promotion?content_id=${content_id}` : '/promotion');
   },
 
   getListServs() {

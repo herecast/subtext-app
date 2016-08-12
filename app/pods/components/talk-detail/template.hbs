@@ -1,0 +1,119 @@
+<header class="DetailPage-navTop-container">
+  {{#unless isPreview}}
+    <div class="DetailPage-navTop clearfix">
+      {{#unless media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--talk pull-left"}}
+          {{fa-icon 'arrow-left'}} {{closeLabel}}
+        {{/link-to}}
+      {{/unless}}
+
+      {{#if media.isNotMobile}}
+        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--talk"}}
+          {{fa-icon 'close'}}
+        {{/link-to}}
+      {{/if}}
+
+      <div class="pull-right">
+        {{social-share
+        title=model.title
+        sharedBy=session.userName
+        updatedAt=model.updatedAt
+        isTalkChannel=true
+        }}
+      </div>
+    </div>
+  {{/unless}}
+
+  {{#if model.imageUrl}}
+    {{header-image imageUrl=model.imageUrl}}
+  {{/if}}
+</header>
+
+<div class="DetailPage-headerContainer">
+  <div class="DetailPage-headerSection">
+    <h1 class="DetailPage-title h2" data-test-talk-title>{{model.title}}</h1>
+  </div>
+  <div class="DetailPage-headerSection">
+    <div class="DetailPage-headerNav">
+      <div class='DetailPage-headerNavItem'>
+        {{#if talk.authorImageUrl}}
+          <img src="{{model.authorImageUrl}}">
+        {{/if}}
+        <div class='h3'>
+          Discussion started by <span data-test-talk-author-name>{{model.authorName}}</span>
+          <br/>{{formattedPublishedAt}}
+        </div>
+        <p>
+          {{#if model.commentCount}}
+            {{model.commentCount}}&nbsp;{{model.commentCountText}}
+          {{/if}}
+          {{model.viewCount}}&nbsp;{{model.viewCountText}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#unless isPreview}}
+  {{report-content-details
+  contentId=model.contentId
+  }}
+{{/unless}}
+
+<div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-section DetailPage-content">
+    <div class='ContentBody'>
+      {{#expandable-content}}
+        <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
+      {{/expandable-content}}
+    </div>
+  </div>
+</div>
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-startDiscussion'>
+      <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
+        {{#if model.commentCount}}
+          {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
+        {{else}}
+          {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+        {{/if}}
+      </button>
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+      contentModel=model
+      }}
+    </div>
+  </div>
+{{/unless}}
+
+{{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-similarContent">
+      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
+
+      {{similar-content
+      contentId=model.contentId
+      limit=4
+      }}
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-comments">
+      <h2 class='DetailPage-sectionTitle h2'>Talk</h2>
+
+      {{content-comments
+      content=model
+      comments=comments
+      scrollTo=scrollTo
+      displayPromotion=displayPromotion
+      }}
+    </div>
+  </div>
+{{/unless}}

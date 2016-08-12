@@ -1,7 +1,8 @@
-{{#x-modal
+{{#modal-wrapper
   close=(action 'closePreview')
   wrapper-class='ModalDialog-fullScreenWrapper'
   overlay-class='ModalDialog-fullscreenOverlay'
+  showHeader=false
 }}
   <div class='NewsEditor-previewHeader'>
     <div>
@@ -13,11 +14,9 @@
     <div>&nbsp;</div>
   </div>
 
-  <div {{action 'closePreview'}}>
-    {{news-detail
-      model=news
-      isPreview=true
-      hasCaptionOrCredit=hasCaptionOrCredit
-    }}
-  </div>
-{{/x-modal}}
+  {{news-detail
+    model=news
+    isPreview=true
+    hasCaptionOrCredit=hasCaptionOrCredit
+  }}
+{{/modal-wrapper}}

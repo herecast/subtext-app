@@ -5,6 +5,7 @@ import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 moduleForAcceptance('Acceptance | market/index');
 
 test('visiting /market/', function(assert) {
+  assert.expect(2);
   visit('/market/');
 
   andThen(function() {
@@ -14,6 +15,7 @@ test('visiting /market/', function(assert) {
 });
 
 test('visiting /market/ with 10 items lists all 10 items', function(assert) {
+  assert.expect(3);
   server.createList('market-post', 10);
 
   visit('/market/');
@@ -27,6 +29,7 @@ test('visiting /market/ with 10 items lists all 10 items', function(assert) {
 });
 
 test('visiting /market/ with 50 items is paginated', function(assert) {
+  assert.expect(15);
   server.createList('market-post', 50);
 
   visit('/market/');

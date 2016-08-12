@@ -85,7 +85,7 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.show', firstInstanceId).then(() => {
+      this.transitionTo('events.all.show', firstInstanceId).then(() => {
         SocialSharing.createShareCache();
       });
 

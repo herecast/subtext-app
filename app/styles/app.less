@@ -7,6 +7,7 @@
 //
 // UX3 Components
 //
+@import 'components/business-feedback-badge';
 @import 'components/footer-nav';
 @import 'components/main-nav';
 @import 'components/mobile-header';
@@ -19,6 +20,11 @@
 @import 'components/grouped-cards';
 @import 'components/pagination-nav';
 @import 'components/copyright';
+@import 'components/detail-page';
+@import 'components/expandable-content';
+@import 'components/future-event';
+@import 'components/comment';
+@import 'components/ad-banner';
 //
 
 //
@@ -28,7 +34,6 @@
 @import 'components/auth-form';
 @import 'components/back-button';
 @import 'components/button';
-@import 'components/comment';
 @import 'components/comment-bubble';
 @import 'components/comment-section';
 @import 'components/content-body';
@@ -48,7 +53,6 @@
 @import 'components/disabled-checkbox';
 @import 'components/directory-business-detail';
 @import 'components/directory-business-info';
-@import 'components/directory-feedback-display';
 @import 'components/directory-feedback-form';
 @import 'components/directory-feedback-gauge';
 @import 'components/directory-search';
@@ -66,9 +70,9 @@
 @import 'components/featured-content';
 @import 'components/filter-bar';
 @import 'components/floating-side-column';
-@import 'components/future-event';
 @import 'components/google-map';
 @import 'components/gradient-truncation';
+@import 'components/header-image';
 @import 'components/image-editor';
 @import 'components/image-upload';
 @import 'components/inline-edit';
@@ -81,7 +85,6 @@
 @import 'components/nav-tabs';
 @import 'components/news';
 @import 'components/news-editor';
-@import 'components/news-photo-banner';
 @import 'components/no-results';
 @import 'components/organization-dropdown';
 @import 'components/organization-profile';
@@ -89,7 +92,6 @@
 @import 'components/photo-banner';
 @import 'components/promotion-section';
 @import 'components/publish-settings';
-@import 'components/related-promotion';
 @import 'components/report-abuse';
 @import 'components/response-button';
 @import 'components/search-filters';
@@ -100,11 +102,9 @@
 @import 'components/sidebar-widget';
 @import 'components/similar-content';
 @import 'components/social-share';
-@import 'components/stat-circle';
 @import 'components/sticky-item';
 @import 'components/summer-note';
 @import 'components/tab-navigation';
-@import 'components/talk-info';
 @import 'components/terms-of-service';
 @import 'components/text-area';
 @import 'components/thumbnail-image-modal';
@@ -137,6 +137,7 @@
 //
 body {
   background-color: @secondary-bg;
+  overflow: hidden;
 }
 /* The default interferes with app modals */
 body.modal-open > .modal-backdrop {
@@ -155,11 +156,23 @@ main {
   }
 }
 
-// reduce padding on mobile
-.is-mobile [class*=col] {
-  // padding: 0 7px;
-  // TODO this interferes with ux2 detail pages.
-  // We should uncomment this line when new detail pages are in place.
+.ember-application > .ember-view {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+[class*=col-] {
+  padding: 0 7px;
+}
+.row {
+  margin-left: -7px;
+  margin-right: -7px;
 }
 
 // reposition intercom launcher button on mobile

@@ -145,7 +145,7 @@
         <tbody>
           {{#each ads as |ad|}}
             <tr>
-              <td>{{x-truncate text=ad.title maxLength=50}}</td>
+              <td>{{truncate-text text=ad.title maxLength=50}}</td>
               <td class='{{if media.isMobile 'u-textPullRight'}}'>{{moment-format ad.pubdate 'L'}}</td>
               <td class='hidden-xs'>{{ad.impressionCount}}</td>
               <td class='hidden-xs'>{{ad.clickCount}}</td>

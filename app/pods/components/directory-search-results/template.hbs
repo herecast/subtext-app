@@ -1,8 +1,16 @@
-{{#each results as |result|}}
+{{#each results as |result index|}}
+  {{#if (eq index 4)}}
+    <li>
+      <div class='AdBanner-wrapper AdBanner-wrapper--bsd'>
+        {{ad-banner}}
+      </div>
+    </li>
+  {{/if}}
+
   <li class="DirectoryListings-result">
     <div class="listing-info left">
       <div class="name-bar">
-        {{#link-to 'directory.search.show' result}}
+        {{#link-to 'directory.show' result}}
           <h4>{{result.name}}</h4>
         {{/link-to}}
         <div>
@@ -12,12 +20,7 @@
           {{/if}}
         </div>
         <div>
-          {{#if result.feedback_num}}
-            <span class="recommended-badge">{{round (times result.feedback.recommend 100)}}%</span>
-            {{result.feedback_num}} recommend
-          {{else}}
-            <small>Not yet rated</small>
-          {{/if}}
+          {{business-feedback-badge result=result}}
           <span class="miles">({{round (geo-distance result.coords searchCoords) 1}} mi)</span>
         </div>
       </div>

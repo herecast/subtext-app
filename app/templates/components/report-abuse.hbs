@@ -4,13 +4,11 @@
   </div>
 {{else}}
   {{#if session.currentUser}}
-    <button class='ResponseButton btn btn-default btn-link' {{action 'reportAbuse'}}>
-      {{fa-icon 'flag ResponseButton-icon'}}
+    <button class='ResponseButton text-right btn btn-default h6 btn-link' {{action 'reportAbuse'}}>
       Report Abuse
     </button>
   {{else}}
-    {{#link-to 'login' class='ResponseButton h4 btn btn-default btn-link'}}
-      {{fa-icon 'flag ResponseButton-icon'}}
+    {{#link-to 'login' class='ResponseButton pull-right h6 btn btn-default btn-link'}}
       Report Abuse
     {{/link-to}}
   {{/if}}

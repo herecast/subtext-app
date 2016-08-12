@@ -4,8 +4,8 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('content-preview', {
-  needs: ['template:events/show', 'component:content-comments', 'component:report-abuse',
-    'component:fa-icon', 'component:background-image', 'component:x-truncate',
+  needs: ['template:events/all/show', 'component:content-comments', 'component:report-abuse',
+    'component:fa-icon', 'component:background-image', 'component:truncate-text',
     'component:event-map', 'component:event-other-dates']
 });
 

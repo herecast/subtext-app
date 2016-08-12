@@ -50,7 +50,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const match = new RegExp(`^events\\.edit`);
       const isExitingForm = !transition.targetName.match(match);
-      const isTransitioningToShowPage = transition.targetName === 'events.show';
+      const isTransitioningToShowPage = transition.targetName === 'events.all.show';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -92,7 +92,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
         event.set('listservIds',[]);
       });
 
-      this.transitionTo('events.show', firstInstanceId).then(() => {
+      this.transitionTo('events.all.show', firstInstanceId).then(() => {
         SocialSharing.updateShareCache();
       });
     },
