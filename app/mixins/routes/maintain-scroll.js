@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
     willTransition(transition) {
       let scrollPosition;
 
-      if (!(this.routeName == 'directory') && transition.targetName === 'directory.index') {
+      if ((this.routeName !== 'directory') && transition.targetName === 'directory.index') {
         Ember.$('.ember-application > .ember-view').scrollTop(0);
 
         this.controller.set('scrollPosition', 0);

@@ -2,11 +2,8 @@
   {{#if (eq ctype 'news')}}
     {{news-detail
     model=model
-    organizations=organizations
-    hasCaptionOrCredit=hasCaptionOrCredit
     closeRoute='index'
     closeLabel='DailyUV'
-    canEdit=canEdit
     isPreview=false
     }}
   {{else if (eq ctype 'event')}}

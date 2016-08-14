@@ -71,6 +71,16 @@
 </div>
 
 {{#unless isPreview}}
+  {{#if model.canEdit}}
+    {{edit-content-link
+    contentId=model.id
+    route='talk.edit'
+    text='Edit Talk'
+    }}
+  {{/if}}
+{{/unless}}
+
+{{#unless isPreview}}
   <div class='DetailPage-sectionWrapper'>
     <div class='DetailPage-section DetailPage-startDiscussion'>
       <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>

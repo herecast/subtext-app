@@ -100,7 +100,7 @@
 {{/unless}}
 
 {{#unless isPreview}}
-  {{#if canEdit}}
+  {{#if model.canEdit}}
     {{edit-content-link
     contentId=model.id
     route='market.edit'

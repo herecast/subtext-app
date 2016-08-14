@@ -151,7 +151,7 @@
 </div>
 
 {{#unless isPreview}}
-  {{#if canEdit}}
+  {{#if model.canEdit}}
     {{edit-content-link
     contentId=model.eventId
     route='events.edit'
