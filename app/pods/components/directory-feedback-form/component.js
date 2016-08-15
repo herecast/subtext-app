@@ -59,10 +59,10 @@ export default Ember.Component.extend({
     },
 
     submitFeedback() {
-      const api = get(this, 'api');
-      const modelId = get(this, 'model.id');
-      const rating = get(this, 'userRating');
-      const hasRated = get(this, 'hasRated');
+      const api = get(this, 'api'),
+            modelId = get(this, 'model.id'),
+            rating = get(this, 'userRating'),
+            hasRated = get(this, 'hasRated');
 
       let feedbackToSend = {
         feedback: {

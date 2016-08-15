@@ -11,21 +11,23 @@
 
   {{directory-business-info myCoords=myCoords model=model}}
 
-  <div class="DirectoryBusiness-buttonWrap">
-    <h2 class="h2">Is this your business?</h2>
-    <p class="text-center">
-      {{#if model.canEdit}}
-        <button class='DirectoryBusiness-directoryButton' {{action 'showEditForm'}}>Edit Business</button>
-      {{else}}
-        <a href="{{claimEmail}}" class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
-      {{/if}}
+  <div class="DetailPage-sectionWrapper">
+    <div class='DetailPage-section DirectoryBusiness-buttonWrap'>
+      <h2 class="h2">Is this your business?</h2>
+      <p class="text-center">
+        {{#if model.canEdit}}
+          <button class='DirectoryBusiness-directoryButton' {{action 'showEditForm'}}>Edit Business</button>
+        {{else}}
+          <a href="{{claimEmail}}" class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
+        {{/if}}
 
-      or
+        or
 
-      <a href="{{reportIncorrectInfoEmail}}" class="DirectoryBusiness-reportButton">
-        Report Info
-      </a>
-    </p>
+        <a href="{{reportIncorrectInfoEmail}}" class="DirectoryBusiness-reportButton">
+          Report Info
+        </a>
+      </p>
+    </div>
   </div>
 {{/modal-wrapper}}
 
