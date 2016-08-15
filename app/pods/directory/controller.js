@@ -46,12 +46,14 @@ export default Ember.Controller.extend({
   searchBusinesses: computed('lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page', function() {
     set(this, 'isLoading', true);
 
-    const category_id = get(this, 'category.id');
+    const category_id = get(this, 'category_id');
     const query = get(this, 'query');
 
     if (isEmpty(query) && isEmpty(category_id)) {
+      set(this, 'isLoading', false);
       return [];
     }
+
 
     let apiQuery = {
       query: query,
@@ -82,7 +84,7 @@ export default Ember.Controller.extend({
     return this.store.findAll('business-category');
   }),
 
-  category: computed('category_id', function() {
+  category: computed('category_id', 'categories.[]', function() {
     const categoryId = get(this, 'category_id');
     return isPresent(categoryId) ? get(this, 'categories').findBy('id', categoryId) : null;
   }),
