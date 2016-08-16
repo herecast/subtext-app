@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import TrackCard from 'subtext-ui/mixins/components/track-card';
 import moment from 'moment';
 
 const { get, computed } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackCard, {
   attributeBindings: ['data-test-news-card'],
   'data-test-news-card': computed.oneWay('item.title'),
 

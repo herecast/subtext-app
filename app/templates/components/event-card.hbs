@@ -1,7 +1,9 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
     {{#link-to 'events.all.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-      {{title}}
+      <span {{action 'trackSuggestedContentClick'}}>
+        {{title}}
+      </span>
     {{/link-to}}
   </h2>
 
@@ -23,7 +25,9 @@
         {{else}}
           <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
             {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
+              <span {{action 'trackSuggestedContentClick'}}>
                 {{title}}
+              </span>
             {{/link-to}}
           </h2>
         {{/if}}
@@ -51,7 +55,9 @@
       <div class="media-right">
         {{#if event.imageUrl}}
           {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-            <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+            <span {{action 'trackSuggestedContentClick'}}>
+              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+            </span>
           {{/link-to}}
         {{else}}
           <div class='media-object Card-image-tile'></div>
@@ -67,7 +73,9 @@
         <div class="media-left">
           {{#if event.imageUrl}}
             {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+              <span {{action 'trackSuggestedContentClick'}}>
+                <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+              </span>
             {{/link-to}}
           {{else}}
             <div class='media-object Card-image-tile'></div>
@@ -81,7 +89,9 @@
         {{else}}
           <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
             {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
+              <span {{action 'trackSuggestedContentClick'}}>
                 {{title}}
+              </span>
             {{/link-to}}
           </h2>
         {{/if}}
@@ -109,7 +119,9 @@
         <div class="media-right">
           {{#if event.imageUrl}}
             {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+              <span {{action 'trackSuggestedContentClick'}}>
+                <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+              </span>
             {{/link-to}}
           {{else}}
             <div class='media-object Card-image-tile'></div>

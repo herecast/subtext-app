@@ -1,7 +1,9 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
     {{#link-to 'news.all.show' item.id}}
-      {{item.title}}
+      <span {{action 'trackSuggestedContentClick'}}>
+        {{item.title}}
+      </span>
     {{/link-to}}
   </h2>
 
@@ -14,7 +16,9 @@
           {{#if hasImage}}
             <div class='Card-imageContainer'>
               {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
-                <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                <span {{action 'trackSuggestedContentClick'}}>
+                  <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                </span>
               {{/link-to}}
             </div>
           {{/if}}
@@ -26,9 +30,13 @@
           <h2 class='Card-title' {{action 'onTitleClick'}}>
             {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title}}
               {{#if isNewsIndex}}
-                {{truncate-text text=item.title maxLength=(if media.isDesktop 70 20) tagName='span'}}
+                <span {{action 'trackSuggestedContentClick'}}>
+                  {{truncate-text text=item.title maxLength=(if media.isDesktop 70 20) tagName='span'}}
+                </span>
               {{else}}
-                <span>{{item.title}}</span>
+                <span {{action 'trackSuggestedContentClick'}}>
+                  {{item.title}}
+                </span>
               {{/if}}
             {{/link-to}}<br />
           </h2>
@@ -49,7 +57,9 @@
           {{#if hasImage}}
             <div class='Card-imageContainer'>
               {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
-                <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                <span {{action 'trackSuggestedContentClick'}}>
+                  <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                </span>
               {{/link-to}}
             </div>
           {{/if}}
@@ -60,7 +70,9 @@
     {{#if hasImage}}
       <div class='Card-imageContainer'>
         {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') classNameBindings="isSimilarContent:SimilarContentLink"}}
-          <div class='Card-image img-responsive' style="background-image:url({{item.imageUrl}})"></div>
+          <span {{action 'trackSuggestedContentClick'}}>
+            <div class='Card-image img-responsive' style="background-image:url({{item.imageUrl}})"></div>
+          </span>
         {{/link-to}}
       </div>
     {{/if}}
@@ -69,7 +81,9 @@
       <div class='Card-titleGroup'>
         <h2 class='Card-title'>
           {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title }}
-            {{item.title}}
+            <span {{action 'trackSuggestedContentClick'}}>
+              {{item.title}}
+            </span>
           {{/link-to}}<br />
         </h2>
 

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TrackCard from 'subtext-ui/mixins/components/track-card';
 
 const {
   get,
@@ -6,7 +7,7 @@ const {
   computed
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TrackCard, {
   classNameBindings: ['event.registrationDeadline:hasInfoBanner'],
   isPreview: false,
   venueName: computed.oneWay('event.venueName'),

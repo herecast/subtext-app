@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import TrackEvent from 'subtext-ui/mixins/track-event';
+/* global dataLayer */
 
 const {
   get
@@ -35,7 +36,20 @@ export default Ember.Mixin.create(TrackEvent, {
           contentOrganization: get(content, 'organizationName')
         });
       }
+    },
 
-    }
+    trackSuggestedContentClick() {
+      if (get(this, 'isSimilarContent')) {
+        if (typeof dataLayer !== "undefined") {
+          dataLayer.push({
+            'event'         : "VirtualSimilarContentClick",
+            'content_id'    : get(this, 'sourceContentId'),
+            'content_title' : get(this, 'title')
+          });
+        }
+      }
+
+      return true;
+    }    
   }
 });
