@@ -1,15 +1,22 @@
 <article class='OrganizationProfile Container--noGutter'>
-  <header class='OrganizationProfile-header row'>
-    <h1 class='OrganizationProfile-headerTitle col-sm-9' data-test-organization-name>
-      <span>{{model.name}}</span>
-    </h1>
-    <div class='OrganizationProfile-connect col-sm-3 hidden-xs'>
-      {{#if model.subscribeUrl}}
-        <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
-          {{fa-icon 'heart'}}
-          Subscribe
-        </a>
-      {{/if}}
+  <header class='OrganizationProfile-header'>
+    <div class='row'>
+      <div class='col-sm-9'>
+        <h1 class='OrganizationProfile-headerTitle h1' data-test-organization-name>
+          <span>{{model.name}}</span>
+        </h1>
+      </div>
+
+      <div class='col-sm-3'>
+        <div class='OrganizationProfile-connect hidden-xs'>
+          {{#if model.subscribeUrl}}
+            <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+              {{fa-icon 'heart'}}
+              Subscribe
+            </a>
+          {{/if}}
+        </div>
+      </div>
     </div>
   </header>
 
