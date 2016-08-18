@@ -22,6 +22,7 @@
       </div>
     </div>
   {{/unless}}
+
   {{#if activeImage}}
     {{header-image imageUrl=activeImage}}
   {{/if}}
@@ -40,34 +41,40 @@
   </div>
   <div class="DetailPage-headerSection">
     <div class="DetailPage-headerNav">
-      {{#if model.contactEmail}}
-        <div class="DetailPage-headerNavItem">
-          <a href='mailto:{{model.contactEmail}}' target='_blank'>
-            <p>{{fa-icon 'reply' size=2}}</p>
-            Email
-          </a>
-        </div>
-      {{/if}}
+      {{#if hasClickedReplyButton}}
+        {{#if model.contactEmail}}
+          <div class="DetailPage-headerNavItem">
+            <a href='mailto:{{model.contactEmail}}' target='_blank'>
+              <p>{{fa-icon 'reply' size=2}}</p>
+              Email
+            </a>
+          </div>
+        {{/if}}
 
-      {{#if model.contactPhone}}
-        <div class="DetailPage-headerNavItem">
-          <a href="tel:+1{{model.contactPhone}}">
-            <p>{{fa-icon 'phone' size=2}}</p>
-            {{#if media.isMobile}}
-              Call
-            {{else}}
-              {{formatted-phone model.contactPhone}}
-            {{/if}}
-          </a>
-        </div>
-      {{/if}}
+        {{#if model.contactPhone}}
+          <div class="DetailPage-headerNavItem">
+            <a href="tel:+1{{model.contactPhone}}">
+              <p>{{fa-icon 'phone' size=2}}</p>
+              {{#if media.isMobile}}
+                Call
+              {{else}}
+                {{formatted-phone model.contactPhone}}
+              {{/if}}
+            </a>
+          </div>
+        {{/if}}
 
-      {{#if model.address}}
+        {{#if model.address}}
+          <div class="DetailPage-headerNavItem">
+            <a href='{{model.directionsLink}}' target='_blank'>
+              <p>{{fa-icon 'map-marker' size=2}}</p>
+              Map
+            </a>
+          </div>
+        {{/if}}
+      {{else}}
         <div class="DetailPage-headerNavItem">
-          <a href='{{model.directionsLink}}' target='_blank'>
-            <p>{{fa-icon 'map-marker' size=2}}</p>
-            Map
-          </a>
+          <button class='Button btn btn-default Button--market' {{action 'clickReplyButton'}}>Contact Seller</button>
         </div>
       {{/if}}
     </div>

@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   closeRoute: 'market.all',
   closeLabel: 'Market',
 
+  hasClickedReplyButton: false,
+
   activeImage: computed.oneWay('model.coverImageUrl'),
 
   showThumbnails: computed('model.images.[]', function() {
@@ -15,6 +17,12 @@ export default Ember.Component.extend({
   actions: {
     chooseImage(imageUrl) {
       set(this, 'activeImage', imageUrl);
+    },
+
+    clickReplyButton() {
+      get(this, 'model').loadContactInfo().then(() => {
+        this.toggleProperty('hasClickedReplyButton');
+      });
     }
   }
 });
