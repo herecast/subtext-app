@@ -1,6 +1,7 @@
+/* global dataLayer */
+
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
-/* global dataLayer */
 
 const {
   get,
@@ -13,6 +14,8 @@ const {
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
   promotionService: inject.service('promotion'),
+
+  lastRefreshDate: null,
 
   _canSendImpression: true,
 
@@ -64,18 +67,29 @@ export default Ember.Component.extend(InViewportMixin, {
     }
 
     get(this, 'promotionService').find(contentId).then(promotion => {
-      set(this, 'promotion', promotion);
+      if (!get(this, 'isDestroyed')) {
+        set(this, 'promotion', promotion);
 
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event'         : 'VirtualAdLoaded',
-          'advertiser'    : promotion.organization_name,
-          'promotion_id'  : promotion.promotion_id,
-          'banner_id'     : promotion.banner_id,
-          'redirect_url'  : promotion.redirect_url,
-        });
+        if (typeof dataLayer !== "undefined") {
+          dataLayer.push({
+            'event'         : 'VirtualAdLoaded',
+            'advertiser'    : promotion.organization_name,
+            'promotion_id'  : promotion.promotion_id,
+            'banner_id'     : promotion.banner_id,
+            'redirect_url'  : promotion.redirect_url
+          });
+        }
       }
     });
+  },
+
+  didUpdateAttrs({ newAttrs }) {
+    // Reload the promotion if the last refresh date has changed
+    if ('lastRefreshDate' in newAttrs && newAttrs.lastRefreshDate !== get(this, 'lastRefreshDate')) {
+      this._getPromotion();
+    }
+
+    this._super(...arguments);
   },
 
   didInsertElement() {
@@ -102,7 +116,7 @@ export default Ember.Component.extend(InViewportMixin, {
           'advertiser'   : get(this, 'promotion.organization_name'),
           'promotion_id' : get(this, 'promotion.promotion_id'),
           'banner_id'    : get(this, 'promotion.banner_id'),
-          'redirect_url' : get(this, 'promotion.redirect_url'),
+          'redirect_url' : get(this, 'promotion.redirect_url')
         });
       }
     }

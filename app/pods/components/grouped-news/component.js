@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import moment from 'moment';
 
-const { computed, observer, run } = Ember;
+const { computed, set } = Ember;
 
 function item(number) {
   return Ember.computed('orderedNews.[]', function() {
@@ -12,14 +13,18 @@ function item(number) {
 export default Ember.Component.extend({
   news: [],
 
+  lastRefreshDate: null,
+
   orderedNews: computed('news.@each.publishedAt', function() {
     return this.get('news').sortBy('publishedAt').toArray().reverse();
   }),
 
-  refreshOnReload: observer('news.@each.id', function() {
-    // ensure adbanner refreshes when we have new data
-    run.once(this, this.rerender);
-  }),
+  didReceiveAttrs({ newAttrs }) {
+    this._super(...arguments);
+    if ('news' in newAttrs) {
+      set(this, 'lastRefreshDate', moment().format());
+    }
+  },
 
   item1: item(1),
   item2: item(2),
