@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
-import ResetModalScroll from 'subtext-ui/mixins/routes/reset-modal-scroll';
+import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 
 const { get, set } = Ember;
 
-export default Ember.Route.extend(RouteMetaMixin, ResetModalScroll, {
+export default Ember.Route.extend(ModalRoute, RouteMetaMixin, {
   contentComments: Ember.inject.service('content-comments'),
 
   modelImageKey: 'imageUrl',

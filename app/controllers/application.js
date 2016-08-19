@@ -28,7 +28,6 @@ export default Ember.Controller.extend(trackEvent, {
   modals: inject.service(),
 
   onPathChange: Ember.observer('currentPath', function() {
-    get(this, 'modals').clearModals();
   }),
 
   currentController: inject.service('current-controller'),
@@ -133,6 +132,10 @@ export default Ember.Controller.extend(trackEvent, {
 
     signOut() {
       get(this, 'session').signOut();
+    },
+
+    scrollTo(offset) {
+      Ember.$(window).scrollTop(offset);
     }
   }
 });

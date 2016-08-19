@@ -2,8 +2,10 @@ import Ember from 'ember';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 export default Ember.Controller.extend(TrackEvent, {
-  queryParams: ['scrollTo'],
-  scrollTo: null,
+  queryParams: {
+    scrollToAnchor: 'scrollTo'
+  },
+  scrollToAnchor: null,
 
   actions: {
     trackEventInfoClick(type) {

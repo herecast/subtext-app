@@ -9,6 +9,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   mixpanel: inject.service(),
   history: inject.service(),
   search: inject.service(),
+  modals: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -64,6 +65,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
       run(() => {
         this.trackEvent('pageLeave');
       });
+      get(this, 'modals').clearModals();
     },
 
     didTransition() {

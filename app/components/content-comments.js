@@ -5,32 +5,32 @@ const { computed, on } = Ember;
 export default Ember.Component.extend({
   contentComments: Ember.inject.service('content-comments'),
   comments: [],
-  scrollTo: null,
+  scrollToAnchor: null,
   displayPromotion: false,
 
   contentTitle: Ember.computed.oneWay('content.title'),
   contentId: Ember.computed.oneWay('content.contentId'),
   commentingDisabled: Ember.computed.oneWay('content.isNew'),
 
-  activeCommentId: computed('scrollTo', function() {
-    const scrollTo = this.get('scrollTo');
+  activeCommentId: computed('scrollToAnchor', function() {
+    const anchor = this.get('scrollToAnchor');
 
-    if (Ember.isPresent(scrollTo)) {
-      return scrollTo.split('-')[1];
+    if (Ember.isPresent(anchor)) {
+      return anchor.split('-')[1];
     }
   }),
 
   scrollToComment: function() {
-    const scrollTo = this.get('scrollTo');
+    const anchor = this.get('scrollToAnchor');
 
-    if (Ember.isPresent(scrollTo)) {
-      const $elem = Ember.$(`[data-anchor="${scrollTo}"]`);
+    if (Ember.isPresent(anchor)) {
+      const $elem = this.$(`[data-anchor="${anchor}"]`);
       const offset = ($elem && $elem.offset && $elem.offset()) ? $elem.offset().top : null;
 
       $elem.addClass('is-active');
 
       if (offset) {
-        Ember.$('.ember-application > .ember-view').scrollTop(offset - 100);
+        this.attrs.scrollTo(offset - 100);
       }
     }
   },

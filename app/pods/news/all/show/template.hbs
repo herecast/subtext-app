@@ -1,6 +1,8 @@
-{{#modal-wrapper class="Modal--no-padding" close=(action 'closeNewsDetailPage') showHeader=false}}
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeNewsDetailPage') showHeader=false as |modal|}}
   {{news-detail
     model=model
     isPreview=false
+    scrollToAnchor=scrollToAnchor
+    scrollTo=(action "scrollTo" target=modal)
   }}
 {{/modal-wrapper}}

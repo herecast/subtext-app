@@ -22,5 +22,12 @@ export default Ember.Component.extend({
     run.next(()=>{
       set(this, 'visible', true);
     });
+  },
+
+  actions: {
+    scrollTo(offset) {
+      this.$().scrollTop(offset);
+    }
   }
+
 });

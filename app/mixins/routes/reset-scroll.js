@@ -5,7 +5,7 @@ export default Ember.Mixin.create({
     didTransition() {
       this._super(...arguments);
 
-      Ember.$('.ember-application > .ember-view').scrollTop(0);
+      this.send('scrollTo', 0);
     }
   }
 });

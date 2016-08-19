@@ -2,13 +2,13 @@ import Ember from 'ember';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
-import ResetModalScroll from 'subtext-ui/mixins/routes/reset-modal-scroll';
+import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 
 import Dates from 'subtext-ui/lib/dates';
 
 const { get, set } = Ember;
 
-export default Ember.Route.extend(RouteMetaMixin, Redirect, DocTitleFromContent, ResetModalScroll, {
+export default Ember.Route.extend(ModalRoute, RouteMetaMixin, Redirect, DocTitleFromContent, {
   modelImageKey: 'imageUrl',
   modelChannel: 'events',
 

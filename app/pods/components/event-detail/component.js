@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
+import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
-export default Ember.Component.extend(ScrollToTalk, {
+export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:isPreview'],
   model: null,
@@ -10,11 +11,11 @@ export default Ember.Component.extend(ScrollToTalk, {
 
   actions: {
     scrollToMoreContent() {
-      const elem = Ember.$('.DetailPage-moreContent');
+      const elem = this.$('.DetailPage-moreContent');
       const offset = (elem && elem.offset && elem.offset()) ? elem.offset().top : null;
 
       if (offset) {
-        Ember.$('.Modal').scrollTop(offset);
+        this.attrs.scrollTo(offset);
       }
     }
   }

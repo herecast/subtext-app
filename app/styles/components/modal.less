@@ -1,6 +1,6 @@
 .Modal {
-  width: 100vw;
-  height: 100%;
+  width: 100%;
+  height: 100vh;
   background: rgba(3,3,3, 0.4);
   position: fixed;
   top: 0;
@@ -8,7 +8,9 @@
   right: 0;
   bottom: 0;
   z-index: 100;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 
   &--no-padding {
     .Modal-dialog {
@@ -26,6 +28,7 @@
     box-shadow: 3px 3px 15px #333;
     padding: 10px;
     margin: auto;
+    margin-bottom: 2em;
     transform: translateX(-50%) translateY(50%);
     opacity: 0;
     transition: all 0.3s;
@@ -37,13 +40,13 @@
     }
 
     &--fullscreen {
-      width: 100vw;
-      height: 100%;
+      margin-bottom: 0;
+      width: 100%;
+      height: auto;
       position: absolute;
       top: 0;
       left: 0;
       transform: none;
-      overflow: auto;
       transform: translateY(50%);
 
       &.Modal-dialog--visible {

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Linkable from 'ember-cli-link-tags/mixins/linkable';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
+import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 
 const { get, set } = Ember;
 
@@ -16,7 +17,7 @@ function canonicalUrlFor(type, id) {
   return `${location.protocol}//${location.host}/${ctype}/${id}`;
 }
 
-export default Ember.Route.extend(Linkable, {
+export default Ember.Route.extend(ModalRoute, Linkable, {
   links() {
     const type = this.currentModel._internalModel.modelName;
     const id = this.currentModel.id;

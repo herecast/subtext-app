@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
 const { get, set, computed } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ModelResetScroll, {
   closeRoute: 'market.all',
   closeLabel: 'Market',
 

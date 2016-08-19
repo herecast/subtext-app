@@ -68,7 +68,7 @@ export default Ember.Component.extend(Validation, {
   }),
 
   scrollTop() {
-    $('.ember-application > .ember-view').animate({scrollTop: 0}, '100');
+    $(window).animate({scrollTop: 0}, '100');
   },
 
   _closeBusinessProfileForm() {

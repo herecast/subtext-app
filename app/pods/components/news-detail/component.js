@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
+import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
 const { computed, get } = Ember;
 
-export default Ember.Component.extend(ScrollToTalk, {
+export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeRoute: 'news.all',
   closeLabel: 'News',
   isPreview: false,
@@ -21,5 +22,6 @@ export default Ember.Component.extend(ScrollToTalk, {
   hasCaptionOrCredit: computed('model.bannerImage.{caption,credit}', function() {
     return Ember.isPresent(this.get('model.bannerImage.caption')) ||
       Ember.isPresent(this.get('model.bannerImage.credit'));
-  })
+  }),
+
 });

@@ -137,7 +137,10 @@
 //
 body {
   background-color: @secondary-bg;
-  overflow: hidden;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 /* The default interferes with app modals */
 body.modal-open > .modal-backdrop {
@@ -154,17 +157,6 @@ main {
       padding-top: 36px;
     }
   }
-}
-
-.ember-application > .ember-view {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
 }
 
 [class*=col-] {

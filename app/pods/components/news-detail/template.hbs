@@ -153,8 +153,9 @@
       <h2 class='DetailPage-sectionTitle h2'>Talk</h2>
 
       {{content-comments
-      content=model
-      scrollTo=scrollTo
+        content=model
+        scrollToAnchor=scrollToAnchor
+        scrollTo=(action scrollTo)
       }}
     </div>
   </div>

@@ -1,8 +1,9 @@
 import Ember from 'ember';
-import ResetModalScroll from 'subtext-ui/mixins/routes/reset-modal-scroll';
+import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
+
 const { get, set } = Ember;
 
-export default Ember.Route.extend(ResetModalScroll, {
+export default Ember.Route.extend(ModalRoute, {
 
   model(params) {
     return this.store.findRecord('business-profile', params.id);

@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
 
       if (scrollPosition) {
         Ember.run.later(function() {
-          Ember.$('.ember-application > .ember-view').scrollTop(scrollPosition);
+          Ember.$(window).scrollTop(scrollPosition);
         });
       }
 
@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
       let scrollPosition;
 
       if ((this.routeName !== 'directory') && transition.targetName === 'directory.index') {
-        Ember.$('.ember-application > .ember-view').scrollTop(0);
+        Ember.$(window).scrollTop(0);
 
         this.controller.set('scrollPosition', 0);
 
@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
       }
 
       if (transition.state.queryParams.page) {
-        Ember.$('.ember-application > .ember-view').scrollTop(0);
+        Ember.$(window).scrollTop(0);
 
         scrollPosition = 0;
       } else {

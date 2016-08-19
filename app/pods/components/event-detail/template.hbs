@@ -48,12 +48,19 @@
   <div class="DetailPage-headerSection">
     <div class="DetailPage-headerNav">
       <div class="DetailPage-headerNavItem">
-        <p>{{fa-icon 'dollar' size=2}}</p>
         {{#if model.costType}}
-          <div {{action 'scrollToMoreContent'}}>
-            <span class='DetailPage-costType'>{{model.formattedCostType}}</span>
+          <p>
+            <a href="#" {{action 'scrollToMoreContent'}}>
+              {{fa-icon 'dollar' size=2}}
+            </a>
+          </p>
+          <div>
+            <a href="#" {{action 'scrollToMoreContent'}}>
+              <span class='DetailPage-costType'>{{model.formattedCostType}}</span>
+            </a>
           </div>
         {{else}}
+          <p>{{fa-icon 'dollar' size=2}}</p>
            &mdash;
         {{/if}}
       </div>
@@ -177,8 +184,9 @@
       <h1 class='DetailPage-sectionTitle h2'>Talk</h1>
 
       {{content-comments
-      content=model
-      scrollTo=scrollTo
+        content=model
+        scrollToAnchor=scrollToAnchor
+        scrollTo=(action scrollTo)
       }}
     </div>
   </div>

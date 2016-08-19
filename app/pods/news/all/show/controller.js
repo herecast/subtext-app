@@ -1,8 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ['scrollTo'],
-  scrollTo: null,
+  queryParams: {
+    scrollToAnchor: 'scrollTo'
+  },
+  scrollToAnchor: null,
 
   actions: {
     closeNewsDetailPage() {

@@ -1,3 +1,7 @@
-{{#modal-wrapper class="Modal--no-padding" close=(action 'closeEventDetailPage') showHeader=false}}
-  {{event-detail model=model}}
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeEventDetailPage') showHeader=false as |modal|}}
+  {{event-detail
+    model=model
+    scrollToAnchor=scrollToAnchor
+    scrollTo=(action 'scrollTo' target=modal)
+  }}
 {{/modal-wrapper}}

@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ['scrollTo', 'ctype'],
+  queryParams: {
+    scrollToAnchor: 'scrollTo',
+    ctype: 'ctype'
+  },
+  scrollToAnchor: null,
   ctype: 'talk',
 
   displayPromotion: true,
