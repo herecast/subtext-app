@@ -7,14 +7,14 @@
       hasCaptionOrCredit=hasCaptionOrCredit
       isPreview=false
       scrollTo=(action "scrollTo" target=modal)
-      scrollToAnchor=scrollToAnchor
+      scrollToAnchor=scrollTo
     }}
   {{else if (eq ctype 'event-instance')}}
     {{event-detail
       model=model
       closeRoute='talk.all'
       scrollTo=(action "scrollTo" target=modal)
-      scrollToAnchor=scrollToAnchor
+      scrollToAnchor=scrollTo
     }}
   {{else if (eq ctype 'market-post')}}
     {{market-detail
@@ -26,7 +26,7 @@
       model=model
       closeRoute='talk.all'
       scrollTo=(action "scrollTo" target=modal)
-      scrollToAnchor=scrollToAnchor
+      scrollToAnchor=scrollTo
     }}
   {{/if}}
 {{/modal-wrapper}}
