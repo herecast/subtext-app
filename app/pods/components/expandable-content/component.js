@@ -7,13 +7,12 @@ export default Ember.Component.extend({
 
   isExpanded: false,
   height: 300,
-  needsToggleButton: true,
+  needsToggleButton: false,
 
-  contentStyle: computed('height', 'isExpanded', function() {
-    const isExpanded = get(this, 'isExpanded');
-    const needsToggleButton = get(this, 'needsToggleButton');
+  contentStyle: computed('height', 'isContentExpanded', function() {
+    const isContentExpanded = get(this, 'isContentExpanded');
     const height = get(this, 'height');
-    const style = (isExpanded || ! needsToggleButton) ? '' : `max-height: ${height}px;`;
+    const style = (isContentExpanded) ? '' : `max-height: ${height}px;`;
 
     return Ember.String.htmlSafe(style);
   }),
@@ -22,22 +21,38 @@ export default Ember.Component.extend({
     const isExpanded = get(this, 'isExpanded');
     const needsToggleButton = get(this, 'needsToggleButton');
 
-    return (isExpanded || ! needsToggleButton);
+    return (isExpanded || !needsToggleButton);
   }),
+
+  computeNeedsToggle() {
+    const $content = this.$('.ExpandableContent-contentWrapper');
+    const maxHeight = get(this, 'height');
+
+    if ($content[0].scrollHeight >= maxHeight) {
+      Ember.run.next(this, function() {
+        set(this, 'needsToggleButton', true);
+      });
+      return true;
+    } else {
+      Ember.run.next(this, function() {
+        set(this, 'needsToggleButton', false);
+      });
+      return false;
+    }
+  },
 
   didRender() {
     this._super(...arguments);
 
-    // Hide toggle button if original height of content is <= its collapsed height
-    const $this = this.$();
-    if ($this) {
-      const $content = $this.find('.ExpandableContent-contentWrapper');
-      if ($content.length && $content[0].scrollHeight <= get(this, 'height')) {
-        Ember.run.next(this, function() {
-          set(this, 'needsToggleButton', false);
-        });
+    let maxHeightReached = false;
+
+    this.$('img').on('load', () => {
+      if(!maxHeightReached) {
+        maxHeightReached = this.computeNeedsToggle();
       }
-    }
+    });
+
+    maxHeightReached = this.computeNeedsToggle();
   },
 
   actions: {
