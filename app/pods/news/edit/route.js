@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const { get, inject, run } = Ember;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RequireCanEdit, {
   titleToken: 'Edit News',
 
   delayedJobs: inject.service(),

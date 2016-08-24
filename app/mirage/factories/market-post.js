@@ -7,13 +7,12 @@ const imageUrl = 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Market+List
 export default Mirage.Factory.extend({
   title() { return titleize(faker.lorem.sentences(1)); },
   content() { return faker.lorem.sentences(5); },
-  contentId(id) { return id; },
+  contentId(i) { return i+1; },
   publishedAt() { return moment(faker.date.recent(-30)).toISOString(); },
   updatedAt() { return moment(faker.date.recent(-30)); },
   imageUrl(id) {
     return (id % 2 === 0) ? imageUrl : null;
   },
-  canEdit: true,
   hasContactInfo(id) { return (id % 2 === 0); }, // only some posts will have contact info
   price: '$110, OBO',
   myTownOnly() { return faker.random.boolean(); },
@@ -36,5 +35,6 @@ export default Mirage.Factory.extend({
   address() { return faker.address.streetAddress(); },
   city: "Norwich",
   state: 'VT',
-  zip: '05055'
+  zip: '05055',
+  canEdit: true
 });

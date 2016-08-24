@@ -6,6 +6,7 @@ const { get, isPresent, set, computed } = Ember;
 
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
+  "data-test-component": 'EventForm',
   event: computed.alias('model'),
   schedules: null,
   error: null,

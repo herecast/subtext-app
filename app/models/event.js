@@ -15,6 +15,7 @@ export default DS.Model.extend(BaseEvent, {
   api: inject.service('api'),
   category: DS.attr('string'),
   firstInstanceId: DS.attr('number'),
+  canEdit: DS.attr('boolean', {defaultValue: false}),
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   listservIds: DS.attr('raw', {defaultValue: function() { return []; }}),

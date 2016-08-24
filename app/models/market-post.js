@@ -14,7 +14,7 @@ export default DS.Model.extend({
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
-  canEdit: DS.attr('boolean'),
+  canEdit: DS.attr('boolean', {defaultValue: false}),
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),

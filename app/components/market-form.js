@@ -7,6 +7,7 @@ const { set } = Ember;
 
 export default Ember.Component.extend(Validation, TrackEvent, {
   tagName: 'form',
+  "data-test-component": 'MarketForm',
   post: Ember.computed.alias('model'),
   organizations: oneWay('session.currentUser.managedOrganizations'),
 

@@ -2,13 +2,14 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
   discardRecord(model) {
     // Ember data doesn't automatically rollback relationship records, so we
     // need to do that manually if the event is rolled back.

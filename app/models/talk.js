@@ -25,6 +25,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   viewCount: DS.attr('number'),
   organization: DS.belongsTo('organization'),
+  canEdit: DS.attr('boolean', {defaultValue: false}),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
 

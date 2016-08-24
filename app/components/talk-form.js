@@ -5,6 +5,7 @@ const {set, computed, computed: { oneWay } } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
+  "data-test-component": 'TalkForm',
   talk: Ember.computed.alias('model'),
   organizations: oneWay('session.currentUser.managedOrganizations'),
   image: computed.alias('model.image'),

@@ -16,7 +16,7 @@ const {
 
 export default Ember.Component.extend(Validation, {
   classNames: ['NewsEditor'],
-
+  "data-test-component": "NewsEditor",
   showDevFlags: false,
   news: null,
   showPreview: false,

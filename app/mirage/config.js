@@ -37,7 +37,7 @@ const eventBaseProperties = [
   'venue_zip', 'venue_id', 'venue_latitude', 'venue_longitude',
   'venue_locate_name', 'venue_url', 'registration_deadline',
   'registration_url', 'registration_phone', 'registration_email',
-  'event_url', 'contact_phone', 'contact_email',
+  'event_url', 'contact_phone', 'contact_email','can_edit',
   'title', 'subtitle', 'ends_at', 'starts_at', 'event_id', 'publishedAt'
 ];
 
@@ -294,12 +294,13 @@ export default function() {
 
   this.get('/event_instances/:id', 'event-instance');
 
-  this.get('/events/:id', function({ db }, request) {
-    const event = db.events.find(request.params.id);
+  this.get('/events/:id', function({ events }, request) {
+    /*const event = db.events.find(request.params.id);
     const baseProperties = Ember.copy(eventBaseProperties);
     const showProperties = [
       'contentId', 'category'
     ];
+    debugger;
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
 
@@ -308,6 +309,8 @@ export default function() {
     return {
       event: data
     };
+    */
+    return events.find(request.params.id);
   });
 
   this.post('/events', function({ db }, request) {
@@ -426,7 +429,11 @@ export default function() {
     return results;
   });
 
-  this.get('/market_posts/:id', 'market-post');
+  this.get('/market_posts/:id', function({marketPosts}, request) {
+    var marketPost = marketPosts.find(request.params.id);
+
+    return marketPost;
+  });
 
   this.get('/market_posts/:id/contact', function({ db }, request) {
     const post = db.marketPosts.find(request.params.id);

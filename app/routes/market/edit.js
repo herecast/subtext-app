@@ -2,13 +2,14 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const {
   get,
   run
 } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },

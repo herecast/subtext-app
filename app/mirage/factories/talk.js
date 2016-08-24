@@ -20,5 +20,6 @@ export default Mirage.Factory.extend({
   authorName() { return faker.name.findName(); },
   authorImageUrl(i) {
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
-  }
+  },
+  canEdit: true
 });
