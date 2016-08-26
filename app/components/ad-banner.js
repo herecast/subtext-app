@@ -8,16 +8,53 @@ const {
   set,
   run,
   inject,
-  setProperties
+  isPresent,
+  setProperties,
+  computed,
+  observer
 } = Ember;
 
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
   promotionService: inject.service('promotion'),
 
+  currentService: inject.service('currentController'),
+
+  _canSendImpression: computed('impressionPath', '_didSendImpression',
+    '_currentPathMatchesImpressionPath', function() {
+    const impressionPath = get(this, 'impressionPath');
+    const didSendImpression = get(this, '_didSendImpression');
+
+    if(isPresent(impressionPath)) {
+      return !didSendImpression && get(this, '_currentPathMatchesImpressionPath');
+    } else {
+      return !didSendImpression;
+    }
+  }),
+
+  _currentPathMatchesImpressionPath: computed('impressionPath', 'currentService.currentPath', function() {
+    const impressionPath = get(this, 'impressionPath');
+    const currentPath = get(this, 'currentService.currentPath');
+
+    return currentPath === impressionPath;
+  }),
+
+  pathDidChange: observer('currentService.currentPath', function() {
+    const impressionPath = get(this, 'impressionPath');
+
+    if(isPresent(impressionPath)) {
+      run.next(()=>{
+        if(get(this, '_currentPathMatchesImpressionPath')) {
+          // trigger enter view port event
+          this.resetViewportEntered();
+        }
+      });
+    }
+  }),
+
   lastRefreshDate: null,
 
-  _canSendImpression: true,
+  _didSendImpression: false,
 
   _viewportOptionsOverride() {
     // ensures the ad is at least 50% visible
@@ -35,7 +72,9 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   _sendImpression() {
-    this.toggleProperty('_canSendImpression');
+    set(this, '_didSendImpression', true);
+
+    console.info(`Impression of promotion: ${get(this, 'promotion.promotion_id')}`);
 
     if (typeof dataLayer !== "undefined") {
       dataLayer.push({
@@ -58,6 +97,11 @@ export default Ember.Component.extend(InViewportMixin, {
     run.cancel(get(this, '_pendingImpression'));
   },
 
+  resetViewportEntered() {
+    set(this, 'viewportEntered', false);
+    this._setViewportEntered(window);
+  },
+
   _getPromotion() {
     const content = get(this, 'contentModel');
     let contentId;
@@ -66,9 +110,12 @@ export default Ember.Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
-    get(this, 'promotionService').find(contentId).then(promotion => {
+    return get(this, 'promotionService').find(contentId).then(promotion => {
       if (!get(this, 'isDestroyed')) {
-        set(this, 'promotion', promotion);
+        this.setProperties({
+          promotion: promotion,
+          _didSendImpression: false
+        });
 
         if (typeof dataLayer !== "undefined") {
           dataLayer.push({
@@ -86,7 +133,9 @@ export default Ember.Component.extend(InViewportMixin, {
   didUpdateAttrs({ newAttrs }) {
     // Reload the promotion if the last refresh date has changed
     if ('lastRefreshDate' in newAttrs && newAttrs.lastRefreshDate !== get(this, 'lastRefreshDate')) {
-      this._getPromotion();
+      this._getPromotion().then(()=>{
+        this.resetViewportEntered();
+      });
     }
 
     this._super(...arguments);

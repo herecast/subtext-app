@@ -11,6 +11,7 @@ export default Ember.Component.extend({
       lng: get(this, 'lng')
     };
   }),
+
   actions: {
     buildGaugeTitle(result) {
       return `Based on ${(result.get('feedback_num')) || 0} ratings`;

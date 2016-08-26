@@ -19,9 +19,9 @@
 <div class='Container--noGutter'>
   {{#if model}}
     {{#if media.isMobile}}
-      {{ordered-news news=model}}
+      {{ordered-news news=model adPath='news.all.index'}}
     {{else}}
-      {{grouped-news news=model}}
+      {{grouped-news news=model adPath='news.all.index'}}
     {{/if}}
   {{/if}}
 </div>

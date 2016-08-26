@@ -10,7 +10,9 @@
     </li>
 
     {{#if (eq index 2)}}
-      <li>{{ad-banner lastRefreshDate=lastRefreshDate}}</li>
+      <li>
+        {{ad-banner impressionPath=adPath lastRefreshDate=lastRefreshDate}}
+      </li>
     {{/if}}
   {{/each}}
 </ul>
