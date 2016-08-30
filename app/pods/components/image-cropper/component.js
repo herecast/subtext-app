@@ -75,7 +75,9 @@ export default Ember.Component.extend({
     const blobQuality = 0.9;
 
     img.cropper('getCroppedCanvas').toBlob((data) => {
-      this.set('image', data);
+      if (! get(this, 'isDestroyed')) {
+        this.set('image', data);
+      }
     }, blobFormat, blobQuality);
   },
 

@@ -1,17 +1,16 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import startMirage from '../../../../helpers/setup-mirage';
 
 moduleForComponent('business-profile-form', 'Integration | Component | business profile form', {
-  integration: true
+  integration: true,
+  setup() {
+    startMirage(this.container);
+  }
 });
 
 test('it renders', function(assert) {
-
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-
   this.render(hbs`{{business-profile-form}}`);
 
   assert.ok(this.$());
-
 });

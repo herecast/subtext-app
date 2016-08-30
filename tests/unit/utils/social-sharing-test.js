@@ -9,34 +9,43 @@ const { stub } = sinon;
 const { RSVP } = Ember;
 
 test('createShareCache calls prerenderCache once on request', function(assert) {
+  assert.expect(1);
 
   const cachePrerender = stub().returns(RSVP.Promise.resolve());
 
   SocialSharing.cachePrerender = cachePrerender;
 
-  return SocialSharing.createShareCache().then(() => {
+  SocialSharing.createShareCache().then(() => {
+    // TODO we shouldn't be stubbing out methods on the test subject
+    // it would be better to assert that the $.post method was called with
+    // specific arguments ~cm
     assert.ok(cachePrerender.calledOnce, 'called the cachePrerender method once');
   });
 });
 
-test('updateShareCache calls prerenderCache once on request', function(assert) {
+test('updatesharecache calls prerendercache once on request', function(assert) {
+  assert.expect(1);
 
   const cachePrerender = stub().returns(RSVP.Promise.resolve());
 
   SocialSharing.cachePrerender = cachePrerender;
 
-  return SocialSharing.updateShareCache().then(() => {
-    assert.ok(cachePrerender.calledOnce, 'called the cachePrerender method once');
+  SocialSharing.updateShareCache().then(() => {
+    // TODO we shouldn't be stubbing out methods on the test subject in a unit test ~cm
+    assert.ok(cachePrerender.calledOnce, 'called the cacheprerender method once');
   });
 });
 
 test('facebook share calls to graph once on request', function(assert) {
+  assert.expect(1);
 
   const cacheFacebook = stub().returns(RSVP.Promise.resolve());
 
   SocialSharing.cacheFacebook = cacheFacebook;
 
-  return SocialSharing.checkFacebookCache().then(() => {
+  SocialSharing.checkFacebookCache().then(() => {
+    // TODO we shouldn't be stubbing out methods on the test subject in a unit test ~cm
+    // instead we should test that the $.post method was called with specific arguments
     assert.ok(cacheFacebook.calledOnce, 'called the cacheFacebook method once');
   });
 });

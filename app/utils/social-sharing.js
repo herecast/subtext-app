@@ -68,7 +68,7 @@ export default {
     } else {
       shareUrl = window.location.href;
     }
-    
+
     return shareUrl;
   }
 };

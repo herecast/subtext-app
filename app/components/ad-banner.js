@@ -72,18 +72,20 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   _sendImpression() {
-    set(this, '_didSendImpression', true);
+    if (! get(this, 'isDestroyed')) {
+      set(this, '_didSendImpression', true);
 
-    console.info(`Impression of promotion: ${get(this, 'promotion.promotion_id')}`);
+      console.info(`Impression of promotion: ${get(this, 'promotion.promotion_id')}`);
 
-    if (typeof dataLayer !== "undefined") {
-      dataLayer.push({
-        'event'         : 'VirtualAdImpresion',
-        'advertiser'    : get(this, 'promotion.organization_name'),
-        'promotion_id'  : get(this, 'promotion.promotion_id'),
-        'banner_id'     : get(this, 'promotion.banner_id'),
-        'redirect_url'  : get(this, 'promotion.redirect_url')
-      });
+      if (typeof dataLayer !== "undefined") {
+        dataLayer.push({
+          'event'         : 'VirtualAdImpresion',
+          'advertiser'    : get(this, 'promotion.organization_name'),
+          'promotion_id'  : get(this, 'promotion.promotion_id'),
+          'banner_id'     : get(this, 'promotion.banner_id'),
+          'redirect_url'  : get(this, 'promotion.redirect_url')
+        });
+      }
     }
   },
 

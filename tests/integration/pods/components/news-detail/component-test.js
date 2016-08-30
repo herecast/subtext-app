@@ -20,13 +20,13 @@ moduleForComponent('news-detail', 'Integration | Component | news detail', {
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  const news = {};
-
-  this.set('news', news);
+  this.set('news', {});
+  this.set('scrollToMock', () => {});
 
   this.render(hbs`
     {{news-detail
       news=news
+      scrollTo=(action scrollToMock)
     }}
   `);
 

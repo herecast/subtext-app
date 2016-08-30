@@ -43,11 +43,11 @@
           Discussion started by <span data-test-talk-author-name>{{model.authorName}}</span>
           <br/>{{formattedPublishedAt}}
         </div>
-        <p>
+        <p data-test-comment-count>
           {{#if model.commentCount}}
-            {{model.commentCount}}&nbsp;{{model.commentCountText}}
+            {{model.commentCount}} {{model.commentCountText}}
           {{/if}}
-          {{model.viewCount}}&nbsp;{{model.viewCountText}}
+          {{model.viewCount}} {{model.viewCountText}}
         </p>
       </div>
     </div>
