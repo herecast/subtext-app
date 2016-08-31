@@ -1,6 +1,7 @@
 <div class='DirectorySearch-wrapper'>
   <div class='Container--noGutter'>
     <h1 class='h1 DirectorySearch-title text-uppercase'>Directory</h1>
+    <br />
     <h2 class='h2 DirectorySearch-title'>Find a business or service</h2>
 
     <div class='clearfix DirectorySearch-InnerWrapper'>
@@ -19,7 +20,12 @@
 
       <div class='DirectorySearch-inputWrapper'>
         <span class='DirectorySearch-pseudoInputText'><b>Within<br />50 miles of</b></span>
-        {{location-search inputClass='form-control DirectorySearch-input' placeholder=searchLocationPlaceholder location=location setLocation=(action 'setLocation')}}
+        {{location-search
+          inputClass='form-control DirectorySearch-input'
+          placeholder=searchLocationPlaceholder
+          location=location
+          setLocation=(action 'setLocation')
+        }}
       </div>
     </div>
   </div>
