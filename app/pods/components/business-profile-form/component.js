@@ -1,20 +1,37 @@
 import Ember from 'ember';
 import Validation from '../../../mixins/components/validation';
 
-const { inject, get, set, isBlank, computed } = Ember;
+const { inject, get, set, isBlank } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   classNames: ['BusinessProfileForm'],
   showSaveMessage: false,
+  isNewBusiness: false,
 
-  // Required when component is rendered
+
   model: null,
+  categories: null,
+  closeAction: null,
 
   toast: inject.service(),
   store: inject.service(),
 
-  categories: computed(function() {
+  init() {
+    this._super();
+    let model = get(this, 'model');
+
+    if (isBlank(model)) {
+      this.setProperties({
+        model: get(this, 'store').createRecord('business-profile'),
+        isNewBusiness: true
+      });
+    }
+
+    set(this,'categories', this.getCategories());
+  },
+
+  getCategories() {
     return get(this, 'store').findAll('business-category').then( categories => {
       categories.forEach(category => {
 
@@ -32,9 +49,7 @@ export default Ember.Component.extend(Validation, {
 
       return categories;
     });
-
-
-  }),
+  },
 
   submit(e) {
     e.preventDefault();
@@ -85,8 +100,20 @@ export default Ember.Component.extend(Validation, {
     validateEmail() {
       this.validateEmail();
     },
+
+    cancelBusinessProfileForm() {
+      if (get(this, 'model.hasDirtyAttributes') && get(this, 'isNewBusiness')) {
+        if (confirm('Are you sure you want to discard your changes without saving?')) {
+          get(this, 'model').destroyRecord();
+          this.sendAction('closeAction');
+        }
+      } else {
+        this.sendAction('closeAction');
+      }
+    },
+
     gotIt() {
-      this.sendAction('save');
+      this.sendAction('closeAction');
     }
   }
 });

@@ -51,18 +51,13 @@
 
     <div>
       <h2>Help us build this directory</h2>
-      <button class='btn DirectoryButton darker' {{action 'showBusinessProfileForm'}}>Submit a missing business</button>
+      <button class='btn DirectoryButton darker' {{action 'toggleBusinessProfileForm'}}>Submit a missing business</button>
     </div>
   {{/floating-side-column}}
 </div>
 
-{{#if newBusinessProfile}}
-  {{#modal-wrapper close=(action 'cancelBusinessProfileForm')}}
-    {{business-profile-form
-    model=newBusinessProfile
-    categories=businessCategories
-    save='savedBusinessProfileForm'
-    cancel='cancelBusinessProfileForm'
-    }}
-  {{/modal-wrapper}}
+{{#if businessProfileFormIsVisible}}
+  {{business-profile-form
+    closeAction=(action 'toggleBusinessProfileForm')
+  }}
 {{/if}}

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import formatBusinessHours from 'subtext-ui/utils/business-hours-format';
 
-const { inject, computed, get, set } = Ember;
+const { inject, computed, get } = Ember;
 
 export default Ember.Controller.extend({
   geo: inject.service('geolocation'),
@@ -21,10 +21,6 @@ export default Ember.Controller.extend({
       return `${hour.days}: ${hour.open} - ${hour.close}`;
     });
   }),
-
-  closeEditForm() {
-    set(this, 'editFormIsVisible', false);
-  },
 
   reportIncorrectInfoEmail: computed('model.name', 'modelfullAddress', 'model.phone', 'model.websiteLink', function() {
     const mailTo = `mailto:dailyuv@subtext.org`;
@@ -70,8 +66,8 @@ Thanks again for helping us build the Upper Valley’s best business directory!`
       }
     },
 
-    showEditForm() {
-      set(this, 'editFormIsVisible', true);
+    toggleEditForm() {
+      this.toggleProperty('editFormIsVisible');
     },
 
     cancelEditForm() {

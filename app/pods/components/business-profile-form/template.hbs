@@ -1,170 +1,172 @@
-{{#if model.isSaving}}
-  {{x-loader}}
-{{else}}
-  {{#if showSaveMessage}}
-    <div class="text-center">
-      <h1>
-        Business Submitted for Review
-      </h1>
-      <p>
-        Thanks for your feedback! Your business submission will be reviewed by our team.
-      </p>
-      <p>
-        <button class="btn btn-lg" {{action 'gotIt'}}>Got It</button>
-      </p>
-    </div>
+{{#modal-wrapper close=(action 'cancelBusinessProfileForm')}}
+  {{#if model.isSaving}}
+    {{x-loader}}
   {{else}}
-    <h1 class="BusinessProfileForm-header">
-      {{if model.isNew 'Suggest New Business' 'Edit Business Details'}}
-    </h1>
-    {{#form-group error=errors.name}}
-      <label class='control-label ContentForm-label--required' for="business-name">Business Name</label>
+    {{#if showSaveMessage}}
+      <div class="text-center">
+        <h1>
+          Business Submitted for Review
+        </h1>
+        <p>
+          Thanks for your feedback! Your business submission will be reviewed by our team.
+        </p>
+        <p>
+          <button class="btn btn-lg" {{action 'gotIt'}}>Got It</button>
+        </p>
+      </div>
+    {{else}}
+      <h1 class="BusinessProfileForm-header">
+        {{if model.isNew 'Suggest New Business' 'Edit Business Details'}}
+      </h1>
+      {{#form-group error=errors.name}}
+        <label class='control-label ContentForm-label--required' for="business-name">Business Name</label>
 
-      {{input
-      id='business-name'
-      placeholder='Business Name'
-      class='form-control'
-      required=true
-      value=model.name
-      }}
-    {{/form-group}}
+        {{input
+        id='business-name'
+        placeholder='Business Name'
+        class='form-control'
+        required=true
+        value=model.name
+        }}
+      {{/form-group}}
 
-    {{#form-group error=errors.hours}}
-      <label class='control-label ContentForm-label--required' for="business-hours">Business Hours</label>
-      {{business-hours-editor
-        class="BusinessProfileForm-hoursEditor"
-        hours=model.hours
-        on-update=(action (mut model.hours))
-      }}
-    {{/form-group}}
+      {{#form-group error=errors.hours}}
+        <label class='control-label ContentForm-label--required' for="business-hours">Business Hours</label>
+        {{business-hours-editor
+          class="BusinessProfileForm-hoursEditor"
+          hours=model.hours
+          on-update=(action (mut model.hours))
+        }}
+      {{/form-group}}
 
-    {{#form-group error=errors.categories}}
-      <label class='control-label ContentForm-label' for="business-categories">Categories</label>
+      {{#form-group error=errors.categories}}
+        <label class='control-label ContentForm-label' for="business-categories">Categories</label>
 
-      {{ember-selectize
-      content=categories
-      optionValuePath="content.id"
-      optionLabelPath="content.fullName"
-      selection=model.categories
-      sortField="fullName"
-      sortDirection="asc"
-      placeholder="Categories"
-      loading=categories.isLoading
-      class='BusinessProfileForm-categories'
-      multiple=true
-      }}
+        {{ember-selectize
+        content=categories
+        optionValuePath="content.id"
+        optionLabelPath="content.fullName"
+        selection=model.categories
+        sortField="fullName"
+        sortDirection="asc"
+        placeholder="Categories"
+        loading=categories.isLoading
+        class='BusinessProfileForm-categories'
+        multiple=true
+        }}
 
-    {{/form-group}}
+      {{/form-group}}
 
-    {{#form-group error=errors.address}}
-      <label class='control-label ContentForm-label--required' for="business-address">Address</label>
+      {{#form-group error=errors.address}}
+        <label class='control-label ContentForm-label--required' for="business-address">Address</label>
 
-      {{input
-      id='business-address'
-      placeholder='Address'
-      class='form-control'
-      value=model.address
-      }}
-    {{/form-group}}
+        {{input
+        id='business-address'
+        placeholder='Address'
+        class='form-control'
+        value=model.address
+        }}
+      {{/form-group}}
 
-    <div class="row">
+      <div class="row">
 
-      <div class="col-md-4">
-        {{#form-group error=errors.city}}
-          <label class='control-label ContentForm-label--required' for="business-city">City</label>
+        <div class="col-md-4">
+          {{#form-group error=errors.city}}
+            <label class='control-label ContentForm-label--required' for="business-city">City</label>
 
-          {{input
-          id='business-city'
-          placeholder='City'
-          class='form-control'
-          value=model.city
-          }}
+            {{input
+            id='business-city'
+            placeholder='City'
+            class='form-control'
+            value=model.city
+            }}
+          {{/form-group}}
+        </div>
+
+        <div class="col-md-4">
+          {{#form-group error=errors.state}}
+            <label class='control-label ContentForm-label--required' for="business-state">State</label>
+
+            {{input
+            id='business-state'
+            placeholder='State'
+            class='form-control'
+            value=model.state
+            }}
+          {{/form-group}}
+        </div>
+
+        <div class="col-md-4">
+          {{#form-group error=errors.zip}}
+            <label class='control-label ContentForm-label' for="business-zip">Zip</label>
+
+            {{input
+            id='business-zip'
+            placeholder='Zip'
+            class='form-control'
+            value=model.zip
+            input=(action 'validateForm')
+            }}
+          {{/form-group}}
+        </div>
+      </div>
+
+      <div class='form-group'>
+        <label>Contact Info</label>
+
+        {{#form-group error=errors.email}}
+          <div class="input-group">
+            <span class="ContentForm-iconLabel ContentForm-label--required input-group-addon">
+              {{fa-icon 'fa-envelope-o'}}
+            </span>
+            {{input
+            id='business-email'
+            type='email'
+            placeholder='Email'
+            class='form-control'
+            value=model.email
+            required=true
+            input=(action 'validateEmail')
+            }}
+          </div>
+        {{/form-group}}
+
+        {{#form-group error=errors.phone}}
+          <div class="input-group">
+            <span class="ContentForm-iconLabel input-group-addon">
+              {{fa-icon 'phone'}}
+            </span>
+            {{input
+            id='business-phone'
+            type='tel'
+            placeholder='Phone'
+            class='form-control'
+            value=model.phone
+            }}
+          </div>
+        {{/form-group}}
+
+        {{#form-group error=errors.website}}
+          <div class="input-group">
+            <span class="ContentForm-iconLabel input-group-addon">
+              {{fa-icon 'link'}}
+            </span>
+            {{input
+            id='business-website'
+            type='url'
+            placeholder='Website'
+            class='form-control'
+            value=model.website
+            }}
+          </div>
         {{/form-group}}
       </div>
 
-      <div class="col-md-4">
-        {{#form-group error=errors.state}}
-          <label class='control-label ContentForm-label--required' for="business-state">State</label>
-
-          {{input
-          id='business-state'
-          placeholder='State'
-          class='form-control'
-          value=model.state
-          }}
-        {{/form-group}}
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg btn-secondary">
+          Save Changes
+        </button>
       </div>
-
-      <div class="col-md-4">
-        {{#form-group error=errors.zip}}
-          <label class='control-label ContentForm-label' for="business-zip">Zip</label>
-
-          {{input
-          id='business-zip'
-          placeholder='Zip'
-          class='form-control'
-          value=model.zip
-          input=(action 'validateForm')
-          }}
-        {{/form-group}}
-      </div>
-    </div>
-
-    <div class='form-group'>
-      <label>Contact Info</label>
-
-      {{#form-group error=errors.email}}
-        <div class="input-group">
-          <span class="ContentForm-iconLabel ContentForm-label--required input-group-addon">
-            {{fa-icon 'fa-envelope-o'}}
-          </span>
-          {{input
-          id='business-email'
-          type='email'
-          placeholder='Email'
-          class='form-control'
-          value=model.email
-          required=true
-          input=(action 'validateEmail')
-          }}
-        </div>
-      {{/form-group}}
-
-      {{#form-group error=errors.phone}}
-        <div class="input-group">
-          <span class="ContentForm-iconLabel input-group-addon">
-            {{fa-icon 'phone'}}
-          </span>
-          {{input
-          id='business-phone'
-          type='tel'
-          placeholder='Phone'
-          class='form-control'
-          value=model.phone
-          }}
-        </div>
-      {{/form-group}}
-
-      {{#form-group error=errors.website}}
-        <div class="input-group">
-          <span class="ContentForm-iconLabel input-group-addon">
-            {{fa-icon 'link'}}
-          </span>
-          {{input
-          id='business-website'
-          type='url'
-          placeholder='Website'
-          class='form-control'
-          value=model.website
-          }}
-        </div>
-      {{/form-group}}
-    </div>
-
-    <div class="text-center">
-      <button type="submit" class="btn btn-lg btn-secondary">
-        Save Changes
-      </button>
-    </div>
+    {{/if}}
   {{/if}}
-{{/if}}
+{{/modal-wrapper}}

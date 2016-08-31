@@ -19,10 +19,6 @@ export default Ember.Component.extend(Validation, {
   total: null,
   results: computed.alias('model'),
 
-  businessCategories: computed(function () {
-    return get(this, 'store').findAll('business-category');
-  }),
-
   locations: computed('results.[]', function () {
     const results = get(this, 'results') || [];
     const isMobile = get(this, 'media.isMobile');
@@ -71,11 +67,6 @@ export default Ember.Component.extend(Validation, {
     $(window).animate({scrollTop: 0}, '100');
   },
 
-  _closeBusinessProfileForm() {
-    set(this, 'newBusinessProfile', null);
-    set(this, 'businessProfileFormIsVisible', false);
-  },
-
   actions: {
     contactUs() {
       if ('contactUs' in this.attrs) {
@@ -83,23 +74,8 @@ export default Ember.Component.extend(Validation, {
       }
     },
 
-    showBusinessProfileForm() {
-      let newBusinessProfile = get(this, 'store').createRecord('business-profile');
-      set(this, 'newBusinessProfile', newBusinessProfile);
-      set(this, 'businessProfileFormIsVisible', true);
-    },
-
-    cancelBusinessProfileForm() {
-      if (get(this, 'newBusinessProfile.hasDirtyAttributes')) {
-        if (confirm('Are you sure you want to discard your changes without saving?')) {
-          get(this, 'newBusinessProfile').rollbackAttributes();
-          this._closeBusinessProfileForm();
-        }
-      }
-    },
-
-    savedBusinessProfileForm() {
-      this._closeBusinessProfileForm();
+    toggleBusinessProfileForm() {
+      this.toggleProperty('businessProfileFormIsVisible');
     },
 
     changePage(page) {

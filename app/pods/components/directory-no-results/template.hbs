@@ -11,6 +11,12 @@
   </div>
   <div class='DirectoryNoResults-secondaryCTA'>
     <p class='DirectoryNoResults-text'><b>Are we missing your business?</b></p>
-    <p class='DirectoryNoResults-text'>Business owners, please <a href='#' {{action "contactUs"}}> get in touch</a></p>
+    <p class='DirectoryNoResults-text'>Business owners, please <a href='#' {{action "toggleBusinessProfileForm"}}> get in touch</a></p>
   </div>
 </div>
+
+{{#if showBusinessProfileForm}}
+  {{business-profile-form
+    closeAction=(action 'toggleBusinessProfileForm')
+  }}
+{{/if}}

@@ -16,7 +16,7 @@
       <h2 class="h2">Is this your business?</h2>
       <p class="text-center">
         {{#if model.canEdit}}
-          <button class='DirectoryBusiness-directoryButton' {{action 'showEditForm'}}>Edit Business</button>
+          <button class='DirectoryBusiness-directoryButton' {{action 'toggleEditForm'}}>Edit Business</button>
         {{else}}
           <a href="{{claimEmail}}" class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
         {{/if}}
@@ -32,11 +32,8 @@
 {{/modal-wrapper}}
 
 {{#if editFormIsVisible}}
-  {{#modal-wrapper close=(action 'cancelEditForm')}}
-    {{business-profile-form
+  {{business-profile-form
     model=model
-    save='savedEditForm'
-    cancel='cancelEditForm'
-    }}
-  {{/modal-wrapper}}
+    closeAction=(action 'toggleEditForm')
+  }}
 {{/if}}
