@@ -3,7 +3,7 @@
     {{#content-form
       isNew=model.isNew
       type='event'
-      class='col-md-9'
+      class='col-xs-12'
       step1State='complete'
       step2State='current'
       step3State='inactive'
@@ -16,15 +16,5 @@
         afterPromotion='afterPromotion'
       }}
     {{/content-form}}
-
-    {{#unless media.isMobile}}
-      <div class='col-md-3 hidden-sm'>
-        <h1 class='ContentForm-previewHeader'>Preview</h1>
-        {{event-card-preview
-          event=model
-          isPreview=true
-        }}
-      </div>
-    {{/unless}}
   </div>
 </div>
