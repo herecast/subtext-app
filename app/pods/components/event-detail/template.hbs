@@ -82,10 +82,12 @@
 {{/unless}}
 
 <div class='DetailPage-sectionWrapper'>
-  <div class="DetailPage-section DetailPage-content">
+  <div class="DetailPage-section DetailPage-content ContentText">
     <h3 class='DetailPage-sectionTitle'>From the Organizer</h3>
     {{#expandable-content}}
-      {{{ model.content }}}
+      <div class="ContentText">
+        {{{ model.content }}}
+      </div>
     {{/expandable-content}}
   </div>
 </div>
