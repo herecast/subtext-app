@@ -147,6 +147,12 @@ body {
 body.modal-open > .modal-backdrop {
   z-index: 60;
 }
+#toast-container {
+  @media (max-width: @screen-xs-max) {
+    margin-top: 40px !important;
+  }
+}
+
 // added to the main element when sticky mobile header is on screen.
 main {
   padding-top: 80px;
