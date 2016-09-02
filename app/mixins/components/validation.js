@@ -16,8 +16,9 @@ export default Ember.Mixin.create({
   },
 
   scrollToFirstError() {
+    let offset = get(this, 'media.isMobile') ? Ember.$(".MobileHeader").height() : Ember.$(".MainNav-wrapper").height();
     Ember.$('html, body').animate({
-      scrollTop: Ember.$(".has-error").offset().top
+      scrollTop: Ember.$(".has-error").offset().top - offset
     }, 1000);
   },
 
