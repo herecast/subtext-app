@@ -1,32 +1,42 @@
-<div role="tabpanel">
-  <ul class="nav nav-tabs NavTabs" role="tablist">
-    <li role="presentation" class={{if isFree 'active'}}>
-      <a href="#" role="tab" {{action 'setCostType' 'free'}}>Free</a>
-    </li>
-    <li role="presentation" class={{if isPaid 'active'}}>
-      <a href="#" role="tab" {{action 'setCostType' 'paid'}}>Paid</a>
-    </li>
-    <li role="presentation" class={{if isDonation 'active'}}>
-      <a href="#" role="tab" {{action 'setCostType' 'donation'}}>Donation</a>
-    </li>
-    <li role="presentation" class={{if isNotApplicable 'active'}}>
-      <a href="#" role="tab" {{action 'setCostType' ''}}>Not Applicable</a>
-    </li>
-  </ul>
+{{#radio-button
+  class='EventForm-costTypeLabel'
+  name='cost'
+  value='free'
+  groupValue=costType
+  onChange=(action 'setCostType' 'free')}}
+  &nbsp;Free
+{{/radio-button}}
 
-  <div role="tabpanel" class="tab-pane active">
-    {{#if isNotApplicable}}
-      {{input
-        placeholder=costPlaceholder
-        class='form-control'
-        disabled=true
-      }}
-    {{else}}
-      {{input
-        placeholder=costPlaceholder
-        value=cost
-        class='form-control'
-      }}
-    {{/if}}
-  </div>
-</div>
+{{#radio-button
+  class='EventForm-costTypeLabel'
+  name='cost'
+  value='paid'
+  groupValue=costType
+  onChange=(action 'setCostType' 'paid')}}
+  &nbsp;Paid
+{{/radio-button}}
+
+{{#radio-button
+  class='EventForm-costTypeLabel'
+  name='cost'
+  value='donation'
+  groupValue=costType
+  onChange=(action 'setCostType' 'donation')}}
+  &nbsp;Donation
+{{/radio-button}}
+
+{{#radio-button
+  class='EventForm-costTypeLabel'
+  name='cost'
+  value=''
+  groupValue=costType onChange=(action 'setCostType' '')}}
+  &nbsp;Not Applicable
+{{/radio-button}}
+
+{{#liquid-unless isNotApplicable class='disclose'}}
+  {{input
+    placeholder=costPlaceholder
+    value=cost
+    class='form-control notapplicable'
+  }}
+{{/liquid-unless}}

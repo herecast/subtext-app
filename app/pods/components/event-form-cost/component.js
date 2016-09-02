@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 const { computed, get, set } = Ember;
+const { equal, empty } = computed;
 
 export default Ember.Component.extend({
-  isFree: computed.equal('costType', 'free'),
-  isPaid: computed.equal('costType', 'paid'),
-  isDonation: computed.equal('costType', 'donation'),
-  isNotApplicable: computed.empty('costType'),
+  isFree:          equal('costType', 'free'),
+  isPaid:          equal('costType', 'paid'),
+  isDonation:      equal('costType', 'donation'),
+  isNotApplicable: empty('costType'),
 
   costPlaceholder: computed('costType', function() {
     if (get(this, 'isFree')) {
@@ -16,13 +17,13 @@ export default Ember.Component.extend({
     } else if (get(this, 'isDonation')) {
       return 'Add details if you’d like';
     } else if (get(this, 'isNotApplicable')) {
-      return 'Ex: public events where no event price should be displayed';
+      return '';
     }
   }),
 
   actions: {
     setCostType(type) {
-      set(this, 'costType', type);
+      set(this, 'event.costType', type);
     }
   }
 });
