@@ -5,9 +5,9 @@
   <div class="text-center">
     <button {{action 'toggle'}} class="ExpandableContent-toggleButton">
       {{#if isExpanded}}
-        View less {{fa-icon 'caret-up'}}
+        {{if customLessLabel customLessLabel 'View less'}} {{fa-icon 'caret-up'}}
       {{else}}
-        View more {{fa-icon 'caret-down'}}
+        {{if customMoreLabel customMoreLabel 'View more'}} {{fa-icon 'caret-down'}}
       {{/if}}
     </button>
   </div>

@@ -95,9 +95,13 @@
 
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-content News-content ContentText">
-    {{#expandable-content}}
+    {{#if isPreview}}
       {{{ model.content }}}
-    {{/expandable-content}}
+    {{else}}
+      {{#expandable-content customLessLabel='Read less' customMoreLabel='Read more'}}
+        {{{ model.content }}}
+      {{/expandable-content}}
+    {{/if}}
   </div>
 </div>
 

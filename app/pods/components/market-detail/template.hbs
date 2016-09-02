@@ -90,9 +90,14 @@
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section DetailPage-content">
     {{#if model.price}}Price: {{model.price}}{{/if}}
-    {{#expandable-content}}
+
+    {{#if isPreview}}
       <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
-    {{/expandable-content}}
+    {{else}}
+      {{#expandable-content}}
+        <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
+      {{/expandable-content}}
+    {{/if}}
   </div>
 </div>
 

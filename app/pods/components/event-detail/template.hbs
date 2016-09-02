@@ -84,11 +84,17 @@
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section DetailPage-content ContentText">
     <h3 class='DetailPage-sectionTitle'>From the Organizer</h3>
-    {{#expandable-content}}
+    {{#if isPreview}}
       <div class="ContentText">
         {{{ model.content }}}
       </div>
-    {{/expandable-content}}
+    {{else}}
+      {{#expandable-content}}
+        <div class="ContentText">
+          {{{ model.content }}}
+        </div>
+      {{/expandable-content}}
+    {{/if}}
   </div>
 </div>
 
