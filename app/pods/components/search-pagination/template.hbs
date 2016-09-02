@@ -17,7 +17,7 @@
 
 {{else}}
 
-  {{#if (gte search.searchEvents.length 5)}}
+  {{#if (gt results.content.meta.total 5)}}
     {{#link-to (query-params searchType=searchType searchPage=1 searchPerPage=20) class="SearchPagination-seeAll-button"}}
       See all {{searchType}}
     {{/link-to}}
