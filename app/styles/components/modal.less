@@ -1,6 +1,7 @@
 .Modal {
   width: 100%;
-  height: 100vh;
+  height: auto;
+  min-height: 100%;
   background: rgba(3,3,3, 0.4);
   position: fixed;
   top: 0;
@@ -19,39 +20,35 @@
   }
 
   &-dialog {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    width: 100%;
+    margin: 40px auto;
     max-width: 640px;
     background: #fff;
     box-shadow: 3px 3px 15px #333;
     padding: 10px;
-    margin: auto;
-    margin-bottom: 2em;
-    transform: translateX(-50%) translateY(50%);
     opacity: 0;
-    transition: all 0.3s;
+    transition: all 0.5s;
     z-index: 102;
+    position: relative;
+    top: 100vh;
 
     &--visible {
-      transform: translateX(-50%) translateY(0);
+      top: 0;
       opacity: 1;
     }
 
     &--fullscreen {
-      margin-bottom: 0;
       width: 100%;
       height: auto;
       position: absolute;
-      top: 0;
-      left: 0;
-      transform: none;
-      transform: translateY(50%);
+      margin: 0;
+      overflow: auto;
 
       &.Modal-dialog--visible {
-        transform: translateY(0);
         opacity: 1;
+      }
+
+      &.isExpanded {
+        padding-bottom: 200px;
       }
 
     }

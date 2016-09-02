@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   position: null,
   defaultPosition: 0,
 
-  scrollTarget: '.ember-application > .ember-view',
+  scrollTarget: window,
 
   stickyService: inject.service('sticky'),
 

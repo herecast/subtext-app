@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
 
         scrollPosition = 0;
       } else {
-        scrollPosition = (transition.targetName === get(this, 'routeName')) ? 0 : Ember.$('.ember-application > .ember-view').pageYOffset;
+        scrollPosition = (transition.targetName === get(this, 'routeName')) ? 0 : Ember.$(window).pageYOffset;
       }
 
       this.controller.set('scrollPosition', scrollPosition);

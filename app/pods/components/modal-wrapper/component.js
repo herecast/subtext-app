@@ -1,9 +1,12 @@
 import Ember from 'ember';
 
-const { run, set, computed, $ } = Ember;
+const { run, get, set, computed, $, inject } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['Modal'],
+
+  modalService: inject.service('modals'),
+
   visible: false,
   fullscreen: false,
   showHeader: computed('title', 'close', function() {
@@ -19,9 +22,15 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     // For toggling css transitions
-    run.next(()=>{
+    run.next(() => {
+      get(this, 'modalService').addModalBodyClass();
       set(this, 'visible', true);
     });
+  },
+
+  willDestroyElement() {
+    get(this, 'modalService').removeModalBodyClass();
+    $('body').removeClass('modal-open');
   },
 
   actions: {
