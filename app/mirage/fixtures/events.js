@@ -1,7 +1,18 @@
+import moment from 'moment';
+
 function titleize(words) {
   return words.split(' ').map((word) => {
     return word.capitalize();
   }).join(' ');
+}
+
+function imageUrl(id) {
+  return (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Event&w=500&h=500' : null;
+}
+
+function startsAt() {
+    const startHour = faker.random.number({min: 7, max: 12});
+    return moment(faker.date.recent(-30)).hour(startHour).minute(0).second(0);
 }
 
 function generateEvent(id) {
@@ -16,6 +27,8 @@ function generateEvent(id) {
     contactPhone: faker.phone.phoneNumber(),
     contactEmail: faker.internet.email(),
     eventUrl: `http://${faker.internet.domainName()}`,
+    imageUrl: imageUrl(id),
+    startsAt: startsAt(),
     venueId: faker.random.number(1000),
     venueName: titleize(faker.lorem.words(3)),
     venueAddress: faker.address.streetAddress(),

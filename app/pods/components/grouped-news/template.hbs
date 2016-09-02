@@ -6,6 +6,7 @@
       item=item1
       class='Card--solo'
       variant='full'
+      routeName=routeName
     }}
   </div>
 
@@ -13,6 +14,7 @@
     {{news-card
       item=item2
       variant='vertical'
+      routeName=routeName
     }}
 
     <div class='AdBanner-wrapper AdBanner-wrapper--news'>
@@ -23,11 +25,12 @@
     {{news-card
       item=item3
       variant='vertical'
+      routeName=routeName
     }}
 
     <div class='Card-wrapper--columnVertical2Up'>
-      {{news-card item=item4}}
-      {{news-card item=item5}}
+      {{news-card item=item4 routeName=routeName}}
+      {{news-card item=item5 routeName=routeName}}
     </div>
   </div>
 </div>
@@ -42,26 +45,29 @@
       {{news-card-wide
         class='Card--solo Card--wide'
         item=item6
+        routeName=routeName
       }}
     </div>
     <div class='col-sm-3'>
       {{news-card
         item=item7
         variant='vertical'
+        routeName=routeName
       }}
       {{news-card
         item=item8
         variant='vertical'
+        routeName=routeName
       }}
     </div>
 
     {{#if item9}}
       <div class='col-sm-3'>
         <div class='Card-wrapper--columnVertical4Up'>
-          {{news-card item=item9}}
-          {{news-card item=item10}}
-          {{news-card item=item11}}
-          {{news-card item=item12}}
+          {{news-card item=item9 routeName=routeName}}
+          {{news-card item=item10 routeName=routeName}}
+          {{news-card item=item11 routeName=routeName}}
+          {{news-card item=item12 routeName=routeName}}
         </div>
       </div>
     {{/if}}

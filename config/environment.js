@@ -95,9 +95,9 @@ module.exports = function(environment) {
   if (environment === 'production') {
     ENV.baseURL = '/';
 
-    // Uncomment to enable mock API in production
     ENV['ember-cli-mirage'] = {
-      enabled: false
+      enabled: false,
+      excludeFilesFromBuild: true
     }
 
     ENV.fb_enabled = true;

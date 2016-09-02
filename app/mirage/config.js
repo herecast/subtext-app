@@ -292,6 +292,22 @@ export default function() {
     }
   });
 
+  this.get('/events', function({ events }, request) {
+
+    const params = request.queryParams;
+    const stop = (params.page * params.per_page);
+    const start = stop - params.per_page;
+    const queryStart = params.date_start;
+    const queryEnd = params.date_end;
+    let results;
+
+    results = filterCollectionByDate(events, queryStart, queryEnd);
+
+    results.models = results.models.slice(start, stop);
+
+    return results;
+  });
+
   this.get('/event_instances/:id', 'event-instance');
 
   this.get('/events/:id', function({ events }, request) {

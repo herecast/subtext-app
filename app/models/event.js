@@ -1,9 +1,11 @@
+/* global _ */
+
 import DS from 'ember-data';
 import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 import moment from 'moment';
 
-/* global _ */
+const { flatten } = _;
 
 const {
   computed,
@@ -70,7 +72,7 @@ export default DS.Model.extend(BaseEvent, {
       }
     });
 
-    return _.flatten(dates);
+    return flatten(dates);
   }),
 
   uploadImage() {

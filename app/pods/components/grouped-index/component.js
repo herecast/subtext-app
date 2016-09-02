@@ -1,31 +1,57 @@
 import Ember from 'ember';
 
-const {
-  get,
-  setProperties
-} = Ember;
+const { set, inject, computed, get, isEmpty } = Ember;
 
 export default Ember.Component.extend({
-  contents: [],
-  items: null,
+  session: inject.service(),
+  store: inject.service(),
+  newsItems: computed.alias('news'),
 
-  _setupItems() {
-    const contents = get(this, 'contents').toArray();
+  talkItems: computed('page', 'session.isAuthenticated', function() {
+    if(get(this, 'session.isAuthenticated')) {
+      return get(this, 'store').query('talk', {
+        page: get(this, 'page'),
+        per_page: 6
+      });
+    } else {
+      return [];
+    }
+  }),
 
-    const newsItems   = contents.filterBy('contentType', 'news').sortBy('publishedAt').toArray().reverse(),
-          eventItems  = contents.filterBy('contentType', 'event-instance').reject(function(item) { return !get(item, 'imageUrl'); }).slice(0, 5),
-          talkItems   = contents.filterBy('contentType', 'talk').slice(0, 6),
-          marketItems = contents.filterBy('contentType', 'market-post').slice(0, 5);
+  talkSort: ['publishedAt:desc'],
 
-    setProperties(this, {
-      newsItems: newsItems,
-      eventItems: eventItems,
-      talkItems: talkItems,
-      marketItems: marketItems
+  sortedTalkItems: computed.sort('talkItems','talkSort'),
+
+  hasTalkItems: computed.notEmpty('talkItems'),
+
+  getEvents() {
+    get(this, 'store').query('event', {
+      page: get(this, 'page'),
+      per_page: 25,
+      has_image: true
+    }).then((events) => {
+      set(this, 'eventItems', events.reject((event) => {
+        return isEmpty(get(event, 'startsAt')) || isEmpty(get(event, 'imageUrl'));
+      }).slice(0,5));
     });
   },
 
-  willInsertElement() {
-    this._setupItems();
+  getMarket() {
+    get(this, 'store').query('market-post', {
+      page: get(this, 'page'),
+      per_page: 25,
+      has_image: true
+    }).then((items) => {
+      set(this, 'marketItems', items.reject((item) => {
+        return isEmpty(get(item, 'imageUrl'));
+      }).slice(0,5));
+    });
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.getEvents();
+    this.getMarket();
   }
+
 });

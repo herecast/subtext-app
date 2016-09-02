@@ -10,70 +10,21 @@
 
 <div class='row' data-row='row-1'>
   {{#if media.isNotMobile}}
-    <div class='col-sm-6'>
-      {{#if newsItems.[0].imageUrl}}
-        {{news-card-wide
-          class='Card--solo'
-          routeName='index.show'
-          item=newsItems.[0]
-          variant='full'
-        }}
-      {{else}}
-        {{news-card-wide
-          class='Card--solo Card--wide'
-          routeName='index.show'
-          item=newsItems.[0]
-        }}
-      {{/if}}
-    </div>
-
-    <div class='col-sm-3'>
-      {{news-card
-        item=newsItems.[1]
-        routeName='index.show'
-        variant='vertical'
-      }}
-
-      <div class='Card-wrapper--columnVertical2Up'>
-        <div class='AdBanner-wrapper AdBanner-wrapper--index'>
-          {{ad-banner impressionPath='index.index'}}
-        </div>
-      </div>
-    </div>
-
-    <div class='col-sm-3'>
-     {{news-card
-        item=newsItems.[2]
-        routeName='index.show'
-        variant='vertical'
-      }}
-
-      <div class='Card-wrapper--columnVertical2Up'>
-        {{news-card item=newsItems.[3] routeName='index.show' }}
-        {{news-card item=newsItems.[4] routeName='index.show' }}
-      </div>
-    </div>
+    {{grouped-news news=newsItems routeName="index.show" adPath="index.index"}}
   {{else}}
 
     <div class='col-sm-6'>
-      {{#each newsItems as |newsItem index|}}
-        {{#unless (eq index 3)}}
-          {{news-card
-            item=newsItem
-            routeName='index.show'
-            imagePosition='right'
-            classNames='Card Card--news'
-          }}
-        {{else}}
-          {{ad-banner impressionPath='index.index'}}
-        {{/unless}}
-      {{/each}}
+      {{ordered-news
+        news=newsItems
+        routeName="index.show"
+        adPath="index.index"
+      }}
     </div>
   {{/if}}
 </div>
 
 <div class='row' data-row='row-2'>
-  <div class="{{if currentUser 'col-sm-5' 'col-sm-6'}}">
+  <div class="{{if hasTalkItems 'col-sm-5' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--events'>
       {{#link-to 'events' class='GroupHeader-moreLink GroupHeader-moreLink--events h3'}}
         Events
@@ -94,7 +45,7 @@
     {{/each}}
   </div>
 
-  <div class="{{if currentUser 'col-sm-4' 'col-sm-6'}}">
+  <div class="{{if hasTalkItems 'col-sm-4' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--market'>
       {{#link-to 'market' class='GroupHeader-moreLink GroupHeader-moreLink--market h3'}}
         Market
@@ -115,7 +66,7 @@
     {{/each}}
   </div>
 
-  {{#if currentUser}}
+  {{#if hasTalkItems}}
   <div class='col-sm-3'>
     <h1 class='GroupHeader GroupHeader--talk'>
       {{#link-to 'talk' class='GroupHeader-moreLink GroupHeader-moreLink--talk h3'}}
@@ -127,7 +78,7 @@
       {{/link-to}}
     </h1>
 
-    {{#each talkItems as |talk|}}
+    {{#each sortedTalkItems as |talk|}}
       {{talk-card
         talk=talk
         routeName='index.show'

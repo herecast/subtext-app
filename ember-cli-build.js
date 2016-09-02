@@ -6,7 +6,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     'fingerprint': {
-      prepend: 'https://s3.amazonaws.com/subtext-consumer/dist/',
+      prepend: 'https://d1dkpt9jmqqb2i.cloudfront.net/dist/',
 
       // SVG images are not fingerprinted by default so we have to specify
       // them along with the others that are in the default list.
@@ -25,35 +25,32 @@ module.exports = function(defaults) {
     }
   });
 
-  app.import('bower_components/lodash/lodash.js');
+  // BIG CONTRIBUTORS TO VENDOR FILE SIZE
+  if (app.env !== 'production') {
+    app.import('bower_components/Faker/build/build/faker.js'); // contributes 207kb gzipped file size
+  }
 
+  // NOT SIGNIFICANT CONTRIBUTORS TO VENDOR FILE SIZE
+
+  // THIS GROUP CONTRIBUTES 9 KB to the gzipped size PASS
   app.import('bower_components/bootstrap/js/affix.js');
   app.import('bower_components/bootstrap/js/collapse.js');
   app.import('bower_components/bootstrap/js/dropdown.js');
   app.import('bower_components/bootstrap/js/tooltip.js');
   app.import('bower_components/bootstrap/js/modal.js');
+  // END
 
-  app.import('bower_components/Faker/build/build/faker.js');
 
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', {
-    destDir: 'fonts'
-  });
-
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', {
-    destDir: 'fonts'
-  });
-
+  // THIS GROUP CONTRIBUTES 50 KB to the gzipped size PASS
   app.import('bower_components/summernote/dist/summernote.js');
   app.import('bower_components/summernote/dist/summernote.css');
-
   app.import('vendor/summernote-handle.js');
-
   app.import('bower_components/summernote-image-attributes/summernote-image-attributes.js');
-
   app.import('bower_components/sanitize.js/lib/sanitize.js');
-
   app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
+  // END
 
+  // THIS GROUP CONTRIBUTES 62 KB to the gzipped size PASS
   app.import('bower_components/cropper/dist/cropper.js');
   app.import('bower_components/cropper/dist/cropper.css');
 
@@ -67,6 +64,11 @@ module.exports = function(defaults) {
   app.import('bower_components/fullcalendar/dist/fullcalendar.css');
 
   app.import('bower_components/Chart.js/Chart.js');
+  // END
 
+  app.import('bower_components/lodash/lodash.js');
+
+  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: 'fonts' });
+  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', { destDir: 'fonts' });
   return app.toTree();
 };
