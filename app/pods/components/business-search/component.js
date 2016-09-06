@@ -24,9 +24,9 @@ export default Ember.Component.extend({
   displaySuggestions: false,
 
   focusOut() {
-    run.later(() => {
+    run.debounce(() => {
       const stillHasFocus = this.$(':focus').length;
-      if(! stillHasFocus) {
+      if(!stillHasFocus) {
         set(this, 'displaySuggestions', false);
       }
     }, 100);
@@ -77,7 +77,9 @@ export default Ember.Component.extend({
   },
 
   updateSearchTerms(value) {
-    this.attrs.updateFromQuery(value);
+    if (value.length > 3) {
+      this.attrs.updateFromQuery(value);
+    }
   },
 
   updateCategoryMatches(searchTerms) {
@@ -124,8 +126,8 @@ export default Ember.Component.extend({
 
   actions: {
     chooseCategory(category) {
-      this.attrs.setCategory(category);
       set(this, 'displaySuggestions', false);
+      this.attrs.setCategory(category);
     }
   }
 });

@@ -6,8 +6,7 @@ const {
   computed,
   isPresent,
   isEmpty,
-  inject,
-  run
+  inject
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -27,6 +26,7 @@ export default Ember.Controller.extend({
   isCalculatingLocation: false,
   total: null,
   isLoading: false,
+  businesses: null,
 
   intercom: inject.service(),
 
@@ -54,7 +54,6 @@ export default Ember.Controller.extend({
       return [];
     }
 
-
     let apiQuery = {
       query: query,
       category_id: category_id,
@@ -68,11 +67,11 @@ export default Ember.Controller.extend({
     const promise = this.store.query('business-profile', apiQuery);
 
     promise.then(results => {
-      set(this, 'total', get(results, 'meta.total'));
-
-      run.later(this, () => {
-        set(this, 'isLoading', false);
-      }, 1000);
+      this.setProperties({
+        total: get(results, 'meta.total'),
+        businesses: results,
+        isLoading: false
+      });
 
       return results;
     });
