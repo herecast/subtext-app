@@ -64,6 +64,9 @@ body.centered-modal-showing {
   padding: 1em;
   position: relative;
   height: auto;
+  @media (max-width: @screen-xs-max) {
+    padding: 0;
+  }
 }
 
 .ModalDialog-overlay.translucent {
@@ -83,6 +86,11 @@ body.centered-modal-showing {
   margin-bottom: 30px;
   box-sizing: border-box;
   box-shadow: 0px 4px 25px 4px rgba(0,0,0,0.30);
+  @media (max-width: @screen-xs-max) {
+    padding: 0.5em 1.5em 1.5em 1.5em;
+    min-width: 100%;
+    width: 100%;
+  }
 }
 
 /* Other Modals */

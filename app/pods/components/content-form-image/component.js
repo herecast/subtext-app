@@ -180,6 +180,13 @@ export default Ember.Component.extend({
       const rotation = direction === 'left' ? -90 : 90;
 
       this.$('.js-Cropper-image').cropper("rotate", rotation);
+    },
+
+    removeImage() {
+      this.setProperties({
+        originalImageFile: null,
+        originalImageUrl: null
+      });
     }
   }
 });
