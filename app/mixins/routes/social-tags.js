@@ -2,30 +2,56 @@ import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 
+const {get, set} = Ember;
+
 export default Ember.Mixin.create(RouteMetaMixin, {
+
+  isModalContent: false,
   // Override where needed
   modelForMetaTags: function() {
-    return this.modelFor(this.routeName);
+    const modalRoutes = ['index.show'];
+    const routeName = this.routeName;
+    var modelToReturn;
+
+    if (modalRoutes.contains(routeName)) {
+      set(this, 'isModalContent', true);
+      modelToReturn = this.currentModel;
+    } else {
+      set(this, 'isModalContent', false);
+      modelToReturn = this.modelFor(this.routeName);
+    }
+    return modelToReturn;
   },
 
   meta() {
     const model = this.modelForMetaTags();
-    const imageKey = this.get('modelImageKey');
-    const channel = this.get('modelChannel') || 'base';
+    let imageUrl,
+      channel;
+
+    if (get(this, 'isModalContent')) {
+      channel = get(this, 'channel') || 'base';
+      imageUrl = get(model, 'imageUrl') || this.defaultImage(channel);
+    } else {
+      channel = get(this, 'modelChannel') || 'base';
+      const imageKey = get(this, 'modelImageKey');
+      imageUrl = get(this, imageKey) || this.defaultImage(channel);
+    }
+
+    const url = `${location.protocol}//${location.host}${location.pathname}`;
+    const title = get(model, 'title');
 
 // Strip out all HTML tags from the content so it can be used for the description
     let tmp = document.createElement("DIV");
     tmp.innerHTML = model.get('content');
     const description = tmp.textContent || tmp.innerText || "";
     const descriptionTruncated = this.truncateDescription(description);
-    const url = `${location.protocol}//${location.host}${location.pathname}`;
 
     let metaProperty = {
       'property': {
         'fb:app_id': config['facebook-app-id'],
         'og:site_name': 'dailyUV',
-        'og:image': model.get(imageKey) || this.defaultImage(channel),
-        'og:title': model.get('title'),
+        'og:image': imageUrl,
+        'og:title': title,
         'og:description': descriptionTruncated,
         'og:url': url,
       },
@@ -34,18 +60,13 @@ export default Ember.Mixin.create(RouteMetaMixin, {
         'twitter:site': '@thedailyUV',
         'twitter:creator': '@thedailyUV',
         'twitter:url': url,
-        'twitter:title': model.get('title'),
+        'twitter:title': title,
         'twitter:description': descriptionTruncated,
-        'twitter:image': model.get(imageKey) || this.defaultImage(channel)
+        'twitter:image': imageUrl
       }
     };
 
-    if (channel === 'news') {
-      metaProperty.property['og:site_name'] = `${model.get('organizationName')} | dailyUV`;
-    }
-
     return metaProperty;
-
   },
 
   defaultImage(channel) {

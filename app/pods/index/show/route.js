@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Linkable from 'ember-cli-link-tags/mixins/linkable';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
+import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 
 const { get, set } = Ember;
 
@@ -17,7 +18,7 @@ function canonicalUrlFor(type, id) {
   return `${location.protocol}//${location.host}/${ctype}/${id}`;
 }
 
-export default Ember.Route.extend(ModalRoute, Linkable, {
+export default Ember.Route.extend(ModalRoute, Linkable, RouteMetaMixin, {
   links() {
     const type = this.currentModel._internalModel.modelName;
     const id = this.currentModel.id;
@@ -29,6 +30,7 @@ export default Ember.Route.extend(ModalRoute, Linkable, {
 
   model(params, transition) {
     const type = normalizeContentType(params.ctype) || null;
+    set(this, 'channel', type);
 
     if (type) {
       return this.store.findRecord(type, params.id).catch(() => {

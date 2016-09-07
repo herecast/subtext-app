@@ -109,7 +109,7 @@ export default Ember.Component.extend(InViewportMixin, {
     let contentId;
 
     if (content) {
-      contentId = get(content, 'contentId');
+      contentId = get(content, 'id');
     }
 
     return get(this, 'promotionService').find(contentId).then(promotion => {
