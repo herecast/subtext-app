@@ -25,19 +25,17 @@ export default Ember.Mixin.create(RouteMetaMixin, {
 
   meta() {
     const model = this.modelForMetaTags();
-    let imageUrl,
-      channel;
+    let channel,
+      url;
 
     if (get(this, 'isModalContent')) {
       channel = get(this, 'channel') || 'base';
-      imageUrl = get(model, 'imageUrl') || this.defaultImage(channel);
+      url = window.location.href;
     } else {
       channel = get(this, 'modelChannel') || 'base';
-      const imageKey = get(this, 'modelImageKey');
-      imageUrl = get(this, imageKey) || this.defaultImage(channel);
+      url = `${location.protocol}//${location.host}${location.pathname}`;
     }
-
-    const url = `${location.protocol}//${location.host}${location.pathname}`;
+    const imageUrl = get(model, 'imageUrl') || this.defaultImage(channel);
     const title = get(model, 'title');
 
 // Strip out all HTML tags from the content so it can be used for the description
