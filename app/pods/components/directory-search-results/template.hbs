@@ -17,11 +17,12 @@
           {{#if (not media.isMobile)}}
             {{fa-icon 'fa-map-marker'}}
             {{result.fullAddress}}
+            <span class="miles">&nbsp;&nbsp;({{round (geo-distance result.coords searchCoords) 1}} mi)</span>
           {{/if}}
         </div>
         <div>
           {{business-feedback-badge result=result}}
-          <span class="miles">({{round (geo-distance result.coords searchCoords) 1}} mi)</span>
+
         </div>
       </div>
       <div class="DirectoryListings-linkBar">

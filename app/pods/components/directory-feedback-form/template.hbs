@@ -1,5 +1,8 @@
-{{business-feedback-badge result=model}}
-
+{{business-feedback-badge
+  result=model
+  detailView=true
+}}
+<br />
 <button class="DirectoryBusiness-feedback-button" {{action 'toggleDisplay'}}>
   {{if hasRated 'Rerate' 'Rate'}} Business
 </button>
