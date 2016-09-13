@@ -7,7 +7,11 @@
       {{/link-to}}
     </div>
     <div class='col-sm-3 publishLink'>
-      {{#async-button action='save' class='Button Button--event btn btn-primary pull-right save-and-publish'}}
+      {{#async-button
+        data-test-component='preview-publish'
+        action='save'
+        class='Button Button--talk btn btn-primary pull-right save-and-publish'
+      }}
         <span {{action 'trackEvent' 'submitContent'}}>
           {{#if isSaving}}
             Please Wait&hellip;
@@ -15,7 +19,7 @@
             {{#if media.isTablet}}
               Publish
             {{else}}
-              Save &amp; Publish
+            {{callToAction}}
             {{/if}}
             {{fa-icon 'check u-iconRight'}}
           {{/if}}
@@ -26,34 +30,37 @@
   <div class='ContentPreview-summary col-sm-6'>
     <p>
       Preview your event page below. If everything looks good to go, click the
-      “SAVE &amp; PUBLISH” button to submit your event.
+      “{{callToAction}}” button to submit your event.
     </p>
-    <p>
-      Here’s how you’ve chosen to promote your event:
-    </p>
-    <ul class='ContentPreview-propertyList'>
-      {{#disabled-checkbox
-        checked=model.extendedReachEnabled
-        tagName='li'
-        class='ContentPreview-summaryProperty'
-      }}
-        Extend Your Reach
-      {{/disabled-checkbox}}
-      {{#disabled-checkbox
-        checked=model.categoryEnabled
-        tagName='li'
-        class='ContentPreview-summaryProperty'
-      }}
-        Be Special
-      {{/disabled-checkbox}}
-      {{#disabled-checkbox
-        checked=model.listsEnabled
-        tagName='li'
-        class='ContentPreview-summaryProperty'
-      }}
-        Alert the List
-      {{/disabled-checkbox}}
-    </ul>
+
+    {{#unless isListservPreview}}
+      <p>
+        Here’s how you’ve chosen to promote your event:
+      </p>
+      <ul class='ContentPreview-propertyList'>
+        {{#disabled-checkbox
+          checked=model.extendedReachEnabled
+          tagName='li'
+          class='ContentPreview-summaryProperty'
+        }}
+          Extend Your Reach
+        {{/disabled-checkbox}}
+        {{#disabled-checkbox
+          checked=model.categoryEnabled
+          tagName='li'
+          class='ContentPreview-summaryProperty'
+        }}
+          Be Special
+        {{/disabled-checkbox}}
+        {{#disabled-checkbox
+          checked=model.listsEnabled
+          tagName='li'
+          class='ContentPreview-summaryProperty'
+        }}
+          Alert the List
+        {{/disabled-checkbox}}
+      </ul>
+    {{/unless}}
     <div class='ContentPreview-helpText ContentPreview--bottom'>
       Everything below dotted line is your preview
       {{fa-icon 'arrow-down'}}

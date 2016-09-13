@@ -1,0 +1,68 @@
+<form data-test-component='registration-form'>
+  {{#form-group error=error.name}}
+    <label class='control-label'>Name</label>
+    {{input
+      value=name
+      class='form-control'
+      data-test-field='registration-form-name'
+    }}
+  {{/form-group}}
+
+  {{#form-group error=error.email}}
+    <label class='control-label'>Email</label>
+    {{input
+      value=email
+      disabled=true
+      class='form-control'
+      data-test-field='registration-form-email'
+    }}
+  {{/form-group}}
+
+  {{#form-group error=error.password}}
+    <label class='control-label'>Password</label>
+    {{input
+      type='password'
+      value=password
+      class='form-control'
+      autocomplete='off'
+      data-test-field='registration-form-password'
+    }}
+    <span class='help-text'>(at least 8 characters)</span>
+  {{/form-group}}
+
+  {{#form-group error=error.locationId}}
+    <label class='control-label'>Where do you live? *</label>
+    {{location-dropdown
+        selectedLocationId=locationId
+        data-test-component='registration-form-location'
+        isEditing=true
+    }}
+  {{/form-group}}
+
+  {{#form-group class='checkbox'}}
+    <label>
+      <input type='checkbox' checked disabled>
+      <strong>{{listservName}} Daily Digest</strong><br>
+      A comprehensive, easy-to-scan list of all posts to the
+      {{listservName}}. Delivered daily.
+    </label>
+  {{/form-group}}
+
+  <p>
+    By clicking below you agree to our awesome
+    {{#link-to 'terms' class='u-textUnderline' target="_blank"}}
+      Terms of Service
+    {{/link-to}}
+  </p>
+
+  <div class='form-actions text-center'>
+    {{async-button
+      action=(action 'register')
+      default=callToAction
+      pending='Registering'
+      class='ListservForm-callToAction'
+      data-test-component='registration-form-submit'
+    }}
+  </div>
+
+</form>

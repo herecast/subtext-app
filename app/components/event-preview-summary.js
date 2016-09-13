@@ -5,6 +5,7 @@ const { computed } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   isSaving: false,
+  callToAction: 'Save & Publish',
 
   editLink: computed('model.isNew', function() {
     if (this.get('model.isNew')) {

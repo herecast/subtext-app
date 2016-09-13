@@ -11,6 +11,7 @@ export default Ember.Component.extend(Validation, TrackEvent, {
   schedules: null,
   error: null,
   image: computed.alias('model.image'),
+  showOrganizationMenu: true,
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 

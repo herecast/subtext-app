@@ -102,6 +102,11 @@ export default Ember.Mixin.create({
       set(this, 'errors.password', 'Cannot be blank');
     }
 
+    if(isLongEnough) {
+      set(this, 'errors.password', null);
+      delete get(this, 'errors')['password'];
+    }
+
     return isLongEnough;
   },
 

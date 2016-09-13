@@ -1,0 +1,44 @@
+.ListPostEnhance {
+  background-color: @secondary-bg;
+  height: 100%;
+  position: absolute;
+  overflow: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding-bottom: 40px;
+}
+
+.ListPostEnhance--header {
+  margin: 20px 0;
+  padding: 0;
+}
+
+.ListPostEnhance--content {
+  background-color: white;
+  box-shadow: 1px 2px 10px @gray-medium;
+  min-height: 500px;
+}
+
+.ListPostEnhance--content-title {
+  margin: 30px;
+  text-align: center;
+}
+
+.ListPostEnhance--link {
+  .Button;
+  .Button--primary;
+}
+
+.ListPostEnhance--market-link {
+  &.active {
+    .Button--market;
+  }
+}
+
+.ListPostEnhance--event-link {
+  &.active {
+    .Button--event;
+  }
+}

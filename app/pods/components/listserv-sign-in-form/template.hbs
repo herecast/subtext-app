@@ -1,0 +1,40 @@
+<form data-test-component='sign-in-form'>
+  <p>
+    Our clever system knows you already signed up!<br>
+    Enter your password to confirm.
+  </p>
+  <p data-test-listserv-sign-in-form-email>{{email}}</p>
+
+  {{#form-group error=error}}
+    {{input
+      value=password
+      placeholder='Password'
+      type='password'
+      class='form-control'
+      data-test-field='sign-in-form-password'
+      data-test-component='login-password'
+    }}
+    {{#link-to 'forgot-password.index' (query-params returnUrl=forgotPasswordReturnUrl) class='u-textUnderline'}}
+      <span {{action 'trackForgotPassword'}}>
+        Forgot your password? No worries>
+      </span>
+    {{/link-to}}
+  {{/form-group}}
+
+  <p>
+    By clicking below you agree to our awesome
+    {{#link-to 'terms' class='u-textUnderline' target="_blank"}}
+      Terms of Service
+    {{/link-to}}
+  </p>
+
+  <div class='form-actions text-center'>
+    {{async-button
+      action=(action 'authenticate')
+      default=callToAction
+      pending='Signing in'
+      class='ListservForm-callToAction'
+      data-test-component='sign-in-form-submit'
+    }}
+  </div>
+</form>

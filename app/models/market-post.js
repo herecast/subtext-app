@@ -77,6 +77,10 @@ export default DS.Model.extend({
     });
   },
 
+  primaryImage: computed('images.[]', 'images.@each.primary', function() {
+    return get(this, 'images').findBy('primary') || get(this, 'images').get('firstObject');
+  }),
+
   coverImageUrl: computed('images.@each.{primary,imageUrl}', 'imageUrl', function() {
     const images = get(this, 'populatedImages');
     const primaryImage = images.findBy('primary');

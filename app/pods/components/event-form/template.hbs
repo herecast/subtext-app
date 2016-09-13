@@ -133,4 +133,8 @@
   <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-{{partial 'partials/content-form-buttons'}}
+{{#if hasBlock}}
+  {{yield (action 'next')}}
+{{else}}
+  {{partial 'partials/content-form-buttons'}}
+{{/if}}

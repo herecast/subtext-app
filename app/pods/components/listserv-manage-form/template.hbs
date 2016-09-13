@@ -1,0 +1,60 @@
+<div class="form-header">
+  <h2 class="center">
+    {{listserv.name}}
+  </h2>
+
+  {{#if isSubscribed}}
+    <div class="center">
+      <div>
+        You are currently subscribed to the list as <b>{{model.email}}</b>
+      </div>
+      <div>
+        Please click below to unsubscribe from the {{listserv.name}}.
+      </div>
+      {{async-button
+        action=(action 'unsubscribe')
+        default='Unsubscribe'
+        pending='Unsubscribing...'
+        fulfilled='Unsubscribing...'
+        class='subscribe-button unsubscribe'
+      }}
+    </div>
+  {{else}}
+    <div class="center">
+      <div>
+        You are currently NOT subscribed to the {{listserv.name}}
+      </div>
+      <div>
+        Please click below to resubscribe to the list as <b>{{model.email}}</b>
+      </div>
+      {{async-button
+        action=(action 'resubscribe')
+        default='Resubscribe'
+        pending='Resubscribing...'
+        fulfilled='Resubscribing...'
+        class='subscribe-button resubscribe'
+      }}
+    </div>
+  {{/if}}
+</div>
+
+
+{{#if hasFinished}}
+  {{#x-modal}}
+  <div class="ListservForm-modal">
+      <div>
+        <h2>{{messageTitle}}</h2>
+      </div>
+      <hr />
+      <div>
+        You can always unsubscribe or resubscribe at the following link:<br />
+        <a href={{manageLink}}>{{manageLink}}</a>
+      </div>
+      <hr />
+      <div>
+        <br />
+          For local News, Events, Market, and Businesses checkout <b>{{#link-to 'index'}}DailyUV.com{{/link-to}}</b>
+      </div>
+    </div>
+  {{/x-modal}}
+{{/if}}

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import AjaxService from 'ember-ajax/services/ajax';
 import config from '../config/environment';
 
-const { inject, computed, get, isPresent } = Ember;
+const { inject, computed, get, isEmpty, isPresent } = Ember;
 
 export default AjaxService.extend({
   namespace: config.API_NAMESPACE,
@@ -24,6 +24,46 @@ export default AjaxService.extend({
       return headers;
     }
   }),
+
+  json(data) {
+    return {
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(data)
+    };
+  },
+
+  confirmListservPost(id, data) {
+    if (isEmpty(data)) {
+      data = {
+        listserv_content: {
+          id: id
+        }
+      };
+    }
+    return this.patch(`/listserv_contents/${id}`, {
+      dataType: 'text',
+      data: data
+    });
+  },
+
+  confirmListservSubscription(id) {
+    return this.patch(`/subscriptions/${id}/confirm`, {
+      dataType: 'text'
+    });
+  },
+
+  unsubscribeFromListserv(id) {
+    return this.patch(`/subscriptions/${id}/unsubscribe`, {
+      dataType: 'text'
+    });
+  },
+
+  confirmedRegistration(data) {
+    return this.post('/registrations/confirmed',
+      this.json(data)
+    );
+  },
 
   createRegistration(data) {
     return this.post('/users/sign_up', {
@@ -198,6 +238,7 @@ export default AjaxService.extend({
     });
   },
 
+
   recordPromoBannerClick(id, data) {
     return this.post(`/promotion_banners/${id}/track_click`, {
       data: data
@@ -212,13 +253,19 @@ export default AjaxService.extend({
     });
   },
 
-  requestPasswordReset(email) {
-    return this.post('/password_resets', {
-      data: {
-        user: {
-          email: email
-        }
+  requestPasswordReset(email, returnUrl) {
+    let data = {
+      user: {
+        email: email,
       }
+    };
+
+    if(returnUrl) {
+      data['return_url'] = returnUrl;
+    }
+
+    return this.post('/password_resets', {
+      data: data
     });
   },
 

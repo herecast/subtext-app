@@ -1,0 +1,63 @@
+<div class="ListservForm-container">
+  {{#if requiresSignIn}}
+      {{#if requiresRegistration}}
+        {{#listserv-form}}
+          <div class='ListservForm-sectionSubHeader'>
+            <h1 class='ListservForm-sectionHeader'>
+              Want to enhance your post?
+            </h1>
+
+            <h3>
+              Vital Communities and dailyUV teamed up to give you a better way
+              to keep up with what's happening in the UV daily with {{listservName}}.
+            </h3>
+
+            <h2>
+                Create and manage your posts.
+            </h2>
+            <p>
+              Through an account on dailyUV.com you can customize your post -
+              giving it PREMIER placement in the new UV list digest.
+            </p>
+
+            <h2>
+                BONUS -
+            </h2>
+            <p>
+              dailyUV.com gives you uninterupted access to all things UV.
+              You can BROWSE and POST anytime - it's free - seriously. Your
+              homepage is customized based on where you live.
+            </p>
+          </div>
+
+          {{listserv-registration-form
+              email=(readonly model.senderEmail)
+              callToAction="ENHANCE MY POST"
+              listservName=listservName
+              confirmationKey=confirmationKey
+          }}
+        {{/listserv-form}}
+      {{else}}
+        {{#listserv-form}}
+          <div class='ListservForm-sectionSubHeader text-center'>
+            <h1 class='ListservForm-sectionHeader'>+ENHANCE your Post on the {{listservName}}</h1>
+            <h3>
+              Vital Communities and dailyUV teamed up to provide complimentary ways
+              for you to keep up with what's happening in your community.
+            </h3>
+            <h2>Your post is now created and managed using your account on dailyUV.com</h2>
+          </div>
+          <div class='text-center'>
+              {{listserv-sign-in-form
+                  email=(readonly model.senderEmail)
+                  callToAction="ENHANCE MY POST"
+                  confirmationKey=confirmationKey
+                  forgotPasswordReturnUrl=forgotPasswordReturnUrl
+              }}
+            </div>
+          {{/listserv-form}}
+      {{/if}}
+  {{else}}
+    {{outlet}}
+  {{/if}}
+</div>

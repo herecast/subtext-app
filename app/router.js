@@ -98,6 +98,15 @@ Router.map(function() {
   this.route('organization-profile', {path: '/organizations/:slug'}, function() {
     this.route('edit');
   });
+
+  this.route('lists', function() {
+    this.route('subscribe', {path: '/:id/subscribe'});
+    this.route('manage', {path: '/:id/manage'});
+    this.route('posts', {path: '/posts/:id'}, function() {
+      this.route('preview');
+    });
+    this.route('confirm_post', {path: '/confirm_post/:id'});
+  });
 });
 
 export default Router;

@@ -8,6 +8,7 @@
     class='form-control'
     value=talk.title
     input=(action 'validateForm')
+    data-test-field='talk-title'
   }}
 {{/form-group}}
 
@@ -15,7 +16,7 @@
   <label class='control-label ContentForm-label--required' for="description">Text</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=(readonly talk.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
+  {{#summer-note content=(readonly talk.content) class='ContentForm-textArea' notifyChange=(action 'updateContent') data-test-component='talk-content'}}
     {{textarea
       id='description'
       placeholder='An informative, civil comment that will encourage people to respond'
@@ -36,4 +37,8 @@
   <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-{{partial 'partials/content-form-buttons'}}
+{{#if hasBlock}}
+  {{yield (action 'next')}}
+{{else}}
+  {{partial 'partials/content-form-buttons'}}
+{{/if}}

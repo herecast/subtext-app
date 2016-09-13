@@ -1,0 +1,25 @@
+<div class='Container--noGutter'>
+  <h3>In the UpperValley Digest</h3>
+  {{listserv-content-digest-preview model=listservContent}}
+</div>
+{{#if enhancedPost}}
+  <div class='Container--noGutter'>
+    <h3>And on dailyUV.com</h3>
+  </div>
+  <div class='Container--noGutter'>
+    {{component summaryComponentName
+      model=enhancedPost
+      editLink='lists.posts.index'
+      afterPublish='afterPublish'
+      isListservPreview=true
+      callToAction="SAVE & PUBLISH TO THE DIGEST"
+    }}
+  </div>
+  {{#content-preview}}
+    {{component previewComponentName model=enhancedPost isPreview=true}}
+  {{/content-preview}}
+{{else}}
+  <div class="text-center">
+    <button class="Button Button--primary Button--market" {{action 'afterPublish'}}>Submit</button>
+  </div>
+{{/if}}

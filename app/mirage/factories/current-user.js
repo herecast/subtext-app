@@ -2,7 +2,6 @@ import Mirage, {faker} from 'ember-cli-mirage';
 import moment from 'moment';
 
 export default Mirage.Factory.extend({
-  id: 1,
   name() { return faker.name.findName(); },
   email: "embertest@subtext.org",
   createdAt() { return moment(faker.date.recent(-30)).toISOString(); },

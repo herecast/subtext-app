@@ -5,16 +5,66 @@ export default function(server) {
   server.loadFixtures();
   server.createList('content-metric',1);
   server.createList('ad-metric',1);
-  const organizations = server.createList('organization',5);
-  server.create('current-user', {
-    managedOrganizations: organizations.slice(0,2)
-  });
+  server.createList('organization',5);
+  server.createList('location', 8);
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('promotion-banner', 50);
   server.createList('market-post', 100);
-  server.createList('location', 8);
-  server.createList('listserv', 3);
+
+  const user1 = server.create('user', {location_id: 1});
+  const user2 = server.create('user', {location_id: 1});
+
+  const listserv = server.create('listserv');
+  server.create('subscription', {
+    listserv: listserv,
+    user: user1,
+    email: user1.email
+  });
+
+  server.create('subscription', {
+    listserv: listserv,
+    user: user1,
+    email: user1.email,
+    confirmedAt: '2012-08-01'
+  });
+
+  server.create('subscription', {
+    listserv: listserv,
+    email: 'embertest3@subtext.org',
+    confirmedAt: null,
+    user: null
+  });
+
+  server.create('subscription', {
+    listserv: listserv,
+    user: user2,
+    email: user2.email,
+    confirmedAt: '2012-08-01'
+  });
+
+  server.create('listserv-content', {
+    listserv: listserv,
+    user: user1,
+    senderEmail: user1.email
+  });
+
+  server.create('listserv-content', {
+    listserv: listserv,
+    user: user2,
+    senderEmail: user2.email
+  });
+
+  server.create('listserv-content', {
+    listserv: listserv,
+    user: null
+  });
+  server.create('listserv-content', {
+    listserv: listserv,
+    id: 4,
+    verifiedAt: '2012-08-01',
+    user: null
+  });
 
   /**
    * Business Categories

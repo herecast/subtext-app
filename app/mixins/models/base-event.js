@@ -11,6 +11,7 @@ export default Ember.Mixin.create({
   contactEmail: DS.attr('string'),
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
+  contentId: DS.attr('number'),
   cost: DS.attr('string'),
   costType: DS.attr('string'),
   endsAt: DS.attr('moment-date'),

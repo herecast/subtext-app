@@ -4,11 +4,14 @@ const {
   get, set,
   inject,
   computed,
-  isBlank
+  isBlank,
+  isPresent
 } = Ember;
 
 export default Ember.Component.extend({
   api: inject.service('api'),
+  windowLocation: inject.service('windowLocation'),
+  returnUrl: null,
   tagName: 'form',
   showErrors: false,
   showConfirmation: false,
@@ -22,6 +25,9 @@ export default Ember.Component.extend({
 
   actions: {
     submit() {
+      const returnUrl = get(this, 'returnUrl');
+      const windowLocation = get(this, 'windowLocation');
+
       if (get(this, 'passwordsMatch')) {
         const api = get(this, 'api');
         set(this, 'showErrors', false);
@@ -31,12 +37,12 @@ export default Ember.Component.extend({
             reset_password_token: get(this, 'token'),
             password: get(this, 'password'),
             password_confirmation: get(this, 'passwordConfirmation')
-          }
+          }, returnUrl
         }).then(() => {
-          // TODO this success condition will never fire
-          // because Ember isn't interpreting a 200 ok header
-          // with a blank response as success
           set(this, 'showConfirmation', true);
+          if(isPresent(returnUrl)) {
+            windowLocation.redirectTo(returnUrl);
+          }
         }, (response) => {
           if (isBlank(response)) {
             // assuming a blank response is a 200 ok

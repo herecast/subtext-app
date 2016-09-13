@@ -97,7 +97,7 @@ export default Ember.Component.extend(Validation, {
   }),
 
   filteredOrganizations: computed('organizations.@each.canPublishNews', function() {
-    return get(this, 'organizations').filter((item) => {
+    return (get(this, 'organizations') || []).filter((item) => {
       return get(item, 'canPublishNews');
     });
   }),

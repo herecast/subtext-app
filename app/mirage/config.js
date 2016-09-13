@@ -4,7 +4,9 @@ import Mirage from 'ember-cli-mirage';
 
 const { isPresent } = Ember;
 
+
 /*jshint multistr: true */
+
 
 // This is just a dumb method to make it look like we're doing filtering
 function filterByCategory(events, category) {
@@ -168,27 +170,48 @@ export default function() {
     }
   };
 
-  this.post('/users/sign_in', function() {
-    return {
-      token: "FCxUDexiJsyChbMPNSyy",
-      email: "embertest@subtext.org"
-    };
+
+  this.post('/users/sign_in', function({db, users, currentUsers}, request) {
+    db.currentUsers.remove();
+
+    let emailMatcher = /user\[email\]=([a-z1-9\.\-_@]+)/i;
+    let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
+
+    let user;
+    if(matches) {
+      let email = matches[1];
+      user = users.where({email: email}).models[0];
+    } else {
+      user = users.first();
+    }
+
+    if(user) {
+      currentUsers.create(user.attrs);
+      return {
+        token: "FCxUDexiJsyChbMPNSyy",
+        email: user.email
+      };
+    } else {
+      return new Mirage.Response(401, {}, {
+        error: "Invalid email or password"
+      });
+    }
   });
 
   this.post('/users/sign_up', function() {
   });
 
-  this.post('/users/logout', function() {});
+  this.post('/users/logout', function({db}) {
+    db['currentUsers'].remove();
+  });
 
-  this.get('/current_user', function({ db, currentUsers }) {
-    var currentUser = currentUsers.find(1);
-
-    //mocks location join
-    var location = db.locations.find(currentUser.locationId);
-    var locationString = `${location.city}, ${location.state}`;
-    currentUser.location = locationString;
-
-    return currentUser;
+  this.get('/current_user', function(schema) {
+    var current_user = schema.currentUsers.first();
+    if (current_user) {
+      return current_user;
+    } else {
+      return new Mirage.Response(401);
+    }
   });
 
   this.put('/current_user', function({ db, currentUsers }, request) {
@@ -409,6 +432,7 @@ export default function() {
   this.post('/comments');
 
   this.get('/listservs');
+  this.get('/listservs/:id');
 
   this.get('/contents/:id/similar_content', function({ db }) {
     return {
@@ -495,8 +519,8 @@ export default function() {
     return {};
   });
 
-  this.put('/password_resets/:token', function() {
-    return ' ';
+  this.put('/password_resets', function() {
+    return {};
   });
 
   this.get('/password_resets/:token', function() {
@@ -732,5 +756,43 @@ export default function() {
       user_id: 1,
       business_id: 7
     };
+  });
+
+  this.get('/subscriptions/:id');
+
+  this.patch('/subscriptions/:id/confirm', function() {
+    return {};
+  });
+
+  this.patch('/subscriptions/:id/unsubscribe', function() {
+    return {};
+  });
+
+  this.post('/registrations/confirmed', function({db, users, currentUsers}, request) {
+    var putData = JSON.parse(request.requestBody);
+    var attrs = putData['registration'];
+    users.create(attrs);
+
+    db.currentUsers.remove();
+    var current_user = currentUsers.create(attrs);
+    //mocks location join
+    var location = db.locations.find(current_user.location_id);
+    var locationString = `${location.city}, ${location.state}`;
+    current_user.location = locationString;
+
+    return {
+      email: current_user.email,
+      token: "f688d44f-3e2e-4b37-8493-4cfe9503e858"
+    };
+  });
+
+  this.get('/listservs/:id');
+
+  this.get('/listserv_contents', 'listservContents');
+  this.get('/listserv_contents/:id', 'listservContents');
+  this.post('/listserv_contents/:id', 'listservContent');
+  this.put('/listserv_contents/:id', 'listservContent');
+  this.patch('/listserv_contents/:id', function() {
+    return {};
   });
 }

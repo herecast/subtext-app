@@ -1,15 +1,26 @@
+import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+/* global sinon */
+
+window.Intercom = sinon.stub();
+
+let intercom = Ember.Service.extend({
+  doNotTrack: sinon.stub(),
+  doTrack: sinon.stub(),
+  update: sinon.stub(),
+  boot: sinon.stub()
+});
 
 moduleForAcceptance('Acceptance | edit requires canEdit flag', {
   beforeEach() {
-    window.Intercom = function() {
-    };
-    server.create('current-user');
+    this.application.register('service:intercomTest', intercom);
+    this.application.inject('route', 'intercom', 'service:intercomTest');
+
     server.create('location');
-    visit('/sign_in');
-    click(testSelector('component', 'login-submit'));
+    authenticateUser(this.application,server);
   }
 });
 

@@ -7,7 +7,11 @@
       {{/link-to}}
     </div>
     <div class='col-sm-3 publishLink'>
-      {{#async-button action='save' class='Button Button--talk btn btn-primary pull-right save-and-publish'}}
+      {{#async-button
+        data-test-component='preview-publish'
+        action='save'
+        class='Button Button--talk btn btn-primary pull-right save-and-publish'
+      }}
         <span {{action 'trackEvent' 'submitContent'}}>
           {{#if isSaving}}
             Please Wait&hellip;
@@ -15,7 +19,7 @@
             {{#if media.isTablet}}
               Publish
             {{else}}
-              Save &amp; Publish
+              {{callToAction}}
             {{/if}}
             {{fa-icon 'check u-iconRight'}}
           {{/if}}
@@ -26,20 +30,24 @@
   <div class='ContentPreview-summary col-sm-6'>
     <p>
       Preview your talk page below. If everything looks good to go, click the
-      “SAVE &amp; PUBLISH” button to submit your talk.
+      “{{callToAction}}” button to submit your talk.
     </p>
-    <p>
-      Here’s how you’ve chosen to promote your talk:
-    </p>
-    <ul class='ContentPreview-propertyList'>
-      {{#disabled-checkbox
-        checked=model.listEnabled
-        tagName='li'
-        class='ContentPreview-summaryProperty'
-      }}
-        Alert the List
-      {{/disabled-checkbox}}
-    </ul>
+
+    {{#unless isListservPreview}}
+      <p>
+        Here’s how you’ve chosen to promote your talk:
+      </p>
+      <ul class='ContentPreview-propertyList'>
+        {{#disabled-checkbox
+          checked=model.listEnabled
+          tagName='li'
+          class='ContentPreview-summaryProperty'
+        }}
+          Alert the List
+        {{/disabled-checkbox}}
+      </ul>
+    {{/unless}}
+
     <div class='ContentPreview-helpText ContentPreview--bottom'>
       Everything below dotted line is your preview
       {{fa-icon 'arrow-down'}}

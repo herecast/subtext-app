@@ -1,0 +1,9 @@
+<h1 class='ListservForm-sectionHeader u-textCentered'>
+  Preview Your Post
+</h1>
+{{listserv-content-preview
+  data-test-component='listserv-content-preview'
+  listservContent=(mut model)
+  enhancedPost=(mut enhancedPost)
+  afterPublish=(action 'saveListservContent')
+}}

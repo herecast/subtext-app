@@ -1,31 +1,46 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
+const { get, set } = Ember;
+
 export default Ember.Service.extend({
+  enableTracking: true,
+
+  doTrack() {
+    set(this, 'enableTracking', true);
+  },
+
+  doNotTrack() {
+    set(this, 'enableTracking', false);
+  },
+
   boot(user) {
     // The existing logged out version of Intercom needs to be shutdown
     // so that the logged in version can boot up.
     window.Intercom('shutdown');
 
     const intercomId = config['intercom-api-token'];
-
-    window.Intercom('boot', {
-      app_id: intercomId,
-      email: user.get('email'),
-      name: user.get('name'),
-      user_id: user.get('userId'),
-      created_at: user.get('createdAt'),
-      test_group: user.get('testGroup'),
-      widget: {
-        activator: '#IntercomDefaultWidget'
-      }
-    });
+    if(get(this, 'enableTracking')) {
+      window.Intercom('boot', {
+        app_id: intercomId,
+        email: user.get('email'),
+        name: user.get('name'),
+        user_id: user.get('userId'),
+        created_at: user.get('createdAt'),
+        test_group: user.get('testGroup'),
+        widget: {
+          activator: '#IntercomDefaultWidget'
+        }
+      });
+    }
   },
 
   update(/*user*/) {
-    window.Intercom('update', {
-      // TODO: pass user attributes here if they change (i.e. email, name, etc)
-    });
+    if(get(this, 'enableTracking')) {
+      window.Intercom('update', {
+        // TODO: pass user attributes here if they change (i.e. email, name, etc)
+      });
+    }
   },
 
   contactUs(subject) {
@@ -42,7 +57,9 @@ export default Ember.Service.extend({
   },
 
   trackEvent(eventName, metadata) {
-    window.Intercom('trackEvent', eventName, metadata);
+    if(get(this, 'enableTracking')) {
+      window.Intercom('trackEvent', eventName, metadata);
+    }
   },
 
   shutdown() {

@@ -1,28 +1,30 @@
-{{#if media.isNotMobile}}
-  {{global-header
-    page=page
+{{#unless hideHeader}}
+  {{#if media.isNotMobile}}
+    {{global-header
+      page=page
 
-    eventsFilter=eventsFilter
-    newsFilter=newsFilter
-    talkFilter=talkFilter
-    marketFilter=marketFilter
+      eventsFilter=eventsFilter
+      newsFilter=newsFilter
+      talkFilter=talkFilter
+      marketFilter=marketFilter
 
-    trackChannel=(action 'trackChannel')
-    trackHome=(action 'trackHome')
-    trackRegistration=(action 'trackRegistration')
-    trackUserMenu=(action 'trackUserMenu')
-    trackMenuOpen=(action 'trackMenuOpen')
+      trackChannel=(action 'trackChannel')
+      trackHome=(action 'trackHome')
+      trackRegistration=(action 'trackRegistration')
+      trackUserMenu=(action 'trackUserMenu')
+      trackMenuOpen=(action 'trackMenuOpen')
 
-    openSearch='openSearch'
+      openSearch='openSearch'
 
-    signOut=(action 'signOut')
-  }}
-{{else}}
-  {{mobile-header
-    openSearch='openSearch'
-    signOut=(action 'signOut')
-  }}
-{{/if}}
+      signOut=(action 'signOut')
+    }}
+  {{else}}
+    {{mobile-header
+      openSearch='openSearch'
+      signOut=(action 'signOut')
+    }}
+  {{/if}}
+{{/unless}}
 
 {{#if search.showSearch class='search'}}
   {{search-nav}}
@@ -35,15 +37,17 @@
 
 {{#link-to 'copyright' class='Copyright h6'}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
 
-{{#if media.isMobile}}
-  {{footer-nav
-    page=page
+{{#unless hideFooter}}
+  {{#if media.isMobile}}
+    {{footer-nav
+      page=page
 
-    eventsFilter=eventsFilter
-    newsFilter=newsFilter
-    talkFilter=talkFilter
-    marketFilter=marketFilter
+      eventsFilter=eventsFilter
+      newsFilter=newsFilter
+      talkFilter=talkFilter
+      marketFilter=marketFilter
 
-    trackChannel=(action 'trackChannel')
-  }}
-{{/if}}
+      trackChannel=(action 'trackChannel')
+    }}
+  {{/if}}
+{{/unless}}

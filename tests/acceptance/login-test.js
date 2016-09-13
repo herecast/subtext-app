@@ -13,8 +13,8 @@ moduleForAcceptance('Acceptance | login', {
 test('logging in works', function(assert) {
   assert.expect(2);
 
-  server.create('current-user');
-  server.create('location');
+  let location = server.create('location');
+  let user = server.create('user', {location_id: location.id});
 
   visit('/sign_in');
 
@@ -22,7 +22,7 @@ test('logging in works', function(assert) {
     assert.equal(currentURL(), '/sign_in', 'it should be at the correct url to login');
   });
 
-  fillIn(testSelector('component', 'login-email'), 'embertest@subtext.org');
+  fillIn(testSelector('component', 'login-email'), user.email);
   fillIn(testSelector('component', 'login-password'), 'password');
 
   click(testSelector('component', 'login-submit'));
@@ -35,8 +35,8 @@ test('logging in works', function(assert) {
 test('visiting protected page while not logged in redirects to login page then back', function(assert) {
   assert.expect(2);
 
-  server.create('current-user');
-  server.create('location');
+  let location = server.create('location');
+  let user = server.create('user', {location_id: location.id});
 
   const protectedUrl = '/talk';
 
@@ -46,7 +46,7 @@ test('visiting protected page while not logged in redirects to login page then b
     assert.equal(currentURL(), '/sign_in', 'it should be redirected to the login page');
   });
 
-  fillIn(testSelector('component', 'login-email'), 'embertest@subtext.org');
+  fillIn(testSelector('component', 'login-email'), user.email);
   fillIn(testSelector('component', 'login-password'), 'password');
 
   click(testSelector('component', 'login-submit'));

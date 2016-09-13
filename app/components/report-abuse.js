@@ -10,6 +10,7 @@ export default Ember.Component.extend(TrackEvent, {
   showSuccess: false,
   flagType: null,
   invalid: false,
+  isPreview: false,
 
   revalidate: observer('flagType', function() {
     this.set('invalid', false);
@@ -19,7 +20,10 @@ export default Ember.Component.extend(TrackEvent, {
 
   actions: {
     reportAbuse() {
-      this.set('showAbuseReportMenu', true);
+      const isPreview = get(this, 'isPreview');
+      if(!isPreview) {
+        this.set('showAbuseReportMenu', true);
+      }
     },
 
     close() {

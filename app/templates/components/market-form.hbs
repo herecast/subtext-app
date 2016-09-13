@@ -1,18 +1,20 @@
-{{#if organizations}}
-  {{#form-group hideError=true}}
-    <label class='control-label ContentForm-label--required'>Content Owner</label>
-    {{#if post.isNew}}
-      {{organization-dropdown selection=post.organization class="with-border"}}
-    {{else}}
-      <div class='form-control-static'>
-      {{#if post.organization}}
-        {{post.organization.name}}
+{{#if (and session.isAuthenticated showOrganizationMenu)}}
+  {{#if organizations}}
+    {{#form-group hideError=true}}
+      <label class='control-label ContentForm-label--required'>Content Owner</label>
+      {{#if post.isNew}}
+        {{organization-dropdown selection=post.organization class="with-border"}}
       {{else}}
-        {{session.currentUser.name}}
+        <div class='form-control-static'>
+        {{#if post.organization}}
+          {{post.organization.name}}
+        {{else}}
+          {{session.currentUser.name}}
+        {{/if}}
+        </div>
       {{/if}}
-      </div>
-    {{/if}}
-  {{/form-group}}
+    {{/form-group}}
+  {{/if}}
 {{/if}}
 
 {{#form-group error=errors.title hideError=true}}
@@ -98,4 +100,8 @@
   <span class='ContentForm-requiredIndicator'>*</span> required fields
 </div>
 
-{{partial 'partials/content-form-buttons'}}
+{{#if hasBlock}}
+  {{yield (action 'next')}}
+{{else}}
+  {{partial 'partials/content-form-buttons'}}
+{{/if}}
