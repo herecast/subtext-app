@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { run, get, set, computed, $, inject } = Ember;
+const { run, set, get, computed, $, inject } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['Modal'],
@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
   visible: false,
   fullscreen: false,
+
   showHeader: computed('title', 'close', function() {
     return (this.attrs.title || this.attrs.close);
   }),
@@ -29,6 +30,7 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
+
     get(this, 'modalService').removeModalBodyClass();
     $('body').removeClass('modal-open');
   },

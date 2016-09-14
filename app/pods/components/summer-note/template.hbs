@@ -1,11 +1,11 @@
 {{yield (action validateForm)}}
 
 {{#if showImageModal}}
-  {{#x-modal}}
+  {{#modal-wrapper close=(action 'cancelImageModal')}}
     {{image-editor
     save=(action 'saveImageModal')
     cancel=(action 'cancelImageModal')
     aspectRatio=0
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}
