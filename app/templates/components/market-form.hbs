@@ -6,8 +6,8 @@
         {{organization-dropdown selection=post.organization class="with-border"}}
       {{else}}
         <div class='form-control-static'>
-        {{#if post.organization}}
-          {{post.organization.name}}
+        {{#if post.authorName}}
+          {{post.authorName}}
         {{else}}
           {{session.currentUser.name}}
         {{/if}}
