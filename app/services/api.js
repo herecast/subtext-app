@@ -245,6 +245,12 @@ export default AjaxService.extend({
     });
   },
 
+  recordPromoBannerImpression(id, data) {
+    return this.post(`/promotion_banners/${id}/impression`, {
+      data: data
+    });
+  },
+
   reportAbuse(content_id, flag_type) {
     return this.post(`/contents/${content_id}/moderate`, {
       data: {

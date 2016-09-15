@@ -1,7 +1,6 @@
-/* global dataLayer */
-
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
+/* global dataLayer */
 
 const {
   get,
@@ -16,8 +15,6 @@ const {
 
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
-  promotionService: inject.service('promotion'),
-
   currentService: inject.service('currentController'),
 
   _canSendImpression: computed('impressionPath', '_didSendImpression',
@@ -56,6 +53,21 @@ export default Ember.Component.extend(InViewportMixin, {
 
   _didSendImpression: false,
 
+  _pushEvent(event) {
+    if (typeof dataLayer !== "undefined") {
+      const promo = get(this, 'promotion');
+
+      dataLayer.push({
+        'event'         : event,
+        'advertiser'    : get(promo, 'organization_name'),
+        'promotion_id'  : get(promo, 'promotion_id'),
+        'banner_id'     : get(promo, 'banner_id'),
+        'redirect_url'  : get(promo, 'redirect_url')
+      });
+    }
+
+  },
+
   _viewportOptionsOverride() {
     // ensures the ad is at least 50% visible
     // before it is considered visible
@@ -73,20 +85,46 @@ export default Ember.Component.extend(InViewportMixin, {
 
   _sendImpression() {
     if (! get(this, 'isDestroyed')) {
+      const promo = get(this, 'promotion');
+      const contentId = get(this, 'contentModel.id');
+      const api = get(this, 'api');
+
+      api.recordPromoBannerImpression(get(promo, 'banner_id'), {
+        content_id: contentId
+      });
+
+      console.info(`[Impression of banner]: ${get(promo, 'banner_id')}`);
+
+      this._pushEvent('VirtualAdImpresion');
+
       set(this, '_didSendImpression', true);
-
-      console.info(`Impression of promotion: ${get(this, 'promotion.promotion_id')}`);
-
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event'         : 'VirtualAdImpresion',
-          'advertiser'    : get(this, 'promotion.organization_name'),
-          'promotion_id'  : get(this, 'promotion.promotion_id'),
-          'banner_id'     : get(this, 'promotion.banner_id'),
-          'redirect_url'  : get(this, 'promotion.redirect_url')
-        });
-      }
     }
+  },
+
+  _getPromotion() {
+    const content = get(this, 'contentModel');
+    const api = get(this, 'api');
+
+    let contentId;
+
+    if (content) {
+      contentId = get(content, 'contentId');
+    }
+
+    return api.getContentPromotion(contentId).then(response => {
+      const promotion = response.promotion;
+
+      if (!get(this, 'isDestroyed')) {
+        this.setProperties({
+          promotion: Ember.Object.create(promotion),
+          _didSendImpression: false
+        });
+
+        console.info(`[Loaded banner]: ${promotion.banner_id}`);
+
+        this._pushEvent('VirtualAdLoaded');
+      }
+    });
   },
 
   didEnterViewport() {
@@ -104,33 +142,6 @@ export default Ember.Component.extend(InViewportMixin, {
     this._setViewportEntered(window);
   },
 
-  _getPromotion() {
-    const content = get(this, 'contentModel');
-    let contentId;
-
-    if (content) {
-      contentId = get(content, 'contentId');
-    }
-
-    return get(this, 'promotionService').find(contentId).then(promotion => {
-      if (!get(this, 'isDestroyed')) {
-        this.setProperties({
-          promotion: promotion,
-          _didSendImpression: false
-        });
-
-        if (typeof dataLayer !== "undefined") {
-          dataLayer.push({
-            'event'         : 'VirtualAdLoaded',
-            'advertiser'    : promotion.organization_name,
-            'promotion_id'  : promotion.promotion_id,
-            'banner_id'     : promotion.banner_id,
-            'redirect_url'  : promotion.redirect_url
-          });
-        }
-      }
-    });
-  },
 
   didUpdateAttrs({ newAttrs }) {
     // Reload the promotion if the last refresh date has changed
@@ -153,23 +164,17 @@ export default Ember.Component.extend(InViewportMixin, {
     // Some banners may not have a redirect URL, so we only want to track the
     // clicks for ones that do.
     if (get(this, 'promotion.redirect_url')) {
-      const bannerId = get(this, 'promotion.banner_id');
-      const api = get(this, 'api');
       const contentId = get(this, 'contentModel.contentId');
+      const promo = get(this, 'promotion');
+      const api = get(this, 'api');
 
-      api.recordPromoBannerClick(bannerId, {
+      api.recordPromoBannerClick(get(promo, 'banner_id'), {
         content_id: (contentId) ? contentId : null
       });
 
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event'        : 'VirtualAdClicked',
-          'advertiser'   : get(this, 'promotion.organization_name'),
-          'promotion_id' : get(this, 'promotion.promotion_id'),
-          'banner_id'    : get(this, 'promotion.banner_id'),
-          'redirect_url' : get(this, 'promotion.redirect_url')
-        });
-      }
+      console.info(`[Click banner]: ${get(promo, 'banner_id')}`);
+
+      this._pushEvent('VirtualAdClicked');
     }
   }
 });
