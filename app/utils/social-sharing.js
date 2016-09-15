@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
+import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 
-const { RSVP } = Ember;
+const { get, RSVP } = Ember;
 
 export default {
   createShareCache(path) {
@@ -60,15 +61,32 @@ export default {
     });
   },
 
-  getShareUrl(path) {
+  getShareUrl(routeName, model) {
     let shareUrl;
 
-    if (typeof(path) === 'string' && path.match(/^\/.*\/.*$/)) {
-      shareUrl = window.location.origin + path;
+    if (this.isModalRoute(routeName)) {
+      let id = get(model, 'id');
+      let ctype = normalizeContentType( get(model, '_internalModel.modelName') );
+
+      if (ctype === 'event-instance') {
+        ctype = 'events';
+      } else if (ctype === 'market-post') {
+        ctype = 'market';
+      }
+      shareUrl = `${location.protocol}//${location.host}/${ctype}/${id}`;
+    } else if (typeof(routeName) === 'string' && routeName.match(/^\/.*\/.*$/)) {
+      //Checks to see if the routeName is actually a valid path
+      shareUrl = window.location.origin + routeName;
     } else {
       shareUrl = window.location.href;
     }
 
     return shareUrl;
+  },
+
+  isModalRoute(routeName) {
+    const modalRoutes = ['index.show'];
+
+    return modalRoutes.contains(routeName);
   }
 };

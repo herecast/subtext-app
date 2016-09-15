@@ -21,6 +21,7 @@ export default Ember.Component.extend(TrackEvent, {
 
   toast: inject.service(),
   delayedJobs: inject.service(),
+  routing: inject.service('-routing'),
 
   canShare: true,
 
@@ -87,12 +88,19 @@ export default Ember.Component.extend(TrackEvent, {
           SocialSharing.checkFacebookCache(sharePath).then(() => {
             set(this, 'canShare', true);
             toast.clear();
-            toast.success('Facebook sharing is ready');
+            toast.success(`Facebook sharing is ready for ${sharePath}`);
           });
         }, secondsToWait * 1e3);
 
       get(this, 'delayedJobs').queueJob(`facebookRecache${sharePath}`, delayedJob);
     }
+  },
+
+  urlForShare() {
+    const routeName = get(this, 'routing.currentRouteName');
+    const model = get(this, 'model');
+
+    return SocialSharing.getShareUrl(routeName, model);
   },
 
   mailtoLink: computed('title', 'sharedBy', function() {
@@ -113,7 +121,7 @@ export default Ember.Component.extend(TrackEvent, {
 
   twitterLink: computed('title', function() {
     const title = encodeURIComponent(get(this, 'title'));
-    const url = `${location.protocol}//${location.host}${location.pathname}`;
+    const url = this.urlForShare();
     const via = 'thedailyUV';
     const hashtags = 'UpperValley';
 
@@ -132,11 +140,15 @@ export default Ember.Component.extend(TrackEvent, {
 
     shareFacebook() {
       if( get(this, 'canShare') && this.updatedBuffer() <= 0) {
+        const urlForShare = this.urlForShare();
+        //for live debug
+        console.info(`Share to facebook of ${urlForShare}`);
+
         FB.ui({
           method: 'share',
           mobile_iframe: true,
           hashtag: '#UpperValley',
-          href: `${location.protocol}//${location.host}${location.pathname}`
+          href: urlForShare
         }, () => {});
       } else {
         //still caching

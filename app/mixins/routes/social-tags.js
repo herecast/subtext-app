@@ -1,40 +1,35 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
 import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const {get, set} = Ember;
+const {get} = Ember;
 
 export default Ember.Mixin.create(RouteMetaMixin, {
 
   isModalContent: false,
   // Override where needed
   modelForMetaTags: function() {
-    const modalRoutes = ['index.show'];
     const routeName = this.routeName;
-    var modelToReturn;
+    const isModalRoute = SocialSharing.isModalRoute(routeName);
 
-    if (modalRoutes.contains(routeName)) {
-      set(this, 'isModalContent', true);
-      modelToReturn = this.currentModel;
-    } else {
-      set(this, 'isModalContent', false);
-      modelToReturn = this.modelFor(this.routeName);
-    }
-    return modelToReturn;
+    return isModalRoute ? this.currentModel : this.modelFor(routeName);
   },
 
   meta() {
     const model = this.modelForMetaTags();
-    let channel,
-      url;
+    const routeName = this.routeName;
+    const isModalRoute = SocialSharing.isModalRoute(routeName);
 
-    if (get(this, 'isModalContent')) {
+    let channel;
+
+    if (isModalRoute) {
       channel = get(this, 'channel') || 'base';
-      url = window.location.href;
     } else {
       channel = get(this, 'modelChannel') || 'base';
-      url = `${location.protocol}//${location.host}${location.pathname}`;
     }
+
+    const url = SocialSharing.getShareUrl(routeName, model);
     const imageUrl = get(model, 'imageUrl') || this.defaultImage(channel);
     const title = get(model, 'title');
 
@@ -65,6 +60,15 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     };
 
     return metaProperty;
+  },
+
+  links() {
+    const model = this.modelForMetaTags();
+    const routeName = this.routeName;
+
+    return {
+      canonical: SocialSharing.getShareUrl(routeName, model)
+    };
   },
 
   defaultImage(channel) {
