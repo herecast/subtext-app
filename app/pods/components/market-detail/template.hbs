@@ -38,6 +38,9 @@
   {{/if}}
   <div class="DetailPage-headerSection">
     <h1 class="DetailPage-title h2" data-test-market-title>{{model.title}}</h1>
+    {{#if model.publishedAt}}
+      <p>{{formatted-date model.publishedAt}}</p>
+    {{/if}}
   </div>
   <div class="DetailPage-headerSection">
     <div class="DetailPage-headerNav">
