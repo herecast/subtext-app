@@ -14,7 +14,7 @@ export default DS.Model.extend({
   authorId: DS.attr('number'),
   authorName: DS.attr('string'),
   commentCount: DS.attr('number'),
-  contentId: DS.attr('number'),
+  contentId: computed.alias('id'),
   imageUrl: DS.attr('string'),
 
   // Cannot use defaultValue: [] here.
