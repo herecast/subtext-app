@@ -9,6 +9,6 @@ export default Ember.Route.extend(PaginatedFilter, History, {
   },
 
   model(params) {
-    return this.store.query('news', {page: params.page, per_page: 5});
+    return this.store.query('news', {page: params.page, per_page: 4});
   }
 });

@@ -8,6 +8,7 @@ const {
 
 export default NewsCard.extend({
   item: null,
+  variant: null,
   classNameBindings: ['isFullImageCover:Card--fullImageCover', 'isWithoutImage:Card--withoutImage'],
 
   isFullImageCover: computed('variant', 'item', function() {

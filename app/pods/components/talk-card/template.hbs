@@ -30,7 +30,7 @@
       {{#if talk.authorImageUrl}}
         <img class='Card-authorImage' src="{{talk.authorImageUrl}}">
       {{else}}
-        <div class='Card-authorImage'>&nbsp;</div>
+        <div class='Card-authorImage' style='background-color: {{avatarBackgroundColor}}' data-content='{{authorInitials}}'></div>
       {{/if}}
     </div>
 
@@ -56,7 +56,7 @@
           <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} comments</span>
         {{/if}}
 
-        <span class='Card-date'>{{formatted-day talk.publishedAt}}</span>
+        <span class='Card-date'>{{relativeDate}}</span>
 
         {{#if talk.authorName}}
           by: <span class='Card-authorName'>{{talk.authorName}}</span>

@@ -14,10 +14,9 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   profileTitle: DS.attr('string'),
   logoUrl: DS.attr('string'),
-  logo: DS.attr(),
+  avatarUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
   orgType: DS.attr('string'),
-  backgroundImage: DS.attr(),
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
@@ -37,15 +36,37 @@ export default DS.Model.extend({
   isBlog: computed.equal('orgType', 'Blog'),
   isBusiness: computed.equal('orgType', 'Business'),
 
-  uploadLogo() {
-    const id = get(this, 'id');
-    const api = get(this, 'api');
-    const data = new FormData();
+  // Placeholders for image objects to be uploaded
+  logo: null,
+  avatar: null,
+  backgroundImage: null,
 
-    if (isPresent(this.get('logo'))) {
-      data.append('organization[logo]', this.get('logo'));
+  displayImageUrl: computed('logoUrl', 'avatarUrl', function() {
+    const avatar = get(this, 'avatarUrl');
+    return avatar ? avatar : get(this, 'logoUrl');
+  }),
+
+  uploadImage(type, image) {
+    if (isPresent(image)) {
+      const id = get(this, 'id');
+      const api = get(this, 'api');
+
+      const data = new FormData();
+      data.append(`organization[${type}]`, image);
 
       return api.updateOrganizationLogo(id, data);
     }
   },
+
+  uploadLogo() {
+    return this.uploadImage('logo', get(this, 'logo'));
+  },
+
+  uploadAvatar() {
+    return this.uploadImage('avatar', get(this, 'avatar'));
+  },
+
+  uploadBackgroundImage() {
+    return this.uploadImage('background_image', get(this, 'backgroundImage'));
+  }
 });

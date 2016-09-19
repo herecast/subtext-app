@@ -10,7 +10,8 @@ const { flatten } = _;
 const {
   computed,
   inject,
-  get
+  get,
+  isEmpty
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, {
@@ -25,12 +26,24 @@ export default DS.Model.extend(BaseEvent, {
   organization: DS.belongsTo('organization'),
   ownerName: DS.attr('string'),
 
-  categoryEnabled: Ember.computed.notEmpty('category'),
-  listsEnabled: Ember.computed.notEmpty('listservIds'),
-  subtitle: Ember.computed.oneWay('eventInstances.firstObject.subtitle'),
-  presenterName: Ember.computed.oneWay('eventInstances.firstObject.presenterName'),
-  timeRange: Ember.computed.oneWay('eventInstances.firstObject.timeRange'),
+  categoryEnabled: computed.notEmpty('category'),
+  listsEnabled: computed.notEmpty('listservIds'),
+  subtitle: computed.oneWay('eventInstances.firstObject.subtitle'),
+  presenterName: computed.oneWay('eventInstances.firstObject.presenterName'),
+  timeRange: computed.oneWay('eventInstances.firstObject.timeRange'),
 
+  formattedDate: computed('startsAt', 'endsAt', function() {
+    const date = get(this, 'startsAt').format('MMM D');
+    const startTime = get(this, 'startsAt').format('h:mmA');
+
+    if (isEmpty(get(this, 'endsAt'))) {
+      return `${date} | ${startTime}`;
+    } else {
+      const endTime = get(this, 'endsAt').format('h:mmA');
+
+      return `${date} | ${startTime}-${endTime}`;
+    }
+  }),
   // This is used to create temporary event instances so they can be displayed
   // on the event preview page in the "other event dates" section.
   eventInstances: computed('schedules.@each.{startsAt,endsAt,subtitle,_remove,hasExcludedDates}', function() {

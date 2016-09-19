@@ -1,6 +1,6 @@
 <h1 class='GroupHeader GroupHeader--news'>
-  {{#link-to 'news' class='GroupHeader-moreLink GroupHeader-moreLink--news h3'}}
-    News
+  {{#link-to 'news' class='GroupHeader-channelLink GroupHeader-channelLink--news h3'}}
+    News &raquo;
   {{/link-to}}
 
   {{#link-to 'news' class='GroupHeader-moreLink pull-right h5'}}
@@ -10,10 +10,15 @@
 
 <div class='row' data-row='row-1'>
   {{#if media.isNotMobile}}
-    {{grouped-news news=newsItems routeName="index.show" adPath="index.index"}}
+    {{grouped-news
+      news=newsItems
+      routeName="index.show"
+      adPath="index.index"
+      showHeader=true
+    }}
   {{else}}
 
-    <div class='col-sm-6'>
+    <div class='col-xs-12'>
       {{ordered-news
         news=newsItems
         routeName="index.show"
@@ -23,11 +28,15 @@
   {{/if}}
 </div>
 
+{{#if media.isMobile}}
+  {{ad-banner impressionPath='index.index'}}
+{{/if}}
+
 <div class='row' data-row='row-2'>
   <div class="{{if hasTalkItems 'col-sm-5' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--events'>
-      {{#link-to 'events' class='GroupHeader-moreLink GroupHeader-moreLink--events h3'}}
-        Events
+      {{#link-to 'events' class='GroupHeader-channelLink GroupHeader-channelLink--events h3'}}
+        Events &raquo;
       {{/link-to}}
 
       {{#link-to 'events' class='GroupHeader-moreLink pull-right h5'}}
@@ -35,20 +44,39 @@
       {{/link-to}}
     </h1>
 
-    {{#each eventItems as |event|}}
-      {{event-card
-        event=event
-        routeName='index.show'
-        imagePosition=(if media.isNotMobile 'left' 'right')
-        classNames='Card Card--event'
-      }}
-    {{/each}}
+    <div class='Card-groupedWrapper'>
+      {{#each eventItems as |event|}}
+        {{event-card
+          event=event
+          routeName='index.show'
+          imagePosition=(if media.isNotMobile 'left' 'right')
+          classNames='Card Card--event'
+        }}
+      {{/each}}
+
+      <div class='CardGroupCTA'>
+        <div class='CardGroupCTA-innerWrapper'>
+          <div class='CardGroupCTA-pitch'>
+            <p class='{{if media.isDesktop "h3" "h2"}}'>Want to see your Event on DailyUV?</p>
+          </div>
+
+          <div class='CardGroupCTA-cta'>
+            {{#link-to 'events.new' class='Button Button--event CardGroupCTA-button' tagName='button'}}Create it now{{/link-to}}
+            {{#link-to 'events.all' class='CardGroupCTA-link'}}or browse local events{{/link-to}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  {{#if media.isMobile}}
+    {{ad-banner impressionPath='index.index'}}
+  {{/if}}
 
   <div class="{{if hasTalkItems 'col-sm-4' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--market'>
-      {{#link-to 'market' class='GroupHeader-moreLink GroupHeader-moreLink--market h3'}}
-        Market
+      {{#link-to 'market' class='GroupHeader-channelLink GroupHeader-channelLink--market h3'}}
+        Market &raquo;
       {{/link-to}}
 
       {{#link-to 'market' class='GroupHeader-moreLink pull-right h5'}}
@@ -64,13 +92,30 @@
         post=post
       }}
     {{/each}}
+
+    <div class='CardGroupCTA'>
+      <div class='CardGroupCTA-innerWrapper'>
+        <div class='CardGroupCTA-pitch'>
+          <p class='{{if media.isDesktop "h3" "h2"}}'>Want to see your local Market Listing on DailyUV?</p>
+        </div>
+
+        <div class='CardGroupCTA-cta'>
+          {{#link-to 'market.new' class='Button Button--market CardGroupCTA-button' tagName='button'}}Sell it now{{/link-to}}
+          {{#link-to 'market.all' class='CardGroupCTA-link'}}or browse the market{{/link-to}}
+        </div>
+      </div>
+    </div>
   </div>
+
+  {{#if media.isMobile}}
+    {{ad-banner impressionPath='index.index'}}
+  {{/if}}
 
   {{#if hasTalkItems}}
   <div class='col-sm-3'>
     <h1 class='GroupHeader GroupHeader--talk'>
-      {{#link-to 'talk' class='GroupHeader-moreLink GroupHeader-moreLink--talk h3'}}
-        Talk
+      {{#link-to 'talk' class='GroupHeader-channelLink GroupHeader-channelLink--talk h3'}}
+        Talk &raquo;
       {{/link-to}}
 
       {{#link-to 'talk' class='GroupHeader-moreLink pull-right h5'}}
@@ -82,9 +127,23 @@
       {{talk-card
         talk=talk
         routeName='index.show'
+        outdentAvatar=false
         class='Card Card--talk'
       }}
     {{/each}}
+
+    <div class='CardGroupCTA'>
+      <div class='CardGroupCTA-innerWrapper'>
+        <div class='CardGroupCTA-pitch'>
+          <p class='{{if media.isDesktop "h3" "h2"}}'>Have something to add to the conversation?</p>
+        </div>
+
+        <div class='CardGroupCTA-cta'>
+          {{#link-to 'talk.new' class='Button Button--talk CardGroupCTA-button' tagName='button'}}Start discussion{{/link-to}}
+          {{#link-to 'talk.all' class='CardGroupCTA-link'}}or browse local conversations{{/link-to}}
+        </div>
+      </div>
+    </div>
   </div>
   {{/if}}
 </div>

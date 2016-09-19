@@ -26,7 +26,7 @@ test('/news while not logged in', function(assert) {
 test('/news', function(assert) {
   assert.expect(11);
 
-  server.createList('news', 20);
+  server.createList('news', 15);
   server.create('organization', { canPublishNews: true });
 
   visit('/news');
@@ -35,7 +35,7 @@ test('/news', function(assert) {
     assert.equal(currentURL(), '/news', 'it should have the correct url');
     assert.ok(find(testSelector('news-length', '14')), 'it should display the total number of news items on the page');
     assert.equal(find(testSelector('link', 'content-create-button')).length, 0, 'it should not show a content create button');
-    assert.equal(find(testSelector('news-card')).length, 12, 'it should list news articles');
+    assert.equal(find(testSelector('news-card')).length, 9, 'it should list news articles');
     assert.equal(find(testSelector('pagination-next')).length, 1, 'it should have pagination link to next page');
     assert.equal(find(testSelector('pagination-prev')).length, 0, 'it should not have a pagination link to the previous page');
   });
@@ -45,7 +45,7 @@ test('/news', function(assert) {
   andThen(() => {
     assert.equal(currentURL(), '/news?page=2', 'it should be on the second page of results');
     assert.ok(find(testSelector('news-length', '6')), 'it should display the total number of news items on the page');
-    assert.equal(find(testSelector('news-card')).length, 8, 'it should list the remaining news articles');
+    assert.equal(find(testSelector('news-card')).length, 6, 'it should list the remaining news articles');
     assert.equal(find(testSelector('pagination-next')).length, 0, 'it should not have a pagination link to next page');
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should have a pagination link to the previous page');
   });

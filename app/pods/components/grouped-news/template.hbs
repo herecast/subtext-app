@@ -1,4 +1,6 @@
-<h1 class='h2'>Top Stories</h1>
+{{#unless showHeader}}
+  <h1 class='h2'>Top Stories</h1>
+{{/unless}}
 
 <div class='row' data-row='row-1'>
   <div class='col-sm-6'>
@@ -29,49 +31,63 @@
     }}
 
     <div class='Card-wrapper--columnVertical2Up'>
-      {{news-card item=item4 routeName=routeName}}
-      {{news-card item=item5 routeName=routeName}}
+      {{news-card
+        item=item4
+        variant='vertical'
+        routeName=routeName
+      }}
     </div>
   </div>
 </div>
 
-<h1 class='SectionHeader'></h1>
-
-{{#if item6}}
-  <h1 class='SectionHeader'></h1>
-
+{{#if (and item5 item6)}}
   <div class='row' data-row='row-2'>
     <div class='col-sm-6'>
       {{news-card-wide
         class='Card--solo Card--wide'
-        item=item6
+        item=item5
+        variant='vertical'
         routeName=routeName
       }}
     </div>
     <div class='col-sm-3'>
       {{news-card
-        item=item7
+        item=item6
         variant='vertical'
         routeName=routeName
       }}
       {{news-card
-        item=item8
+        item=item7
         variant='vertical'
         routeName=routeName
       }}
     </div>
 
-    {{#if item9}}
+    {{#if item8}}
       <div class='col-sm-3'>
         <div class='Card-wrapper--columnVertical4Up'>
-          {{news-card item=item9 routeName=routeName}}
-          {{news-card item=item10 routeName=routeName}}
-          {{news-card item=item11 routeName=routeName}}
-          {{news-card item=item12 routeName=routeName}}
+          {{news-card
+            item=item8
+            variant='vertical'
+            routeName=routeName
+          }}
+          {{news-card
+            item=item9
+            variant='vertical'
+            routeName=routeName
+          }}
+          {{news-card
+            item=item10
+            variant='vertical'
+            routeName=routeName
+          }}
+          {{news-card
+            item=item11
+            variant='vertical'
+            routeName=routeName
+          }}
         </div>
       </div>
     {{/if}}
   </div>
 {{/if}}
-
-<h1 class='SectionHeader'></h1>

@@ -6,11 +6,13 @@
 
   <div class='Card-content'>
     <div class='Card-titleGroup'>
-      <h2 class='Card-title'>
-        {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title}}
-          {{item.title}}
-        {{/link-to}}
-      </h2>
+      {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title class="Card-title" classNames=(if media.isMobile "h1" "h2") tagName='h2'}}
+        {{item.title}}
+      {{/link-to}}
+
+      <div class='Card-snippet u-textThreeLineTruncate'>
+        {{{content}}}
+      </div>
 
       {{#link-to 'organization-profile'
         item.organization.slug
@@ -18,11 +20,19 @@
         tagName='a'
         data-test-component="organization-link"
       }}
-        {{item.organizationName}}
+        <div class='Card-meta-avatar'>
+          {{#if item.organization.displayImageUrl}}
+            <img src="{{item.organization.displayImageUrl}}" alt="{{item.organization.name}}" class="Card-avatar" />
+          {{/if}}
+        </div>
+
+        <div class='Card-meta-items'>
+          <span>
+            {{relativeDate}}<br />
+            {{item.organizationName}}
+          </span>
+        </div>
       {{/link-to}}
     </div>
 
-    <div class='Card-snippet u-textThreeLineTruncate'>
-      {{{content}}}
-    </div>
   </div>

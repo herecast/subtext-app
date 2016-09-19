@@ -32,12 +32,12 @@
         {{/link-to}}
       </h2>
 
-      <span class='Card-subtitle'>{{subtitle}}</span>
+      <span class='Card-subtitle'>{{post.price}}</span><br>
+      <span class='Card-subtitle'>{{relativeDate}}</span><br>
 
       {{#if post.myTownOnly}}
         <span class='Card-subtitle'>{{userLocation}} Only</span>
       {{/if}}
-      <span class='Card-subtitle'>{{post.price}}</span>
     </div>
 
 

@@ -25,6 +25,8 @@
 @import 'components/comment';
 @import 'components/ad-banner';
 @import 'components/directory-landing';
+@import 'components/card-group-cta';
+@import 'components/group-header';
 //
 
 //
@@ -181,41 +183,4 @@ main {
 // reposition intercom launcher button on mobile
 #intercom-launcher {
   left: -200px;
-}
-
-
-.GroupHeader {
-  margin-bottom: 10px;
-  .clearfix;
-
-  &-moreLink {
-    padding: 5px 10px;
-    text-transform: uppercase;
-    display: inline-block;
-    font-weight: 700;
-    margin: 0;
-    float: right;
-    color: #6b6b6b;
-  }
-
-  &-moreLink--news {
-    float: left;
-    background: @news-brand;
-    color: #000;
-  }
-  &-moreLink--market {
-    float: left;
-    background: @market-brand;
-    color: #000;
-  }
-  &-moreLink--talk {
-    float: left;
-    background: @talk-brand;
-    color: #000;
-  }
-  &-moreLink--events {
-    float: left;
-    background: @event-brand;
-    color: #000;
-  }
 }

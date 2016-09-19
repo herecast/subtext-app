@@ -58,6 +58,9 @@ export default {
 
   endOfMonth() {
     return moment().add(30, 'days').format(dateFormat);
-  }
+  },
 
+  relative(d) {
+    return moment(d).fromNow();
+  }
 };

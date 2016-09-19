@@ -1,16 +1,27 @@
 <ul>
   {{#each orderedNews as |newsItem index|}}
     <li>
-      {{news-card
-        item=newsItem
-        imagePosition='right'
-        isIndex=true
-        classNames='Card Card--news'
-        routeName=routeName
-      }}
+      {{#if (eq index 0)}}
+        {{news-card-wide
+          item=newsItem
+          class='Card--solo'
+          isIndex=true
+          variant='full'
+          routeName=routeName
+        }}
+      {{else}}
+        {{news-card
+          item=newsItem
+          imagePosition='right'
+          isIndex=true
+          variant='vertical'
+          classNames='Card Card--news'
+          routeName=routeName
+        }}
+      {{/if}}
     </li>
 
-    {{#if (eq index 2)}}
+    {{#if (and (eq index 2) (eq adPath 'news.all.index'))}}
       <li>
         {{ad-banner impressionPath=adPath lastRefreshDate=lastRefreshDate}}
       </li>

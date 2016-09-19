@@ -67,6 +67,8 @@
       {{/if}}
     </div>
   {{else}}
+    {{!-- BEGIN variant --}}
+
     {{#if hasImage}}
       <div class='Card-imageContainer'>
         {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') classNameBindings="isSimilarContent:SimilarContentLink"}}
@@ -77,25 +79,45 @@
       </div>
     {{/if}}
 
-    <div class='Card-content'>
+    <div class='Card-content {{unless hasImage "no-image"}}'>
       <div class='Card-titleGroup'>
-        <h2 class='Card-title'>
+        <h2 class='Card-title h2 u-textThreeLineTruncate'>
           {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title }}
             <span {{action 'trackSuggestedContentClick'}}>
               {{item.title}}
             </span>
           {{/link-to}}<br />
         </h2>
+        {{#unless hasImage}}
+          <div class='Card-snippet u-textThreeLineTruncate'>
+            {{{content}}}
+          </div>
+        {{/unless}}
 
-        {{#link-to 'organization-profile'
-          item.organization.slug
-          class='Card-organization'
-          tagName='a'
-          data-test-component="organization-link"
-        }}
-          {{item.organizationName}}
-        {{/link-to}}
+        <div class='Card-meta'>
+          {{#link-to 'organization-profile'
+            item.organization.slug
+            class='Card-organization'
+            tagName='a'
+            data-test-component="organization-link"
+          }}
+            <div class='Card-meta-avatar'>
+              {{#if item.organization.displayImageUrl}}
+                <img src="{{item.organization.displayImageUrl}}" alt="{{item.organization.name}}" class="Card-avatar" />
+              {{/if}}
+            </div>
+
+            <div class='Card-meta-items'>
+              <span>
+                {{relativeDate}}<br />
+                {{item.organizationName}}
+              </span>
+            </div>
+          {{/link-to}}
+        </div>
       </div>
     </div>
+
+    {{!-- END variant --}}
   {{/unless}}
 {{/if}}

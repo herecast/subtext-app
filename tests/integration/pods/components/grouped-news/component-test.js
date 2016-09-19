@@ -20,12 +20,12 @@ moduleForComponent('grouped-news', 'Integration | Component | grouped news', {
 });
 
 test('it renders', function(assert) {
-  assert.expect(1);
   const mockedNews = [{ publishedAt: 1 }, { publishedAt: 2 }];
 
   set(this, 'news', mockedNews);
 
   this.render(hbs`{{grouped-news news=news}}`);
+  const re = /^Top Stories/;
 
-  assert.equal(this.$().text().trim(), 'Top Stories');
+  assert.ok(this.$().text().trim().match(re));
 });

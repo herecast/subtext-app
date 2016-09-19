@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 import moment from 'moment';
+import dateFormat from 'subtext-ui/lib/dates';
 
 const { get, computed } = Ember;
 
@@ -11,13 +12,17 @@ export default Ember.Component.extend(TrackCard, {
   title: Ember.computed.oneWay('post.title'),
   isSimilarContent: false,
 
-  subtitle: computed('post.publishedAt', function() {
+  subtitle: computed.oneWay('post.publishedAt', function() {
     return moment(get(this, 'post.publishedAt')).format('L');
   }),
 
   hasImage: Ember.computed.notEmpty('post.coverImageUrl'),
 
   userLocation: computed.oneWay('session.currentUser.location'),
+
+  relativeDate: computed('post.publishedAt', function() {
+    return dateFormat.relative(get(this, 'post.publishedAt'));
+  }),
 
   backgroundImage: computed('post.coverImageUrl', function() {
     const url = get(this, 'post.coverImageUrl');

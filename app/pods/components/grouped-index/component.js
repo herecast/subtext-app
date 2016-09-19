@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     if(get(this, 'session.isAuthenticated')) {
       return get(this, 'store').query('talk', {
         page: get(this, 'page'),
-        per_page: 6
+        per_page:4
       });
     } else {
       return [];
@@ -32,7 +32,7 @@ export default Ember.Component.extend({
     }).then((events) => {
       set(this, 'eventItems', events.reject((event) => {
         return isEmpty(get(event, 'startsAt')) || isEmpty(get(event, 'imageUrl'));
-      }).slice(0,5));
+      }).slice(0,4));
     });
   },
 
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     }).then((items) => {
       set(this, 'marketItems', items.reject((item) => {
         return isEmpty(get(item, 'imageUrl'));
-      }).slice(0,5));
+      }).slice(0,4));
     });
   },
 

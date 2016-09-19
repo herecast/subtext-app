@@ -1,18 +1,35 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
+import computedInitials from 'subtext-ui/utils/computed-initials';
+import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
+import dateFormat from 'subtext-ui/lib/dates';
 
 const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
-  title: Ember.computed.oneWay('talk.title'),
+  title: computed.oneWay('talk.title'),
   isContentCard: false,
   isSimilarContent: false,
+  outdentAvatar: null,
 
   attributeBindings:["data-test-talk-card"],
-  'data-test-talk-card': Ember.computed.oneWay('talk.id'),
+  classNameBindings:['outdentAvatar:Card--avatarOutdented'],
+  'data-test-talk-card': computed.oneWay('talk.id'),
 
-  hasComments: Ember.computed.gt('talk.commentCount', 0),
-  hasViews: Ember.computed.gt('talk.viewCount', 0),
+  hasComments: computed.gt('talk.commentCount', 0),
+  hasViews: computed.gt('talk.viewCount', 0),
+
+  authorInitials: computed('talk.authorName', function() {
+    return computedInitials(get(this, 'talk.authorName'));
+  }),
+
+  avatarBackgroundColor: computed('talk.authorName', function() {
+    return hexColorFromString(get(this, 'talk.authorName'));
+  }),
+
+  relativeDate: computed('talk.publishedAt', function() {
+    return dateFormat.relative(get(this, 'talk.publishedAt'));
+  }),
 
   isNarrow: computed('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop', function() {
     if (this.get('isContentCard')) {

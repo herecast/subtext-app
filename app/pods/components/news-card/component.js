@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 import moment from 'moment';
+import dateFormat from 'subtext-ui/lib/dates';
 
 const { get, computed } = Ember;
 
@@ -9,11 +10,17 @@ export default Ember.Component.extend(TrackCard, {
   'data-test-news-card': computed.oneWay('item.title'),
 
   classNames: ['Card'],
-  classNameBindings: ['missingContent:hidden', 'variant:Card--vertical'],
+  classNameBindings: ['missingContent:hidden', 'isVertical:Card--vertical'],
+  isVertical: computed('variant', 'item', function() {
+    return get(this, 'variant') === 'vertical';
+  }),
   hasImage: Ember.computed.notEmpty('item.imageUrl'),
   isSimilarContent: false,
+  relativeDate: computed('item.publishedAt', function() {
+    return dateFormat.relative(get(this, 'item.publishedAt'));
+  }),
 
-  missingContent: Ember.computed.empty('item'),
+  missingContent: computed.empty('item'),
 
   date: computed('item.publishedAt', function() {
     return moment(get(this, 'item.publishedAt')).format('L');
