@@ -15,6 +15,7 @@
 .NewsEditor-postBody {
   padding: 10px 20px;
   background-color: #fff;
+
 }
 .NewsEditor-title { }
 .NewsEditor-titleWrapper {
@@ -86,4 +87,15 @@
 
 .NewsEditor-toggle .fa:hover {
   cursor: pointer;
+}
+
+@media (max-width: @screen-sm-max) {
+  .NewsEditor-sidebar {
+    display: flex;
+    flex-direction: column;
+
+    .NewsEditor-sidebarWidget--publishSettings {
+      order: 3;
+    }
+  }
 }
