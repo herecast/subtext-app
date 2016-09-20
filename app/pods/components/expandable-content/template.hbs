@@ -2,7 +2,7 @@
   {{{yield}}}
 </div>
 {{#if needsToggleButton}}
-  <div class="text-center">
+  <div class="ExpandableContent-buttonWrap text-center {{if isExpanded 'expanded' 'collapsed'}}">
     <button {{action 'toggle'}} class="ExpandableContent-toggleButton">
       {{#if isExpanded}}
         {{if customLessLabel customLessLabel 'View less'}} {{fa-icon 'caret-up'}}

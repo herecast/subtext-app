@@ -66,7 +66,7 @@
       {{#if isPreview}}
         <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
       {{else}}
-        {{#expandable-content}}
+        {{#expandable-content customLessLabel='Read Less' customMoreLabel='Continue Reading'}}
           <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
         {{/expandable-content}}
       {{/if}}

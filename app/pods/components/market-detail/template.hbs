@@ -97,7 +97,7 @@
     {{#if isPreview}}
       <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
     {{else}}
-      {{#expandable-content}}
+      {{#expandable-content customLessLabel='Read Less' customMoreLabel='Continue Reading'}}
         <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
       {{/expandable-content}}
     {{/if}}
