@@ -47,9 +47,9 @@ export default Ember.Route.extend({
     const listservName = get(this, 'listservName');
     let text =  "It will appear with the rest of the email-only posts in tomorrow's digest but unfortunately not on dailyUV.<br />";
     text +=     "<strong class='u-textBold'>If you would like it to be included on dailyUV and stand out in the digest...</strong><br />";
-    text +=     `Try choosing "Enhance My Post" or <a class="u-textUnderline" href="/sign_up">sign-up</a> to share your post on dailyUV.com and the ${listservName} list.<br />`;
-    text +=     `Check out tomorrow's ${listservName} list digest to see the difference.`;
-    const title = `Your Post has been SENT to the ${listservName} list.`;
+    text +=     `Try choosing "Enhance My Post" or <a class="u-textUnderline" href="/sign_up">sign-up</a> to share your post on dailyUV.com and the ${listservName}.<br />`;
+    text +=     `Check out tomorrow's ${listservName} digest to see the difference.`;
+    const title = `Your Post has been SENT to the ${listservName}.`;
     const options = get(this, 'toastOptions');
 
     get(this, 'toast').info(text, title, options);
