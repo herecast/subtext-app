@@ -121,6 +121,14 @@ export default Ember.Component.extend({
       // Initialize editor with content
       this._setEditorContent(content);
     }
+
+    // Remove tooltips in button bar if mobile to avoid double click
+    if( get(this, 'media.isMobile') ) {
+      this.$('.note-toolbar button').each(function() {
+        Ember.$(this).removeAttr('title');
+        Ember.$(this).removeAttr('data-original-title');
+      });
+    }
   },
 
   _getButtons() {
@@ -237,6 +245,9 @@ export default Ember.Component.extend({
       click() {
         $editor.summernote('saveRange');
         set(self, 'showImageModal', true);
+        //remove focus from main element to kill ios keyboard
+        let $editBox = self.$('.note-editor');
+        $editBox.find('[class^="note-"]').blur();
       }
     });
 
