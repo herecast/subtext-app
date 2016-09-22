@@ -14,14 +14,20 @@ export default Ember.Component.extend({
   // the name of the sticky-position element elsewhere on the page marking where the items should stick
   position: null,
   defaultPosition: 0,
+  touchMoving: false,
 
   scrollTarget: window,
 
   stickyService: inject.service('sticky'),
 
-  keyForOnMoveHook: computed('position', function() {
+  keyForOnMoveStartHook: computed('position', function() {
     const position = get(this, 'position');
-    return `touchmove.stickies-${position}`;
+    return `touchstart.stickies-${position}`;
+  }),
+
+  keyForOnMoveEndHook: computed('position', function() {
+    const position = get(this, 'position');
+    return `touchend.stickies-${position}`;
   }),
 
   keyForScrollHook: computed('position', function() {
@@ -92,12 +98,20 @@ export default Ember.Component.extend({
 
     const $scrollTarget = $(get(this, 'scrollTarget'));
 
-    // Temporarily hide current sticky item on old mobile browsers that do not update until scrolling is finished
-    $scrollTarget.on(get(this, 'keyForOnMoveHook'), () => {
+    // Use move start and end to detect beginning and end of touch scrolling
+    // Have to disable scroll call (see below) in order for start/end pair to work
+    $scrollTarget.on(get(this, 'keyForOnMoveStartHook'), () => {
       const currentStickyItem = get(this, '_currentStickyItem');
       if (currentStickyItem) {
+        set(this, 'touchMoving', true);
         currentStickyItem.hide();
       }
+    });
+
+    $scrollTarget.on(get(this, 'keyForOnMoveEndHook'), () => {
+      set(this, 'touchMoving', false);
+      run.throttle(this, this._updateStickyPositions, 50, true);
+      run.debounce(this, this._updateStickyPositions, 100);
     });
 
     // Update sticky positions when the user scrolls
@@ -105,8 +119,11 @@ export default Ember.Component.extend({
       // Note: throttling/debounce is necessary since we are polling the sticky position each time
       // Run immediately and throttle calls spaced 50 ms
       // Debounce ensures UI is correct after the last scroll action
-      run.throttle(this, this._updateStickyPositions, 50, true);
-      run.debounce(this, this._updateStickyPositions, 100);
+      // Must check if touchMoving or not, as both will fire in parallel
+      if (!get(this, 'touchMoving')){
+        run.throttle(this, this._updateStickyPositions, 50, true);
+        run.debounce(this, this._updateStickyPositions, 100);
+      }
     });
 
     // Update sticky positions when the user resizes the window
