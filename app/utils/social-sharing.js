@@ -78,7 +78,8 @@ export default {
       //Checks to see if the routeName is actually a valid path
       shareUrl = window.location.origin + routeName;
     } else {
-      shareUrl = window.location.href;
+      let url = window.location.href;
+      shareUrl = url.split('?')[0];
     }
 
     return shareUrl;
