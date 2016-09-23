@@ -23,6 +23,12 @@
     line-height: 1.1;
     margin-bottom: 0;
 
+    a:hover,
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
     @media (max-width: @screen-xs-max) {
       margin: 10px 0;
     }
@@ -371,6 +377,7 @@
     .Card-image-placeholder {
       width: auto;
     }
+
     .Card-title {
       margin: 0;
     }
