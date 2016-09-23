@@ -5,8 +5,8 @@ export default Ember.Mixin.create({
     scrollToTalk() {
       const $el = this.$('.CommentSection');
 
-      if ($el.length > 0) {
-        this.scrollTo($el.offset().top);
+      if($el.length > 0) {
+        this.attrs.scrollTo($el.position().top);
       }
     }
   }
