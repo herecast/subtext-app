@@ -149,11 +149,10 @@ export default Ember.Component.extend(Validation, SilentRegistration, {
     const sendTime = get(this, 'listserv.formattedDailyDigestSendTime');
     this.redirectTo({
       route: 'index',
-      text:   `You are subscribed to the ${listservName} AND registered to dailyUV.com!<br />
-              We try to be cool by making it free to post, read and browse everything.<br />
-              BONUS - your ${listservName} digest will be delivered daily around ${sendTime}.<br />
-              <a class='u-textUnderline' href="/dashboard">Click here to manage your posts and account.</a>`,
-      title: "You're Offically IN!"
+      text:   `You are subscribed to the ${listservName} and registered to dailyUV.com.<br />
+              Your ${listservName} digest will be delivered daily around ${sendTime}.<br />
+              You can also browse or post for free on dailyUV.com anytime!`,
+      title: "YOU'RE OFFICIALLY IN!"
     });
   },
 
