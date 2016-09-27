@@ -67,20 +67,16 @@
 
   <div class="ListservForm-sectionSubHeader center">
     <h1 class='ListservForm-sectionHeader'>
-      + {{listserv.name}} Subscription
+      {{listserv.name}} Subscription
     </h1>
-    <h3>
-      <a href="http://vitalcommunities.org/" target="_blank">Vital Communities</a> and dailyUV teamed up to provide complementary ways for you to keep up with what's happening in your community.
-    </h3>
-    <p></p>
-    <h2>Your Subscriptions are now managed in your account on dailyUV.com</h2>
+    <p class="h3">
+      Your Subscription to {{listserv.name}} is now managed through your account on dailyUV.com
+    </p>
   </div>
 
   <div class="center">
-    <h3>Our clever system knows you already signed up to dailyUV!
-      {{#unless isSignedIn}}
-      <br />Enter your password to confirm your {{listserv.name}} subscription for
-      {{/unless}}
+    <h3>
+      Enter your password to confirm your subscription for:
     </h3>
     {{model.email}}
   </div>
@@ -102,7 +98,6 @@
         {{/link-to}}
     {{/form-group}}
   {{/unless}}
-
 {{/unless}}
 
 {{#unless isSignedIn}}
@@ -118,9 +113,9 @@
     <div data-test-subscribe-button>
       {{async-button
         action=(action 'subscribe')
-        default='Make it Official'
-        pending='Making it Official...'
-        fulfilled='Making it Official...'
+        default='Sign in'
+        pending='Signing in...'
+        fulfilled='Signed in'
         class='ListservForm-callToAction subscribe-button subscribe-only'
       }}
     </div>
