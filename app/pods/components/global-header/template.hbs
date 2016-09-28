@@ -1,6 +1,6 @@
 <div class='MainNav-wrapper'>
   <div class='Container--noGutter'>
-    <nav class='MainNav'>
+    <div class='MainNav'>
 
       <div class='MainNav-brand'>
         <h1 class='MainNav-brand-logo' {{action (action 'trackHome')}}>
@@ -16,7 +16,7 @@
       </div>
 
       {{#if media.isNotMobile}}
-        <div class='MainNav-channels'>
+        <nav class='MainNav-channels' role="navigation">
           <ul class='SectionNavigation-list'>
             <li class='SectionNavigation-listItem'>
               {{#link-to 'news'
@@ -89,7 +89,7 @@
               {{/link-to}}
             </li>
           </ul>
-        </div>
+        </nav>
       {{/if}}
 
       <div class='MainNav-search'>
@@ -176,7 +176,7 @@
           </ul>
         {{/unless}}
       </div>
-    </nav>
+    </div>
   </div>
 </div>
 

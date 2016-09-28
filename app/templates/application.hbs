@@ -29,9 +29,9 @@
 {{#if search.showSearch class='search'}}
   {{search-nav}}
 {{else}}
-  <main class="{{backgroundClass}} {{if showHeader 'padBody'}} {{if media.isMobile 'is-mobile'}}">
+  <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody'}} {{if media.isMobile 'is-mobile'}}">
     {{outlet}}
-  </main>
+  </div>
   {{modal-manager}}
 {{/if}}
 

@@ -7,6 +7,7 @@ const {
 } = Ember;
 
 export default NewsCard.extend({
+  tagName: 'article',
   item: null,
   variant: null,
   classNameBindings: ['isFullImageCover:Card--fullImageCover', 'isWithoutImage:Card--withoutImage'],

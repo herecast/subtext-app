@@ -6,6 +6,8 @@ import dateFormat from 'subtext-ui/lib/dates';
 const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
+  tagName: 'article',
+
   attributeBindings: ['data-test-news-card'],
   'data-test-news-card': computed.oneWay('item.title'),
 
