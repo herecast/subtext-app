@@ -1,7 +1,9 @@
 <form data-test-component='sign-in-form'>
   <p>
-    Our clever system knows you already signed up!<br>
-    Enter your password to confirm.
+    To edit or add images to your post, you need to sign in to your dailyUV account.
+  </p>
+  <p>
+    Please enter your password to begin.
   </p>
   <p data-test-listserv-sign-in-form-email>{{email}}</p>
 
@@ -14,7 +16,7 @@
       data-test-field='sign-in-form-password'
       data-test-component='login-password'
     }}
-    {{#link-to 'forgot-password.index' (query-params returnUrl=forgotPasswordReturnUrl) class='u-textUnderline'}}
+    {{#link-to 'forgot-password.index' (query-params returnUrl=forgotPasswordReturnUrl) class='ListservSignInForm-forgotPassword'}}
       <span {{action 'trackForgotPassword'}}>
         Forgot your password? No worries>
       </span>
@@ -22,13 +24,13 @@
   {{/form-group}}
 
   <p>
-    By clicking below you agree to our awesome
+    By clicking below you agree to our
     {{#link-to 'terms' class='u-textUnderline' target="_blank"}}
       Terms of Service
     {{/link-to}}
   </p>
 
-  <div class='form-actions text-center'>
+  <p class='form-actions text-center'>
     {{async-button
       action=(action 'authenticate')
       default=callToAction
@@ -36,5 +38,12 @@
       class='ListservForm-callToAction'
       data-test-component='sign-in-form-submit'
     }}
-  </div>
+  </p>
+
+  <p>
+    Curious why things have changed? In response to user feedback,
+    Vital Communities, the nonprofit that runs the lists, asked dailyUV
+    to develop ways to improve the service.
+    <a href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
+  </p>
 </form>

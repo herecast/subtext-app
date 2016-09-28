@@ -40,17 +40,12 @@
       {{else}}
         {{#listserv-form}}
           <div class='ListservForm-sectionSubHeader text-center'>
-            <h1 class='ListservForm-sectionHeader'>+ENHANCE your Post on the {{listservName}}</h1>
-            <h3>
-              Vital Communities and dailyUV teamed up to provide complimentary ways
-              for you to keep up with what's happening in your community.
-            </h3>
-            <h2>Your post is now created and managed using your account on dailyUV.com</h2>
+            <h1 class='ListservForm-sectionHeader'>Your Post on the {{listservName}}</h1>
           </div>
           <div class='text-center'>
               {{listserv-sign-in-form
                   email=(readonly model.senderEmail)
-                  callToAction="ENHANCE MY POST"
+                  callToAction="SIGN IN"
                   confirmationKey=confirmationKey
                   forgotPasswordReturnUrl=forgotPasswordReturnUrl
               }}
