@@ -4,30 +4,21 @@
         {{#listserv-form}}
           <div class='ListservForm-sectionSubHeader'>
             <h1 class='ListservForm-sectionHeader'>
-              Want to enhance your post?
+              To edit or add images...
             </h1>
 
-            <h3>
-              Vital Communities and dailyUV teamed up to give you a better way
-              to keep up with what's happening in the UV daily with {{listservName}}.
-            </h3>
+            <p>Create an account on dailyUV. It's simple, free -- and gives you
+              complete access to dailyUV and all it's news, market, event and
+              discussion posts.</p>
 
-            <h2>
-                Create and manage your posts.
-            </h2>
             <p>
-              Through an account on dailyUV.com you can customize your post -
-              giving it PREMIER placement in the new UV list digest.
+              Curious why things have changed? In response to user feedback,
+              Vital Communities, the nonprofit that runs the lists, asked dailyUV
+              to develop ways to improve the service.
+              <a target="_blank" href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
             </p>
 
-            <h2>
-                BONUS -
-            </h2>
-            <p>
-              dailyUV.com gives you uninterupted access to all things UV.
-              You can BROWSE and POST anytime - it's free - seriously. Your
-              homepage is customized based on where you live.
-            </p>
+
           </div>
 
           {{listserv-registration-form
@@ -41,6 +32,9 @@
         {{#listserv-form}}
           <div class='ListservForm-sectionSubHeader text-center'>
             <h1 class='ListservForm-sectionHeader'>Your Post on the {{listservName}}</h1>
+            <p>
+              To edit or add images to your post, you need to sign in to your dailyUV account.
+            </p>
           </div>
           <div class='text-center'>
               {{listserv-sign-in-form
@@ -49,8 +43,14 @@
                   confirmationKey=confirmationKey
                   forgotPasswordReturnUrl=forgotPasswordReturnUrl
               }}
-            </div>
-          {{/listserv-form}}
+            <p>
+              Curious why things have changed? In response to user feedback,
+              Vital Communities, the nonprofit that runs the lists, asked dailyUV
+              to develop ways to improve the service.
+              <a target="_blank" href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
+            </p>
+          </div>
+        {{/listserv-form}}
       {{/if}}
   {{else}}
     {{outlet}}
