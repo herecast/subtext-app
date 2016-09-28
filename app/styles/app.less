@@ -78,6 +78,7 @@
 @import 'components/image-editor';
 @import 'components/image-upload';
 @import 'components/inline-edit';
+@import 'components/intercom-button';
 @import 'components/listserv-content-digest-preview';
 @import 'components/listserv-form';
 @import 'components/list-post-enhance';
@@ -180,7 +181,33 @@ main {
   margin-right: -7px;
 }
 
-// reposition intercom launcher button on mobile
-#intercom-launcher {
-  left: -200px;
+// reposition intercom message window on desktop -- have to be highly specific to override
+//desktop
+@media (min-width: @screen-sm-max) {
+  body {
+    div#intercom-container {
+      div.intercom-app-container {
+        div.intercom-app {
+          div.intercom-messenger-frame,
+          iframe.intercom-notifications-frame {
+              bottom: 55px !important;
+          }
+        }
+      }
+    }
+  }
+}
+//mobile
+@media (max-width: @screen-sm-max) {
+  body {
+    div#intercom-container {
+      div.intercom-app-container {
+        div.intercom-app {
+          iframe.intercom-notifications-frame {
+              bottom: 100px !important;
+          }
+        }
+      }
+    }
+  }
 }

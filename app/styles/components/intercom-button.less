@@ -1,0 +1,54 @@
+.IntercomButton {
+  &.footer-nav-showing {
+    @media (max-width: @screen-sm-max) {
+      .IntercomButton--wrap {
+        bottom: 65px !important;
+      }
+    }
+  }
+  &--wrap {
+    display: inline-block;
+    position: fixed;
+    z-index: 2147483647;
+    right: 5px;
+    bottom: 5px;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    background: #383cc8;
+    border-radius: 50%;
+    text-align: center;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+
+    i {
+      font-size: 40px;
+      color: #fff;
+      &.fa-question {
+        margin-left: -2px;
+      }
+      &.fa-times {
+        margin-top: -1px;
+      }
+    }
+
+    @media (max-width: @screen-sm-max) {
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+      &:after {
+        content: '';
+        height: 40px;
+        width: 40px;
+        background: rgba(0, 0, 0, 0);
+        position: absolute;
+        left: -5px;
+        top: -5px;
+      }
+      i {
+        font-size: 30px;
+        margin-left: -1px;
+      }
+    }
+  }
+}

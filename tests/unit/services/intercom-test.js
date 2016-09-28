@@ -34,10 +34,7 @@ test('boot(user)', function(assert){
     name: 'test user',
     user_id: 1,
     created_at: user.get('createdAt'),
-    test_group: 'TEST GROUP',
-    widget: {
-      activator: '#IntercomDefaultWidget'
-    }
+    test_group: 'TEST GROUP'
   }));
 });
 
@@ -56,5 +53,7 @@ test('When intercom tracking disabled; boot(user)', function(assert){
   service.doNotTrack();
   service.boot(user);
 
-  assert.notOk(window.Intercom.calledWith('boot'));
+  assert.ok(window.Intercom.calledWith('boot', {
+    app_id: config['intercom-api-token']
+  }));
 });

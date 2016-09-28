@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
-const { get, set } = Ember;
+const { get, set, isPresent } = Ember;
 
 export default Ember.Service.extend({
   enableTracking: true,
@@ -20,17 +20,19 @@ export default Ember.Service.extend({
     window.Intercom('shutdown');
 
     const intercomId = config['intercom-api-token'];
-    if(get(this, 'enableTracking')) {
+
+    if(isPresent(user) && get(this, 'enableTracking')) {
       window.Intercom('boot', {
         app_id: intercomId,
         email: user.get('email'),
         name: user.get('name'),
         user_id: user.get('userId'),
         created_at: user.get('createdAt'),
-        test_group: user.get('testGroup'),
-        widget: {
-          activator: '#IntercomDefaultWidget'
-        }
+        test_group: user.get('testGroup')
+      });
+    } else {
+      window.Intercom('boot', {
+        app_id: intercomId
       });
     }
   },
@@ -44,15 +46,40 @@ export default Ember.Service.extend({
   },
 
   contactUs(subject) {
-    let intercomButton = Ember.$('.intercom-launcher-button');
-    if(intercomButton.length > 0){
-      intercomButton[0].click();
+    let intercom = window.Intercom;
+
+    if (intercom) {
+      window.Intercom('show');
     } else {
       let url = "mailto:dailyuv@subtext.org?";
       if (subject) {
         url += `subject=${subject}`;
       }
       window.location.href = url;
+    }
+  },
+
+  showMessenger() {
+    window.Intercom('show');
+  },
+
+  hideMessenger() {
+    window.Intercom('hide');
+  },
+
+  onShow(fn) {
+    if (typeof fn === 'function') {
+      window.Intercom('onShow', () => {
+        fn();
+      });
+    }
+  },
+
+  onHide(fn) {
+    if (typeof fn === 'function') {
+      window.Intercom('onHide', () => {
+        fn();
+      });
     }
   },
 
