@@ -149,7 +149,7 @@ export default Ember.Controller.extend(trackEvent, {
     },
 
     viewProfile(org) {
-      if(org.get('isBlog')) {
+      if(get(org, 'isBlog') || get(org, 'canPublishNews')) {
         this.transitionToRoute('organization-profile', org);
       } else if(org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
@@ -162,7 +162,7 @@ export default Ember.Controller.extend(trackEvent, {
     },
 
     editProfile(org) {
-      if( org.get('isBlog') ) {
+      if(get(org, 'isBlog') || get(org, 'canPublishNews')) {
         set(this, 'editingBlog', org);
       } else if(org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
