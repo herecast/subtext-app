@@ -1,33 +1,29 @@
 import Ember from 'ember';
+import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 
 const {
   computed,
   get,
   set,
-  isPresent
+  isPresent,
+  isBlank
 } = Ember;
 
-export default Ember.Controller.extend({
-  queryParams: ['query', 'page'],
+export default Ember.Controller.extend(PaginatedFilter, {
+  queryParams: ['query', 'page', 'per_page'],
   page: 1,
-  perPage: 8,
+  per_page: 8,
   query: "",
   totalCount: computed.oneWay('news.content.meta.total'),
 
-  showAboutSection: computed('model.logoUrl', 'model.description', function(){
-    const logo = get(this, 'model.logoUrl');
-    const description = get(this, 'model.description');
-    return isPresent(logo) || isPresent(description);
-  }),
-  
-  showMoreContent: computed('moreContent.[]', 'query', function() {
-    return get(this, 'moreContent.length') || get(this, 'query.length');
+  showNextPage: computed('totalCount', 'per_page', 'page', function() {
+    return get(this, 'totalCount') >= (get(this, 'per_page') * get(this, 'page'));
   }),
 
-  news: computed('model.id', 'page', 'perPage', 'query', function() {
+  news: computed('model.id', 'page', 'per_page', 'query', function() {
     const organizationId = get(this, 'model.id');
     const page = get(this, 'page');
-    const perPage = get(this, 'perPage');
+    const perPage = get(this, 'per_page');
     const query = get(this, 'query');
 
     return this.store.query('news', {
@@ -38,28 +34,44 @@ export default Ember.Controller.extend({
     });
   }),
 
-  featuredNews: computed('news.[]', 'page', 'query', function() {
-    const page = get(this, 'page');
+  /**
+   * We show the large card if there is no query and we're on the first page of results.
+   */
+  showLargeCard: computed('query', 'page', function() {
     const query = get(this, 'query');
-    if(isPresent(query) || page > 1) {
-      return null;
-    } else {
-      const news = get(this, 'news');
-      return news.slice(0,2);
-    }
+    const page = get(this, 'page');
+
+    return page === 1 && isBlank(query);
   }),
 
-  moreContent: computed('news.[]', 'page', 'query', function() {
+  /**
+   * List of news items which may exclude the first news item if a query is present.
+   */
+  newsList: computed('news.@each.id', 'showLargeCard', function() {
+    const showLargeCard = get(this, 'showLargeCard');
     const news = get(this, 'news');
-    const page = get(this, 'page');
-    const query = get(this, 'query');
 
-    if(isPresent(query) || page > 1) {
-      return news;
-    } else {
-      return news.slice(2);
-    }
+    return showLargeCard ? news.slice(1) : news;
   }),
+
+  /**
+   * Remaining list of news items - if an ad is present, it is displayed after the first item.
+   * Therefore, this list excludes that news item if it is present.
+   */
+  newsListRemainingItems: computed('newsList.@each.id', 'model.profileAdOverride', function() {
+    const profileAdOverride = get(this, 'model.profileAdOverride');
+    const newsList = get(this, 'newsList');
+
+    return isPresent(profileAdOverride) ? newsList.slice(1) : newsList;
+  }),
+
+  headerStyle: computed('model.backgroundImageUrl', function() {
+    const backgroundImageUrl = get(this, 'model.backgroundImageUrl') || '/images/profile-default-background.png';
+
+    return Ember.String.htmlSafe(`background-image: url('${backgroundImageUrl}');`);
+  }),
+
+  hasBackgroundImage: computed.notEmpty('model.backgroundImageUrl'),
 
   actions: {
     updateQuery(q) {
@@ -76,12 +88,15 @@ export default Ember.Controller.extend({
     },
 
     cancelEdit() {
-      if(get(this, 'model.hasDirtyAttributes')) {
+      if(get(this, 'model.hasDirtyAttributes') || get(this, 'model.hasNewImage')) {
         if(confirm('You have unsaved changes. Cancel editing?')) {
+          const model = get(this, 'model');
+          model.rollbackAttributes();
+          model.clearNewImages();
           set(this, 'editMode', false);
         }
       } else {
-      set(this, 'editMode', false);
+        set(this, 'editMode', false);
       }
     },
 

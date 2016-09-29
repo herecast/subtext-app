@@ -50,6 +50,8 @@ export default Ember.Controller.extend(trackEvent, {
 
   showHeader: computed.alias('currentController.showHeader'),
 
+  channelLinksEnabled: true,
+
   showOrHideSearch: observer('currentPath', function() {
     const shouldShow = get(this, 'searchQuery') || get(this, 'search.hasFilter');
 

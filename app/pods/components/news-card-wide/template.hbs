@@ -10,29 +10,36 @@
         {{item.title}}
       {{/link-to}}
 
-      <div class='Card-snippet u-textThreeLineTruncate'>
+      <div class='Card-snippet u-textTwoLineTruncate'>
         {{{content}}}
       </div>
 
-      {{#link-to 'organization-profile'
-        item.organization.slug
-        class='Card-organization'
-        tagName='a'
-        data-test-component="organization-link"
-      }}
         <div class='Card-meta-avatar'>
           {{#if item.organization.displayImageUrl}}
-            <img src="{{item.organization.displayImageUrl}}" alt="{{item.organization.name}}" class="Card-avatar" />
+            {{#link-to 'organization-profile'
+            item.organization.slug
+            class='Card-organization'
+            tagName='a'
+            data-test-component="organization-link"
+            }}
+              <img src="{{item.organization.displayImageUrl}}" alt="{{item.organization.name}}" class="Card-avatar" />
+            {{/link-to}}
           {{/if}}
         </div>
 
         <div class='Card-meta-items'>
-          <span>
+          <span class='Card-organization'>
             {{relativeDate}}<br />
-            {{item.organizationName}}
+            {{#link-to 'organization-profile'
+            item.organization.slug
+            class='Card-organization'
+            tagName='a'
+            data-test-component="organization-link"
+            }}
+              {{item.organizationName}}
+            {{/link-to}}
           </span>
         </div>
-      {{/link-to}}
     </div>
 
   </div>

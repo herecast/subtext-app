@@ -3,7 +3,7 @@ import Ember from 'ember';
 
 moduleForModel('organization', 'Unit | Model | organization', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:promotion']
 });
 
 test('it exists', function(assert) {

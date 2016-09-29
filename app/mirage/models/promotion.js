@@ -1,6 +1,5 @@
 import { Model, belongsTo } from 'ember-cli-mirage';
 
 export default Model.extend({
-  profileAdOverride: belongsTo('promotion')
-
+  banner: belongsTo('promotion-banner')
 });

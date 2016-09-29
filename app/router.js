@@ -97,6 +97,7 @@ Router.map(function() {
 
   this.route('organization-profile', {path: '/organizations/:slug'}, function() {
     this.route('edit');
+    this.route('news-item', {path: ':id'});
   });
 
   this.route('lists', function() {

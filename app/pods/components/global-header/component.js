@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const {
+  get,
   inject,
   computed
 } = Ember;
@@ -8,6 +9,12 @@ const {
 export default Ember.Component.extend({
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
+
+  channelLinksEnabled: true,
+
+  displayChannelLinks: computed('channelLinksEnabled', 'media.isNotMobile', function() {
+    return get(this, 'channelLinksEnabled') && get(this, 'media.isNotMobile');
+  }),
 
   actions: {
     openSearch() {

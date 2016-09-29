@@ -1,0 +1,9 @@
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeNewsDetailPage') showHeader=false as |modal|}}
+  {{news-detail
+  model=model
+  closeRoute='organization-profile'
+  closeLabel='Go Back'
+  isPreview=false
+  scrollTo=(action 'scrollTo' target=modal)
+  }}
+{{/modal-wrapper}}

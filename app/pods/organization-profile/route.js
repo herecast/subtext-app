@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
 
 const { isEmpty, set } = Ember;
 
-export default Ember.Route.extend(History, {
+export default Ember.Route.extend(PaginatedFilter, History, {
   historyRouteName: 'organization-profile',
   model: function(params) {
     const slug = params.slug;
@@ -25,6 +26,14 @@ export default Ember.Route.extend(History, {
       page: 1,
       query: ""
     });
+  },
+
+  activate() {
+    set(this.controllerFor('application'), 'channelLinksEnabled', false);
+  },
+
+  deactivate() {
+    set(this.controllerFor('application'), 'channelLinksEnabled', true);
   }
 
 });

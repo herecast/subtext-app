@@ -10,12 +10,11 @@ moduleForAcceptance('Acceptance | organization profile');
  */
 
 test('Displays organization info', function(assert) {
-  assert.expect(4);
+  assert.expect(3);
 
   const organization = server.create('organization', {
     logoUrl: 'http://placehold.it/200x200',
     name: 'Foo Blog',
-    profileTitle: 'About Foo Blog inc.',
     description: 'A blog about foo, and bar; and how they came to be.'
   });
   visit(`/organizations/${organization.id}`);
@@ -37,13 +36,6 @@ test('Displays organization info', function(assert) {
       organization.name,
       "Organization Name");
 
-    // Title
-    element = find(testSelector('organization-profile-title'));
-    assert.equal(
-      element.text().trim(),
-      organization.profileTitle,
-      "Organization Profile Title");
-
     // Description
     element = find(testSelector('organization-description'));
     assert.equal(
@@ -53,19 +45,19 @@ test('Displays organization info', function(assert) {
   });
 });
 
-test("About section only shows when image and/or description", function(assert) {
+test("About header only shows when description is present", function(assert) {
   assert.expect(2);
 
   let org1 = server.create('organization');
-  let org2 = server.create('organization', {logoUrl: null, description: null});
+  let org2 = server.create('organization', {description: null});
 
   visit(`/organizations/${org1.id}`).then(()=> {
-    let $aboutSection = find(testSelector('component', 'about-section'));
+    let $aboutSection = find(testSelector('about-header'));
     assert.ok($aboutSection.length > 0);
 
     // Section does not show when no about info
     visit(`/organizations/${org2.id}`).then(()=> {
-      $aboutSection = find(testSelector('component', 'about-section'));
+      $aboutSection = find(testSelector('about-header'));
       assert.notOk($aboutSection.length > 0);
     });
   });
@@ -79,7 +71,7 @@ test("About section html description is rendered by browser", function(assert) {
   });
 
   visit(`/organizations/${organization.id}`).then(()=> {
-    let $aboutSection = find(testSelector('component', 'about-section'));
+    let $aboutSection = find(testSelector('organization-description'));
     assert.ok(find('b.BoldText', $aboutSection).length > 0);
     assert.equal(find('a.MailToLink').attr('href'), 'mailto://you@example.org');
   });
@@ -89,7 +81,7 @@ test("About section html description is rendered by browser", function(assert) {
  * Featured Content
  */
 
-test('Given an organization with 3 news items; The newest 2 display in the featured area.', function(assert) {
+test('Given an organization with 3 news items; The newest 1 displays in the featured area.', function(assert) {
   assert.expect(4);
 
   let organization = server.create('organization');
@@ -112,7 +104,7 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
 
   andThen(() => {
     let $featuredContent = find(testSelector('featured-content'));
-    assert.equal($featuredContent.length, 2);
+    assert.equal($featuredContent.length, 1);
 
     assert.equal(
       find(testSelector('featured-content', news[0].id)).length,
@@ -121,8 +113,8 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
 
     assert.equal(
       find(testSelector('featured-content', news[1].id)).length,
-      1,
-      "Second item is featured");
+      0,
+      "Second item is not featured");
 
     assert.equal(
       find(testSelector('featured-content', news[2].id)).length,
@@ -131,136 +123,30 @@ test('Given an organization with 3 news items; The newest 2 display in the featu
   });
 });
 
-/******************************************
- * More Content
- */
-
-test("More Content not visible unless there is content to show there", function(assert) {
-  assert.expect(2);
-
-  let organization = server.create('organization');
-
-  // Create content for featured area, but not enough for 'more content'
-  for (var i = 1; i < 3; i++) {
-    server.create('news', {
-      organizationId: organization.id
-    });
-  }
-
-  visit(`/organizations/${organization.id}`);
-
-  andThen(()=> {
-    let $moreContent = find(testSelector('organization-profile-more-content'));
-    assert.equal($moreContent.length, 0);
-    assert.equal($moreContent.text().trim(), "");
-  });
-
-});
-
-test("Given an organization with less than 9 news items; it renders the last 6 as news cards in the 'More Content' area", function(assert) {
-  assert.expect(7);
-
-  let organization = server.create('organization');
-  let news = [];
-
-  for (var i = 1; i < 9; i++) {
-    news.push(server.create('news', {
-      organizationId: organization.id
-    }));
-  }
-
-  visit(`/organizations/${organization.id}`);
-
-  andThen(()=> {
-    let $moreContent = find(testSelector('organization-profile-more-content'));
-    assert.equal(find(testSelector('news-card'), $moreContent).length, news.length - 2, "it has all the news items");
-
-    news.slice(2).forEach(function(item) {
-      assert.ok(find(testSelector('news-card', item.title)).length > 0, "News item exists");
-    });
-  });
-});
-
-test("Given news items exist not owned by orgnization; it does not include them in the more-content area", function(assert) {
-  assert.expect(1);
-
-  let organization = server.create('organization');
-  let org2 = server.create('organization');
-
-  server.create('news', {organizationId: org2.id});
-
-  visit(`/organizations/${organization.id}`);
-
-  andThen(()=> {
-    let $moreContent = find(testSelector('organization-profile-more-content'));
-    assert.equal(find(testSelector('news-card'), $moreContent).length, 0);
-  });
-});
-
 test('Pagination, featured content is not display on subsequent pages', function(assert) {
-  assert.expect(5);
+  assert.expect(10);
 
   let organization = server.create('organization');
-  let news = [];
-  for (var i = 1; i < 10; i++) {
-    news.push(server.create('news', {organizationId: organization.id}));
-  }
-  let firstPage = news.slice(2, 6);
+  let news = server.createList('news', 10, {organizationId: organization.id});
+  let firstPage = news.slice(0, 8);
   let nextPage = news.slice(9);
 
   visit(`/organizations/${organization.id}`);
 
   andThen(()=> {
-    click(testSelector('next-page')).then(()=> {
+    click(testSelector('pagination-next')).then(()=> {
       let $featuredContent = find(testSelector('featured-content'));
       assert.equal($featuredContent.length, 0, "Featured content is gone");
 
-      let $moreContent = find(testSelector('organization-profile-more-content'));
       firstPage.forEach((item)=> {
-        assert.equal(find(testSelector('news-card', item.title), $moreContent).length, 0, "First page news item not in list");
+        assert.equal(find(testSelector('news-card', item.title)).length, 0, "First page news item not in list");
       });
       nextPage.forEach((item)=> {
-        assert.equal(find(testSelector('news-card', item.title), $moreContent).length, 1, "Next page news item");
+        assert.equal(find(testSelector('news-card', item.title)).length, 1, "Next page news item");
       });
 
     });
   });
-});
-
-test("Searching content: returns records matching query. Featured items gone.", function(assert) {
-  assert.expect(4);
-
-  let organization = server.create('organization');
-  let news = [];
-  for (var i = 1; i < 3; i++) {
-    news.push(server.create('news', {organizationId: organization.id}));
-  }
-
-  let matchingArticle = server.create('news', {
-    title: 'TheMatch'
-  });
-
-  visit(`/organizations/${organization.id}`);
-
-  andThen(()=> {
-    let $searchBox = find('input', testSelector('component', 'news-search'));
-    fillIn($searchBox, 'TheMatch');
-    triggerEvent($searchBox, 'input');
-    andThen(()=> {
-      let $featuredContent = find(testSelector('featured-content'));
-      assert.equal($featuredContent.length, 0, "Featured content is gone");
-
-      let $moreContent = find(testSelector('organization-profile-more-content'));
-
-      assert.equal(find(testSelector('news-card', matchingArticle.title), $moreContent).length, 1, "shows matching article");
-
-      news.forEach((item)=> {
-        assert.equal(find(testSelector('news-card', item.title), $moreContent).length, 0, "non-matches don't show up");
-      });
-
-    });
-  });
-
 });
 
 /****************************

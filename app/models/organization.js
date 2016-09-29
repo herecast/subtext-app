@@ -5,7 +5,8 @@ const {
   computed,
   get,
   inject,
-  isPresent
+  isPresent,
+  setProperties
 } = Ember;
 
 export default DS.Model.extend({
@@ -14,13 +15,14 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   profileTitle: DS.attr('string'),
   logoUrl: DS.attr('string'),
-  avatarUrl: DS.attr('string'),
+  profileImageUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
   orgType: DS.attr('string'),
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
   canEdit: DS.attr('boolean'),
+  profileAdOverride: DS.belongsTo('promotion', { async: true }),
 
   // Temporary for dashboard edit button
   businessProfileId: DS.attr(),
@@ -35,15 +37,20 @@ export default DS.Model.extend({
 
   isBlog: computed.equal('orgType', 'Blog'),
   isBusiness: computed.equal('orgType', 'Business'),
+  isPublisher: computed.equal('orgType', 'Publisher'),
+
+  publisher: DS.belongsTo('organization', {async: true, inverse: 'publications'}),
+  publications: DS.hasMany('organization', {async: true, inverse: 'publisher'}),
 
   // Placeholders for image objects to be uploaded
   logo: null,
-  avatar: null,
+  profileImage: null,
   backgroundImage: null,
 
-  displayImageUrl: computed('logoUrl', 'avatarUrl', function() {
-    const avatar = get(this, 'avatarUrl');
-    return avatar ? avatar : get(this, 'logoUrl');
+  // Used for avatars - default to profile image
+  displayImageUrl: computed('logoUrl', 'profileImageUrl', function() {
+    const profileImageUrl = get(this, 'profileImageUrl');
+    return profileImageUrl ? profileImageUrl : get(this, 'logoUrl');
   }),
 
   uploadImage(type, image) {
@@ -54,7 +61,7 @@ export default DS.Model.extend({
       const data = new FormData();
       data.append(`organization[${type}]`, image);
 
-      return api.updateOrganizationLogo(id, data);
+      return api.updateOrganizationImage(id, data);
     }
   },
 
@@ -62,11 +69,23 @@ export default DS.Model.extend({
     return this.uploadImage('logo', get(this, 'logo'));
   },
 
-  uploadAvatar() {
-    return this.uploadImage('avatar', get(this, 'avatar'));
+  uploadProfileImage() {
+    return this.uploadImage('profile_image', get(this, 'profileImage'));
   },
 
   uploadBackgroundImage() {
     return this.uploadImage('background_image', get(this, 'backgroundImage'));
+  },
+
+  hasNewImage: computed('logo', 'profileImage', 'backgroundImage', function() {
+    return isPresent(get(this, 'logo')) || isPresent(get(this, 'profileImage')) || isPresent(get(this, 'backgroundImage'));
+  }),
+
+  clearNewImages() {
+    setProperties(this, {
+      logo: null,
+      profileImage: null,
+      backgroundImage: null
+    });
   }
 });

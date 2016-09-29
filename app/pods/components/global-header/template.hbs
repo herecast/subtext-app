@@ -18,7 +18,8 @@
       {{#if media.isNotMobile}}
         <nav class='MainNav-channels' role="navigation">
           <ul class='SectionNavigation-list'>
-            <li class='SectionNavigation-listItem'>
+            {{#if channelLinksEnabled}}
+              <li class='SectionNavigation-listItem'>
               {{#link-to 'news'
               (query-params
               page=1
@@ -88,6 +89,7 @@
                 Directory
               {{/link-to}}
             </li>
+              {{/if}}
           </ul>
         </nav>
       {{/if}}

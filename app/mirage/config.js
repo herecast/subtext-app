@@ -299,6 +299,8 @@ export default function() {
     };
   });
 
+  this.get('/promotions/:id');
+
   this.get('/organizations/:id');
   this.put('/organizations/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {

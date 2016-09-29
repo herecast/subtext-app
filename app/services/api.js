@@ -212,7 +212,7 @@ export default AjaxService.extend({
     });
   },
 
-  updateOrganizationLogo(id, data) {
+  updateOrganizationImage(id, data) {
     return this.request(`/organizations/${id}`, {
       type: 'PUT',
       //data is FormData

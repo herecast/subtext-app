@@ -16,6 +16,7 @@ const {
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
   currentService: inject.service('currentController'),
+  promotion: null,
 
   _canSendImpression: computed('impressionPath', '_didSendImpression',
     '_currentPathMatchesImpressionPath', function() {
@@ -157,7 +158,19 @@ export default Ember.Component.extend(InViewportMixin, {
   didInsertElement() {
     this._super();
     this._viewportOptionsOverride();
-    this._getPromotion();
+
+    const promotion = get(this, 'promotion');
+    if (isPresent(promotion)) {
+      if ('then' in promotion) {
+        promotion.then(() => {
+          this._pushEvent('VirtualAdLoaded');
+        });
+      } else {
+        this._pushEvent('VirtualAdLoaded');
+      }
+    } else {
+      this._getPromotion();
+    }
   },
 
   click() {

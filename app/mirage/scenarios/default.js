@@ -5,11 +5,21 @@ export default function(server) {
   server.loadFixtures();
   server.createList('content-metric',1);
   server.createList('ad-metric',1);
-  server.createList('organization',5);
-  server.createList('location', 8);
+  const promotionBanners = server.createList('promotion-banner', 50);
+  const promotion = server.create('promotion', {
+    banner: promotionBanners[0]
+  });
+
+  const organizations = server.createList('organization', 5, {
+    profileAdOverride: promotion
+  });
+
+  server.create('current-user', {
+    managedOrganizations: organizations.slice(0,2)
+  });
+
   server.createList('talk', 50);
   server.createList('comment',8);
-  server.createList('promotion-banner', 50);
   server.createList('market-post', 100);
 
   const user1 = server.create('user', {location_id: 1});

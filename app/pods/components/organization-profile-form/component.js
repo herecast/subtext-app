@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import Validation from '../../../mixins/components/validation';
 
-const { get, set, isPresent, isBlank, computed } = Ember;
+const { get, set, isPresent, isBlank, computed, RSVP, inject } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
 
   _originalImageUrl: computed.oneWay('model.logoUrl'),
+
+  toast: inject.service(),
 
   submit(e) {
     e.preventDefault();
@@ -16,37 +18,77 @@ export default Ember.Component.extend(Validation, {
   validateForm() {
     this.validatePresenceOf('model.name');
     this.validateImage('logo');
+    this.validateImage('profileImage');
+    this.validateImage('backgroundImage');
   },
 
   notifySaved() {
+    get(this, 'toast').success('Successfully saved changes.');
+
     if(this.attrs.didSave) {
       this.attrs.didSave(get(this, 'model'));
     }
   },
 
-  imageFormVisible: false,
+  logoImageFormVisible: false,
+  backgroundImageFormVisible: false,
+  profileImageFormVisible: false,
 
-  displayImageForm: computed('model.logoUrl', 'imageFormVisible', function() {
-    return get(this, 'imageFormVisible') || isBlank(get(this, 'model.logoUrl'));
+  displayLogoImageForm: computed('model.logoUrl', 'logoImageFormVisible', function() {
+    return get(this, 'logoImageFormVisible') || isBlank(get(this, 'model.logoUrl'));
+  }),
+
+  displayBackgroundImageForm: computed('model.backgroundImageUrl', 'backgroundImageFormVisible', function() {
+    return get(this, 'backgroundImageFormVisible') || isBlank(get(this, 'model.backgroundImageUrl'));
+  }),
+
+  displayProfileImageForm: computed('model.profileImageUrl', 'profileImageFormVisible', function() {
+    return get(this, 'profileImageFormVisible') || isBlank(get(this, 'model.profileImageUrl'));
   }),
 
   save() {
     if(this.isValid()) {
       const model = get(this, 'model');
-      model.save().then(()=>{
-        if(isPresent(model.get('logo'))) {
-          model.uploadLogo().then(()=>{
+      const toast = get(this, 'toast');
 
-            // Reload to update the logoUrl - one is not provided in the uploadLogo response
+      model.save().then(()=>{
+        const rsvpHash = {};
+
+
+        if(isPresent(model.get('logo'))) {
+          rsvpHash.logo = model.uploadLogo();
+          rsvpHash.logo.catch(function() {
+            toast.error('Unable to upload logo. Please check that it meets the minimum dimensions.');
+          });
+        }
+
+        if(isPresent(model.get('profileImage'))) {
+          rsvpHash.profileImage = model.uploadProfileImage();
+          rsvpHash.profileImage.catch(function() {
+            toast.error('Unable to upload profile image. Please check that it meets the minimum dimensions.');
+          });
+        }
+
+        if(isPresent(model.get('backgroundImage'))) {
+          rsvpHash.backgroundImage = model.uploadBackgroundImage();
+          rsvpHash.backgroundImage.catch(function() {
+            toast.error('Unable to upload background image. Please check that it meets the minimum dimensions.');
+          });
+        }
+
+        if (isPresent(rsvpHash)) {
+          RSVP.hash(rsvpHash).then(()=>{
+            // Reload to update the image urls
             model.reload().then(() => {
               this.notifySaved();
             });
-
           });
         } else {
           this.notifySaved();
         }
-      }, (/*errors*/) => { });
+      }, (/*errors*/) => {
+        toast.error('Error: Unable to save changes.');
+      });
     }
   },
 
@@ -57,8 +99,14 @@ export default Ember.Component.extend(Validation, {
     updateContent(content) {
       set(this, 'model.description', content);
     },
-    showImageForm() {
-      set(this, 'imageFormVisible', true);
+    showLogoImageForm() {
+      set(this, 'logoImageFormVisible', true);
+    },
+    showBackgroundImageForm() {
+      set(this, 'backgroundImageFormVisible', true);
+    },
+    showProfileImageForm() {
+      set(this, 'profileImageFormVisible', true);
     }
   }
 });

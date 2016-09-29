@@ -1,74 +1,168 @@
-<article class='OrganizationProfile Container--noGutter'>
-  <header class='OrganizationProfile-header'>
-    <div class='row'>
-      <div class='col-sm-9'>
-        <h1 class='OrganizationProfile-headerTitle h1' data-test-organization-name>
-          <span>{{model.name}}</span>
-        </h1>
-      </div>
+<article class='OrganizationProfile'>
 
-      <div class='col-sm-3'>
-        <div class='OrganizationProfile-connect hidden-xs'>
-          {{#if model.subscribeUrl}}
-            <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
-              {{fa-icon 'heart'}}
-              Subscribe
-            </a>
+  <header class='OrganizationProfile-header {{if hasBackgroundImage 'hasBackgroundImage'}}' style={{headerStyle}}>
+    <div class="OrganizationProfile-header-container">
+      <div class="OrganizationProfile-header-content">
+        {{#if model.logoUrl}}
+          <img src={{model.logoUrl}} data-test-organization-image class='OrganizationProfile-header-logo'>
+        {{else}}
+          {{#if model.profileImageUrl}}
+            <img src={{model.profileImageUrl}} data-test-organization-image
+                 class='OrganizationProfile-header-profileImage'>
+          {{else}}
+            {{fa-icon 'user' size=(if media.isMobile 3 5) class='OrganizationProfile-header-genericUserIcon'}}
           {{/if}}
-        </div>
+          <p class="OrganizationProfile-header-name">
+            {{model.name}}
+          </p>
+        {{/if}}
       </div>
     </div>
   </header>
 
-  <div class='row'>
-    <div class='OrganizationProfile-main col-sm-9'>
-      {{#if featuredNews}}
-      <section class='OrganizationProfile-featured'>
-        {{#each featuredNews as |newsItem|}}
-          {{featured-content model=newsItem horizontal=true}}
-        {{/each}}
-        {{#if (and media.isMobile model.subscribeUrl)}}
-          <div class='OrganizationProfile-connect-mobile'>
-            <a target="_blank" data-test-component='organization-subscribe-link' class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
-              {{fa-icon 'heart'}}
-              Subscribe
-            </a>
+  <div class="Container--noGutter">
+
+    <div class="row">
+      <div class="col-sm-7 col-sm-offset-1">
+
+        <div class="row">
+          <div class="col-xs-6">
+            {{search-input
+            value=query
+            class="OrganizationProfile-search"
+            update=(action "updateQuery")
+            data-test-component='news-search'
+            }}
+          </div>
+          {{#if model.subscribeUrl}}
+            <div class="col-xs-6 text-right">
+              <a target="_blank" data-test-component='organization-subscribe-link'
+                 class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
+                {{fa-icon 'heart'}}
+                Subscribe
+              </a>
+            </div>
+          {{/if}}
+        </div>
+
+        {{#if news.isPending}}
+          {{x-loader}}
+        {{else}}
+          {{#if showLargeCard}}
+            <div class="row">
+              <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
+                {{news-card-wide
+                item=news.firstObject
+                class='Card--solo OrganizationProfile-newsCard'
+                variant='full'
+                routeName='organization-profile.news-item'
+                }}
+              </div>
+            </div>
+          {{/if}}
+
+          {{#if model.profileAdOverride}}
+            <div class="row">
+              <div class="col-sm-6">
+                {{news-card
+                item=newsList.firstObject
+                variant='vertical'
+                class="OrganizationProfile-newsCard"
+                routeName='organization-profile.news-item'
+                }}
+              </div>
+              <div class="col-sm-6">
+                {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
+              </div>
+            </div>
+          {{/if}}
+
+          <div class="row">
+            {{#each newsListRemainingItems as |item|}}
+              <div class="col-sm-6">
+                {{news-card
+                item=item
+                variant='vertical'
+                class="OrganizationProfile-newsCard"
+                routeName='organization-profile.news-item'
+                }}
+              </div>
+            {{/each}}
+          </div>
+
+          <div class='row'>
+            <div class='col-xs-12'>
+              <div class='OrganizationProfile-pagination PaginationNav-wrapper'>
+                <div class='PaginationNav PaginationNav--bottom'>
+                  {{partial 'partials/pagination-nav'}}
+                </div>
+              </div>
+            </div>
           </div>
         {{/if}}
-      </section>
-      {{/if}}
-      {{#if showMoreContent}}
-      <section class='OrganizationProfile-moreContent' data-test-organization-profile-more-content>
-        <h1 class='OrganizationProfile-moreContentTitle'>More Content From {{model.name}}</h1>
-        <div class='OrganizationProfile-contentControls'>
-          {{search-input value=query update=(action "updateQuery") data-test-component='news-search' debouncWait=900}}
-        </div>
-        {{content-grid model=moreContent}}
-        <footer>
-          {{pagination-buttons resultCount=totalCount page=page on-update-page=(action (mut page)) perPage=perPage}}
-        </footer>
-      </section>
-      {{/if}}
+
+      </div>
+
+      <div class="col-sm-3">
+
+        {{#if model.description}}
+          <div class='OrganizationProfile-title' data-test-about-header>
+            {{#if model.displayImageUrl}}
+              <div class="OrganizationProfile-title-item">
+                <img src="{{model.displayImageUrl}}" alt="{{model.name}}" class="OrganizationProfile-avatar"/>
+              </div>
+            {{/if}}
+            <div class='OrganizationProfile-title-item'>
+              About <span data-test-organization-name>{{model.name}}</span>
+            </div>
+          </div>
+        {{/if}}
+
+        {{#if model.canEdit}}
+          <div class="OrganizationProfile-editButtons">
+            <div class="OrganizationProfile-editButtons-item">
+              <button class='OrganizationProfile-adminButton' {{action 'editProfile'}}>
+                Edit Profile
+              </button>
+            </div>
+            {{!--
+            <div class="OrganizationProfile-editButtons-item">
+              {{#link-to 'dashboard' (query-params organization_id=model.id type="news") class='OrganizationProfile-adminButton OrganizationProfile-manageContentButton'}}
+                Manage Content
+              {{/link-to}}
+            </div>
+            --}}
+          </div>
+        {{/if}}
+        <p class='OrganizationProfile-description ContentText' data-test-organization-description>{{{ model.description }}}</p>
+
+        {{#if model.publisher}}
+          <h2 class="h2">{{model.name}} is published by:</h2>
+          <div>
+            <img src="{{model.publisher.displayImageUrl}}" alt="{{model.publisher.name}}"
+                 class="OrganizationProfile-avatar"/>
+            {{model.publisher.name}}
+          </div>
+        {{else if model.publications}}
+          <h2 class="h2">{{model.name}} publishes:</h2>
+          {{#each model.publications as |publication|}}
+            <div>
+              <img src="{{publication.displayImageUrl}}" alt="{{publication.name}}" class="OrganizationProfile-avatar"/>
+              {{publication.name}}
+            </div>
+          {{/each}}
+        {{/if}}
+      </div>
     </div>
 
-    <aside class='OrganizationProfile-publisher col-sm-3'>
-      {{#if model.canEdit}}
-        <div>
-          <button class='btn btn-secondary' {{action 'editProfile'}}>Edit Profile</button>
-        </div>
-      {{/if}}
-      {{#if showAboutSection}}
-        {{organization-about model=model tagName='section' class='OrganizationProfile-about' data-test-component='about-section'}}
-      {{/if}}
-      <section class='OrganizationProfile-contribute'>
-        <!-- CONTRIBUTE SECTION -->
-      </section>
-    </aside>
   </div>
+
 </article>
 {{#if editMode}}
   {{#modal-wrapper close=(action 'cancelEdit')}}
     <h4 class='h2'>Edit Profile</h4>
-    {{organization-profile-form model=model didSave=(action "closeModal")}}
+    {{organization-profile-form model=(readonly model) didSave=(action "closeModal")}}
   {{/modal-wrapper}}
 {{/if}}
+
+{{outlet}}
