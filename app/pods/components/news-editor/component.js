@@ -197,9 +197,14 @@ export default Ember.Component.extend(Validation, {
   },
 
   validateContent() {
-    const content = get(this, 'news.content');
+    let content = get(this, 'news.content');
 
-    if (isBlank(content) || content.replace(/<[^>]*>/g, '') === '') {
+    // Have to scrub any img wrapping divs to get rid of captions
+    let $content = Ember.$('<div />').append(Ember.$.parseHTML(content));
+    $content.find('.ContentImage').remove();
+    content = $content.prop('outerHTML');
+
+    if (isBlank(content) || content.replace(/<[^>]*>/g, '').trim() === '') {
       set(this, 'errors.content', "News can't be blank.");
     } else {
       set(this, 'errors.content', null);
