@@ -174,7 +174,7 @@ export default function() {
   this.post('/users/sign_in', function({db, users, currentUsers}, request) {
     db.currentUsers.remove();
 
-    let emailMatcher = /user\[email\]=([a-z1-9\.\-_@]+)/i;
+    let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
     let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
 
     let user;

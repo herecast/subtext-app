@@ -85,8 +85,8 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   _sendImpression() {
-    if (! get(this, 'isDestroyed')) {
-      const promo = get(this, 'promotion');
+    const promo = get(this, 'promotion');
+    if (! get(this, 'isDestroyed') && promo) {
       const contentId = get(this, 'contentModel.id');
       const api = get(this, 'api');
 

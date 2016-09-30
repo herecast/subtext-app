@@ -247,7 +247,8 @@ export default AjaxService.extend({
 
   recordPromoBannerImpression(id, data) {
     return this.post(`/promotion_banners/${id}/impression`, {
-      data: data
+      data: data,
+      dataType: 'text'
     });
   },
 

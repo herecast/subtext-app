@@ -30,12 +30,16 @@ export default Ember.Component.extend({
 
     if ($content[0].scrollHeight >= maxHeight) {
       Ember.run.next(this, function() {
-        set(this, 'needsToggleButton', true);
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'needsToggleButton', true);
+        }
       });
       return true;
     } else {
       Ember.run.next(this, function() {
-        set(this, 'needsToggleButton', false);
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'needsToggleButton', false);
+        }
       });
       return false;
     }
