@@ -23,11 +23,18 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     const hasEitherField = Ember.isPresent(email) || Ember.isPresent(phone);
 
     if (hasEitherField) {
-      if (this.hasValidEmail(email)) {
+      const hasValidEmail = this.hasValidEmail(email);
+      const hasValidPhone = this.hasValidPhone(phone);
+
+      if (hasValidEmail && hasValidPhone) {
         this.set('errors.contact', null);
         delete this.get('errors').contact;
-      } else {
+      } else if (!hasValidEmail && hasValidPhone) {
         this.set('errors.contact', 'Invalid email address');
+      } else if (hasValidEmail && !hasValidPhone) {
+        this.set('errors.contact', 'Invalid phone number');
+      } else if (!hasValidEmail && !hasValidPhone) {
+        this.set('errors.contact', 'Invalid email address and phone number');
       }
     } else {
       this.set('errors.contact', 'Must include contact info');

@@ -118,6 +118,14 @@ export default Ember.Mixin.create({
     return Ember.isBlank(email) || emailRegex.test(email);
   },
 
+  hasValidPhone(phone) {
+    // FROM http://stackoverflow.com/questions/123559/a-comprehensive-regex-for-phone-number-validation
+    // Retrieved 9-26-16
+    const phoneRegex = /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
+
+    return Ember.isBlank(phone) || phoneRegex.test(phone);
+  },
+
   hasValidUrl(url) {
     // Copyright (c) 2010-2013 Diego Perini, MIT licensed
     // https://gist.github.com/dperini/729294
