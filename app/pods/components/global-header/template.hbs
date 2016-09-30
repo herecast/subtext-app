@@ -112,11 +112,12 @@
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-                  {{#if session.currentUser.userImageUrl}}
-                    <img class='UserMenu-avatar' src="{{session.currentUser.userImageUrl}}">
-                  {{else}}
-                    <img class='UserMenu-avatar' src="/images/user-default-avatar.svg">
-                  {{/if}}
+
+                    {{avatar-image
+                      imageUrl=session.currentUser.userImageUrl
+                      userName=session.currentUser.name
+                    }}
+                    {{fa-icon 'caret-down'}}
                 </a>
                 <ul class='dropdown-menu dropdown-menu-right' role="menu" aria-labelby='dLabel'>
                   <li>

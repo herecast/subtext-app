@@ -1,9 +1,8 @@
-{{#if comment.userImageUrl}}
-  <img src="{{comment.userImageUrl}}" class='Comment-userAvatar'>
-{{else}}
-  <img src="/images/user-default-avatar.svg" class='Comment-userAvatar'>
-{{/if}}
 
+{{avatar-image
+  imageUrl=comment.userImageUrl
+  userName=comment.userName
+}}
 <div class='Comment-body'>
   <div class='Comment-userName'>
     {{comment.userName}}

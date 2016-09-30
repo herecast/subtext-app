@@ -14,7 +14,7 @@ test('logging in works', function(assert) {
   assert.expect(2);
 
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id});
+  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
 
   visit('/sign_in');
 
@@ -36,7 +36,7 @@ test('visiting protected page while not logged in redirects to login page then b
   assert.expect(2);
 
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id});
+  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
 
   const protectedUrl = '/talk';
 

@@ -1,0 +1,41 @@
+.AvatarImage {
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+
+  @media (max-width: @screen-sm-min) {
+    &:not(.custom-sized) {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: @screen-sm-min) {
+    &:not(.custom-sized) {
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      font-size: 19px;
+    }
+  }
+
+  &--image {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+
+  &--default {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+      &:after {
+        content: attr(data-content);
+        text-decoration: none;
+      }
+    }
+}

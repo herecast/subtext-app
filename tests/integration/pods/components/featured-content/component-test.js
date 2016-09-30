@@ -52,8 +52,8 @@ test('It displays relative published at time', function(assert) {
 
   let $when = this.$('.FeaturedContent-whenPublished');
   assert.equal($when.text().trim(), 'a few seconds ago');
-  
-  this.set('content.publishedAt', moment().subtract(4, 'days').toDate()); 
+
+  this.set('content.publishedAt', moment().subtract(4, 'days').toDate());
   assert.equal($when.text().trim(), '4 days ago');
 });
 
@@ -71,6 +71,6 @@ test('It displays organization info', function(assert) {
   let $pub = this.$('.FeaturedContent-publisher');
   assert.equal($pub.text().trim(), organization.name);
 
-  let $pubImage = this.$('.FeaturedContent-publisherAvatar');
+  let $pubImage = this.$('.AvatarImage img');
   assert.equal($pubImage.attr('src'), organization.logoUrl);
 });

@@ -1,7 +1,11 @@
 {{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close')}}
 <div class="Modal-dialogHeader">
     <span class='UserMenu-user  Modal-dialogHeader-block'>
-      <img class='UserMenu-avatar' src="{{avatarUrl}}">
+      {{avatar-image
+        imageUrl=model.userImageUrl
+        userName=model.name
+        customSize=26
+      }}
       <span class='UserMenu-avatarText'>{{model.name}}</span>
     </span>
     <button class="Modal-action Modal-actionClose" {{action 'close'}}>

@@ -27,11 +27,10 @@
 {{else}}
   <div class="media">
     <div class="media-left">
-      {{#if talk.authorImageUrl}}
-        <img class='Card-authorImage' src="{{talk.authorImageUrl}}">
-      {{else}}
-        <div class='Card-authorImage' style='background-color: {{avatarBackgroundColor}}' data-content='{{authorInitials}}'></div>
-      {{/if}}
+      {{avatar-image
+        imageUrl=talk.authorImageUrl
+        userName=talk.authorName
+      }}
     </div>
 
     <div class="media-body Card-content">

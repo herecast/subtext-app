@@ -18,7 +18,11 @@
     </div>
     <footer class='FeaturedContent-meta'>
       {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link"}}
-        <img class='FeaturedContent-publisherAvatar' src={{organizationImage}}>
+        {{avatar-image
+          imageUrl=organizationImage
+          userName=organizationName
+          customSize=50
+        }}
       {{/link-to}}
       <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
       {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link" class="FeaturedContent-publisher" rel='author'}}

@@ -1,0 +1,5 @@
+{{#if imageUrl}}
+  <img class='AvatarImage--image' style="{{customSizeStyle}}" src="{{imageUrl}}">
+{{else}}
+  <div class='AvatarImage--default' style='background-color: {{avatarBackgroundColor}}; {{customSizeStyle}}' data-content='{{userInitials}}'></div>
+{{/if}}

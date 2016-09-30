@@ -15,16 +15,19 @@
       </div>
 
         <div class='Card-meta-avatar'>
-          {{#if item.organization.displayImageUrl}}
-            {{#link-to 'organization-profile'
+          {{#link-to 'organization-profile'
             item.organization.slug
             class='Card-organization'
             tagName='a'
             data-test-component="organization-link"
+          }}
+            {{avatar-image
+              imageUrl=item.organization.displayImageUrl
+              userName=item.organization.name
+              customSize=32
             }}
-              <img src="{{item.organization.displayImageUrl}}" alt="{{item.organization.name}}" class="Card-avatar" />
-            {{/link-to}}
-          {{/if}}
+          {{/link-to}}
+
         </div>
 
         <div class='Card-meta-items'>

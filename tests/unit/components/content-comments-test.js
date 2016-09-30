@@ -4,7 +4,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent('content-comments', 'Unit | Component | content comments', {
   // Specify the other units that are required for this test
   needs: ['component:comment-new', 'component:content-comment',
-    'component:fa-icon', 'component:ad-banner']
+    'component:fa-icon', 'component:ad-banner', 'component:avatar-image']
 });
 
 test('it renders', function(assert) {

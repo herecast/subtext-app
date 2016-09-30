@@ -3,11 +3,12 @@
   {{#if session.isAuthenticated}}
     <div class='UserMenu'>
       <a href='#' class='UserMenu-avatar' role='button' {{action 'openUserMenu'}}>
-        {{#if session.currentUser.userImageUrl}}
-          <img class='UserMenu-image' src="{{session.currentUser.userImageUrl}}">
-        {{else}}
-          <img  class='UserMenu-image' src="/images/user-default-avatar.svg">
-        {{/if}}
+        {{avatar-image
+          imageUrl=session.currentUser.userImageUrl
+          userName=session.currentUser.name
+          customSize=26
+        }}
+        {{fa-icon 'caret-down'}}
       </a>
     </div>
   {{else}}

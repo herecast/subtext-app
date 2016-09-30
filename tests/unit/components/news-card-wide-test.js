@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('news-card-wide', 'Unit | Component | news card wide', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
+  needs: ['component:avatar-image'],
   unit: true
 });
 
