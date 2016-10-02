@@ -45,7 +45,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
   }),
 
   /**
-   * List of news items which may exclude the first news item if a query is present.
+   * List of news items which may exclude the first news item
+   * if a query is not present and we're on the first page
    */
   newsList: computed('news.@each.id', 'showLargeCard', function() {
     const showLargeCard = get(this, 'showLargeCard');
@@ -55,14 +56,19 @@ export default Ember.Controller.extend(PaginatedFilter, {
   }),
 
   /**
-   * Remaining list of news items - if an ad is present, it is displayed after the first item.
-   * Therefore, this list excludes that news item if it is present.
+   * Remaining list of news items
+   * - Excludes first item from original results if large card is present (no query, on first page)
+   *    -- use `news.firstObject` in template to display the large card
+   * - Excludes next item from original results if ad is present
+   *    -- use `newsList.firstObject` in template for news-card adjacent to ad
+   *    -- then, iterate over `newsListRemainingItems` to display rest of cards
+   * - If large card not present AND no ad is present, should list all cards
    */
-  newsListRemainingItems: computed('newsList.@each.id', 'model.profileAdOverride', function() {
-    const profileAdOverride = get(this, 'model.profileAdOverride');
+  newsListRemainingItems: computed('newsList.@each.id', 'model.profileAdOverride.id', function() {
+    const profileAdOverrideId = get(this, 'model.profileAdOverride.id');
     const newsList = get(this, 'newsList');
 
-    return isPresent(profileAdOverride) ? newsList.slice(1) : newsList;
+    return isPresent(profileAdOverrideId) ? newsList.slice(1) : newsList;
   }),
 
   headerStyle: computed('model.backgroundImageUrl', function() {
