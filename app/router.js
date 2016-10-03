@@ -108,6 +108,7 @@ Router.map(function() {
     });
     this.route('confirm_post', {path: '/confirm_post/:id'});
   });
+  this.route('prohibited-items');
 });
 
 export default Router;
