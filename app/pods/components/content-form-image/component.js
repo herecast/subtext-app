@@ -141,14 +141,23 @@ export default Ember.Component.extend({
 
       if (this.validateCanvasDimensions(canvas)) {
         const blobFormat = this.get('originalImageFile.type');
-        const url = canvas.toDataURL(blobFormat);
-        const blobQuality = 0.9;
+        // Broken images fail to make real canvas html element
+        // canvas.toDataURL fails if canvas not html element and breaks cropper
+        if (canvas.tagName) {
+          const url = canvas.toDataURL(blobFormat);
+          const blobQuality = 0.9;
 
-        this.set('imageUrl', url);
+          this.set('imageUrl', url);
 
-        canvas.toBlob((data) => {
-          this.set('image', data);
-        }, blobFormat, blobQuality);
+          canvas.toBlob((data) => {
+            this.set('image', data);
+          }, blobFormat, blobQuality);
+        } else {
+          // most likely a broken image
+          Ember.run.next(() => {
+            this.send('deleteImage', img);
+          });
+        }
       }
     }
   },
@@ -185,8 +194,17 @@ export default Ember.Component.extend({
     removeImage() {
       this.setProperties({
         originalImageFile: null,
-        originalImageUrl: null
+        originalImageUrl: null,
       });
+    },
+
+    deleteImage(img) {
+      this.setProperties({
+        originalImageFile: null,
+        originalImageUrl: null,
+        image: null
+      });
+      img.cropper('destroy');
     }
   }
 });
