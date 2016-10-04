@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-const { computed, set } = Ember;
+const { computed, set, get } = Ember;
 
 function item(number) {
-  return Ember.computed('orderedNews.[]', function() {
+  return computed('orderedNews.[]', function() {
     const objectIndex = number - 1;
-    return this.get('orderedNews').objectAt(objectIndex);
+    return get(this, 'orderedNews').objectAt(objectIndex);
   });
 }
 
@@ -16,11 +16,12 @@ export default Ember.Component.extend({
   lastRefreshDate: null,
 
   orderedNews: computed('news.@each.publishedAt', function() {
-    return this.get('news').sortBy('publishedAt').toArray().reverse();
+    return get(this, 'news').sortBy('publishedAt').toArray().reverse();
   }),
 
   didReceiveAttrs({ newAttrs }) {
     this._super(...arguments);
+
     if ('news' in newAttrs) {
       set(this, 'lastRefreshDate', moment().format());
     }

@@ -4,12 +4,10 @@ import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 const { computed } = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
-  secondaryBackgroundMobile: true,
-
   queryParams: ['query', 'location', 'locationId', 'organization', 'page', 'per_page'],
 
   page: 1,
-  per_page: 9,
+  per_page: 14,
 
   defaultQuery: 'Everything',
   defaultOrganization: 'Everyone',
