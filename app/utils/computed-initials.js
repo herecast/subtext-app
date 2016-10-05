@@ -1,25 +1,29 @@
-export default function computedInitials(str='') {
-  const stopWords = ['a', 'an', 'at', 'and', 'by', 'etc', 'it', 'or', 'of', 'to', 'the'];
-  const regex = new RegExp(/\b\w/g);
-  
-  //get rid of email characters
-  str = str.replace(/(\@)|(\.)/g, '');
+import Ember from 'ember';
 
-  let initials = str.match(regex) || [];
-  let numberOfInitials = initials.length;
+export default function computedInitials(str) {
+  if (Ember.isPresent(str)){
+    const stopWords = ['a', 'an', 'at', 'and', 'by', 'etc', 'it', 'or', 'of', 'to', 'the'];
+    const regex = new RegExp(/\b\w/g);
 
-  if (numberOfInitials > 2) {
-    let strWords = str.split(' ');
+    //get rid of email characters
+    str = str.replace(/(\@)|(\.)/g, '');
 
-    let name = strWords.reduce((preVal,item) => {
-      if ( !stopWords.contains(item.toLowerCase()) ) {
-        preVal += ` ${item}`;
-      }
-      return preVal;
-    }, '');
+    let initials = str.match(regex) || [];
+    let numberOfInitials = initials.length;
 
-    initials = name.match(regex) || [];
+    if (numberOfInitials > 2) {
+      let strWords = str.split(' ');
+
+      let name = strWords.reduce((preVal,item) => {
+        if ( !stopWords.contains(item.toLowerCase()) ) {
+          preVal += ` ${item}`;
+        }
+        return preVal;
+      }, '');
+
+      initials = name.match(regex) || [];
+    }
+
+    return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
   }
-
-  return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
 }
