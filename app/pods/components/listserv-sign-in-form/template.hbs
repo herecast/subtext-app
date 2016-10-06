@@ -2,7 +2,11 @@
   <p>
     Please enter your password to begin.
   </p>
-  <p data-test-listserv-sign-in-form-email>{{email}}</p>
+
+  {{#form-group class="text-left"}}
+    <label class='control-label ListservForm-label'>Email:</label>
+    <h4 data-test-listserv-sign-in-form-email>{{email}}</h4>
+  {{/form-group}}
 
   {{#form-group error=error}}
     {{input

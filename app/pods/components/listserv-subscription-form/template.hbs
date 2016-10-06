@@ -76,10 +76,14 @@
 
   <div class="center">
     <h3>
-      Enter your password to confirm your subscription for:
+      Enter your password to confirm your subscription.
     </h3>
-    {{model.email}}
   </div>
+
+  {{#form-group}}
+    <label class='control-label ListservForm-label'>Email:</label>
+    <h4>{{model.email}}</h4>
+  {{/form-group}}
 
   {{#unless isSignedIn}}
     {{#form-group error=errors.password}}
