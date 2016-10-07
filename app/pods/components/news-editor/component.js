@@ -61,8 +61,6 @@ export default Ember.Component.extend(Validation, {
 
   editorPopover: {
     image: [
-      ['imagesize', ['subtextImageSize100', 'subtextImageSize50', 'subtextImageSize25']],
-      ['float', ['subtextFloatLeft', 'subtextFloatNone', 'subtextFloatRight']],
       ['remove', ['subtextRemoveMedia']]
     ],
     link: [
