@@ -105,10 +105,6 @@ export default Ember.Controller.extend(trackEvent, {
     return orgId ? orgId : null;
   }),
 
-  organizationIsBlogOrBusiness: computed('organization.isBlog', 'organization.isBusiness', function() {
-    return get(this, 'organization.isBusiness') || get(this, 'organization.isBlog');
-  }),
-
   actions: {
     saveUsername() {
       this.trackEvent('selectNavControl', {
@@ -149,26 +145,26 @@ export default Ember.Controller.extend(trackEvent, {
     },
 
     viewProfile(org) {
-      if(get(org, 'isBlog') || get(org, 'canPublishNews')) {
-        this.transitionToRoute('organization-profile', org);
-      } else if(org.get('isBusiness')) {
+      if (org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
           this.transitionToRoute('directory.show', rec);
         });
+      } else if (org.get('hasProfile')) {
+        this.transitionToRoute('organization-profile', org);
       } else {
         alert('Feature not available yet');
       }
     },
 
     editProfile(org) {
-      if(get(org, 'isBlog') || get(org, 'canPublishNews')) {
-        set(this, 'editingBlog', org);
-      } else if(org.get('isBusiness')) {
+      if (org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
           set(this, 'editingBusiness', rec);
         });
+      } else if (org.get('hasProfile')) {
+          set(this, 'editingBlog', org);
       } else {
         alert('Feature not available yet');
       }

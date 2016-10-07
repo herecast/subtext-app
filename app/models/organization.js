@@ -38,6 +38,14 @@ export default DS.Model.extend({
   isBlog: computed.equal('orgType', 'Blog'),
   isBusiness: computed.equal('orgType', 'Business'),
   isPublisher: computed.equal('orgType', 'Publisher'),
+  isPublication: computed.equal('orgType', 'Publication'),
+
+  hasProfile: computed('orgType', function(){
+    const validOrgTypes = ['Blog', 'Business', 'Publisher', 'Publication'];
+    const orgType = get(this, 'orgType');
+    
+    return validOrgTypes.contains(orgType);
+  }),
 
   publisher: DS.belongsTo('organization', {async: true, inverse: 'publications'}),
   publications: DS.hasMany('organization', {async: true, inverse: 'publisher'}),

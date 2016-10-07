@@ -101,7 +101,7 @@
               asFormControl=false
               class='btn-group'
             }}
-            {{#if organizationIsBlogOrBusiness}}
+            {{#if organization.hasProfile}}
               <button class='btn btn-default btn-lg' {{action 'viewProfile' organization}}>View Profile</button>
               <button class='btn btn-default btn-lg' {{action 'editProfile' organization}}>Edit Profile</button>
             {{/if}}
