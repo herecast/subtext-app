@@ -1,7 +1,53 @@
 .AuthForm {
-  text-align: center;
-  margin-bottom: 500px;
-}
-.AuthForm-title {
-  .uppercase-bold-condensed;
+  &-wrapper {
+    padding-top: 20px;
+    margin-bottom: 200px;
+
+    @media (min-width: @screen-xs-max) {
+      margin-bottom: 500px;
+    }
+  }
+
+  &-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  &-title {
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  &-body{
+    background: #fff;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+  }
+
+  &-claims,
+  &-form {
+    padding: 10px;
+
+    @media (min-width: @screen-xs-max) {
+      padding: 20px;
+    }
+  }
+
+  &-claims {
+    p:first-child {
+      margin-top: 0.5em;
+    }
+
+    @media (max-width: @screen-xs-max) {
+      padding-bottom: 10px;
+      border-bottom: 1px solid @gray-light;
+    }
+
+    @media (min-width: @screen-xs-max) {
+      padding-left: 10px;
+    }
+  }
+
+  &-form {
+    border-right: 1px solid @gray-light;
+  }
 }

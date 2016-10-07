@@ -5,33 +5,29 @@ import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 moduleForAcceptance('Acceptance | registration');
 
-test('clicking join link redirects to registration page', function(assert) {
-  assert.expect(1);
-
+test('clicking join link displays the registration form', function(assert) {
   visit('/');
 
   click(testSelector('link', 'join-link'));
 
-  andThen(function() {
-    assert.equal(currentURL(), '/sign_up', 'it should redirect to registration link after clicking join');
+  andThen(() => {
+    let $registrationForm = find(testSelector('component', 'registration-form'));
+    assert.ok($registrationForm.length > 0);
   });
 });
 
 test('registration works', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
 
   const locations = server.createList('location', 8);
-  visit('/sign_up');
-
-  andThen(function() {
-    assert.equal(currentURL(), '/sign_up', 'it should be at the correct url to register');
-  });
+  visit('/');
+  click(testSelector('link', 'join-link'));
 
   fillIn(testSelector('component', 'location-dropdown'), locations[0].id);
   fillIn(testSelector('component', 'register-name-input'), 'Marshall Mathers');
   fillIn(testSelector('component', 'register-email-input'), 'slim_shady@example.com');
   fillIn(testSelector('component', 'register-password-input'), 'willtherealslimshadypleasestandup1');
-  click('#terms');
+  click(testSelector('component', 'register-terms'));
   click(testSelector('component', 'register-submit-button'));
 
   andThen(function() {
@@ -40,14 +36,11 @@ test('registration works', function(assert) {
 });
 
 test('registration requires clicking I agree', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
 
   const locations = server.createList('location', 8);
-  visit('/sign_up');
-
-  andThen(function() {
-    assert.equal(currentURL(), '/sign_up', 'it should be at the correct url to register');
-  });
+  visit('/');
+  click(testSelector('link', 'join-link'));
 
   fillIn(testSelector('component', 'location-dropdown'), locations[0].id);
   fillIn(testSelector('component', 'register-name-input'), 'Marshall Mathers');
@@ -56,7 +49,7 @@ test('registration requires clicking I agree', function(assert) {
   click(testSelector('component', 'register-submit-button'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/sign_up', 'it should not redirect if user attempts to join without clicking I agree');
+    assert.notEqual(currentURL(), '/sign_up/complete', 'it should not redirect if user attempts to join without clicking I agree');
   });
 });
 

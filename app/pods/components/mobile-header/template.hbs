@@ -12,9 +12,9 @@
       </a>
     </div>
   {{else}}
-    {{#link-to 'login'}}
-    <span class='h6'>Sign in / Join</span>
-    {{/link-to}}
+    <button {{action 'signInModal'}} class='MobileHeader-signinAction'>
+      Sign in/Join
+    </button>
   {{/if}}
 </div>
 

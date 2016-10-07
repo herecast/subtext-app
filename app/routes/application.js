@@ -29,23 +29,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
     get(this, 'session').setupCurrentUser();
   },
 
-  sessionAuthenticated () {
-    //session authentication override: so app is not reloaded to root
-    if (get(this, 'session.skipRedirect')) {
-      set(this, 'session.skipRedirect', false);
-      const transitionTo = get(this, 'session.transitionTo');
-
-      if(transitionTo === 'none') {
-        return false;
-      } else if (transitionTo) {
-        this.transitionTo(transitionTo);
-        set(this, 'session.transitionTo', null);
-      } else {
-        get(this,'windowLocation').reload();
-      }
-    } else {
-      this._super(...arguments);
-    }
+  sessionAuthenticated() {
+    // Don't do anything.
   },
 
   sessionInvalidated () {
@@ -66,7 +51,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
     },
 
     error(errorResponse) {
-      if(errorResponse.errors) {
+      if (errorResponse.errors) {
         const status = errorResponse.errors[0].status;
 
         if (status === '404') {
@@ -74,6 +59,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
         } else {
           return true;
         }
+      } else {
+        return true;
       }
     },
 

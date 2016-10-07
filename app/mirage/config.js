@@ -170,9 +170,8 @@ export default function() {
     }
   };
 
-
-  this.post('/users/sign_in', function({db, users, currentUsers}, request) {
-    db.currentUsers.remove();
+  this.post('/users/sign_in', function(schema, request) {
+    schema.db['currentUsers'].remove();
 
     let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
     let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
@@ -180,13 +179,13 @@ export default function() {
     let user;
     if(matches) {
       let email = matches[1];
-      user = users.where({email: email}).models[0];
+      user = schema.users.where({email: email}).models[0];
     } else {
-      user = users.first();
+      user = schema.users.first();
     }
 
     if(user) {
-      currentUsers.create(user.attrs);
+      schema.currentUsers.create(user.attrs);
       return {
         token: "FCxUDexiJsyChbMPNSyy",
         email: user.email
@@ -201,8 +200,8 @@ export default function() {
   this.post('/users/sign_up', function() {
   });
 
-  this.post('/users/logout', function({db}) {
-    db['currentUsers'].remove();
+  this.post('/users/logout', function(schema) {
+    schema.db.currentUsers.remove();
   });
 
   this.get('/current_user', function(schema) {

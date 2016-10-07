@@ -43,6 +43,7 @@ Router.map(function() {
 
   this.route('forgot-password', function() {
     this.route('edit', {path: ':reset_token'});
+    this.route('check-email');
   });
 
   this.route('market', function() {

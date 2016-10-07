@@ -11,11 +11,10 @@ export default Ember.Component.extend({
   tagName            : 'div',
   classNames         : ['MobileHeader'],
   classNameBindings  : ['headerBGClass'],
-
+  modals             : inject.service(),
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
   padBody            : computed.alias('currentController.showHeader'),
-  modals             : inject.service(),
 
   headerBGClass: computed('currentChannel', function() {
     return `${get(this, 'classNames.lastObject')}--${get(this, 'currentChannel')}`;
@@ -42,6 +41,13 @@ export default Ember.Component.extend({
       const modals = get(this, 'modals');
 
       modals.showModal('modals/user-menu', currentUser);
+    },
+    signInModal() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+    },
+    registerModal() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'register');
     }
+
   }
 });

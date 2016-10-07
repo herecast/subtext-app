@@ -21,6 +21,7 @@ export default function(server) {
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);
+  server.createList('location', 8);
 
   const user1 = server.create('user', {location_id: 1});
   const user2 = server.create('user', {location_id: 1});

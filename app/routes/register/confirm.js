@@ -1,18 +1,28 @@
 import Ember from 'ember';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
+const { get, inject } = Ember;
+
 export default Ember.Route.extend(UnauthenticatedRouteMixin, {
   titleToken: 'Registration Complete!',
+  session: inject.service(),
+  toast: inject.service(),
 
-  model: function(params) {
-    const token = params.token;
-    const promise = this.get('session').authenticate('authenticator:confirmation', token);
+  beforeModel(transition) {
+    const token = transition.params['register.confirm']['token'];
+    const toast = get(this, 'toast');
 
-    return promise;
+    get(this, 'session').authenticate('authenticator:confirmation', token).then(() => {
+      this.transitionTo('index.index').then(() => {
+        toast.success('Registration complete. You are now signed in.');
+      });
+    }).catch(() => {
+      this.transitionTo('register.error');
+    });
   },
 
   actions: {
-    error: function() {
+    error() {
       this.transitionTo('register.error');
     }
   }

@@ -15,5 +15,6 @@ export default function(application, server, user) {
 
   server.db.currentUsers.remove();
   server.db.currentUsers.insert(user.attrs);
+
   return user;
 }

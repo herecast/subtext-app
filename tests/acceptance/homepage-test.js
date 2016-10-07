@@ -10,7 +10,7 @@ test('visiting /', function(assert) {
   server.createList('market-post', 5);
   server.createList('talk', 8);
   server.createList('news', 12);
-  server.create('current-user', { canPublishNews: true });
+  server.create('user', { canPublishNews: true });
   server.create('organization', { canPublishNews: true });
 
   visit('/');

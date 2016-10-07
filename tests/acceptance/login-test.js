@@ -1,42 +1,65 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 
 moduleForAcceptance('Acceptance | login', {
   beforeEach() {
+    invalidateSession(this.application);
     window.Intercom = function() {
     };
   }
 });
 
 test('logging in works', function(assert) {
-  assert.expect(2);
-
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
+  let user = server.create('user', {location_id: location.id});
 
-  visit('/sign_in');
+  visit('/');
 
-  andThen(function() {
-    assert.equal(currentURL(), '/sign_in', 'it should be at the correct url to login');
-  });
+  click(testSelector('link', 'login-link'));
 
-  fillIn(testSelector('component', 'login-email'), user.email);
-  fillIn(testSelector('component', 'login-password'), 'password');
+  fillIn(testSelector('field', 'login-email'), user.email);
+  fillIn(testSelector('field', 'login-password'), 'password');
 
   click(testSelector('component', 'login-submit'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/', 'it should be at the correct url after logging in');
+    assert.ok(find(testSelector('component','logout-link')).length, 'Should see logout link');
+  });
+});
+
+test('using incorrect login information', function(assert) {
+  let location = server.create('location');
+  let user = server.create('user', {location_id: location.id});
+
+  visit('/');
+
+  click(testSelector('link', 'login-link'));
+
+  fillIn(testSelector('field', 'login-email'), user.email + "not-correct");
+  fillIn(testSelector('field', 'login-password'), 'password');
+
+  click(testSelector('component', 'login-submit'));
+
+  andThen(function() {
+    // Email
+    const $emailField = find(testSelector('field', 'login-email'));
+    let $formGroup = $emailField.closest('.form-group');
+    assert.ok($formGroup.hasClass('has-error'),
+      "It marks email form-group as error");
+
+    // Password
+    const $passwordField = find(testSelector('field', 'login-password'));
+    $formGroup = $passwordField.closest('.form-group');
+    assert.ok($formGroup.hasClass('has-error'),
+      "It marks password form-group as error");
   });
 });
 
 test('visiting protected page while not logged in redirects to login page then back', function(assert) {
-  assert.expect(2);
-
-  let location = server.create('location');
-  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
+  let user = server.create('user');
 
   const protectedUrl = '/talk';
 
@@ -46,8 +69,8 @@ test('visiting protected page while not logged in redirects to login page then b
     assert.equal(currentURL(), '/sign_in', 'it should be redirected to the login page');
   });
 
-  fillIn(testSelector('component', 'login-email'), user.email);
-  fillIn(testSelector('component', 'login-password'), 'password');
+  fillIn(testSelector('field', 'login-email'), user.email);
+  fillIn(testSelector('field', 'login-password'), 'password');
 
   click(testSelector('component', 'login-submit'));
 
@@ -57,9 +80,8 @@ test('visiting protected page while not logged in redirects to login page then b
 });
 
 test('logging out works', function(assert) {
-  assert.expect(4);
-
-  authenticateSession(this.application);
+  let user = server.create('user');
+  authenticateUser(this.application, server, user);
 
   visit('/');
 
@@ -77,9 +99,8 @@ test('logging out works', function(assert) {
 });
 
 test('visiting log in page while already authenticated redirects to root page', function(assert) {
-  assert.expect(1);
-
-  authenticateSession(this.application);
+  let user = server.create('user');
+  authenticateUser(this.application, server, user);
 
   visit('/sign_in');
 
@@ -88,9 +109,7 @@ test('visiting log in page while already authenticated redirects to root page', 
   });
 });
 
-test('clicking sign in link redirects to login page', function(assert) {
-  assert.expect(2);
-
+test('clicking sign in link displays login form', function(assert) {
   visit('/');
 
   andThen(function() {
@@ -100,6 +119,7 @@ test('clicking sign in link redirects to login page', function(assert) {
   click(testSelector('link', 'login-link'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/sign_in', 'it should be at the login url');
+    assert.ok(find(testSelector('component','sign-in-form')).length,
+      "Displays sign in form");
   });
 });

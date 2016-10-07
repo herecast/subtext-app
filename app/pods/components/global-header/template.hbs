@@ -104,7 +104,7 @@
               </span>
             </li>
             {{#if session.isAuthenticated}}
-              <li role="presentation" class="dropdown">
+              <li role="presentation" class="dropdown" data-test-component-user-menu>
                 <a {{action 'trackMenuOpen'}}
                     href='#'
                     class='MainNav-moreLink UserMenu'
@@ -153,15 +153,18 @@
                 </ul>
               </li>
             {{else}}
-              <li>
-                {{#link-to 'login' data-test-link='login-link'}}
-                  <span {{action (action 'trackRegistration' 'Sign In')}}>Sign in</span>
-                {{/link-to}}
-              </li>
-              <li>
-                {{#link-to 'register' data-test-link='join-link'}}
-                  <span {{action (action 'trackRegistration' 'Join')}}>Join</span>
-                {{/link-to}}
+              <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
+                <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
+                  <span {{action (action 'trackRegistration' 'Sign In')}}>Sign In</span>
+                </button>
+                <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
+                  <span {{action (action 'trackRegistration' 'Sign Up')}}>Join</span>
+                </button>
+                {{#if showSignIn}}
+                  {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
+                    {{sign-in-register-menu tab=signInTab action=(action 'closeSignInMenu')}}
+                  {{/click-outside}}
+                {{/if}}
               </li>
             {{/if}}
             <li role="presentation" class="dropdown">

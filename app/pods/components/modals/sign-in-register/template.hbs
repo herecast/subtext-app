@@ -1,0 +1,20 @@
+{{#modal-wrapper close=(action 'close') class='SignInRegisterModal'}}
+  <nav class='PillNavigation u-layoutPadB20'>
+    <a class={{if isSignIn "PillNavigation-item PillNavigation-item--active" "PillNavigation-item"}} onclick={{action 'changeMode' 'sign-in'}}>
+      Sign In
+    </a>
+    <a class={{if isRegister "PillNavigation-item PillNavigation-item--active" "PillNavigation-item"}} onclick={{action 'changeMode' 'register'}}>
+      Register
+    </a>
+  </nav>
+
+  {{#if isSignIn}}
+    {{sign-in-form
+      onReconfirm=(action 'reconfirm')
+      onForgotPassword=(action 'forgotPassword')
+      afterAuthenticate=(action 'didSignIn')
+    }}
+  {{else if isRegister}}
+    {{registration-form onSuccess=(action 'didRegister')}}
+  {{/if}}
+{{/modal-wrapper}}

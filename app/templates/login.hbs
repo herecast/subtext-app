@@ -1,102 +1,31 @@
 <div class='Container--noGutter'>
-  <div class='AuthForm u-layoutPadB50'>
-    <div class='row'>
-      <div class='col-md-8 col-md-offset-2 u-layoutPadT30'>
-        <p>
-          To comment, report abuse, or create an event, listing, or Talk post, you need to join the dailyUV community.
-          <br />
-          If you’ve already registered, enter your email and password and click Sign In.
-        </p>
-      </div>
-    </div>
-  <div>
+  <div class='row'>
+    <div class='AuthForm-wrapper'>
+      <div class='col-md-6 col-md-offset-3'>
+        <nav class='PillNavigation'>
+          <a class='PillNavigation-item PillNavigation-item--active h3'>Sign in</a>
+          {{#link-to 'register' class="PillNavigation-item h3"}}
+            Join Now
+          {{/link-to}}
+        </nav>
 
-
-      <div class='row u-layoutPadB20'>
-        <div class='col-md-8 col-md-offset-2'>
-          <div class='u-textCentered'>
-            {{#link-to 'register' class='Button Button--primary btn'}}
-              Join
-            {{/link-to}}
+        <div class='AuthForm'>
+          <div class='AuthForm-header'>
+            <h1 class='AuthForm-title h1'>Sign in</h1>
           </div>
 
-          <p class='h4'>
-            By using dailyuv.com, you agree to our
-            {{link-to 'terms of service' 'terms' class='u-textUnderline'}}.
-            Review our {{link-to 'privacy policy' 'privacy' class='u-textUnderline'}}.
-          </p>
+          <div class='AuthForm-body'>
+            <div class='AuthForm-form'>
+              {{sign-in-form
+                onReconfirm=(action 'reconfirm')
+                onForgotPassword=(action 'forgotPassword')
+                afterAuthenticate=(action 'wasAuthenticated')
+              }}
 
-          <p class='h4'>
-            A portion of dailyUV.com includes an alternative presentation of
-            content primarily published through email discussion lists maintained
-            by <a href='http://www.vitalcommunities.org/' target='_blank' class='u-textUnderline'>Vital Communities</a>.
-
-            There is no legal or financial affiliation between Vital Communities
-            and Subtext Media, Ltd. Nevertheless, content published through or to
-            these email discussion lists is subject to
-            <a href='http://vitalcommunities.org/community-discussion-lists/' target='_blank' class='u-textUnderline'>Vital Communities’ guidelines, rules and legal disclaimers</a>
-            for each individual list.
-          </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <h1 class='SectionHeader'>
-      <span class='SectionHeader-text SectionHeader-text--secondaryBg'>Already registered?</span>
-    </h1>
-
-    <div class='row section'>
-      <div class='col-sm-4 col-sm-offset-4'>
-        <h3 class='h2'>Sign In</h3>
-        <form {{action 'authenticate' on='submit'}}>
-          {{#form-group error=error hasError=hasError}}
-            {{input
-              value=identification
-              type='email'
-              placeholder='Email Address'
-              class='form-control'
-              input=(action 'clearErrors')
-              data-test-component='login-email'
-            }}
-            {{#if userMustConfirm}}
-              <div class='help-block'>
-                <strong>You have not yet confirmed your account.</strong> <br><br>
-                Please check your mailbox for DailyUV Confirmation Instructions sent to {{identification}}.
-                Or <br>
-                <a class='u-textUnderline' href='#' {{action 'reconfirm'}}>click here to re-send the confirmation email.</a><br>
-                You must confirm your account before signing in.
-              </div>
-            {{/if}}
-          {{/form-group}}
-
-          {{#form-group}}
-            {{input
-              value=password
-              placeholder='Password'
-              type='password'
-              class='form-control'
-              data-test-component='login-password'
-            }}
-          {{/form-group}}
-
-          {{async-button
-            action='authenticate'
-            default='Sign in'
-            pending='Signing in'
-            class='Button Button--primary btn u-layoutPadB20'
-            data-test-component='login-submit'
-          }}
-        </form>
-
-        <p>
-          {{#link-to 'forgot-password.index' class='u-textUnderline' data-test-link='forgot-password'}}
-            <span {{action 'trackForgotPassword'}}>Forgot your password?</span>
-          {{/link-to}}
-        </p>
-        <p>{{link-to 'Resend confirmation email' 'register.reconfirm' class='u-textUnderline'}}</p>
-      </div>
-    </div>
   </div>
-
-
 </div>

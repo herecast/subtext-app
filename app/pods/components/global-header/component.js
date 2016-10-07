@@ -3,12 +3,16 @@ import Ember from 'ember';
 const {
   get,
   inject,
+  set,
   computed
 } = Ember;
 
 export default Ember.Component.extend({
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
+  modals: inject.service(),
+  showSignIn: false,
+  signInTab: 'sign-in',
 
   channelLinksEnabled: true,
 
@@ -49,6 +53,20 @@ export default Ember.Component.extend({
       if ('signOut' in this.attrs) {
         this.attrs.signOut(...arguments);
       }
+    },
+    showSignInMenu(tab) {
+      const isShown = get(this, 'showSignIn');
+      const prevTab = get(this, 'signInTab');
+
+      if(isShown && (prevTab === tab)) {
+        this.send('closeSignInMenu');
+      } else {
+        set(this, 'signInTab', tab);
+        set(this, 'showSignIn', true);
+      }
+    },
+    closeSignInMenu() {
+      set(this, 'showSignIn', false);
     }
   }
 });

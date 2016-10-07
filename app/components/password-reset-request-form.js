@@ -1,12 +1,16 @@
 import Ember from 'ember';
+import Validation from 'subtext-ui/mixins/components/validation';
 
-const { get, inject } = Ember;
+const { get, set, inject, isPresent } = Ember;
 
-export default Ember.Component.extend({
-  api: inject.service('api'),
+export default Ember.Component.extend(Validation, {
   tagName: 'form',
+
+  api: inject.service(),
+
   showConfirmation: false,
   returnUrl: null,
+  error: null,
 
   actions: {
     submit() {
@@ -14,9 +18,20 @@ export default Ember.Component.extend({
       const email = get(this, 'email');
       const returnUrl = get(this, 'returnUrl');
 
-      api.requestPasswordReset(email, returnUrl).then(() => {
-        this.set('showConfirmation', true);
-      });
+      if (isPresent(email) && this.hasValidEmail(email)) {
+        set(this, 'error', null);
+        api.requestPasswordReset(email, returnUrl).then(() => {
+          if('afterReset' in this.attrs) {
+            this.attrs.afterReset();
+          } else {
+            this.set('showConfirmation', true);
+          }
+        }, () => {
+          set(this, 'error', 'Email address not found.');
+        });
+      } else {
+        set(this, 'error', 'Valid email is required.');
+      }
     }
   }
 });

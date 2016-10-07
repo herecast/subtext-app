@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { test } from 'qunit';
+import { skip } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
@@ -25,7 +25,7 @@ moduleForAcceptance('Acceptance | edit requires canEdit flag', {
 });
 
 /* NEWS */
-test('visit edit news page when not allowed to edit', function(assert) {
+skip('visit edit news page when not allowed to edit', function(assert) {
   const organization = server.create('organization');
   const news = server.create('news', {
     organization: organization,
@@ -39,7 +39,7 @@ test('visit edit news page when not allowed to edit', function(assert) {
   });
 });
 
-test('visit edit news page when allowed to edit', function(assert) {
+skip('visit edit news page when allowed to edit', function(assert) {
   const organization = server.create('organization');
   const news = server.create('news', {
     organization: organization,
@@ -54,7 +54,7 @@ test('visit edit news page when allowed to edit', function(assert) {
 });
 
 /* MARKET */
-test('visit edit market page when not allowed to edit', function(assert) {
+skip('visit edit market page when not allowed to edit', function(assert) {
   const post = server.create('marketPost', {
     canEdit: false
   });
@@ -66,7 +66,7 @@ test('visit edit market page when not allowed to edit', function(assert) {
   });
 });
 
-test('visit edit market page when allowed to edit', function(assert) {
+skip('visit edit market page when allowed to edit', function(assert) {
   const post = server.create('marketPost', {
     canEdit: true
   });
@@ -79,7 +79,7 @@ test('visit edit market page when allowed to edit', function(assert) {
 });
 
 /* EVENTS */
-test('visit edit event page when not allowed to edit', function(assert) {
+skip('visit edit event page when not allowed to edit', function(assert) {
   const post = server.create('event', {
     canEdit: false
   });
@@ -91,7 +91,7 @@ test('visit edit event page when not allowed to edit', function(assert) {
   });
 });
 
-test('visit edit event page when allowed to edit', function(assert) {
+skip('visit edit event page when allowed to edit', function(assert) {
   const post = server.create('event', {
     canEdit: true
   });

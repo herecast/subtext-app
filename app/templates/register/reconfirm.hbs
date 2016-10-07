@@ -1,29 +1,36 @@
-<div class='Container--noGutter'>
-  <div class='AuthForm u-layoutPadT40'>
-    <h1>Resend email confirmation</h1>
+<div class='container'>
+  <div class='row'>
+    <div class='AuthForm'>
+      <div class='col-md-8 col-md-push-2'>
+        <div class='AuthForm'>
+          <div class='AuthForm-header'>
+            <h1  class='AuthForm-title h2'>Resend email confirmation</h1>
+          </div>
 
-    <h2>Please Enter your email address</h2>
+          <div class='AuthForm-body'>
+            <div class='AuthForm-form'>
+              <p  class='AuthForm-subTitle h3'>Please Enter your email address</p>
 
-    <div class='row Section'>
-      <div class='col-sm-4 col-sm-offset-4'>
-        {{#form-group error=error}}
-          {{debounced-input
-            debounceWait=300
-            value=email
-            type='email'
-            placeholder='Email Address'
-            class='form-control'
-          }}
-        {{/form-group}}
+              {{#form-group error=error}}
+                {{debounced-input
+                  debounceWait=300
+                  value=email
+                  type='email'
+                  placeholder='Email Address'
+                  class='form-control'
+                }}
+              {{/form-group}}
 
-        {{async-button
-          action='reconfirm'
-          default='Send Confirmation Email'
-          pending='Sending Now'
-          class='Button Button--primary btn u-layoutPadB40'
-        }}
+              {{async-button
+                action='reconfirm'
+                default='Send Confirmation Email'
+                pending='Sending Now'
+                class='Button Button--primary btn u-layoutPadB40'
+              }}
+            </div>
+          </div>
+        </div>
       </div>
-      
     </div>
   </div>
 </div>

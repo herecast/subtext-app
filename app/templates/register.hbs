@@ -1,83 +1,45 @@
 <div class='container'>
-  <div class='AuthForm u-layoutPadB50'>
-    <h1 class='AuthForm-title'>The Connection to your Community</h1>
+  <div class='row'>
+    <div class='AuthForm-wrapper'>
+      <nav class='PillNavigation'>
+        {{#link-to 'login' class="PillNavigation-item h3"}}
+          Sign In
+        {{/link-to}}
 
-    <p class='col-md-6 col-md-push-3'>
-      We'd love to have you join the dailyUV community.
-      Signing up lets you see more content, focus in on your town,
-      and post your own market listings, talk, or events. It's free!
-    </p>
+        <a class='PillNavigation-item PillNavigation-item--active h3'>Join Now</a>
+      </nav>
 
-    <div class='row'>
-      <div class='col-sm-6 col-sm-offset-3'>
-        <form>
-          {{#form-group error=error.locationId}}
-            <label for='location'>Choose your community</label>
-            {{location-dropdown
-              selectedLocationId=locationId
-              isEditing=true
-            }}
-          {{/form-group}}
-
-          {{#form-group error=error.name}}
-            {{input
-              value=name
-              placeholder='Name'
-              class='form-control'
-              data-test-component='register-name-input'
-            }}
-          {{/form-group}}
-
-          {{#form-group error=error.email}}
-            {{input
-              value=email
-              type='email'
-              placeholder='Email Address'
-              class='form-control'
-              data-test-component='register-email-input'
-            }}
-          {{/form-group}}
-
-          {{#form-group error=error.password}}
-            {{input
-              value=password
-              placeholder='Password'
-              type='password'
-              class='form-control'
-              data-test-component='register-password-input'
-            }}
-          {{/form-group}}
-
-          <div class='form-group'>
-            <label>Review test site terms of service</label>
-            <div class='TermsOfService well'>
-              {{partial 'terms-of-service'}}
-            </div>
+      <div class='col-md-8 col-md-push-2'>
+        <div class='AuthForm'>
+          <div class='AuthForm-header'>
+            <h1 class='AuthForm-title h1'>Join DailyUV today.</h1>
           </div>
 
-          {{#form-group class='u-textPullLeft' error=error.termsAccepted}}
-            {{input
-              id='terms'
-              type="checkbox"
-              checked=termsAccepted
-            }}
-            <label for='terms'>
-              I agree
-            </label>
-          {{/form-group}}
+          <div class='AuthForm-body'>
+            <div class='row'>
+              <div class='col-md-4 col-md-push-8'>
+                <div class='AuthForm-claims'>
 
-          <p class='u-textPullLeft'>
-            By clicking "I agree", you are agreeing to abide by the test site terms of service above.
-          </p>
+                  <p class='h3'>
+                    DailyUV is free and easy.
+                  </p>
+                  <p class='h3'>
+                    By joining, you can post in the market, comment or share an event.
+                  </p>
+                  <p class='h3 hidden-xs'>
+                    Connect with your community today!
+                  </p>
+                </div>
+              </div>
 
-          {{async-button
-            action='register'
-            default='Join'
-            pending='Joining'
-            class='Button Button--primary btn'
-            data-test-component='register-submit-button'
-          }}
-        </form>
+              <div class='col-md-8 col-md-pull-4'>
+                <div class='AuthForm-form'>
+                  {{registration-form onSuccess=(action 'afterRegister')}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
