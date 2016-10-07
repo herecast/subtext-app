@@ -30,7 +30,7 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     }
 
     const url = SocialSharing.getShareUrl(routeName, model);
-    const imageUrl = get(model, 'imageUrl') || this.defaultImage(channel);
+    const imageUrl = get(model, 'imageUrl') || get(model,'featuredImageUrl') || this.defaultImage(channel);
     const title = get(model, 'title');
 
 // Strip out all HTML tags from the content so it can be used for the description
