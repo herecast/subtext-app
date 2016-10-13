@@ -16,7 +16,7 @@
   </h2>
 
   {{#if hasComments}}
-    <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} comments</span>
+    <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} {{commentPluralFriendly}}</span>
   {{/if}}
 
   <span>{{formatted-day talk.publishedAt}}</span>
@@ -28,8 +28,8 @@
   <div class="media">
     <div class="media-left">
       {{avatar-image
-        imageUrl=talk.authorImageUrl
-        userName=talk.authorName
+        imageUrl=correctAuthorImageUrl
+        userName=correctAuthorName
       }}
     </div>
 
@@ -52,12 +52,14 @@
 
       <div class='Card-commentInfo'>
         {{#if hasComments}}
-          <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} comments</span>
+          <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} {{commentPluralFriendly}} | Discussion started </span>
         {{/if}}
 
         <span class='Card-date'>{{relativeDate}}</span>
 
-        {{#if talk.authorName}}
+        {{#if hasComments}}
+          by: <span class='Card-authorName'>{{talk.initialCommentAuthor}}</span>
+        {{else if talk.authorName}}
           by: <span class='Card-authorName'>{{talk.authorName}}</span>
         {{/if}}
       </div>

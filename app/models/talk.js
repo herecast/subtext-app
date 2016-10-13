@@ -17,6 +17,8 @@ export default DS.Model.extend({
   listservId: DS.attr('number'), // write only
   parentContentId: DS.attr('number'),
   parentContentType: DS.attr('string'),
+  initialCommentAuthor: DS.attr('string'),
+  initialCommentAuthorImageUrl: DS.attr('string'),
   normalizedParentContentType: computed(function() {
     return normalizeContentType(get(this, 'parentContentType'));
   }),

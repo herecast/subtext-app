@@ -50,6 +50,18 @@ export default Ember.Component.extend(TrackCard, {
     }
   }),
 
+  commentPluralFriendly: computed('talk.commentCount', function() {
+    return (this.get('talk.commentCount') > 1) ? "comments" : "comment";
+  }),
+
+  correctAuthorImageUrl: computed('talk.initialCommentAuthorImageUrl', 'talk.authorImageUrl', function() {
+    return (this.get('hasComments') === true) ? this.get('talk.initialCommentAuthorImageUrl') : this.get('talk.authorImageUrl');
+  }),
+
+  correctAuthorName: computed('talk.authorName', 'talkInitialCommentAuthor', function() {
+    return (this.get('hasComments') === true) ? this.get('talk.initialCommentAuthor') : this.get('talk.authorName');
+  }),
+
   actions: {
     onTitleClick() {
       if (this.attrs.onTitleClick) {
