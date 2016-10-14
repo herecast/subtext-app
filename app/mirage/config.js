@@ -4,9 +4,7 @@ import Mirage from 'ember-cli-mirage';
 
 const { isPresent } = Ember;
 
-
 /*jshint multistr: true */
-
 
 // This is just a dumb method to make it look like we're doing filtering
 function filterByCategory(events, category) {
@@ -279,7 +277,7 @@ export default function() {
   });
 
   // Used by the news filter bar to find organizations
-  this.get('/organizations', function({ db }, request) {
+  this.get('/organizations', function(schema, request) {
     let organizations;
 
     // For demo purposes - if someone starts a search with 'empty' we return
@@ -287,15 +285,13 @@ export default function() {
     if ('query' in request.queryParams && request.queryParams.query.indexOf('empty') === 0) {
       organizations = [];
     } else if ('ids' in request.queryParams) {
-      organizations = db.organizations.filter((org) => {
+      organizations = schema.organizations.all().filter((org) => {
         return request.queryParams.ids.indexOf(String(org.id)) !== -1;
       });
     } else {
-      organizations = db.organizations;
+      organizations = schema.organizations.all();
     }
-    return {
-      organizations: organizations
-    };
+    return organizations;
   });
 
   this.get('/promotions/:id');
@@ -760,7 +756,19 @@ export default function() {
     };
   });
 
+  // Listserv Digests
+  this.get('/digests');
+  this.post('/digests');
+  this.get('/digests/:id');
+  this.put('/digests/:id');
+  this.del('/digests/:id');
+
+  // Listserv Subscriptions
+  this.get('/subscriptions');
+  this.post('/subscriptions');
   this.get('/subscriptions/:id');
+  this.put('/subscriptions/:id');
+  this.del('/subscriptions/:id');
 
   this.patch('/subscriptions/:id/confirm', function() {
     return {};

@@ -8,7 +8,11 @@ const { get } = Ember;
 export default Ember.Route.extend(Authorized, History, {
   titleToken: 'Dashboard',
 
-  setupController: function(controller/*, model*/) {
+  queryParams: {
+    organization_id: {refresh: true}
+  },
+
+  setupController(controller/*, model*/) {
     /*
      * model is actually a computed property on controller.
      * It is fetched in controller to avoid a full route reload.

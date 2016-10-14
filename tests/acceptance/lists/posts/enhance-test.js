@@ -4,6 +4,7 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 
 window.Intercom = sinon.stub();
 
@@ -36,6 +37,8 @@ moduleForAcceptance('Acceptance | enhance listserv post workflows', {
 
     this.application.register('service:windowMock', windowLocationMock);
     this.application.inject('route:application', 'windowLocation', 'service:windowMock');
+
+    invalidateSession(this.application);
   }
 });
 
@@ -81,9 +84,6 @@ test('Poster has account, signed in;', function(assert) {
 
 test('Poster has account, signed in as someone else', function(assert) {
   server.create('location');
-  authenticateUser(this.application, server, server.create('user', {
-    email: 'tomster@emberjs.com'
-  }));
 
   const listserv = server.create('listserv');
   const postOwner = server.create('user', {
@@ -99,12 +99,10 @@ test('Poster has account, signed in as someone else', function(assert) {
     body: 'an explanation that might be interesting'
   });
 
-
   visit(`/lists/posts/${post.id}`).then(() => {
     assert.ok(find(testSelector('component', 'sign-in-form')).length,
       "Should see sign in form"
     );
-
 
     let $emailField = find(testSelector('listserv-sign-in-form-email'));
     assert.equal($emailField.text(), postOwner.email,

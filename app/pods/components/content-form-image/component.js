@@ -1,7 +1,7 @@
 import Ember from 'ember';
 /* global loadImage */
 
-const { computed, get, set, isPresent } = Ember;
+const { computed, get, set, isPresent, isBlank } = Ember;
 
 export default Ember.Component.extend({
   originalImageFile: null,
@@ -15,11 +15,12 @@ export default Ember.Component.extend({
   minHeight: 200,
 
   // Display the JS image cropping tool if the user has attached an image
-  displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', function() {
+  displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', 'error', function() {
     const displayCropper = get(this, 'displayCropper');
+    const hasNoError = isBlank(get(this, 'error'));
     const hasOriginalFile = isPresent(get(this, 'originalImageFile'));
 
-    return displayCropper && (hasOriginalFile || get(this, 'originalImageUrl'));
+    return displayCropper && hasNoError && (hasOriginalFile || get(this, 'originalImageUrl'));
   }),
 
   editExistingFile: Ember.on('didInsertElement', function() {

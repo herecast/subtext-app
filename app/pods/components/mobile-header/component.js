@@ -4,7 +4,8 @@ const {
   get,
   set,
   inject,
-  computed
+  computed,
+  RSVP
 } = Ember;
 
 export default Ember.Component.extend({
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
   classNameBindings  : ['headerBGClass'],
   modals             : inject.service(),
   currentController  : inject.service(),
+  store              : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
   padBody            : computed.alias('currentController.showHeader'),
 
@@ -37,10 +39,15 @@ export default Ember.Component.extend({
       this.sendAction('openSearch');
     },
     openUserMenu() {
-      const currentUser = get(this, 'session.currentUser');
       const modals = get(this, 'modals');
+      const store = get(this, 'store');
 
-      modals.showModal('modals/user-menu', currentUser);
+      const model = RSVP.hash({
+        digests: store.findAll('digest'),
+        subscriptions: get(this, 'store').findAll('subscription')
+      });
+
+      modals.showModal('modals/user-menu', model);
     },
     signInModal() {
       get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');

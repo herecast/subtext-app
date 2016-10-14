@@ -1,15 +1,16 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 moduleForComponent('modals/user-menu', 'Integration | Component | modals/user menu', {
   integration: true
 });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+test('modals/user-menu content ', function(assert) {
 
   this.render(hbs`{{modals/user-menu}}`);
-  assert.ok(this.$());
 
+  assert.ok(this.$(testSelector('component', 'user-menu-identity-switcher')).length,
+    "Identity Switcher is visible"
+  );
 });

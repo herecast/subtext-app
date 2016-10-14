@@ -14,7 +14,7 @@ moduleForAcceptance('Acceptance | login', {
 
 test('logging in works', function(assert) {
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id});
+  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
 
   visit('/');
 
@@ -24,9 +24,10 @@ test('logging in works', function(assert) {
   fillIn(testSelector('field', 'login-password'), 'password');
 
   click(testSelector('component', 'login-submit'));
+  click(testSelector('link', 'user-menu'));
 
   andThen(function() {
-    assert.ok(find(testSelector('component','logout-link')).length, 'Should see logout link');
+    assert.ok(find(testSelector('link','logout-link')).length, 'Should see logout link');
   });
 });
 
@@ -58,27 +59,6 @@ test('using incorrect login information', function(assert) {
   });
 });
 
-test('visiting protected page while not logged in redirects to login page then back', function(assert) {
-  let user = server.create('user');
-
-  const protectedUrl = '/talk';
-
-  visit(protectedUrl);
-
-  andThen(function() {
-    assert.equal(currentURL(), '/sign_in', 'it should be redirected to the login page');
-  });
-
-  fillIn(testSelector('field', 'login-email'), user.email);
-  fillIn(testSelector('field', 'login-password'), 'password');
-
-  click(testSelector('component', 'login-submit'));
-
-  andThen(function() {
-    assert.equal(currentURL(), protectedUrl, 'it should be at the correct url after logging in');
-  });
-});
-
 test('logging out works', function(assert) {
   let user = server.create('user');
   authenticateUser(this.application, server, user);
@@ -90,7 +70,8 @@ test('logging out works', function(assert) {
     assert.equal(find(testSelector('link', 'login-link')).length, 0, 'it should not show the sign in link');
   });
 
-  click(testSelector('component', 'logout-link'));
+  click(testSelector('link', 'user-menu'));
+  click(testSelector('link', 'logout-link'));
 
   andThen(function() {
     assert.equal(currentURL(), '/', 'it should be at the correct url after logging out');

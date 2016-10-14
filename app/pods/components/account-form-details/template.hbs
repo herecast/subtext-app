@@ -1,0 +1,82 @@
+{{#form-group error=errors.name}}
+  <label class='control-label ContentForm-label--required' for="displayName">Display Name</label>
+  {{input
+  id='displayName'
+  class='form-control'
+  value=model.name
+  data-test-field='name'
+  input=(action 'notifyChange')
+  }}
+{{/form-group}}
+
+{{#form-group}}
+  <label class='control-label ContentForm-label--required' for="email">Email</label>
+  <p data-test-field="email">{{model.email}}</p>
+{{/form-group}}
+
+{{#form-group error=errors.password}}
+  <label class='control-label' for="password">Password</label>
+
+  {{#if showPasswordForm}}
+    <!-- disables autocomplete in firefox --><input type="password" style="display:none"/>
+    {{input
+    value=model.password
+    type='password'
+    class='form-control'
+    autocomplete='off'
+    id="password"
+    input=(action 'notifyChange')
+    data-test-field="password"
+    }}
+  {{else}}
+    <p>
+      <a href="#" {{action 'togglePasswordForm'}} data-test-change-password>
+        Change Password
+      </a>
+    </p>
+  {{/if}}
+{{/form-group}}
+
+{{#if showPasswordForm}}
+  {{#form-group error=errors.passwordConfirmation}}
+    <label class='control-label' for='password-confirmation'>Password Confirmation</label>
+    <!-- disables autocomplete in firefox --><input type="password" style="display:none"/>
+    {{input
+    value=model.passwordConfirmation
+    type='password'
+    class='form-control'
+    autocomplete='off'
+    id="password-confirmation"
+    input=(action 'notifyChange')
+    data-test-field="passwordConfirmation"
+    }}
+  {{/form-group}}
+{{/if}}
+
+{{#form-group error=errors.avatarImage hideError=true}}
+  <label class='control-label' for="email">Avatar Image</label>
+  <p class="text-muted">
+    Appears on your profile page and in the attribution for content you post to DailyUV.com
+  </p>
+
+  {{#if displayAvatarImageForm}}
+    {{content-form-image
+    image=model.avatarImage
+    imageUrl=(readonly model.userImageUrl)
+    originalImageUrl=(readonly model._originalImageUrl)
+    error=errors.avatarImage
+    aspectRatio=1
+    zoomable=false
+    class="AccountForm-imageForm"
+    }}
+  {{else}}
+    <div class="AccountForm-avatarPreview">
+      <img src="{{model.userImageUrl}}" alt="Selected Image" {{action 'showAvatarImageForm'}} />
+    </div>
+    <button class="AccountForm-editButton" {{action 'showAvatarImageForm'}}>Edit</button>
+  {{/if}}
+{{/form-group}}
+
+<div class="text-center">
+  <input type="submit" class="AccountForm-saveButton" value="Save Changes" data-test-submit-account-details>
+</div>

@@ -104,12 +104,12 @@
               </span>
             </li>
             {{#if session.isAuthenticated}}
-              <li role="presentation" class="dropdown" data-test-component-user-menu>
-                <a {{action 'trackMenuOpen'}}
+              <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
+                <a {{action 'toggleUserMenu'}}
                     href='#'
-                    class='MainNav-moreLink UserMenu'
+                    class='MainNav-moreLink'
+                    data-test-link='user-menu'
                     role='button'
-                    data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
 
@@ -119,38 +119,15 @@
                       hasCaret=true
                     }}
                 </a>
-                <ul class='dropdown-menu dropdown-menu-right' role="menu" aria-labelby='dLabel'>
-                  <li>
-                    {{#link-to 'events.new.details' class='h4 ActionDropdown-item'}}
-                      <span {{action 'trackUserMenu' 'create event'}}>Create Event</span>
-                    {{/link-to}}
-                  </li>
-                  <li>
-                    {{#link-to 'talk.new.details' class='h4 ActionDropdown-item'}}
-                      <span {{action 'trackUserMenu' 'create talk'}}>Create Talk</span>
-                    {{/link-to}}
-                  </li>
-                  <li>
-                    {{#link-to 'market.new.details' class='h4 ActionDropdown-item'}}
-                      <span {{action 'trackUserMenu' 'create market listing'}}>Create Market Listing</span>
-                    {{/link-to}}
-                  </li>
-                  <li>
-                    {{#link-to 'dashboard' (query-params sorted=false) class='h4 ActionDropdown-item'}}
-                      <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
-                    {{/link-to}}
-                  </li>
-                  <li>
-                    {{async-button
-                    action=(action 'signOut')
-                    default='Log out'
-                    pending='Logging out'
-                    class='h4 ActionDropdown-item'
-                    tagName='a'
-                    data-test-component='logout-link'
-                    }}
-                  </li>
-                </ul>
+                {{#if showUserMenu}}
+                  {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
+                    {{user-menu
+                        openMyAccount=(action 'openAccountSettings')
+                        model=session.currentUser
+                        action=(action 'toggleUserMenu')
+                      }}
+                  {{/click-outside}}
+                {{/if}}
               </li>
             {{else}}
               <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>

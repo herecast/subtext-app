@@ -1,13 +1,57 @@
 .UserMenuModal {
-  .UserMenu-avatarText {
-    font-size: 14px;
-   }
 
-  .UserMenuModal-menuItem {
-    border-bottom: 1px solid #999;
-    &:last-child {
-      border-bottom: none
+  .Modal-dialogHeader {
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 8px !important;
+    align-items: center;
+    align-content: center;
+
+    .Modal-actionClose {
+      position: initial !important;
+      top: initial !important;
+      left: initial !important;
+      right: initial !important;
+      min-width: 60px;
+      text-align: left;
     }
+
+    .Modal-dialogTitle {
+      flex-grow: 1;
+      flex-basis: 100%;
+      display: block;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+  }
+
+  &-signOut {
+    background: transparent;
+    border: none;
+    white-space: nowrap;
+    min-width: 60px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &-topNav {
+    margin-bottom: 20px;
+
+    &-item {
+      .h1;
+      margin: 0;
+      padding: 20px;
+      border-bottom: solid 1px darken(@gray-light, 10%);
+    }
+  }
+
+  &-main {
+    padding: 8px;
+    background: rgba(200,200,200,0.15);
+    border-radius: 10px;
   }
 }
 

@@ -1,0 +1,19 @@
+{{user-menu-identity-item
+    name=user.name
+    avatarUrl=user.userImageUrl
+    buttonAction=(action openDashboard)
+    titleAction=(action 'expandItem' user)
+    expanded=(eq openItem user)
+    data-test-component="user-menu-item"
+}}
+
+{{#each organizations as |org|}}
+  {{user-menu-identity-item
+      name=org.name
+      avatarUrl=org.displayImageUrl
+      buttonAction=(action openDashboard org)
+      titleAction=(action "expandItem" org)
+      expanded=(eq openItem org)
+      data-test-component="organization-menu-item"
+  }}
+{{/each}}

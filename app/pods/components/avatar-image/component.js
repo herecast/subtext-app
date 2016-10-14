@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   }),
 
   avatarBackgroundColor: computed('userName', function() {
-    return hexColorFromString(get(this, 'userName'));
+    return htmlSafe(hexColorFromString(get(this, 'userName')));
   }),
 
   customSizeStyle: computed('customSize', function() {
@@ -41,7 +41,7 @@ export default Ember.Component.extend({
       let fontSize = Math.round(0.4 * customSize);
       style = `width:${fontSize}px; right:-${fontSize}px; line-height:${customSize}px; font-size:${fontSize}px`;
     }
-    
+
     return htmlSafe(style);
   })
 });

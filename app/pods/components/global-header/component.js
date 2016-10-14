@@ -11,7 +11,9 @@ export default Ember.Component.extend({
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
   modals: inject.service(),
+  routing: inject.service('-routing'),
   showSignIn: false,
+  showUserMenu: false,
   signInTab: 'sign-in',
 
   channelLinksEnabled: true,
@@ -65,8 +67,19 @@ export default Ember.Component.extend({
         set(this, 'showSignIn', true);
       }
     },
+    registerModal() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'register');
+    },
     closeSignInMenu() {
       set(this, 'showSignIn', false);
+    },
+    toggleUserMenu() {
+      this.toggleProperty('showUserMenu');
+      this.send('trackUserMenu');
+    },
+    openAccountSettings() {
+      set(this, 'showUserMenu', false);
+      get(this, 'routing').transitionTo('account');
     }
   }
 });

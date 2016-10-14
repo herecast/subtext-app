@@ -2,8 +2,9 @@ import Mirage, {faker} from 'ember-cli-mirage';
 import moment from 'moment';
 
 export default Mirage.Factory.extend({
+  id: 1,
   name() { return faker.name.findName(); },
-  email() { return faker.internet.email(); },
+  email: "embertest@subtext.org",
   createdAt() { return moment(faker.date.recent(-30)).toISOString(); },
   imageUrl() {
     return (Math.random() > 0.5) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;

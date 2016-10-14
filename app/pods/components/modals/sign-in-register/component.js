@@ -12,7 +12,7 @@ export default ModalInstance.extend({
   actions: {
     reconfirm: function(email){
       // IDEA: Open secondary modal here?
-      get(this, '_routing').transitionToRoute('register.reconfirm', null, {
+      get(this, '_routing').transitionTo('register.reconfirm', null, {
         email: email
       });
     },

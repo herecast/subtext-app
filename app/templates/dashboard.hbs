@@ -1,87 +1,4 @@
 <div class='Container--noGutter Dashboard'>
-  <section class='Section'>
-    <header class='Section-header Dashboard-header'>
-      <h1 class='SectionHeader'>
-        <span class='SectionHeader-text SectionHeader-text--secondaryBg'>My Profile</span>
-      </h1>
-    </header>
-
-    <div class='row'>
-      <div class='col-sm-6'>
-        {{#dashboard-section headerText='Account Details' isCollapsed=true}}
-          <div class='DashboardSection-row'>
-            <div class='DashboardSection-column'>
-              {{avatar-image-editor
-                currentUser=currentUser
-                class='Dashboard-avatar'
-              }}
-            </div>
-            <div class='DashboardSection-column'>
-              <dl>
-                <dt>Display Name</dt>
-                <dd>
-                  {{inline-edit
-                    value=currentUser.name
-                    class='Dashboard-form-value u-layoutMargin0'
-                    activate=(action 'trackEditName')
-                    action=(action 'saveUsername')
-                  }}
-                </dd>
-                <dt>Email</dt>
-                <dd>
-                  <div class='InlineEdit u-layoutMargin0'>
-                    {{input
-                      value=currentUser.email
-                      autoresize=true
-                      disabled=true
-                      class='Dashboard-form-value Dashboard-email'
-                    }}
-                  </div>
-                </dd>
-                <dt>Password</dt>
-                <dd>
-                {{#if showPasswordForm}}
-                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class='Dashboard-form-value u-textUnderline'>
-                    Cancel
-                  </a>
-                  {{password-reset
-                    userId=currentUser.userId
-                    onSubmit=(action 'togglePasswordForm' showPasswordForm)
-                  }}
-
-                {{else}}
-                  <a href='#' {{action 'togglePasswordForm' showPasswordForm}} class='Dashboard-form-value u-textUnderline'>
-                    Change Password
-                  </a>
-                {{/if}}
-              </dd>
-            </dl>
-            </div>
-          </div>
-        {{/dashboard-section}}
-      </div>
-
-      <div class='col-sm-6'>
-        {{#dashboard-section headerText='My Community' isCollapsed=true}}
-          <div class='DashboardSection-row'>
-            <div class='DashboardSection-column'>
-              <p>
-                {{location-dropdown
-                  selectedLocationId=currentUser.locationId
-                  class='Dashboard-form-value Dashboard-location'
-                  onUpdate=(action 'submit')
-                }}
-              </p>
-              <p>Your community affects what we highlight on the home page and
-                what you see in Talk, which is for your community only.
-                You can return and change this later.</p>
-            </div>
-          </div>
-        {{/dashboard-section}}
-      </div>
-    </div>
-  </section>
-
   <div class='Section'>
     <h1 class='SectionHeader Dashboard-header'>
       <span class='SectionHeader-text SectionHeader-text--secondaryBg'>
@@ -97,6 +14,7 @@
           <div class='btn-group Dashboard-contentHeaderControl'>
             {{organization-dropdown
               selection=organization
+              updated=(action 'updateActiveOrganization')
               helpMessage='Switch dashboard context'
               asFormControl=false
               class='btn-group'

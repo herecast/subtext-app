@@ -110,6 +110,11 @@ Router.map(function() {
     this.route('confirm_post', {path: '/confirm_post/:id'});
   });
   this.route('prohibited-items');
+
+  this.route('account', function() {
+    this.route('community');
+    this.route('subscriptions');
+  });
 });
 
 export default Router;

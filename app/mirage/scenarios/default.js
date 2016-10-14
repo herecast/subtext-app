@@ -17,7 +17,7 @@ export default function(server) {
   server.create('current-user', {
     managedOrganizations: organizations.slice(0,2)
   });
-
+  server.createList('location', 8);
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);
@@ -27,6 +27,21 @@ export default function(server) {
   const user2 = server.create('user', {location_id: 1});
 
   const listserv = server.create('listserv');
+  const listserv2 = server.create('listserv');
+  const listserv3 = server.create('listserv');
+
+  server.create('digest', {
+    id: listserv.id
+  });
+
+  server.create('digest', {
+    id: listserv2.id
+  });
+
+  server.create('digest', {
+    id: listserv3.id
+  });
+
   server.create('subscription', {
     listserv: listserv,
     user: user1,

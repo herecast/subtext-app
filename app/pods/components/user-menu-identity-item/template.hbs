@@ -1,0 +1,24 @@
+<div class='UserMenuIdentityItem-title' {{action 'titleAction'}}>
+  {{avatar-image
+  imageUrl=avatarUrl
+  userName=name
+  customSize=35
+  class="UserMenuIdentityItem-avatar"
+  }}
+  <span data-test-user-menu-name>{{name}}</span>
+</div>
+
+{{#if expanded}}
+<div class='UserMenuIdentityItem-body'>
+  <p class='UserMenuIdentityItem-helpText'>
+    {{helpText}}
+  </p>
+  <button
+    class='UserMenuIdentityItem-action'
+    {{action 'buttonAction'}}
+    data-test-link="manage-content-link"
+    >
+    {{buttonText}}
+  </button>
+</div>
+{{/if}}

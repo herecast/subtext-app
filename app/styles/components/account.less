@@ -1,0 +1,125 @@
+.AccountPage {
+  padding: 40px 0;
+
+  &-title {
+    margin-bottom: 20px;
+  }
+
+  &-navigation {
+    .nav;
+    .nav-tabs;
+    border-radius: 4px;
+    background: @news-brand;
+    border-color: @news-brand;
+
+    li {
+      a {
+        color: white;
+
+        &:active,
+        &:focus,
+        &:hover,
+        &.active {
+          border-color: @news-brand !important;
+          border-bottom-color: white !important;
+          background-color: white !important;
+          color: @text-color !important;
+        }
+      }
+    }
+  }
+
+  &-content {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.18);
+    background: white;
+    padding: 20px 20px 40px 20px;
+    border: solid 1px @news-brand;
+    border-top: none;
+  }
+}
+
+.AccountForm {
+  &-saveButton {
+    .Button;
+    .Button--wide;
+    .Button--news;
+    text-transform: capitalize;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  &-editButton {
+    border: solid 1px black;
+    padding: 8px 15px;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+      background-color: @gray-light;
+    }
+
+    &:active {
+      background-color: darken(@gray-light, 10%);
+    }
+  }
+
+  &-imageForm {
+    padding: 0 20px;
+
+    .control-label {
+      font-weight: normal;
+    }
+  }
+
+  &-avatarPreview {
+    text-align: center;
+    background: @gray-light;
+    border: solid 1px @gray-medium;
+    padding: 2px;
+    margin-bottom: 10px;
+
+    img {
+      max-height: 200px;
+    }
+  }
+
+  &-subscription {
+    padding: 20px;
+    border-bottom: solid 1px darken(@gray-light, 10%);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+@media (max-width: @screen-sm-max) {
+  .AccountPage {
+    padding: 10px 0 40px 0;
+    margin: 0 10px;
+
+    &-title {
+      text-align: center;
+    }
+
+    &-content {
+      padding: 20px 10px;
+    }
+
+    &-navigation {
+
+    }
+
+  }
+  .AccountForm {
+    &-imageForm {
+      padding: 0 10px;
+    }
+
+    &-subscription {
+      padding: 20px 10px;
+    }
+  }
+}

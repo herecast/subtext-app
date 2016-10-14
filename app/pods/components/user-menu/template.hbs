@@ -1,0 +1,17 @@
+<li class='UserMenu-item'>
+  {{user-menu-identity-switcher
+    user=model
+    organizations=model.managedOrganizations
+    openDashboard=(action 'openDashboard')
+  }}
+</li>
+<li class='UserMenu-item'>
+  <button class='UserMenu-myAccount UserMenu-button' data-test-link='my-account-link' {{action 'myAccount'}}>
+    My Account
+  </button>
+</li>
+<li class='UserMenu-item'>
+  <button {{action 'signOut'}} class='UserMenu-button UserMenu-logout' data-test-link='logout-link'>
+    Logout
+  </button>
+</li>

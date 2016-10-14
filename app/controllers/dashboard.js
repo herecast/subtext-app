@@ -7,24 +7,33 @@ const {
   set,
   RSVP,
   isPresent,
-  computed
+  computed,
+  observer
 } = Ember;
 
 export default Ember.Controller.extend(trackEvent, {
   api: inject.service(),
   toast: inject.service(),
   secondaryBackground: true,
-  queryParams: ['page', 'per_page', 'sort', 'type'],
+  queryParams: ['page', 'per_page', 'sort', 'type', 'organization_id'],
   contentModel: inject.service(),
   refresh: null,
   page: 1,
   per_page: 8,
   sort: 'pubdate DESC',
   type: '',
+  organization_id: null,
   organization: null,
+  setOrganization: observer('organization_id', function() {
+    if (get(this, 'organization_id')) {
+      this.store.findRecord('organization', get(this, 'organization_id')).then((organization) => {
+        set(this, 'organization', organization);
+      });
+    } else {
+      set(this, 'organization', null);
+    }
+  }),
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
-
-  showPasswordForm: false,
 
   ads: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const page = get(this, 'page');
@@ -106,37 +115,6 @@ export default Ember.Controller.extend(trackEvent, {
   }),
 
   actions: {
-    saveUsername() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Profile Feature Submit',
-        navControl: 'Submit Username Change'
-      });
-
-      this.get('currentUser.content').save();
-    },
-
-    submit() {
-      this.get('currentUser.content').save();
-    },
-
-    togglePasswordForm(showPasswordForm) {
-      if (!showPasswordForm) {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Profile Feature Edit',
-          navControl: 'password'
-        });
-      }
-
-      this.toggleProperty('showPasswordForm');
-    },
-
-    trackEditName() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Profile Feature Edit',
-        navControl: 'username'
-      });
-    },
-
     sortBy(param) {
       this.setProperties({
         sort: param,
@@ -205,6 +183,10 @@ export default Ember.Controller.extend(trackEvent, {
 
     saveBusiness() {
       set(this, 'editingBusiness', null);
+    },
+
+    updateActiveOrganization({ id }) {
+      set(this, 'organization_id', id || null);
     }
   }
 });

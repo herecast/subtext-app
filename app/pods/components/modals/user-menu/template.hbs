@@ -1,49 +1,36 @@
 {{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close')}}
-<div class="Modal-dialogHeader">
+  <div class="Modal-dialogHeader">
+    <button class="Modal-action Modal-actionClose" {{action 'close'}}>
+      ×
+    </button>
     <span class='UserMenu-user  Modal-dialogHeader-block'>
       {{avatar-image
-        imageUrl=model.userImageUrl
-        userName=model.name
-        customSize=26
+      imageUrl=currentUser.userImageUrl
+      userName=currentUser.name
+      customSize=26
       }}
-      <span class='UserMenu-avatarText'>{{model.name}}</span>
+      <span class='UserMenu-avatarText'>{{currentUser.name}}</span>
     </span>
-    <button class="Modal-action Modal-actionClose" {{action 'close'}}>
-     ×
-    </button>
-</div>
+  </div>
 
-<ul class='nav nav-stacked'>
-  <li class='UserMenuModal-menuItem'>
-  {{#link-to 'events.new.details'}}
-    <span {{action 'trackUserMenu' 'create event'}}>Create Event</span>
-  {{/link-to}}
-  </li>
-  <li class='UserMenuModal-menuItem'>
-  {{#link-to 'talk.new.details'}}
-    <span {{action 'trackUserMenu' 'create talk'}}>Create Talk</span>
-  {{/link-to}}
-  </li>
-  <li class='UserMenuModal-menuItem'>
-  {{#link-to 'market.new.details'}}
-    <span {{action 'trackUserMenu' 'create market listing'}}>Create Market Listing</span>
-  {{/link-to}}
-  </li>
-  <li class='UserMenuModal-menuItem'>
-  {{#link-to 'dashboard' (query-params sorted=false)}}
-    <span {{action 'trackUserMenu' 'my dashboard'}}>My Dashboard</span>
-  {{/link-to}}
-  </li>
-  <li class='UserMenuModal-menuItem'>
-  {{async-button
-    action=(action 'signOut')
-    default='Log out'
-    pending='Logging out'
-    class=''
-    tagName='a'
-    data-test-component='logout-link'
-  }}
-  </li>
-</ul>
+  <nav class="UserMenuModal-topNav">
+    <div class="UserMenuModal-topNav-item">
+      {{#link-to 'account'}}
+        {{fa-icon 'user'}} My Account
+      {{/link-to}}
+    </div>
+    <div class="UserMenuModal-topNav-item">
+      <button class='UserMenuModal-signOut' {{action 'signOut'}}>
+        {{fa-icon 'sign-out'}} Sign Out
+      </button>
+    </div>
+  </nav>
 
+  <div class='UserMenuModal-main'>
+    {{user-menu-identity-switcher
+    user=currentUser
+    organizations=currentUser.managedOrganizations
+    openDashboard=(action 'openDashboard')
+    }}
+  </div>
 {{/modal-wrapper}}

@@ -4,6 +4,7 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 const { get, inject, on, computed } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
+  classNames: ['LocationDropdown'],
   api: inject.service('api'),
   locations: [],
   isEditing: false,

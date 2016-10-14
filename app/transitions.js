@@ -35,4 +35,25 @@ export default function(){
     this.use('toLeft', {duration: 300}),
     this.reverse('toRight', {duration: 300})
   );
+
+  this.transition(
+    this.fromRoute('account.index'),
+    this.toRoute('account.community'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+
+  this.transition(
+    this.fromRoute('account.index'),
+    this.toRoute('account.subscriptions'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+
+  this.transition(
+    this.fromRoute('account.community'),
+    this.toRoute('account.subscriptions'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

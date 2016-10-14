@@ -1,12 +1,15 @@
 .UserMenu {
-  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-  display: -ms-flexbox;  /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
-  -webkit-align-items: center;
+  /*
   align-items: center;
   font-size: 1rem;
+  overflow: hidden;
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  //display: -ms-flexbox;  /* TWEENER - IE 10 */
+  //display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  //display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+  //-webkit-align-items: center;
 
+  /*
   &-image {
     .img-responsive;
   }
@@ -17,4 +20,83 @@
     font-weight: 700;
     margin-right: 10px;
   }
+  */
+  max-height: 500px;
+  overflow: auto;
+  padding: 0;
+  &-item {
+    list-style-type: none;
+    display: block;
+    border-bottom: 1px solid #eee;
+    padding: 2px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+  }
+  &-button, &-link {
+    border: none;
+    background: transparent;
+    padding: 5px 10px;
+    width: 100%;
+    text-align: left;
+  }
+
 }
+
+.UserMenuIdentityItem {
+  position: relative;
+  padding-left: 50px;
+  border-bottom: 1px solid #eee;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  &-avatar {
+    max-width: 40px;
+    max-height: 40px;
+    width: 40px;
+    position: absolute !important;
+    left: 0;
+  }
+
+  &-title {
+    cursor: pointer;
+    line-height: 40px;
+    min-height: 40px;
+    padding: 2px;
+  }
+
+  &-name {
+    display: inline;
+    line-height: 1.2;
+  }
+
+  &-action {
+    width: auto !important;
+    display: inline-block !important;
+    background: #3DA0E5;
+    color: #fff !important;
+    &:hover, &:active {
+      background: #3DA0E5 !important;
+    }
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom: 10px;
+    padding: 5px 8px !important;
+    cursor: pointer;
+    border-radius: 3px;
+    &:after {
+      content: "\203A";
+    }
+  }
+}
+
+.UserMenuIdentitySwitcher {
+  .UserMenuIdentityItem--expanded {
+    background: #efefef;
+  }
+}
+
