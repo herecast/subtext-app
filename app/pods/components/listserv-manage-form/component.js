@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   unsubscribe() {
     const api = get(this, 'api');
     return new Promise((resolve, reject) => {
-      api.unsubscribeFromListserv( get(this, 'model.id') )
+      api.unsubscribeSubscription( get(this, 'model.id') )
       .then(
         () => {
           set(this, 'messageTitle', 'You have been unsubscribed.');

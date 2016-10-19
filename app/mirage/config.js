@@ -770,6 +770,10 @@ export default function() {
   this.put('/subscriptions/:id');
   this.del('/subscriptions/:id');
 
+  this.delete('/subscriptions/:id/:token', () => {
+    return new Mirage.Response(204);
+  });
+
   this.patch('/subscriptions/:id/confirm', function() {
     return {};
   });

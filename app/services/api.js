@@ -53,10 +53,13 @@ export default AjaxService.extend({
     });
   },
 
-  unsubscribeFromListserv(id) {
-    return this.patch(`/subscriptions/${id}/unsubscribe`, {
-      dataType: 'text'
-    });
+  unsubscribeSubscription(id) {
+    return this.del(`/subscriptions/${id}`);
+  },
+
+  unsubscribeFromListserv(id, email) {
+    const encodedEmail = encodeURIComponent(btoa(email));
+    return this.del(`/subscriptions/${id}/${encodedEmail}`);
   },
 
   confirmedRegistration(data) {

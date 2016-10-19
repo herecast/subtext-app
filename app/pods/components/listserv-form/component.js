@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   headingText: computed('type', function() {
     const typeData = {
       subscribe: '',
+      unsubscribe: 'Unsubscribe from Digest',
       manage: 'Manage your Subscription',
       enhance: 'Enhance your post'
     };
