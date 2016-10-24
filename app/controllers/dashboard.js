@@ -162,26 +162,12 @@ export default Ember.Controller.extend(trackEvent, {
       }
     },
 
-    cancelEditingBusiness() {
-      const biz = get(this, 'editingBusiness');
-      if(isPresent(biz)) {
-        if (biz.get('hasDirtyAttributes')) {
-          if (confirm('Are you sure you want to discard your changes without saving?')) {
-            biz.rollbackAttributes();
-            set(this, 'editingBusiness', null);
-          }
-        } else {
-          set(this, 'editingBusiness', null);
-        }
-      }
-    },
-
     saveBlog() {
       set(this, 'editingBlog', null);
       get(this, 'toast').success('Blog profile saved successfully!');
     },
 
-    saveBusiness() {
+    closeEditBusinessForm() {
       set(this, 'editingBusiness', null);
     },
 

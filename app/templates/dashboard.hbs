@@ -95,18 +95,16 @@
 </div>
 
 {{#if editingBusiness}}
-  {{#x-modal close=(action 'cancelEditingBusiness')}}
-    {{business-profile-form
-      model=editingBusiness
-      save=(action 'saveBusiness')
-      cancel=(action 'cancelEditingBusiness')
-    }}
-  {{/x-modal}}
+  {{business-profile-form
+    model=editingBusiness
+    save=(action 'closeEditBusinessForm')
+    closeAction=(action 'closeEditBusinessForm')
+  }}
 {{/if}}
 
 {{#if editingBlog}}
-  {{#x-modal close=(action 'cancelEditingBlog')}}
+  {{#modal-wrapper close=(action 'cancelEditingBlog')}}
     <h4 class='h1 u-textCenter'>Edit Profile</h4>
     {{organization-profile-form model=editingBlog didSave=(action "saveBlog")}}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}
