@@ -1,15 +1,27 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import moment from 'moment';
 
-const { get, set, computed, isBlank, inject, RSVP, on } = Ember;
+const { get, set, computed, isPresent, isBlank, inject, RSVP, on } = Ember;
 
 export default DS.Model.extend({
   session: inject.service(),
 
   digestDescription: DS.attr('string'),
   name: DS.attr('string'),
-  digestSendTime: DS.attr('moment-date'),
+  nextDigestSendTime: DS.attr('moment-date'),
+  digestSendTime: DS.attr('string'),
   digestSendDay: DS.attr('string'),
+
+  formattedDigestSendTime: computed('digestSendTime', function() {
+    const sendTime = get(this, 'digestSendTime');
+
+    if(isPresent(sendTime)) {
+      return moment(sendTime, "HH:mm").format("LT");
+    } else {
+      return "";
+    }
+  }),
 
   listserv: computed('id', function() {
     return this.store.findRecord('listserv', get(this, 'id'));
