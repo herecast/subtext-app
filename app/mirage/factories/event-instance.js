@@ -17,6 +17,7 @@ export default Mirage.Factory.extend({
   subtitle() { return titleize(faker.lorem.sentences(1));},
   commentCount() { return faker.random.number(8);},
   content() { return `<p>${faker.lorem.paragraph(5)}</p>`;},
+  presenterName() { return `${faker.name.firstName} ${faker.name.lastName}`; },
   contentId() { return faker.random.number(1000);},
   costType: 'paid', // free, paid, donation
   cost: '$15-$55',

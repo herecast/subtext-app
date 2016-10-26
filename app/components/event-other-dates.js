@@ -5,6 +5,7 @@ const initialCount = 4;
 const { get, isBlank, computed } = Ember;
 
 export default Ember.Component.extend({
+  'data-test-component': 'event-other-dates',
   showAll: false,
 
   eventInstances: computed('event.eventInstances.@each.startsAt', function() {

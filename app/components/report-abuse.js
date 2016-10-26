@@ -4,6 +4,7 @@ import TrackEvent from 'subtext-ui/mixins/track-event';
 const { get, inject, observer } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
+  'data-test-component': 'report-abuse-link',
   classNames: ['ReportAbuse'],
   api: inject.service('api'),
   showAbuseReportMenu: false,

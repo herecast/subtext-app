@@ -6,6 +6,7 @@ const { get, computed } = Ember;
 export default Ember.Component.extend({
   classNames: ['HeaderImage'],
   attributeBindings: ['style'],
+  'data-test-component': 'header-image',
 
   style: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');

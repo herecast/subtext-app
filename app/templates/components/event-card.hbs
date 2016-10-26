@@ -1,7 +1,7 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
     {{#link-to 'events.all.show' eventId classNameBindings="isSimilarContent:SimilarContentLink"}}
-      <span {{action 'trackSuggestedContentClick'}}>
+      <span {{action 'trackSuggestedContentClick'}} data-test-event-card-title>
         {{title}}
       </span>
     {{/link-to}}
@@ -21,11 +21,11 @@
     <div class="media">
       <div class="media-body Card-body">
         {{#if isPreview}}
-          <h2 class="media-heading Card-title">{{title}}</h2>
+          <h2 class="media-heading Card-title" data-test-event-card-title>{{title}}</h2>
         {{else}}
           <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
             {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}}>
+              <span {{action 'trackSuggestedContentClick'}} data-test-event-card-title>
                 {{title}}
               </span>
             {{/link-to}}

@@ -11,6 +11,8 @@ function startsWith(path, searchString) {
 }
 
 export default Ember.Component.extend(trackEvent, {
+  'data-test-component': "content-create-button",
+
   path: '', // override with the application controller's currentPath
   canPublishNews: null,
 
