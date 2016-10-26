@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 
-const { get, set, computed, isPresent, isBlank, inject, RSVP, on } = Ember;
+const { get, set, computed, isPresent, isBlank, inject, RSVP } = Ember;
 
 export default DS.Model.extend({
   session: inject.service(),
@@ -29,12 +29,13 @@ export default DS.Model.extend({
 
   subscription: null,
 
-  loadSubscription: on('init', function() {
-    this.store.findAll('subscription').then(subscriptions => {
+  loadSubscription() {
+    return this.store.findAll('subscription').then(subscriptions => {
       const subscription = subscriptions.findBy('listserv.id', get(this, 'id'));
       set(this, 'subscription', subscription);
+      return subscription;
     });
-  }),
+  },
 
   hasSubscription: computed.notEmpty('subscription'),
 

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, inject } = Ember;
+const { get, inject, computed } = Ember;
 
 export default Ember.Component.extend({
 
@@ -8,6 +8,13 @@ export default Ember.Component.extend({
 
   // Should be instantiated when the component is rendered
   digests: [],
+
+  digestsWithSubscriptions: computed('digests.@each.id', function() {
+    return get(this, 'digests').map((digest) => {
+      digest.loadSubscription();
+      return digest;
+    });
+  }),
 
   actions: {
     toggleSubscription(digest) {

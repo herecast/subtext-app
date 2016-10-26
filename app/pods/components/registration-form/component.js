@@ -8,6 +8,7 @@ const {
   get,
   isBlank,
   isPresent,
+  merge,
   observer,
   RSVP,
   set
@@ -17,10 +18,45 @@ export default Ember.Component.extend(trackEvent, Validation, {
   tagName: 'form',
   classNames: ['RegistrationForm'],
   'data-test-component': 'registration-form',
+
   api: inject.service(),
+  store: inject.service(),
+  termsAccepted: null,
+
+  listservs: null,
+
+  digests: computed(function() {
+    return get(this, 'store').findAll('digest');
+  }),
+
+  selectedDigests: computed('digests.@each.checked', function() {
+    return get(this, 'digests').filter((digest) => {
+      return get(digest, 'checked');
+    });
+  }),
 
   submit() {
     this.registerUser();
+  },
+
+  _saveDigestSubscriptions(digests) {
+    const store = get(this, 'store');
+    const baseProperties = {
+      email  : get(this, 'email'),
+      userId : null
+    };
+
+
+    digests.forEach((digest) => {
+      store.findRecord('listserv', get(digest, 'id')).then(function(listserv) {
+        const properties = {
+          name: get(digest, 'name'),
+          listserv: listserv
+        };
+
+        store.createRecord('subscription', merge(baseProperties, properties)).save();
+      });
+    });
   },
 
   registerUser() {
@@ -43,7 +79,14 @@ export default Ember.Component.extend(trackEvent, Validation, {
           }
         }).then((response) => {
           this.trackEvent('createSignup', { });
-          if('onSuccess' in this.attrs) {
+
+          const selectedDigests = get(this, 'selectedDigests');
+
+          if (selectedDigests) {
+            this._saveDigestSubscriptions(selectedDigests);
+          }
+
+          if ('onSuccess' in this.attrs) {
             this.attrs.onSuccess(response);
           }
           resolve();

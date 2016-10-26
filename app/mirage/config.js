@@ -425,11 +425,7 @@ export default function() {
   });
 
   this.get('/comments');
-
   this.post('/comments');
-
-  this.get('/listservs');
-  this.get('/listservs/:id');
 
   this.get('/contents/:id/similar_content', function({ db }) {
     return {
@@ -800,6 +796,7 @@ export default function() {
     };
   });
 
+  this.get('/listservs');
   this.get('/listservs/:id');
 
   this.get('/listserv_contents', 'listservContents');

@@ -1,8 +1,9 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import setupMirage from 'subtext-ui/tests/helpers/setup-mirage';
 import wait from 'ember-test-helpers/wait';
 import Ember from 'ember';
+import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 /* global sinon */
 
@@ -10,7 +11,7 @@ const mixpanelMock = Ember.Service.extend({
   trackEventVersion2(){}
 });
 
-moduleForComponent('registration-form', 'Integration | Component | registration form', {
+moduleForComponent('registration-form', 'Integration | Component | registration form, subscriptions', {
   integration: true,
   beforeEach() {
     this.register('service:mixpanel', mixpanelMock);
@@ -18,8 +19,9 @@ moduleForComponent('registration-form', 'Integration | Component | registration 
   }
 });
 
-test('after registration, triggers onSuccess action', function(assert) {
+skip('after registration, triggers onSuccess action', function(assert) {
   const locations = server.createList('location', 8);
+  server.createList('digest', 3);
   let afterRegister = sinon.spy();
   this.set('actions.afterRegister', afterRegister);
 
@@ -45,5 +47,17 @@ test('after registration, triggers onSuccess action', function(assert) {
       assert.ok(afterRegister.called);
     });
 
+  });
+});
+
+test('when no digest options available, subscribe cta is not shown', function(assert) {
+  this.set('digests', []);
+
+  this.render(hbs`{{registration-form digests=digests}}`);
+
+  return wait().then(() => {
+    const $digests = this.$().find(testSelector('digest-subscribe'));
+
+    assert.equal($digests.length, 0);
   });
 });

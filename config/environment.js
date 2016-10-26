@@ -39,14 +39,14 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-     ENV.APP.LOG_RESOLVER = true;
-     ENV.APP.LOG_ACTIVE_GENERATION = true;
-     ENV.APP.LOG_TRANSITIONS = true;
-     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-     ENV.APP.LOG_VIEW_LOOKUPS = true;
+     ENV.APP.LOG_RESOLVER = false;
+     ENV.APP.LOG_ACTIVE_GENERATION = false;
+     ENV.APP.LOG_TRANSITIONS = false;
+     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
+     ENV.APP.LOG_VIEW_LOOKUPS = false;
     ENV.mixpanel = {
-      enabled: true,
-      LOG_EVENT_TRACKING: true,
+      enabled: false,
+      LOG_EVENT_TRACKING: false,
     }
 
     /*
@@ -55,7 +55,7 @@ module.exports = function(environment) {
     }
     */
     if(process.env.FACEBOOK_API_ID) {
-      ENV.fb_enabled = true;
+      ENV.fb_enabled = false;
     }
 
     ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;

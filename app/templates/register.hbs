@@ -6,7 +6,7 @@
           Sign In
         {{/link-to}}
 
-        <a class='PillNavigation-item PillNavigation-item--active h3'>Join Now</a>
+        <a class='PillNavigation-item PillNavigation-item--active h3' data-test-pill='join'>Join Now</a>
       </nav>
 
       <div class='col-md-8 col-md-push-2'>
@@ -34,7 +34,10 @@
 
               <div class='col-md-8 col-md-pull-4'>
                 <div class='AuthForm-form'>
-                  {{registration-form onSuccess=(action 'afterRegister')}}
+                  {{registration-form
+                    digests=digests
+                    onSuccess=(action 'afterRegister')
+                  }}
                 </div>
               </div>
             </div>
