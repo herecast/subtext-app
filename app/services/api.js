@@ -195,6 +195,13 @@ export default AjaxService.extend({
     });
   },
 
+  isRegisteredUser(email) {
+    // returns either a 404 Not Found or a 200 OK
+    return this.request('/user/', {
+      data: {email: encodeURI(email) }
+    });
+  },
+
   updateCurrentUserAvatar(data) {
     return this.request('/current_user', {
       type: 'PUT',

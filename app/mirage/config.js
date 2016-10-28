@@ -202,6 +202,19 @@ export default function() {
     schema.db.currentUsers.remove();
   });
 
+  this.get('/user/', function({ db }, request) {
+    const email = request.queryParams.email;
+    let response;
+
+    if (db.users.where({ email }).length > 0) {
+      response = new Mirage.Response(200);
+    } else {
+      response = new Mirage.Response(404);
+    }
+
+    return response;
+  });
+
   this.get('/current_user', function(schema) {
     var current_user = schema.currentUsers.first();
     if (current_user) {
