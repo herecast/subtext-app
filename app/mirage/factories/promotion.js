@@ -5,5 +5,6 @@ export default Mirage.Factory.extend({
   banner: null,
   organization_name() { return faker.company.companyName(); },
   image_url: 'https://placehold.it/600x500/61e49c/ffffff/&text=Ad',
-  redirect_url: 'http://thelymeinn.com/'
+  redirect_url: 'http://thelymeinn.com/',
+  title: 'The Lyme in, a fake promo title'
 });

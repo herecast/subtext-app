@@ -59,11 +59,12 @@ export default Ember.Component.extend(InViewportMixin, {
       const promo = get(this, 'promotion');
 
       dataLayer.push({
-        'event'         : event,
-        'advertiser'    : get(promo, 'organization_name'),
-        'promotion_id'  : get(promo, 'promotion_id'),
-        'banner_id'     : get(promo, 'banner_id'),
-        'redirect_url'  : get(promo, 'redirect_url')
+        'event'           : event,
+        'advertiser'      : get(promo, 'organization_name'),
+        'promotion_id'    : get(promo, 'promotion_id'),
+        'banner_id'       : get(promo, 'banner_id'),
+        'redirect_url'    : get(promo, 'redirect_url'),
+        'promotion_title' : get(promo, 'title')
       });
     }
 
