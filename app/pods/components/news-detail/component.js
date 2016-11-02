@@ -2,13 +2,19 @@ import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
-const { computed, get } = Ember;
+const {
+  computed,
+  inject,
+  get
+} = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   tagName: 'main',
   closeRoute: 'news.all',
   closeLabel: 'News',
   isPreview: false,
+
+  featureFlags: inject.service('feature-flags'),
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 

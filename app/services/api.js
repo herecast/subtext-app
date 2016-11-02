@@ -138,6 +138,10 @@ export default AjaxService.extend({
     }
   },
 
+  getFeatures() {
+    return this.request('/features');
+  },
+
   getMarketContactInfo(id) {
     return this.request(`/market_posts/${id}/contact`);
   },

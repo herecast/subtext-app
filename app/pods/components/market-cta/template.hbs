@@ -1,0 +1,49 @@
+<div class='MarketCTA-wrapper'>
+  <div class='MarketCTA'>
+    <h2 class='MarketCTA-title h3'><span>DailyUV Market</span></h2>
+    <h3 class='MarketCTA-subtitle h2'>Shop by category</h3>
+
+    <div class='row'>
+      {{#each featuredMarketCategories as |category|}}
+        <div class='col-sm-4'>
+          <div class='MarketCTA-featureCategory' style='background-image:url({{category.image}})'>
+            {{#link-to 'market.all' (query-params query=category.query) class='MarketCTA-featureCategory-link'}}{{/link-to}}
+
+            <div class='MarketCTA-featureCategory-titleWrapper'>
+              <h3 class='h3 MarketCTA-featureCategory-title'>
+                {{#link-to 'market.all' (query-params query=category.query)}}
+                  {{category.title}}
+                {{/link-to}}
+              </h3>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+     </div>
+
+    <div class='row'>
+      <div class='col-xs-12'>
+        <div class='MarketCTA-linksWrapper'>
+          <p class='h4 MarketCTA-linksTitle'>Trending in the DailyUV Market</p>
+          <div class='row'>
+            <div class='col-sm-4'>
+              {{#link-to 'market.all' (query-params query='jacket') class='MarketCTA-link'}}Winter Clothes{{/link-to}}
+              {{#link-to 'market.all' (query-params query='antique') class='MarketCTA-link'}}Antiques{{/link-to}}
+              {{#link-to 'market.all' (query-params query='ski') class='MarketCTA-link'}}Ski{{/link-to}}
+            </div>
+            <div class='col-sm-4'>
+              {{#link-to 'market.all' (query-params query='shoe') class='MarketCTA-link'}}Shoes{{/link-to}}
+              {{#link-to 'market.all' (query-params query='boots') class='MarketCTA-link'}}Boots{{/link-to}}
+              {{#link-to 'market.all' (query-params query='job') class='MarketCTA-link'}}Help Wanted{{/link-to}}
+            </div>
+            <div class='col-sm-4'>
+              {{#link-to 'market.all' (query-params query='wanted') class='MarketCTA-link'}}Wanted{{/link-to}}
+              {{#link-to 'market.all' (query-params query='couch') class='MarketCTA-link'}}Furniture{{/link-to}}
+              {{#link-to 'market.all' class='MarketCTA-link'}}Misc{{/link-to}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

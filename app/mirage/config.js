@@ -819,4 +819,8 @@ export default function() {
   this.patch('/listserv_contents/:id', function() {
     return {};
   });
+
+  this.get('/features', function() {
+    return { features: [{ name: 'feature1' }, { name: 'feature2' }] };
+  });
 }
