@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global dataLayer */
 
 const { get, inject, computed } = Ember;
 
@@ -16,6 +17,20 @@ export default Ember.Component.extend({
     });
   }),
 
+  alertGTM(message) {
+    if (typeof dataLayer !== 'undefined') {
+      if (message) {
+        dataLayer.push({
+          'event': 'dashboard-subscribe'
+        });
+      } else {
+        dataLayer.push({
+          'event': 'dashboard-unsubscribe'
+        });
+      }
+    }
+  },
+
   actions: {
     toggleSubscription(digest) {
       const toast = get(this, 'toast');
@@ -23,6 +38,7 @@ export default Ember.Component.extend({
         () => {
           const message = get(digest, 'subscription') ? 'Subscribed' : 'Unsubscribed';
           toast.success(message);
+          this.alertGTM(get(digest, 'subscription'));
         },
         () => toast.error('Unable to save your changes.')
       );
