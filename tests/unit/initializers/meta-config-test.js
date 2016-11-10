@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from '../../../initializers/meta-config';
+import { initialize } from '../../../initializers/browser/meta-config';
 import { module, test } from 'qunit';
 
 let application;

@@ -41,7 +41,7 @@ export default Ember.Component.extend(Validation, {
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   pendingFeaturedImage: null,
 
@@ -169,7 +169,7 @@ export default Ember.Component.extend(Validation, {
               errorMessage += ' ' + serverError;
             }
 
-            get(this, 'toast').error(errorMessage);
+            get(this, 'notify').error(errorMessage);
           }
         );
       }
@@ -227,7 +227,7 @@ export default Ember.Component.extend(Validation, {
     const isValid = this._super(...arguments);
 
     if (!isValid) {
-      get(this, 'toast').error('Please fill out all required fields');
+      get(this, 'notify').error('Please fill out all required fields');
     }
 
     return isValid;
@@ -276,7 +276,7 @@ export default Ember.Component.extend(Validation, {
       set(news, 'publishedAt', null);
 
       this._save().then(() => {
-        get(this, 'toast').success('Scheduled publication canceled');
+        get(this, 'notify').success('Scheduled publication canceled');
       });
     },
 
@@ -289,7 +289,7 @@ export default Ember.Component.extend(Validation, {
         }
 
         this._save().then(() => {
-          get(this, 'toast').success('Your post has been published');
+          get(this, 'notify').success('Your post has been published');
           this.sendAction('afterPublish');
         });
       }
@@ -298,7 +298,7 @@ export default Ember.Component.extend(Validation, {
     publishChanges() {
       if (this.isValid()) {
         this._save().then(() => {
-          get(this, 'toast').success('Your changes have been saved');
+          get(this, 'notify').success('Your changes have been saved');
           this.sendAction('afterPublish');
         });
       }
@@ -310,7 +310,7 @@ export default Ember.Component.extend(Validation, {
 
 
         this._save().then(() => {
-          get(this, 'toast').success('Publication is scheduled for this post');
+          get(this, 'notify').success('Publication is scheduled for this post');
         });
         this._clearSchedulePubDate();
       }
@@ -369,7 +369,7 @@ export default Ember.Component.extend(Validation, {
         pendingFeaturedImage: null
       });
 
-      get(this, 'toast').success('Changes discarded.');
+      get(this, 'notify').success('Changes discarded.');
     },
 
     saveImage(file) {

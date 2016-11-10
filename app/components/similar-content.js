@@ -1,13 +1,13 @@
 import Ember from 'ember';
 import ExpandableContent from '../mixins/components/expandable-content';
 
-const { get, inject } = Ember;
+const { get, setProperties, inject } = Ember;
 
 const { on } = Ember;
 
 export default Ember.Component.extend(ExpandableContent, {
   classNames:[ 'SimilarContent'],
-  
+
   contentModel: Ember.inject.service('content-model'),
   api: inject.service('api'),
 
@@ -28,8 +28,12 @@ export default Ember.Component.extend(ExpandableContent, {
           return contentModel.convert(record);
         });
 
-        this.set('content', contents);
-        this.set('sourceContentId', contentId);
+        if (!get(this, 'isDestroyed')) {
+          setProperties(this, {
+            content: contents,
+            sourceContentId: contentId
+          });
+        }
       });
     }
   })

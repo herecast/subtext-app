@@ -5,7 +5,7 @@ const { get, inject, observer, computed } = Ember;
 
 export default Ember.Component.extend(TrackEvent, {
   api: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   classNames: ['PasswordReset'],
   showErrors: false,
@@ -27,7 +27,7 @@ export default Ember.Component.extend(TrackEvent, {
 
   actions: {
     resetPassword() {
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
 
       if (this.get('isValid')) {
         const api = get(this, 'api');
@@ -45,21 +45,21 @@ export default Ember.Component.extend(TrackEvent, {
         });
 
         api.updateCurrentUserPassword(data).then(
-          () => { toast.success('Saved New Password!'); },
+          () => { notify.success('Saved New Password!'); },
           (error) => {
             if ('messages' in error) {
               error.messages.forEach((message) => {
-                toast.error('Error: ' + message);
+                notify.error('Error: ' + message);
               });
             } else {
-              toast.error('Error: Unable to save password!');
+              notify.error('Error: Unable to save password!');
             }
           }
         ).then(() => {
           this.attrs.onSubmit();
         });
       } else {
-        toast.error('Error: Unable to save password!');
+        notify.error('Error: Unable to save password!');
         this.toggleProperty('showErrors');
       }
     }

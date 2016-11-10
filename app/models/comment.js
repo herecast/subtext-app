@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-const { computed } = Ember;
+const { get, computed, isPresent } = Ember;
 
 export default DS.Model.extend({
   content: DS.attr('string'),
@@ -13,6 +13,8 @@ export default DS.Model.extend({
   pubdate: DS.attr('moment-date'),
 
   formattedPostedAt: computed('pubdate', function() {
-    return this.get('pubdate').fromNow();
+    const pubdate = get(this, 'pubdate');
+
+    return isPresent(pubdate) ? pubdate.fromNow() : '';
   })
 });

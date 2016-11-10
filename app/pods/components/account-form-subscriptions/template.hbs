@@ -11,7 +11,7 @@
         <div class="text-center">
           <h3 class="h3">
             Delivered {{if digest.digestSendDay digest.digestSendDay 'daily'}}
-            at {{digest.formattedDigestSendTime}}
+            at {{digest.digestSendTime}}
           </h3>
           {{#if digest.subscription.isPending}}
             {{x-loader}}

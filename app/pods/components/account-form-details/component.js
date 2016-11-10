@@ -7,7 +7,7 @@ export default Ember.Component.extend(Validation, {
   tagName: 'form',
   classNames: ['AccountFormDetails'],
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   // Component should be instantiated with currentUser object
   model: null,
@@ -49,21 +49,21 @@ export default Ember.Component.extend(Validation, {
 
   submit(e) {
     e.preventDefault();
-    const toast = get(this, 'toast');
+    const notify = get(this, 'notify');
 
     if (this.isValid()) {
       const model = get(this, 'model');
       model.save().then(
         () => {
-          toast.success('Successfully saved changes.');
+          notify.success('Successfully saved changes.');
           setProperties(this, {
             showPasswordForm: false,
             imageFormVisible: false
           });
         },
-        () => toast.error('Error: Unable to save changes.'));
+        () => notify.error('Error: Unable to save changes.'));
     } else {
-      toast.error('Error: Please correct the errors in the form.');
+      notify.error('Error: Please correct the errors in the form.');
     }
   },
 

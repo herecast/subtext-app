@@ -1,10 +1,9 @@
 import Ember from 'ember';
 
-const { computed, on } = Ember;
+const { computed, isPresent, get } = Ember;
 
 export default Ember.Component.extend({
   contentComments: Ember.inject.service('content-comments'),
-  comments: [],
   scrollToAnchor: null,
   displayPromotion: false,
 
@@ -18,6 +17,17 @@ export default Ember.Component.extend({
     if (Ember.isPresent(anchor)) {
       return anchor.split('-')[1];
     }
+  }),
+
+  // Using computed.oneWay so comments can be passed into component
+  comments: computed.oneWay('contentsQuery'),
+
+  // Query will run again when contentId changes or the # of expected comments increases
+  contentsQuery: computed('contentId', 'content.commentCount', function() {
+    const contentId = get(this, 'contentId'),
+      contentComments = get(this, 'contentComments');
+
+    return isPresent(contentId) ? contentComments.getComments(contentId) : [];
   }),
 
   scrollToComment: function() {
@@ -34,24 +44,6 @@ export default Ember.Component.extend({
       }
     }
   },
-
-  setComments: on('didInsertElement', function() {
-    // If the comments have already been set in the route, we don't need
-    // to load them again.
-    if (Ember.isPresent(this.get('comments'))) {
-      return;
-    }
-
-    // The content ID will only be available for persisted content, we don't
-    // want to try to get comments when creating new content.
-    if (this.get('contentId')) {
-      this.get('contentComments').getComments(this.get('contentId')).then(comments => {
-        this.set('comments', comments.toArray());
-      });
-    } else {
-      this.set('comments', []);
-    }
-  }),
 
   actions: {
     incrementCommentCount() {

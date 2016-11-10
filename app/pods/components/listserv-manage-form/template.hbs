@@ -38,9 +38,8 @@
   {{/if}}
 </div>
 
-
 {{#if hasFinished}}
-  {{#x-modal}}
+  {{#modal-wrapper}}
   <div class="ListservForm-modal">
       <div>
         <h2>{{messageTitle}}</h2>
@@ -56,5 +55,5 @@
           For local News, Events, Market, and Businesses checkout <b>{{#link-to 'index'}}DailyUV.com{{/link-to}}</b>
       </div>
     </div>
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

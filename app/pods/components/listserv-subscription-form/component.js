@@ -12,7 +12,7 @@ export default Ember.Component.extend(Validation, SilentRegistration, {
 
   api: inject.service(),
   session: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
   routing: inject.service('-routing'),
 
   windowLocation: inject.service(),
@@ -120,26 +120,17 @@ export default Ember.Component.extend(Validation, SilentRegistration, {
         (response) => {
           return this.signin(response);
         }, () => {
-          const toast = get(this, 'toast');
-          toast.error('Your registration failed. Please contact dailyUV.com');
+          const notify = get(this, 'notify');
+          notify.error('Your registration failed. Please contact dailyUV.com');
           return Promise.reject();
         });
   },
 
   redirectTo(settings) {
-    const toast = get(this, 'toast');
+    const notify = get(this, 'notify');
     let text = settings.text || '';
-    let title = settings.title || '';
-    let options = settings.options || {
-      closeButton: true,
-      positionClass: "toast-top-center afterSubscriptionToast",
-      showDuration: 0,
-      hideDuration: 1000,
-      timeOut: 0,
-      extendedTimeOut: 0
-    };
 
-    toast.info(text, title, options);
+    notify.info(text, {htmlContent: true});
     window.scrollTo(0,0);
     get(this, 'routing').transitionTo(settings.route);
   },
@@ -149,11 +140,14 @@ export default Ember.Component.extend(Validation, SilentRegistration, {
     const sendTime = get(this, 'listserv.formattedDailyDigestSendTime');
     this.redirectTo({
       route: 'index',
-      text:   `You are subscribed to the ${listservName} AND registered to dailyUV.com!<br />
-              We try to be cool by making it free to post, read and browse everything.<br />
-              BONUS - your ${listservName} digest will be delivered daily around ${sendTime}.<br />
-              <a class='u-textUnderline' href="/dashboard">Click here to manage your posts and account.</a>`,
-      title: "You're Offically IN!"
+      text: `
+        <div>
+          <h4>You're Officially IN!</h4>
+          You are subscribed to the ${listservName} AND registered to dailyUV.com!<br />
+          We try to be cool by making it free to post, read and browse everything.<br />
+          BONUS - your ${listservName} digest will be delivered daily around ${sendTime}.<br />
+          <a class='u-textUnderline' href="/dashboard">Click here to manage your posts and account.</a>
+        </div>`
     });
   },
 

@@ -13,7 +13,7 @@ const {
 
 export default Ember.Controller.extend(trackEvent, {
   api: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type', 'organization_id'],
   contentModel: inject.service(),
@@ -164,7 +164,7 @@ export default Ember.Controller.extend(trackEvent, {
 
     saveBlog() {
       set(this, 'editingBlog', null);
-      get(this, 'toast').success('Blog profile saved successfully!');
+      get(this, 'notify').success('Blog profile saved successfully!');
     },
 
     closeEditBusinessForm() {

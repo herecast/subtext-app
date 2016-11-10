@@ -8,7 +8,7 @@ export default Ember.Component.extend(Validation, {
 
   _originalImageUrl: computed.oneWay('model.logoUrl'),
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   submit(e) {
     e.preventDefault();
@@ -23,7 +23,7 @@ export default Ember.Component.extend(Validation, {
   },
 
   notifySaved() {
-    get(this, 'toast').success('Successfully saved changes.');
+    get(this, 'notify').success('Successfully saved changes.');
 
     if(this.attrs.didSave) {
       this.attrs.didSave(get(this, 'model'));
@@ -49,7 +49,7 @@ export default Ember.Component.extend(Validation, {
   save() {
     if(this.isValid()) {
       const model = get(this, 'model');
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
 
       model.save().then(()=>{
         const rsvpHash = {};
@@ -58,21 +58,21 @@ export default Ember.Component.extend(Validation, {
         if(isPresent(model.get('logo'))) {
           rsvpHash.logo = model.uploadLogo();
           rsvpHash.logo.catch(function() {
-            toast.error('Unable to upload logo. Please check that it meets the minimum dimensions.');
+            notify.error('Unable to upload logo. Please check that it meets the minimum dimensions.');
           });
         }
 
         if(isPresent(model.get('profileImage'))) {
           rsvpHash.profileImage = model.uploadProfileImage();
           rsvpHash.profileImage.catch(function() {
-            toast.error('Unable to upload profile image. Please check that it meets the minimum dimensions.');
+            notify.error('Unable to upload profile image. Please check that it meets the minimum dimensions.');
           });
         }
 
         if(isPresent(model.get('backgroundImage'))) {
           rsvpHash.backgroundImage = model.uploadBackgroundImage();
           rsvpHash.backgroundImage.catch(function() {
-            toast.error('Unable to upload background image. Please check that it meets the minimum dimensions.');
+            notify.error('Unable to upload background image. Please check that it meets the minimum dimensions.');
           });
         }
 
@@ -87,7 +87,7 @@ export default Ember.Component.extend(Validation, {
           this.notifySaved();
         }
       }, (/*errors*/) => {
-        toast.error('Error: Unable to save changes.');
+        notify.error('Error: Unable to save changes.');
       });
     }
   },

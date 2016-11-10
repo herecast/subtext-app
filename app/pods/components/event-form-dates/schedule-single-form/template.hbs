@@ -7,6 +7,7 @@
       {{modify-ember-pickaday
         firstDay=0
         value=startDate
+        onSelection=(action (mut startDate))
         placeholder='Date'
         class='form-control'
         format="MM/DD/YYYY"

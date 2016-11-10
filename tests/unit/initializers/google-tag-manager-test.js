@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import GoogleTagManagerInitializer from '../../../initializers/google-tag-manager';
+import GoogleTagManagerInitializer from '../../../initializers/browser/google-tag-manager';
 import { module, test } from 'qunit';
 
 let application;

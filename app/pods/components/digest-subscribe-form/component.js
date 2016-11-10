@@ -23,20 +23,20 @@ export default Ember.Component.extend(Validation, {
   api: inject.service(),
   session: inject.service(),
   store: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   currentUser: computed.alias('session.currentUser'),
 
   _subscribeToDigest({ name, id }, email) {
-    const toast = get(this, 'toast');
+    const notify = get(this, 'notify');
     const store = get(this, 'store');
 
     store.findRecord('listserv', id).then(function(listserv) {
       store.createRecord('subscription', { email, name, listserv }).save().then(
-        () => toast.success('You are successfully registered!'),
-        () => toast.error('Error: Unable to register')
+        () => notify.success('You are successfully registered!'),
+        () => notify.error('Error: Unable to register')
       );
-    }).catch(() => toast.error('Error: Unable to register'));
+    }).catch(() => notify.error('Error: Unable to register'));
   },
 
   _clearEmailError() {
@@ -49,7 +49,7 @@ export default Ember.Component.extend(Validation, {
 
     const email = get(this, 'email');
     const digest = get(this, 'digest');
-    const toast = get(this, 'toast');
+    const notify = get(this, 'notify');
 
     if (get(this, 'session.isAuthenticated')) {
       this._subscribeToDigest(digest, get(this, 'currentUser.email'));
@@ -62,7 +62,7 @@ export default Ember.Component.extend(Validation, {
 
           set(this, 'showSuccessMessage', true);
         }).catch(() => {
-          toast.info(`Please complete your DailUV registration to subscribe to ${get(digest, 'name')}`);
+          notify.info(`Please complete your DailUV registration to subscribe to ${get(digest, 'name')}`);
           this.sendAction('registerUserWithDigest', {email, digest});
         });
       } else {

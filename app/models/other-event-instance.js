@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 
-const { computed } = Ember;
+const { computed, isBlank, get } = Ember;
 
 export default DS.Model.extend({
   endsAt: DS.attr('moment-date'),
@@ -11,8 +11,13 @@ export default DS.Model.extend({
   title: DS.attr('string'),
 
   formattedDate: computed('startsAt', 'endsAt', function() {
-    const date = this.get('startsAt').format('MMM D');
-    const startTime = this.get('startsAt').format('h:mmA');
+    const startsAt = get(this, 'startsAt');
+    if (isBlank(startsAt)) {
+      return '';
+    }
+
+    const date = startsAt.format('MMM D');
+    const startTime = startsAt.format('h:mmA');
 
     if (Ember.isEmpty(this.get('endsAt'))) {
       return `${date} | ${startTime}`;

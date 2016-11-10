@@ -4,16 +4,7 @@ const { get, set, inject, isPresent } = Ember;
 
 export default Ember.Route.extend({
   api: inject.service(),
-  toast: inject.service(),
-
-  toastOptions: {
-    closeButton: true,
-    positionClass: "toast-top-center afterSubscriptionToast",
-    showDuration: 0,
-    hideDuration: 1000,
-    timeOut: 0,
-    extendedTimeOut: 0
-  },
+  notify: inject.service('notification-messages'),
 
   listservName: null,
 
@@ -23,7 +14,7 @@ export default Ember.Route.extend({
 
   afterModel(model) {
     if(isPresent(model.get('verifiedAt'))) {
-      get(this, 'toast').info(
+      get(this, 'notify').info(
         "You have already verified your post. Thank you."
       );
       this.transitionTo('index');
@@ -45,22 +36,28 @@ export default Ember.Route.extend({
 
   sendToIndex() {
     const listservName = get(this, 'listservName');
-    let text =  "It will appear with the rest of the email-only posts in tomorrow's digest but unfortunately not on dailyUV.<br />";
-    text +=     "<strong class='u-textBold'>If you would like it to be included on dailyUV and stand out in the digest...</strong><br />";
-    text +=     `Try choosing "Enhance My Post" or <a class="u-textUnderline" href="/sign_up">sign-up</a> to share your post on dailyUV.com and the ${listservName}.<br />`;
-    text +=     `Check out tomorrow's ${listservName} digest to see the difference.`;
     const title = `Your Post has been SENT to the ${listservName}.`;
-    const options = get(this, 'toastOptions');
+    let text =  `
+      <div>
+        <h4>${title}</h4>
+        It will appear with the rest of the email-only posts in tomorrow's digest but unfortunately not on dailyUV.<br />
+        <strong class='u-textBold'>If you would like it to be included on dailyUV and stand out in the digest...</strong><br />
+        Try choosing "Enhance My Post" or <a class="u-textUnderline" href="/sign_up">sign-up</a> to share your post on dailyUV.com and the ${listservName}.<br />
+        Check out tomorrow's ${listservName} digest to see the difference.
+      </div>`;
 
-    get(this, 'toast').info(text, title, options);
+    get(this, 'notify').info(text, {htmlContent: true});
     this.transitionTo('index');
   },
 
   showError() {
-    const text =  "Please contact us at <a href='mailto:dailyuv@subtext.org'>dailyuv@subtext.org</a>";
     const title = `There was a problem posting your content.`;
-    const options = get(this, 'toastOptions');
+    const text =  `
+      <div>
+        <h4>${title}</h4>
+        Please contact us at <a href='mailto:dailyuv@subtext.org'>dailyuv@subtext.org</a>
+      </div>`;
 
-    get(this, 'toast').error(text, title, options);
+    get(this, 'notify').error(text);
   }
 });

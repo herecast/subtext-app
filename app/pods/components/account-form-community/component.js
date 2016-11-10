@@ -6,17 +6,17 @@ const { get, inject } = Ember;
 export default Ember.Component.extend(Validation, {
   classNames: ['AccountFormCommunity'],
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   // Component should be instantiated with currentUser object
   model: null,
 
   actions: {
     submit() {
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
       get(this, 'model').save().then(
-        () => toast.success('Successfully saved changes'),
-        () => toast.error('Error: unable to save changes')
+        () => notify.success('Successfully saved changes'),
+        () => notify.error('Error: unable to save changes')
       );
     }
   }

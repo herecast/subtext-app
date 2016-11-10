@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, computed, run } = Ember;
@@ -66,24 +65,8 @@ export default Ember.Component.extend(TrackEvent, {
         navControlGroup: 'Add Comment Button'
       });
 
-      promise.then((comment) => {
-        const formattedContent = `<p></p><p>${content}</p><p></p>`;
-        const newComment = Ember.Object.create({
-          id: comment.get('id'),
-          formattedPostedAt: moment().fromNow(),
-          content: formattedContent,
-          userImageUrl: this.get('session.currentUser.userImageUrl'),
-          userName: this.get('session.currentUser.name')
-        });
-
-        if (!this.get('comments')) {
-          this.set('comments', []);
-        }
-
-        this.get('comments').pushObject(newComment);
-
+      promise.then(() => {
         this.set('newComment', null);
-
         this.sendAction('afterComment');
       });
     }

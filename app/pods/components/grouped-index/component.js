@@ -30,9 +30,11 @@ export default Ember.Component.extend({
       per_page: 25,
       has_image: true
     }).then((events) => {
-      set(this, 'eventItems', events.reject((event) => {
-        return isEmpty(get(event, 'startsAt')) || isEmpty(get(event, 'imageUrl'));
-      }).slice(0,4));
+      if (!get(this, 'isDestroyed')) {
+        set(this, 'eventItems', events.reject((event) => {
+          return isEmpty(get(event, 'startsAt')) || isEmpty(get(event, 'imageUrl'));
+        }).slice(0,4));
+      }
     });
   },
 

@@ -76,9 +76,6 @@ test('Removing an image sends image to the remove image action', function(assert
 test('Open the image cropper', function(assert) {
   assert.expect(1);
 
-  let modalDialogService = this.container.lookup('service:modal-dialog');
-  modalDialogService.destinationElementId = 'modal-overlays';
-
   const image = {
     imageUrl: imageUrl,
     primary: 1,
