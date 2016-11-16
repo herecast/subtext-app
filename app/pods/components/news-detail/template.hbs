@@ -119,20 +119,16 @@
   {{/unless}}
 
   {{#unless isPreview}}
-    {{#if featureFlags.market-cta}}
-      {{market-cta}}
-    {{else}}
-      <div class='DetailPage-sectionWrapper'>
-        <div class='DetailPage-section DetailPage-similarContent'>
-          <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
 
-          {{similar-content
-          contentId=model.contentId
-          limit=4
-          }}
-        </div>
+        {{similar-content
+        contentId=model.contentId
+        limit=4
+        }}
       </div>
-    {{/if}}
+    </div>
 
     <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-comments'>

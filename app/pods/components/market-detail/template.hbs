@@ -105,6 +105,12 @@
 </div>
 
 {{#unless isPreview}}
+  {{#if featureFlags.market-detail-cta}}
+    {{market-cta}}
+  {{/if}}
+{{/unless}}
+
+{{#unless isPreview}}
   <div class='DetailPage-sectionWrapper'>
     <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
       {{ad-banner
