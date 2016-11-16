@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
 
   listservName: computed.alias('model.listserv.name'),
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   liveRoute: computed('model.{isMarket,isEvent,isTalk}', function() {
     const model = get(this, 'model');
@@ -36,30 +36,23 @@ export default Ember.Controller.extend({
   }),
 
   sendToShowPage() {
-    const toastOptions = {
-      closeButton: true,
-      positionClass: "toast-top-center afterSubscriptionToast",
-      showDuration: 0,
-      hideDuration: 1000,
-      timeOut: 0,
-      extendedTimeOut: 0
-    };
-
     const listservName = get(this, 'listservName');
 
     const toastMessage = `
-      <div data-test-listserv-content-success-message>
-      Your Post is now LIVE on dailyUV and will appear in the next ${listservName} digest. WHOOP!<br>
-      Click the avatar image in the header to visit your
-      <a class="u-textUnderline" href='/dashboard'>dashboard and manage your account</a>.
-      <strong>Happy posting and browsing!</strong>
+      <div>
+        <h4>Your Post has been SENT!</h4>
+        <div data-test-listserv-content-success-message>
+        Your Post is now LIVE on dailyUV and will appear in the next ${listservName} digest. WHOOP!<br>
+        Click the avatar image in the header to visit your
+        <a class="u-textUnderline" href='/dashboard'>dashboard and manage your account</a>.
+        <strong>Happy posting and browsing!</strong>
+        </div>
       </div>
     `;
 
-    get(this, 'toast').info(
+    get(this, 'notify').info(
       toastMessage,
-      "Your Post has been SENT!",
-      toastOptions
+      {htmlContent: true}
     );
 
     this.transitionToRoute(
@@ -82,7 +75,7 @@ export default Ember.Controller.extend({
         .save()
         .then(
           () => this.sendToShowPage(),
-          () => get(this, 'toast').error('Could not save listserv content')
+          () => get(this, 'notify').error('Could not save listserv content')
         );
     }
   }

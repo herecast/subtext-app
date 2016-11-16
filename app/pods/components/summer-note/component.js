@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   showImageModal: false,
   $editor: null,
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   willDestroyElement() {
     this.$('textarea').summernote('destroy');

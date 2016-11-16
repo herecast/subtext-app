@@ -16,7 +16,7 @@
 </div>
 
 {{#if _showImageModal}}
-  {{#x-modal}}
+  {{#modal-wrapper close=(action 'cancel')}}
     {{image-editor
     imageUrl=imageUrl
     caption=caption
@@ -26,5 +26,5 @@
     save=(action 'save')
     cancel=(action 'cancel')
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

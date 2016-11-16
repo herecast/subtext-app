@@ -24,14 +24,13 @@ module.exports = function(environment) {
   // ENV['simple-auth'] = {
   // }
 
-  ENV['ember-toastr'] = {
-    toastrOptions: {
-      progressBar: false
-    }
-  };
-
   ENV['simple-auth-devise'] = {
     serverTokenEndpoint: '/api/v3/users/sign_in',
+  };
+
+  ENV['ember-cli-notifications'] = {
+    autoClear: true,
+    clearDuration: 5000
   };
 
   ENV['ember-cli-mirage'] = {

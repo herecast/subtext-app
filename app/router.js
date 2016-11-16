@@ -101,6 +101,10 @@ Router.map(function() {
     this.route('news-item', {path: ':id'});
   });
 
+  this.route('digests', function() {
+    this.route('subscribe', {path: '/:id/subscribe'});
+  });
+
   this.route('lists', function() {
     this.route('subscribe', {path: '/:id/subscribe'});
     this.route('unsubscribe', {path: '/:listserv_id/unsubscribe'});

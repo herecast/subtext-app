@@ -202,6 +202,19 @@ export default function() {
     schema.db.currentUsers.remove();
   });
 
+  this.get('/user/', function({ db }, request) {
+    const email = request.queryParams.email;
+    let response;
+
+    if (db.users.where({ email }).length > 0) {
+      response = new Mirage.Response(200);
+    } else {
+      response = new Mirage.Response(404);
+    }
+
+    return response;
+  });
+
   this.get('/current_user', function(schema) {
     var current_user = schema.currentUsers.first();
     if (current_user) {
@@ -805,5 +818,9 @@ export default function() {
   this.put('/listserv_contents/:id', 'listservContent');
   this.patch('/listserv_contents/:id', function() {
     return {};
+  });
+
+  this.get('/features', function() {
+    return { features: [{ name: 'feature1' }, { name: 'feature2' }] };
   });
 }

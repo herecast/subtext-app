@@ -7,5 +7,6 @@ export default DS.Model.extend({
   banner_id: attr('number'),
   organization_name: attr('string'),
   image_url: attr('string'),
-  redirect_url: attr('string')
+  redirect_url: attr('string'),
+  title: attr('string')
 });

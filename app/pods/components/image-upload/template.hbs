@@ -48,7 +48,7 @@
 </div>
 
 {{#if showCropper}}
-  {{#x-modal close='hideCropper'}}
+  {{#modal-wrapper close=(action 'hideCropper')}}
     {{image-cropper
       type=image.originalImageFile.type
       aspectRatio=0
@@ -56,5 +56,5 @@
       updateImage=(action 'updateImageModelProperties')
       cancel=(action 'hideCropper')
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

@@ -1,10 +1,11 @@
 import Ember from 'ember';
+/* global dataLayer */
 
 const { get, inject, computed } = Ember;
 
 export default Ember.Component.extend({
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
 
   // Should be instantiated when the component is rendered
   digests: [],
@@ -16,15 +17,30 @@ export default Ember.Component.extend({
     });
   }),
 
+  alertGTM(message) {
+    if (typeof dataLayer !== 'undefined') {
+      if (message) {
+        dataLayer.push({
+          'event': 'dashboard-subscribe'
+        });
+      } else {
+        dataLayer.push({
+          'event': 'dashboard-unsubscribe'
+        });
+      }
+    }
+  },
+
   actions: {
     toggleSubscription(digest) {
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
       return digest.toggleSubscription().then(
         () => {
           const message = get(digest, 'subscription') ? 'Subscribed' : 'Unsubscribed';
-          toast.success(message);
+          notify.success(message);
+          this.alertGTM(get(digest, 'subscription'));
         },
-        () => toast.error('Unable to save your changes.')
+        () => notify.error('Unable to save your changes.')
       );
     }
   }

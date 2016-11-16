@@ -22,18 +22,6 @@
   </div>
 {{/form-group}}
 
-{{#form-group}}
-  <label class='control-label ContentForm-label--required' for="sender_name">Sender Name</label>
-
-  {{input
-  id='sender_name'
-  placeholder='Your name'
-  class='form-control'
-  value=listservContent.senderName
-  required=true
-  }}
-{{/form-group}}
-
 {{#if enhancedPost}}
   {{#if listservContent.isMarket}}
     {{#market-form

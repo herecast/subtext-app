@@ -1,16 +1,19 @@
 <div class='CommentSection-wrapper'>
   <div class='CommentSection'>
     <ol class='CommentSection-commentList'>
-      {{#each comments as |comment|}}
-        {{content-comment
-          comment=comment
-          activeCommentId=activeCommentId
-          comments=comments
-          contentId=contentId
-          contentTitle=contentTitle
-          afterRender='triggerScrollToComment'
-        }}
-      {{/each}}
+      {{#if comments.isPending}}
+        {{x-modal}}
+      {{else}}
+        {{#each comments as |comment|}}
+          {{content-comment
+            comment=comment
+            activeCommentId=activeCommentId
+            contentId=contentId
+            contentTitle=contentTitle
+            afterRender='triggerScrollToComment'
+          }}
+        {{/each}}
+      {{/if}}
     </ol>
 
   {{#if displayPromotion}}

@@ -2,9 +2,9 @@
   <div class='ContentMetrics-titleBar'>
     {{#if hasViewData}}
       <div class='ContentMetrics-dateRange form-inline'>
-        {{pikaday-input class='form-control' value=startDate format='MM/DD/YYYY'}}
+        {{pikaday-input class='form-control' value=startDate onSelection=(action (mut startDate)) format='MM/DD/YYYY'}}
         through
-        {{pikaday-input class='form-control' value=endDate format='MM/DD/YYYY'}}
+        {{pikaday-input class='form-control' value=endDate onSelection=(action (mut endDate)) format='MM/DD/YYYY'}}
       </div>
     {{/if}}
 

@@ -10,12 +10,12 @@ const {
 
 export default Ember.Component.extend(TrackEvent, {
   api: inject.service(),
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
   imageUrl: computed.oneWay('currentUser.userImageUrl'),
 
   actions: {
     savePhoto(image) {
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
       const api = get(this, 'api');
       const data = new FormData();
 
@@ -31,7 +31,7 @@ export default Ember.Component.extend(TrackEvent, {
 
       promise.then((data) => {
         set(this, 'currentUser.userImageUrl', data['current_user']['user_image_url']);
-        toast.success('Avatar saved successfully!');
+        notify.success('Avatar saved successfully!');
       }).catch((error) => {
         const serverError = get(error, 'errors.image');
         let errorMessage = 'Error: Unable to save avatar.';
@@ -40,7 +40,7 @@ export default Ember.Component.extend(TrackEvent, {
           errorMessage += ' ' + serverError;
         }
 
-        toast.error(errorMessage);
+        notify.error(errorMessage);
       });
     }
   }

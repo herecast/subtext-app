@@ -138,6 +138,10 @@ export default AjaxService.extend({
     }
   },
 
+  getFeatures() {
+    return this.request('/features');
+  },
+
   getMarketContactInfo(id) {
     return this.request(`/market_posts/${id}/contact`);
   },
@@ -192,6 +196,13 @@ export default AjaxService.extend({
   getWeather() {
     return this.request('/weather', {
       dataType: 'text'
+    });
+  },
+
+  isRegisteredUser(email) {
+    // returns either a 404 Not Found or a 200 OK
+    return this.request('/user/', {
+      data: {email: encodeURI(email) }
     });
   },
 

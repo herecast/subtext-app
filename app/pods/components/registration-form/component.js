@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 import trackEvent from 'subtext-ui/mixins/track-event';
+/* global dataLayer */
 
 const {
   computed,
@@ -39,13 +40,20 @@ export default Ember.Component.extend(trackEvent, Validation, {
     this.registerUser();
   },
 
+  alertGTM() {
+    if (typeof dataLayer !== 'undefined') {
+      dataLayer.push({
+        'event': 'registration-subscribe'
+      });
+    }
+  },
+
   _saveDigestSubscriptions(digests) {
     const store = get(this, 'store');
     const baseProperties = {
       email  : get(this, 'email'),
       userId : null
     };
-
 
     digests.forEach((digest) => {
       store.findRecord('listserv', get(digest, 'id')).then(function(listserv) {
@@ -57,6 +65,8 @@ export default Ember.Component.extend(trackEvent, Validation, {
         store.createRecord('subscription', merge(baseProperties, properties)).save();
       });
     });
+
+    this.alertGTM();
   },
 
   registerUser() {
@@ -81,8 +91,7 @@ export default Ember.Component.extend(trackEvent, Validation, {
           this.trackEvent('createSignup', { });
 
           const selectedDigests = get(this, 'selectedDigests');
-
-          if (selectedDigests) {
+          if (isPresent(selectedDigests)) {
             this._saveDigestSubscriptions(selectedDigests);
           }
 

@@ -1,12 +1,12 @@
 {{#if isEditing}}
-  {{#x-modal close=(action 'cancel')}}
+  {{#modal-wrapper close=(action 'cancel')}}
     {{component 'event-form-dates/schedule-single-form'
       schedule=schedule
       validate=attrs.validate
       save=attrs.save
       cancel=(action 'cancel')
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}
 
 <a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>

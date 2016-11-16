@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from '../../../initializers/facebook';
+import { initialize } from '../../../initializers/browser/facebook';
 import { module, test } from 'qunit';
 
 let application;

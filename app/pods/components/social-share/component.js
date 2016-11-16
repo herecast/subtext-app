@@ -19,7 +19,7 @@ export default Ember.Component.extend(TrackEvent, {
 
   model: null,
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
   delayedJobs: inject.service(),
   routing: inject.service('-routing'),
 
@@ -69,26 +69,29 @@ export default Ember.Component.extend(TrackEvent, {
     const secondsToWait = this.updatedBuffer();
 
     if (secondsToWait) {
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
       const sharePath = window.location.pathname;
 
       set(this, 'canShare', false);
-      let text = `Give it about ${secondsToWait} seconds. If you want share to FB - please don’t leave the page.`;
       let title = 'Facebook Share Loading...';
+      let text = `
+        <div>
+          <h4>${title}</h4>
+          Give it about ${secondsToWait} seconds. If you want share to FB - please don’t leave the page.
+        </div>`;
 
-      toast.clear();
-      toast.warning(text, title, {
-        timeOut: secondsToWait * 1e3,
-        extendedTimeOut: 0,
-        closeOnHover: false
+      notify.clearAll();
+      notify.warning(text, {
+        clearDuration: secondsToWait * 1e3,
+        htmlContent: true
       });
 
       let delayedJob =
         run.later(this, () => {
           SocialSharing.checkFacebookCache(sharePath).then(() => {
             set(this, 'canShare', true);
-            toast.clear();
-            toast.success(`Facebook sharing is ready for ${sharePath}`);
+            notify.clearAll();
+            notify.success(`Facebook sharing is ready for ${sharePath}`);
           });
         }, secondsToWait * 1e3);
 

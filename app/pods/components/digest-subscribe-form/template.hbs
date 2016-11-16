@@ -1,0 +1,26 @@
+<h1 data-test-digest-name>{{digest.name}}</h1>
+<p data-test-digest-description>{{digest.digestDescription}}</p>
+
+{{#if showSuccessMessage}}
+  <p data-test-success>You are successfully registered!</p>
+{{else}}
+  {{#if session.currentUser}}
+    <p data-test-logged-in>You are logged in as: {{session.currentUser.email}}</p>
+  {{else}}
+    {{#form-group error=errors.email}}
+      <label class='control-label ContentForm-label--required' for="email">Email</label>
+
+      {{input
+      id='email'
+      placeholder='Enter your email...'
+      class='form-control'
+      value=email
+      data-test-field='email'
+      }}
+    {{/form-group}}
+  {{/if}}
+
+  <div class="text-center">
+    <input type="submit" value="Subscribe" data-test-button='submit' class="Button Button--news Button--wide">
+  </div>
+{{/if}}

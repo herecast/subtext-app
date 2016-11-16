@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RegisterGoogleMapsInitializer from '../../../initializers/register-google-maps';
+import RegisterGoogleMapsInitializer from '../../../initializers/browser/register-google-maps';
 import { module, test } from 'qunit';
 
 let application;

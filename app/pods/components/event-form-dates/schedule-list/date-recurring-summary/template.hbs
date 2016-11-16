@@ -33,24 +33,24 @@
 <button {{action 'manage' (action 'manage')}}>{{fa-icon 'calendar-times-o'}} View on Calendar</button>
 
 {{#if isEditing}}
-  {{#x-modal close=(action 'cancel')}}
+  {{#modal-wrapper close=(action 'cancel')}}
     {{component 'event-form-dates/schedule-recurring-form'
       schedule=schedule
       validate=attrs.validate
       save=attrs.save
       cancel=(action 'cancel')
     }}
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}
 
 
 {{#if isManaging}}
-  {{#x-modal close='hideModal'}}
+  {{#modal-wrapper close=(action 'hideModal')}}
     {{event-schedule
       schedule=schedule
       excludeEvent=this.attrs.excludeEvent
       includeEvent=this.attrs.includeEvent
     }}
     <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
-  {{/x-modal}}
+  {{/modal-wrapper}}
 {{/if}}

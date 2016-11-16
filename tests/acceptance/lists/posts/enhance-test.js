@@ -29,6 +29,12 @@ let windowLocationMock = Ember.Service.extend({
   }
 });
 
+let infoSpy = sinon.spy();
+
+let notificationsMock = Ember.Service.extend({
+  info: infoSpy
+});
+
 moduleForAcceptance('Acceptance | enhance listserv post workflows', {
   beforeEach: function() {
 
@@ -37,6 +43,8 @@ moduleForAcceptance('Acceptance | enhance listserv post workflows', {
 
     this.application.register('service:windowMock', windowLocationMock);
     this.application.inject('route:application', 'windowLocation', 'service:windowMock');
+
+    this.application.register('service:notification-messages', notificationsMock);
 
     invalidateSession(this.application);
   }
@@ -69,14 +77,12 @@ test('Poster has account, signed in;', function(assert) {
         "After submitting form, should see a preview."
       );
 
-      window.toastr.info = sinon.spy();
-
       click(testSelector('component', 'preview-publish')).then(() => {
         assert.ok(/^\/talk\/\d/.test(currentURL()),
           "Should be on the detail page of the enhanced content record"
         );
 
-        assert.ok(window.toastr.info.called, 'Displays confirmation message');
+        assert.ok(infoSpy.called, 'Displays confirmation message');
       });
     });
   });

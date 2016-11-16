@@ -14,7 +14,7 @@ export default Ember.Component.extend(Validation, {
   categories: null,
   closeAction: null,
 
-  toast: inject.service(),
+  notify: inject.service('notification-messages'),
   store: inject.service(),
 
   init() {
@@ -55,19 +55,19 @@ export default Ember.Component.extend(Validation, {
     e.preventDefault();
     if (this.isValid()) {
       const isNew = get(this, 'model.isNew');
-      const toast = get(this, 'toast');
+      const notify = get(this, 'notify');
 
       get(this, 'model').save().then(
         () => {
           if (isNew) {
             set(this, 'showSaveMessage', true);
           } else {
-            toast.success('Business saved successfully!');
+            notify.success('Business saved successfully!');
             this.sendAction('save');
           }
         },
         (errors) => {
-          toast.error('Error: Failed to save business!');
+          notify.error('Error: Failed to save business!');
           this.handleErrorResponse(errors);
         }
       );
