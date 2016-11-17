@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+/* global dataLayer */
 
 const { get, set, computed, inject } = Ember;
 
@@ -36,6 +37,12 @@ export default Ember.Component.extend(ModelResetScroll, {
       get(this, 'model').loadContactInfo().then(() => {
         this.toggleProperty('hasClickedReplyButton');
       });
+
+      if (typeof dataLayer !== "undefined") {
+        dataLayer.push({
+          'event': 'market-reply-click'
+        });
+      }
     }
   }
 });
