@@ -22,17 +22,19 @@
       <ul class='CategoryNav-itemList list-inline'>
         {{#each displayCategories as |category|}}
           <li class='CategoryNav-item' data-test-navItem>
-            <span {{action (action 'trackCategoryClick' category)}}>
-              {{#link-to 'market.category-landing' category.id class='CategoryNav-itemLink h4'}}
+            {{#link-to 'market.category-landing' category.id class='CategoryNav-itemLink h4'}}
+              <span {{action (action 'trackCategoryClick' category)}}>
                 {{category.name}} ({{category.count}})
-              {{/link-to}}
-            </span>
+              </span>
+            {{/link-to}}
           </li>
         {{/each}}
 
         <li class='CategoryNav-item'>
           <a href='#' class='CategoryNav-itemLink h4 CategoryNav-itemLink--more u-link' {{action (action 'openCategoriesModal')}}>
-            More {{fa-icon 'caret-down'}}
+            <span {{action (action 'trackCategoryMoreClick')}}>
+              More {{fa-icon 'caret-down'}}
+            </span>
           </a>
         </li>
       </ul>
