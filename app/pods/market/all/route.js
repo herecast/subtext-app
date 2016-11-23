@@ -4,16 +4,36 @@ import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 
 export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
+  queryParams: {
+    flat: {
+      refreshModel: true
+    }
+  },
+
   model(params) {
-    return this.store.query('market-post', {
-      query: params.query,
-      date_start: params.date_start,
-      date_end: params.date_end,
-      location: params.location,
-      location_id: params.locationId,
-      page: params.page,
-      per_page: params.per_page
-    });
+    if (params.query) {
+      return this.store.query('market-post', {
+        query: params.query,
+        date_start: params.date_start,
+        date_end: params.date_end,
+        location: params.location,
+        location_id: params.locationId,
+        page: params.page,
+        per_page: params.per_page
+      });
+    } else if (params.flat) {
+      return this.store.query('market-post', {
+        query: '',
+        date_start: params.date_start,
+        date_end: params.date_end,
+        location: params.location,
+        location_id: params.locationId,
+        page: params.page,
+        per_page: params.per_page
+      });
+    } else {
+      return {};
+    }
   },
 
   setupController(controller, model) {

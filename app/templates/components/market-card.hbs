@@ -24,10 +24,15 @@
     {{/unless}}
 
     <div class="media-body Card-content">
-      <h2 class='Card-title' {{action 'onTitleClick'}}>
-        {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
-          <span {{action 'trackSuggestedContentClick'}}>
-            {{title}}
+      <h2 class='Card-title'>
+        {{#link-to (if routeName routeName 'market.all.show') post.id
+          (query-params ctype='market')
+          classNameBindings="isSimilarContent:SimilarContentLink"
+          }}
+          <span {{action 'onTitleClick'}}>
+            <span {{action 'trackSuggestedContentClick'}}>
+              {{title}}
+            </span>
           </span>
         {{/link-to}}
       </h2>
@@ -44,15 +49,16 @@
     {{#if (eq imagePosition 'right')}}
       <div class="media-right" >
         {{#if hasImage}}
-          <div {{action 'onTitleClick'}}>
-            <div {{action 'onTitleClick'}}>
-              {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
-                <span {{action 'trackSuggestedContentClick'}}>
-                  <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-                </span>
-              {{/link-to}}
-            </div>
-          </div>
+          {{#link-to (if routeName routeName 'market.all.show') post.id
+            (query-params ctype='market')
+            classNameBindings="isSimilarContent:SimilarContentLink"
+            }}
+            <span {{action 'onTitleClick'}}>
+              <span {{action 'trackSuggestedContentClick'}}>
+                <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+              </span>
+            </span>
+          {{/link-to}}
         {{/if}}
       </div>
     {{/if}}

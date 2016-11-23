@@ -461,6 +461,16 @@ export default function() {
   this.post('/promotion_banners/:id/track_click', function() {});
   this.post('/promotion_banners/:id/impression', function() {});
 
+  this.get('/market_categories', function({ db }) {
+    return { marketCategories: db.marketCategories };
+  });
+
+  this.get('/market_categories/:id', function({ db }, request) {
+    const marketCategory = db.marketCategories.find(request.params.id);
+
+    return { marketCategory: marketCategory };
+  });
+
   this.get('/market_posts', function({ marketPosts }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);

@@ -1,0 +1,73 @@
+.CategoryNav {
+  &-mobileTitle {
+    float: left;
+    margin: 0;
+    margin-right: 20px;
+    width: 46%;
+    display: block;
+    font-weight: 700;
+  }
+
+  &-categories {
+    @media (min-width: @screen-sm-max) {
+      float: left;
+    }
+  }
+
+  &-actions {
+    @media (min-width: @screen-sm-max) {
+      width: 200px;
+      float: right;
+    }
+
+    margin-top: 9px;
+  }
+
+  &-itemList {
+    margin-bottom: 0;
+  }
+
+  &-item {
+    line-height: 0;
+    vertical-align: text-top;
+
+    @media(min-width: @screen-sm-max) {
+      padding: 15px 5px;
+    }
+  }
+
+  &-itemLink {
+    &--more {
+      font-weight: 700;
+    }
+  }
+
+  &-manageLink {
+    margin-right: 10px;
+  }
+
+  &-marketCTA {
+    background-color: @market-brand;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 3px;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:hover {
+      color: #fff;
+      background-color: darken(@market-brand, 10%);
+    }
+
+    @media(max-width: @screen-sm-max) {
+      float: right;
+    }
+
+    @media(min-width: @screen-sm-max) {
+      .btn-lg;
+    }
+  }
+}

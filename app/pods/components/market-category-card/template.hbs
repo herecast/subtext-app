@@ -1,0 +1,15 @@
+<div class='MarketCategoryCard MarketCategoryCard--{{if trending "trending" "featured u-card"}}'>
+  {{#link-to 'market.category-landing' category.id}}
+    <div class='MarketCategoryCard-imageWrapper'>
+      <div style='background-image:url({{category.img}})' class='img-responsive MarketCategoryCard-image'></div>
+    </div>
+
+    <div class='MarketCategoryCard-content'>
+      {{#if trending}}
+        <p class='MarketCategoryCard-trending'>{{fa-icon 'line-chart'}} Trending now</p>
+      {{/if}}
+      <h3 class='{{if trending "h2" "h3"}} MarketCategoryCard-name u-bold' data-test-name>{{category.name}}</h3>
+      <p class='h4 MarketCategoryCard-count' data-test-count>{{category.count}} items</p>
+    </div>
+  {{/link-to}}
+</div>

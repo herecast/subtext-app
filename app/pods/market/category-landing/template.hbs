@@ -1,0 +1,32 @@
+{{category-nav
+  categories=(readonly categories)
+  openCategoriesModal=(action 'openCategoriesModal')
+}}
+
+{{category-header cat=cat}}
+
+<div class='Container--noGutter'>
+  <div class='row'>
+    <div class='col-xs-12'>
+      {{#if posts.isPending}}
+        {{x-loader}}
+      {{else}}
+        {{sorted-market-posts
+          marketPosts=posts
+          trackCardClick=(action 'trackCardClick')
+          adPath='market.category-landing'
+        }}
+
+        <div class='row'>
+          <div class='col-xs-12 col-md-8 col-md-push-2'>
+            <div class='PaginationNav-wrapper'>
+              <div class='PaginationNav PaginationNav--bottom'>
+                {{partial 'partials/pagination-nav'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

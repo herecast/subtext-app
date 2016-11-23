@@ -1,0 +1,26 @@
+.MarketSearch {
+  width: 100%;
+
+  .SearchInput-inputGroup {
+    border-bottom: none !important;
+  }
+
+  &-input {
+    .u-card;
+    padding-left: 10px;
+
+    @media (min-width: @screen-sm-max) {
+      float: left;
+      width: 33%;
+    }
+
+    &.has-query { }
+  }
+
+  &-categoryTitle {
+    @media (min-width: @screen-sm-max) {
+      float: left;
+      width: 33%;
+    }
+  }
+}
