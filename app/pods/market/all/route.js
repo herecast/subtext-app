@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
-import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
-export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
+export default Ember.Route.extend(PaginatedFilter, History, ResetScroll, {
   queryParams: {
     flat: {
       refreshModel: true
