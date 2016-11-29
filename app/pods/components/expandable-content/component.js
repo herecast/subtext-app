@@ -5,9 +5,11 @@ const { get, set, computed } = Ember;
 export default Ember.Component.extend({
   classNames: ['ExpandableContent'],
 
-  isExpanded: false,
   height: 300,
+
+  isExpanded: false,
   needsToggleButton: false,
+  alreadyRun: false,
 
   contentStyle: computed('height', 'isContentExpanded', function() {
     const isContentExpanded = get(this, 'isContentExpanded');
@@ -24,39 +26,24 @@ export default Ember.Component.extend({
     return (isExpanded || !needsToggleButton);
   }),
 
-  computeNeedsToggle() {
+  _computeNeedsToggle() {
     const $content = this.$('.ExpandableContent-contentWrapper');
     const maxHeight = get(this, 'height');
 
-    if ($content[0].scrollHeight >= maxHeight) {
-      Ember.run.next(this, function() {
-        if (!get(this, 'isDestroyed')) {
-          set(this, 'needsToggleButton', true);
-        }
-      });
-      return true;
-    } else {
-      Ember.run.next(this, function() {
-        if (!get(this, 'isDestroyed')) {
-          set(this, 'needsToggleButton', false);
-        }
-      });
-      return false;
-    }
+    return ($content[0].scrollHeight >= maxHeight);
   },
 
   didRender() {
     this._super(...arguments);
 
-    let maxHeightReached = false;
-
     this.$('img').on('load', () => {
-      if(!maxHeightReached) {
-        maxHeightReached = this.computeNeedsToggle();
-      }
+      set(this, 'needsToggleButton', this._computeNeedsToggle());
     });
 
-    maxHeightReached = this.computeNeedsToggle();
+    if (!get(this, 'alreadyRun')) {
+      set(this, 'needsToggleButton', this._computeNeedsToggle());
+      set(this, 'alreadyRun', true);
+    }
   },
 
   actions: {
