@@ -4,7 +4,6 @@ import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
 const {
   computed,
-  inject,
   get
 } = Ember;
 
@@ -13,8 +12,6 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeRoute: 'news.all',
   closeLabel: 'News',
   isPreview: false,
-
-  featureFlags: inject.service('feature-flags'),
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 

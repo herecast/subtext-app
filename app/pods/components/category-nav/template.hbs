@@ -1,0 +1,43 @@
+<div class='CategoryNav u-white'>
+  <div class='Container--noGutter'>
+    <div class='CategoryNav-actions clearfix'>
+      <div class='CategoryNav-mobileTitle h2 hidden-md hidden-lg'>
+        Local Market
+      </div>
+
+      {{#link-to 'dashboard' (query-params type='market') class='CategoryNav-manageLink'}}
+        <span {{action (action 'trackCategoryMoreClick')}}>
+          {{fa-icon 'fa-archive'}} My items
+        </span>
+      {{/link-to}}
+
+      {{#link-to 'market.new' tagName='button' class='btn btn-primary CategoryNav-marketCTA'}}
+        <span {{action (action 'trackCreateButtonClick')}}>
+          {{fa-icon 'camera'}} Sell
+        </span>
+      {{/link-to}}
+    </div>
+
+    <div class='CategoryNav-categories'>
+      <ul class='CategoryNav-itemList list-inline'>
+        {{#each displayCategories as |category|}}
+          <li class='CategoryNav-item' data-test-navItem>
+            {{#link-to 'market.category-landing' category.id class='CategoryNav-itemLink h4'}}
+              <span {{action (action 'trackCategoryClick' category)}}>
+                {{category.name}} ({{category.count}})
+              </span>
+            {{/link-to}}
+          </li>
+        {{/each}}
+
+        <li class='CategoryNav-item'>
+          <a href='#' class='CategoryNav-itemLink h4 CategoryNav-itemLink--more u-link' {{action (action 'openCategoriesModal')}}>
+            <span {{action (action 'trackCategoryMoreClick')}}>
+              More {{fa-icon 'caret-down'}}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

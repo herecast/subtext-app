@@ -258,10 +258,17 @@ export default function() {
     const start = stop - params.per_page;
 
     let results = filterCollectionByDate(eventInstances, params.date_start, params.date_end);
+    let total = results.models.length;
     results.models = filterByCategory(results.models, params.category);
     results.models = results.models.slice(start, stop);
 
-    return results;
+    let response = this.serializerOrRegistry.serialize(results, request);
+
+    response.meta = {
+      total
+    };
+
+    return new Mirage.Response(200, {}, response);
   });
 
    // Used in the user dashboard to find locations
@@ -460,6 +467,16 @@ export default function() {
 
   this.post('/promotion_banners/:id/track_click', function() {});
   this.post('/promotion_banners/:id/impression', function() {});
+
+  this.get('/market_categories', function({ db }) {
+    return { marketCategories: db.marketCategories };
+  });
+
+  this.get('/market_categories/:id', function({ db }, request) {
+    const marketCategory = db.marketCategories.find(request.params.id);
+
+    return { marketCategory: marketCategory };
+  });
 
   this.get('/market_posts', function({ marketPosts }, request) {
     const params = request.queryParams;

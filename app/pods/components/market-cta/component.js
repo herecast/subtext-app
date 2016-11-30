@@ -11,6 +11,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(InViewportMixin, {
+  // TODO extract this into an 'Impressionable' component mixin
   'data-test-component': 'market-cta',
 
   // cancellable run loop invocation
@@ -19,53 +20,15 @@ export default Ember.Component.extend(InViewportMixin, {
   _didSendImpression: false,
 
   _sendImpression() {
-    console.info('Impression of market-cta');
     if (typeof dataLayer !== "undefined") {
       dataLayer.push({
-        'event': 'market-cta-impression'
+        'event': 'market-detail-createPost-cta-impression'
       });
     }
+    console.log('impression: market-detail-createPost-cta-impression');
+
     set(this, '_didSendImpression', true);
   },
-
-  featuredMarketCategories: computed(function() {
-    return [{
-      query: 'winter tires',
-      title: 'Winter Tires',
-      image: 'https://d3ctw1a5413a3o.cloudfront.net/content/869764/38d883dba940195a-blob.jpeg'
-    },{
-      query: 'antique',
-      title: 'Antiques',
-      image: 'https://d3ctw1a5413a3o.cloudfront.net/content/869764/47a68c320b130fe4-Screen_Shot_2016-08-25_at_11.43.10_AM.png'
-    },{
-      query: 'clothing',
-      title: 'Clothes',
-      image: 'https://d3ctw1a5413a3o.cloudfront.net/content/869764/5f517c01f0278c02-jeans-226422_960_720.jpg'
-    }];
-  }),
-
-  featuredMarketLinks: computed(() => {
-    return [{
-        query: 'ski',
-        text: 'Ski'
-      },{
-        query: 'shoe',
-        text: 'Shoes'
-      },{
-        query: 'boots',
-        text: 'Boots'
-      },{
-        query: 'job',
-        text: 'Help Wanted'
-      },{
-        query: 'job',
-        text: 'Wanted'
-      },{
-        query: 'couch',
-        text: 'Furniture'
-      }
-    ];
-  }),
 
   _canSendImpression: computed('_didSendImpression', function() {
     return !get(this, '_didSendImpression');
@@ -99,11 +62,23 @@ export default Ember.Component.extend(InViewportMixin, {
       viewportUseRAF   : true,
       viewportSpy      : true,
       viewportTolerance: {
-        top    : 230, // half the ad height
-        bottom : 230, // half the ad height
+        top    : 50,
+        bottom : 50,
         left   : 20,
         right  : 20
       }
     });
   },
+
+  actions: {
+    trackClick() {
+      if (typeof dataLayer !== "undefined") {
+        dataLayer.push({
+          'event': 'market-detail-createPost-cta-click'
+        });
+      }
+
+      console.log('click: market-detail-createPost-cta-click');
+    }
+  }
 });

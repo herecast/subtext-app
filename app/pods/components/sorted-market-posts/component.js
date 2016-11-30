@@ -7,5 +7,13 @@ export default Ember.Component.extend({
 
   sortedPosts: computed('marketPosts.@each.publishedAt', function() {
     return this.get('marketPosts').sortBy('publishedAt').reverse();
-  })
+  }),
+
+  actions: {
+    trackCardClick() {
+      if ('trackCardClick' in this.attrs) {
+        this.attrs.trackCardClick();
+      }
+    }
+  }
 });

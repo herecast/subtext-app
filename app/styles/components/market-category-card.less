@@ -1,0 +1,139 @@
+.MarketCategoryCard {
+  position: relative;
+
+  &-name {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &-count {
+    margin-top: 0;
+  }
+
+  &-content {
+    padding: 0 10px;
+  }
+
+  &-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    height: 100%;
+    width: 100%;
+  }
+
+  &--trending {
+    height: 300px;
+    margin-bottom: 20px;
+
+    .MarketCategoryCard {
+      &-image {
+      }
+
+      &-imageWrapper {
+        height: 100%;
+        width: 100%;
+
+        &:after {
+          content: ' ';
+          position: absolute;
+          width: 100%;
+          height: 50%;
+          bottom: 0;
+          background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 62%, rgba(0, 0, 0, 0.65) 98%);
+          background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 62%, rgba(0, 0, 0, 0.65) 98%);
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 62%, rgba(0, 0, 0, 0.65) 98%);
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0);
+        }
+      }
+
+      &-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto !important;
+        color: #fff;
+      }
+
+      &-trending {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &--featured {
+    height: 250px;
+    margin-bottom: 15px;
+
+    .MarketCategoryCard {
+      &-imageWrapper {
+        height: 100%;
+      }
+
+      &-image {
+        height: 100%;
+      }
+
+      &-content {
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      &-name {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  &--more {
+      height: 250px;
+      margin-bottom: 15px;
+
+    @media (min-width: @screen-sm-max) {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+
+    @media (max-width: @screen-sm-max) {
+      height: auto;
+      padding: 10px 0;
+    }
+
+    &-text {
+      margin: 0;
+
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+
+      span {
+        width: 90%;
+        display: block;
+        margin: 0 auto;
+
+        @media (min-width: @screen-sm-max) {
+          width: 80%;
+        }
+      }
+    }
+
+    .fa {
+      font-size: 0.65em;
+    }
+  }
+}

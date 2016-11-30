@@ -1,0 +1,60 @@
+.InfoHeader {
+  border-bottom: 1px solid #c7c7c7;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+
+  &-wrapper { }
+
+  &-item {
+    @media (max-width: @screen-sm-max) {
+      padding-left: 20px;
+    }
+
+    &-title,
+    &-subTitle {
+      @media (min-width: @screen-sm-max) {
+        .h3;
+        text-align: center;
+      }
+
+      @media (max-width: @screen-sm-max) {
+        .h5;
+        line-height: 1.2;
+      }
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-weight: 700;
+
+      @media (max-width: @screen-sm-max) {
+        margin-top: 0;
+      }
+    }
+
+    &-subTitle {
+      margin-top: 0;
+    }
+
+    &-content { }
+
+    &-iconWrapper {
+      max-width: 70px;
+      margin: 0 auto;
+      overflow: hidden;
+      height: 80px;
+
+      @media (max-width: @screen-sm-max) {
+        max-width: 25px;
+        float: left;
+        margin-right: 10px;
+        height: 40px;
+      }
+    }
+
+    &-icon {
+      margin: 0 auto;
+      display: block;
+    }
+  }
+}

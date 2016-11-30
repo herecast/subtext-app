@@ -3,7 +3,6 @@
  */
 export default function(server) {
   server.loadFixtures();
-  server.createList('content-metric',1);
   server.createList('ad-metric',1);
   const promotionBanners = server.createList('promotion-banner', 50);
   const promotion = server.create('promotion', {
@@ -21,6 +20,10 @@ export default function(server) {
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);
+  server.createList('market-category', 3, { trending: true });
+  server.createList('market-category', 6, { featured: true });
+  server.createList('market-category', 21);
+  server.createList('content-metric',1);
   server.createList('location', 8);
 
   const user1 = server.create('user', {location_id: 1});

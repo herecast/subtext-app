@@ -3,6 +3,8 @@ import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 import History from '../../../mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 
+const { set } = Ember;
+
 export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
   model(params) {
     return this.store.query('event-instance', {
@@ -18,6 +20,8 @@ export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
 
   setupController(controller, model) {
     this._super(controller, model);
+
+    set(controller, 'total', model.meta.total);
 
     // Set the query params on the parent events controller so that it's
     // available in the filter on the index and show pages.

@@ -1,9 +1,11 @@
+{{!-- old market landing page --}}
+{{#if flat}}
 <div class='Container--noGutter'>
   <div class='row'>
     <div class='col-xs-12 col-md-8 col-md-push-2'>
       <div class='ChannelTopper clearfix'>
         {{#if media.isMobile}}
-          <h1 class='h2 ChannelTopper-title'>Local Market</h1>
+        <h1 class='h2 ChannelTopper-title'>Local Market</h1>
         {{/if}}
 
         {{content-create-button
@@ -12,26 +14,195 @@
         }}
       </div>
     </div>
+
+    {{#if model}}
+      {{sorted-market-posts
+      marketPosts=model
+      trackCardClick=(action 'trackCardClick')
+      adPath='market.all.index'
+      }}
+
+      <div class='Container--noGutter'>
+        <div class='row'>
+          <div class='col-xs-12 col-md-8 col-md-push-2'>
+            <div class='PaginationNav-wrapper'>
+              <div class='PaginationNav PaginationNav--bottom'>
+                {{partial 'partials/pagination-nav'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
   </div>
 </div>
 
-{{#if model}}
-  {{sorted-market-posts
-  marketPosts=model
-  adPath='market.all.index'
-  }}
+{{!-- new market landing page with categories --}}
+{{else}}
+{{category-nav
+  categories=(readonly navCategories)
+  allCategories=(readonly categories)
+  openCategoriesModal=(action 'openCategoriesModal')
+}}
 
+<div class='InfoHeader-wrapper'>
   <div class='Container--noGutter'>
-    <div class='row'>
-      <div class='col-xs-12 col-md-8 col-md-push-2'>
-        <div class='PaginationNav-wrapper'>
-          <div class='PaginationNav PaginationNav--bottom'>
-            {{partial 'partials/pagination-nav'}}
+    <div class='InfoHeader'>
+      <div class='row'>
+        <div class='col-xs-12'>
+          <h1 class='h2 text-center u-bold u-layoutPadB20'>Buy and sell locally in the market</h1>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+          <div class='InfoHeader-item clearfix'>
+            <div class='InfoHeader-item-iconWrapper'>
+              <img src='/images/free.png' class='img-responsive InfoHeader-item-icon' />
+            </div>
+
+            <div class='InfoHeader-item-content'>
+              <p class='InfoHeader-item-title'>List it for FREE!</p>
+              <p class='InfoHeader-item-subTitle hidden-xs hidden-sm'>No posting fees. List as many items as you wish at no cost.</p>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class='InfoHeader-item clearfix'>
+            <div class='InfoHeader-item-iconWrapper'>
+              <img src='/images/vt-nh-outline.png' class='img-responsive InfoHeader-item-icon' />
+            </div>
+
+            <div class='InfoHeader-item-content'>
+              <p class='InfoHeader-item-title'>Reach your local audience</p>
+              <p class='InfoHeader-item-subTitle hidden-xs hidden-sm'>The market is your best way to reach your local community.</p>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class='InfoHeader-item clearfix'>
+            <div class='InfoHeader-item-iconWrapper'>
+              <img src='/images/handshake.png' class='img-responsive InfoHeader-item-icon' />
+            </div>
+
+            <div class='InfoHeader-item-content'>
+              <p class='InfoHeader-item-title'>Buy safely and securely</p>
+              <p class='InfoHeader-item-subTitle hidden-xs hidden-sm'>Complete transactions directly with your neighbors.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class='Container--noGutter'>
+  <div class='row'>
+    <div class='col-xs-12'>
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class='MarketSearch u-layoutPadB20 clearfix'>
+            <div class='MarketSearch-input {{if query 'has-query'}}'>
+              {{search-input
+                value=(readonly query)
+                class="OrganizationProfile-search"
+                update=(action "updateQuery")
+                placeholder=(readonly 'Search market...')
+                data-test-component='market-search'
+              }}
+            </div>
+
+            {{#unless query}}
+              <h1 class='h2 text-center u-bold MarketSearch-categoryTitle'>Shop by category</h1>
+            {{/unless}}
+          </div>
+        </div>
+      </div>
+
+      {{#unless query}}
+        {{#if trendingCategories}}
+          <div class='row'>
+            {{#each trendingCategories as |trendingCategory|}}
+              <div class='col-md-4'>
+                <span {{action (action 'trackCategoryClick' trendingCategory 'trending-card')}}>
+                  {{market-category-card category=(readonly trendingCategory) trending=true}}
+                </span>
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+
+        <div class='row'>
+          {{#each featuredCategoryRows.row1 as |featuredCategory|}}
+            <div class='col-md-3'>
+              <span {{action (action 'trackCategoryClick' featuredCategory 'featured-card')}}>
+                {{market-category-card category=(readonly featuredCategory)}}
+              </span>
+            </div>
+          {{/each}}
+
+          <div class='col-md-3'>
+            {{ad-banner impressionPath='market.all.index'}}
+          </div>
+        </div>
+
+        <div class='row'>
+          {{#each featuredCategoryRows.row2 as |featuredCategory|}}
+            <div class='col-md-3'>
+              {{market-category-card category=(readonly featuredCategory)}}
+            </div>
+          {{/each}}
+
+          <div class='col-md-3'>
+            <div class='MarketCategoryCard MarketCategoryCard--more u-card'>
+              <a href='#' {{action (action 'openCategoriesModal')}} class='u-link u-bold h2 MarketCategoryCard--more-text'>
+                <span {{action (action 'trackCategoryMoreClick')}}>
+                  More categories {{fa-icon 'chevron-right'}}
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      {{else}}
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            {{#unless model.isLoaded}}
+              {{x-loader}}
+            {{else}}
+              {{#if model.length}}
+                <div class='u-layoutPadT20'>
+                  {{sorted-market-posts
+                    marketPosts=model
+                    trackCardClick=(action 'trackCardClick')
+                    adPath='market.all.index'
+                  }}
+                </div>
+
+                <div class='row'>
+                  <div class='col-xs-12 col-md-8 col-md-push-2'>
+                    <div class='PaginationNav-wrapper'>
+                      <div class='PaginationNav PaginationNav--bottom'>
+                        {{partial 'partials/pagination-nav'}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{else}}
+                <h2 class='h3'>No results for "{{query}}". Please try your search again.</h2>
+              {{/if}}
+            {{/unless}}
+          </div>
+        </div>
+      {{/unless}}
+
+      <div class='row'>
+        <div class='col-xs-12'>
+          <p class='h3 text-center'>{{#link-to 'market.all' (query-params flat=true query='') class='u-link u-bold'}}Show all listings.{{/link-to}} See all listings, sorted by date</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {{/if}}
 
 {{outlet}}
