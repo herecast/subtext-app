@@ -258,10 +258,17 @@ export default function() {
     const start = stop - params.per_page;
 
     let results = filterCollectionByDate(eventInstances, params.date_start, params.date_end);
+    let total = results.models.length;
     results.models = filterByCategory(results.models, params.category);
     results.models = results.models.slice(start, stop);
 
-    return results;
+    let response = this.serializerOrRegistry.serialize(results, request);
+
+    response.meta = {
+      total
+    };
+
+    return new Mirage.Response(200, {}, response);
   });
 
    // Used in the user dashboard to find locations
