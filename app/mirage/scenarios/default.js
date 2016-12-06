@@ -47,6 +47,7 @@ export default function(server) {
   });
 
   server.create('subscription', {
+    confirmedAt: null,
     listserv: listserv,
     user: user1,
     email: user1.email
