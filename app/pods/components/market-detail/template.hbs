@@ -106,7 +106,10 @@
 
 {{#unless isPreview}}
   {{#if featureFlags.market-detail-cta}}
-    {{market-cta}}
+    {{market-cta
+      variation=featureFlags.market-detail-cta.options.variation
+      imgUrl=featureFlags.market-detail-cta.options.image_url
+    }}
   {{/if}}
 {{/unless}}
 

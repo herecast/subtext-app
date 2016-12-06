@@ -14,7 +14,7 @@ export default Ember.Service.extend({
 
     get(this, 'api').getFeatures().then(({features}) => {
       return features.forEach((feature) => {
-        set(this, feature.name, true);
+        set(this, feature.name, feature);
       });
     });
   }

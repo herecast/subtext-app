@@ -14,6 +14,8 @@ export default Ember.Component.extend(InViewportMixin, {
   // TODO extract this into an 'Impressionable' component mixin
   'data-test-component': 'market-cta',
 
+  variation: null,
+
   // cancellable run loop invocation
   _pendingImpression: null,
 
@@ -22,7 +24,9 @@ export default Ember.Component.extend(InViewportMixin, {
   _sendImpression() {
     if (typeof dataLayer !== "undefined") {
       dataLayer.push({
-        'event': 'market-detail-createPost-cta-impression'
+        'event': 'market-detail-createPost-cta-impression',
+        'variation': get(this, 'variation'),
+        'variation_image': get(this, 'imgUrl')
       });
     }
     console.log('impression: market-detail-createPost-cta-impression');
@@ -74,7 +78,9 @@ export default Ember.Component.extend(InViewportMixin, {
     trackClick() {
       if (typeof dataLayer !== "undefined") {
         dataLayer.push({
-          'event': 'market-detail-createPost-cta-click'
+          'event': 'market-detail-createPost-cta-click',
+          'variation': get(this, 'variation'),
+          'variation_image': get(this, 'imgUrl')
         });
       }
 
