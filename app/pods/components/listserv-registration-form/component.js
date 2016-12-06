@@ -14,6 +14,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(trackEvent, Validation, {
+  "data-test-component": 'listserv-registration-form',
   api: inject.service(),
   callToAction: "Register",
   listservName: "",

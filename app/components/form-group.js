@@ -19,5 +19,11 @@ export default Ember.Component.extend({
   // the error in some cases.
   displayError: computed('error', 'hideError', function() {
     return get(this, 'error') && !get(this, 'hideError');
+  }),
+
+  hasLabel: computed.notEmpty('label'),
+
+  uniqueID: computed(function() {
+    return `field_${(new Date()).getTime()}`;
   })
 });

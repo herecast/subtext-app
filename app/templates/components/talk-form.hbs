@@ -1,3 +1,37 @@
+{{#if hasBlock}}
+
+{{yield (hash
+  errors=errors
+  validateForm=(action 'validateForm')
+  submit=(action 'next')
+
+  orgainzations-input=(component "organization-dropdown"
+    selection=(mut model.organization)
+    class="with-border"
+  )
+  title-input=(component "atoms/form-input"
+    placeholder='Keep it short and informative'
+    value=(mut model.title)
+    class="form-control"
+    oninput=(action 'validateForm')
+    data-test-field="talk-title"
+  )
+  content-input=(component 'summer-note'
+    content=(readonly model.content)
+    hideError=true
+    notifyContent=(action 'updateContent')
+  )
+
+  talk-image=(component "content-form-image"
+    aspectRatio=1.3333
+    image=(mut model.image)
+    imageUrl=(mut model.imageUrl)
+    originalImageFile=(mut model.originalImageFile)
+    error=errors.image
+  )
+)}}
+
+{{else}}
 {{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Title</label>
   {{form-error errors.title}}
@@ -37,8 +71,5 @@
   <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-{{#if hasBlock}}
-  {{yield (action 'next')}}
-{{else}}
-  {{partial 'partials/content-form-buttons'}}
+{{partial 'partials/content-form-buttons'}}
 {{/if}}

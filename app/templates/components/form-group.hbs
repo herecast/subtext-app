@@ -1,4 +1,14 @@
-{{yield news validateForm}}
+{{#if hasLabel}}
+<label class='control-label {{if required "ContentForm-label--required"}}' for={{uniqueID}}>
+  {{label}}
+</label>
+{{/if}}
+
+{{#if hasBlock}}
+  {{yield this}}
+{{else}}
+  {{component field class='form-control' id=uniqueID}}
+{{/if}}
 
 {{#if displayError}}
   <span class="help-block">{{error}}</span>

@@ -1,0 +1,52 @@
+{{#market-form afterDetails=afterDetails model=(mut model) as |form|}}
+
+  {{form-group
+    error=form.errors.title
+    required=true
+    label="Listing Title"
+    field=form.title-input
+  }}
+
+  {{#form-group
+    error=form.errors.content
+    required=true
+    label="Listing Description"
+  }}
+    {{form.content-input}}
+  {{/form-group}}
+
+  <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
+
+  {{form-group
+    error=form.errors.price
+    label="Cost"
+    field=form.price-input
+  }}
+
+  {{form.images}}
+
+  {{#form-group
+    error=form.errors.contact
+    label="Contact Me"
+  }}
+    <div class='ContentForm-helpText u-layoutPadB20'>
+      Choose either, or both. What you enter will be public on the site.
+    </div>
+    {{#form-group label="email" as |group|}}
+
+      {{#field-with-icon icon='envelope'}}
+        {{component form.email-input id=group.uniqueID}}
+      {{/field-with-icon}}
+
+    {{/form-group}}
+    {{#form-group label="Phone" as |group|}}
+
+      {{#field-with-icon icon='phone'}}
+        {{component form.phone-input id=group.uniqueID}}
+      {{/field-with-icon}}
+
+    {{/form-group}}
+  {{/form-group}}
+
+  {{partial 'partials/listserv-content-form-submit'}}
+{{/market-form}}

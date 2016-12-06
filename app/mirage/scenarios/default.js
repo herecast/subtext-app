@@ -17,6 +17,7 @@ export default function(server) {
     managedOrganizations: organizations.slice(0,2)
   });
   server.createList('location', 8);
+  server.createList("venue", 5);
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);

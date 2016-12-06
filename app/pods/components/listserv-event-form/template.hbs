@@ -1,0 +1,52 @@
+{{#event-form afterDetails=afterDetails model=(mut model) as |form|}}
+  {{form-group
+    error=form.errors.title
+    required=true
+    label="Listing Title"
+    field=form.title-input
+  }}
+
+  {{#form-group
+    error=form.errors.content
+    required=true
+    label="Listing Description"
+  }}
+    {{form.content-input}}
+  {{/form-group}}
+
+  <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
+
+  {{form.event-form-venue}}
+
+  {{form.event-form-dates}}
+
+  {{form.event-form-registration}}
+
+  {{#form-group label="Event Cost" required=true}}
+    {{form.event-cost-input}}
+  {{/form-group}}
+
+  {{form.event-image}}
+
+  {{#form-group label="Event Info"}}
+    {{#form-group error=errors.contactEmail as |group|}}
+      {{#field-with-icon icon='envelope'}}
+        {{component form.email-input id=group.uniqueID}}
+      {{/field-with-icon}}
+    {{/form-group}}
+
+    {{#form-group error=errors.contactPhone  as |group|}}
+      {{#field-with-icon icon='phone'}}
+        {{component form.phone-input id=group.uniqueID}}
+      {{/field-with-icon}}
+    {{/form-group}}
+
+    {{#form-group error=errors.eventUrl as |group|}}
+      {{#field-with-icon icon='link'}}
+        {{component form.url-input id=group.uniqueID}}
+      {{/field-with-icon}}
+    {{/form-group}}
+  {{/form-group}}
+
+  {{partial 'partials/listserv-content-form-submit'}}
+{{/event-form}}

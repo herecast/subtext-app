@@ -16,6 +16,8 @@ const defaultToolbarOpts = [
 ];
 
 export default Ember.Component.extend({
+  textareaClass: 'form-control',
+  placeholder: 'An informative description that will encourage people to respond.',
   classNames: ['wysiwyg-editor'],
   toolbar: defaultToolbarOpts,
   content: null,

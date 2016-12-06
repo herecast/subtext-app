@@ -32,15 +32,9 @@ export default Ember.Component.extend(TrackEvent, {
       callback(promise);
 
       promise.then((savedTalk) => {
-        if (savedTalk.get('image')) {
-          savedTalk.uploadImage().then(() => {
-            this.set('isSaving', false);
-            this.sendAction('afterPublish', savedTalk);
-          });
-        } else {
-          this.set('isSaving', false);
-          this.sendAction('afterPublish', savedTalk);
-        }
+        this.sendAction('afterPublish', savedTalk);
+      }).finally(()=>{
+        this.set('isSaving', false);
       });
     }
   }

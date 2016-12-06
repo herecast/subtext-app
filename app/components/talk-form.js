@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from '../mixins/components/validation';
 
-const {set, computed, computed: { oneWay } } = Ember;
+const {get, set, computed, run, computed: { oneWay } } = Ember;
 
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
@@ -24,6 +24,25 @@ export default Ember.Component.extend(Validation, {
     updateContent(content) {
       set(this, 'talk.content', content);
       this.send('validateForm');
-    }
+    },
+    validateForm() {
+      if (get(this, 'hasSubmittedForm')) {
+        run.later(() => {
+          this.validateForm();
+        });
+      }
+    },
+    next() {
+      set(this, 'hasSubmittedForm', true);
+
+      if (this.isValid()) {
+        this.sendAction('afterDetails');
+      } else {
+        run.later(() => {
+          this.scrollToFirstError();
+        });
+      }
+    },
+
   }
 });

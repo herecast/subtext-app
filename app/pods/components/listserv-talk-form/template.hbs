@@ -1,0 +1,22 @@
+{{#talk-form afterDetails=afterDetails model=(mut model) as |form|}}
+  {{form-group
+    error=form.errors.title
+    required=true
+    label="Listing Title"
+    field=form.title-input
+  }}
+
+  {{#form-group
+    error=form.errors.content
+    required=true
+    label="Listing Description"
+  }}
+    {{form.content-input}}
+  {{/form-group}}
+
+  <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
+
+  {{form.talk-image}}
+
+  {{partial 'partials/listserv-content-form-submit'}}
+{{/talk-form}}

@@ -1,4 +1,11 @@
-{{yield (action validateForm)}}
+{{#if hasBlock}}
+  {{yield (action validateForm)}}
+{{else}}
+  {{textarea
+    placeholder=placholder
+    class=textareaClass
+  }}
+{{/if}}
 
 {{#if showImageModal}}
   {{#modal-wrapper close=(action 'cancelImageModal')}}

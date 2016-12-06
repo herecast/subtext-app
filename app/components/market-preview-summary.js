@@ -30,13 +30,14 @@ export default Ember.Component.extend(TrackEvent, {
       this.set('isSaving', true);
 
       const post = this.get('model');
-      const promise = post.saveWithImages();
+      const promise = post.save();
 
       callback(promise);
 
       promise.then(() => {
-        set(this, 'isSaving', false);
         this.sendAction('afterPublish', post);
+      }).finally(()=>{
+        set(this, 'isSaving', false);
       });
     }
   }

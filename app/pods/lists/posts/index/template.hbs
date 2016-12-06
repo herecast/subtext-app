@@ -3,8 +3,15 @@
     <div class="col-sm-12">
 
       <div class="row">
-        <div class="col-sm-10 col-md-offset-1">
+        <div class="col-sm-10 col-md-offset-1 u-layoutPadB30">
           <h2 class="ListPostEnhance--content-title">{{model.listserv.name}}</h2>
+          <p>
+            Categorized posts to {{model.listserv.name}} appear at the top of the
+            email digest -- and ar also published automatically to dailyUV so
+            you can reach a bigger audience.  It's free! Just follow the simple
+            steps below.
+          </p>
+
             {{listserv-content-form
               listservContent=(mut model)
               enhancedPost=(mut model.enhancedPost)

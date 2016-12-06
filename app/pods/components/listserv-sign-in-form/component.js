@@ -4,6 +4,7 @@ import trackEvent from 'subtext-ui/mixins/track-event';
 const { set, get, inject } = Ember;
 
 export default Ember.Component.extend(trackEvent, {
+  "data-test-component": 'listserv-sign-in-form',
   session: inject.service(),
   windowLocation: inject.service(),
   email: null,

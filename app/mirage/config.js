@@ -170,13 +170,24 @@ export default function() {
 
   this.post('/users/sign_in', function(schema, request) {
     schema.db['currentUsers'].remove();
+    let email;
 
-    let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
-    let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
+    if(request.requestBody.indexOf('{') === 0) {
+      // JSON
+      let data = JSON.parse(request.requestBody);
+      email = data['user']['email'];
+    } else {
+      // FORM ENCODED
+      let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
+      let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
+
+      if(matches) {
+        email = matches[1];
+      }
+    }
 
     let user;
-    if(matches) {
-      let email = matches[1];
+    if(email) {
       user = schema.users.where({email: email}).models[0];
     } else {
       user = schema.users.first();
@@ -435,7 +446,8 @@ export default function() {
 
     // For demo purposes - if someone starts a search with 'empty' we return
     // no results so we can see what that looks like in the UI
-    if (request.queryParams.query.indexOf('empty') !== 0) {
+    const query = request.queryParams.query;
+    if (query && query.indexOf('empty') !== 0) {
       venues = db.venues;
     }
 
@@ -511,19 +523,19 @@ export default function() {
     };
   });
 
-  this.post('/market_posts', function({ db }, request) {
+  this.post('/market_posts', function({ marketPosts }, request) {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
-    const post = db.marketPosts.insert(attrs);
+    const post = marketPosts.create(attrs);
 
     // This is so we show the edit button on the post show page
-    post.can_edit = true;
-    post.content_id = post.id;
+    post.update({
+      can_edit: true,
+      content_id: post.id
+    });
 
-    return {
-      market_post: post
-    };
+    return post;
   });
 
   this.put('/market_posts/:id', function({ db }, request) {
@@ -564,18 +576,19 @@ export default function() {
 
   this.get('/talk/:id');
 
-  this.post('/talk', function({ db }, request) {
+  this.post('/talk', function({ talks }, request) {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['talk'];
-    const talk = db.talks.insert(attrs);
+    const talk = talks.create(attrs);
 
     // This is so we show the edit button on the talk show page
-    talk.canEdit = true;
+    talk.update({
+      can_edit: true,
+      content_id: talk.id
+    });
 
-    return {
-      talk: talk
-    };
+    return talk;
   });
 
   this.put('/talk/:id', function({ db }, request) {

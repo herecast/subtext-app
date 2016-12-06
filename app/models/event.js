@@ -102,5 +102,23 @@ export default DS.Model.extend(BaseEvent, {
 
   rollbackSchedules() {
     get(this, 'schedules').forEach(schedule => schedule.rollbackAttributes());
+  },
+
+  save() {
+    return this._super().then((savedEvent) => {
+      return new Ember.RSVP.Promise((resolve, reject) => {
+        savedEvent.get('schedules').filterBy('isNew').forEach((schedule) => {
+          schedule.destroyRecord();
+        });
+        if(savedEvent.get('image')) {
+          savedEvent.uploadImage().then(()=>{
+            resolve(savedEvent);
+          }, reject);
+        } else {
+          resolve(savedEvent);
+        }
+      });
+    });
   }
+
 });
