@@ -1,0 +1,19 @@
+{{#modal-wrapper
+  close=(action 'close')
+  showHeader=false
+  data-test-modal='datepicker'
+  class="Modals-datePicker" }}
+  <div class='Modals-datePicker-header'>
+    <p class='h2 Modals-datePicker-title'>Choose Date</p>
+    <button class='btn Modals-datePicker-todayButton pull-right' {{action 'returnToday'}}>Today</button>
+  </div>
+
+  {{pikaday-solo
+    updateSelected=(action 'updateSelected')
+  }}
+
+  <div class='Modals-datePicker-footer u-layoutPadT10'>
+    <button class='btn Modals-datePicker-cancelButton' {{action 'close'}}>cancel</button>
+    <button class='btn Modals-datePicker-okButton pull-right' {{action 'returnSelectedDate'}}>Jump to Date {{fa-icon 'arrow-right'}}</button>
+  </div>
+{{/modal-wrapper}}

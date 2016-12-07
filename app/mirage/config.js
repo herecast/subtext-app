@@ -356,7 +356,7 @@ export default function() {
     const showProperties = [
       'contentId', 'category'
     ];
-    debugger;
+
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
 

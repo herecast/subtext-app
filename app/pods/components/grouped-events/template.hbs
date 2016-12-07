@@ -3,7 +3,7 @@
     {{#sticky.item}}
       <h1 class='SectionHeader SectionHeader--no-margin' data-test-grouped-events-header>
         <span class={{sectionHeaderTextClasses}}>
-          {{group.displayValue}}
+          {{group.displayValue}} <button class='SectionHeader-calendarWidget hidden-xs hidden-sm' {{action 'openCalendarWidget'}}>{{fa-icon 'calendar'}}&nbsp;{{fa-icon 'arrow-right'}}</button>
         </span>
       </h1>
     {{/sticky.item}}

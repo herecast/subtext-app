@@ -3,11 +3,20 @@ import Ember from 'ember';
 const { get, computed, $, inject } = Ember;
 
 export default Ember.Component.extend({
+  attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
 
   modalService: inject.service('modals'),
 
   fullscreen: false,
+
+  isFullScreen: computed('fullscreen', 'media.isMobile', function() {
+    if (get(this, 'fullscreen')) {
+      return this.media.isMobile || get(this, 'fullscreen');
+    }
+
+    return false;
+  }),
 
   showHeader: computed('title', 'close', function() {
     return (this.attrs.title || this.attrs.close);
@@ -21,8 +30,8 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
-
     get(this, 'modalService').removeModalBodyClass();
+
     $('body').removeClass('modal-open');
   },
 
