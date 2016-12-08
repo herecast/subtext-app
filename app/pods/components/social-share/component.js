@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import moment from 'moment';
 /* global FB */
@@ -12,7 +11,7 @@ const {
   run
 } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   classNames: ['SocialShare'],
   isPreview: false,
   isTalkChannel: false,

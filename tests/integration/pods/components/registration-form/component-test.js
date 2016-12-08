@@ -2,19 +2,13 @@ import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import setupMirage from 'subtext-ui/tests/helpers/setup-mirage';
 import wait from 'ember-test-helpers/wait';
-import Ember from 'ember';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
 /* global sinon */
 
-const mixpanelMock = Ember.Service.extend({
-  trackEventVersion2(){}
-});
-
 moduleForComponent('registration-form', 'Integration | Component | registration form, subscriptions', {
   integration: true,
   beforeEach() {
-    this.register('service:mixpanel', mixpanelMock);
     setupMirage(this.container);
   }
 });

@@ -68,16 +68,7 @@ export default Ember.Component.extend(TrackCard, {
         this.attrs.onTitleClick();
       }
 
-      this.sendAction('trackClick', get(this, 'talk'));
-
       return true;
-    },
-    trackSimilarContentClick() {
-      this.trackEvent('selectSimilarContent', {
-        navControl: 'Talk',
-        navControlGroup: 'Talk Card',
-        sourceContentId: get(this, 'sourceContentId')
-      });
     }
   }
 });

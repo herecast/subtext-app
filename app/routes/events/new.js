@@ -2,11 +2,10 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, run } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
+export default Ember.Route.extend(Scroll, Authorized, {
   intercom: Ember.inject.service('intercom'),
 
   model(params, transition) {
@@ -65,10 +64,6 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
     afterDiscard() {
       this.transitionTo('events.all').then(() => {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Create Event',
-          navControl: 'Discard Event Create'
-        });
       });
     },
 

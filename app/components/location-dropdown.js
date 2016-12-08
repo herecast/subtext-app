@@ -1,14 +1,12 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, inject, on, computed } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   classNames: ['LocationDropdown'],
   api: inject.service('api'),
   locations: [],
   isEditing: false,
-  mixpanel: Ember.inject.service('mixpanel'),
 
   getLocations: on('init', function() {
     const api = get(this, 'api');
@@ -41,18 +39,7 @@ export default Ember.Component.extend(TrackEvent, {
           location: location.formattedLocation
         });
 
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Profile Feature Submit',
-          navControl: 'Submit Community Change',
-          userCommunity: location.formattedLocation
-        });
-
         this.attrs.onUpdate();
-      } else {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Profile Feature Edit',
-          navControl: 'community'
-        });
       }
     }
   }

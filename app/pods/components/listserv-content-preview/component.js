@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, computed } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend({
   model: Ember.computed.alias('enhancedPost'),
   isPreview: true,
   isMinimalist: false,
@@ -33,8 +32,6 @@ export default Ember.Component.extend(trackEvent, {
   actions: {
     afterPublish() {
       get(this, 'afterPublish')();
-    },
-    trackMapClick() { /*noop*/  },
-    trackEventInfoClick() { /*noop*/  }
+    }
   }
 });

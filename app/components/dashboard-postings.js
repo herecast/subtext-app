@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
@@ -14,7 +13,7 @@ function sortBy(sort) {
   });
 }
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   postings: null,
   ads: null,
 
@@ -69,13 +68,6 @@ export default Ember.Component.extend(TrackEvent, {
   mobileTabsVisible: false,
 
   showTypeColumn: empty('type'),
-
-  _getTrackingArguments(sortBy) {
-    return {
-      navControlGroup: 'Dashboard Controls',
-      navControl: `Sort ${sortBy}`
-    };
-  },
 
   actions: {
     nextPage: function() {

@@ -80,64 +80,56 @@
         <thead>
           <tr class='h4'>
             <th class='ContentTable-name'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' nameParam}}>
-                  Name
+              <button class='ContentTable-sortButton' {{action 'sortBy' nameParam}}>
+                Name
 
-                  {{#if sortedByName}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByName}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='{{if media.isMobile 'u-textPullRight'}}'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' dateParam}}>
-                  Date
+              <button class='ContentTable-sortButton' {{action 'sortBy' dateParam}}>
+                Date
 
-                  {{#if sortedByDate}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByDate}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='hidden-xs'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' impressionsParam}}>
-                  Views
+              <button class='ContentTable-sortButton' {{action 'sortBy' impressionsParam}}>
+                Views
 
-                  {{#if sortedByImpressions}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByImpressions}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='hidden-xs'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Clicks'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' clicksParam}}>
-                  Clicks
+              <button class='ContentTable-sortButton' {{action 'sortBy' clicksParam}}>
+                Clicks
 
-                  {{#if sortedByClicks}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByClicks}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='hidden-xs' colspan='2'>&nbsp;</th>
           </tr>
@@ -151,9 +143,7 @@
               <td class='hidden-xs'>{{ad.clickCount}}</td>
               <td class='hidden-xs' colspan='2'>
                 {{#link-to 'ad-metrics.show' ad.id class='btn btn-link h4'}}
-                  <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
-                    Metrics
-                  </span>
+                  Metrics
                 {{/link-to}}
               </td>
             </tr>
@@ -166,81 +156,71 @@
         <thead>
           <tr class='h4'>
             <th class='ContentTable-name'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Name'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' nameParam}}>
-                  Name
+              <button class='ContentTable-sortButton' {{action 'sortBy' nameParam}}>
+                Name
 
-                  {{#if sortedByName}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByName}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             {{#if showTypeColumn}}
               <th class='hidden-sm hidden-xs'>
-                <span {{action 'trackEvent' 'selectNavControl' 'Type'}}>
-                  <button class='ContentTable-sortButton' {{action 'sortBy' typeParam}}>
-                    Type
+                <button class='ContentTable-sortButton' {{action 'sortBy' typeParam}}>
+                  Type
 
-                    {{#if sortedByType}}
-                      {{#if (eq sortDirection 'ASC')}}
-                        {{fa-icon 'caret-up'}}
-                      {{else}}
-                        {{fa-icon 'caret-down'}}
-                      {{/if}}
+                  {{#if sortedByType}}
+                    {{#if (eq sortDirection 'ASC')}}
+                      {{fa-icon 'caret-up'}}
+                    {{else}}
+                      {{fa-icon 'caret-down'}}
                     {{/if}}
-                  </button>
-                </span>
+                  {{/if}}
+                </button>
               </th>
             {{/if}}
             <th class='{{if media.isMobile 'u-textPullRight'}}'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Created'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' dateParam}}>
-                  Date
+              <button class='ContentTable-sortButton' {{action 'sortBy' dateParam}}>
+                Date
 
-                  {{#if sortedByDate}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByDate}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='hidden-xs'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Views'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' viewsParam}}>
-                  Views
+              <button class='ContentTable-sortButton' {{action 'sortBy' viewsParam}}>
+                Views
 
-                  {{#if sortedByViews}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByViews}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th class='hidden-xs'>
-              <span {{action 'trackEvent' 'selectNavControl' 'Comments'}}>
-                <button class='ContentTable-sortButton' {{action 'sortBy' commentsParam}}>
-                  Comments
+              <button class='ContentTable-sortButton' {{action 'sortBy' commentsParam}}>
+                Comments
 
-                  {{#if sortedByComments}}
-                    {{#if (eq sortDirection 'ASC')}}
-                      {{fa-icon 'caret-up'}}
-                    {{else}}
-                      {{fa-icon 'caret-down'}}
-                    {{/if}}
+                {{#if sortedByComments}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
                   {{/if}}
-                </button>
-              </span>
+                {{/if}}
+              </button>
             </th>
             <th colspan='2'>&nbsp;</th>
           </tr>

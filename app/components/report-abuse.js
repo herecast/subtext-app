@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, inject, observer } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   'data-test-component': 'report-abuse-link',
   classNames: ['ReportAbuse'],
   api: inject.service('api'),
@@ -44,16 +43,10 @@ export default Ember.Component.extend(TrackEvent, {
         api.reportAbuse(id, flagType).then(() => {
           this.set('showSuccess', true);
           this.send('close');
-          this.trackEvent('moderateContent',{});
         });
       } else {
         this.set('invalid', true);
       }
-
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Report Abuse',
-        navControl: get(this, 'flagType')
-      });
     }
   }
 });

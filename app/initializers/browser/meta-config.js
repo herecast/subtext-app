@@ -5,7 +5,6 @@ export function initialize() {
   [
     'consumer-app-uri',
     'gmaps-api-token',
-    'mixpanel-api-token',
     'intercom-api-token',
     'facebook-app-id',
     'prerender-io-token',

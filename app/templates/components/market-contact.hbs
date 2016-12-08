@@ -5,11 +5,9 @@
           Reply
       </button>
     {{else}}
-      <span {{action 'trackEvent' 'selectNavControl'}}>
-        <button  class={{buttonClass}} {{action 'toggleInfo'}} data-test-market-reply-button>
-            Reply
-        </button>
-      </span>
+      <button  class={{buttonClass}} {{action 'toggleInfo'}} data-test-market-reply-button>
+        Reply
+      </button>
     {{/if}}
   </div>
 </h2>

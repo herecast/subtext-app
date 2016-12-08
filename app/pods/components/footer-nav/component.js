@@ -84,11 +84,6 @@ export default Ember.Component.extend({
     },
     openExtendedNavMenu() {
       set(this, 'showExtendedNavMenu', true);
-    },
-    trackChannel() {
-      if ('trackChannel' in this.attrs) {
-        this.attrs.trackChannel(...arguments);
-      }
     }
   }
 });

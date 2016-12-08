@@ -3,7 +3,7 @@
     <div class='MainNav'>
 
       <div class='MainNav-brand'>
-        <h1 class='MainNav-brand-logo' {{action (action 'trackHome')}}>
+        <h1 class='MainNav-brand-logo'>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
             daily UV
             {{#if (and session.isAuthenticated (or (eq currentChannel 'talk') (eq currentChannel 'index')))}}
@@ -32,7 +32,7 @@
               current-when='news'
               data-test-link='news-channel'
               }}
-                <span {{action (action 'trackChannel' 'News')}}>News</span>
+                <span>News</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -49,7 +49,7 @@
               current-when='events'
               data-test-link='events-channel'
               }}
-                <span {{action (action 'trackChannel' 'Events')}}>Events</span>
+                <span>Events</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -62,7 +62,7 @@
               current-when='talk'
               data-test-link='talk-channel'
               }}
-                <span {{action (action 'trackChannel' 'Talk')}}>Talk</span>
+                <span>Talk</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -78,7 +78,7 @@
               current-when='market'
               data-test-link='market-channel'
               }}
-                <span {{action (action 'trackChannel' 'Market')}}>Market</span>
+                <span>Market</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -133,10 +133,10 @@
             {{else}}
               <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
                 <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
-                  <span {{action (action 'trackRegistration' 'Sign In')}}>Sign In</span>
+                  <span>Sign In</span>
                 </button>
                 <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
-                  <span {{action (action 'trackRegistration' 'Sign Up')}}>Join</span>
+                  <span>Join</span>
                 </button>
                 {{#if showSignIn}}
                   {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}

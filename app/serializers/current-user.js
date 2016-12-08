@@ -4,8 +4,6 @@ export default ActiveModelSerializer.extend({
   isNewSerializerAPI: true,
   // The current user endpoint does not take an ID, so we override the ID
   // to be 'self'. This prevents multiple records from being created.
-  // Since we also need to send the ID to Mixpanel, we're assigning it to
-  // another variable.
   normalizeResponse(store, typeClass, payload, id, requestType) {
     payload.current_user.user_id = payload.current_user.id;
     payload.current_user.id = 'self';

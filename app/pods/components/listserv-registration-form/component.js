@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   computed,
@@ -13,7 +12,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(trackEvent, Validation, {
+export default Ember.Component.extend(Validation, {
   api: inject.service(),
   callToAction: "Register",
   listservName: "",
@@ -136,15 +135,12 @@ export default Ember.Component.extend(trackEvent, Validation, {
       set(this, 'showErrors', true);
       const api = get(this, 'api');
 
-      this.trackEvent('submitSignUp', { });
-
       return new RSVP.Promise((resolve, reject) => {
         if (get(this, 'isValid')) {
 
           api.confirmedRegistration(get(this, 'registrationData')).then(
             data => { this.signInFromRegistration(data); }
           ).then((response) => {
-            this.trackEvent('createSignup', { });
             if('onSuccess' in this.attrs) {
               this.attrs.onSuccess(response);
             }

@@ -1,12 +1,10 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, set, isPresent, isEmpty, inject, run } = Ember;
 
-export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
+export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: inject.service(),
-  mixpanel: inject.service(),
   history: inject.service(),
   windowLocation: inject.service(),
   search: inject.service(),
@@ -44,12 +42,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
   },
 
   actions: {
-    trackPageView(sourcePageUrl) {
-      this.trackEvent('pageVisit', {
-        sourcePageUrl: sourcePageUrl
-      });
-    },
-
     error(errorResponse) {
       if (errorResponse.errors) {
         const status = errorResponse.errors[0].status;
@@ -65,15 +57,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
     },
 
     signOut() {
-      // Force the tracker to run now so it's run before the user logs out
-      // while the tracking properties are available.
-      run(() => {
-        this.trackEvent('signOut', {
-          navControlGroup: 'User Account Menu',
-          navControl: 'Sign Out'
-        });
-      });
-
       get(this, 'intercom').shutdown();
       const promise = get(this, 'session').signOut();
 
@@ -81,9 +64,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
     },
 
     willTransition() {
-      run(() => {
-        this.trackEvent('pageLeave');
-      });
       get(this, 'modals').clearModals();
     },
 
@@ -102,25 +82,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, TrackEvent, {
           get(this, 'intercom').update();
         });
       }
-
-      //track all page visits
-      run.next(() => {
-        // We only care about the url/path, not the query params at this point.
-        const fromUrlPath = this.get('history.referrer').split('?')[0];
-        const toUrlPath = get(this,'windowLocation').href().split('?')[0];
-        const from = this.get('history.referrer');
-
-        if(fromUrlPath !== toUrlPath) {
-          let sourcePageUrl = null;
-          // If this is triggered by a page refresh, the href and from variables
-          // will be the same, so we don't want to track the sourcePageUrl.
-          if (get(this,'windowLocation').href() !== from) {
-            sourcePageUrl = from;
-          }
-
-          this.send('trackPageView',sourcePageUrl);
-        }
-      });
 
       return true; // Bubble the didTransition event
     },

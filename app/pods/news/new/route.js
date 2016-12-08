@@ -1,12 +1,11 @@
 import Ember from 'ember';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import trackEvent from 'subtext-ui/mixins/track-event';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Authorized, Scroll, trackEvent, {
+export default Ember.Route.extend(Authorized, Scroll, {
   titleToken: 'Create News',
 
   model(params, transition) {

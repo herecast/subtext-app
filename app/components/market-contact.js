@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { isPresent, computed } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend({
   post: null, // the market post
   showInfo: false,
 
@@ -34,13 +33,6 @@ export default Ember.Component.extend(trackEvent, {
 
     return `${mailTo}?subject=${encodeURIComponent(this.get('post.title'))}&body=${body}`;
   }),
-
-  _getTrackingArguments() {
-    return {
-      navControlGroup: 'Reply to Content',
-      navControl: 'Reply to Listing'
-    };
-  },
 
   actions: {
     toggleInfo() {

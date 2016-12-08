@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
-import trackEvent from 'subtext-ui/mixins/track-event';
 /* global dataLayer */
 
 const {
@@ -15,7 +14,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(trackEvent, Validation, {
+export default Ember.Component.extend(Validation, {
   tagName: 'form',
   classNames: ['RegistrationForm'],
   'data-test-component': 'registration-form',
@@ -75,8 +74,6 @@ export default Ember.Component.extend(trackEvent, Validation, {
     const password = this.get('password');
     const email = this.get('email');
 
-    this.trackEvent('submitSignUp', { });
-
     return new RSVP.Promise((resolve, reject) => {
       if (get(this, 'isValid')) {
         return api.createRegistration({
@@ -88,8 +85,6 @@ export default Ember.Component.extend(trackEvent, Validation, {
             password_confirmation: password
           }
         }).then((response) => {
-          this.trackEvent('createSignup', { });
-
           const selectedDigests = get(this, 'selectedDigests');
           if (isPresent(selectedDigests)) {
             this._saveDigestSubscriptions(selectedDigests);

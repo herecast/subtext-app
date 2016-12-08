@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { computed, get } = Ember;
 
@@ -10,7 +9,7 @@ function startsWith(path, searchString) {
   return path.indexOf(searchString) === position;
 }
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend({
   'data-test-component': "content-create-button",
 
   path: '', // override with the application controller's currentPath
@@ -74,24 +73,5 @@ export default Ember.Component.extend(trackEvent, {
       return `Create ${contentType}`;
     }
 
-  }),
-
-  _getTrackingArguments(linkText) {
-    let navControlText = '';
-
-    if (linkText.match(/News/)) {
-      navControlText = 'Create News';
-    } else if (linkText.match(/Event$/)) {
-      navControlText = 'Create Event';
-    } else if (linkText.match(/Listing$/)) {
-      navControlText = 'Create Market Listing';
-    } else if (linkText.match(/Talk$/)) {
-      navControlText = 'Create Talk';
-    }
-
-    return {
-      navControlGroup: 'Create Content',
-      navControl: navControlText
-    };
-  }
+  })
 });

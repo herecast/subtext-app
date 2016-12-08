@@ -6,7 +6,6 @@ const { observer, computed } = Ember;
 export default SessionService.extend({
   api: Ember.inject.service('api'),
   userService: Ember.inject.service('user'),
-  mixpanel: Ember.inject.service('mixpanel'),
   intercom: Ember.inject.service('intercom'),
 
   signOut() {
@@ -19,9 +18,6 @@ export default SessionService.extend({
 
   setupCurrentUser: observer('currentUser.isLoaded', function() {
     const user = this.get('currentUser');
-    const mixpanel = this.get('mixpanel');
-
-    mixpanel.establishProfile(user);
 
     if (user && user.get('isLoaded')) {
       const intercom = this.get('intercom');

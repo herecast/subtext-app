@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, computed, run } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   submitDisabled: computed('disabled', 'newComment', function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
   }),
@@ -59,11 +58,6 @@ export default Ember.Component.extend(TrackEvent, {
       const promise = comment.save();
 
       callback(promise);
-
-      this.trackEvent('submitContent', {
-        navControl: 'Add Comment',
-        navControlGroup: 'Add Comment Button'
-      });
 
       promise.then(() => {
         this.set('newComment', null);

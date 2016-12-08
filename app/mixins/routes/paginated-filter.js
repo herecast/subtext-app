@@ -1,8 +1,6 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
-import Dates from 'subtext-ui/lib/dates';
 
-export default Ember.Mixin.create(TrackEvent, {
+export default Ember.Mixin.create({
   scrollMaintainer: Ember.inject.service('scroll-maintainer'),
 
   queryParams: {
@@ -31,12 +29,9 @@ export default Ember.Mixin.create(TrackEvent, {
 
   goToPage(page) {
     const perPage = this.controller.get('per_page');
-    const currentUrl = window.location.href;
     this.set('scrollMaintainer.position', 0);
     this.transitionTo({
       queryParams: {page: page, per_page: perPage}
-    }).then(()=>{
-      this.send('trackPageView', currentUrl);
     });
   },
 
@@ -58,62 +53,19 @@ export default Ember.Mixin.create(TrackEvent, {
     }
   },
 
-  _getTrackingArguments(filterParams) {
-    const trackParams = {};
-
-    if (filterParams.category) {
-      trackParams.category = filterParams.category;
-    }
-
-    if (filterParams.date_start && filterParams.date_end) {
-      trackParams.dateSummary = Dates.dateSummary(
-        filterParams.date_start, filterParams.date_end
-      );
-    }
-
-    if (filterParams.location) {
-      trackParams.location = filterParams.location;
-    }
-
-    if (filterParams.query) {
-      trackParams.query = filterParams.query;
-    }
-
-    if (filterParams.organization) {
-      trackParams.organization = filterParams.organization;
-    }
-
-    return trackParams;
-  },
-
   actions: {
     updateFilter(filterParams) {
       filterParams.page = 1;
-
-      this.trackEvent('searchContent', this._getTrackingArguments(filterParams));
-
       this.transitionTo({queryParams: filterParams});
     },
 
     prevPage() {
       const prevPage = this.controller.get('page') - 1;
-
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Paging',
-        navControl: 'previous'
-      });
-
       this.goToPage(prevPage);
     },
 
     nextPage() {
       const nextPage = this.controller.get('page') + 1;
-
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Paging',
-        navControl: 'next'
-      });
-
       this.goToPage(nextPage);
     },
 

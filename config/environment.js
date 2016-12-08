@@ -43,10 +43,6 @@ module.exports = function(environment) {
      ENV.APP.LOG_TRANSITIONS = false;
      ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
      ENV.APP.LOG_VIEW_LOOKUPS = false;
-    ENV.mixpanel = {
-      enabled: false,
-      LOG_EVENT_TRACKING: false,
-    }
 
     /*
     ENV['ember-cli-mirage'] = {
@@ -59,7 +55,6 @@ module.exports = function(environment) {
 
     ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;
     ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN;
-    ENV['mixpanel-api-token'] = process.env.MIXPANEL_API_TOKEN;
     ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
     ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
     ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
@@ -79,13 +74,6 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
 
-    ENV.mixpanel = {
-      enabled: false,
-      LOG_EVENT_TRACKING: false,
-    }
-
-    ENV['mixpanel-api-token'] = '';
-
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'
     }
@@ -97,16 +85,11 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: false,
       excludeFilesFromBuild: true
-    }
+    };
 
     ENV.fb_enabled = true;
 
     ENV.prerender_enabled = true;
-
-    ENV.mixpanel = {
-      enabled: true,
-      LOG_EVENT_TRACKING: false,
-    }
   }
 
   return ENV;

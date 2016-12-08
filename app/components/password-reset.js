@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, inject, observer, computed } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   api: inject.service(),
   notify: inject.service('notification-messages'),
 
@@ -38,11 +37,6 @@ export default Ember.Component.extend(TrackEvent, {
             password_confirmation: this.get('passwordConfirmation')
           }
         };
-
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Profile Feature Submit',
-          navControl: 'Submit Password Change'
-        });
 
         api.updateCurrentUserPassword(data).then(
           () => { notify.success('Saved New Password!'); },

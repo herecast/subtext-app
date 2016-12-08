@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { computed } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   isSaving: false,
   callToAction: 'Save & Publish',
 
@@ -14,13 +13,6 @@ export default Ember.Component.extend(TrackEvent, {
       return 'talk.edit.promotion';
     }
   }),
-
-  _getTrackingArguments() {
-    return {
-      navControlGroup: 'Submit Content',
-      navControl: 'Submit Talk'
-    };
-  },
 
   actions: {
     save(callback) {

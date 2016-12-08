@@ -1,10 +1,9 @@
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, inject, computed, isPresent } = Ember;
 
-export default ModalInstance.extend(trackEvent, {
+export default ModalInstance.extend({
   session: inject.service(),
   router: inject.service('-routing'),
   currentUser: computed.alias('session.currentUser'),
@@ -16,13 +15,6 @@ export default ModalInstance.extend(trackEvent, {
   actions: {
     signOut() {
       get(this, 'session').signOut();
-    },
-
-    trackUserMenu(navControlText) {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'User Account Menu',
-        navControl: navControlText
-      });
     },
 
     openDashboard(org) {

@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import Validation from '../mixins/components/validation';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { oneWay } = Ember.computed;
 const { set } = Ember;
 
-export default Ember.Component.extend(Validation, TrackEvent, {
+export default Ember.Component.extend(Validation, {
   tagName: 'form',
   "data-test-component": 'MarketForm',
   post: Ember.computed.alias('model'),
@@ -45,13 +44,6 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     this.validatePresenceOf('post.title');
     this.validateWYSIWYG('post.content');
     this.validateContact();
-  },
-
-  _getTrackingArguments() {
-    return {
-      navControlGroup: 'Create Content',
-      navControl: 'Discard Market Listing Edit'
-    };
   },
 
   actions: {

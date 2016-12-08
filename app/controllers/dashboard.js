@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   inject,
@@ -11,7 +10,7 @@ const {
   observer
 } = Ember;
 
-export default Ember.Controller.extend(trackEvent, {
+export default Ember.Controller.extend({
   api: inject.service(),
   notify: inject.service('notification-messages'),
   secondaryBackground: true,

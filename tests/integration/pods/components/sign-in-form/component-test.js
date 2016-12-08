@@ -10,10 +10,6 @@ const { RSVP } = Ember;
 const sessionMock = Ember.Service.extend({
 });
 
-const mixpanelMock = Ember.Service.extend({
-  trackEventVersion2(){}
-});
-
 moduleForComponent('sign-in-form', 'Integration | Component | sign in form', {
   integration: true,
 
@@ -23,7 +19,6 @@ moduleForComponent('sign-in-form', 'Integration | Component | sign in form', {
     }));
 
     this.register('service:session', sessionMock);
-    this.register('service:mixpanel', mixpanelMock);
     this.inject.service('session', {as: 'session'});
   }
 });

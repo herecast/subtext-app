@@ -34,24 +34,20 @@
 <td colspan='2'>
   <span class='hidden-xs'>
     {{#link-to 'content-metrics.show' content.contentId class='btn btn-link h4'}}
-      <span {{action 'trackEvent' 'selectNavControl' 'Metrics Button'}}>
       Metrics
-    </span>
     {{/link-to}}
 
     {{#if isEditable}}
       {{#link-to editRoute editId class='btn btn-link h4'}}
-        <span {{action 'trackEvent' 'selectNavControl' 'Edit Button'}} data-test-dashboard-content-edit-button>
-        Edit
-      </span>
+        <span data-test-dashboard-content-edit-button>
+          Edit
+        </span>
       {{/link-to}}
     {{/if}}
   </span>
   {{#if isDeletable}}
     <a href='#' class='btn btn-link h4' {{action (action deleteContent content)}} data-test-action-delete>
-      <span {{action 'trackEvent' 'selectNavControl' 'Delete Button'}}>
-        Delete
-      </span>
+      Delete
     </a>
   {{/if}}
 </td>
