@@ -5,7 +5,11 @@ const { get, computed, inject } = Ember;
 export default Ember.Controller.extend({
   notify: inject.service('notification-messages'),
   listservName: computed.alias('model.listserv.name'),
-  confirmationKey: computed.alias('model.id'),
+
+  confirmationKey: computed('model.id', function() {
+    const modelId = get(this, 'model.id');
+    return `subscription/${modelId}`;
+  }),
 
   existingUser: computed.notEmpty('model.userId'),
 
