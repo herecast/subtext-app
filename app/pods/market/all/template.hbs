@@ -148,7 +148,9 @@
         <div class='row'>
           {{#each featuredCategoryRows.row2 as |featuredCategory|}}
             <div class='col-md-3'>
-              {{market-category-card category=(readonly featuredCategory)}}
+              <span {{action (action 'trackCategoryClick' featuredCategory 'featured-card')}}>
+                {{market-category-card category=(readonly featuredCategory)}}
+              </span>
             </div>
           {{/each}}
 
