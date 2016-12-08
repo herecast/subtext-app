@@ -12,29 +12,30 @@
     {{#unless (eq imagePosition 'right')}}
       <div class="media-left" >
         {{#if hasImage}}
-          <div {{action 'onTitleClick'}}>
-            {{#link-to (if routeName routeName 'market.all.show') post.id (query-params ctype='market') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}}>
-                <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-              </span>
-            {{/link-to}}
-          </div>
+          {{#market-post-link
+            routeName=routeName
+            category=category
+            post=post
+            onTitleClick=(action 'onTitleClick')
+            trackSuggestedContentClick=(action 'trackSuggestedContentClick')
+          }}
+            <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+          {{/market-post-link}}
         {{/if}}
       </div>
     {{/unless}}
 
     <div class="media-body Card-content">
       <h2 class='Card-title'>
-        {{#link-to (if routeName routeName 'market.all.show') post.id
-          (query-params ctype='market')
-          classNameBindings="isSimilarContent:SimilarContentLink"
-          }}
-          <span {{action 'onTitleClick'}}>
-            <span {{action 'trackSuggestedContentClick'}}>
-              {{title}}
-            </span>
-          </span>
-        {{/link-to}}
+        {{#market-post-link
+          routeName=routeName
+          category=category
+          post=post
+          onTitleClick=(action 'onTitleClick')
+          trackSuggestedContentClick=(action 'trackSuggestedContentClick')
+        }}
+          {{title}}
+        {{/market-post-link}}
       </h2>
 
       <span class='Card-subtitle'>{{post.price}}</span><br>
@@ -49,16 +50,15 @@
     {{#if (eq imagePosition 'right')}}
       <div class="media-right" >
         {{#if hasImage}}
-          {{#link-to (if routeName routeName 'market.all.show') post.id
-            (query-params ctype='market')
-            classNameBindings="isSimilarContent:SimilarContentLink"
-            }}
-            <span {{action 'onTitleClick'}}>
-              <span {{action 'trackSuggestedContentClick'}}>
-                <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-              </span>
-            </span>
-          {{/link-to}}
+          {{#market-post-link
+            routeName=routeName
+            category=category
+            post=post
+            onTitleClick=(action 'onTitleClick')
+            trackSuggestedContentClick=(action 'trackSuggestedContentClick')
+          }}
+            <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+          {{/market-post-link}}
         {{/if}}
       </div>
     {{/if}}

@@ -9,8 +9,8 @@ export default Ember.Route.extend(PaginatedFilter, History, ResetScroll, {
     const self = this;
 
     const promises = {
-      category: self.store.findRecord('market-category', params.id),
-      posts: self.store.findRecord('market-category', params.id).then((category) => {
+      category: self.store.findRecord('market-category', params.cat_id),
+      posts: self.store.findRecord('market-category', params.cat_id).then((category) => {
         return self.store.query('market-post', {
           query: category.get('query'),
           page: params.page,

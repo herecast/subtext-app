@@ -50,7 +50,7 @@ Router.map(function() {
     this.route('all', {path: '/'}, function() {
       this.route('show', {path: '/:id'});
     });
-    this.route('category-landing', {path: '/category/:id'}, function() {
+    this.route('category-landing', {path: '/category/:cat_id'}, function() {
       this.route('show', {path: '/:id'});
     });
     this.route('new', {path: '/new'}, function() {
