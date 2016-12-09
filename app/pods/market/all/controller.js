@@ -64,6 +64,18 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   navCategories: computed.union('featuredCategories', 'trendingCategories'),
 
+  testimonials: [{
+    name: 'Jackie',
+    img: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/user-testimonial--jackie-pierce.jpg',
+    town: 'Hartland, VT',
+    content: "My Husband and I own a small business and are always looking for inexpensive ways to find local help. We posted in the dailyUV market and were able to create a custom listing for our job position that we could then share on Facebook and the local lists. We hired someone in 4 days!"
+  },{
+    name: 'Michelle',
+    img: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/user-testimonial--michelle.jpg',
+    town: 'Quechee, VT',
+    content: "The Quechee Inn at Marshland Farm runs weekly promotions in the market which is a great source for us to reach our local customers.  I am able to track how many views our post has seen which is valuable information. The staff has been great at teaching me how to use the site to work for our business."
+  }],
+
   actions: {
     updateQuery(q) {
       if(q.length > 2) {

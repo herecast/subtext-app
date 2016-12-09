@@ -164,6 +164,17 @@
             </div>
           </div>
         </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <h1 class='h2 text-center u-bold u-layoutPadB40'>Happy Buyers and Sellers</h1>
+          </div>
+          {{#each testimonials as |testimonial|}}
+            <div class='col-xs-6'>
+              {{user-testimonial testimonial=(readonly testimonial)}}
+            </div>
+          {{/each}}
+        </div>
       {{else}}
 
         <div class='row'>
