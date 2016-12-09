@@ -26,7 +26,10 @@ export default Ember.Controller.extend({
         This is the main landing page, showing the latest content.
         Click on News, Events, Market, Talk or Directory to see more!
       </div>`,
-      {htmlContent: true}
+      {
+        htmlContent: true,
+        clearDuration: 15000
+      }
     );
   },
 

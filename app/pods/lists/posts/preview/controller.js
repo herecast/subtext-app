@@ -45,14 +45,17 @@ export default Ember.Controller.extend({
         Your Post is now LIVE on dailyUV and will appear in the next ${listservName} digest.<br>
         Click the avatar image in the header to visit your
         <a class="u-textUnderline" href='/dashboard'>dashboard and manage your account</a>.
-        <strong>Happy posting and browsing!</strong>
+        <br><strong>Happy posting and browsing!</strong>
         </div>
       </div>
     `;
 
     get(this, 'notify').info(
       toastMessage,
-      {htmlContent: true}
+      {
+        htmlContent: true,
+        clearDuration: 20000
+      }
     );
 
     this.transitionToRoute(
