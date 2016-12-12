@@ -76,6 +76,7 @@ export default function(server) {
 
   server.create('listserv-content', {
     listserv: listserv,
+    body: 'No Content',
     user: user1,
     senderEmail: user1.email
   });

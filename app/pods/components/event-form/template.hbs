@@ -19,7 +19,7 @@
   content-input=(component 'summer-note'
     content=(readonly model.content)
     hideError=true
-    notifyContent=(action 'updateContent')
+    notifyChange=(action 'updateContent')
   )
   event-form-venue=(component "event-form-venue"
     event=(mut model)
