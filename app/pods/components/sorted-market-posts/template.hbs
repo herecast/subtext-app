@@ -1,18 +1,20 @@
 <div class='Container--noGutter'>
   <div class='row'>
-    <div class='col-xs-12 col-md-8 col-md-push-2'>
+    <div class="{{if widthClass widthClass 'col-xs-12 col-md-8 col-md-push-2'}}">
       {{#each sortedPosts as |post index|}}
         {{#if (eq index 4)}}
-          <div class='AdBanner-wrapper AdBanner-wrapper--market'>
-            {{ad-banner impressionPath=adPath}}
-          </div>
+          {{#unless suppressAd}}
+            <div class='AdBanner-wrapper AdBanner-wrapper--market'>
+              {{ad-banner impressionPath=adPath}}
+            </div>
+          {{/unless}}
         {{/if}}
 
         {{market-card
           category=cat
           post=post
           routeName=routeName
-          imagePosition='right'
+          imagePosition='left'
           onTitleClick=(action 'trackCardClick')
           class='Card Card--market'
         }}

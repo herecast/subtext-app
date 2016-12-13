@@ -64,6 +64,12 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   navCategories: computed.union('featuredCategories', 'trendingCategories'),
 
+  recentPosts: computed('marketPosts', function() {
+    return this.store.query('market-post', {
+      has_image: true
+    });
+  }),
+
   testimonials: [{
     name: 'Jackie',
     img: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/user-testimonial--jackie-pierce.jpg',
@@ -112,8 +118,14 @@ export default Ember.Controller.extend(PaginatedFilter, {
       }
     },
 
-    trackCardClick() {
-      const type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
+    trackCardClick(cardType) {
+      let type;
+
+      if (cardType) {
+        type = cardType;
+      } else {
+        type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
+      }
 
       if (typeof dataLayer !== 'undefined') {
         dataLayer.push({
