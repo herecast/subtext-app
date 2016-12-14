@@ -21,7 +21,7 @@ export default Ember.Service.extend({
 
     const intercomId = config['intercom-api-token'];
 
-    if(isPresent(user) && get(this, 'enableTracking')) {
+    if (isPresent(user) && get(this, 'enableTracking')) {
       window.Intercom('boot', {
         app_id: intercomId,
         email: user.get('email'),
@@ -31,10 +31,15 @@ export default Ember.Service.extend({
         test_group: user.get('testGroup')
       });
     } else {
+      // TODO this code is unreachable and probably not
+      // needed since the app reloads when the user logs out.
       window.Intercom('boot', {
         app_id: intercomId
       });
     }
+
+    // restores custom button behaviour after reboot
+    window.Intercom('update');
   },
 
   update(/*user*/) {
@@ -46,9 +51,7 @@ export default Ember.Service.extend({
   },
 
   contactUs(subject) {
-    let intercom = window.Intercom;
-
-    if (intercom) {
+    if (window.Intercom) {
       window.Intercom('show');
     } else {
       let url = "mailto:dailyuv@subtext.org?";

@@ -13,6 +13,16 @@ export default Ember.Component.extend({
 
   checkBottom: null, // cancellable run loop invocation
 
+  init() {
+    this._super(...arguments);
+
+    const intercom = get(this, 'intercom');
+    //callbacks from Intercom to change state of custom button if
+    //intercom is opened through other means
+    intercom.onShow(() => { set(this, 'intercomWindowOpen', true); });
+    intercom.onHide(() => { set(this, 'intercomWindowOpen', false); });
+  },
+
   didInsertElement() {
     set(this, 'footerShowing', this._isFooterShowing());
 
@@ -23,12 +33,6 @@ export default Ember.Component.extend({
 
       set(this, 'checkBottom', checkBottom);
     });
-
-    const intercom = get(this, 'intercom');
-    //callbacks from Intercom to change state of custom button if
-    //intercom is opened through other means
-    intercom.onShow( () => {set(this, 'intercomWindowOpen', true);} );
-    intercom.onHide( () => {set(this, 'intercomWindowOpen', false);} );
   },
 
   willDestroyElement() {

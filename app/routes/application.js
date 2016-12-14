@@ -21,12 +21,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     return this.get('session.currentUser');
   },
 
-  setupController(controller, model) {
-    this._super(controller, model);
-
-    get(this, 'session').setupCurrentUser();
-  },
-
   sessionAuthenticated() {
     // Don't do anything.
   },
