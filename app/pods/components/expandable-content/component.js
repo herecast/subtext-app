@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global dataLayer */
 
 const { get, set, computed } = Ember;
 
@@ -46,9 +47,20 @@ export default Ember.Component.extend({
     }
   },
 
+  viewMoreGTMEvent() {
+    if(typeof dataLayer !== 'undefined') {
+      dataLayer.push({
+        'event': 'content-view-more'
+      });
+    }
+  },
+
   actions: {
     toggle() {
       this.toggleProperty('isExpanded');
+      if (get(this, 'isExpanded')) {
+        this.viewMoreGTMEvent();
+      }
     }
   }
 });
