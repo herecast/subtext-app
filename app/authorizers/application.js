@@ -3,7 +3,7 @@ import config from 'subtext-ui/config/environment';
 
 export default Devise.extend({
   authorize(data, header) {
-    header('Consumer-App-Uri', config['consumer-app-uri']);
+    header('Consumer-App-Uri', config['CONSUMER_APP_URI']);
     this._super(data, header);
   }
 });

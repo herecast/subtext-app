@@ -22,7 +22,7 @@ export default Ember.Mixin.create({
   },
 
   prerenderRecache: function() {
-    const prerenderToken = config['prerender-io-token'];
+    const prerenderToken = config['PRERENDER_IO_TOKEN'];
 
     Ember.$.post('https://api.prerender.io/recache', {
       prerenderToken: prerenderToken,

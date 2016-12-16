@@ -5,7 +5,7 @@ export function initialize() {
   window.fbAsyncInit = function() {
     if (config.fb_enabled) {
       let initOptions = {
-        appId   : config['facebook-app-id'],
+        appId   : config['FACEBOOK_API_ID'],
         xfbml   : true,
         version : 'v2.4'
       };

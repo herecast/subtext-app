@@ -12,9 +12,9 @@ const {
 let referrer = window.location.href;
 
 export function initialize(application) {
-  const gtmId      = config['gtm-api-token'] || null;
-  const gtmAuth    = config['gtm-auth'] || null;
-  const gtmPreview = config['gtm-preview'] || null;
+  const gtmId      = config['GTM_API_TOKEN'] || null;
+  const gtmAuth    = config['GTM_AUTH'] || null;
+  const gtmPreview = config['GTM_PREVIEW'] || null;
 
   if (gtmId && gtmAuth && gtmPreview) {
     /* jshint ignore:start */

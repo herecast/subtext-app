@@ -25,7 +25,7 @@ export default Ember.Service.extend({
       // so that the logged in version can boot up.
       window.Intercom('shutdown');
 
-      const intercomId = config['intercom-api-token'];
+      const intercomId = config['INTERCOM_API_TOKEN'];
 
       if (isPresent(user) && get(this, 'enableTracking')) {
         window.Intercom('boot', {

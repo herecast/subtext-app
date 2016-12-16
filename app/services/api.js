@@ -5,7 +5,7 @@ import config from '../config/environment';
 const { inject, computed, get, isEmpty, isPresent } = Ember;
 
 export default AjaxService.extend({
-  host: config.API_HOST,
+  host: config.API_BASE_URL,
   namespace: config.API_NAMESPACE,
   session: inject.service('session'),
   headers: computed('session.isAuthenticated', {
@@ -20,7 +20,7 @@ export default AjaxService.extend({
         });
       }
 
-      headers['Consumer-App-Uri'] = config['consumer-app-uri'];
+      headers['Consumer-App-Uri'] = config['CONSUMER_APP_URI'];
 
       return headers;
     }

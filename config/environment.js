@@ -1,6 +1,4 @@
 /* jshint node: true */
-var hasApiHost = (process.env.API_HOST && process.env.API_HOST.trim().length > 0);
-var apiHost = (hasApiHost ? process.env.API_HOST : "");
 
 module.exports = function(environment) {
 
@@ -10,8 +8,20 @@ module.exports = function(environment) {
     rootURL: '/',
     podModulePrefix: 'subtext-ui/pods',
     locationType: 'auto',
+    envOverrides: [
+      'API_BASE_URL',
+      'API_NAMESPACE',
+      'CONSUMER_APP_URI',
+      'GMAPS_API_TOKEN',
+      'INTERCOM_API_TOKEN',
+      'FACEBOOK_API_ID',
+      'PRENDER_IO_TOKEN',
+      'GTM_API_TOKEN',
+      'GTM_AUTH',
+      'GTM_PREVIEW'
+    ],
     API_NAMESPACE: 'api/v3',
-    API_HOST: apiHost,
+    API_BASE_URL: "",
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -25,7 +35,7 @@ module.exports = function(environment) {
     },
 
     fastboot: {
-      hostWhitelist: [/^localhost:\d+$/, /.*\.subtext\.org$/, /.*\.subtext\.org:\d+$/, apiHost]
+      hostWhitelist: [/^localhost:\d+$/, /.*\.subtext\.org$/, /.*\.subtext\.org:\d+$/]
     }
   };
 
@@ -43,14 +53,6 @@ module.exports = function(environment) {
     directory: 'app/mirage'
   };
 
-  ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
-  ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN || 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
-  ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
-  ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
-  ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
-  ENV['gtm-api-token'] = process.env.GTM_API_TOKEN;
-  ENV['gtm-auth'] = process.env.GTM_AUTH;
-  ENV['gtm-preview'] = process.env.GTM_PREVIEW;
 
   if (environment === 'development') {
      ENV.APP.LOG_RESOLVER = false;
@@ -59,6 +61,7 @@ module.exports = function(environment) {
      ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
      ENV.APP.LOG_VIEW_LOOKUPS = false;
 
+    var hasApiHost = (process.env.API_BASE_URL && process.env.API_BASE_URL.trim().length > 0);
     if(hasApiHost) {
       ENV['ember-cli-mirage']['enabled'] = false;
     }
@@ -66,6 +69,15 @@ module.exports = function(environment) {
     if(process.env.FACEBOOK_API_ID) {
       ENV.fb_enabled = false;
     }
+
+    ENV['CONSUMER_APP_URI'] = 'http://localhost:4200';
+    ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
+    ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
+    ENV['FACEBOOK_API_ID'] = process.env.FACEBOOK_API_ID;
+    ENV['PRERENDER_IO_TOKEN'] = process.env.PRERENDER_IO_TOKEN;
+    ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
+    ENV['GTM_AUTH'] = process.env.GTM_AUTH;
+    ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;
 
   }
 

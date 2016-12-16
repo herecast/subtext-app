@@ -41,7 +41,7 @@ export default {
 
   cachePrerender(url) {
     return new RSVP.Promise((resolve, reject) => {
-      const prerenderToken = config['prerender-io-token'];
+      const prerenderToken = config['PRERENDER_IO_TOKEN'];
       if (url && prerenderToken && config.prerender_enabled) {
 
         //Will return 500 if url is invalid (e.g. has localhost in url)
