@@ -11,6 +11,8 @@ const {
 } = Ember;
 
 export default DS.Model.extend({
+  fastboot: inject.service(),
+  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
@@ -107,12 +109,17 @@ export default DS.Model.extend({
     const id = get(this, 'id');
 
     if (isPresent(id)) {
-      return api.getMarketContactInfo(id).then((response) => {
+      const promise = api.getMarketContactInfo(id).then((response) => {
         this.setProperties({
           contactEmail: response.market_post.contact_email,
           contactPhone: response.market_post.contact_phone
         });
       });
+      if(get(this, 'isFastBoot')) {
+        // Inform fastboot to wait for this promise;
+        get(this, 'fastboot').deferRendering(promise);
+      }
+      return promise;
     } else {
       return null;
     }

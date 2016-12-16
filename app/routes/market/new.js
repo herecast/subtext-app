@@ -4,9 +4,10 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get, run } = Ember;
+const { get, run, inject } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, {
+  location: inject.service('window-location'),
 
   model(params, transition) {
     const newRecordValues = {
@@ -75,8 +76,9 @@ export default Ember.Route.extend(Scroll, Authorized, {
     },
 
     afterPublish(post) {
+      const locationService = get(this, 'location');
       this.transitionTo('market.all.show', post.get('id')).then(() => {
-        SocialSharing.createShareCache();
+        SocialSharing.createShareCache(locationService);
       });
 
       run.next(()=>{

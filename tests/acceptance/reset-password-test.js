@@ -23,8 +23,8 @@ test('filling out lost password request form', function(assert) {
   click(testSelector('link', 'forgot-password')).then(()=> {
     assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
 
-    fillIn(testSelector('component', 'password-reset-request-form-email'), 'test@test.com');
-    click(testSelector('component', 'password-reset-request-form-submit')).then(()=>{
+    fillIn(testSelector('field', 'password-reset-request-form-email'), 'test@test.com');
+    click(testSelector('password-reset-request-form-submit')).then(()=>{
       assert.ok(find(testSelector('password-reset-request-confirmation')).length,
         "Should see confirmation message after submitting form."
       );
@@ -46,8 +46,8 @@ test('filling out lost password request form with returnUrl query param', functi
   visit('/forgot-password?returnUrl=/test/url').then(()=> {
     assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
 
-    fillIn(testSelector('component', 'password-reset-request-form-email'), 'test@test.com');
-    click(testSelector('component', 'password-reset-request-form-submit')).then(()=>{
+    fillIn(testSelector('field', 'password-reset-request-form-email'), 'test@test.com');
+    click(testSelector('password-reset-request-form-submit')).then(()=>{
       assert.ok(requestSpy.calledWith('test@test.com', '/test/url'), 'forwards return url to backend');
       assert.ok(find(testSelector('password-reset-request-confirmation')).length,
         "Should see confirmation message after submitting form."
@@ -63,10 +63,10 @@ test('filling out lost password edit form', function(assert) {
       "Should see password reset form."
     );
 
-    fillIn(testSelector('component', 'password-reset-form-password'), '123abc');
-    fillIn(testSelector('component', 'password-reset-form-confirm-password'), '123abc');
+    fillIn(testSelector('field', 'password-reset-form-password'), '123abc');
+    fillIn(testSelector('field', 'password-reset-form-confirm-password'), '123abc');
 
-    click(testSelector('component', 'password-reset-form-submit')).then(() => {
+    click(testSelector('password-reset-form-submit')).then(() => {
       assert.ok(find(testSelector('password-reset-form-confirmation')).length,
         "Should see confirmation message; After submitting form."
       );
@@ -78,6 +78,7 @@ test('filling out lost password edit form with return url', function(assert) {
   let redirectSpy = sinon.spy();
   let mockLocation = Ember.Service.extend({
     redirectTo: redirectSpy,
+    referrer: function(){ return ''; },
     href: function() { return ''; }
   });
 
@@ -89,10 +90,10 @@ test('filling out lost password edit form with return url', function(assert) {
       "Should see password reset form."
     );
 
-    fillIn(testSelector('component', 'password-reset-form-password'), '123abc');
-    fillIn(testSelector('component', 'password-reset-form-confirm-password'), '123abc');
+    fillIn(testSelector('field', 'password-reset-form-password'), '123abc');
+    fillIn(testSelector('field', 'password-reset-form-confirm-password'), '123abc');
 
-    click(testSelector('component', 'password-reset-form-submit')).then(() => {
+    click(testSelector('password-reset-form-submit')).then(() => {
       assert.ok(redirectSpy.calledWith('/go/here'),
         "After successful reset, redirects to return url"
       );

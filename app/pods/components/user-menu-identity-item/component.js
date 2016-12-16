@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { computed, get } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   classNames: ['UserMenuIdentityItem'],
   classNameBindings: ['expanded:UserMenuIdentityItem--expanded'],
   buttonText: 'Manage Content',

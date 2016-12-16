@@ -1,7 +1,6 @@
+/*jshint node:true*/
 /* global require, module */
-
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
@@ -50,7 +49,6 @@ module.exports = function(defaults) {
     app.import('bower_components/summernote/dist/summernote.js');
     app.import('vendor/summernote-handle.js');
     app.import('bower_components/summernote-image-attributes/summernote-image-attributes.js');
-    app.import('bower_components/sanitize.js/lib/sanitize.js');
     app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
   // END
   }

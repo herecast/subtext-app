@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const initialCount = 4;
 
 const { get, isBlank, computed } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   'data-test-component': 'event-other-dates',
   showAll: false,
 

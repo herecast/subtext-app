@@ -156,7 +156,7 @@ export default function() {
     this.pretender.passthrough
   );
 
-  this.namespace = 'api/v3';
+  this.namespace = '/api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.pretender.prepareBody = function(body) {
@@ -170,16 +170,26 @@ export default function() {
 
   this.post('/users/sign_in', function(schema, request) {
     schema.db['currentUsers'].remove();
-
-    let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
-    let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
-
     let user;
-    if(matches) {
-      let email = matches[1];
-      user = schema.users.where({email: email}).models[0];
+
+    if(request.requestBody.indexOf('{') >= 0) {
+      //json
+      let json = JSON.parse(request.requestBody)['user'];
+      if(json['email']) {
+        user = schema.users.where({email: json['email']}).models[0];
+      } else {
+        user = schema.users.first();
+      }
     } else {
-      user = schema.users.first();
+      let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
+      let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
+
+      if(matches) {
+        let email = matches[1];
+        user = schema.users.where({email: email}).models[0];
+      } else {
+        user = schema.users.first();
+      }
     }
 
     if(user) {
@@ -232,7 +242,8 @@ export default function() {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['currentUser'];
-      currentUser = currentUsers.update(id, attrs);
+      currentUser = currentUsers.find(id);
+      currentUser.update(attrs);
     } else {
       currentUser = currentUsers.find(id);
     }

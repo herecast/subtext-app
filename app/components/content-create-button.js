@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { computed, get } = Ember;
 
@@ -9,7 +10,7 @@ function startsWith(path, searchString) {
   return path.indexOf(searchString) === position;
 }
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   'data-test-component': "content-create-button",
 
   path: '', // override with the application controller's currentPath

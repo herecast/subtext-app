@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import sanitize from 'npm:sanitize-html';
 
 const { computed } = Ember;
 
@@ -21,9 +22,10 @@ export default Ember.Component.extend({
   }),
 
   stripHtml: function(text) {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = text;
-    return tmp.textContent || tmp.innerText || "";
+    return sanitize(text, {
+      allowedTags: [],
+      allowedAttributes: []
+    });
   }
 
 });

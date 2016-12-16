@@ -5,18 +5,18 @@ import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 const { get, RSVP } = Ember;
 
 export default {
-  createShareCache(path) {
-    const shareUrl = this.getShareUrl(path);
+  createShareCache(locationService, path) {
+    const shareUrl = this.getShareUrl(locationService, path);
     return this.cachePrerender(shareUrl);
   },
 
-  updateShareCache(path) {
-    const shareUrl = this.getShareUrl(path);
+  updateShareCache(locationService, path) {
+    const shareUrl = this.getShareUrl(locationService, path);
     return this.cachePrerender(shareUrl);
   },
 
-  checkFacebookCache(path) {
-    const shareUrl = this.getShareUrl(path);
+  checkFacebookCache(locationService, path) {
+    const shareUrl = this.getShareUrl(locationService, path);
     return this.cacheFacebook(shareUrl);
   },
 
@@ -61,7 +61,7 @@ export default {
     });
   },
 
-  getShareUrl(routeName, model) {
+  getShareUrl(locationService, routeName, model) {
     let shareUrl;
 
     if (this.isModalRoute(routeName)) {
@@ -73,12 +73,12 @@ export default {
       } else if (ctype === 'market-post') {
         ctype = 'market';
       }
-      shareUrl = `${location.protocol}//${location.host}/${ctype}/${id}`;
+      shareUrl = `${locationService.origin()}/${ctype}/${id}`;
     } else if (typeof(routeName) === 'string' && routeName.match(/^\/.*\/.*$/)) {
       //Checks to see if the routeName is actually a valid path
-      shareUrl = window.location.origin + routeName;
+      shareUrl = locationService.origin() + routeName;
     } else {
-      let url = window.location.href;
+      let url = locationService.href();
       shareUrl = url.split('?')[0];
     }
 

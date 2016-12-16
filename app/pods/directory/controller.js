@@ -6,7 +6,8 @@ const {
   computed,
   isPresent,
   isEmpty,
-  inject
+  inject,
+  $
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -90,6 +91,10 @@ export default Ember.Controller.extend({
 
   coords: null,
 
+  scrollTop() {
+    $(window).scrollTop(0);
+  },
+
   actions: {
     updateQuery(query) {
       this.setProperties({
@@ -116,6 +121,27 @@ export default Ember.Controller.extend({
 
     contactUs() {
       get(this, 'intercom').contactUs("My Business on dailyUV");
+    },
+
+    changePage(page) {
+      set(this, 'page', page);
+      this.scrollTop();
+    },
+
+    changeSortBy(sort) {
+      this.setProperties({
+        page: 1,
+        sort_by: sort
+      });
+      this.scrollTop();
+    },
+
+    changePerPage(per) {
+      this.setProperties({
+        page: 1,
+        per_page: per
+      });
+      this.scrollTop();
     }
   }
 });

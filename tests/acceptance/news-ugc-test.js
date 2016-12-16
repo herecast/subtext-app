@@ -19,7 +19,7 @@ test('/news while not logged in', function(assert) {
   visit(`/news/${newsItem.id}`);
 
   andThen(() => {
-    assert.equal(find(testSelector('component', 'new-comment')).length, 0, 'it should not have a comment form');
+    assert.equal(find(testSelector('field', 'new-comment')).length, 0, 'it should not have a comment form');
   });
 });
 
@@ -98,7 +98,7 @@ test('/news/:id commenting as a logged in user', function(assert) {
     assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
   });
 
-  fillIn(testSelector('component', 'new-comment'), 'foobar');
+  fillIn(testSelector('field', 'new-comment'), 'foobar');
   click(testSelector('component', 'add-comment-button'));
 
   andThen(() => {

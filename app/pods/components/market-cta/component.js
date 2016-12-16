@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 /* global dataLayer */
 
 const {
@@ -10,7 +11,7 @@ const {
   run
 } = Ember;
 
-export default Ember.Component.extend(InViewportMixin, {
+export default Ember.Component.extend(TestSelector, InViewportMixin, {
   // TODO extract this into an 'Impressionable' component mixin
   'data-test-component': 'market-cta',
 

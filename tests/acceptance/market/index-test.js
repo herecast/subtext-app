@@ -6,10 +6,12 @@ moduleForAcceptance('Acceptance | market/index');
 
 test('visiting /market/', function(assert) {
   assert.expect(2);
-  visit('/market/?flat=true');
+
+  const url = '/market/?flat=true';
+  visit(url);
 
   andThen(function() {
-    assert.equal(currentURL(), '/market?flat=true');
+    assert.equal(currentURL(), url);
     assert.equal(find(testSelector('link', 'content-create-button')).length, 1, 'it should show the create content button');
   });
 });
@@ -19,10 +21,11 @@ test('visiting /market/ with 10 items lists all 10 items', function(assert) {
   server.createList('market-post', 10);
 
   // visiting the old market
-  visit('/market/?flat=true');
+  const url = '/market/?flat=true';
+  visit(url);
 
   andThen(function() {
-    assert.equal(currentURL(), '/market?flat=true', 'it should be at the correct url');
+    assert.equal(currentURL(), url, 'it should be at the correct url');
     assert.equal(find(testSelector('market-card')).length, 10, 'it should list all 10 market cards');
 
     assert.equal(find(testSelector('pagination-next')).length, 0, 'it should not show pagination buttons');
@@ -33,10 +36,11 @@ test('visiting /market/ with 50 items is paginated', function(assert) {
   assert.expect(15);
   server.createList('market-post', 50);
 
-  visit('/market/?flat=true');
+  const url = '/market/?flat=true';
+  visit(url);
 
   andThen(function() {
-    assert.equal(currentURL(), '/market?flat=true', 'it should be at the url /market/');
+    assert.equal(currentURL(), url, 'it should be at the url /market/');
     assert.equal(find(testSelector('market-card')).length, 24, 'it should show 24 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 0, 'it should not show the "prev" button on the first page');

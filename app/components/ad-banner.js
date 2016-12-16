@@ -42,9 +42,11 @@ export default Ember.Component.extend(InViewportMixin, {
 
     if(isPresent(impressionPath)) {
       run.next(()=>{
-        if(get(this, '_currentPathMatchesImpressionPath')) {
-          // trigger enter view port event
-          this.resetViewportEntered();
+        if(!get(this, 'isDestroying')) {
+          if(get(this, '_currentPathMatchesImpressionPath')) {
+            // trigger enter view port event
+            this.resetViewportEntered();
+          }
         }
       });
     }

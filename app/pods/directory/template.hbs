@@ -41,12 +41,15 @@
       lng=lng
       category_id=category_id
       query=query
-      sort_by=sort_by
-      page=page
-      per_page=per_page
+      sort_by=(readonly sort_by)
+      page=(readonly page)
+      per_page=(readonly per_page)
       target=target
       contactUs=(action 'contactUs')
       store=store
+      changeSortBy=(action 'changeSortBy')
+      changePerPage=(action 'changePerPage')
+      changePage=(action 'changePage')
       }}
     {{else}}
       {{#if canSearch}}

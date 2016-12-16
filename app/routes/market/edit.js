@@ -6,10 +6,12 @@ import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const {
   get,
-  run
+  run,
+  inject
 } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
+  location: inject.service('window-location'),
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -94,6 +96,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
     },
 
     afterPublish(post) {
+      const locationService = get(this, 'location');
       // Rollback the images after persisting changes so that the user can
       // transition to the show page without seeing a "discard changes" modal.
       // Normally ember data does this automatically on save, but does not do
@@ -108,7 +111,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
       });
 
       this.transitionTo('market.all.show', post.id).then(() => {
-        SocialSharing.updateShareCache();
+        SocialSharing.updateShareCache(locationService);
       });
     },
 

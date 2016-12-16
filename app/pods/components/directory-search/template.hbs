@@ -4,7 +4,7 @@
       <div class='DirectoryResults-controls DirectoryResults-header'>
         {{directory-results-sort
         sortBy=sort_by
-        on-update=(action 'changeSortBy')
+        on-update=(action changeSortBy)
         class='form-inline DirectoryResults-control'
         }}
 
@@ -25,7 +25,7 @@
       <div class='DirectoryResults-controls DirectoryResults-footer'>
         <div class='DirectoryResults-control form-inline'>
           <label class='h4'>Per Page&nbsp;</label>
-          {{#x-select class='form-control' value=per_page action=(action 'changePerPage')}}
+          {{#x-select class='form-control' value=per_page action=(action changePerPage)}}
             {{#x-option value=25}}25{{/x-option}}
             {{#x-option value=50}}50{{/x-option}}
             {{#x-option value=100}}100{{/x-option}}
@@ -37,7 +37,7 @@
         page=page
         perPage=per_page
         results=results
-        on-update-page=(action "changePage")
+        on-update-page=(action changePage)
         }}
 
       </div>

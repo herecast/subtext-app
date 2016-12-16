@@ -5,6 +5,7 @@ import config from '../config/environment';
 const { inject, computed, get, isEmpty, isPresent } = Ember;
 
 export default AjaxService.extend({
+  host: config.API_HOST,
   namespace: config.API_NAMESPACE,
   session: inject.service('session'),
   headers: computed('session.isAuthenticated', {

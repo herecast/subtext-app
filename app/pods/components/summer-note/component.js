@@ -2,9 +2,9 @@
 
 import Ember from 'ember';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
-  run,
   get, set,
   isPresent,
   inject
@@ -15,7 +15,7 @@ const defaultToolbarOpts = [
   ['insert', ['link']]
 ];
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   classNames: ['wysiwyg-editor'],
   toolbar: defaultToolbarOpts,
   content: null,
@@ -66,17 +66,14 @@ export default Ember.Component.extend({
           // Replace bold-but-not-bold element with span
           buffer = buffer.replace(/<b style="font-weight:normal;"/g, '<span');
 
-          const div = document.createElement('div');
-          div.innerHTML = buffer;
+          const saneHtml = sanitizeContent(buffer);
+          const $div = jQuery('<div>').append(saneHtml);
+          // Strip styles from images to prevent weird positioning and floating.
+          $div.find('img[style]').removeAttr('style');
 
-          run.later(() => {
-            const cleanNodes = sanitizeContent(div);
-            const $div = jQuery('<div>').append(cleanNodes);
-            // Strip styles from images to prevent weird positioning and floating.
-            $div.find('img[style]').removeAttr('style');
+          const cleanHtml = $div.html();
 
-            const cleanHtml = $div.html();
-
+          if (isPresent(cleanHtml)) {
             $editor.summernote('pasteHTML', cleanHtml);
 
             // SummerNote likes to add a <p><br></p> when pasting multi-line content
@@ -90,7 +87,7 @@ export default Ember.Component.extend({
             }
 
             this.send('doUpdate');
-          });
+          }
         }
       },
       onCreateLink: (url) => {

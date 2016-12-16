@@ -2,6 +2,7 @@ import Ember from 'ember';
 import TrackCard from 'subtext-ui/mixins/components/track-card';
 import moment from 'moment';
 import dateFormat from 'subtext-ui/lib/dates';
+import cheerio from 'npm:cheerio';
 
 const { get, computed } = Ember;
 
@@ -41,8 +42,8 @@ export default Ember.Component.extend(TrackCard, {
       // card once we strip out the HTML. Otherwise there's no space between sentences.
       text = text.replace(/<\/p>/g, '</p> ');
 
-      // Convert html text into jquery element and remove image captions
-      const $element = Ember.$('<div/>').html(text);
+      // Convert html text into cheerio/jquery element and remove image captions
+      const $element = cheerio('<div/>').html(text);
       $element.find('.ContentImage p').remove();
 
       // Remove all HTML tags

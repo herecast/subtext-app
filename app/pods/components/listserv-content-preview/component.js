@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { get, computed } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   model: Ember.computed.alias('enhancedPost'),
   isPreview: true,
   isMinimalist: false,

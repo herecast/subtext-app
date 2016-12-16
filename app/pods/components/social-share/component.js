@@ -12,6 +12,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
+  location: inject.service('window-location'),
   classNames: ['SocialShare'],
   isPreview: false,
   isTalkChannel: false,
@@ -66,6 +67,7 @@ export default Ember.Component.extend({
 
   showShareWarning() {
     const secondsToWait = this.updatedBuffer();
+    const locationService = get(this, 'location');
 
     if (secondsToWait) {
       const notify = get(this, 'notify');
@@ -87,7 +89,7 @@ export default Ember.Component.extend({
 
       let delayedJob =
         run.later(this, () => {
-          SocialSharing.checkFacebookCache(sharePath).then(() => {
+          SocialSharing.checkFacebookCache(locationService, sharePath).then(() => {
             set(this, 'canShare', true);
             notify.clearAll();
             notify.success(`Facebook sharing is ready for ${sharePath}`);
@@ -101,8 +103,9 @@ export default Ember.Component.extend({
   urlForShare() {
     const routeName = get(this, 'routing.currentRouteName');
     const model = get(this, 'model');
+    const locationService = get(this, 'location');
 
-    return SocialSharing.getShareUrl(routeName, model);
+    return SocialSharing.getShareUrl(locationService, routeName, model);
   },
 
   mailtoLink: computed('title', 'sharedBy', function() {

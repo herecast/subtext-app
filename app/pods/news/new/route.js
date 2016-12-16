@@ -3,9 +3,10 @@ import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get } = Ember;
+const { get, inject } = Ember;
 
 export default Ember.Route.extend(Authorized, Scroll, {
+  location: inject.service('window-location'),
   titleToken: 'Create News',
 
   model(params, transition) {
@@ -42,8 +43,9 @@ export default Ember.Route.extend(Authorized, Scroll, {
 
     afterPublish() {
       const modelId = get(this, 'controller.news.id');
+      const locationService = get(this, 'location');
 
-      SocialSharing.createShareCache(`/news/${modelId}`);
+      SocialSharing.createShareCache(locationService, `/news/${modelId}`);
     }
   }
 });

@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   model: null,
 
   api: inject.service(),
+  location: inject.service('window-location'),
 
   hasFinished: false,
   messageTitle: '',
@@ -18,7 +19,8 @@ export default Ember.Component.extend({
   listserv: computed.alias('model.listserv'),
 
   manageLink: computed('model.id', function() {
-    const origin = window.location.origin || `${window.location.protocol}//${window.location.host}`;
+    const locationService = get(this, 'location');
+    const origin = locationService.origin();
 
     return new Ember.String.htmlSafe(`${origin}/lists/${get(this, 'model.id')}/manage`);
   }),

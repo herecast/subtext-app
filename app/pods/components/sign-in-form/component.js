@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   computed,
@@ -7,7 +8,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   tagName: "form",
   session: inject.service('session'),
   classNames: ['SignInForm'],

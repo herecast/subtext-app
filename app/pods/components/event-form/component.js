@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { get, isPresent, set, computed } = Ember;
 
-export default Ember.Component.extend(Validation, {
+export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'EventForm',
   event: computed.alias('model'),

@@ -6,10 +6,12 @@ import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const {
   get,
+  inject,
   run
 } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
+  location: inject.service('window-location'),
   discardRecord(model) {
     // Ember data doesn't automatically rollback relationship records, so we
     // need to do that manually if the event is rolled back.
@@ -79,6 +81,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
+      const locationService = get(this, 'location');
 
       // Rollback the schedules after persisting changes so that the user can
       // transition to the show page without seeing a "discard changes" modal.
@@ -94,7 +97,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
       });
 
       this.transitionTo('events.all.show', firstInstanceId).then(() => {
-        SocialSharing.updateShareCache();
+        SocialSharing.updateShareCache(locationService);
       });
     },
 

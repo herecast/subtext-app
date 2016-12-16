@@ -37,7 +37,7 @@ test('visiting /talk/:id', function(assert) {
     // assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
   });
 
-  fillIn(testSelector('component', 'new-comment'), 'it was all a dream');
+  fillIn(testSelector('field', 'new-comment'), 'it was all a dream');
   click(testSelector('component', 'add-comment-button'));
 
   andThen(function() {

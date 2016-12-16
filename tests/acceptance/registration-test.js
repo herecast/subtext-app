@@ -22,7 +22,7 @@ const registrationMenuOrPage = {
   },
 
   location(location) {
-    return fillIn(testSelector('component', 'location-dropdown'), location);
+    return fillIn(testSelector('field', 'location-dropdown'), location);
   },
 
   submit() {
@@ -34,19 +34,19 @@ const registrationMenuOrPage = {
   },
 
   name(name) {
-    return fillIn(testSelector('component', 'register-name-input'), name);
+    return fillIn(testSelector('field', 'register-name-input'), name);
   },
 
   email(email) {
-    return fillIn(testSelector('component', 'register-email-input'), email);
+    return fillIn(testSelector('field', 'register-email-input'), email);
   },
 
   password(password) {
-    return fillIn(testSelector('component', 'register-password-input'), password);
+    return fillIn(testSelector('field', 'register-password-input'), password);
   },
 
   acceptTerms() {
-    return click(testSelector('component', 'register-terms'));
+    return click(testSelector('field', 'register-terms'));
   }
 };
 
@@ -84,8 +84,8 @@ test('registration requires clicking I agree', function(assert) {
   visit('/');
   registrationMenuOrPage.open();
 
-  registrationMenuOrPage.location(locations[0].id);
   registrationMenuOrPage.name('Marshall Mathers');
+  registrationMenuOrPage.location(locations[0].id);
   registrationMenuOrPage.email('slim_shady@example.com');
   registrationMenuOrPage.password('willtherealslimshadypleasestandup1');
 

@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { set, get, computed } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   classNames: ['UserMenuIdentitySwitcher'],
   "data-test-component":'user-menu-identity-switcher',
 

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 import formatPhone from 'subtext-ui/utils/format-phone';
 
-const { computed, get, set, $ } = Ember;
+const { computed, get } = Ember;
 
 export default Ember.Component.extend(Validation, {
   newBusinessProfile: null,
@@ -63,10 +63,6 @@ export default Ember.Component.extend(Validation, {
     return first + resultCount - 1;
   }),
 
-  scrollTop() {
-    $(window).animate({scrollTop: 0}, '100');
-  },
-
   actions: {
     contactUs() {
       if ('contactUs' in this.attrs) {
@@ -76,27 +72,6 @@ export default Ember.Component.extend(Validation, {
 
     toggleBusinessProfileForm() {
       this.toggleProperty('businessProfileFormIsVisible');
-    },
-
-    changePage(page) {
-      set(this, 'page', page);
-      this.scrollTop();
-    },
-
-    changeSortBy(sort) {
-      this.setProperties({
-        page: 1,
-        sort_by: sort
-      });
-      this.scrollTop();
-    },
-
-    changePerPage(per) {
-      this.setProperties({
-        page: 1,
-        per_page: per
-      });
-      this.scrollTop();
     }
   }
 });

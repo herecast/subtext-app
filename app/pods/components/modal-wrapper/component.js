@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { get, computed, $, inject } = Ember;
 
 export default Ember.Component.extend({
+
   attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
 
@@ -37,7 +38,10 @@ export default Ember.Component.extend({
 
   actions: {
     scrollTo(offset) {
-      this.$().scrollTop(offset);
+      const $el = this.$();
+      if($el && $el.length) {
+        this.$().scrollTop(offset);
+      }
     }
   }
 
