@@ -87,6 +87,10 @@ export default Ember.Component.extend(InViewportMixin, {
     });
   },
 
+  _validateGTM() {
+    return typeof dataLayer === 'undefined';
+  },
+
   _sendImpression() {
     const promo = get(this, 'promotion');
     if (! get(this, 'isDestroyed') && promo) {
@@ -94,10 +98,11 @@ export default Ember.Component.extend(InViewportMixin, {
       const api = get(this, 'api');
 
       api.recordPromoBannerImpression(get(promo, 'banner_id'), {
-        content_id: contentId
+        content_id: contentId,
+        gtm_blocked: this._validateGTM()
       });
 
-      console.info(`[Impression of banner]: ${get(promo, 'banner_id')}`);
+      console.info(`[Impression of banner]: ${get(promo, 'banner_id')}, [GTM blocked]: ${this._validateGTM()}`);
 
       this._pushEvent('VirtualAdImpresion');
 
