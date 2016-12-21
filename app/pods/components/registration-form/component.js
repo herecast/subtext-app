@@ -40,10 +40,11 @@ export default Ember.Component.extend(TestSelector, Validation, {
     this.registerUser();
   },
 
-  alertGTM() {
+  alertGTM(digest) {
     if (typeof dataLayer !== 'undefined') {
       dataLayer.push({
-        'event': 'registration-subscribe'
+        'event': 'registration-subscribe',
+        'digest-name': get(digest, 'name')
       });
     }
   },
@@ -64,9 +65,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
         store.createRecord('subscription', merge(baseProperties, properties)).save();
       });
-    });
 
-    this.alertGTM();
+      this.alertGTM(digest);
+    });
   },
 
   registerUser() {
