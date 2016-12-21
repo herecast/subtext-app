@@ -1,4 +1,5 @@
 <header class="DetailPage-navTop-container">
+
   {{#unless isPreview}}
     <div class="DetailPage-navTop clearfix">
       {{#unless media.isNotMobile}}
@@ -36,12 +37,15 @@
       {{/each}}
     </div>
   {{/if}}
+
   <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h2" data-test-market-title>{{model.title}}</h1>
+    <h1 class="DetailPage-title h2" data-test-market-title>{{#if model.sold}}<span class='h3 u-bold u-tag'>SOLD!</span>{{/if}}&nbsp;&nbsp;{{model.title}}</h1>
+
     {{#if model.publishedAt}}
       <p>{{formatted-date model.publishedAt}}</p>
     {{/if}}
   </div>
+
   <div class="DetailPage-headerSection">
     <div class="DetailPage-headerNav">
       {{#if hasClickedReplyButton}}
@@ -76,8 +80,18 @@
           </div>
         {{/if}}
       {{else}}
+        {{#unless model.sold}}
+          <div class="DetailPage-headerNavItem">
+            <button class='Button btn btn-default Button--market' {{action 'clickReplyButton'}}>Reply to Poster</button>
+          </div>
+        {{/unless}}
+      {{/if}}
+
+      {{#if model.canEdit}}
         <div class="DetailPage-headerNavItem">
-          <button class='Button btn btn-default Button--market' {{action 'clickReplyButton'}}>Reply to Poster</button>
+          {{#link-to 'market.edit' model.id class='Button btn btn-default'}}
+            {{fa-icon 'pencil'}} Edit Listing
+          {{/link-to}}
         </div>
       {{/if}}
     </div>
@@ -121,16 +135,6 @@
       }}
     </div>
   </div>
-{{/unless}}
-
-{{#unless isPreview}}
-  {{#if model.canEdit}}
-    {{edit-content-link
-    contentId=model.id
-    route='market.edit'
-    text='Edit Listing'
-    }}
-  {{/if}}
 {{/unless}}
 
 {{#unless isPreview}}

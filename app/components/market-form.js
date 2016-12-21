@@ -48,6 +48,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
   },
 
   actions: {
+    updateSold(value) {
+      set(this, 'post.sold', value);
+    },
     discard() {
       const post = this.get('post');
       this.sendAction('afterDiscard', post);
