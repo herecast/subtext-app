@@ -88,7 +88,7 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   _validateGTM() {
-    return typeof dataLayer === 'undefined';
+    return typeof window.google_tag_manager === 'undefined';
   },
 
   _sendImpression() {
