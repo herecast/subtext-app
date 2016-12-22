@@ -208,24 +208,27 @@
         </div>
       {{/unless}}
 
-      <div class='row'>
-        <div class='col-xs-12'>
-          <h1 class='h2 text-center u-bold'>Recent Listings</h1>
+      {{#unless query}}
+        <div class='row'>
+          <div class='col-xs-12'>
+            <h1 class='h2 text-center u-bold'>Recent Listings</h1>
 
-          <div class='u-card clearfix'>
-            {{sorted-market-posts
-              marketPosts=recentPosts
-              suppressAd=true
-              trackCardClick=(action 'trackCardClick' 'recent-ugc')
-              widthClass='col-xs-12'
-              adPath='market.all.index'
-            }}
+            <div class='u-card clearfix'>
+              {{sorted-market-posts
+                marketPosts=recentPosts
+                suppressAd=true
+                trackCardClick=(action 'trackCardClick' 'recent-ugc')
+                widthClass='col-xs-12'
+                adPath='market.all.index'
+              }}
 
-            <p class='h3 text-center u-layoutPadB20'>{{#link-to 'market.all' (query-params flat=true query='') class='u-link u-bold h2'}}Show all listings {{fa-icon 'angle-right'}}{{/link-to}}<br />
-              See all listings, sorted by date</p>
+              <p class='h3 text-center u-layoutPadB20'>{{#link-to 'market.all' (query-params flat=true query='') class='u-link u-bold h2'}}Show all listings {{fa-icon 'angle-right'}}{{/link-to}}<br />
+                See all listings, sorted by date</p>
+            </div>
           </div>
         </div>
-      </div>
+      {{/unless}}
+
     </div>
   </div>
 </div>

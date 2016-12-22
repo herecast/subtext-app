@@ -31,6 +31,7 @@ export default DS.Model.extend({
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   updatedAt: DS.attr('moment-date'),
+  sold: DS.attr('boolean', {defaultValue: false}),
   title: DS.attr('string'),
   organization: DS.belongsTo('organization'),
 

@@ -22,6 +22,7 @@ export default Ember.Component.extend({
       this.set('isSaving', true);
 
       const post = this.get('model');
+
       const promise = post.saveWithImages();
 
       callback(promise);

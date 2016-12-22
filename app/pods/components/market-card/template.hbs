@@ -34,7 +34,7 @@
           onTitleClick=(action 'onTitleClick')
           trackSuggestedContentClick=(action 'trackSuggestedContentClick')
         }}
-          {{title}}
+          {{title}} {{#if post.sold}}<span class='u-tag'>SOLD!</span>{{/if}}
         {{/market-post-link}}
       </h2>
 
