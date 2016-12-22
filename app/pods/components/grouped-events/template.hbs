@@ -12,37 +12,28 @@
       <div class='row'>
         <div class='col-xs-12 col-md-8 col-md-push-2'>
           <div class='Card-groupedWrapper'>
-              {{#each group.items as |event innerIndex|}}
-                {{#if (and (eq outerIndex 0) (eq innerIndex 4))}}
-                  <div class='AdBanner-wrapper AdBanner-wrapper--events'>
-                    {{ad-banner impressionPath=adPath}}
-                  </div>
-                {{/if}}
+            {{#each group.items as |event innerIndex|}}
+              {{#if (and (eq outerIndex 0) (eq innerIndex 4))}}
+                <div class='AdBanner-wrapper AdBanner-wrapper--events'>
+                  {{ad-banner impressionPath=adPath}}
+                </div>
+              {{/if}}
 
-                {{#if media.isNotMobile}}
-                  <div class='row'>
-                    <div class='col-sm-3'>
-                      <span class='Card-isolatedDate pull-right'>
-                        {{event.timeRangeNoDates}}
-                      </span>
-                    </div>
-                    <div class='col-sm-9'>
-                      {{event-card
-                        event=event
-                        variant=cardLayout
-                        class='Card Card--event Card--grouped'
-                      }}
-                    </div>
-                  </div>
-                {{else}}
+              <div class='row'>
+                <div class='col-sm-3 hidden-xs'>
+                  <span class='Card-isolatedDate pull-right'>
+                    {{event.timeRangeNoDates}}
+                  </span>
+                </div>
+                <div class='col-sm-9 col-xs-12'>
                   {{event-card
                     event=event
                     variant=cardLayout
-                    imagePosition='right'
                     class='Card Card--event Card--grouped'
                   }}
-                {{/if}}
-            {{/each}}
+                </div>
+              </div>
+          {{/each}}
           </div>
         </div>
       </div>

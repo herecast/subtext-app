@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   minHeight: 550,
   bottomGap: 150,
   floating: false,
+  enabled: true,
 
   initContentAffixing: on('didInsertElement', function() {
     const contentBody = this.$().closest('.row');

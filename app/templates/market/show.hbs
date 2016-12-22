@@ -33,24 +33,22 @@
       {{/unless}}
     </div>
 
-    <div class='col-sm-3 col-md-2 u-layoutMobilePadding0'>
-      {{#floating-side-column enabled=media.isDesktop}}
-        {{social-share
-          title=model.title
-          sharedBy=session.userName
-          model=model
+    <div class='col-sm-3 col-md-2 u-layoutMobilePadding0 hidden-xs hidden-sm'>
+      {{social-share
+        title=model.title
+        sharedBy=session.userName
+        model=model
+      }}
+
+      {{report-content-details contentId=model.contentId}}
+
+      {{#if model.canEdit}}
+        {{edit-content-link
+          contentId=model.id
+          route='market.edit'
+          text='Edit Listing'
         }}
-
-        {{report-content-details contentId=model.contentId}}
-
-        {{#if model.canEdit}}
-          {{edit-content-link
-            contentId=model.id
-            route='market.edit'
-            text='Edit Listing'
-          }}
-        {{/if}}
-      {{/floating-side-column}}
+      {{/if}}
     </div>
   </div>
 

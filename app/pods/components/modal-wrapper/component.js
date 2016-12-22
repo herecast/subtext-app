@@ -11,14 +11,6 @@ export default Ember.Component.extend({
 
   fullscreen: false,
 
-  isFullScreen: computed('fullscreen', 'media.isMobile', function() {
-    if (get(this, 'fullscreen')) {
-      return this.media.isMobile || get(this, 'fullscreen');
-    }
-
-    return false;
-  }),
-
   showHeader: computed('title', 'close', function() {
     return (this.attrs.title || this.attrs.close);
   }),

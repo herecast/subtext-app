@@ -15,7 +15,6 @@
         </h1>
       </div>
 
-      {{#if media.isNotMobile}}
         <nav class='MainNav-channels' role="navigation">
           <ul class='SectionNavigation-list'>
             {{#if channelLinksEnabled}}
@@ -93,86 +92,70 @@
               {{/if}}
           </ul>
         </nav>
-      {{/if}}
 
       <div class='MainNav-search'>
         <!-- will contain user menu/login/register, search -->
-        {{#unless media.isMobile}}
-          <ul class='list-inline'>
-            <li>
-              <span {{action 'openSearch'}} class='MainNav-search-searchButton'>
-                {{fa-icon 'search'}}
-              </span>
-            </li>
-            {{#if session.isAuthenticated}}
-              <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
-                <a {{action 'toggleUserMenu'}}
-                    href='#'
-                    class='MainNav-moreLink'
-                    data-test-link='user-menu'
-                    role='button'
-                    aria-haspopup="true"
-                    aria-expanded="false">
-
-                    {{avatar-image
-                      imageUrl=session.currentUser.userImageUrl
-                      userName=session.currentUser.name
-                      hasCaret=true
-                    }}
-                </a>
-                {{#if showUserMenu}}
-                  {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
-                    {{user-menu
-                        openMyAccount=(action 'openAccountSettings')
-                        model=session.currentUser
-                        action=(action 'toggleUserMenu')
-                      }}
-                  {{/click-outside}}
-                {{/if}}
-              </li>
-            {{else}}
-              <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
-                <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
-                  <span>Sign In</span>
-                </button>
-                <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
-                  <span>Join</span>
-                </button>
-                {{#if showSignIn}}
-                  {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
-                    {{sign-in-register-menu tab=signInTab action=(action 'closeSignInMenu')}}
-                  {{/click-outside}}
-                {{/if}}
-              </li>
-            {{/if}}
-            <li role="presentation" class="dropdown">
-              <a {{action 'trackMenuOpen'}}
+        <ul class='list-inline'>
+          <li>
+            <span {{action 'openSearch'}} class='MainNav-search-searchButton'>
+              {{fa-icon 'search'}}
+            </span>
+          </li>
+          {{#if session.isAuthenticated}}
+            <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
+              <a {{action 'toggleUserMenu'}}
                   href='#'
-                  class='MainNav-moreLink h2'
+                  class='MainNav-moreLink'
+                  data-test-link='user-menu'
                   role='button'
-                  data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false">
-                {{fa-icon 'ellipsis-h'}}
+
+                  {{avatar-image
+                    imageUrl=session.currentUser.userImageUrl
+                    userName=session.currentUser.name
+                    hasCaret=true
+                  }}
               </a>
-              {{extended-nav class="dropdown-menu dropdown-menu-right"}}
+              {{#if showUserMenu}}
+                {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
+                  {{user-menu
+                      openMyAccount=(action 'openAccountSettings')
+                      model=session.currentUser
+                      action=(action 'toggleUserMenu')
+                    }}
+                {{/click-outside}}
+              {{/if}}
             </li>
-          </ul>
-        {{/unless}}
+          {{else}}
+            <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
+              <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
+                <span>Sign In</span>
+              </button>
+              <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
+                <span>Join</span>
+              </button>
+              {{#if showSignIn}}
+                {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
+                  {{sign-in-register-menu tab=signInTab action=(action 'closeSignInMenu')}}
+                {{/click-outside}}
+              {{/if}}
+            </li>
+          {{/if}}
+          <li role="presentation" class="dropdown">
+            <a {{action 'trackMenuOpen'}}
+                href='#'
+                class='MainNav-moreLink h2'
+                role='button'
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+              {{fa-icon 'ellipsis-h'}}
+            </a>
+            {{extended-nav class="dropdown-menu dropdown-menu-right"}}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </div>
-
-{{!--
-  {{content-create-button
-    class='col-lg-3 col-sm-2 hidden-xs u-textPullRight'
-    path=currentPath
-  }}
-
-  {{x-weather
-    class='h2 col-sm-3'
-    location=session.userLocation
-    data-test-component='weather'
-  }}
---}}

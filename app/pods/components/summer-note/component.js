@@ -121,7 +121,7 @@ export default Ember.Component.extend(TestSelector, {
 
     // Remove tooltips in button bar if mobile to avoid double click
     if( get(this, 'media.isMobile') ) {
-      this.$('.note-toolbar button').each(function() {
+      this.$('.note-toolbar button').each(function () {
         Ember.$(this).removeAttr('title');
         Ember.$(this).removeAttr('data-original-title');
       });

@@ -2,17 +2,7 @@
 
   {{#unless isPreview}}
     <div class="DetailPage-navTop clearfix">
-      {{#unless media.isNotMobile}}
-        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--market pull-left"}}
-          {{fa-icon 'arrow-left'}} {{closeLabel}}
-        {{/link-to}}
-      {{/unless}}
-
-      {{#if media.isNotMobile}}
-        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--market"}}
-          {{fa-icon 'close'}}
-        {{/link-to}}
-      {{/if}}
+      {{detail-page-close-link closeRoute=closeRoute closeLabel=closeLabel}}
 
       <div class="pull-right">
         {{social-share
@@ -62,11 +52,8 @@
           <div class="DetailPage-headerNavItem">
             <a href="tel:+1{{model.contactPhone}}">
               <p>{{fa-icon 'phone' size=2}}</p>
-              {{#if media.isMobile}}
-                Call
-              {{else}}
-                {{formatted-phone model.contactPhone}}
-              {{/if}}
+              <span class="visible-xs-inline">Call</span>
+              <span class="hidden-xs">{{formatted-phone model.contactPhone}}</span>
             </a>
           </div>
         {{/if}}

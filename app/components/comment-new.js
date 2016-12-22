@@ -8,7 +8,6 @@ export default Ember.Component.extend({
   }),
 
   keyForFocusReplyBox: 'focus.replyBox',
-  keyForBlurReplyBox: 'blur.replyBox',
 
   didInsertElement() {
     this._super(...arguments);
@@ -21,24 +20,15 @@ export default Ember.Component.extend({
       $elm.on(get(this, 'keyForFocusReplyBox'), () => {
         run.next(this, function() {
           $elm
-            .closest('.Modal-dialog--fullscreen')
-            .addClass('isExpanded')
             .closest('.Modal')
             .scrollTop($elm.position().top);
         });
-      });
-
-      $elm.on(get(this, 'keyForBlurReplyBox'), () => {
-        $elm
-          .closest('.Modal-dialog--fullscreen')
-          .removeClass('isExpanded');
       });
     });
   },
 
   willDestroyElement() {
     this.$().off(get(this, 'keyForFocusReplyBox'));
-    this.$().off(get(this, 'keyForBlurReplyBox'));
   },
 
   actions: {

@@ -31,7 +31,7 @@
             {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title}}
               {{#if isNewsIndex}}
                 <span {{action 'trackSuggestedContentClick'}}>
-                  {{truncate-text text=item.title maxLength=(if media.isDesktop 70 20) tagName='span'}}
+                  {{truncate-text text=item.title maxLength=30 tagName='span'}}
                 </span>
               {{else}}
                 <span {{action 'trackSuggestedContentClick'}}>

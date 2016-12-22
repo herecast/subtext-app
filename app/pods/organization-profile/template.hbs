@@ -10,7 +10,8 @@
             <img src={{model.profileImageUrl}} data-test-organization-image
                  class='OrganizationProfile-header-profileImage'>
           {{else}}
-            {{fa-icon 'user' size=(if media.isMobile 3 5) class='OrganizationProfile-header-genericUserIcon'}}
+            {{fa-icon 'user' size=3 class='OrganizationProfile-header-genericUserIcon hidden-sm hidden-md hidden-lg hidden-xl'}}
+            {{fa-icon 'user' size=5 class='OrganizationProfile-header-genericUserIcon hidden-xs'}}
           {{/if}}
           <p class="OrganizationProfile-header-name">
             {{model.name}}

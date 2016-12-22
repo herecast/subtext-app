@@ -2,13 +2,11 @@
   <div class='row'>
     <div class='col-xs-12 col-md-8 col-md-push-2'>
       <div class='ChannelTopper clearfix'>
-        {{#if media.isMobile}}
-          <h1 class='h2 ChannelTopper-title'>Local Talk</h1>
-        {{/if}}
+        <h1 class='h2 ChannelTopper-title visible-xs'>Local Talk</h1>
 
-        {{#unless media.isMobile}}
+        <div class="hidden-xs">
           {{partial 'partials/pagination-nav'}}
-        {{/unless}}
+        </div>
 
         {{content-create-button
           class='SectionNavigation-contentCreateButtonMobile pull-right'

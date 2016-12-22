@@ -9,6 +9,8 @@ const {
 
 export default Ember.Component.extend(TrackCard, {
   classNameBindings: ['event.registrationDeadline:hasInfoBanner'],
+  attributeBindings: ['data-test-event-card'],
+  'data-test-event-card': computed.readOnly('event.id'),
   isPreview: false,
   venueName: computed.oneWay('event.venueName'),
   venueCity: computed.oneWay('event.venueCity'),

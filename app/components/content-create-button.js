@@ -54,7 +54,7 @@ export default Ember.Component.extend(TestSelector, {
     return `/${path.split('.')[0]}/new/details`;
   }),
 
-  linkText: computed('path', 'media.isTabletOrSmallDesktop', function() {
+  linkText: computed('path', function() {
     const path = this.get('path');
     let contentType = '';
 
@@ -68,11 +68,6 @@ export default Ember.Component.extend(TestSelector, {
       contentType = 'Talk';
     }
 
-    if (this.get('media.isTabletOrSmallDesktop')) {
-      return `+ ${contentType}`;
-    } else {
-      return `Create ${contentType}`;
-    }
-
+    return contentType;
   })
 });

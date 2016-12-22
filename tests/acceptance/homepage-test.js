@@ -24,7 +24,7 @@ test('visiting /', function(assert) {
     assert.equal(find(testSelector('link', 'directory-channel')).length, 1, 'it should show the directory channel link');
     assert.equal(find(testSelector('link', 'login-link')).length, 1, 'it should show the login link');
     assert.equal(find(testSelector('link', 'join-link')).length, 1, 'it should show the sign up link');
-    assert.equal(find(testSelector('link', 'header-link')).length, 1, 'it should show the header link');
+    assert.ok(find(testSelector('link', 'header-link')).length, 'it should show the header link');
 
   });
 });

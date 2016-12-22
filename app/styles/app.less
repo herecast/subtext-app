@@ -15,6 +15,7 @@
 @import 'components/account';
 @import 'components/business-feedback-badge';
 @import 'components/footer-nav';
+@import 'components/media';
 @import 'components/main-nav';
 @import 'components/mobile-header';
 @import 'components/section-navigation';
@@ -188,9 +189,7 @@ body.modal-open > .modal-backdrop {
   padding-top: 80px;
 
   &.padBody {
-    padding-top: 18px;
-
-    &.is-mobile {
+    @media (max-width: @screen-xs-max) {
       padding-top: 36px;
     }
   }

@@ -18,7 +18,6 @@ const {
 export default Ember.Component.extend(TestSelector, Validation, {
   classNames: ['NewsEditor'],
   "data-test-component": "NewsEditor",
-  showDevFlags: false,
   news: null,
   showPreview: false,
 
@@ -36,9 +35,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     }
   },
 
-  editorHeight: computed(function() {
-    return get(this, 'media.isMobile') ? 300 : 500;
-  }),
+  editorHeight: 400,
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: inject.service(),

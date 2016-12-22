@@ -164,6 +164,8 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   didInsertElement() {
+    // Note: it is considered safe to allow the ad-banner to render in fastboot since it never fires `didInsertElement`.
+    // Thus, no ad impression should be triggered incorrectly.
     this._super();
     this._viewportOptionsOverride();
 
