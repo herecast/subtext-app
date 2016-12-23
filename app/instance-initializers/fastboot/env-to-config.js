@@ -15,11 +15,13 @@ export function initialize(appInstance) {
     if(isPresent(val)) {
       config[ name ] = val;
 
+      const metaName = name.dasherize().toLowerCase();
+
       // ember-cli-meta-tags
       envTags.push({
         type: 'meta',
         attrs: {
-          name: name,
+          name: metaName,
           content: val
         }
       });

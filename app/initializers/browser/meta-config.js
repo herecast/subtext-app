@@ -3,7 +3,8 @@ import config from 'subtext-ui/config/environment';
 
 export function initialize() {
   (config.envOverrides || []).forEach((name) => {
-    const value = Ember.$(`meta[name=${name}]`).attr('content');
+    const metaName = name.dasherize().toLowerCase();
+    const value = Ember.$(`meta[name=${metaName}]`).attr('content');
 
     if (value) {
       config[name] = value;
