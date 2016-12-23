@@ -66,7 +66,7 @@
     "ember-cli-babel": "^5.1.6",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-deploy": "0.6.3",
-    "ember-cli-deploy-build": "0.1.1",
+    "ember-cli-deploy-copy-assets": "subtextmedia/ember-cli-deploy-copy-assets",
     "ember-cli-deploy-gzip": "0.2.4",
     "ember-cli-deploy-s3": "0.4.0",
     "ember-cli-deprecation-workflow": "0.2.2",
