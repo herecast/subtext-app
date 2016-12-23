@@ -274,7 +274,7 @@ export default Ember.Service.extend({
     );
   },
 
-  getContentPromotion(content_id) {
+  getContentPromotion(options) {
     const opts = options || {};
     const query = {
       content_id: opts['content_id'],
