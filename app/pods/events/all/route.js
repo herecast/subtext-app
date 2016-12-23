@@ -2,10 +2,11 @@ import Ember from 'ember';
 import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 import History from '../../../mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import RouteNameAdContext from 'subtext-ui/mixins/routes/route-name-ad-context';
 
 const { set } = Ember;
 
-export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
+export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, RouteNameAdContext, {
   model(params) {
     return this.store.query('event-instance', {
       category: params.category,

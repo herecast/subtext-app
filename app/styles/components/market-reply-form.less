@@ -1,0 +1,43 @@
+.MarketReplyForm {
+  width: 100%;
+
+  &.is-open {
+    .MarketReplyForm-content {
+      animation: pulse 5s ease-in;
+    }
+  }
+
+  .MarketReplyForm-content {
+    .well;
+    background-color: #efefef;
+    border-width: 1px;
+    border-color: #ddd;
+  }
+
+  &-header { }
+
+  &-replyButton {
+    background-color: @link-color-new !important;
+    color: #ffffff !important;
+    margin-bottom: 5px;
+
+    &--primary {
+      background-color: @market-brand !important;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #EFEFEF;
+    border-color: #ddd;
+  }
+  10% {
+    background-color: #fffef0;
+    border-color: #ffe68d;
+  }
+  100% {
+    background-color: #EFEFEF;
+    border-color: #ddd;
+  }
+}

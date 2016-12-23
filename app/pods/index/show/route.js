@@ -3,10 +3,11 @@ import Ember from 'ember';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
+import RouteNameAdContext from 'subtext-ui/mixins/routes/route-name-ad-context';
 
 const { get, set } = Ember;
 
-export default Ember.Route.extend(ModalRoute,/* Linkable, */RouteMetaMixin, {
+export default Ember.Route.extend(ModalRoute,/* Linkable, */RouteMetaMixin, RouteNameAdContext, {
 
   model(params, transition) {
     const type = normalizeContentType(params.ctype) || null;

@@ -2,8 +2,9 @@ import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import RouteNameAdContext from 'subtext-ui/mixins/routes/route-name-ad-context';
 
-export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
+export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, RouteNameAdContext, {
   model(params) {
     return this.store.query('news', {
       query: params.query,

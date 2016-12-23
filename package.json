@@ -52,11 +52,12 @@
     "liquid-fire": "0.26.4",
     "loader.js": "^4.0.1",
     "lodash": "^4.16.6",
-    "querystring": "^0.2.0",
-    "sanitize-html": "^1.13.0"
+    "sanitize-html": "^1.13.0",
+    "query-string": "^4.2.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "browserify": "13.1.1",
     "ember-ajax": "^2.0.1",
     "ember-browserify": "1.1.13",
     "ember-cli": "2.8.0",

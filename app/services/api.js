@@ -275,8 +275,15 @@ export default Ember.Service.extend({
   },
 
   getContentPromotion(content_id) {
+    const opts = options || {};
+    const query = {
+      content_id: opts['content_id'],
+      exclude: opts['exclude'],
+      limit: opts['limit'] || 5
+    };
+    const qstring = qs.stringify(query);
     return returnJson(
-      this.request((content_id) ? `/promotion?content_id=${content_id}` : '/promotion')
+      this.request(`/promotions?${qstring}`)
     );
   },
 
