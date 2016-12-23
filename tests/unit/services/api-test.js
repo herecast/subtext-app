@@ -537,7 +537,7 @@ test('getContentMetrics(data)', function(assert) {
   });
 });
 
-test('getContentPromotion(content_id)', function(assert) {
+test('getContentPromotions(options)', function(assert) {
 
   const subject = this.subject({session: this.session});
   const content_id = 1;
@@ -549,19 +549,19 @@ test('getContentPromotion(content_id)', function(assert) {
     }
   };
 
-  server.get('/promotion', (schema, request) => {
+  server.get('/promotions', (schema, request) => {
     expect.consumerAppHeader(assert, request);
     expect.authorizationHeader(assert, request);
     expect.acceptHeader(assert, request, 'application/json');
 
-    assert.ok(true, 'GET /promotion');
+    assert.ok(true, 'GET /promotions');
     assert.equal(request.queryParams['content_id'], content_id,
       "Includes content_id query param when given.");
 
     return returnData;
   });
 
-  subject.getContentPromotion(content_id).then((responseData) => {
+  subject.getContentPromotions({content_id}).then((responseData) => {
     assert.deepEqual(responseData, returnData,
       'it returns parsed response JSON'
     );
