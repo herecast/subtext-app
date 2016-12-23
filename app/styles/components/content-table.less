@@ -1,5 +1,11 @@
 .ContentTable {
   width: 100%;
+
+  &-rightOnMobile {
+    @media (max-width: @screen-xs-max) {
+      text-align: right;
+    }
+  }
 }
 
 .ContentTable-name {

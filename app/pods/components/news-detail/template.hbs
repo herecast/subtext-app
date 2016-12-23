@@ -2,17 +2,7 @@
   <header class="DetailPage-navTop-container">
     {{#unless isPreview}}
       <div class="DetailPage-navTop clearfix">
-        {{#unless media.isNotMobile}}
-          {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--news pull-left"}}
-            {{fa-icon 'arrow-left'}} {{closeLabel}}
-          {{/link-to}}
-        {{/unless}}
-
-        {{#if media.isNotMobile}}
-          {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--news"}}
-            {{fa-icon 'close'}}
-          {{/link-to}}
-        {{/if}}
+        {{detail-page-close-link closeRoute=closeRoute closeLabel=closeLabel}}
 
         <div class="pull-right">
           {{social-share

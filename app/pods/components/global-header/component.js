@@ -18,10 +18,6 @@ export default Ember.Component.extend({
 
   channelLinksEnabled: true,
 
-  displayChannelLinks: computed('channelLinksEnabled', 'media.isNotMobile', function() {
-    return get(this, 'channelLinksEnabled') && get(this, 'media.isNotMobile');
-  }),
-
   actions: {
     openSearch() {
       this.sendAction('openSearch');

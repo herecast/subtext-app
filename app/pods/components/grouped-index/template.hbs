@@ -9,23 +9,12 @@
 </h1>
 
 <div class='row' data-row='row-1'>
-  {{#if media.isNotMobile}}
-    {{grouped-news
-      news=newsItems
-      routeName="index.show"
-      adPath="index.index"
-      showHeader=true
-    }}
-  {{else}}
-
-    <div class='col-xs-12'>
-      {{ordered-news
-        news=newsItems
-        routeName="index.show"
-        adPath="index.index"
-      }}
-    </div>
-  {{/if}}
+  {{grouped-news
+    news=newsItems
+    routeName="index.show"
+    adPath="index.index"
+    showHeader=true
+  }}
 </div>
 
 {{#if media.isMobile}}
@@ -49,7 +38,7 @@
         {{event-card
           event=event
           routeName='index.show'
-          imagePosition=(if media.isNotMobile 'left' 'right')
+          flipImagePosition=true
           classNames='Card Card--event'
         }}
       {{/each}}
@@ -57,7 +46,7 @@
       <div class='CardGroupCTA'>
         <div class='CardGroupCTA-innerWrapper'>
           <div class='CardGroupCTA-pitch'>
-            <p class='{{if media.isDesktop "h3" "h2"}}'>Want to see your Event on DailyUV?</p>
+            <p class='CardGroupCTA-pitch-title'>Want to see your Event on DailyUV?</p>
           </div>
 
           <div class='CardGroupCTA-cta'>
@@ -84,7 +73,7 @@
       {{market-card
         classNames='Card Card--market'
         routeName='index.show'
-        imagePosition=(if media.isNotMobile 'left' 'right')
+        alignImageRightOnMobile=true
         post=post
       }}
     {{/each}}
@@ -92,7 +81,7 @@
     <div class='CardGroupCTA'>
       <div class='CardGroupCTA-innerWrapper'>
         <div class='CardGroupCTA-pitch'>
-          <p class='{{if media.isDesktop "h3" "h2"}}'>Want to see your local Market Listing on DailyUV?</p>
+          <p class='CardGroupCTA-pitch-title'>Want to see your local Market Listing on DailyUV?</p>
         </div>
 
         <div class='CardGroupCTA-cta'>
@@ -131,7 +120,7 @@
     <div class='CardGroupCTA'>
       <div class='CardGroupCTA-innerWrapper'>
         <div class='CardGroupCTA-pitch'>
-          <p class='{{if media.isDesktop "h3" "h2"}}'>Have something to add to the conversation?</p>
+          <p class='CardGroupCTA-pitch-title'>Have something to add to the conversation?</p>
         </div>
 
         <div class='CardGroupCTA-cta'>

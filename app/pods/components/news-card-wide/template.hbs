@@ -6,7 +6,7 @@
 
   <div class='Card-content'>
     <div class='Card-titleGroup'>
-      {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title class="Card-title" classNames=(if media.isMobile "h1" "h2")}}
+      {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title class="Card-title Card-title--wide"}}
         {{item.title}}
       {{/link-to}}
 

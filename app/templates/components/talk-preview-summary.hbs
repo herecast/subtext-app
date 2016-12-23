@@ -15,11 +15,12 @@
         {{#if isSaving}}
           Please Wait&hellip;
         {{else}}
-          {{#if media.isTablet}}
+          <span class="visible-sm-inline">
             Publish
-          {{else}}
+          </span>
+          <span class="hidden-sm">
             {{callToAction}}
-          {{/if}}
+          </span>
           {{fa-icon 'check u-iconRight'}}
         {{/if}}
       {{/async-button}}

@@ -1,31 +1,24 @@
 {{title "dailyUV"}}
 {{#unless hideHeader}}
-  {{#if media.isNotMobile}}
-    {{global-header
-      page=page
-      channelLinksEnabled=channelLinksEnabled
+  {{app-header
+    page=page
+    channelLinksEnabled=channelLinksEnabled
 
-      eventsFilter=eventsFilter
-      newsFilter=newsFilter
-      talkFilter=talkFilter
-      marketFilter=marketFilter
+    eventsFilter=eventsFilter
+    newsFilter=newsFilter
+    talkFilter=talkFilter
+    marketFilter=marketFilter
 
-      trackMenuOpen=(action 'trackMenuOpen')
-      openSearch='openSearch'
-      signOut=(action 'signOut')
-    }}
-  {{else}}
-    {{mobile-header
-      openSearch='openSearch'
-      signOut=(action 'signOut')
-    }}
-  {{/if}}
+    trackMenuOpen=(action 'trackMenuOpen')
+    openSearch='openSearch'
+    signOut=(action 'signOut')
+  }}
 {{/unless}}
 
 {{#if search.showSearch class='search'}}
   {{search-nav}}
 {{else}}
-  <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody'}} {{if media.isMobile 'is-mobile'}}">
+  <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody'}}">
     {{outlet}}
   </div>
   {{modal-manager}}
@@ -34,16 +27,15 @@
 {{#link-to 'copyright' class='Copyright h6'}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
 
 {{#unless hideFooter}}
-  {{#if media.isMobile}}
-    {{footer-nav
-      page=page
+  {{footer-nav
+    page=page
 
-      eventsFilter=eventsFilter
-      newsFilter=newsFilter
-      talkFilter=talkFilter
-      marketFilter=marketFilter
-    }}
-  {{/if}}
+    eventsFilter=eventsFilter
+    newsFilter=newsFilter
+    talkFilter=talkFilter
+    marketFilter=marketFilter
+    class="visible-xs"
+  }}
 {{/unless}}
 
 {{intercom-button}}

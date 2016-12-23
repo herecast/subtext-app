@@ -8,24 +8,22 @@
   </h2>
   <span class='Card-subtitle'>{{post.price}} {{relativeDate}}</span>
 {{else}}
-  <div class="media">
-    {{#unless (eq imagePosition 'right')}}
-      <div class="media-left" >
-        {{#if hasImage}}
-          {{#market-post-link
-            routeName=routeName
-            category=category
-            post=post
-            onTitleClick=(action 'onTitleClick')
-            trackSuggestedContentClick=(action 'trackSuggestedContentClick')
-          }}
-            <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-          {{/market-post-link}}
-        {{/if}}
-      </div>
-    {{/unless}}
+  <div class="Media {{if alignImageRightOnMobile 'Media--invertedOnMobile'}} {{if alignImageRight 'Media--inverted'}}">
+    <div>
+      {{#if hasImage}}
+        {{#market-post-link
+          routeName=routeName
+          category=category
+          post=post
+          onTitleClick=(action 'onTitleClick')
+          trackSuggestedContentClick=(action 'trackSuggestedContentClick')
+        }}
+          <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+        {{/market-post-link}}
+      {{/if}}
+    </div>
 
-    <div class="media-body Card-content">
+    <div class="Media-body Card-content">
       <h2 class='Card-title'>
         {{#market-post-link
           routeName=routeName
@@ -45,22 +43,5 @@
         <span class='Card-subtitle'>{{userLocation}} Only</span>
       {{/if}}
     </div>
-
-
-    {{#if (eq imagePosition 'right')}}
-      <div class="media-right" >
-        {{#if hasImage}}
-          {{#market-post-link
-            routeName=routeName
-            category=category
-            post=post
-            onTitleClick=(action 'onTitleClick')
-            trackSuggestedContentClick=(action 'trackSuggestedContentClick')
-          }}
-            <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
-          {{/market-post-link}}
-        {{/if}}
-      </div>
-    {{/if}}
   </div>
 {{/if}}

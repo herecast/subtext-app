@@ -73,6 +73,14 @@
   @media(min-width: @screen-md-min) {
     padding: 40px;
   }
+
+  &-row {
+    &-status {
+      @media (max-width: @screen-xs-max) {
+        text-align: right;
+      }
+    }
+  }
 }
 
 .Dashboard-form-value,
@@ -105,6 +113,10 @@
 .Dashboard-NewButton-Menu {
   width: 400px;
   font-size: 1.2em;
+
+  @media (max-width: @screen-xs-max) {
+    width: auto;
+  }
 }
 
 .Dashboard-NewButton-Menu-Title {

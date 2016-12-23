@@ -21,15 +21,13 @@ export default Ember.Component.extend(Validation, {
 
   locations: computed('results.[]', function () {
     const results = get(this, 'results') || [];
-    const isMobile = get(this, 'media.isMobile');
 
     return results.map(location => {
       let detailsUrl = this.get('target').generate('directory.show', location);
 
-      const phone = (isMobile) ?
-      `<a href="tel:+1${location.get('phone')}">`+
+      const phone = `<a href="tel:+1${location.get('phone')}" class="visible-xs-inline">`+
       `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`+
-      `</a>` : `<i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}`;
+      `</a><span class="hidden-xs"><i class="fa fa-phone"></i> ${formatPhone(location.get('phone'))}</span>`;
 
       return {
         coords: {

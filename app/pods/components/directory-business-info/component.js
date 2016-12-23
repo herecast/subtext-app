@@ -37,14 +37,12 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  selectedLocation: computed('media.isMobile', 'model.name', 'model.phone', 'model.fullAddress', 'model.directionsLink', 'model.coords.lat', 'model.coords.lng', function() {
+  selectedLocation: computed('model.name', 'model.phone', 'model.fullAddress', 'model.directionsLink', 'model.coords.lat', 'model.coords.lng', function() {
     const location = get(this, 'model');
-    const isMobile = get(this, 'media.isMobile');
 
-    const phone = (isMobile) ?
-    `<a href="tel:+1${get(location, 'phone')}">`+
+    const phone = `<a href="tel:+1${get(location, 'phone')}" class="visible-xs-inline">`+
     `<i class="fa fa-phone"></i> ${formatPhone(get(location, 'phone'))}`+
-    `</a>` : `<i class="fa fa-phone"></i> ${formatPhone(get(location, 'phone'))}`;
+    `</a><span class="hidden-xs"><i class="fa fa-phone"></i> ${formatPhone(get(location, 'phone'))}</span>`;
 
     return [{
       coords: {

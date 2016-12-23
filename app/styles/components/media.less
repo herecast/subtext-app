@@ -1,0 +1,30 @@
+// Designed to replace bootstrap's "media" class
+// Uses flexbox, has support for inverting the image position (right instead of left)
+// without the need to clutter the DOM through duplicative html
+.Media {
+  .flex-display();
+  .justify-content(space-between);
+
+  &--inverted {
+    .flex-direction(row-reverse);
+  }
+
+  &--invertedOnDesktop {
+    .flex-direction(row-reverse);
+
+    @media (max-width: @screen-xs-max) {
+      .flex-direction(row);
+    }
+  }
+
+  &--invertedOnMobile {
+    @media (max-width: @screen-xs-max) {
+      .flex-direction(row-reverse);
+    }
+  }
+
+  &-body {
+    .flex-grow(1);
+    padding: 0 10px;
+  }
+}
