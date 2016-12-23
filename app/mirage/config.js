@@ -238,7 +238,7 @@ export default function() {
     var id = 1;
     var currentUser;
 
-    if(request.requestHeaders['Content-Type'].indexOf('application/json') > -1) {
+    if(request.requestHeaders['content-type'].indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['currentUser'];

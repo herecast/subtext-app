@@ -7,8 +7,13 @@ export default Ember.Service.extend({
   enableTracking: true,
   fastboot: inject.service(),
 
-  isFastBoot() {
-    return get(this, 'fastboot.isFastBoot');
+  intercom() {
+    /**
+     * Noop if in fastboot mode
+     */
+    if(!get(this, 'fastboot.isFastBoot')) {
+      window.Intercom(...arguments);
+    }
   },
 
   doTrack() {
@@ -20,47 +25,43 @@ export default Ember.Service.extend({
   },
 
   boot(user) {
-    if(!this.isFastBoot()) {
-      // The existing logged out version of Intercom needs to be shutdown
-      // so that the logged in version can boot up.
-      window.Intercom('shutdown');
+    // The existing logged out version of Intercom needs to be shutdown
+    // so that the logged in version can boot up.
+    this.intercom('shutdown');
 
-      const intercomId = config['INTERCOM_API_TOKEN'];
+    const intercomId = config['INTERCOM_API_TOKEN'];
 
-      if (isPresent(user) && get(this, 'enableTracking')) {
-        window.Intercom('boot', {
-          app_id: intercomId,
-          email: user.get('email'),
-          name: user.get('name'),
-          user_id: user.get('userId'),
-          created_at: user.get('createdAt'),
-          test_group: user.get('testGroup')
-        });
-      } else {
-        // TODO this code is unreachable and probably not
-        // needed since the app reloads when the user logs out.
-        window.Intercom('boot', {
-          app_id: intercomId
-        });
-      }
-      // restores custom button behaviour after reboot
-      window.Intercom('update');
+    if (isPresent(user) && get(this, 'enableTracking')) {
+      this.intercom('boot', {
+        app_id: intercomId,
+        email: user.get('email'),
+        name: user.get('name'),
+        user_id: user.get('userId'),
+        created_at: user.get('createdAt'),
+        test_group: user.get('testGroup')
+      });
+    } else {
+      // TODO this code is unreachable and probably not
+      // needed since the app reloads when the user logs out.
+      this.intercom('boot', {
+        app_id: intercomId
+      });
     }
+    // restores custom button behaviour after reboot
+    this.intercom('update');
   },
 
   update(/*user*/) {
-    if(!this.isFastBoot()) {
-      if(get(this, 'enableTracking')) {
-        window.Intercom('update', {
-          // TODO: pass user attributes here if they change (i.e. email, name, etc)
-        });
-      }
+    if(get(this, 'enableTracking')) {
+      this.intercom('update', {
+        // TODO: pass user attributes here if they change (i.e. email, name, etc)
+      });
     }
   },
 
   contactUs(subject) {
     if (window.Intercom) {
-      window.Intercom('show');
+      this.intercom('show');
     } else {
       let url = "mailto:dailyuv@subtext.org?";
       if (subject) {
@@ -71,16 +72,16 @@ export default Ember.Service.extend({
   },
 
   showMessenger() {
-    window.Intercom('show');
+    this.intercom('show');
   },
 
   hideMessenger() {
-    window.Intercom('hide');
+    this.intercom('hide');
   },
 
   onShow(fn) {
     if (typeof fn === 'function') {
-      window.Intercom('onShow', () => {
+      this.intercom('onShow', () => {
         fn();
       });
     }
@@ -88,7 +89,7 @@ export default Ember.Service.extend({
 
   onHide(fn) {
     if (typeof fn === 'function') {
-      window.Intercom('onHide', () => {
+      this.intercom('onHide', () => {
         fn();
       });
     }
@@ -96,11 +97,11 @@ export default Ember.Service.extend({
 
   trackEvent(eventName, metadata) {
     if(get(this, 'enableTracking')) {
-      window.Intercom('trackEvent', eventName, metadata);
+      this.intercom('trackEvent', eventName, metadata);
     }
   },
 
   shutdown() {
-    window.Intercom('shutdown');
+    this.intercom('shutdown');
   }
 });

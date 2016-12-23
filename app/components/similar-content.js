@@ -24,8 +24,8 @@ export default Ember.Component.extend(ExpandableContent, {
           // Filter out any events that do not have a start date. These are events
           // that have been imported and do not have event instances associated
           // with them.
-          const contents = similar_content.reject((record) => {
-            return record.content_type === 'event' && Ember.isBlank(record.starts_at);
+          const contents = similar_content.filter((record) => {
+            return !(record.content_type === 'event' && Ember.isBlank(record.starts_at));
           }).map((record) => {
             return contentModel.convert(record);
           });

@@ -9,6 +9,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   windowLocation: inject.service(),
   search: inject.service(),
   modals: inject.service(),
+  fastboot: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -81,7 +82,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     scrollTo(offset) {
-      Ember.$(window).scrollTop(offset);
+      if(!get(this, 'fastboot.isFastBoot')) {
+        Ember.$(window).scrollTop(offset);
+      }
     }
   }
 });
