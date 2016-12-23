@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import AjaxService from 'ember-ajax/services/ajax';
 import config from '../config/environment';
+import qs from 'npm:query-string';
 
 const { inject, computed, get, isEmpty, isPresent } = Ember;
 
@@ -119,8 +120,16 @@ export default AjaxService.extend({
     });
   },
 
-  getContentPromotion(content_id) {
-    return this.request((content_id) ? `/promotion?content_id=${content_id}` : '/promotion');
+  getContentPromotions(options) {
+    const opts = options || {};
+    const query = {
+      content_id: opts['content_id'],
+      exclude: opts['exclude'],
+      limit: opts['limit'] || 5
+    };
+    const qstring = qs.stringify(query);
+
+    return this.request(`/promotions?${qstring}`);
   },
 
   getListServs() {

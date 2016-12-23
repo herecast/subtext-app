@@ -47,7 +47,7 @@ export default Ember.Component.extend({
 
       if (!cropperExists) {
         const that = this;
-        
+
         Ember.run(() => {
           img.cropper({
             aspectRatio: aspectRatio,
@@ -68,17 +68,19 @@ export default Ember.Component.extend({
   }),
 
   cropUpdated(img) {
-    const blobFormat = get(this, 'type');
-    const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
-    this.set('imageUrl', url);
+    if(!this.isDestroying) {
+      const blobFormat = get(this, 'type');
+      const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
+      this.set('imageUrl', url);
 
-    const blobQuality = 0.9;
+      const blobQuality = 0.9;
 
-    img.cropper('getCroppedCanvas').toBlob((data) => {
-      if (! get(this, 'isDestroyed')) {
-        this.set('image', data);
-      }
-    }, blobFormat, blobQuality);
+      img.cropper('getCroppedCanvas').toBlob((data) => {
+        if (! get(this, 'isDestroyed')) {
+          this.set('image', data);
+        }
+      }, blobFormat, blobQuality);
+    }
   },
 
   actions: {

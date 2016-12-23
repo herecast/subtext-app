@@ -464,16 +464,21 @@ export default function() {
     };
   });
 
-  this.get('/promotion', () => {
-    return {
-      promotion: {
-        banner_id: faker.random.number(1000),
+  this.get('/promotions', (db, request) => {
+    let limit = parseInt(request.queryParams.limit || 1);
+    let promotions = [];
+
+    for(var i = 0; i < limit; i++) {
+      promotions.push({
+        id: faker.random.number(1000),
         image_url: `https://placehold.it/600x500/61e49c/ffffff/&text=Ad`,
         redirect_url: `http://${faker.internet.domainName()}`,
         advertiser: faker.company.companyName,
         promotion_id: faker.random.number(1000)
-      }
-    };
+      });
+    }
+
+    return {promotions:promotions};
   });
 
   this.post('/promotion_banners/:id/track_click', function() {});

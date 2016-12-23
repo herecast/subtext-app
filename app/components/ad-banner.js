@@ -15,8 +15,11 @@ const {
 
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
+  ads: inject.service(),
   currentService: inject.service('currentController'),
   promotion: null,
+  impressionPath: null,
+  adContextName: computed.reads('currentService.currentPath'),
 
   _canSendImpression: computed('impressionPath', '_didSendImpression',
     '_currentPathMatchesImpressionPath', function() {
@@ -64,7 +67,7 @@ export default Ember.Component.extend(InViewportMixin, {
         'event'           : event,
         'advertiser'      : get(promo, 'organization_name'),
         'promotion_id'    : get(promo, 'promotion_id'),
-        'banner_id'       : get(promo, 'banner_id'),
+        'banner_id'       : get(promo, 'id'),
         'redirect_url'    : get(promo, 'redirect_url'),
         'promotion_title' : get(promo, 'title')
       });
@@ -97,12 +100,12 @@ export default Ember.Component.extend(InViewportMixin, {
       const contentId = get(this, 'contentModel.id');
       const api = get(this, 'api');
 
-      api.recordPromoBannerImpression(get(promo, 'banner_id'), {
+      api.recordPromoBannerImpression(get(promo, 'id'), {
         content_id: contentId,
         gtm_blocked: this._validateGTM()
       });
 
-      console.info(`[Impression of banner]: ${get(promo, 'banner_id')}, [GTM blocked]: ${this._validateGTM()}`);
+      console.info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${this._validateGTM()}`);
 
       this._pushEvent('VirtualAdImpresion');
 
@@ -111,8 +114,9 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   _getPromotion() {
+    const adContextName = get(this, 'adContextName');
     const content = get(this, 'contentModel');
-    const api = get(this, 'api');
+    const ads = get(this, 'ads');
 
     let contentId;
 
@@ -120,16 +124,14 @@ export default Ember.Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
-    return api.getContentPromotion(contentId).then(response => {
-      const promotion = response.promotion;
-
+    return ads.getAd(adContextName, contentId).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
           promotion: Ember.Object.create(promotion),
           _didSendImpression: false
         });
 
-        console.info(`[Loaded banner]: ${promotion.banner_id}`);
+        console.info(`[Loaded banner]: ${promotion.id}`);
 
         this._pushEvent('VirtualAdLoaded');
       }
@@ -189,11 +191,11 @@ export default Ember.Component.extend(InViewportMixin, {
       const promo = get(this, 'promotion');
       const api = get(this, 'api');
 
-      api.recordPromoBannerClick(get(promo, 'banner_id'), {
+      api.recordPromoBannerClick(get(promo, 'id'), {
         content_id: (contentId) ? contentId : null
       });
 
-      console.info(`[Click banner]: ${get(promo, 'banner_id')}`);
+      console.info(`[Click banner]: ${get(promo, 'id')}`);
 
       this._pushEvent('VirtualAdClicked');
     }

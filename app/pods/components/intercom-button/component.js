@@ -28,7 +28,9 @@ export default Ember.Component.extend({
 
     Ember.$(window).on('scroll.intercomButton', () => {
       let checkBottom = run.debounce(this, () => {
-        set(this, 'footerShowing', this._isFooterShowing());
+        if(!this.isDestroying) {
+          set(this, 'footerShowing', this._isFooterShowing());
+        }
       }, 350);
 
       set(this, 'checkBottom', checkBottom);

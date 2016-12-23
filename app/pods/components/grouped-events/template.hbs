@@ -15,7 +15,9 @@
               {{#each group.items as |event innerIndex|}}
                 {{#if (and (eq outerIndex 0) (eq innerIndex 4))}}
                   <div class='AdBanner-wrapper AdBanner-wrapper--events'>
-                    {{ad-banner impressionPath=adPath}}
+                    {{ad-banner
+                      adContextName=adPath
+                      impressionPath=adPath}}
                   </div>
                 {{/if}}
 
