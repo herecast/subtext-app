@@ -46,57 +46,60 @@
     {{/if}}
   </div>
 
-  <div class="DetailPage-headerSection">
-    <div class="DetailPage-headerNav">
+    <div>
       {{#if hasClickedReplyButton}}
-        {{#if model.contactEmail}}
-          <div class="DetailPage-headerNavItem">
-            <a href='mailto:{{model.contactEmail}}' target='_blank'>
-              <p>{{fa-icon 'reply' size=2}}</p>
-              Email
-            </a>
-          </div>
-        {{/if}}
+        <div class="DetailPage-headerSection">
+          <div class="DetailPage-headerNav">
+            {{#if model.contactEmail}}
+              <div class="DetailPage-headerNavItem">
+                <a href='mailto:{{model.contactEmail}}' target='_blank'>
+                  <p>{{fa-icon 'reply' size=2}}</p>
+                  Email
+                </a>
+              </div>
+            {{/if}}
 
-        {{#if model.contactPhone}}
-          <div class="DetailPage-headerNavItem">
-            <a href="tel:+1{{model.contactPhone}}">
-              <p>{{fa-icon 'phone' size=2}}</p>
-              {{#if media.isMobile}}
-                Call
-              {{else}}
-                {{formatted-phone model.contactPhone}}
-              {{/if}}
-            </a>
-          </div>
-        {{/if}}
+            {{#if model.contactPhone}}
+              <div class="DetailPage-headerNavItem">
+                <a href="tel:+1{{model.contactPhone}}">
+                  <p>{{fa-icon 'phone' size=2}}</p>
+                  {{#if media.isMobile}}
+                    Call
+                  {{else}}
+                    {{formatted-phone model.contactPhone}}
+                  {{/if}}
+                </a>
+              </div>
+            {{/if}}
 
-        {{#if model.address}}
-          <div class="DetailPage-headerNavItem">
-            <a href='{{model.directionsLink}}' target='_blank'>
-              <p>{{fa-icon 'map-marker' size=2}}</p>
-              Map
-            </a>
+            {{#if model.address}}
+              <div class="DetailPage-headerNavItem">
+                <a href='{{model.directionsLink}}' target='_blank'>
+                  <p>{{fa-icon 'map-marker' size=2}}</p>
+                  Map
+                </a>
+              </div>
+            {{/if}}
           </div>
-        {{/if}}
+        </div>
       {{else}}
         {{#unless model.sold}}
-          <div class="DetailPage-headerNavItem">
-            <button class='Button btn btn-default Button--market' {{action 'clickReplyButton'}}>Reply to Poster</button>
-          </div>
+          {{market-reply-form
+            post=(readonly model)
+            clickReplyButton=(action 'clickReplyButton')
+          }}
         {{/unless}}
       {{/if}}
 
       {{#if model.canEdit}}
-        <div class="DetailPage-headerNavItem">
-          {{#link-to 'market.edit' model.id class='Button btn btn-default'}}
+        <div class="DetailPage-headerNavItem text-center">
+          {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
             {{fa-icon 'pencil'}} Edit Listing
           {{/link-to}}
         </div>
       {{/if}}
     </div>
   </div>
-</div>
 
 {{#unless isPreview}}
   {{report-content-details
