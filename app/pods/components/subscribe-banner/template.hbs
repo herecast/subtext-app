@@ -1,0 +1,29 @@
+<div class='SubscribeBanner-wrapper'>
+  <div class='SubscribeBanner'>
+    <div class='row'>
+      <div class='col-md-4'>
+        <div class='SubscribeBanner-imageWrapper SubscribeBanner-imageWrapper--zoey'>
+          <div class='SubscribeBanner-image'>
+            <img src='{{imgUrl}}'  class='img-responsive' />
+          </div>
+        </div>
+      </div>
+
+      <div class='col-md-4'>
+        <div class='SubscribeBanner-content'>
+          <h1 class='h2 u-bold SubscribeBanner-title'>{{title}}</h1>
+
+          {{#if subtitle}}
+            <p class='h3 SubscribeBanner-subtitle'>{{{subtitle}}}</p>
+          {{/if}}
+        </div>
+      </div>
+
+        <div class='col-md-4'>
+          <button {{action (action subscribe)}} class='btn btn-primary SubscribeBanner-subscribeButton'>
+            {{fa-icon 'envelope-o'}}&nbsp;Subscribe
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
