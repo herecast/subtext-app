@@ -87,9 +87,9 @@ export default Ember.Service.extend({
         if(response.status < 300 && response.status >= 200) {
           resolve(response);
         } else {
-          reject(response);
+          reject();
         }
-      }, (response) => reject(response));
+      }, reject);
     });
   },
 
@@ -117,9 +117,9 @@ export default Ember.Service.extend({
         (response) => {
           pendingRequestCount = pendingRequestCount - 1;
           run.join(null, resolve, response);
-        }, (response) => {
+        }, () => {
           pendingRequestCount = pendingRequestCount - 1;
-          run.join(null, reject, response);
+          run.join(null, reject);
       });
     });
   },
