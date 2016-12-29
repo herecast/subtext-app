@@ -6,6 +6,7 @@ const { get, set, setProperties, computed, isBlank, inject, run } = Ember;
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   classNames: ['AccountFormDetails'],
+  intercom: inject.service(),
 
   notify: inject.service('notification-messages'),
 
@@ -60,6 +61,8 @@ export default Ember.Component.extend(Validation, {
             showPasswordForm: false,
             imageFormVisible: false
           });
+
+          get(this, 'intercom').update(model);
         },
         () => notify.error('Error: Unable to save changes.'));
     } else {

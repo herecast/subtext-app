@@ -1,7 +1,12 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
-const { get, set, isPresent, inject } = Ember;
+const {
+  get,
+  set,
+  isPresent,
+  inject
+} = Ember;
 
 export default Ember.Service.extend({
   enableTracking: true,
@@ -30,8 +35,9 @@ export default Ember.Service.extend({
     this.intercom('shutdown');
 
     const intercomId = config['INTERCOM_API_TOKEN'];
+    const userPresent = isPresent(user) && isPresent(get(user, 'email'));
 
-    if (isPresent(user) && get(this, 'enableTracking')) {
+    if (userPresent && get(this, 'enableTracking')) {
       this.intercom('boot', {
         app_id: intercomId,
         email: user.get('email'),
@@ -51,11 +57,18 @@ export default Ember.Service.extend({
     this.intercom('update');
   },
 
-  update(/*user*/) {
+  update(user) {
     if(get(this, 'enableTracking')) {
-      this.intercom('update', {
-        // TODO: pass user attributes here if they change (i.e. email, name, etc)
-      });
+      if(isPresent(user)) {
+        this.intercom('update', {
+          email: user.get('email'),
+          name: user.get('name'),
+          user_id: user.get('userId'),
+          created_at: user.get('createdAt'),
+        });
+      } else {
+        this.intercom('update');
+      }
     }
   },
 
