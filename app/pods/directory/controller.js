@@ -12,8 +12,9 @@ const {
 
 export default Ember.Controller.extend({
   geo: inject.service('geolocation'),
+  fastboot: inject.service(),
 
-  queryParams: ['lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
+  queryParams: ['location','lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
 
   lat: null,
   lng: null,
@@ -30,6 +31,8 @@ export default Ember.Controller.extend({
   businesses: null,
 
   intercom: inject.service(),
+
+  
 
   canSearch: computed('query', 'category_id', 'lat', 'lng', function() {
     const query = get(this, 'query') || '';
@@ -77,11 +80,11 @@ export default Ember.Controller.extend({
       return results;
     });
 
-    return promise;
-  }),
+    if(get(this, 'fastboot.isFastBoot')) {
+      get(this, 'fastboot').deferRendering(promise);
+    }
 
-  categories: computed(function() {
-    return this.store.findAll('business-category');
+    return promise;
   }),
 
   category: computed('category_id', 'categories.[]', function() {

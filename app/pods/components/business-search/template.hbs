@@ -3,8 +3,8 @@
   type='text'
   enter=(action this.attrs.updateFromQuery)
   placeholder='What are you looking for?'
+  value=(readonly inputVal)
 }}
-
 {{#if displaySuggestions}}
   <ul class='dropdown-menu' role='menu'>
     {{#each categoryMatches as |category|}}

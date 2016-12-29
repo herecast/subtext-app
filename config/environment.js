@@ -64,6 +64,7 @@ module.exports = function(environment) {
     var hasApiHost = (process.env.API_BASE_URL && process.env.API_BASE_URL.trim().length > 0);
     if(hasApiHost) {
       ENV['ember-cli-mirage']['enabled'] = false;
+      ENV['API_BASE_URL'] = process.env.API_BASE_URL;
     }
 
     if(process.env.FACEBOOK_API_ID) {
