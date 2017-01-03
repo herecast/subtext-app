@@ -41,6 +41,10 @@ module.exports = function(defaults) {
     // END
   }
 
+  if (!process.env.EMBER_CLI_FASTBOOT) {
+    app.import('bower_components/PACE/pace.js');
+  }
+
 
   // THIS GROUP CONTRIBUTES 50 KB to the gzipped size PASS
   app.import('bower_components/summernote/dist/summernote.css');

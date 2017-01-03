@@ -177,31 +177,27 @@
 
         <div class='row'>
           <div class='col-xs-12'>
-            {{#unless model.isLoaded}}
-              {{x-loader}}
-            {{else}}
-              {{#if model.length}}
-                <div class='u-layoutPadT20'>
-                  {{sorted-market-posts
-                    marketPosts=model
-                    trackCardClick=(action 'trackCardClick')
-                    adPath='market.all.index'
-                  }}
-                </div>
+            {{#if model.length}}
+              <div class='u-layoutPadT20'>
+                {{sorted-market-posts
+                  marketPosts=model
+                  trackCardClick=(action 'trackCardClick')
+                  adPath='market.all.index'
+                }}
+              </div>
 
-                <div class='row'>
-                  <div class='col-xs-12 col-md-8 col-md-push-2'>
-                    <div class='PaginationNav-wrapper'>
-                      <div class='PaginationNav PaginationNav--bottom'>
-                        {{partial 'partials/pagination-nav'}}
-                      </div>
+              <div class='row'>
+                <div class='col-xs-12 col-md-8 col-md-push-2'>
+                  <div class='PaginationNav-wrapper'>
+                    <div class='PaginationNav PaginationNav--bottom'>
+                      {{partial 'partials/pagination-nav'}}
                     </div>
                   </div>
                 </div>
-              {{else}}
-                <h2 class='h3'>No results for "{{query}}". Please try your search again.</h2>
-              {{/if}}
-            {{/unless}}
+              </div>
+            {{else}}
+              <h2 class='h3'>No results for "{{query}}". Please try your search again.</h2>
+            {{/if}}
           </div>
         </div>
       {{/unless}}

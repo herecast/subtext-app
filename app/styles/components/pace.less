@@ -1,0 +1,25 @@
+// Minimalist styling for "PACE" loading bar that appears at the top of the screen
+// See http://github.hubspot.com/pace/
+
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  .pace-progress {
+    background: @news-brand;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 4px;
+  }
+
+  &-inactive {
+    display: none;
+  }
+}
