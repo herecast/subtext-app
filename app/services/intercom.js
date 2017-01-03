@@ -58,16 +58,18 @@ export default Ember.Service.extend({
   },
 
   update(user) {
+    const intercomId = config['INTERCOM_API_TOKEN'];
     if(get(this, 'enableTracking')) {
       if(isPresent(user)) {
         this.intercom('update', {
+          app_id: intercomId,
           email: user.get('email'),
           name: user.get('name'),
           user_id: user.get('userId'),
           created_at: user.get('createdAt'),
         });
       } else {
-        this.intercom('update');
+        this.intercom('update', { app_id: intercomId });
       }
     }
   },
