@@ -6,7 +6,8 @@ const {
   inject,
   get,
   computed,
-  observer
+  observer,
+  run
 } = Ember;
 
 export default SessionService.extend({
@@ -27,7 +28,7 @@ export default SessionService.extend({
     const currentUser = get(this, 'currentUser');
 
     if(get(this, 'isAuthenticated') && currentUser) {
-      this.get('intercom').boot(currentUser);
+      this.get('intercom').update(currentUser);
     }
   }),
 

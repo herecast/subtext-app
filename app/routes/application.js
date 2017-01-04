@@ -74,7 +74,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
       if (isPresent(currentUser)) {
         run.next(() => {
-          get(this, 'intercom').update();
+          get(this, 'intercom').update(currentUser);
         });
       }
 

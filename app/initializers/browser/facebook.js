@@ -3,7 +3,7 @@ import config from 'subtext-ui/config/environment';
 
 export function initialize() {
   window.fbAsyncInit = function() {
-    if (config.fb_enabled) {
+    if (config.fb_enabled && 'FACEBOOK_API_ID' in config && config.FACEBOOK_API_ID) {
       let initOptions = {
         appId   : config['FACEBOOK_API_ID'],
         xfbml   : true,
