@@ -434,6 +434,12 @@ export default Ember.Service.extend({
     );
   },
 
+  recordNewsImpression(news) {
+    return returnJson(
+      this.post(`/news/${get(news, 'id')}/impressions`)
+    );
+  },
+
   reportAbuse(content_id, flag_type) {
     return returnJson(
       this.post(`/contents/${content_id}/moderate`,

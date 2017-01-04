@@ -1366,6 +1366,29 @@ test('recordPromoBannerImpression(id, data)', function(assert) {
   });
 });
 
+test('recordNewsImpression(id)', function(assert) {
+
+  const subject = this.subject({session: this.session});
+  const id = 7;
+  const news = Ember.Object.create({id: id});
+  const done = assert.async();
+
+  server.post('/news/:id/impressions', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    assert.equal(
+      request.params.id, id,
+      "POST /news/:id/impressions with expected id");
+
+    done();
+    return {};
+  });
+
+  subject.recordNewsImpression(news);
+});
+
 test('reportAbuse(content_id, flagType)', function(assert) {
   const subject = this.subject({
     session: this.session,

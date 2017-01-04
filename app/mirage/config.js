@@ -658,6 +658,10 @@ export default function() {
     return { news: news };
   });
 
+  this.post('news/:id/impressions', function(){
+    return {};
+  });
+
   this.get('/contents', function({ db }, request) {
     return {
       contents: mixedContent(db, request.queryParams)
