@@ -13,6 +13,9 @@ export default SessionService.extend({
   api         : inject.service('api'),
   userService : inject.service('user'),
   intercom    : inject.service('intercom'),
+  fastboot    : inject.service(),
+
+  isFastBoot: computed.alias('fastboot.isFastBoot'),
 
   signOut() {
     return get(this, 'api').signOut().then(() => {

@@ -1,5 +1,6 @@
 {{!-- NOTE: the component.js wraps this markup with div.mobileHeader --}}
 <div class='MobileHeader-user'>
+{{#unless session.isFastBoot}}
   {{#if session.isAuthenticated}}
     <div class='UserMenu'>
       <a href='#' class='UserMenu-avatar' role='button' {{action 'openUserMenu'}}>
@@ -16,6 +17,7 @@
       Sign in/Join
     </button>
   {{/if}}
+{{/unless}}
 </div>
 
 <div class='MobileHeader-brand'>

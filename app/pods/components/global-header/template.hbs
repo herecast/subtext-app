@@ -101,47 +101,49 @@
               {{fa-icon 'search'}}
             </span>
           </li>
-          {{#if session.isAuthenticated}}
-            <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
-              <a {{action 'toggleUserMenu'}}
-                  href='#'
-                  class='MainNav-moreLink'
-                  data-test-link='user-menu'
-                  role='button'
-                  aria-haspopup="true"
-                  aria-expanded="false">
+          {{#unless session.isFastBoot}}
+            {{#if session.isAuthenticated}}
+              <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
+                <a {{action 'toggleUserMenu'}}
+                    href='#'
+                    class='MainNav-moreLink'
+                    data-test-link='user-menu'
+                    role='button'
+                    aria-haspopup="true"
+                    aria-expanded="false">
 
-                  {{avatar-image
-                    imageUrl=session.currentUser.userImageUrl
-                    userName=session.currentUser.name
-                    hasCaret=true
-                  }}
-              </a>
-              {{#if showUserMenu}}
-                {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
-                  {{user-menu
-                      openMyAccount=(action 'openAccountSettings')
-                      model=session.currentUser
-                      action=(action 'toggleUserMenu')
+                    {{avatar-image
+                      imageUrl=session.currentUser.userImageUrl
+                      userName=session.currentUser.name
+                      hasCaret=true
                     }}
-                {{/click-outside}}
-              {{/if}}
-            </li>
-          {{else}}
-            <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
-              <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
-                <span>Sign In</span>
-              </button>
-              <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
-                <span>Join</span>
-              </button>
-              {{#if showSignIn}}
-                {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
-                  {{sign-in-register-menu tab=signInTab action=(action 'closeSignInMenu')}}
-                {{/click-outside}}
-              {{/if}}
-            </li>
-          {{/if}}
+                </a>
+                {{#if showUserMenu}}
+                  {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
+                    {{user-menu
+                        openMyAccount=(action 'openAccountSettings')
+                        model=session.currentUser
+                        action=(action 'toggleUserMenu')
+                      }}
+                  {{/click-outside}}
+                {{/if}}
+              </li>
+            {{else}}
+              <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
+                <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
+                  <span>Sign In</span>
+                </button>
+                <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
+                  <span>Join</span>
+                </button>
+                {{#if showSignIn}}
+                  {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
+                    {{sign-in-register-menu tab=signInTab action=(action 'closeSignInMenu')}}
+                  {{/click-outside}}
+                {{/if}}
+              </li>
+            {{/if}}
+          {{/unless}}
           <li role="presentation" class="dropdown">
             <a {{action 'trackMenuOpen'}}
                 href='#'
