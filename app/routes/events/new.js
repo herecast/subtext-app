@@ -1,12 +1,10 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const { get, run, inject } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, {
-  location: inject.service('window-location'),
   intercom: inject.service('intercom'),
 
   model(params, transition) {
@@ -78,13 +76,10 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
-      const locationService = get(this, 'location');
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.all.show', firstInstanceId).then(() => {
-        SocialSharing.createShareCache(locationService);
-      });
+      this.transitionTo('events.all.show', firstInstanceId);
 
       run.next(() => {
         event.set('listservIds',[]);

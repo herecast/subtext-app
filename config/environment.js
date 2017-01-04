@@ -75,7 +75,6 @@ module.exports = function(environment) {
     ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
     ENV['FACEBOOK_API_ID'] = process.env.FACEBOOK_API_ID;
-    ENV['PRERENDER_IO_TOKEN'] = process.env.PRERENDER_IO_TOKEN;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;
     ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;
@@ -109,8 +108,6 @@ module.exports = function(environment) {
     };
 
     ENV.fb_enabled = true;
-
-    ENV.prerender_enabled = true;
   }
 
   return ENV;
