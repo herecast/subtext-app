@@ -53,8 +53,6 @@ export default Ember.Service.extend({
         app_id: intercomId
       });
     }
-    // restores custom button behaviour after reboot
-    this.intercom('update');
   },
 
   update(user) {
@@ -65,6 +63,7 @@ export default Ember.Service.extend({
           name: user.get('name'),
           user_id: user.get('userId'),
           created_at: user.get('createdAt'),
+          test_group: user.get('testGroup')
         });
       } else {
         this.intercom('update');
