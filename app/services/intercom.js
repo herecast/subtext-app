@@ -53,7 +53,7 @@ export default Ember.Service.extend({
         app_id: intercomId
       });
     }
-    // restores custom button behaviour after reboot
+    // restores custom button behaviour after reboot.
     this.intercom('update');
   },
 
