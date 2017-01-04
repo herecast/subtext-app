@@ -25,7 +25,13 @@ if(testing) {
 }
 
 function returnJson(request) {
-  return request.then((response)=>response.json());
+  return request.then((response)=>{
+    if(response.status === 204) {
+      return {};
+    }
+
+    return response.json();
+  });
 }
 
 function returnText(request) {
