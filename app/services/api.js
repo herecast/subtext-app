@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import fetch from 'ember-network/fetch';
 import config from '../config/environment';
-import qs from 'npm:querystring';
+import qs from 'npm:qs';
 
 const {
   RSVP,
@@ -34,7 +34,7 @@ function returnText(request) {
 
 function queryString(data) {
   if(isPresent(data)) {
-    return "?" + qs.stringify(data);
+    return "?" + qs.stringify(data, { arrayFormat: 'brackets' });
   } else {
     return "";
   }
@@ -43,6 +43,7 @@ function queryString(data) {
 
 export default Ember.Service.extend({
   session: inject.service('session'),
+  queryCache: inject.service('query-cache'),
   defaultHeaders: computed('session.isAuthenticated', function() {
     let headers = {};
     const session = get(this, 'session');
@@ -87,9 +88,9 @@ export default Ember.Service.extend({
         if(response.status < 300 && response.status >= 200) {
           resolve(response);
         } else {
-          reject(response);
+          reject();
         }
-      }, (response) => reject(response));
+      }, reject);
     });
   },
 
@@ -117,9 +118,9 @@ export default Ember.Service.extend({
         (response) => {
           pendingRequestCount = pendingRequestCount - 1;
           run.join(null, resolve, response);
-        }, (response) => {
+        }, () => {
           pendingRequestCount = pendingRequestCount - 1;
-          run.join(null, reject, response);
+          run.join(null, reject);
       });
     });
   },
@@ -162,6 +163,21 @@ export default Ember.Service.extend({
         method: 'POST'
       }, opts || {}))
     );
+  },
+
+  getJson(path) {
+    const namespace = config.API_NAMESPACE;
+    const host = config.API_BASE_URL;
+    const apiUrl = host + "/" + namespace + path;
+    const data = get(this, 'queryCache').retrieveFromCache(apiUrl);
+
+    if(data) {
+      return RSVP.resolve(data);
+    } else {
+      return returnJson(
+        this.request(path)
+      );
+    }
   },
 
 
@@ -257,21 +273,15 @@ export default Ember.Service.extend({
   },
 
   getDashboard(data) {
-    return returnJson(
-      this.request('/dashboard' + queryString(data))
-    );
+    return this.getJson('/dashboard' + queryString(data));
   },
 
   getContents(data) {
-    return returnJson(
-      this.request('/contents' + queryString(data))
-    );
+    return this.getJson('/contents' + queryString(data));
   },
 
   getContentMetrics(id, data) {
-    return returnJson(
-      this.request(`/contents/${id}/metrics` + queryString(data))
-    );
+    return this.getJson(`/contents/${id}/metrics` + queryString(data));
   },
 
   getContentPromotions(options) {
@@ -282,15 +292,11 @@ export default Ember.Service.extend({
       limit: opts['limit'] || 5
     };
     const qstring = qs.stringify(query);
-    return returnJson(
-      this.request(`/promotions?${qstring}`)
-    );
+    return this.getJson(`/promotions?${qstring}`);
   },
 
   getListServs() {
-    return returnJson(
-      this.request("/listservs")
-    );
+    return this.getJson("/listservs");
   },
 
   getLocations(query) {
@@ -300,21 +306,15 @@ export default Ember.Service.extend({
       url = url + queryString({query: query});
     }
 
-    return returnJson(
-      this.request(url)
-    );
+    return this.getJson(url);
   },
 
   getFeatures() {
-    return returnJson(
-      this.request('/features')
-    );
+    return this.getJson('/features');
   },
 
   getMarketContactInfo(id) {
-    return returnJson(
-      this.request(`/market_posts/${id}/contact`)
-    );
+    return this.getJson(`/market_posts/${id}/contact`);
   },
 
   getOrganizations(query) {
@@ -324,22 +324,16 @@ export default Ember.Service.extend({
       url = url + queryString({query: query});
     }
 
-    return returnJson(
-      this.request(url)
-    );
+    return this.getJson(url);
   },
 
   getPromotionBannerMetrics(id, data) {
-    return returnJson(
-      this.request(`/promotion_banners/${id}/metrics` + queryString(data))
-    );
+    return this.getJson(`/promotion_banners/${id}/metrics` + queryString(data));
   },
 
 
   getSimilarContent(content_id) {
-    return returnJson(
-      this.request(`/contents/${content_id}/similar_content`)
-    );
+    return this.getJson(`/contents/${content_id}/similar_content`);
   },
 
   getVenues(query) {
@@ -349,9 +343,7 @@ export default Ember.Service.extend({
       url = url + queryString({query: query});
     }
 
-    return returnJson(
-      this.request(url)
-    );
+    return this.getJson(url);
   },
 
   getVenueLocations(query) {
@@ -361,9 +353,7 @@ export default Ember.Service.extend({
       url = url + queryString({query: query});
     }
 
-    return returnJson(
-      this.request(url)
-    );
+    return this.getJson(url);
   },
 
   getWeather() {
@@ -378,9 +368,7 @@ export default Ember.Service.extend({
 
   isRegisteredUser(email) {
     // returns either a 404 Not Found or a 200 OK
-    return returnJson(
-      this.request('/user/' + queryString({email: encodeURI(email)}))
-    );
+    return this.getJson('/user/' + queryString({email: encodeURI(email)}));
   },
 
   updateCurrentUserAvatar(data) {

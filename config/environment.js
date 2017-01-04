@@ -18,10 +18,12 @@ module.exports = function(environment) {
       'PRENDER_IO_TOKEN',
       'GTM_API_TOKEN',
       'GTM_AUTH',
+      'FASTBOOT_DATA_CACHE_TIMEOUT',
       'GTM_PREVIEW'
     ],
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
+    FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -82,6 +84,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
+    ENV.FASTBOOT_DATA_CACHE_TIMEOUT = 0;
     // Testem prefers this...
     ENV.rootURL = '/';
     ENV.locationType = 'none';

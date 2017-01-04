@@ -78,6 +78,32 @@ export default Ember.Service.extend({
       return window.location.href;
     }
   },
+  pathname() {
+    if(this.isFastBoot()) {
+      const request = get(this, 'fastboot.request');
+      const path = get(request, 'path');
+
+      return path.split('?')[0];
+
+    } else {
+      return window.location.pathname;
+    }
+  },
+  search() {
+    if(this.isFastBoot()) {
+      const request = get(this, 'fastboot.request');
+      const path = get(request, 'path');
+      const search = path.split('?')[1];
+
+      if(search) {
+        return `?${search}`;
+      } else {
+        return "";
+      }
+    } else {
+      return window.location.search;
+    }
+  },
   referrer() {
     if(this.isFastBoot()) {
       const headers = get(this, 'fastboot.request.headers');

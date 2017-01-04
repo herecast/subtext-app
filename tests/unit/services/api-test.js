@@ -52,6 +52,16 @@ moduleFor('service:api', 'Unit | Service | api', {
         callback('Authorization', 'Token token=1234');
       }
     });
+
+    this.queryCache = {
+      retrieveFromCache() {
+        return null;
+      },
+      cacheResponseIfFastboot(url, data) {
+        return data;
+      }
+    };
+
     config['CONSUMER_APP_URI'] = 'http://test.test';
   },
   afterEach() {
@@ -60,7 +70,10 @@ moduleFor('service:api', 'Unit | Service | api', {
 });
 
 test('confirmListservPost(id, data)', function(assert) {
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 1;
   const data = {
     listserv_content: {
@@ -100,8 +113,10 @@ test('confirmListservPost(id, data)', function(assert) {
 });
 
 test('confirmListservSubscription(id)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const id = 1;
 
@@ -131,8 +146,10 @@ test('confirmListservSubscription(id)', function(assert) {
 });
 
 test('unsubscribeSubscription(id)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const id = 1;
 
@@ -162,8 +179,10 @@ test('unsubscribeSubscription(id)', function(assert) {
 });
 
 test('unsubscribeFromListserv(id, email)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const id = 1;
   const email = 'test@foo.com';
@@ -197,8 +216,10 @@ test('unsubscribeFromListserv(id, email)', function(assert) {
 });
 
 test('confirmedRegistration(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {test: 'data'};
 
   const done = assert.async();
@@ -230,8 +251,10 @@ test('confirmedRegistration(data)', function(assert) {
 });
 
 test('createRegistration(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {test: 'data'};
 
   const done = assert.async();
@@ -263,8 +286,10 @@ test('createRegistration(data)', function(assert) {
 });
 
 test('confirmedRegistration(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {test: 'data'};
 
   const done = assert.async();
@@ -296,8 +321,10 @@ test('confirmedRegistration(data)', function(assert) {
 });
 
 test('createFeedback(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {test: 'data'};
   const id = 1;
 
@@ -332,8 +359,10 @@ test('createFeedback(id, data)', function(assert) {
 });
 
 test('updateFeedback(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {test: 'data'};
   const id = 1;
 
@@ -368,8 +397,10 @@ test('updateFeedback(id, data)', function(assert) {
 });
 
 test('createImage(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = new FormData();
   data.append('image[primary]', true);
   data.append('image[content_id]', 1);
@@ -404,8 +435,10 @@ test('createImage(data)', function(assert) {
 });
 
 test('updateImage(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {
     caption: 'Cat sitting in vase',
     primary: 1,
@@ -444,8 +477,10 @@ test('updateImage(id, data)', function(assert) {
 });
 
 test('getDashboard(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {filter: 'data'};
 
   const done = assert.async();
@@ -475,8 +510,10 @@ test('getDashboard(data)', function(assert) {
 });
 
 test('getContents(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {filter: 'data'};
 
   const done = assert.async();
@@ -506,8 +543,10 @@ test('getContents(data)', function(assert) {
 });
 
 test('getContentMetrics(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {query: 'data'};
   const id = 1;
 
@@ -538,8 +577,10 @@ test('getContentMetrics(data)', function(assert) {
 });
 
 test('getContentPromotions(options)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const content_id = 1;
 
   const done = assert.async();
@@ -570,8 +611,10 @@ test('getContentPromotions(options)', function(assert) {
 });
 
 test('getListServs()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -599,8 +642,10 @@ test('getListServs()', function(assert) {
 });
 
 test('getLocations()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -628,8 +673,10 @@ test('getLocations()', function(assert) {
 });
 
 test('getLocations(query)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const query = "texas";
 
   const done = assert.async();
@@ -659,8 +706,10 @@ test('getLocations(query)', function(assert) {
 });
 
 test('getFeatures()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -688,8 +737,10 @@ test('getFeatures()', function(assert) {
 });
 
 test('getMarketConttactInfo(id)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 1;
 
   const done = assert.async();
@@ -719,8 +770,10 @@ test('getMarketConttactInfo(id)', function(assert) {
 });
 
 test('getOrganizations()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -748,8 +801,10 @@ test('getOrganizations()', function(assert) {
 });
 
 test('getOrganizations(query)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const query = "texas";
 
   const done = assert.async();
@@ -779,8 +834,10 @@ test('getOrganizations(query)', function(assert) {
 });
 
 test('getPromotionBannerMetrics(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 1;
   const data = {filter: 'data'};
 
@@ -814,8 +871,10 @@ test('getPromotionBannerMetrics(id, data)', function(assert) {
 });
 
 test('getSimilarContent(id)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 1;
 
   const done = assert.async();
@@ -845,8 +904,10 @@ test('getSimilarContent(id)', function(assert) {
 });
 
 test('getVenues()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -874,8 +935,10 @@ test('getVenues()', function(assert) {
 });
 
 test('getVenues(query)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const query = "texas";
 
   const done = assert.async();
@@ -905,8 +968,10 @@ test('getVenues(query)', function(assert) {
 });
 
 test('getVenueLocations()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
@@ -934,8 +999,10 @@ test('getVenueLocations()', function(assert) {
 });
 
 test('getVenueLocations(query)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const query = "texas";
 
   const done = assert.async();
@@ -965,8 +1032,10 @@ test('getVenueLocations(query)', function(assert) {
 });
 
 test('getWeather()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnHtml = "<p>It's cold.. Very cold.</p>";
@@ -990,8 +1059,10 @@ test('getWeather()', function(assert) {
 });
 
 test('isRegisteredUser(email)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const email = 'Jeve.Stobs@Pear.com';
   const encodedEmail = encodeURI(email);
 
@@ -1022,8 +1093,10 @@ test('isRegisteredUser(email)', function(assert) {
 });
 
 test('updateCurrentUserAvatar(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = new FormData();
   data.append('current_user[user_id]', 1);
   data.append('current_user[image]', new Blob([""], {type: 'image/jpeg'}));
@@ -1057,8 +1130,10 @@ test('updateCurrentUserAvatar(data)', function(assert) {
 });
 
 test('updateEventImage(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = new FormData();
   const id = 3;
 
@@ -1096,8 +1171,10 @@ test('updateEventImage(id, data)', function(assert) {
 });
 
 test('updateOrganizationImage(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = new FormData();
   const id = 3;
 
@@ -1135,8 +1212,10 @@ test('updateOrganizationImage(id, data)', function(assert) {
 });
 
 test('updateTalkImage(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = new FormData();
   const id = 3;
 
@@ -1174,8 +1253,10 @@ test('updateTalkImage(id, data)', function(assert) {
 });
 
 test('updateCurrentUserPassword(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {
     current_user: {
       password: 'hkjlk;',
@@ -1212,8 +1293,10 @@ test('updateCurrentUserPassword(data)', function(assert) {
 });
 
 test('recordPromoBannerClick(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 7;
   const data = {
     content_id: 99
@@ -1248,8 +1331,10 @@ test('recordPromoBannerClick(id, data)', function(assert) {
 });
 
 test('recordPromoBannerImpression(id, data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const id = 7;
   const data = {
     content_id: 99
@@ -1282,8 +1367,10 @@ test('recordPromoBannerImpression(id, data)', function(assert) {
 });
 
 test('reportAbuse(content_id, flagType)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const content_id = 7;
   const flagType = 'MunkFruit';
 
@@ -1316,8 +1403,10 @@ test('reportAbuse(content_id, flagType)', function(assert) {
 });
 
 test('requestPasswordReset(email, returnUrl)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const email = "luigi@mario.kart";
   const returnUrl = '/castle';
 
@@ -1354,8 +1443,10 @@ test('requestPasswordReset(email, returnUrl)', function(assert) {
 });
 
 test('resendConfirmation(email)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const email = "luigi@mario.kart";
 
   const done = assert.async();
@@ -1390,8 +1481,10 @@ test('resendConfirmation(email)', function(assert) {
 });
 
 test('resetPassword(data)', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
   const data = {
     user: {
       reset_password_token: 'Lemon',
@@ -1429,8 +1522,10 @@ test('resetPassword(data)', function(assert) {
 });
 
 test('signOut()', function(assert) {
-
-  const subject = this.subject({session: this.session});
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
 
   const done = assert.async();
   const returnData = {
