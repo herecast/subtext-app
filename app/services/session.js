@@ -6,8 +6,7 @@ const {
   inject,
   get,
   computed,
-  observer,
-  run
+  observer
 } = Ember;
 
 export default SessionService.extend({
