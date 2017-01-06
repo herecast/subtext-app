@@ -13,6 +13,8 @@ const {
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
+  featureFlags: inject.service('feature-flags'),
+
   flat: false,
 
   page: 1,
@@ -83,6 +85,18 @@ export default Ember.Controller.extend(PaginatedFilter, {
   }],
 
   actions: {
+    subscribeToMarketDigest() {
+      if (get(this, 'session.isAuthenticated')) {
+        // noop
+      } else {
+        this.transitionToRoute('register', {
+          queryParams: {
+            selectedDigest: get(this, 'featureFlags.market-index-subscribe-cta.options.digest-id')
+          }
+        });
+      }
+    },
+
     updateQuery(q) {
       if(q.length > 2) {
         set(this, 'query', q);
