@@ -73,7 +73,7 @@ module.exports = function(environment) {
       ENV.fb_enabled = false;
     }
 
-    ENV['CONSUMER_APP_URI'] = 'http://localhost:4200';
+    ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
     ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
     ENV['FACEBOOK_API_ID'] = process.env.FACEBOOK_API_ID;
