@@ -3,6 +3,29 @@ import fetch from 'ember-network/fetch';
 import config from '../config/environment';
 import qs from 'npm:qs';
 
+import {
+  UnauthorizedError,
+  InvalidError,
+  ForbiddenError,
+  BadRequestError,
+  NotFoundError,
+  AbortError,
+  ConflictError,
+  ServerError,
+  UnknownFetchError,
+  isRequestError,
+  isUnauthorizedError,
+  isForbiddenError,
+  isInvalidError,
+  isBadRequestError,
+  isNotFoundError,
+  isConflictError,
+  isAbortError,
+  isServerError,
+  isSuccess,
+  normalizeErrorResponse
+} from 'subtext-ui/lib/ajax-errors';
+
 const {
   RSVP,
   copy,
@@ -14,7 +37,7 @@ const {
   isEmpty,
   isPresent,
   testing,
-  Test
+  Test,
 } = Ember;
 
 let pendingRequestCount = 0;
@@ -25,17 +48,56 @@ if(testing) {
 }
 
 function returnJson(request) {
-  return request.then((response)=>{
-    if(response.status === 204) {
-      return {};
-    }
+  return new RSVP.Promise((resolve, reject) => {
+    let body = {};
 
-    return response.json();
+    request.then((response)=>{
+      if(response.status === 204) {
+        body = {};
+      } else {
+        body = response.json();
+      }
+
+      resolve(body);
+    }, (err)=> {
+      const response = err.response;
+
+      if(isRequestError(err)) {
+        try {
+          body = response.json();
+        } catch(e) {
+          console.error(e);
+        }
+
+        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      }
+
+      reject(err);
+    });
   });
 }
 
 function returnText(request) {
-  return request.then((response)=>response.text());
+  return new RSVP.Promise((resolve, reject) => {
+    request.then((response)=>{
+      resolve(response.text());
+    }, (err) => {
+      if(isRequestError(err)) {
+        const response = err.response;
+        let body = "";
+
+        try {
+          body = response.text();
+        } catch(e) {
+          console.error(e);
+        }
+
+        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      }
+
+      reject(err);
+    });
+  });
 }
 
 function queryString(data) {
@@ -45,7 +107,6 @@ function queryString(data) {
     return "";
   }
 }
-
 
 export default Ember.Service.extend({
   session: inject.service('session'),
@@ -88,15 +149,33 @@ export default Ember.Service.extend({
     };
   },
 
-  handleErrorStatus(request) {
+  handleResponse(request) {
     return new RSVP.Promise((resolve, reject) => {
-      request.then((response) => {
-        if(response.status < 300 && response.status >= 200) {
-          resolve(response);
+      return request.then((response)=>{
+        const status = response.status;
+
+        if(isSuccess(status)) {
+          return resolve(response);
+        } else if (isUnauthorizedError(status)) {
+          return reject(new UnauthorizedError(response));
+        } else if (isForbiddenError(status)) {
+          return reject(new ForbiddenError(response));
+        } else if (isInvalidError(status)) {
+          return reject(new InvalidError(response));
+        } else if (isBadRequestError(status)) {
+          return reject(new BadRequestError(response));
+        } else if (isNotFoundError(status)) {
+          return reject(new NotFoundError(response));
+        } else if (isAbortError(status)) {
+          return reject(new AbortError(response));
+        } else if (isConflictError(status)) {
+          return reject(new ConflictError(response));
+        } else if (isServerError(status)) {
+          return reject(new ServerError(response));
         } else {
-          reject();
+          return reject(new UnknownFetchError(response));
         }
-      }, reject);
+      });
     });
   },
 
@@ -124,15 +203,16 @@ export default Ember.Service.extend({
         (response) => {
           pendingRequestCount = pendingRequestCount - 1;
           run.join(null, resolve, response);
-        }, () => {
+        }, (msg) => {
+          console.error(msg);
           pendingRequestCount = pendingRequestCount - 1;
-          run.join(null, reject);
+          run.join(null, reject, new UnknownFetchError());
       });
     });
   },
 
   request(path, opts) {
-    return this.handleErrorStatus(
+    return this.handleResponse(
       this.fetch(path, assign({
         method: 'GET'
       }, opts || {}))
@@ -140,7 +220,7 @@ export default Ember.Service.extend({
   },
 
   patch(path, opts) {
-    return this.handleErrorStatus(
+    return this.handleResponse(
       this.fetch(path, assign({
         method: 'PATCH'
       }, opts || {}))
@@ -148,7 +228,7 @@ export default Ember.Service.extend({
   },
 
   del(path, opts) {
-    return this.handleErrorStatus(
+    return this.handleResponse(
       this.fetch(path, assign({
         method: 'DELETE'
       }, opts || {}))
@@ -156,7 +236,7 @@ export default Ember.Service.extend({
   },
 
   put(path, opts) {
-    return this.handleErrorStatus(
+    return this.handleResponse(
       this.fetch(path, assign({
         method: 'PUT'
       }, opts || {}))
@@ -164,7 +244,7 @@ export default Ember.Service.extend({
   },
 
   post(path, opts) {
-    return this.handleErrorStatus(
+    return this.handleResponse(
       this.fetch(path, assign({
         method: 'POST'
       }, opts || {}))
