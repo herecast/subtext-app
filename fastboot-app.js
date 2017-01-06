@@ -7,7 +7,8 @@ function httpCacheHeaders(req, res, next) {
 
 let server = new FastBootAppServer({
   distPath: 'dist',
-  gzip: true, // Optional - Enables gzip compression.
+  gzip: false,
+  workerCount: process.env.EXPRESS_WORKER_COUNT || 1,
   beforeMiddleware: function(app) {
     app.use(httpCacheHeaders);
   }
