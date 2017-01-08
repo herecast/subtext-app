@@ -20,6 +20,12 @@
   <body>
     {{content-for "body"}}
 
+    <script type="application/javascript">
+      paceOptions = {
+        restartOnPushState: false
+      }
+    </script>
+
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/subtext-ui.js"></script>
 
