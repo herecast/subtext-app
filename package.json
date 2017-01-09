@@ -53,6 +53,7 @@
     "loader.js": "^4.0.1",
     "lodash": "^4.16.6",
     "najax": "demersus/najax#get-data-array-syntax",
+    "newrelic": "^1.36.0",
     "qs": "^6.2.0",
     "sanitize-html": "^1.13.0"
   },
@@ -98,6 +99,7 @@
     "request": "~2.72.0"
   },
   "fastbootDependencies": [
-    "process"
+    "process",
+    "newrelic"
   ]
 }

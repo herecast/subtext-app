@@ -1,3 +1,4 @@
+require('newrelic');
 const FastBootAppServer = require('fastboot-app-server');
 
 function httpCacheHeaders(req, res, next) {
