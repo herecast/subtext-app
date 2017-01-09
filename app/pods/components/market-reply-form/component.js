@@ -13,6 +13,7 @@ export default Ember.Component.extend(Validation, {
 
   lastStage: false,
   hideForm: true,
+  currentStep: 0,
 
   email: null,
   name: null,
@@ -44,7 +45,8 @@ export default Ember.Component.extend(Validation, {
       lastStage           : false,
       hideForm            : true,
       hasErrors           : false,
-      errors              : { }
+      errors              : { },
+      currentStep         : 0
     });
   },
 
@@ -87,7 +89,8 @@ export default Ember.Component.extend(Validation, {
       setProperties(this, {
         selectedCannedReply: cannedReply,
         subjectLine: `[${get(cannedReply, 'label')}] Re: ${get(this, 'post.title')}`,
-        hideForm: false
+        hideForm: false,
+        currentStep: 1
       });
 
       this._scrollToFormTop();
@@ -103,7 +106,8 @@ export default Ember.Component.extend(Validation, {
       if (typeof dataLayer !== "undefined") {
         dataLayer.push({
           'event': 'market-reply-cancel',
-          'chosen-reply': get(this, 'selectedCannedReply.label')
+          'chosen-reply': get(this, 'selectedCannedReply.label'),
+          'step' : get(this, 'currentStep')
         });
       }
       this._resetProperties();
@@ -120,17 +124,19 @@ export default Ember.Component.extend(Validation, {
 
     submit() {
       if (this._validateForm()) {
+        setProperties(this, {
+          lastStage: true,
+          hasErrors: false,
+          mailTo: this._mailToHref(),
+          currentStep: 2
+        });
+
         if (typeof dataLayer !== "undefined") {
           dataLayer.push({
             'event': 'market-reply-submit',
             'chosen-reply': get(this, 'selectedCannedReply.label')
           });
         }
-        setProperties(this, {
-          lastStage: true,
-          hasErrors: false,
-          mailTo: this._mailToHref()
-        });
         // TODO scroll to first error
       } else {
         if (typeof dataLayer !== "undefined") {
