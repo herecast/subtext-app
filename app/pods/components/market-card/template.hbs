@@ -18,7 +18,9 @@
           onTitleClick=(action 'onTitleClick')
           trackSuggestedContentClick=(action 'trackSuggestedContentClick')
         }}
-          <img class='Card-image-tile media-object' src={{post.coverImageUrl}} />
+          <div class='Card-image-tile Card-image-tile--preserveAspectRatio'>
+            <img class='img-responsive' src={{post.coverImageUrl}} />
+          </div>
         {{/market-post-link}}
       {{/if}}
     </div>

@@ -80,6 +80,17 @@
 
     height: 115px;
     width: 133px;
+
+    &--preserveAspectRatio {
+      .flex-display();
+
+      border: 1px solid @gray-light;
+      background: @gray-light;
+
+      img {
+        object-fit: contain; // IE does not support yet.
+      }
+    }
   }
 
   &-image-placeholder {

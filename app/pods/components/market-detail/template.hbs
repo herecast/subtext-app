@@ -15,7 +15,10 @@
   {{/unless}}
 
   {{#if activeImage}}
-    {{header-image imageUrl=activeImage}}
+    {{header-image
+      imageUrl=activeImage
+      preserveAspectRatio=true
+    }}
   {{/if}}
 </header>
 
