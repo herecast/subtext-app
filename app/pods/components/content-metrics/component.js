@@ -21,7 +21,7 @@ export default Ember.Component.extend({
   calculatedStartDate: computed.oneWay('sortedViews.firstObject.report_date'),
   calculatedEndDate: computed.oneWay('sortedViews.lastObject.report_date'),
 
-  viewLabels: computed('sortedViews', function() {
+  viewLabels: computed('sortedViews.@each.view_count', function() {
     const viewCounts = get(this, 'sortedViews');
 
     return viewCounts.map((row) => {
@@ -29,10 +29,12 @@ export default Ember.Component.extend({
     });
   }),
 
-  viewData: computed('sortedViews', function() {
+  viewData: computed('sortedViews.@each.view_count', function() {
     const viewCounts = get(this, 'sortedViews');
 
-    return viewCounts.mapBy('view_count');
+    return viewCounts.map((i) => {
+      return isNaN(get(i, 'view_count')) ? 0 : get(i, 'view_count');
+    });
   }),
 
   cumulativeViewData: computed('viewData', function() {
@@ -56,7 +58,9 @@ export default Ember.Component.extend({
   clickData: computed('sortedClicks', function() {
     const clickCounts = get(this, 'sortedClicks');
 
-    return clickCounts.mapBy('click_count');
+    return clickCounts.map((i) => {
+      return isNaN(get(i, 'click_count')) ? 0 : get(i, 'click_count');
+    });
   }),
 
   cumulativeClickData: computed('clickData', function() {
