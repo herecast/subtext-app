@@ -15,7 +15,6 @@ module.exports = function(environment) {
       'GMAPS_API_TOKEN',
       'INTERCOM_API_TOKEN',
       'FACEBOOK_API_ID',
-      'PRENDER_IO_TOKEN',
       'GTM_API_TOKEN',
       'GTM_AUTH',
       'FASTBOOT_DATA_CACHE_TIMEOUT',
