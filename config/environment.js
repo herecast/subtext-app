@@ -14,7 +14,7 @@ module.exports = function(environment) {
       'CONSUMER_APP_URI',
       'GMAPS_API_TOKEN',
       'INTERCOM_API_TOKEN',
-      'FACEBOOK_API_ID',
+      'FACEBOOK_APP_ID',
       'GTM_API_TOKEN',
       'GTM_AUTH',
       'FASTBOOT_DATA_CACHE_TIMEOUT',
@@ -68,14 +68,14 @@ module.exports = function(environment) {
       ENV['API_BASE_URL'] = process.env.API_BASE_URL;
     }
 
-    if(process.env.FACEBOOK_API_ID) {
+    if(process.env.FACEBOOK_APP_ID) {
       ENV.fb_enabled = false;
     }
 
     ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
     ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
-    ENV['FACEBOOK_API_ID'] = process.env.FACEBOOK_API_ID;
+    ENV['FACEBOOK_APP_ID'] = process.env.FACEBOOK_APP_ID;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;
     ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;

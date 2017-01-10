@@ -47,7 +47,7 @@ export default Ember.Mixin.create({
         type: 'meta',
         attrs: {
           property: 'fb:app_id',
-          content:  config['FACEBOOK_API_ID'],
+          content:  config['FACEBOOK_APP_ID'],
         }
       },
       {
