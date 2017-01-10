@@ -17,6 +17,9 @@
   <body>
     {{content-for "body"}}
 
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/subtext-ui.css">
+
     <script type="application/javascript">
       paceOptions = {
         restartOnPushState: false
@@ -25,9 +28,6 @@
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/subtext-ui.js"></script>
-
-    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/subtext-ui.css">
 
     <!-- start Intercom -->
     <script>
