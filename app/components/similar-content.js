@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import ExpandableContent from '../mixins/components/expandable-content';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
-const { get, inject, on, computed, isPresent } = Ember;
+const { get, inject, on, isPresent } = Ember;
 
-export default Ember.Component.extend(ExpandableContent, {
-  fastboot: inject.service(),
-  isFastBoot: computed.reads('fastboot.isFastBoot'),
+export default Ember.Component.extend(ExpandableContent, FastbootExtensions, {
   classNames:[ 'SimilarContent'],
 
   contentModel: Ember.inject.service('content-model'),
@@ -35,10 +34,8 @@ export default Ember.Component.extend(ExpandableContent, {
         }
       });
 
-      if(get(this, 'isFastBoot')) {
-        // ensure fastboot waits for promise before rendering
-        get(this, 'fastboot').deferRendering(promise);
-      }
+      // ensure fastboot waits for promise before rendering
+      this.deferRenderingIfFastboot(promise);
     }
   })
 });

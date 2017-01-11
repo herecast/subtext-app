@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
   get,
@@ -9,8 +10,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Service.extend({
-  fastboot: inject.service(),
+export default Ember.Service.extend(FastbootExtensions, {
   windowLocation: inject.service('window-location'),
   disableCache: false,
   cacheTimeout: config.FASTBOOT_DATA_CACHE_TIMEOUT,
@@ -37,7 +37,7 @@ export default Ember.Service.extend({
   cacheResponseIfFastboot(url, response) {
     if(get(this, 'fastboot.isFastBoot')) {
 
-      get(this, 'fastboot').deferRendering(response);
+      this.deferRenderingIfFastboot(response);
 
       return response.then((data) => {
         this.get('_apiCache')[url] = data;

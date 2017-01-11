@@ -88,7 +88,7 @@ test('cacheResponseIfFastboot(url, response) - fastboot mode', function(assert) 
       data,
       "it writes the data to the shoebox apiCache"
     );
-    assert.ok(deferredPromises.indexOf(response) > -1,
+    assert.equal(deferredPromises.length, 1,
       "it tells fastboot to wait for the response promise"
     );
     assert.deepEqual(shoebox['fastboot-request'], {path: fbRequestPath},
