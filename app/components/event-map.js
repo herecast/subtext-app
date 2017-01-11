@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   }),
 
   mapSrc: computed('location', function() {
-    const key = config['gmaps-api-token'];
+    const key = config['GMAPS_API_TOKEN'];
     const location = this.get('location');
 
     return `https://www.google.com/maps/embed/v1/place?key=${key}&q=${location}`;

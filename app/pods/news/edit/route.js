@@ -38,8 +38,6 @@ export default Ember.Route.extend(RequireCanEdit, {
       const sharePath = `/news/${modelId}`;
       const locationService = get(this, 'location');
 
-      SocialSharing.updateShareCache(locationService, sharePath);
-
       let delayedJob =
         run.later(this, () => {
           SocialSharing.checkFacebookCache(locationService, sharePath);

@@ -36,24 +36,32 @@ export default Ember.Route.extend(History, MaintainScroll, {
       categories: model.categories,
       query: model.params['query'] || ""
     });
-      /**
-       * @TODO reimplement in fastboot compatible way
-       * @FASTBOOT_BROKEN
-       */
 
-    if(!get(this, 'isFastBoot')) {
+    const isFastBoot = get(this, 'isFastBoot');
+
       // Location
       if(isPresent(model.params['lat']) && isPresent(model.params['lng'])) {
+
         const coords = {
           lat: model.params.lat,
           lng: model.params.lng
         };
+
         controller.set('coords', coords);
-        get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
-          controller.set('location', location);
-        });
+
+        if(isPresent(model.params['location'])) {
+          controller.set('location', model.params['location']);
+        } else if(!isFastBoot) {
+          get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
+            controller.set('location', location);
+          });
+        }
       } else {
-      //user needs to know that position is calculating as it may take up to 5 seconds
+        /**
+         * @TODO reimplement in fastboot compatible way
+         * @FASTBOOT_BROKEN
+         */
+        //user needs to know that position is calculating as it may take up to 5 seconds
         controller.set('isCalculatingLocation', true);
         get(this, 'geo.userLocation').then(location => {
           if(isEmpty(controller.get('coords'))) {
@@ -67,6 +75,5 @@ export default Ember.Route.extend(History, MaintainScroll, {
           controller.set('isCalculatingLocation', false);
         });
       }
-    }
   }
 });

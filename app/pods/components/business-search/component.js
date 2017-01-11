@@ -23,6 +23,17 @@ export default Ember.Component.extend({
   suggestions: [],
   displaySuggestions: false,
 
+  inputVal: computed('category.name', 'query', function() {
+    const category = get(this, 'category');
+
+    if (isPresent(category)) {
+      return get(category, 'name');
+    } else {
+      return get(this, 'query');
+    }
+
+  }),
+
   focusOut() {
     run.debounce(() => {
       const stillHasFocus = this.$(':focus').length;
@@ -101,27 +112,7 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    const searchTerms = get(this, 'query') || get(this, 'category.name') || null;
-
-    // set initial value
-    if (searchTerms) {
-      this.$('input').val(searchTerms);
-    }
     this._bindUpdateFunction(this.$('input'));
-  },
-
-  didUpdateAttrs() {
-    const category = get(this, 'attrs.category.value');
-    const query = get(this, 'attrs.query.value');
-
-    // we have to manually manage the input value
-    // since there is some business logic about
-    // what should be used for the value
-    if (category) {
-      this.$('input').val(category.get('name'));
-    } else {
-      this.$('input').val(query);
-    }
   },
 
   actions: {

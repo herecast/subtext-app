@@ -238,7 +238,9 @@ export default function() {
     var id = 1;
     var currentUser;
 
-    if(request.requestHeaders['Content-Type'].indexOf('application/json') > -1) {
+    const contentType = request.requestHeaders['content-type'] || request.requestHeaders['Content-Type'] || "";
+
+    if(contentType.indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['currentUser'];
@@ -654,6 +656,10 @@ export default function() {
     const news = db.news.update(id, data['news']);
 
     return { news: news };
+  });
+
+  this.post('news/:id/impressions', function(){
+    return {};
   });
 
   this.get('/contents', function({ db }, request) {

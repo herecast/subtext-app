@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
   computed,
@@ -10,9 +11,7 @@ const {
   RSVP
 } = Ember;
 
-export default DS.Model.extend({
-  fastboot: inject.service(),
-  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
+export default DS.Model.extend(FastbootExtensions, {
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
@@ -116,10 +115,10 @@ export default DS.Model.extend({
           contactPhone: response.market_post.contact_phone
         });
       });
-      if(get(this, 'isFastBoot')) {
-        // Inform fastboot to wait for this promise;
-        get(this, 'fastboot').deferRendering(promise);
-      }
+
+      // Inform fastboot to wait for this promise;
+      this.deferRenderingIfFastboot(promise);
+
       return promise;
     } else {
       return null;

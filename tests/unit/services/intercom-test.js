@@ -29,7 +29,7 @@ test('boot(user)', function(assert){
   service.boot(user);
 
   assert.ok(window.Intercom.calledWith('boot', {
-    app_id: config['intercom-api-token'],
+    app_id: config['INTERCOM_API_TOKEN'],
     email: 'test@test.com',
     name: 'test user',
     user_id: 1,
@@ -54,6 +54,6 @@ test('When intercom tracking disabled; boot(user)', function(assert){
   service.boot(user);
 
   assert.ok(window.Intercom.calledWith('boot', {
-    app_id: config['intercom-api-token']
+    app_id: config['INTERCOM_API_TOKEN']
   }));
 });

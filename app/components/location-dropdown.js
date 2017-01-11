@@ -1,13 +1,12 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const { get, set, inject, on, computed, isPresent } = Ember;
 
-export default Ember.Component.extend(TestSelector, {
+export default Ember.Component.extend(TestSelector, FastbootExtensions, {
   classNames: ['LocationDropdown'],
   api: inject.service('api'),
-  fastboot: inject.service('fastboot'),
-  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
   locations: [],
   isEditing: false,
 
@@ -19,10 +18,8 @@ export default Ember.Component.extend(TestSelector, {
         this.set('locations', response.locations);
       });
 
-      if(get(this, 'isFastBoot')) {
-        // Pause fastboot render until this completes
-        get(this, 'fastboot').deferRendering(promise);
-      }
+      // Pause fastboot render until this completes
+      this.deferRenderingIfFastboot(promise);
     }
   }),
 

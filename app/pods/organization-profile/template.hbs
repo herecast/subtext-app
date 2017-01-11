@@ -46,61 +46,57 @@
           {{/if}}
         </div>
 
-        {{#if news.isPending}}
-          {{x-loader}}
-        {{else}}
-          {{#if showLargeCard}}
-            <div class="row">
-              <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
-                {{news-card-wide
-                item=news.firstObject
-                class='Card--solo OrganizationProfile-newsCard'
-                variant='full'
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-            </div>
-          {{/if}}
-
-          {{#if model.profileAdOverride}}
-            <div class="row">
-              <div class="col-sm-6">
-                {{news-card
-                item=newsList.firstObject
-                variant='vertical'
-                class="OrganizationProfile-newsCard"
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-              <div class="col-sm-6">
-                {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
-              </div>
-            </div>
-          {{/if}}
-
+        {{#if showLargeCard}}
           <div class="row">
-            {{#each newsListRemainingItems as |item|}}
-              <div class="col-sm-6">
-                {{news-card
-                item=item
-                variant='vertical'
-                class="OrganizationProfile-newsCard"
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-            {{/each}}
-          </div>
-
-          <div class='row'>
-            <div class='col-xs-12'>
-              <div class='OrganizationProfile-pagination PaginationNav-wrapper'>
-                <div class='PaginationNav PaginationNav--bottom'>
-                  {{partial 'partials/pagination-nav'}}
-                </div>
-              </div>
+            <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
+              {{news-card-wide
+              item=news.firstObject
+              class='Card--solo OrganizationProfile-newsCard'
+              variant='full'
+              routeName='organization-profile.news-item'
+              }}
             </div>
           </div>
         {{/if}}
+
+        {{#if model.profileAdOverride}}
+          <div class="row">
+            <div class="col-sm-6">
+              {{news-card
+              item=newsList.firstObject
+              variant='vertical'
+              class="OrganizationProfile-newsCard"
+              routeName='organization-profile.news-item'
+              }}
+            </div>
+            <div class="col-sm-6">
+              {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
+            </div>
+          </div>
+        {{/if}}
+
+        <div class="row">
+          {{#each newsListRemainingItems as |item|}}
+            <div class="col-sm-6">
+              {{news-card
+              item=item
+              variant='vertical'
+              class="OrganizationProfile-newsCard"
+              routeName='organization-profile.news-item'
+              }}
+            </div>
+          {{/each}}
+        </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <div class='OrganizationProfile-pagination PaginationNav-wrapper'>
+              <div class='PaginationNav PaginationNav--bottom'>
+                {{partial 'partials/pagination-nav'}}
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 

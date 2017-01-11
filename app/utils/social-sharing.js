@@ -5,16 +5,6 @@ import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 const { get, RSVP } = Ember;
 
 export default {
-  createShareCache(locationService, path) {
-    const shareUrl = this.getShareUrl(locationService, path);
-    return this.cachePrerender(shareUrl);
-  },
-
-  updateShareCache(locationService, path) {
-    const shareUrl = this.getShareUrl(locationService, path);
-    return this.cachePrerender(shareUrl);
-  },
-
   checkFacebookCache(locationService, path) {
     const shareUrl = this.getShareUrl(locationService, path);
     return this.cacheFacebook(shareUrl);
@@ -35,28 +25,6 @@ export default {
         });
       } else {
         reject('Facebook sharing not enabled');
-      }
-    });
-  },
-
-  cachePrerender(url) {
-    return new RSVP.Promise((resolve, reject) => {
-      const prerenderToken = config['prerender-io-token'];
-      if (url && prerenderToken && config.prerender_enabled) {
-
-        //Will return 500 if url is invalid (e.g. has localhost in url)
-        Ember.$.post('https://api.prerender.io/recache', {
-          prerenderToken: prerenderToken,
-          url: url
-        }, (response) => {
-          if (response === 'OK') {
-            resolve();
-          } else {
-            reject('Prerender did not accept request');
-          }
-        });
-      } else {
-        reject('Prerender unavailable');
       }
     });
   },

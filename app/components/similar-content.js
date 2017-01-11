@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import ExpandableContent from '../mixins/components/expandable-content';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
-const { get, inject, on, computed, isPresent } = Ember;
+const { get, inject, on, isPresent } = Ember;
 
-export default Ember.Component.extend(ExpandableContent, {
-  fastboot: inject.service(),
-  isFastBoot: computed.reads('fastboot.isFastBoot'),
+export default Ember.Component.extend(ExpandableContent, FastbootExtensions, {
   classNames:[ 'SimilarContent'],
 
   contentModel: Ember.inject.service('content-model'),
@@ -24,8 +23,8 @@ export default Ember.Component.extend(ExpandableContent, {
           // Filter out any events that do not have a start date. These are events
           // that have been imported and do not have event instances associated
           // with them.
-          const contents = similar_content.reject((record) => {
-            return record.content_type === 'event' && Ember.isBlank(record.starts_at);
+          const contents = similar_content.filter((record) => {
+            return !(record.content_type === 'event' && Ember.isBlank(record.starts_at));
           }).map((record) => {
             return contentModel.convert(record);
           });
@@ -35,10 +34,8 @@ export default Ember.Component.extend(ExpandableContent, {
         }
       });
 
-      if(get(this, 'isFastBoot')) {
-        // ensure fastboot waits for promise before rendering
-        get(this, 'fastboot').deferRendering(promise);
-      }
+      // ensure fastboot waits for promise before rendering
+      this.deferRenderingIfFastboot(promise);
     }
   })
 });

@@ -1,40 +1,275 @@
 import Ember from 'ember';
-import AjaxService from 'ember-ajax/services/ajax';
+import fetch from 'ember-network/fetch';
 import config from '../config/environment';
-import qs from 'npm:query-string';
+import qs from 'npm:qs';
 
-const { inject, computed, get, isEmpty, isPresent } = Ember;
+import {
+  UnauthorizedError,
+  InvalidError,
+  ForbiddenError,
+  BadRequestError,
+  NotFoundError,
+  AbortError,
+  ConflictError,
+  ServerError,
+  UnknownFetchError,
+  isRequestError,
+  isUnauthorizedError,
+  isForbiddenError,
+  isInvalidError,
+  isBadRequestError,
+  isNotFoundError,
+  isConflictError,
+  isAbortError,
+  isServerError,
+  isSuccess,
+  normalizeErrorResponse
+} from 'subtext-ui/lib/ajax-errors';
 
-export default AjaxService.extend({
-  host: config.API_HOST,
-  namespace: config.API_NAMESPACE,
-  session: inject.service('session'),
-  headers: computed('session.isAuthenticated', {
-    get() {
-      let headers = {};
-      const session = get(this, 'session');
-      const isAuthenticated = session.get('isAuthenticated');
+const {
+  RSVP,
+  copy,
+  assign,
+  inject,
+  computed,
+  get,
+  run,
+  isEmpty,
+  isPresent,
+  testing,
+  Test,
+} = Ember;
 
-      if (isAuthenticated) {
-        session.authorize('authorizer:application', (headerName, headerValue) => {
-          headers[headerName] = headerValue;
-        });
+let pendingRequestCount = 0;
+if(testing) {
+  Test.registerWaiter(function() {
+    return pendingRequestCount === 0;
+  });
+}
+
+function returnJson(request) {
+  return new RSVP.Promise((resolve, reject) => {
+    let body = {};
+
+    request.then((response)=>{
+      if(response.status === 204) {
+        body = {};
+      } else {
+        body = response.json();
       }
 
-      headers['Consumer-App-Uri'] = config['consumer-app-uri'];
+      resolve(body);
+    }, (err)=> {
+      const response = err.response;
 
-      return headers;
+      if(isRequestError(err)) {
+        try {
+          body = response.json();
+        } catch(e) {
+          console.error(e);
+        }
+
+        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      }
+
+      reject(err);
+    });
+  });
+}
+
+function returnText(request) {
+  return new RSVP.Promise((resolve, reject) => {
+    request.then((response)=>{
+      resolve(response.text());
+    }, (err) => {
+      if(isRequestError(err)) {
+        const response = err.response;
+        let body = "";
+
+        try {
+          body = response.text();
+        } catch(e) {
+          console.error(e);
+        }
+
+        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      }
+
+      reject(err);
+    });
+  });
+}
+
+function queryString(data) {
+  if(isPresent(data)) {
+    return "?" + qs.stringify(data, { arrayFormat: 'brackets' });
+  } else {
+    return "";
+  }
+}
+
+export default Ember.Service.extend({
+  session: inject.service('session'),
+  queryCache: inject.service('query-cache'),
+  defaultHeaders: computed('session.isAuthenticated', function() {
+    let headers = {};
+    const session = get(this, 'session');
+    const isAuthenticated = session.get('isAuthenticated');
+
+    if (isAuthenticated) {
+      session.authorize('authorizer:application', (headerName, headerValue) => {
+        headers[headerName] = headerValue;
+      });
     }
+
+    headers['Consumer-App-Uri'] = config['CONSUMER_APP_URI'];
+    headers['Accept'] = 'application/json';
+
+    return headers;
   }),
+
+  headers(overrides) {
+    const defaults = get(this, 'defaultHeaders');
+    overrides = overrides || {};
+    return assign(copy(defaults), overrides);
+  },
 
   json(data) {
     return {
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify(data)
+      headers: this.headers({
+        'Content-Type' : 'application/json; charset=utf-8'
+      }),
+      body: JSON.stringify(data)
     };
   },
 
+  formData(data) {
+    return {
+      body: data
+    };
+  },
+
+  handleResponse(request) {
+    return new RSVP.Promise((resolve, reject) => {
+      return request.then((response)=>{
+        const status = response.status;
+
+        if(isSuccess(status)) {
+          return resolve(response);
+        } else if (isUnauthorizedError(status)) {
+          return reject(new UnauthorizedError(response));
+        } else if (isForbiddenError(status)) {
+          return reject(new ForbiddenError(response));
+        } else if (isInvalidError(status)) {
+          return reject(new InvalidError(response));
+        } else if (isBadRequestError(status)) {
+          return reject(new BadRequestError(response));
+        } else if (isNotFoundError(status)) {
+          return reject(new NotFoundError(response));
+        } else if (isAbortError(status)) {
+          return reject(new AbortError(response));
+        } else if (isConflictError(status)) {
+          return reject(new ConflictError(response));
+        } else if (isServerError(status)) {
+          return reject(new ServerError(response));
+        } else {
+          return reject(new UnknownFetchError(response));
+        }
+      });
+    });
+  },
+
+  fetch(path, opts) {
+    const namespace = config.API_NAMESPACE;
+    const host = config.API_BASE_URL;
+
+    // Merge opts into defaults
+    const fetchOpts = assign({
+      headers: this.headers(),
+      mode: 'cors',
+      // enable cookies
+      credentials: 'include'
+    }, (opts || {}));
+
+    /**
+     * It gets more complicated here to enable pausing of acceptance testing
+     * with the test helpers. Otherwise we could just return the promise from
+     * fetch.
+     */
+    pendingRequestCount = pendingRequestCount + 1;
+
+    return new RSVP.Promise((resolve, reject) => {
+      fetch(host + "/" + namespace + path, fetchOpts).then(
+        (response) => {
+          pendingRequestCount = pendingRequestCount - 1;
+          run.join(null, resolve, response);
+        }, (msg) => {
+          console.error(msg);
+          pendingRequestCount = pendingRequestCount - 1;
+          run.join(null, reject, new UnknownFetchError());
+      });
+    });
+  },
+
+  request(path, opts) {
+    return this.handleResponse(
+      this.fetch(path, assign({
+        method: 'GET'
+      }, opts || {}))
+    );
+  },
+
+  patch(path, opts) {
+    return this.handleResponse(
+      this.fetch(path, assign({
+        method: 'PATCH'
+      }, opts || {}))
+    );
+  },
+
+  del(path, opts) {
+    return this.handleResponse(
+      this.fetch(path, assign({
+        method: 'DELETE'
+      }, opts || {}))
+    );
+  },
+
+  put(path, opts) {
+    return this.handleResponse(
+      this.fetch(path, assign({
+        method: 'PUT'
+      }, opts || {}))
+    );
+  },
+
+  post(path, opts) {
+    return this.handleResponse(
+      this.fetch(path, assign({
+        method: 'POST'
+      }, opts || {}))
+    );
+  },
+
+  getJson(path) {
+    const namespace = config.API_NAMESPACE;
+    const host = config.API_BASE_URL;
+    const apiUrl = host + "/" + namespace + path;
+    const data = get(this, 'queryCache').retrieveFromCache(apiUrl);
+
+    if(data) {
+      return RSVP.resolve(data);
+    } else {
+      return returnJson(
+        this.request(path)
+      );
+    }
+  },
+
+
+  /********************************************************
+   * API methods start here
+   */
   confirmListservPost(id, data) {
     if (isEmpty(data)) {
       data = {
@@ -43,81 +278,96 @@ export default AjaxService.extend({
         }
       };
     }
-    return this.patch(`/listserv_contents/${id}`, {
-      dataType: 'text',
-      data: data
-    });
+    return returnJson(
+      this.patch(`/listserv_contents/${id}`,
+        this.json(data)
+      )
+    );
   },
 
   confirmListservSubscription(id) {
-    return this.patch(`/subscriptions/${id}/confirm`, {
-      dataType: 'text'
-    });
+    return returnJson(
+      this.patch(`/subscriptions/${id}/confirm`)
+    );
   },
 
   unsubscribeSubscription(id) {
-    return this.del(`/subscriptions/${id}`);
+    return returnJson(
+      this.del(`/subscriptions/${id}`)
+    );
   },
 
   unsubscribeFromListserv(id, email) {
     const encodedEmail = encodeURIComponent(btoa(email));
-    return this.del(`/subscriptions/${id}/${encodedEmail}`);
+    return returnJson(
+      this.del(`/subscriptions/${id}/${encodedEmail}`)
+    );
   },
 
   confirmedRegistration(data) {
-    return this.post('/registrations/confirmed',
-      this.json(data)
+    return returnJson(
+      this.post('/registrations/confirmed',
+        this.json(data)
+      )
     );
   },
 
   createRegistration(data) {
-    return this.post('/users/sign_up', {
-      data: data
-    });
+    return returnJson(
+      this.post('/users/sign_up',
+        this.json(data)
+      )
+    );
   },
 
   createFeedback(id, data) {
     const url = `/businesses/${id}/feedback`;
 
-    return this.post(url, {data: data});
+    return returnJson(
+      this.post(url,
+        this.json(data)
+      )
+    );
   },
 
   updateFeedback(id, data) {
     const url = `/businesses/${id}/feedback`;
 
-    return this.put(url, {data: data});
+    return returnJson(
+      this.put(url,
+        this.json(data)
+      )
+    );
   },
 
   createImage(data) {
-    return this.post("/images", {
-      //data is FormData
-      data: data,
-      type: 'POST',
-      contentType: false,
-      processData: false
-    });
+    return returnJson(
+      this.post("/images",
+        this.formData(data)
+      )
+    );
   },
 
-  updateImage(imageId, imageData) {
-    return this.put(`/images/${imageId}`, {
-      data: {
-        image: imageData
-      }
-    });
+  updateImage(imageId, data) {
+    return returnJson(
+      this.put(`/images/${imageId}`,
+        this.json({
+          image: data
+        })
+      )
+    );
   },
 
   getDashboard(data) {
-    return this.request('/dashboard', {data: data});
+    return this.getJson('/dashboard' + queryString(data));
   },
 
   getContents(data) {
-    return this.request('/contents', {data: data});
+    return this.getJson('/contents' + queryString(data));
   },
 
   getContentMetrics(id, data) {
-    return this.request(`/contents/${id}/metrics`, {
-      data: data
-    });
+    return this.getJson(`/contents/${id}/metrics` + queryString(data));
   },
 
   getContentPromotions(options) {
@@ -128,160 +378,162 @@ export default AjaxService.extend({
       limit: opts['limit'] || 5
     };
     const qstring = qs.stringify(query);
-
-    return this.request(`/promotions?${qstring}`);
+    return this.getJson(`/promotions?${qstring}`);
   },
 
   getListServs() {
-    return this.request("/listservs");
+    return this.getJson("/listservs");
   },
 
   getLocations(query) {
+    let url = '/locations';
+
     if (isPresent(query)) {
-      return this.request('/locations', {
-        data: {
-          query: query
-        }
-      });
-    } else {
-      return this.request('/locations');
+      url = url + queryString({query: query});
     }
+
+    return this.getJson(url);
   },
 
   getFeatures() {
-    return this.request('/features');
+    return this.getJson('/features');
   },
 
   getMarketContactInfo(id) {
-    return this.request(`/market_posts/${id}/contact`);
+    return this.getJson(`/market_posts/${id}/contact`);
   },
 
   getOrganizations(query) {
+    let url = '/organizations';
+
     if (isPresent(query)) {
-      return this.request('/organizations', {
-        data: {
-          query: query
-        }
-      });
-    } else {
-      return this.request('/organizations');
+      url = url + queryString({query: query});
     }
+
+    return this.getJson(url);
   },
 
   getPromotionBannerMetrics(id, data) {
-    return this.request(`/promotion_banners/${id}/metrics`, {
-      data: data
-    });
+    return this.getJson(`/promotion_banners/${id}/metrics` + queryString(data));
   },
 
 
   getSimilarContent(content_id) {
-    return this.request(`/contents/${content_id}/similar_content`);
+    return this.getJson(`/contents/${content_id}/similar_content`);
   },
 
   getVenues(query) {
+    let url = '/venues';
+
     if (isPresent(query)) {
-      return this.request('/venues', {
-        data: {
-          query: query
-        }
-      });
-    } else {
-      return this.request('/venues');
+      url = url + queryString({query: query});
     }
+
+    return this.getJson(url);
   },
 
   getVenueLocations(query) {
+    let url = "/venue_locations";
+
     if (isPresent(query)) {
-      return this.request('/venue_locations', {
-        data: {
-          query: query
-        }
-      });
-    } else {
-      return this.request('/venue_locations');
+      url = url + queryString({query: query});
     }
+
+    return this.getJson(url);
   },
 
   getWeather() {
-    return this.request('/weather', {
-      dataType: 'text'
-    });
+    return returnText(
+      this.request('/weather', {
+        headers: this.headers({
+          accept: 'text/html'
+        })
+      })
+    );
   },
 
   isRegisteredUser(email) {
     // returns either a 404 Not Found or a 200 OK
-    return this.request('/user/', {
-      data: {email: encodeURI(email) }
-    });
+    return this.getJson('/user/' + queryString({email: encodeURI(email)}));
   },
 
   updateCurrentUserAvatar(data) {
-    return this.request('/current_user', {
-      type: 'PUT',
-      //data is FormData
-      data: data,
-      contentType: false,
-      processData: false
-    });
+    return returnJson(
+      this.put('/current_user',
+        this.formData(data)
+      )
+    );
   },
 
   updateEventImage(id, data) {
-    return this.request(`/events/${id}`, {
-      type: 'PUT',
-      //data is FormData
-      data: data,
-      contentType: false,
-      processData: false
-    });
+    return returnJson(
+      this.put(`/events/${id}`,
+        this.formData(data)
+      )
+    );
   },
 
   updateOrganizationImage(id, data) {
-    return this.request(`/organizations/${id}`, {
-      type: 'PUT',
-      //data is FormData
-      data: data,
-      contentType: false,
-      processData: false
-    });
+    return returnJson(
+      this.put(`/organizations/${id}`,
+        this.formData(data)
+      )
+    );
   },
 
   updateTalkImage(id, data) {
-    return this.request(`/talk/${id}`, {
-      type: 'PUT',
-      //data is FormData
-      data: data,
-      contentType: false,
-      processData: false
-    });
+    return returnJson(
+      this.put(`/talk/${id}`,
+        this.formData(data)
+      )
+    );
   },
 
   updateCurrentUserPassword(data) {
-    return this.put('/current_user', {
-      data: data
-    });
+    return returnJson(
+      this.put('/current_user', this.json(data))
+    );
   },
 
 
   recordPromoBannerClick(id, data) {
-    return this.post(`/promotion_banners/${id}/track_click`, {
-      data: data
-    });
+    return returnJson(
+      this.post(`/promotion_banners/${id}/track_click`,
+        this.json(data)
+      )
+    );
   },
 
   recordPromoBannerImpression(id, data) {
-    return this.post(`/promotion_banners/${id}/impression`, {
-      data: data,
-      dataType: 'text'
-    });
+    let body = "{}";
+    if(isPresent(data)) {
+      body = JSON.stringify(data);
+    }
+    return returnText(
+      this.post(`/promotion_banners/${id}/impression`, {
+        body: body,
+        headers: this.headers({
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
+        })
+      })
+    );
+  },
+
+  recordNewsImpression(news) {
+    return returnJson(
+      this.post(`/news/${get(news, 'id')}/impressions`)
+    );
   },
 
   reportAbuse(content_id, flag_type) {
-    return this.post(`/contents/${content_id}/moderate`, {
-      data: {
-        flag_type: flag_type
-      }
-    });
+    return returnJson(
+      this.post(`/contents/${content_id}/moderate`,
+        this.json({
+          flag_type: flag_type
+        })
+      )
+    );
   },
 
   requestPasswordReset(email, returnUrl) {
@@ -295,27 +547,33 @@ export default AjaxService.extend({
       data['return_url'] = returnUrl;
     }
 
-    return this.post('/password_resets', {
-      data: data
-    });
+    return returnJson(
+      this.post('/password_resets', this.json(data))
+    );
   },
 
   resendConfirmation(email) {
-    return this.post('/users/resend_confirmation', {
-      data: {
-        user: {
-          email: email
-        }
-      }
-    });
+    return returnJson(
+      this.post('/users/resend_confirmation',
+        this.json({
+          user: {
+            email: email
+          }
+        })
+      )
+    );
   },
 
   resetPassword(data) {
-    return this.put('/password_resets', {data: data});
+    return returnJson(
+      this.put('/password_resets', this.json(data))
+    );
   },
 
   signOut() {
-    return this.post('/users/logout');
+    return returnJson(
+      this.post('/users/logout')
+    );
   }
 
 });

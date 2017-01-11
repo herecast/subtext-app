@@ -10,6 +10,7 @@ moduleFor('route:application', {
     'service:session',
     'service:api',
     'service:user',
+    'service:fastboot',
     'service:intercom'
   ]
 });

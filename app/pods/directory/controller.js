@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
   get,
@@ -10,10 +11,10 @@ const {
   $
 } = Ember;
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(FastbootExtensions, {
   geo: inject.service('geolocation'),
 
-  queryParams: ['lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
+  queryParams: ['location','lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
 
   lat: null,
   lng: null,
@@ -30,6 +31,8 @@ export default Ember.Controller.extend({
   businesses: null,
 
   intercom: inject.service(),
+
+  
 
   canSearch: computed('query', 'category_id', 'lat', 'lng', function() {
     const query = get(this, 'query') || '';
@@ -77,11 +80,9 @@ export default Ember.Controller.extend({
       return results;
     });
 
-    return promise;
-  }),
+    this.deferRenderingIfFastboot(promise);
 
-  categories: computed(function() {
-    return this.store.findAll('business-category');
+    return promise;
   }),
 
   category: computed('category_id', 'categories.[]', function() {

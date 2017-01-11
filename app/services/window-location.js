@@ -72,10 +72,37 @@ export default Ember.Service.extend({
       const protocol = get(request, 'protocol');
       const path = get(request, 'path');
 
-      return [protocol, host, path].join();
+      // Build the url. Note that path starts with a / already
+      return `${protocol}://${host}${path}`;
 
     } else {
       return window.location.href;
+    }
+  },
+  pathname() {
+    if(this.isFastBoot()) {
+      const request = get(this, 'fastboot.request');
+      const path = get(request, 'path');
+
+      return path.split('?')[0];
+
+    } else {
+      return window.location.pathname;
+    }
+  },
+  search() {
+    if(this.isFastBoot()) {
+      const request = get(this, 'fastboot.request');
+      const path = get(request, 'path');
+      const search = path.split('?')[1];
+
+      if(search) {
+        return `?${search}`;
+      } else {
+        return "";
+      }
+    } else {
+      return window.location.search;
     }
   },
   referrer() {

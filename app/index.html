@@ -12,14 +12,22 @@
     <link rel="stylesheet" href="{{rootURL}}assets/subtext-ui.css">
 
     {{content-for "head-footer"}}
+
+    <script src="//use.typekit.net/wos3ucd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+
   </head>
   <body>
     {{content-for "body"}}
 
+    <script type="application/javascript">
+      paceOptions = {
+        restartOnPushState: false
+      }
+    </script>
+
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/subtext-ui.js"></script>
-    <script src="//use.typekit.net/wos3ucd.js"></script>
-    <script>try{Typekit.load();}catch(e){}</script>
 
     <!-- start Intercom -->
     <script>

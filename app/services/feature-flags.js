@@ -13,9 +13,11 @@ export default Ember.Service.extend({
     this._super(...arguments);
 
     get(this, 'api').getFeatures().then(({features}) => {
-      return features.forEach((feature) => {
-        set(this, feature.name, feature);
-      });
+      if(!get(this, 'isDestroying')) {
+        return features.forEach((feature) => {
+          set(this, feature.name, feature);
+        });
+      }
     });
   }
 });
