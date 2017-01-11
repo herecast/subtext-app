@@ -72,7 +72,8 @@ export default Ember.Service.extend({
       const protocol = get(request, 'protocol');
       const path = get(request, 'path');
 
-      return [protocol, host, path].join();
+      // Build the url. Note that path starts with a / already
+      return `${protocol}://${host}${path}`;
 
     } else {
       return window.location.href;

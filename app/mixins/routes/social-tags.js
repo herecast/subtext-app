@@ -160,6 +160,7 @@ export default Ember.Mixin.create({
   },
 
   truncateDescription(description, characters=300) {
+    description = description.replace(/\s/g, ' ');
     return (description.length > characters) ? description.substr(0, characters-1) + '...' : description;
   }
 });
