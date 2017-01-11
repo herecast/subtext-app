@@ -16,14 +16,14 @@ export default Ember.Component.extend({
     return (this.attrs.title || this.attrs.close);
   }),
 
-  isAnimated: computed('fastboot.isFastboot', function () {
-    const isFastboot = get(this, 'fastboot.isFastboot');
+  isAnimated: computed('fastboot.isFastBoot', function () {
+    const isFastboot = get(this, 'fastboot.isFastBoot');
     const shoebox = get(this, 'fastboot.shoebox');
     const shoeboxKey = 'disableModalAnimation';
 
     if (isFastboot) {
       shoebox.put(shoeboxKey, true);
-      return true;
+      return false;
     } else {
       // Note: `shoebox.retrieve` pops the key from the map, so future calls will return undefined.
       // Thus this is safe for showing the animation on subsequent modals
