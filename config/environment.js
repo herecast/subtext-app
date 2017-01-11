@@ -36,7 +36,7 @@ module.exports = function(environment) {
     },
 
     fastboot: {
-      hostWhitelist: [/^localhost:\d+$/, /.*\.subtext\.org$/, /.*\.subtext\.org:\d+$/]
+      hostWhitelist: [/^localhost:\d+$/, /.*\.subtext\.org$/, /.*\.subtext\.org:\d+$/, 'dailyuv.com', 'www.dailyuv.com']
     }
   };
 
