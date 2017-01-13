@@ -19,9 +19,11 @@ export default Ember.Mixin.create({
     const fastboot = get(this, 'fastboot');
 
     if(get(fastboot, 'isFastBoot')) {
-      return fastboot.deferRendering(new Promise((resolve) => {
+      fastboot.deferRendering(new Promise((resolve) => {
         promise.then(resolve, resolve);
       }));
     }
+
+    return promise;
   }
 });

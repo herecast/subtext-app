@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import fetch from 'ember-network/fetch';
 import config from '../config/environment';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 
 import {
@@ -108,7 +109,7 @@ function queryString(data) {
   }
 }
 
-export default Ember.Service.extend({
+export default Ember.Service.extend(FastbootExtensions, {
   session: inject.service('session'),
   queryCache: inject.service('query-cache'),
   defaultHeaders: computed('session.isAuthenticated', function() {
@@ -255,14 +256,20 @@ export default Ember.Service.extend({
     const namespace = config.API_NAMESPACE;
     const host = config.API_BASE_URL;
     const apiUrl = host + "/" + namespace + path;
-    const data = get(this, 'queryCache').retrieveFromCache(apiUrl);
+    const queryCache = get(this, 'queryCache');
+    const data = queryCache.retrieveFromCache(apiUrl);
 
     if(data) {
       return RSVP.resolve(data);
     } else {
-      return returnJson(
-        this.request(path)
+      const response = returnJson(
+        this.request(path).then((data) => {
+          return data;
+        })
       );
+      queryCache.cacheResponseIfFastboot(apiUrl, response);
+
+      return response;
     }
   },
 

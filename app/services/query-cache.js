@@ -66,7 +66,6 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   /** Private */
-
   _apiCache: computed('disableCache', function() {
     if(get(this, 'disableCache')) {
       return {};

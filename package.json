@@ -90,6 +90,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-faker": "1.1.0",
     "ember-load-initializers": "^0.5.1",
+    "ember-lodash": "4.17.0",
     "ember-network": "0.3.0",
     "ember-page-title": "3.0.10",
     "ember-resolver": "^2.0.3",
