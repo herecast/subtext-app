@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { set, get, inject } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   "data-test-component": 'listserv-sign-in-form',
   session: inject.service(),
   windowLocation: inject.service(),
