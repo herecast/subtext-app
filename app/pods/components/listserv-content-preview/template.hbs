@@ -17,14 +17,12 @@
         action='save'
         class='Button Button--talk btn btn-primary pull-right save-and-publish'
       }}
-        <span {{action 'trackEvent' 'submitContent'}}>
-          {{#if isSaving}}
-            Please Wait&hellip;
-          {{else}}
-            Save &amp; Publish
-            {{fa-icon 'check u-iconRight'}}
-          {{/if}}
-        </span>
+        {{#if isSaving}}
+          Please Wait&hellip;
+        {{else}}
+          Save &amp; Publish
+          {{fa-icon 'check u-iconRight'}}
+        {{/if}}
       {{/async-button}}
     </div>
   </div>
