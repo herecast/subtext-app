@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const { set, get, inject } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend({
   "data-test-component": 'listserv-sign-in-form',
   session: inject.service(),
   windowLocation: inject.service(),

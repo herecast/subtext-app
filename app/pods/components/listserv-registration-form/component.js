@@ -12,7 +12,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(trackEvent, Validation, {
+export default Ember.Component.extend(Validation, {
   "data-test-component": 'listserv-registration-form',
   api: inject.service(),
   callToAction: "Register",
