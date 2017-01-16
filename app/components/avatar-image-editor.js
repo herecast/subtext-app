@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const {
   set,
@@ -8,7 +7,7 @@ const {
   computed
 } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   api: inject.service(),
   notify: inject.service('notification-messages'),
   imageUrl: computed.oneWay('currentUser.userImageUrl'),
@@ -23,11 +22,6 @@ export default Ember.Component.extend(TrackEvent, {
       data.append('current_user[user_id]', this.get('currentUser.userId'));
 
       const promise = api.updateCurrentUserAvatar(data);
-
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Profile Feature Submit',
-        navControl: 'Submit Photo Change'
-      });
 
       promise.then((data) => {
         set(this, 'currentUser.userImageUrl', data['current_user']['user_image_url']);

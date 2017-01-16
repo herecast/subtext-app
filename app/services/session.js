@@ -1,50 +1,51 @@
 import Ember from 'ember';
 import SessionService from 'ember-simple-auth/services/session';
 
-const { observer, computed } = Ember;
+const {
+  isPresent,
+  inject,
+  get,
+  computed,
+  observer
+} = Ember;
 
 export default SessionService.extend({
-  api: Ember.inject.service('api'),
-  userService: Ember.inject.service('user'),
-  mixpanel: Ember.inject.service('mixpanel'),
-  intercom: Ember.inject.service('intercom'),
+  api         : inject.service('api'),
+  userService : inject.service('user'),
+  intercom    : inject.service('intercom'),
+  fastboot    : inject.service(),
+
+  isFastBoot: computed.alias('fastboot.isFastBoot'),
 
   signOut() {
-    const api = this.get('api');
-
-    return api.signOut().then(() => {
+    return get(this, 'api').signOut().then(() => {
       this.invalidate();
     });
   },
 
-  setupCurrentUser: observer('currentUser.isLoaded', function() {
-    const user = this.get('currentUser');
-    const mixpanel = this.get('mixpanel');
+  bootIntercom: observer('isAuthenticated', 'currentUser.id', function() {
+    const currentUser = get(this, 'currentUser');
 
-    mixpanel.establishProfile(user);
-
-    if (user && user.get('isLoaded')) {
-      const intercom = this.get('intercom');
-      intercom.boot(user);
+    if(get(this, 'isAuthenticated') && currentUser) {
+      this.get('intercom').update(currentUser);
     }
   }),
+
 
   currentUser: computed('data.authenticated.email', function() {
-    const email = this.get('data.authenticated.email');
-
-    if (Ember.isPresent(email)) {
-      return this.get('userService').getCurrentUser();
+    if (isPresent(get(this, 'data.authenticated.email'))) {
+      return get(this, 'userService').getCurrentUser();
     }
   }),
 
-  userName: Ember.computed.oneWay('currentUser.name'),
+  userName: computed.oneWay('currentUser.name'),
 
   // Sets default location if a user is logged out
   userLocation: computed('currentUser.location', function() {
-    const user = this.get('currentUser');
+    const user = get(this, 'currentUser');
 
-    if (Ember.isPresent(user)) {
-      return user.get('location');
+    if (isPresent(user)) {
+      return get(user, 'location');
     }
   })
 });

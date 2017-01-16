@@ -1,16 +1,17 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
-import TrackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { get, isPresent, set, computed, run } = Ember;
 
-export default Ember.Component.extend(Validation, TrackEvent, {
+export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'EventForm',
   event: computed.alias('model'),
   schedules: null,
   error: null,
   image: computed.alias('model.image'),
+  imageUrl: computed.oneWay('model.imageUrl'),
   showOrganizationMenu: true,
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
@@ -21,6 +22,26 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     this._super(...arguments);
     this.resetProperties();
   },
+
+  hasStaticImageUrl: computed('imageUrl', function() {
+    const imageUrl = get(this, 'imageUrl');
+    const regexp = /(http)(?!base64)/g;
+
+    return isPresent(imageUrl) && imageUrl.match(regexp);
+  }),
+
+  imageName: computed('image.originalImageFile.name', 'imageUrl', function() {
+    const originalFileName = get(this, 'image.originalImageFile.name');
+
+    if (originalFileName) {
+      return originalFileName;
+    } else {
+      // We're not persisting the original file name when an image is uploaded,
+      // so we need to grab it from the file name on S3.
+      const fileName = get(this, 'imageUrl').split('/').get('lastObject');
+      return fileName;
+    }
+  }),
 
   resetProperties: function() {
     const registrationDeadline = get(this, 'event.registrationDeadline');
@@ -94,13 +115,6 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     }
   },
 
-  _getTrackingArguments() {
-    return {
-      navControlGroup: 'Create Content',
-      navControl: 'Discard Event Edit'
-    };
-  },
-
   actions: {
     toggleRegistration() {
       this.toggleProperty('registrationEnabled');
@@ -125,6 +139,10 @@ export default Ember.Component.extend(Validation, TrackEvent, {
       const event = get(this, 'event');
 
       this.sendAction('afterDiscard', event);
+    },
+
+    removeImage() {
+      set(this, 'imageUrl', null);
     },
 
     normalizeUrl() {

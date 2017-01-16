@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   computed,
@@ -14,10 +15,9 @@ const {
   inject
   } = Ember;
 
-export default Ember.Component.extend(Validation, {
+export default Ember.Component.extend(TestSelector, Validation, {
   classNames: ['NewsEditor'],
   "data-test-component": "NewsEditor",
-  showDevFlags: false,
   news: null,
   showPreview: false,
 
@@ -35,9 +35,7 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  editorHeight: computed(function() {
-    return get(this, 'media.isMobile') ? 300 : 500;
-  }),
+  editorHeight: 400,
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: inject.service(),

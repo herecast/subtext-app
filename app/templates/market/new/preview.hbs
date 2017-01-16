@@ -15,11 +15,10 @@
   </div>
 
   {{market-preview-summary
-    model=model
+    model=(mut model)
     afterDiscard='afterDiscard'
     afterPublish='afterPublish'
   }}
-
 </div>
 
 {{#content-preview}}

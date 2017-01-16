@@ -141,13 +141,30 @@
   }}
 </div>
 
-{{content-form-image
-  aspectRatio=1.3333
-  image=event.image
-  imageUrl=event.imageUrl
-  originalImageFile=event.originalImageFile
-  error=errors.image
-}}
+{{#if hasStaticImageUrl}}
+  <label class='control-label'>Current Image</label>
+  <div class="ImageUpload-preview media events">
+    <div class="Image-Upload-previewImage media-left">
+      <img class='media-object' src={{imageUrl}}>
+    </div>
+    <div class="Image-Upload-previewBody media-body">
+      <button class='ImageUpload-reset btn btn-link' {{action 'removeImage' image}}>
+        {{fa-icon 'close'}}
+      </button>
+      <h4 class="Image-Upload-previewFilename media-heading">
+        {{imageName}}
+      </h4>
+    </div>
+  </div>
+{{else}}
+  {{content-form-image
+    aspectRatio=1.3333
+    image=event.image
+    imageUrl=event.imageUrl
+    originalImageFile=event.originalImageFile
+    error=errors.image
+  }}
+{{/if}}
 
 {{#form-group error=errors.content hideError=true}}
   <label class='control-label ContentForm-label--required' for="description">Event Description</label>

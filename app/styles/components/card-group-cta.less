@@ -22,10 +22,16 @@
   &-pitch {
    width: 55%;
 
-   p {
-     font-weight: 700;
-     margin: 0;
-   }
+    &-title {
+      .h3;
+      font-weight: 700;
+      margin: 0;
+
+      @media (max-width: @screen-sm-max) {
+        .h2;
+        margin: 0;
+      }
+    }
   }
 
   &-cta {

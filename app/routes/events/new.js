@@ -1,13 +1,11 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
-const { get, run } = Ember;
+const { get, run, inject } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
-  intercom: Ember.inject.service('intercom'),
+export default Ember.Route.extend(Scroll, Authorized, {
+  intercom: inject.service('intercom'),
 
   model(params, transition) {
     const newRecordValues = {
@@ -65,10 +63,6 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
     afterDiscard() {
       this.transitionTo('events.all').then(() => {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Create Event',
-          navControl: 'Discard Event Create'
-        });
       });
     },
 
@@ -85,9 +79,7 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.all.show', firstInstanceId).then(() => {
-        SocialSharing.createShareCache();
-      });
+      this.transitionTo('events.all.show', firstInstanceId);
 
       run.next(() => {
         event.set('listservIds',[]);

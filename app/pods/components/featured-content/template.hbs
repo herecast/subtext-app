@@ -17,7 +17,7 @@
       <a href={{contentUrl}} class='FeaturedContent-more FeaturedContent-link'>more</a>
     </div>
     <footer class='FeaturedContent-meta'>
-      {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link"}}
+      {{#link-to 'organization-profile' model.organization.slug data-test-link="organization-link"}}
         {{avatar-image
           imageUrl=organizationImage
           userName=organizationName
@@ -25,7 +25,7 @@
         }}
       {{/link-to}}
       <p class="FeaturedContent-whenPublished">{{publishedAt}}</p>
-      {{#link-to 'organization-profile' model.organization.slug data-test-component="organization-link" class="FeaturedContent-publisher" rel='author'}}
+      {{#link-to 'organization-profile' model.organization.slug data-test-link="organization-link" class="FeaturedContent-publisher" rel='author'}}
         {{organizationName}}
       {{/link-to}}
     </footer>

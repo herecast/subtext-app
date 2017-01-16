@@ -19,18 +19,5 @@ export default Ember.Mixin.create({
         id: share_url
       });
     }
-  },
-
-  prerenderRecache: function() {
-    const prerenderToken = config['prerender-io-token'];
-
-    Ember.$.post('https://api.prerender.io/recache', {
-      prerenderToken: prerenderToken,
-      url: window.location.href
-    }).then(() => {
-      this.facebookRecache();
-    });
-    // note -- we're calling facebook recache after re-caching on prerender so that
-    // FB caches the latest updates
   }
 });

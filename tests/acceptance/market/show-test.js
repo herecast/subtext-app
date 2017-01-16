@@ -14,7 +14,7 @@ test('visiting /market/:id', function(assert) {
 
   andThen(function() {
     assert.equal(currentURL(), url);
-    assert.equal(find(testSelector('market-title')).text(), marketPost.title, 'it should show the title');
+    assert.equal(find(testSelector('market-title')).text().trim(), marketPost.title, 'it should show the title');
     assert.equal(find(testSelector('market-content')).text(), marketPost.content, 'it should show the content');
   });
 

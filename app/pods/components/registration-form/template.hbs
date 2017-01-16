@@ -4,33 +4,34 @@
       value=email
       type='email'
       class='form-control RegistrationForm-email'
-      data-test-component='register-email-input'
+      data-test-field='register-email-input'
     )
 
     name-input=(component "atoms/form-input"
       value=name
       class='form-control RegistrationForm-name'
-      data-test-component='register-name-input'
+      data-test-field='register-name-input'
     )
 
     location-input=(component "location-dropdown"
       selectedLocationId=locationId
       isEditing=true
       class="RegistrationForm-location"
+      data-test-component='registration-form-location'
     )
 
     password-input=(component "atoms/form-input"
       value=password
       type='password'
       class='form-control RegistrationForm-password'
-      data-test-component='register-password-input'
+      data-test-field='register-password-input'
     )
 
     accept-terms-input=(component "atoms/form-input"
       type="checkbox"
       checked=termsAccepted
       class='RegistrationForm-terms'
-      data-test-component='register-terms'
+      data-test-field='register-terms'
     )
 
     submitAction=(action 'register')
@@ -47,6 +48,7 @@
         selectedLocationId=locationId
         isEditing=true
         class="RegistrationForm-location"
+        data-test-component='registration-form-location'
       }}
     {{/form-group}}
 
@@ -55,7 +57,7 @@
         value=name
         placeholder='Name'
         class='form-control RegistrationForm-name'
-        data-test-component='register-name-input'
+        data-test-field='register-name-input'
       }}
     {{/form-group}}
 
@@ -65,7 +67,7 @@
         type='email'
         placeholder='Email Address'
         class='form-control RegistrationForm-email'
-        data-test-component='register-email-input'
+        data-test-field='register-email-input'
       }}
     {{/form-group}}
 
@@ -75,7 +77,7 @@
         placeholder='Password'
         type='password'
         class='form-control RegistrationForm-password'
-        data-test-component='register-password-input'
+        data-test-field='register-password-input'
       }}
     {{/form-group}}
 
@@ -94,7 +96,7 @@
                     type="checkbox"
                     checked=digest.checked
                     class='RegistrationForm-digests'
-                    data-test-component='digest-item'
+                    data-test-field='digest-item'
                   }}
 
                   <label for="{{concat elementId '-digest-item-' index}}" class='RegistrationForm-digestItem' data-test-digest-subscribe-item>
@@ -113,7 +115,7 @@
         type="checkbox"
         checked=termsAccepted
         class='RegistrationForm-terms'
-        data-test-component='register-terms'
+        data-test-field='register-terms'
       }}
 
       <label for='terms' class='RegistrationForm-acceptTerms'>

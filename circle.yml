@@ -9,9 +9,3 @@ dependencies:
   override:
     - npm install
     - bower install
-
-deployment:
-  production:
-    branch: master
-    commands:
-      - ./deploy.js production

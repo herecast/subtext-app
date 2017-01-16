@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { set, get, inject } = Ember;
 
@@ -24,12 +23,6 @@ export default Ember.Component.extend(trackEvent, {
 
       return promise.catch((response) => {
         set(this, 'error', response.error);
-      });
-    },
-    trackForgotPassword() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'User Menu',
-        navControl: 'Forgot Password'
       });
     }
   }

@@ -9,7 +9,8 @@
       step3State='inactive'
     }}
       {{market-form
-        model=model
+        model=(mut model)
+        isEditing=(readonly isEditing)
         afterDiscard='afterDiscard'
         afterDetails='afterDetails'
         formattedType='listing'

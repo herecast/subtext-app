@@ -1,20 +1,23 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test} from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('image-cropper', 'Integration | Component | image cropper', {
   integration: true,
 
-  beforeEach: () => { },
-  afterEach: () => { }
+  beforeEach: () => {
+    this.originalDebounce = Ember.run.debounce;
+    Ember.run.debounce = function(context, action, value) {
+      action.call(context, value);
+    };
+  },
+  afterEach: () => {
+    Ember.run.debounce = this.originalDebounce;
+  }
 });
 
-test ('it cancels', function(assert) {
+test('it cancels', function(assert) {
   assert.expect(1);
-
-  Ember.run.debounce = function(context, action, value) {
-    action.call(context, value);
-  };
 
   this.set('originalImageFile', { type: 'image/gif' });
 
@@ -47,13 +50,10 @@ test ('it cancels', function(assert) {
 });
 
 test('it saves', function(assert) {
+  let done = assert.async();
   assert.expect(3);
 
   this.set('originalImageFile', { type: 'image/gif' });
-
-  Ember.run.debounce = function(context, action, value) {
-    action.call(context, value);
-  };
 
   this.set('actions', {
     updateImageModelProperties(image, imageUrl) {
@@ -83,5 +83,6 @@ test('it saves', function(assert) {
 
   Ember.run.later(() => {
     $saveButton.click();
+    done();
   });
 });

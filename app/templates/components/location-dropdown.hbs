@@ -1,12 +1,12 @@
 {{#if isEditing}}
-  {{#x-select value=selectedLocationId class='form-control' data-test-component='location-dropdown'}}
+  {{#x-select value=(readonly selectedLocationId) action=(action 'updateSelected') class='form-control' data-test-field='location-dropdown'}}
     {{#x-option value=null}}Select a location:{{/x-option}}
     {{#each formattedLocations as |location|}}
       {{#x-option value=location.id}}{{location.formattedLocation}}{{/x-option}}
     {{/each}}
   {{/x-select}}
 {{else}}
-  <span>{{session.currentUser.location}}</span>
+  <span>{{formattedLocationName}}</span>
 {{/if}}
 
 {{#if onUpdate}}

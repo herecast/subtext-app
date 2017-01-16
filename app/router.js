@@ -2,7 +2,8 @@ import Ember from 'ember';
 import config from './config/environment';
 
 const Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  rootURL: config.rootURL
 });
 
 Router.map(function() {
@@ -50,7 +51,7 @@ Router.map(function() {
     this.route('all', {path: '/'}, function() {
       this.route('show', {path: '/:id'});
     });
-    this.route('category-landing', {path: '/category/:id'}, function() {
+    this.route('category-landing', {path: '/category/:cat_id'}, function() {
       this.route('show', {path: '/:id'});
     });
     this.route('new', {path: '/new'}, function() {

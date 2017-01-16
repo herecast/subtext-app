@@ -12,18 +12,17 @@
         action='save'
         class='Button Button--talk btn btn-primary pull-right save-and-publish'
       }}
-        <span {{action 'trackEvent' 'submitContent'}}>
-          {{#if isSaving}}
-            Please Wait&hellip;
-          {{else}}
-            {{#if media.isTablet}}
-              Publish
-            {{else}}
+        {{#if isSaving}}
+          Please Wait&hellip;
+        {{else}}
+          <span class="visible-sm-inline">
+            Publish
+          </span>
+          <span class="hidden-sm">
             {{callToAction}}
-            {{/if}}
-            {{fa-icon 'check u-iconRight'}}
-          {{/if}}
-        </span>
+          </span>
+          {{fa-icon 'check u-iconRight'}}
+        {{/if}}
       {{/async-button}}
     </div>
   </div>

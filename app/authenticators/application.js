@@ -1,6 +1,8 @@
 import Devise from 'ember-simple-auth/authenticators/devise';
 import config from 'subtext-ui/config/environment';
 
+const apiHost = config.API_BASE_URL;
+
 export default Devise.extend({
-  serverTokenEndpoint: `${config.API_NAMESPACE}/users/sign_in`,
+  serverTokenEndpoint: `${apiHost}/${config.API_NAMESPACE}/users/sign_in`,
 });

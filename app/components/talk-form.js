@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import Validation from '../mixins/components/validation';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {get, set, computed, run, computed: { oneWay } } = Ember;
 
-export default Ember.Component.extend(Validation, {
+export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'TalkForm',
   talk: Ember.computed.alias('model'),

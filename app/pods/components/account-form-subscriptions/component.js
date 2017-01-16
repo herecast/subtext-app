@@ -17,15 +17,17 @@ export default Ember.Component.extend({
     });
   }),
 
-  alertGTM(message) {
+  alertGTM(digest) {
     if (typeof dataLayer !== 'undefined') {
-      if (message) {
+      if (get(digest, 'subscription')) {
         dataLayer.push({
-          'event': 'dashboard-subscribe'
+          'event': 'dashboard-subscribe',
+          'digest-name': get(digest, 'name')
         });
       } else {
         dataLayer.push({
-          'event': 'dashboard-unsubscribe'
+          'event': 'dashboard-unsubscribe',
+          'digest-name': get(digest, 'name')
         });
       }
     }
@@ -38,7 +40,7 @@ export default Ember.Component.extend({
         () => {
           const message = get(digest, 'subscription') ? 'Subscribed' : 'Unsubscribed';
           notify.success(message);
-          this.alertGTM(get(digest, 'subscription'));
+          this.alertGTM(digest);
         },
         () => notify.error('Unable to save your changes.')
       );

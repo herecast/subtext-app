@@ -4,9 +4,7 @@
   <div class='row'>
     <div class='col-xs-12 col-md-8 col-md-push-2'>
       <div class='ChannelTopper clearfix'>
-        {{#if media.isMobile}}
-        <h1 class='h2 ChannelTopper-title'>Local Market</h1>
-        {{/if}}
+        <h1 class='h2 ChannelTopper-title visible-xs'>Local Market</h1>
 
         {{content-create-button
         class='SectionNavigation-contentCreateButtonMobile pull-right'
@@ -148,7 +146,9 @@
         <div class='row'>
           {{#each featuredCategoryRows.row2 as |featuredCategory|}}
             <div class='col-md-3'>
-              {{market-category-card category=(readonly featuredCategory)}}
+              <span {{action (action 'trackCategoryClick' featuredCategory 'featured-card')}}>
+                {{market-category-card category=(readonly featuredCategory)}}
+              </span>
             </div>
           {{/each}}
 
@@ -166,40 +166,77 @@
 
         <div class='row'>
           <div class='col-xs-12'>
-            {{#unless model.isLoaded}}
-              {{x-loader}}
-            {{else}}
-              {{#if model.length}}
-                <div class='u-layoutPadT20'>
-                  {{sorted-market-posts
-                    marketPosts=model
-                    trackCardClick=(action 'trackCardClick')
-                    adPath='market.all.index'
-                  }}
-                </div>
+            {{#if model.length}}
+              <div class='u-layoutPadT20'>
+                {{sorted-market-posts
+                  marketPosts=model
+                  trackCardClick=(action 'trackCardClick')
+                  adPath='market.all.index'
+                }}
+              </div>
 
-                <div class='row'>
-                  <div class='col-xs-12 col-md-8 col-md-push-2'>
-                    <div class='PaginationNav-wrapper'>
-                      <div class='PaginationNav PaginationNav--bottom'>
-                        {{partial 'partials/pagination-nav'}}
-                      </div>
+              <div class='row'>
+                <div class='col-xs-12 col-md-8 col-md-push-2'>
+                  <div class='PaginationNav-wrapper'>
+                    <div class='PaginationNav PaginationNav--bottom'>
+                      {{partial 'partials/pagination-nav'}}
                     </div>
                   </div>
                 </div>
-              {{else}}
-                <h2 class='h3'>No results for "{{query}}". Please try your search again.</h2>
-              {{/if}}
-            {{/unless}}
+              </div>
+            {{else}}
+              <h2 class='h3'>No results for "{{query}}". Please try your search again.</h2>
+            {{/if}}
           </div>
         </div>
       {{/unless}}
 
-      <div class='row'>
-        <div class='col-xs-12'>
-          <p class='h3 text-center'>{{#link-to 'market.all' (query-params flat=true query='') class='u-link u-bold'}}Show all listings.{{/link-to}} See all listings, sorted by date</p>
+      {{#unless query}}
+        <div class='row'>
+          <div class='col-xs-12'>
+            <h1 class='h2 text-center u-bold'>Recent Listings</h1>
+
+            <div class='u-card clearfix'>
+
+              {{#if featureFlags.market-index-subscribe-cta}}
+                {{#unless session.isAuthenticated}}
+                  {{subscribe-banner
+                    imgUrl='https://s3.amazonaws.com/subtext-misc/sierra-nevada/zoey.png'
+                    title="Don't miss out! Zoe begs you!"
+                    subtitle="Get the latest DailyUV market posts delivered straight to your inbox, and <span class='u-bold'>never miss out on a great local bargain again.</span>"
+                    subscribe=(action 'subscribeToMarketDigest')
+                    featureFlags=(readonly featureFlags)
+                  }}
+                {{/unless}}
+              {{/if}}
+
+
+              {{sorted-market-posts
+                marketPosts=recentPosts
+                suppressAd=true
+                trackCardClick=(action 'trackCardClick' 'recent-ugc')
+                widthClass='col-xs-12'
+                adPath='market.all.index'
+              }}
+
+              <p class='h3 text-center u-layoutPadB20'>{{#link-to 'market.all' (query-params flat=true query='') class='u-link u-bold h2'}}Show all listings {{fa-icon 'angle-right'}}{{/link-to}}<br />
+                See all listings, sorted by date</p>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <h1 class='h2 text-center u-bold u-layoutPadB40'>Happy Buyers and Sellers</h1>
+          </div>
+          {{#each testimonials as |testimonial|}}
+            <div class='col-xs-6'>
+              {{user-testimonial testimonial=(readonly testimonial)}}
+            </div>
+          {{/each}}
+        </div>
+      {{/unless}}
+
     </div>
   </div>
 </div>

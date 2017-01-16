@@ -27,7 +27,7 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS NOT a re
     andThen(function() {
       assert.equal(find(testSelector('success')).length, 0, 'i should not see a success message');
       assert.equal(currentURL(), '/sign_up?email=nonmember%40example.com', 'when i submit the subscription form i am redirected to the registration page with my email prefilled');
-      assert.equal(find(`${testSelector('component', 'digest-item')}:checked`).length, 1, 'and the digest i was trying to subscribe to should be pre-selected');
+      assert.equal(find(`${testSelector('field', 'digest-item')}:checked`).length, 1, 'and the digest i was trying to subscribe to should be pre-selected');
     });
   });
 });

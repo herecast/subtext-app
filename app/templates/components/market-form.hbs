@@ -63,6 +63,21 @@
   {{/if}}
 {{/if}}
 
+{{#if isEditing}}
+  <div class='well'>
+    {{#form-group error=errors.sold hideError=true}}
+      <label class='control-label' for="sold">Mark post as sold</label>
+      {{form-error errors.sold}}
+
+
+      {{#x-select id='sold' value=(readonly post.sold) action=(action 'updateSold') class='form-control' as |xs|}}
+        {{#xs.option value=true}}Sold{{/xs.option}}
+        {{#xs.option value=false}}Not Sold{{/xs.option}}
+      {{/x-select}}
+    {{/form-group}}
+  </div>
+{{/if}}
+
 {{#form-group error=errors.title hideError=true}}
   <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
   {{form-error errors.title}}

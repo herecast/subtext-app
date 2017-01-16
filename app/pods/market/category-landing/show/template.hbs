@@ -1,0 +1,7 @@
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeMarketDetailPage') showHeader=false as |modal|}}
+  {{market-detail
+    model=model
+    scrollTo=(action "scrollTo" target=modal)
+    closeRoute='market.category-landing'
+   }}
+{{/modal-wrapper}}

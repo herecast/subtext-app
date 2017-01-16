@@ -2,12 +2,10 @@ import Ember from 'ember';
 import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, run } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
+export default Ember.Route.extend(Scroll, Authorized, {
 
   model(params, transition) {
     const newRecordValues = {
@@ -64,10 +62,6 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
 
     afterDiscard() {
       this.transitionTo('market.all').then(() => {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Create Content',
-          navControl: 'Discard Market Listing Create'
-        });
       });
     },
 
@@ -80,9 +74,7 @@ export default Ember.Route.extend(Scroll, Authorized, trackEvent, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.all.show', post.get('id')).then(() => {
-        SocialSharing.createShareCache();
-      });
+      this.transitionTo('market.all.show', post.get('id'));
 
       run.next(()=>{
         post.set('listservIds', []);

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
   get,
@@ -6,13 +7,14 @@ const {
   computed,
   isPresent,
   isEmpty,
-  inject
+  inject,
+  $
 } = Ember;
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(FastbootExtensions, {
   geo: inject.service('geolocation'),
 
-  queryParams: ['lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
+  queryParams: ['location','lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
 
   lat: null,
   lng: null,
@@ -29,6 +31,8 @@ export default Ember.Controller.extend({
   businesses: null,
 
   intercom: inject.service(),
+
+  
 
   canSearch: computed('query', 'category_id', 'lat', 'lng', function() {
     const query = get(this, 'query') || '';
@@ -76,11 +80,9 @@ export default Ember.Controller.extend({
       return results;
     });
 
-    return promise;
-  }),
+    this.deferRenderingIfFastboot(promise);
 
-  categories: computed(function() {
-    return this.store.findAll('business-category');
+    return promise;
   }),
 
   category: computed('category_id', 'categories.[]', function() {
@@ -89,6 +91,10 @@ export default Ember.Controller.extend({
   }),
 
   coords: null,
+
+  scrollTop() {
+    $(window).scrollTop(0);
+  },
 
   actions: {
     updateQuery(query) {
@@ -116,6 +122,27 @@ export default Ember.Controller.extend({
 
     contactUs() {
       get(this, 'intercom').contactUs("My Business on dailyUV");
+    },
+
+    changePage(page) {
+      set(this, 'page', page);
+      this.scrollTop();
+    },
+
+    changeSortBy(sort) {
+      this.setProperties({
+        page: 1,
+        sort_by: sort
+      });
+      this.scrollTop();
+    },
+
+    changePerPage(per) {
+      this.setProperties({
+        page: 1,
+        per_page: per
+      });
+      this.scrollTop();
     }
   }
 });

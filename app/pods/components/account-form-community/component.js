@@ -12,12 +12,20 @@ export default Ember.Component.extend(Validation, {
   model: null,
 
   actions: {
-    submit() {
-      const notify = get(this, 'notify');
-      get(this, 'model').save().then(
-        () => notify.success('Successfully saved changes'),
-        () => notify.error('Error: unable to save changes')
-      );
+    setLocation(id, name) {
+      if(location) {
+        this.get('model').setProperties({
+          locationId:  id,
+          location: name
+        });
+        const notify = get(this, 'notify');
+        get(this, 'model').save().then(
+          () => {
+            notify.success('Successfully saved changes');
+          },
+          () => notify.error('Error: unable to save changes')
+        );
+      }
     }
   }
 });

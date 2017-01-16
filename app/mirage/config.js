@@ -156,7 +156,7 @@ export default function() {
     this.pretender.passthrough
   );
 
-  this.namespace = 'api/v3';
+  this.namespace = '/api/v3';
   this.timing = 200; // delay for each request, automatically set to 0 during testing
 
   this.pretender.prepareBody = function(body) {
@@ -170,27 +170,26 @@ export default function() {
 
   this.post('/users/sign_in', function(schema, request) {
     schema.db['currentUsers'].remove();
-    let email;
+    let user;
 
-    if(request.requestBody.indexOf('{') === 0) {
-      // JSON
-      let data = JSON.parse(request.requestBody);
-      email = data['user']['email'];
+    if(request.requestBody.indexOf('{') >= 0) {
+      //json
+      let json = JSON.parse(request.requestBody)['user'];
+      if(json['email']) {
+        user = schema.users.where({email: json['email']}).models[0];
+      } else {
+        user = schema.users.first();
+      }
     } else {
-      // FORM ENCODED
       let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
       let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
 
       if(matches) {
-        email = matches[1];
+        let email = matches[1];
+        user = schema.users.where({email: email}).models[0];
+      } else {
+        user = schema.users.first();
       }
-    }
-
-    let user;
-    if(email) {
-      user = schema.users.where({email: email}).models[0];
-    } else {
-      user = schema.users.first();
     }
 
     if(user) {
@@ -239,11 +238,14 @@ export default function() {
     var id = 1;
     var currentUser;
 
-    if(request.requestHeaders['Content-Type'].indexOf('application/json') > -1) {
+    const contentType = request.requestHeaders['content-type'] || request.requestHeaders['Content-Type'] || "";
+
+    if(contentType.indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['currentUser'];
-      currentUser = currentUsers.update(id, attrs);
+      currentUser = currentUsers.find(id);
+      currentUser.update(attrs);
     } else {
       currentUser = currentUsers.find(id);
     }
@@ -367,7 +369,7 @@ export default function() {
     const showProperties = [
       'contentId', 'category'
     ];
-    debugger;
+
     const properties = baseProperties.concat(showProperties);
     const data = Ember.getProperties(event, properties);
 
@@ -465,16 +467,21 @@ export default function() {
     };
   });
 
-  this.get('/promotion', () => {
-    return {
-      promotion: {
-        banner_id: faker.random.number(1000),
+  this.get('/promotions', (db, request) => {
+    let limit = parseInt(request.queryParams.limit || 1);
+    let promotions = [];
+
+    for(var i = 0; i < limit; i++) {
+      promotions.push({
+        id: faker.random.number(1000),
         image_url: `https://placehold.it/600x500/61e49c/ffffff/&text=Ad`,
         redirect_url: `http://${faker.internet.domainName()}`,
         advertiser: faker.company.companyName,
         promotion_id: faker.random.number(1000)
-      }
-    };
+      });
+    }
+
+    return {promotions:promotions};
   });
 
   this.post('/promotion_banners/:id/track_click', function() {});
@@ -651,6 +658,10 @@ export default function() {
     const news = db.news.update(id, data['news']);
 
     return { news: news };
+  });
+
+  this.post('news/:id/impressions', function(){
+    return {};
   });
 
   this.get('/contents', function({ db }, request) {

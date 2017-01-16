@@ -3,7 +3,8 @@ import { buildGroup } from 'subtext-ui/lib/group-by-date';
 
 const {
   computed,
-  get
+  get,
+  inject
 } = Ember;
 
 export default Ember.Component.extend({
@@ -11,6 +12,7 @@ export default Ember.Component.extend({
   stopDate: null,
   events: null, // events => sortedEvents => groupedEvents
   eventLayout: 'grid',
+  modals: inject.service(),
 
   classNameBindings: ['isListLayout:u-colorBgPrimary'],
 
@@ -73,6 +75,12 @@ export default Ember.Component.extend({
   actions: {
     showTail(group) {
       group.set('tailHidden', false);
+    },
+
+    openCalendarWidget() {
+      get(this, 'modals').showModal('modals/date-picker').then((date) => {
+        this.attrs.updateJumpTarget(date);
+      });
     }
   }
 });

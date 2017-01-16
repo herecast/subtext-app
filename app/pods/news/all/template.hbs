@@ -4,13 +4,13 @@
   <div class='row'>
     <div class='col-xs-12'>
         <div class='ChannelTopper clearfix'>
-          {{#if media.isMobile}}
+          <div class="visible-xs">
             <h1 class='GroupHeader GroupHeader--news' style='display: inline-block; margin-bottom: 0'>
               <span class='GroupHeader-channelLink GroupHeader-channelLink--news h3 ChannelTopper-title'>
                 Local News
               </span>
             </h1>
-          {{/if}}
+          </div>
 
           {{content-create-button
             class='SectionNavigation-contentCreateButtonMobile pull-right'
@@ -24,18 +24,11 @@
 
 <div class='Container--noGutter'>
   {{#if model}}
-    {{#if media.isMobile}}
-      {{ordered-news
-        news=model
-        adPath='news.all.index'
-      }}
-    {{else}}
-      {{grouped-news
-        news=model
-        adPath='news.all.index'
-        showHeader=false
-      }}
-    {{/if}}
+    {{grouped-news
+      news=model
+      adPath='news.all.index'
+      showHeader=false
+    }}
   {{/if}}
 </div>
 

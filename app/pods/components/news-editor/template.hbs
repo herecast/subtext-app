@@ -33,7 +33,7 @@
   <div class='row'>
     <div class='col-md-9'>
       <div class='NewsEditor-postBody u-dropShadow'>
-        {{#if media.isMobileOrTablet}}
+        <div class="visible-xs visible-sm">
           {{#form-group error=errors.organization}}
             <label class='control-label'>Organization</label>
             {{#if news.isPublished}}
@@ -48,7 +48,7 @@
               }}
             {{/if}}
           {{/form-group}}
-        {{/if}}
+        </div>
 
         {{#form-group
         error=errors.title
@@ -87,7 +87,7 @@
         {{/form-group}}
 
 
-        {{#if media.isMobileOrTablet}}
+        <div class="visible-xs visible-sm">
           {{#form-group error=errors.image}}
             <label class='control-label'>Featured Image</label>
             {{thumbnail-image-modal
@@ -98,7 +98,7 @@
               saveCaption=(action 'saveFeaturedImageCaption')
             }}
           {{/form-group}}
-        {{/if}}
+        </div>
 
         {{#form-group
         error=errors.content
@@ -273,7 +273,7 @@
             </div>
           </div>
         </div>
-        {{#if media.isNotMobileOrTablet}}
+        <div class="hidden-xs hidden-sm">
           <div class='NewsEditor-sidebarWidget NewsEditor-sidebarWidget--organizationSettings SidebarWidget'>
             {{#if news.isPublished}}
               <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
@@ -310,25 +310,8 @@
                 }}
               </div>
             {{/form-group}}
-
-            {{#if showDevFlags}}
-              <div class='dev-flags'>
-                <hr>
-                <hr>
-                isDirty: {{news.hasDirtyAttributes}}<br/>
-                dirtyType: {{news.dirtyType}}<br/>
-                canAutoSave: {{canAutosave}}<br/>
-                <hr>
-                isDraft: {{news.isDraft}}<br/>
-                isScheduled: {{news.isScheduled}}<br/>
-                isPublished: {{news.isPublished}}<br/>
-                hasUnpublishedChanges: {{news.hasUnpublishedChanges}}<br/>
-                didOrgChange: {{didOrgChange}}<br/>
-                showPreviewLink: {{showPreviewLink}}
-              </div>
-            {{/if}}
           </div>
-        {{/if}}
+        </div>
       </div>
     </div>
 

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
-import trackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 /* global dataLayer */
 
 const {
@@ -15,7 +15,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(trackEvent, Validation, {
+export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
   classNames: ['RegistrationForm'],
   'data-test-component': 'registration-form',
@@ -40,10 +40,11 @@ export default Ember.Component.extend(trackEvent, Validation, {
     this.registerUser();
   },
 
-  alertGTM() {
+  alertGTM(digest) {
     if (typeof dataLayer !== 'undefined') {
       dataLayer.push({
-        'event': 'registration-subscribe'
+        'event': 'registration-subscribe',
+        'digest-name': get(digest, 'name')
       });
     }
   },
@@ -64,9 +65,9 @@ export default Ember.Component.extend(trackEvent, Validation, {
 
         store.createRecord('subscription', merge(baseProperties, properties)).save();
       });
-    });
 
-    this.alertGTM();
+      this.alertGTM(digest);
+    });
   },
 
   registerUser() {
@@ -74,8 +75,6 @@ export default Ember.Component.extend(trackEvent, Validation, {
     const api = get(this, 'api');
     const password = this.get('password');
     const email = this.get('email');
-
-    this.trackEvent('submitSignUp', { });
 
     return new RSVP.Promise((resolve, reject) => {
       if (get(this, 'isValid')) {
@@ -88,8 +87,6 @@ export default Ember.Component.extend(trackEvent, Validation, {
             password_confirmation: password
           }
         }).then((response) => {
-          this.trackEvent('createSignup', { });
-
           const selectedDigests = get(this, 'selectedDigests');
           if (isPresent(selectedDigests)) {
             this._saveDigestSubscriptions(selectedDigests);

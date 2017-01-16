@@ -28,53 +28,51 @@
       </div>
 
         <div class="col-sm-2 text-right">
-          {{#unless media.isMobile}}
-            <div class="dropdown Dashboard-NewButton">
-              <button class="btn btn-default btn-lg dropdown-toggle Dashboard-NewButton-Button" type="button" data-toggle="dropdown">
-                New
-                {{fa-icon 'chevron-down'}}
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right Dashboard-NewButton-Menu">
-                <li class="Dashboard-NewButton-Menu-Title">
-                   Content will be owned by: <strong>{{ contentOwnerName }}</strong>
-                </li>
+          <div class="dropdown Dashboard-NewButton">
+            <button class="btn btn-default btn-lg dropdown-toggle Dashboard-NewButton-Button" type="button" data-toggle="dropdown">
+              New
+              {{fa-icon 'chevron-down'}}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right Dashboard-NewButton-Menu">
+              <li class="Dashboard-NewButton-Menu-Title">
+                 Content will be owned by: <strong>{{ contentOwnerName }}</strong>
+              </li>
 
+              <li role="separator" class="divider"></li>
+
+              <li>
+                {{#link-to 'events.new.details' (query-params organization_id=organizationId)}}
+                    <span>Create Event</span>
+                {{/link-to}}
+              </li>
+
+              <li role="separator" class="divider"></li>
+
+              <li>
+                {{#link-to 'talk.new.details' (query-params organization_id=organizationId)}}
+                    <span>Create Talk</span>
+                {{/link-to}}
+              </li>
+
+              <li role="separator" class="divider"></li>
+
+              <li>
+                {{#link-to 'market.new.details' (query-params organization_id=organizationId)}}
+                    <span>Create Market Listing</span>
+                {{/link-to}}
+              </li>
+
+              {{#if organization.canPublishNews}}
                 <li role="separator" class="divider"></li>
 
                 <li>
-                  {{#link-to 'events.new.details' (query-params organization_id=organizationId)}}
-                      <span>Create Event</span>
+                  {{#link-to 'news.new' (query-params organization_id=organizationId)}}
+                      <span>Create News Post</span>
                   {{/link-to}}
                 </li>
-
-                <li role="separator" class="divider"></li>
-
-                <li>
-                  {{#link-to 'talk.new.details' (query-params organization_id=organizationId)}}
-                      <span>Create Talk</span>
-                  {{/link-to}}
-                </li>
-
-                <li role="separator" class="divider"></li>
-
-                <li>
-                  {{#link-to 'market.new.details' (query-params organization_id=organizationId)}}
-                      <span>Create Market Listing</span>
-                  {{/link-to}}
-                </li>
-
-                {{#if organization.canPublishNews}}
-                  <li role="separator" class="divider"></li>
-
-                  <li>
-                    {{#link-to 'news.new' (query-params organization_id=organizationId)}}
-                        <span>Create News Post</span>
-                    {{/link-to}}
-                  </li>
-                {{/if}}
-              </ul>
-            </div>
-          {{/unless}}
+              {{/if}}
+            </ul>
+          </div>
       </div>
     </div>
 

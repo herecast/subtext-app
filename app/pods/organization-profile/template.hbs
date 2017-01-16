@@ -10,7 +10,8 @@
             <img src={{model.profileImageUrl}} data-test-organization-image
                  class='OrganizationProfile-header-profileImage'>
           {{else}}
-            {{fa-icon 'user' size=(if media.isMobile 3 5) class='OrganizationProfile-header-genericUserIcon'}}
+            {{fa-icon 'user' size=3 class='OrganizationProfile-header-genericUserIcon hidden-sm hidden-md hidden-lg hidden-xl'}}
+            {{fa-icon 'user' size=5 class='OrganizationProfile-header-genericUserIcon hidden-xs'}}
           {{/if}}
           <p class="OrganizationProfile-header-name">
             {{model.name}}
@@ -36,7 +37,7 @@
           </div>
           {{#if model.subscribeUrl}}
             <div class="col-xs-6 text-right">
-              <a target="_blank" data-test-component='organization-subscribe-link'
+              <a target="_blank" data-test-link='organization-subscribe-link'
                  class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
                 {{fa-icon 'heart'}}
                 Subscribe
@@ -45,61 +46,57 @@
           {{/if}}
         </div>
 
-        {{#if news.isPending}}
-          {{x-loader}}
-        {{else}}
-          {{#if showLargeCard}}
-            <div class="row">
-              <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
-                {{news-card-wide
-                item=news.firstObject
-                class='Card--solo OrganizationProfile-newsCard'
-                variant='full'
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-            </div>
-          {{/if}}
-
-          {{#if model.profileAdOverride}}
-            <div class="row">
-              <div class="col-sm-6">
-                {{news-card
-                item=newsList.firstObject
-                variant='vertical'
-                class="OrganizationProfile-newsCard"
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-              <div class="col-sm-6">
-                {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
-              </div>
-            </div>
-          {{/if}}
-
+        {{#if showLargeCard}}
           <div class="row">
-            {{#each newsListRemainingItems as |item|}}
-              <div class="col-sm-6">
-                {{news-card
-                item=item
-                variant='vertical'
-                class="OrganizationProfile-newsCard"
-                routeName='organization-profile.news-item'
-                }}
-              </div>
-            {{/each}}
-          </div>
-
-          <div class='row'>
-            <div class='col-xs-12'>
-              <div class='OrganizationProfile-pagination PaginationNav-wrapper'>
-                <div class='PaginationNav PaginationNav--bottom'>
-                  {{partial 'partials/pagination-nav'}}
-                </div>
-              </div>
+            <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
+              {{news-card-wide
+              item=news.firstObject
+              class='Card--solo OrganizationProfile-newsCard'
+              variant='full'
+              routeName='organization-profile.news-item'
+              }}
             </div>
           </div>
         {{/if}}
+
+        {{#if model.profileAdOverride}}
+          <div class="row">
+            <div class="col-sm-6">
+              {{news-card
+              item=newsList.firstObject
+              variant='vertical'
+              class="OrganizationProfile-newsCard"
+              routeName='organization-profile.news-item'
+              }}
+            </div>
+            <div class="col-sm-6">
+              {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
+            </div>
+          </div>
+        {{/if}}
+
+        <div class="row">
+          {{#each newsListRemainingItems as |item|}}
+            <div class="col-sm-6">
+              {{news-card
+              item=item
+              variant='vertical'
+              class="OrganizationProfile-newsCard"
+              routeName='organization-profile.news-item'
+              }}
+            </div>
+          {{/each}}
+        </div>
+
+        <div class='row'>
+          <div class='col-xs-12'>
+            <div class='OrganizationProfile-pagination PaginationNav-wrapper'>
+              <div class='PaginationNav PaginationNav--bottom'>
+                {{partial 'partials/pagination-nav'}}
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 

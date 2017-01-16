@@ -88,10 +88,12 @@ export default Ember.Mixin.create({
 
   directionsUrl: computed('fullAddress', function() {
     const url = `maps.google.com/maps?daddr=${this.get('fullAddress')}`;
-    const platform = navigator.platform;
-    const isios = (platform.indexOf("iPhone") !== -1) ||
-        (platform.indexOf("iPod") !== -1) ||
-        (platform.indexOf("iPad") !== -1);
+    const platform = ((typeof navigator !== 'undefined') ? navigator.platform : null);
+    const isios = (platform  && (
+      (platform.indexOf("iPhone") !== -1) ||
+      (platform.indexOf("iPod") !== -1) ||
+      (platform.indexOf("iPad") !== -1)
+    ));
 
     if (isios) {
       return `maps://${url}`;

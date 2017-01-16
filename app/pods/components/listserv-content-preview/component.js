@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { get, set, computed } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend(TestSelector, {
   model: Ember.computed.alias('enhancedPost'),
   isPreview: true,
   isMinimalist: false,

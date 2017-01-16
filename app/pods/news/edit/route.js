@@ -5,6 +5,7 @@ import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 const { get, inject, run } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, {
+  location: inject.service('window-location'),
   titleToken: 'Edit News',
 
   delayedJobs: inject.service(),
@@ -35,12 +36,11 @@ export default Ember.Route.extend(RequireCanEdit, {
     afterPublish() {
       const modelId = get(this, 'controller.news.id');
       const sharePath = `/news/${modelId}`;
-
-      SocialSharing.updateShareCache(sharePath);
+      const locationService = get(this, 'location');
 
       let delayedJob =
         run.later(this, () => {
-          SocialSharing.checkFacebookCache(sharePath);
+          SocialSharing.checkFacebookCache(locationService, sharePath);
         }, 60 * 1e3);
 
       get(this, 'delayedJobs').queueJob(`facebookRecache${sharePath}`, delayedJob);

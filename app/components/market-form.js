@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import Validation from '../mixins/components/validation';
-import TrackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { oneWay } = Ember.computed;
 const { get, set, run } = Ember;
 
-export default Ember.Component.extend(Validation, TrackEvent, {
+export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'MarketForm',
   post: Ember.computed.alias('model'),
@@ -47,14 +47,10 @@ export default Ember.Component.extend(Validation, TrackEvent, {
     this.validateContact();
   },
 
-  _getTrackingArguments() {
-    return {
-      navControlGroup: 'Create Content',
-      navControl: 'Discard Market Listing Edit'
-    };
-  },
-
   actions: {
+    updateSold(value) {
+      set(this, 'post.sold', value);
+    },
     discard() {
       const post = this.get('post');
       this.sendAction('afterDiscard', post);

@@ -1,14 +1,15 @@
 import Ember from 'ember';
-import Linkable from 'ember-cli-link-tags/mixins/linkable';
+//import Linkable from 'ember-cli-link-tags/mixins/linkable';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
+import RouteNameAdContext from 'subtext-ui/mixins/routes/route-name-ad-context';
 
 const { get, set } = Ember;
 
-export default Ember.Route.extend(ModalRoute, Linkable, RouteMetaMixin, {
+export default Ember.Route.extend(ModalRoute,/* Linkable, */RouteMetaMixin, RouteNameAdContext, {
 
-  model(params, transition) {
+  model(params) {
     const type = normalizeContentType(params.ctype) || null;
     set(this, 'channel', type);
 
@@ -17,7 +18,7 @@ export default Ember.Route.extend(ModalRoute, Linkable, RouteMetaMixin, {
         this.replaceWith('error-404');
       });
     } else {
-      transition.abort();
+      this.replaceWith('error-404');
     }
   },
 

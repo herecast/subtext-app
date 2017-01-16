@@ -1,17 +1,8 @@
 <header class="DetailPage-navTop-container">
+
   {{#unless isPreview}}
     <div class="DetailPage-navTop clearfix">
-      {{#unless media.isNotMobile}}
-        {{#link-to closeRoute class="DetailPage-navTop-backLink DetailPage-navTop-backLink--market pull-left"}}
-          {{fa-icon 'arrow-left'}} {{closeLabel}}
-        {{/link-to}}
-      {{/unless}}
-
-      {{#if media.isNotMobile}}
-        {{#link-to closeRoute class="DetailPage-navTop-closeButton DetailPage-navTop-closeButton--market"}}
-          {{fa-icon 'close'}}
-        {{/link-to}}
-      {{/if}}
+      {{detail-page-close-link closeRoute=closeRoute closeLabel=closeLabel}}
 
       <div class="pull-right">
         {{social-share
@@ -24,7 +15,10 @@
   {{/unless}}
 
   {{#if activeImage}}
-    {{header-image imageUrl=activeImage}}
+    {{header-image
+      imageUrl=activeImage
+      preserveAspectRatio=true
+    }}
   {{/if}}
 </header>
 
@@ -36,53 +30,66 @@
       {{/each}}
     </div>
   {{/if}}
+
   <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h2" data-test-market-title>{{model.title}}</h1>
+    <h1 class="DetailPage-title h2" data-test-market-title>{{#if model.sold}}<span class='h3 u-bold u-tag'>SOLD!</span>{{/if}}&nbsp;&nbsp;{{model.title}}</h1>
+
     {{#if model.publishedAt}}
       <p>{{formatted-date model.publishedAt}}</p>
     {{/if}}
   </div>
-  <div class="DetailPage-headerSection">
-    <div class="DetailPage-headerNav">
+
+    <div>
       {{#if hasClickedReplyButton}}
-        {{#if model.contactEmail}}
-          <div class="DetailPage-headerNavItem">
-            <a href='mailto:{{model.contactEmail}}' target='_blank'>
-              <p>{{fa-icon 'reply' size=2}}</p>
-              Email
-            </a>
-          </div>
-        {{/if}}
+        <div class="DetailPage-headerSection">
+          <div class="DetailPage-headerNav">
+            {{#if model.contactEmail}}
+              <div class="DetailPage-headerNavItem">
+                <a href='mailto:{{model.contactEmail}}' target='_blank'>
+                  <p>{{fa-icon 'reply' size=2}}</p>
+                  Email
+                </a>
+              </div>
+            {{/if}}
 
-        {{#if model.contactPhone}}
-          <div class="DetailPage-headerNavItem">
-            <a href="tel:+1{{model.contactPhone}}">
-              <p>{{fa-icon 'phone' size=2}}</p>
-              {{#if media.isMobile}}
-                Call
-              {{else}}
-                {{formatted-phone model.contactPhone}}
-              {{/if}}
-            </a>
-          </div>
-        {{/if}}
+            {{#if model.contactPhone}}
+              <div class="DetailPage-headerNavItem">
+                <a href="tel:+1{{model.contactPhone}}">
+                  <p>{{fa-icon 'phone' size=2}}</p>
+                  <span class="visible-xs-inline">Call</span>
+                  <span class="hidden-xs">{{formatted-phone model.contactPhone}}</span>
+                </a>
+              </div>
+            {{/if}}
 
-        {{#if model.address}}
-          <div class="DetailPage-headerNavItem">
-            <a href='{{model.directionsLink}}' target='_blank'>
-              <p>{{fa-icon 'map-marker' size=2}}</p>
-              Map
-            </a>
+            {{#if model.address}}
+              <div class="DetailPage-headerNavItem">
+                <a href='{{model.directionsLink}}' target='_blank'>
+                  <p>{{fa-icon 'map-marker' size=2}}</p>
+                  Map
+                </a>
+              </div>
+            {{/if}}
           </div>
-        {{/if}}
+        </div>
       {{else}}
-        <div class="DetailPage-headerNavItem">
-          <button class='Button btn btn-default Button--market' {{action 'clickReplyButton'}}>Reply to Poster</button>
+        {{#unless model.sold}}
+          {{market-reply-form
+            post=(readonly model)
+            clickReplyButton=(action 'clickReplyButton')
+          }}
+        {{/unless}}
+      {{/if}}
+
+      {{#if model.canEdit}}
+        <div class="DetailPage-headerNavItem text-center">
+          {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
+            {{fa-icon 'pencil'}} Edit Listing
+          {{/link-to}}
         </div>
       {{/if}}
     </div>
   </div>
-</div>
 
 {{#unless isPreview}}
   {{report-content-details
@@ -106,7 +113,10 @@
 
 {{#unless isPreview}}
   {{#if featureFlags.market-detail-cta}}
-    {{market-cta}}
+    {{market-cta
+      variation=featureFlags.market-detail-cta.options.variation
+      imgUrl=featureFlags.market-detail-cta.options.image_url
+    }}
   {{/if}}
 {{/unless}}
 
@@ -118,16 +128,6 @@
       }}
     </div>
   </div>
-{{/unless}}
-
-{{#unless isPreview}}
-  {{#if model.canEdit}}
-    {{edit-content-link
-    contentId=model.id
-    route='market.edit'
-    text='Edit Listing'
-    }}
-  {{/if}}
 {{/unless}}
 
 {{#unless isPreview}}

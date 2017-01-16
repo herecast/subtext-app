@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { computed, get } = Ember;
 
@@ -10,7 +10,7 @@ function startsWith(path, searchString) {
   return path.indexOf(searchString) === position;
 }
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend(TestSelector, {
   'data-test-component': "content-create-button",
 
   path: '', // override with the application controller's currentPath
@@ -54,7 +54,7 @@ export default Ember.Component.extend(trackEvent, {
     return `/${path.split('.')[0]}/new/details`;
   }),
 
-  linkText: computed('path', 'media.isTabletOrSmallDesktop', function() {
+  linkText: computed('path', function() {
     const path = this.get('path');
     let contentType = '';
 
@@ -68,30 +68,6 @@ export default Ember.Component.extend(trackEvent, {
       contentType = 'Talk';
     }
 
-    if (this.get('media.isTabletOrSmallDesktop')) {
-      return `+ ${contentType}`;
-    } else {
-      return `Create ${contentType}`;
-    }
-
-  }),
-
-  _getTrackingArguments(linkText) {
-    let navControlText = '';
-
-    if (linkText.match(/News/)) {
-      navControlText = 'Create News';
-    } else if (linkText.match(/Event$/)) {
-      navControlText = 'Create Event';
-    } else if (linkText.match(/Listing$/)) {
-      navControlText = 'Create Market Listing';
-    } else if (linkText.match(/Talk$/)) {
-      navControlText = 'Create Talk';
-    }
-
-    return {
-      navControlGroup: 'Create Content',
-      navControl: navControlText
-    };
-  }
+    return contentType;
+  })
 });

@@ -32,6 +32,17 @@
     @media (max-width: @screen-xs-max) {
       margin: 10px 0;
     }
+
+    &--wide {
+      @media (max-width: @screen-xs-max) {
+        .h2;
+        margin: 10px 0;
+      }
+      @media (min-width: @screen-sm-min) {
+        .h1;
+      }
+    }
+
   }
 
   &-titleGroup {
@@ -69,6 +80,17 @@
 
     height: 115px;
     width: 133px;
+
+    &--preserveAspectRatio {
+      .flex-display();
+
+      border: 1px solid @gray-light;
+      background: @gray-light;
+
+      img {
+        object-fit: contain; // IE does not support yet.
+      }
+    }
   }
 
   &-image-placeholder {
@@ -84,6 +106,10 @@
     line-height: 1;
     display: inline-block;
     padding: 3px;
+
+    @media (max-width: @screen-xs-max) {
+      .h6;
+    }
   }
 
   &-authorImage {

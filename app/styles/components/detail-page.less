@@ -154,7 +154,6 @@
 
   &-thumbnail {
     height: 60px;
-    width: 80px;
     margin: 5px;
     border: solid 1px transparent;
     cursor: pointer;
@@ -192,10 +191,19 @@
 
 }
 
-.Modal-dialog--fullscreen {
-  .DetailPage {
-    &-navTop {
-      position: fixed;
+.Modal-dialog {
+  @media (max-width: @screen-xs-max) {
+    .DetailPage {
+      &-navTop {
+        position: fixed;
+      }
+    }
+  }
+  &--fullscreen {
+    .DetailPage {
+      &-navTop {
+        position: fixed;
+      }
     }
   }
 }

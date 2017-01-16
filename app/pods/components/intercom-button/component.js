@@ -1,50 +1,28 @@
 import Ember from 'ember';
 
-const {get, set, inject, run} = Ember;
+const {get, set, computed, inject} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'IntercomButton',
   classNameBindings : ['footerShowing:footer-nav-showing'],
 
-  footerShowing: false,
+  intercom: inject.service(),
+  footerService: inject.service('footer'),
+
+  footerShowing: computed('media.isMobile', 'footerService.hideFooter', function () {
+    return get(this, 'media.isMobile') && ! get(this, 'footerService.hideFooter');
+  }),
+
   intercomWindowOpen: false,
 
-  intercom: inject.service(),
-
-  checkBottom: null, // cancellable run loop invocation
-
-  didInsertElement() {
-    set(this, 'footerShowing', this._isFooterShowing());
-
-    Ember.$(window).on('scroll.intercomButton', () => {
-      let checkBottom = run.debounce(this, () => {
-        set(this, 'footerShowing', this._isFooterShowing());
-      }, 350);
-
-      set(this, 'checkBottom', checkBottom);
-    });
+  init() {
+    this._super(...arguments);
 
     const intercom = get(this, 'intercom');
     //callbacks from Intercom to change state of custom button if
     //intercom is opened through other means
-    intercom.onShow( () => {set(this, 'intercomWindowOpen', true);} );
-    intercom.onHide( () => {set(this, 'intercomWindowOpen', false);} );
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-
-    Ember.$(window).off('scroll.intercomButton');
-    run.cancel( get(this, 'checkBottom') );
-  },
-
-  _isFooterShowing() {
-    const isMobile = get(this, 'media.isMobile');
-    // Future iterations should move footer state to a service
-    // Then remove fragile jquery hook
-    const footerNav = Ember.$('nav.FooterNav');
-
-     return isMobile && footerNav.length > 0 && !footerNav.hasClass('is-hidden');
+    intercom.onShow(() => { set(this, 'intercomWindowOpen', true); });
+    intercom.onHide(() => { set(this, 'intercomWindowOpen', false); });
   },
 
   actions: {

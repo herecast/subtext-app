@@ -2,29 +2,33 @@
   <div class='row'>
     <div class='AuthForm-wrapper'>
       <div class='col-md-6 col-md-offset-3'>
-        <nav class='PillNavigation'>
-          <a class='PillNavigation-item PillNavigation-item--active h3'>Sign in</a>
-          {{#link-to 'register' class="PillNavigation-item h3"}}
-            Join Now
-          {{/link-to}}
-        </nav>
+        {{#unless session.isFastBoot}}
+          <nav class='PillNavigation'>
+            <a class='PillNavigation-item PillNavigation-item--active h3'>Sign in</a>
+            {{#link-to 'register' class="PillNavigation-item h3"}}
+              Join Now
+            {{/link-to}}
+          </nav>
 
-        <div class='AuthForm'>
-          <div class='AuthForm-header'>
-            <h1 class='AuthForm-title h1'>Sign in</h1>
-          </div>
+          <div class='AuthForm'>
+            <div class='AuthForm-header'>
+              <h1 class='AuthForm-title h1'>Sign in</h1>
+            </div>
 
-          <div class='AuthForm-body'>
-            <div class='AuthForm-form'>
-              {{sign-in-form
-                onReconfirm=(action 'reconfirm')
-                onForgotPassword=(action 'forgotPassword')
-                afterAuthenticate=(action 'wasAuthenticated')
-              }}
+            <div class='AuthForm-body'>
+              <div class='AuthForm-form'>
+                {{sign-in-form
+                  onReconfirm=(action 'reconfirm')
+                  onForgotPassword=(action 'forgotPassword')
+                  afterAuthenticate=(action 'wasAuthenticated')
+                }}
 
+              </div>
             </div>
           </div>
-        </div>
+        {{else}}
+          {{x-loader}}
+        {{/unless}}
       </div>
     </div>
   </div>

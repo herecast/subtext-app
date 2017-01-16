@@ -7,11 +7,14 @@ const {
   RSVP,
   isEmpty,
   isPresent,
+  computed,
   inject
 } = Ember;
 
 export default Ember.Route.extend(History, MaintainScroll, {
   geo: inject.service('geolocation'),
+  fastboot: inject.service(),
+  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
 
   model() {
     let model = {
@@ -34,30 +37,43 @@ export default Ember.Route.extend(History, MaintainScroll, {
       query: model.params['query'] || ""
     });
 
-    // Location
-    if(isPresent(model.params['lat']) && isPresent(model.params['lng'])) {
-      const coords = {
-        lat: model.params.lat,
-        lng: model.params.lng
-      };
-      controller.set('coords', coords);
-      get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
-        controller.set('location', location);
-      });
-    } else {
-    //user needs to know that position is calculating as it may take up to 5 seconds
-      controller.set('isCalculatingLocation', true);
-      get(this, 'geo.userLocation').then(location => {
-        if(isEmpty(controller.get('coords'))) {
-          controller.setProperties({
-            location: location.human,
-            coords: location.coords,
-            lat: location.coords.lat,
-            lng: location.coords.lng
+    const isFastBoot = get(this, 'isFastBoot');
+
+      // Location
+      if(isPresent(model.params['lat']) && isPresent(model.params['lng'])) {
+
+        const coords = {
+          lat: model.params.lat,
+          lng: model.params.lng
+        };
+
+        controller.set('coords', coords);
+
+        if(isPresent(model.params['location'])) {
+          controller.set('location', model.params['location']);
+        } else if(!isFastBoot) {
+          get(this, 'geo').reverseGeocode(coords.lat, coords.lng).then(location => {
+            controller.set('location', location);
           });
         }
-        controller.set('isCalculatingLocation', false);
-      });
-    }
+      } else {
+        /**
+         * @TODO reimplement in fastboot compatible way
+         * @FASTBOOT_BROKEN
+         */
+        //user needs to know that position is calculating as it may take up to 5 seconds
+        controller.set('isCalculatingLocation', true);
+        get(this, 'geo.userLocation').then(location => {
+          if(isEmpty(controller.get('coords'))) {
+            controller.setProperties({
+              location: location.human,
+              coords: location.coords,
+              lat: location.coords.lat,
+              lng: location.coords.lng
+            });
+          }
+          controller.set('isCalculatingLocation', false);
+        });
+      }
   }
 });

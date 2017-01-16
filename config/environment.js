@@ -1,13 +1,28 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
+
   var ENV = {
     modulePrefix: 'subtext-ui',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     podModulePrefix: 'subtext-ui/pods',
     locationType: 'auto',
-    API_NAMESPACE: '/api/v3',
+    envOverrides: [
+      'API_BASE_URL',
+      'API_NAMESPACE',
+      'CONSUMER_APP_URI',
+      'GMAPS_API_TOKEN',
+      'INTERCOM_API_TOKEN',
+      'FACEBOOK_APP_ID',
+      'GTM_API_TOKEN',
+      'GTM_AUTH',
+      'FASTBOOT_DATA_CACHE_TIMEOUT',
+      'GTM_PREVIEW'
+    ],
+    API_NAMESPACE: 'api/v3',
+    API_BASE_URL: "",
+    FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -18,11 +33,13 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    fastboot: {
+      hostWhitelist: [/^localhost:\d+$/, /.*\.subtext\.org$/, /.*\.subtext\.org:\d+$/, 'dailyuv.com', 'www.dailyuv.com']
     }
   };
 
-  // ENV['simple-auth'] = {
-  // }
 
   ENV['simple-auth-devise'] = {
     serverTokenEndpoint: '/api/v3/users/sign_in',
@@ -37,40 +54,38 @@ module.exports = function(environment) {
     directory: 'app/mirage'
   };
 
+
   if (environment === 'development') {
      ENV.APP.LOG_RESOLVER = false;
      ENV.APP.LOG_ACTIVE_GENERATION = false;
      ENV.APP.LOG_TRANSITIONS = false;
      ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
      ENV.APP.LOG_VIEW_LOOKUPS = false;
-    ENV.mixpanel = {
-      enabled: false,
-      LOG_EVENT_TRACKING: false,
+
+    var hasApiHost = (process.env.API_BASE_URL && process.env.API_BASE_URL.trim().length > 0);
+    if(hasApiHost) {
+      ENV['ember-cli-mirage']['enabled'] = false;
+      ENV['API_BASE_URL'] = process.env.API_BASE_URL;
     }
 
-    /*
-    ENV['ember-cli-mirage'] = {
-      enabled: false
-    }
-    */
-    if(process.env.FACEBOOK_API_ID) {
+    if(process.env.FACEBOOK_APP_ID) {
       ENV.fb_enabled = false;
     }
 
-    ENV['consumer-app-uri'] = process.env.CONSUMER_APP_URI;
-    ENV['gmaps-api-token'] = process.env.GMAPS_API_TOKEN;
-    ENV['mixpanel-api-token'] = process.env.MIXPANEL_API_TOKEN;
-    ENV['intercom-api-token'] = process.env.INTERCOM_API_TOKEN;
-    ENV['facebook-app-id'] = process.env.FACEBOOK_API_ID;
-    ENV['prerender-io-token'] = process.env.PRERENDER_IO_TOKEN;
-    ENV['gtm-api-token'] = process.env.GTM_API_TOKEN;
-    ENV['gtm-auth'] = process.env.GTM_AUTH;
-    ENV['gtm-preview'] = process.env.GTM_PREVIEW;
+    ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
+    ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
+    ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
+    ENV['FACEBOOK_APP_ID'] = process.env.FACEBOOK_APP_ID;
+    ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
+    ENV['GTM_AUTH'] = process.env.GTM_AUTH;
+    ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;
+
   }
 
   if (environment === 'test') {
+    ENV.FASTBOOT_DATA_CACHE_TIMEOUT = 0;
     // Testem prefers this...
-    ENV.baseURL = '/';
+    ENV.rootURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -79,12 +94,7 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
 
-    ENV.mixpanel = {
-      enabled: false,
-      LOG_EVENT_TRACKING: false,
-    }
-
-    ENV['mixpanel-api-token'] = '';
+    ENV['ember-cli-mirage']['enabled'] = true;
 
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'
@@ -92,21 +102,14 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/';
+    ENV.rootURL = '/';
 
     ENV['ember-cli-mirage'] = {
       enabled: false,
       excludeFilesFromBuild: true
-    }
+    };
 
     ENV.fb_enabled = true;
-
-    ENV.prerender_enabled = true;
-
-    ENV.mixpanel = {
-      enabled: true,
-      LOG_EVENT_TRACKING: false,
-    }
   }
 
   return ENV;

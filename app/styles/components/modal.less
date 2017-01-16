@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 1000;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -19,41 +19,7 @@
     }
   }
 
-  &-dialog {
-    margin: 40px auto;
-    max-width: 640px;
-    background: #fff;
-    box-shadow: 3px 3px 15px #333;
-    padding: 10px;
-    transition: all 0.5s;
-    animation: slide-up 0.5s;
-    z-index: 102;
-    position: relative;
 
-    &--fullscreen {
-      width: 100%;
-      height: auto;
-      position: absolute;
-      margin: 0;
-      overflow: auto;
-
-      &.Modal-dialog--visible {
-        opacity: 1;
-      }
-
-      &.isExpanded {
-        padding-bottom: 200px;
-      }
-
-      @media (max-width: @screen-xs-max) {
-        padding-bottom: 100px;
-      }
-    }
-
-    .form-actions {
-      text-align: center;
-    }
-  }
 
   &-actionClose { }
 
@@ -82,6 +48,39 @@
       vertical-align: middle;
     }
   }
+
+}
+
+.Modal-dialog {
+  margin: 40px auto;
+  max-width: 640px;
+  background: #fff;
+  box-shadow: 3px 3px 15px #333;
+  padding: 10px;
+  transition: all 0.5s;
+  z-index: 102;
+  position: relative;
+
+  .form-actions {
+    text-align: center;
+  }
+
+  &.animated {
+    animation: slide-up 0.5s;
+  }
+}
+
+.Modal-dialog--fullscreen {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  margin: 0;
+  overflow: auto;
+  padding-bottom: 200px;
+
+  &.Modal-dialog--visible {
+    opacity: 1;
+  }
 }
 
 .Modal-dialog--fullscreen .Modal-dialogHeader {
@@ -96,4 +95,10 @@
   padding: 0 4px 10px 4px;
   text-align: center;
   margin: 10px -10px -10px -10px;
+}
+
+@media (max-width: @screen-xs-max) {
+  .Modal-dialog {
+    .Modal-dialog--fullscreen;
+  }
 }

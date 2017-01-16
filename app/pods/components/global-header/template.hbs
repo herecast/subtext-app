@@ -3,7 +3,7 @@
     <div class='MainNav'>
 
       <div class='MainNav-brand'>
-        <h1 class='MainNav-brand-logo' {{action (action 'trackHome')}}>
+        <h1 class='MainNav-brand-logo'>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
             daily UV
             {{#if (and session.isAuthenticated (or (eq currentChannel 'talk') (eq currentChannel 'index')))}}
@@ -15,7 +15,6 @@
         </h1>
       </div>
 
-      {{#if media.isNotMobile}}
         <nav class='MainNav-channels' role="navigation">
           <ul class='SectionNavigation-list'>
             {{#if channelLinksEnabled}}
@@ -32,7 +31,7 @@
               current-when='news'
               data-test-link='news-channel'
               }}
-                <span {{action (action 'trackChannel' 'News')}}>News</span>
+                <span>News</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -49,7 +48,7 @@
               current-when='events'
               data-test-link='events-channel'
               }}
-                <span {{action (action 'trackChannel' 'Events')}}>Events</span>
+                <span>Events</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -62,7 +61,7 @@
               current-when='talk'
               data-test-link='talk-channel'
               }}
-                <span {{action (action 'trackChannel' 'Talk')}}>Talk</span>
+                <span>Talk</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -78,7 +77,7 @@
               current-when='market'
               data-test-link='market-channel'
               }}
-                <span {{action (action 'trackChannel' 'Market')}}>Market</span>
+                <span>Market</span>
               {{/link-to}}
             </li>
             <li class='SectionNavigation-listItem'>
@@ -93,17 +92,16 @@
               {{/if}}
           </ul>
         </nav>
-      {{/if}}
 
       <div class='MainNav-search'>
         <!-- will contain user menu/login/register, search -->
-        {{#unless media.isMobile}}
-          <ul class='list-inline'>
-            <li>
-              <span {{action 'openSearch'}} class='MainNav-search-searchButton'>
-                {{fa-icon 'search'}}
-              </span>
-            </li>
+        <ul class='list-inline'>
+          <li>
+            <span {{action 'openSearch'}} class='MainNav-search-searchButton'>
+              {{fa-icon 'search'}}
+            </span>
+          </li>
+          {{#unless session.isFastBoot}}
             {{#if session.isAuthenticated}}
               <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
                 <a {{action 'toggleUserMenu'}}
@@ -133,10 +131,10 @@
             {{else}}
               <li class='MainNav-signInJoin dropdown {{if showSignIn "open"}}'>
                 <button {{action 'showSignInMenu' 'sign-in' bubbles=false}} class='btn-link' data-test-link='login-link'>
-                  <span {{action (action 'trackRegistration' 'Sign In')}}>Sign In</span>
+                  <span>Sign In</span>
                 </button>
                 <button {{action 'showSignInMenu' 'register' bubbles=false}} class='btn-link' data-test-link='join-link'>
-                  <span {{action (action 'trackRegistration' 'Sign Up')}}>Join</span>
+                  <span>Join</span>
                 </button>
                 {{#if showSignIn}}
                   {{#click-outside action=(action 'closeSignInMenu') class='dropdown-menu dropdown-menu-right open'}}
@@ -145,34 +143,21 @@
                 {{/if}}
               </li>
             {{/if}}
-            <li role="presentation" class="dropdown">
-              <a {{action 'trackMenuOpen'}}
-                  href='#'
-                  class='MainNav-moreLink h2'
-                  role='button'
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false">
-                {{fa-icon 'ellipsis-h'}}
-              </a>
-              {{extended-nav class="dropdown-menu dropdown-menu-right"}}
-            </li>
-          </ul>
-        {{/unless}}
+          {{/unless}}
+          <li role="presentation" class="dropdown">
+            <a {{action 'trackMenuOpen'}}
+                href='#'
+                class='MainNav-moreLink h2'
+                role='button'
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+              {{fa-icon 'ellipsis-h'}}
+            </a>
+            {{extended-nav class="dropdown-menu dropdown-menu-right"}}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </div>
-
-{{!--
-  {{content-create-button
-    class='col-lg-3 col-sm-2 hidden-xs u-textPullRight'
-    path=currentPath
-  }}
-
-  {{x-weather
-    class='h2 col-sm-3'
-    location=session.userLocation
-    data-test-component='weather'
-  }}
---}}

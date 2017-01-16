@@ -18,7 +18,7 @@
 
           <div>
             {{fa-icon 'map-marker'}}
-            <a href='{{model.directionsUrl}}' {{action 'trackMapClick' preventDefault=false}} target='_blank'>
+            <a href='{{model.directionsUrl}}' target='_blank'>
               {{model.venueAddress}}, {{model.venueCity}}
             </a>
           </div>
@@ -55,7 +55,7 @@
               <div class=''>
                 {{fa-icon 'link'}}
 
-                {{#normalized-link url=model.eventUrl action=(action 'trackEventInfoClick' 'website')}}
+                {{#normalized-link url=model.eventUrl}}
                   {{truncate model.eventUrl length=22}}
                 {{/normalized-link}}
               </div>
@@ -65,7 +65,7 @@
               <div class=''>
                 {{fa-icon 'envelope'}}
 
-                <a href="mailto:{{model.contactEmail}}" {{action 'trackEventInfoClick' 'email' preventDefault=false}} target='_blank'>
+                <a href="mailto:{{model.contactEmail}}" target='_blank'>
                   {{truncate model.contactEmail length=22}}
                 </a>
               </div>
@@ -75,7 +75,7 @@
               <div class=''>
                 {{fa-icon 'phone'}}
 
-                <a href='tel:{{model.contactPhone}}' {{action 'trackEventInfoClick' 'phone' preventDefault=false}} target='_blank'>
+                <a href='tel:{{model.contactPhone}}' target='_blank'>
                   {{model.contactPhone}}
                 </a>
               </div>

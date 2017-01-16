@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { computed } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend({
   classNames: ['CommentBubble'],
   classNameBindings: ['typeClass'],
 
@@ -30,12 +29,6 @@ export default Ember.Component.extend(trackEvent, {
       return 'comments';
     }
   }),
-
-  _getTrackingArguments() {
-    return {
-      navControl: 'Start Discussion'
-    };
-  },
 
   actions: {
     scrollToComments() {

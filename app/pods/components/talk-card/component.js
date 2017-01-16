@@ -31,16 +31,6 @@ export default Ember.Component.extend(TrackCard, {
     return dateFormat.relative(get(this, 'talk.publishedAt'));
   }),
 
-  isNarrow: computed('isSimilarContent', 'isContentCard', 'media.isSmallDesktop', 'media.isTabletOrSmallDesktop', function() {
-    if (this.get('isContentCard')) {
-      if (this.get('isSimilarContent')) {
-        return this.get('media.isSmallDesktop');
-      } else {
-        return this.get('media.isTabletOrSmallDesktop');
-      }
-    }
-  }),
-
   parentContentId: computed('talk.parentContentType', 'talk.parentContentId', 'talk.parentContentType', function() {
     const parentType = this.get('talk.parentContentType');
     if (['event','event-instance','event_instance'].contains(parentType)) {
@@ -68,16 +58,7 @@ export default Ember.Component.extend(TrackCard, {
         this.attrs.onTitleClick();
       }
 
-      this.sendAction('trackClick', get(this, 'talk'));
-
       return true;
-    },
-    trackSimilarContentClick() {
-      this.trackEvent('selectSimilarContent', {
-        navControl: 'Talk',
-        navControlGroup: 'Talk Card',
-        sourceContentId: get(this, 'sourceContentId')
-      });
     }
   }
 });

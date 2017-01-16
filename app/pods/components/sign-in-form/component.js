@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   computed,
@@ -8,7 +8,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Component.extend(trackEvent, {
+export default Ember.Component.extend(TestSelector, {
   tagName: "form",
   session: inject.service('session'),
   classNames: ['SignInForm'],
@@ -24,17 +24,6 @@ export default Ember.Component.extend(trackEvent, {
     return "/forgot-password";
   }),
 
-  trackForgotPassword() {
-    this.trackEvent('selectNavControl', {
-      navControlGroup: 'User Menu',
-      navControl: 'Forgot Password'
-    });
-  },
-
-  trackSignIn() {
-    this.trackEvent('signIn', {});
-  },
-
   submit() {
     this.authenticate();
   },
@@ -44,7 +33,6 @@ export default Ember.Component.extend(trackEvent, {
 
     return new Ember.RSVP.Promise((resolve, reject) => {
       get(this, 'session').authenticate('authenticator:application', identification, password).then(() => {
-        this.trackSignIn();
         if('afterAuthenticate' in this.attrs) {
           this.attrs.afterAuthenticate();
         }
@@ -71,7 +59,6 @@ export default Ember.Component.extend(trackEvent, {
     },
 
     forgotPassword() {
-      this.trackForgotPassword();
       if ('onForgotPassword' in this.attrs) {
         this.attrs.onForgotPassword();
       }

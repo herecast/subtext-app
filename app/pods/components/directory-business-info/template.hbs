@@ -26,11 +26,7 @@
 
     <div class="DirectoryBusiness-iconBar-item">
       {{#if model.phone}}
-        {{#if media.isMobile}}
-          <a href="tel:+1{{model.phone}}">{{fa-icon 'fa-phone'}} Call</a>
-        {{else}}
-          {{fa-icon 'fa-phone'}} {{formatted-phone model.phone}}
-        {{/if}}
+        {{render-phone phone=model.phone}}
       {{/if}}
     </div>
 

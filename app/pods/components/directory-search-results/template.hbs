@@ -14,11 +14,11 @@
           <h4>{{result.name}}</h4>
         {{/link-to}}
         <div>
-          {{#if (not media.isMobile)}}
+          <span class="hidden-xs">
             {{fa-icon 'fa-map-marker'}}
             {{result.fullAddress}}
             <span class="miles">&nbsp;&nbsp;({{round (geo-distance result.coords searchCoords) 1}} mi)</span>
-          {{/if}}
+          </span>
         </div>
         <div>
           {{business-feedback-badge result=result}}
@@ -28,13 +28,7 @@
       <div class="DirectoryListings-linkBar">
         <div class="DirectoryListings-linkBar-item">
           {{#if result.phone}}
-            {{#if media.isMobile}}
-              <a href="tel:+1{{result.phone}}">
-                {{fa-icon 'fa-phone'}} Call
-              </a>
-            {{else}}
-              {{fa-icon 'fa-phone'}} {{formatted-phone result.phone}}
-            {{/if}}
+            {{render-phone phone=result.phone}}
           {{/if}}
         </div>
         <div class="DirectoryListings-linkBar-item text-center">

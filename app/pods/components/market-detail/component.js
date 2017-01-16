@@ -8,8 +8,6 @@ export default Ember.Component.extend(ModelResetScroll, {
   closeRoute: 'market.all',
   closeLabel: 'Market',
 
-  hasClickedReplyButton: false,
-
   activeImage: computed.oneWay('model.coverImageUrl'),
 
   featureFlags: inject.service('feature-flags'),
@@ -33,14 +31,11 @@ export default Ember.Component.extend(ModelResetScroll, {
       set(this, 'activeImage', imageUrl);
     },
 
-    clickReplyButton() {
-      get(this, 'model').loadContactInfo().then(() => {
-        this.toggleProperty('hasClickedReplyButton');
-      });
-
+    clickReplyButton(selectedCannedReply) {
       if (typeof dataLayer !== "undefined") {
         dataLayer.push({
-          'event': 'market-reply-click'
+          'event': 'market-reply-click',
+          'chosen-reply': get(selectedCannedReply, 'label')
         });
       }
     }

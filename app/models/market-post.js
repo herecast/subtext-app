@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
+import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
   computed,
@@ -10,7 +11,7 @@ const {
   RSVP
 } = Ember;
 
-export default DS.Model.extend({
+export default DS.Model.extend(FastbootExtensions, {
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
@@ -29,6 +30,7 @@ export default DS.Model.extend({
   price: DS.attr('string'),
   publishedAt: DS.attr('moment-date', {defaultValue: function(){ return moment(); }}),
   updatedAt: DS.attr('moment-date'),
+  sold: DS.attr('boolean', {defaultValue: false}),
   title: DS.attr('string'),
   organization: DS.belongsTo('organization'),
 
@@ -111,12 +113,17 @@ export default DS.Model.extend({
     const id = get(this, 'id');
 
     if (isPresent(id)) {
-      return api.getMarketContactInfo(id).then((response) => {
+      const promise = api.getMarketContactInfo(id).then((response) => {
         this.setProperties({
           contactEmail: response.market_post.contact_email,
           contactPhone: response.market_post.contact_phone
         });
       });
+
+      // Inform fastboot to wait for this promise;
+      this.deferRenderingIfFastboot(promise);
+
+      return promise;
     } else {
       return null;
     }

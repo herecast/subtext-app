@@ -2,11 +2,11 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 /* global Ember, sinon */
 
+const { stub, spy } = sinon;
+
 moduleForComponent('directory-search', 'Integration | Component | directory search', {
   integration: true,
   beforeEach() {
-    const { stub, spy } = sinon;
-
     const instance = {
       fitBounds: spy(),
       setCenter: spy(),
@@ -37,8 +37,15 @@ moduleForComponent('directory-search', 'Integration | Component | directory sear
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('changePerPage', spy());
+  this.set('changePage', spy());
+  this.set('changeSortBy', spy());
 
-  this.render(hbs`{{directory-search}}`);
+  this.render(hbs`{{directory-search
+  changeSortBy=(action changeSortBy)
+  changePerPage=(action changePerPage)
+  changePage=(action changePage)
+  }}`);
   assert.ok(this.$());
 
 });

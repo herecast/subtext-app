@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, computed } = Ember;
 
-export default Ember.Mixin.create(TrackEvent, {
+export default Ember.Mixin.create({
   showAll: false,
   limit: 3,
   content: [],
@@ -24,13 +23,6 @@ export default Ember.Mixin.create(TrackEvent, {
 
   actions: {
     toggleMore() {
-      const moreOrLess = (get(this, 'showAll')) ? 'less' : 'more';
-
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Similar Content View',
-        navControl: `view ${moreOrLess}`
-      });
-
       this.toggleProperty('showAll');
     }
   }

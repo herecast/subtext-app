@@ -17,117 +17,51 @@
 
   <span>Fee: {{event.formattedCostType}}</span>
 {{else}}
-  {{#if (and media.isNotMobile (eq variant 'wide'))}}
-    <div class="media">
-      <div class="media-body Card-body">
-        {{#if isPreview}}
-          <h2 class="media-heading Card-title" data-test-event-card-title>{{title}}</h2>
-        {{else}}
-          <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
-            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}} data-test-event-card-title>
-                {{title}}
-              </span>
-            {{/link-to}}
-          </h2>
-        {{/if}}
-
-        {{#if hasVenue}}
-          {{#if media.isNotMobile}}
-            {{fa-icon 'map-marker'}} <span>{{venue}}</span><br />
-          {{else}}
-            <p class='h5'>
-              {{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=22 tagName='span'}}
-            </p>
-          {{/if}}
-        {{/if}}
-
-        <p class='h5'>{{event.formattedCostType}}</p>
-
-        {{#if event.registrationDeadline}}
-          <p class='Card-infoBanner'>
-            Register by {{event.formattedRegistrationDeadline}}
-          </p>
-        {{/if}}
-
-      </div>
-
-      <div class="media-right">
-        {{#if event.imageUrl}}
-          {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-            <span {{action 'trackSuggestedContentClick'}}>
-              <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+  <div class="Media {{if flipImagePosition 'Media--invertedOnDesktop'}}">
+    <div class="Media-body">
+      {{#if isPreview}}
+        <h2 class="media-heading Card-title" data-test-event-card-title>{{title}}</h2>
+      {{else}}
+        <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
+          {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event')
+                     classNameBindings="isSimilarContent:SimilarContentLink"}}
+            <span {{action 'trackSuggestedContentClick'}} data-test-event-card-title>
+              {{title}}
             </span>
           {{/link-to}}
-        {{else}}
-          <div class='media-object Card-image-tile'></div>
-        {{/if}}
-      </div>
+        </h2>
+      {{/if}}
+
+      {{#if hasVenue}}
+        <div class="hidden-xs">
+          {{fa-icon 'map-marker'}} <span>{{venue}}</span>
+        </div>
+        <p class='h5 visible-xs'>
+          {{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=22 tagName='span'}}
+        </p>
+      {{/if}}
+
+      <p class='h5'>{{event.formattedCostType}}</p>
+
+      {{#if event.registrationDeadline}}
+        <p class='Card-infoBanner'>
+          Register by {{event.formattedRegistrationDeadline}}
+        </p>
+      {{/if}}
 
     </div>
 
-  {{else}}
-
-    <div class="media">
-      {{#unless (eq imagePosition 'right')}}
-        <div class="media-left">
-          {{#if event.imageUrl}}
-            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}}>
-                <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
-              </span>
-            {{/link-to}}
-          {{else}}
-            <div class='media-object Card-image-tile'></div>
-          {{/if}}
-        </div>
-      {{/unless}}
-
-      <div class="media-body Card-body">
-        {{#if isPreview}}
-          <h2 class="media-heading Card-title">{{title}}</h2>
-        {{else}}
-          <h2 class='media-heading Card-title' {{action 'onTitleClick'}}>
-            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}}>
-                {{title}}
-              </span>
-            {{/link-to}}
-          </h2>
-        {{/if}}
-
-        {{#if timeRange}}
-          <p class='h5'>{{fa-icon 'clock-o'}} {{timeRange}}</p>
-        {{/if}}
-
-        {{#if hasVenue}}
-          <p class='h5'>
-            {{fa-icon 'map-marker'}} {{truncate-text text=venue maxLength=22 tagName='span'}}
-          </p>
-        {{/if}}
-
-        <p class='h5'>{{event.formattedCostType}}</p>
-
-        {{#if event.registrationDeadline}}
-          <p class='Card-infoBanner h6'>
-            <span class='Card-infoBanner-label'>Register by </span>{{event.formattedRegistrationDeadline}}
-          </p>
-        {{/if}}
-      </div>
-
-      {{#if (eq imagePosition 'right')}}
-        <div class="media-right">
-          {{#if event.imageUrl}}
-            {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event') classNameBindings="isSimilarContent:SimilarContentLink"}}
-              <span {{action 'trackSuggestedContentClick'}}>
-                <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
-              </span>
-            {{/link-to}}
-          {{else}}
-            <div class='media-object Card-image-tile'></div>
-          {{/if}}
-        </div>
+    <div>
+      {{#if event.imageUrl}}
+        {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event')
+                   classNameBindings="isSimilarContent:SimilarContentLink"}}
+          <span {{action 'trackSuggestedContentClick'}}>
+            <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+          </span>
+        {{/link-to}}
+      {{else}}
+        <div class='media-object Card-image-tile'></div>
       {{/if}}
     </div>
-  {{/if}}
+  </div>
 {{/if}}

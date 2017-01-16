@@ -6,7 +6,7 @@
 
   <div class='Card-content'>
     <div class='Card-titleGroup'>
-      {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title class="Card-title" classNames=(if media.isMobile "h1" "h2")}}
+      {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title class="Card-title Card-title--wide"}}
         {{item.title}}
       {{/link-to}}
 
@@ -19,7 +19,7 @@
             item.organization.slug
             class='Card-organization'
             tagName='a'
-            data-test-component="organization-link"
+            data-test-link="organization-link"
           }}
             {{avatar-image
               imageUrl=item.organization.displayImageUrl
@@ -37,7 +37,7 @@
             item.organization.slug
             class='Card-organization'
             tagName='a'
-            data-test-component="organization-link"
+            data-test-link="organization-link"
             }}
               {{item.organizationName}}
             {{/link-to}}

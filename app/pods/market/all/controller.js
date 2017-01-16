@@ -13,6 +13,8 @@ const {
 export default Ember.Controller.extend(PaginatedFilter, {
   secondaryBackground: true,
 
+  featureFlags: inject.service('feature-flags'),
+
   flat: false,
 
   page: 1,
@@ -64,7 +66,47 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   navCategories: computed.union('featuredCategories', 'trendingCategories'),
 
+  recentPosts: computed('marketPosts', function() {
+    return this.store.query('market-post', {
+      has_image: true
+    });
+  }),
+
+  testimonials: [{
+    name: 'Jackie',
+    img: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/user-testimonial--jackie-pierce.jpg',
+    town: 'Hartland, VT',
+    content: "My Husband and I own a small business and are always looking for inexpensive ways to find local help. We posted in the dailyUV market and were able to create a custom listing for our job position that we could then share on Facebook and the local lists. We hired someone in 4 days!"
+  },{
+    name: 'Michelle',
+    img: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/user-testimonial--michelle.jpg',
+    town: 'Quechee, VT',
+    content: "The Quechee Inn at Marshland Farm runs weekly promotions in the market which is a great source for us to reach our local customers.  I am able to track how many views our post has seen which is valuable information. The staff has been great at teaching me how to use the site to work for our business."
+  }],
+
+  _trackMarketDigestSubscriptionClick() {
+    if (typeof dataLayer !== 'undefined') {
+      dataLayer.push({
+        'event': 'market-digest-cta-subscribe-click'
+      });
+    }
+  },
+
   actions: {
+    subscribeToMarketDigest() {
+      this._trackMarketDigestSubscriptionClick();
+
+      if (get(this, 'session.isAuthenticated')) {
+        // noop
+      } else {
+        this.transitionToRoute('register', {
+          queryParams: {
+            selectedDigest: get(this, 'featureFlags.market-index-subscribe-cta.options.digest-id')
+          }
+        });
+      }
+    },
+
     updateQuery(q) {
       if(q.length > 2) {
         set(this, 'query', q);
@@ -100,8 +142,14 @@ export default Ember.Controller.extend(PaginatedFilter, {
       }
     },
 
-    trackCardClick() {
-      const type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
+    trackCardClick(cardType) {
+      let type;
+
+      if (cardType) {
+        type = cardType;
+      } else {
+        type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
+      }
 
       if (typeof dataLayer !== 'undefined') {
         dataLayer.push({

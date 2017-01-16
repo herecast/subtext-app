@@ -18,33 +18,9 @@ export default Ember.Component.extend({
 
   channelLinksEnabled: true,
 
-  displayChannelLinks: computed('channelLinksEnabled', 'media.isNotMobile', function() {
-    return get(this, 'channelLinksEnabled') && get(this, 'media.isNotMobile');
-  }),
-
   actions: {
     openSearch() {
       this.sendAction('openSearch');
-    },
-    trackHome() {
-      if ('trackHome' in this.attrs) {
-        this.attrs.trackHome(...arguments);
-      }
-    },
-    trackChannel() {
-      if ('trackChannel' in this.attrs) {
-        this.attrs.trackChannel(...arguments);
-      }
-    },
-    trackRegistration() {
-      if ('trackRegistration' in this.attrs) {
-        this.attrs.trackRegistration(...arguments);
-      }
-    },
-    trackUserMenu() {
-      if ('trackUserMenu' in this.attrs) {
-        this.attrs.trackUserMenu(...arguments);
-      }
     },
     trackMenuOpen() {
       if ('trackMenuOpen' in this.attrs) {
@@ -75,7 +51,6 @@ export default Ember.Component.extend({
     },
     toggleUserMenu() {
       this.toggleProperty('showUserMenu');
-      this.send('trackUserMenu');
     },
     openAccountSettings() {
       set(this, 'showUserMenu', false);

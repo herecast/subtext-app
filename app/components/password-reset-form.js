@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   get, set,
@@ -8,7 +9,7 @@ const {
   isPresent
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   api: inject.service('api'),
   windowLocation: inject.service('windowLocation'),
   returnUrl: null,

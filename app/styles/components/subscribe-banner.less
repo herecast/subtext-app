@@ -1,0 +1,77 @@
+.SubscribeBanner {
+  &-wrapper {
+    border-bottom: 1px solid #efefef;
+
+    @media (max-width: @screen-xs-max) {
+      padding: 0 30px;
+      padding-bottom: 10px;
+    }
+  }
+
+  &-imageWrapper {
+    overflow: hidden;
+
+    @media (min-width: @screen-xs-max) {
+      width: 200px;
+      height: 200px;
+      margin: 0 0 0 auto;
+
+      &--zoey {
+        width: 280px;
+        margin-top: -50px;
+      }
+    }
+  }
+
+  &-image {
+    @media (max-width: @screen-xs-max) {
+      width: 170px;
+      margin: 0 auto;
+    }
+  }
+
+  &-title {
+    @media (max-width: @screen-xs-max) {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &-subtitle {
+    @media (max-width: @screen-xs-max) {
+      margin-top: 0.5em;
+    }
+  }
+
+  &-content {
+    background: #fff;
+    line-height: 1.2;
+
+    @media (max-width: @screen-xs-max) {
+      padding-top: 10px;
+      margin-top: -80px;
+    }
+  }
+
+  &-subscribeButton {
+    background-color: #FF6E37;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 3px;
+
+    &:hover, &:focus, &:active {
+      color: #fff;
+      background-color: #ff4904;
+    }
+
+    @media (min-width: @screen-xs-max) {
+      padding: 10px 16px;
+      font-size: 18px;
+      line-height: 1.3333333;
+      border-radius: 6px;
+      margin-top: 30px;
+    }
+  }
+}

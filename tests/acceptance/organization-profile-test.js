@@ -160,7 +160,7 @@ test('Subscribe link, when subscribe url', function(assert) {
   });
 
   visit(`/organizations/${org1.id}`).then(()=> {
-    let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
+    let $subscribeLink = find(testSelector('link', 'organization-subscribe-link'));
     assert.equal($subscribeLink.attr('href'), org1.subscribeUrl);
   });
 
@@ -169,7 +169,7 @@ test('Subscribe link, when subscribe url', function(assert) {
   });
 
   visit(`/organizations/${org2.id}`).then(()=> {
-    let $subscribeLink = find(testSelector('component', 'organization-subscribe-link'));
+    let $subscribeLink = find(testSelector('link', 'organization-subscribe-link'));
     assert.equal($subscribeLink.length, 0);
   });
 });
@@ -185,7 +185,7 @@ test('Visiting news landing page, clicking organization name brings me to profil
 
   visit('/news').then(()=> {
     let $newsCard = find(testSelector('news-card', 'revelation'));
-    let $orgLink = find(testSelector('component', 'organization-link'), $newsCard);
+    let $orgLink = find(testSelector('link', 'organization-link'), $newsCard);
     click($orgLink).then(()=> {
       assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });
@@ -202,7 +202,7 @@ test('Visiting news item page, clicking organization name brings me to profile p
   });
 
   visit(`/news/${news.id}`).then(()=> {
-    let $orgLink = find(testSelector('component', 'news-show-organization-link'));
+    let $orgLink = find(testSelector('link', 'news-show-organization-link'));
     click($orgLink).then(()=> {
       assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });

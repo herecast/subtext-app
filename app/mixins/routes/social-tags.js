@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
-import RouteMetaMixin from 'ember-cli-meta-tags/mixins/route-meta';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import sanitize from 'npm:sanitize-html';
 
-const {get} = Ember;
+const {get,inject} = Ember;
 
-export default Ember.Mixin.create(RouteMetaMixin, {
-
+export default Ember.Mixin.create({
+  location: inject.service('window-location'),
   isModalContent: false,
   // Override where needed
   modelForMetaTags: function() {
@@ -16,10 +16,11 @@ export default Ember.Mixin.create(RouteMetaMixin, {
     return isModalRoute ? this.currentModel : this.modelFor(routeName);
   },
 
-  meta() {
+  headTags() {
     const model = this.modelForMetaTags();
     const routeName = this.routeName;
     const isModalRoute = SocialSharing.isModalRoute(routeName);
+    const locationService = get(this, 'location');
 
     let channel;
 
@@ -29,45 +30,120 @@ export default Ember.Mixin.create(RouteMetaMixin, {
       channel = get(this, 'modelChannel') || 'base';
     }
 
-    const url = SocialSharing.getShareUrl(routeName, model);
+    const url = SocialSharing.getShareUrl(locationService, routeName, model);
     const imageUrl = get(model, 'imageUrl') || get(model,'featuredImageUrl') || this.defaultImage(channel);
     const title = get(model, 'title');
 
-// Strip out all HTML tags from the content so it can be used for the description
-    let tmp = document.createElement("DIV");
-    tmp.innerHTML = model.get('content');
-    const description = tmp.textContent || tmp.innerText || "";
+    // Strip out all HTML tags from the content so it can be used for the description
+    const description = sanitize(model.get('content'), {
+      allowedTags: [],
+      allowedAttributes: []
+    });
+
     const descriptionTruncated = this.truncateDescription(description);
 
-    let metaProperty = {
-      'property': {
-        'fb:app_id': config['facebook-app-id'],
-        'og:site_name': 'dailyUV',
-        'og:image': imageUrl,
-        'og:title': title,
-        'og:description': descriptionTruncated,
-        'og:url': url,
+    return [
+      {
+        type: 'meta',
+        attrs: {
+          property: 'fb:app_id',
+          content:  config['FACEBOOK_APP_ID'],
+        }
       },
-      'name': {
-        'twitter:card': 'summary_large_image',
-        'twitter:site': '@thedailyUV',
-        'twitter:creator': '@thedailyUV',
-        'twitter:url': url,
-        'twitter:title': title,
-        'twitter:description': descriptionTruncated,
-        'twitter:image': imageUrl
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:site_name',
+          content: 'dailyUV'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:image',
+          content: imageUrl
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:title',
+          content: title
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:description',
+          content: descriptionTruncated
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:url',
+          content: url
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:card',
+          content: 'summary_large_image'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:site',
+          content: '@thedailyUV'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:creator',
+          content: '@thedailyUV'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:url',
+          content: url
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:title',
+          content: title
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:description',
+          content: descriptionTruncated
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'twitter:image',
+          content: imageUrl
+        }
       }
-    };
-
-    return metaProperty;
+    ];
   },
 
   links() {
     const model = this.modelForMetaTags();
     const routeName = this.routeName;
+    const locationService = get(this, 'location');
 
     return {
-      canonical: SocialSharing.getShareUrl(routeName, model)
+      canonical: SocialSharing.getShareUrl(locationService, routeName, model)
     };
   },
 
@@ -84,6 +160,7 @@ export default Ember.Mixin.create(RouteMetaMixin, {
   },
 
   truncateDescription(description, characters=300) {
+    description = description.replace(/\s/g, ' ');
     return (description.length > characters) ? description.substr(0, characters-1) + '...' : description;
   }
 });

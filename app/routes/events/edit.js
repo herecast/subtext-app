@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 const {
@@ -93,9 +92,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
         event.set('listservIds',[]);
       });
 
-      this.transitionTo('events.all.show', firstInstanceId).then(() => {
-        SocialSharing.updateShareCache();
-      });
+      this.transitionTo('events.all.show', firstInstanceId);
     },
 
     backToDetails() {

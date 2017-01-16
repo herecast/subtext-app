@@ -1,7 +1,9 @@
 import Ember from 'ember';
-const { get, set, run } = Ember;
+const { get, set, run, inject } = Ember;
 
 export default Ember.Service.extend({
+  windowService: inject.service('window-location'),
+  fastboot: inject.service(),
   routeName: null,
   routeModel: null,
   referrer: "",
@@ -14,13 +16,15 @@ export default Ember.Service.extend({
     set(this, 'routeModel', model);
   },
   update() {
+    const windowService = get(this, 'windowService');
     if(get(this, 'current')) {
       set(this, 'referrer', get(this, 'current'));
     } else {
-      set(this, 'referrer', document.referrer);
+      set(this, 'referrer', windowService.referrer());
     }
     run.next(()=>{
-      set(this, 'current', window.location.href);
+      const href = windowService.href();
+      set(this, 'current', href);
     });
   }
 });

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import trackEvent from 'subtext-ui/mixins/track-event';
 import moment from 'moment';
 
 const {
@@ -10,7 +9,7 @@ const {
   observer
   } = Ember;
 
-export default Ember.Controller.extend(trackEvent, {
+export default Ember.Controller.extend({
   queryParams: [
     {searchType: {as: 't'}},
     {searchQuery: {as: 'q'}},
@@ -85,41 +84,6 @@ export default Ember.Controller.extend(trackEvent, {
   actions: {
     openSearch() {
       get(this, 'search').openSearch();
-    },
-
-    trackUserMenu(navControlText) {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'User Account Menu',
-        navControl: navControlText
-      });
-    },
-
-    trackHome() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Header',
-        navControl: 'Home'
-      });
-    },
-
-    trackHelp() {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Header',
-        navControl: 'Help'
-      });
-    },
-
-    trackChannel(channel) {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Channel Buttons',
-        navControl: channel
-      });
-    },
-
-    trackRegistration(navControlText) {
-      this.trackEvent('selectNavControl', {
-        navControlGroup: 'Registration',
-        navControl: navControlText
-      });
     },
 
     trackMenuOpen() {

@@ -1,0 +1,97 @@
+<div class='MarketReplyForm-content'>
+  <div class='MarketReplyForm-header clearfix'>
+    <h2 class='DetailPage-sectionTitle h2 u-layoutPadT0 pull-left'>Reply to Poster</h2>
+
+    {{#liquid-unless hideForm}}
+      <button {{action (action 'cancel')}} class='pull-right u-noAppearance'>cancel {{fa-icon 'close'}}</button>
+    {{/liquid-unless}}
+  </div>
+
+  {{#liquid-spacer}}
+    {{#if hideForm}}
+      {{#each cannedReplies as |cannedReply|}}
+        <button {{action (action 'showForm' cannedReply)}} class='Button btn btn-default MarketReplyForm-replyButton {{if cannedReply.isPreferredOption "MarketReplyForm-replyButton--primary"}}'>
+          <span {{action (action clickReplyButton cannedReply)}}>
+            {{cannedReply.label}}
+          </span>
+        </button>
+      {{/each}}
+
+    {{else}}
+
+      {{#liquid-unless lastStage use='fade'}}
+        {{#form-group error=errors.email}}
+          <label class='control-label ContentForm-label--required' for="email">Email</label>
+
+          {{input
+            id='email'
+            class='form-control'
+            placeholder='Enter your email...'
+            value=(mut email)
+            input=(action 'revalidateForm')
+            data-test-field='email'
+          }}
+        {{/form-group}}
+
+        {{#form-group error=errors.name}}
+          <label class='control-label ContentForm-label--required' for="email">Name</label>
+
+          {{input
+            id='name'
+            class='form-control'
+            placeholder='Enter your name...'
+            value=(mut name)
+            input=(action 'revalidateForm')
+            data-test-field='name'
+          }}
+        {{/form-group}}
+
+        {{#form-group error=errors.message}}
+          <label class='control-label ContentForm-label--required' for="message">{{selectedCannedReply.fieldLabelText}}</label>
+
+          {{textarea
+            id='message'
+            class='form-control'
+            placeholder=(readonly selectedCannedReply.placeholderText)
+            value=(mut message)
+            input=(action 'revalidateForm')
+            data-test-field='message'
+          }}
+        {{/form-group}}
+
+        <button {{action (action 'submit')}} class='Button btn btn-default MarketReplyForm-replyButton'>Send reply</button>
+        <p class='ContentForm-helpText'>Not registered? No problem! Hit Send Reply, and we’ll automatically create your free account on dailyUV too!</p>
+
+      {{else}}
+        <div class='alert alert-info text-center' role='alert'>
+          <h3 class='h3 u-layoutPadT0 u-layoutPadB0'>Please bear with us!</h3>
+          <p class='h3 u-layoutPadT0'><b>Our new reply feature is not quite ready.</b></p>
+        </div>
+
+        <p>We are still testing this new feature. For now, you can copy and paste your message into your favorite email software.</p>
+
+        <div class='well u-white'>
+          <div>
+            <p>Send this to:<br />
+              <b>{{post.contactEmail}}</b></p>
+          </div>
+
+          <div>
+            <p>Your subject line:<br />
+            <b>{{subjectLine}}</b></p>
+          </div>
+
+          <div>
+            <p>Your message:<br />
+            <b>{{message}}</b></p>
+          </div>
+        </div>
+
+        <b>OR</b>
+        <a href='{{mailTo}}' class='Button btn btn-default MarketReplyForm-replyButton MarketReplyForm-replyButton--primary market-reply-default-email-click'>
+          Send message with your default email software
+        </a>
+      {{/liquid-unless}}
+    {{/if}}
+  {{/liquid-spacer}}
+</div>

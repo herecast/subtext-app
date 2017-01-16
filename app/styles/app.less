@@ -15,6 +15,7 @@
 @import 'components/account';
 @import 'components/business-feedback-badge';
 @import 'components/footer-nav';
+@import 'components/media';
 @import 'components/main-nav';
 @import 'components/mobile-header';
 @import 'components/section-navigation';
@@ -38,6 +39,13 @@
 @import 'components/avatar-image';
 @import 'components/digest-subscribe';
 @import 'components/market-search';
+@import 'components/pikaday-solo';
+@import 'components/modal';
+@import 'components/modal-dialog';
+@import 'components/modals/date-picker';
+@import 'components/market-reply-form';
+@import 'components/pace';
+@import 'components/subscribe-banner';
 //
 
 //
@@ -100,8 +108,6 @@
 @import 'components/location-dropdown';
 @import 'components/location-search';
 @import 'components/market-post';
-@import 'components/modal';
-@import 'components/modal-dialog';
 @import 'components/nav-tabs';
 @import 'components/news';
 @import 'components/news-editor';
@@ -140,6 +146,7 @@
 @import 'components/market-nav';
 @import 'components/info-header';
 @import 'components/market-category-card';
+@import 'components/user-testimonial';
 
 //
 // Variables
@@ -187,9 +194,7 @@ body.modal-open > .modal-backdrop {
   padding-top: 80px;
 
   &.padBody {
-    padding-top: 18px;
-
-    &.is-mobile {
+    @media (max-width: @screen-xs-max) {
       padding-top: 36px;
     }
   }
@@ -198,6 +203,7 @@ body.modal-open > .modal-backdrop {
 [class*=col-] {
   padding: 0 7px;
 }
+
 .row {
   margin-left: -7px;
   margin-right: -7px;

@@ -18,7 +18,7 @@
 {{else if isMarketPost}}
   {{market-card
     post=item
-    imagePosition='right'
+    alignImageRight=true
     class='Card'
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId
@@ -27,7 +27,6 @@
 {{else if isEventInstance}}
   {{event-card
     event=item
-    imagePosition='right'
     class='Card u-flexColumn'
     isSimilarContent=isSimilarContent
     sourceContentId=sourceContentId

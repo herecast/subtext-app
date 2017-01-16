@@ -1,15 +1,13 @@
 import Ember from 'ember';
-import TrackEvent from 'subtext-ui/mixins/track-event';
 
 const { get, computed, run } = Ember;
 
-export default Ember.Component.extend(TrackEvent, {
+export default Ember.Component.extend({
   submitDisabled: computed('disabled', 'newComment', function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
   }),
 
   keyForFocusReplyBox: 'focus.replyBox',
-  keyForBlurReplyBox: 'blur.replyBox',
 
   didInsertElement() {
     this._super(...arguments);
@@ -22,24 +20,15 @@ export default Ember.Component.extend(TrackEvent, {
       $elm.on(get(this, 'keyForFocusReplyBox'), () => {
         run.next(this, function() {
           $elm
-            .closest('.Modal-dialog--fullscreen')
-            .addClass('isExpanded')
             .closest('.Modal')
             .scrollTop($elm.position().top);
         });
-      });
-
-      $elm.on(get(this, 'keyForBlurReplyBox'), () => {
-        $elm
-          .closest('.Modal-dialog--fullscreen')
-          .removeClass('isExpanded');
       });
     });
   },
 
   willDestroyElement() {
     this.$().off(get(this, 'keyForFocusReplyBox'));
-    this.$().off(get(this, 'keyForBlurReplyBox'));
   },
 
   actions: {
@@ -59,11 +48,6 @@ export default Ember.Component.extend(TrackEvent, {
       const promise = comment.save();
 
       callback(promise);
-
-      this.trackEvent('submitContent', {
-        navControl: 'Add Comment',
-        navControlGroup: 'Add Comment Button'
-      });
 
       promise.then(() => {
         this.set('newComment', null);

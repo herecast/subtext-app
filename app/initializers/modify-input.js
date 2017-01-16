@@ -12,6 +12,14 @@ export function initialize() {
   Ember.TextField.reopen({
     attributeBindings: ['data-test-field']
   });
+
+  Ember.Checkbox.reopen({
+    attributeBindings: ['data-test-field']
+  });
+
+  Ember.TextArea.reopen({
+    attributeBindings: ['data-test-field']
+  });
 }
 
 export default {

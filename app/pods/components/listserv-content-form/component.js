@@ -10,7 +10,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
-  attributeBindings: ['data-test-listserv-content'],
+  attributeBindings: ['data-test-component', 'data-test-listserv-content'],
   'data-test-listserv-content': Ember.computed.oneWay('listservContent.id'),
 
   listservContent: null,

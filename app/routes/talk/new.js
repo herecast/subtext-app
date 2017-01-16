@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
-import trackEvent from 'subtext-ui/mixins/track-event';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
+export default Ember.Route.extend(Scroll, ShareCaching, {
   model(params, transition) {
     let newRecordValues = {
       viewCount: 0,
@@ -64,10 +63,6 @@ export default Ember.Route.extend(Scroll, ShareCaching, trackEvent, {
 
     afterDiscard() {
       this.transitionTo('talk.all').then(() => {
-        this.trackEvent('selectNavControl', {
-          navControlGroup: 'Create Content',
-          navControl: 'Discard Talk Create'
-        });
       });
     },
 
