@@ -1,4 +1,4 @@
-FROM node:7.0
+FROM node:7.4
 RUN npm install -g bower
 RUN mkdir -p /app
 WORKDIR /app
