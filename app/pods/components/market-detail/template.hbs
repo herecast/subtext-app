@@ -40,46 +40,12 @@
   </div>
 
     <div>
-      {{#if hasClickedReplyButton}}
-        <div class="DetailPage-headerSection">
-          <div class="DetailPage-headerNav">
-            {{#if model.contactEmail}}
-              <div class="DetailPage-headerNavItem">
-                <a href='mailto:{{model.contactEmail}}' target='_blank'>
-                  <p>{{fa-icon 'reply' size=2}}</p>
-                  Email
-                </a>
-              </div>
-            {{/if}}
-
-            {{#if model.contactPhone}}
-              <div class="DetailPage-headerNavItem">
-                <a href="tel:+1{{model.contactPhone}}">
-                  <p>{{fa-icon 'phone' size=2}}</p>
-                  <span class="visible-xs-inline">Call</span>
-                  <span class="hidden-xs">{{formatted-phone model.contactPhone}}</span>
-                </a>
-              </div>
-            {{/if}}
-
-            {{#if model.address}}
-              <div class="DetailPage-headerNavItem">
-                <a href='{{model.directionsLink}}' target='_blank'>
-                  <p>{{fa-icon 'map-marker' size=2}}</p>
-                  Map
-                </a>
-              </div>
-            {{/if}}
-          </div>
-        </div>
-      {{else}}
-        {{#unless model.sold}}
-          {{market-reply-form
-            post=(readonly model)
-            clickReplyButton=(action 'clickReplyButton')
-          }}
-        {{/unless}}
-      {{/if}}
+      {{#unless model.sold}}
+        {{market-reply-form
+          post=(readonly model)
+          clickReplyButton=(action 'clickReplyButton')
+        }}
+      {{/unless}}
 
       {{#if model.canEdit}}
         <div class="DetailPage-headerNavItem text-center">

@@ -40,6 +40,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   isPickingScheduleDate: false,
   api: inject.service(),
   notify: inject.service('notification-messages'),
+  intercom: inject.service(),
 
   pendingFeaturedImage: null,
 
@@ -287,6 +288,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
         }
 
         this._save().then(() => {
+          get(this, 'intercom').trackEvent('news-publish');
+
           get(this, 'notify').success('Your post has been published');
           this.sendAction('afterPublish');
         });
