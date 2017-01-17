@@ -12,5 +12,6 @@ export default DS.Model.extend({
   banner:   attr('string'),
   count:    attr('number'),
   featured: attr('boolean', { defaultValue: false }),
-  trending: attr('boolean', { defaultValue: false })
+  trending: attr('boolean', { defaultValue: false }),
+  query_modifier: attr('string')
 });
