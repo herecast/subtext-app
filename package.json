@@ -21,6 +21,7 @@
   "dependencies": {
     "active-model-adapter": "2.1.0",
     "cheerio": "^0.22.0",
+    "cloudwatch-metrics": "^1.1.0",
     "ember-async-button": "1.0.0",
     "ember-autoresize": "0.5.3",
     "ember-cli-document-title": "0.3.0",
@@ -49,11 +50,13 @@
     "ember-truth-helpers": "1.2.0",
     "emberx-select": "2.1.0",
     "fastboot-app-server": "^1.0.0-rc.5",
+    "gc-stats": "^1.0.0",
     "liquid-fire": "0.26.4",
     "loader.js": "^4.0.1",
     "lodash": "^4.16.6",
     "najax": "demersus/najax#get-data-array-syntax",
     "newrelic": "^1.36.0",
+    "performance-nodejs": "^1.0.5",
     "qs": "^6.2.0",
     "sanitize-html": "^1.13.0"
   },
