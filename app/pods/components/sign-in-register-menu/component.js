@@ -16,7 +16,7 @@ export default Ember.Component.extend({
         this.attrs.action();
       }
 
-      get(this, '_routing').transitionToRoute('register.reconfirm', null, {
+      get(this, '_routing').transitionTo('register.reconfirm', null, {
         email: email
       });
     },
