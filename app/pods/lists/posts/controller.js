@@ -10,6 +10,7 @@ const {
 export default Ember.Controller.extend({
   session: inject.service(),
   windowLocation: inject.service(),
+  api: inject.service(),
 
   forgotPasswordReturnUrl: computed(function(){
     return get(this, 'windowLocation').href();
@@ -57,6 +58,15 @@ export default Ember.Controller.extend({
   actions: {
     afterSignIn() {
       this.send('authChanged');
+    },
+
+    updateListservMetric(listservId, step) {
+      const api = get(this, 'api');
+
+      api.updateListservProgress(listservId, {
+        'enhance_link_clicked': true,
+        'step_reached': step
+      });
     }
   }
 });

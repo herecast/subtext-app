@@ -533,6 +533,14 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  updateListservProgress(listserv_content_id, data) {
+    return returnJson(
+      this.patch(`/listserv_contents/${listserv_content_id}/update_metric`,
+        this.json(data)
+      )
+    );
+  },
+
   reportAbuse(content_id, flag_type) {
     return returnJson(
       this.post(`/contents/${content_id}/moderate`,

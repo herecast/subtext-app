@@ -11,6 +11,11 @@ export default Ember.Component.extend({
 
   forgotPasswordReturnUrl: null,
 
+  didInsertElement() {
+    this._super(...arguments);
+    this.updateMetric();
+  },
+
   actions: {
     authenticate(){
       set(this, 'session.skipRedirect', true);
