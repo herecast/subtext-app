@@ -328,8 +328,8 @@ export default Ember.Service.extend(FastbootExtensions, {
       exclude: opts['exclude'],
       limit: opts['limit'] || 5
     };
-    const qstring = qs.stringify(query);
-    return this.getJson(`/promotions?${qstring}`);
+    const qstring = queryString(query);
+    return this.getJson(`/promotions${qstring}`);
   },
 
   getListServs() {
