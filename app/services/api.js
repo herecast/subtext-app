@@ -5,27 +5,11 @@ import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 
 import {
-  UnauthorizedError,
-  InvalidError,
-  ForbiddenError,
-  BadRequestError,
-  NotFoundError,
-  AbortError,
-  ConflictError,
-  ServerError,
-  UnknownFetchError,
   isRequestError,
-  isUnauthorizedError,
-  isForbiddenError,
-  isInvalidError,
-  isBadRequestError,
-  isNotFoundError,
-  isConflictError,
-  isAbortError,
-  isServerError,
-  isSuccess,
+  UnknownFetchError,
+  detectResponseStatus,
   normalizeErrorResponse
-} from 'subtext-ui/lib/ajax-errors';
+} from 'subtext-ui/lib/request-utilities';
 
 const {
   RSVP,
@@ -150,36 +134,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     };
   },
 
-  handleResponse(request) {
-    return new RSVP.Promise((resolve, reject) => {
-      return request.then((response)=>{
-        const status = response.status;
-
-        if(isSuccess(status)) {
-          return resolve(response);
-        } else if (isUnauthorizedError(status)) {
-          return reject(new UnauthorizedError(response));
-        } else if (isForbiddenError(status)) {
-          return reject(new ForbiddenError(response));
-        } else if (isInvalidError(status)) {
-          return reject(new InvalidError(response));
-        } else if (isBadRequestError(status)) {
-          return reject(new BadRequestError(response));
-        } else if (isNotFoundError(status)) {
-          return reject(new NotFoundError(response));
-        } else if (isAbortError(status)) {
-          return reject(new AbortError(response));
-        } else if (isConflictError(status)) {
-          return reject(new ConflictError(response));
-        } else if (isServerError(status)) {
-          return reject(new ServerError(response));
-        } else {
-          return reject(new UnknownFetchError(response));
-        }
-      });
-    });
-  },
-
   fetch(path, opts) {
     const namespace = config.API_NAMESPACE;
     const host = config.API_BASE_URL;
@@ -213,43 +167,33 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   request(path, opts) {
-    return this.handleResponse(
-      this.fetch(path, assign({
+    return this.fetch(path, assign({
         method: 'GET'
-      }, opts || {}))
-    );
+      }, opts || {})).then(detectResponseStatus);
   },
 
   patch(path, opts) {
-    return this.handleResponse(
-      this.fetch(path, assign({
+    return this.fetch(path, assign({
         method: 'PATCH'
-      }, opts || {}))
-    );
+      }, opts || {})).then(detectResponseStatus);
   },
 
   del(path, opts) {
-    return this.handleResponse(
-      this.fetch(path, assign({
+    return this.fetch(path, assign({
         method: 'DELETE'
-      }, opts || {}))
-    );
+      }, opts || {})).then(detectResponseStatus);
   },
 
   put(path, opts) {
-    return this.handleResponse(
-      this.fetch(path, assign({
+    return this.fetch(path, assign({
         method: 'PUT'
-      }, opts || {}))
-    );
+      }, opts || {})).then(detectResponseStatus);
   },
 
   post(path, opts) {
-    return this.handleResponse(
-      this.fetch(path, assign({
+    return this.fetch(path, assign({
         method: 'POST'
-      }, opts || {}))
-    );
+      }, opts || {})).then(detectResponseStatus);
   },
 
   getJson(path) {
