@@ -2,13 +2,17 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const {
   get,
-  run
+  run,
+  inject
 } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
+  location: inject.service('window-location'),
+
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
@@ -103,10 +107,18 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
           post.rollbackImages();
         }
 
+        const modelId = get(this, 'controller.model.id');
+        const sharePath = `/market/${modelId}`;
+        const locationService = get(this, 'location');
+
+        run.next(this, () => {
+          SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+            this.transitionTo('market.all.show', post.id);
+          });
+        });
+
         post.set('listservIds', []);
       });
-
-      this.transitionTo('market.all.show', post.id);
     },
 
     backToDetails() {

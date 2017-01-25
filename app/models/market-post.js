@@ -83,6 +83,10 @@ export default DS.Model.extend(FastbootExtensions, {
     return get(this, 'images').findBy('primary') || get(this, 'images').get('firstObject');
   }),
 
+  featuredImageUrl: computed.oneWay('primaryImage.imageUrl'),
+  featuredImageWidth: computed.oneWay('primaryImage.width'),
+  featuredImageHeight: computed.oneWay('primaryImage.height'),
+
   coverImageUrl: computed('images.@each.{primary,imageUrl}', 'imageUrl', function() {
     const images = get(this, 'populatedImages');
     const primaryImage = images.findBy('primary');

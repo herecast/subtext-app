@@ -11,7 +11,7 @@ export default Ember.Route.extend(ModalRoute, Redirect, RouteMetaMixin, DocTitle
   modelChannel: 'market',
 
   model(params)  {
-    return this.store.findRecord('market-post', params.id);
+    return this.store.findRecord('market-post', params.id, { reload: true });
   },
 
   afterModel(model) {

@@ -42,7 +42,8 @@ export default Ember.Service.extend({
       const request = get(this, 'fastboot.request');
       const protocol = get(request, 'protocol');
 
-      return protocol;
+      // Match protocol response from the browser
+      return `${protocol}:`;
     } else {
       return window.location.protocol;
     }
@@ -51,19 +52,14 @@ export default Ember.Service.extend({
     if(this.isFastBoot()) {
       return "";
     } else {
-      return window.location.protocol;
+      return window.location.port;
     }
   },
   hostWithProtocol() {
     return `${this.protocol()}//${this.host()}`;
   },
   origin() {
-    const port = this.port();
-    if(port.length) {
-      return `${this.hostWithProtocol()}:${port}`;
-    } else {
-      return this.hostWithProtocol();
-    }
+    return this.hostWithProtocol();
   },
   href() {
     if(this.isFastBoot()) {

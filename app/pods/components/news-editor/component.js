@@ -2,6 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const {
   computed,
@@ -12,7 +13,8 @@ const {
   setProperties,
   set,
   run,
-  inject
+  inject,
+  RSVP
   } = Ember;
 
 export default Ember.Component.extend(TestSelector, Validation, {
@@ -20,6 +22,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
   "data-test-component": "NewsEditor",
   news: null,
   showPreview: false,
+
+  location: inject.service('window-location'),
 
   authorOverrideEnabled: computed(function() {
     const authorName = get(this, 'news.authorName');
@@ -134,44 +138,67 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
     set(this, 'news.authorName', this.authorName());
 
-    return news.save().then(() => {
-      set(this, 'news.didOrgChange', false);
+    return new RSVP.Promise((resolve) => {
+      news.save().then(() => {
+        set(this, 'news.didOrgChange', false);
 
-      const featuredImage = get(this, 'pendingFeaturedImage');
+        const featuredImage = get(this, 'pendingFeaturedImage');
 
-      if (featuredImage) {
-        set(this, 'pendingFeaturedImage', null);
-        const { file, caption } = getProperties(featuredImage, 'file', 'caption');
-        let promise;
+        if (featuredImage) {
+          set(this, 'pendingFeaturedImage', null);
+          const { file, caption } = getProperties(featuredImage, 'file', 'caption');
+          let promise;
 
-        if (file) {
-          promise = this._saveImage(file, 1, caption);
-        } else {
-          const imageID = get(this, 'news.bannerImage.id');
+          if (file) {
+            promise = this._saveImage(file, 1, caption);
+          } else {
+            const imageID = get(this, 'news.bannerImage.id');
 
-          promise = get(this, 'api').updateImage(imageID, {
-            caption: caption,
-            primary: 1,
-            content_id: get(this, 'news.id')
-          });
-        }
-
-        return promise.then(
-          () => {
-            news.reload();
-          },
-          error => {
-            const serverError = get(error, 'errors.image');
-            let errorMessage = 'Error: Unable to save featured image.';
-
-            if (serverError) {
-              errorMessage += ' ' + serverError;
-            }
-
-            get(this, 'notify').error(errorMessage);
+            promise = get(this, 'api').updateImage(imageID, {
+              caption: caption,
+              primary: 1,
+              content_id: get(this, 'news.id')
+            });
           }
-        );
-      }
+
+          return promise.then(
+            () => {
+              news.reload().then(() => {
+                // re-align featuredImageUrl to use actual url instead of base64 image data url
+                set(news, 'featuredImageUrl', get(news, 'bannerImage.url'));
+
+                if (get(this, 'news.isPublished')) {
+                  // Reload FB cache with the most up-to-date news content
+                  this._recacheFacebook().finally(() => {
+                    resolve();
+                  });
+                } else {
+                  resolve();
+                }
+              });
+            },
+            error => {
+              const serverError = get(error, 'errors.image');
+              let errorMessage = 'Error: Unable to save featured image.';
+
+              if (serverError) {
+                errorMessage += ' ' + serverError;
+              }
+
+              get(this, 'notify').error(errorMessage);
+            }
+          );
+        } else {
+          if (get(this, 'news.isPublished')) {
+            // Reload FB cache with the most up-to-date news content
+            this._recacheFacebook().finally(() => {
+              resolve();
+            });
+          } else {
+            resolve();
+          }
+        }
+      });
     });
   },
 
@@ -237,6 +264,15 @@ export default Ember.Component.extend(TestSelector, Validation, {
       // No need for validations
       this._save();
     }
+  },
+
+  _recacheFacebook() {
+    // Reload FB cache of this news article
+    const modelId = get(this, 'news.id');
+    const sharePath = `/news/${modelId}`;
+    const locationService = get(this, 'location');
+
+    return SocialSharing.checkFacebookCache(locationService, sharePath);
   },
 
   _saveImage(file, primary = 0, caption = null) {

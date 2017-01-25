@@ -1,11 +1,13 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const { get, run, inject } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, {
   intercom: inject.service('intercom'),
+  location: inject.service('window-location'),
 
   model(params, transition) {
     const newRecordValues = {
@@ -76,13 +78,16 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
+      const sharePath = `/events/${firstInstanceId}`;
+      const locationService = get(this, 'location');
 
       this.get('intercom').trackEvent('published-event');
 
-      this.transitionTo('events.all.show', firstInstanceId);
-
       run.next(() => {
         event.set('listservIds',[]);
+        SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+          this.transitionTo('events.all.show', firstInstanceId);
+        });
       });
     },
 
