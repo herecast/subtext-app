@@ -15,7 +15,9 @@ export default Mirage.Factory.extend({
     caption() { return faker.lorem.sentence(); },
     credit: null,
     url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=1800%C3%971200&w=1800&h=1200",
-    primary: true
+    primary: true,
+    width: 266,
+    height: 200
   }],
   commentCount: faker.random.number(8),
   organizationId: null,
