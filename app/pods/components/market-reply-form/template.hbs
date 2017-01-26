@@ -63,34 +63,33 @@
         <p class='ContentForm-helpText'>Not registered? No problem! Hit Send Reply, and we’ll automatically create your free account on dailyUV too!</p>
 
       {{else}}
-        <div class='alert alert-info text-center' role='alert'>
-          <h3 class='h3 u-layoutPadT0 u-layoutPadB0'>Please bear with us!</h3>
-          <p class='h3 u-layoutPadT0'><b>Our new reply feature is not quite ready.</b></p>
-        </div>
+        <b class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</b><br><br>
 
-        <p>We are still testing this new feature. For now, you can copy and paste your message into your favorite email software.</p>
-
-        <div class='well u-white'>
-          <div>
-            <p>Send this to:<br />
-              <b>{{post.contactEmail}}</b></p>
-          </div>
-
-          <div>
-            <p>Your subject line:<br />
-            <b>{{subjectLine}}</b></p>
-          </div>
-
-          <div>
-            <p>Your message:<br />
-            <b>{{message}}</b></p>
-          </div>
-        </div>
-
-        <b>OR</b>
-        <a href='{{mailTo}}' class='Button btn btn-default MarketReplyForm-replyButton MarketReplyForm-replyButton--primary market-reply-default-email-click'>
-          Send message with your default email software
+        <a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
+          <span class='MarketReplyForm-webmailLinkButton gmail'>
+            Google
+          </span>
         </a>
+
+        <a target="_blank" href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
+          <span class='MarketReplyForm-webmailLinkButton outlook'>
+            Outlook
+          </span>
+        </a>
+
+        <a target="_blank" href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
+          <span class='MarketReplyForm-webmailLinkButton yahoo'>
+            Yahoo
+          </span>
+        </a>
+
+        <a target="_blank" href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}' class='Button btn btn-default market-reply-default-email-click'>
+           Default email software
+        </a>
+
+        <div class='alert alert-info text-center u-layoutPadT20' role='alert'>
+          <p class='h3 u-layoutPadT0'>If you don’t already have a free account on dailyUV, we’ll set you up. Look for an email in the next day with password information and tips on how the site can work for you. <b>Thanks for using dailyUV!</b></p>
+        </div>
       {{/liquid-unless}}
     {{/if}}
   {{/liquid-spacer}}

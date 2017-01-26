@@ -530,9 +530,14 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   signOut() {
-    return returnJson(
+   return returnJson(
       this.post('/users/logout')
     );
-  }
+  },
 
+  sendUnconfirmedUserRegistration(name, email) {
+    return returnJson(
+      this.post('/temp_user_captures', this.json({name, email}))
+    );
+  }
 });

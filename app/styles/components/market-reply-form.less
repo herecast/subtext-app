@@ -25,6 +25,52 @@
       background-color: @market-brand !important;
     }
   }
+
+  &-webmailLinkButton {
+    margin-left: 10px;
+
+    @media (max-width: @screen-xs-max) {
+      margin-left: 0;
+      display: block;
+      text-align: left;
+      text-indent: 15px;
+    }
+
+    &:after {
+      background: url(/images/webmail-icons.png);
+      background-size: cover;
+      content: "";
+      height: 36px;
+      width: 42px;
+      float: left;
+    }
+
+    &.gmail {
+      &:after {
+        background-position: 0 -5px;
+      }
+    }
+
+    &.outlook {
+      &:after {
+        background-position: 0 -42px;
+      }
+    }
+
+    &.yahoo {
+      &:after {
+        background-position: 0 -88px;
+      }
+    }
+
+    &-wrapper {
+      display: inline-block;
+      padding: 3px;
+      background: white;
+      border-radius: 3px;
+      margin-bottom: 3px;
+    }
+  }
 }
 
 @keyframes pulse {
