@@ -9,7 +9,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeRoute: 'talk.all',
   closeLabel: 'Talk',
 
-  formattedPublishedAt: computed('talk.publishedAt', function() {
-    return moment(get(this, 'talk.publishedAt')).format('dddd, MMMM Do, YYYY');
+  formattedPublishedAt: computed('model.publishedAt', function() {
+    return moment(get(this, 'model.publishedAt')).format('dddd, MMMM Do, YYYY');
   })
 });
