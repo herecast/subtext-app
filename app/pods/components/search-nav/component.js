@@ -46,9 +46,16 @@ export default Ember.Component.extend({
     'search.searchMarketTotal',
     'search.searchType',
     function() {
-      const { searchNewsTotal, searchEventsTotal, searchTalkTotal, searchMarketTotal } = get(this, 'search');
+      const {
+        searchNewsTotal, searchEventsTotal, searchTalkTotal, searchMarketTotal,
+        searchNews, searchEvents, searchTalk, searchMarket
+      } = get(this, 'search');
+      const promises = [searchNews, searchEvents, searchTalk, searchMarket];
+      const isPending = promises.any((promise) => {
+        return get(promise, 'isPending');
+      });
 
-      return (searchNewsTotal + searchEventsTotal +  searchTalkTotal + searchMarketTotal === 0);
+      return !isPending && (searchNewsTotal + searchEventsTotal +  searchTalkTotal + searchMarketTotal === 0);
     }
   ),
 
