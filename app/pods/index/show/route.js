@@ -14,11 +14,13 @@ export default Ember.Route.extend(ModalRoute,/* Linkable, */RouteMetaMixin, Rout
     set(this, 'channel', type);
 
     if (type) {
-      return this.store.findRecord(type, params.id).catch(() => {
-        this.replaceWith('error-404');
-      });
+      return this.store.findRecord(type, params.id);
     } else {
-      this.replaceWith('error-404');
+      // Non-existent page was requested. Return a 404 and render the 404 page without doing a redirect
+      if (get(this, 'fastboot.isFastBoot')) {
+        set(this, 'fastboot.response.statusCode', 404);
+      }
+      this.intermediateTransitionTo('error-404');
     }
   },
 
