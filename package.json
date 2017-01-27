@@ -54,7 +54,7 @@
     "liquid-fire": "0.26.4",
     "loader.js": "^4.0.1",
     "lodash": "^4.16.6",
-    "najax": "demersus/najax#62fa832363a76cc07af351c5c1ed4f8aa043dd11",
+    "najax": "demersus/najax#get-data-array-syntax",
     "newrelic": "^1.36.0",
     "performance-nodejs": "^1.0.5",
     "qs": "^6.2.0",
