@@ -48,10 +48,12 @@
                   confirmationKey=confirmationKey
                   forgotPasswordReturnUrl=forgotPasswordReturnUrl
               }}
-            <p>
+            {{#unless features.listserv-user-testing}}
+            <p data-test-why-changed-message>
               Curious why things have changed?
               <a target="_blank" href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
             </p>
+            {{/unless}}
           </div>
         {{/listserv-form}}
       {{/if}}

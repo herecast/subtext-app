@@ -4,6 +4,7 @@ const { get, set, inject, computed } = Ember;
 
 export default Ember.Controller.extend({
   showSuccessModal: false,
+  features: inject.service('feature-flags'),
 
   listservContent: computed.alias('model'),
   enhancedPost: computed.alias('model.enhancedPost'),
@@ -37,12 +38,17 @@ export default Ember.Controller.extend({
 
   sendToShowPage() {
     const listservName = get(this, 'listservName');
+    let websiteName = "dailyUV";
+
+    if(get(this, 'features.listserv-user-testing')) {
+      websiteName = websiteName + " TEST website";
+    }
 
     const toastMessage = `
       <div>
         <h4>Your Post has been SENT!</h4>
         <div data-test-listserv-content-success-message>
-        Your Post is now LIVE on dailyUV and will appear in the next ${listservName} digest.<br>
+        Your Post is now LIVE on ${websiteName} and will appear in the next ${listservName} digest.<br>
         Click the avatar image in the header to visit your
         <a class="u-textUnderline" href='/dashboard'>dashboard and manage your account</a>.
         <br><strong>Happy posting and browsing!</strong>

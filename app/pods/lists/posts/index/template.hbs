@@ -7,10 +7,21 @@
           <h2 class="ListPostEnhance--content-title">{{model.listserv.name}}</h2>
           <p>
             Categorized posts to {{model.listserv.name}} appear at the top of the
-            email digest -- and are also published automatically to dailyUV so
+            email digest -- and are also published automatically to the dailyUV
+            {{#if features.listserv-user-testing}}TEST{{/if}} website so
             you can reach a bigger audience.  It's free! Just follow the simple
             steps below.
           </p>
+
+          {{#if features.listserv-user-testing}}
+            <p>
+              <em><strong>
+              REMINDER:<br>
+              Your post will appear only on a test version of the dailyUV
+              website and will not be seen by the public.
+              </strong></em>
+            </p>
+          {{/if}}
 
             {{listserv-content-form
               listservContent=(mut model)

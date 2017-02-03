@@ -861,7 +861,5 @@ export default function() {
     return {};
   });
 
-  this.get('/features', function() {
-    return { features: [{ name: 'feature1' }, { name: 'feature2' }] };
-  });
+  this.get('/features');
 }

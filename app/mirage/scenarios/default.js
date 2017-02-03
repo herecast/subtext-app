@@ -97,6 +97,7 @@ export default function(server) {
     verifiedAt: '2012-08-01',
     user: null
   });
+  server.create('feature', {name: 'listserv-user-testing'});
 
   /**
    * Business Categories

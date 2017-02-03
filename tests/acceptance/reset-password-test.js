@@ -8,6 +8,8 @@ import Ember from 'ember';
 
 var application;
 
+const { RSVP: {Promise} } = Ember;
+
 module('Acceptance | reset password', {
   beforeEach: function() {
     application = startApp();
@@ -38,8 +40,11 @@ test('filling out lost password request form with returnUrl query param', functi
   let mockApi = Ember.Service.extend({
     requestPasswordReset: requestSpy,
     getWeather: function(){
-      return Ember.RSVP.Promise.resolve();
-    } // used in template
+      return Promise.resolve({});
+    }, // used in template
+    getFeatures() {
+      return Promise.resolve({features:[]});
+    }
   });
   mockService(application, 'api', mockApi);
 
@@ -79,7 +84,9 @@ test('filling out lost password edit form with return url', function(assert) {
   let mockLocation = Ember.Service.extend({
     redirectTo: redirectSpy,
     referrer: function(){ return ''; },
-    href: function() { return ''; }
+    href: function() { return ''; },
+    search: function() { return ''; },
+    pathname: function() { return ''; }
   });
 
   mockService(application, 'windowLocation', mockLocation);
