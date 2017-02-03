@@ -4,7 +4,7 @@
 
 import Ember from 'ember';
 
-const { Error: EmberError, isArray, merge } = Ember;
+const { RSVP: {Promise}, Error: EmberError, isArray, merge } = Ember;
 
 function isString(str) {
   return typeof str === 'string';
@@ -338,6 +338,33 @@ export function isSuccess(status) {
   let s = parseInt(status, 10);
   return s >= 200 && s < 300 || s === 304;
 }
+
+export function detectResponseStatus(response) {
+  const status = response.status;
+
+  if(isSuccess(status)) {
+    return Promise.resolve(response);
+  } else if (isUnauthorizedError(status)) {
+    return Promise.reject(new UnauthorizedError(response));
+  } else if (isForbiddenError(status)) {
+    return Promise.reject(new ForbiddenError(response));
+  } else if (isInvalidError(status)) {
+    return Promise.reject(new InvalidError(response));
+  } else if (isBadRequestError(status)) {
+    return Promise.reject(new BadRequestError(response));
+  } else if (isNotFoundError(status)) {
+    return Promise.reject(new NotFoundError(response));
+  } else if (isAbortError(status)) {
+    return Promise.reject(new AbortError(response));
+  } else if (isConflictError(status)) {
+    return Promise.reject(new ConflictError(response));
+  } else if (isServerError(status)) {
+    return Promise.reject(new ServerError(response));
+  } else {
+    return Promise.reject(new UnknownFetchError(response));
+  }
+}
+
 
 /**
  * Normalize the error from the server into the same format

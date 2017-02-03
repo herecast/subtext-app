@@ -13,6 +13,8 @@ export default Ember.Route.extend({
   },
 
   afterModel(model) {
+    const api = get(this, 'api');
+
     if(isPresent(model.get('verifiedAt'))) {
       get(this, 'notify').info(
         "You have already verified your post. Thank you."
@@ -32,6 +34,11 @@ export default Ember.Route.extend({
       () => {
         this.showError();
       });
+
+    api.updateListservProgress(get(model, 'id'), {
+      'enhance_link_clicked': false,
+      'step_reached': 'verify_post'
+    });
   },
 
   sendToIndex() {

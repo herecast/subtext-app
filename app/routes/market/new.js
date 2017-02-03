@@ -2,10 +2,12 @@ import Ember from 'ember';
 import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get, run } = Ember;
+const { get, run, inject } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
+  location: inject.service('window-location'),
 
   model(params, transition) {
     const newRecordValues = {
@@ -74,10 +76,15 @@ export default Ember.Route.extend(Scroll, Authorized, {
     },
 
     afterPublish(post) {
-      this.transitionTo('market.all.show', post.get('id'));
+      const modelId = get(this, 'controller.model.id');
+      const sharePath = `/market/${modelId}`;
+      const locationService = get(this, 'location');
 
       run.next(()=>{
         post.set('listservIds', []);
+        SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+          this.transitionTo('market.all.show', post.get('id'));
+        });
       });
     },
 

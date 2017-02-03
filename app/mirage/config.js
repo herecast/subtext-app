@@ -664,6 +664,10 @@ export default function() {
     return {};
   });
 
+  this.patch('listserv_contents/:id/update_metric', function() {
+    return {};
+  });
+
   this.get('/contents', function({ db }, request) {
     return {
       contents: mixedContent(db, request.queryParams)

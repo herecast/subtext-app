@@ -11,19 +11,19 @@ export default Ember.Component.extend(ModelResetScroll, {
   activeImage: computed.oneWay('model.coverImageUrl'),
 
   featureFlags: inject.service('feature-flags'),
+  intercom: inject.service(),
 
   showThumbnails: computed('model.images.[]', function() {
     return get(this, 'model.images.length') > 1;
   }),
 
-  reset() {
-    set(this, 'hasClickedReplyButton', false);
+  resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    this.reset();
+    this.resetProperties();
   },
 
   actions: {
@@ -32,6 +32,10 @@ export default Ember.Component.extend(ModelResetScroll, {
     },
 
     clickReplyButton(selectedCannedReply) {
+      get(this, 'model').loadContactInfo();
+
+      get(this, 'intercom').trackEvent('market-reply-click');
+
       if (typeof dataLayer !== "undefined") {
         dataLayer.push({
           'event': 'market-reply-click',

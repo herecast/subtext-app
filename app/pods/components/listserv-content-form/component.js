@@ -18,6 +18,7 @@ export default Ember.Component.extend({
   cachedAttributes: Ember.Object.create(),
 
   store: inject.service(),
+  api: inject.service(),
 
   _buildEnhancedPost(category) {
     const listservContent = get(this, 'listservContent'),
@@ -99,16 +100,22 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    const api = get(this, 'api');
 
     if(isEmpty(get(this, 'enhancedPost'))) {
       const channelType = get(this, 'listservContent.channelType');
       set(this, 'enhancedPost', this._buildEnhancedPost(channelType || "talk"));
     }
+
+    api.updateListservProgress(get(this, 'listservContent.id'), {
+      'step_reached': 'edit_post'
+    });
   },
 
   actions: {
     changeCategory(category) {
       const currentPost = get(this, 'enhancedPost');
+      const api = get(this, 'api');
 
       set(this, 'listservContent.channelType', category);
 
@@ -124,6 +131,10 @@ export default Ember.Component.extend({
 
       // rebuild
       set(this, 'enhancedPost', this._buildEnhancedPost(category));
+
+      api.updateListservProgress(get(this, 'listservContent.id'), {
+        'channel_type': category
+      });
     },
     afterDetails() {
       const enhancedPost = get(this, 'enhancedPost'),

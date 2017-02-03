@@ -24,6 +24,7 @@ export default Ember.Component.extend(Validation, {
   session: inject.service(),
   store: inject.service(),
   notify: inject.service('notification-messages'),
+  intercom: inject.service(),
 
   currentUser: computed.alias('session.currentUser'),
 
@@ -31,9 +32,13 @@ export default Ember.Component.extend(Validation, {
     const notify = get(this, 'notify');
     const store = get(this, 'store');
 
-    store.findRecord('listserv', id).then(function(listserv) {
+    store.findRecord('listserv', id).then((listserv) => {
       store.createRecord('subscription', { email, name, listserv }).save().then(
-        () => notify.success('You are successfully registered!'),
+        () => {
+          get(this, 'intercom').trackEvent('digest-subscribe');
+
+          notify.success('You are successfully registered!');
+        },
         () => notify.error('Error: Unable to register')
       );
     }).catch(() => notify.error('Error: Unable to register'));

@@ -1,30 +1,14 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, set, computed } = Ember;
+const { get, set, computed, inject } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
   model: Ember.computed.alias('enhancedPost'),
+  api: inject.service(),
   isPreview: true,
   isMinimalist: false,
 
-  _getTrackingArguments() {
-    const listservContent = get(this, 'listservContent');
-    let navControl;
-
-    if(get(listservContent, 'isEvent')) {
-      navControl = 'Submit Event';
-    } else if(get(listservContent, 'isMarket')) {
-      navControl = 'Submit Market Listing';
-    } else if(get(listservContent, 'isTalk')) {
-      navControl = 'Submit Talk';
-    }
-
-    return {
-      navControlGroup: 'Submit Content',
-      navControl: navControl
-    };
-  },
 
   previewComponentName: computed('listservContent', function() {
     const lc = get(this, 'listservContent');
@@ -36,6 +20,16 @@ export default Ember.Component.extend(TestSelector, {
       return 'talk-detail';
     }
   }),
+
+
+  didInsertElement() {
+    this._super(...arguments);
+    const api = get(this, 'api');
+
+    api.updateListservProgress(get(this, 'listservContent.id'), {
+      'step_reached': 'preview_post'
+    });
+  },
 
   actions: {
     save(callback) {

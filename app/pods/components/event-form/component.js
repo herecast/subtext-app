@@ -126,6 +126,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
       delete get(this, 'errors').registrationDeadline;
     },
 
+    toggleAdvertisingRequest() {
+      this.toggleProperty('event.wantsToAdvertise');
+    },
+
     afterDateValidation(datesAreValid) {
       if (datesAreValid) {
         this.set('errors.dates', null);

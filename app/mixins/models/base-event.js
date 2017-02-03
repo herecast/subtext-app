@@ -19,6 +19,8 @@ export default Ember.Mixin.create({
   eventInstanceId: DS.attr('number'),
   extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
   imageUrl: DS.attr('string'),
+  imageWidth: DS.attr('string'),
+  imageHeight: DS.attr('string'),
   registrationDeadline: DS.attr('moment-date'),
   socialEnabled: DS.attr('boolean', {defaultValue: true}),
   startsAt: DS.attr('moment-date'),
@@ -32,6 +34,7 @@ export default Ember.Mixin.create({
   venueStatus: DS.attr('string'),
   venueUrl: DS.attr('string'),
   venueZip: DS.attr('string'),
+  wantsToAdvertise: DS.attr('boolean'),
 
   isPaid: Ember.computed.equal('costType', 'paid'),
 

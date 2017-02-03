@@ -3,9 +3,10 @@ import Validation from 'subtext-ui/mixins/components/validation';
 
 /* global dataLayer */
 
-const { get, set, setProperties, run } = Ember;
+const { get, set, setProperties, run, inject } = Ember;
 
 export default Ember.Component.extend(Validation, {
+  api: inject.service(),
   post: null,
 
   classNames: ['MarketReplyForm'],
@@ -40,7 +41,7 @@ export default Ember.Component.extend(Validation, {
       email               : null,
       name                : null,
       message             : null,
-      mailTo              : null,
+      mailToParts         : { },
       selectedCannedReply : null,
       lastStage           : false,
       hideForm            : true,
@@ -64,18 +65,19 @@ export default Ember.Component.extend(Validation, {
     // TODO scroll to form top
   },
 
-  _mailToHref() {
-    const mailTo = `mailto:${get(this, 'post.contactEmail')}`;
+  _buildMailToParts() {
     const formattedPublishDate = get(this, 'post.publishedAt').format('MMMM Do YYYY [at] HH:mm a');
-    const firstLine = `On ${formattedPublishDate}, ${this.get('post.authorName')} wrote:`;
 
-    let tmp = document.createElement("DIV");
-    tmp.innerHTML = get(this, 'post.content');
-    const sanitizedContent = tmp.textContent || tmp.innerText || "";
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = `${get(this, 'message')} \n\n On ${formattedPublishDate}, ${this.get('post.authorName')} wrote: \n ${get(this, 'post.content')}`;
 
-    const body = `${get(this, 'message')}%0D%0A%0D%0A${encodeURIComponent(firstLine)}%0D%0A%0D%0A${encodeURIComponent(sanitizedContent)}`;
+    const body = encodeURIComponent(tmp.innerText || tmp.textContent);
 
-    return `${mailTo}?subject=${encodeURIComponent(get(this, 'subjectLine'))}&body=${body}`;
+    return {
+      to      : `${get(this, 'post.contactEmail')}`,
+      subject : `${encodeURIComponent(get(this, 'subjectLine'))}`,
+      body    : `${body}`
+    };
   },
 
   actions: {
@@ -124,10 +126,11 @@ export default Ember.Component.extend(Validation, {
 
     submit() {
       if (this._validateForm()) {
+        const api = get(this, 'api');
         setProperties(this, {
           lastStage: true,
           hasErrors: false,
-          mailTo: this._mailToHref(),
+          mailToParts: this._buildMailToParts(),
           currentStep: 2
         });
 
@@ -137,16 +140,18 @@ export default Ember.Component.extend(Validation, {
             'chosen-reply': get(this, 'selectedCannedReply.label')
           });
         }
-        // TODO scroll to first error
+
+        api.sendUnconfirmedUserRegistration(get(this, 'name'), get(this, 'email'));
+
       } else {
-        if (typeof dataLayer !== "undefined") {
-          dataLayer.push({
-           'event': 'market-reply-submit-error',
-           'chosen-reply': get(this, 'selectedCannedReply.label')
-          });
+          if (typeof dataLayer !== "undefined") {
+            dataLayer.push({
+            'event': 'market-reply-submit-error',
+            'chosen-reply': get(this, 'selectedCannedReply.label')
+            });
+          }
+          set(this, 'hasErrors', true);
         }
-        set(this, 'hasErrors', true);
       }
-    }
   }
 });

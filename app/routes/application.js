@@ -37,18 +37,12 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   actions: {
-    error(errorResponse) {
-      if (errorResponse.errors) {
-        const status = errorResponse.errors[0].status;
-
-        if (status === '404') {
-          this.transitionTo('error-404');
-        } else {
-          return true;
-        }
-      } else {
-        return true;
+    error(error) {
+      if (get(this, 'fastboot.isFastBoot')) {
+        const statusCode = (error && 'status' in error) ? error.status : 500;
+        set(this, 'fastboot.response.statusCode', statusCode);
       }
+      this.intermediateTransitionTo('error-404');
     },
 
     signOut() {

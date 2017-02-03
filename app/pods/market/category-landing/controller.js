@@ -13,7 +13,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   categories:    computed.alias('marketController.navCategories'),
   allCategories: computed.alias('marketController.categories'),
 
-  queryParams: ['query', 'location', 'locationId', 'page', 'per_page', 'flat', 'name'],
+  queryParams: ['query', 'location', 'locationId', 'page', 'per_page', 'flat', 'name', 'query_modifier'],
 
   defaultQuery: '',
   defaultLocation: 'All Communities',

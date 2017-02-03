@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   model: null,
 
   routing: inject.service('-routing'),
+  intercom: inject.service(),
 
   urlForShare() {
     const routeName = get(this, 'routing.currentRouteName');
@@ -71,7 +72,11 @@ export default Ember.Component.extend({
         mobile_iframe: true,
         hashtag: '#UpperValley',
         href: urlForShare
-      }, () => {});
+      }, (response) => {
+        if (response && !response.error_message) {
+          get(this, 'intercom').trackEvent('facebook-share');
+        }
+      });
     }
   }
 });

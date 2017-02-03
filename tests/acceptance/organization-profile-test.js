@@ -2,6 +2,7 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import moment from 'moment';
+import Ember from 'ember';
 
 moduleForAcceptance('Acceptance | organization profile');
 
@@ -206,5 +207,23 @@ test('Visiting news item page, clicking organization name brings me to profile p
     click($orgLink).then(()=> {
       assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });
+  });
+});
+
+test('Navigating to a news item on an organization profile page', function(assert) {
+  assert.expect(3);
+
+  const organization = server.create('organization');
+  const news = server.create('news', {
+    organizationId: organization.id,
+    publishedAt: moment().subtract(1, 'days').format()
+  });
+
+  visit(`/organizations/${organization.id}/${news.id}`);
+
+  andThen(() => {
+    assert.equal(currentURL(), `/organizations/${organization.id}/${news.id}`, 'it navigates to the correct url');
+    assert.equal(find(testSelector('news-title')).text(), news.title, 'it renders the news detail modal');
+    assert.equal(Ember.$('meta[property="og:title"]').attr('content'), news.title, 'it adds correct meta data');
   });
 });

@@ -14,6 +14,8 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
+  imageWidth: DS.attr('string'),
+  imageHeight: DS.attr('string'),
   listservId: DS.attr('number'), // write only
   parentContentId: DS.attr('number'),
   parentContentType: DS.attr('string'),

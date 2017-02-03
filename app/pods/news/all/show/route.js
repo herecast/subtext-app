@@ -12,9 +12,7 @@ export default Ember.Route.extend(ModalRoute, Redirect, RouteMetaMixin, DocTitle
   history: Ember.inject.service(),
 
   model(params)  {
-    return this.store.findRecord('news', params.id, { reload: true }).catch(() => {
-      this.replaceWith('error-404');
-    });
+    return this.store.findRecord('news', params.id, { reload: true });
   },
 
   afterModel(model) {

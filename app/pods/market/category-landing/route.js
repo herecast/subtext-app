@@ -14,7 +14,8 @@ export default Ember.Route.extend(PaginatedFilter, History, ResetScroll, {
         return self.store.query('market-post', {
           query: category.get('query'),
           page: params.page,
-          per_page: params.per_page
+          per_page: params.per_page,
+          query_modifier: category.get('query_modifier')
         });
       })
     };

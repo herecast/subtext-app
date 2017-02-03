@@ -120,6 +120,11 @@ export default Ember.Component.extend(TestSelector, Validation, {
     };
   }),
 
+  didInsertElement() {
+    this._super(...arguments);
+    this.updateMetric();
+  },
+
   signInFromRegistration(data) {
     set(this, 'session.skipRedirect', true);
     set(this, 'session.transitionTo', 'none');

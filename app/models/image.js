@@ -12,6 +12,8 @@ export default DS.Model.extend({
   imageUrl: DS.attr('string'),
   primary: DS.attr('number'),
   caption: DS.attr('string'),
+  width: DS.attr('string'),
+  height: DS.attr('string'),
   _delete: DS.attr('boolean'),
 
   save() {

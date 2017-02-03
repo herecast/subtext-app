@@ -13,7 +13,13 @@
       {{/if}}
     {{else}}
       {{#link-to viewRoute content.id}}
-        {{truncate-text text=content.title maxLength=50}}
+        {{truncate-text text=content.title maxLength=50 tagName='span'}}
+
+        {{#if (eq contentType 'Market')}}
+          {{#if content.sold}}
+            <span>&nbsp;(SOLD)</span>
+          {{/if}}
+        {{/if}}
       {{/link-to}}
     {{/if}}
 </td>

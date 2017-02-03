@@ -1,32 +1,42 @@
 import Ember from 'ember';
 
 const {
+  get,
   set,
-  computed
+  computed,
+  inject
 } = Ember;
 
 export default Ember.Component.extend({
   isSaving: false,
   callToAction: 'Save & Publish',
 
+  intercom: inject.service('intercom'),
+
   editLink: computed('model.isNew', function() {
-    if (this.get('model.isNew')) {
-      return 'market.new.promotion';
-    } else {
-      return 'market.edit.promotion';
-    }
+    return `market.${(get(this, 'model.isNew')) ? 'new' : 'edit'}.promotion`;
   }),
 
   actions: {
     save(callback) {
-      this.set('isSaving', true);
+      set(this, 'isSaving', true);
+      const post = get(this, 'model');
+      const isNew = get(post, 'isNew');
 
-      const post = this.get('model');
       const promise = post.save();
 
       callback(promise);
 
       promise.then(() => {
+        const wasNew = isNew;
+        const metadata = {
+          'reverse-publish': (get(post, 'listservIds.length') > 0)
+        };
+
+        if (wasNew) {
+          get(this, 'intercom').trackEvent('market-publish', metadata);
+        }
+
         this.sendAction('afterPublish', post);
       }).finally(()=>{
         set(this, 'isSaving', false);

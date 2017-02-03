@@ -31,6 +31,7 @@
               callToAction="SPRUCE UP MY POST"
               listservName=listservName
               confirmationKey=confirmationKey
+              updateMetric=(action 'updateListservMetric' model.id 'new_registration')
           }}
         {{/listserv-form}}
       {{else}}
@@ -47,6 +48,7 @@
                   callToAction="SIGN IN"
                   confirmationKey=confirmationKey
                   forgotPasswordReturnUrl=forgotPasswordReturnUrl
+                  updateMetric=(action 'updateListservMetric' model.id 'user_sign_in')
               }}
             {{#unless features.listserv-user-testing}}
             <p data-test-why-changed-message>

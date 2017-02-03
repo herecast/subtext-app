@@ -3,7 +3,7 @@ import config from 'subtext-ui/config/environment';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import sanitize from 'npm:sanitize-html';
 
-const {get,inject} = Ember;
+const {get, inject} = Ember;
 
 export default Ember.Mixin.create({
   location: inject.service('window-location'),
@@ -31,7 +31,9 @@ export default Ember.Mixin.create({
     }
 
     const url = SocialSharing.getShareUrl(locationService, routeName, model);
-    const imageUrl = get(model, 'imageUrl') || get(model,'featuredImageUrl') || this.defaultImage(channel);
+    const imageUrl = get(model,'featuredImageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
+    const imageWidth = get(model, 'featuredImageWidth') || get(model, 'imageWidth') || 266;
+    const imageHeight = get(model, 'featuredImageHeight') || get(model, 'imageHeight') || 200;
     const title = get(model, 'title');
 
     // Strip out all HTML tags from the content so it can be used for the description
@@ -61,7 +63,24 @@ export default Ember.Mixin.create({
         type: 'meta',
         attrs: {
           property: 'og:image',
-          content: imageUrl
+          content: imageUrl,
+          media: 'all'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:image:width',
+          content: imageWidth,
+          media: 'all'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          property: 'og:image:height',
+          content: imageHeight,
+          media: 'all'
         }
       },
       {

@@ -21,6 +21,8 @@ export default DS.Model.extend({
   // See: https://github.com/emberjs/ember.js/issues/9260
   images: DS.attr('raw', {defaultValue: function(){ return [];}}),
 
+  featuredImageWidth: computed.oneWay('bannerImage.width'),
+  featuredImageHeight: computed.oneWay('bannerImage.height'),
   featuredImageUrl: computed.oneWay('bannerImage.url'),
   featuredImageCaption: computed.oneWay('bannerImage.caption'),
 

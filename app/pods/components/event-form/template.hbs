@@ -123,6 +123,23 @@
   validateForm=(action 'validateForm')
 }}
 
+{{#if model.isNew}}
+  <div class='form-group'>
+    <label class='control-label'>Expand my Reach with a Display Ad</label>
+    <div>
+      {{input
+        type='checkbox'
+        checked=event.wantsToAdvertise
+        change=(action 'toggleAdvertisingRequest')
+      }}
+      <span>
+        {{if event.wantsToAdvertise 'I will receive ' 'Please send me '}}information about promoting my event with a banner ad on dailyUV or in one of dailyUV's weekly newsletters.
+      </span>
+    </div>
+
+  </div>
+{{/if}}
+
 {{event-form-registration
   error=errors.registrationDeadline
   event=event
