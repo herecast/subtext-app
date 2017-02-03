@@ -471,6 +471,14 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  recordOutreachCtaEvent(data) {
+    return returnJson(
+      this.post(`/ad_metrics`,
+        this.json(data)
+      )
+    );
+  },
+
   recordNewsImpression(news) {
     return returnJson(
       this.post(`/news/${get(news, 'id')}/impressions`)

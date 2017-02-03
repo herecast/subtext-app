@@ -1,0 +1,23 @@
+.OutreachCta {
+  cursor: pointer;
+
+  &.text-only {
+    text-align: center;
+  }
+  &.is-button {
+    a {
+      .Button;
+      display: inline-block;
+      width: auto;
+    }
+  }
+  &.sit-center {
+    display: block;
+    text-align: center;
+    margin: 20px;
+
+    @media (max-width: @screen-sm-max) {
+      margin: 5px;
+    }
+  }
+}

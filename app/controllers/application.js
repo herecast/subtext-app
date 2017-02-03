@@ -30,6 +30,8 @@ export default Ember.Controller.extend({
   }),
 
   currentController: inject.service('current-controller'),
+  routing: inject.service('_routing'),
+  router: computed.alias('routing.router'),
   intercom: inject.service('intercom'),
   newsFilter: inject.controller('news/all'),
   eventsFilter: inject.controller('events/all'),

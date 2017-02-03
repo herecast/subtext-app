@@ -486,6 +486,8 @@ export default function() {
   this.post('/promotion_banners/:id/track_click', function() {});
   this.post('/promotion_banners/:id/impression', function() {});
 
+  this.post('/ad_metrics', function() {});
+
   this.get('/market_categories', function({ db }) {
     return { marketCategories: db.marketCategories };
   });

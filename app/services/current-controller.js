@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {
   computed,
   getOwner,
+  isEmpty,
   get, set
 } = Ember;
 
@@ -34,4 +35,12 @@ export default Ember.Service.extend({
   secondaryBackgroundMobile: computed('currentController.secondaryBackgroundMobile', function() {
     return get(this, 'currentController.secondaryBackgroundMobile');
   }),
+
+  currentUrl: computed(`applicationController.router.url`, function() {
+    let router = get(this, 'applicationController.router');
+
+    if (!isEmpty(router.currentPath)) {
+      return router.get('url');
+    }
+  })
 });

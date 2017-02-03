@@ -37,6 +37,9 @@ test('filling out lost password request form with returnUrl query param', functi
   let requestSpy = sinon.stub().returns(Ember.RSVP.Promise.resolve());
   let mockApi = Ember.Service.extend({
     requestPasswordReset: requestSpy,
+    recordOutreachCtaEvent: function(){
+      return true;
+    },//outreach-cta component
     getWeather: function(){
       return Ember.RSVP.Promise.resolve();
     } // used in template
