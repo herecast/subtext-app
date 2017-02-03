@@ -122,7 +122,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
   didInsertElement() {
     this._super(...arguments);
-    this.updateMetric();
+    if('updateMetric' in this.attrs) {
+      this.attrs.updateMetric();
+    }
   },
 
   signInFromRegistration(data) {
