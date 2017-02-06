@@ -86,5 +86,19 @@ export default DS.Model.extend({
 
       return api.updateTalkImage(talk_id, data);
     }
+  },
+
+  save() {
+    return this._super().then((savedTalk) => {
+      return new Ember.RSVP.Promise((resolve, reject) => {
+        if(savedTalk.get('image')) {
+          savedTalk.uploadImage().then(()=>{
+            resolve(savedTalk);
+          }, reject);
+        } else {
+          resolve(savedTalk);
+        }
+      });
+    });
   }
 });

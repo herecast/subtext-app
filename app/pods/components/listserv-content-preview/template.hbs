@@ -1,25 +1,37 @@
-<div class='Container--noGutter'>
-  <h3>In the UpperValley Digest</h3>
-  {{listserv-content-digest-preview model=listservContent}}
+<div class='ContentPreview-summary'>
+  <p>
+    Preview your dailyUV post below. To make changes, hit the "Edit" button. Otherwise hit the “Save & Publish” button.
+  </p>
 </div>
-{{#if enhancedPost}}
-  <div class='Container--noGutter'>
-    <h3>And on dailyUV.com</h3>
+<div class='row'>
+  <div class='ContentPreview-navigation'>
+    <div class='col-sm-3 editLink'>
+      {{#link-to 'lists.posts.index' class='Button btn btn-default pull-left'}}
+        {{fa-icon 'arrow-left u-iconLeft'}}
+        Edit {{capitalize listservContent.channelType}}
+      {{/link-to}}
+    </div>
+    <div class='col-sm-3 publishLink'>
+      {{#async-button
+        data-test-component='preview-publish'
+        action='save'
+        class='Button Button--talk btn btn-primary pull-right save-and-publish'
+      }}
+        {{#if isSaving}}
+          Please Wait&hellip;
+        {{else}}
+          Save &amp; Publish
+          {{fa-icon 'check u-iconRight'}}
+        {{/if}}
+      {{/async-button}}
+    </div>
   </div>
-  <div class='Container--noGutter'>
-    {{component summaryComponentName
-      model=enhancedPost
-      editLink='lists.posts.index'
-      afterPublish='afterPublish'
-      isListservPreview=true
-      callToAction="SAVE & PUBLISH TO THE DIGEST"
-    }}
-  </div>
-  {{#content-preview}}
-    {{component previewComponentName model=enhancedPost isPreview=true}}
-  {{/content-preview}}
-{{else}}
-  <div class="text-center">
-    <button class="Button Button--primary Button--market" {{action 'afterPublish'}}>Submit</button>
-  </div>
-{{/if}}
+</div>
+
+<div class='text-center'>
+  Everything below dotted line is your preview
+  {{fa-icon 'arrow-down'}}
+</div>
+{{#content-preview}}
+  {{component previewComponentName model=enhancedPost isPreview=true}}
+{{/content-preview}}

@@ -48,6 +48,7 @@ skip('using incorrect login information', function(assert) {
     // Email
     const $emailField = find(testSelector('field', 'login-email'));
     let $formGroup = $emailField.closest('.form-group');
+
     assert.ok($formGroup.hasClass('has-error'),
       "It marks email form-group as error");
 

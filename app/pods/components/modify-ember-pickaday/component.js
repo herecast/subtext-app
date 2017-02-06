@@ -4,6 +4,7 @@ import PikadayInputComponent from 'ember-pikaday/components/pikaday-input';
 const { get, run } = Ember;
 
 export default PikadayInputComponent.extend({
+  bindAttributes: ['data-test-field'],
   onPikadayOpen() {
     Ember.$('body, html').css('overflow', 'hidden');
   },

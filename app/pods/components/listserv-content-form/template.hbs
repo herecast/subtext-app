@@ -2,53 +2,34 @@
   <label class='control-label ContentForm-label--required'>Category</label>
   {{#if listservContent.channelType}}
     <p>
-      Our system has identified your post as a {{listservContent.channelType}} item.
-      <br>If that is incorrect, please change the category below.
+      Our system has identified your post as {{indefinite-article listservContent.channelType}}
+      {{listservContent.channelType}} item.
+      <br>If that is incorrect, please click the correct button below.
     </p>
   {{/if}}
-  <div class="text-center">
-    <button class="Button Button--primary {{if listservContent.isEvent 'Button--event active'}}"
-      {{action 'changeCategory' 'event'}}>
-      Events
-    </button>
-    <button class="Button Button--primary {{if listservContent.isMarket 'Button--market active'}}"
-      {{action  'changeCategory' 'market'}}>
-      Market
-    </button>
-    <button class="Button Button--primary {{if listservContent.isTalk 'Button--talk active'}}"
-      {{action  'changeCategory' 'talk'}}>
-      Talk
-    </button>
-  </div>
+  {{listserv-content-channel-selector
+    action=(action 'changeCategory')
+    channelType=listservContent.channelType}}
 {{/form-group}}
 
 {{#if enhancedPost}}
   {{#if listservContent.isMarket}}
-    {{#market-form
-    model=(mut enhancedPost)
-    afterDetails='afterDetails'
-    showOrganizationMenu=false
-    as |next|
+    {{listserv-market-form
+      model=(mut enhancedPost)
+      afterDetails=(action 'afterDetails')
     }}
-      {{partial 'partials/listserv-content-form-submit'}}
-    {{/market-form}}
-  {{else if listservContent.isEvent}}
-    {{#event-form
-    model=(mut enhancedPost)
-    afterDetails='afterDetails'
-    showOrganizationMenu=false
-    as |next|
+  {{/if}}
+  {{#if listservContent.isEvent}}
+    {{listserv-event-form
+      model=(mut enhancedPost)
+      afterDetails=(action 'afterDetails')
     }}
-      {{partial 'partials/listserv-content-form-submit'}}
-    {{/event-form}}
-  {{else if listservContent.isTalk}}
-    {{#talk-form
-    model=(mut enhancedPost)
-    afterDetails='afterDetails'
-    as |next|
+  {{/if}}
+  {{#if listservContent.isTalk}}
+    {{listserv-talk-form
+      model=(mut enhancedPost)
+      afterDetails=(action 'afterDetails')
     }}
-      {{partial 'partials/listserv-content-form-submit'}}
-    {{/talk-form}}
   {{/if}}
 {{else}}
   <p class="text-center">Please choose a Category to continue editing this post.</p>

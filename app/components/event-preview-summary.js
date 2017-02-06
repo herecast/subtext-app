@@ -24,19 +24,9 @@ export default Ember.Component.extend({
       callback(promise);
 
       promise.then((savedEvent) => {
-        savedEvent.get('schedules').filterBy('isNew').forEach((schedule) => {
-          schedule.destroyRecord();
-        });
-
-        if (savedEvent.get('image')) {
-          savedEvent.uploadImage().then(() => {
-            this.set('isSaving', false);
-            this.sendAction('afterPublish', savedEvent);
-          });
-        } else {
-          this.set('isSaving', false);
-          this.sendAction('afterPublish', savedEvent);
-        }
+        this.sendAction('afterPublish', savedEvent);
+      }).finally(()=>{
+        this.set('isSaving', false);
       });
     }
   }

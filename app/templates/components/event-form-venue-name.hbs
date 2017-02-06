@@ -3,6 +3,7 @@
   placeholder='Type the name of your venue to find it in our database...'
   class='form-control'
   value=venueName
+  data-test-field="venue-search"
 }}
 
 <ul class='dropdown-menu' role='menu'>
@@ -19,7 +20,7 @@
       </li>
     {{else}}
       {{#each venues as |venue|}}
-        <li><a href='#' {{action 'setVenue' venue}}>{{venue.name}}</a></li>
+        <li><a href='#' {{action 'setVenue' venue}} data-test-venue-result>{{venue.name}}</a></li>
       {{else}}
         <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
       {{/each}}

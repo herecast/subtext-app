@@ -1,6 +1,6 @@
 /* global sinon */
 import Ember from 'ember';
-import { test } from 'qunit';
+import { test, skip } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
@@ -35,6 +35,27 @@ let notificationsMock = Ember.Service.extend({
   info: infoSpy
 });
 
+const Workflow = {
+  signInThroughForm() {
+    fillIn(testSelector('field', 'sign-in-form-password'), "password");
+    click(testSelector('component', 'sign-in-form-submit'));
+  },
+  registerThroughForm() {
+
+    fillIn(testSelector('field', 'registration-form-name'), 'Edgar Poe');
+    fillIn(testSelector('field', 'registration-form-password'), 'ravenPerch');
+
+    let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
+    $locationSelect.val($locationSelect.find('option:last').val());
+    $locationSelect.change();
+
+    click(find(testSelector('component', 'registration-form-submit')));
+  },
+  selectChannel(channel) {
+    click(testSelector(`select-channel-type-${channel}`));
+  }
+};
+
 moduleForAcceptance('Acceptance | enhance listserv post workflows', {
   beforeEach: function() {
 
@@ -47,170 +68,246 @@ moduleForAcceptance('Acceptance | enhance listserv post workflows', {
     this.application.register('service:notification-messages', notificationsMock);
 
     invalidateSession(this.application);
+
   }
 });
 
-test('Poster has account, signed in;', function(assert) {
-  server.create('location');
-  var currentUser = authenticateUser(this.application, server);
-
-  const listserv = server.create('listserv');
+test('Poster has account, not signed in', function(assert) {
+  const user = server.create('user');
   const post = server.create('listservContent', {
-    user: currentUser,
-    listserv: listserv,
-    channelType: 'talk',
-    subject: 'the punch line',
-    body: 'an explanation that might be interesting'
+    user: user
   });
 
   visit(`/lists/posts/${post.id}`);
   andThen(() => {
-    assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-      "Should see enhance form"
+    assert.ok(find(testSelector('component', 'listserv-sign-in-form')).length,
+      "Should see sign in form"
     );
 
-    assert.equal(find(testSelector('field', 'talk-title')).val(), post.subject, 'it should auto-fill the title text field with the listserv subject');
-    assert.equal(find('[data-test-component="talk-content"] .note-editable').text(), post.body, 'it should auto-fill the content textarea with the listserv body');
+    Workflow.signInThroughForm();
 
-    click(testSelector('listserv-content-submit-enhance')).then(() => {
+    andThen(() => {
+      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
+        "Should see form to update post"
+      );
+       assert.ok(find(testSelector('component', 'sign-in-form')).length === 0,
+         "Should not see sign in form"
+       );
+    });
+  });
+});
+
+test('Poster has account, signed in;', function(assert) {
+  var currentUser = authenticateUser(this.application, server);
+  const post = server.create('listservContent', {
+    user: currentUser
+  });
+
+  visit(`/lists/posts/${post.id}`);
+  andThen(()=>{
+    assert.ok(find(testSelector('component', 'listserv-content-form')).length,
+      "Should see form to update post"
+    );
+  });
+});
+
+test('Poster has no account', function(assert) {
+  const post = server.create('listserv-content');
+  server.create('location');
+
+  visit(`/lists/posts/${post.id}`);
+  andThen(()=>{
+    assert.ok(find(testSelector('component', 'listserv-registration-form')).length,
+      "Should see registration form"
+    );
+
+    Workflow.registerThroughForm();
+
+    andThen(()=>{
+      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
+        "Should see form to update post"
+      );
+    });
+  });
+});
+
+test('Enhance talk post', function(assert) {
+  assert.expect(5);
+  server.create('location');
+  const post = server.create('listserv-content');
+
+  visit(`/lists/posts/${post.id}`);
+
+  andThen(()=> Workflow.registerThroughForm());
+
+  andThen(()=> Workflow.selectChannel('talk'));
+
+  andThen(()=> {
+    const newTitle = "NEW title";
+
+    fillIn(testSelector('field', 'talk-title'), newTitle);
+    click(testSelector('listserv-content-submit-enhance'));
+
+    andThen(()=>{
       assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
-        "After submitting form, should see a preview."
+        "Should see preview page"
       );
 
-      click(testSelector('component', 'preview-publish')).then(() => {
-        assert.ok(/^\/talk\/\d/.test(currentURL()),
-          "Should be on the detail page of the enhanced content record"
+      const done = assert.async();
+      server.put('/listserv_contents/:id', (schema, request) => {
+        const params = JSON.parse(request.requestBody).listserv_content;
+
+        assert.equal(params.subject, newTitle,
+          "It updates the listserv content record"
         );
 
-        assert.ok(infoSpy.called, 'Displays confirmation message');
+        assert.equal(params.channel_type, 'talk',
+          "it sets the channel type"
+        );
+
+        const post = schema.talks.first();
+
+        assert.equal(params.content_id, post.id,
+          "It sets the content id on the api to match the new post"
+        );
+        done();
+      });
+
+      click(find(testSelector('component', 'preview-publish')));
+      andThen(()=> {
+        assert.ok((new RegExp('^/talk/\\d+')).test(currentURL()),
+          "Should be viewing my newly created post on dailyUV"
+        );
       });
     });
   });
 });
 
-test('Poster has account, signed in as someone else', function(assert) {
+test('Enhance market post', function(assert) {
+  assert.expect(5);
   server.create('location');
+  const post = server.create('listserv-content');
 
-  const listserv = server.create('listserv');
-  const postOwner = server.create('user', {
-    email: 'wycats@emberjs.com'
-  });
+  visit(`/lists/posts/${post.id}`);
 
-  const post = server.create('listservContent', {
-    senderEmail: postOwner.email,
-    user: postOwner,
-    listserv: listserv,
-    channelType: 'talk',
-    subject: 'the punch line',
-    body: 'an explanation that might be interesting'
-  });
+  andThen(()=> Workflow.registerThroughForm());
 
-  visit(`/lists/posts/${post.id}`).then(() => {
-    assert.ok(find(testSelector('component', 'sign-in-form')).length,
-      "Should see sign in form"
-    );
+  andThen(()=> Workflow.selectChannel('market'));
 
-    let $emailField = find(testSelector('listserv-sign-in-form-email'));
-    assert.equal($emailField.text(), postOwner.email,
-      "Email is pre-filled with owner email on sign in form"
-    );
+  andThen(()=> {
+    const newTitle = "NEW Market title";
 
-    fillIn(testSelector('field', 'sign-in-form-password'), "password");
+    fillIn(testSelector('field', 'market-title'), newTitle);
+    click(testSelector('listserv-content-submit-enhance'));
 
-    click(testSelector('component', 'sign-in-form-submit')).then(() => {
-      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-        "Should see enhance form"
+    andThen(()=>{
+      assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
+        "Should see preview page"
       );
+
+      const done = assert.async();
+      server.put('/listserv_contents/:id', (schema, request) => {
+        const params = JSON.parse(request.requestBody).listserv_content;
+
+        assert.equal(params.subject, newTitle,
+          "It updates the listserv content record"
+        );
+
+        assert.equal(params.channel_type, 'market',
+          "it sets the channel type"
+        );
+
+        const post = schema.marketPosts.first();
+
+        assert.equal(params.content_id, post.id,
+          "It sets the content id on the api to match the new post"
+        );
+        done();
+      });
+
+      click(find(testSelector('component', 'preview-publish')));
+      andThen(()=> {
+        assert.ok((new RegExp('^/market/\\d+')).test(currentURL()),
+          "Should be viewing my newly created post on dailyUV"
+        );
+      });
     });
   });
 });
+/**
+ * This needs work, I cant get the test to set a event date
+ */
+skip('Enhance event post', function(assert) {
 
-test('Poster has no account, signed in as someone else', function(assert) {
+  assert.expect(5);
   server.create('location');
-  authenticateUser(this.application, server, server.create('user', {
-    email: 'tomster@emberjs.com'
-  }));
+  const venue = server.create('venue');
+  const post = server.create('listserv-content');
 
-  const listserv = server.create('listserv');
+  visit(`/lists/posts/${post.id}`);
 
-  const post = server.create('listservContent', {
-    senderEmail: "wycats@emberjs.com",
-    user: null,
-    listserv: listserv,
-    channelType: 'talk',
-    subject: 'the punch line',
-    body: 'an explanation that might be interesting'
-  });
+  andThen(()=> Workflow.registerThroughForm());
 
+  andThen(()=> Workflow.selectChannel('event'));
 
-  visit(`/lists/posts/${post.id}`).then(() => {
-    assert.ok(find(testSelector('component', 'registration-form')).length,
-      "Should see registration form"
-    );
+  andThen(()=> {
+    const newTitle = "NEW Event title";
 
-    let $emailField = find(testSelector('field', 'registration-form-email'));
-    assert.equal($emailField.val(), post.senderEmail,
-      "Email is prefilled"
-    );
-    assert.equal($emailField.attr('disabled'), 'disabled',
-      "Cannot edit email"
-    );
+    fillIn(testSelector('field', 'event-title'), newTitle);
 
-    fillIn(testSelector('field', 'registration-form-name'), 'Edgar Poe');
-    fillIn(testSelector('field', 'registration-form-password'), 'ravenPerch');
+    const venueField = find(testSelector('field', 'venue-search'));
+    fillIn(venueField, venue.name);
+    triggerEvent(venueField, 'keyup');
+    click(testSelector('venue-result'));
 
-    let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
-    $locationSelect.val($locationSelect.find('option:last').val());
-    $locationSelect.change();
+    click(testSelector('event-form-add-single-date'));
+    andThen(()=>{
+      const pikadayField = find(testSelector('event-date-pikaday'));
 
-    click(find(testSelector('component', 'registration-form-submit'))).then(() => {
-      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-        "Should see enhance form"
-      );
+      click(find('input', pikadayField));
+      andThen(()=>{
+        click(find('button.pika-day'));
+      });
     });
 
-  });
-});
+    fillIn(testSelector('field', 'start-time'), '09:00 am');
+    fillIn(testSelector('field', 'start-time'), '09:00 pm');
 
-test('Poster has no account, not signed in', function(assert) {
-  server.create('location');// for location dropdown during registration
-  let listserv = server.create('listserv');
+    click(testSelector('save-event-date'));
 
-  const post = server.create('listservContent', {
-    user: null,
-    senderEmail: 'ed@poe.com',
-    listserv: listserv,
-    channelType: 'talk',
-    subject: 'the punch line',
-    body: 'an explanation that might be interesting'
-  });
+    click(testSelector('listserv-content-submit-enhance'));
 
-
-  visit(`/lists/posts/${post.id}`).then(() => {
-    assert.ok(find(testSelector('component', 'registration-form')).length,
-      "Should see registration form"
-    );
-
-    let $emailField = find(testSelector('field', 'registration-form-email'));
-    assert.equal($emailField.val(), post.senderEmail,
-      "Email is prefilled"
-    );
-    assert.equal($emailField.attr('disabled'), 'disabled',
-      "Cannot edit email"
-    );
-
-    fillIn(testSelector('field', 'registration-form-name'), 'Edgar Poe');
-    fillIn(testSelector('field', 'registration-form-password'), 'ravenPerch');
-
-    let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
-    $locationSelect.val($locationSelect.find('option:last').val());
-    $locationSelect.change();
-
-    click(find(testSelector('component', 'registration-form-submit'))).then(() => {
-      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-        "Should see enhance form"
+    andThen(()=>{
+      assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
+        "Should see preview page"
       );
-    });
 
+      const done = assert.async();
+      server.put('/listserv_contents/:id', (schema, request) => {
+        const params = JSON.parse(request.requestBody).listserv_content;
+
+        assert.equal(params.subject, newTitle,
+          "It updates the listserv content record"
+        );
+
+        assert.equal(params.channel_type, 'event',
+          "it sets the channel type"
+        );
+
+        const post = schema.events.first();
+
+        assert.equal(params.content_id, post.contentId,
+          "It sets the content id on the api to match the new post"
+        );
+        done();
+      });
+
+      click(find(testSelector('component', 'preview-publish')));
+      andThen(()=> {
+        assert.ok((new RegExp('^/market/\\d+')).test(currentURL()),
+          "Should be viewing my newly created post on dailyUV"
+        );
+      });
+    });
   });
 });

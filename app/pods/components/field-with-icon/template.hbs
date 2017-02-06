@@ -1,0 +1,9 @@
+<span class='ContentForm-iconLabel input-group-addon'>
+  {{fa-icon icon}}
+</span>
+
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  {{component field}}
+{{/if}}

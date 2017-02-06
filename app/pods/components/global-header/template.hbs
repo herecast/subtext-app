@@ -3,9 +3,13 @@
     <div class='MainNav'>
 
       <div class='MainNav-brand'>
-        <h1 class='MainNav-brand-logo'>
+        <h1 class='MainNav-brand-logo' data-test-brand>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
             daily UV
+            {{#if features.listserv-user-testing}}
+            Test
+            {{/if}}
+
             {{#if (and session.isAuthenticated (or (eq currentChannel 'talk') (eq currentChannel 'index')))}}
               <span class='MainNav-brand-location'>
                 {{session.userLocation}}

@@ -15,6 +15,7 @@ export default Ember.Component.extend({
   showSignIn: false,
   showUserMenu: false,
   signInTab: 'sign-in',
+  features: inject.service('feature-flags'),
 
   channelLinksEnabled: true,
 

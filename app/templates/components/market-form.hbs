@@ -1,3 +1,49 @@
+{{#if hasBlock}}
+
+{{yield (hash
+  errors=errors
+  validateForm=(action 'validateForm')
+  submit=(action 'next')
+
+  orgainzations-input=(component "organization-dropdown"
+    selection=(mut model.organization)
+    class="with-border"
+  )
+  title-input=(component "atoms/form-input"
+    placeholder='Keep it short and informative'
+    value=(mut model.title)
+    class="form-control"
+    oninput=(action 'validateForm')
+    data-test-field="market-title"
+  )
+  content-input=(component 'summer-note'
+    content=(readonly model.content)
+    hideError=true
+    notifyChange=(action 'updateContent')
+  )
+  price-input=(component 'atoms/form-input'
+    placeholder='A dollar figure or text'
+    class='form-control'
+    value=(mut model.price)
+  )
+  phone-input=(component 'atoms/form-input'
+    placeholder='Contact Phone, ex: 555-555-5555'
+    class='form-control'
+    value=(mut model.contactPhone)
+  )
+  email-input=(component 'atoms/form-input'
+    placeholder='Contact Email'
+    class='form-control'
+    value=(mut model.contactEmail)
+    oninput=(action 'validateForm')
+  )
+  images=(component 'image-upload-list'
+    model=(mut model)
+  )
+)}}
+
+{{else}}
+
 {{#if (and session.isAuthenticated showOrganizationMenu)}}
   {{#if organizations}}
     {{#form-group hideError=true}}
@@ -42,6 +88,7 @@
     class='form-control'
     value=post.title
     input=(action 'validateForm')
+    data-test-field="market-title"
   }}
 {{/form-group}}
 
@@ -116,8 +163,6 @@
   <span class='ContentForm-requiredIndicator'>*</span> required fields
 </div>
 
-{{#if hasBlock}}
-  {{yield (action 'next')}}
-{{else}}
-  {{partial 'partials/content-form-buttons'}}
+{{partial 'partials/content-form-buttons'}}
+
 {{/if}}

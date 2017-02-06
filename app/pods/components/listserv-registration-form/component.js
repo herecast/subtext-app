@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   computed,
@@ -12,7 +13,8 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(Validation, {
+export default Ember.Component.extend(TestSelector, Validation, {
+  "data-test-component": 'listserv-registration-form',
   api: inject.service(),
   callToAction: "Register",
   listservName: "",
@@ -120,7 +122,9 @@ export default Ember.Component.extend(Validation, {
 
   didInsertElement() {
     this._super(...arguments);
-    this.updateMetric();
+    if('updateMetric' in this.attrs) {
+      this.attrs.updateMetric();
+    }
   },
 
   signInFromRegistration(data) {

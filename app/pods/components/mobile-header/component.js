@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   classNames         : ['MobileHeader'],
   classNameBindings  : ['headerBGClass'],
   modals             : inject.service(),
+  features           : inject.service('feature-flags'),
   currentController  : inject.service(),
   store              : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),

@@ -17,6 +17,7 @@ export default function(server) {
     managedOrganizations: organizations.slice(0,2)
   });
   server.createList('location', 8);
+  server.createList("venue", 5);
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);
@@ -46,6 +47,7 @@ export default function(server) {
   });
 
   server.create('subscription', {
+    confirmedAt: null,
     listserv: listserv,
     user: user1,
     email: user1.email
@@ -74,6 +76,7 @@ export default function(server) {
 
   server.create('listserv-content', {
     listserv: listserv,
+    body: 'No Content',
     user: user1,
     senderEmail: user1.email
   });
@@ -94,6 +97,7 @@ export default function(server) {
     verifiedAt: '2012-08-01',
     user: null
   });
+  server.create('feature', {name: 'listserv-user-testing'});
 
   /**
    * Business Categories

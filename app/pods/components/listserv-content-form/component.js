@@ -27,10 +27,8 @@ export default Ember.Component.extend({
 
 
     // Build the enhanced content item with data from the listserv content
-    const enhancedPost = get(this, 'store').createRecord(modelType, {
-      listservIds: [get(listservContent, 'listserv.id')]
-    });
 
+    const enhancedPost = get(this, 'store').createRecord(modelType);
     // set attributes from cache or listserv record
     //
     enhancedPost.setProperties({

@@ -59,10 +59,14 @@ export default DS.Model.extend(FastbootExtensions, {
   }),
 
   saveWithImages() {
+    this.save();
+  },
+
+  save() {
     const imagesToSave = get(this, 'images').filterBy('imageUrl');
     const imagesToDelete = get(this, 'images').filterBy('_delete');
 
-    return this.save().then((post) => {
+    return this._super().then((post) => {
       imagesToSave.setEach('contentId', get(post, 'id'));
 
       const savedImages = imagesToSave.map((image) => {

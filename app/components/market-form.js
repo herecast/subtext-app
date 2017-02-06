@@ -3,7 +3,7 @@ import Validation from '../mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { oneWay } = Ember.computed;
-const { set } = Ember;
+const { get, set, run } = Ember;
 
 export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
@@ -58,6 +58,25 @@ export default Ember.Component.extend(TestSelector, Validation, {
     updateContent(content) {
       set(this, 'post.content', content);
       this.send('validateForm');
-    }
+    },
+    validateForm() {
+      if (get(this, 'hasSubmittedForm')) {
+        run.later(() => {
+          this.validateForm();
+        });
+      }
+    },
+    next() {
+      set(this, 'hasSubmittedForm', true);
+
+      if (this.isValid()) {
+        this.sendAction('afterDetails');
+      } else {
+        run.later(() => {
+          this.scrollToFirstError();
+        });
+      }
+    },
+
   }
 });

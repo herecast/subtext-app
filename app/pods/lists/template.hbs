@@ -1,7 +1,10 @@
 <div class="ListservForm-container">
   <div class='u-textCentered'>
-    <h1 class='ListServForm-mainNav'>
+    <h1 class='ListServForm-mainNav' data-test-brand>
       daily UV
+      {{#if features.listserv-user-testing}}
+        Test
+      {{/if}}
     </h1>
   </div>
   {{outlet}}

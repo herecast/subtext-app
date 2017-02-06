@@ -1,3 +1,81 @@
+{{#if hasBlock}}
+
+{{yield (hash
+  errors=errors
+  validateForm=(action 'validateForm')
+  submit=(action 'next')
+
+  orgainzations-input=(component "organization-dropdown"
+    selection=(mut model.organization)
+    class="with-border"
+  )
+  title-input=(component "atoms/form-input"
+    placeholder='Keep it short and informative'
+    value=(mut model.title)
+    class="form-control"
+    oninput=(action 'validateForm')
+    data-test-field="market-title"
+  )
+  content-input=(component 'summer-note'
+    content=(readonly model.content)
+    hideError=true
+    notifyChange=(action 'updateContent')
+  )
+  event-form-venue=(component "event-form-venue"
+    event=(mut model)
+    class='form-group'
+    error=errors.venue
+    validateForm=(action 'validateForm')
+  )
+  event-form-dates=(component "event-form-dates"
+    schedules=model.schedules
+    error=errors.eventInstances
+    class='form-group'
+    validateForm=(action 'validateForm')
+  )
+  event-form-registration=(component 'event-form-registration'
+    error=errors.registrationDeadline
+    event=model
+    class='form-group'
+    toggleRegistration=(action 'toggleRegistration')
+    registrationEnabled=registrationEnabled
+    validateForm=(action 'validateForm')
+  )
+  event-cost-input=(component 'event-form-cost'
+    event=model
+    cost=(mut model.cost)
+    costType=(mut model.costType)
+  )
+
+  event-image=(component "content-form-image"
+    aspectRatio=1.3333
+    image=(mut model.image)
+    imageUrl=(mut model.imageUrl)
+    originalImageFile=(mut model.originalImageFile)
+    error=errors.image
+  )
+  phone-input=(component 'atoms/form-input'
+    placeholder='Contact Phone, ex: 555-555-5555'
+    class='form-control'
+    value=(mut model.contactPhone)
+  )
+  email-input=(component 'atoms/form-input'
+    placeholder='Contact Email'
+    class='form-control'
+    value=(mut model.contactEmail)
+    oninput=(action 'validateForm')
+  )
+  url-input=(component 'atoms/form-input'
+    placeholder='Web Link, ex: event URL or registration page'
+    class='form-control'
+    value=model.eventUrl
+    onfocusout=(action 'normalizeUrl')
+    oninput=(action 'validateForm')
+  )
+)}}
+
+{{else}}
+
 {{#if organizations}}
   {{#form-group hideError=true}}
     <label class='control-label ContentForm-label--required'>Content Owner</label>
@@ -25,6 +103,7 @@
     class='form-control'
     value=event.title
     input=(action 'validateForm')
+    data-test-field="event-title"
   }}
 {{/form-group}}
 
@@ -168,8 +247,5 @@
   <span class='ContentForm-requiredIndicator'>*</span> = required fields
 </div>
 
-{{#if hasBlock}}
-  {{yield (action 'next')}}
-{{else}}
-  {{partial 'partials/content-form-buttons'}}
+{{partial 'partials/content-form-buttons'}}
 {{/if}}

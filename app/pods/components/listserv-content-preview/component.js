@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, computed, inject } = Ember;
+const { get, set, computed, inject } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
   model: Ember.computed.alias('enhancedPost'),
+  api: inject.service(),
   isPreview: true,
   isMinimalist: false,
 
-  api: inject.service(),
 
   previewComponentName: computed('listservContent', function() {
     const lc = get(this, 'listservContent');
@@ -21,16 +21,6 @@ export default Ember.Component.extend(TestSelector, {
     }
   }),
 
-  summaryComponentName: computed('listservContent', function() {
-    const lc = get(this, 'listservContent');
-    if(get(lc, 'isMarket')) {
-      return 'market-preview-summary';
-    } else if(get(lc, 'isEvent')) {
-      return 'event-preview-summary';
-    } else {
-      return 'talk-preview-summary';
-    }
-  }),
 
   didInsertElement() {
     this._super(...arguments);
@@ -42,8 +32,19 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   actions: {
-    afterPublish() {
-      get(this, 'afterPublish')();
-    }
+    save(callback) {
+      this.set('isSaving', true);
+      const promise = get(this, 'model').save();
+
+      callback(promise);
+
+      promise.then((saved) => {
+        this.attrs.afterPublish(saved);
+      }).finally(()=>{
+        set(this, 'isSaving', false);
+      });
+    },
+    trackMapClick() { /*noop*/  },
+    trackEventInfoClick() { /*noop*/  }
   }
 });

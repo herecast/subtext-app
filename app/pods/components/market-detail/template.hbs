@@ -68,10 +68,10 @@
     {{#if model.price}}Price: {{model.price}}{{/if}}
 
     {{#if isPreview}}
-      <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
+      <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
     {{else}}
       {{#expandable-content customLessLabel='Read Less' customMoreLabel='Continue Reading'}}
-        <span class="ContentText" data-test-market-content>{{{ model.content }}}</span>
+        <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
       {{/expandable-content}}
     {{/if}}
   </div>

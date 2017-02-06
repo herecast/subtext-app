@@ -20,15 +20,14 @@ export default Ember.Component.extend({
   actions: {
     save(callback) {
       set(this, 'isSaving', true);
-
       const post = get(this, 'model');
       const isNew = get(post, 'isNew');
-      const promise = post.saveWithImages();
+
+      const promise = post.save();
 
       callback(promise);
 
       promise.then(() => {
-        set(this, 'isSaving', false);
         const wasNew = isNew;
         const metadata = {
           'reverse-publish': (get(post, 'listservIds.length') > 0)
@@ -39,6 +38,8 @@ export default Ember.Component.extend({
         }
 
         this.sendAction('afterPublish', post);
+      }).finally(()=>{
+        set(this, 'isSaving', false);
       });
     }
   }

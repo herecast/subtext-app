@@ -10,6 +10,7 @@ const {
 export default Ember.Controller.extend({
   session: inject.service(),
   windowLocation: inject.service(),
+  features: inject.service('feature-flags'),
   api: inject.service(),
 
   forgotPasswordReturnUrl: computed(function(){

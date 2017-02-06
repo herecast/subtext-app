@@ -40,7 +40,7 @@
       {{/modal-wrapper}}
     {{/if}}
 
-    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}}>
+    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'single'}} data-test-event-form-add-single-date>
       {{#if hasSingleDate}}
         {{fa-icon 'plus-circle u-iconLeft'}} Add more single date(s)
       {{else}}
@@ -48,7 +48,7 @@
       {{/if}}
     </button>
     <br>
-    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}}>
+    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}} daa-test-event-form-add-repeating-dates>
       {{#if hasRecurringSchedule}}
         {{fa-icon 'plus-circle u-iconLeft'}} Add more repeating dates
       {{else}}
