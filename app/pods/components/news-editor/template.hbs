@@ -53,7 +53,6 @@
         {{#form-group
         error=errors.title
         hideError=true
-        news=news as |news|
         }}
           <label class='control-label ContentForm-label--required' for="title">Title</label>
           {{form-error errors.title}}
@@ -71,7 +70,6 @@
         {{#form-group
         error=errors.subtitle
         hideError=true
-        news=news as |news|
         }}
           <label class='control-label' for="title">Subtitle</label>
           {{form-error errors.subtitle}}
@@ -103,7 +101,6 @@
         {{#form-group
         error=errors.content
         hideError=true
-        news=news as |news|
         }}
           <label class='control-label ContentForm-label--required' for="description">Content</label>
           {{form-error errors.content}}
@@ -134,7 +131,6 @@
         {{#form-group
         error=errors.author
         hideError=true
-        news=news as |news|
         }}
           <label>
             Author Override
