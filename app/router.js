@@ -124,6 +124,7 @@ Router.map(function() {
     this.route('community');
     this.route('subscriptions');
   });
+  this.route('kitchen-sink');
 });
 
 export default Router;
