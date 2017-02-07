@@ -112,7 +112,7 @@ export default Ember.Component.extend(InViewportMixin, {
   },
 
   recordEvent(type) {
-    get(this, 'api').recordOutreachCtaEvent({
+    get(this, 'api').recordAdMetricEvent({
       ad_metric: {
         campaign: `${get(this, 'placement')}--${get(this,'ctaTargetTag')}`,
         content: get(this, 'ctaMessageTag'),

@@ -124,6 +124,8 @@ Router.map(function() {
     this.route('community');
     this.route('subscriptions');
   });
+
+  this.route('promotions.show', {path: '/promotions/:id'});
 });
 
 export default Router;

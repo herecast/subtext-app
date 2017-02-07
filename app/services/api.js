@@ -471,7 +471,7 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  recordOutreachCtaEvent(data) {
+  recordAdMetricEvent(data) {
     return returnJson(
       this.post(`/ad_metrics`,
         this.json(data)
@@ -482,6 +482,14 @@ export default Ember.Service.extend(FastbootExtensions, {
   recordNewsImpression(news) {
     return returnJson(
       this.post(`/news/${get(news, 'id')}/impressions`)
+    );
+  },
+
+  recordCouponRequest(id, data) {
+    return returnJson(
+      this.post(`/promotion_coupons/${id}/request_email`,
+        this.json(data)
+      )
     );
   },
 

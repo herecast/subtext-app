@@ -1,0 +1,43 @@
+{{#liquid-spacer growDuration=300 growWidth=false}}
+  {{#unless hasRequested}}
+    {{#if isRequesting}}
+    <div class="PromotionCouponCta-cover">
+      {{fa-icon 'cog' class="fa-spin"}}
+    </div>
+    {{/if}}
+
+    <button class='email-button' {{action "toggleWantsEmail"}}>
+      Get the coupon by email
+    </button>
+
+    {{#if wantsEmail}}
+      <div>
+        Please provide your email address so that we can send you the coupon.<br />
+        Your email address will <b>only</b> be used to send you the coupon.<br />
+        We will not use it for any other purpose.
+      </div>
+      {{#form-group error=errors.email}}
+        {{input
+          type=text
+          value=coupon.email
+          placeholder="email@address.com"
+          class="form-control"
+          input=(action 'validateEmail')
+        }}
+      {{/form-group}}
+      <div class="PromotionCouponCta-button-row">
+        <span class="deny-button" {{action "toggleWantsEmail"}}>
+          No Thanks
+        </span>
+        <button class='confirm-button' {{action "requestCoupon"}}>
+          Yes, please.
+        </button>
+      </div>
+    {{/if}}
+  {{else}}
+    <div>
+      You should receive an email shortly containing the coupon.<br  />
+      Thank you!
+    </div>
+  {{/unless}}
+{{/liquid-spacer}}

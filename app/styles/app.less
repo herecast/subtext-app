@@ -148,6 +148,8 @@
 @import 'components/market-category-card';
 @import 'components/user-testimonial';
 @import 'components/outreach-cta';
+@import 'components/promotion-coupon';
+@import 'components/promotion-coupon-cta';
 
 //
 // Variables
@@ -193,6 +195,7 @@ body.modal-open > .modal-backdrop {
 // added to the main element when sticky mobile header is on screen.
 #main {
   padding-top: 80px;
+  z-index: 2000001;
 
   &.padBody {
     @media (max-width: @screen-xs-max) {

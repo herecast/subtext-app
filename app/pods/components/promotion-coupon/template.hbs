@@ -1,0 +1,14 @@
+<div class="PromotionCoupon-wrapper" {{action 'toggleDisplayFullsize'}} data-content="Click for full size Coupon">
+  <img src={{coupon.image_url}} />
+</div>
+
+{{#if displayFullsize}}
+  {{#modal-wrapper
+    close=(action 'toggleDisplayFullsize')
+    showHeader=true
+    fullscreen=media.isMobile
+    isAnimated=false
+  }}
+    <img src={{coupon.image_url}} />
+  {{/modal-wrapper}}
+{{/if}}

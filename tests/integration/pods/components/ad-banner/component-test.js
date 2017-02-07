@@ -7,7 +7,7 @@ const apiStub = Ember.Service.extend({
   getContentPromotion() {
     return { then() {} };
   },
-  recordOutreachCtaEvent() {
+  recordAdMetricEvent() {
     return true;
   }//outreach-cta component
 });
