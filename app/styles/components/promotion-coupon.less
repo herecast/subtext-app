@@ -1,5 +1,6 @@
 .PromotionCoupon {
   &-wrapper {
+    cursor: pointer;
     position: relative;
     max-width: 150px;
     min-height: 250px;
@@ -17,13 +18,15 @@
       -ms-filter: blur(4px);
       filter: blur(4px);
     }
-    &:hover {
-      img {
-        -webkit-filter: blur(2px);
-        -moz-filter: blur(2px);
-        -o-filter: blur(2px);
-        -ms-filter: blur(2px);
-        filter: blur(2px);
+    @media (min-width: @screen-sm-min) {
+      &:hover {
+        img {
+          -webkit-filter: blur(2px);
+          -moz-filter: blur(2px);
+          -o-filter: blur(2px);
+          -ms-filter: blur(2px);
+          filter: blur(2px);
+        }
       }
     }
   }
@@ -46,12 +49,14 @@
     line-height: 22px;
     background: rgba(0,0,0,0.4);
   }
-  &-wrapper:hover::after {
-    content: "\f065";
-    font-family: FontAwesome;
-    font-size: 30px;
-    vertical-align: middle;
-    background: rgba(0,0,0,0.7);
+  @media (min-width: @screen-sm-min) {
+    &-wrapper:hover::after {
+      content: "\f065";
+      font-family: FontAwesome;
+      font-size: 30px;
+      vertical-align: middle;
+      background: rgba(0,0,0,0.7);
+    }
   }
 
   .Modal {
