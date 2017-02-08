@@ -1,6 +1,6 @@
 /* global sinon */
 import Ember from 'ember';
-import { test, skip } from 'qunit';
+import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
@@ -36,24 +36,61 @@ let notificationsMock = Ember.Service.extend({
 });
 
 const Workflow = {
-  signInThroughForm() {
+  signIn() {
     fillIn(testSelector('field', 'sign-in-form-password'), "password");
-    click(testSelector('component', 'sign-in-form-submit'));
+    click(testSelector('action', 'sign-in-form-submit'));
   },
-  registerThroughForm() {
+  register() {
 
     fillIn(testSelector('field', 'registration-form-name'), 'Edgar Poe');
     fillIn(testSelector('field', 'registration-form-password'), 'ravenPerch');
 
-    let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
-    $locationSelect.val($locationSelect.find('option:last').val());
-    $locationSelect.change();
+    andThen(() => {
+      let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
+      $locationSelect.val($locationSelect.find('option:last').val());
+      $locationSelect.change();
+    });
 
-    click(find(testSelector('component', 'registration-form-submit')));
+    click(testSelector('action', 'registration-form-submit'));
   },
   selectChannel(channel) {
     click(testSelector(`select-channel-type-${channel}`));
-  }
+    this.next();
+  },
+  next() {
+    click(testSelector('action', 'next-step'));
+  },
+  fillInTalkForm(data) {
+    fillIn(
+      testSelector('field', 'talk-title'),
+      data['title']
+    );
+
+    this.next();
+  },
+  fillInMarketForm(data) {
+    fillIn(
+      testSelector('field', 'market-title'),
+      data['title']
+    );
+
+    fillIn(
+      testSelector('field', 'market-price'),
+      data['price']
+    );
+
+    fillIn(
+      testSelector('field', 'market-contactPhone'),
+      data['contactPhone']
+    );
+ 
+    fillIn(
+      testSelector('field', 'market-contactEmail'),
+      data['contactEmail']
+    );
+
+    this.next();
+ }
 };
 
 moduleForAcceptance('Acceptance | enhance listserv post workflows', {
@@ -69,6 +106,15 @@ moduleForAcceptance('Acceptance | enhance listserv post workflows', {
 
     invalidateSession(this.application);
 
+    this.trackingEvents = [];
+
+    server.patch('listserv_contents/:id/update_metric', (s, {params, requestBody}) => {
+      this.trackingEvents.push({
+        id: params.id,
+        data: JSON.parse(requestBody)
+      });
+      return {};
+    });
   }
 });
 
@@ -84,15 +130,24 @@ test('Poster has account, not signed in', function(assert) {
       "Should see sign in form"
     );
 
-    Workflow.signInThroughForm();
+    const lastEvent = this.trackingEvents.pop();
+    assert.deepEqual(lastEvent, {
+      id: post.id,
+      data: {
+        enhance_link_clicked: true,
+        step_reached: 'user_sign_in'
+      }
+    }, "Event tracked for sign in step");
+
+    Workflow.signIn();
 
     andThen(() => {
-      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-        "Should see form to update post"
+      assert.ok(find(testSelector('component', 'channel-selector')).length,
+        "Should see channel selector"
       );
-       assert.ok(find(testSelector('component', 'sign-in-form')).length === 0,
-         "Should not see sign in form"
-       );
+      assert.ok(find(testSelector('component', 'listserv-sign-in-form')).length === 0,
+        "Should not see sign in form"
+      );
     });
   });
 });
@@ -105,8 +160,11 @@ test('Poster has account, signed in;', function(assert) {
 
   visit(`/lists/posts/${post.id}`);
   andThen(()=>{
-    assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-      "Should see form to update post"
+    assert.ok(find(testSelector('component', 'channel-selector')).length,
+      "Should see channel selector"
+    );
+    assert.ok(find(testSelector('component', 'sign-in-form')).length === 0,
+      "Should not see sign in form"
     );
   });
 });
@@ -121,193 +179,324 @@ test('Poster has no account', function(assert) {
       "Should see registration form"
     );
 
-    Workflow.registerThroughForm();
+    const lastEvent = this.trackingEvents.pop();
+    assert.deepEqual(lastEvent, {
+      id: post.id,
+      data: {
+        enhance_link_clicked: true,
+        step_reached: 'new_registration'
+      }
+    }, "Event tracked for sign in step");
+
+    Workflow.register();
 
     andThen(()=>{
-      assert.ok(find(testSelector('component', 'listserv-content-form')).length,
-        "Should see form to update post"
+      assert.ok(find(testSelector('component', 'channel-selector')).length,
+        "Should see channel selector"
+      );
+
+      assert.ok(find(testSelector('component', 'listserv-registration-form')).length === 0,
+        "Should not see registration form"
       );
     });
   });
 });
 
-test('Enhance talk post', function(assert) {
-  assert.expect(5);
-  server.create('location');
-  const post = server.create('listserv-content');
-
-  visit(`/lists/posts/${post.id}`);
-
-  andThen(()=> Workflow.registerThroughForm());
-
-  andThen(()=> Workflow.selectChannel('talk'));
-
-  andThen(()=> {
-    const newTitle = "NEW title";
-
-    fillIn(testSelector('field', 'talk-title'), newTitle);
-    click(testSelector('listserv-content-submit-enhance'));
-
-    andThen(()=>{
-      assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
-        "Should see preview page"
-      );
-
-      const done = assert.async();
-      server.put('/listserv_contents/:id', (schema, request) => {
-        const params = JSON.parse(request.requestBody).listserv_content;
-
-        assert.equal(params.subject, newTitle,
-          "It updates the listserv content record"
-        );
-
-        assert.equal(params.channel_type, 'talk',
-          "it sets the channel type"
-        );
-
-        const post = schema.talks.first();
-
-        assert.equal(params.content_id, post.id,
-          "It sets the content id on the api to match the new post"
-        );
-        done();
-      });
-
-      click(find(testSelector('component', 'preview-publish')));
-      andThen(()=> {
-        assert.ok((new RegExp('^/talk/\\d+')).test(currentURL()),
-          "Should be viewing my newly created post on dailyUV"
-        );
-      });
-    });
-  });
-});
-
-test('Enhance market post', function(assert) {
-  assert.expect(5);
-  server.create('location');
-  const post = server.create('listserv-content');
-
-  visit(`/lists/posts/${post.id}`);
-
-  andThen(()=> Workflow.registerThroughForm());
-
-  andThen(()=> Workflow.selectChannel('market'));
-
-  andThen(()=> {
-    const newTitle = "NEW Market title";
-
-    fillIn(testSelector('field', 'market-title'), newTitle);
-    click(testSelector('listserv-content-submit-enhance'));
-
-    andThen(()=>{
-      assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
-        "Should see preview page"
-      );
-
-      const done = assert.async();
-      server.put('/listserv_contents/:id', (schema, request) => {
-        const params = JSON.parse(request.requestBody).listserv_content;
-
-        assert.equal(params.subject, newTitle,
-          "It updates the listserv content record"
-        );
-
-        assert.equal(params.channel_type, 'market',
-          "it sets the channel type"
-        );
-
-        const post = schema.marketPosts.first();
-
-        assert.equal(params.content_id, post.id,
-          "It sets the content id on the api to match the new post"
-        );
-        done();
-      });
-
-      click(find(testSelector('component', 'preview-publish')));
-      andThen(()=> {
-        assert.ok((new RegExp('^/market/\\d+')).test(currentURL()),
-          "Should be viewing my newly created post on dailyUV"
-        );
-      });
-    });
-  });
-});
 /**
- * This needs work, I cant get the test to set a event date
+ * CHANNEL WORKFLOWS
+ *
+ * Challenges:
+ * - Cannot test summernote editor input with fillIn.
+ * - Cannot write acceptance test for events: date/time selection
  */
-skip('Enhance event post', function(assert) {
 
-  assert.expect(5);
+/** ENHANCE TALK POST **/
+test('Enhance talk post', function(assert) {
+  assert.expect(12);
+  const done = assert.async(3);
+
   server.create('location');
-  const venue = server.create('venue');
   const post = server.create('listserv-content');
+  const newTitle = "Newest title";
+  let newPostId;
 
   visit(`/lists/posts/${post.id}`);
 
-  andThen(()=> Workflow.registerThroughForm());
+  Workflow.register();
 
-  andThen(()=> Workflow.selectChannel('event'));
+  Workflow.selectChannel('talk');
 
   andThen(()=> {
-    const newTitle = "NEW Event title";
+    assert.deepEqual(this.trackingEvents[1], {
+      id: post.id,
+      data: {
+        channel_type: 'talk'
+      }
+    }, "Event tracked for channel selection");
 
-    fillIn(testSelector('field', 'event-title'), newTitle);
+    assert.ok(
+      find(
+        testSelector('component', 'enhance-talk-form')
+      ).length > -1,
+      "Should see enhance talk form"
+    );
 
-    const venueField = find(testSelector('field', 'venue-search'));
-    fillIn(venueField, venue.name);
-    triggerEvent(venueField, 'keyup');
-    click(testSelector('venue-result'));
+    assert.deepEqual(this.trackingEvents[2], {
+      id: post.id,
+      data: {
+        step_reached: 'edit_post'
+      }
+    }, "Event tracked for edit_post step");
 
-    click(testSelector('event-form-add-single-date'));
-    andThen(()=>{
-      const pikadayField = find(testSelector('event-date-pikaday'));
+    assert.equal(
+      find(testSelector('field', 'talk-title')).val(),
+      post.subject,
+      "Post subject is talk title"
+    );
 
-      click(find('input', pikadayField));
-      andThen(()=>{
-        click(find('button.pika-day'));
-      });
+    /* Would like to test body/content but I don't think summernote
+     * makes this possible right now
+     */
+
+    Workflow.fillInTalkForm({
+      title: newTitle
     });
+    //@TODO test image upload
+  });
 
-    fillIn(testSelector('field', 'start-time'), '09:00 am');
-    fillIn(testSelector('field', 'start-time'), '09:00 pm');
+  andThen(()=>{
+    const $summary = find(testSelector('component', 'post-details'));
+    assert.ok(
+      ($summary.text().trim().indexOf(newTitle) > -1),
+      "Should see title I have entered"
+    );
 
-    click(testSelector('save-event-date'));
+    assert.deepEqual(this.trackingEvents[3], {
+      id: post.id,
+      data: {
+        step_reached: 'review_post'
+      }
+    }, "Event tracked for reviewing post");
 
-    click(testSelector('listserv-content-submit-enhance'));
 
-    andThen(()=>{
-      assert.ok(find(testSelector('component', 'listserv-content-preview')).length,
-        "Should see preview page"
+    server.post('/talk', ({talks}, request) => {
+      const attrs = JSON.parse(request.requestBody).talk;
+      assert.equal(
+        attrs.title,
+        newTitle,
+        "It creates a new talk post"
       );
 
-      const done = assert.async();
-      server.put('/listserv_contents/:id', (schema, request) => {
-        const params = JSON.parse(request.requestBody).listserv_content;
+      const talk = talks.create(attrs);
 
-        assert.equal(params.subject, newTitle,
-          "It updates the listserv content record"
-        );
+      newPostId = talk.id;
 
-        assert.equal(params.channel_type, 'event',
-          "it sets the channel type"
-        );
-
-        const post = schema.events.first();
-
-        assert.equal(params.content_id, post.contentId,
-          "It sets the content id on the api to match the new post"
-        );
-        done();
+      talk.update({
+        can_edit: true,
+        content_id: talk.id
       });
 
-      click(find(testSelector('component', 'preview-publish')));
-      andThen(()=> {
-        assert.ok((new RegExp('^/market/\\d+')).test(currentURL()),
-          "Should be viewing my newly created post on dailyUV"
-        );
-      });
+      done();
+      return talk;
+    });
+
+    server.put('/listserv_contents/:id', ({talks, listservContents}, request) => {
+      const params = JSON.parse(request.requestBody).listserv_content;
+
+      assert.equal(params.subject, newTitle,
+        "It updates the listserv content record with changes"
+      );
+
+      assert.equal(params.channel_type, 'talk',
+        "it sets the channel type"
+      );
+
+      const post = talks.first();
+
+      assert.equal(params.content_id, post.id,
+        "It sets the content id on the api to match the new post"
+      );
+
+      const lc = listservContents.find(request.params.id);
+      lc.update(params);
+
+      done();
+      return lc;
+    });
+
+    click(find(testSelector('action', 'publish')));
+
+    andThen(()=> {
+      assert.equal(
+        currentURL(),
+        `/dashboard?new_content=${newPostId}&type=talk`,
+        "Should be on correct dashboard tab with new content item highlighted"
+      );
+
+      assert.deepEqual(this.trackingEvents[4], {
+        id: post.id,
+        data: {
+          step_reached: 'published'
+        }
+      }, "Event tracked for publishing post");
+
+      done();
+    });
+  });
+});
+
+/** ENHANCE MARKET POST **/
+test('Enhance market post', function(assert) {
+  assert.expect(16);
+  const done = assert.async(3);
+
+  server.create('location');
+  const post = server.create('listserv-content');
+  let newMarketId;
+
+  const newTitle = "Newest title";
+  const newPhone = "555-5555";
+  const newEmail = "test2@example.org";
+  const newPrice = "$40";
+
+  visit(`/lists/posts/${post.id}`);
+
+  Workflow.register();
+
+  Workflow.selectChannel('market');
+
+  andThen(()=> {
+    assert.deepEqual(this.trackingEvents[1], {
+      id: post.id,
+      data: {
+        channel_type: 'market'
+      }
+    }, "Event tracked for channel selection");
+
+    assert.ok(
+      find(
+        testSelector('component', 'enhance-market-form')
+      ).length > -1,
+      "Should see enhance market form"
+    );
+
+    assert.deepEqual(this.trackingEvents[2], {
+      id: post.id,
+      data: {
+        step_reached: 'edit_post'
+      }
+    }, "Event tracked for edit_post step");
+
+    assert.equal(
+      find(testSelector('field', 'market-title')).val(),
+      post.subject,
+      "Post subject is market title"
+    );
+    /* Would like to test body/content but I don't think summernote
+     * makes this possible right now
+     */
+
+    assert.equal(
+      find(testSelector('field', 'market-contactEmail')).val(),
+      post.senderEmail,
+      "Post senderEmail is market contactEmail"
+    );
+
+    Workflow.fillInMarketForm({
+      title: newTitle,
+      price: newPrice,
+      contactEmail: newEmail,
+      contactPhone: newPhone,
+    });
+    //@TODO test image upload
+  });
+
+  andThen(()=>{
+    const $summary = find(testSelector('component', 'post-details'));
+    assert.ok(
+      ($summary.text().trim().indexOf(newTitle) > -1),
+      "Should see title I have entered"
+    );
+
+    assert.deepEqual(this.trackingEvents[3], {
+      id: post.id,
+      data: {
+        step_reached: 'review_post'
+      }
+    }, "Event tracked for reviewing post");
+
+    assert.ok(
+      ($summary.text().trim().indexOf(newPrice) > -1),
+      "Should see price I have entered"
+    );
+
+    assert.ok(
+      ($summary.text().trim().indexOf(newPhone) > -1),
+      "Should see phone number I have entered"
+    );
+
+    assert.ok(
+      ($summary.text().trim().indexOf(newEmail) > -1),
+      "Should see email I have entered"
+    );
+
+    server.post('/market_posts', ({marketPosts}, request) => {
+      const attrs = JSON.parse(request.requestBody).market_post;
+      assert.equal(
+        attrs.title,
+        newTitle,
+        "It creates a new market post"
+      );
+
+      const market = marketPosts.create(attrs);
+
+      newMarketId = market.id;
+      market.update({contentId: market.id});
+
+      done();
+      return market;
+    });
+
+    server.put('/listserv_contents/:id', ({marketPosts, listservContents}, request) => {
+      const params = JSON.parse(request.requestBody).listserv_content;
+
+      assert.equal(params.subject, newTitle,
+        "It updates the listserv content record with changes"
+      );
+
+      assert.equal(params.channel_type, 'market',
+        "it sets the channel type"
+      );
+
+      const post = marketPosts.first();
+
+      assert.equal(params.content_id, post.contentId,
+        "It sets the content id on the api to match the new post"
+      );
+
+      const lc = listservContents.find(request.params.id);
+      lc.update(params);
+
+      done();
+      return lc;
+    });
+
+    click(find(testSelector('action', 'publish')));
+
+    andThen(()=> {
+      assert.equal(
+        currentURL(),
+        `/dashboard?new_content=${newMarketId}&type=market`,
+        "Should be on correct dashboard tab with new content item highlighted"
+      );
+
+      assert.deepEqual(this.trackingEvents[4], {
+        id: post.id,
+        data: {
+          step_reached: 'published'
+        }
+      }, "Event tracked for publishing post");
+      done();
     });
   });
 });

@@ -1,0 +1,31 @@
+<section class="ListservForm">
+  <header class='ListservForm-header'>
+    <h3 class="h1">
+      Review and enhance<br>
+      your {{capitalize channelType}} post
+    </h3>
+    <div class='ListservForm-stepIndicator'>
+      Step 1 of 2
+    </div>
+    <h4>Edit post details</h4>
+  </header>
+
+  {{#if listservContent.isMarket}}
+    {{listserv-market-form
+      model=(mut model)
+      doneEditing=(action 'nextStep')
+    }}
+  {{/if}}
+  {{#if listservContent.isEvent}}
+    {{listserv-event-form
+      model=(mut model)
+      doneEditing=(action 'nextStep')
+    }}
+  {{/if}}
+  {{#if listservContent.isTalk}}
+    {{listserv-talk-form
+      model=(mut model)
+      doneEditing=(action 'nextStep')
+    }}
+  {{/if}}
+</section>

@@ -13,6 +13,7 @@ export default Ember.Mixin.create({
         hideHeader: hideHeader,
         hideFooter: hideFooter
       });
+      return this._super(...arguments); //bubble
     },
 
     willTransition() {
@@ -20,6 +21,7 @@ export default Ember.Mixin.create({
         hideHeader: false,
         hideFooter: false
       });
+      return this._super(...arguments); //bubble
     }
   }
 

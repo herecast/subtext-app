@@ -1,11 +1,20 @@
-<div class="ListservForm-container">
+<article class="ListservForm-container">
+  <header class='ListservForm-header'>
+    <h1 class='ListservForm-containerMainHeading h2'>
+      Spruce It Up!
+    </h1>
+    <h2 class='h5 ListservForm-containerSubHeading'>
+      {{listservName}}/DailyUV
+    </h2>
+  </header>
   {{#if requiresSignIn}}
+    <div class='ListservForm'>
       {{#if requiresRegistration}}
-        {{#listserv-form}}
+
           <div class='ListservForm-sectionSubHeader'>
-            <h1 class='ListservForm-sectionHeader'>
+            <h3 class='ListservForm-sectionHeader'>
               Categorize your post ... and more!
-            </h1>
+            </h3>
 
             <p>
               Categorizing your post puts it at the top of the next digest.
@@ -33,11 +42,9 @@
               confirmationKey=confirmationKey
               updateMetric=(action 'updateListservMetric' model.id 'new_registration')
           }}
-        {{/listserv-form}}
       {{else}}
-        {{#listserv-form}}
-          <div class='ListservForm-sectionSubHeader text-center'>
-            <h1 class='ListservForm-sectionHeader'>Your Post on the {{listservName}}</h1>
+          <div class='text-center'>
+            <h3 class='h1 ListservForm-sectionHeader'>Your Post on the {{listservName}}</h3>
             <p>
               To Spruce Up your post, you need to sign in to your dailyUV account.
             </p>
@@ -57,9 +64,9 @@
             </p>
             {{/unless}}
           </div>
-        {{/listserv-form}}
       {{/if}}
+    </div>
   {{else}}
     {{outlet}}
   {{/if}}
-</div>
+</article>

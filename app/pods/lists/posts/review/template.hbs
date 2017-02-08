@@ -1,0 +1,47 @@
+<section class='ListservForm'>
+  <header class='ListservForm-header'>
+    <h3 class='h1'>
+      Review and enhance<br>
+      your {{capitalize channelType}} post
+    </h3>
+    <div class='ListservForm-stepIndicator'>
+      Step 2 of 2
+    </div>
+    <h4>Review and Publish</h4>
+  </header>
+
+  <p data-test-component='post-details'>
+    [POST DETAILS PLACEHOLDER]<br>
+    {{model.title}}
+    {{model.price}}
+    {{model.contactEmail}}
+    {{model.contactPhone}}
+  </p>
+
+  <div class='well'>
+    <h5 class='h2 u-layoutPadT0'>
+      Where will my post be published?
+    </h5>
+
+    <ul class='Checklist'>
+      <li class='Checklist-item'>
+        <strong>{{listservName}}</strong><br>
+        Your post will be sent as text-only to the {{listservName}} with
+        a link to DailyUV.
+      </li>
+      <li class='Checklist-item'>
+        <strong>DailyUV</strong><br>
+        Your {{channelType}} post will be published on DailyUV.com.
+      </li>
+    </ul>
+  </div>
+  <footer class='ListservForm-actions'>
+    <button
+        class='ListservForm-callToAction ListservForm-ctaNext'
+        data-test-action="publish"
+        {{action 'saveAndPublish'}}>
+      Save and Publish
+    </button>
+  </footer>
+</section>
+

@@ -114,7 +114,8 @@ Router.map(function() {
     this.route('unsubscribe', {path: '/:listserv_id/unsubscribe'});
     this.route('manage', {path: '/:id/manage'});
     this.route('posts', {path: '/posts/:id'}, function() {
-      this.route('preview');
+      this.route('edit');
+      this.route('review');
     });
     this.route('confirm_post', {path: '/confirm_post/:id'});
   });

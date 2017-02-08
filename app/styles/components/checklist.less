@@ -1,0 +1,15 @@
+.Checklist {
+  list-style-type: none;
+
+  &-item {
+    position: relative;
+    padding-left: 1.5em;
+    padding-bottom: 1em;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      content: "\2713 ";
+    }
+  }
+}

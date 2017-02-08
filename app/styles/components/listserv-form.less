@@ -1,87 +1,34 @@
 .ListservForm {
+  max-width: 600px;
+  margin: 0 auto 65px auto;
+  background-color: #FFF;
+  padding: 10px 30px 30px 30px;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+
   &-container {
     background-color: @gray-light;
     min-height: 100vh;
   }
-  max-width: 600px;
-  margin: 0 auto 65px auto;
-  font-family: @font-family-condensed;
-  font-size: larger;
-  .center {
-    text-align: center;
-  }
-  .form-group {
-    margin:20px 0;
-  }
-  input[type="checkbox"] {
-    height: 20px;
-    width: 20px;
-  }
-  .coming-soon {
-    background: grey;
-    padding: 18px 8px;
-    opacity: 0.6;
-    cursor: not-allowed;
-    margin-bottom: 15px;
-    label, span, div, input {
-      cursor: not-allowed;
-    }
-  }
-  .checkbox-group {
-    display: inline-block;
-    margin-right: 6px;
-    margin-top: 6px;
 
-  }
-  .note {
-    display: block;
-    line-height: 110%;
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-  .action-bar {
+  &-header {
     text-align: center;
-    padding: 20px 0;
   }
-  .textOnly-bar {
-    margin-top: 50px;
+
+  &-callToAction {
+    .Button;
+    .Button--primary;
+  }
+
+  &-actions {
     text-align: right;
   }
-  .textonly-button {
-    background: none;
-    border: none;
-    font-size: 13px;
-    &.pending {
-      background: none !important;
-      opacity: 0.8 !important;
-    }
+
+  &-stepIndicator {
+    text-transform: uppercase;
   }
 }
 
-.ListservForm-callToAction {
-  padding: 10px 30px;
-  font-size: 20px;
-  color: #fff;
-  background: #38B7F3;
-  border: none;
-  border-radius: 3px;
-  margin-bottom: 5px;
-  margin-top: 12px;
-  &.pending {
-    background: #38B7F3 !important;
-    opacity: 0.8 !important;
-  }
-}
 
-.ListServForm-mainNav {
-  font-family: @font-family-condensed;
-  font-weight: @font-weight-semibold;
-  text-transform: uppercase;
-  padding-top: 10px;
-  margin-top: 0;
-  font-size: 52px;
-
-}
 
 .ListservForm-sectionHeader {
   margin: 10px;
@@ -89,14 +36,9 @@
 }
 
 .ListservForm-sectionSubHeader {
-  padding: 0 20px;
   h3 {
     margin-top: 0px;
   }
-}
-
-.ListservForm-form {
-  padding:0 50px;
 }
 
 .ListservForm-buttonGroup {
@@ -121,9 +63,6 @@
 }
 
 .ListservForm-content {
-  background-color: #FFF;
-  padding: 10px 0 30px 0;
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
 }
 
 .ListservForm-content .form-group.has-error .note-editor {

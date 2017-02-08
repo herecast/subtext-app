@@ -1,17 +1,15 @@
-{{#event-form afterDetails=afterDetails model=(mut model) as |form|}}
+{{#event-form afterDetails='afterDetails' model=(mut model) as |form|}}
   {{form-group
     error=form.errors.title
     required=true
-    label="Listing Title"
+    label="Title"
     field=form.title-input
-    helpText="(This will appear in the digest and on dailyUV)"
   }}
 
   {{#form-group
     error=form.errors.content
     required=true
-    label="Listing Description"
-    helpText="(This will appear in the digest and on dailyUV)"
+    label="Description"
   }}
     {{form.content-input}}
   {{/form-group}}

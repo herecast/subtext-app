@@ -1,17 +1,15 @@
-{{#talk-form afterDetails=afterDetails model=(mut model) as |form|}}
+{{#talk-form afterDetails='afterDetails' model=(mut model) as |form|}}
   {{form-group
     error=form.errors.title
     required=true
-    label="Listing Title"
+    label="Title"
     field=form.title-input
-    helpText="(This will appear in the digest and on dailyUV)"
   }}
 
   {{#form-group
     error=form.errors.content
     required=true
-    label="Listing Description"
-    helpText="(This will appear in the digest and on dailyUV)"
+    label="Body"
   }}
     {{form.content-input}}
   {{/form-group}}

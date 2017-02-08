@@ -1,37 +1,36 @@
-<div class="container">
-  <div class="row ListPostEnhance--content">
-    <div class="col-sm-12">
+<section class="ListservForm text-center">
+  <header class='ListservForm-header'>
+    <h3 class="h1">Let's get started.</h3>
+    <h4 class='h2'>Which best describes your post?</h4>
+  </header>
 
-      <div class="row">
-        <div class="col-sm-10 col-md-offset-1 u-layoutPadB30">
-          <h2 class="ListPostEnhance--content-title">{{model.listserv.name}}</h2>
-          <p>
-            Categorized posts to {{model.listserv.name}} appear at the top of the
-            email digest -- and are also published automatically to the dailyUV
-            {{#if features.listserv-user-testing}}TEST{{/if}} website so
-            you can reach a bigger audience.  It's free! Just follow the simple
-            steps below.
-          </p>
-
-          {{#if features.listserv-user-testing}}
-            <p>
-              <em><strong>
-              REMINDER:<br>
-              Your post will appear only on a test version of the dailyUV
-              website and will not be seen by the public.
-              </strong></em>
-            </p>
-          {{/if}}
-
-            {{listserv-content-form
-              listservContent=(mut model)
-              enhancedPost=(mut model.enhancedPost)
-              previewEnhancedPost=(action 'previewEnhancedPost')
-              data-test-component="listserv-content-form"
-            }}
-        </div>
-      </div>
-
-    </div>
+  <div data-test-component='channel-selector'>
+    [CHANNEL SELECTOR PLACEHOLDER]
+    <span
+      {{action 'selectChannel' 'talk'}}
+      data-test-select-channel-type-talk>
+    </span>
+    <span
+      {{action 'selectChannel' 'market'}}
+      data-test-select-channel-type-market>
+    </span>
+    <span
+      {{action 'selectChannel' 'event'}}
+      data-test-select-channel-type-event>
+    </span>
   </div>
-</div>
+
+  <p>
+    We guessed! Were we right? If we goofed,
+    please check the appropriate box above.
+  </p>
+
+  <footer class='ListservForm-actions'>
+    <button
+        class='ListservForm-callToAction ListservForm-ctaNext'
+        data-test-action="next-step"
+        {{action 'nextStep'}}>
+      Next
+    </button>
+  </footer>
+</section>

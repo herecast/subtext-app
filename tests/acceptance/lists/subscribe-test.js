@@ -69,7 +69,7 @@ test('visiting /lists/:id/subscribe when subscriber is not a dUV user and no act
     fillIn(testSelector('field', 'registration-form-password'), '123456789abc');
     const $locationSelect = find('select', testSelector('component', 'registration-form-location'));
     fillIn($locationSelect, find('option[value]:last', $locationSelect).val());
-    click(testSelector('component', 'registration-form-submit'));
+    click(testSelector('action', 'registration-form-submit'));
 
     andThen(() => {
       const notification = Ember.$(`<div>${notifications[0]}</div>`).text();

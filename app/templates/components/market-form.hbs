@@ -25,17 +25,20 @@
     placeholder='A dollar figure or text'
     class='form-control'
     value=(mut model.price)
+    data-test-field='market-price'
   )
   phone-input=(component 'atoms/form-input'
     placeholder='Contact Phone, ex: 555-555-5555'
     class='form-control'
     value=(mut model.contactPhone)
+    data-test-field='market-contactPhone'
   )
   email-input=(component 'atoms/form-input'
     placeholder='Contact Email'
     class='form-control'
     value=(mut model.contactEmail)
     oninput=(action 'validateForm')
+    data-test-field='market-contactEmail'
   )
   images=(component 'image-upload-list'
     model=(mut model)

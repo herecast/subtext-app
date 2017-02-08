@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
   api: inject.service(),
   notify: inject.service('notification-messages'),
   secondaryBackground: true,
-  queryParams: ['page', 'per_page', 'sort', 'type', 'organization_id'],
+  queryParams: ['page', 'per_page', 'sort', 'type', 'organization_id', 'new_content'],
   contentModel: inject.service(),
   refresh: null,
   page: 1,
