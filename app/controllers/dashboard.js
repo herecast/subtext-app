@@ -23,6 +23,7 @@ export default Ember.Controller.extend({
   type: '',
   organization_id: null,
   organization: null,
+  new_content: null,
   setOrganization: observer('organization_id', function() {
     if (get(this, 'organization_id')) {
       this.store.findRecord('organization', get(this, 'organization_id')).then((organization) => {
@@ -172,6 +173,10 @@ export default Ember.Controller.extend({
 
     updateActiveOrganization({ id }) {
       set(this, 'organization_id', id || null);
+    },
+
+    unreferenceNewContent() {
+      set(this, 'new_content', null);
     }
   }
 });

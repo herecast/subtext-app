@@ -113,3 +113,35 @@ test('visiting /dashboard as an authenticated user with no content', function(as
     assert.equal(currentURL(), '/dashboard');
   });
 });
+
+test('Visiting dashboard directly referencing new content', function(assert) {
+  const market = server.create('market-post');
+
+  visit('/dashboard?type=market&new_content=' + market.id);
+
+  andThen(()=>{
+    assert.ok(
+      find(testSelector('component', 'publish-success-message').length > 0),
+      "Should see successful publish message"
+    );
+
+    assert.ok(
+      find(testSelector('content-item', market.id)).hasClass('highlight'),
+      "Highlights element with referenced content item"
+    );
+  });
+
+  click(testSelector('action', 'close-publish-success-message'));
+
+  andThen(()=> {
+    assert.ok(
+      find(testSelector('component', 'publish-success-message').length === 0),
+      "Message disappears after clicking close button"
+    );
+
+    assert.notOk(
+      find(testSelector('content-item', market.id)).hasClass('highlight'),
+      "Content item is no longer highlighted after clicking close button"
+    );
+  });
+});

@@ -1,3 +1,17 @@
+{{#if new_content}}
+  <div class='FlashBanner' data-component="publish-success-message">
+    <button class='icon FlashBanner-close'
+        {{action 'unreferenceNewContent'}}
+        data-test-action="close-publish-success-message"
+        >
+        &times;
+    </button>
+    <p>
+      Success! You've published your<br>
+      {{capitalize type}} post and it's now live!
+    </p>
+  </div>
+{{/if}}
 <div class='Container--noGutter Dashboard'>
   <div class='Section'>
     <h1 class='SectionHeader Dashboard-header'>
@@ -87,6 +101,7 @@
       page=page
       per_page=per_page
       sortBy=(action 'sortBy')
+      highlightContent=new_content
     }}
   </div>
 

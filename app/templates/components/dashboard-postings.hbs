@@ -70,6 +70,14 @@
     </li>
   </ul>
 </div>
+{{#if displayDashboardTip}}
+<div class='alert alert-info u-layoutPadB0'>
+  <button class='close' {{action 'closeDashboardTip'}}>
+    <small>GOT IT</small> &times;
+  </button>
+  <strong class='h3'>This is your dashboard. You can create and manage all of your content here.</strong>
+</div>
+{{/if}}
 <div class='Dashboard-content'>
   {{#if isLoading}}
     {{x-loader}}
@@ -229,6 +237,7 @@
           {{#if (not-eq type 'promotion-banner')}}
             {{#each postings as |content|}}
               {{dashboard-content-row
+                highlight=(eq highlightContent content.contentId)
                 content=content
                 type=content.contentType
                 showTypeColumn=showTypeColumn

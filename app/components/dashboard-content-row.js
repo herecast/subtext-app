@@ -4,6 +4,9 @@ import moment from 'moment';
 const { computed, get } = Ember;
 
 export default Ember.Component.extend({
+  attributeBindings: ['data-test-content-item'],
+  'data-test-content-item': computed.reads('content.id'),
+  classNameBindings: ["highlight:highlight"],
   tagName: ['tr'],
   type: '',
 

@@ -4,7 +4,8 @@ const {
   computed,
   computed: {empty, match, equal},
   get, set,
-  inject
+  inject,
+  on
 } = Ember;
 
 function sortBy(sort) {
@@ -41,6 +42,15 @@ export default Ember.Component.extend({
   typeIsTalk: equal('type','talk'),
   typeIsMarket: equal('type','market'),
   typeIsAds: equal('type','promotion-banner'),
+
+  detectDisplayDashboardSetting: on('init', function() {
+    if('localStorage' in window) {
+      const dismissed = localStorage.getItem('dismissed-dashboard-info-tip');
+      set(this, 'displayDashboardTip',
+        Ember.isNone(dismissed)
+      );
+    }
+  }),
 
   sortDirection: computed('sort', function(){
     const sort = get(this, 'sort') || '';
@@ -107,6 +117,11 @@ export default Ember.Component.extend({
           notify.success('Post deleted');
         });
       }
+    },
+
+    closeDashboardTip() {
+      localStorage.setItem('dismissed-dahsboard-info-tip', true);
+      set(this, 'displayDashboardTip', false);
     }
   }
 });
