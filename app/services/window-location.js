@@ -37,9 +37,7 @@ export default Ember.Service.extend({
   protocol() {
     if(this.isFastBoot()) {
       const headers = get(this, 'fastboot.request.headers');
-      console.log('--HEADERS--', headers);
       const xForwardedProto = headers.get('X-Forwarded-Proto');
-      console.log('X-Forwarded-Proto', xForwardedProto);
 
       // Use AWS X-Forwarded-Proto header if available, else use what fastboot has
       const protocol = isPresent(xForwardedProto) ? xForwardedProto
