@@ -252,7 +252,7 @@
 
               {{#if news.isPublished}}
                 Published {{formatted-date news.publishedAt}}.
-                {{#unless hasUnpublishedChanges}}
+                {{#unless (or hasUnpublishedChanges isPublishing)}}
                   {{link-to 'View it now' 'news.all.show' news.id}}
                 {{/unless}}
 
