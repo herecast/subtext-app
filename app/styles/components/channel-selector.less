@@ -1,0 +1,60 @@
+.ChannelSelector-grid {
+  @media (min-width: @screen-xs-max) {
+    display: flex;
+
+    .ChannelSelector-gridItem {
+      flex-basis: 0;
+      flex-grow: 1;
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+
+}
+
+.ChannelSelector {
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  transition: background-color 300ms;
+
+  &:hover {
+    border: 1px solid #d8d8d8;
+    background-color: #efefef;
+    cursor: pointer;
+  }
+
+  &-inner {
+    padding: 10px;
+  }
+
+  &.is-active {
+    border: 1px solid #d8d8d8;
+    background-color: #f7f7f7;
+  }
+
+  &-header {
+    border-bottom: 1px solid #d8d8d8;
+  }
+
+  &-checkbox {
+    display: inline-block;
+    width: 24px;
+  }
+
+  &-name {
+    line-height: 0;
+    text-transform: uppercase;
+  }
+
+  &-text {
+    line-height: 1.4;
+
+    ul {
+      list-style-type: disc;
+      padding-left: 15px;
+    }
+  }
+}

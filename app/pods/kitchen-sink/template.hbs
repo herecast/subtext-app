@@ -1,4 +1,21 @@
 <h1 class='h3'>Temporary kitchen-sink template</h1>
 <p>(for development of listserv test ui components)</p>
 
+<div class='kitchenSink--container' style='max-width:600px;background:#fff;padding: 20px;margin:0 auto;'>
+  <div class='ChannelSelector-grid'>
+    {{#each channels as |channel|}}
+      {{#channel-selector
+        name=(readonly channel.name)
+        text=(readonly channel.text)
+        isActive=(eq channel.name selectedChannel)
+        selectChannel=(action 'selectChannel')
+        class='ChannelSelector-gridItem'
+        as |text|
+      }}
+        {{{text}}}
+      {{/channel-selector}}
+    {{/each}}
+  </div>
+</div>
+
 {{outlet}}
