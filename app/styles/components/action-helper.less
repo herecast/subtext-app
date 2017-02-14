@@ -1,0 +1,47 @@
+.ActionHelper {
+  position: relative;
+  background: #fff;
+  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+  z-index: auto;
+
+  &-inner {
+    padding: 1rem;
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &-text {
+    line-height: 1.2;
+  }
+
+  &--pointLeft {
+    margin-left: 10px;
+
+    &:before {
+      content: "";
+      border-left: 1px solid #b7b7b7;
+      border-bottom: 1px solid #b7b7b7;
+      border-bottom-left-radius: 3px;
+      border-top-right-radius: 1rem;
+      background: #fff;
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      z-index: 1;
+      top: 15px;
+      left: -8px;
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+
+  &--defaultWidth {
+    width: 256px;
+  }
+}

@@ -1,6 +1,23 @@
 <h1 class='h3'>Temporary kitchen-sink template</h1>
 <p>(for development of listserv test ui components)</p>
 
+<div class='container'>
+  <div class='row'>
+    <div class='col-xs-12'>
+
+      <div style='display:flex; position:relative;'>
+        <button>Point to me!</button>
+
+        {{#action-helper
+          point='left'
+        }}
+          <p>Create a new form to get started. This is more text to make sure the default width class is added.</p>
+        {{/action-helper}}
+      </div>
+
+    </div>
+  </div>
+</div>
 <div class='kitchenSink--container' style='max-width:600px;background:#fff;padding: 20px;margin:0 auto;'>
   <div class='ChannelSelector-grid'>
     {{#each channels as |channel|}}
