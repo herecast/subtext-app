@@ -1,0 +1,46 @@
+<div class='ImageUploadTiles-container'>
+  {{#each images as |image|}}
+    {{#unless image._delete}}
+      <div class='ImageUploadTiles-tile ImageUploadTiles-imageTile {{if image.primary "ImageUploadTiles-primary"}}'>
+        <span
+          class='ImageUploadTiles-imageActions'>
+          <button
+            class='ImageUploadTiles-removeImageAction ImageUploadTiles-imageAction'
+            data-test-action='remove-image'
+            {{action (action removeImage image)}}
+            >
+            &times;
+          </button>
+
+          {{#unless image.primary}}
+          <button
+            class='ImageUploadTiles-setPrimaryAction ImageUploadTiles-imageAction'
+            data-test-action='set-primary'
+            {{action (action setPrimary image)}}
+            title="Set image as primary"
+            >
+            {{fa-icon 'thumb-tack'}}
+          </button>
+          {{/unless}}
+        </span>
+
+        <img src="{{image.imageUrl}}" class='ImageUploadTiles-image'>
+        {{#if image.primary}}
+          <span class='ImageUploadTiles-primaryLabel label label-default'>Primary</span>
+        {{/if}}
+      </div>
+    {{/unless}}
+  {{/each}}
+  <div class='ImageUploadTiles-tile ImageUploadTiles-inputTile'>
+    <label class='ImageUploadTiles-inputLabel'>
+      {{fa-icon 'plus'}}
+      <input class='ImageUploadTiles-fileInput' type='file' accept="image/*" multiple onchange={{action 'filesSelected' value="target.files"}}>
+    </label>
+  </div>
+</div>
+
+{{#if error}}
+  <div class='ImageUploadTiles-error alert alert-danger'>
+    {{error}}
+  </div>
+{{/if}}

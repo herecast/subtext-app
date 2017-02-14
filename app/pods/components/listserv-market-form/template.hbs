@@ -23,7 +23,17 @@
       field=form.price-input
     }}
 
-    {{form.images}}
+    {{#form-group
+      error=form.errors.images
+      label="Images"
+    }}
+      {{image-upload-tiles
+        images=model.images
+        imageAdded=(action 'addImage')
+        removeImage=(action 'removeImage')
+        setPrimary=(action 'setPrimary')
+      }}
+    {{/form-group}}
 
     {{#form-group
       error=form.errors.contact
