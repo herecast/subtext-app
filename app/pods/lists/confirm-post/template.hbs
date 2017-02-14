@@ -1,11 +1,27 @@
-<article class="ListservForm-container">
+<article class="ListservForm-container text-center">
   <header class='ListservForm-header'>
     <h1 class='uppercase-bold-condensed'>
-      DailyUV
+      Send As-Is
     </h1>
   </header>
-  <h1 style="text-align:center;">
-    Posting your content...
-  </h1>
-  {{x-loader}}
+  <div class='ListservForm'>
+    {{#if error}}
+      <h1>Oops</h1>
+      <p class='alert alert-warning' data-test-error-message>
+        {{error}}
+      </p>
+    {{else}}
+      <h1>You're all set!</h1>
+      <p>You have verified this post.  Thank you!</p>
+      <p>
+        Your post will appear in tomorrow's
+        {{model.listserv.name}} digest, but not on
+        {{#link-to 'index'}}DailyUV{{/link-to}}
+        {{#if features.listserv-user-testing}}
+          TEST
+        {{/if}}
+        website.
+      </p>
+    {{/if}}
+  </div>
 </article>
