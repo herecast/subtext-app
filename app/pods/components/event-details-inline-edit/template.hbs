@@ -1,0 +1,69 @@
+{{#event-form model=(mut model) as |form|}}
+  <fieldset>
+    <legend>Post Details.</legend>
+
+    {{#form-group label="Title"
+      error=form.errors.title
+      required=true
+    }}
+
+      {{#inline-edit value=model.title didExitEditMode=(action form.validateForm)}}
+        {{form.title-input}}
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    {{#form-group label="Description"
+      error=form.errors.content
+      required=true
+    }}
+
+      {{#inline-edit focusChangesState=false value=model.content didExitEditMode=form.validateForm as |exitEdit|}}
+        {{form.content-input}}
+        <div class='text-center'>
+          <button class='Button' {{action exitEdit}}>Ok</button>
+        </div>
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    <fieldset>
+      <legend>
+        Enhancements
+        <small>- will appear only on DailyUV</small>
+      </legend>
+
+      {{form.event-form-venue}}
+
+      {{form.event-form-dates}}
+
+      {{form.event-form-registration}}
+
+      {{#form-group label="Event Cost" required=true}}
+        {{form.event-cost-input}}
+      {{/form-group}}
+
+      {{form.event-image}}
+
+      {{#form-group label="Event Info"}}
+        {{#form-group error=errors.contactEmail as |group|}}
+          {{#field-with-icon icon='envelope'}}
+            {{component form.email-input id=group.uniqueID}}
+          {{/field-with-icon}}
+        {{/form-group}}
+
+        {{#form-group error=errors.contactPhone  as |group|}}
+          {{#field-with-icon icon='phone'}}
+            {{component form.phone-input id=group.uniqueID}}
+          {{/field-with-icon}}
+        {{/form-group}}
+
+        {{#form-group error=errors.eventUrl as |group|}}
+          {{#field-with-icon icon='link'}}
+            {{component form.url-input id=group.uniqueID}}
+          {{/field-with-icon}}
+        {{/form-group}}
+      {{/form-group}}
+    </fieldset>
+  </fieldset>
+{{/event-form}}

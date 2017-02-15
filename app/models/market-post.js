@@ -70,7 +70,9 @@ export default DS.Model.extend(FastbootExtensions, {
       imagesToSave.setEach('contentId', get(post, 'id'));
 
       const savedImages = imagesToSave.map((image) => {
-        return image.save();
+        if(!image.get('_delete')) {
+          return image.save();
+        }
       });
 
       const deletedImages = imagesToDelete.map((image) => {

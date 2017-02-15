@@ -1,5 +1,5 @@
 <div class='ImageUploadTiles-container'>
-  {{#each images as |image|}}
+  {{#each nonDeletedImages as |image|}}
     {{#unless image._delete}}
       <div class='ImageUploadTiles-tile ImageUploadTiles-imageTile {{if image.primary "ImageUploadTiles-primary"}}'>
         <span
@@ -7,7 +7,7 @@
           <button
             class='ImageUploadTiles-removeImageAction ImageUploadTiles-imageAction'
             data-test-action='remove-image'
-            {{action (action removeImage image)}}
+            {{action (action (action removeImage image))}}
             >
             &times;
           </button>
@@ -16,7 +16,7 @@
           <button
             class='ImageUploadTiles-setPrimaryAction ImageUploadTiles-imageAction'
             data-test-action='set-primary'
-            {{action (action setPrimary image)}}
+            {{action (action (action setPrimary image))}}
             title="Set image as primary"
             >
             {{fa-icon 'thumb-tack'}}

@@ -35,4 +35,12 @@
   </div>
 </div>
 
+{{#inline-edit value="Display"}}
+  <input type='text' value="Edit">
+{{/inline-edit}}
+
+{{#inline-edit focusChangesState=false value="inline edit this, with save button" as |exitEdit|}}
+<input type='text' value="Edit"><button {{action exitEdit}}>save</button>
+{{/inline-edit}}
+
 {{outlet}}

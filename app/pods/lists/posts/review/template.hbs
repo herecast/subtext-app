@@ -10,13 +10,9 @@
     <h4>Review and Publish</h4>
   </header>
 
-  <p data-test-component='post-details'>
-    [POST DETAILS PLACEHOLDER]<br>
-    {{model.title}}
-    {{model.price}}
-    {{model.contactEmail}}
-    {{model.contactPhone}}
-  </p>
+  {{#if (eq channelType 'market')}}
+    {{market-details-inline-edit model=model}}
+  {{/if}}
 
   <div class='well'>
     <h5 class='h2 u-layoutPadT0'>

@@ -4,6 +4,7 @@ const {
   get,
   set,
   setProperties,
+  computed,
   inject
 } = Ember;
 
@@ -12,8 +13,31 @@ export default Ember.Component.extend({
   minWidth: 200,
   minHeight: 200,
   processingFile: false,
-  removeImage() {/*to be overridden*/},
-  setPrimary() {/*to be overridden*/},
+  nonDeletedImages: computed.filterBy('images', '_delete', undefined),
+
+  addImage(img) {
+    const image = get(this, 'store').createRecord('image', {
+      imageUrl: img.src,
+      width: img.width,
+      height: img.height
+    });
+
+    const images = get(this, 'images');
+
+    if(!images.rejectBy('_delete').isAny('primary')) {
+      image.set('primary', true);
+    }
+    images.pushObject(image);
+  },
+
+  removeImage(image) {
+    set(image, '_delete', true);
+  },
+
+  setPrimary(image) {
+    get(this, 'images').setEach('primary', false);
+    set(image, 'primary', true);
+  },
 
   handleFile(file) {
     const minWidth = get(this, 'minWidth');
@@ -57,15 +81,6 @@ export default Ember.Component.extend({
     }
   },
 
-  addImage(img) {
-    const image = get(this, 'store').createRecord('image', {
-      imageUrl: img.src,
-      width: img.width,
-      height: img.height
-    });
-
-    this.attrs.imageAdded(image);
-  },
 
   actions: {
     filesSelected(files) {

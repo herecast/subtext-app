@@ -29,9 +29,6 @@
     }}
       {{image-upload-tiles
         images=model.images
-        imageAdded=(action 'addImage')
-        removeImage=(action 'removeImage')
-        setPrimary=(action 'setPrimary')
       }}
     {{/form-group}}
 
@@ -42,17 +39,17 @@
       <div class='ContentForm-helpText u-layoutPadB20'>
         Choose either, or both. What you enter will be public on the site.
       </div>
-      {{#form-group label="email" as |group|}}
+      {{#form-group label="email"}}
 
         {{#field-with-icon icon='envelope'}}
-          {{component form.email-input id=group.uniqueID}}
+          {{form.email-input}}
         {{/field-with-icon}}
 
       {{/form-group}}
-      {{#form-group label="Phone" as |group|}}
+      {{#form-group label="Phone"}}
 
         {{#field-with-icon icon='phone'}}
-          {{component form.phone-input id=group.uniqueID}}
+          {{form.phone-input}}
         {{/field-with-icon}}
 
       {{/form-group}}

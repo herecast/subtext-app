@@ -4,20 +4,45 @@
     <h4 class='h2'>Which best describes your post?</h4>
   </header>
 
-  <div data-test-component='channel-selector'>
-    [CHANNEL SELECTOR PLACEHOLDER]
-    <span
-      {{action 'selectChannel' 'talk'}}
-      data-test-select-channel-type-talk>
-    </span>
-    <span
-      {{action 'selectChannel' 'market'}}
-      data-test-select-channel-type-market>
-    </span>
-    <span
-      {{action 'selectChannel' 'event'}}
-      data-test-select-channel-type-event>
-    </span>
+  <div class='ChannelSelector-grid text-left'>
+    {{#channel-selector
+        name='event'
+        isActive=(eq model.channelType 'event')
+        selectChannel=(action 'selectChannel')
+        class="ChannelSelector-gridItem"}}
+      <p>My post is inteded to announce or promote:</p>
+      <ul>
+        <li>an event</li>
+        <li>a class</li>
+        <li>a meeting</li>
+      </ul>
+    {{/channel-selector}}
+
+    {{#channel-selector
+        name='market'
+        isActive=(eq model.channelType 'market')
+        selectChannel=(action 'selectChannel')
+        class="ChannelSelector-gridItem"}}
+      <p>My post is inteded to help me:</p>
+      <ul>
+        <li>buy or sell something</li>
+        <li>list a free item</li>
+        <li>find a service or job</li>
+      </ul>
+    {{/channel-selector}}
+
+    {{#channel-selector
+        name='talk'
+        isActive=(eq model.channelType 'talk')
+        selectChannel=(action 'selectChannel')
+        class="ChannelSelector-gridItem"}}
+      <p>My post is:</p>
+      <ul>
+        <li>a general comment</li>
+        <li>a question or concern</li>
+        <li>a discussion topic</li>
+      </ul>
+    {{/channel-selector}}
   </div>
 
   <p>

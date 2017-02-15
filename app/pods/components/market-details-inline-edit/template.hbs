@@ -1,0 +1,73 @@
+{{#market-form model=(mut model) as |form|}}
+  <fieldset>
+    <legend>Post Details.</legend>
+
+    {{#form-group label="Title"
+      error=form.errors.title
+      required=true
+    }}
+
+      {{#inline-edit value=model.title didExitEditMode=(action form.validateForm)}}
+        {{form.title-input}}
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    {{#form-group label="Description"
+      error=form.errors.content
+      required=true
+    }}
+
+      {{#inline-edit focusChangesState=false value=model.content didExitEditMode=form.validateForm as |exitEdit|}}
+        {{form.content-input}}
+        <div class='text-center'>
+          <button class='Button' {{action exitEdit}}>Ok</button>
+        </div>
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    <fieldset>
+      <legend>
+        Enhancements
+        <small>- will appear only on DailyUV</small>
+      </legend>
+
+      {{#form-group label="Cost"
+        error=form.errors.price
+      }}
+
+        {{#inline-edit value=model.price didExitEditMode=form.validateForm}}
+          {{form.price-input}}
+        {{/inline-edit}}
+
+      {{/form-group}}
+
+      {{#form-group label="Email"}}
+
+        {{#inline-edit value=model.contactEmail didExitEditMode=form.validateForm}}
+          {{#field-with-icon icon='envelope'}}
+            {{form.email-input}}
+          {{/field-with-icon}}
+        {{/inline-edit}}
+
+      {{/form-group}}
+
+      {{#form-group label="Phone"}}
+
+        {{#inline-edit value=model.contactPhone didExitEditMode=form.validateForm}}
+          {{#field-with-icon icon='phone'}}
+            {{form.phone-input}}
+          {{/field-with-icon}}
+        {{/inline-edit}}
+
+      {{/form-group}}
+
+
+      {{image-upload-tiles
+        images=model.images
+      }}
+    </fieldset>
+
+  </fieldset>
+{{/market-form}}

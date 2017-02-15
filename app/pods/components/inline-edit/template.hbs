@@ -1,0 +1,8 @@
+{{#if isEditing}}
+  {{yield (action exitEditMode)}}
+{{else}}
+  <span class='InlineEdit-display' onclick={{action (action enterEditMode)}}>
+    {{fa-icon 'pencil'}}
+    {{{value}}}
+  </span>
+{{/if}}

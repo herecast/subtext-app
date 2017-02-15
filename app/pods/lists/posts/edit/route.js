@@ -1,8 +1,11 @@
 import Ember from 'ember';
+import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 
 const { inject, get, set, isEmpty } = Ember;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(NavigationDisplay, {
+  hideHeader: true,
+  hideFooter: true,
   api: inject.service(),
   model() {
     const listservContent = this.modelFor('lists.posts');

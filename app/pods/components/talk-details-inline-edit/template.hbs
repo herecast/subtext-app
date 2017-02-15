@@ -1,0 +1,39 @@
+{{#talk-form model=(mut model) as |form|}}
+  <fieldset>
+    <legend>Post Details.</legend>
+
+    {{#form-group label="Title"
+      error=form.errors.title
+      required=true
+    }}
+
+      {{#inline-edit value=model.title didExitEditMode=(action form.validateForm)}}
+        {{form.title-input}}
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    {{#form-group label="Description"
+      error=form.errors.content
+      required=true
+    }}
+
+      {{#inline-edit focusChangesState=false value=model.content didExitEditMode=form.validateForm as |exitEdit|}}
+        {{form.content-input}}
+        <div class='text-center'>
+          <button class='Button' {{action exitEdit}}>Ok</button>
+        </div>
+      {{/inline-edit}}
+
+    {{/form-group}}
+
+    <fieldset>
+      <legend>
+        Enhancements
+        <small>- will appear only on DailyUV</small>
+      </legend>
+
+      {{form.talk-image}}
+    </fieldset>
+  </fieldset>
+{{/talk-form}}
