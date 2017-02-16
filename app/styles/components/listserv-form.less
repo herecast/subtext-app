@@ -3,10 +3,8 @@
   margin: 0 auto 65px auto;
   background-color: #FFF;
   padding: 10px 30px 30px 30px;
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
 
   &-container {
-    background-color: @gray-light;
     min-height: 100vh;
   }
 
@@ -14,170 +12,63 @@
     text-align: center;
   }
 
+  &-actions {
+    text-align: right;
+  }
+
   &-callToAction {
     .Button;
     .Button--primary;
   }
 
-  &-actions {
-    text-align: right;
-  }
-
   &-stepIndicator {
     text-transform: uppercase;
   }
-}
 
+  &-sectionHeader {
+    margin: 10px;
+    text-align: center;
+  }
 
+  &-sectionSubHeader {
+    h3 {
+      margin-top: 0px;
+    }
+  }
 
-.ListservForm-sectionHeader {
-  margin: 10px;
-  text-align: center;
-}
+  &-content {
+    .form-group.has-error .note-editor {
+      border-color: @brand-danger;
 
-.ListservForm-sectionSubHeader {
-  h3 {
-    margin-top: 0px;
+      .note-editor .note-editing-area .note-editable {
+        background-color: @bg-error;
+      }
+    }
+
+    .note-editor .note-dropzone {
+      opacity: 0 !important;
+    }
+  }
+
+  &-requiredIndicator {
+    color: @brand-danger;
+  }
+
+  &-label {
+    .h4;
+  }
+
+  &-modal {
+    text-align: center;
   }
 }
 
-.ListservForm-buttonGroup {
-  margin-top: 35px;
-}
-
-.ListservForm-buttonLink {
-  color: @gray-dark;
-  .h4;
-  text-decoration: underline;
-}
-
-.ListservForm-discardButton {
-  .uppercase-bold-condensed;
-  color: @gray-dark;
-  margin: 20px 20px 10px 20px;
-}
-
-.ListservForm-modalCloseButton {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.ListservForm-content {
-}
-
-.ListservForm-content .form-group.has-error .note-editor {
-  border-color: @brand-danger;
-}
-
-.ListservForm-content .form-group.has-error .note-editor .note-editing-area .note-editable {
-  background-color: @bg-error;
-}
-
-.ListservForm-content .note-editor .note-dropzone {
-  opacity: 0 !important;
-}
-
-.ListservForm-stepContent {
-  margin-top: 70px;
-}
-
-.ListservForm-requiredIndicator {
-  color: @brand-danger;
-}
-
-.ListservForm-label {
-  .h4;
-}
-
-.has-error .ListservForm-label--required {
-  color: #000;
-}
-
+// TODO this one definitely shouldn't be here!!!
 .has-error input {
   background-color: @bg-error;
-}
-
-.ListservForm-error {
-  color: @brand-danger;
-  margin-left: 10px;
-}
-
-.ListservForm-label--required:after {
-  content: "*";
-  color: @brand-danger;
-}
-
-.ListservForm-previewHeader {
-  margin: 53px 0 49px;
-  text-align: center;
-  .uppercase-bold-condensed;
-}
-
-.ListservForm-fileField {
-  padding-top: 14px;
-  height: auto;
-}
-
-.ListservForm-helpText {
-  color: @gray-dark;
-  .h4;
-  font-style: italic;
-  font-weight: 300;
-  margin-top: 10px;
-}
-
-.ListservForm-textArea .note-editor {
-  width: 100%;
-  color: #000000;
-  background-color: #ffffff;
-  border: 1px solid @gray-medium;
-  border-radius: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 // Override the "placeholder" color
 .note-editor .note-editable[contenteditable=true]:empty:not(:focus):before {
   color: @gray-dark;
-}
-
-.ListservForm-iconLabel {
-  border-radius: 0;
-  font-size: 20px;
-  min-width: 50px;
-}
-
-.ListservForm-modal {
-  text-align: center;
-}
-
-.ListservSubscriptionForm {
-  @media (max-width: @screen-xs-max) {
-    margin:0 8px;
-  }
-}
-
-.afterSubscriptionToast {
-  font-family: @font-family-regular;
-  font-weight: @font-weight-regular;
-  top: 25%;
-  .toast {
-    width: 600px !important;
-    opacity: 0.95 !important;
-    @media (max-width: @screen-xs-max) {
-      width: 100% !important;
-    }
-  }
-  .toast-title {
-    font-weight: @font-weight-semibold;
-    font-size: 25px;
-    line-height: 110%;
-    margin-bottom: 12px;
-    @media (max-width: @screen-xs-max) {
-      font-size: 20px;
-    }
-  }
-  @media (max-width: @screen-xs-max) {
-    margin:0 8px;
-  }
 }
