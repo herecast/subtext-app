@@ -18,10 +18,10 @@
       required=true
     }}
 
-      {{#inline-edit focusChangesState=false value=model.content didExitEditMode=form.validateForm as |exitEdit|}}
+      {{#inline-edit value=model.content focusChangesState=false didExitEditMode=form.validateForm as |m|}}
         {{form.content-input}}
         <div class='text-center'>
-          <button class='Button' {{action exitEdit}}>Ok</button>
+          <button class='Button' {{action m.exitEditMode}}>Ok</button>
         </div>
       {{/inline-edit}}
 
@@ -32,38 +32,106 @@
         Enhancements
         <small>- will appear only on DailyUV</small>
       </legend>
+      {{#form-group
+        label="Image"
+      }}
+        {{image-upload-tile model=model}}
+      {{/form-group}}
 
       {{form.event-form-venue}}
 
-      {{form.event-form-dates}}
+      {{#inline-edit focusChangesState=false as |m|}}
+        {{#if m.isEditing}}
+          {{form.event-form-dates}}
+          <button {{action m.exitEditMode}}>done</button>
 
-      {{form.event-form-registration}}
+        {{else}}
+        <div class='InlineEdit-display' {{action m.enterEditMode}}>
+            {{#form-group label="Dates & Times"}}
+              <div>{{fa-icon 'pencil'}}</div>
+              {{#each model.eventInstances as |instance|}}
+                <div class='FutureEvent '>
+                  <div class="FutureEvent-calendar text-center">
+                    <span>{{moment-format instance.startsAt 'MMMM'}}</span>
+                    <div class="FutureEvent-date">{{moment-format instance.startsAt 'D'}}</div>
+                  </div>
+
+                  <div class='FutureEvent-body'>
+                      <h4 class='FutureEvent-header'>{{moment-format instance.startsAt 'MMMM D, YYYY'}}</h4>
+                      <p class='FutureEvent-header'>{{instance.subtitle}}</p>
+                      <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
+                  </div>
+                </div>
+              {{/each}}
+            {{/form-group}}
+          </div>
+        {{/if}}
+      {{/inline-edit}}
+
+      {{#inline-edit focusChangesState=false as |m|}}
+        {{#if m.isEditing}}
+          {{form.event-form-registration}}
+          <button {{action m.exitEditMode}}>done</button>
+        {{else}}
+          {{#form-group label='Registration'}}
+            <div class='InlineEdit-display' onclick={{action m.enterEditMode}}>
+              {{fa-icon 'pencil'}}
+              {{model.formattedRegistrationDeadline}}
+            </div>
+          {{/form-group}}
+        {{/if}}
+      {{/inline-edit}}
+
 
       {{#form-group label="Event Cost" required=true}}
-        {{form.event-cost-input}}
+        {{#inline-edit focusChangesState=false as |m|}}
+          {{#if m.isEditing}}
+            <div>
+              {{form.event-cost-input}}
+            </div>
+            <button {{action m.exitEditMode}}>done</button>
+          {{else}}
+            <div class='InlineEdit-display' onclick={{m.enterEditMode}}>
+              {{fa-icon "pencil"}}
+              {{#if model.costType}}
+                <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
+              {{/if}}
+              {{model.cost}}
+            </div>
+          {{/if}}
+        {{/inline-edit}}
       {{/form-group}}
 
-      {{form.event-image}}
 
-      {{#form-group label="Event Info"}}
-        {{#form-group error=errors.contactEmail as |group|}}
+      {{#form-group label="Email"}}
+
+        {{#inline-edit value=model.contactEmail didExitEditMode=form.validateForm}}
           {{#field-with-icon icon='envelope'}}
-            {{component form.email-input id=group.uniqueID}}
+            {{form.email-input}}
           {{/field-with-icon}}
-        {{/form-group}}
+        {{/inline-edit}}
 
-        {{#form-group error=errors.contactPhone  as |group|}}
-          {{#field-with-icon icon='phone'}}
-            {{component form.phone-input id=group.uniqueID}}
-          {{/field-with-icon}}
-        {{/form-group}}
-
-        {{#form-group error=errors.eventUrl as |group|}}
-          {{#field-with-icon icon='link'}}
-            {{component form.url-input id=group.uniqueID}}
-          {{/field-with-icon}}
-        {{/form-group}}
       {{/form-group}}
+
+      {{#form-group label="Phone"}}
+
+        {{#inline-edit value=model.contactPhone didExitEditMode=form.validateForm}}
+          {{#field-with-icon icon='phone'}}
+            {{form.phone-input}}
+          {{/field-with-icon}}
+        {{/inline-edit}}
+
+      {{/form-group}}
+
+      {{#form-group label="Event Url"}}
+
+        {{#inline-edit value=model.eventUrl didExitEditMode=form.validateForm}}
+          {{#field-with-icon icon='link'}}
+            {{form.url-input}}
+          {{/field-with-icon}}
+        {{/inline-edit}}
+      {{/form-group}}
+
     </fieldset>
   </fieldset>
 {{/event-form}}

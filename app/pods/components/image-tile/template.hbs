@@ -1,0 +1,35 @@
+{{#if (or remove setPrimary)}}
+  <span
+    class='ImageTile-imageActions'>
+    {{#if remove}}
+      <button
+        class='ImageTile-removeAction ImageTile-imageAction'
+        data-test-action='remove-image'
+        {{action (action remove)}}
+        >
+        &times;
+      </button>
+    {{/if}}
+
+    {{#if setPrimary}}
+      {{#unless isPrimary}}
+        <button
+          class='ImageTile-setPrimaryAction ImageTile-imageAction'
+          data-test-action='set-primary'
+          {{action (action setPrimary)}}
+          title="Set image as primary"
+          >
+          {{fa-icon 'thumb-tack'}}
+        </button>
+      {{/unless}}
+    {{/if}}
+  </span>
+{{/if}}
+
+<img src="{{imageUrl}}" class='ImageTile-image'>
+
+{{#if setPrimary}}
+  {{#if isPrimary}}
+    <span class='ImageTile-primaryLabel label label-default'>Primary</span>
+  {{/if}}
+{{/if}}

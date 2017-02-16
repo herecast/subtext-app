@@ -26,7 +26,11 @@
     {{form.event-cost-input}}
   {{/form-group}}
 
-  {{form.event-image}}
+  {{#form-group
+    label="Image"
+  }}
+    {{image-upload-tile model=model}}
+  {{/form-group}}
 
   {{#form-group label="Event Info"}}
     {{#form-group error=errors.contactEmail as |group|}}

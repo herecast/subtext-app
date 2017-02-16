@@ -1,0 +1,79 @@
+import Ember from 'ember';
+
+const {
+  set,
+  get,
+  run,
+  RSVP: {Promise}
+} = Ember;
+
+export default Ember.Component.extend({
+  multiple: false,
+  minHeight: 200,
+  minWidth: 200,
+  errors: [],
+
+  fileError(e) {
+    if('onError' in this.attrs) {
+      this.attrs.onError(e);
+    } else {
+      set(this, 'errors').push(e.message);
+    }
+  },
+
+  fileSuccess({file, img}) {
+    this.attrs.action({file, img});
+  },
+
+  processFile(file) {
+    return new Promise((resolve, reject) => {
+      const minWidth = get(this, 'minWidth');
+      const minHeight = get(this, 'minHeight');
+      const reader = new FileReader();
+
+      if(/image\/.+/.test(file.type)) {
+        reader.onload = (e) => {
+          const img = new Image();
+
+          img.onload = () => {
+            run(()=>{
+              if(img.width >= minWidth && img.height >= minHeight) {
+                resolve({file, img});
+              } else {
+               reject(new Error(`Image must have minimum dimensions of ${minWidth}x${minHeight}`));
+              }
+            });
+          };
+
+          img.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        reject(new Error(
+          'File must be an image'
+        ));
+      }
+    });
+  },
+
+  actions: {
+    filesSelected(files) {
+      set(this, 'errors', []);
+
+      if(get(this, 'multiple')) {
+        for(var i=0; i < files.length; i++) {
+          this.processFile(files[i]).then(
+            (d) => this.fileSuccess(d),
+            (e) => this.fileError(e)
+          );
+        }
+      } else {
+        this.processFile(files[0]).then(
+          (d) => this.fileSuccess(d),
+          (e) => this.fileError(e)
+        );
+      }
+    }
+  }
+});

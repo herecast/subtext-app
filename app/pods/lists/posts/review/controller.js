@@ -21,6 +21,11 @@ export default Ember.Controller.extend({
     return id;
   }),
 
+  channelInPlaceEdit: computed('channelType', function(){
+    const ct = get(this, 'channelType');
+    return `${ct}-details-inline-edit`;
+  }),
+
   trackPublishEvent() {
     get(this, 'api').updateListservProgress(
       get(this, 'listservContent.id'),

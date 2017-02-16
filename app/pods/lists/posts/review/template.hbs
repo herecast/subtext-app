@@ -10,9 +10,7 @@
     <h4>Review and Publish</h4>
   </header>
 
-  {{#if (eq channelType 'market')}}
-    {{market-details-inline-edit model=model}}
-  {{/if}}
+  {{component channelInPlaceEdit model=model}}
 
   <div class='well'>
     <h5 class='h2 u-layoutPadT0'>

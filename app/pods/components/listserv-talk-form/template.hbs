@@ -16,7 +16,12 @@
 
   <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
 
-  {{form.talk-image}}
+  {{#form-group
+    label="Image"
+  }}
+    {{image-upload-tile model=model}}
+  {{/form-group}}
+
 
   {{partial 'partials/listserv-content-form-submit'}}
 {{/talk-form}}

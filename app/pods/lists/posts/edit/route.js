@@ -26,7 +26,7 @@ export default Ember.Route.extend(NavigationDisplay, {
         }
       );
 
-      if(channelType === 'market') {
+      if(channelType !== 'talk') {
         set(post, 'contactEmail',
           get(listservContent, 'senderEmail')
         );

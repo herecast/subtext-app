@@ -18,10 +18,10 @@
       required=true
     }}
 
-      {{#inline-edit focusChangesState=false value=model.content didExitEditMode=form.validateForm as |exitEdit|}}
+      {{#inline-edit value=model.content focusChangesState=false didExitEditMode=form.validateForm as |m|}}
         {{form.content-input}}
         <div class='text-center'>
-          <button class='Button' {{action exitEdit}}>Ok</button>
+          <button class='Button' {{action m.exitEditMode}}>Ok</button>
         </div>
       {{/inline-edit}}
 

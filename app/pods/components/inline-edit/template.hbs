@@ -1,8 +1,20 @@
 {{#if isEditing}}
-  {{yield (action exitEditMode)}}
+  {{yield (hash
+    isEditing=isEditing
+    exitEditMode=(action exitEditMode)
+    enterEditMode=(action enterEditMode)
+  )}}
 {{else}}
-  <span class='InlineEdit-display' onclick={{action (action enterEditMode)}}>
-    {{fa-icon 'pencil'}}
-    {{{value}}}
-  </span>
+  {{#if valueWasGiven}}
+    <span class='InlineEdit-display' onclick={{action (action enterEditMode)}}>
+      {{fa-icon 'pencil'}}
+      {{{value}}}
+    </span>
+  {{else}}
+    {{yield (hash
+      isEditing=isEditing
+      exitEditMode=(action exitEditMode)
+      enterEditMode=(action enterEditMode)
+    )}}
+  {{/if}}
 {{/if}}

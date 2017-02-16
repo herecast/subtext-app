@@ -1,0 +1,22 @@
+<div class='ImageUploadTiles-container'>
+  {{#if model.imageUrl}}
+    {{image-tile
+        imageUrl=model.imageUrl
+        remove=(action removeImage)
+        class="ImageUploadTiles-tile"
+    }}
+  {{else}}
+    {{image-input-tile
+        class='ImageTile ImageUploadTiles-tile ImageUploadTiles-inputTile'
+        action=(action addImage)
+        onError=(action 'imageError')
+        multiple=false
+    }}
+  {{/if}}
+</div>
+
+{{#if error}}
+  <div class='alert alert-danger'>
+    {{error}}
+  </div>
+{{/if}}

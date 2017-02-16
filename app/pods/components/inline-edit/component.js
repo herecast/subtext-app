@@ -12,6 +12,14 @@ export default Ember.Component.extend({
   isEditing: false,
   focusChangesState: true,
 
+  valueWasGiven: null,
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    set(this, 'valueWasGiven', ('value' in this.attrs));
+  },
+
   setFocus() {
     if(!get(this, 'isDestroying')) {
       this.$('input,select,textarea').trigger('focus');
