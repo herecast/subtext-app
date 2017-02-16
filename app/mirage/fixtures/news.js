@@ -1,15 +1,17 @@
 import { generateData, titleize } from '../support/utils';
 import moment from 'moment';
 
-function generateContent(num, opts = {}) {
-  const text = faker.lorem.paragraphs(num);
-  const youtube = (opts.youtube) ? '<iframe width="420" height="315" src="https://www.youtube.com/embed/bUpF2d4H3x8" frameborder="0" allowfullscreen></iframe>' : null;
+function generateSplitContent(num, opts = {}) {
+  const head = '<p>' + faker.lorem.sentences() + '</p>';
+  const youtube = (opts.youtube) ? '<p><iframe width="420" height="315" src="https://www.youtube.com/embed/bUpF2d4H3x8" frameborder="0" allowfullscreen></iframe></p>' : '';
+  const tail = '<p>' + faker.lorem.sentences() + '</p>' + youtube;
 
-  return (youtube) ? text + '<br>' + youtube : text;
+  return {head: head, tail: tail};
 }
 
 function template(id) {
   const randomDate = moment(faker.date.recent(-30));
+  const splitContent = generateSplitContent(6, { youtube: (id % 2 === 0) });
 
   // Only a subset of news will have images.
   let imageUrl = null;
@@ -37,7 +39,8 @@ function template(id) {
     authorId: 1,
     authorName: faker.name.findName(),
     commentCount: faker.random.number(8),
-    content: generateContent(4, { youtube: (id % 2 === 0) }),
+    content: splitContent.head + splitContent.tail,
+    split_content: splitContent,
     contentId: faker.random.number(1000),
     imageUrl: imageUrl,
     images: images,

@@ -53,6 +53,26 @@
     </div>
   </div>
 
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-content News-content ContentText">
+      {{#if isPreview}}
+        {{{ model.content }}}
+      {{else}}
+        {{{model.splitContent.head}}}
+        <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
+          <div class='messageBar'>
+            Advertisement: Content continues below...
+          </div>
+          {{ad-banner
+            contentModel=model
+            pagePlacement='in-news-detail-body'
+          }}
+        </div>
+        {{{model.splitContent.tail}}}
+      {{/if}}
+    </div>
+  </div>
+
   {{#unless isPreview}}
     <div class='DetailPage-sectionWrapper'>
       {{report-content-details
@@ -60,18 +80,6 @@
       }}
     </div>
   {{/unless}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-content News-content ContentText">
-      {{#if isPreview}}
-        {{{ model.content }}}
-      {{else}}
-        {{#expandable-content customLessLabel='Read Less' customMoreLabel='Continue Reading'}}
-          {{{ model.content }}}
-        {{/expandable-content}}
-      {{/if}}
-    </div>
-  </div>
 
   {{#unless isPreview}}
     <div class='DetailPage-sectionWrapper'>
@@ -86,15 +94,7 @@
       </div>
     </div>
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section'>
-        <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-          {{ad-banner
-            contentModel=model
-          }}
-        </div>
-      </div>
-    </div>
+
   {{/unless}}
 
   {{#unless isPreview}}

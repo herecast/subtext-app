@@ -8,6 +8,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   subtitle: DS.attr('string'),
   content: DS.attr('string'),
+  splitContent: DS.attr(),
   canEdit: DS.attr('boolean', {defaultValue: false}),
 
   adminContentUrl: DS.attr('string'),

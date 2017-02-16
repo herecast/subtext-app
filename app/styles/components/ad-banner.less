@@ -10,6 +10,28 @@
   @media (min-width: @screen-xs-max) {
     max-width: 380px;
   }
+
+  &--inContentBody {
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-top: solid 1px #efefef;
+    border-bottom: solid 1px #efefef;
+
+    .messageBar {
+      color: @gray-dark;
+      text-align: center;
+      font-size: 12px;
+
+      @media (max-width: @screen-xs-max) {
+        margin-bottom: -10px;
+      }
+    }
+
+    img {
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
 }
 
 .AdBanner-wrapper {
@@ -25,8 +47,8 @@
 
   &--index,
   &--news {
-    @media (min-width: @screen-xs-max) {
-      padding: 0;
+    @media (max-width: @screen-xs-max) {
+      padding: 10px 0;
     }
   }
 
