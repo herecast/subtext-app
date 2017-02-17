@@ -11,33 +11,24 @@
     <div class='ListservForm'>
       {{#if requiresRegistration}}
 
-          <div class='ListservForm-sectionSubHeader'>
-            <h3 class='ListservForm-sectionHeader'>
-              Categorize your post ... and more!
-            </h3>
-
+          <div class='ListservForm-sectionSubHeader text-center h3'>
             <p>
-              Categorizing your post puts it at the top of the next digest.
-              It will also be published automatically on dailyUV, so you'll 
-              reach an even bigger audience.
+              Want more people to see your post?
             </p>
 
-            <p>
-              To continue, create an account on dailyUV. It's simple and free,
-              and you'll only have to go through this step once.
-            </p>
+            <p>Want to add photos?</p>
 
             <p>
-              Curious why things have changed?
-              <a target="_blank" href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
+              Create an account so you can post to DailyUV.<br>
+              (Don't worry it's really quick.)
             </p>
-
-
           </div>
+
+          <h3 class='h1 text-center'>Create Your Account</h3>
 
           {{listserv-registration-form
               email=(readonly model.senderEmail)
-              callToAction="SPRUCE UP MY POST"
+              callToAction="Sign up and Continue ❱"
               listservName=listservName
               confirmationKey=confirmationKey
               updateMetric=(action 'updateListservMetric' model.id 'new_registration')
@@ -57,12 +48,6 @@
                   forgotPasswordReturnUrl=forgotPasswordReturnUrl
                   updateMetric=(action 'updateListservMetric' model.id 'user_sign_in')
               }}
-            {{#unless features.listserv-user-testing}}
-            <p data-test-why-changed-message>
-              Curious why things have changed?
-              <a target="_blank" href='http://listserv.dailyuv.net' class='u-textUnderline'>Learn More</a>
-            </p>
-            {{/unless}}
           </div>
       {{/if}}
     </div>
