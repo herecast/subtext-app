@@ -16,11 +16,15 @@
 
   <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
 
-  {{#form-group
-    label="Image"
-  }}
-    {{image-upload-tile model=model}}
-  {{/form-group}}
+  <fieldset class='ListservForm-enhancementFields'>
+    <legend>Post Enhancements</legend>
+
+    {{#form-group
+      label="Image"
+    }}
+      {{image-upload-tile model=model}}
+    {{/form-group}}
+  </fieldset>
 
 
   {{partial 'partials/listserv-content-form-submit'}}

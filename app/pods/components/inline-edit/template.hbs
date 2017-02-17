@@ -7,8 +7,8 @@
 {{else}}
   {{#if valueWasGiven}}
     <span class='InlineEdit-display' onclick={{action (action enterEditMode)}}>
-      {{fa-icon 'pencil'}}
       {{{value}}}
+      {{fa-icon 'pencil'}} <span class='u-link'>edit</span>
     </span>
   {{else}}
     {{yield (hash

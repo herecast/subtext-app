@@ -1,7 +1,7 @@
 <section class="ListservForm text-center">
-  <header class='ListservForm-header'>
-    <h3 class="h1">Let's get started.</h3>
-    <h4 class='h2'>Which best describes your post?</h4>
+  <header class='ListservForm-header u-layoutPadB20'>
+    <h3 class="h1 u-bold u-layoutPadB0">Let's get started.</h3>
+    <h4 class='h2 u-layoutPadT0'>Which category best describes your post?</h4>
   </header>
 
   <div class='ChannelSelector-grid text-left'>
@@ -23,7 +23,7 @@
         isActive=(eq model.channelType 'market')
         selectChannel=(action 'selectChannel')
         class="ChannelSelector-gridItem"}}
-      <p>My post is inteded to help me:</p>
+      <p>My post is intended to help me:</p>
       <ul>
         <li>buy or sell something</li>
         <li>list a free item</li>
@@ -45,9 +45,9 @@
     {{/channel-selector}}
   </div>
 
-  <p>
-    We guessed! Were we right? If we goofed,
-    please check the appropriate box above.
+  <p class='h3'>
+    <span class='u-bold'>We guessed! Were we right?</span><br>
+    If we goofed, please check the appropriate box above.
   </p>
 
   <footer class='ListservForm-actions'>

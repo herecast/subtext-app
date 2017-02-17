@@ -16,41 +16,44 @@
 
   <h3 class='ListservContentForm-fieldDivider'>The information you enter below will appear on dailyUV only.</h3>
 
-  {{form.event-form-venue}}
+  <fieldset class='ListservForm-enhancementFields'>
+    <legend>Post Enhancements</legend>
+    {{form.event-form-venue}}
 
-  {{form.event-form-dates}}
+    {{form.event-form-dates}}
 
-  {{form.event-form-registration}}
+    {{form.event-form-registration}}
 
-  {{#form-group label="Event Cost" required=true}}
-    {{form.event-cost-input}}
-  {{/form-group}}
-
-  {{#form-group
-    label="Image"
-  }}
-    {{image-upload-tile model=model}}
-  {{/form-group}}
-
-  {{#form-group label="Event Info"}}
-    {{#form-group error=errors.contactEmail as |group|}}
-      {{#field-with-icon icon='envelope'}}
-        {{component form.email-input id=group.uniqueID}}
-      {{/field-with-icon}}
+    {{#form-group label="Event Cost" required=true}}
+      {{form.event-cost-input}}
     {{/form-group}}
 
-    {{#form-group error=errors.contactPhone  as |group|}}
-      {{#field-with-icon icon='phone'}}
-        {{component form.phone-input id=group.uniqueID}}
-      {{/field-with-icon}}
+    {{#form-group
+      label="Image"
+    }}
+      {{image-upload-tile model=model}}
     {{/form-group}}
 
-    {{#form-group error=errors.eventUrl as |group|}}
-      {{#field-with-icon icon='link'}}
-        {{component form.url-input id=group.uniqueID}}
-      {{/field-with-icon}}
+    {{#form-group label="Event Info"}}
+      {{#form-group error=errors.contactEmail as |group|}}
+        {{#field-with-icon icon='envelope'}}
+          {{component form.email-input id=group.uniqueID}}
+        {{/field-with-icon}}
+      {{/form-group}}
+
+      {{#form-group error=errors.contactPhone  as |group|}}
+        {{#field-with-icon icon='phone'}}
+          {{component form.phone-input id=group.uniqueID}}
+        {{/field-with-icon}}
+      {{/form-group}}
+
+      {{#form-group error=errors.eventUrl as |group|}}
+        {{#field-with-icon icon='link'}}
+          {{component form.url-input id=group.uniqueID}}
+        {{/field-with-icon}}
+      {{/form-group}}
     {{/form-group}}
-  {{/form-group}}
+  </fieldset>
 
   {{partial 'partials/listserv-content-form-submit'}}
 {{/event-form}}
