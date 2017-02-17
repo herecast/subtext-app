@@ -110,6 +110,7 @@ Router.map(function() {
   });
 
   this.route('lists', function() {
+    this.route('example-preview');
     this.route('subscribe', {path: '/:id/subscribe'});
     this.route('unsubscribe', {path: '/:listserv_id/unsubscribe'});
     this.route('manage', {path: '/:id/manage'});
