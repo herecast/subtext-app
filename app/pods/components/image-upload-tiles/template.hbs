@@ -17,6 +17,14 @@
       onError=(action 'imageError')
       multiple=true
   }}
+
+  {{#unless nonDeletedImages.length}}
+    <div>
+      {{#action-helper point='left'}}
+        People really, really like to look at pictures!
+      {{/action-helper}}
+    </div>
+  {{/unless}}
 </div>
 
 {{#if error}}
