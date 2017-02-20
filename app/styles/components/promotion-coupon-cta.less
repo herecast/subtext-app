@@ -13,7 +13,7 @@
     font-size: 50px;
     border-radius: 4px;
   }
-  .email-button {
+  &-email-button {
     .Button;
     .Button--directory;
     color: #fff;
@@ -21,9 +21,21 @@
     margin: 15px 0;
   }
   &.open {
-    .email-button {
+    .PromotionCouponCta-email-button {
       background-color: #adc0b4;
     }
+  }
+  &-email-message,
+  &-instructions,
+  &-coupon-message {
+    line-height: 1.0;
+    text-align: left;
+    max-width: 500px;
+    margin: 10px auto;
+  }
+  &-email-message,
+  &-instructions {
+    font-size: 12px;
   }
   button {
     outline: none;
@@ -32,12 +44,12 @@
     max-width: 300px;
     margin: 15px auto;
   }
-  .deny-button {
+  &-deny-button {
     cursor: pointer;
     color: grey;
     margin: 5px 10px;
   }
-  .confirm-button {
+  &-confirm-button {
     .Button;
     .Button--directory;
     color: #fff;

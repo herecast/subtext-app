@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {computed, set, get, isEmpty, inject:{service}} = Ember;
+const {computed, set, get, isEmpty, inject:{service}, $} = Ember;
 
 export default Ember.Component.extend(Validation, {
   classNames: 'PromotionCouponCta',
@@ -11,6 +11,7 @@ export default Ember.Component.extend(Validation, {
 
   coupon: null,
   wantsEmail: false,
+  url: null,
 
   isRequesting: false,
   hasRequested: false,
@@ -21,13 +22,17 @@ export default Ember.Component.extend(Validation, {
   init() {
     this._super(...arguments);
     let email = get(this, 'currentUser.email');
+
     if (!isEmpty(email)) {
       set(this, 'coupon.email', email);
     }
+
+    set(this, 'url', window.location.href);
   },
 
   validateForm() {
     const email = get(this, 'coupon.email');
+
     if (isEmpty(email) || !this.hasValidEmail(email)) {
       set(this, 'errors.email', 'Valid email is required');
     } else {
@@ -43,19 +48,25 @@ export default Ember.Component.extend(Validation, {
         promotion_banner_id: get(this, 'coupon.id'),
         content: content,
         event_type: type,
-        page_url: window.location.href
+        page_url: get(this, 'url')
       }
     });
   },
 
   actions: {
 
-    toggleWantsEmail() {
-      this.toggleProperty('wantsEmail');
+  changeWantsEmail(wantsEmail) {
+      set(this, 'wantsEmail', wantsEmail);
 
       if (!get(this, 'hasClicked')) {
         this.recordEvent('click', 'Clicked Wants Email Button');
         set(this, 'hasClicked', true);
+      }
+
+      if (wantsEmail) {
+        let emailButton = $('.PromotionCouponCta-email-button');
+        let offset = emailButton.offset().top;
+        $('html, body').animate({ scrollTop: (offset - 60) }, 'slow');
       }
     },
 
