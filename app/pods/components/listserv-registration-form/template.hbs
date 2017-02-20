@@ -32,13 +32,17 @@
 
   {{#form-group error=error.locationId}}
     <label class='control-label'>Where do you live?</label>
+    <div class='help-text visible-sm visible-xs'>
+        So we can perosnalize your experience!
+    </div>
     <div class='u-flexRow'>
       {{location-dropdown
           selectedLocationId=locationId
           data-test-component='registration-form-location'
           isEditing=true
+          class="ListservForm-locationInput"
       }}
-      {{#action-helper point="left"}}
+      {{#action-helper point="left" class='visible-md visible-lg'}}
         So we can perosnalize your experience!
       {{/action-helper}}
     </div>

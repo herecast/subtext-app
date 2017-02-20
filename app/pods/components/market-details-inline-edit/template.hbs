@@ -64,9 +64,11 @@
       {{/form-group}}
 
 
-      {{image-upload-tiles
-        images=model.images
-      }}
+      {{#form-group label="Images"}}
+        {{image-upload-tiles
+          images=model.images
+        }}
+      {{/form-group}}
     </fieldset>
 
   </fieldset>

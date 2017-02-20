@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
+import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
 const { inject, get, set, isEmpty } = Ember;
 
-export default Ember.Route.extend(NavigationDisplay, {
+export default Ember.Route.extend(ResetScroll, NavigationDisplay, {
   hideHeader: true,
   hideFooter: true,
   api: inject.service(),

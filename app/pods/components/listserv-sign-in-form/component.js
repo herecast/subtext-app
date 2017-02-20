@@ -29,7 +29,11 @@ export default Ember.Component.extend(TestSelector, {
       const password = get(this, 'password');
       const promise = get(this, 'session').authenticate('authenticator:application', ident, password);
 
-      return promise.catch((response) => {
+      return promise.then(()=>{
+        if('onSuccess' in this.attrs) {
+          this.attrs.onSuccess();
+        }
+      }, (response) => {
         set(this, 'error', response.error);
       });
     }
