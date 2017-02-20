@@ -50,7 +50,7 @@ export default Ember.Component.extend({
 
   groupedEvents: computed('sortedEvents.[]', 'isFilteredByOneDay', function() {
     const isFilteredByOneDay = this.get('isFilteredByOneDay');
-
+    
     return (isFilteredByOneDay) ? this.get('eventsByTime') : this.get('eventsByDate');
   }),
 

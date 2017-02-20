@@ -19,6 +19,8 @@ export default Ember.Component.extend(InViewportMixin, {
   currentService: inject.service('currentController'),
   promotion: null,
   impressionPath: null,
+  pagePositionForAnalytics: null,
+
   adContextName: computed.reads('currentService.currentPath'),
 
   _canSendImpression: computed('impressionPath', '_didSendImpression',
@@ -102,7 +104,9 @@ export default Ember.Component.extend(InViewportMixin, {
 
       api.recordPromoBannerImpression(get(promo, 'id'), {
         content_id: contentId,
-        gtm_blocked: this._validateGTM()
+        gtm_blocked: this._validateGTM(),
+        page_url: get(this, 'currentService.currentUrl'),
+        page_placement: get(this, 'pagePositionForAnalytics')
       });
 
       console.info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${this._validateGTM()}`);

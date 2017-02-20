@@ -39,6 +39,5 @@ export default Ember.Component.extend({
   item10: item(10),
   item11: item(11),
   item12: item(12),
-  item13: item(13),
-  item14: item(14)
+  item13: item(13)
 });
