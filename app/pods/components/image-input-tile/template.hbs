@@ -4,5 +4,5 @@
   {{else}}
     {{fa-icon 'plus'}}
   {{/if}}
-  <input class='ImageInputTile-input' type='file' accept="image/*" multiple={{multiple}} onchange={{action 'filesSelected' value="target.files"}}>
+  <input class='ImageInputTile-input' type='file' accept="{{accept}}" multiple={{multiple}} onchange={{action 'filesSelected' value="target.files"}}>
 </label>

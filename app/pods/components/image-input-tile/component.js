@@ -8,6 +8,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
+  accept: "image/jpeg,image/gif,image/png",
   multiple: false,
   minHeight: 200,
   minWidth: 200,

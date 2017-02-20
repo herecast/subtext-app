@@ -12,6 +12,8 @@ export default Ember.Component.extend({
 
   nonDeletedImages: computed.filterBy('images', '_delete', undefined),
 
+  uploadAllowed: computed.lt('nonDeletedImages.length', 6),
+
   // Override to handle in parent context
   addImage(image) {
     const images = get(this, 'images');
@@ -35,14 +37,18 @@ export default Ember.Component.extend({
 
   actions: {
     newImage({img, file}) {
-      const image = get(this, 'store').createRecord('image', {
-        imageUrl: img.src,
-        width: img.width,
-        height: img.height,
-        file: file
-      });
+      const imageCount = get(this, 'nonDeletedImages.length');
 
-      this.addImage(image);
+      if(imageCount < 6) {
+        const image = get(this, 'store').createRecord('image', {
+          imageUrl: img.src,
+          width: img.width,
+          height: img.height,
+          file: file
+        });
+
+        this.addImage(image);
+      }
     },
 
     dismissError() {

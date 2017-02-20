@@ -11,12 +11,14 @@
     {{/unless}}
   {{/each}}
 
-  {{image-input-tile
-      class='ImageTile ImageUploadTiles-tile ImageUploadTiles-inputTile'
-      action=(action 'newImage')
-      onError=(action 'imageError')
-      multiple=true
-  }}
+  {{#if uploadAllowed}}
+    {{image-input-tile
+        class='ImageTile ImageUploadTiles-tile ImageUploadTiles-inputTile'
+        action=(action 'newImage')
+        onError=(action 'imageError')
+        multiple=true
+    }}
+  {{/if}}
 
   {{#unless nonDeletedImages.length}}
     <div>
