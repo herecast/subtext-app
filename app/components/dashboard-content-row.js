@@ -6,9 +6,13 @@ const { computed, get } = Ember;
 export default Ember.Component.extend({
   attributeBindings: ['data-test-content-item'],
   'data-test-content-item': computed.reads('content.id'),
-  classNameBindings: ["highlight:highlight"],
+  classNameBindings: ["highlightRow:highlight"],
   tagName: ['tr'],
   type: '',
+
+  highlightRow: computed('highlightContent', 'content.contentId', function() {
+    return get(this, 'content.contentId').toString() === get(this, 'highlightContent').toString();
+  }),
 
   isTalkOrComment: computed('type', function() {
     let type = get(this, 'type');

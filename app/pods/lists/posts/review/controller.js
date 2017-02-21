@@ -9,21 +9,18 @@ export default Ember.Controller.extend({
 
   notify: inject.service('notification-messages'),
 
-  contentId: computed('model.id', 'model.firstInstanceId', function() {
-    let id;
-    if (get(this, 'model.firstInstanceId')) {
-      // EVENT
-      id = get(this, 'model.firstInstanceId');
-    } else {
-      id = get(this, 'model.id');
-    }
-
-    return id;
-  }),
-
   channelInPlaceEdit: computed('channelType', function(){
     const ct = get(this, 'channelType');
     return `${ct}-details-inline-edit`;
+  }),
+
+  dashboardTab: computed('channelType', function() {
+    const chtype = get(this, 'channelType');
+    if(chtype === 'event') {
+      return 'events';
+    } else {
+      return chtype;
+    }
   }),
 
   trackPublishEvent() {
@@ -37,8 +34,8 @@ export default Ember.Controller.extend({
     this.transitionToRoute(
       'dashboard', {
         queryParams: {
-          type: get(this, 'channelType'),
-          new_content: get(this, 'contentId')
+          type: get(this, 'dashboardTab'),
+          new_content: get(this, 'model.contentId')
         }
       }
     ).then(() => {

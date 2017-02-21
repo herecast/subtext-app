@@ -237,7 +237,7 @@
           {{#if (not-eq type 'promotion-banner')}}
             {{#each postings as |content|}}
               {{dashboard-content-row
-                highlight=(eq highlightContent content.contentId)
+                highlightContent=highlightContent
                 content=content
                 type=content.contentType
                 showTypeColumn=showTypeColumn
