@@ -69,7 +69,7 @@
     {{#form-group error=errors.startTimeError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Start Time</label>
       {{input-mask
-        mask='h:s t'
+        mask='09:00 Sm'
         placeholder='12:00 am'
         value=startTime
         class='form-control'
@@ -79,7 +79,7 @@
     {{#form-group error=errors.stopTimeError class='col-xs-12 col-sm-6'}}
       <label>End Time</label>
       {{input-mask
-        mask='h:s t'
+        mask='09:00 Sm'
         placeholder='12:00 am'
         value=stopTime
         class='form-control'

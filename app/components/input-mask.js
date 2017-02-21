@@ -6,9 +6,7 @@ export default Ember.TextField.extend({
   initializeMask: on('didInsertElement', function() {
     var mask = this.get('mask');
 
-    this.$().inputmask(mask, {
-      placeholder: '_'
-    });
+    this.$().mask(mask);
   })
 
 });

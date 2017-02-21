@@ -53,7 +53,7 @@ module.exports = function(defaults) {
     app.import('bower_components/summernote/dist/summernote.js');
     app.import('vendor/summernote-handle.js');
     app.import('bower_components/summernote-image-attributes/summernote-image-attributes.js');
-    app.import('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js');
+    app.import('bower_components/jquery-mask-plugin/src/jquery.mask.js');
   // END
   }
 
