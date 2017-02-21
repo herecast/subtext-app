@@ -101,8 +101,9 @@ export default Ember.Component.extend(InViewportMixin, {
     if (! get(this, 'isDestroyed') && promo) {
       const contentId = get(this, 'contentModel.id');
       const api = get(this, 'api');
+      const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
 
-      api.recordPromoBannerImpression(get(promo, 'id'), {
+      api.recordPromoBannerImpression(metrics_id, {
         content_id: contentId,
         gtm_blocked: this._validateGTM(),
         page_url: get(this, 'currentService.currentUrl'),
@@ -196,8 +197,9 @@ export default Ember.Component.extend(InViewportMixin, {
       const contentId = get(this, 'contentModel.contentId');
       const promo = get(this, 'promotion');
       const api = get(this, 'api');
+      const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
 
-      api.recordPromoBannerClick(get(promo, 'id'), {
+      api.recordPromoBannerClick(metrics_id, {
         content_id: (contentId) ? contentId : null
       });
 
