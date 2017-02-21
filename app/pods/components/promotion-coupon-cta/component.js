@@ -74,6 +74,8 @@ export default Ember.Component.extend(Validation, {
       if (this.isValid()) {
         set(this, 'isRequesting', true);
 
+        this.recordEvent('click', 'Clicked Yes Please Button');
+
         get(this, 'api').recordCouponRequest(get(this, 'coupon.id'), {
           email: get(this, 'coupon.email'),
           user_id: get(this,'currentUser.id')
