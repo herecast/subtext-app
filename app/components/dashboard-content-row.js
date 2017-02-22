@@ -69,6 +69,20 @@ export default Ember.Component.extend({
     return (date) ? momentDate.format('l') : null;
   }),
 
+  timeSincePublished: computed(function(){
+    const date = get(this, 'content.publishedAt');
+    const momentDate = (moment.isMoment(date)) ? date : moment-from-now(date);
+    
+    const daysSincePublished = moment().diff(date, 'days')
+
+
+    if (daysSincePublished >= 1) {
+      return(date) ? momentDate.format('l') : null;
+    } else {
+      return (date) ? momentDate.fromNow() : null;
+    }
+  }),
+
   isEditable: computed('type', 'content.publishedAt', function() {
     const type = get(this, 'type');
 

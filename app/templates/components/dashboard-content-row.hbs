@@ -31,7 +31,7 @@
   {{#if (eq content.contentType 'news')}}
     {{newsDateStatus}}
   {{else}}
-    {{content.publishedAt}}
+    {{relativeDate content.publishedAt}}
   {{/if}}
 </td>
 
