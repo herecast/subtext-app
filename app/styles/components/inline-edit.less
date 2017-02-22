@@ -1,16 +1,25 @@
 .InlineEdit {
   &-display {
     cursor: pointer;
+    display: inline-block;
+    width: auto;
+    border: 1px solid #929292;
+    border-radius: 5px;
+    padding: 4px 5px;
+    margin-left: 5px;
+    color: #929292;
+    font-size: 11px;
+    line-height: 1;
+    vertical-align: middle;
 
-    .fa {
-      margin-left: 5px;
-    }
+    .fa { }
 
     span {
-      color: #000;
+      color: #929292;
+      text-transform: uppercase;
 
       &:hover {
-        color: #000;
+        color: darken(#929292, 5%);
       }
     }
   }

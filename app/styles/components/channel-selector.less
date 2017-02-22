@@ -32,16 +32,18 @@
   }
 
   &.is-active {
-    border: 1px solid #8BC34A;
-    background-color: #edfbde;
-
-    * {
-      color: #4a711e;
-    }
+    border: 1px solid #4EA566;
+    background-color: #DBF5E2;
   }
 
   &-header {
     border-bottom: 1px solid #d8d8d8;
+
+    .is-active & {
+      border-bottom: 1px solid #d8d8d8;
+      background-color: #4EA566;
+      color: #fff;
+    }
   }
 
   &-checkbox {
