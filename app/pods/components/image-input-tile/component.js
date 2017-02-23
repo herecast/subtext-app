@@ -3,12 +3,12 @@ import Ember from 'ember';
 const {
   set,
   get,
-  run,
   RSVP: {Promise}
 } = Ember;
 
 export default Ember.Component.extend({
   accept: "image/jpeg,image/gif,image/png",
+  classNames: ['ImageInputTile'],
   multiple: false,
   minHeight: 200,
   minWidth: 200,
@@ -18,7 +18,8 @@ export default Ember.Component.extend({
     if('onError' in this.attrs) {
       this.attrs.onError(e);
     } else {
-      set(this, 'errors').push(e.message);
+      get(this, 'errors').push(e.message);
+      throw(e);
     }
   },
 
@@ -37,14 +38,14 @@ export default Ember.Component.extend({
           const img = new Image();
 
           img.onload = () => {
-            run(()=>{
-              if(img.width >= minWidth && img.height >= minHeight) {
-                resolve({file, img});
-              } else {
-               reject(new Error(`Image must have minimum dimensions of ${minWidth}x${minHeight}`));
-              }
-            });
+            if(img.width >= minWidth && img.height >= minHeight) {
+              resolve({file, img});
+            } else {
+             reject(new Error(`Image must have minimum dimensions of ${minWidth}x${minHeight}`));
+            }
           };
+
+          img.onerror = reject;
 
           img.src = e.target.result;
         };

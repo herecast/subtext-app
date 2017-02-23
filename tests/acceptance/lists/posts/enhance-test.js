@@ -54,7 +54,7 @@ const Workflow = {
     click(testSelector('action', 'registration-form-submit'));
   },
   selectChannel(channel) {
-    click(testSelector(`select-channel-type-${channel}`));
+    click(testSelector('select-channel', channel));
     this.next();
   },
   next() {
@@ -216,7 +216,9 @@ test('Enhance talk post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const post = server.create('listserv-content');
+  const post = server.create('listserv-content', {
+    listserv: server.create('listserv')
+  });
   const newTitle = "Newest title";
   let newPostId;
 
@@ -351,7 +353,9 @@ test('Enhance market post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const post = server.create('listserv-content');
+  const post = server.create('listserv-content', {
+    listserv: server.create('listserv')
+  });
   let newMarketId;
 
   const newTitle = "Newest title";

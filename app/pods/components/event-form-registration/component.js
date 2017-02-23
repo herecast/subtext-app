@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   computed,
@@ -8,7 +9,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   hasRegistrationInfo: null,
 
   // The date picker requires a date object, so we need to convert the deadline

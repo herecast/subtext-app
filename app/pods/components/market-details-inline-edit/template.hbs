@@ -7,7 +7,9 @@
       required=true
     }}
 
-      {{#inline-edit value=model.title didExitEditMode=(action form.validateForm)}}
+    {{#inline-edit value=model.title
+        data-test-component='market-title'
+        didExitEditMode=(action form.validateForm)}}
         {{form.title-input}}
       {{/inline-edit}}
 
@@ -18,7 +20,10 @@
       required=true
     }}
 
-      {{#inline-edit value=model.content focusChangesState=false didExitEditMode=form.validateForm as |m|}}
+    {{#inline-edit value=model.content
+        data-test-component='market-content'
+        focusChangesState=false
+        didExitEditMode=form.validateForm as |m|}}
         {{form.content-input}}
         <div class='text-center'>
           <button class='Button' {{action m.exitEditMode}}>Ok</button>
@@ -37,7 +42,9 @@
         error=form.errors.price
       }}
 
-        {{#inline-edit value=model.price didExitEditMode=form.validateForm}}
+      {{#inline-edit value=model.price
+          data-test-component='market-price'
+          didExitEditMode=form.validateForm}}
           {{form.price-input}}
         {{/inline-edit}}
 
@@ -45,7 +52,9 @@
 
       {{#form-group label="Email"}}
 
-        {{#inline-edit value=model.contactEmail didExitEditMode=form.validateForm}}
+      {{#inline-edit value=model.contactEmail
+          data-test-component='market-contact-email'
+          didExitEditMode=form.validateForm}}
           {{#field-with-icon icon='envelope'}}
             {{form.email-input}}
           {{/field-with-icon}}
@@ -55,7 +64,9 @@
 
       {{#form-group label="Phone"}}
 
-        {{#inline-edit value=model.contactPhone didExitEditMode=form.validateForm}}
+      {{#inline-edit value=model.contactPhone
+          data-test-component='market-contact-phone'
+          didExitEditMode=form.validateForm}}
           {{#field-with-icon icon='phone'}}
             {{form.phone-input}}
           {{/field-with-icon}}

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   get,
@@ -6,7 +7,7 @@ const {
   run
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   classNames: ['InlineEdit'],
   classNameBindings: ['isEditing:is-editing'],
   isEditing: false,
@@ -22,7 +23,7 @@ export default Ember.Component.extend({
 
   setFocus() {
     if(!get(this, 'isDestroying')) {
-      this.$('input,select,textarea').trigger('focus');
+      this.$('input,select,textarea').focus();
     }
   },
 

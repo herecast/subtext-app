@@ -1,12 +1,12 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   setProperties,
-  computed,
   set
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   // Override to handle in parent context
   addImage({img, file}) {
     setProperties(this, {
@@ -17,7 +17,7 @@ export default Ember.Component.extend({
   },
 
   // Override to handle in parent context
-  removeImage(image) {
+  removeImage() {
     setProperties(this, {
       'model.imageUrl': null,
       'model.image': null,

@@ -11,7 +11,10 @@ export default Ember.Component.extend({
   type: '',
 
   highlightRow: computed('highlightContent', 'content.contentId', function() {
-    return get(this, 'content.contentId').toString() === get(this, 'highlightContent').toString();
+    const contentId = get(this, 'content.contentId') || "";
+    const highlight = get(this, 'highlightContent') || "";
+
+    return `${contentId}` === `${highlight}`;
   }),
 
   isTalkOrComment: computed('type', function() {
@@ -71,10 +74,9 @@ export default Ember.Component.extend({
 
   timeSincePublished: computed(function(){
     const date = get(this, 'content.publishedAt');
-    const momentDate = (moment.isMoment(date)) ? date : moment-from-now(date);
-    
-    const daysSincePublished = moment().diff(date, 'days')
+    const momentDate = (moment.isMoment(date)) ? date : moment(date);
 
+    const daysSincePublished = moment().diff(date, 'days');
 
     if (daysSincePublished >= 1) {
       return(date) ? momentDate.format('l') : null;

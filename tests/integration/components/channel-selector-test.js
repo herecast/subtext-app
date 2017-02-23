@@ -11,11 +11,19 @@ moduleForComponent('channel-selector', 'Integration | Component | channel select
   // is-selected class changes when selectedChannel changes
   // action fired
 
-test('it renders', function(assert) {
+test('Clicking', function(assert) {
+  assert.expect(1);
+  const done = assert.async();
 
-  this.set('channel', {
-    name: 'Fake',
-    text: 'fake text'
+  this.setProperties({
+    channel: {name: 'Fake'},
+    didClick(nm) {
+      assert.equal(nm, 'Fake',
+        "selectChannel action triggered with name"
+      );
+
+      done();
+    }
   });
 
   // Set any properties with this.set('myProperty', 'value');
@@ -23,9 +31,26 @@ test('it renders', function(assert) {
 
   this.render(hbs`
     {{channel-selector
-      channel=(readonly channel)
+      selectChannel=(action didClick)
+      name=(readonly channel.name)
     }}
   `);
 
-  assert.equal(this.$().text().trim(), '');
+  this.$('[data-test-select-channel="Fake"]').click();
+});
+
+test('active state', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+    {{channel-selector
+      name="ChName"
+      isActive=true
+    }}
+  `);
+
+  assert.ok(
+    this.$('.ChannelSelector').hasClass('is-active'),
+    "has is-active class"
+  );
 });

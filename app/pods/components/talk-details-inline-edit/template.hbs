@@ -7,7 +7,9 @@
       required=true
     }}
 
-      {{#inline-edit value=model.title didExitEditMode=(action form.validateForm)}}
+    {{#inline-edit value=model.title
+        data-test-component="talk-title"
+        didExitEditMode=(action form.validateForm)}}
         {{form.title-input}}
       {{/inline-edit}}
 
@@ -18,7 +20,9 @@
       required=true
     }}
 
-      {{#inline-edit value=model.content focusChangesState=false didExitEditMode=form.validateForm as |m|}}
+    {{#inline-edit value=model.content
+        data-test-component='talk-content'
+        focusChangesState=false didExitEditMode=form.validateForm as |m|}}
         {{form.content-input}}
         <div class='text-center'>
           <button class='Button' {{action m.exitEditMode}}>Ok</button>

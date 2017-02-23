@@ -7,7 +7,7 @@
 {{else}}
   {{#if valueWasGiven}}
     {{{value}}}
-    <div class='InlineEdit-display' onclick={{action (action enterEditMode)}}>
+    <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action (action enterEditMode)}}>
       {{fa-icon 'pencil'}} <span class='u-link u-bold'>edit</span>
     </div>
   {{else}}
