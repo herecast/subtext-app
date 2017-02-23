@@ -15,6 +15,17 @@ export default Ember.Component.extend(TestSelector, {
 
   valueWasGiven: null,
 
+  keyPress(e) {
+    if(e.keyCode === 13 /*ENTER*/) {
+      if(e.target.tagName === 'INPUT') {
+        this.exitEditMode();
+
+        e.preventDefault();
+        return false;
+      }
+    }
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 

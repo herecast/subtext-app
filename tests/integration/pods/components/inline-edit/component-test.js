@@ -1,3 +1,5 @@
+/* global document */
+
 import wait from 'ember-test-helpers/wait';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -112,4 +114,43 @@ test('didExitEditMode action', function(assert) {
   `);
 
   this.$('button').click();
+});
+
+test('enter key from input', function(assert) {
+  assert.expect(2);
+
+  let enterBubbled = false;
+
+  this.setProperties({
+    display: '',
+    value: '',
+    didExitEditMode() {
+      assert.ok(true, "Pressing Enter exits edit mode.");
+    }
+  });
+
+  this.render(hbs`
+    {{#inline-edit value=display isEditing=true didExitEditMode=(action didExitEditMode) focusChangesState=false as |f|}}
+      <input type='text' value=value>
+    {{/inline-edit}}
+  `);
+
+    this.$(document).one('keypress', function(e) {
+      if(e.keyCode === 13) {
+        enterBubbled = true;
+        assert.notOk(true, 'submit was called!');
+      }
+    });
+
+    const $input = this.$('.InlineEdit input');
+    $input.focus();
+    $input.trigger({
+      type: 'keypress',
+      which: 13,
+      keyCode: 13
+    });
+
+    return wait().then(()=> {
+      assert.notOk(enterBubbled, "The Enter event did not bubble.");
+    });
 });
