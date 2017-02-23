@@ -3,8 +3,11 @@ import Cookie from 'ember-simple-auth/session-stores/cookie';
 
 const { get, RSVP, inject } = Ember;
 
+const fiveYears = (5 * 365 * 24 * 60 * 60);
+
 export default Cookie.extend({
   fastboot: inject.service(),
+  cookieExpirationTime: fiveYears,
 
   restore() {
     const isFastBoot = get(this, 'fastboot.isFastBoot');
