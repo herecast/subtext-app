@@ -49,25 +49,35 @@
       {{form.event-form-venue}}
 
       {{#inline-edit focusChangesState=false as |m|}}
+
         {{#if m.isEditing}}
-          {{form.event-form-dates}}
-          <button {{action m.exitEditMode}}>done</button>
+          <div class='u-card'>
+            <div style="padding:5px;">
+              {{form.event-form-dates}}
+              <button {{action m.exitEditMode}}>done</button>
+            </div>
+          </div>
 
         {{else}}
-        <div class='InlineEdit-display' {{action m.enterEditMode}}>
-            {{#form-group label="Dates & Times"}}
-              <div>{{fa-icon 'pencil'}}</div>
+          <label>Dates &amp; Times</label>
+
+          <div class='InlineEdit-display' {{action m.enterEditMode}}>
+            {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
+          </div>
+
+          <div class='u-card'>
+            {{#form-group}}
               {{#each model.eventInstances as |instance|}}
-                <div class='FutureEvent '>
+                <div class='FutureEvent'>
                   <div class="FutureEvent-calendar text-center">
                     <span>{{moment-format instance.startsAt 'MMMM'}}</span>
                     <div class="FutureEvent-date">{{moment-format instance.startsAt 'D'}}</div>
                   </div>
 
                   <div class='FutureEvent-body'>
-                      <h4 class='FutureEvent-header'>{{moment-format instance.startsAt 'MMMM D, YYYY'}}</h4>
-                      <p class='FutureEvent-header'>{{instance.subtitle}}</p>
-                      <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
+                    <h4 class='FutureEvent-header'>{{moment-format instance.startsAt 'MMMM D, YYYY'}}</h4>
+                    <p class='FutureEvent-header'>{{instance.subtitle}}</p>
+                    <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
                   </div>
                 </div>
               {{/each}}
@@ -85,6 +95,7 @@
           <button {{action m.exitEditMode}}>done</button>
         {{else}}
           {{#form-group label='Registration'}}
+            {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
             <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action m.enterEditMode}}>
               {{fa-icon 'pencil'}}
               {{model.formattedRegistrationDeadline}}
@@ -106,7 +117,7 @@
             <button {{action m.exitEditMode}}>done</button>
           {{else}}
             <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{m.enterEditMode}}>
-              {{fa-icon "pencil"}}
+              {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
               {{#if model.costType}}
                 <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
               {{/if}}
