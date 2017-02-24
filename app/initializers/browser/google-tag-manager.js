@@ -34,6 +34,7 @@ export function initialize(application) {
 
     Router.reopen({
       session: inject.service(),
+      currentController: inject.service(),
 
       notifyGoogleTagManager: on('didTransition', function() {
         // Wrap in run.later so that the page title is available
@@ -44,14 +45,17 @@ export function initialize(application) {
 
           if (typeof dataLayer !== "undefined") {
             const currentUrl = window.location.href;
+            const currentModel = get(this,'currentController.currentController.model');
+            const currentOrgName = currentModel.get('organizationName') || null;
 
             dataLayer.push({
               'event':'VirtualPageview',
-              'virtualPageURL'      : get(this, 'url'),
-              'virtualPageTitle'    : document.title,
-              'virtualUserID'       : currentUserID,
-              'virtualCommunity'    : currentUserCommunity,
-              'VirtualPageReferrer' : referrer
+              'virtualPageURL'          : get(this, 'url'),
+              'virtualPageTitle'        : document.title,
+              'virtualUserID'           : currentUserID,
+              'virtualCommunity'        : currentUserCommunity,
+              'VirtualPageReferrer'     : referrer,
+              'virtualOrganizationName' : currentOrgName
             });
 
             referrer = currentUrl;
