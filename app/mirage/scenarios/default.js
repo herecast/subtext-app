@@ -26,6 +26,7 @@ export default function(server) {
   server.createList('market-category', 21);
   server.createList('content-metric',1);
   server.createList('location', 8);
+  server.createList('promotion-coupon', 10);
 
   const user1 = server.create('user', {location_id: 1});
   const user2 = server.create('user', {location_id: 1});

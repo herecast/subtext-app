@@ -18,6 +18,7 @@ module.exports = function(environment) {
       'GTM_API_TOKEN',
       'GTM_AUTH',
       'FASTBOOT_DATA_CACHE_TIMEOUT',
+      'OPTIMIZED_IMAGE_URI',
       'GTM_PREVIEW'
     ],
     API_NAMESPACE: 'api/v3',
@@ -53,6 +54,9 @@ module.exports = function(environment) {
   ENV['ember-cli-mirage'] = {
     directory: 'app/mirage'
   };
+
+  ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'http://dev-web.subtext.org:8880';
+  ENV['OPTIMIZED_IMAGE_QUALITY'] = process.env.OPTIMIZED_IMAGE_QUALITY || 80;
 
 
   if (environment === 'development') {

@@ -13,11 +13,14 @@
         <div class='col-xs-12 col-md-8 col-md-push-2'>
           <div class='Card-groupedWrapper'>
             {{#each group.items as |event innerIndex|}}
-              {{#if (and (eq outerIndex 0) (eq innerIndex 4))}}
+              {{#if (and (eq outerIndex 0) (or (eq innerIndex 4) (eq innerIndex 12) (eq innerIndex 20)))}}
                 <div class='AdBanner-wrapper AdBanner-wrapper--events'>
                   {{ad-banner
                     adContextName=adPath
-                    impressionPath=adPath}}
+                    impressionPath=adPath
+                    lastRefreshDate=lastRefreshDate
+                    pagePositionForAnalytics=innerIndex
+                  }}
                 </div>
               {{/if}}
 

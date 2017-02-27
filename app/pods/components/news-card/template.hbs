@@ -17,7 +17,7 @@
             <div class='Card-imageContainer'>
               {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
                 <span {{action 'trackSuggestedContentClick'}}>
-                  <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                  <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
               {{/link-to}}
             </div>
@@ -58,7 +58,7 @@
             <div class='Card-imageContainer'>
               {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
                 <span {{action 'trackSuggestedContentClick'}}>
-                  <div class='media-object Card-image-tile' style="background-image:url({{item.imageUrl}})"></div>
+                  <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
               {{/link-to}}
             </div>
@@ -73,7 +73,7 @@
       <div class='Card-imageContainer'>
         {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') classNameBindings="isSimilarContent:SimilarContentLink"}}
           <span {{action 'trackSuggestedContentClick'}}>
-            <div class='Card-image img-responsive' style="background-image:url({{item.imageUrl}})"></div>
+            <div class='Card-image img-responsive' style="background-image: url('{{optimized-image-url item.imageUrl 236 177 true}}')"></div>
           </span>
         {{/link-to}}
       </div>

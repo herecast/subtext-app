@@ -1,11 +1,11 @@
 {{#if promotion.redirect_url}}
   {{#if promotion.image_url}}
     <a href='{{promotion.redirect_url}}' target='_blank'>
-      <img class='img-responsive AdBanner' src='{{promotion.image_url}}'>
+      <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 386 320 false}}'>
     </a>
   {{/if}}
 {{else if promotion.image_url}}
-  <img class='img-responsive AdBanner' src='{{promotion.image_url}}'>
+  <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 386 320 false}}'>
 {{/if}}
 
 {{outreach-cta

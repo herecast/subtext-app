@@ -45,6 +45,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   api: inject.service(),
   notify: inject.service('notification-messages'),
   intercom: inject.service(),
+  isPublishing: false,
 
   pendingFeaturedImage: null,
 
@@ -323,10 +324,13 @@ export default Ember.Component.extend(TestSelector, Validation, {
           set(news, 'publishedAt', moment());
         }
 
+        // Avoid showing link to detail page until the entire publish has finished (including image upload, FB notify, etc)
+        set(this, 'isPublishing', true);
+
         this._save().then(() => {
           get(this, 'intercom').trackEvent('news-publish');
-
           get(this, 'notify').success('Your post has been published');
+          set(this, 'isPublishing', false);
           this.sendAction('afterPublish');
         });
       }

@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 const apiStub = Ember.Service.extend({
-  recordOutreachCtaEvent() {
+  recordAdMetricEvent() {
     return true;
   }//outreach-cta component
 });

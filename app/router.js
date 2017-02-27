@@ -98,7 +98,6 @@ Router.map(function() {
   this.route('privacy');
   this.route('copyright');
   this.route('copyright-agent');
-  this.route('error-404', {path: '/not-found'});
 
   this.route('organization-profile', {path: '/organizations/:slug'}, function() {
     this.route('edit');
@@ -127,6 +126,14 @@ Router.map(function() {
     this.route('subscriptions');
   });
   this.route('kitchen-sink');
+
+  this.route('promotions.show', {path: '/promotions/:id'});
+
+  // error-404 page is used for intermediateTransitionTo when a model returns 404
+  // error-404-passthrough is used as a catch-all route to render a 404 page when a non-existent route is requested
+  // Unfortunately, the catch-all route was not working nicely with intermediateTransitionTo, so both are necessary
+  this.route('error-404');
+  this.route('error-404-passthrough', {path: "*path"});
 });
 
 export default Router;

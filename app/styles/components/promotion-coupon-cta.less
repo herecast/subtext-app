@@ -1,0 +1,58 @@
+.PromotionCouponCta {
+  position: relative;
+  margin-top: 10px;
+  &-cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.7);
+    color: grey;
+    padding-top: 20%;
+    font-size: 50px;
+    border-radius: 4px;
+  }
+  &-email-button {
+    .Button;
+    .Button--directory;
+    color: #fff;
+    text-align: center;
+    margin: 15px 0;
+  }
+  &.open {
+    .PromotionCouponCta-email-button {
+      background-color: #adc0b4;
+    }
+  }
+  &-email-message,
+  &-instructions,
+  &-coupon-message {
+    line-height: 1.0;
+    text-align: left;
+    max-width: 500px;
+    margin: 10px auto;
+  }
+  &-email-message,
+  &-instructions {
+    font-size: 12px;
+  }
+  button {
+    outline: none;
+  }
+  input {
+    max-width: 300px;
+    margin: 15px auto;
+  }
+  &-deny-button {
+    cursor: pointer;
+    color: grey;
+    margin: 5px 10px;
+  }
+  &-confirm-button {
+    .Button;
+    .Button--directory;
+    color: #fff;
+    max-width: 150px;
+  }
+}

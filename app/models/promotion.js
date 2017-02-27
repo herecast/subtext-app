@@ -8,5 +8,6 @@ export default DS.Model.extend({
   organization_name: attr('string'),
   image_url: attr('string'),
   redirect_url: attr('string'),
-  title: attr('string')
+  title: attr('string'),
+  metrics_id: attr('number')
 });

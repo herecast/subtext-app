@@ -26,7 +26,7 @@
   {{#if showThumbnails}}
     <div class="DetailPage-headerSection">
       {{#each model.images as |image|}}
-        <img src="{{image.imageUrl}}" {{action 'chooseImage' image.imageUrl}} class="DetailPage-thumbnail"/>
+        <img src="{{optimized-image-url image.imageUrl 200 60 false}}" {{action 'chooseImage' image.imageUrl}} class="DetailPage-thumbnail"/>
       {{/each}}
     </div>
   {{/if}}

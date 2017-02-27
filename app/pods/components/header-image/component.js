@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 const { get, computed } = Ember;
 
@@ -13,6 +14,8 @@ export default Ember.Component.extend({
 
   style: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');
-    return Ember.String.htmlSafe(`background-image: url('${imageUrl}');`);
+    let optimizedImageUrl = makeOptimizedImageUrl(imageUrl, 640, 360, false);
+
+    return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl}');`);
   })
 });

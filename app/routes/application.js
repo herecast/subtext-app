@@ -39,7 +39,12 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   actions: {
     error(error) {
       if (get(this, 'fastboot.isFastBoot')) {
-        const statusCode = (error && 'status' in error) ? error.status : 500;
+        let statusCode;
+        try {
+          statusCode = error.errors[0].status;
+        } catch(err) {
+          statusCode = 500;
+        }
         set(this, 'fastboot.response.statusCode', statusCode);
       } else {
         console.error(error);

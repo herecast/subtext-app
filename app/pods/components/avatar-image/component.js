@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import computedInitials from 'subtext-ui/utils/computed-initials';
 import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
+import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 const { get, set, computed, String: { htmlSafe }  } = Ember;
 
@@ -43,5 +44,12 @@ export default Ember.Component.extend({
     }
 
     return htmlSafe(style);
+  }),
+
+  optimizedImageUrl: computed('imageUrl', 'customSize', function() {
+    const imageUrl = get(this, 'imageUrl');
+    const customSize = get(this, 'customSize');
+
+    return makeOptimizedImageUrl(imageUrl, customSize, customSize, true);
   })
 });

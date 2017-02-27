@@ -7,7 +7,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   queryParams: ['query', 'location', 'locationId', 'organization', 'page', 'per_page'],
 
   page: 1,
-  per_page: 14,
+  per_page: 13,
 
   defaultQuery: 'Everything',
   defaultOrganization: 'Everyone',

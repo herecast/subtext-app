@@ -327,7 +327,7 @@ export default function() {
     return organizations;
   });
 
-  this.get('/promotions/:id');
+
 
   this.get('/organizations/:id');
   this.put('/organizations/:id', function({ db }, request) {
@@ -482,6 +482,14 @@ export default function() {
     }
 
     return {promotions:promotions};
+  });
+
+  this.get('/promotion_coupons/:id', function({db}, request) {
+    return {promotionCoupon: db.promotionCoupons.find(request.params.id)};
+  });
+
+  this.post('/promotion_coupons/:id/request_email', function() {
+    return true;
   });
 
   this.post('/promotion_banners/:id/track_click', function() {});

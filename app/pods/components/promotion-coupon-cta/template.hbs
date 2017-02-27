@@ -1,0 +1,74 @@
+{{#liquid-spacer growDuration=300 growWidth=false}}
+  {{#unless hasRequested}}
+    {{#if isRequesting}}
+    <div class="PromotionCouponCta-cover">
+      {{fa-icon 'cog' class="fa-spin"}}
+    </div>
+    {{/if}}
+
+    <button class='PromotionCouponCta-email-button' {{action "changeWantsEmail" true}}>
+      Get the coupon by email
+    </button>
+
+    {{#if wantsEmail}}
+      <div class="PromotionCouponCta-email-message">
+        <p>
+          Please provide your email address so that we can send you the coupon.
+        </p>
+        <p>
+          Your email address will <b>only</b> be used to send you the coupon.
+        </p>
+        <p>
+          We will not use it for any other purpose.
+        </p>
+      </div>
+      {{#form-group error=errors.email}}
+        {{input
+          type=text
+          value=coupon.email
+          placeholder="email@address.com"
+          class="form-control"
+          input=(action 'validateEmail')
+        }}
+      {{/form-group}}
+      <div class="PromotionCouponCta-button-row">
+        <span class="PromotionCouponCta-deny-button" {{action "changeWantsEmail" false}}>
+          No Thanks
+        </span>
+        <button class='PromotionCouponCta-confirm-button' {{action "requestCoupon"}}>
+          Yes, please.
+        </button>
+      </div>
+    {{/if}}
+  {{else}}
+    <div>
+      You should receive an email shortly containing the coupon.<br  />
+      Thank you!
+    </div>
+  {{/unless}}
+{{/liquid-spacer}}
+
+<div class="PromotionCouponCta-coupon-message">
+  {{coupon.message}}
+</div>
+
+<div class="PromotionCouponCta-instructions">
+  <p>
+    <b>To redeem the coupon</b> you must present it to the sponsoring business in one of two ways:
+  </p>
+  <p>
+    1. Hit the "Get the coupon by email" button, enter your email address and click "Yes".
+  </p>
+  <p>
+    OR
+  </p>
+  <p>
+    2. Hit the "Click for full size Coupon" image to reveal and present the full sized coupon.
+  </p>
+  <p>
+    If you choose the email option, you will receive the coupon by email for safe keeping and can either print it out or present it on your mobile device.
+  </p>
+  <p>
+    If you choose to use the coupon on this page, you will need to either keep this tab open or remember the web address <b>{{url}}</b>
+  </p>
+</div>

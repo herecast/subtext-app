@@ -5,6 +5,14 @@ export default ActiveModelSerializer.extend({
 
   payloadKeyFromModelName() {
     return 'promotion';
+  },
+
+  normalize(model, hash, prop) {
+    if (prop === 'promotions') {
+      hash.metrics_id = hash.id;
+    }
+    return this._super(...arguments);
   }
+
 
 });

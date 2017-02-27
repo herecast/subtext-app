@@ -20,7 +20,12 @@
     }}
 
     <div class='AdBanner-wrapper AdBanner-wrapper--news'>
-      {{ad-banner adContextName=adPath impressionPath=adPath lastRefreshDate=lastRefreshDate}}
+      {{ad-banner
+        adContextName=adPath
+        impressionPath=adPath
+        lastRefreshDate=lastRefreshDate
+        pagePositionForAnalytics='after-item-2'
+      }}
     </div>
   </div>
   <div class='col-sm-3'>
@@ -56,6 +61,17 @@
         }}
       </div>
     </div>
+
+    {{#if media.isMobile}}
+      <div class='AdBanner-wrapper AdBanner-wrapper--news'>
+        {{ad-banner
+          adContextName=adPath
+          impressionPath=adPath
+          lastRefreshDate=lastRefreshDate
+          pagePositionForAnalytics='mobile-after-item-6'
+        }}
+      </div>
+    {{/if}}
 
     <div class='col-sm-6'>
       {{news-card-wide
@@ -98,22 +114,26 @@
         variant='vertical'
         routeName=routeName
       }}
-      {{news-card
-        item=item12
-        variant='vertical'
-        routeName=routeName
-      }}
+
+      <div class='AdBanner-wrapper AdBanner-wrapper--news'>
+        {{ad-banner
+          adContextName=adPath
+          impressionPath=adPath
+          lastRefreshDate=lastRefreshDate
+          pagePositionForAnalytics="after-item-11"
+        }}
+      </div>
     </div>
 
     <div class='col-sm-3'>
       <div class='Card-wrapper--columnVertical4Up'>
         {{news-card
-          item=item13
+          item=item12
           variant='vertical'
           routeName=routeName
         }}
         {{news-card
-          item=item14
+          item=item13
           variant='vertical'
           routeName=routeName
         }}

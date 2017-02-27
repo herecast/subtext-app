@@ -56,7 +56,7 @@
         {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event')
                    classNameBindings="isSimilarContent:SimilarContentLink"}}
           <span {{action 'trackSuggestedContentClick'}}>
-            <img src='{{event.imageUrl}}' class='media-object Card-image-tile'>
+            <img src='{{optimized-image-url event.imageUrl 100 100 false}}' class='media-object Card-image-tile'>
           </span>
         {{/link-to}}
       {{else}}
