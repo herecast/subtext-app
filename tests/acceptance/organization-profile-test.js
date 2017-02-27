@@ -3,6 +3,7 @@ import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance'
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import moment from 'moment';
 import Ember from 'ember';
+import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 moduleForAcceptance('Acceptance | organization profile');
 
@@ -27,7 +28,7 @@ test('Displays organization info', function(assert) {
     element = find(testSelector('organization-image'));
     assert.equal(
       element.attr('src'),
-      organization.logoUrl,
+      makeOptimizedImageUrl(organization.logoUrl, 150, 150, true),
       "Organization Logo");
 
     // Name

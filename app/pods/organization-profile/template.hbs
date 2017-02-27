@@ -4,10 +4,10 @@
     <div class="OrganizationProfile-header-container">
       <div class="OrganizationProfile-header-content">
         {{#if model.logoUrl}}
-          <img src={{model.logoUrl}} data-test-organization-image class='OrganizationProfile-header-logo'>
+          <img src={{optimized-image-url model.logoUrl 150 150 true}} data-test-organization-image class='OrganizationProfile-header-logo'>
         {{else}}
           {{#if model.profileImageUrl}}
-            <img src={{model.profileImageUrl}} data-test-organization-image
+            <img src={{optimized-image-url model.profileImageUrl 150 150 true}} data-test-organization-image
                  class='OrganizationProfile-header-profileImage'>
           {{else}}
             {{fa-icon 'user' size=3 class='OrganizationProfile-header-genericUserIcon hidden-sm hidden-md hidden-lg hidden-xl'}}
@@ -106,7 +106,7 @@
           <div class='OrganizationProfile-title' data-test-about-header>
             {{#if model.displayImageUrl}}
               <div class="OrganizationProfile-title-item">
-                <img src="{{model.displayImageUrl}}" alt="{{model.name}}" class="OrganizationProfile-avatar"/>
+                <img src="{{optimized-image-url model.displayImageUrl 40 40 true}}" alt="{{model.name}}" class="OrganizationProfile-avatar"/>
               </div>
             {{/if}}
             <div class='OrganizationProfile-title-item'>

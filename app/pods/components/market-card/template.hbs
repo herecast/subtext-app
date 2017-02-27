@@ -19,7 +19,7 @@
           trackSuggestedContentClick=(action 'trackSuggestedContentClick')
         }}
           <div class='Card-image-tile Card-image-tile--preserveAspectRatio'>
-            <img class='img-responsive' src={{post.coverImageUrl}} />
+            <img class='img-responsive' src={{optimized-image-url post.coverImageUrl 133 113 false}} />
           </div>
         {{/market-post-link}}
       {{/if}}

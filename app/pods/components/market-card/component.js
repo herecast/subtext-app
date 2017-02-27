@@ -26,7 +26,7 @@ export default Ember.Component.extend(TrackCard, {
 
   backgroundImage: computed('post.coverImageUrl', function() {
     const url = get(this, 'post.coverImageUrl');
-    const styles = `background-image: url(${url})`;
+    const styles = `background-image: url('${url}')`;
 
     return new Ember.Handlebars.SafeString(styles);
   }),

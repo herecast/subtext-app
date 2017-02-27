@@ -17,7 +17,7 @@
     {{#if model.featuredImageUrl}}
       <div class='DetailPage-headerImage-wrapper'>
         <div class='DetailPage-headerImage'>
-          <img class='img-responsive' src={{model.featuredImageUrl}}>
+          <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
         </div>
 
         {{#if hasCaptionOrCredit}}

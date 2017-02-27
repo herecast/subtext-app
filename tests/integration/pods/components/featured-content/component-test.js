@@ -1,6 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
+import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 moduleForComponent('featured-content', 'Integration | Component | featured content', {
   integration: true
@@ -72,5 +73,5 @@ test('It displays organization info', function(assert) {
   assert.equal($pub.text().trim(), organization.name);
 
   let $pubImage = this.$('.AvatarImage img');
-  assert.equal($pubImage.attr('src'), organization.logoUrl);
+  assert.equal($pubImage.attr('src'), makeOptimizedImageUrl(organization.logoUrl, 50, 50, true));
 });
