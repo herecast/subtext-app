@@ -12,6 +12,8 @@ export default Ember.Component.extend(TestSelector, {
   classNames: ['ImageUploadTiles'],
   store: inject.service('store'),
 
+  isAddingNewImage: false,
+
   nonDeletedImages: computed.filterBy('images', '_delete', undefined),
 
   uploadAllowed: computed.lt('nonDeletedImages.length', 6),
@@ -24,6 +26,7 @@ export default Ember.Component.extend(TestSelector, {
       image.set('primary', true);
     }
     images.pushObject(image);
+
   },
 
   // Override to handle in parent context
@@ -38,10 +41,20 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   actions: {
+    setProcessingStatus(status) {
+      // need to display a spinner as this operation
+      // can be lengthy on some low power devices
+      if (status === 'start') {
+        set(this, 'isAddingNewImage', true);
+      } else if (status === 'end' || status === null) {
+        set(this, 'isAddingNewImage', false);
+      }
+    },
+
     newImage({img, file}) {
       const imageCount = get(this, 'nonDeletedImages.length');
 
-      if(imageCount < 6) {
+      if (imageCount < 6) {
         const image = get(this, 'store').createRecord('image', {
           imageUrl: img.src,
           width: img.width,

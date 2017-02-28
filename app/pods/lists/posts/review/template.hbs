@@ -27,12 +27,13 @@
     </ul>
   </div>
   <footer class='ListservForm-actions'>
-    <button
-        class='ListservForm-callToAction ListservForm-ctaNext'
-        data-test-action="publish"
-        {{action 'saveAndPublish'}}>
-      Save and Publish
-    </button>
+    {{async-button
+      action='saveAndPublish'
+      default='Save and Publish'
+      pending='Saving...'
+      class='ListservForm-callToAction ListservForm-ctaNext'
+      data-test-action='publish'
+    }}
   </footer>
 </section>
 

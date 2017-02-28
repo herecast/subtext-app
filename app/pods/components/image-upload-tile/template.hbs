@@ -1,7 +1,11 @@
 <div class='ImageUploadTile-container ImageUploadTiles-container'>
+  {{#if isAddingNewImage}}
+    {{image-tile-spinner class='ImageUploadTiles-tile'}}
+  {{/if}}
+
   {{#if model.imageUrl}}
     {{image-tile
-        imageUrl=model.imageUrl
+        imageUrl=(readonly model.imageUrl)
         remove=(action removeImage)
         class="ImageUploadTiles-tile ImageUploadTile-tile ImageUploadTile-imageTile"
     }}
@@ -9,6 +13,7 @@
     {{image-input-tile
         class='ImageTile ImageUploadTile-tile ImageUploadTiles-tile ImageUploadTiles-inputTile ImageUploadTile-inputTile'
         action=(action addImage)
+        notifyProcessing=(action 'setProcessingStatus')
         onError=(action 'imageError')
         multiple=false
     }}

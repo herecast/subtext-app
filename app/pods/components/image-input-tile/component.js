@@ -15,6 +15,10 @@ export default Ember.Component.extend({
   errors: [],
 
   fileError(e) {
+    if ('notifyProcessing' in this.attrs) {
+      this.attrs.notifyProcessing('end');
+    }
+
     if('onError' in this.attrs) {
       this.attrs.onError(e);
     } else {
@@ -25,9 +29,17 @@ export default Ember.Component.extend({
 
   fileSuccess({file, img}) {
     this.attrs.action({file, img});
+
+    if ('notifyProcessing' in this.attrs) {
+      this.attrs.notifyProcessing('end');
+    }
   },
 
   processFile(file) {
+    if ('notifyProcessing' in this.attrs) {
+      this.attrs.notifyProcessing('start');
+    }
+
     return new Promise((resolve, reject) => {
       const minWidth = get(this, 'minWidth');
       const minHeight = get(this, 'minHeight');

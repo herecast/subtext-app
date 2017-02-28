@@ -2,8 +2,8 @@
   {{#each nonDeletedImages as |image|}}
     {{#unless image._delete}}
       {{image-tile
-          imageUrl=image.imageUrl
-          isPrimary=image.primary
+          imageUrl=(readonly image.imageUrl)
+          isPrimary=(readonly image.primary)
           setPrimary=(action setPrimary image)
           remove=(action removeImage image)
           class="ImageUploadTiles-tile"
@@ -11,9 +11,14 @@
     {{/unless}}
   {{/each}}
 
+  {{#if isAddingNewImage}}
+    {{image-tile-spinner class='ImageUploadTiles-tile'}}
+  {{/if}}
+
   {{#if uploadAllowed}}
     {{image-input-tile
         class='ImageTile ImageUploadTiles-tile ImageUploadTiles-inputTile'
+        notifyProcessing=(action 'setProcessingStatus')
         action=(action 'newImage')
         onError=(action 'imageError')
         multiple=true
