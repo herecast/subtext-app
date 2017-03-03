@@ -1,0 +1,10 @@
+<input
+  type='date'
+  placeholder={{placeholder}}
+  disabled={{disabled}}
+  readonly={{readonly}}
+  class="DateInput-input {{inputClass}}"
+  data-test-input={{get this 'data-test-input'}}
+  value={{readonly formattedValue}}
+  oninput={{action doUpdate value='target.value'}}
+>

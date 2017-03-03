@@ -100,6 +100,7 @@
     "ember-sinon": "^0.3.0",
     "ember-test-selectors": "0.0.3",
     "ember-welcome-page": "^1.0.1",
+    "ismobilejs": "^0.4.0",
     "request": "~2.72.0"
   },
   "fastbootDependencies": [

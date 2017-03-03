@@ -22,14 +22,11 @@
             {{fa-icon 'calendar'}}
           </span>
           <label></label>
-          {{pikaday-input
-            firstDay=0
-            value=date
-            onSelection=(action (mut date))
-            placeholder='Registration Deadline'
-            class='form-control'
-            format="MM/DD/YYYY"
-            yearRange="currentYear,2010"
+          {{date-input
+              value=date
+              format='MM/DD/YYYY'
+              placeholder='12/25/2020'
+              update=(action (mut date))
           }}
         </div>
       </div>

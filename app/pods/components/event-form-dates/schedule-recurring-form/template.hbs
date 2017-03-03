@@ -4,27 +4,21 @@
   {{#form-group error=errors.dateError class='row'}}
     {{#form-group error=errors.startDateError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Starts on</label>
-      {{modify-ember-pickaday
-        firstDay=0
-        value=startDate
-        onSelection=(action (mut startDate))
-        placeholder='Date'
-        class='form-control'
-        format="MM/DD/YYYY"
-        yearRange="currentYear,2010"
-      }}
+        {{date-input
+            value=startDate
+            format='MM/DD/YYYY'
+            placeholder='12/25/2020'
+            update=(action (mut startDate))
+        }}
     {{/form-group}}
 
     {{#form-group error=errors.stopDateError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Ends</label>
-      {{modify-ember-pickaday
-        firstDay=0
-        value=stopDate
-        onSelection=(action (mut stopDate))
-        placeholder='Date'
-        class='form-control'
-        format="MM/DD/YYYY"
-        yearRange="currentYear,2010"
+      {{date-input
+          value=stopDate
+          format='MM/DD/YYYY'
+          placeholder='12/25/2020'
+          update=(action (mut stopDate))
       }}
     {{/form-group}}
   {{/form-group}}
@@ -68,21 +62,21 @@
   {{#form-group error=errors.timeError class='row'}}
     {{#form-group error=errors.startTimeError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Start Time</label>
-      {{input-mask
-        mask='09:00 Sm'
-        placeholder='12:00 am'
-        value=startTime
-        class='form-control'
+      {{time-input
+          value=startTime
+          format='h:mm a'
+          placeholder='9:00 am'
+          update=(action (mut startTime))
       }}
     {{/form-group}}
 
     {{#form-group error=errors.stopTimeError class='col-xs-12 col-sm-6'}}
       <label>End Time</label>
-      {{input-mask
-        mask='09:00 Sm'
-        placeholder='12:00 am'
-        value=stopTime
-        class='form-control'
+      {{time-input
+          value=stopTime
+          format='h:mm a'
+          placeholder='2:00 pm'
+          update=(action (mut stopTime))
       }}
     {{/form-group}}
   {{/form-group}}

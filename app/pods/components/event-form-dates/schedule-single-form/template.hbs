@@ -4,38 +4,33 @@
   {{#form-group error=errors.dateError class='row'}}
     <div class='col-xs-12 col-sm-6' data-test-event-date-pikaday>
       <label class='ContentForm-label--required'>Date</label>
-      {{modify-ember-pickaday
-        firstDay=0
-        value=startDate
-        onSelection=(action (mut startDate))
-        placeholder='Date'
-        class='form-control'
-        format="MM/DD/YYYY"
-        yearRange="currentYear,2010"
-      }}
+        {{date-input
+            value=startDate
+            format='MM/DD/YYYY'
+            placeholder='12/25/2020'
+            update=(action (mut startDate))
+        }}
     </div>
   {{/form-group}}
 
   {{#form-group error=errors.timeError class='row'}}
     {{#form-group error=errors.startTimeError class='col-xs-12 col-sm-6'}}
       <label class='ContentForm-label--required'>Start Time</label>
-      {{input-mask
-        mask='09:00 Sm'
-        placeholder='9:00 am'
-        value=startTime
-        class='form-control'
-        data-test-field='start-time'
+      {{time-input
+          value=startTime
+          format='h:mm a'
+          placeholder='9:00 am'
+          update=(action (mut startTime))
       }}
     {{/form-group}}
 
     {{#form-group error=errors.stopTimeError class='col-xs-12 col-sm-6'}}
       <label>End Time</label>
-      {{input-mask
-        mask='09:00 Sm'
-        placeholder='2:00 pm'
-        value=stopTime
-        class='form-control'
-        data-test-field='end-time'
+      {{time-input
+          value=stopTime
+          format='h:mm a'
+          placeholder='2:00 pm'
+          update=(action (mut stopTime))
       }}
     {{/form-group}}
   {{/form-group}}
