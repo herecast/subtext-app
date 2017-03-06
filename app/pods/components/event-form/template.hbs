@@ -13,7 +13,6 @@
     placeholder='Keep it short and informative'
     value=(mut model.title)
     class="form-control"
-    oninput=(action 'validateForm')
     data-test-field="market-title"
   )
   content-input=(component 'summer-note'
@@ -63,14 +62,12 @@
     placeholder='Contact Email'
     class='form-control'
     value=(mut model.contactEmail)
-    oninput=(action 'validateForm')
   )
   url-input=(component 'atoms/form-input'
     placeholder='Web Link, ex: event URL or registration page'
     class='form-control'
     value=model.eventUrl
-    onfocusout=(action 'normalizeUrl')
-    oninput=(action 'validateForm')
+    focus-out=(action 'normalizeUrl')
   )
 )}}
 

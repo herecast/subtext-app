@@ -36,19 +36,19 @@
     {{/form-group}}
 
     {{#form-group label="Event Info"}}
-      {{#form-group error=errors.contactEmail as |group|}}
+      {{#form-group error=form.errors.contactEmail as |group|}}
         {{#field-with-icon icon='envelope'}}
           {{component form.email-input id=group.uniqueID}}
         {{/field-with-icon}}
       {{/form-group}}
 
-      {{#form-group error=errors.contactPhone  as |group|}}
+      {{#form-group error=form.errors.contactPhone  as |group|}}
         {{#field-with-icon icon='phone'}}
           {{component form.phone-input id=group.uniqueID}}
         {{/field-with-icon}}
       {{/form-group}}
 
-      {{#form-group error=errors.eventUrl as |group|}}
+      {{#form-group error=form.errors.eventUrl as |group|}}
         {{#field-with-icon icon='link'}}
           {{component form.url-input id=group.uniqueID}}
         {{/field-with-icon}}
