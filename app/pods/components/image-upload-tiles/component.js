@@ -27,6 +27,7 @@ export default Ember.Component.extend(TestSelector, {
     }
     images.pushObject(image);
 
+    set(this, 'error', null);
   },
 
   // Override to handle in parent context
