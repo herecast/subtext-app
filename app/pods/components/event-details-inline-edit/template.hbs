@@ -61,10 +61,13 @@
         {{else}}
           <label>Dates &amp; Times</label>
 
-          <div class='InlineEdit-display' {{action m.enterEditMode}}>
-            {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
-          </div>
+          <div>
+            <button class='InlineEdit-editButton' data-test-action='toggle-edit'  {{action m.enterEditMode}}>
+              {{fa-icon 'pencil'}}
+              edit
+            </button>
 
+          </div>
           <div class='u-card'>
             {{#form-group}}
               {{#each model.eventInstances as |instance|}}
@@ -95,10 +98,12 @@
           <button {{action m.exitEditMode}}>done</button>
         {{else}}
           {{#form-group label='Registration'}}
-            {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
-            <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action m.enterEditMode}}>
-              {{fa-icon 'pencil'}}
+            <div>
               {{model.formattedRegistrationDeadline}}
+              <button class='InlineEdit-editButton' data-test-action='toggle-edit'  {{action m.enterEditMode}}>
+                {{fa-icon 'pencil'}}
+                edit
+              </button>
             </div>
           {{/form-group}}
         {{/if}}
@@ -116,13 +121,17 @@
             </div>
             <button {{action m.exitEditMode}}>done</button>
           {{else}}
-            <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{m.enterEditMode}}>
-              {{fa-icon 'pencil'}} <span class="u-link u-bold">edit</span>
-              {{#if model.costType}}
-                <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
-              {{/if}}
-              {{model.cost}}
-            </div>
+          <div>
+            {{#if model.costType}}
+              <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
+            {{/if}}
+            {{model.cost}}
+
+            <button class='InlineEdit-editButton' data-test-action='toggle-edit' onclick={{m.enterEditMode}}>
+              {{fa-icon 'pencil'}}
+              edit
+            </button>
+          </div>
           {{/if}}
         {{/inline-edit}}
       {{/form-group}}

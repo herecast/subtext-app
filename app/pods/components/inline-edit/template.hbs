@@ -7,9 +7,10 @@
 {{else}}
   {{#if valueWasGiven}}
     {{{value}}}
-    <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action (action enterEditMode)}}>
-      {{fa-icon 'pencil'}} <span class='u-link u-bold'>edit</span>
-    </div>
+    <span class='InlineEdit-editButton' data-test-action='toggle-edit' {{action (action enterEditMode)}}>
+      {{fa-icon 'pencil'}}
+      edit
+    </span>
   {{else}}
     {{yield (hash
       isEditing=isEditing

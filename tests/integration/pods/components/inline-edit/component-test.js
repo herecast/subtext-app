@@ -27,7 +27,7 @@ test('Displaying value on render', function(assert) {
     );
 });
 
-test('Entering edit mode by click, exiting edit mode by focusout', function(assert) {
+test('Entering edit mode by clicking button, exiting edit mode by focusout', function(assert) {
   this.setProperties({
     display: 'The band I am listening to',
     value: 'Matthew West'
@@ -40,7 +40,7 @@ test('Entering edit mode by click, exiting edit mode by focusout', function(asse
     {{/inline-edit}}
   `);
 
-  this.$('.InlineEdit-display').trigger('click');
+  this.$('.InlineEdit-editButton').trigger('click');
 
   return wait().then(()=> {
     assert.equal(
@@ -66,7 +66,7 @@ test('Entering edit mode by click, exiting edit mode by focusout', function(asse
   });
 });
 
-test('Entering edit mode by click, exiting edit mode by button action', function(assert) {
+test('Entering edit mode by clicking edit button, exiting edit mode by button action', function(assert) {
   this.setProperties({
     display: 'The band I am listening to',
     value: 'Matthew West'
@@ -80,7 +80,7 @@ test('Entering edit mode by click, exiting edit mode by button action', function
     {{/inline-edit}}
   `);
 
-  this.$('.InlineEdit-display').click();
+  this.$('.InlineEdit-editButton').click();
   assert.ok(this.$('input').length > 0, "In edit mode");
 
   this.$('button').click();
