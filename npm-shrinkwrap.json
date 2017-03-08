@@ -3481,7 +3481,7 @@
           "resolved": "https://registry.npmjs.org/has-ansi/-/has-ansi-0.1.0.tgz"
         },
         "najax": {
-          "version": "1.0.1",
+          "version": "1.0.0",
           "from": "demersus/najax#62fa832363a76cc07af351c5c1ed4f8aa043dd11",
           "resolved": "git://github.com/demersus/najax.git#62fa832363a76cc07af351c5c1ed4f8aa043dd11"
         },
