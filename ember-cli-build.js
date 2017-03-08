@@ -72,6 +72,7 @@ module.exports = function(defaults) {
     app.import('bower_components/fullcalendar/dist/fullcalendar.js');
   }
 
+  app.import('bower_components/exif-js/exif.js');
   app.import('bower_components/moment-recur/moment-recur.js');
 
   app.import('bower_components/Chart.js/Chart.js');

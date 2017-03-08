@@ -45,6 +45,58 @@ test('selecting a file', function(assert) {
   });
 });
 
+test('selecting a large file that is too wide', function(assert) {
+  const done = assert.async();
+
+  this.setProperties({
+    imageAdded({file, img}) {
+      assert.equal(img.width, 1600, 'width is constrained to the max dimension (default 1600)');
+      assert.equal(img.height, 800, 'height is scaled proportionately');
+
+      done();
+    }
+  });
+
+  this.render(hbs`{{image-input-tile action=(action imageAdded)}}`);
+
+  createImageFixture(2000,1000).then((file)=> {
+    this.$('input.ImageInputTile-input').triggerHandler({
+      type: 'change',
+      target: {
+        files: [
+          file
+        ]
+      }
+    });
+  });
+});
+
+test('selecting a large file that is too tall', function(assert) {
+  const done = assert.async();
+
+  this.setProperties({
+    imageAdded({file, img}) {
+      assert.equal(img.height, 1600, 'height is constrained to the max dimension (default 1600)');
+      assert.equal(img.width, 800, 'width is scaled proportionately');
+
+      done();
+    }
+  });
+
+  this.render(hbs`{{image-input-tile action=(action imageAdded)}}`);
+
+  createImageFixture(1000,2000).then((file)=> {
+    this.$('input.ImageInputTile-input').triggerHandler({
+      type: 'change',
+      target: {
+        files: [
+          file
+        ]
+      }
+    });
+  });
+});
+
 test('selecting multiple files', function(assert) {
   const done = assert.async(3);
   assert.expect(3);
