@@ -2,13 +2,17 @@ import Ember from 'ember';
 
 const {
   computed,
+  isEmpty,
   get
 } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['form-group'],
   classNameBindings: ['hasError:has-error'],
-  hasError: Ember.computed.notEmpty('error'),
+
+  hasError: computed('error', 'errors', function() {
+    return !isEmpty(get(this, 'errors')) || !isEmpty(get(this, 'error'));
+  }),
 
   // Set in components that will render their own error message rather than the
   // help-block one provided by this component.

@@ -13,9 +13,16 @@
 {{#if hasBlock}}
   {{yield this}}
 {{else}}
-  {{component field class='form-control' id=uniqueID}}
+  {{component field id=uniqueID}}
 {{/if}}
 
 {{#if displayError}}
   <div class="help-block FormGroup-error">{{error}}</div>
 {{/if}}
+
+{{!--
+  For compatibity with ember-data and changeset, mutiple errors
+--}}
+{{#each errors as |error|}}
+  <div class="help-block FormGroup-error">{{error}}</div>
+{{/each}}
