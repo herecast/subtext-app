@@ -1,18 +1,20 @@
 import Ember from 'ember';
 
-const { get, set, inject, computed } = Ember;
+const {
+  get,
+  set,
+  inject,
+  computed
+} = Ember;
 
 export default Ember.Controller.extend({
   api: inject.service(),
+  editController: inject.controller('lists.posts.edit'),
   listservName: computed.alias('listservContent.listserv.name'),
   channelType: computed.alias('listservContent.channelType'),
+  validations: computed.alias('editController.validations'),
 
   notify: inject.service('notification-messages'),
-
-  channelInPlaceEdit: computed('channelType', function(){
-    const ct = get(this, 'channelType');
-    return `${ct}-details-inline-edit`;
-  }),
 
   dashboardTab: computed('channelType', function() {
     const chtype = get(this, 'channelType');
@@ -45,11 +47,10 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    saveAndPublish() {
-      const model = get(this, 'model');
-      const listservContent = get(this, 'listservContent');
-
-      model.save().then(() => {
+    saveAndPublish(changeset) {
+      return changeset.save().then(() => {
+        const listservContent = get(this, 'listservContent');
+        const model = get(this, 'model');
         set(listservContent, 'contentId',
           get(model, 'contentId')
         );
@@ -59,7 +60,7 @@ export default Ember.Controller.extend({
           body: get(model, 'content')
         });
 
-        listservContent.save().then(
+        return listservContent.save().then(
           () => {
             this.trackPublishEvent();
             this.sendToShowPage();
@@ -69,8 +70,12 @@ export default Ember.Controller.extend({
             get(this, 'notify').error('Something went wrong. Please contact us.');
           }
         );
+      }).catch(()=>{
+        console.error('Error saving model.');
+        get(this, 'model.errors').forEach(({attribute, message}) => {
+          changeset.pushErrors(attribute, message);
+        });
       });
-
     }
   }
 

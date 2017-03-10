@@ -1,32 +1,64 @@
-{{#talk-form afterDetails='afterDetails' model=(mut model) as |form|}}
-  {{form-group
-    error=form.errors.title
-    required=true
-    label="Title"
-    field=form.title-input
+{{#if hasBlock}}
+
+  {{yield (hash
+      title-input=(component "atoms/form-input"
+        placeholder='Keep it short and informative'
+        value=(mut changeset.title)
+        class="form-control"
+        data-test-field="talk-title"
+      )
+
+      content-input=(component 'summer-note'
+        content=(readonly changeset.content)
+        hideError=true
+        notifyChange=(action 'updateContent')
+        data-test-field="talk-content"
+      )
+
+      image-input=(component 'image-upload-tile'
+        model=changeset
+      )
+
+    )
+    changeset
   }}
 
-  {{#form-group
-    error=form.errors.content
+{{else}}
+
+  {{form-group
+    errors=changeset.error.title.validation
+    required=true
+    label="Title"
+    field=(component "atoms/form-input"
+      placeholder="Keep it short and informative"
+      value=(mut changeset.title)
+      class='form-control'
+      data-test-field='talk-title'
+    )
+  }}
+
+  {{form-group
+    errors=changeset.error.content.validation
     required=true
     label="Body"
+    field=(component 'summer-note'
+      content=(readonly changeset.content)
+      hideError=true
+      notifyChange=(action 'updateContent')
+      data-test-field="talk-content"
+    )
   }}
-    {{form.content-input}}
-  {{/form-group}}
 
   <h3 class='ListservContentForm-fieldDivider h3'>The information you enter below will appear on dailyUV only.</h3>
 
   <fieldset class='ListservForm-enhancementFields'>
     <legend>Post Enhancements</legend>
 
-    {{#form-group
+    {{form-group
       label="Image"
-      error=form.errors.image
+      errors=changeset.error.image.validation
+      field=(component 'image-upload-tile' model=changeset)
     }}
-      {{image-upload-tile model=model}}
-    {{/form-group}}
   </fieldset>
 
-
-  {{partial 'partials/listserv-content-form-submit'}}
-{{/talk-form}}
+{{/if}}

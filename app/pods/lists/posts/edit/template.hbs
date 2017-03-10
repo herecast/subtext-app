@@ -8,22 +8,18 @@
     </div>
   </header>
 
-  {{#if listservContent.isMarket}}
-    {{listserv-market-form
-      model=(mut model)
-      doneEditing=(action 'nextStep')
+  {{#with (changeset model validations) as |changeset|}}
+
+    {{component (concat
+          "listserv-" channelType "-form"
+        )
+        changeset=changeset
     }}
-  {{/if}}
-  {{#if listservContent.isEvent}}
-    {{listserv-event-form
-      model=(mut model)
-      doneEditing=(action 'nextStep')
-    }}
-  {{/if}}
-  {{#if listservContent.isTalk}}
-    {{listserv-talk-form
-      model=(mut model)
-      doneEditing=(action 'nextStep')
-    }}
-  {{/if}}
+
+    <footer class="text-right">
+      <button class="Button Button--primary Button--{{channelType}}" {{action 'save' changeset}} data-test-action='next-step'>
+        Next&nbsp;&nbsp;{{fa-icon 'chevron-right'}}
+      </button>
+    </footer>
+  {{/with}}
 </section>

@@ -1,33 +1,59 @@
-{{#talk-form model=(mut model) as |form|}}
+{{#listserv-talk-form changeset=changeset as |form model|}}
   <fieldset>
     <legend>Post Details.</legend>
 
     {{#form-group label="Title"
-      error=form.errors.title
+      errors=model.error.title.validation
       required=true
     }}
 
-    {{#inline-edit value=model.title
-        data-test-component="talk-title"
-        didExitEditMode=(action form.validateForm)}}
+    {{#inline-edit-with-rollback
+          value=model.title
+          display=model.title
+          data-test-component="talk-title"
+          hasError=model.error.title
+          rollback=(action (mut model.title))
+          as |ie|
+      }}
         {{form.title-input}}
-      {{/inline-edit}}
+        <button class='InlineEdit-button'
+          {{action (action ie.exitEditMode)}}
+        >
+          Ok
+        </button>
+        <button class='InlineEdit-button'
+          {{action (action ie.rollback)}}
+        >
+          Cancel
+        </button>
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
     {{#form-group label="Description"
-      error=form.errors.content
+      errors=model.error.content.validation
       required=true
     }}
 
-    {{#inline-edit value=model.content
+    {{#inline-edit-with-rollback
+        value=model.content
+        display=model.content
         data-test-component='talk-content'
-        focusChangesState=false didExitEditMode=form.validateForm as |m|}}
+        hasError=model.error.content.validation
+        rollback=(action (mut model.content))
+        as |ie|}}
         {{form.content-input}}
-        <div class='text-center'>
-          <button class='Button' {{action m.exitEditMode}}>Ok</button>
-        </div>
-      {{/inline-edit}}
+        <button class='InlineEdit-button'
+          {{action (action ie.exitEditMode)}}
+        >
+          Ok
+        </button>
+        <button class='InlineEdit-button'
+          {{action (action ie.rollback)}}
+        >
+          Cancel
+        </button>
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
@@ -39,10 +65,10 @@
 
       {{#form-group
         label="Image"
-        error=form.errors.image
+        errors=model.error.image.validation
       }}
         {{image-upload-tile model=model}}
       {{/form-group}}
     </fieldset>
   </fieldset>
-{{/talk-form}}
+{{/listserv-talk-form}}

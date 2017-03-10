@@ -7,33 +7,40 @@
     </div>
   </header>
 
-  {{component channelInPlaceEdit model=model data-test-component='post-details'}}
+  {{#with (changeset model validations) as |changeset|}}
 
-  <div class='well'>
-    <h1 class='h2 u-layoutPadT0'>
-      Where will my post be published?
-    </h1>
-
-    <ul class='Checklist'>
-      <li class='Checklist-item'>
-        <strong>{{listservName}}</strong><br>
-        Your post will be sent as text-only to the {{capitalize listservName}} with
-        a link to DailyUV.
-      </li>
-      <li class='Checklist-item'>
-        <strong>DailyUV</strong><br>
-        Your {{channelType}} post will be published on DailyUV.com.
-      </li>
-    </ul>
-  </div>
-  <footer class='ListservForm-actions'>
-    {{async-button
-      action='saveAndPublish'
-      default='Save and Publish'
-      pending='Saving...'
-      class='ListservForm-callToAction ListservForm-ctaNext'
-      data-test-action='publish'
+    {{component (concat channelType '-details-inline-edit')
+        changeset=changeset
+        data-test-component='post-details'
     }}
-  </footer>
+
+    <div class='well'>
+      <h1 class='h2 u-layoutPadT0'>
+        Where will my post be published?
+      </h1>
+
+      <ul class='Checklist'>
+        <li class='Checklist-item'>
+          <strong>{{listservName}}</strong><br>
+          Your post will be sent as text-only to the {{capitalize listservName}} with
+          a link to DailyUV.
+        </li>
+        <li class='Checklist-item'>
+          <strong>DailyUV</strong><br>
+          Your {{channelType}} post will be published on DailyUV.com.
+        </li>
+      </ul>
+    </div>
+    <footer class='ListservForm-actions'>
+      {{async-button
+        action=(action 'saveAndPublish' changeset)
+        default='Save and Publish'
+        pending='Saving...'
+        class='ListservForm-callToAction ListservForm-ctaNext'
+        data-test-action='publish'
+      }}
+    </footer>
+
+  {{/with}}
 </section>
 
