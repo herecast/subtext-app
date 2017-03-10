@@ -5,12 +5,11 @@
     enterEditMode=(action enterEditMode)
   )}}
 {{else}}
-  {{#if valueWasGiven}}
-    {{{value}}}
-    <span class='InlineEdit-editButton' data-test-action='toggle-edit' {{action (action enterEditMode)}}>
-      {{fa-icon 'pencil'}}
-      edit
-    </span>
+  {{#if displayWasGiven}}
+    {{{display}}}
+    <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action (action enterEditMode)}}>
+      {{fa-icon 'pencil'}} <span class='u-link u-bold'>edit</span>
+    </div>
   {{else}}
     {{yield (hash
       isEditing=isEditing

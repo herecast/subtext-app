@@ -4,6 +4,7 @@ import TestSelector from 'subtext-ui/mixins/components/test-selector';
 const {
   get,
   set,
+  on,
   run
 } = Ember;
 
@@ -13,7 +14,7 @@ export default Ember.Component.extend(TestSelector, {
   isEditing: false,
   focusChangesState: true,
 
-  valueWasGiven: null,
+  displayWasGiven: null,
 
   keyPress(e) {
     if(e.keyCode === 13 /*ENTER*/) {
@@ -26,11 +27,11 @@ export default Ember.Component.extend(TestSelector, {
     }
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    set(this, 'valueWasGiven', ('value' in this.attrs));
-  },
+  detectDisplay: on('didReceiveAttrs', function({newAttrs}) {
+    if('display' in newAttrs) {
+      set(this, 'displayWasGiven', true);
+    }
+  }),
 
   setFocus() {
     if(!get(this, 'isDestroying')) {
@@ -45,9 +46,23 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   exitEditMode() {
-    set(this, 'isEditing', false);
-    if('didExitEditMode' in this.attrs) {
-      this.attrs.didExitEditMode();
+    let mayExit = true;
+    const willExitEditMode = get(this, 'willExitEditMode');
+    const didExitEditMode = get(this, 'didExitEditMode');
+
+    if(willExitEditMode) {
+      const result = willExitEditMode();
+
+      if(result !== undefined && result === false) {
+        mayExit = false;
+      }
+    }
+
+    if(mayExit) {
+      set(this, 'isEditing', false);
+      if(didExitEditMode) {
+        didExitEditMode();
+      }
     }
   },
 
@@ -55,6 +70,9 @@ export default Ember.Component.extend(TestSelector, {
     if(!get(this, 'isEditing')) {
       set(this, 'isEditing', true);
       run.next(()=> this.setFocus());
+      if('didEnterEditMode' in this.attrs) {
+        this.attrs.didEnterEditMode();
+      }
     }
   }
 });
