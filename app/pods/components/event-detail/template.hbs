@@ -13,7 +13,10 @@
     </div>
   {{/unless}}
   {{#if model.imageUrl}}
-    {{header-image imageUrl=model.imageUrl}}
+    {{header-image
+      imageUrl=model.imageUrl
+      preserveAspectRatio=true
+    }}
   {{/if}}
 </header>
 
