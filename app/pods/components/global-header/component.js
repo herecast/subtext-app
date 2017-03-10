@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   get,
@@ -7,7 +8,7 @@ const {
   computed
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
   modals: inject.service(),
