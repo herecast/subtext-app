@@ -1,0 +1,26 @@
+{{#if displayWasGiven}}
+  {{#inline-edit
+      display=display
+      didEnterEditMode=(action 'editModeEntered')
+      willExitEditMode=(action mayExitEditMode)
+      focusChangesState=false as |ie|}}
+    {{yield (hash
+      isEditing=ie.isEditing
+      exitEditMode=(action ie.exitEditMode)
+      enterEditMode=(action ie.enterEditMode)
+      rollback=(action 'rollback' ie.exitEditMode)
+    )}}
+  {{/inline-edit}}
+{{else}}
+  {{#inline-edit
+      didEnterEditMode=(action 'editModeEntered')
+      willExitEditMode=(action mayExitEditMode)
+      focusChangesState=false as |ie|}}
+    {{yield (hash
+      isEditing=ie.isEditing
+      exitEditMode=(action ie.exitEditMode)
+      enterEditMode=(action ie.enterEditMode)
+      rollback=(action 'rollback' ie.exitEditMode)
+    )}}
+  {{/inline-edit}}
+{{/if}}
