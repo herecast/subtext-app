@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import TalkValidations from 'subtext-ui/validations/talk';
+import MarketValidations from 'subtext-ui/validations/market';
+import EventValidations from 'subtext-ui/validations/event';
 
 const {
   computed,
@@ -16,13 +18,10 @@ export default Ember.Controller.extend({
     switch(ct) {
       case 'talk':
         return TalkValidations;
-        break;
       case 'market':
         return MarketValidations;
-        break;
       case 'event':
         return EventValidations;
-        break;
     }
 
   }),

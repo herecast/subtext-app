@@ -16,6 +16,6 @@ export default function validateWysiwygContent() {
       value = Ember.$(value).text();
     }
 
-    return isPresent(value) || buildMessage(key, 'resent', value)
+    return isPresent(value) || buildMessage(key, 'resent', value);
   };
-};
+}
