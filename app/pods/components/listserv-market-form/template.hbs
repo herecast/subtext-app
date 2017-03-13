@@ -1,62 +1,136 @@
-{{#market-form afterDetails='afterDetails' model=(mut model) as |form|}}
+{{#if hasBlock}}
+
+  {{yield (hash
+      title-input=(component "atoms/form-input"
+        placeholder='Keep it short and informative'
+        value=(mut changeset.title)
+        class="form-control"
+        data-test-field="talk-title"
+      )
+
+      content-input=(component 'summer-note'
+        content=(readonly changeset.content)
+        hideError=true
+        notifyChange=(action 'updateContent')
+        data-test-field="talk-content"
+      )
+
+      price-input=(component 'atoms/form-input'
+        placeholder='A dollar figure or text'
+        class='form-control'
+        value=(mut changeset.price)
+        data-test-field='market-price'
+      )
+
+      phone-input=(component 'atoms/form-input'
+        placeholder='Contact Phone, ex: 555-555-5555'
+        class='form-control'
+        value=(mut changeset.contactPhone)
+        data-test-field='market-contactPhone'
+      )
+
+      email-input=(component 'atoms/form-input'
+        placeholder='Contact Email'
+        class='form-control'
+        value=(mut changeset.contactEmail)
+        data-test-field='market-contactEmail'
+      )
+
+      images=(component 'image-upload-tiles'
+        images=(mut changeset.images)
+      )
+
+    )
+    changeset
+  }}
+
+{{else}}
 
   {{form-group
-    error=form.errors.title
+    errors=changeset.error.title.validation
     required=true
     label="Title"
-    field=form.title-input
+    field=(component "atoms/form-input"
+      placeholder="Keep it short and informative"
+      value=(mut changeset.title)
+      class='form-control'
+      data-test-field='market-title'
+    )
   }}
 
-  {{#form-group
-    error=form.errors.content
+  {{form-group
+    errors=changeset.error.content.validation
     required=true
-    label="Description"
+    label="Body"
+    field=(component 'summer-note'
+      content=(readonly changeset.content)
+      hideError=true
+      notifyChange=(action 'updateContent')
+      data-test-field="market-content"
+    )
   }}
-    {{form.content-input}}
-  {{/form-group}}
 
   <h3 class='ListservContentForm-fieldDivider h3'>The information you enter below will appear on dailyUV only.</h3>
 
   <fieldset class='ListservForm-enhancementFields'>
     <legend>Post Enhancements</legend>
+
     {{form-group
-      error=form.errors.price
+      errors=changeset.error.price.validation
       label="Cost"
-      field=form.price-input
+      field=(component 'atoms/form-input'
+        placeholder='A dollar figure or text'
+        class='form-control'
+        value=(mut changeset.price)
+        data-test-field='market-price'
+      )
     }}
 
-    {{#form-group
-      error=form.errors.images
+    {{form-group
+      errors=changeset.error.images.validation
       label="Images"
+      field=(component 'image-upload-tiles'
+        images=(mut changeset.images)
+      )
     }}
-      {{image-upload-tiles
-        images=model.images
-      }}
-    {{/form-group}}
 
     {{#form-group
-      error=form.errors.contact
       label="Contact Me"
     }}
       <div class='ContentForm-helpText u-layoutPadB20'>
         Choose either, or both. What you enter will be public on the site.
       </div>
-      {{#form-group label="email"}}
+
+      {{#form-group
+          errors=changeset.error.email.validation
+          label="email"}}
 
         {{#field-with-icon icon='envelope'}}
-          {{form.email-input}}
+          {{atoms/form-input
+              placeholder='Contact Email'
+              class='form-control'
+              value=(mut changeset.contactEmail)
+              data-test-field='market-contactEmail'
+          }}
         {{/field-with-icon}}
 
       {{/form-group}}
-      {{#form-group label="Phone"}}
+
+      {{#form-group
+          errors=changeset.error.phone.validation
+          label="Phone"}}
 
         {{#field-with-icon icon='phone'}}
-          {{form.phone-input}}
+          {{atoms/form-input
+              placeholder='Contact Phone, ex: 555-555-5555'
+              class='form-control'
+              value=(mut changeset.contactPhone)
+              data-test-field='market-contactPhone'
+          }}
         {{/field-with-icon}}
 
       {{/form-group}}
     {{/form-group}}
   </fieldset>
 
-  {{partial 'partials/listserv-content-form-submit'}}
-{{/market-form}}
+{{/if}}

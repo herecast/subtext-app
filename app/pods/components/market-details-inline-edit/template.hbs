@@ -1,34 +1,59 @@
-{{#market-form model=(mut model) as |form|}}
+{{#listserv-market-form changeset=changeset as |form model|}}
   <fieldset>
     <legend>Post Details.</legend>
 
     {{#form-group label="Title"
-      error=form.errors.title
+      errors=model.error.title.validation
       required=true
     }}
 
-    {{#inline-edit value=model.title
-        data-test-component='market-title'
-        didExitEditMode=(action form.validateForm)}}
+    {{#inline-edit-with-rollback
+          value=model.title
+          display=model.title
+          data-test-component="market-title"
+          hasError=model.error.title
+          rollback=(action (mut model.title))
+          as |ie|
+      }}
         {{form.title-input}}
-      {{/inline-edit}}
+        <button class='InlineEdit-button'
+          {{action (action ie.exitEditMode)}}
+        >
+          Ok
+        </button>
+        <button class='InlineEdit-button'
+          {{action (action ie.rollback)}}
+        >
+          Cancel
+        </button>
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
     {{#form-group label="Description"
-      error=form.errors.content
+      errors=model.error.content.validation
       required=true
     }}
 
-    {{#inline-edit value=model.content
+    {{#inline-edit-with-rollback
+        value=model.content
+        display=model.content
         data-test-component='market-content'
-        focusChangesState=false
-        didExitEditMode=form.validateForm as |m|}}
+        hasError=model.error.content.validation
+        rollback=(action (mut model.content))
+        as |ie|}}
         {{form.content-input}}
-        <div class='text-center'>
-          <button class='Button' {{action m.exitEditMode}}>Ok</button>
-        </div>
-      {{/inline-edit}}
+        <button class='InlineEdit-button'
+          {{action (action ie.exitEditMode)}}
+        >
+          Ok
+        </button>
+        <button class='InlineEdit-button'
+          {{action (action ie.rollback)}}
+        >
+          Cancel
+        </button>
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
@@ -83,4 +108,4 @@
     </fieldset>
 
   </fieldset>
-{{/market-form}}
+{{/listserv-market-form}}
