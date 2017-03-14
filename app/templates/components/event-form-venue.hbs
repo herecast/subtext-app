@@ -5,8 +5,9 @@
     <div>{{venueName}}</div>
     <div>{{venueAddress}}</div>
     <div>{{venueCity}}, {{venueState}} {{venueZip}}</div>
-    <button class='btn btn-default btn-xs' {{action 'changeVenue'}}>
-      Change
+    <button class='EventFormVenue-editButton InlineEdit-editButton' {{action 'changeVenue'}}>
+      {{fa-icon 'pencil'}}
+      Edit
     </button>
   </div>
 {{else}}
