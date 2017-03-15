@@ -58,6 +58,24 @@ module.exports = function(environment) {
   ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'http://dev-web.subtext.org:8880';
   ENV['OPTIMIZED_IMAGE_QUALITY'] = process.env.OPTIMIZED_IMAGE_QUALITY || 80;
 
+  // The incoming process.env.IMOPT_ALLOWED_SOURCES list can contain hostnames, e.g. 'd3ctw1a5413a3o.cloudfront.net'
+  // or URIs, e.g. 'https://d3ctw1a5413a3o.cloudfront.net'.  We want to convert each item to a simple hostname.
+  let normalizeSourcesToHostnames = function(sources) {
+    let hostnames = [];
+    for (let i=0; i<sources.length; i+=1) {
+      let src = sources[i];
+
+      let hostname = src;
+      if (/^http/i.test(src)) {
+        hostname = src.replace(/^https?:\/\//, '');
+      }
+      hostnames.push(hostname);
+    }
+    return hostnames;
+  }
+  let imopt_sources = process.env.IMOPT_ALLOWED_SOURCES || ['d3ctw1a5413a3o.cloudfront.net', 'knotweed.s3.amazonaws.com', 'subtext-misc.s3.amazonaws.com'];
+  ENV['IMOPT_ALLOWED_HOSTNAMES'] = normalizeSourcesToHostnames(imopt_sources);
+
 
   if (environment === 'development') {
      ENV.APP.LOG_RESOLVER = false;

@@ -18,26 +18,31 @@ test('it returns the given URL if the given URL is not an HTTP url', function(as
 });
 
 test('it returns the given URL if the given rectangle has no value', function(assert) {
-  assert.equal(makeOptimizedImageUrl('http://url.com', null, 100,  true), 'http://url.com');
-  assert.equal(makeOptimizedImageUrl('http://url.com', 100,  null, true), 'http://url.com');
+  assert.equal(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', null, 100,  true), 'http://knotweed.s3.amazonaws.com');
+  assert.equal(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100,  null, true), 'http://knotweed.s3.amazonaws.com');
 });
 
 test('it returns a URL', function(assert) {
-  assert.equal(isUrl(makeOptimizedImageUrl('https://url.com', 100, 100, true )), true);
-  assert.equal(isUrl(makeOptimizedImageUrl('https://url.com', 100, 100, false)), true);
+  assert.equal(isUrl(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, true )), true);
+  assert.equal(isUrl(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, false)), true);
 });
 
 test('it returns a new URL, different from the given URL', function(assert) {
-  assert.notEqual(makeOptimizedImageUrl('https://url.com', 100, 100, true ), 'https://url.com');
-  assert.notEqual(makeOptimizedImageUrl('https://url.com', 100, 100, false), 'https://url.com');
+  assert.notEqual(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, true ), 'https://knotweed.s3.amazonaws.com');
+  assert.notEqual(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, false), 'https://knotweed.s3.amazonaws.com');
 });
 
 test('the returned URL depends on the cropping choice', function(assert) {
-  assert.notEqual(makeOptimizedImageUrl('http://url.com', 100, 100, true), makeOptimizedImageUrl('http://url.com', 100, 100, false));
+  assert.notEqual(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, true), makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, false));
 });
 
 test('the returned URL depends on the target rectangle', function(assert) {
-  assert.notEqual(makeOptimizedImageUrl('http://url.com', 100, 100, true), makeOptimizedImageUrl('http://url.com', 100, 200, true));
-  assert.notEqual(makeOptimizedImageUrl('http://url.com', 100, 100, true), makeOptimizedImageUrl('http://url.com', 200, 100, true));
-  assert.notEqual(makeOptimizedImageUrl('http://url.com', 100, 200, true), makeOptimizedImageUrl('http://url.com', 200, 100, true));
+  assert.notEqual(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, true), makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 200, true));
+  assert.notEqual(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, true), makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 200, 100, true));
+  assert.notEqual(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 200, true), makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 200, 100, true));
+});
+
+test('it returns the given URL if the URL has an unknown hostname', function(assert) {
+  assert.equal(   makeOptimizedImageUrl('https://unknown.hostname.com',      100, 100, true ), 'https://unknown.hostname.com');
+  assert.notEqual(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, true ), 'https://knotweed.s3.amazonaws.com');
 });

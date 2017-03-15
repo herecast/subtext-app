@@ -7,10 +7,17 @@ import config from 'subtext-ui/config/environment';
 // the given rectangle, with the rectangle's aspect ratio.
 // Otherwise, the full-sized image will be resized to fit inside the given rectangle, but will
 // retain its aspect ratio.
+//
+// This function should be functionally identical to the ImageUrlService.optimize_image_url method in
+// https://github.com/subtextmedia/knotweed/blob/master/app/services/image_url_service.rb.
 export default function makeOptimizedImageUrl(url, width, height, doCrop) {
   let result = url;
 
-  if (url && /^http/i.test(url) && width && height) {
+  let parser = document.createElement('a');
+  parser.href = url;
+  const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(parser.hostname);
+
+  if (url && width && height && hostnameIsAllowed && /^http/i.test(url)) {
     const urlNoProtocol = url.replace(/^https?:\/\//, '');
     const quality = `filters:quality(${config['OPTIMIZED_IMAGE_QUALITY']})`;
 
