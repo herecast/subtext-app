@@ -202,6 +202,18 @@ test('Poster has no account', function(assert) {
   });
 });
 
+test('Post already verified', function(assert) {
+  const post = server.create('listserv-content', {
+    verifiedAt: (new Date())
+  });
+
+  visit(`/lists/posts/${post.id}`);
+  andThen(()=>{
+    assert.equal( currentRouteName(), 'lists.posts.confirmed',
+      "Displays already confirmed page"
+    );
+  });
+});
 /**
  * CHANNEL WORKFLOWS
  *

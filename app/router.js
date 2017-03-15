@@ -116,6 +116,7 @@ Router.map(function() {
     this.route('posts', {path: '/posts/:id'}, function() {
       this.route('edit');
       this.route('review');
+      this.route('confirmed');
     });
     this.route('confirm_post', {path: '/confirm_post/:id'});
   });
