@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
-import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import testSelector from 'ember-test-selectors';
 
 /* global sinon */
 

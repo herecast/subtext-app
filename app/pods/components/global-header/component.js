@@ -25,13 +25,15 @@ export default Ember.Component.extend(TestSelector, {
       this.sendAction('openSearch');
     },
     trackMenuOpen() {
-      if ('trackMenuOpen' in this.attrs) {
-        this.attrs.trackMenuOpen(...arguments);
+      const trackMenuOpen = get(this, 'trackMenuOpen');
+      if (trackMenuOpen) {
+        trackMenuOpen(...arguments);
       }
     },
     signOut() {
-      if ('signOut' in this.attrs) {
-        this.attrs.signOut(...arguments);
+      const signOut = get(this, 'signOut');
+      if (signOut) {
+        signOut(...arguments);
       }
     },
     showSignInMenu(tab) {

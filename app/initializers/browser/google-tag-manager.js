@@ -45,8 +45,7 @@ export function initialize(application) {
 
           if (typeof dataLayer !== "undefined") {
             const currentUrl = window.location.href;
-            const currentModel = get(this,'currentController.currentController.model');
-            const currentOrgName = currentModel.get('organizationName') || null;
+            const currentOrgName = get(this,'currentController.currentController.model.organizationName') || null;
 
             dataLayer.push({
               'event':'VirtualPageview',

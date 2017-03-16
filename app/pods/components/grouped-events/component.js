@@ -50,7 +50,7 @@ export default Ember.Component.extend({
 
   groupedEvents: computed('sortedEvents.[]', 'isFilteredByOneDay', function() {
     const isFilteredByOneDay = this.get('isFilteredByOneDay');
-    
+
     return (isFilteredByOneDay) ? this.get('eventsByTime') : this.get('eventsByDate');
   }),
 
@@ -79,7 +79,10 @@ export default Ember.Component.extend({
 
     openCalendarWidget() {
       get(this, 'modals').showModal('modals/date-picker').then((date) => {
-        this.attrs.updateJumpTarget(date);
+        const updateJumpTarget = get(this, 'updateJumpTarget');
+        if (updateJumpTarget) {
+          updateJumpTarget(date);
+        }
       });
     }
   }

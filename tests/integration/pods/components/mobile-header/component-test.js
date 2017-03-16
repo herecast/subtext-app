@@ -9,7 +9,12 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{mobile-header}}`);
+  this.on('signOut', function () {});
+
+  this.render(hbs`{{mobile-header
+    signOut=(action 'signOut')  
+  }}`);
+
   assert.ok(this.$());
 
 });

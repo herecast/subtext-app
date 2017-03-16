@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { computed } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
   tagName: 'a',
@@ -9,8 +9,9 @@ export default Ember.Component.extend(TestSelector, {
   target: '_blank',
 
   click() {
-    if (this.attrs.action) {
-      this.attrs.action();
+    const action = get(this, 'action');
+    if (action) {
+      action();
       return true;
     }
   },

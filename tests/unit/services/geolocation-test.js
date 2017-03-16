@@ -4,6 +4,7 @@ import { moduleFor, test } from 'ember-qunit';
 moduleFor('service:geolocation', 'Unit | Service | geolocation');
 
 test('returns filtered results if presented with filter', function(assert) {
+  const done = assert.async();
   const { stub } = sinon;
 
   const address_results = [{
@@ -120,6 +121,7 @@ test('returns filtered results if presented with filter', function(assert) {
     assert.ok(googleMapsMock.geocode.calledOnce, 'called geocode method only once');
     assert.ok(results.length === 1, 'should only return one result from mock set');
     assert.ok(results[0].human.formatted_address === 'Manchester, NH, USA', 'should only return Manchester, NH');
+    done();
   });
 
 });

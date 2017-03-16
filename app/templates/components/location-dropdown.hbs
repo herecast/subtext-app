@@ -1,8 +1,8 @@
 {{#if isEditing}}
-  {{#x-select value=(readonly selectedLocationId) action=(action 'updateSelected') class='form-control' data-test-field='location-dropdown'}}
-    {{#x-option value=null}}Select a location:{{/x-option}}
+  {{#x-select value=(readonly selectedLocationId) action=(action 'updateSelected') class='form-control' data-test-field='location-dropdown' as |xs|}}
+    {{#xs.option value=null}}Select a location:{{/xs.option}}
     {{#each formattedLocations as |location|}}
-      {{#x-option value=location.id}}{{location.formattedLocation}}{{/x-option}}
+      {{#xs.option value=location.id}}{{location.formattedLocation}}{{/xs.option}}
     {{/each}}
   {{/x-select}}
 {{else}}

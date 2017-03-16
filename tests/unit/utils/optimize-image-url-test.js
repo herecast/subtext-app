@@ -1,7 +1,20 @@
+import config from 'subtext-ui/config/environment';
+
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | make optimized image url');
+let enableImageOptimization;
+
+module('Unit | Utility | make optimized image url', {
+  beforeEach() {
+    // Enable image optimizations but revert back to prev config setting when testing is done
+    enableImageOptimization = config['ENABLE_IMAGE_OPTIMIZATION'];
+    config['ENABLE_IMAGE_OPTIMIZATION'] = true;
+  },
+  afterEach() {
+    config['ENABLE_IMAGE_OPTIMIZATION'] = enableImageOptimization;
+  }
+});
 
 function isUrl(s) {
   var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;

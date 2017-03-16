@@ -91,7 +91,8 @@ export default Ember.Component.extend({
   daysOfTheWeek: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
 
   didReceiveAttrs() {
-    const hoursObj = bizHours.deserialize(this.attrs.hours.value || []);
+    this._super(...arguments);
+    const hoursObj = bizHours.deserialize(get(this, 'hours') || []);
 
     set(this, 'model', hoursObj);
     set(this, 'daysOpen', extractDaysOpen(hoursObj));
@@ -103,7 +104,10 @@ export default Ember.Component.extend({
     const model = get(this, 'model');
     const serializedModel = bizHours.serialize(model);
 
-    this.attrs['on-update'](serializedModel);
+    const onUpdate = get(this, 'on-update');
+    if (onUpdate) {
+      onUpdate(serializedModel);
+    }
   },
 
   actions: {

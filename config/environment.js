@@ -19,7 +19,9 @@ module.exports = function(environment) {
       'GTM_AUTH',
       'FASTBOOT_DATA_CACHE_TIMEOUT',
       'OPTIMIZED_IMAGE_URI',
-      'GTM_PREVIEW'
+      'GTM_PREVIEW',
+      'OPTIMIZED_IMAGE_QUALITY',
+      'ENABLE_IMAGE_OPTIMIZATION',
     ],
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
@@ -57,6 +59,7 @@ module.exports = function(environment) {
 
   ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'http://dev-web.subtext.org:8880';
   ENV['OPTIMIZED_IMAGE_QUALITY'] = process.env.OPTIMIZED_IMAGE_QUALITY || 80;
+  ENV['ENABLE_IMAGE_OPTIMIZATION'] = 'ENABLE_IMAGE_OPTIMIZATION' in process.env ? process.env.ENABLE_IMAGE_OPTIMIZATION : true;
 
   // The incoming process.env.IMOPT_ALLOWED_SOURCES list can contain hostnames, e.g. 'd3ctw1a5413a3o.cloudfront.net'
   // or URIs, e.g. 'https://d3ctw1a5413a3o.cloudfront.net'.  We want to convert each item to a simple hostname.
@@ -120,7 +123,9 @@ module.exports = function(environment) {
 
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'
-    }
+    };
+
+    ENV['ENABLE_IMAGE_OPTIMIZATION'] = false;
   }
 
   if (environment === 'production') {

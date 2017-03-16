@@ -39,7 +39,7 @@ export default Ember.Component.extend(TestSelector, {
       callback(promise);
 
       promise.then((saved) => {
-        this.attrs.afterPublish(saved);
+        get(this, 'afterPublish')(saved);
       }).finally(()=>{
         set(this, 'isSaving', false);
       });

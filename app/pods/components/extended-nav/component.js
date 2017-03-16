@@ -8,8 +8,9 @@ export default Ember.Component.extend({
 
   actions: {
     onLinkClick() {
-      if ('onLinkClick' in this.attrs) {
-        this.attrs.onLinkClick();
+      const onLinkClick = get(this, 'onLinkClick');
+      if (onLinkClick) {
+        onLinkClick();
       }
 
       return true;

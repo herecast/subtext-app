@@ -793,7 +793,7 @@ export default function() {
 
     if( !Ember.isEmpty(ids) ) {
       categories.filter(function(category) {
-        return ids.contains(category.id.toString());
+        return ids.includes(category.id.toString());
       });
     }
 

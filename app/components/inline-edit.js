@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { get } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['InlineEdit'],
   isEditing: false,
@@ -15,8 +17,9 @@ export default Ember.Component.extend({
       if (isEditing) {
         this.sendAction('action');
       } else {
-        if (this.attrs.activate) {
-          this.attrs.activate();
+        const activate = get(this, 'activate');
+        if (activate) {
+          activate();
         }
       }
     }

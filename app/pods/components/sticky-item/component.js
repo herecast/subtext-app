@@ -54,8 +54,9 @@ export default Ember.Component.extend({
 
   willDestroyElement() {
     // Remove the element from its container
-    if ('removeItem' in this.attrs) {
-      this.attrs.removeItem(this);
+    const removeItem = get(this, 'removeItem');
+    if (removeItem) {
+      removeItem(this);
     }
   },
 
@@ -63,8 +64,9 @@ export default Ember.Component.extend({
     this._super(...arguments);
 
     // Register the element with its container
-    if ('registerItem' in this.attrs) {
-      this.attrs.registerItem(this);
+    const registerItem = get(this, 'registerItem');
+    if (registerItem) {
+      registerItem(this);
     }
   },
 

@@ -13,20 +13,22 @@ import config from 'subtext-ui/config/environment';
 export default function makeOptimizedImageUrl(url, width, height, doCrop) {
   let result = url;
 
-  // Cribbed from http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
-  let match = `${url}`.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
-  let hostname = match && match[3];
+  if (config['ENABLE_IMAGE_OPTIMIZATION']) {
+    // Cribbed from http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+    let match = `${url}`.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+    let hostname = match && match[3];
 
-  const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(hostname);
+    const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(hostname);
 
-  if (url && width && height && hostnameIsAllowed && /^http/i.test(url)) {
-    const urlNoProtocol = url.replace(/^https?:\/\//, '');
-    const quality = `filters:quality(${config['OPTIMIZED_IMAGE_QUALITY']})`;
+    if (url && width && height && hostnameIsAllowed && /^http/i.test(url)) {
+      const urlNoProtocol = url.replace(/^https?:\/\//, '');
+      const quality = `filters:quality(${config['OPTIMIZED_IMAGE_QUALITY']})`;
 
-    if (doCrop) {
-      result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', `${width}x${height}`, 'smart', quality, urlNoProtocol].join('/');
-    } else {
-      result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', 'fit-in', `${width}x${height}`, quality, urlNoProtocol].join('/');
+      if (doCrop) {
+        result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', `${width}x${height}`, 'smart', quality, urlNoProtocol].join('/');
+      } else {
+        result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', 'fit-in', `${width}x${height}`, quality, urlNoProtocol].join('/');
+      }
     }
   }
 

@@ -27,29 +27,33 @@ export default Ember.Component.extend(TestSelector, {
         organization_id: id
       });
 
-      if("action" in this.attrs) {
-        this.attrs.action();
+      const action = get(this, 'action');
+      if (action) {
+        action();
       }
     },
     myAccount() {
-      this.attrs.openMyAccount(
+      get(this, 'openMyAccount')(
         get(this, 'model')
       );
     },
     signOut() {
-      if('signOut' in this.attrs) {
-        this.attrs.signOut();
+      const signOut = get(this, 'signOut');
+      if (signOut) {
+        signOut();
       } else {
         get(this, 'session').invalidate();
-        if("action" in this.attrs) {
-          this.attrs.action();
+        const action = get(this, 'action');
+        if (action) {
+          action();
         }
       }
     },
     linkAction() {
-      if('action' in this.attrs) {
+      const action = get(this, 'action');
+      if (action) {
         run.next(() => {
-          this.attrs.action();
+          action();
         });
       }
     }

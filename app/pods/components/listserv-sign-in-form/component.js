@@ -15,8 +15,9 @@ export default Ember.Component.extend(TestSelector, {
 
   didInsertElement() {
     this._super(...arguments);
-    if('updateMetric' in this.attrs) {
-      this.attrs.updateMetric();
+    const updateMetric = get(this, 'updateMetric');
+    if (updateMetric) {
+      updateMetric();
     }
   },
 

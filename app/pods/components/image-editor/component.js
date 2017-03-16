@@ -37,14 +37,14 @@ export default Ember.Component.extend({
   actions: {
     cancel() {
       set(this, 'imageUrl', get(this, '_originalImageUrl'));
-      this.attrs.cancel();
+      get(this, 'cancel')();
     },
 
     save() {
       const selectedImage = get(this, '_selectedImage'),
         caption = get(this, 'caption');
 
-      this.attrs.save(selectedImage, caption);
+      get(this, 'save')(selectedImage, caption);
     },
 
     showImageForm() {

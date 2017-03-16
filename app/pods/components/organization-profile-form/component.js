@@ -25,8 +25,9 @@ export default Ember.Component.extend(Validation, {
   notifySaved() {
     get(this, 'notify').success('Successfully saved changes.');
 
-    if(this.attrs.didSave) {
-      this.attrs.didSave(get(this, 'model'));
+    const didSave = get(this, 'didSave');
+    if (didSave) {
+      didSave(get(this, 'model'));
     }
   },
 

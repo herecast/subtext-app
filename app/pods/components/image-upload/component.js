@@ -107,7 +107,7 @@ export default Ember.Component.extend({
 
   actions: {
     removeImage(image) {
-      this.attrs.remove(image);
+      get(this, 'remove')(image);
     },
 
     addImage(file) {
@@ -138,7 +138,7 @@ export default Ember.Component.extend({
     },
 
     setPrimary(image) {
-      this.attrs.setPrimary(image);
+      get(this, 'setPrimary')(image);
     }
   }
 });

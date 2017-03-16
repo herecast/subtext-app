@@ -1,18 +1,13 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import { authenticateSession, invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 //import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
-moduleForAcceptance('Acceptance | account/community', {
-  beforeEach() {
-    authenticateSession(this.application);
-  }
-});
+moduleForAcceptance('Acceptance | account/community');
 
 test('visiting /account/community while not logged in', function(assert) {
   assert.expect(1);
 
-  invalidateSession(this.application);
   visit('/account/community');
 
   andThen(function() {
@@ -21,6 +16,7 @@ test('visiting /account/community while not logged in', function(assert) {
 });
 
 test('visiting /account/community', function(assert) {
+  authenticateSession(this.application);
   visit('/account/community');
 
   andThen(function() {

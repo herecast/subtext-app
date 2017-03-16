@@ -36,17 +36,17 @@ export default Ember.Component.extend({
     prevPage: function() {
       const page = get(this, 'page');
 
-      this.attrs['on-update-page'](page - 1);
+      get(this, 'on-update-page')(page - 1);
     },
 
     firstPage: function() {
-      this.attrs['on-update-page'](1);
+      get(this, 'on-update-page')(1);
     },
 
     nextPage: function() {
       const page = get(this, 'page');
 
-      this.attrs['on-update-page'](page + 1);
+      get(this, 'on-update-page')(page + 1);
     }
   }
 });

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed, set } = Ember;
+const { computed, set, get } = Ember;
 const { oneWay } = computed;
 
 export default Ember.Component.extend({
@@ -20,8 +20,9 @@ export default Ember.Component.extend({
 
       set(this, 'selection', org);
 
-      if ('updated' in this.attrs) {
-        this.attrs.updated(org);
+      const updated = get(this, 'updated');
+      if (updated) {
+        updated(org);
       }
     }
   }

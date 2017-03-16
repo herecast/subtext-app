@@ -1,6 +1,7 @@
-import DS from 'ember-data';
+// import DS from 'ember-data';
+import ApplicationSerializer from './application';
 
-export default DS.RESTSerializer.extend({
+export default ApplicationSerializer.extend({
   isNewSerializerAPI: true,
   normalize(typeClass, hash, prop) {
     hash.original_parent_ids = hash.parent_ids;

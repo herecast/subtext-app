@@ -91,12 +91,12 @@ export default Ember.Service.extend({
             reject(status);
           } else {
             resolve(results.filter(item => {
-              const isLocality = item.types.contains('locality');
+              const isLocality = item.types.includes('locality');
 
               if (isLocality && filterParams) {
                 const {filterType, filterArray} = filterParams;
                 const filterMatch = item.address_components.find(address_component => {
-                  return address_component.types.contains(filterType);
+                  return address_component.types.includes(filterType);
                 });
 
                 return filterArray.any(filterItem => {

@@ -63,8 +63,9 @@ export default Ember.Component.extend(Validation, {
 
   actions: {
     contactUs() {
-      if ('contactUs' in this.attrs) {
-        this.attrs.contactUs();
+      const contactUs = get(this, 'contactUs');
+      if (contactUs) {
+        contactUs();
       }
     },
 

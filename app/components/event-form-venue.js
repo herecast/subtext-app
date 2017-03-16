@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed: {equal}, set } = Ember;
+const { computed: {equal}, set, get } = Ember;
 
 export default Ember.Component.extend({
   init() {
@@ -44,11 +44,17 @@ export default Ember.Component.extend({
         open: false
       });
 
-      this.attrs.validateForm();
+      const validateForm = get(this, 'validateForm');
+      if (validateForm) {
+        validateForm();
+      }
     },
 
     validateForm() {
-      this.attrs.validateForm();
+      const validateForm = get(this, 'validateForm');
+      if (validateForm) {
+        validateForm();
+      }
     },
 
     togglePrivacy(isPrivate) {

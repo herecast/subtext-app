@@ -3,7 +3,6 @@ RUN npm install -g bower
 RUN mkdir -p /app
 WORKDIR /app
 ADD package.json /app
-ADD npm-shrinkwrap.json /app
 RUN npm install
 ADD bower.json /app
 RUN bower install --allow-root

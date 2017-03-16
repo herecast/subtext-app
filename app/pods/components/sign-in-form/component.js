@@ -33,8 +33,9 @@ export default Ember.Component.extend(TestSelector, {
 
     return new Ember.RSVP.Promise((resolve, reject) => {
       get(this, 'session').authenticate('authenticator:application', identification, password).then(() => {
-        if('afterAuthenticate' in this.attrs) {
-          this.attrs.afterAuthenticate();
+        const afterAuthenticate = get(this, 'afterAuthenticate');
+        if (afterAuthenticate) {
+          afterAuthenticate();
         }
         resolve();
       }, (response) => {
@@ -59,8 +60,9 @@ export default Ember.Component.extend(TestSelector, {
     },
 
     forgotPassword() {
-      if ('onForgotPassword' in this.attrs) {
-        this.attrs.onForgotPassword();
+      const onForgotPassword = get(this, 'onForgotPassword');
+      if (onForgotPassword) {
+        onForgotPassword();
       }
 
       return false;
@@ -68,9 +70,9 @@ export default Ember.Component.extend(TestSelector, {
 
     reconfirm() {
       const id = get(this, 'identification');
-
-      if ('onReconfirm' in this.attrs) {
-        this.attrs.onReconfirm(id);
+      const onReconfirm = get(this, 'onReconfirm');
+      if (onReconfirm) {
+        onReconfirm(id);
       } else {
         get(this, '_routing').transitionToRoute('register.reconfirm', null, {
           email: id

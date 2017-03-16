@@ -22,8 +22,9 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   _updateAction(value) {
-    if('update' in this.attrs) {
-      this.attrs.update(value);
+    const update = get(this, 'update');
+    if (update) {
+      update(value);
     }
   },
 

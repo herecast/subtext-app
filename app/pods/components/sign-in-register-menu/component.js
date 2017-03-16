@@ -12,8 +12,9 @@ export default Ember.Component.extend({
 
   actions: {
     reconfirm: function(email){
-      if('action' in this.attrs) {
-        this.attrs.action();
+      const action = get(this, 'action');
+      if (action) {
+        action();
       }
 
       get(this, '_routing').transitionTo('register.reconfirm', null, {
@@ -21,20 +22,23 @@ export default Ember.Component.extend({
       });
     },
     forgotPassword() {
-      if('action' in this.attrs) {
-        this.attrs.action();
+      const action = get(this, 'action');
+      if (action) {
+        action();
       }
 
       get(this, '_routing').transitionTo('forgot-password');
     },
     didSignIn() {
-      if('action' in this.attrs) {
-        this.attrs.action();
+      const action = get(this, 'action');
+      if (action) {
+        action();
       }
     },
     didRegister() {
-      if('action' in this.attrs) {
-        this.attrs.action();
+      const action = get(this, 'action');
+      if (action) {
+        action();
       }
 
       get(this, '_routing').transitionTo('register.complete');

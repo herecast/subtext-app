@@ -68,6 +68,10 @@ export default Ember.Component.extend({
   },
 
   _updateStickyPositions() {
+    if (get(this, 'isDestroying')) {
+      return;
+    }
+
     const stickyPosition = this.getStickyPosition();
     const nextStickyItem = this._findNextStickyItem(stickyPosition);
     const currentStickyItem = get(this, '_currentStickyItem');
@@ -150,9 +154,11 @@ export default Ember.Component.extend({
       get(this, '_items').pushObject(item);
     },
     removeItem(item) {
-      get(this, '_items').removeObject(item);
-      if (get(this, '_currentStickyItem') === item) {
-        set(this, '_currentStickyItem', null);
+      if (!get(this, 'isDestroying')) {
+        get(this, '_items').removeObject(item);
+        if (get(this, '_currentStickyItem') === item) {
+          set(this, '_currentStickyItem', null);
+        }
       }
     }
   }

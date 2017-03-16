@@ -50,7 +50,10 @@ export default Ember.Component.extend({
             }
           }
         ).then(() => {
-          this.attrs.onSubmit();
+          const onSubmit = get(this, 'onSubmit');
+          if (onSubmit) {
+            onSubmit();
+          }
         });
       } else {
         notify.error('Error: Unable to save password!');
