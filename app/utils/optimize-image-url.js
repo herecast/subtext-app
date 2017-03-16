@@ -13,9 +13,11 @@ import config from 'subtext-ui/config/environment';
 export default function makeOptimizedImageUrl(url, width, height, doCrop) {
   let result = url;
 
-  let parser = document.createElement('a');
-  parser.href = url;
-  const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(parser.hostname);
+  // Cribbed from http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+  let match = `${url}`.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+  let hostname = match && match[3];
+
+  const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(hostname);
 
   if (url && width && height && hostnameIsAllowed && /^http/i.test(url)) {
     const urlNoProtocol = url.replace(/^https?:\/\//, '');

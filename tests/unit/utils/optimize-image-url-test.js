@@ -32,6 +32,18 @@ test('it returns a new URL, different from the given URL', function(assert) {
   assert.notEqual(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com', 100, 100, false), 'https://knotweed.s3.amazonaws.com');
 });
 
+test('it accepts a variety of URLs', function(assert) {
+  assert.equal(makeOptimizedImageUrl('https://foo.com', 100, 100, true ), 'https://foo.com');
+  assert.equal(makeOptimizedImageUrl('http://foo.com', 100, 100, true ),  'http://foo.com');
+  assert.equal(makeOptimizedImageUrl('https://foo.com/qweury/asdf', 100, 100, true ), 'https://foo.com/qweury/asdf');
+  assert.equal(makeOptimizedImageUrl('https://foo.com/qweury/asdf/', 100, 100, true ), 'https://foo.com/qweury/asdf/');
+  assert.equal(makeOptimizedImageUrl('https://foo.com/qweury/asdf?ss=33&tt=99', 100, 100, true ), 'https://foo.com/qweury/asdf?ss=33&tt=99');
+  assert.equal(makeOptimizedImageUrl('https://foo.com/qweury/asdf/?ss=33&tt=99', 100, 100, true ), 'https://foo.com/qweury/asdf/?ss=33&tt=99');
+
+  assert.notEqual(makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com/asdf/wer?sd=33&tt=99', 100, 100, true ), 'https://knotweed.s3.amazonaws.com/asdf/wer?sd=33&tt=99');
+  assert.ok(      makeOptimizedImageUrl('https://knotweed.s3.amazonaws.com/asdf/wer?sd=33&tt=99', 100, 100, true).match(/\/knotweed.s3.amazonaws.com\/asdf\/wer\?sd=33\&tt=99/));
+});
+
 test('the returned URL depends on the cropping choice', function(assert) {
   assert.notEqual(makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, true), makeOptimizedImageUrl('http://knotweed.s3.amazonaws.com', 100, 100, false));
 });
