@@ -3,7 +3,6 @@ import Ember from 'ember';
 const {
   get,
   set,
-  computed,
   inject
 } = Ember;
 
@@ -12,10 +11,6 @@ export default Ember.Component.extend({
   callToAction: 'Save & Publish',
 
   intercom: inject.service('intercom'),
-
-  editLink: computed('model.isNew', function() {
-    return `market.${(get(this, 'model.isNew')) ? 'new' : 'edit'}.promotion`;
-  }),
 
   actions: {
     save(callback) {
