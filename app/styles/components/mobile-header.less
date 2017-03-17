@@ -86,7 +86,10 @@
   }
 
   &--talk      { background-color: @talk-brand; }
-  &--market    { background-color: @market-brand; }
+  &--market    {
+    border-top: 5px solid @market-brand;
+    // border-bottom: 1px solid #efefef;
+  }
   &--news      { background-color: @news-brand; }
   &--events    { background-color: @event-brand; }
   &--directory { background-color: #3dce72; }

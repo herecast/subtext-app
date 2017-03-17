@@ -1,23 +1,21 @@
-<div class='Container--noGutter'>
-  <div class='row'>
-    <div class="{{if widthClass widthClass 'col-xs-12 col-md-8 col-md-push-2'}}">
-      {{#each sortedPosts as |post index|}}
-        {{#if (eq index 4)}}
-          {{#unless suppressAd}}
-            <div class='AdBanner-wrapper AdBanner-wrapper--market'>
-              {{ad-banner adContextName=adPath impressionPath=adPath}}
-            </div>
-          {{/unless}}
-        {{/if}}
+<div class='row'>
+  <div class="{{if widthClass widthClass 'col-xs-12 col-md-8 col-md-push-2'}}">
+    {{#each sortedPosts as |post index|}}
+      {{#if (eq index 4)}}
+        {{#unless suppressAd}}
+          <div class='AdBanner-wrapper AdBanner-wrapper--market'>
+            {{ad-banner adContextName=adPath impressionPath=adPath}}
+          </div>
+        {{/unless}}
+      {{/if}}
 
-        {{market-card
-          category=cat
-          post=post
-          routeName=routeName
-          onTitleClick=(action 'trackCardClick')
-          class='Card Card--market'
-        }}
-      {{/each}}
-    </div>
+      {{market-card
+        category=cat
+        post=post
+        routeName=routeName
+        onTitleClick=(action 'trackCardClick')
+        class='Card Card--market'
+      }}
+    {{/each}}
   </div>
 </div>
