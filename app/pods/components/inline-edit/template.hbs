@@ -1,20 +1,26 @@
-{{#if isEditing}}
+{{#if (and displayWasGiven (not isEditing))}}
+  {{{display}}}
+  {{atoms/standard-button
+      icon="pencil"
+      class='InlineEdit-button InlineEdit-button--edit'
+      action=(action enterEditMode)
+      text='edit'
+  }}
+{{else}}
   {{yield (hash
     isEditing=isEditing
     exitEditMode=(action exitEditMode)
     enterEditMode=(action enterEditMode)
+    okButton=(component "atoms/standard-button"
+      action=(action exitEditMode)
+      primary=true
+      text="ok"
+      class="InlineEdit-button InlineEdit-button--ok"
+    )
+    editButton=(component "atoms/standard-button"
+      action=(action enterEditMode)
+      text="edit"
+      class="InlineEdit-button InlineEdit-button--edit"
+    )
   )}}
-{{else}}
-  {{#if displayWasGiven}}
-    {{{display}}}
-    <div class='InlineEdit-display' data-test-action='toggle-edit' onclick={{action (action enterEditMode)}}>
-      {{fa-icon 'pencil'}} <span class='u-link u-bold'>edit</span>
-    </div>
-  {{else}}
-    {{yield (hash
-      isEditing=isEditing
-      exitEditMode=(action exitEditMode)
-      enterEditMode=(action enterEditMode)
-    )}}
-  {{/if}}
 {{/if}}

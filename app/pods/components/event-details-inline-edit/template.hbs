@@ -1,18 +1,26 @@
-{{#event-form model=(mut model) as |form|}}
+{{#listserv-event-form changeset=(mut changeset) as |form|}}
   <fieldset>
     <legend>Post Details.</legend>
 
     {{#form-group label="Title"
-      error=form.errors.title
+      errors=changeset.error.title.validation
       required=true
     }}
 
-      {{#inline-edit value=model.title
-          didExitEditMode=(action form.validateForm)
+      {{#inline-edit-with-rollback
+          value=changeset.title
+          display=changeset.title
           data-test-component="event-title"
+          hasError=changeset.error.title
+          rollback=(action (mut changeset.title))
+        as |ie|
       }}
         {{form.title-input}}
-      {{/inline-edit}}
+        <div class='InlineEdit-editActions'>
+          {{ie.okButton}}
+          {{ie.cancelButton}}
+        </div>
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
@@ -21,16 +29,19 @@
       required=true
     }}
 
-      {{#inline-edit value=model.content
-        focusChangesState=false
-        didExitEditMode=form.validateForm
-        data-test-component='event-content'
-      as |m|}}
+      {{#inline-edit-with-rollback value=model.content
+          value=changeset.content
+          display=changeset.content
+          data-test-component='event-content'
+          hasError=changeset.error.content
+          rollback=(action (mut changeset.content))
+      as |ie|}}
         {{form.content-input}}
-        <div class='text-center'>
-          <button class='Button' {{action m.exitEditMode}}>Ok</button>
+        <div class='InlineEdit-editActions'>
+          {{ie.okButton}}
+          {{ie.cancelButton}}
         </div>
-      {{/inline-edit}}
+      {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
@@ -39,138 +50,167 @@
         Enhancements
         <small>(These will appear only on DailyUV.)</small>
       </legend>
+
       {{#form-group
-        label="Image"
-        error=form.errors.image
+          label="Location"
+          errors=changeset.error.venueId.validation
       }}
-        {{image-upload-tile model=model}}
-      {{/form-group}}
 
-      {{form.event-form-venue}}
+        {{#inline-edit-with-rollback
+            data-test-component='event-venue'
+            hasError=changeset.error.venueId
+            rollback=(action 'rollbackVenue')
+        as |ie|}}
 
-      {{#inline-edit focusChangesState=false as |m|}}
-
-        {{#if m.isEditing}}
-          <div class='u-card'>
-            <div style="padding:5px;">
-              {{form.event-form-dates}}
-              <button {{action m.exitEditMode}}>done</button>
+          {{#if isEditing}}
+            {{form.venue-input}}
+            <div class='InlineEdit-editActions'>
+              {{ie.okButton}}
+              {{ie.cancelButton}}
             </div>
-          </div>
-
-        {{else}}
-          <label>Dates &amp; Times</label>
-
-          <div>
-            <button class='InlineEdit-editButton' data-test-action='toggle-edit'  {{action m.enterEditMode}}>
-              {{fa-icon 'pencil'}}
-              edit
-            </button>
-
-          </div>
-          <div class='u-card'>
-            {{#form-group}}
-              {{#each model.eventInstances as |instance|}}
-                <div class='FutureEvent'>
-                  <div class="FutureEvent-calendar text-center">
-                    <span>{{moment-format instance.startsAt 'MMMM'}}</span>
-                    <div class="FutureEvent-date">{{moment-format instance.startsAt 'D'}}</div>
-                  </div>
-
-                  <div class='FutureEvent-body'>
-                    <h4 class='FutureEvent-header'>{{moment-format instance.startsAt 'MMMM D, YYYY'}}</h4>
-                    <p class='FutureEvent-header'>{{instance.subtitle}}</p>
-                    <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
-                  </div>
-                </div>
-              {{/each}}
-            {{/form-group}}
-          </div>
-        {{/if}}
-      {{/inline-edit}}
-
-      {{#inline-edit
-          focusChangesState=false
-          data-test-component="event-registration"
-      as |m|}}
-        {{#if m.isEditing}}
-          {{form.event-form-registration}}
-          <button {{action m.exitEditMode}}>done</button>
-        {{else}}
-          {{#form-group label='Registration'}}
-            <div>
-              {{model.formattedRegistrationDeadline}}
-              <button class='InlineEdit-editButton' data-test-action='toggle-edit'  {{action m.enterEditMode}}>
-                {{fa-icon 'pencil'}}
-                edit
-              </button>
-            </div>
-          {{/form-group}}
-        {{/if}}
-      {{/inline-edit}}
-
-
-      {{#form-group label="Event Cost" required=true}}
-      {{#inline-edit
-          focusChangesState=false
-          data-test-component="event-cost"
-        as |m|}}
-          {{#if m.isEditing}}
-            <div>
-              {{form.event-cost-input}}
-            </div>
-            <button {{action m.exitEditMode}}>done</button>
           {{else}}
-          <div>
-            {{#if model.costType}}
-              <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
-            {{/if}}
-            {{model.cost}}
-
-            <button class='InlineEdit-editButton' data-test-action='toggle-edit' onclick={{m.enterEditMode}}>
-              {{fa-icon 'pencil'}}
-              edit
-            </button>
-          </div>
+            <div>
+              <div>{{changeset.venueName}}</div>
+              <div>{{changeset.venueAddress}}</div>
+              <div>{{changeset.venueCity}}, {{changeset.venueState}} {{changeset.venueZip}}</div>
+            </div>
+            {{ie.editButton}}
           {{/if}}
-        {{/inline-edit}}
+        {{/inline-edit-with-rollback}}
+
       {{/form-group}}
 
-      {{#form-group label="Email"}}
 
-      {{#inline-edit value=model.contactEmail
-          data-test-component='event-contact-email'
-          didExitEditMode=form.validateForm}}
+      {{form-group
+        errors=changeset.error.schedules.validation
+        label="Dates & Times"
+        field=form.schedules-input
+      }}
+
+
+      {{#form-group
+          label="Registration Deadline"
+          errors=changeset.error.registrationDeadline.validation
+      }}
+        {{#inline-edit-with-rollback
+            value=changeset.registrationDeadline
+            display=(moment-format changeset.registrationDeadline)
+            data-test-component='event-registration-deadline'
+            hasError=changeset.error.registrationDeadline
+            rollback=(action (mut changeset.registrationDeadline))
+        as |ie|}}
+          {{form.registration-input}}
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
+      {{/form-group}}
+
+      {{#form-group
+          label="Event Cost"
+          required=true
+      }}
+      {{#inline-edit-with-rollback
+          data-test-component='event-cost'
+          rollback=(action 'rollbackEventCost' changeset)
+        as |ie|}}
+          {{#if ie.isEditing}}
+            {{form.cost-input}}
+            <div class='InlineEdit-editActions'>
+              {{ie.okButton}}
+              {{ie.cancelButton}}
+            </div>
+          {{else}}
+            <div>
+              {{#if changeset.costType}}
+                <span class='DetailPage-costType' data-test-event-detail-costType>
+                  {{capitalize changeset.costType}}
+                </span>
+              {{/if}}
+              {{changeset.cost}}
+
+              {{ie.editButton}}
+            </div>
+          {{/if}}
+        {{/inline-edit-with-rollback}}
+      {{/form-group}}
+
+      {{form-group
+        label="Image"
+        field=(component 'image-upload-tile'
+          model=changeset
+        )
+      }}
+
+
+      {{#form-group
+          errors=changeset.error.contactEmail.validation
+          label="Email"}}
+        {{#inline-edit-with-rollback
+            value=changeset.contactEmail
+            display=changeset.contactEmail
+            hasError=changeset.error.contactEmail
+            rollback=(action (mut changeset.contactEmail))
+            data-test-component='event-contact-email'
+          as |ie|
+        }}
           {{#field-with-icon icon='envelope'}}
-          {{form.email-input}}
+            {{form.email-input}}
           {{/field-with-icon}}
-        {{/inline-edit}}
-
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
       {{/form-group}}
 
-      {{#form-group label="Phone"}}
-
-      {{#inline-edit value=model.contactPhone
-          data-test-component='event-contact-phone'
-          didExitEditMode=form.validateForm}}
+      {{#form-group
+          label="Phone"
+          errors=changeset.error.contactPhone.validation
+        as |ie|
+      }}
+        {{#inline-edit-with-rollback
+            value=changeset.contactPhone
+            display=changeset.contactPhone
+            hasError=changeset.error.contactPhone
+            rollback=(action (mut changeset.contactPhone))
+            data-test-component='event-contact-phone'
+          as |ie|
+        }}
           {{#field-with-icon icon='phone'}}
             {{form.phone-input}}
           {{/field-with-icon}}
-        {{/inline-edit}}
-
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
       {{/form-group}}
 
-      {{#form-group label="Event Url"}}
-
-      {{#inline-edit value=model.eventUrl
-          data-test-component='event-url'
-          didExitEditMode=form.validateForm}}
+      {{#form-group
+          errors=changeset.error.eventUrl.validation
+          label="Event Url"
+      }}
+        {{#inline-edit-with-rollback
+            value=changeset.eventUrl
+            display=changeset.eventUrl
+            hasError=changeset.error.eventUrl
+            rollback=(action (mut changeset.eventUrl))
+            data-test-component='event-url'
+          as |ie|
+        }}
           {{#field-with-icon icon='link'}}
             {{form.url-input}}
           {{/field-with-icon}}
-        {{/inline-edit}}
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
       {{/form-group}}
+
 
     </fieldset>
   </fieldset>
-{{/event-form}}
+{{/listserv-event-form}}

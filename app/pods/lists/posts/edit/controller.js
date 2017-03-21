@@ -5,7 +5,8 @@ import EventValidations from 'subtext-ui/validations/event';
 
 const {
   computed,
-  get
+  get,
+  RSVP: {Promise}
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -27,9 +28,12 @@ export default Ember.Controller.extend({
   }),
   actions: {
     save(changeset) {
+      changeset.validate();
       if(get(changeset, 'isValid')) {
         changeset.execute();
         this.transitionToRoute('lists.posts.review');
+      } else {
+        return Promise.reject();
       }
     }
   }

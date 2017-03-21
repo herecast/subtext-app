@@ -2,7 +2,7 @@
   &-display {
     cursor: pointer;
   }
-  &-editButton {
+  & &-button--edit {
     display: inline-block;
     width: auto;
     border: 1px solid #929292;
@@ -11,7 +11,7 @@
     margin-left: 5px;
     color: #929292;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 11pt;
     line-height: 1;
     vertical-align: middle;
     cursor: pointer;
@@ -26,5 +26,11 @@
     &:hover {
       color: darken(#929292, 5%);
     }
+  }
+
+  &-editActions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }

@@ -4,6 +4,7 @@ const {
   get,
   set,
   inject,
+  RSVP: {Promise},
   computed
 } = Ember;
 
@@ -48,34 +49,40 @@ export default Ember.Controller.extend({
 
   actions: {
     saveAndPublish(changeset) {
-      return changeset.save().then(() => {
-        const listservContent = get(this, 'listservContent');
-        const model = get(this, 'model');
-        set(listservContent, 'contentId',
-          get(model, 'contentId')
-        );
+      changeset.validate();
+      if(get(changeset, 'isValid')) {
+        return changeset.save().then(() => {
+          const listservContent = get(this, 'listservContent');
+          const model = get(this, 'model');
+          set(listservContent, 'contentId',
+            get(model, 'contentId')
+          );
 
-        listservContent.setProperties({
-          subject: get(model, 'title'),
-          body: get(model, 'content')
-        });
+          listservContent.setProperties({
+            subject: get(model, 'title'),
+            body: get(model, 'content')
+          });
 
-        return listservContent.save().then(
-          () => {
-            this.trackPublishEvent();
-            this.sendToShowPage();
-          },
-          (e) => {
-            console.error('Could not save listserv content', e);
-            get(this, 'notify').error('Something went wrong. Please contact us.');
-          }
-        );
-      }).catch(()=>{
-        console.error('Error saving model.');
-        get(this, 'model.errors').forEach(({attribute, message}) => {
-          changeset.pushErrors(attribute, message);
+          return listservContent.save().then(
+            () => {
+              this.trackPublishEvent();
+              this.sendToShowPage();
+            },
+            (e) => {
+              console.error('Could not save listserv content', e);
+              get(this, 'notify').error('Something went wrong. Please contact us.');
+            }
+          );
+        }).catch(()=>{
+          console.error('Error saving model.');
+          get(this, 'model.errors').forEach(({attribute, message}) => {
+            changeset.pushErrors(attribute, message);
+          });
+          return Promise.reject();
         });
-      });
+      } else {
+        return Promise.reject();
+      }
     }
   }
 

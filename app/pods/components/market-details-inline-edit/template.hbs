@@ -1,58 +1,48 @@
-{{#listserv-market-form changeset=changeset as |form model|}}
+{{#listserv-market-form changeset=changeset as |form|}}
   <fieldset>
     <legend>Post Details.</legend>
 
     {{#form-group label="Title"
-      errors=model.error.title.validation
+      errors=changeset.error.title.validation
       required=true
     }}
 
     {{#inline-edit-with-rollback
-          value=model.title
-          display=model.title
+          value=changeset.title
+          display=changeset.title
           data-test-component="market-title"
-          hasError=model.error.title
-          rollback=(action (mut model.title))
+          hasError=changeset.error.title
+          rollback=(action (mut changeset.title))
           as |ie|
       }}
+
         {{form.title-input}}
-        <button class='InlineEdit-button'
-          {{action (action ie.exitEditMode)}}
-        >
-          Ok
-        </button>
-        <button class='InlineEdit-button'
-          {{action (action ie.rollback)}}
-        >
-          Cancel
-        </button>
+        <div class='InlineEdit-editActions'>
+          {{ie.okButton}}
+          {{ie.cancelButton}}
+        </div>
       {{/inline-edit-with-rollback}}
 
     {{/form-group}}
 
     {{#form-group label="Description"
-      errors=model.error.content.validation
+      errors=changeset.error.content.validation
       required=true
     }}
 
     {{#inline-edit-with-rollback
-        value=model.content
-        display=model.content
+        value=changeset.content
+        display=changeset.content
         data-test-component='market-content'
-        hasError=model.error.content.validation
-        rollback=(action (mut model.content))
+        hasError=changeset.error.content.validation
+        rollback=(action (mut changeset.content))
         as |ie|}}
+
         {{form.content-input}}
-        <button class='InlineEdit-button'
-          {{action (action ie.exitEditMode)}}
-        >
-          Ok
-        </button>
-        <button class='InlineEdit-button'
-          {{action (action ie.rollback)}}
-        >
-          Cancel
-        </button>
+        <div class='InlineEdit-editActions'>
+          {{ie.okButton}}
+          {{ie.cancelButton}}
+        </div>
       {{/inline-edit-with-rollback}}
 
     {{/form-group}}
@@ -64,45 +54,71 @@
       </legend>
 
       {{#form-group label="Cost"
-        error=form.errors.price
+        errors=changeset.error.price.validation
       }}
 
-      {{#inline-edit value=model.price
+      {{#inline-edit-with-rollback
+          value=changeset.price
+          display=changeset.price
+          rollback=(action (mut changeset.price))
+          hasError=changeset.error.price
           data-test-component='market-price'
-          didExitEditMode=form.validateForm}}
+        as |ie|}}
           {{form.price-input}}
-        {{/inline-edit}}
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
 
       {{/form-group}}
 
       {{#form-group label="Email"}}
 
-      {{#inline-edit value=model.contactEmail
-          data-test-component='market-contact-email'
-          didExitEditMode=form.validateForm}}
-          {{#field-with-icon icon='envelope'}}
-            {{form.email-input}}
-          {{/field-with-icon}}
-        {{/inline-edit}}
+        {{#inline-edit-with-rollback
+            value=changeset.contactEmail
+            display=changeset.contactEmail
+            data-test-component='market-contact-email'
+            rollback=(action (mut changeset.contactEmail))
+            hasError=changeset.error.contactEmail
+          as |ie|}}
+            {{#field-with-icon icon='envelope'}}
+              {{form.email-input}}
+            {{/field-with-icon}}
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
 
       {{/form-group}}
 
-      {{#form-group label="Phone"}}
+      {{#form-group
+          errors=changeset.error.contactPhone.validation
+          label="Phone"}}
 
-      {{#inline-edit value=model.contactPhone
-          data-test-component='market-contact-phone'
-          didExitEditMode=form.validateForm}}
+        {{#inline-edit-with-rollback
+            value=changeset.contactPhone
+            display=changeset.contactPhone
+            data-test-component='market-contact-phone'
+            rollback=(action (mut changeset.contactPhone))
+            hasError=changeset.error.contactPhone
+          as |ie|}}
           {{#field-with-icon icon='phone'}}
             {{form.phone-input}}
           {{/field-with-icon}}
-        {{/inline-edit}}
+          <div class='InlineEdit-editActions'>
+            {{ie.okButton}}
+            {{ie.cancelButton}}
+          </div>
+        {{/inline-edit-with-rollback}}
 
       {{/form-group}}
 
 
       {{#form-group label="Images"}}
         {{image-upload-tiles
-          images=model.images
+          images=changeset.images
         }}
       {{/form-group}}
     </fieldset>

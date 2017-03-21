@@ -7,7 +7,8 @@ const {
   set,
   computed,
   isEmpty,
-  isPresent
+  isPresent,
+  run
 } = Ember;
 
 const pickerFormat = 'MM/DD/YYYY';
@@ -42,11 +43,14 @@ export default Ember.Component.extend({
 
     if($inp.prop('type') !== 'date') {
       set(this, '_isNative', false);
-      $inp.datetimepicker({
-        format: pickerFormat,
-        showClear: true
-      }).on('dp.change', (e) => {
-        this.doUpdate(e.date);
+
+      run.next(()=>{
+        $inp.datetimepicker({
+          format: pickerFormat,
+          showClear: true
+        }).on('dp.change', (e) => {
+          this.doUpdate(e.date);
+        });
       });
     }
   },
@@ -93,7 +97,7 @@ export default Ember.Component.extend({
     }
   },
 
-  formattedValue: computed('value', function() {
+  formattedValue: computed('value', '_isNative', function() {
     const value = get(this, 'value');
 
     if(isPresent(value)) {

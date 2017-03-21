@@ -9,6 +9,13 @@
       exitEditMode=(action ie.exitEditMode)
       enterEditMode=(action ie.enterEditMode)
       rollback=(action 'rollback' ie.exitEditMode)
+      okButton=ie.okButton
+      editButton=ie.editButton
+      cancelButton=(component "atoms/standard-button"
+        action=(action 'rollback' ie.exitEditMode)
+        text="cancel"
+        class="InlineEdit-button InlineEdit-button--cancel"
+      )
     )}}
   {{/inline-edit}}
 {{else}}
@@ -21,6 +28,13 @@
       exitEditMode=(action ie.exitEditMode)
       enterEditMode=(action ie.enterEditMode)
       rollback=(action 'rollback' ie.exitEditMode)
+      okButton=ie.okButton
+      editButton=ie.editButton
+      cancelButton=(component "atoms/standard-button"
+        action=(action 'rollback' ie.exitEditMode)
+        text="cancel"
+        class="InlineEdit-button InlineEdit-button--cancel"
+      )
     )}}
   {{/inline-edit}}
 {{/if}}

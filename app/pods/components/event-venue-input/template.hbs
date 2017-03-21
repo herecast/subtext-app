@@ -1,0 +1,79 @@
+{{event-form-venue-name
+    venueName=venueName
+    setVenue=(action 'setVenue')
+    class='form-group'
+    addNewVenue=(action 'showNewVenueForm')
+}}
+
+{{#if showNewVenueForm}}
+  <div class='form-group'>
+    <div class='checkbox'>
+      <label>
+        {{input
+          type="checkbox"
+          checked=isPrivate
+          change=(action 'togglePrivacy' isPrivate)
+        }}
+        This is a private residence
+      </label>
+    </div>
+
+    {{#if isPrivate}}
+      <p>
+        Selecting Private will prevent other users from selecting this location
+        for events. You might select Private for a yard sale. You will always be
+        able to see a Private venue that you created.
+      </p>
+    {{/if}}
+  </div>
+
+  {{form-group
+      errors=event.error.venueAddress.validation
+      field=(component "atoms/form-input"
+        class='form-control'
+        value=(mut event.venueAddress)
+        placeholder='Address'
+      )
+  }}
+
+  <div class='row'>
+    {{form-group
+        class='col-xs-5'
+        errors=event.error.venueCity.validation
+        field=(component 'atoms/form-input'
+          class='form-control'
+          placeholder='City'
+          value=(mut event.venueCity)
+        )
+    }}
+
+    {{form-group
+        class='col-xs-4'
+        errors=event.error.venueState.validation
+        field=(component 'atoms/form-input'
+          class='form-control'
+          placeholder='State'
+          value=(mut event.venueState)
+        )
+      }}
+
+    {{form-group
+        class='col-xs-3'
+        errors=event.error.venueZip.validation
+        field=(component 'atoms/form-input'
+          class='form-control'
+          placeholder='ZIP Code'
+          value=(mut event.venueZip)
+        )
+    }}
+  </div>
+
+  {{form-group
+      errors=event.error.venueUrl.validation
+      field=(component 'atoms/form-input'
+        class='form-control'
+        placeholder='Venue Website URL'
+        value=(mut event.venueUrl)
+      )
+  }}
+{{/if}}
