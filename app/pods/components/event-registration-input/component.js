@@ -40,7 +40,7 @@ export default Ember.Component.extend(TestSelector, {
   actions: {
     toggleRegistration() {
       if(get(this, 'registrationEnabled')) {
-        set(this, 'value', null);
+        set(this, 'date', null);
       }
 
       this.toggleProperty('registrationEnabled');
