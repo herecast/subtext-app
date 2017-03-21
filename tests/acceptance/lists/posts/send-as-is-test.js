@@ -12,15 +12,33 @@ test('unverified post', function(assert) {
     verifiedAt: null
   });
 
-  server.patch('/listserv_contents/:id', (s, request) => {
-    assert.equal(request.params.id, post.id,
-      "It sends patch request to listserv content api endpoint, making the post verified"
-    );
-    done();
-    return {};
-  });
 
   visit(`/lists/confirm_post/${post.id}`);
+
+  andThen(() => {
+    const sendAsIsButton = testSelector('action', 'send-as-is');
+
+    assert.ok(find(sendAsIsButton).length > 0,
+      "Should see a button to send post as is");
+
+    server.patch('/listserv_contents/:id', (s, request) => {
+      assert.equal(request.params.id, post.id,
+        "It sends patch request to listserv content api endpoint, making the post verified"
+      );
+      done();
+      return {};
+    });
+
+    click(sendAsIsButton);
+
+    andThen(()=>{
+      assert.ok(
+        find(testSelector('message', 'verified-success')).length > 0,
+        "After clicking the button, I should see a success message"
+      );
+    });
+  });
+
 });
 
 test('Verified post', function(assert) {
