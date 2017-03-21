@@ -1,18 +1,18 @@
-{{#listserv-talk-form changeset=changeset as |form model|}}
+{{#listserv-talk-form changeset=changeset as |form|}}
   <fieldset>
     <legend>Post Details.</legend>
 
     {{#form-group label="Title"
-      errors=model.error.title.validation
+      errors=changeset.error.title.validation
       required=true
     }}
 
     {{#inline-edit-with-rollback
-          value=model.title
-          display=model.title
+          value=changeset.title
+          display=changeset.title
           data-test-component="talk-title"
-          hasError=model.error.title
-          rollback=(action (mut model.title))
+          hasError=changeset.error.title
+          rollback=(action (mut changeset.title))
           as |ie|}}
         {{form.title-input}}
         <div class='InlineEdit-editActions'>
@@ -24,16 +24,16 @@
     {{/form-group}}
 
     {{#form-group label="Body"
-      errors=model.error.content.validation
+      errors=changeset.error.content.validation
       required=true
     }}
 
     {{#inline-edit-with-rollback
-        value=model.content
-        display=model.content
+        value=changeset.content
+        display=changeset.content
         data-test-component='talk-content'
-        hasError=model.error.content.validation
-        rollback=(action (mut model.content))
+        hasError=changeset.error.content.validation
+        rollback=(action (mut changeset.content))
         as |ie|}}
       {{form.content-input}}
       <div class='InlineEdit-editActions'>
@@ -52,9 +52,9 @@
 
       {{#form-group
         label="Image"
-        errors=model.error.image.validation
+        errors=changeset.error.image.validation
       }}
-        {{image-upload-tile model=model}}
+        {{image-upload-tile changeset=changeset}}
       {{/form-group}}
     </fieldset>
   </fieldset>
