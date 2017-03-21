@@ -18,13 +18,6 @@ export default Ember.Component.extend({
   store: inject.service(),
 
   schedules: [],
-/*
-  didReceiveAttrs({newAttrs}) {
-    this._super(...arguments);
-
-    set(this, 'schedules', newAttrs.schedules.value.toArray());
-  },
-  */
 
   triggerUpdate() {
     const update = get(this, 'update');
