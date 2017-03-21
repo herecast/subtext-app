@@ -19,6 +19,7 @@ export default Ember.Component.extend({
   scrollTarget: window,
 
   stickyService: inject.service('sticky'),
+  fastboot: inject.service(),
 
   keyForOnMoveStartHook: computed('position', function() {
     const position = get(this, 'position');
@@ -151,7 +152,9 @@ export default Ember.Component.extend({
 
   actions: {
     registerItem(item) {
-      get(this, '_items').pushObject(item);
+      if (! get(this, 'fastboot.isFastBoot')) {
+        get(this, '_items').pushObject(item);
+      }
     },
     removeItem(item) {
       if (!get(this, 'isDestroying')) {
