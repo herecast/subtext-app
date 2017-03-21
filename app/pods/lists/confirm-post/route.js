@@ -15,11 +15,11 @@ export default Ember.Route.extend({
   afterModel(model) {
     const shoebox = get(this, 'fastboot.shoebox');
 
-
     if(!shoebox.get('skipProcessingAction')) {
       const api = get(this, 'api');
 
       set(this, 'error', null);
+
 
       if(isPresent(model.get('verifiedAt'))) {
         set(this, 'error',

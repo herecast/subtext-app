@@ -58,7 +58,7 @@ export default Ember.Component.extend({
   multiple: false,
   minHeight: 200,
   minWidth: 200,
-  maxDimension: 1600,
+  maxDimension: 2000,
   errors: [],
 
   fileError(e) {

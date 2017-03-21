@@ -50,8 +50,8 @@ test('selecting a large file that is too wide', function(assert) {
 
   this.setProperties({
     imageAdded({file, img}) {
-      assert.equal(img.width, 1600, 'width is constrained to the max dimension (default 1600)');
-      assert.equal(img.height, 800, 'height is scaled proportionately');
+      assert.equal(img.width, 2000, 'width is constrained to the max dimension (default 200)');
+      assert.equal(img.height, 1000, 'height is scaled proportionately');
 
       done();
     }
@@ -59,7 +59,7 @@ test('selecting a large file that is too wide', function(assert) {
 
   this.render(hbs`{{image-input-tile action=(action imageAdded)}}`);
 
-  createImageFixture(2000,1000).then((file)=> {
+  createImageFixture(4000, 2000).then((file)=> {
     this.$('input.ImageInputTile-input').triggerHandler({
       type: 'change',
       target: {
@@ -76,8 +76,8 @@ test('selecting a large file that is too tall', function(assert) {
 
   this.setProperties({
     imageAdded({file, img}) {
-      assert.equal(img.height, 1600, 'height is constrained to the max dimension (default 1600)');
-      assert.equal(img.width, 800, 'width is scaled proportionately');
+      assert.equal(img.height, 2000, 'height is constrained to the max dimension (default 2000)');
+      assert.equal(img.width, 1000, 'width is scaled proportionately');
 
       done();
     }
@@ -85,7 +85,7 @@ test('selecting a large file that is too tall', function(assert) {
 
   this.render(hbs`{{image-input-tile action=(action imageAdded)}}`);
 
-  createImageFixture(1000,2000).then((file)=> {
+  createImageFixture(2000, 4000).then((file)=> {
     this.$('input.ImageInputTile-input').triggerHandler({
       type: 'change',
       target: {

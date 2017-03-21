@@ -4,7 +4,6 @@ const { get, set, inject, isPresent } = Ember;
 
 export default Ember.Route.extend({
   session: inject.service(),
-  notify: inject.service('notification-messages'),
 
   model(params) {
     return this.store.findRecord('listserv-content', params.id);
@@ -12,10 +11,7 @@ export default Ember.Route.extend({
 
   afterModel(model) {
     if(isPresent(model.get('verifiedAt'))) {
-      get(this, 'notify').info(
-        "You have already verified your post. Thank you."
-      );
-      this.transitionTo('index');
+      this.transitionTo('lists.posts.confirmed');
       return;
     }
 
