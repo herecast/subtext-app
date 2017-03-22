@@ -73,7 +73,9 @@
 
       {{/form-group}}
 
-      {{#form-group label="Email"}}
+      {{#form-group
+        errors=changeset.error.contactEmail.validation
+        label="Email"}}
 
         {{#inline-edit-with-rollback
             value=changeset.contactEmail

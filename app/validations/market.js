@@ -17,18 +17,21 @@ export default assign({}, ContentValidations, {
     }),
 
     function(key, newValue, oldValue, changes, model) {
-      const keys = ['contactEmail', 'contactPhone'];
+      if(!isPresent(newValue)) {
+        const keys = ['contactPhone'];
 
-      const netAttrs = assign({},
-        model.getProperties(keys),
-        changes
-      );
+        const netAttrs = assign({},
+          model.getProperties(keys),
+          changes
+        );
 
-      if(!keys.any((key) => isPresent(netAttrs[key]))) {
-        return "required if not adding a contact phone number";
-      } else {
-        return true;
+
+        if(!keys.any((key) => isPresent(netAttrs[key]))) {
+          return "required if not adding a contact phone number";
+        }
       }
+
+      return true;
     }
   ],
 
@@ -39,17 +42,19 @@ export default assign({}, ContentValidations, {
     }),
 
     function(key, newValue, oldValue, changes, model) {
-      const keys = ['contactEmail', 'contactPhone'];
-      const netAttrs = assign({},
-        model.getProperties(keys),
-        changes
-      );
+      if(!isPresent(newValue)) {
+        const keys = ['contactEmail'];
+        const netAttrs = assign({},
+          model.getProperties(keys),
+          changes
+        );
 
-      if(!keys.any((key) => isPresent(netAttrs[key]))) {
-        return "required if not adding a contact email";
-      } else {
-        return true;
-      }
+        if(!keys.any((key) => isPresent(netAttrs[key]))) {
+          return "required if not adding a contact email";
+        }
+      } 
+
+      return true;
     }
   ],
 });
