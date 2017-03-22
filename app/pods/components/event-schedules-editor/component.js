@@ -19,7 +19,7 @@ export default Ember.Component.extend({
 
   schedules: [],
 
-  triggerUpdate() {
+  sendUpdateActionIfGiven() {
     const update = get(this, 'update');
     if(update) {
       run.next(()=> {
@@ -88,7 +88,7 @@ export default Ember.Component.extend({
 
       modals.showModal('modals/event-schedule-editor', schedule).then(() => {
         schedules.pushObject(schedule);
-        this.triggerUpdate();
+        this.sendUpdateActionIfGiven();
       }, () => {
         schedule.destroyRecord();
       });
@@ -105,7 +105,7 @@ export default Ember.Component.extend({
           get(schedule, 'overrides').removeObjects(overridesToRemove);
         }
 
-        this.triggerUpdate();
+        this.sendUpdateActionIfGiven();
       });
     },
 
@@ -115,7 +115,7 @@ export default Ember.Component.extend({
         schedule.destroyRecord();
       }
 
-      this.triggerUpdate();
+      this.sendUpdateActionIfGiven();
     },
 
     includeEvent(schedule, event) {
@@ -128,7 +128,7 @@ export default Ember.Component.extend({
 
       get(schedule, 'overrides').removeObject(toRemove);
 
-      this.triggerUpdate();
+      this.sendUpdateActionIfGiven();
     },
 
     excludeEvent(schedule, event) {
@@ -143,7 +143,7 @@ export default Ember.Component.extend({
         set(schedule, 'overrides', [override]);
       }
 
-      this.triggerUpdate();
+      this.sendUpdateActionIfGiven();
     }
   }
 });
