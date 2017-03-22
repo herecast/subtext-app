@@ -10,15 +10,17 @@ export default Ember.Component.extend({
 
   scheduleSummary: null,
 
-  animateIn: on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
+
+    this.animateIn();
+  },
+
+  animateIn() {
     this.$()
       .hide()
       .slideDown(300);
-  }),
-
-  animateOut: on('willDestroyElement', function() {
-    // TODO animate destroy
-  }),
+  },
 
   actions: {
     remove: function() {

@@ -7,27 +7,31 @@ export default Ember.Component.extend({
 
   scheduleSummary: null,
 
-  didInsertElement() {
-    this._super(...arguments);
-
-    this.animateIn();
-  },
-
-  animateIn() {
+  animateIn: on('didInsertElement', function() {
     this.$()
       .hide()
       .slideDown(300);
-  },
+  }),
+
+  animateOut: on('willDestroyElement', function() {
+    // TODO animate destroy
+  }),
 
   actions: {
     remove: function() {
       const schedule = get(this, 'schedule');
 
-      get(this, 'remove')(schedule);
+      const remove = get(this, 'remove');
+      if (remove) {
+        remove(schedule);
+      }
     },
 
     save(schedule, scheduleData) {
-      get(this, 'save')(schedule, scheduleData);
+      const save = get(this, 'save');
+      if (save) {
+        save(schedule, scheduleData);
+      }
       this.sendAction('cancel');
     },
 
