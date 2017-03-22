@@ -15,8 +15,9 @@ export default Component.extend(TestSelector, {
     const save = get(this, 'save');
 
     if(save) {
-      const cs = get(this, 'changeset');
-      save(cs);
+      save(
+        get(this, 'changeset')
+      );
     }
 
     return false;
