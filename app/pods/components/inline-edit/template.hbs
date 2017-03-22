@@ -1,4 +1,7 @@
 {{#if (and displayWasGiven (not isEditing))}}
+  {{!
+    Display attribute is present, so lets display it if not in edit mode.
+  }}
   {{{display}}}
   {{atoms/standard-button
       icon="pencil"
@@ -7,6 +10,9 @@
       text='edit'
   }}
 {{else}}
+  {{!
+    Either in edit mode, or display attribute wasn't given.
+  }}
   {{yield (hash
     isEditing=isEditing
     exitEditMode=(action exitEditMode)

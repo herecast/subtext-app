@@ -27,6 +27,12 @@ export default Ember.Component.extend(TestSelector, {
     }
   },
 
+  /**
+   * Display attribute is used as a convenience. It's used when the value
+   * to display is simply an attribute that can be displayed as is.  It
+   * prevents having to specify what to display when not in edit mode
+   * via the yielded block.
+   */
   detectDisplay: on('didReceiveAttrs', function({newAttrs}) {
     if('display' in newAttrs) {
       set(this, 'displayWasGiven', true);
@@ -46,20 +52,27 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   exitEditMode() {
-    let mayExit = true;
+    let canExit = true;
+
     const willExitEditMode = get(this, 'willExitEditMode');
     const didExitEditMode = get(this, 'didExitEditMode');
 
     if(willExitEditMode) {
       const result = willExitEditMode();
 
+      /**
+       * The context using this component can return false to prevent the
+       * inline-edit component from proceeding with exiting edit mode.
+       * An example would be if the value does not pass validation.
+       */
       if(result !== undefined && result === false) {
-        mayExit = false;
+        canExit = false;
       }
     }
 
-    if(mayExit) {
+    if(canExit) {
       set(this, 'isEditing', false);
+
       if(didExitEditMode) {
         didExitEditMode();
       }
@@ -69,9 +82,12 @@ export default Ember.Component.extend(TestSelector, {
   enterEditMode() {
     if(!get(this, 'isEditing')) {
       set(this, 'isEditing', true);
+
       run.next(()=> this.setFocus());
-      if('didEnterEditMode' in this.attrs) {
-        this.attrs.didEnterEditMode();
+
+      const didEnterEditMode = get(this, 'didEnterEditMode');
+      if(didEnterEditMode) {
+        didEnterEditMode();
       }
     }
   }

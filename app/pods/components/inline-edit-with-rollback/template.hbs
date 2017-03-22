@@ -1,8 +1,8 @@
 {{#if displayWasGiven}}
   {{#inline-edit
       display=display
-      didEnterEditMode=(action 'editModeEntered')
-      willExitEditMode=(action mayExitEditMode)
+      didEnterEditMode=(action 'cacheExistingValueForRollback')
+      willExitEditMode=(action canExitEditMode)
       focusChangesState=false as |ie|}}
     {{yield (hash
       isEditing=ie.isEditing
@@ -20,8 +20,8 @@
   {{/inline-edit}}
 {{else}}
   {{#inline-edit
-      didEnterEditMode=(action 'editModeEntered')
-      willExitEditMode=(action mayExitEditMode)
+      didEnterEditMode=(action 'cacheExistingValueForRollback')
+      willExitEditMode=(action canExitEditMode)
       focusChangesState=false as |ie|}}
     {{yield (hash
       isEditing=ie.isEditing
