@@ -29,16 +29,6 @@ export default Ember.Component.extend({
     { key: 'Monthly', value: 'monthly' }
   ],
 
-  init() {
-    this._super(...arguments);
-
-    const schedule = get(this, 'changeset');
-
-    set(schedule, 'startTime',
-      getWithDefault(schedule, 'startTime', '09:00 am')
-    );
-  },
-
   weeklyOrBiWeekly: computed('changeset.repeats', function() {
     const repeats = get(this, 'changeset.repeats');
 
