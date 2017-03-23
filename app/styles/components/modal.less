@@ -1,7 +1,6 @@
 .Modal {
-  width: 100%;
-  height: auto;
-  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(3,3,3, 0.4);
   position: fixed;
   top: 0;
@@ -12,13 +11,15 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  /** DO not use this. It causes safari to get confused about which element
-   * should respond to the scroll event. (body scrolls instead of modal)
-   *
+  /** 
    * https://bugs.webkit.org/show_bug.cgi?id=158342
    * https://github.com/twbs/bootstrap/commit/1ca6c9d7f1d15017c549dd1375ed98bf64404b33
    */
-  //-webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+  &-inner {
+    //REF: http://patrickmuff.ch/blog/2014/10/01/how-we-fixed-the-webkit-overflow-scrolling-touch-bug-on-ios/
+    height: calc(100% + 1px);
+  }
 
   &--no-padding {
     .Modal-dialog {

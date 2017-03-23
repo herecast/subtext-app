@@ -1,16 +1,18 @@
-<div class='Modal-dialog {{if fullscreen "Modal-dialog--fullscreen"}} {{if isAnimated 'animated'}}'>
-  {{#if showHeader}}
-    <div class='Modal-dialogHeader'>
-      {{#if close}}
-        <button class=' Modal-action Modal-actionClose' onclick={{action close}}>
-         ×
-        </button>
-      {{/if}}
-      {{#if title}}
-        <span class='Modal-dialogTitle'>{{title}}</span>
-      {{/if}}
-    </div>
-  {{/if}}
+<div class='Modal-inner'>
+  <div class='Modal-dialog {{if fullscreen "Modal-dialog--fullscreen"}} {{if isAnimated 'animated'}}'>
+    {{#if showHeader}}
+      <div class='Modal-dialogHeader'>
+        {{#if close}}
+          <button class=' Modal-action Modal-actionClose' onclick={{action close}}>
+           ×
+          </button>
+        {{/if}}
+        {{#if title}}
+          <span class='Modal-dialogTitle'>{{title}}</span>
+        {{/if}}
+      </div>
+    {{/if}}
 
-  {{yield this}}
+    {{yield this}}
+  </div>
 </div>
