@@ -11,7 +11,14 @@
   z-index: 1000;
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+
+  /** DO not use this. It causes safari to get confused about which element
+   * should respond to the scroll event. (body scrolls instead of modal)
+   *
+   * https://bugs.webkit.org/show_bug.cgi?id=158342
+   * https://github.com/twbs/bootstrap/commit/1ca6c9d7f1d15017c549dd1375ed98bf64404b33
+   */
+  //-webkit-overflow-scrolling: touch;
 
   &--no-padding {
     .Modal-dialog {
