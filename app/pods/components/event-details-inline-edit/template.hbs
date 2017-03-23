@@ -59,10 +59,10 @@
         {{#inline-edit-with-rollback
             data-test-component='event-venue'
             hasError=changeset.error.venueId
-            rollback=(action 'rollbackVenue')
+            rollback=(action 'rollbackVenue' changeset)
         as |ie|}}
 
-          {{#if isEditing}}
+          {{#if ie.isEditing}}
             {{form.venue-input}}
             <div class='InlineEdit-editActions'>
               {{ie.okButton}}
