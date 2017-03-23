@@ -37,14 +37,18 @@ const getTime = function(datetimeKey, dateKey) {
       }
     },
     set(key, value) {
-      const date = get(this, dateKey);
+      // Run next loop for cases where date and time are both set in the same
+      // run loop.  - We need the date to be set before this operation.
+      Ember.run.next(()=> {
+        const  date = get(this, dateKey);
 
-      if(date) {
-        const formattedDate = moment(date).format(dateFormat);
-        const datetime = moment(`${formattedDate} ${value}`, `${dateFormat} ${timeFormat}`);
+        if(date) {
+          const formattedDate = moment(date).format(dateFormat);
+          const datetime = moment(`${formattedDate} ${value}`, `${dateFormat} ${timeFormat}`);
 
-        set(this, datetimeKey, datetime);
-      }
+          set(this, datetimeKey, datetime);
+        }
+      });
       return value;
     }
   });
