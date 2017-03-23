@@ -17,12 +17,12 @@
 {{/if}}
 
 {{#if displayError}}
-  <div class="help-block FormGroup-error">{{error}}</div>
+  <div class="alert alert-danger help-block FormGroup-error">{{capitalize error}}</div>
 {{/if}}
 
 {{!--
   For compatibity with ember-data and changeset, mutiple errors
 --}}
 {{#each errors as |error|}}
-  <div class="help-block FormGroup-error">{{error}}</div>
+  <div class="alert alert-danger help-block FormGroup-error">{{capitalize error}}</div>
 {{/each}}

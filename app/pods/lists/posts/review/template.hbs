@@ -32,6 +32,12 @@
       </ul>
     </div>
     <footer class='ListservForm-actions'>
+      {{#if changeset.errors}}
+        <p class='alert alert-danger'>
+          <strong>There are errors.</strong>
+          You will want to look over everything again.
+        </p>
+      {{/if}}
       {{async-button
         action=(action 'saveAndPublish' changeset)
         default='Save and Publish'

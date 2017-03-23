@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import buildMessage from 'ember-changeset-validations/utils/validation-errors';
 
 const {isPresent} = Ember;
 
@@ -16,6 +15,6 @@ export default function validateWysiwygContent() {
       value = Ember.$(value).text();
     }
 
-    return isPresent(value) || buildMessage(key, 'resent', value);
+    return isPresent(value) || `cannot be blank`;
   };
 }

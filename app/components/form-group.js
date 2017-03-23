@@ -7,7 +7,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
-  classNames: ['form-group'],
+  classNames: ['FormGroup', 'form-group'],
   classNameBindings: ['hasError:has-error'],
 
   hasError: computed('error', 'errors', function() {
