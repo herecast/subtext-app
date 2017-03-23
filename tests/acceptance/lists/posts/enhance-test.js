@@ -371,7 +371,7 @@ test('Enhance market post', function(assert) {
   let newMarketId;
 
   const newTitle = "Newest title";
-  const newPhone = "555-5555";
+  const newPhone = "(208) 555-5555";
   const newEmail = "test2@example.org";
   const newPrice = "$40";
 
