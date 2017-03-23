@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 const { get, set, isPresent, isEmpty, inject, run } = Ember;
+/* global dataLayer */
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: inject.service(),
@@ -10,12 +11,31 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   search: inject.service(),
   modals: inject.service(),
   fastboot: inject.service(),
+  userActivity: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
     const tokenString = tokens.reverse().join(' | ');
 
     return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
+  },
+
+  beforeModel(transition) {
+    if (transition.sequence === 0 && !Ember.testing && !get(this, 'fastboot.isFastBoot')) {
+      const userActivity = get(this, 'userActivity');
+      const timeIntervals = [0, 11000, 31000, 61000, 181000, 601000, 1801000];
+
+      userActivity.register('sessionTimer', window);
+      userActivity.triggerTimedEvents('sessionTimer', (time) => {
+        if (typeof dataLayer !== "undefined") {
+          dataLayer.push({
+            'event'             : 'VirtualSessionTimerEvent',
+            'virtualTimeOnPage' : time,
+            'virtualPageUrl'    : window.location.href
+          });
+        }
+      }, timeIntervals);
+    }
   },
 
   model() {
