@@ -19,9 +19,7 @@ export default Ember.Component.extend(TestSelector, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-    set(this, 'openItem',
-      this.attrs.user
-    );
+    set(this, 'openItem', get(this, 'user'));
   },
 
   actions: {
@@ -29,8 +27,9 @@ export default Ember.Component.extend(TestSelector, {
       set(this, 'openItem', ctx);
     },
     openDashboard() {
-      if ('openDashboard' in this.attrs) {
-        this.attrs.openDashboard(...arguments);
+      const openDashboard = get(this, 'openDashboard');
+      if (openDashboard) {
+        openDashboard(...arguments);
       }
     }
   }

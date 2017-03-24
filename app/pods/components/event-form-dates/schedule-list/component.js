@@ -11,10 +11,16 @@ export default Ember.Component.extend({
 
   actions: {
     excludeEvent(schedule, trigger, calEvent) {
-      this.attrs.excludeEvent(schedule, calEvent);
+      const excludeEvent = get(this, 'excludeEvent');
+      if (excludeEvent) {
+        excludeEvent(schedule, calEvent);
+      }
     },
     includeEvent(schedule, trigger, calEvent) {
-      this.attrs.includeEvent(schedule, calEvent);
+      const includeEvent = get(this, 'includeEvent');
+      if (includeEvent) {
+        includeEvent(schedule, calEvent);
+      }
     }
   }
 });

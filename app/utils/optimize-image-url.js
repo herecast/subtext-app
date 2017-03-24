@@ -7,17 +7,28 @@ import config from 'subtext-ui/config/environment';
 // the given rectangle, with the rectangle's aspect ratio.
 // Otherwise, the full-sized image will be resized to fit inside the given rectangle, but will
 // retain its aspect ratio.
+//
+// This function should be functionally identical to the ImageUrlService.optimize_image_url method in
+// https://github.com/subtextmedia/knotweed/blob/master/app/services/image_url_service.rb.
 export default function makeOptimizedImageUrl(url, width, height, doCrop) {
   let result = url;
 
-  if (url && /^http/i.test(url) && width && height) {
-    const urlNoProtocol = url.replace(/^https?:\/\//, '');
-    const quality = `filters:quality(${config['OPTIMIZED_IMAGE_QUALITY']})`;
+  if (config['ENABLE_IMAGE_OPTIMIZATION']) {
+    // Cribbed from http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+    let match = `${url}`.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+    let hostname = match && match[3];
 
-    if (doCrop) {
-      result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', `${width}x${height}`, 'smart', quality, urlNoProtocol].join('/');
-    } else {
-      result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', 'fit-in', `${width}x${height}`, quality, urlNoProtocol].join('/');
+    const hostnameIsAllowed = config['IMOPT_ALLOWED_HOSTNAMES'].includes(hostname);
+
+    if (url && width && height && hostnameIsAllowed && /^http/i.test(url)) {
+      const urlNoProtocol = url.replace(/^https?:\/\//, '');
+      const quality = `filters:quality(${config['OPTIMIZED_IMAGE_QUALITY']})`;
+
+      if (doCrop) {
+        result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', `${width}x${height}`, 'smart', quality, urlNoProtocol].join('/');
+      } else {
+        result = [config['OPTIMIZED_IMAGE_URI'], 'unsafe', 'fit-in', `${width}x${height}`, quality, urlNoProtocol].join('/');
+      }
     }
   }
 

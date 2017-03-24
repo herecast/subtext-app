@@ -122,6 +122,8 @@ test('registering through the global nav: it should subscribe the new user to se
     if (asyncCallCount === 2) {
       done();
     }
+
+    return server.create('subscription');
   });
 
   const locations = server.createList('location', 3);
@@ -159,6 +161,8 @@ test('visiting protected page and then registering: it should subscribe the new 
     if (asyncCallCount === 2) {
       done();
     }
+
+    return server.create('subscription');
   });
 
   const locations = server.createList('location', 3);

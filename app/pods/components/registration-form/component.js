@@ -92,8 +92,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
             this._saveDigestSubscriptions(selectedDigests);
           }
 
-          if ('onSuccess' in this.attrs) {
-            this.attrs.onSuccess(response);
+          const onSuccess = get(this, 'onSuccess');
+          if (onSuccess) {
+            onSuccess(response);
           }
           resolve();
         }).catch((response) => {

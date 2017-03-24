@@ -62,9 +62,20 @@
     }
   }
 
+  &--adWrapper {
+    @media (min-width: @screen-sm-max) {
+      height: 250px;
+			margin-bottom: 15px;
+    }
+  }
+
   &--featured {
-    height: 250px;
+    height: 160px;
     margin-bottom: 15px;
+
+    @media (min-width: @screen-sm-max) {
+      height: 250px;
+    }
 
     .MarketCategoryCard {
       &-imageWrapper {
@@ -90,45 +101,44 @@
   }
 
   &--more {
-      height: 250px;
-      margin-bottom: 15px;
+    height: 515px;
+    margin-bottom: 15px;
+    padding: 0 10px;
 
-    @media (min-width: @screen-sm-max) {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-    }
+		.flex-display();
+		.flex-direction(column);
 
     @media (max-width: @screen-sm-max) {
       height: auto;
-      padding: 10px 0;
+    }
+
+    &-list {
+      .flex-grow(1);
+
+      li {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: 100%;
+
+				@media(max-width: @screen-sm-max) {
+					float: left;
+					display: inline;
+          width: 50%;
+				}
+      }
     }
 
     &-text {
-      margin: 0;
+      .flex(1);
 
-      -webkit-box-flex: 1;
-      -webkit-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
+      padding-top: 10px;
+      border-top: 1px solid #efefef;
 
       span {
-        width: 90%;
         display: block;
         margin: 0 auto;
 
-        @media (min-width: @screen-sm-max) {
-          width: 80%;
-        }
       }
     }
 

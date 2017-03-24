@@ -49,8 +49,9 @@ export default Ember.Component.extend(TrackCard, {
 
   actions: {
     onTitleClick() {
-      if (this.attrs.onTitleClick) {
-        this.attrs.onTitleClick();
+      const onTitleClick = get(this, 'onTitleClick');
+      if (onTitleClick) {
+        onTitleClick();
       }
       return true;
     }

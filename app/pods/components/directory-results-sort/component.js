@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { set } = Ember;
+const { get, set } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['DirectoryResults-sort'],
@@ -13,14 +13,16 @@ export default Ember.Component.extend({
   ],
 
   didReceiveAttrs() {
-    const sortBy = (this.attrs.sortBy ? this.attrs.sortBy.value : null);
-
-    set(this, 'sortBy', sortBy);
+    this._super(...arguments);
+    set(this, 'sortBy', get(this, 'sortBy'));
   },
 
   actions: {
     changeSort(val) {
-      this.attrs['on-update'](val);
+      const onSortChange = get(this, 'onSortChange');
+      if (onSortChange) {
+        onSortChange(val);
+      }
     }
   }
 });

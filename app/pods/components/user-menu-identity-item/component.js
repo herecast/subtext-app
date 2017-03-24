@@ -16,13 +16,15 @@ export default Ember.Component.extend(TestSelector, {
 
   actions: {
     titleAction() {
-      if('titleAction' in this.attrs) {
-        this.attrs.titleAction();
+      const titleAction = get(this, 'titleAction');
+      if (titleAction) {
+        titleAction();
       }
     },
     buttonAction() {
-      if('buttonAction' in this.attrs) {
-        this.attrs.buttonAction();
+      const buttonAction = get(this, 'buttonAction');
+      if (buttonAction) {
+        buttonAction();
       }
     }
   }

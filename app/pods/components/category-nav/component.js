@@ -39,8 +39,9 @@ export default Ember.Component.extend({
     },
 
     openCategoriesModal() {
-      if ('openCategoriesModal' in this.attrs) {
-        this.attrs.openCategoriesModal();
+      const openCategoriesModal = get(this, 'openCategoriesModal');
+      if (openCategoriesModal) {
+        openCategoriesModal();
       }
     }
   }

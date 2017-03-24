@@ -24,11 +24,14 @@
     flex: 0 1 100%;
     margin: 0;
     text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-user {
-    -webkit-flex: 0 0 100px;
-    flex: 0 0 100px;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     margin-left: 1rem;
     text-transform: uppercase;
 
@@ -57,8 +60,8 @@
   }
 
   &-search {
-    -webkit-flex: 0 0 100px;
-    flex: 0 0 100px;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
     text-align: right;
     font-size: 1.2rem;
     margin-right: 1rem;
@@ -83,7 +86,10 @@
   }
 
   &--talk      { background-color: @talk-brand; }
-  &--market    { background-color: @market-brand; }
+  &--market    {
+    border-top: 5px solid @market-brand;
+    // border-bottom: 1px solid #efefef;
+  }
   &--news      { background-color: @news-brand; }
   &--events    { background-color: @event-brand; }
   &--directory { background-color: #3dce72; }

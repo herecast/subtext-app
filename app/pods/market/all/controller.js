@@ -55,8 +55,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
     const cats = get(this, 'featuredCategories');
 
     return {
-      row1: cats.slice(0,3),
-      row2: cats.slice(3,6)
+      row1: cats.slice(0,4),
+      row2: cats.slice(4,5)
     };
   }),
 
@@ -121,6 +121,15 @@ export default Ember.Controller.extend(PaginatedFilter, {
         set(this, 'query', "");
       }
       set(this, 'page', 1);
+    },
+
+    trackCreateButtonClick() {
+      if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+          'event' : 'market-create-button-click-jumbo',
+          'type'  : 'index-jumbotron'
+        });
+      }
     },
 
     trackCategoryMoreClick() {

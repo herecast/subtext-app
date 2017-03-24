@@ -5,18 +5,20 @@
       <div class='MainNav-brand'>
         <h1 class='MainNav-brand-logo' data-test-brand>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
-            daily UV
+            Daily UV
             {{#if features.listserv-user-testing}}
             Test
             {{/if}}
-
-            {{#if (and session.isAuthenticated (or (eq currentChannel 'talk') (eq currentChannel 'index')))}}
-              <span class='MainNav-brand-location'>
-                {{session.userLocation}}
-              </span>
-            {{/if}}
           {{/link-to}}
+
         </h1>
+          {{#if session.isAuthenticated}}
+            <div class='MainNav-brand-location' data-test-user-location>
+              {{#link-to 'account.community'}}
+              {{session.userLocation}}
+              {{/link-to}}
+            </div>
+          {{/if}}
       </div>
 
         <nav class='MainNav-channels' role="navigation">

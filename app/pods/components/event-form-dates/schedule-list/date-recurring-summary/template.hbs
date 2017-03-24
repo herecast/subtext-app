@@ -48,8 +48,8 @@
   {{#modal-wrapper close=(action 'hideModal')}}
     {{event-schedule
       schedule=schedule
-      excludeEvent=this.attrs.excludeEvent
-      includeEvent=this.attrs.includeEvent
+      excludeEvent=excludeEvent
+      includeEvent=includeEvent
     }}
     <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
   {{/modal-wrapper}}

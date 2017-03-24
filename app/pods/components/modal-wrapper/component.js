@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   fullscreen: false,
 
   showHeader: computed('title', 'close', function() {
-    return (this.attrs.title || this.attrs.close);
+    return (get(this, 'title') || get(this, 'close'));
   }),
 
   isAnimated: computed('fastboot.isFastBoot', function () {
@@ -34,8 +34,9 @@ export default Ember.Component.extend({
 
   click(e) {
     // Clicking on overlay should close the modal
-    if ($(e.target).hasClass('Modal') && this.attrs.close) {
-      this.close();
+    const close = get(this, 'close');
+    if ($(e.target).hasClass('Modal') && close) {
+      close();
     }
   },
 

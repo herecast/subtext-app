@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { get } = Ember;
+
 export default Ember.Component.extend({
   tagName: 'input',
   attributeBindings: ['type', 'accept'],
@@ -9,6 +11,6 @@ export default Ember.Component.extend({
   change() {
     const file = this.$().context.files[0];
 
-    this.attrs.addImage(file);
+    get(this, 'addImage')(file);
   }
 });

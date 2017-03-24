@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { get } = Ember;
+
 export default Ember.Component.extend({
   context: null,
 
@@ -10,14 +12,16 @@ export default Ember.Component.extend({
   },
 
   ok() {
-    if ('onOk' in this.attrs) {
-      this.attrs.onOk(...arguments);
+    const onOk = get(this, 'onOk');
+    if (onOk) {
+      onOk(...arguments);
     }
   },
 
   cancel() {
-    if ('onCancel' in this.attrs) {
-      this.attrs.onCancel(...arguments);
+    const onCancel = get(this, 'onCancel');
+    if (onCancel) {
+      onCancel(...arguments);
     }
   },
 

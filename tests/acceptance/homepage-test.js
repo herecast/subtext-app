@@ -1,6 +1,6 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import testSelector from 'ember-test-selectors';
 
 moduleForAcceptance('Acceptance | homepage');
 

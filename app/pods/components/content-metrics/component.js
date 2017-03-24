@@ -57,7 +57,6 @@ export default Ember.Component.extend({
 
   clickData: computed('sortedClicks', function() {
     const clickCounts = get(this, 'sortedClicks');
-
     return clickCounts.map((i) => {
       return isNaN(get(i, 'click_count')) ? 0 : get(i, 'click_count');
     });
@@ -74,11 +73,13 @@ export default Ember.Component.extend({
   }),
 
   didReceiveAttrs() {
-    const startDate = moment(this.attrs.startDate);
-    const endDate = moment(this.attrs.endDate);
+    this._super(...arguments);
 
-    set(this, 'views', this.attrs.views.value);
-    set(this, 'clicks', this.attrs.clicks.value);
+    const startDate = moment(get(this, 'startDate'));
+    const endDate = moment(get(this, 'endDate'));
+
+    set(this, 'views', get(this, 'views'));
+    set(this, 'clicks', get(this, 'clicks'));
 
     if(startDate.isValid()) {
       set(this, 'startDate', startDate.toDate());
@@ -96,16 +97,22 @@ export default Ember.Component.extend({
   startDateDidChange: observer('startDate', function() {
     const startDate = get(this, 'startDate');
 
-    if (startDate !== this.attrs['startDate']) {
-      this.attrs.updateStartDate(startDate);
+    if (startDate !== get(this, 'startDate')) {
+      const updateStartDate = get(this, 'updateStartDate');
+      if (updateStartDate) {
+        updateStartDate(startDate);
+      }
     }
   }),
 
   endDateDidChange: observer('endDate', function() {
     const endDate = get(this, 'endDate');
 
-    if (endDate !== this.attrs['endDate']) {
-      this.attrs.updateEndDate(endDate);
+    if (endDate !== get(this, 'endDate')) {
+      const updateEndDate = get(this, 'updateEndDate');
+      if (updateEndDate) {
+        updateEndDate(endDate);
+      }
     }
   }),
 

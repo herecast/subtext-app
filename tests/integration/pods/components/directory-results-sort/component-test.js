@@ -37,10 +37,10 @@ test('Sort value is set by sortBy parameter', function(assert) {
   assert.equal($select.val(), 'distance_asc');
 });
 
-test('Selecting a sortBy option triggers on-update action with the correct value', function(assert) {
+test('Selecting a sortBy option triggers onSortChange action with the correct value', function(assert) {
   let myAction = sinon.spy();
   this.set('myAction', myAction);
-  this.render(hbs`{{directory-results-sort on-update=(action myAction)}}`);
+  this.render(hbs`{{directory-results-sort onSortChange=(action myAction)}}`);
 
   let $select = this.$('.DirectoryResults-sort select');
 

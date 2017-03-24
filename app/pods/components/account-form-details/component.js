@@ -56,12 +56,11 @@ export default Ember.Component.extend(Validation, {
       const model = get(this, 'model');
       model.save().then(
         () => {
-          notify.success('Successfully saved changes.');
           setProperties(this, {
             showPasswordForm: false,
             imageFormVisible: false
           });
-
+          notify.success('Successfully saved changes.');
           get(this, 'intercom').update(model);
         },
         () => notify.error('Error: Unable to save changes.'));

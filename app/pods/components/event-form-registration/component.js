@@ -32,14 +32,14 @@ export default Ember.Component.extend(TestSelector, {
         set(this, 'event.registrationDeadline', null);
       }
 
-      this.attrs.validateForm();
+      Ember.get(this, 'validateForm')();
       return date;
     }
   }),
 
   actions: {
     toggleRegistration() {
-      this.attrs.toggleRegistration();
+      get(this, 'toggleRegistration')();
     }
   }
 });

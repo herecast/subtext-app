@@ -150,7 +150,8 @@ export default Ember.Component.extend({
   },
 
   didUpdateAttrs() {
-    set(this, 'locations', this.attrs.locations.value);
+    this._super();
+    set(this, 'locations', get(this, 'locations'));
     this.updateMap();
   }
 });

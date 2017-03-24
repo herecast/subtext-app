@@ -73,7 +73,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
     const inputHasFocus = (this.$(':focus') === this.$('input'));
     if(!inputHasFocus) {
-      set(this, 'locationQuery', this.attrs.location.value);
+      set(this, 'locationQuery', get(this, 'location'));
     }
   },
 

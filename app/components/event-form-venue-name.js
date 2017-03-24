@@ -52,12 +52,18 @@ export default Ember.Component.extend(ManualDropdown, {
   actions: {
     setVenue(venue) {
       set(this, 'open', false);
-      this.attrs.setVenue(venue);
+      const setVenue = get(this, 'setVenue');
+      if (setVenue) {
+        setVenue(venue);
+      }
     },
 
     addNewVenue() {
       set(this, 'open', false);
-      this.attrs.addNewVenue();
+      const addNewVenue = get(this, 'addNewVenue');
+      if(addNewVenue) {
+        addNewVenue();
+      }
     }
   }
 });

@@ -1,18 +1,18 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend({
   marketPosts: [],
 
-  sortedPosts: computed('marketPosts.@each.publishedAt', function() {
-    return this.get('marketPosts').sortBy('publishedAt').reverse();
-  }),
+  marketPostsSort: ['publishedAt:desc'],
+  sortedPosts: computed.sort('marketPosts', 'marketPostsSort'),
 
   actions: {
     trackCardClick() {
-      if ('trackCardClick' in this.attrs) {
-        this.attrs.trackCardClick();
+      const trackCardClick = get(this, 'trackCardClick');
+      if (trackCardClick) {
+        trackCardClick();
       }
     }
   }

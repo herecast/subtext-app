@@ -1,14 +1,10 @@
 import Ember from 'ember';
-import config from './../config/environment';
+import config from 'subtext-ui/config/environment';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { ActiveModelAdapter } from 'active-model-adapter';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
-import {
-  TimeoutError,
-  AbortError
-} from 'ember-data/-private/adapters/errors';
-import parseResponseHeaders from 'ember-data/-private/utils/parse-response-headers';
+import parseResponseHeaders from 'subtext-ui/utils/parse-response-headers';
 
 import { cloneDeep } from 'lodash';
 
@@ -113,9 +109,9 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
         if (errorThrown instanceof Error) {
           error = errorThrown;
         } else if (textStatus === 'timeout') {
-          error = new TimeoutError();
+          error = new Ember.Error();
         } else if (textStatus === 'abort') {
-          error = new AbortError();
+          error = new Ember.Error();
         } else {
           error = adapter.handleResponse(
             jqXHR.status,

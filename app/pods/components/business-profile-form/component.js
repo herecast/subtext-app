@@ -9,7 +9,6 @@ export default Ember.Component.extend(Validation, {
   showSaveMessage: false,
   isNewBusiness: false,
 
-
   model: null,
   categories: null,
   closeAction: null,
@@ -28,26 +27,30 @@ export default Ember.Component.extend(Validation, {
       });
     }
 
-    set(this,'categories', this.getCategories());
+    if (isBlank(get(this, 'categories'))) {
+      set(this,'categories', this.getCategories());
+    }
   },
 
   getCategories() {
     return get(this, 'store').findAll('business-category').then( categories => {
-      categories.forEach(category => {
+      if (!get(this, 'isDestroying')) {
+        categories.forEach(category => {
 
-        const parent_ids = category.get('parent_ids') || [];
+          const parent_ids = category.get('parent_ids') || [];
 
-        if (parent_ids.length > 0) {
-          const parent = categories.find( category => {
-            return parseInt(category.id) === parseInt(parent_ids[0]);
-          });
-          category.set('fullName', `${parent.get('name')} > ${category.get('name')}`);
-        } else {
-          category.set('fullName', `${category.get('name')}`);
-        }
-      });
+          if (parent_ids.length > 0) {
+            const parent = categories.find( category => {
+              return parseInt(category.id) === parseInt(parent_ids[0]);
+            });
+            category.set('fullName', `${parent.get('name')} > ${category.get('name')}`);
+          } else {
+            category.set('fullName', `${category.get('name')}`);
+          }
+        });
 
-      return categories;
+        return categories;
+      }
     });
   },
 

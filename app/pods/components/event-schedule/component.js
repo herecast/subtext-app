@@ -23,10 +23,10 @@ export default Ember.Component.extend({
 
         element.on('click', () => {
           if (event.hidden) {
-            this.attrs.includeEvent('eventClick', event);
+            get(this, 'includeEvent')('eventClick', event);
             this.reloadCalendar();
           } else {
-            this.attrs.excludeEvent('eventClick', event);
+            get(this, 'excludeEvent')('eventClick', event);
             this.reloadCalendar();
           }
         });
