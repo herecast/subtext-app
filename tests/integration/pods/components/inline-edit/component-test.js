@@ -8,12 +8,12 @@ moduleForComponent('inline-edit', 'Integration | Component | inline edit', {
   integration: true
 });
 
-test('Displaying value on render', function(assert) {
+test('Displaying on render', function(assert) {
   this.set('value', 'RED');
 
   // Template block usage:
   this.render(hbs`
-    {{#inline-edit value=value}}
+    {{#inline-edit display=value}}
       {EDIT MODE}
     {{/inline-edit}}
   `);
@@ -27,7 +27,7 @@ test('Displaying value on render', function(assert) {
     );
 });
 
-test('Entering edit mode by clicking button, exiting edit mode by focusout', function(assert) {
+test('Entering edit mode by clicking default button', function(assert) {
   this.setProperties({
     display: 'The band I am listening to',
     value: 'Matthew West'
@@ -35,12 +35,12 @@ test('Entering edit mode by clicking button, exiting edit mode by focusout', fun
 
   // Template block usage:
   this.render(hbs`
-    {{#inline-edit value=display}}
+    {{#inline-edit display=display}}
       <input type='text' value={{value}}>
     {{/inline-edit}}
   `);
 
-  this.$('.InlineEdit-editButton').trigger('click');
+  this.$('.InlineEdit-button--edit').trigger('click');
 
   return wait().then(()=> {
     assert.equal(
@@ -48,48 +48,205 @@ test('Entering edit mode by clicking button, exiting edit mode by focusout', fun
       "Matthew West",
       'Clicking displays edit mode (block)'
     );
-    /**
-     * @TODO: not working
-    assert.ok(
-      this.$('input:focus').length > 0,
-      "The input is given focus"
-    );
-    */
+  });
+});
 
-    this.$('input').trigger('focusout');
+test('Block display mode', function(assert) {
+  this.render(hbs`
+    {{#inline-edit as |ie|}}
+      {{#if ie.isEditing}}
+      {{else}}
+        [DISPLAYING]
+      {{/if}}
+    {{/inline-edit}}
+  `);
+
+  assert.ok(
+    this.$().text().indexOf('[DISPLAYING]') > -1
+  );
+});
+
+test('Entering edit mode from block display mode, using provided button', function(assert) {
+  this.render(hbs`
+    {{#inline-edit as |ie|}}
+      {{#if ie.isEditing}}
+        [EDITMODE]
+      {{else}}
+        [DISPLAYMODE]
+        {{ie.editButton class='edit-btn'}} 
+      {{/if}}
+    {{/inline-edit}}
+  `);
+
+  const $editBtn = this.$('.edit-btn');
+  $editBtn.click();
+
+  return wait().then(()=>{
+    assert.equal(
+      this.$().text().indexOf('[DISPLAYMODE]'), -1,
+      "Display mode not visible"
+    );
+
+    assert.ok(
+      this.$().text().indexOf('[EDITMODE]') > -1,
+      "Edit mode visible"
+    );
+  });
+});
+
+test('Entering edit mode from block display mode, using provided action', function(assert) {
+  this.render(hbs`
+    {{#inline-edit as |ie|}}
+      {{#if ie.isEditing}}
+        [EDITMODE]
+      {{else}}
+        [DISPLAYMODE]
+        <button class='edit-btn' {{action ie.enterEditMode}}>edit</button>
+      {{/if}}
+    {{/inline-edit}}
+  `);
+
+  this.$('.edit-btn').click();
+
+  return wait().then(()=>{
+    assert.equal(
+      this.$().text().indexOf('[DISPLAYMODE]'), -1,
+      "Display mode not visible"
+    );
+
+    assert.ok(
+      this.$().text().indexOf('[EDITMODE]') > -1,
+      "Edit mode visible"
+    );
+  });
+});
+
+test('Exiting edit mode from provided button', function(assert) {
+  this.render(hbs`
+    {{#inline-edit as |ie|}}
+      {{#if ie.isEditing}}
+        [EDITMODE]
+        {{ie.okButton class='exit-btn'}}
+      {{else}}
+        [DISPLAYMODE]
+        {{ie.editButton}}
+      {{/if}}
+    {{/inline-edit}}
+  `);
+
+  this.$('.InlineEdit-button--edit').click();
+
+  return wait().then(()=>{
+    //not in display mode
+    assert.equal(
+      this.$().text().indexOf('[DISPLAYMODE]'), -1
+    );
+
+    assert.ok(
+      this.$().text().indexOf('[EDITMODE]') > -1);
+
+    this.$('.exit-btn').click();
+
     return wait().then(()=>{
+      //not in edit mode
+      assert.equal(
+        this.$().text().indexOf('[EDITMODE]'), -1
+      );
+
       assert.ok(
-        this.$().text().indexOf('The band I am listening to') > -1,
-        "focusout causes to leave edit mode"
+        this.$().text().indexOf('[DISPLAYMODE]') > -1,
+        "Display mode, after clicking ok button"
       );
     });
   });
 });
 
-test('Entering edit mode by clicking edit button, exiting edit mode by button action', function(assert) {
-  this.setProperties({
-    display: 'The band I am listening to',
-    value: 'Matthew West'
-  });
-
-  // Template block usage:
+test('Exiting edit mode from provided action', function(assert) {
   this.render(hbs`
-    {{#inline-edit value=display focusChangesState=false as |f|}}
-      <input type='text' value=value>
-      <button onclick={{action f.exitEditMode}}>Done Editing</button>
+    {{#inline-edit as |ie|}}
+      {{#if ie.isEditing}}
+        [EDITMODE]
+        <button class='exit-btn' {{action ie.exitEditMode}}>ok</button>
+      {{else}}
+        [DISPLAYMODE]
+        {{ie.editButton}}
+      {{/if}}
     {{/inline-edit}}
   `);
 
-  this.$('.InlineEdit-editButton').click();
-  assert.ok(this.$('input').length > 0, "In edit mode");
+  this.$('.InlineEdit-button--edit').click();
 
-  this.$('button').click();
-
-  return wait().then(()=> {
-    assert.ok(
-      this.$().text().indexOf('The band I am listening to') > -1,
-      "triggring action causes to leave edit mode"
+  return wait().then(()=>{
+    //not in display mode
+    assert.equal(
+      this.$().text().indexOf('[DISPLAYMODE]'), -1
     );
+
+    assert.ok(
+      this.$().text().indexOf('[EDITMODE]') > -1);
+
+    this.$('.exit-btn').click();
+
+    return wait().then(()=>{
+      //not in edit mode
+      assert.equal(
+        this.$().text().indexOf('[EDITMODE]'), -1
+      );
+
+      assert.ok(
+        this.$().text().indexOf('[DISPLAYMODE]') > -1,
+        "Display mode, after clicking ok button"
+      );
+    });
+  });
+});
+
+test('didEnterEditMode action', function(assert) {
+  const done = assert.async();
+  this.set('handleEnterEditMode', function() {
+    assert.ok(true, 'Entering edit mode triggers optional didEnterEditMode action');
+    done();
+  });
+
+  this.render(hbs`
+    {{#inline-edit display='DISPLAY' didEnterEditMode=(action handleEnterEditMode) as |ie|}}
+      [EDITMODE]
+    {{/inline-edit}}
+  `);
+
+  this.$('.InlineEdit-button--edit').click();
+});
+
+test('willExitEditMode action returning false', function(assert) {
+  const done = assert.async();
+  this.set('watchExitEditMode', function() {
+    assert.ok(true, 'willExitEditMode was called');
+    done();
+    return false;
+  });
+
+  this.render(hbs`
+    {{#inline-edit display='DISPLAY' willExitEditMode=(action watchExitEditMode) as |ie|}}
+      [EDITMODE]
+      {{ie.okButton}}
+    {{/inline-edit}}
+  `);
+
+  this.$('.InlineEdit-button--edit').click();
+
+  return wait().then(()=>{
+    assert.ok(
+      this.$().text().indexOf('[EDITMODE]') > -1
+    );
+
+    // In edit mode, now click ok button;
+    this.$('.InlineEdit-button--ok').click();
+
+    return wait().then(()=>{
+      assert.ok(this.$().text().indexOf('[EDITMODE]') > -1,
+        "When willExitEditMode returns false, it stays in edit mode"
+      );
+    });
   });
 });
 
@@ -107,7 +264,7 @@ test('didExitEditMode action', function(assert) {
 
   // Template block usage:
   this.render(hbs`
-    {{#inline-edit value=display isEditing=true didExitEditMode=(action didExitEditMode) focusChangesState=false as |f|}}
+    {{#inline-edit display=display isEditing=true didExitEditMode=(action didExitEditMode) focusChangesState=false as |f|}}
       <input type='text' value=value>
       <button onclick={{action f.exitEditMode}}>Done Editing</button>
     {{/inline-edit}}
@@ -130,7 +287,7 @@ test('enter key from input', function(assert) {
   });
 
   this.render(hbs`
-    {{#inline-edit value=display isEditing=true didExitEditMode=(action didExitEditMode) focusChangesState=false as |f|}}
+    {{#inline-edit display=display isEditing=true didExitEditMode=(action didExitEditMode) focusChangesState=false as |f|}}
       <input type='text' value=value>
     {{/inline-edit}}
   `);
