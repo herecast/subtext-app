@@ -12,7 +12,9 @@ moduleForComponent('image-upload-tiles', 'Integration | Component | image upload
 });
 
 test('it renders with no images', function(assert) {
-  this.render(hbs`{{image-upload-tiles images=[]}}`);
+  this.set('images', []);
+
+  this.render(hbs`{{image-upload-tiles images=images}}`);
 
   assert.equal(
     this.$('.ImageInputTile').length, 1,
@@ -24,7 +26,6 @@ test('it renders with no images', function(assert) {
     "Displays help text reminder to add images"
   );
 });
-
 test('it renders given images', function(assert) {
   const images = [
     Ember.Object.create({imageUrl: 'http://test.image/1'}),

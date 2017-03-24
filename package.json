@@ -82,6 +82,7 @@
     "emberx-select": "3.0.0",
     "fastboot-app-server": "1.0.0-rc.5",
     "gc-stats": "^1.0.0",
+    "ismobilejs": "^0.4.1",
     "jquery": "^3.1.1",
     "liquid-fire": "0.27.0",
     "loader.js": "^4.0.10",
