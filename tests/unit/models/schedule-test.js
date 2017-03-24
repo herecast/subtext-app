@@ -1,4 +1,5 @@
 import { moduleForModel, test } from 'ember-qunit';
+import wait from 'ember-test-helpers/wait';
 import moment from 'moment';
 
 moduleForModel('schedule', 'Unit | Model | schedule', {
@@ -169,14 +170,17 @@ test('getting and setting startsAt', function(assert) {
     stopDate: moment('2018-01-01').toDate(),
   });
 
-  const startsAt = schedule.get('startsAt').toDate();
+  //startAt calculation runs over two runloops.
+  return wait().then(()=> {
+    const startsAt = schedule.get('startsAt').toDate();
 
-  // Without the maxDates cap, this would generate > 100 dates
-  const dateFormat = 'MM/DD/YYYY';
-  const timeFormat = 'hh:mm a';
-  const expected = moment(`11/01/2015 09:00 am`, `${dateFormat} ${timeFormat}`).toDate();
+    // Without the maxDates cap, this would generate > 100 dates
+    const dateFormat = 'MM/DD/YYYY';
+    const timeFormat = 'hh:mm a';
+    const expected = moment(`11/01/2015 09:00 am`, `${dateFormat} ${timeFormat}`).toDate();
 
-  assert.deepEqual(startsAt, expected);
+    assert.deepEqual(startsAt, expected);
+  });
 });
 
 test('getting and setting endsAt', function(assert) {
