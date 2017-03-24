@@ -10,7 +10,8 @@ moduleForComponent('business-profile-form', 'Integration | Component | business 
 });
 
 test('it renders', function(assert) {
-  this.render(hbs`{{business-profile-form}}`);
+  this.set('categories', [server.create('business-category')]);
+  this.render(hbs`{{business-profile-form categories=categories}}`);
 
   assert.ok(this.$());
 });

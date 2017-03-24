@@ -2,6 +2,7 @@ import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import sanitize from 'npm:sanitize-html';
+import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 const {get, inject} = Ember;
 
@@ -34,6 +35,7 @@ export default Ember.Mixin.create({
     const imageUrl = get(model,'featuredImageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
     const imageWidth = get(model, 'featuredImageWidth') || get(model, 'imageWidth') || 266;
     const imageHeight = get(model, 'featuredImageHeight') || get(model, 'imageHeight') || 200;
+    const optimizedImageUrl = makeOptimizedImageUrl(imageUrl, imageWidth, imageHeight, true);
     const title = get(model, 'title');
 
     // Strip out all HTML tags from the content so it can be used for the description
@@ -63,7 +65,7 @@ export default Ember.Mixin.create({
         type: 'meta',
         attrs: {
           property: 'og:image',
-          content: imageUrl,
+          content: optimizedImageUrl,
           media: 'all'
         }
       },

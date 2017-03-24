@@ -14,8 +14,9 @@ export default Ember.Component.extend({
     this.$('input').on('change', () => {
       set(this, 'groupValue', get(this, 'value'));
 
-      if ('onChange' in this.attrs) {
-        this.attrs.onChange(get(this, 'value'));
+      const onChange = get(this, 'onChange');
+      if (onChange) {
+        onChange(get(this, 'value'));
       }
     });
   },

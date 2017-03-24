@@ -1,18 +1,8 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
-
 export default Ember.Component.extend({
   isSaving: false,
   callToAction: 'Save & Publish',
-
-  editLink: computed('model.isNew', function() {
-    if (this.get('model.isNew')) {
-      return 'events.new.promotion';
-    } else {
-      return 'events.edit.promotion';
-    }
-  }),
 
   actions: {
     save(callback) {

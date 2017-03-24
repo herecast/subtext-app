@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
 
-const {get, set, computed, isEmpty, setProperties, inject:{service}} = Ember;
+const {get, set, computed, observer, isEmpty, setProperties, inject:{service}} = Ember;
 
 export default Ember.Component.extend(InViewportMixin, {
   classNames: 'OutreachCta',
@@ -9,6 +9,7 @@ export default Ember.Component.extend(InViewportMixin, {
 
   api: service(),
   currentController: service(),
+  url: computed.alias('currentController.currentUrl'),
 
   isTextOnly: false,
   isButton: false,
@@ -45,51 +46,51 @@ export default Ember.Component.extend(InViewportMixin, {
     }
   ],
 
-  ctaMessage: null,
-  ctaTarget: null,
-  ctaMessageTag: null,
-  ctaTargetTag: null,
+  messageIndex: computed('defaultMessages.[]', 'limitMessagesTo.[]', 'url', function () {
+    const defaultMessages = get(this, 'defaultMessages');
+    const limitMessagesTo = get(this, 'limitMessagesTo');
+    const messageArrayLength = isEmpty(limitMessagesTo) ? defaultMessages.length : limitMessagesTo;
 
-  _setupMessaging() {
-    let defaultMessages = get(this, 'defaultMessages');
-    let limitMessagesTo = get(this, 'limitMessagesTo');
-
-    let messageArrayLength = isEmpty(limitMessagesTo) ? defaultMessages.length : limitMessagesTo;
-    let randomIndex = Math.floor( Math.random() * messageArrayLength );
-
-    set(this, 'ctaMessage', defaultMessages[randomIndex].message );
-    set(this, 'ctaMessageTag', defaultMessages[randomIndex].tag );
-  },
-
-  _setupTargeting() {
-    let defaultTargets = get(this, 'defaultTargets');
-    let randomIndex = Math.floor( Math.random() * defaultTargets.length );
-
-    set(this, 'ctaTarget', defaultTargets[randomIndex].url);
-    set(this, 'ctaTargetTag', defaultTargets[randomIndex].tag);
-  },
-
-  _resetImpression() {
-    set(this, 'url', get(this, 'currentController.currentUrl'));
-    set(this, '_impressionSent', false);
-  },
-
-  _resetAll() {
-    this._setupMessaging();
-    this._setupTargeting();
-    this._resetImpression();
-  },
-
-  currentUrl: computed('currentController.currentUrl', function() {
-    if (get(this, 'currentController.currentUrl') !== get(this, 'url')) {
-      this._resetAll();
-    }
+    return Math.floor( Math.random() * messageArrayLength );
   }),
 
-  init() {
-    this._super();
-    this._resetAll();
-  },
+  ctaMessage: computed('defaultMessages.[]', 'messageIndex', function () {
+    const defaultMessages = get(this, 'defaultMessages');
+    const messageIndex = get(this, 'messageIndex');
+
+    return defaultMessages[messageIndex].message;
+  }),
+
+  ctaMessageTag: computed('defaultMessages.[]', 'messageIndex', function () {
+    const defaultMessages = get(this, 'defaultMessages');
+    const messageIndex = get(this, 'messageIndex');
+
+    return defaultMessages[messageIndex].tag;
+  }),
+
+  targetIndex: computed('defaultTargets.[]', 'url', function () {
+    const defaultTargets = get(this, 'defaultTargets');
+
+    return Math.floor( Math.random() * defaultTargets.length );
+  }),
+
+  ctaTarget: computed('defaultTargets.[]', 'targetIndex', function () {
+    const defaultTargets = get(this, 'defaultTargets');
+    const targetIndex = get(this, 'targetIndex');
+
+    return defaultTargets[targetIndex].url;
+  }),
+
+  ctaTargetTag: computed('defaultTargets.[]', 'targetIndex', function () {
+    const defaultTargets = get(this, 'defaultTargets');
+    const targetIndex = get(this, 'targetIndex');
+
+    return defaultTargets[targetIndex].tag;
+  }),
+
+  _resetImpression: observer('currentController.currentUrl', function() {
+    set(this, '_impressionSent', false);
+  }),
 
   didInsertElement() {
     this._super();

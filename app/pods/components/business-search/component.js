@@ -89,7 +89,10 @@ export default Ember.Component.extend({
 
   updateSearchTerms(value) {
     if (value.length > 3) {
-      this.attrs.updateFromQuery(value);
+      const updateFromQuery = get(this, 'updateFromQuery');
+      if (updateFromQuery) {
+        updateFromQuery(value);
+      }
     }
   },
 
@@ -118,7 +121,10 @@ export default Ember.Component.extend({
   actions: {
     chooseCategory(category) {
       set(this, 'displaySuggestions', false);
-      this.attrs.setCategory(category);
+      const setCategory = get(this, 'setCategory');
+      if (setCategory) {
+        setCategory(category);
+      }
     }
   }
 });

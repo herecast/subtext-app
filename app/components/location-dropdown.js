@@ -57,7 +57,10 @@ export default Ember.Component.extend(TestSelector, FastbootExtensions, {
 
       if (isEditing) {
         const location = get(this, 'selectedLocation');
-        this.attrs.onUpdate(location.id, location.formattedLocation);
+        const onUpdate = get(this, 'onUpdate');
+        if (onUpdate) {
+          onUpdate(location.id, location.formattedLocation);
+        }
       }
     }
   }

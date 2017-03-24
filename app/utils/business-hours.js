@@ -66,8 +66,8 @@ export default {
 
       if (daySplit.length > 1) {
         if (daySplit.length === 2 &&
-            daySplit.contains('Sa') &&
-            daySplit.contains('Su')) {
+            daySplit.includes('Sa') &&
+            daySplit.includes('Su')) {
 
           if (daySplit.indexOf('Sa') < daySplit.indexOf('Su')) {
             // This is a weekend schedule,
@@ -82,7 +82,7 @@ export default {
               dayList.push( dayOrder[i] );
             }
           }
-        } else if (daySplit.length === 2 && daySplit.contains('Mo') && daySplit.contains('Su')) {
+        } else if (daySplit.length === 2 && daySplit.includes('Mo') && daySplit.includes('Su')) {
           if (daySplit.indexOf('Mo') < daySplit.indexOf('Su')) {
             dayList = dayOrder;
           }
@@ -138,8 +138,8 @@ export default {
           timeGroup.sort(sortByDayOrderIndex);
 
           if( timeGroup.length === 2 &&
-              timeGroup.contains('Sa') &&
-              timeGroup.contains('Su') ) {
+              timeGroup.includes('Sa') &&
+              timeGroup.includes('Su') ) {
             // This is a weekend schedule,
             // Group Sa & Su together
             returnData.push(`Sa-Su|${timeRange}`);

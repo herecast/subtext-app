@@ -15,7 +15,7 @@ export default function computedInitials(str) {
       let strWords = str.split(' ');
 
       let name = strWords.reduce((preVal,item) => {
-        if ( !stopWords.contains(item.toLowerCase()) ) {
+        if ( !stopWords.includes(item.toLowerCase()) ) {
           preVal += ` ${item}`;
         }
         return preVal;

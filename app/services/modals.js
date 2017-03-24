@@ -1,6 +1,6 @@
 import Ember from 'ember';
-const { $, get, set, merge, on, RSVP, inject } = Ember; // jshint ignore:line
-const a = Ember.A; // jshint ignore:line
+const { $, get, set, on, RSVP, inject } = Ember;
+const a = Ember.A;
 
 export default Ember.Service.extend({
   modals:null,
@@ -25,30 +25,33 @@ export default Ember.Service.extend({
         let renderer = container.lookup('renderer:-dom');
         let domForAppWithGlimmer2 = container.lookup('service:-document');
 
-         if (renderer && renderer._dom) {
-           // Regular Fastboot
-           let document = Ember.get(renderer, '_dom.document');
-           let script = document.createElement('script');
-           script.setAttribute('type', 'text/javascript');
-           script.appendChild(document.createTextNode('document.body.classList.add("modal-open");'));
-           // Add script to document to add the class from the browser at runtime.
-           document.body.appendChild(script);
-           set(this, '_fbAddedClass', true);
+        let document = null;
 
-         } else if (domForAppWithGlimmer2) {
-           // Glimmer 2 has a different renderer
-           domForAppWithGlimmer2.body.classList.add('modal-open');
-           set(this, '_fbAddedClass', true);
-         }
+        if (renderer && renderer._dom) {
+          // Regular Fastboot
+          document = Ember.get(renderer, '_dom.document');
+        } else if (domForAppWithGlimmer2) {
+          // Glimmer 2 has a different renderer
+          document = domForAppWithGlimmer2;
+        }
+
+        if (document) {
+          let script = document.createElement('script');
+          script.setAttribute('type', 'text/javascript');
+          script.appendChild(document.createTextNode('document.body.classList.add("modal-open");'));
+          // Add script to document to add the class from the browser at runtime.
+          document.body.appendChild(script);
+          set(this, '_fbAddedClass', true);
+        }
       }
     }
   },
 
   removeModalBodyClass() {
-      /**
-       * @TODO reimplement in fastboot compatible way
-       * @FASTBOOT_BROKEN
-       */
+    /**
+     * @TODO reimplement in fastboot compatible way
+     * @FASTBOOT_BROKEN
+     */
     if(!this.isFastboot()) {
       $('body').removeClass('modal-open');
     }

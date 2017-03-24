@@ -36,10 +36,10 @@
     </div>
     <div class='col-sm-6'>
       {{#if categoryEnabled}}
-        {{#x-select value=event.category class='form-control'}}
-          {{#x-option value=null}}Select a category:{{/x-option}}
+        {{#x-select value=event.category class='form-control' as |xs|}}
+          {{#xs.option value=null}}Select a category:{{/xs.option}}
           {{#each categories as |category|}}
-            {{#x-option value=category.value}}{{category.label}}{{/x-option}}
+            {{#xs.option value=category.value}}{{category.label}}{{/xs.option}}
           {{/each}}
         {{/x-select}}
       {{/if}}

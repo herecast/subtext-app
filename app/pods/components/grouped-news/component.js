@@ -15,8 +15,18 @@ export default Ember.Component.extend({
 
   lastRefreshDate: null,
 
-  orderedNews: computed('news.@each.publishedAt', function() {
-    return get(this, 'news').sortBy('publishedAt').toArray().reverse();
+  // newsSort: ['publishedAt:desc'],
+  orderedNews: computed.sort('news', function(a,b) {
+    const momentA = moment(get(a, 'publishedAt')),
+      momentB = moment(get(b, 'publishedAt'));
+
+    if (momentA.isBefore(momentB)) {
+      return 1;
+    } else if (momentA.isAfter(momentB)) {
+      return -1;
+    }
+
+    return 0;
   }),
 
   didReceiveAttrs({ newAttrs }) {

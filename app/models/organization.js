@@ -43,8 +43,8 @@ export default DS.Model.extend({
   hasProfile: computed('orgType', function(){
     const validOrgTypes = ['Blog', 'Business', 'Publisher', 'Publication'];
     const orgType = get(this, 'orgType');
-    
-    return validOrgTypes.contains(orgType);
+
+    return validOrgTypes.includes(orgType);
   }),
 
   publisher: DS.belongsTo('organization', {async: true, inverse: 'publications'}),

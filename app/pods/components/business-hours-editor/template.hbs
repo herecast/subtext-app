@@ -23,9 +23,9 @@
         </td>
         <td>
           {{#if (in-array day daysOpen)}}
-            {{#x-select action=(action 'updateOpen' day) value=(get openTimes day)}}
+            {{#x-select action=(action 'updateOpen' day) value=(get openTimes day) as |xs|}}
               {{#each availableTimes as |time|}}
-              {{#x-option value=time.value}}{{time.label}}{{/x-option}}
+              {{#xs.option value=time.value}}{{time.label}}{{/xs.option}}
               {{/each}}
             {{/x-select}}
           {{else}}
@@ -34,9 +34,9 @@
         </td>
         <td>
           {{#if (in-array day daysOpen)}}
-            {{#x-select action=(action 'updateClose' day) value=(get closeTimes day)}}
+            {{#x-select action=(action 'updateClose' day) value=(get closeTimes day) as |xs|}}
               {{#each availableTimes as |time|}}
-              {{#x-option value=time.value}}{{time.label}}{{/x-option}}
+              {{#xs.option value=time.value}}{{time.label}}{{/xs.option}}
               {{/each}}
             {{/x-select}}
           {{else}}

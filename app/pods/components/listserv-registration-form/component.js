@@ -122,8 +122,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
   didInsertElement() {
     this._super(...arguments);
-    if('updateMetric' in this.attrs) {
-      this.attrs.updateMetric();
+    const updateMetric = get(this, 'updateMetric');
+    if (updateMetric) {
+      updateMetric();
     }
   },
 
@@ -150,8 +151,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
           api.confirmedRegistration(get(this, 'registrationData')).then(
             data => { this.signInFromRegistration(data); }
           ).then((response) => {
-            if('onSuccess' in this.attrs) {
-              this.attrs.onSuccess(response);
+            const onSuccess = get(this, 'onSuccess');
+            if (onSuccess) {
+              onSuccess(response);
             }
             resolve();
           }).catch((response) => {

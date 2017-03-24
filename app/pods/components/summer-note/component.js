@@ -104,12 +104,14 @@ export default Ember.Component.extend(TestSelector, {
 
     summerNoteConfig.buttons = this._getButtons();
 
-    if (isPresent(this.attrs.modules)) {
-      summerNoteConfig.modules = this.attrs.modules.value;
+    const modules = get(this, 'modules');
+    if (isPresent(modules)) {
+      summerNoteConfig.modules = modules;
     }
 
-    if (isPresent(this.attrs.popover)) {
-      summerNoteConfig.popover = this.attrs.popover.value;
+    const popover = get(this, 'popover');
+    if (isPresent(popover)) {
+      summerNoteConfig.popover = popover;
     }
 
     $editor.summernote(summerNoteConfig);
@@ -316,8 +318,9 @@ export default Ember.Component.extend(TestSelector, {
       const content = this.$('.note-editable').html();
 
       // Notify new content
-      if ('notifyChange' in this.attrs) {
-        this.attrs.notifyChange(content);
+      const notifyChange = get(this, 'notifyChange');
+      if (notifyChange) {
+        notifyChange(content);
       }
     },
 
@@ -328,7 +331,8 @@ export default Ember.Component.extend(TestSelector, {
     saveImageModal(selectedImage, caption) {
       caption = caption || '';
 
-      this.attrs.uploadImage(selectedImage).then(({image}) => {
+      const uploadImage = get(this, 'uploadImage');
+      uploadImage(selectedImage).then(({image}) => {
         let $imageWrapper = Ember.$('<div class="ContentImage"></div>');
         $imageWrapper.append(`<img src="${image.url}" />`);
         $imageWrapper.append(`<p>${caption}</p>`);

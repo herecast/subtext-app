@@ -33,7 +33,7 @@ export default Ember.Component.extend(TrackCard, {
 
   parentContentId: computed('talk.parentContentType', 'talk.parentContentId', 'talk.parentContentType', function() {
     const parentType = this.get('talk.parentContentType');
-    if (['event','event-instance','event_instance'].contains(parentType)) {
+    if (['event','event-instance','event_instance'].includes(parentType)) {
       return this.get('talk.parentEventInstanceId');
     } else {
       return this.get('talk.parentContentId');
@@ -54,8 +54,9 @@ export default Ember.Component.extend(TrackCard, {
 
   actions: {
     onTitleClick() {
-      if (this.attrs.onTitleClick) {
-        this.attrs.onTitleClick();
+      const onTitleClick = get(this, 'onTitleClick');
+      if (onTitleClick) {
+        onTitleClick();
       }
 
       return true;

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { set } = Ember;
+const { get, set } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['ThumbnailImageModal'],
@@ -26,9 +26,9 @@ export default Ember.Component.extend({
 
     save(selectedImage, caption) {
       if (selectedImage) {
-        this.attrs.saveImage(selectedImage, caption);
-      } else if ('saveCaption' in this.attrs) {
-        this.attrs.saveCaption(caption);
+        get(this, 'saveImage')(selectedImage, caption);
+      } else if (get(this, 'saveCaption')) {
+        get(this, 'saveCaption')(caption);
       }
 
       set(this, '_showImageModal', false);

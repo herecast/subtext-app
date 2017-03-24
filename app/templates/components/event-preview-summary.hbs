@@ -1,10 +1,17 @@
 <div class='row'>
   <div class='ContentPreview-navigation'>
     <div class='col-sm-3 editLink'>
-      {{#link-to editLink class='Button btn btn-default pull-left'}}
-        {{fa-icon 'arrow-left u-iconLeft'}}
-        Edit Event
-      {{/link-to}}
+      {{#if model.isNew}}
+        {{#link-to 'events.new.promotion' class='Button btn btn-default pull-left'}}
+          {{fa-icon 'arrow-left u-iconLeft'}}
+          Edit Event
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'events.edit.promotion' model class='Button btn btn-default pull-left'}}
+          {{fa-icon 'arrow-left u-iconLeft'}}
+          Edit Event
+        {{/link-to}}
+      {{/if}}
     </div>
     <div class='col-sm-3 publishLink'>
       {{#async-button

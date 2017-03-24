@@ -3,11 +3,11 @@ import computedInitials from 'subtext-ui/utils/computed-initials';
 import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
-const { get, set, computed, String: { htmlSafe }  } = Ember;
+const { get, computed, isBlank, String: { htmlSafe }  } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'AvatarImage',
-  classNameBindings: ['customSized:custom-sized', 'hasCaret:has-caret'],
+  classNameBindings: ['customSize:custom-sized', 'hasCaret:has-caret'],
 
   imageUrl: null,
   userName: null,
@@ -22,15 +22,21 @@ export default Ember.Component.extend({
     return htmlSafe(hexColorFromString(get(this, 'userName')));
   }),
 
-  customSizeStyle: computed('customSize', function() {
+  customSizeStyle: computed('customSize', 'imageUrl', 'avatarBackgroundColor', function() {
     const customSize = get(this, 'customSize');
+    const imageUrl = get(this, 'imageUrl');
     let style = '';
 
     if (customSize) {
       let fontSize = Math.round(0.4 * customSize);
-      style = `width:${customSize}px; height:${customSize}px; line-height:${customSize}px; font-size:${fontSize}px`;
-      set(this, 'customSized', true);
+      style = `width:${customSize}px; height:${customSize}px; line-height:${customSize}px; font-size:${fontSize}px;`;
     }
+
+    if (isBlank(imageUrl)) {
+      const avatarBackgroundColor = get(this, 'avatarBackgroundColor');
+      style += `background-color: ${avatarBackgroundColor};`;
+    }
+
     return htmlSafe(style);
   }),
 

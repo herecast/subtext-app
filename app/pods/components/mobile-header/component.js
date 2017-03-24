@@ -20,7 +20,7 @@ export default Ember.Component.extend({
   padBody            : computed.alias('currentController.showHeader'),
 
   headerBGClass: computed('currentChannel', function() {
-    return `${get(this, 'classNames.lastObject')}--${get(this, 'currentChannel')}`;
+    return `MobileHeader--${get(this, 'currentChannel')}`;
   }),
 
   init() {

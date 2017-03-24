@@ -31,10 +31,10 @@ export default Ember.Service.extend({
         state = "";
 
     item.address_components.forEach(function(c) {
-      if (c.types.contains('locality')) {
+      if (c.types.includes('locality')) {
         city = c.short_name;
       }
-      if (c.types.contains('administrative_area_level_1')) {
+      if (c.types.includes('administrative_area_level_1')) {
         state = c.short_name;
       }
     });

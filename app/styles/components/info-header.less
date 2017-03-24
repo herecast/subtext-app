@@ -1,9 +1,96 @@
 .InfoHeader {
-  border-bottom: 1px solid #c7c7c7;
+  padding-top: 20px;
   padding-bottom: 20px;
-  margin-bottom: 20px;
+
+  @media (min-width: @screen-sm-max) {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  &-CTAs {
+    display: flex;
+    .flex();
+    .justify-content(center);
+    .align-items(center);
+    .flex-direction(column-reverse);
+
+    @media (min-width: @screen-sm-max) {
+      .flex-direction(row);
+    }
+
+    &-middle {
+      margin: 5px 10px;
+    }
+
+    &-item {
+      @media (max-width: @screen-sm-max) {
+        width: 100%;
+      }
+    }
+
+    &-marketCTA {
+      background: @market-brand;
+      color: #fff;
+      border: none;
+      text-transform: uppercase;
+      font-weight: bold;
+      border-radius: 3px;
+      padding: 15px;
+
+      &:hover,
+      &:active,
+      &:focus,
+      &:active:hover {
+        color: #fff;
+        background-color: #ff4904;
+      }
+    }
+  }
 
   &-wrapper { }
+
+  &--MarketIndex { }
+  &--MarketIndex-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &--MarketIndex-title {
+    @media(max-width: @screen-xs-max) {
+      font-size: 28px;
+    }
+  }
+
+  &--MarketIndex-image {
+    background-image: url(https://d3ctw1a5413a3o.cloudfront.net/market_category/4/3bca1938b417e650-FREE.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    height: 230px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%; 
+
+    @media(max-width: @screen-sm-max) {
+      height: 320px;
+    }
+
+    &:after {
+      content: ' ';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.23+0,0+100;Neutral+Density */
+      background: -moz-linear-gradient(top, rgba(0,0,0,0.23) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(top, rgba(0,0,0,0.23) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom, rgba(0,0,0,0.23) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3b000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+    }
+
+  }
 
   &-item {
     @media (max-width: @screen-sm-max) {

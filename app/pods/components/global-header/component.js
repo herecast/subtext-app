@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   get,
@@ -7,7 +8,7 @@ const {
   computed
 } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(TestSelector, {
   currentController  : inject.service(),
   currentChannel     : computed.alias('currentController.currentChannel'),
   modals: inject.service(),
@@ -24,13 +25,15 @@ export default Ember.Component.extend({
       this.sendAction('openSearch');
     },
     trackMenuOpen() {
-      if ('trackMenuOpen' in this.attrs) {
-        this.attrs.trackMenuOpen(...arguments);
+      const trackMenuOpen = get(this, 'trackMenuOpen');
+      if (trackMenuOpen) {
+        trackMenuOpen(...arguments);
       }
     },
     signOut() {
-      if ('signOut' in this.attrs) {
-        this.attrs.signOut(...arguments);
+      const signOut = get(this, 'signOut');
+      if (signOut) {
+        signOut(...arguments);
       }
     },
     showSignInMenu(tab) {

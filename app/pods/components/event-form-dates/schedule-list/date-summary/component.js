@@ -21,11 +21,17 @@ export default Ember.Component.extend({
     remove: function() {
       const schedule = get(this, 'schedule');
 
-      this.attrs.remove(schedule);
+      const remove = get(this, 'remove');
+      if (remove) {
+        remove(schedule);
+      }
     },
 
     save(schedule, scheduleData) {
-      this.attrs.save(schedule, scheduleData);
+      const save = get(this, 'save');
+      if (save) {
+        save(schedule, scheduleData);
+      }
       this.sendAction('cancel');
     },
 

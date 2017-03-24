@@ -42,17 +42,18 @@ export default Ember.Component.extend({
       };
 
       // TODO: move to model and split apart isValid and errors properties
-      const validations = this.attrs.validate('single', scheduleData);
+
+      const validations = get(this, 'validate')('single', scheduleData);
       if ((typeof validations === 'boolean') && validations) {
-        this.attrs.save(schedule, scheduleData);
-        this.attrs.cancel();
+        get(this, 'save')(schedule, scheduleData);
+        get(this, 'cancel')();
       } else {
         set(this, 'errors', validations);
       }
     },
 
     cancel() {
-      this.attrs.cancel();
+      get(this, 'cancel')();
     }
   }
 });

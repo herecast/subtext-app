@@ -23,15 +23,17 @@
 <div class='MobileHeader-brand'>
   <h1 class='h4 text-center' data-test-brand>
     {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
-    <b>DailyUV</b>
-    {{#if features.listserv-user-testing}}
-    Test
-    {{/if}}
-    <span>
-        {{#if (and session.isAuthenticated (or (eq currentChannel 'talk') (eq currentChannel 'index')))}}
+      <b>DailyUV</b>
+
+      {{#if features.listserv-user-testing}}
+        Test
+      {{/if}}
+
+      {{#if session.isAuthenticated}}
+        <span class='MobileHeader-brand-location' data-test-user-location>
           {{session.userLocation}}
-        {{/if}}
-      </span>
+        </span>
+      {{/if}}
     {{/link-to}}
   </h1>
 </div>

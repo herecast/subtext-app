@@ -40,7 +40,10 @@ export default Ember.Component.extend({
       $elem.addClass('is-active');
 
       if (offset) {
-        this.attrs.scrollTo(offset - 100);
+        const scrollTo = get(this, 'scrollTo');
+        if (scrollTo) {
+          scrollTo(offset - 100);
+        }
       }
     }
   },

@@ -54,6 +54,11 @@
   &-body {} // what's the difference between content and body?
 
   &-content {
+    @media (max-width: @screen-xs-max) {
+      padding: 0 10px;
+      width: 55%;
+    }
+
     .fa {
       display: inline-block;
       text-align: center;
@@ -83,6 +88,7 @@
 
     &--preserveAspectRatio {
       .flex-display();
+      .justify-content(center);
 
       border: 1px solid @gray-light;
       background: @gray-light;

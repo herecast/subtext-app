@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('market-preview-summary', 'Unit | Component | market preview summary', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button'],
+  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button', 'helper:not'],
   unit: true
 });
 

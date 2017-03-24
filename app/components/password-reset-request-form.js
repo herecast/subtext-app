@@ -22,8 +22,9 @@ export default Ember.Component.extend(Validation, TestSelector, {
       if (isPresent(email) && this.hasValidEmail(email)) {
         set(this, 'error', null);
         api.requestPasswordReset(email, returnUrl).then(() => {
-          if('afterReset' in this.attrs) {
-            this.attrs.afterReset();
+          const afterReset = get(this, 'afterReset');
+          if (afterReset) {
+            afterReset();
           } else {
             this.set('showConfirmation', true);
           }

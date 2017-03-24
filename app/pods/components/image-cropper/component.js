@@ -88,11 +88,11 @@ export default Ember.Component.extend({
       const image = get(this, 'image');
       const imageUrl = get(this, 'imageUrl');
 
-      this.attrs.updateImage(image, imageUrl);
+      get(this, 'updateImage')(image, imageUrl);
     },
 
     cancel() {
-      this.attrs.cancel();
+      get(this, 'cancel')();
     },
 
     rotateImage(direction) {

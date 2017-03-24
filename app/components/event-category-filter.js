@@ -70,7 +70,7 @@ export default Ember.Component.extend({
   // input, we have to manually manage the values. If the user enters one of the
   // hardcoded categories, it uses that, otherwise it sends it as a custom query.
   setInputValue(value) {
-    const valueIsCategory = (CATEGORIES.contains(value));
+    const valueIsCategory = (CATEGORIES.includes(value));
 
     this.setProperties({
       category: (valueIsCategory) ? value : 'Everything',

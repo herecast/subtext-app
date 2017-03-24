@@ -249,7 +249,7 @@ export default Ember.Service.extend(defaultSearchParams, {
 
     //const knownSearchTypes = ['news', 'market', 'events', 'talk'];
     //const currentChannel = get(this, 'currentChannel');
-    //const isSearchable = knownSearchTypes.contains(currentChannel);
+    //const isSearchable = knownSearchTypes.includes(currentChannel);
     //if (isSearchable && isBlank(get(this, 'searchType'))) {
     //  set(this, 'searchType', currentChannel);
     //}

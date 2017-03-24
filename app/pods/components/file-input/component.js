@@ -18,7 +18,7 @@ export default Ember.Component.extend({
       const fileExt = fileNameSplit[fileNameSplit.length - 1];
 
       if(isPresent(fileExt)) {
-        if(extList.contains(`.${fileExt.toLowerCase()}`)) {
+        if(extList.includes(`.${fileExt.toLowerCase()}`)) {
           return true;
         }
       }
@@ -38,17 +38,21 @@ export default Ember.Component.extend({
   },
 
   triggerError() {
-    if( isPresent(this.attrs['fileError']) ) {
+    const fileError = get(this, 'fileError');
+    if(isPresent(fileError)) {
       const allowedExtensions = get(this, 'allowedExtensions');
       const errMsg = `Only files with these extensions: ${allowedExtensions} are allowed.`;
-      this.attrs.fileError(errMsg);
+      fileError(errMsg);
     }
   },
 
   actions: {
     didSelectFiles(files) {
-      if(this.allAreValid(files)) {
-        this.attrs.action(files);
+      if (this.allAreValid(files)) {
+        const action = get(this, 'action');
+        if (action) {
+          action(files);
+        }
       } else {
         this.triggerError();
       }

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
 
-const { get, set, computed, run, isEmpty, observer } = Ember;
+const { get, set, computed, run, isEmpty, isPresent, observer } = Ember;
 
 const repeatTypes = [{ key: 'Daily', value: 'daily' }, { key: 'Weekly', value: 'weekly' },
       { key: 'Bi-Weekly', value: 'bi-weekly' },
@@ -41,7 +41,7 @@ export default Ember.Component.extend(ScheduleSummary, {
          { key: 'Sa', value: 7 }];
 
     days.forEach((day) => {
-      if (daysOfWeek.contains(day.value)) {
+      if (daysOfWeek.includes(day.value)) {
         set(day, 'isChecked', true);
       } else {
         set(day, 'isChecked', false);
@@ -132,12 +132,16 @@ export default Ember.Component.extend(ScheduleSummary, {
         presenterName: get(this, 'presenterName')
       };
 
-      const validations = this.attrs.validate('recurring', scheduleData);
+      const validate = get(this, 'validate');
+
+      const validations = isPresent(validate) ? validate('recurring', scheduleData) : [];
 
       // TODO: move to model and split apart isValid and errors properties
       if ((typeof validations === 'boolean') && validations) {
-        this.attrs.save(schedule, scheduleData);
-        this.attrs.cancel();
+        const save = get(this, 'save');
+        const cancel = get(this, 'cancel');
+        save(schedule, scheduleData);
+        cancel();
       } else {
         set(this, 'errors', validations);
       }
@@ -160,8 +164,10 @@ export default Ember.Component.extend(ScheduleSummary, {
 
     cancel() {
       const schedule = get(this, 'schedule');
-
-      this.attrs.cancel(schedule);
+      const cancel = get(this, 'cancel');
+      if (cancel) {
+        cancel(schedule);
+      }
     },
 
     selectRepeatType(repeatChoice) {

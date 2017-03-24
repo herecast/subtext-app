@@ -8,6 +8,7 @@ export default Ember.Component.extend(Validation, {
   classNameBindings: ['wantsEmail:open'],
 
   api: service(),
+  fastboot: service(),
 
   coupon: null,
   wantsEmail: false,
@@ -21,13 +22,16 @@ export default Ember.Component.extend(Validation, {
 
   init() {
     this._super(...arguments);
-    let email = get(this, 'currentUser.email');
 
-    if (!isEmpty(email)) {
-      set(this, 'coupon.email', email);
+    if (!get(this, 'fastboot.isFastBoot')) {
+      let email = get(this, 'currentUser.email');
+
+      if (!isEmpty(email)) {
+        set(this, 'coupon.email', email);
+      }
+
+      set(this, 'url', window.location.href);
     }
-
-    set(this, 'url', window.location.href);
   },
 
   validateForm() {

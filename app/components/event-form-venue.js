@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { computed: {equal}, set } = Ember;
+const { computed: {equal}, set, get } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
   init() {
@@ -45,11 +45,17 @@ export default Ember.Component.extend(TestSelector, {
         open: false
       });
 
-      this.attrs.validateForm();
+      const validateForm = get(this, 'validateForm');
+      if (validateForm) {
+        validateForm();
+      }
     },
 
     validateForm() {
-      this.attrs.validateForm();
+      const validateForm = get(this, 'validateForm');
+      if (validateForm) {
+        validateForm();
+      }
     },
 
     togglePrivacy(isPrivate) {

@@ -1,12 +1,17 @@
 import Ember from 'ember';
 
+const { get } = Ember;
+
 export default Ember.Mixin.create({
   actions: {
     scrollToTalk() {
       const $el = this.$('.CommentSection');
 
       if($el.length > 0) {
-        this.attrs.scrollTo($el.position().top);
+        const scrollTo = get(this, 'scrollTo');
+        if (scrollTo) {
+          scrollTo($el.position().top);
+        }
       }
     }
   }
