@@ -22,3 +22,4 @@ export default Ember.Component.extend(TestSelector, {
       delete changes['costType'];
     }
   }
+});
