@@ -105,7 +105,7 @@ export default DS.Model.extend(ScheduleSummary, {
   schedule: computed('startsAt', 'endDate', 'daysOfWeek', 'repeats', function() {
     const startsAt = get(this, 'startsAt');
     const repeats = get(this, 'repeats');
-    const daysOfWeek = get(this, 'daysOfWeek');
+    const daysOfWeek = get(this, 'daysOfWeek').sort();
     const hour = startsAt.hour();
     const minute = startsAt.minute();
 

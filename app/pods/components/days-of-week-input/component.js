@@ -20,7 +20,7 @@ export default Ember.Component.extend({
 
   actions: {
     toggleDay(day, selected) {
-      const selectedDays = get(this, 'selectedDays');
+      const selectedDays = get(this, 'selectedDays').sort();
 
       if(selected) {
         get(this, 'update')(

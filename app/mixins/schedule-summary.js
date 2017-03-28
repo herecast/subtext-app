@@ -5,12 +5,12 @@ const { computed, get } = Ember;
 export default Ember.Mixin.create({
   textSummary: computed('repeats','daysOfWeek','weeksOfMonth', function() {
     const repeats = get(this, 'repeats');
-    const daysOfWeek = get(this, 'daysOfWeek') || [];
+    const daysOfWeek = (get(this, 'daysOfWeek') || []).sort();
 
     const dayMap = { 1: 'Sunday', 2: 'Monday', 3: 'Tuesday', 4: 'Wednesday',
       5: 'Thursday', 6: 'Friday', 7: 'Saturday'};
 
-    const readableDays = daysOfWeek.map((day) => { return dayMap[day]; });
+    const readableDays = daysOfWeek.map((day) => { return dayMap[day]; }).join(', ');
 
     let message = '';
 
