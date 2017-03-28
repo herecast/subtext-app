@@ -62,12 +62,12 @@ export default Ember.Component.extend({
   errors: [],
 
   fileError(e) {
-    if ('notifyProcessing' in this.attrs) {
-      this.attrs.notifyProcessing('end');
+    if(get(this, 'notifyProcessing')) {
+      get(this, 'notifyProcessing')('end');
     }
 
-    if ('onError' in this.attrs) {
-      this.attrs.onError(e);
+    if (get(this, 'onError')) {
+      get(this, 'onError')(e);
     } else {
       get(this, 'errors').push(e.message);
       throw(e);
@@ -75,16 +75,16 @@ export default Ember.Component.extend({
   },
 
   fileSuccess({file, img}) {
-    this.attrs.action({file, img});
+    get(this, 'action')({file, img});
 
-    if ('notifyProcessing' in this.attrs) {
-      this.attrs.notifyProcessing('end');
+    if (get(this, 'notifyProcessing')) {
+      get(this, 'notifyProcessing')('end');
     }
   },
 
   processFile(file) {
-    if ('notifyProcessing' in this.attrs) {
-      this.attrs.notifyProcessing('start');
+    if (get(this, 'notifyProcessing')) {
+      get(this, 'notifyProcessing')('start');
     }
 
     return new Promise((resolve, reject) => {
