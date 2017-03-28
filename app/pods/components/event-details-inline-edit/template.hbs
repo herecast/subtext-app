@@ -63,9 +63,8 @@
         as |ie|}}
 
           {{#if ie.isEditing}}
-            {{form.venue-input}}
+            {{form.venue-input update=(action ie.exitEditMode)}}
             <div class='InlineEdit-editActions'>
-              {{ie.okButton}}
               {{ie.cancelButton}}
             </div>
           {{else}}
@@ -94,7 +93,7 @@
       }}
         {{#inline-edit-with-rollback
             value=changeset.registrationDeadline
-            display=(moment-format changeset.registrationDeadline)
+            display=(moment-format changeset.registrationDeadline 'MMM Do YYYY')
             data-test-component='event-registration-deadline'
             hasError=changeset.error.registrationDeadline
             rollback=(action (mut changeset.registrationDeadline))

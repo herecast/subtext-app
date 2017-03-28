@@ -25,6 +25,7 @@
 
       registration-input=(component 'event-registration-input'
         value=changeset.registrationDeadline
+        registrationEnabled=(readonly changeset.registrationDeadline)
       )
 
       cost-input=(component 'event-form-cost'
@@ -126,6 +127,7 @@
         errors=changeset.error.registrationDeadline.validation
         field=(component 'event-registration-input'
           value=changeset.registrationDeadline
+          registrationEnabled=(readonly changeset.registrationDeadline)
         )
     }}
 
