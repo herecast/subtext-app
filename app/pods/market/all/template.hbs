@@ -217,17 +217,7 @@
 
             <div class='u-card clearfix'>
 
-              {{#if featureFlags.market-index-subscribe-cta}}
-                {{#unless session.isAuthenticated}}
-                  {{subscribe-banner
-                    imgUrl='https://subtext-misc.s3.amazonaws.com/sierra-nevada/zoey.png'
-                    title="Don't miss out! Zoe begs you!"
-                    subtitle="Get the latest DailyUV market posts delivered straight to your inbox, and <span class='u-bold'>never miss out on a great local bargain again.</span>"
-                    subscribe=(action 'subscribeToMarketDigest')
-                    featureFlags=(readonly featureFlags)
-                  }}
-                {{/unless}}
-              {{/if}}
+              
 
 
               {{sorted-market-posts

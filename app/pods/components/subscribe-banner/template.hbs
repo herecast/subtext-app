@@ -1,29 +1,29 @@
 <div class='SubscribeBanner-wrapper'>
   <div class='SubscribeBanner'>
     <div class='row'>
-      <div class='col-md-4'>
+      <div class='col-md-4 hidden-xs'>
         <div class='SubscribeBanner-imageWrapper SubscribeBanner-imageWrapper--zoey'>
           <div class='SubscribeBanner-image'>
-            <img src='{{imgUrl}}'  class='img-responsive' />
+            <img src='https://subtext-misc.s3.amazonaws.com/sierra-nevada/zoey.png'  class='img-responsive' />
           </div>
         </div>
       </div>
 
-      <div class='col-md-4'>
+      <div class='col-xs-6 col-md-4'>
         <div class='SubscribeBanner-content'>
-          <h1 class='h2 u-bold SubscribeBanner-title'>{{title}}</h1>
-
-          {{#if subtitle}}
-            <p class='h3 SubscribeBanner-subtitle'>{{{subtitle}}}</p>
-          {{/if}}
+          <h1 class='h2 u-bold u-link SubscribeBanner-title' {{action (action subscribe)}}>
+            {{featureFlags.market-index-subscribe-cta.options.title}}
+          </h1>
         </div>
       </div>
 
-        <div class='col-md-4'>
+      <div class='col-xs-6 col-md-4'>
+        <div class='SubscribeBanner-subscribeButtonWrapper'>
           <button {{action (action subscribe)}} class='btn btn-primary SubscribeBanner-subscribeButton'>
-            {{fa-icon 'envelope-o'}}&nbsp;Subscribe
+            Subscribe Now
           </button>
         </div>
+      </div>
     </div>
   </div>
 </div>

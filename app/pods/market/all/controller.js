@@ -84,29 +84,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
     content: "The Quechee Inn at Marshland Farm runs weekly promotions in the market which is a great source for us to reach our local customers.  I am able to track how many views our post has seen which is valuable information. The staff has been great at teaching me how to use the site to work for our business."
   }],
 
-  _trackMarketDigestSubscriptionClick() {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        'event': 'market-digest-cta-subscribe-click'
-      });
-    }
-  },
-
   actions: {
-    subscribeToMarketDigest() {
-      this._trackMarketDigestSubscriptionClick();
-
-      if (get(this, 'session.isAuthenticated')) {
-        // noop
-      } else {
-        this.transitionToRoute('register', {
-          queryParams: {
-            selectedDigest: get(this, 'featureFlags.market-index-subscribe-cta.options.digest-id')
-          }
-        });
-      }
-    },
-
     updateQuery(q) {
       if(q.length > 2) {
         set(this, 'query', q);

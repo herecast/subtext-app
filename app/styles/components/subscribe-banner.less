@@ -1,6 +1,13 @@
 .SubscribeBanner {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+
+  @media (max-width: @screen-xs-max) {
+    padding: 10px;
+  }
+
   &-wrapper {
-    border-bottom: 1px solid #efefef;
+    margin-bottom: 10px;
 
     @media (max-width: @screen-xs-max) {
       padding: 0 10px;
@@ -13,12 +20,12 @@
 
     @media (min-width: @screen-xs-max) {
       width: 200px;
-      height: 200px;
+      height: 160px;
       margin: 0 0 0 auto;
 
       &--zoey {
-        width: 280px;
-        margin-top: -50px;
+        width: 240px;
+        margin-top: -40px;
       }
     }
   }
@@ -31,6 +38,8 @@
   }
 
   &-title {
+    cursor: pointer;
+
     @media (max-width: @screen-xs-max) {
       margin-top: 0;
       margin-bottom: 0;
@@ -44,12 +53,14 @@
   }
 
   &-content {
-    background: #fff;
     line-height: 1.2;
 
+    @media (max-width: @screen-xs-max) { }
+  }
+
+  &-subscribeButtonWrapper {
     @media (max-width: @screen-xs-max) {
       padding-top: 10px;
-      margin-top: -80px;
     }
   }
 
