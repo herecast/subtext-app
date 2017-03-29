@@ -55,7 +55,7 @@ export default Ember.Component.extend(ModelResetScroll, {
 
       controller.transitionToRoute('register', {
         queryParams: {
-          selectedDigests: [marketDigestId]
+          selectedDigest: marketDigestId
         }
       });
     },
