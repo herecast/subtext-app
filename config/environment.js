@@ -26,6 +26,7 @@ module.exports = function(environment) {
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
     FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
+    //DEFAULT_HTTP_CACHE: " public, max-age=60",
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -137,6 +138,8 @@ module.exports = function(environment) {
     };
 
     ENV.fb_enabled = true;
+
+    ENV.DEFAULT_HTTP_CACHE = " public, max-age=60";
   }
 
   return ENV;

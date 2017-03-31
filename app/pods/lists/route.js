@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
+import NoHttpCache from 'subtext-ui/mixins/routes/no-http-cache';
 
 const { get, inject } = Ember;
 
-export default Ember.Route.extend(NavigationDisplay, {
+export default Ember.Route.extend(NavigationDisplay, NoHttpCache, {
   intercom: inject.service('intercom'),
   hideHeader: true,
   hideFooter: true,
