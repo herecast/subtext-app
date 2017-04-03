@@ -63,18 +63,10 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
   }, 'B', 5000);
 }
 
-function httpCacheHeaders(req, res, next) {
-  res.set('Cache-Control', ' public, max-age=60');
-  next();
-}
-
 let server = new FastBootAppServer({
   distPath: 'dist',
   gzip: false,
-  workerCount: process.env.EXPRESS_WORKER_COUNT || 1,
-  beforeMiddleware: function(app) {
-    app.use(httpCacheHeaders);
-  }
+  workerCount: process.env.EXPRESS_WORKER_COUNT || 1
 });
 
 server.start();
