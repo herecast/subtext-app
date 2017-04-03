@@ -6,6 +6,10 @@ import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 import parseResponseHeaders from 'subtext-ui/utils/parse-response-headers';
 
+import {
+  AdapterError,
+} from 'ember-data/adapters/errors';
+
 import { cloneDeep } from 'lodash';
 
 const { RSVP, inject, get, isPresent } = Ember;
@@ -19,6 +23,18 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
   headers: {
     "Consumer-App-Uri": config['CONSUMER_APP_URI']
   },
+
+  handleResponse(status) {
+    const response = this._super(...arguments);
+
+    if (response instanceof AdapterError) {
+      // Weirdly, status code isn't available on AdapterErrors
+      response.status = status;
+    }
+
+    return response;
+  },
+
   ajax(url, type, options) {
     const queryCache = get(this, 'queryCache');
 
@@ -120,7 +136,6 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
             requestData
           );
         }
-
         Ember.run.join(null, reject, error);
       };
 

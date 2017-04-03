@@ -1,6 +1,5 @@
 import Ember from 'ember';
-import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(Authorized, {
+export default Ember.Route.extend({
   titleToken: 'Talk'
 });

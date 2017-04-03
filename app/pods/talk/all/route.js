@@ -22,5 +22,11 @@ export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
     const filterParams = controller.getProperties('query');
 
     this.setupFilter('talk/all', filterParams);
+  },
+
+  actions: {
+    didAuthenticate() {
+      this.refresh();
+    }
   }
 });
