@@ -169,7 +169,7 @@ test('visiting protected page and then registering: it should subscribe the new 
   const listservs = server.createList('listserv', 3);
   listservs.forEach((listserv) => server.create('digest', {id: listserv.id}));
 
-  visit('/talk');
+  visit('/dashboard');
 
   andThen(function() {
     click(find('.PillNavigation-item')[1]);

@@ -78,15 +78,14 @@
 </div>
 
 {{#unless isPreview}}
-  {{#if featureFlags.market-detail-cta}}
-    {{market-cta
-      variation=featureFlags.market-detail-cta.options.variation
-      imgUrl=featureFlags.market-detail-cta.options.image_url
-    }}
-  {{/if}}
-{{/unless}}
+  {{#unless session.isAuthenticated}}
+    {{#if featureFlags.market-index-subscribe-cta}}
+      {{subscribe-banner
+        subscribe=(action 'subscribeToMarketDigest')
+      }}
+    {{/if}}
+  {{/unless}}
 
-{{#unless isPreview}}
   <div class='DetailPage-sectionWrapper'>
     <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
       {{ad-banner

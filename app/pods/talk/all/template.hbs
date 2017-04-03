@@ -3,16 +3,33 @@
     <div class='col-xs-12 col-md-8 col-md-push-2'>
       <div class='ChannelTopper clearfix'>
         <h1 class='h2 ChannelTopper-title visible-xs'>Local Talk</h1>
-
-        <div class="hidden-xs">
-          {{partial 'partials/pagination-nav'}}
-        </div>
+        {{#unless session.isFastboot}}
+          {{#unless session.isAuthenticated}}
+            <aside class='panel' data-test-message="talk-local-sign-in">
+              <div class='panel-body'>
+                <header class='h2'>You're viewing Talk in the general Upper Valley region.</header>
+                <p>
+                  To view Talk that is more local to you,
+                  you'll need to be signed in.<br>
+                </p>
+                <p class='text-right'>
+                  <button class='Button Button--primary' {{action 'signIn'}}>Sign in</button>
+                </p>
+              </div>
+            </aside>
+          {{/unless}}
+        {{/unless}}
 
         {{content-create-button
           class='SectionNavigation-contentCreateButtonMobile pull-right'
           path='talk.new.details'
         }}
+
+        <div class="hidden-xs">
+          {{partial 'partials/pagination-nav'}}
+        </div>
       </div>
+
     </div>
   </div>
 </div>

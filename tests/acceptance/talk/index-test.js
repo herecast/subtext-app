@@ -16,7 +16,21 @@ test('visiting /talk/ while not logged in', function(assert) {
   visit('/talk/');
 
   andThen(function() {
-    assert.equal(currentURL(), '/sign_in', 'it should redirect a non-logged in user to the sign in page');
+    assert.ok(
+      find(testSelector('message', 'talk-local-sign-in')).length > 0,
+      "Should see message to sign in in order to see local talk");
+  });
+});
+
+test('visiting /talk/ logged in', function(assert) {
+  assert.expect(1);
+
+  visit('/talk/');
+
+  andThen(function() {
+    assert.ok(
+      find(testSelector('message', 'talk-local-sign-in')).length === 0,
+      "Should not see message to sign in in order to see local talk");
   });
 });
 

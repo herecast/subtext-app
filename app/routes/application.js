@@ -12,6 +12,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   modals: inject.service(),
   fastboot: inject.service(),
   userActivity: inject.service(),
+  cookies: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -57,19 +58,42 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   actions: {
-    error(error) {
-      if (get(this, 'fastboot.isFastBoot')) {
-        let statusCode;
-        try {
-          statusCode = error.errors[0].status;
-        } catch(err) {
-          statusCode = 500;
+    error(error, transition) {
+      const isFastboot = get(this, 'fastboot.isFastBoot');
+
+      /**
+       * if we receive a 401 from the api during a route transition
+       * react like simple auth would for authenticated routes.
+       */
+      if (isPresent(error.status) && error.status === 401) {
+        if(isFastboot) {
+          const fastboot = get(this, 'fastboot');
+          const cookies = get(this, 'cookies');
+
+          cookies.write('ember_simple_auth-redirectTarget', transition.intent.url, {
+            path: '/',
+            secure: fastboot.get('request.protocol') === 'https'
+          });
+        } else {
+          set(this, 'session.attemptedTransition', transition);
         }
-        set(this, 'fastboot.response.statusCode', statusCode);
+
+        this.transitionTo('login');
       } else {
         console.error(error);
+
+        if (isFastboot) {
+          let statusCode;
+          try {
+            statusCode = error.errors[0].status;
+          } catch(err) {
+            statusCode = 500;
+          }
+          set(this, 'fastboot.response.statusCode', statusCode);
+        }
+
+        this.intermediateTransitionTo('error-404');
       }
-      this.intermediateTransitionTo('error-404');
     },
 
     signOut() {
