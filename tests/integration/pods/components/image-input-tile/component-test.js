@@ -2,8 +2,8 @@
  * SKIPPED BECAUSE OF ISSUES WITH THE EXIF LIBRARY
  */
 
-/* global Blob */
 /*
+/* global Blob /
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
