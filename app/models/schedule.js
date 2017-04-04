@@ -105,7 +105,6 @@ export default DS.Model.extend(ScheduleSummary, {
   schedule: computed('startsAt', 'endDate', 'daysOfWeek', 'repeats', function() {
     const startsAt = get(this, 'startsAt');
     const repeats = get(this, 'repeats');
-    const daysOfWeek = get(this, 'daysOfWeek').sort();
     const hour = startsAt.hour();
     const minute = startsAt.minute();
 
@@ -114,6 +113,7 @@ export default DS.Model.extend(ScheduleSummary, {
     if (repeats === 'daily') {
       return schedule;
     } else if (repeats === 'weekly' || repeats === 'bi-weekly') {
+      const daysOfWeek = get(this, 'daysOfWeek').sort();
       return schedule.on(daysOfWeek).dayOfWeek();
     }
   }),
