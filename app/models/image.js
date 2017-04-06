@@ -14,6 +14,7 @@ export default DS.Model.extend({
   caption: DS.attr('string'),
   width: DS.attr('string'),
   height: DS.attr('string'),
+  position: DS.attr('number'),
   _delete: DS.attr('boolean'),
 
   save() {
@@ -37,6 +38,7 @@ export default DS.Model.extend({
     data.append('image[primary]', get(this, 'primary'));
     data.append('image[image]', get(this, 'file'));
     data.append('image[content_id]', get(this, 'contentId'));
+    data.append('image[position]', get(this, 'position'));
 
     internalModel.adapterWillCommit();
 

@@ -69,8 +69,11 @@ export default DS.Model.extend(FastbootExtensions, {
     return this._super().then((post) => {
       imagesToSave.setEach('contentId', get(post, 'id'));
 
+      let position = 1;
       const savedImages = imagesToSave.map((image) => {
         if(!image.get('_delete')) {
+          image.position = position;
+          position = position + 1;
           return image.save();
         }
       });
