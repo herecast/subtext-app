@@ -1,14 +1,24 @@
-{{#if promotion.redirect_url}}
-  {{#if promotion.image_url}}
+{{#image-load-placeholder
+  placeholderBlockWidth=386
+  placeholderBlockHeight=320
+  placeholderBlockFixedSize=placeholderBlockFixedSize
+  imageUrl=(optimized-image-url promotion.image_url 386 320 false)
+  placeholderUrl=(optimized-image-url promotion.image_url 39 32 false)
+  placeholderClass=placeholderClass
+  placeholderImageClass='img-responsive AdBanner'
+}}
+
+  {{#if promotion.redirect_url}}
     <a href='{{promotion.redirect_url}}' target='_blank'>
       <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 386 320 false}}'>
     </a>
+  {{else}}
+    <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 386 320 false}}'>
   {{/if}}
-{{else if promotion.image_url}}
-  <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 386 320 false}}'>
-{{/if}}
 
-{{outreach-cta
-  isTextOnly=true
-  placement='under-ad-banner'
-}}
+  {{outreach-cta
+    isTextOnly=true
+    placement='under-ad-banner'
+  }}
+
+{{/image-load-placeholder}}

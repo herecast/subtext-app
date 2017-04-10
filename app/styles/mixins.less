@@ -102,3 +102,38 @@
   -ms-align-self: @align;
   align-self: @align;
 }
+
+// CSS Animation Mixins
+.keyframes(@name; @arguments) {
+  @-webkit-keyframes @name { @arguments(); }
+	@-moz-keyframes @name { @arguments(); }
+	@keyframes @name { @arguments(); }
+}
+
+.animation(@arguments) {
+	-webkit-animation: @arguments;
+	-moz-animation: @arguments;
+  -ms-animation: @arguments;
+	animation: @arguments;
+}
+
+.transition(@arguments) {
+	-webkit-transition: @arguments;
+	-moz-transition: @arguments;
+  -ms-transition: @arguments;
+	transition: @arguments;
+}
+
+.transform(@arguments) {
+	-webkit-transform: @arguments;
+	-moz-transform: @arguments;
+  -ms-transform: @arguments;
+	transform: @arguments;
+}
+
+.filter(@arguments) {
+	-webkit-filter: @arguments;
+	-moz-filter: @arguments;
+  -ms-filter: @arguments;
+	filter: @arguments;
+}

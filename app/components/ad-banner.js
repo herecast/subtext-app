@@ -20,6 +20,7 @@ export default Ember.Component.extend(InViewportMixin, {
   promotion: null,
   impressionPath: null,
   pagePositionForAnalytics: null,
+  placeholderClass: null,
 
   adContextName: computed.reads('currentService.currentPath'),
 

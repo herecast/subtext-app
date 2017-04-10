@@ -17,7 +17,16 @@
     {{#if model.featuredImageUrl}}
       <div class='DetailPage-headerImage-wrapper'>
         <div class='DetailPage-headerImage'>
-          <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
+          {{#image-load-placeholder
+            placeholderBlockWidth=640
+            placeholderBlockHeight=480
+            imageUrl=(optimized-image-url model.featuredImageUrl 640 480 true)
+            placeholderUrl=(optimized-image-url model.featuredImageUrl 64 48 true)
+            placeholderImageClass='img-responsive'
+
+          }}
+            <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
+          {{/image-load-placeholder}}
         </div>
 
         {{#if hasCaptionOrCredit}}
@@ -66,6 +75,7 @@
           {{ad-banner
             contentModel=model
             pagePlacement='in-news-detail-body'
+            placeholderBlockFixedSize=true
           }}
         </div>
         {{{model.splitContent.tail}}}
