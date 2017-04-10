@@ -6,9 +6,9 @@
 
         <div class="pull-right">
           {{social-share
-          title=model.title
-          sharedBy=session.userName
-          model=model
+            title=model.title
+            sharedBy=session.userName
+            model=model
           }}
         </div>
       </div>
@@ -54,16 +54,40 @@
         <h2 class='DetailPage-subtitle h2'>{{model.subtitle}}</h2>
       {{/if}}
 
-      <p>{{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}&emsp;
-        {{#link-to 'organization-profile' model.organization.slug data-test-link='news-show-organization-link'}}
-          {{model.organizationName}}
-        {{/link-to}}&nbsp;{{#if model.authorName}}:{{/if}}&nbsp;<span data-test-author-name>{{model.authorName}}</span>
+      <p>
+        {{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}
       </p>
     </div>
   </div>
 
   <div class='DetailPage-sectionWrapper'>
+
+    <div class='DetailPage-organization'>
+      <div class='DetailPage-organization-info'>
+        {{#link-to
+          'organization-profile'
+          model.organization.slug
+          class='DetailPage-organization-link'
+          tagName='a'
+          data-test-link="organization-link"
+        }}
+          {{avatar-image
+            imageUrl=model.organization.displayImageUrl
+            userName=model.organization.name
+            customSize=32
+            class="DetailPage-organization-avatar"
+          }}
+          <span data-test-author-name>{{model.authorName}}</span>
+          <span><br/>{{model.organizationName}}</span>
+        {{/link-to}}
+      </div>
+      {{#if model.organization.subscribeUrl}}
+        {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
+      {{/if}}
+    </div>
+
     <div class="DetailPage-content News-content ContentText">
+
       {{#if isPreview}}
         {{{ model.content }}}
       {{else}}
@@ -86,7 +110,7 @@
   {{#unless isPreview}}
     <div class='DetailPage-sectionWrapper'>
       {{report-content-details
-      contentId=model.contentId
+        contentId=model.contentId
       }}
     </div>
   {{/unless}}
@@ -98,7 +122,7 @@
           {{#if model.commentCount}}
             {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
           {{else}}
-             {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+            {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
           {{/if}}
         </button>
       </div>
@@ -110,9 +134,9 @@
   {{#unless isPreview}}
     {{#if canEdit}}
       {{edit-content-link
-      contentId=model.id
-      route='news.edit'
-      text='Edit Post'
+        contentId=model.id
+        route='news.edit'
+        text='Edit Post'
       }}
     {{/if}}
 
@@ -124,8 +148,8 @@
         <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
 
         {{similar-content
-        contentId=model.contentId
-        limit=4
+          contentId=model.contentId
+          limit=4
         }}
       </div>
     </div>

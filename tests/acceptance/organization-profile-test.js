@@ -204,7 +204,7 @@ test('Visiting news item page, clicking organization name brings me to profile p
   });
 
   visit(`/news/${news.id}`).then(()=> {
-    let $orgLink = find(testSelector('link', 'news-show-organization-link'));
+    let $orgLink = find(testSelector('link', 'organization-link'));
     click($orgLink).then(()=> {
       assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
     });

@@ -90,10 +90,6 @@
     }
   }
 
-  &-headerContainer {
-    background-color: @secondary-bg;
-  }
-
   &-headerSection {
     padding: 10px;
     text-align: center;
@@ -133,6 +129,26 @@
   &-headerImage {
     img {
       width: 100%;
+    }
+  }
+
+  &-organization {
+    .flex-display();
+    .justify-content(space-between);
+    margin-top: 10px;
+
+    &-info {
+      .flex-grow(2);
+      line-height: 1.1em;
+    }
+
+    &-avatar {
+      float: left;
+      padding-right: 5px;
+    }
+
+    &-link {
+      color: @gray-dark;
     }
   }
 

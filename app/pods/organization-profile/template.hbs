@@ -35,13 +35,10 @@
             data-test-component='news-search'
             }}
           </div>
+
           {{#if model.subscribeUrl}}
             <div class="col-xs-6 text-right">
-              <a target="_blank" data-test-link='organization-subscribe-link'
-                 class='OrganizationProfile-subscribe btn btn-lg' href={{model.subscribeUrl}}>
-                {{fa-icon 'heart'}}
-                Subscribe
-              </a>
+              {{subscribe-button subscribeUrl=model.subscribeUrl large=true}}
             </div>
           {{/if}}
         </div>
