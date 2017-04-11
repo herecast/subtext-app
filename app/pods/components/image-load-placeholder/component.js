@@ -26,17 +26,21 @@ export default Ember.Component.extend({
     const placeholderUrl = get(this,'placeholderUrl');
     const imageUrl = get(this, 'imageUrl');
 
-    this.loadImage(placeholderUrl).then(() => {
-      if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-       set(this, 'blurIsLoaded', true);
-      }
-    });
+    if(placeholderUrl) {
+      this.loadImage(placeholderUrl).then(() => {
+        if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
+         set(this, 'blurIsLoaded', true);
+        }
+      });
+    }
 
-    this.loadImage(imageUrl).then(() => {
-      if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-       set(this, 'imageIsLoaded', true);
-      }
-    });
+    if(imageUrl) {
+      this.loadImage(imageUrl).then(() => {
+        if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
+         set(this, 'imageIsLoaded', true);
+        }
+      });
+    }
   },
 
   loadImage(url) {
