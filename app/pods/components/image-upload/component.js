@@ -3,9 +3,9 @@ import Ember from 'ember';
 
 const {
   computed,
-  observer,
   get,
-  set
+  set,
+  isBlank
 } = Ember;
 
 export default Ember.Component.extend({
@@ -15,19 +15,11 @@ export default Ember.Component.extend({
   minHeight: 200,
 
   image: null,
+  showImageEditor: false,
 
   init() {
     this._super(...arguments);
-    this.resetProperties();
     this.setupOriginalImage();
-  },
-
-  resetProperties() {
-    this.setProperties({
-      canvas: null,
-      croppedImageUrl: null,
-      showCropper: false
-    });
   },
 
   isPrimary: computed('image.primary', function() {
@@ -38,26 +30,15 @@ export default Ember.Component.extend({
   // creation process, this lets them go back to the first step and use the
   // original image.
   setupOriginalImage() {
-    const originalImage = get(this, 'image.originalImageFile');
-
-    if (originalImage) {
-      this.setupImage(originalImage);
+    if (isBlank(get(this, 'imageUrl'))) {
+      const originalImage = get(this, 'image.originalImageFile');
+      if (originalImage) {
+        this.setupImage(originalImage);
+      }
     }
   },
 
   imageUrl: computed.oneWay('image.imageUrl'),
-
-  setImageUrl: observer('canvas', 'croppedImageUrl', function() {
-    const croppedImageUrl = get(this, 'croppedImageUrl');
-    const canvas = get(this, 'canvas');
-    const image = get(this, 'image');
-
-    if (croppedImageUrl || canvas) {
-      const url = croppedImageUrl || canvas.toDataURL();
-
-      set(image, 'imageUrl', url);
-    }
-  }),
 
   imageName: computed('image.originalImageFile.name', 'imageUrl', function() {
     const originalFileName = get(this, 'image.originalImageFile.name');
@@ -72,17 +53,16 @@ export default Ember.Component.extend({
     }
   }),
 
-  updateCanvas(file) {
+  setupImage(file) {
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
     loadImage.parseMetaData(file, () => {
       const options = {
-        // Convert to a canvas object so that we can pass it to the Cropper lib
+        // Convert to a canvas object so that we can validate it
         canvas: true,
 
-        // For cropping performance, this reduces the image file size
-        // before opening the cropper.
+        // This reduces the image file size
         maxWidth: 1000
       };
       // Because loadImage is asynchronous, when the canvas property is
@@ -94,15 +74,11 @@ export default Ember.Component.extend({
           return false;
         } else {
           set(this, 'fileErrorMessage', null);
-          set(this, 'canvas', canvas);
           set(this, 'image.file', file);
+          set(this, 'image.imageUrl', canvas.toDataURL(get(file, 'type')));
         }
       }, options);
     });
-  },
-
-  setupImage(file) {
-    this.updateCanvas(file);
   },
 
   actions: {
@@ -120,21 +96,17 @@ export default Ember.Component.extend({
       this.send('addImage', files[0]);
     },
 
-    showCropper() {
-      set(this, 'showCropper', true);
+    showImageEditor() {
+      set(this, 'showImageEditor', true);
     },
 
-    updateImageModelProperties(file, imageUrl) {
-      const image = get(this, 'image');
-
-      set(image, 'file', file);
-      set(image, 'imageUrl', imageUrl);
-
-      set(this, 'showCropper', false);
+    saveImage(file) {
+      this.setupImage(file);
+      this.send('hideImageEditor');
     },
 
-    hideCropper() {
-      set(this, 'showCropper', false);
+    hideImageEditor() {
+      set(this, 'showImageEditor', false);
     },
 
     setPrimary(image) {

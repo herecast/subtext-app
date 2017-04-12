@@ -73,56 +73,6 @@ test('Removing an image sends image to the remove image action', function(assert
   $removeButton.click();
 });
 
-test('Open the image cropper', function(assert) {
-  assert.expect(1);
-
-  const image = {
-    imageUrl: imageUrl,
-    primary: 1,
-    isNew: true
-  };
-
-  this.set('image', image);
-
-  this.render(hbs`
-    <div id='modal-overlays'></div>
-    {{image-upload
-      image=image
-    }}
-  `);
-
-  const $showCropper = $('.ImageUpload-showCropper');
-
-  $showCropper.click();
-
-  const $cropper = $('.ImageCropper');
-
-  assert.ok($cropper.length, 'Image cropper was not opened');
-});
-
-test('The image cropper is not available for existing images', function(assert) {
-  assert.expect(1);
-
-  const image = {
-    imageUrl: imageUrl,
-    primary: 1,
-    isNew: false
-  };
-
-  this.set('image', image);
-
-  this.render(hbs`
-    <div id='modal-overlays'></div>
-    {{image-upload
-      image=image
-    }}
-  `);
-
-  const $showCropper = $('.ImageUpload-showCropper');
-
-  assert.ok(!$showCropper.length, 'Image cropper should not be available');
-});
-
 test('The original image name is used for new images', function(assert) {
   assert.expect(1);
 

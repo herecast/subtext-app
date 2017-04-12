@@ -1,0 +1,22 @@
+.ImageCropper {
+  &-buttonContainer {
+    .clearfix;
+    margin-top: 10px;
+  }
+  &-cancelButton {
+    border: solid 1px black;
+    padding: 8px 15px;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+      background-color: @gray-light;
+    }
+
+    &:active {
+      background-color: darken(@gray-light, 10%);
+    }
+  }
+}

@@ -1,55 +1,45 @@
 import Ember from 'ember';
 /* global loadImage */
 
-const { computed, get, set, isPresent, isBlank } = Ember;
+const {get, set, setProperties, computed, isBlank, isPresent} = Ember;
 
 export default Ember.Component.extend({
   originalImageFile: null,
   originalImageUrl: null,
-  displayCropper: true,
+  displayImage: true,
+  replacingImage: false,
+  imageType: 'image/jpeg',
+  hasNewImage: false,
 
-  // JsCropper properties
-  aspectRatio: 1,
-  zoomable: true,
+  // Image validation properties
   minWidth: 200,
   minHeight: 200,
 
   // Display the JS image cropping tool if the user has attached an image
-  displayJSCropper: computed('displayCropper', 'originalImageFile', 'originalImageUrl', 'error', function() {
-    const displayCropper = get(this, 'displayCropper');
+  displayImagePreview: computed('imageUrl', 'originalImageUrl', 'replacingImage', 'displayImageUrl', 'error', function () {
+    const displayImage = get(this, 'displayImage');
     const hasNoError = isBlank(get(this, 'error'));
-    const hasOriginalFile = isPresent(get(this, 'originalImageFile'));
+    const hasImage = isPresent(get(this, 'imageUrl'));
+    const displayOldImage = isPresent(get(this, 'originalImageUrl')) && !get(this, 'replacingImage');
 
-    return displayCropper && hasNoError && (hasOriginalFile || get(this, 'originalImageUrl'));
+    return displayImage && hasNoError && (hasImage || displayOldImage);
   }),
 
-  editExistingFile: Ember.on('didInsertElement', function() {
-    const file = this.get('originalImageFile');
-
-    if (Ember.isPresent(file)) {
-      this.loadImageFile(file);
-    } else if (get(this, 'originalImageUrl')) {
-      this.initializeCropper(get(this, 'originalImageUrl'));
-    }
+  displayImageUrl: computed('originalImageUrl', 'imageUrl', function () {
+    return get(this, 'imageUrl') || get(this, 'originalImageUrl');
   }),
 
-  // TODO: Split out into a separate avatar cropper.
-  //
-  // This component is not destroyed in that case, and the unbindAttachFile()
-  // callback isn't triggered to destroy the cropper. This results in the cropper
-  // remaining on the page and causing issues on mobile browsers where the crop()
-  // callback is called anytime you touch the screen.
-  didUpdateAttrs(attrs) {
-    if (attrs.newAttrs.displayCropper) {
-      const nowDisplayed = attrs.newAttrs.displayCropper.value;
-      const wasDisplayed = attrs.oldAttrs.displayCropper.value;
-      const wasRemoved = wasDisplayed && !nowDisplayed;
-
-      if (wasRemoved) {
-        this.unbindAttachFile();
+  editExistingFile: Ember.on('didInsertElement', function () {
+    const image = get(this, 'image');
+    if (Ember.isPresent(image)) {
+      this.loadImageFile(image);
+    } else {
+      const file = this.get('originalImageFile');
+      if (Ember.isPresent(file)) {
+        this.loadImageFile(file);
       }
     }
- },
+  }),
 
   validateCanvasDimensions(canvas) {
     const $canvas = Ember.$(canvas);
@@ -66,111 +56,76 @@ export default Ember.Component.extend({
   },
 
   loadImageFile(file) {
-    loadImage.parseMetaData(file, () => {
+    const options = {
+      orientation: true,
+      canvas: true,
 
-      const options = {
-        canvas: true,
+      // This reduces the image file size
+      maxWidth: 1000
+    };
 
-        // For cropping performance, this reduces the image file size
-        // before opening the cropper.
-        maxWidth: 1000
-      };
-
-      loadImage(file, (canvas) => {
-        if (this.validateCanvasDimensions(canvas)) {
-          this.setupCropper(canvas);
-        }
-      }, options);
-    });
-  },
-
-  unbindAttachFile: Ember.on('willDestroyElement', function() {
-    this.$('.js-Cropper-image').cropper('destroy');
-  }),
-
-  setupCropper(canvas) {
-    const blobFormat = this.get('originalImageFile.type');
-    const imgDataURL = canvas.toDataURL(blobFormat);
-    this.initializeCropper(imgDataURL);
-  },
-
-  initializeCropper(imageUrl) {
-    const aspectRatio = this.get('aspectRatio');
-    const zoomable = this.get('zoomable');
-    const minHeight = get(this, 'minHeight');
-    const minWidth = get(this, 'minWidth');
-    const that = this;
-
-    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
-
-    // The .cropper-container element is added by the cropper plugin, so we
-    // can use that to detect if has already been initialized. If it has,
-    // we just need to replace the image rather than reinitialize it.
-    const cropperExists = Ember.isPresent(this.$('.cropper-container'));
-
-    if (!cropperExists) {
-      img.cropper({
-        aspectRatio: aspectRatio,
-        zoomable: zoomable,
-
-        minCropBoxHeight: minHeight,
-        minCropBoxWidth: minWidth,
-
-        maxCropBoxWidth: 1000,
-
-        // Run whenever the cropping area is adjusted
-        crop() {
-          Ember.run.debounce(that, that.cropUpdated, img, 100);
-        }
-      });
-    } else {
-      img.cropper('replace', imageUrl);
-    }
-
-    // Just in case we need to wait for the image to load
-    img.on('load', function() {
-      Ember.run.later(that, () => { that.cropUpdated(img); }, 500);
-    });
-
-    // Ensure it runs at least once after initialize
-    Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
-  },
-
-  cropUpdated(img) {
-    if (! get(this, 'isDestroyed')) {
-      const canvas = img.cropper('getCroppedCanvas');
-
+    loadImage(file, (canvas) => {
       if (this.validateCanvasDimensions(canvas)) {
-        const blobFormat = this.get('originalImageFile.type');
-        // Broken images fail to make real canvas html element
-        // canvas.toDataURL fails if canvas not html element and breaks cropper
-        if (canvas.tagName) {
-          const url = canvas.toDataURL(blobFormat);
-          const blobQuality = 0.9;
-
-          this.set('imageUrl', url);
-
-          canvas.toBlob((data) => {
-            this.set('image', data);
-          }, blobFormat, blobQuality);
-        } else {
-          // most likely a broken image
-          Ember.run.next(() => {
-            this.send('deleteImage', img);
-          });
-        }
+        this._saveCanvas(canvas, get(file, 'type'));
       }
+    }, options);
+  },
+
+  _saveCanvas(canvas, imageType = null) {
+    if (isBlank(imageType)) {
+      imageType = get(this, 'imageType');
     }
+
+    const url = canvas.toDataURL(imageType);
+    const blobQuality = 0.8;
+
+    set(this, 'imageType', imageType);
+    this.set('imageUrl', url);
+
+    canvas.toBlob((data) => {
+      this.set('image', data);
+    }, imageType, blobQuality);
   },
 
   actions: {
+    rotateImage(direction) {
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+
+      image.onload = () => {
+        const { width, height } = image;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.setAttribute('width', height);
+        canvas.setAttribute('height', width);
+
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+
+        if (direction === 'left') {
+          ctx.rotate(-0.5 * Math.PI);
+        } else {
+          ctx.rotate(0.5 * Math.PI);
+        }
+
+        ctx.drawImage(image, -width/2, -height/2);
+
+        this._saveCanvas(canvas);
+      };
+
+      image.src = get(this, 'displayImageUrl');
+    },
+
     filesSelected(files) {
       const file = files[0];
 
       set(this, 'error', null);
 
       // Store the original file on the model so we can access it later
-      this.set('originalImageFile', file);
+      setProperties(this, {
+        originalImageFile: file,
+        hasNewImage: true
+      });
 
       // Use the "JavaScript Load Image" functionality to parse the file data
       // and get the correct orientation setting from the EXIF Data. This
@@ -186,26 +141,13 @@ export default Ember.Component.extend({
       });
     },
 
-    rotateImage(direction) {
-      const rotation = direction === 'left' ? -90 : 90;
-
-      this.$('.js-Cropper-image').cropper("rotate", rotation);
-    },
-
     removeImage() {
       this.setProperties({
         originalImageFile: null,
         originalImageUrl: null,
+        imageUrl: null,
+        replacingImage: true
       });
-    },
-
-    deleteImage(img) {
-      this.setProperties({
-        originalImageFile: null,
-        originalImageUrl: null,
-        image: null
-      });
-      img.cropper('destroy');
     }
   }
 });

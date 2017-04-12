@@ -14,8 +14,8 @@
         </h4>
 
         {{#if image.isNew}}
-          <button class='ImageUpload-showCropper btn btn-link' {{action 'showCropper'}}>
-            {{fa-icon 'fa-crop'}} Crop, resize, and rotate
+          <button class='ImageUpload-showCropper btn btn-link' {{action 'showImageEditor'}}>
+            {{fa-icon 'rotate-right'}} Rotate or replace
           </button>
         {{/if}}
 
@@ -47,14 +47,14 @@
   {{/if}}
 </div>
 
-{{#if showCropper}}
-  {{#modal-wrapper close=(action 'hideCropper')}}
-    {{image-cropper
-      type=image.originalImageFile.type
-      aspectRatio=0
-      canvas=canvas
-      updateImage=(action 'updateImageModelProperties')
-      cancel=(action 'hideCropper')
+{{#if showImageEditor}}
+  {{#modal-wrapper close=(action 'hideImageEditor')}}
+    {{image-editor
+      imageUrl=(readonly image.imageUrl)
+      enableCaption=false
+      title=null
+      save=(action 'saveImage')
+      cancel=(action 'hideImageEditor')
     }}
   {{/modal-wrapper}}
 {{/if}}

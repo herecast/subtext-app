@@ -18,11 +18,9 @@
   {{#if displayProfileImageForm}}
     {{content-form-image
     image=model.profileImage
-    imageUrl=(readonly model.profileImageUrl)
     originalImageUrl=(readonly _profileImageUrl)
+    shouldCrop=true
     error=errors.profileImage
-    zoomable=false
-    aspectRatio=1
     class="OrganizationProfile-editForm-imageForm"
     }}
   {{else}}
@@ -40,11 +38,8 @@
   {{#if displayBackgroundImageForm}}
     {{content-form-image
     image=model.backgroundImage
-    imageUrl=(readonly model.backgroundImageUrl)
     originalImageUrl=(readonly _originalBackgroundImageUrl)
     error=errors.backgroundImage
-    zoomable=false
-    aspectRatio=1.778
     class="OrganizationProfile-editForm-imageForm"
     }}
   {{else}}
@@ -63,11 +58,8 @@
     {{#if displayLogoImageForm}}
       {{content-form-image
       image=model.logo
-      imageUrl=(readonly model.logoUrl)
       originalImageUrl=(readonly _originalImageUrl)
       error=errors.logo
-      aspectRatio=null
-      zoomable=false
       class="OrganizationProfile-editForm-imageForm"
       }}
     {{else}}

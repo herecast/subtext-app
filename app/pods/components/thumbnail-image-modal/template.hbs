@@ -1,12 +1,12 @@
 <div class="text-center">
   {{#if imageUrl}}
     <div class="ThumbnailImageModal-thumbnail-container" {{action 'openImageModal'}}>
-      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail {{if isCircle 'img-circle'}}" />
+      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail {{if isCircle 'img-circle'}}" crossOrigin="anonymous" />
       {{#if (and enableCaption caption)}}
         <div class="ThumbnailImageModal-caption">{{caption}}</div>
       {{/if}}
     </div>
-    <button class="btn btn-lg" {{action 'openImageModal'}}>Edit</button>
+    <button class="Button Button--secondary" {{action 'openImageModal'}}>Edit</button>
   {{else}}
     <button class="ThumbnailImageModal-choose-image-button" {{action 'openImageModal'}}>
       <h1>{{fa-icon 'camera'}}</h1>

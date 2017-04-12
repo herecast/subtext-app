@@ -61,12 +61,10 @@
 
   {{#if displayAvatarImageForm}}
     {{content-form-image
+    shouldCrop=true
     image=model.avatarImage
-    imageUrl=(readonly model.userImageUrl)
     originalImageUrl=(readonly model._originalImageUrl)
     error=errors.avatarImage
-    aspectRatio=1
-    zoomable=false
     class="AccountForm-imageForm"
     }}
   {{else}}

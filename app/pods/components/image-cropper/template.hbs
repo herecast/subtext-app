@@ -1,13 +1,13 @@
-<div class='form-group'>
+{{#form-group error=error}}
   <img class='img-responsive js-Cropper-image'>
-</div>
-<div>
-  <button class="Button Button--icon" {{action 'rotateImage' 'left'}} title="Rotate image left">{{fa-icon 'rotate-left'}}</button>
-  <button class="Button Button--icon" {{action 'rotateImage' 'right'}} title="Rotate image right">{{fa-icon 'rotate-right'}}</button>
-  <span>Rotate Image</span>
-</div>
-
-<div class="text-right">
-  <button class='Button ContentForm-discardButton Button--default' {{action 'cancel'}}>Cancel</button>
-  <button class='Button Button--primary' {{action 'save'}}>Save</button>
-</div>
+  <div class="ImageCropper-buttonContainer">
+    <div class="pull-left">
+      <button class="Button Button--icon" {{action 'rotateImage' 'left'}} title="Rotate image left">{{fa-icon 'rotate-left'}}</button>
+      <button class="Button Button--icon" {{action 'rotateImage' 'right'}} title="Rotate image right">{{fa-icon 'rotate-right'}}</button>
+      <span>Rotate Image</span>
+    </div>
+    <div class="pull-right">
+      <button class='ImageCropper-cancelButton' {{action 'cancel'}}>Cancel</button>
+    </div>
+  </div>
+{{/form-group}}

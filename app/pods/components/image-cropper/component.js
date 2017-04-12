@@ -1,104 +1,130 @@
 import Ember from 'ember';
 
-const {
-  get,
-  on
-} = Ember;
+const { get, set } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['ImageCropper'],
 
-  canvas: null,
-  type: null,
+  imageUrl: null,
+  imageType: 'image/jpeg',
+
+  // JsCropper properties
+  aspectRatio: 1,
+  zoomable: true,
   minWidth: 200,
   minHeight: 200,
 
-  init() {
+  didInsertElement() {
     this._super(...arguments);
-    this.resetProperties();
+    const imageUrl = get(this, 'imageUrl');
+    this.initializeCropper(imageUrl);
   },
 
-  resetProperties() {
-    this.setProperties({
-      image: null,
-      imageUrl: null
-    });
-  },
-
-  unbindAttachFile: on('willDestroyElement', function() {
+  willDestroyElement() {
     this.$('.js-Cropper-image').cropper('destroy');
-  }),
+    this._super(...arguments);
+  },
 
-  setupCropper: on('didInsertElement', function() {
-    const canvas = get(this, 'canvas');
+  validateCanvasDimensions(canvas) {
+    const $canvas = Ember.$(canvas);
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
 
-    if (canvas) {
-      const blobFormat = get(this, 'type');
-      const imgDataURL = canvas.toDataURL(blobFormat);
-      const img = this.$('.js-Cropper-image').attr('src', imgDataURL);
-      const aspectRatio = this.get('aspectRatio');
-      const minHeight = get(this, 'minHeight');
-      const minWidth = get(this, 'minWidth');
-
-      // The .cropper-container element is added by the cropper plugin, so we
-      // can use that to detect if has already been initialized. If it has,
-      // we just need to replace the image rather than reinitialize it.
-      const cropperExists = Ember.isPresent(this.$('.cropper-container'));
-
-      if (!cropperExists) {
-        const that = this;
-
-        Ember.run(() => {
-          img.cropper({
-            aspectRatio: aspectRatio,
-            minCropBoxHeight: minHeight,
-            minCropBoxWidth: minWidth,
-            checkOrientation: 0,
-
-            // Run whenever the cropping area is adjusted
-            crop() {
-              Ember.run.debounce(that, that.cropUpdated, img, 100);
-            }
-          });
-        });
-      } else {
-        img.cropper('replace', imgDataURL);
-      }
+    if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
+      set(this, 'error', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
+      return false;
+    } else {
+      set(this, 'error', null);
+      return true;
     }
-  }),
+  },
+
+  initializeCropper(imageUrl) {
+    const aspectRatio = this.get('aspectRatio');
+    const zoomable = this.get('zoomable');
+    const minHeight = get(this, 'minHeight');
+    const minWidth = get(this, 'minWidth');
+    const that = this;
+
+    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
+
+    // The .cropper-container element is added by the cropper plugin, so we
+    // can use that to detect if has already been initialized. If it has,
+    // we just need to replace the image rather than reinitialize it.
+    const cropperExists = Ember.isPresent(this.$('.cropper-container'));
+
+    if (!cropperExists) {
+      img.cropper({
+        aspectRatio: aspectRatio,
+        zoomable: zoomable,
+
+        minCropBoxHeight: minHeight,
+        minCropBoxWidth: minWidth,
+
+        maxCropBoxWidth: 1000,
+
+        // Run whenever the cropping area is adjusted
+        crop() {
+          Ember.run.debounce(that, that.cropUpdated, img, 100);
+        }
+      });
+    } else {
+      img.cropper('replace', imageUrl);
+    }
+
+    // Just in case we need to wait for the image to load
+    img.on('load', function() {
+      Ember.run.later(that, () => { that.cropUpdated(img); }, 500);
+    });
+
+    // Ensure it runs at least once after initialize
+    Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
+  },
 
   cropUpdated(img) {
-    if(!this.isDestroying) {
-      const blobFormat = get(this, 'type');
-      const url = img.cropper('getCroppedCanvas').toDataURL(blobFormat);
-      this.set('imageUrl', url);
+    if (! get(this, 'isDestroyed')) {
+      const canvas = img.cropper('getCroppedCanvas');
 
-      const blobQuality = 0.9;
+      if (this.validateCanvasDimensions(canvas)) {
+        const blobFormat = get(this, 'imageType');
+        // Broken images fail to make real canvas html element
+        // canvas.toDataURL fails if canvas not html element and breaks cropper
+        if (canvas.tagName) {
+          const url = canvas.toDataURL(blobFormat);
+          const blobQuality = 0.9;
 
-      img.cropper('getCroppedCanvas').toBlob((data) => {
-        if (! get(this, 'isDestroyed')) {
-          this.set('image', data);
+          this.set('imageUrl', url);
+
+          canvas.toBlob((data) => {
+            this.set('image', data);
+          }, blobFormat, blobQuality);
+        } else {
+          // most likely a broken image
+          Ember.run.next(() => {
+            this.send('deleteImage', img);
+          });
         }
-      }, blobFormat, blobQuality);
+      }
     }
   },
 
   actions: {
-    save() {
-      const image = get(this, 'image');
-      const imageUrl = get(this, 'imageUrl');
-
-      get(this, 'updateImage')(image, imageUrl);
-    },
-
-    cancel() {
-      get(this, 'cancel')();
-    },
-
     rotateImage(direction) {
       const rotation = direction === 'left' ? -90 : 90;
 
       this.$('.js-Cropper-image').cropper("rotate", rotation);
+    },
+
+    cancel() {
+      this.setProperties({
+        image: null,
+        imageUrl: null,
+      });
+    },
+
+    deleteImage(img) {
+      this.send('cancel');
+      img.cropper('destroy');
     }
   }
 });

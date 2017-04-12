@@ -1,19 +1,9 @@
 <h1 class="text-center">{{title}}</h1>
-{{#if displayImageForm}}
-  {{content-form-image
+{{content-form-image
   image=_selectedImage
   imageUrl=imageUrl
   originalImageUrl=(readonly _originalImageUrl)
-  aspectRatio=aspectRatio
-  zoomable=false
-  }}
-{{else}}
-  <label class='control-label ContentForm-label'>Selected Image</label>
-  <img src="{{imageUrl}}" alt="Selected Image" class="ImageEditor-preview" {{action 'showImageForm'}} />
-  <div class="text-center">
-    <button class="btn btn-lg" {{action 'showImageForm'}}>Edit</button>
-  </div>
-{{/if}}
+}}
 
 {{#if enableCaption}}
   {{#form-group hideError=true}}
@@ -28,6 +18,6 @@
 {{/if}}
 
 <div class="ImageEditor-buttons">
-  <button class="btn btn-lg Button--news" {{action 'save'}} disabled={{saveDisabled}}>Submit</button>
-  <button class="btn btn-lg" {{action 'cancel'}}>Cancel</button>
+  <button class="Button Button--news" {{action 'save'}} disabled={{saveDisabled}}>Submit</button>
+  <button class="Button Button--secondary" {{action 'cancel'}}>Cancel</button>
 </div>
