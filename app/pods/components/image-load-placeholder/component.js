@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {set, get, run, computed, RSVP:{Promise}, inject:{service}} = Ember;
 
 export default Ember.Component.extend({
+  fastboot: service(),
   classNames: 'ImageLoadPlaceholder',
 
   currentController: service(),
@@ -23,23 +24,27 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    const placeholderUrl = get(this,'placeholderUrl');
-    const imageUrl = get(this, 'imageUrl');
+    const isFastBoot = get(this, 'fastboot.isFastBoot');
+    
+    if(!isFastBoot) {
+      const placeholderUrl = get(this,'placeholderUrl');
+      const imageUrl = get(this, 'imageUrl');
 
-    if(placeholderUrl) {
-      this.loadImage(placeholderUrl).then(() => {
-        if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-         set(this, 'blurIsLoaded', true);
-        }
-      });
-    }
+      if(placeholderUrl) {
+        this.loadImage(placeholderUrl).then(() => {
+          if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
+           set(this, 'blurIsLoaded', true);
+          }
+        });
+      }
 
-    if(imageUrl) {
-      this.loadImage(imageUrl).then(() => {
-        if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-         set(this, 'imageIsLoaded', true);
-        }
-      });
+      if(imageUrl) {
+        this.loadImage(imageUrl).then(() => {
+          if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
+           set(this, 'imageIsLoaded', true);
+          }
+        });
+      }
     }
   },
 
