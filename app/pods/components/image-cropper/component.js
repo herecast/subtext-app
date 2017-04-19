@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
   // JsCropper properties
   aspectRatio: 1,
-  zoomable: true,
+  zoomable: false,
   minWidth: 200,
   minHeight: 200,
 
@@ -25,18 +25,37 @@ export default Ember.Component.extend({
     this._super(...arguments);
   },
 
-  validateCanvasDimensions(canvas) {
-    const $canvas = Ember.$(canvas);
+  validateDimensions(img) {
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
-    if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
-      set(this, 'error', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
-      return false;
-    } else {
-      set(this, 'error', null);
-      return true;
+    const canvas = img.cropper('getCroppedCanvas');
+    let width = canvas.getAttribute('width');
+    let height = canvas.getAttribute('height');
+
+    let enforceRequiredDimensions = false;
+
+    if (width < minWidth) {
+      width = minWidth;
+      enforceRequiredDimensions = true;
     }
+
+    if (height < minHeight) {
+      height = minHeight;
+      enforceRequiredDimensions = true;
+    }
+
+    if (enforceRequiredDimensions) {
+      img.cropper('setCanvasData', {
+        left: 0,
+        top: 0,
+        width,
+        height
+      });
+      return false;
+    }
+
+    return true;
   },
 
   initializeCropper(imageUrl) {
@@ -46,46 +65,45 @@ export default Ember.Component.extend({
     const minWidth = get(this, 'minWidth');
     const that = this;
 
-    const img = this.$('.js-Cropper-image').attr('src', imageUrl);
+    const img = this.$('.js-Cropper-image')
+      .attr('src', imageUrl)
+      .one('load', () => {
+        // The .cropper-container element is added by the cropper plugin, so we
+        // can use that to detect if has already been initialized. If it has,
+        // we just need to replace the image rather than reinitialize it.
+        const cropperExists = Ember.isPresent(this.$('.cropper-container'));
 
-    // The .cropper-container element is added by the cropper plugin, so we
-    // can use that to detect if has already been initialized. If it has,
-    // we just need to replace the image rather than reinitialize it.
-    const cropperExists = Ember.isPresent(this.$('.cropper-container'));
+        if (!cropperExists) {
+          img.cropper({
+            aspectRatio: aspectRatio,
+            zoomable: zoomable,
+            scalable: false,
+            zoomTo: 1,
+            viewMode: 3,
 
-    if (!cropperExists) {
-      img.cropper({
-        aspectRatio: aspectRatio,
-        zoomable: zoomable,
+            minCropBoxHeight: minHeight,
+            minCropBoxWidth: minWidth,
 
-        minCropBoxHeight: minHeight,
-        minCropBoxWidth: minWidth,
+            maxCropBoxWidth: 1000,
 
-        maxCropBoxWidth: 1000,
-
-        // Run whenever the cropping area is adjusted
-        crop() {
-          Ember.run.debounce(that, that.cropUpdated, img, 100);
+            // Run whenever the cropping area is adjusted
+            crop() {
+              Ember.run.debounce(that, that.cropUpdated, img, 100);
+            },
+          });
+        } else {
+          img.cropper('replace', imageUrl);
         }
+
+        this.cropUpdated(img);
       });
-    } else {
-      img.cropper('replace', imageUrl);
-    }
-
-    // Just in case we need to wait for the image to load
-    img.on('load', function() {
-      Ember.run.later(that, () => { that.cropUpdated(img); }, 500);
-    });
-
-    // Ensure it runs at least once after initialize
-    Ember.run.later(this, () => { this.cropUpdated(img); }, 500);
   },
 
   cropUpdated(img) {
     if (! get(this, 'isDestroyed')) {
-      const canvas = img.cropper('getCroppedCanvas');
 
-      if (this.validateCanvasDimensions(canvas)) {
+      if (this.validateDimensions(img)) {
+        const canvas = img.cropper('getCroppedCanvas');
         const blobFormat = get(this, 'imageType');
         // Broken images fail to make real canvas html element
         // canvas.toDataURL fails if canvas not html element and breaks cropper
@@ -93,10 +111,10 @@ export default Ember.Component.extend({
           const url = canvas.toDataURL(blobFormat);
           const blobQuality = 0.9;
 
-          this.set('imageUrl', url);
+          set(this, 'imageUrl', url);
 
           canvas.toBlob((data) => {
-            this.set('image', data);
+            set(this, 'image', data);
           }, blobFormat, blobQuality);
         } else {
           // most likely a broken image
