@@ -12,7 +12,7 @@ test('Site title when feature flag "listserv-user-testing"', function(assert) {
 
   visit('/');
   andThen(()=> {
-    const $brand = find(testSelector('brand'));
+    const $brand = find(testSelector('listservtest'));
     assert.ok($brand.text().indexOf('Test') > 0,
       'Has word "Test" in brand title'
     );

@@ -1,19 +1,21 @@
 <div class='MainNav-wrapper'>
   <div class='Container--noGutter'>
-    <div class='MainNav'>
+    {{#if features.listserv-user-testing}}
+      <div style="position:absolute;margin-left:-5px" data-test-listservtest>
+        Test
+      </div>
+    {{/if}}
 
-      <div class='MainNav-brand'>
+    <div class='MainNav'>
+      <div class='MainNav-brand u-flexRow'>
         <h1 class='MainNav-brand-logo' data-test-brand>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
-            Daily UV
-            {{#if features.listserv-user-testing}}
-            Test
-            {{/if}}
+            <img src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-with-tagline.svg' title="Daily UV">
           {{/link-to}}
 
         </h1>
           {{#if session.isAuthenticated}}
-            <div class='MainNav-brand-location' data-test-user-location>
+            <div class='MainNav-brand-location u-flexColumn' data-test-user-location>
               {{#link-to 'account.community'}}
               {{session.userLocation}}
               {{/link-to}}

@@ -1,4 +1,17 @@
-{{!-- NOTE: the component.js wraps this markup with div.mobileHeader --}}
+<div class='MobileHeader-brand'>
+  <h1 class='h4' data-test-brand>
+    {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
+      <img src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg' title='DailyUV'>
+
+      {{#if session.isAuthenticated}}
+        <span class='MobileHeader-brand-location' data-test-user-location>
+          {{session.userLocation}} {{if features.listserv-user-testing 'Test'}}
+        </span>
+      {{/if}}
+    {{/link-to}}
+  </h1>
+</div>
+
 <div class='MobileHeader-user'>
 {{#unless session.isFastBoot}}
   {{#if session.isAuthenticated}}
@@ -18,24 +31,6 @@
     </button>
   {{/if}}
 {{/unless}}
-</div>
-
-<div class='MobileHeader-brand'>
-  <h1 class='h4 text-center' data-test-brand>
-    {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
-      <b>DailyUV</b>
-
-      {{#if features.listserv-user-testing}}
-        Test
-      {{/if}}
-
-      {{#if session.isAuthenticated}}
-        <span class='MobileHeader-brand-location' data-test-user-location>
-          {{session.userLocation}}
-        </span>
-      {{/if}}
-    {{/link-to}}
-  </h1>
 </div>
 
 <div class='MobileHeader-search'>

@@ -8,12 +8,9 @@
     width: 100%;
     z-index: 51;
   }
-  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-  display: -ms-flexbox;  /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .flex-display();
+  .align-items(center);
+  .justify-content(center);
   height: 80px;
 
   &-brand {
@@ -26,14 +23,24 @@
       line-height: 0.85;
       margin: 0;
       white-space: nowrap;
+      margin-left: -8px;
+      margin-right: 29px;
+
+      img {
+        width: 140px;
+      }
     }
 
     &-location {
-      display: block;
-      color: @gray-medium;
       font-size: 1.2rem;
+      display: block;
+      margin-left: -15px;
+      padding-left: 15px;
+      border-left: 1px solid #a2a2a2;
+      .justify-content(center);
+
       a {
-        color: @gray-medium;
+        white-space: nowrap;
       }
     }
   }
@@ -52,11 +59,8 @@
     -webkit-flex: 0 1 20%;
     flex: 0 1 20%;
     > ul {
-      display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-      display: -ms-flexbox;  /* TWEENER - IE 10 */
-      display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-      display: flex;
-      align-items: center;
+      .flex-display();
+      .align-items(center);
       margin: 0;
     }
     &-searchButton {

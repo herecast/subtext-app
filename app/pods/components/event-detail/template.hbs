@@ -1,9 +1,11 @@
 <header class="DetailPage-navTop-container">
   {{#unless isPreview}}
-    <div class="DetailPage-navTop clearfix">
+    <div class="DetailPage-navTop u-flexRow">
       {{detail-page-close-link closeRoute=closeRoute closeLabel=closeLabel}}
 
-      <div class="pull-right">
+      <img class='DetailPage-navTop-logo visible-xs' src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
+
+      <div class="DetailPage-navTop-social-shareWrapper">
         {{social-share
         title=model.title
         sharedBy=session.userName
@@ -22,7 +24,7 @@
 
 <div class="DetailPage-headerContainer">
   <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h2" data-test-event-detail-title>{{model.title}}</h1>
+    <h1 class="DetailPage-title h1" data-test-event-detail-title>{{model.title}}</h1>
 
     {{#if model.subtitle}}
       <p class='DetailPage-subtitle h2' data-test-event-detail-subtitle>{{model.subtitle}}</p>

@@ -27,6 +27,16 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-left: 10px;
+
+    &-location {
+      vertical-align: middle;
+      padding-left: 5px;
+    }
+
+    img {
+      width: 75px;
+    }
   }
 
   &-user {
@@ -85,14 +95,22 @@
     border-bottom: none;
   }
 
-  &--talk      { background-color: @talk-brand; }
+  &--talk      {
+    border-top: 5px solid @talk-brand;
+  }
   &--market    {
     border-top: 5px solid @market-brand;
     // border-bottom: 1px solid #efefef;
   }
-  &--news      { background-color: @news-brand; }
-  &--events    { background-color: @event-brand; }
-  &--directory { background-color: #3dce72; }
+  &--news      {
+    border-top: 5px solid @news-brand;
+  }
+  &--events    {
+    border-top: 5px solid @event-brand;
+  }
+  &--directory {
+    border-top: 5px solid #3dce72;
+  }
 
   @media (min-width: @screen-sm-min) {
     display: none;
