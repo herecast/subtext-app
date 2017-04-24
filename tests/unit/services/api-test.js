@@ -1389,6 +1389,29 @@ test('recordNewsImpression(id)', function(assert) {
   subject.recordNewsImpression(news);
 });
 
+test('recordEventImpression(id)', function(assert) {
+
+  const subject = this.subject({session: this.session});
+  const id = 14;
+  const done = assert.async();
+
+  server.post('/events/:id/impressions', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    assert.equal(
+      request.params.id, id,
+      "POST /events/:id/impressions with expected id"
+    );
+
+    done();
+    return {};
+  });
+
+  subject.recordEventImpression(id);
+});
+
 test('reportAbuse(content_id, flagType)', function(assert) {
   const subject = this.subject({
     session: this.session,

@@ -442,6 +442,10 @@ export default function() {
 
   this.del('/events/:id');
 
+  this.post('events/:id/impressions', function(){
+    return {};
+  });
+
   // Used by the event creation page to find venues
   this.get('/venues', function({ db }, request) {
     let venues = [];

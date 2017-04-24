@@ -2,7 +2,10 @@ import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
-const { get } = Ember;
+const {
+  get,
+  inject
+} = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   classNames: ['DetailPage'],
@@ -10,6 +13,23 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   model: null,
   closeRoute: 'events.all',
   closeLabel: 'Events',
+  fastboot: inject.service(),
+  api: inject.service(),
+
+  _trackImpression() {
+    const id = get(this, 'model.id');
+
+    if(!get(this, 'fastboot.isFastBoot')) {
+      get(this, 'api').recordEventImpression(
+        id
+      );
+    }
+  },
+ 
+  didInsertElement() {
+    this._super(...arguments);
+    this._trackImpression();
+  },
 
   actions: {
     scrollToMoreContent() {

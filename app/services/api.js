@@ -485,6 +485,12 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  recordEventImpression(id) {
+    return returnJson(
+      this.post(`/events/${id}/impressions`)
+    );
+  },
+
   recordCouponRequest(id, data) {
     return returnJson(
       this.post(`/promotion_coupons/${id}/request_email`,
