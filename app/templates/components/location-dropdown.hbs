@@ -6,7 +6,7 @@
     {{/each}}
   {{/x-select}}
 {{else}}
-  <span>{{formattedLocationName}}</span>
+  <span {{action 'toggleEditing' isEditing}}>{{formattedLocationName}}</span>
 {{/if}}
 
 {{#if onUpdate}}
