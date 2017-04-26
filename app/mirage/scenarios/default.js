@@ -13,7 +13,7 @@ export default function(server) {
     profileAdOverride: promotion
   });
 
-  server.create('current-user', {
+  server.create('currentUser', {
     managedOrganizations: organizations.slice(0,2)
   });
   server.createList('location', 8);
@@ -21,12 +21,12 @@ export default function(server) {
   server.createList('talk', 50);
   server.createList('comment',8);
   server.createList('market-post', 100);
-  server.createList('market-category', 3, { trending: true });
-  server.createList('market-category', 6, { featured: true });
-  server.createList('market-category', 21);
+  server.createList('marketCategory', 3, { trending: true });
+  server.createList('marketCategory', 6, { featured: true });
+  server.createList('marketCategory', 21);
   server.createList('content-metric',1);
   server.createList('location', 8);
-  server.createList('promotion-coupon', 10);
+  server.createList('promotionCoupon', 10);
 
   const user1 = server.create('user', {location_id: 1});
   const user2 = server.create('user', {location_id: 1});
@@ -75,24 +75,24 @@ export default function(server) {
     confirmedAt: '2012-08-01'
   });
 
-  server.create('listserv-content', {
+  server.create('listservContent', {
     listserv: listserv,
     body: 'No Content',
     user: user1,
     senderEmail: user1.email
   });
 
-  server.create('listserv-content', {
+  server.create('listservContent', {
     listserv: listserv,
     user: user2,
     senderEmail: user2.email
   });
 
-  server.create('listserv-content', {
+  server.create('listservContent', {
     listserv: listserv,
     user: null
   });
-  server.create('listserv-content', {
+  server.create('listservContent', {
     listserv: listserv,
     id: 4,
     verifiedAt: '2012-08-01',

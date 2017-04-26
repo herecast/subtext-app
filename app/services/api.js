@@ -255,6 +255,26 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  /*
+   * Confirmed registration does a few things:
+   * 1. it registers a new user account
+   * 2. marks the user account confirmed (because of confirmation key)
+   * 3. returns an authentication token for the user to be signed in
+   *
+   * confirmation_key is simply a combination of modelName and id, and the
+   * backend uses it to ensure that it references a record which already
+   * verifies an email address.  This can be a subscription or
+   * listserv_content record.
+   *
+   * The required request data looks like this:
+   * {
+   *   registration: {
+   *     email: <email>,
+   *     name: <name>,
+   *     confirmation_key: 'listserv_content/<listserv_content.id>'
+   *   }
+   * }
+   */
   confirmedRegistration(data) {
     return returnJson(
       this.post('/registrations/confirmed',

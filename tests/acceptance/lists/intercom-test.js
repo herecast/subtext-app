@@ -30,7 +30,7 @@ module('Acceptance | intercom, lists', {
 test('visiting a lists/ subroute will disable intercom tracking', function(assert) {
 
   let listserv = server.create('listserv');
-  let lc = server.create('listserv-content', {user_id: null, listserv_id: listserv.id});
+  let lc = server.create('listservContent', {user_id: null, listserv_id: listserv.id});
 
   visit(`/lists/posts/${lc.id}`).then(()=> {
     assert.ok(doNotTrack.called);
@@ -39,7 +39,7 @@ test('visiting a lists/ subroute will disable intercom tracking', function(asser
 
 test('leaving lists/ subroute will reactiveate intercom tracking', function(assert) {
   let listserv = server.create('listserv');
-  let lc = server.create('listserv-content', {user_id: null, listserv_id: listserv.id});
+  let lc = server.create('listservContent', {user_id: null, listserv_id: listserv.id});
 
   visit(`/lists/posts/${lc.id}`).then(()=> {
     visit('/').then(()=>{

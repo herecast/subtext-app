@@ -4,7 +4,14 @@
       Enhance your {{capitalize channelType}} post
     </h1>
     <div class='ListservForm-stepIndicator'>
-      <h2 class='h5'>Step 1 of 2</h2>
+      <h2 class='h5'>
+        Step 1 of
+        {{#if session.isAuthenticated}}
+        2
+        {{else}}
+        3
+        {{/if}}
+      </h2>
     </div>
   </header>
 

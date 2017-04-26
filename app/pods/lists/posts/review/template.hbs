@@ -3,7 +3,14 @@
     <h1 class='h1 u-bold'>Please Review</h1>
 
     <div class='ListservForm-stepIndicator'>
-      <h2 class='h5'>Step 2 of 2</h2>
+      <h2 class='h5'>
+        Step 2 of
+        {{#if session.isAuthenticated}}
+        2
+        {{else}}
+        3
+        {{/if}}
+      </h2>
     </div>
   </header>
 
@@ -31,6 +38,7 @@
         </li>
       </ul>
     </div>
+
     <footer class='ListservForm-actions'>
       {{#if changeset.errors}}
         <p class='alert alert-danger'>
@@ -38,13 +46,14 @@
           You will want to look over everything again.
         </p>
       {{/if}}
+
       {{async-button
-        action=(action 'saveAndPublish' changeset)
-        default='Save and Publish'
+        action=(action 'next' changeset)
+        default=(if session.isAuthenticated 'Save and Publish' 'Next')
         pending='Saving...'
         reset=true
         class='ListservForm-callToAction ListservForm-ctaNext'
-        data-test-action='publish'
+        data-test-action=(if session.isAuthenticated 'publish' 'next-step')
       }}
     </footer>
 

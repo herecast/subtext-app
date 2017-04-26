@@ -40,22 +40,8 @@ const Workflow = {
     fillIn(testSelector('field', 'sign-in-form-password'), "password");
     click(testSelector('action', 'sign-in-form-submit'));
   },
-  register() {
-
-    fillIn(testSelector('field', 'registration-form-name'), 'Edgar Poe');
-    fillIn(testSelector('field', 'registration-form-password'), 'ravenPerch');
-
-    andThen(() => {
-      let $locationSelect = find(testSelector('component', 'registration-form-location')).find('select');
-      $locationSelect.val($locationSelect.find('option:last').val());
-      $locationSelect.change();
-    });
-
-    click(testSelector('action', 'registration-form-submit'));
-  },
   selectChannel(channel) {
     click(testSelector('select-channel', channel));
-    this.next();
   },
   next() {
     click(testSelector('action', 'next-step'));
@@ -66,7 +52,6 @@ const Workflow = {
       data['title']
     );
 
-    this.next();
   },
   fillInMarketForm(data) {
     fillIn(
@@ -88,8 +73,6 @@ const Workflow = {
       testSelector('field', 'market-contactEmail'),
       data['contactEmail']
     );
-
-    this.next();
  }
 };
 
@@ -169,41 +152,138 @@ test('Poster has account, signed in;', function(assert) {
   });
 });
 
-test('Poster has no account', function(assert) {
-  const post = server.create('listserv-content');
+test('Poster has no account, registration', function(assert) {
+  const done = assert.async(3);
+  const post = server.create('listservContent',{
+    senderEmail: 'testerchester@qa.com',
+    senderName: 'Chester Tester'
+  });
+
+  const newTitle = 'Mrs. Robinson, Simon & Garfunkel';
+
   server.create('location');
 
   visit(`/lists/posts/${post.id}`);
+
+  Workflow.selectChannel('talk');
+
+  Workflow.next();
+
   andThen(()=>{
-    assert.ok(find(testSelector('component', 'listserv-registration-form')).length,
-      "Should see registration form"
+    assert.ok(
+      find(
+        testSelector('component', 'enhance-talk-form')
+      ).length > -1,
+      "Should see enhance talk form"
     );
+  });
 
-    const lastEvent = this.trackingEvents.pop();
-    assert.deepEqual(lastEvent, {
-      id: post.id,
-      data: {
-        enhance_link_clicked: true,
-        step_reached: 'new_registration'
-      }
-    }, "Event tracked for sign in step");
+  Workflow.fillInTalkForm({title: newTitle});
 
-    Workflow.register();
+  Workflow.next();
 
-    andThen(()=>{
-      assert.ok(find(testSelector('component', 'channel-selector')).length,
-        "Should see channel selector"
-      );
+  andThen(() => {
+    assert.equal(
+      currentPath(), 'lists.posts.review');
 
-      assert.ok(find(testSelector('component', 'listserv-registration-form')).length === 0,
-        "Should not see registration form"
-      );
+    Workflow.next(); // Should be able to go one more page to registration
+  });
+
+  andThen(()=>{
+    assert.equal(
+      currentPath(), 'lists.posts.register',
+      "Should be on registration verification page");
+  });
+
+  andThen(()=>{
+    /*** MOCK SERVER ENDPOINTS ***/
+    server.post('/registrations/confirmed', function({users, currentUsers}, request) {
+      const data = JSON.parse(request.requestBody);
+
+      assert.deepEqual(
+        data.registration,
+        {
+          name: 'Chester Tester',
+          email: 'testerchester@qa.com',
+          confirmation_key: `listserv_content/${post.id}`
+        },
+        "Registers a new user for the poster");
+
+      const user = server.create('user', {
+        email: post.senderEmail,
+        name: post.senderName
+      });
+
+      currentUsers.create(user.attrs);
+
+      done();
+      return {
+        email: post.senderEmail,
+        token: "f688d44f-3e2e-4b37-8493-4cfe9503e858"
+      };
     });
+
+    server.post('/talk', ({talks}, request) => {
+      const attrs = JSON.parse(request.requestBody).talk;
+      assert.equal(
+        attrs.title,
+        newTitle,
+        "It creates a new talk post"
+      );
+
+      const talk = talks.create(attrs);
+
+      talk.update({
+        can_edit: true,
+        content_id: talk.id
+      });
+
+      done();
+      return talk;
+    });
+
+    server.put('/listserv_contents/:id', ({talks, listservContents}, request) => {
+      const params = JSON.parse(request.requestBody).listserv_content;
+
+      assert.equal(params.subject, newTitle,
+        "It updates the listserv content record with changes"
+      );
+
+      assert.equal(params.channel_type, 'talk',
+        "it sets the channel type"
+      );
+
+      const post = talks.first();
+
+      assert.equal(params.content_id, post.id,
+        "It sets the content id on the api to match the new post"
+      );
+
+      const lc = listservContents.find(request.params.id);
+      lc.update(params);
+
+      done();
+      return lc;
+    });
+
+    /**********************/
+  });
+
+  andThen(()=>{
+    const $userName = find(testSelector('field', 'user-name')); 
+
+    assert.ok($userName.length,
+      "Should see field to enter my name"
+    );
+    assert.equal($userName.val(), "Chester Tester",
+      "My name is pre-filled");
+
+    click(find(testSelector('action', 'register-publish')));
   });
 });
 
 test('Post already verified', function(assert) {
-  const post = server.create('listserv-content', {
+  const post = server.create('listservContent', {
     verifiedAt: (new Date())
   });
 
@@ -228,17 +308,21 @@ test('Enhance talk post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const post = server.create('listserv-content', {
-    listserv: server.create('listserv')
+  const user = server.create('user');
+  const post = server.create('listservContent', {
+    listserv: server.create('listserv'),
+    user: user
   });
   const newTitle = "Newest title";
   let newPostId;
 
   visit(`/lists/posts/${post.id}`);
 
-  Workflow.register();
+  Workflow.signIn();
 
   Workflow.selectChannel('talk');
+
+  Workflow.next();
 
   andThen(()=> {
     assert.deepEqual(this.trackingEvents[1], {
@@ -275,6 +359,8 @@ test('Enhance talk post', function(assert) {
     Workflow.fillInTalkForm({
       title: newTitle
     });
+
+    Workflow.next();
     //@TODO test image upload
   });
 
@@ -365,8 +451,10 @@ test('Enhance market post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const post = server.create('listserv-content', {
-    listserv: server.create('listserv')
+  const user = server.create('user');
+  const post = server.create('listservContent', {
+    listserv: server.create('listserv'),
+    user: user
   });
   let newMarketId;
 
@@ -377,9 +465,11 @@ test('Enhance market post', function(assert) {
 
   visit(`/lists/posts/${post.id}`);
 
-  Workflow.register();
+  Workflow.signIn();
 
   Workflow.selectChannel('market');
+
+  Workflow.next();
 
   andThen(()=> {
     assert.deepEqual(this.trackingEvents[1], {
@@ -425,6 +515,8 @@ test('Enhance market post', function(assert) {
       contactPhone: newPhone,
     });
     //@TODO test image upload
+
+    Workflow.next();
   });
 
   andThen(()=>{

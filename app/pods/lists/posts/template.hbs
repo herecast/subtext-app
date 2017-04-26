@@ -15,49 +15,22 @@
   {{else}}
     {{#if requiresSignIn}}
       <div class='ListservForm'>
-        {{#if requiresRegistration}}
-
-            <div class='ListservForm-sectionSubHeader text-center h3'>
-              <p>
-                Want more people to see your post?
-              </p>
-
-              <p>Want to add photos?</p>
-
-              <p>
-                Create an account so you can post to DailyUV.<br>
-                (Don't worry it's really quick.)
-              </p>
-            </div>
-
-            <h3 class='h1 text-center'>Create Your Account</h3>
-
-            {{listserv-registration-form
+        <div class='text-center'>
+          <h3 class='h1 ListservForm-sectionHeader'>Your Post on the {{listservName}}</h3>
+          <p>
+            To Spruce Up your post, you need to sign in to your dailyUV account.
+          </p>
+        </div>
+        <div class='text-center'>
+            {{listserv-sign-in-form
                 email=(readonly model.senderEmail)
-                callToAction="Sign up and Continue ❱"
-                listservName=listservName
+                callToAction="SIGN IN"
                 confirmationKey=confirmationKey
-                updateMetric=(action 'updateListservMetric' model.id 'new_registration')
+                forgotPasswordReturnUrl=forgotPasswordReturnUrl
+                updateMetric=(action 'updateListservMetric' model.id 'user_sign_in')
                 onSuccess=(action 'afterSignIn')
             }}
-        {{else}}
-            <div class='text-center'>
-              <h3 class='h1 ListservForm-sectionHeader'>Your Post on the {{listservName}}</h3>
-              <p>
-                To Spruce Up your post, you need to sign in to your dailyUV account.
-              </p>
-            </div>
-            <div class='text-center'>
-                {{listserv-sign-in-form
-                    email=(readonly model.senderEmail)
-                    callToAction="SIGN IN"
-                    confirmationKey=confirmationKey
-                    forgotPasswordReturnUrl=forgotPasswordReturnUrl
-                    updateMetric=(action 'updateListservMetric' model.id 'user_sign_in')
-                    onSuccess=(action 'afterSignIn')
-                }}
-            </div>
-        {{/if}}
+        </div>
       </div>
     {{else}}
       {{outlet}}

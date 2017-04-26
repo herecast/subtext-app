@@ -1,0 +1,39 @@
+<section class='ListservForm'>
+  <header class='ListservForm-header'>
+    <h1 class='h1 u-bold'>Registration</h1>
+
+    <div class='ListservForm-stepIndicator'>
+      <h2 class='h5'>Step 3 of 3</h2>
+    </div>
+  </header>
+
+  <p>One last step: We need you to verify your name.</p>
+
+  <p>
+    By chossing to continue, you are consenting to an account being created,
+    and to abide by our {{#link-to 'terms' class='u-textUnderline'}}Terms of Service{{/link-to}} policy.
+  </p>
+
+  {{form-group
+      error=error
+      label="Name"
+      field=(component 'atoms/form-input'
+        class='form-control'
+        data-test-field='user-name'
+        type='text'
+        value=listservContent.senderName
+      )
+  }}
+
+  <footer class='ListservForm-actions'>
+    {{async-button
+      action=(action 'next')
+      default='Save and Publish'
+      pending='Publishing...'
+      reset=true
+      class='ListservForm-callToAction ListservForm-ctaNext'
+      data-test-action='register-publish'
+    }}
+  </footer>
+</section>
+

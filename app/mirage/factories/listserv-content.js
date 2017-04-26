@@ -1,7 +1,8 @@
-import {Factory, faker} from 'ember-cli-mirage';
+import {Factory, faker, association} from 'ember-cli-mirage';
 import moment from 'moment';
 
 export default Factory.extend({
+  listserv: association(),
   subject() { return faker.lorem.sentence(); },
   body() { return faker.lorem.paragraph(); },
   senderEmail() { return 'embertest@subtext.org'; },

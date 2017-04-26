@@ -1,3 +1,5 @@
 import { ActiveModelSerializer } from 'ember-cli-mirage';
 
-export default ActiveModelSerializer;
+export default ActiveModelSerializer.extend({
+  serializeIds: 'always'
+});
