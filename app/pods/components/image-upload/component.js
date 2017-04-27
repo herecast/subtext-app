@@ -16,6 +16,7 @@ export default Ember.Component.extend({
 
   image: null,
   showImageEditor: false,
+  hasNewImage: false,
 
   init() {
     this._super(...arguments);
@@ -93,6 +94,7 @@ export default Ember.Component.extend({
     },
 
     filesSelected(files) {
+      set(this, 'hasNewImage', true);
       this.send('addImage', files[0]);
     },
 

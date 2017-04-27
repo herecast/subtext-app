@@ -61,7 +61,8 @@ export default Ember.Component.extend({
       canvas: true,
 
       // This reduces the image file size
-      maxWidth: 1000
+      maxWidth: 2000,
+      maxHeight: 2000
     };
 
     loadImage(file, (canvas) => {
