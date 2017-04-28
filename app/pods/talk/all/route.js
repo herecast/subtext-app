@@ -3,10 +3,33 @@ import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 
+const {
+  get,
+  assign
+} = Ember;
+
 export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
   model(params) {
+    // Bust cache if user signs in
+    const currentUser = get(this, 'session.currentUser');
+    
+    if(currentUser) {
+      return currentUser.then((currentUser) => {
+        return this.getModel(
+          assign({
+            location_id: get(currentUser, 'locationId')
+          }, params)
+        );
+      });
+    } else {
+      return this.getModel(params);
+    }
+  },
+
+  getModel(params) {
     return this.store.query('talk', {
       query: params.query,
+      location_id: params.location_id,
       date_start: params.date_start,
       date_end: params.date_end,
       page: params.page,
