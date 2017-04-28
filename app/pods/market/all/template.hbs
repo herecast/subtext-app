@@ -217,9 +217,6 @@
 
             <div class='u-card clearfix'>
 
-
-
-
               {{sorted-market-posts
                 marketPosts=recentPosts
                 suppressAd=true
@@ -239,7 +236,7 @@
             <h1 class='h2 text-center u-bold u-layoutPadB40'>Happy Buyers and Sellers</h1>
           </div>
           {{#each testimonials as |testimonial|}}
-            <div class='col-xs-6'>
+            <div class='col-xs-12 col-md-4'>
               {{user-testimonial testimonial=(readonly testimonial)}}
             </div>
           {{/each}}

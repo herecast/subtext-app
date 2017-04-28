@@ -82,6 +82,11 @@ export default Ember.Controller.extend(PaginatedFilter, {
     img: 'https://subtext-misc.s3.amazonaws.com/sierra-nevada/user-testimonial--michelle.jpg',
     town: 'Quechee, VT',
     content: "The Quechee Inn at Marshland Farm runs weekly promotions in the market which is a great source for us to reach our local customers.  I am able to track how many views our post has seen which is valuable information. The staff has been great at teaching me how to use the site to work for our business."
+  },{
+    name: 'Dave C.',
+    img: 'https://subtext-misc.s3.amazonaws.com/sierra-nevada/dave-c.jpg',
+    town: 'Lyme, NH',
+    content: "The Market is my go-to place to buy and sell all kinds of things. I know my items and services will get seen, and I'll have any easy online link to share that people know and trust. DailyUV's Market is easy to use and fun to browse!"
   }],
 
   actions: {
