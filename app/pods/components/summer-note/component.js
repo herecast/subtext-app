@@ -1,13 +1,12 @@
-/*global jQuery*/
-
 import Ember from 'ember';
-import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
+import {sanitizeContent} from 'subtext-ui/lib/content-sanitizer';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const {
   get, set,
   isPresent,
-  inject
+  inject,
+  run
 } = Ember;
 
 const defaultToolbarOpts = [
@@ -58,36 +57,59 @@ export default Ember.Component.extend(TestSelector, {
           // (for video embeds)
           this.send('doUpdate');
         },
-        onPaste: (e) => {
-          e.preventDefault();
-          const event = ((e.originalEvent || e).clipboardData || window.clipboardData);
-          let buffer = event.getData('text/html') || event.getData('text/plain') || event.getData('text');
+        onPaste: () => {
+          // DO NOT stop the paste event from bubbling or attempt to interfere with it using the clipboard API!!
+          // Doing so is highly inconsistent across browsers and has led to multiple bugs.
+          // Instead, redirect the browser's focus into a separate contenteditable div and allow the browser
+          // to paste the content as-is. Then, we pull the content out, sanitize it and add it into summernote.
 
-          // Replace bold-but-not-bold element with span
-          buffer = buffer.replace(/<b style="font-weight:normal;"/g, '<span');
+          // Save the current location of the cursor in the editor
+          const $editor = get(this, '$editor');
+          $editor.summernote('saveRange');
 
-          const saneHtml = sanitizeContent(buffer);
-          const $div = jQuery('<div>').append(saneHtml);
-          // Strip styles from images to prevent weird positioning and floating.
-          $div.find('img[style]').removeAttr('style');
+          // Redirect paste event to our own contenteditable div
+          const $pasteTarget = Ember.$('<div contenteditable="true" />')
+            .css({
+              position: "absolute",
+              opacity: 0
+            })
+            .insertAfter($editor)
+            .focus();
 
-          const cleanHtml = $div.html();
+          run.later(() => {
+            // Restore cursor location
+            $editor.summernote('restoreRange');
 
-          if (isPresent(cleanHtml)) {
-            $editor.summernote('pasteHTML', cleanHtml);
+            // sanitize content, remove contentediable div
+            const $div = Ember.$('<div />').append(sanitizeContent($pasteTarget));
+            $pasteTarget.remove();
 
-            // SummerNote likes to add a <p><br></p> when pasting multi-line content
-            // This causes the spacing to expand, which is undesirable
-            // So clear it out, but only change the editor contents if necessary
-            // as this could screw up the cursor position
-            const editorContent = this.$('.note-editable').html();
-            let newContent = editorContent.replace(/<p><br><\/p>/g, '');
-            if (editorContent !== newContent) {
-              this._setEditorContent(newContent);
+            // Strip styles from images to prevent weird positioning and floating.
+            $div.find('img[style]').removeAttr('style');
+
+            // Remove wrapping <b> tag added by summernote for apparently no reason
+            this.$('.note-editable > b').each(function () {
+              let $bTag = Ember.$(this);
+              if ($bTag.text() === '') {
+                $bTag.contents().unwrap();
+              }
+            });
+
+            const $children = $div.children();
+            if ($children.length > 0) {
+              // Append each child element to the current cursor location in summernote
+              // Use insertNode instead of pasteHtml to aviod a bunch of bugs
+              $children.each(function () {
+                $editor.summernote('insertNode', this);
+              });
+            } else {
+              $editor.summernote('insertText', $div.text());
             }
 
             this.send('doUpdate');
-          }
+          }, 50);
+
+          return false;
         }
       },
       onCreateLink: (url) => {
@@ -122,7 +144,7 @@ export default Ember.Component.extend(TestSelector, {
     }
 
     // Remove tooltips in button bar if mobile to avoid double click
-    if( get(this, 'media.isMobile') ) {
+    if (get(this, 'media.isMobile')) {
       this.$('.note-toolbar button').each(function () {
         Ember.$(this).removeAttr('title');
         Ember.$(this).removeAttr('data-original-title');
@@ -141,7 +163,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Float Left',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .parent()
               .addClass('pull-left')
@@ -154,7 +176,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Float Right',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .parent()
               .addClass('pull-right')
@@ -167,7 +189,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Center Image',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .parent()
               .removeClass('pull-left pull-right');
@@ -179,7 +201,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Remove Image',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .parent()
               .remove();
@@ -191,7 +213,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Resize Full',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
@@ -204,7 +226,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Resize Half',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
@@ -218,7 +240,7 @@ export default Ember.Component.extend(TestSelector, {
         tooltip: 'Resize Quarter',
         click(e) {
           e.preventDefault();
-          ($editor.summernote('wrapCommand', function() {
+          ($editor.summernote('wrapCommand', function () {
             Ember.$($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
@@ -277,7 +299,7 @@ export default Ember.Component.extend(TestSelector, {
         template: function (item) {
 
           if (typeof item === 'string') {
-            item = { tag: item, title: item };
+            item = {tag: item, title: item};
           }
 
           var tag = item.tag;
@@ -285,7 +307,7 @@ export default Ember.Component.extend(TestSelector, {
           var style = item.style ? ' style="' + item.style + '" ' : '';
           var className = item.className ? ' className="' + item.className + '"' : '';
 
-          return '<' + tag + style + className + '>' + title + '</' + tag +  '>';
+          return '<' + tag + style + className + '>' + title + '</' + tag + '>';
         },
         click(e) {
           e.preventDefault();
