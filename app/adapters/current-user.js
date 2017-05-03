@@ -1,6 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
+  coalesceFindRequests: false,
   // Singleton path.
   pathForType() {
     return 'current_user';
