@@ -22,7 +22,7 @@ export default Ember.Component.extend(TestSelector, {
   addImage(image) {
     const images = get(this, 'images');
 
-    if(!images.rejectBy('_delete').isAny('primary')) {
+    if (!images.rejectBy('_delete').isAny('primary')) {
       image.set('primary', true);
     }
     images.pushObject(image);

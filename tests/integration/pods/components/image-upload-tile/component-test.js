@@ -1,7 +1,3 @@
-/**
- * SKIPPED BECAUSE OF ISSUES WITH EXIF LIBRARY
- */
-/*
 import { moduleForComponent, test } from 'ember-qunit';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
@@ -61,7 +57,7 @@ test('Given a model without imageUrl', function(assert) {
 
     return wait().then(()=> {
       assert.ok(
-        isPresent(model.image),
+        isPresent(model.imageUrl),
         "image property is set on model after selecting image"
       );
 
@@ -85,4 +81,3 @@ test('Given a model without imageUrl', function(assert) {
     });
   });
 });
-*/

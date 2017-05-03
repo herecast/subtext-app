@@ -1,8 +1,3 @@
-/**
- * SKIPPED BECAUSE OF ISSUES WITH THE EXIF LIBRARY
- */
-
-/*
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import wait from 'ember-test-helpers/wait';
@@ -85,7 +80,7 @@ test('selecting one image', function(assert) {
 
   this.set('model', model);
 
-  this.render(hbs`{{image-upload-tiles images=model.images}}`);
+  this.render(hbs`{{image-upload-tiles images=(mut model.images)}}`);
 
   return createImageFixture(200,200).then((file)=> {
     const $fileInput = this.$('.ImageUploadTiles input[type=file]');
@@ -101,7 +96,7 @@ test('selecting one image', function(assert) {
 
     return wait().then(() => {
       assert.equal(model.images.length, 1,
-        "It adds the the new image to the model"
+        "It adds the new image to the model"
       );
 
       assert.equal(
@@ -219,4 +214,3 @@ test('clicking button to set image as primary', function(assert) {
     );
   });
 });
-*/

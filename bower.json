@@ -4,7 +4,7 @@
     "Chart.js": "~1.0.2",
     "Faker": "^3.1.0",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "blueimp-load-image": "~1.13.0",
+    "blueimp-load-image": "~2.12.2",
     "bootstrap": "~3.3.4",
     "cropper": "0.11.1",
     "font-awesome": "~4.4.0",
@@ -27,8 +27,7 @@
     "summernote-image-attributes": "^0.1.2",
     "weather-icons": "~2.0.1",
     "PACE": "pace#^1.0.2",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
-    "exif-js": "^2.1.1"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47"
   },
   "devDependencies": {
     "blanket": "~1.1.5"

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-/* global EXIF, atob, ArrayBuffer, Uint8Array */
+/* global loadImage, atob, ArrayBuffer, Uint8Array */
 
 const {
   set,
@@ -61,13 +61,29 @@ export default Ember.Component.extend({
   maxDimension: 2000,
   errors: [],
 
+  // this is here for testing purposes
+  _isProcessing: null,
+
+  init() {
+    this._super(...arguments);
+
+    if (Ember.testing) {
+      this._isProcessing = false;
+      Ember.Test.registerWaiter(() => this._isProcessing === false);
+    }
+  },
+
   fileError(e) {
     if(get(this, 'notifyProcessing')) {
       get(this, 'notifyProcessing')('end');
     }
 
+
+    set(this, '_isProcessing', false);
+
     if (get(this, 'onError')) {
       get(this, 'onError')(e);
+
     } else {
       get(this, 'errors').push(e.message);
       throw(e);
@@ -76,6 +92,8 @@ export default Ember.Component.extend({
 
   fileSuccess({file, img}) {
     get(this, 'action')({file, img});
+
+    set(this, '_isProcessing', false);
 
     if (get(this, 'notifyProcessing')) {
       get(this, 'notifyProcessing')('end');
@@ -87,104 +105,61 @@ export default Ember.Component.extend({
       get(this, 'notifyProcessing')('start');
     }
 
+    set(this, '_isProcessing', true);
+
     return new Promise((resolve, reject) => {
-      const minWidth = get(this, 'minWidth');
-      const minHeight = get(this, 'minHeight');
-      const reader = new FileReader();
-
-      if (/image\/.+/.test(file.type)) {
-        reader.onload = (e) => {
-          const img = new Image();
-          const maxDimension = get(this, 'maxDimension');
-
-          img.onload = () => {
-            if (img.width >= minWidth && img.height >= minHeight) {
-              const canvas = document.createElement('canvas');
-              let srcOrientation;
-
-              EXIF.getData(img, function() {
-                const allMetaData = EXIF.getAllTags(this);
-                srcOrientation = allMetaData['Orientation'] || null;
-
-                const { width, height } = scaleDimensionsToFit(img, maxDimension);
-
-                const ctx = canvas.getContext('2d');
-                canvas.width = width;
-                canvas.height = height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // transform context before drawing image
-                switch(srcOrientation) {
-                  case 2:
-                    // horizontal flip
-                    ctx.translate(canvas.width, 0);
-                    ctx.scale(-1, 1);
-                    break;
-                  case 3:
-                    // 180° rotate left
-                    ctx.translate(canvas.width, canvas.height);
-                    ctx.rotate(Math.PI);
-                    break;
-                  case 4:
-                    // vertical flip
-                    ctx.translate(0, canvas.height);
-                    ctx.scale(1, -1);
-                    break;
-                  case 5:
-                    // vertical flip + 90 rotate right
-                    ctx.rotate(0.5 * Math.PI);
-                    ctx.scale(1, -1);
-                    break;
-                  case 6:
-                    // 90° rotate right
-                    canvas.width = height;
-                    canvas.height = width;
-                    canvas.getContext("2d").rotate(0.5 * Math.PI);
-                    canvas.getContext("2d").translate(0, -canvas.width);
-                    break;
-                  case 7:
-                    // horizontal flip + 90 rotate right
-                    ctx.rotate(0.5 * Math.PI);
-                    ctx.translate(canvas.width, -canvas.height);
-                    ctx.scale(-1, 1);
-                    break;
-                  case 8:
-                    // 90° rotate left
-                    canvas.width = height;
-                    canvas.height = width;
-                    ctx.rotate(-0.5 * Math.PI);
-                    ctx.translate(-canvas.height, 0);
-                    break;
-                }
-
-                ctx.drawImage(img, 0, 0, width, height);
-
-                const newImage = new Image();
-                newImage.width = width;
-                newImage.height = height;
-                newImage.src = canvas.toDataURL('image/jpeg', 0.8);
-
-                resolve({
-                  file: dataURItoBlob(newImage.src),
-                  img: newImage
-                });
-              });
-            } else {
-             reject(new Error(`Image must have minimum dimensions of ${minWidth}x${minHeight}`));
-            }
-          };
-
-          img.onerror = reject;
-
-          img.src = e.target.result;
-        };
-
-        reader.readAsDataURL(file);
-      } else {
+      if (!/image\/.+/.test(file.type)) {
         reject(new Error(
           'File must be an image'
         ));
+        return;
       }
+
+      const minWidth = get(this, 'minWidth');
+      const minHeight = get(this, 'minHeight');
+      const maxDimension = get(this, 'maxDimension');
+
+      loadImage(
+        file,
+        (canvas) => {
+          if (canvas.width < minWidth || canvas.height < minHeight) {
+            reject(new Error(`Image must have minimum dimensions of ${minWidth}x${minHeight}`));
+          }
+
+          // store the original image data so we can re-render it
+          // into the resized canvas
+          const originalImage = new Image();
+          originalImage.src = canvas.toDataURL("image/png");
+
+          originalImage.onload = () => {
+            // resize the canvas, re-render the original image data
+            // into the re-sized canvas
+            const { width, height } = scaleDimensionsToFit(canvas, maxDimension);
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            // and finally, we create a new image so that we
+            // can resolve with the final image data
+            const image = new Image();
+            image.src = canvas.toDataURL('image/jpeg', 0.8);
+
+            image.onerror = reject;
+
+            image.onload = () => {
+              resolve({
+                file: dataURItoBlob(image.src),
+                img: image
+              });
+            };
+          };
+        }, {
+          orientation: true,
+          canvas: true
+        }
+      );
     });
   },
 
