@@ -25,10 +25,13 @@ test('Adapter receives 401 error during route transition', function(assert) {
 
     server.get('/talk/:id'); //default functionality
 
-    fillIn(testSelector('field', 'login-email'), user.email);
-    fillIn(testSelector('field', 'login-password'), 'password');
 
-    click(testSelector('component', 'login-submit'));
+    click(testSelector('action', 'change-sign-in-module'));
+
+    fillIn(testSelector('field', 'sign-in-email'), user.email);
+    fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+    click(testSelector('component', 'sign-in-submit'));
 
     andThen(() => {
       assert.equal(currentURL(), `/talk/${talk.id}`,

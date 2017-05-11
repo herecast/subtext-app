@@ -1,13 +1,12 @@
 import Ember from 'ember';
-import Configuration from 'ember-simple-auth/configuration';
 
 const { get, set, inject } = Ember;
 
 export default Ember.Controller.extend({
   secondaryBackground: true,
   session: inject.service('session'),
-  cookies: inject.service('cookies'),
-  modalService: inject.service('modals'),
+  queryParams: ['auth_token'],
+  auth_token: null,
 
   actions: {
     forgotPassword() {
@@ -15,17 +14,12 @@ export default Ember.Controller.extend({
     },
     wasAuthenticated() {
       const attemptedTransition = get(this, 'session.attemptedTransition');
-      const cookies = get(this, 'cookies');
-      const redirectTarget = cookies.read('ember_simple_auth-redirectTarget');
 
       if (attemptedTransition) {
         attemptedTransition.retry();
         set(this, 'session.attemptedTransition', null);
-      } else if(redirectTarget) {
-        this.transitionToRoute(redirectTarget);
-        cookies.clear('ember_simple_auth-redirectTarget');
       } else {
-        this.transitionToRoute(Configuration.routeAfterAuthentication);
+        this.send('transitionAfterAuthentication');
       }
     },
     reconfirm: function(email){
@@ -34,6 +28,12 @@ export default Ember.Controller.extend({
           email: email
         }
       });
+    },
+    join() {
+      this.transitionToRoute('register');
+    },
+    clearToken() {
+      set(this, 'auth_token', null);
     }
   }
 });

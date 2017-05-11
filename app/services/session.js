@@ -47,5 +47,16 @@ export default SessionService.extend({
     if (isPresent(user)) {
       return get(user, 'location');
     }
-  })
+  }),
+
+  signInWithToken(token) {
+    return get(this, 'api').signInWithToken(token).then((data)=> {
+      return this.authenticate(
+        'authenticator:restore', {
+          email: data.email,
+          token: data.token
+        }
+      );
+    });
+  }
 });

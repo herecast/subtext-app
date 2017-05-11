@@ -22,6 +22,8 @@ module('Acceptance | reset password', {
 test('filling out lost password request form', function(assert) {
   visit('/');
   click(testSelector('link', 'login-link'));
+
+  click(testSelector('action', 'change-sign-in-module'));
   click(testSelector('link', 'forgot-password')).then(()=> {
     assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
 

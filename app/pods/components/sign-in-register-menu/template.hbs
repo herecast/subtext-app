@@ -8,9 +8,8 @@
 </nav>
 
 {{#if isSignIn}}
-  {{sign-in-form
-    onReconfirm=(action 'reconfirm')
-    onForgotPassword=(action 'forgotPassword')
+  {{sign-in
+    onJoinClick=(action 'changeMode' 'register')
     afterAuthenticate=(action 'didSignIn')
   }}
 {{else if isRegister}}

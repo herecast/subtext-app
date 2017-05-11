@@ -565,6 +565,14 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  sendEmailSignInLink(email) {
+    return returnJson(
+      this.post('/users/email_signin_link',
+        this.json({email:email})
+      )
+    );
+  },
+
   resetPassword(data) {
     return returnJson(
       this.put('/password_resets', this.json(data))
@@ -580,6 +588,12 @@ export default Ember.Service.extend(FastbootExtensions, {
   sendUnconfirmedUserRegistration(name, email) {
     return returnJson(
       this.post('/temp_user_captures', this.json({name, email}))
+    );
+  },
+
+  signInWithToken(token) {
+    return returnJson(
+      this.post('/users/sign_in_with_token', this.json({token: token}))
     );
   }
 });

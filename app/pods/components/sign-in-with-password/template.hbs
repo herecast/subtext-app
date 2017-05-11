@@ -1,0 +1,68 @@
+{{#form-group error=error hasError=hasError}}
+  {{input
+    value=identification
+    type='email'
+    class='SignInForm-emailInput form-control'
+    placeholder='Email Address'
+    input=(action 'clearErrors')
+    data-test-field='sign-in-email'
+  }}
+  {{#if userMustConfirm}}
+    <div class='help-block SignInForm-reconfirmMessage'>
+      <strong>You have not yet confirmed your account.</strong> <br><br>
+      Please check your mailbox for DailyUV Confirmation Instructions sent to {{identification}}.
+      Or <br>
+      <a class='SignInForm-reconfirmAction' href='#' {{action 'reconfirm'}}>click here to re-send the confirmation email.</a><br>
+      You must confirm your account before signing in.
+    </div>
+  {{/if}}
+{{/form-group}}
+
+{{#form-group class=(if hasError 'has-error')}}
+  {{input
+    value=password
+    placeholder='Password'
+    type='password'
+    class='SignInForm-passwordInput form-control'
+    data-test-field='sign-in-password'
+  }}
+  <a class='SignInForm-forgotPasswordAction' data-test-link='forgot-password' href={{forgotPasswordUrl}} {{action 'forgotPassword' on='click' preventDefault=true}}>Forgot password?</a>
+{{/form-group}}
+
+<div class='SignInForm-legal'>
+  <p>
+    By using dailyuv.com, you agree to our
+    {{link-to 'terms of service' 'terms' class='u-textUnderline'}}.
+    Review our {{link-to 'privacy policy' 'privacy' class='u-textUnderline'}}.
+  </p>
+
+  <p>
+    A portion of dailyUV.com includes an alternative presentation of
+    content primarily published through email discussion lists maintained
+    by <a href='http://www.vitalcommunities.org/' target='_blank' class='u-textUnderline'>Vital Communities</a>.
+
+    There is no legal or financial affiliation between Vital Communities
+    and Subtext Media, Ltd. Nevertheless, content published through or to
+    these email discussion lists is subject to
+    <a href='http://vitalcommunities.org/community-discussion-lists/' target='_blank' class='u-textUnderline'>Vital Communities’ guidelines, rules and legal disclaimers</a>
+    for each individual list.
+  </p>
+</div>
+
+<div class='form-actions'>
+  {{async-button
+    action=(action authenticate)
+    default='Sign in'
+    pending='Signing in'
+    class='SignInForm-submitButton Button Button--primary'
+    data-test-component='sign-in-submit'
+  }}
+</div>
+
+<div class='SignIn-switcher u-marginTop10 u-paddingTop10 u-borderTop' data-sign-in-switcher>
+  <button class='Button--text u-button-no-appearance u-bold u-link'
+      data-test-action='change-sign-in-module'
+      {{action (action changeModule 'sign-in-with-email') bubbles=false}}>
+    Sign in by email.
+  </button>
+</div>

@@ -1,0 +1,89 @@
+{{#unless didComplete}}
+  <div class='text-center'>
+    <header class='SignInWithEmail-header'>
+      <p class='Label Label--new u-bold u-fontSize20 u-marginBottom0'>
+        NEW!
+      </p>
+      <h4 class='h2 SignInWithEmail-title u-bold u-marginTop10'>Sign in with Email</h4>
+      <p class='SignInWithEmail-instructions u-marginBottom20'>
+        We'll send you a link you can use to sign in!<br>
+        No more having to remember passwords!
+      </p>
+    </header>
+
+    {{#form-group error=error}}
+      <div class='Input--minimalWrapper'>
+        <input type='email'
+          class='Input--minimal text-center u-fontSize24 u-paddingBottom10'
+          value={{email}}
+          data-test-field='sign-in-email'
+          oninput={{action 'updateEmail' value='target.value'}}
+          autofocus
+          placeholder="Enter your email...">
+      </div>
+      {{#if noAccount}}
+        <div class='alert alert-danger FormGroup-error'>
+          An account does not yet exist for <strong>{{email}}</strong>.
+          {{#if onJoinClick}}
+            <br>
+            <button
+              {{action onJoinClick bubbles=false}}
+              class='u-textUnderline btn btn-link'>
+              Join Now
+            </button>
+          {{/if}}
+        </div>
+      {{/if}}
+    {{/form-group}}
+
+
+    <footer class='SignInWithEmail-footer'>
+      {{async-button
+        action=(action 'sendEmail')
+        default='Send Sign in Link'
+        pending='Sending...'
+        class=(concat 'Button u-button-primary u-fontSize18 u-marginBottom10' (if email '' ' disabled'))
+        data-test-action='send-sign-in-link'
+      }}
+    </footer>
+  </div>
+
+  <div class='SignIn-switcher u-borderTop u-paddingTop10 u-marginTop10' data-sign-in-switcher>
+    <button class='Button--text u-button-no-appearance u-link u-bold'
+        data-test-action='change-sign-in-module'
+        {{action (action changeModule 'sign-in-with-password') bubbles=false}}>
+      No thanks, I just want to enter my password.
+    </button>
+  </div>
+{{else}}
+  <div class='text-center'>
+    <h4 class='h2 SignInWithEmail-title u-bold'>
+      Check your email
+    </h4>
+
+    <p class='h3 SignInWithEmail-instructions u-marginTop10 u-marginBottom20' data-test-message='check-your-email'>
+      We sent an email to you at <strong>{{email}}</strong><br>
+      It has a link that will sign you in.
+    </p>
+  </div>
+
+  <div class='SignIn-legal u-fontSize12 u-lineHeightTighter u-marginTop10 u-paddingTop10 u-borderTop'>
+    <p>
+      By using dailyuv.com, you agree to our
+      {{link-to 'terms of service' 'terms' class='u-textUnderline'}}.
+      Review our {{link-to 'privacy policy' 'privacy' class='u-textUnderline'}}.
+    </p>
+
+    <p>
+      A portion of dailyUV.com includes an alternative presentation of
+      content primarily published through email discussion lists maintained
+      by <a href='http://www.vitalcommunities.org/' target='_blank' class='u-textUnderline'>Vital Communities</a>.
+
+      There is no legal or financial affiliation between Vital Communities
+      and Subtext Media, Ltd. Nevertheless, content published through or to
+      these email discussion lists is subject to
+      <a href='http://vitalcommunities.org/community-discussion-lists/' target='_blank' class='u-textUnderline'>Vital Communities’ guidelines, rules and legal disclaimers</a>
+      for each individual list.
+    </p>
+  </div>
+{{/unless}}

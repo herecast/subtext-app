@@ -101,37 +101,56 @@ moduleForAcceptance('Acceptance | enhance listserv post workflows', {
   }
 });
 
-test('Poster has account, not signed in', function(assert) {
+test('Poster has account, not signed in, followed magic signin link', function(assert) {
+  assert.expect(2);
   const user = server.create('user');
+  const magicLinkKey = "38490kdwekljkfsda";
   const post = server.create('listservContent', {
     user: user
   });
 
-  visit(`/lists/posts/${post.id}`);
+  server.post('users/sign_in_with_token', function({currentUsers}, request) {
+    const data = JSON.parse(request.requestBody);
+
+    assert.equal(data.token, magicLinkKey,
+      "Posts to token login endpoint");
+
+
+    currentUsers.create(user.attrs);
+    return  {
+      token: "FCxUDexiJsyChbMPNSyy",
+      email: user.email
+    };
+  });
+
+  visit(`/lists/posts/${post.id}?auth_token=${magicLinkKey}`);
+
   andThen(() => {
-    assert.ok(find(testSelector('component', 'listserv-sign-in-form')).length,
+    assert.ok(
+      find(testSelector('component', 'channel-selector')).length > 0,
+      "Should see channel selector"
+    );
+  });
+});
+
+test('Poster has account, not signed in, followed magic signin link, magic link fails to authenticate', function(assert) {
+
+  assert.expect(1);
+  const user = server.create('user');
+  const magicLinkKey = "38490kdwekljkfsda";
+  const post = server.create('listservContent', {
+    user: user
+  });
+
+  server.post('users/sign_in_with_token', {error: 'expired token'}, 422);
+
+  visit(`/lists/posts/${post.id}?auth_token=${magicLinkKey}`);
+
+  andThen(() => {
+    assert.ok(
+      find(testSelector('component', 'sign-in-form')).length > 0,
       "Should see sign in form"
     );
-
-    const lastEvent = this.trackingEvents.pop();
-    assert.deepEqual(lastEvent, {
-      id: post.id,
-      data: {
-        enhance_link_clicked: true,
-        step_reached: 'user_sign_in'
-      }
-    }, "Event tracked for sign in step");
-
-    Workflow.signIn();
-
-    andThen(() => {
-      assert.ok(find(testSelector('component', 'channel-selector')).length,
-        "Should see channel selector"
-      );
-      assert.ok(find(testSelector('component', 'listserv-sign-in-form')).length === 0,
-        "Should not see sign in form"
-      );
-    });
   });
 });
 

@@ -1,0 +1,17 @@
+<div class='SignIn-module'>
+  {{#if (eq signInModule 'sign-in-with-email')}}
+    {{sign-in-with-email
+        email=email
+        afterAuthenticate=afterAuthenticate
+        changeModule=(action 'changeModule')
+        onJoinClick=onJoinClick
+    }}
+  {{else}}
+    {{sign-in-with-password
+        email=email
+        afterAuthenticate=afterAuthenticate
+        changeModule=(action 'changeModule')
+    }}
+  {{/if}}
+</div>
+

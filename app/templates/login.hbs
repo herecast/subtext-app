@@ -17,12 +17,18 @@
 
             <div class='AuthForm-body'>
               <div class='AuthForm-form'>
-                {{sign-in-form
-                  onReconfirm=(action 'reconfirm')
-                  onForgotPassword=(action 'forgotPassword')
-                  afterAuthenticate=(action 'wasAuthenticated')
-                }}
+                {{#if auth_token}}
+                  <p class='h3 text-danger text-center u-marginBottom20'>
+                    It looks like the link you followed expired.<br>
+                    Please fill in your email below to get a new link.
+                  </p>
+                {{/if}}
 
+                {{sign-in
+                    afterAuthenticate=(action 'wasAuthenticated')
+                    onJoinClick=(action 'join')
+                    didUpdate=(action 'clearToken')
+                }}
               </div>
             </div>
           </div>

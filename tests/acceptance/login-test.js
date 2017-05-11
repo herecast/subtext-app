@@ -12,6 +12,78 @@ moduleForAcceptance('Acceptance | login', {
   }
 });
 
+test('sign in via email', function(assert) {
+  const testEmail = 'test@test.com';
+  const done = assert.async();
+
+  server.post('/users/email_signin_link', function(db, request) {
+    const attrs = JSON.parse(request.requestBody);
+
+    assert.expect(attrs.email, testEmail,
+      "Clicking the 'Send sign in link' button POSTs email to correct api endpoint");
+
+    done();
+    return {};
+  });
+
+  visit('/sign_in');
+
+  fillIn(testSelector('field', 'sign-in-email'), testEmail);
+
+  click(testSelector('action', 'send-sign-in-link'));
+
+  andThen(()=> {
+    assert.equal(
+      find(testSelector('message', 'check-your-email')).length, 1,
+      "Displays message to check email for link to sign in");
+  });
+});
+
+test('Follow sign in link, authentication succeeds', function(assert) {
+  const done = assert.async();
+  const user = server.create('user');
+  const token = "sakj342qk223dk";
+
+  server.post('/users/sign_in_with_token', function({currentUsers}, request) {
+    const data = JSON.parse(request.requestBody);
+
+    assert.equal(data.token, token, "Posts token to correct server endpoint");
+
+    currentUsers.create(user.attrs); 
+    done();
+    return {
+      email: user.email,
+      token: 'sak;329jk;skdfh'
+    };
+  });
+
+  visit('/sign_in?auth_token=' + token);
+
+  andThen(() => {
+    assert.equal(
+      currentPath(),'index.index',
+      "Should be on home page");
+
+    assert.equal(
+      find(testSelector('link', 'user-menu')).length, 1,
+      "I should see my user menu (I am signed in)");
+  });
+});
+
+test('Follow sign in link, authentication fails', function(assert) {
+  const token = "sakj342qk223dk";
+
+  server.post('/users/sign_in_with_token', {error: 'Token expired'}, 422);
+
+  visit('/sign_in?auth_token=' + token);
+
+  andThen(() => {
+    assert.equal(
+      find(testSelector('component', 'sign-in')).length, 1,
+      "I should see sign in");
+  });
+});
+
 test('logging in works', function(assert) {
   let location = server.create('location');
   let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
@@ -20,10 +92,12 @@ test('logging in works', function(assert) {
 
   click(testSelector('link', 'login-link'));
 
-  fillIn(testSelector('field', 'login-email'), user.email);
-  fillIn(testSelector('field', 'login-password'), 'password');
+  click(testSelector('action', 'change-sign-in-module'));
 
-  click(testSelector('component', 'login-submit'));
+  fillIn(testSelector('field', 'sign-in-email'), user.email);
+  fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+  click(testSelector('component', 'sign-in-submit'));
   click(testSelector('link', 'user-menu'));
 
   andThen(function() {
@@ -39,10 +113,12 @@ skip('using incorrect login information', function(assert) {
 
   click(testSelector('link', 'login-link'));
 
-  fillIn(testSelector('field', 'login-email'), user.email + "not-correct");
-  fillIn(testSelector('field', 'login-password'), 'password');
+  click(testSelector('action', 'change-sign-in-module'));
 
-  click(testSelector('component', 'login-submit'));
+  fillIn(testSelector('field', 'sign-in-email'), user.email + "not-correct");
+  fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+  click(testSelector('component', 'sign-in-submit'));
 
   andThen(function() {
     // Email
@@ -101,7 +177,8 @@ test('clicking sign in link displays login form', function(assert) {
   click(testSelector('link', 'login-link'));
 
   andThen(function() {
-    assert.ok(find(testSelector('component','sign-in-form')).length,
-      "Displays sign in form");
+    assert.ok(find(testSelector('component','sign-in')).length,
+      "Displays sign in");
   });
 });
+

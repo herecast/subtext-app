@@ -1,0 +1,58 @@
+.u-button {
+  border-radius: 3px;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0;
+}
+
+.u-button-primary {
+  background: #3DA0E5;
+  color: #fff;
+  border: none;
+  padding: 15px 25px;
+  text-transform: none;
+  font-family: 'proxima-nova', Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  transition: background 300ms;
+
+  &[disabled],
+  &.disabled,
+ &[disabled]:hover,
+  {
+    cursor: pointer;
+    opacity: 1;
+    filter: none;
+    background: #b6bec5;
+    border-color: #b6bec5;
+  }
+
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: darken(#69C2F8, 5%);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.u-button-no-appearance {
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: 0;
+  white-space: nowrap;
+  word-wrap: normal;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0;
+}
+
+.u-button-share {
+}

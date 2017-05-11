@@ -1526,6 +1526,35 @@ test('resendConfirmation(email)', function(assert) {
   });
 });
 
+test('sendEmailSignInLink(email)', function(assert) {
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
+  const email = "luigi@mario.kart";
+
+  const done = assert.async();
+
+  server.post('/users/email_signin_link', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+    expect.contentTypeHeader(assert, request, 'application/json');
+
+    const jsonData = JSON.parse(request.requestBody);
+
+    assert.deepEqual(jsonData, {
+        email: email
+      },
+      "POST /users/email_siginin_link with expected data");
+
+    done();
+    return {};
+  });
+
+  subject.sendEmailSignInLink(email);
+});
+
 test('resetPassword(data)', function(assert) {
   const subject = this.subject({
     session: this.session,
@@ -1597,4 +1626,27 @@ test('signOut()', function(assert) {
     );
     done();
   });
+});
+
+test('signInWithToken', function(assert) {
+
+  const subject = this.subject({session: this.session});
+  const token = 'hjkljklasdf';
+  const done = assert.async();
+
+  server.post('/users/sign_in_with_token', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    const data = JSON.parse(request.requestBody);
+    assert.equal(
+      data.token, token,
+      "POST /users/sign_in_with_token with expected token in json body");
+
+    done();
+    return {};
+  });
+
+  subject.signInWithToken(token);
 });
