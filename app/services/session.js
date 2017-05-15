@@ -5,8 +5,10 @@ const {
   isPresent,
   inject,
   get,
+  set,
   computed,
-  observer
+  observer,
+  RSVP: {Promise}
 } = Ember;
 
 export default SessionService.extend({
@@ -14,6 +16,9 @@ export default SessionService.extend({
   userService : inject.service('user'),
   intercom    : inject.service('intercom'),
   fastboot    : inject.service(),
+  routing     : inject.service('-routing'),
+
+  sequenceTrackers: {},
 
   isFastBoot: computed.alias('fastboot.isFastBoot'),
 
@@ -30,7 +35,6 @@ export default SessionService.extend({
       this.get('intercom').update(currentUser);
     }
   }),
-
 
   currentUser: computed('data.authenticated.email', function() {
     if (isPresent(get(this, 'data.authenticated.email'))) {
@@ -58,5 +62,15 @@ export default SessionService.extend({
         }
       );
     });
+  },
+
+  incrementEventSequence(sequenceName) {
+    const sequenceTrackers = get(this, 'sequenceTrackers');
+    let currentTrackerIndex = isPresent(sequenceTrackers[sequenceName]) ? (sequenceTrackers[sequenceName] + 1) : 0;
+
+    set(this, `sequenceTrackers.${sequenceName}`, currentTrackerIndex);
+
+    return Promise.resolve(currentTrackerIndex);
   }
+
 });

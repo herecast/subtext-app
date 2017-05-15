@@ -12,7 +12,7 @@ export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
   model(params) {
     // Bust cache if user signs in
     const currentUser = get(this, 'session.currentUser');
-    
+
     if(currentUser) {
       return currentUser.then((currentUser) => {
         return this.getModel(

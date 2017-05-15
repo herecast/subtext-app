@@ -1,59 +1,18 @@
-{{sticky-position name="grouped-events"}}
-
-<div class='Container--noGutter'>
-  <div class='row'>
-    <div class='col-xs-12 col-md-8 col-md-push-2'>
-      <div class='ChannelTopper'>
-        <h1 class='h2 ChannelTopper-title text-center hidden-md hidden-lg u-layoutPadB10'>Local Events</h1>
-
-        <button class='btn Button--primary hidden-md hidden-lg' {{action 'openCalendarWidget'}}>
-          {{fa-icon 'calendar'}} Jump to date
-        </button>
-
-        {{content-create-button
-          class='SectionNavigation-contentCreateButtonMobile pull-right'
-          path='events.new.details'
-        }}
-      </div>
-    </div>
-  </div>
-</div>
-
-{{#if model}}
-  {{grouped-events
-    events=model
-    startDate=startDate
-    stopDate=stopDate
-    cardLayout='wide'
-    adPath='events.all.index'
-    jump=(action 'jumpToDate')
-    updateJumpTarget=(action 'jumpToDate')
-  }}
-  <div class='Container--noGutter'>
-    <div class='row'>
-      <div class='col-xs-12 col-md-8 col-md-push-2'>
-        <div class='PaginationNav-wrapper pull-left'>
-          <div class='PaginationNav PaginationNav--bottom'>
-            <button class='btn Button--primary' {{action 'openCalendarWidget'}}>
-              {{fa-icon 'calendar'}} Jump to date
-            </button>
-          </div>
-        </div>
-
-        <div class='PaginationNav-wrapper pull-right'>
-          <div class='PaginationNav PaginationNav--bottom'>
-            {{partial 'partials/pagination-nav'}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-{{/if}}
-{{outlet}}
-
-{{outreach-cta
-  isButton=true
-  placement='bottom-of-page'
-  limitMessagesTo=2
-  class="sit-center"
+{{events-filter
+  addCategory=(action 'addCategory')
+  removeCategory=(action 'removeCategory')
+  jumpToDay=(action 'jumpToDay')
+  activeCategories=activeCategories
+  clearCategories=(action 'clearCategories')
 }}
+{{events-results
+  events=model
+  isGroupedByDay=isGroupedByDay
+  activeCategories=activeCategories
+  adPath='events.all.index'
+  formattedThroughDate=formattedThroughDate
+  jumpToDay=(action 'jumpToDay')
+  loadNextDayOrWeek=(action 'loadNextDayOrWeek')
+}}
+
+{{outlet}}

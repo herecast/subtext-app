@@ -8,10 +8,12 @@ function buildGroup(records, dateAttr, displayFormat, convertDate) {
   const groups = new Ember.A();
 
   if (!Ember.isEmpty(records)) {
-    records.forEach((record) => {
+    records.forEach((record, index) => {
       const date = record.get(dateAttr);
       const value = convertDate(date);
       let group = groups.findBy('value', value);
+
+      Ember.set(record, 'indexInFullSetOfRecords', index);
 
       if (Ember.isPresent(group)) {
         Ember.get(group, 'items').pushObject(record);

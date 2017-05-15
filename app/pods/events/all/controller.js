@@ -1,82 +1,96 @@
 import Ember from 'ember';
-import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
+import moment from 'moment';
 
-const { computed, get, inject } = Ember;
+const { computed, get} = Ember;
 
-export default Ember.Controller.extend(PaginatedFilter, {
-  queryParams: ['category', 'query', 'date_start', 'date_end', 'location', 'page', 'per_page'],
+export default Ember.Controller.extend({
+  queryParams: ['category', 'query', 'date_start', 'days_ahead', 'location', 'organization'],
 
-  page: 1,
-  per_page: 24,
-  total: null,
-
-  defaultCategory: 'Everything',
-  defaultQuery: null,
-  defaultLocation: 'All Communities',
-  defaultStart: null,
-  defaultEnd: null,
-
-  category: 'Everything',
+  category: null,
   location: 'All Communities',
   query: null,
-  date_start: null,
-  date_end: null,
+  organization: null,
+  date_start: moment().format('YYYY-MM-DD'),
+  days_ahead: 1,
 
-  // Used to make the variable names more JSish and still let us pass the
-  // right params to the API.
-  startDate: null,
-  stopDate: null,
+  defaultCategory: null,
+  defaultLocation: 'All Communities',
+  defaultQuery: null,
+  defaultOrganization: null,
+  defaultStart: moment().format('YYYY-MM-DD'),
+  defaultDaysAhead: 1,
 
-  showNextPage: computed('model.[]', 'page', function() {
-    const page        = get(this, 'page'),
-          pageSize    = get(this, 'per_page'),
-          total       = get(this, 'total');
-
-    return total > page * pageSize;
+  activeCategories: computed('category', function() {
+    return get(this, 'category') ? get(this, 'category').split(',') : [];
   }),
 
-  modals: inject.service(),
+  isGroupedByDay: computed.empty('category'),
 
-  showReset: computed('category', 'query', 'date_start', 'date_end', 'location', function() {
-    const isDefaultCategory = this.get('defaultCategory') === this.get('category');
-    const isDefaultQuery = this.get('defaultQuery') === this.get('query');
-    const isDefaultLocation = this.get('defaultLocation') === this.get('location');
-    const isDefaultStart = this.get('defaultStart') === this.get('startDate');
-    const isDefaultEnd = this.get('defaultEnd') === this.get('stopDate');
+  formattedThroughDate: computed('date_start', 'days_ahead', function() {
+    const daysAhead = get(this, 'days_ahead');
 
-    return !isDefaultCategory || !isDefaultLocation || !isDefaultQuery ||
-      !isDefaultStart || !isDefaultEnd;
+    if (daysAhead <= 1) {
+      return null;
+    }
+
+    return moment(get(this, 'date_start')).add((get(this, 'days_ahead') - 1), 'day').format('dddd, MMMM D');
   }),
+
+  goToDay(day) {
+    this.setProperties({
+      date_start: day,
+      days_ahead: 1
+    });
+  },
+
+  setDaysAhead(days) {
+    this.setProperties({
+      date_start: get(this, 'date_start'),
+      days_ahead: days
+    });
+  },
+
+  goToCategories(categories) {
+    this.setProperties({
+      category: categories || null
+    });
+  },
+
 
   actions: {
-    openCalendarWidget() {
-      get(this, 'modals').showModal('modals/date-picker').then((date) => {
-        this.send('jumpToDate', date);
-      });
+    loadNextDayOrWeek() {
+      const daysToAdd = get(this, 'isGroupedByDay') ? 1 : 7;
+
+      this.setDaysAhead(get(this, 'days_ahead') + daysToAdd);
     },
 
-    resetFilters() {
-      const params = {
-        category: this.get('defaultCategory'),
-        location: this.get('defaultLocation'),
-        query: this.get('defaultQuery'),
-        date_start: this.get('defaultStart'),
-        date_end: this.get('defaultEnd')
-      };
-
-      this.send('resetFilter', 'events/all', params);
+    jumpToDay(day) {
+      this.goToDay(moment(day).format('YYYY-MM-DD'));
     },
 
-    jumpToDate(targetDate) {
-      const params = {
-        category   : get(this, 'defaultCategory'),
-        location   : get(this, 'defaultLocation'),
-        query      : get(this, 'defaultQuery'),
-        date_start : targetDate || null,
-        date_end   : get(this, 'defaultEnd')
-      };
+    addCategory(category) {
+      let activeCategoryArray = get(this, 'category') ? get(this, 'category').split(',') : [];
 
-      this.send('updateFilter', params);
+      if (activeCategoryArray.indexOf(category) < 0) {
+        activeCategoryArray.push(category);
+      }
+
+      this.goToCategories(activeCategoryArray.join(','));
+    },
+
+    removeCategory(category) {
+      let activeCategoryArray = get(this, 'category') ? get(this, 'category').split(',') : [];
+
+      if (activeCategoryArray.indexOf(category) >= 0) {
+        activeCategoryArray.splice(activeCategoryArray.indexOf(category), 1);
+      }
+
+      this.goToCategories(activeCategoryArray.join(','));
+    },
+
+    clearCategories() {
+      this.goToCategories(null);
+      this.setDaysAhead(1);
     }
   }
 });

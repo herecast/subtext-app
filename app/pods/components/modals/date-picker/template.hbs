@@ -1,6 +1,7 @@
 {{#modal-wrapper
   close=(action 'close')
   showHeader=false
+  isAnimated=false
   data-test-modal='datepicker'
   class="Modals-datePicker" }}
   <div class='Modals-datePicker-header'>
@@ -14,6 +15,5 @@
 
   <div class='Modals-datePicker-footer u-layoutPadT10'>
     <button class='btn Modals-datePicker-cancelButton' {{action 'close'}}>cancel</button>
-    <button class='btn Modals-datePicker-okButton pull-right' {{action 'returnSelectedDate'}}>Jump to Date {{fa-icon 'arrow-right'}}</button>
   </div>
 {{/modal-wrapper}}

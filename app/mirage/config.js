@@ -471,6 +471,14 @@ export default function() {
     return {};
   });
 
+  this.get('/event_categories', function() {
+    return {'event_categories':[
+        {'name':'Category1', 'slug':'Category1'},
+        {'name':'Category2', 'slug':'Category2'},
+        {'name':'Category3', 'slug':'Category3'}
+      ]};
+  });
+
   // Used by the event creation page to find venues
   this.get('/venues', function({ db }, request) {
     let venues = [];

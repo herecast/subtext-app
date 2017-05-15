@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
+import moment from 'moment';
 
 const {
   computed,
@@ -44,6 +45,10 @@ export default DS.Model.extend(BaseEvent, {
     if(get(this, 'isValid')) {
       return get(this, 'startsAt').format('h:mmA');
     }
+  }),
+
+  startsAtUnix: Ember.computed('startsAt', function() {
+    return moment(get(this, 'startsAt')).unix();
   }),
 
   endsAtHour: Ember.computed('endsAt', function() {

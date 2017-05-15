@@ -33,13 +33,17 @@
     border: 1px solid #000000;
   }
 
-  // really the .Modal-dialog element but child selector used
+  // really the .Modal-inner element but child selector used
   // here to avoid mixing component namespaces
   > div {
-    background: @gray-light;
+    background: none;
+    margin: 0 auto;
     max-width: 330px;
     width: 100%;
     margin-top: 70px;
-    padding: 20px;
+    position: relative;
+    > div {
+      padding-bottom: 10px;
+    }
   }
 }

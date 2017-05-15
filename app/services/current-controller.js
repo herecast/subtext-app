@@ -9,6 +9,7 @@ const {
 
 export default Ember.Service.extend({
   showHeader: null,
+  urlSequence: 0,
 
   init() {
     this._super(...arguments);

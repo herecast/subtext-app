@@ -1,0 +1,108 @@
+.EventsResults {
+  padding-top: 65px;
+
+  .AdBanner-wrapper {
+    height: 360px;
+    oveflow: hidden;
+  }
+
+  @media (max-width: 350px) {
+    .AdBanner-wrapper {
+      height: 300px;
+    }
+  }
+
+  &-no-results {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  &.is-filtered {
+    padding-top: 105px;
+  }
+
+  &-nav-bar {
+    width: 100%;
+    height: 25px;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+  &-day-wrap {
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  &-current-day {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &-nav-day {
+    cursor: pointer;
+    &.left {
+      margin-left: 4px;
+      float: left;
+    }
+    &.right {
+      margin-right: 4px;
+      float: right;
+    }
+    i {
+      font-size: 10px;
+    }
+  }
+
+  &-results-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+
+  &-calendar-button {
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  &-results-guide {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    &:not(:last-child) {
+      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+      padding-bottom: 6px;
+    }
+  }
+
+  &-through-indicator {
+    text-align: center;
+    padding-bottom: 4px;
+  }
+
+  &-add-day-button {
+    text-align: center;
+    padding: 10px 0;
+
+    span.load-button {
+      cursor: pointer;
+      padding: 8px;
+      font-family: @font-family-condensed;
+      font-weight: bold;
+      font-size: 18px;
+      background: @event-brand;
+      text-transform: uppercase;
+      color: #fff;
+      &.loading {
+        background: grey;
+        cursor: wait;
+      }
+    }
+  }
+
+  &-group-is-loading {
+    margin-top: 20px;
+    text-align: center;
+  }
+}

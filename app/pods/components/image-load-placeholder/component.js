@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
 
     const isFastBoot = get(this, 'fastboot.isFastBoot');
-    
+
     if(!isFastBoot) {
       const placeholderUrl = get(this,'placeholderUrl');
       const imageUrl = get(this, 'imageUrl');
@@ -66,7 +66,7 @@ export default Ember.Component.extend({
 
   blockStyle: computed('placeholderBlockWidth', 'placeholderBlockHeight', 'imageIsLoaded', 'blurIsLoaded', function() {
     if (get(this, 'imageIsLoaded') || get(this, 'blurIsLoaded')) {
-      return '';
+      return Ember.String.htmlSafe("");
     }
 
     const placeholderBlockWidth = parseInt(get(this, 'placeholderBlockWidth'));
@@ -76,6 +76,6 @@ export default Ember.Component.extend({
     const aspectRatio = 100 * placeholderBlockHeight / placeholderBlockWidth;
     const padding = get(this, 'placeholderBlockFixedSize') ? '' : `padding-bottom:${aspectRatio}%`;
 
-    return `${max}height:${placeholderBlockHeight}px;${max}width:${placeholderBlockWidth}px;${padding}`;
+    return Ember.String.htmlSafe(`${max}height:${placeholderBlockHeight}px;${max}width:${placeholderBlockWidth}px;${padding}`);
   })
 });

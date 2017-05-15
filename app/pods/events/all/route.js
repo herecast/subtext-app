@@ -1,35 +1,61 @@
 import Ember from 'ember';
-import PaginatedFilter from '../../../mixins/routes/paginated-filter';
 import History from '../../../mixins/routes/history';
-import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 import RouteNameAdContext from 'subtext-ui/mixins/routes/route-name-ad-context';
 
-const { set } = Ember;
+const {set, get, isEmpty} = Ember;
 
-export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, RouteNameAdContext, {
+export default Ember.Route.extend(History, RouteNameAdContext, {
+  queryParams: {
+    query: {
+      refreshModel: true
+    },
+    category: {
+      refreshModel: true
+    },
+    location: {
+      refreshModel: true
+    },
+    organization: {
+      refreshModel: true
+    },
+    date_start: {
+      refreshModel: true
+    },
+    days_ahead: {
+      refreshModel: true
+    }
+  },
+
+  fillAWeek: false,
+
   model(params) {
     return this.store.query('event-instance', {
       category: params.category,
       query: params.query,
       date_start: params.date_start,
-      date_end: params.date_end,
-      location: params.location,
-      page: params.page,
-      per_page: params.per_page
+      days_ahead: params.days_ahead,
+      location: params.location
     });
   },
 
-  setupController(controller, model) {
-    this._super(controller, model);
+  afterModel(model, transition) {
+    const isFirstVisitedPageThisSession = transition.sequence === 0;
+    const hasCategoryInQuery = !isEmpty(transition.queryParams.category);
+    const doesNotHaveDaysAhead = isEmpty(transition.queryParams.days_ahead);
 
-    set(controller, 'total', model.meta.total);
+    if (isFirstVisitedPageThisSession && hasCategoryInQuery && doesNotHaveDaysAhead) {
+      set(this, 'fillAWeek', true);
+    }
+  },
 
-    // Set the query params on the parent events controller so that it's
-    // available in the filter on the index and show pages.
-    const filterParams = controller.getProperties(
-      'category', 'query', 'startDate', 'stopDate', 'location'
-    );
+  setupController(controller) {
+    this._super(...arguments);
 
-    this.setupFilter('events/all', filterParams);
+    if (get(this, 'fillAWeek')) {
+      Ember.run.next(()=>{
+        controller.setDaysAhead(7);
+        set(this, 'fillAWeek', false);
+      });
+    }
   }
 });

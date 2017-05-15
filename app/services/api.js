@@ -352,6 +352,10 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(`/promotions${qstring}`);
   },
 
+  getEventCategories() {
+    return this.getJson('/event_categories');
+  },
+
   getListServs() {
     return this.getJson("/listservs");
   },
