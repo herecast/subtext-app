@@ -101,5 +101,8 @@
   "fastbootDependencies": [
     "process",
     "newrelic"
-  ]
+  ],
+  "dependencies": {
+    "express-healthcheck": "^0.1.0"
+  }
 }

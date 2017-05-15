@@ -64,6 +64,7 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
 }
 
 let server = new FastBootAppServer({
+  beforeMiddleware: function (app) { app.use('/healthcheck', require('express-healthcheck')()); },
   distPath: 'dist',
   gzip: false,
   workerCount: process.env.EXPRESS_WORKER_COUNT || 1
