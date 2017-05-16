@@ -5,7 +5,6 @@ const {
   computed,
   get,
   set,
-  isPresent,
   isBlank
 } = Ember;
 
@@ -64,11 +63,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
    *    -- then, iterate over `newsListRemainingItems` to display rest of cards
    * - If large card not present AND no ad is present, should list all cards
    */
-  newsListRemainingItems: computed('newsList.@each.id', 'model.profileAdOverride.id', function() {
-    const profileAdOverrideId = get(this, 'model.profileAdOverride.id');
+  newsListRemainingItems: computed('newsList.@each.id', function() {
     const newsList = get(this, 'newsList');
 
-    return isPresent(profileAdOverrideId) ? newsList.slice(1) : newsList;
+    return newsList.slice(1);
   }),
 
   headerStyle: computed('model.backgroundImageUrl', function() {

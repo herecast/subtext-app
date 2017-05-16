@@ -123,6 +123,7 @@ export default Ember.Component.extend(InViewportMixin, {
     const adContextName = get(this, 'adContextName');
     const content = get(this, 'contentModel');
     const ads = get(this, 'ads');
+    const promotionId = get(this, 'overrideId');
 
     let contentId;
 
@@ -130,7 +131,7 @@ export default Ember.Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
-    return ads.getAd(adContextName, contentId).then(promotion => {
+    return ads.getAd(adContextName, contentId, promotionId).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
           promotion: Ember.Object.create(promotion),

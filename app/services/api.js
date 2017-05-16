@@ -345,6 +345,7 @@ export default Ember.Service.extend(FastbootExtensions, {
     const opts = options || {};
     const query = {
       content_id: opts['content_id'],
+      promotion_id: opts['promotion_id'],
       exclude: opts['exclude'],
       limit: opts['limit'] || 5
     };

@@ -22,7 +22,7 @@ export default DS.Model.extend({
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
   canEdit: DS.attr('boolean'),
-  profileAdOverride: DS.belongsTo('promotion', { async: true }),
+  profileAdOverride: DS.attr('number'),
 
   // Temporary for dashboard edit button
   businessProfileId: DS.attr(),

@@ -56,21 +56,22 @@
           </div>
         {{/if}}
 
-        {{#if model.profileAdOverride}}
-          <div class="row">
-            <div class="col-sm-6">
-              {{news-card
-              item=newsList.firstObject
-              variant='vertical'
-              class="OrganizationProfile-newsCard"
-              routeName='organization-profile.news-item'
-              }}
-            </div>
-            <div class="col-sm-6">
-              {{ad-banner promotion=model.profileAdOverride impressionPath='organization-profile.index' class="OrganizationProfile-adBanner"}}
-            </div>
+        <div class="row">
+          <div class="col-sm-6">
+            {{news-card
+            item=newsList.firstObject
+            variant='vertical'
+            class="OrganizationProfile-newsCard"
+            routeName='organization-profile.news-item'
+            }}
           </div>
-        {{/if}}
+          <div class="col-sm-6">
+            {{ad-banner
+              overrideId=model.profileAdOverride
+              impressionPath='organization-profile.index'
+              class="OrganizationProfile-adBanner"}}
+          </div>
+        </div>
 
         <div class="row">
           {{#each newsListRemainingItems as |item|}}

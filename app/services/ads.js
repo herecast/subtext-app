@@ -14,6 +14,7 @@ function AdContext() {
   this.queue = [];
   this.promises = [];
   this.contentId = null;
+  this.promotionId = null;
   this.isProcessing = false;
 
   // Lock this context, and copy the queue to the promises property so the 
@@ -69,12 +70,14 @@ export default Ember.Service.extend({
     return ctx;
   },
 
-  getAd(contextName, contentId) {
+  getAd(contextName, contentId, promotionId) {
     const ctx = this._getContext(contextName);
 
     if(!ctx.contentId) {
       ctx.contentId = contentId;
     }
+
+    ctx.promotionId = promotionId;
 
     const defer = Ember.RSVP.defer();
     ctx.queue.push(defer);
@@ -125,6 +128,7 @@ export default Ember.Service.extend({
 
       api.getContentPromotions({
         content_id: ctx.contentId,
+        promotion_id: ctx.promotionId,
         exclude: loadedIds,
         limit: ctx.promises.length
 
