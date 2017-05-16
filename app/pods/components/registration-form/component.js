@@ -60,7 +60,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
       store.findRecord('listserv', get(digest, 'id')).then(function(listserv) {
         const properties = {
           name: get(digest, 'name'),
-          listserv: listserv
+          listserv: listserv,
+          subscribedFromRegistration: true
         };
 
         store.createRecord('subscription', merge(baseProperties, properties)).save();

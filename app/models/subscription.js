@@ -7,5 +7,6 @@ export default DS.Model.extend({
   userId: DS.attr('number'),
   confirmedAt: DS.attr('moment-date'),
   createdAt: DS.attr('moment-date'),
-  unsubscribedAt: DS.attr('moment-date')
+  unsubscribedAt: DS.attr('moment-date'),
+  subscribedFromRegistration: DS.attr('boolean', { defaultValue: false })
 });
