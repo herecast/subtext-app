@@ -79,17 +79,6 @@ export default Ember.Component.extend(TestSelector, Validation, {
     }
   },
 
-  validateEventUrl() {
-    const url = this.get('event.eventUrl') || '';
-
-    if (this.hasValidUrl(url)) {
-      this.set('errors.eventUrl', null);
-      delete this.get('errors').eventUrl;
-    } else {
-      this.set('errors.eventUrl', 'Invalid URL');
-    }
-  },
-
   validateEventInstances() {
     const value = get(this, 'event.eventInstances');
 
@@ -107,7 +96,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     this.validateVenue();
     this.validateImage();
     this.validateContactEmail();
-    this.validateEventUrl();
+    this.hasValidUrl('eventUrl');
     this.validateEventInstances();
 
     if (get(this, 'registrationEnabled')) {

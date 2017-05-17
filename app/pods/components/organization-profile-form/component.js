@@ -20,6 +20,7 @@ export default Ember.Component.extend(Validation, {
     this.validateImage('logo');
     this.validateImage('profileImage');
     this.validateImage('backgroundImage');
+    this.hasValidUrl('subscribeUrl');
   },
 
   notifySaved() {
