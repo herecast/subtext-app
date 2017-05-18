@@ -21,6 +21,9 @@ module.exports = function(defaults) {
     },
     'ember-cli-pickadate': {
       theme: 'classic'
+    },
+    'ember-test-selectors': {
+      strip: false
     }
   });
 

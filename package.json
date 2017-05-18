@@ -80,7 +80,7 @@
     "ember-simple-auth": "simplabs/ember-simple-auth#2078be3336dcc64b7067d922233518e99e172de3",
     "ember-sinon": "^0.3.0",
     "ember-source": "~2.11.0",
-    "ember-test-selectors": "0.2.1",
+    "ember-test-selectors": "0.3.3",
     "ember-truth-helpers": "1.3.0",
     "ember-validators": "1.0.1",
     "emberx-select": "3.0.0",
