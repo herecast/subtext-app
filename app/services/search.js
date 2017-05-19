@@ -27,7 +27,8 @@ const defaultSearchParams = {
   searchOrganization: 'Everyone',
 
   // Params used by Events search category
-  searchCategory: null
+  searchCategory: null,
+  searchDaysAhead: 365
 };
 
 export default Ember.Service.extend(defaultSearchParams, {
@@ -105,6 +106,7 @@ export default Ember.Service.extend(defaultSearchParams, {
     'searchPerPage',
     'searchDateStart',
     'searchDateEnd',
+    'searchDaysAhead',
     'searchCategory',
     'searchLocation',
     function() {
@@ -115,6 +117,7 @@ export default Ember.Service.extend(defaultSearchParams, {
           query: get(this, 'searchQuery'),
           date_start: get(this, 'searchDateStart'),
           date_end: get(this, 'searchDateEnd'),
+          days_ahead: get(this, 'searchDaysAhead'),
           location: get(this, 'searchLocation'),
           page: get(this, 'searchPage'),
           per_page: get(this, 'searchPerPage')
