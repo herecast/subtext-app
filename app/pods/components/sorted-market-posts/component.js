@@ -5,8 +5,7 @@ const { get, computed } = Ember;
 export default Ember.Component.extend({
   marketPosts: [],
 
-  marketPostsSort: ['publishedAt:desc'],
-  sortedPosts: computed.sort('marketPosts', 'marketPostsSort'),
+  sortedPosts: computed.alias('marketPosts'),
 
   actions: {
     trackCardClick() {
