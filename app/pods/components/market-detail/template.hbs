@@ -27,7 +27,7 @@
 <div class="DetailPage-headerContainer">
   {{#if showThumbnails}}
     <div class="DetailPage-headerSection">
-      {{#each model.images as |image|}}
+      {{#each sortedImages as |image|}}
         <img src="{{optimized-image-url image.imageUrl 200 60 false}}" {{action 'chooseImage' image.imageUrl}} class="DetailPage-thumbnail"/>
       {{/each}}
     </div>

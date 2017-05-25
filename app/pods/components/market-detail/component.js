@@ -24,6 +24,9 @@ export default Ember.Component.extend(ModelResetScroll, {
     return get(this, 'model.images.length') > 1;
   }),
 
+  thumbSortDefinition: ['primary:desc'],
+  sortedImages: computed.sort('model.images.[]', 'thumbSortDefinition'),
+
   resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));
   },
