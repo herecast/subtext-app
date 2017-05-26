@@ -1,96 +1,63 @@
 <div class='MarketReplyForm-content'>
-  <div class='MarketReplyForm-header clearfix'>
-    <h2 class='DetailPage-sectionTitle h3 u-layoutPadT0 pull-left'>Reply to Poster</h2>
-
-    {{#liquid-unless hideForm}}
-      <button {{action (action 'cancel')}} class='pull-right u-noAppearance'>cancel {{fa-icon 'close'}}</button>
-    {{/liquid-unless}}
-  </div>
-
   {{#liquid-spacer}}
     {{#if hideForm}}
-      {{#each cannedReplies as |cannedReply|}}
-        <button {{action (action 'showForm' cannedReply)}} class='Button btn btn-default MarketReplyForm-replyButton {{if cannedReply.isPreferredOption "MarketReplyForm-replyButton--primary"}}'>
-          <span {{action (action clickReplyButton cannedReply)}}>
-            {{cannedReply.label}}
-          </span>
-        </button>
-      {{/each}}
+      <button {{action (action 'showForm')}}
+        class='Button btn btn-default MarketReplyForm-replyButton MarketReplyForm-replyButton--primary MarketReplyForm-replyButton--centered'>
+        <span {{action (action clickReplyButton)}}>
+          Reply to Poster
+        </span>
+      </button>
 
     {{else}}
+      <button {{action (action 'cancel')}} class='pull-right u-noAppearance'>cancel {{fa-icon 'close'}}</button>
 
-      {{#liquid-unless lastStage use='fade'}}
-        {{#form-group error=errors.email}}
-          <label class='control-label ContentForm-label--required' for="email">Email</label>
+      <div class='u-flexRow'>
+        <div>
+          <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Poster's email</span><br>
+          <a target="_blank"
+            href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
+            class='u-link u-bold market-reply-default-email-click'
+            >
+             {{post.contactEmail}}
+          </a><br>
 
-          {{input
-            id='email'
-            class='form-control'
-            placeholder='Enter your email...'
-            value=(mut email)
-            input=(action 'revalidateForm')
-            data-test-field='email'
-          }}
-        {{/form-group}}
-
-        {{#form-group error=errors.name}}
-          <label class='control-label ContentForm-label--required' for="email">Name</label>
-
-          {{input
-            id='name'
-            class='form-control'
-            placeholder='Enter your name...'
-            value=(mut name)
-            input=(action 'revalidateForm')
-            data-test-field='name'
-          }}
-        {{/form-group}}
-
-        {{#form-group error=errors.message}}
-          <label class='control-label ContentForm-label--required' for="message">{{selectedCannedReply.fieldLabelText}}</label>
-
-          {{textarea
-            id='message'
-            class='form-control'
-            placeholder=(readonly selectedCannedReply.placeholderText)
-            value=(mut message)
-            input=(action 'revalidateForm')
-            data-test-field='message'
-          }}
-        {{/form-group}}
-
-        <button {{action (action 'submit')}} class='Button btn btn-default MarketReplyForm-replyButton'>Send reply</button>
-        <p class='ContentForm-helpText'>Not registered? No problem! Hit Send Reply, and we’ll automatically create your free account on dailyUV too!</p>
-
-      {{else}}
-        <b class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</b><br><br>
-
-        <a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
-          <span class='MarketReplyForm-webmailLinkButton gmail'>
-            Google
-          </span>
-        </a>
-
-        <a target="_blank" href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
-          <span class='MarketReplyForm-webmailLinkButton outlook'>
-            Outlook
-          </span>
-        </a>
-
-        <a target="_blank" href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}" class='MarketReplyForm-webmailLinkButton-wrapper Button btn btn-default'>
-          <span class='MarketReplyForm-webmailLinkButton yahoo'>
-            Yahoo
-          </span>
-        </a>
-
-        <a target="_blank" href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}' class='Button btn btn-default market-reply-default-email-click'>
-           Default email software
-        </a>
-
-        <div class='alert alert-info text-center u-layoutPadT20' role='alert'>
-          <p class='h3 u-layoutPadT0'>If you don’t already have a free account on dailyUV, we’ll set you up. Look for an email in the next day with password information and tips on how the site can work for you. <b>Thanks for using dailyUV!</b></p>
+          {{#if model.contactPhone}}
+            <span class='h3 u-layoutPadB20 u-layoutPadT10'>Phone</span><br>
+            {{model.contactPhone}}<br>
+          {{/if}}
         </div>
-      {{/liquid-unless}}
+
+        <div class='MarketReplyForm-webmailLinksWrapper'>
+          <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</span><br>
+
+          <a target="_blank"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
+            class='MarketReplyForm-webmailLinkButton-wrapper'
+            >
+            <span class='u-link u-bold MarketReplyForm-webmailLinkButton gmail'>
+              Google
+            </span>
+          </a>
+
+          <a target="_blank"
+            href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose"
+            class='MarketReplyForm-webmailLinkButton-wrapper'
+            >
+            <span class='u-link u-bold MarketReplyForm-webmailLinkButton outlook'>
+              Outlook
+            </span>
+          </a>
+
+          <a target="_blank"
+            href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
+            class='MarketReplyForm-webmailLinkButton-wrapper'
+            >
+            <span class='u-link u-bold MarketReplyForm-webmailLinkButton yahoo'>
+              Yahoo
+            </span>
+          </a>
+        </div>
+      </div>
     {{/if}}
   {{/liquid-spacer}}
 </div>

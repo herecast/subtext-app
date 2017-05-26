@@ -41,23 +41,23 @@
     {{/if}}
   </div>
 
-    <div>
-      {{#unless model.sold}}
-        {{market-reply-form
-          post=(readonly model)
-          clickReplyButton=(action 'clickReplyButton')
-        }}
-      {{/unless}}
+  <div>
+    {{#unless model.sold}}
+      {{market-reply-form
+        post=(readonly model)
+        clickReplyButton=(action 'clickReplyButton')
+      }}
+    {{/unless}}
 
-      {{#if model.canEdit}}
-        <div class="DetailPage-headerNavItem text-center">
-          {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
-            {{fa-icon 'pencil'}} Edit Listing
-          {{/link-to}}
-        </div>
-      {{/if}}
-    </div>
+    {{#if model.canEdit}}
+      <div class="DetailPage-headerNavItem text-center">
+        {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
+          {{fa-icon 'pencil'}} Edit Listing
+        {{/link-to}}
+      </div>
+    {{/if}}
   </div>
+</div>
 
 {{#unless isPreview}}
   {{report-content-details
@@ -67,15 +67,13 @@
 
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section DetailPage-content">
-    {{#if model.price}}Price: {{model.price}}{{/if}}
-
-    {{#if isPreview}}
-      <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
-    {{else}}
-      {{#expandable-content customLessLabel='Read Less' customMoreLabel='Continue Reading'}}
-        <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
-      {{/expandable-content}}
+    {{#if model.price}}
+      <span class='h3 u-bold'>
+        Price: {{model.price}}
+      </span>
     {{/if}}
+
+    <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
   </div>
 </div>
 

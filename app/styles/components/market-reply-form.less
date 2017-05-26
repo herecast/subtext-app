@@ -24,10 +24,28 @@
     &--primary {
       background-color: @market-brand !important;
     }
+
+    &--centered {
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
+  &-webmailLinksWrapper {
+    margin-left: 20px;
   }
 
   &-webmailLinkButton {
     margin-left: 10px;
+
+    &-wrapper {
+      position: relative;
+      display: block;
+      padding: 3px;
+      border-radius: 3px;
+      margin-bottom: 3px;
+      padding-left: 32px;
+    }
 
     @media (max-width: @screen-xs-max) {
       margin-left: 0;
@@ -40,35 +58,28 @@
       background: url(/images/webmail-icons.png);
       background-size: cover;
       content: "";
-      height: 36px;
-      width: 42px;
-      float: left;
+      height: 29px;
+      width: 32px;
+      position: absolute;
+      left: 0;
     }
 
     &.gmail {
       &:after {
-        background-position: 0 -5px;
+        background-position: 0 0;
       }
     }
 
     &.outlook {
       &:after {
-        background-position: 0 -42px;
+        background-position: 0 -33px;
       }
     }
 
     &.yahoo {
       &:after {
-        background-position: 0 -88px;
+        background-position: 0 -66px;
       }
-    }
-
-    &-wrapper {
-      display: inline-block;
-      padding: 3px;
-      background: white;
-      border-radius: 3px;
-      margin-bottom: 3px;
     }
   }
 }

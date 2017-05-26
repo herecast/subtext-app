@@ -10,7 +10,7 @@ moduleForComponent('market-detail', 'Integration | Component | market detail', {
 });
 
 test('it renders', function(assert) {
-  this.set('model', {});
+  this.set('model', { loadContactInfo() {} });
   this.set('scrollToMock', () => {});
 
   this.render(hbs`

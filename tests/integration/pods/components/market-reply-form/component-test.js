@@ -7,6 +7,8 @@ moduleForComponent('market-reply-form', 'Integration | Component | market reply 
 
 test('it renders', function(assert) {
   this.set('clickReplyButton', () => {});
+  this.set('model', { loadContactInfo() {} });
+
 
   this.render(hbs`
     {{market-reply-form

@@ -67,15 +67,14 @@ export default Ember.Component.extend(ModelResetScroll, {
       set(this, 'activeImage', imageUrl);
     },
 
-    clickReplyButton(selectedCannedReply) {
+    clickReplyButton() {
       get(this, 'model').loadContactInfo();
 
       get(this, 'intercom').trackEvent('market-reply-click');
 
       if (typeof dataLayer !== "undefined") {
         dataLayer.push({
-          'event': 'market-reply-click',
-          'chosen-reply': get(selectedCannedReply, 'label')
+          'event': 'market-reply-click'
         });
       }
     }
