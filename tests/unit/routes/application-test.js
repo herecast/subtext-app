@@ -8,6 +8,7 @@ moduleFor('route:application', {
   // needs: ['controller:foo']
   needs: [
     'service:session',
+    'service:cookies',
     'service:api',
     'service:user',
     'service:fastboot',

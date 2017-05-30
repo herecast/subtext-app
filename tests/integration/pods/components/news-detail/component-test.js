@@ -3,8 +3,6 @@ import startMirage from 'subtext-ui/tests/helpers/setup-mirage';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { get } = Ember;
-
 const promotionStub = Ember.Service.extend({
   find() {
     return { then() {} };
@@ -49,9 +47,9 @@ test('Tracking impressions', function(assert) {
   let impressions = [];
 
   this.api.reopen({
-    recordNewsImpression(news) {
-      impressions.push(get(news,'id'));
-      this._super(news);
+    recordContentImpression(id) {
+      impressions.push(id);
+      this._super(id);
     }
   });
 
@@ -68,7 +66,7 @@ test('Tracking impressions', function(assert) {
 
     assert.ok(
       impressions.indexOf(1) > -1,
-      'After render, api receives trackNewsImpression');
+      'After render, api receives trackContentImpression');
 
     this.set('news', {id: 2});
     assert.ok(

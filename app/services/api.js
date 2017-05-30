@@ -345,6 +345,7 @@ export default Ember.Service.extend(FastbootExtensions, {
     const opts = options || {};
     const query = {
       content_id: opts['content_id'],
+      client_id: opts['client_id'],
       promotion_id: opts['promotion_id'],
       exclude: opts['exclude'],
       limit: opts['limit'] || 5
@@ -504,15 +505,16 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  recordNewsImpression(news) {
-    return returnJson(
-      this.post(`/news/${get(news, 'id')}/impressions`)
-    );
-  },
+  recordContentImpression(id) {
+    const session = get(this, 'session');
+    const data = {
+      client_id: session.getClientId() || null
+    };
 
-  recordEventImpression(id) {
     return returnJson(
-      this.post(`/events/${id}/impressions`)
+      this.post(`/metrics/contents/${id}/impressions`,
+        this.json(data)
+      )
     );
   },
 

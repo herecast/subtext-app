@@ -467,10 +467,6 @@ export default function() {
 
   this.del('/events/:id');
 
-  this.post('events/:id/impressions', function(){
-    return {};
-  });
-
   this.get('/event_categories', function() {
     return {'event_categories':[
         {'name':'Category1', 'slug':'Category1'},
@@ -707,7 +703,7 @@ export default function() {
     return { news: news };
   });
 
-  this.post('news/:id/impressions', function(){
+  this.post('metrics/contents/:id/impressions', function(){
     return {};
   });
 

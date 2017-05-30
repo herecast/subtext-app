@@ -48,6 +48,9 @@ moduleFor('service:api', 'Unit | Service | api', {
     this.server = startMirage();
     this.session = Ember.Object.create({
       isAuthenticated: true,
+      getClientId() {
+        return 'clientid';
+      },
       authorize(name, callback) {
         callback('Authorization', 'Token token=1234');
       }
@@ -1366,50 +1369,27 @@ test('recordPromoBannerImpression(id, data)', function(assert) {
   });
 });
 
-test('recordNewsImpression(id)', function(assert) {
+test('recordContentImpression(id)', function(assert) {
 
   const subject = this.subject({session: this.session});
   const id = 7;
   const news = Ember.Object.create({id: id});
   const done = assert.async();
 
-  server.post('/news/:id/impressions', (schema, request) => {
+  server.post('/metrics/contents/:id/impressions', (schema, request) => {
     expect.consumerAppHeader(assert, request);
     expect.authorizationHeader(assert, request);
     expect.acceptHeader(assert, request, 'application/json');
 
     assert.equal(
       request.params.id, id,
-      "POST /news/:id/impressions with expected id");
+      "POST /metrics/contents/:id/impressions with expected id");
 
     done();
     return {};
   });
 
-  subject.recordNewsImpression(news);
-});
-
-test('recordEventImpression(id)', function(assert) {
-
-  const subject = this.subject({session: this.session});
-  const id = 14;
-  const done = assert.async();
-
-  server.post('/events/:id/impressions', (schema, request) => {
-    expect.consumerAppHeader(assert, request);
-    expect.authorizationHeader(assert, request);
-    expect.acceptHeader(assert, request, 'application/json');
-
-    assert.equal(
-      request.params.id, id,
-      "POST /events/:id/impressions with expected id"
-    );
-
-    done();
-    return {};
-  });
-
-  subject.recordEventImpression(id);
+  subject.recordContentImpression(news.id);
 });
 
 test('reportAbuse(content_id, flagType)', function(assert) {

@@ -17,7 +17,7 @@ function AdContext() {
   this.promotionId = null;
   this.isProcessing = false;
 
-  // Lock this context, and copy the queue to the promises property so the 
+  // Lock this context, and copy the queue to the promises property so the
   // queue can continue to be added to for the next cycle.
   this.startProcessing = function() {
     this.promises = this.queue;
@@ -70,14 +70,18 @@ export default Ember.Service.extend({
     return ctx;
   },
 
-  getAd(contextName, contentId, promotionId) {
+  getAd(contextName, opts = {}) {
     const ctx = this._getContext(contextName);
 
     if(!ctx.contentId) {
-      ctx.contentId = contentId;
+      ctx.contentId = opts['contentId'];
     }
 
-    ctx.promotionId = promotionId;
+    if(!ctx.clientId) {
+      ctx.clientId = opts['clientId'];
+    }
+
+    ctx.promotionId = opts['promotionId'];
 
     const defer = Ember.RSVP.defer();
     ctx.queue.push(defer);
@@ -128,6 +132,7 @@ export default Ember.Service.extend({
 
       api.getContentPromotions({
         content_id: ctx.contentId,
+        client_id: ctx.clientId,
         promotion_id: ctx.promotionId,
         exclude: loadedIds,
         limit: ctx.promises.length

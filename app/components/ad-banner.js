@@ -16,6 +16,7 @@ const {
 export default Ember.Component.extend(InViewportMixin, {
   api: inject.service(),
   ads: inject.service(),
+  session: inject.service(),
   currentService: inject.service('currentController'),
   promotion: null,
   impressionPath: null,
@@ -103,9 +104,11 @@ export default Ember.Component.extend(InViewportMixin, {
       const contentId = get(this, 'contentModel.id');
       const api = get(this, 'api');
       const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
+      const clientId = get(this, 'session').getClientId();
 
       api.recordPromoBannerImpression(metrics_id, {
         content_id: contentId,
+        client_id: clientId,
         gtm_blocked: this._validateGTM(),
         page_url: get(this, 'currentService.currentUrl'),
         page_placement: get(this, 'pagePositionForAnalytics')
@@ -123,6 +126,7 @@ export default Ember.Component.extend(InViewportMixin, {
     const adContextName = get(this, 'adContextName');
     const content = get(this, 'contentModel');
     const ads = get(this, 'ads');
+    const clientId = get(this, 'session').getClientId();
     const promotionId = get(this, 'overrideId');
 
     let contentId;
@@ -131,7 +135,7 @@ export default Ember.Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
-    return ads.getAd(adContextName, contentId, promotionId).then(promotion => {
+    return ads.getAd(adContextName, {contentId, clientId, promotionId}).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
           promotion: Ember.Object.create(promotion),
@@ -200,9 +204,11 @@ export default Ember.Component.extend(InViewportMixin, {
       const promo = get(this, 'promotion');
       const api = get(this, 'api');
       const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
+      const clientId = get(this, 'session').getClientId();
 
       api.recordPromoBannerClick(metrics_id, {
-        content_id: (contentId) ? contentId : null
+        content_id: (contentId) ? contentId : null,
+        client_id: clientId
       });
 
       console.info(`[Click banner]: ${get(promo, 'id')}`);

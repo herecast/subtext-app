@@ -4,6 +4,7 @@ import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 
 const {
   get,
+  isPresent,
   inject
 } = Ember;
 
@@ -17,10 +18,10 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   api: inject.service(),
 
   _trackImpression() {
-    const id = get(this, 'model.id');
+    const id = get(this, 'model.contentId');
 
     if(!get(this, 'fastboot.isFastBoot')) {
-      get(this, 'api').recordEventImpression(
+      get(this, 'api').recordContentImpression(
         id
       );
     }
@@ -29,6 +30,19 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   didInsertElement() {
     this._super(...arguments);
     this._trackImpression();
+  },
+
+  didUpdateAttrs(changes) {
+    this._super(...arguments);
+
+    const newId = get(changes, 'newAttrs.model.value.id');
+    if(isPresent(newId)) {
+      const oldId = get(changes, 'oldAttrs.model.value.id');
+      if(newId !== oldId) {
+        // we have a different model now
+        this._trackImpression();
+      }
+    }
   },
 
   actions: {
