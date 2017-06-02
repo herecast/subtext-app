@@ -36,7 +36,7 @@ test('Tracking impressions', function(assert) {
     }
   });
 
-  this.set('market', {id: 1, contentId: 2});
+  this.set('market', {id: 1, contentId: 2, loadContactInfo(){}});
   this.set('scrollToMock', () => {});
 
   this.render(hbs`
