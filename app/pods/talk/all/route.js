@@ -2,15 +2,19 @@ import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const {
   get,
-  assign
+  assign,
+  inject,
+  RSVP: {Promise}
 } = Ember;
 
-export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
+export default Ember.Route.extend(Authorized, PaginatedFilter, History, MaintainScroll, {
+  session: inject.service(),
+
   model(params) {
-    // Bust cache if user signs in
     const currentUser = get(this, 'session.currentUser');
 
     if(currentUser) {
@@ -22,7 +26,7 @@ export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, {
         );
       });
     } else {
-      return this.getModel(params);
+      return Promise.resolve([]);
     }
   },
 

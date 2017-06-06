@@ -1,11 +1,12 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import { authenticateSession, invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
 
 moduleForAcceptance('Acceptance | talk/index', {
   beforeEach() {
-    authenticateSession(this.application);
+    this.user = authenticateUser(this.application, server);
   }
 });
 
@@ -16,21 +17,10 @@ test('visiting /talk/ while not logged in', function(assert) {
   visit('/talk/');
 
   andThen(function() {
-    assert.ok(
-      find(testSelector('message', 'talk-local-sign-in')).length > 0,
-      "Should see message to sign in in order to see local talk");
-  });
-});
-
-test('visiting /talk/ logged in', function(assert) {
-  assert.expect(1);
-
-  visit('/talk/');
-
-  andThen(function() {
-    assert.ok(
-      find(testSelector('message', 'talk-local-sign-in')).length === 0,
-      "Should not see message to sign in in order to see local talk");
+    assert.equal(
+      currentURL(),
+      '/sign_in',
+      "Should be redirected to sign in");
   });
 });
 
