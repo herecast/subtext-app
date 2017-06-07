@@ -4,10 +4,13 @@
       <div class='ChannelTopper clearfix'>
         <h1 class='h2 ChannelTopper-title visible-xs'>Local Talk</h1>
 
-        {{content-create-button
-          class='SectionNavigation-contentCreateButtonMobile pull-right'
-          path='talk.new.details'
-        }}
+        <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+          {{#link-to 'talk.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--talk' data-test-link='content-create-button'}}
+            <span class="visible-xs-inline visible-sm-inline">+</span>
+            <span class="hidden-xs hidden-sm">Create</span>
+            Talk
+          {{/link-to}}
+        </div>
 
         <div class="hidden-xs">
           {{partial 'partials/pagination-nav'}}

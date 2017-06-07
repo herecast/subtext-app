@@ -12,11 +12,15 @@
             </h1>
           </div>
 
-          {{content-create-button
-            class='SectionNavigation-contentCreateButtonMobile pull-right'
-            path='news.new'
-            canPublishNews=session.currentUser.canPublishNews
-          }}
+          {{#if session.currentUser.canPublishNews}}
+            <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+              {{#link-to 'news.new' class='Button SectionNavigation-contentCreateButton btn btn-default Button--news' data-test-link='content-create-button'}}
+                <span class="visible-xs-inline visible-sm-inline">+</span>
+                <span class="hidden-xs hidden-sm">Create</span>
+                News
+              {{/link-to}}
+            </div>
+          {{/if}}
         </div>
     </div>
   </div>

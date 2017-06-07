@@ -6,10 +6,13 @@
       <div class='ChannelTopper clearfix'>
         {{#link-to 'market.all.index' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg'}}Local Market{{/link-to}}
 
-        {{content-create-button
-        class='SectionNavigation-contentCreateButtonMobile pull-right'
-        path='market.new.details'
-        }}
+        <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+          {{#link-to 'market.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--market' data-test-link='content-create-button'}}
+            <span class="visible-xs-inline visible-sm-inline">+</span>
+            <span class="hidden-xs hidden-sm">Create</span>
+            Listing
+          {{/link-to}}
+        </div>
       </div>
     </div>
 
