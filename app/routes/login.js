@@ -31,7 +31,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
       const isAuthenticated = get(this, 'session.isAuthenticated');
       if(isAuthenticated) {
-        this.actions.transitionAfterAuthentication.bind(this)();
+        return this.actions.transitionAfterAuthentication.bind(this)();
       }
     }
 
@@ -58,11 +58,11 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
       if(redirectTarget) {
         // Lets go back to where they were tring to go in the first place
-        return this.transitionTo(redirectTarget).then(()=>{
+        return this.replaceWith(redirectTarget).then(()=>{
           cookies.clear('ember_simple_auth-redirectTarget');
         });
       } else {
-        this.transitionTo(Configuration.routeAfterAuthentication);
+        return this.transitionTo(Configuration.routeAfterAuthentication);
       }
     }
   }
