@@ -73,7 +73,7 @@ export default SessionService.extend({
     let clientId = get(this, 'clientId');
 
     if (isEmpty(clientId)) {
-      if (typeof ga === 'undefined') {
+      if ((typeof ga === 'undefined') || (typeof ga.getAll === 'undefined')) {
         const keyName = get(this, '_clientIdKey');
 
         clientId = localStorage.getItem(keyName) || null;
