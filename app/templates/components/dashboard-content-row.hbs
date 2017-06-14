@@ -42,15 +42,16 @@
     {{#link-to 'content-metrics.show' content.contentId class='btn btn-link h4'}}
       Metrics
     {{/link-to}}
-
-    {{#if isEditable}}
-      {{#link-to editRoute editId class='btn btn-link h4'}}
-        <span data-test-dashboard-content-edit-button>
-          Edit
-        </span>
-      {{/link-to}}
-    {{/if}}
   </span>
+
+  {{#if isEditable}}
+    {{#link-to editRoute editId class='btn btn-link h4'}}
+      <span data-test-dashboard-content-edit-button>
+        Edit
+      </span>
+    {{/link-to}}
+  {{/if}}
+
   {{#if isDeletable}}
     <a href='#' class='btn btn-link h4' {{action (action deleteContent content)}} data-test-action-delete>
       Delete
