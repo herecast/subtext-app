@@ -72,7 +72,7 @@ export default SessionService.extend({
   getClientId() {
     let clientId = get(this, 'clientId');
 
-    if (isEmpty(clientId)) {
+    if (!Ember.testing && isEmpty(clientId)) {
       if ((typeof ga === 'undefined') || (typeof ga.getAll === 'undefined')) {
         const keyName = get(this, '_clientIdKey');
 
