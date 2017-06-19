@@ -9,5 +9,5 @@ export default Mirage.Factory.extend({
   userImageUrl(i) {
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;
   },
-  pubdate() { return moment(faker.date.recent(10)).toISOString(); }
+  publishedAt() { return moment(faker.date.recent(10)).toISOString(); }
 });

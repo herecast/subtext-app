@@ -10,11 +10,11 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   userName: DS.attr('string'),
   userImageUrl: DS.attr('string'),
-  pubdate: DS.attr('moment-date'),
+  publishedAt: DS.attr('moment-date'),
 
-  formattedPostedAt: computed('pubdate', function() {
-    const pubdate = get(this, 'pubdate');
+  formattedPostedAt: computed('publishedAt', function() {
+    const publishedAt = get(this, 'publishedAt');
 
-    return isPresent(pubdate) ? pubdate.fromNow() : '';
+    return isPresent(publishedAt) ? publishedAt.fromNow() : '';
   })
 });
