@@ -30,6 +30,12 @@ export default Ember.Component.extend(TestSelector, {
 
   actions: {
     update(val) {
+      if (val === "") {
+        const clearSearchType = get(this, 'clearSearchType');
+        if (clearSearchType) {
+          clearSearchType();
+        }
+      }
       const debounceWait = get(this, 'debounceWait');
       run.debounce(this, this._updateAction, val,  debounceWait);
     }

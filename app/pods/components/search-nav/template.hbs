@@ -107,6 +107,7 @@
           inputType='text'
           placeholder=placeholder
           clearButtonText='Clear'
+          clearSearchType=(action "clearSearchType")
           }}
           {{#if canFilter}}
             <button {{action 'openFiltersMenu'}} class="SearchNav-showFiltersButton {{if search.hasFilter 'active'}}">
