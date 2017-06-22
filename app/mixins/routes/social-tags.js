@@ -154,6 +154,20 @@ export default Ember.Mixin.create({
           name: 'twitter:image',
           content: imageUrl
         }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          name: 'language',
+          content: 'English'
+        }
+      },
+      {
+        type: 'meta',
+        attrs: {
+          "http-equiv": 'content-language',
+          content: 'en'
+        }
       }
     ];
   },

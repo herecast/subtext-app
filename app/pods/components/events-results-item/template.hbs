@@ -1,6 +1,6 @@
 <div class="EventsResultsItem-image-box">
   {{#if event.imageUrl}}
-    {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event')}}
+    {{#link-to 'events.show' eventId}}
       <img src='{{optimized-image-url event.imageUrl 80 80 true}}'>
     {{/link-to}}
   {{/if}}
@@ -8,7 +8,7 @@
 
 <div class="EventsResultsItem-info-wrapper">
   <div class="EventsResultsItem-title">
-    {{#link-to (if routeName routeName 'events.all.show') eventId (query-params ctype='event')}}
+    {{#link-to 'events.show' eventId}}
       {{truncate-text text=title maxLength=60 tagName='span'}}
     {{/link-to}}
   </div>

@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('edit-content-link', 'Unit | Component | edit content link', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon'],
+  needs: ['component:fa-icon', 'service:history'],
   unit: true
 });
 

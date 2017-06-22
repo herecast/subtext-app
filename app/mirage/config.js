@@ -268,17 +268,19 @@ export default function() {
     if(contentType.indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
-      var attrs = putData['currentUser'];
+      var attrs = putData['current_user'];
       currentUser = currentUsers.find(id);
       currentUser.update(attrs);
     } else {
       currentUser = currentUsers.find(id);
     }
 
-    //mocks location join
-    var location = db.locations.find(currentUser.locationId);
-    var locationString = `${location.city}, ${location.state}`;
-    currentUser.location = locationString;
+    // Sync location string
+    if(currentUser.locationId) {
+      var location = db.locations.find(currentUser.locationId);
+      var locationString = `${location.city}, ${location.state}`;
+      currentUser.location = locationString;
+    }
 
     return currentUser;
   });
@@ -309,13 +311,16 @@ export default function() {
     return new Mirage.Response(200, {}, response);
   });
 
-   // Used in the user dashboard to find locations
-  this.get('/locations', function({ db }) {
-    return {
-      locations: db.locations
-    };
+  // Locations
+  this.get('/locations');
+
+  this.get('/locations/locate', function ({ locations }) {
+    return locations.first();
   });
 
+  this.get('/locations/:id', function ({ locations }, { params }) {
+    return locations.findBy({id: params.id});
+  });
 
   // Used by the event filter bar to find locations
   this.get('/venue_locations', function({ db }, request) {

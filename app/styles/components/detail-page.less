@@ -66,13 +66,15 @@
       font-weight: bold;
       text-transform: uppercase;
       padding: 0 20px;
+      border: none;
+      background: transparent;
 
       @media (max-width: @screen-xs-max) {
         padding: 0 10px;
       }
     }
 
-    &-closeButton {
+    &-closeButton, &-closeButton:hover {
       position: absolute;
       top: 0;
       width: 50px;
@@ -83,6 +85,7 @@
       background-color: @news-brand;
       font-size: 24px;
       line-height: 50px;
+      border: none;
     }
   }
 

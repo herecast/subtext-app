@@ -1,6 +1,6 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'news.all.show' item.id}}
+    {{#link-to 'news.show' item.id data-test-link='show'}}
       <span {{action 'trackSuggestedContentClick'}}>
         {{item.title}}
       </span>
@@ -15,7 +15,7 @@
         <div class="media-left">
           {{#if hasImage}}
             <div class='Card-imageContainer'>
-              {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
+              {{#link-to (if routeName routeName 'news.show') item.id data-test-link='show'}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
@@ -28,7 +28,7 @@
       <div class="media-body Card-body">
         <div class='Card-titleGroup'>
           <h2 class='Card-title' {{action 'onTitleClick'}}>
-            {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title}}
+            {{#link-to (if routeName routeName 'news.show') item.id data-test-link=item.title data-test-link='show'}}
               {{#if isNewsIndex}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   {{truncate-text text=item.title maxLength=30 tagName='span'}}
@@ -56,7 +56,7 @@
         <div class="media-right">
           {{#if hasImage}}
             <div class='Card-imageContainer'>
-              {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news')}}
+              {{#link-to (if routeName routeName 'news.show') item.id}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
@@ -71,7 +71,7 @@
 
     {{#if hasImage}}
       <div class='Card-imageContainer'>
-        {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') classNameBindings="isSimilarContent:SimilarContentLink"}}
+        {{#link-to (if routeName routeName 'news.show') item.id classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
           <span {{action 'trackSuggestedContentClick'}}>
             <div class='Card-image img-responsive' style="background-image: url('{{optimized-image-url item.imageUrl 236 177 true}}')"></div>
           </span>
@@ -82,7 +82,7 @@
     <div class='Card-content {{unless hasImage "no-image"}}'>
       <div class='Card-titleGroup'>
         <h2 class='Card-title h2 u-textThreeLineTruncate'>
-          {{#link-to (if routeName routeName 'news.all.show') item.id (query-params ctype='news') data-test-link=item.title }}
+          {{#link-to (if routeName routeName 'news.show') item.id data-test-link='show' }}
             <span {{action 'trackSuggestedContentClick'}}>
               {{item.title}}
             </span>
@@ -98,7 +98,7 @@
           <div>
             <div class='Card-meta-avatar'>
               {{#link-to 'organization-profile'
-                item.organization.slug
+                item.organization.id
                 class='Card-organization'
                 tagName='a'
                 data-test-link="organization-link"
@@ -115,7 +115,7 @@
               <span class='Card-organization'>
                 {{relativeDate}}<br />
                 {{#link-to 'organization-profile'
-                item.organization.slug
+                item.organization.id
                 class='Card-organization'
                 tagName='a'
                 data-test-link="organization-link"

@@ -13,7 +13,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   fastboot: inject.service(),
   api: inject.service(),
   tagName: 'main',
-  closeRoute: 'news.all',
+  closeRoute: 'news.index',
   closeLabel: 'News',
   isPreview: false,
 

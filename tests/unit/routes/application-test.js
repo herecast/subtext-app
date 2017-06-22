@@ -12,7 +12,9 @@ moduleFor('route:application', {
     'service:api',
     'service:user',
     'service:fastboot',
-    'service:intercom'
+    'service:intercom',
+    'service:user-location',
+    'service:history'
   ]
 });
 

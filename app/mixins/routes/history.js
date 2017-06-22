@@ -6,6 +6,7 @@ export default Ember.Mixin.create({
 
   actions: {
     didTransition: function() {
+      this._super(...arguments);
       const routeName = this.get('historyRouteName') || this.routeName;
       this.get('history').setRouteName(routeName);
       this.get('history').setRouteModel(this.get('historyRouteModel'));

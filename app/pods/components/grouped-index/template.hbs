@@ -1,43 +1,45 @@
 <h1 class='GroupHeader GroupHeader--news'>
-  {{#link-to 'news' class='GroupHeader-channelLink GroupHeader-channelLink--news h3'}}
+  {{#location-link 'news'
+    class='GroupHeader-channelLink GroupHeader-channelLink--news h3'
+    }}
     News &raquo;
-  {{/link-to}}
+  {{/location-link}}
 
-  {{#link-to 'news' class='GroupHeader-moreLink pull-right h5'}}
+  {{#location-link 'news' 
+    class='GroupHeader-moreLink pull-right h5'}}
     view all
-  {{/link-to}}
+  {{/location-link}}
 </h1>
 
 <div class='row' data-row='row-1'>
   {{grouped-news
     news=newsItems
-    routeName="index.show"
-    adPath="index.index"
+    adPath="index"
     showHeader=true
   }}
 </div>
 
 {{#if media.isMobile}}
-  {{ad-banner impressionPath='index.index'}}
+  {{ad-banner impressionPath='index'}}
 {{/if}}
 
 <div class='row' data-row='row-2'>
   <div class="{{if hasTalkItems 'col-sm-5' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--events'>
-      {{#link-to 'events' class='GroupHeader-channelLink GroupHeader-channelLink--events h3'}}
+      {{#location-link 'events' class='GroupHeader-channelLink GroupHeader-channelLink--events h3'}}
         Events &raquo;
-      {{/link-to}}
+      {{/location-link}}
 
-      {{#link-to 'events' class='GroupHeader-moreLink pull-right h5'}}
+      {{#location-link 'events' class='GroupHeader-moreLink pull-right h5'}}
         view all
-      {{/link-to}}
+      {{/location-link}}
     </h1>
 
     <div class='Card-groupedWrapper'>
       {{#each eventItems as |event|}}
         {{event-card
           event=event
-          routeName='index.show'
+          closeRoute="index"
           flipImagePosition=true
           classNames='Card Card--event'
         }}
@@ -51,7 +53,7 @@
 
           <div class='CardGroupCTA-cta'>
             {{#link-to 'events.new' class='Button Button--event CardGroupCTA-button' tagName='button'}}Create it now{{/link-to}}
-            {{#link-to 'events.all' class='CardGroupCTA-link'}}or browse local events{{/link-to}}
+            {{#location-link 'events' class='CardGroupCTA-link'}}or browse local events{{/location-link}}
           </div>
         </div>
       </div>
@@ -60,19 +62,19 @@
 
   <div class="{{if hasTalkItems 'col-sm-4' 'col-sm-6'}}">
     <h1 class='GroupHeader GroupHeader--market'>
-      {{#link-to 'market' class='GroupHeader-channelLink GroupHeader-channelLink--market h3'}}
+      {{#location-link 'market' class='GroupHeader-channelLink GroupHeader-channelLink--market h3'}}
         Market &raquo;
-      {{/link-to}}
+      {{/location-link}}
 
-      {{#link-to 'market' class='GroupHeader-moreLink pull-right h5'}}
+      {{#location-link 'market' class='GroupHeader-moreLink pull-right h5'}}
         view all
-      {{/link-to}}
+      {{/location-link}}
     </h1>
 
     {{#each marketItems as |post|}}
       {{market-card
         classNames='Card Card--market'
-        routeName='index.show'
+        closeRoute="index"
         alignImageRightOnMobile=true
         post=post
       }}
@@ -86,32 +88,32 @@
 
         <div class='CardGroupCTA-cta'>
           {{#link-to 'market.new' class='Button Button--market CardGroupCTA-button' tagName='button'}}Sell it now{{/link-to}}
-          {{#link-to 'market.all' class='CardGroupCTA-link'}}or browse the market{{/link-to}}
+          {{#location-link 'market' class='CardGroupCTA-link'}}or browse the market{{/location-link}}
         </div>
       </div>
     </div>
   </div>
 
   {{#if media.isMobile}}
-    {{ad-banner impressionPath='index.index'}}
+    {{ad-banner impressionPath='location.index'}}
   {{/if}}
 
   {{#if hasTalkItems}}
   <div class='col-sm-3'>
     <h1 class='GroupHeader GroupHeader--talk'>
-      {{#link-to 'talk' class='GroupHeader-channelLink GroupHeader-channelLink--talk h3'}}
+      {{#location-link 'talk' class='GroupHeader-channelLink GroupHeader-channelLink--talk h3'}}
         Talk &raquo;
-      {{/link-to}}
+      {{/location-link}}
 
-      {{#link-to 'talk' class='GroupHeader-moreLink pull-right h5'}}
+      {{#location-link 'talk' class='GroupHeader-moreLink pull-right h5'}}
         view all
-      {{/link-to}}
+      {{/location-link}}
     </h1>
 
     {{#each sortedTalkItems as |talk|}}
       {{talk-card
         talk=talk
-        routeName='index.show'
+        closeRoute="index"
         outdentAvatar=false
         class='Card Card--talk'
       }}
@@ -125,7 +127,7 @@
 
         <div class='CardGroupCTA-cta'>
           {{#link-to 'talk.new' class='Button Button--talk CardGroupCTA-button' tagName='button'}}Start discussion{{/link-to}}
-          {{#link-to 'talk.all' class='CardGroupCTA-link'}}or browse local conversations{{/link-to}}
+          {{#location-link 'talk' class='CardGroupCTA-link'}}or browse local conversations{{/location-link}}
         </div>
       </div>
     </div>

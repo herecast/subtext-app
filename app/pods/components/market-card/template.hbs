@@ -1,6 +1,6 @@
 {{#if isMinimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'market.all.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+    {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
       <span {{action 'trackSuggestedContentClick'}}>
         {{title}}
       </span>
@@ -12,7 +12,7 @@
     <div>
       {{#if hasImage}}
         {{#market-post-link
-          routeName=routeName
+          closeRoute=closeRoute
           category=category
           post=post
           onTitleClick=(action 'onTitleClick')
@@ -28,7 +28,7 @@
     <div class="Media-body Card-content">
       <h2 class='Card-title'>
         {{#market-post-link
-          routeName=routeName
+          closeRoute=closeRoute
           category=category
           post=post
           onTitleClick=(action 'onTitleClick')

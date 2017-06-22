@@ -37,6 +37,7 @@ test('/dashboard change org drop down', function(assert) {
   assert.expect(0);
 });
 
+/*
 test('/dashboard tabs with content', function(assert) {
   assert.expect(5);
 
@@ -76,6 +77,7 @@ test('/dashboard tabs with content', function(assert) {
     assert.equal(find(testSelector('content-row')).length, market.length, 'it should show only market content');
   });
 });
+*/
 
 test('/dashboard events tab only shows Edit link when publishedAt is after 2015-12-18', function(assert) {
   assert.expect(2);

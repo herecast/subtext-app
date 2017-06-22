@@ -1,0 +1,12 @@
+{{#modal-wrapper
+  fullscreen=true
+  close=(action 'close')}}
+  <div class="LocationMenu-logo">
+    <img src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-with-tagline.svg' title="Daily UV">
+  </div>
+  {{#if isLoading}}
+    {{x-loader}}
+  {{else}}
+    {{location-menu locations=locations}}
+  {{/if}}
+{{/modal-wrapper}}

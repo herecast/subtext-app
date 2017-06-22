@@ -20,8 +20,7 @@ export default SessionService.extend({
   userService : inject.service('user'),
   intercom    : inject.service('intercom'),
   fastboot    : inject.service(),
-  routing     : inject.service('-routing'),
-
+  userLocationService: Ember.inject.service('user-location'),
   sequenceTrackers: {},
 
   isFastBoot: computed.alias('fastboot.isFastBoot'),
@@ -60,14 +59,7 @@ export default SessionService.extend({
 
   userName: computed.oneWay('currentUser.name'),
 
-  // Sets default location if a user is logged out
-  userLocation: computed('currentUser.location', function() {
-    const user = get(this, 'currentUser');
-
-    if (isPresent(user)) {
-      return get(user, 'location');
-    }
-  }),
+  userLocation: computed.alias('userLocationService.location.name'),
 
   getClientId() {
     let clientId = get(this, 'clientId');

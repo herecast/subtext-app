@@ -5,15 +5,10 @@
   text-align: center;
 
   &-list {
-    text-align: center;
     .flex-display();
+    .justify-content(space-around);
+    text-align: center;
     margin: 0 auto;
-    width: 80%;
-
-    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-      width: auto;
-      margin-left: 20px;
-    }
 
     @media (max-width: @screen-xs-max) {
       padding: 0;
@@ -32,6 +27,10 @@
     padding: 1rem;
     margin: 0;
     position: relative;
+
+    @media (max-width: @screen-sm-max) {
+      padding: 0.5rem;
+    }
 
     &.active, &:hover {
       text-decoration: none;

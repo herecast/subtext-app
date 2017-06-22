@@ -50,7 +50,6 @@
               item=news.firstObject
               class='Card--solo OrganizationProfile-newsCard'
               variant='full'
-              routeName='organization-profile.news-item'
               }}
             </div>
           </div>
@@ -62,7 +61,6 @@
             item=newsList.firstObject
             variant='vertical'
             class="OrganizationProfile-newsCard"
-            routeName='organization-profile.news-item'
             }}
           </div>
           <div class="col-sm-6">
@@ -80,7 +78,6 @@
               item=item
               variant='vertical'
               class="OrganizationProfile-newsCard"
-              routeName='organization-profile.news-item'
               }}
             </div>
           {{/each}}
@@ -159,5 +156,3 @@
     {{organization-profile-form model=(readonly model) didSave=(action "closeModal")}}
   {{/modal-wrapper}}
 {{/if}}
-
-{{outlet}}

@@ -1,13 +1,13 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
     {{#if talk.hasParentContent}}
-      {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor)}}
+      {{#link-to talk.parentContentRoute parentContentId (query-params scrollTo=talk.commentAnchor) data-test-link='show'}}
         <span {{action 'trackSuggestedContentClick'}}>
           {{title}}
         </span>
       {{/link-to}}
     {{else}}
-      {{#link-to 'talk.all.show' talk.id}}
+      {{#link-to 'talk.show' talk.id data-test-link='show'}}
         <span {{action 'trackSuggestedContentClick'}}>
           {{title}}
         </span>
@@ -36,13 +36,13 @@
     <div class="media-body Card-content">
       <h2 class='Card-title' {{action 'onTitleClick'}}>
         {{#if talk.hasParentContent}}
-          {{#link-to (if routeName routeName 'talk.all.show') parentContentId (query-params ctype=talk.normalizedParentContentType scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink"}}
+          {{#link-to (if routeName routeName 'talk.show') parentContentId (query-params ctype=talk.normalizedParentContentType scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
             <span {{action 'trackSuggestedContentClick'}}>
               {{title}}
             </span>
           {{/link-to}}
         {{else}}
-          {{#link-to (if routeName routeName 'talk.all.show') talk.id (query-params ctype='talk') classNameBindings="isSimilarContent:SimilarContentLink"}}
+          {{#link-to (if routeName routeName 'talk.show') talk.id classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
             <span {{action 'trackSuggestedContentClick'}}>
               {{title}}
             </span>

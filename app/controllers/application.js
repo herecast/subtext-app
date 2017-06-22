@@ -26,17 +26,14 @@ export default Ember.Controller.extend({
   search: inject.service(),
   modals: inject.service(),
 
-  onPathChange: Ember.observer('currentPath', function() {
-  }),
-
   currentController: inject.service('current-controller'),
   routing: inject.service('_routing'),
   router: computed.alias('routing.router'),
   intercom: inject.service('intercom'),
-  newsFilter: inject.controller('news/all'),
-  eventsFilter: inject.controller('events/all'),
-  talkFilter: inject.controller('talk/all'),
-  marketFilter: inject.controller('market/all'),
+  newsFilter: inject.controller('location.news'),
+  eventsFilter: inject.controller('location.events'),
+  talkFilter: inject.controller('location.talk'),
+  marketFilter: inject.controller('location.market.index'),
 
   searchType: computed.alias('search.searchType'),
   searchQuery: computed.alias('search.searchQuery'),

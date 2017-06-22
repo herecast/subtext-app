@@ -2,37 +2,40 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import { authenticateSession, invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
 moduleForAcceptance('Acceptance | news ugc', {
   beforeEach() {
     authenticateSession(this.application);
+    this.location = server.create('location');
   }
 });
 
-test('/news while not logged in', function(assert) {
+test('/{location.id}/news while not logged in', function(assert) {
   assert.expect(1);
 
   invalidateSession(this.application);
   server.create('organization', { canPublishNews: true });
   const newsItem = server.create('news');
 
-  visit(`/news/${newsItem.id}`);
+  visit(`${this.location.id}/news/${newsItem.id}`);
 
   andThen(() => {
     assert.equal(find(testSelector('field', 'new-comment')).length, 0, 'it should not have a comment form');
   });
 });
 
-test('/news', function(assert) {
+test('/{location.id}/news', function(assert) {
   assert.expect(11);
 
   server.createList('news', 18);
   server.create('organization', { canPublishNews: true });
 
-  visit('/news');
+  const location = this.location;
+  visit(`/${location.id}/news`);
 
   andThen(() => {
-    assert.equal(currentURL(), '/news', 'it should have the correct url');
+    assert.equal(currentURL(), `/${location.id}/news`, 'it should have the correct url');
     assert.ok(find(testSelector('news-length', '13')), 'it should display the total number of news items on the page');
     assert.equal(find(testSelector('link', 'content-create-button')).length, 0, 'it should not show a content create button');
     assert.equal(find(testSelector('news-card')).length, 13, 'it should list news articles');
@@ -43,7 +46,7 @@ test('/news', function(assert) {
   click(testSelector('pagination-next'));
 
   andThen(() => {
-    assert.equal(currentURL(), '/news?page=2', 'it should be on the second page of results');
+    assert.equal(currentURL(), `/${location.id}/news?page=2`, 'it should be on the second page of results');
     assert.ok(find(testSelector('news-length', '5')), 'it should display the total number of news items on the page');
     assert.equal(find(testSelector('news-card')).length, 5, 'it should list the remaining news articles');
     assert.equal(find(testSelector('pagination-next')).length, 0, 'it should not have a pagination link to next page');
@@ -51,21 +54,56 @@ test('/news', function(assert) {
   });
 });
 
-test('/news cards link to full articles', function(assert) {
+test('api, location', function(assert) {
+  const newsItemsLocation1 = server.createList('news', 3);
+  const location1 = this.location;
+  server.createList('news', 5);
+  server.get('/news', function({news}, request) {
+    const locationId = request.queryParams['location_id'];
+
+    assert.equal(locationId, location1.id,
+      "passes location_id to api");
+
+    if(locationId === location1.id) {
+      return news.find(newsItemsLocation1.mapBy('id'));
+    } else {
+      return news.all();
+    }
+  });
+
+  visit(`/${location1.id}/news`);
+
+  andThen(()=>{
+    assert.equal(
+      find(testSelector('news-card')).length, newsItemsLocation1.length,
+      "Displays news for the location"
+    );
+
+    newsItemsLocation1.forEach((item) => {
+      assert.equal(
+        find(testSelector('news-card', item.title)).length, 1);
+    });
+  });
+});
+
+test('/{location.id}/news cards link to full articles', function(assert) {
   assert.expect(3);
 
   server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', { title: 'my fake news article', id: 50 });
 
-  visit('/news');
+  const location = this.location;
+  visit(`/${location.id}/news`);
 
   andThen(() => {
-    assert.equal(currentURL(), '/news');
+    assert.equal(currentURL(), `/${location.id}/news`);
     assert.equal(find(testSelector('news-card')).length, 1, 'it should have one news article');
   });
 
-  click(testSelector('link', news.title));
+  click(
+    testSelector('link', 'show'),
+    testSelector('news-card', news.title));
 
   andThen(() => {
     assert.equal(currentURL(), '/news/50', 'i can click the card title to view the full article');
@@ -74,7 +112,8 @@ test('/news cards link to full articles', function(assert) {
 
 test('/news/:id commenting as a logged in user', function(assert) {
   assert.expect(5);
-
+  mockLocationCookie(this.application);
+  
   server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', {

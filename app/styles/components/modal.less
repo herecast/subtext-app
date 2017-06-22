@@ -73,7 +73,9 @@
 
 .Modal-dialog--fullscreen {
   width: 100%;
-  height: auto;
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
   position: absolute;
   margin: 0;
   overflow: auto;
@@ -85,11 +87,10 @@
 }
 
 .Modal-dialog--fullscreen .Modal-dialogHeader {
-  padding: 8px 8px 8px 40px;
-
-  .Modal-actionClose {
-    left: 8px;
-  }
+  background: #fff;
+  max-width: 83.333em;
+  box-shadow: none;
+  margin: auto;
 }
 
 .Modal-dialogFooter {

@@ -149,11 +149,7 @@ export default Ember.Component.extend({
 
   viewRoute: computed(function() {
     const parentRoute = get(this, 'parentRoute');
-    if (parentRoute === 'directory') {
-      return 'directory.show';
-    } else {
-      return `${parentRoute}.all.show`;
-    }
+    return `${parentRoute}.show`;
   }),
 
   contentAnchor: computed(function() {

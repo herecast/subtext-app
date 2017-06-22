@@ -2,7 +2,7 @@
   <div class='Container--noGutter'>
     <div class='CategoryNav-rowWrapper'>
       <div class='CategoryNav-firstRow'>
-        {{#link-to 'market.all.index' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg u-bold'}}Local Market{{/link-to}}
+        {{#location-link 'market' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg u-bold'}}Local Market{{/location-link}}
 
         <div class='CategoryNav-actions'>
           {{#link-to 'dashboard' (query-params type='market') class='CategoryNav-manageLink'}}
@@ -23,7 +23,7 @@
         <ul class='CategoryNav-itemList'>
           {{#each displayCategories as |category index|}}
             <li class='CategoryNav-item {{if (gte index 5) "hidden-md"}} {{if (gte index 10) "hidden-sm"}} {{if (gte index 8) "hidden-xs"}}' data-test-navItem>
-              {{#link-to 'market.category-landing' category.id class='CategoryNav-itemLink h4'}}
+              {{#link-to 'location.market.category-landing' locationId category.id class='CategoryNav-itemLink h4'}}
                 <span {{action (action 'trackCategoryClick' category)}}>
                   {{category.name}} <i class='hidden-xs'>({{category.count}})</i>
                 </span>

@@ -1,11 +1,13 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
-moduleForAcceptance('Acceptance | market/all/show');
+moduleForAcceptance('Acceptance | market/show');
 
 test('visiting /market/:id', function(assert) {
   assert.expect(3);
+  mockLocationCookie(this.application);
 
   const marketPost = server.create('market-post');
   const url = '/market/' + marketPost.id;

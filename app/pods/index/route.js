@@ -1,14 +1,6 @@
 import Ember from 'ember';
-import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
-import History from 'subtext-ui/mixins/routes/history';
+import IndexLocation from 'subtext-ui/mixins/routes/index-location';
 
-export default Ember.Route.extend(PaginatedFilter, History, {
+export default Ember.Route.extend(IndexLocation, {
 
-  queryParams: {
-    page: {refreshModel: true}
-  },
-
-  model(params) {
-    return this.store.query('news', {page: params.page, per_page: 4});
-  }
 });

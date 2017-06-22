@@ -1,7 +1,7 @@
-{{#if category}}
-  {{#link-to (if routeName routeName 'market.all.show') (if category category.cat_id) post.id
-    (query-params ctype='market')
+
+  {{#link-to (if routeName routeName 'market.show') post.id
     classNameBindings="isSimilarContent:SimilarContentLink"
+    data-test-link='show'
   }}
     <div {{action (action onTitleClick)}}>
       <span {{action (action trackSuggestedContentClick)}}>
@@ -9,15 +9,3 @@
       </span>
     </div>
   {{/link-to}}
-{{else}}
-  {{#link-to (if routeName routeName 'market.all.show') post.id
-    (query-params ctype='market')
-    classNameBindings="isSimilarContent:SimilarContentLink"
-  }}
-    <div {{action (action onTitleClick)}}>
-      <span {{action (action trackSuggestedContentClick)}}>
-        {{yield}}
-      </span>
-    </div>
-  {{/link-to}}
-{{/if}}

@@ -6,9 +6,9 @@ import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 const { get, computed, inject, isPresent } = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+  closeRoute: 'talk.index',
   fastboot: inject.service(),
   api: inject.service(),
-  closeRoute: 'talk.all',
   closeLabel: 'Talk',
 
   _trackImpression() {

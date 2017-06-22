@@ -19,6 +19,10 @@
   {{search-nav}}
 {{else}}
   <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody'}}">
+    <div class='BackgroundIndex'>
+      {{outlet 'background'}}
+    </div>
+
     {{outlet}}
   </div>
   {{modal-manager}}

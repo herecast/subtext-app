@@ -1,14 +1,10 @@
-{{#unless showHeader}}
-  <h1 class='h2'>Top Stories</h1>
-{{/unless}}
-
 <div class='row' data-row='row-1'>
   <div class='col-sm-6'>
     {{news-card-wide
       item=item1
       class='Card--solo'
       variant='full'
-      routeName=routeName
+      closeRoute=closeRoute
     }}
   </div>
 
@@ -16,7 +12,7 @@
     {{news-card
       item=item2
       variant='vertical'
-      routeName=routeName
+      closeRoute=closeRoute
     }}
 
     <div class='AdBanner-wrapper AdBanner-wrapper--news'>
@@ -32,14 +28,14 @@
     {{news-card
       item=item3
       variant='vertical'
-      routeName=routeName
+      closeRoute=closeRoute
     }}
 
     <div class='Card-wrapper--columnVertical2Up'>
       {{news-card
         item=item4
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
     </div>
   </div>
@@ -52,12 +48,12 @@
         {{news-card
           item=item5
           variant='vertical'
-          routeName=routeName
+          closeRoute=closeRoute
         }}
         {{news-card
           item=item6
           variant='vertical'
-          routeName=routeName
+          closeRoute=closeRoute
         }}
       </div>
     </div>
@@ -78,7 +74,7 @@
         class='Card--solo Card--wide'
         item=item7
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
     </div>
 
@@ -86,12 +82,12 @@
       {{news-card
         item=item8
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
       {{news-card
         item=item9
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
     </div>
   </div>
@@ -104,7 +100,7 @@
         class='Card--solo Card--wide'
         item=item10
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
     </div>
 
@@ -112,7 +108,7 @@
       {{news-card
         item=item11
         variant='vertical'
-        routeName=routeName
+        closeRoute=closeRoute
       }}
 
       <div class='AdBanner-wrapper AdBanner-wrapper--news'>
@@ -130,12 +126,12 @@
         {{news-card
           item=item12
           variant='vertical'
-          routeName=routeName
+          closeRoute=closeRoute
         }}
         {{news-card
           item=item13
           variant='vertical'
-          routeName=routeName
+          closeRoute=closeRoute
         }}
       </div>
     </div>

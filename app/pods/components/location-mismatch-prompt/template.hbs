@@ -1,0 +1,25 @@
+{{#if shouldShowWarning}}
+  <div class="LocationMismatchPrompt">
+    <div class="Container--noGutter">
+      <div class="LocationMismatchPrompt-content">
+
+        <div>
+          You are viewing {{activeLocation.name}}.
+          {{#dynamic-link params=locationLinkParams class="LocationMismatchPrompt-switchLink"}}
+            <span
+              data-test-action="reset-location"
+              {{action 'navigateToLocation' locationLinkParams bubbles=false}}>
+              Switch to {{selectedLocation.name}}
+            </span>
+          {{/dynamic-link}}
+        </div>
+
+        <button {{action 'saveSelectedLocationId' activeLocationId}}
+          class="LocationMismatchPrompt-closeButton">
+          &times;
+        </button>
+
+      </div>
+    </div>
+  </div>
+{{/if}}

@@ -40,7 +40,7 @@ export default Ember.Mixin.create({
 
     afterDiscard(model) {
       if (!get(model, 'hasDirtyAttributes') || this.discardRecord(model)) {
-        this.transitionTo(`${this.routeNamePrefix()}.all`);
+        this.transitionTo(`${this.routeNamePrefix()}.index`);
       }
     }
   }

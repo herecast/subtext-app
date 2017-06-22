@@ -54,7 +54,7 @@ export default {
   },
 
   isModalRoute(routeName) {
-    const modalRoutes = ['index.show', 'organization-profile.news-item'];
+    const modalRoutes = [];
 
     return modalRoutes.includes(routeName);
   }

@@ -34,5 +34,6 @@ export default EventCard.extend(PreviewScroll, {
 
   venueState: computed('event.venueState', function() {
     return defaultValue(this.get('event.venueState'), 'State');
-  })
+  }),
+
 });

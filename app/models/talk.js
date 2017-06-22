@@ -40,15 +40,13 @@ export default DS.Model.extend({
   parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
     if (parentContentType === 'market-post' || parentContentType === 'market') {
-      return 'market.all.show';
+      return 'market.show';
     } else if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
-      return 'events.all.show';
+      return 'events.show';
     } else if (parentContentType === 'talk_of_the_town') {
-      return 'talk.all.show';
-    } else if (parentContentType === 'news') {
-      return 'news.all.show';
+      return 'talk.show';
     } else {
-      return `${parentContentType}.all.show`;
+      return `${parentContentType}.show`;
     }
   }),
 

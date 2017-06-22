@@ -27,7 +27,8 @@
     "summernote-image-attributes": "^0.1.2",
     "weather-icons": "~2.0.1",
     "PACE": "pace#^1.0.2",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "es6-shim": "^0.35.3"
   },
   "devDependencies": {
     "blanket": "~1.1.5"

@@ -16,7 +16,7 @@ export default Ember.Component.extend({
 
   contentRoute: computed('model', function() {
     // @TODO: determine correct route from content type
-    return 'news.all.show';
+    return 'news.show';
   }),
 
   publishedAt: computed('model.publishedAt', function() {

@@ -61,7 +61,7 @@ test('Follow sign in link, authentication succeeds', function(assert) {
 
   andThen(() => {
     assert.equal(
-      currentPath(),'index.index',
+      currentPath(),'index',
       "Should be on home page");
 
     assert.equal(

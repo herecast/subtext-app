@@ -2,6 +2,7 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
 moduleForAcceptance('Acceptance | adapter 401', {
   beforeEach() {
@@ -12,6 +13,8 @@ moduleForAcceptance('Acceptance | adapter 401', {
 });
 
 test('Adapter receives 401 error during route transition', function(assert) {
+  const location = mockLocationCookie(this.application);
+
   let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
   let talk = server.create('talk');
 

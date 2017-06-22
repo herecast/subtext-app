@@ -2,8 +2,8 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import moment from 'moment';
-import Ember from 'ember';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
 moduleForAcceptance('Acceptance | organization profile');
 
@@ -180,12 +180,14 @@ test('Visiting news landing page, clicking organization name brings me to profil
   assert.expect(1);
 
   let organization = server.create('organization', {name: 'meta tauta'});
+  let location = server.create('location');
   server.create('news', {
     organizationId: organization.id,
+    locationId: location.id,
     title: 'revelation'
   });
 
-  visit('/news').then(()=> {
+  visit(`/${location.id}/news`).then(()=> {
     let $newsCard = find(testSelector('news-card', 'revelation'));
     let $orgLink = find(testSelector('link', 'organization-link'), $newsCard);
     click($orgLink).then(()=> {
@@ -196,6 +198,7 @@ test('Visiting news landing page, clicking organization name brings me to profil
 
 test('Visiting news item page, clicking organization name brings me to profile page', function(assert) {
   assert.expect(1);
+  mockLocationCookie(this.application);
 
   let organization = server.create('organization', {name: 'meta tauta'});
   let news = server.create('news', {
@@ -211,20 +214,3 @@ test('Visiting news item page, clicking organization name brings me to profile p
   });
 });
 
-test('Navigating to a news item on an organization profile page', function(assert) {
-  assert.expect(3);
-
-  const organization = server.create('organization');
-  const news = server.create('news', {
-    organizationId: organization.id,
-    publishedAt: moment().subtract(1, 'days').format()
-  });
-
-  visit(`/organizations/${organization.id}/${news.id}`);
-
-  andThen(() => {
-    assert.equal(currentURL(), `/organizations/${organization.id}/${news.id}`, 'it navigates to the correct url');
-    assert.equal(find(testSelector('news-title')).text(), news.title, 'it renders the news detail modal');
-    assert.equal(Ember.$('meta[property="og:title"]').attr('content'), news.title, 'it adds correct meta data');
-  });
-});

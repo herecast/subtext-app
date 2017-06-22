@@ -5,6 +5,9 @@ import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 const { get, inject, computed } = Ember;
 
 export default ModalInstance.extend({
+  userLocation: inject.service(),
+  locationId: computed.oneWay('userLocation.locationId'),
+
   store: inject.service(),
 
   categories: computed(function() {

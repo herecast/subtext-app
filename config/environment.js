@@ -27,6 +27,23 @@ module.exports = function(environment) {
     API_BASE_URL: "",
     FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
     //DEFAULT_HTTP_CACHE: " public, max-age=60",
+    locationRedirectRoutes: [
+      'index',
+      'news',
+      'events',
+      'market',
+      'talk'
+    ],
+    contentIndexRoutes: [
+      'location.index',
+      'location.news',
+      'location.events',
+      'location.market',
+      'location.market.index',
+      'location.market.category-landing',
+      'location.talk',
+      'organization-profile'
+    ],
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -99,7 +116,7 @@ module.exports = function(environment) {
     }
 
     ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
-    ENV['GMAPS_API_TOKEN'] = 'AIzaSyDYtqerJfN8Vkc5J7rhkz0Ze1szkCjw7XY';
+    ENV['GMAPS_API_TOKEN'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
     ENV['FACEBOOK_APP_ID'] = process.env.FACEBOOK_APP_ID;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;

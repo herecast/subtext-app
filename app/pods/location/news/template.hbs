@@ -1,0 +1,60 @@
+<div data-test-page='location.news'>
+  {{outlet}}
+
+  <div class='Container--noGutter'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <div class='ChannelTopper clearfix'>
+          <div class="visible-xs">
+            <h1 class='GroupHeader GroupHeader--news' style='display: inline-block; margin-bottom: 0'>
+              <span class='GroupHeader-channelLink GroupHeader-channelLink--news h3 ChannelTopper-title'>
+                Local News
+              </span>
+            </h1>
+          </div>
+
+          {{#if session.currentUser.canPublishNews}}
+            <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+              {{#link-to 'news.new' class='Button SectionNavigation-contentCreateButton btn btn-default Button--news' data-test-link='content-create-button'}}
+                <span class="visible-xs-inline visible-sm-inline">+</span>
+                <span class="hidden-xs hidden-sm">Create</span>
+                News
+              {{/link-to}}
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='Container--noGutter'>
+    {{#if model}}
+      {{grouped-news
+        news=model
+        adPath='location.news'
+        showHeader=false
+      }}
+    {{/if}}
+  </div>
+
+  {{#if model}}
+    <div class='Container--noGutter'>
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class='PaginationNav-wrapper'>
+            <div class='PaginationNav PaginationNav--bottom'>
+              {{partial 'partials/pagination-nav'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
+  {{outreach-cta
+    isButton=true
+    placement='bottom-of-page'
+    limitMessagesTo=2
+    class="sit-center"
+  }}
+</div>

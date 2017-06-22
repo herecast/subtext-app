@@ -19,7 +19,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, FastbootExtensions,
       const token = transition.params['register.confirm']['token']; const notify = get(this, 'notify');
 
       get(this, 'session').authenticate('authenticator:confirmation', token).then(() => {
-        this.transitionTo('index.index').then(() => {
+        this.transitionTo('index').then(() => {
           notify.success('Registration complete. You are now signed in.');
         });
       }).catch(() => {

@@ -66,7 +66,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
        * react like simple auth would for authenticated routes.
        */
       if (isPresent(error.status) && error.status === 401) {
-        if(isFastboot) {
+        if (isFastboot) {
           const fastboot = get(this, 'fastboot');
           const cookies = get(this, 'cookies');
 
@@ -86,7 +86,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           let statusCode;
           try {
             statusCode = error.errors[0].status;
-          } catch(err) {
+          } catch (err) {
             statusCode = 500;
           }
           set(this, 'fastboot.response.statusCode', statusCode);
@@ -127,7 +127,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
 
     scrollTo(offset) {
-      if(!get(this, 'fastboot.isFastBoot')) {
+      if (!get(this, 'fastboot.isFastBoot')) {
         Ember.$(window).scrollTop(offset);
       }
     }

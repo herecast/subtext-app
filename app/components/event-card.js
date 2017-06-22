@@ -32,11 +32,8 @@ export default Ember.Component.extend(TrackCard, {
           city  = get(this, 'venueCity'),
           state = get(this, 'venueState');
 
-    if (isPresent(name)) {
-      return name;
-    } else {
-      return [city, state].join(', ');
-    }
+    const cityState = [city, state].filter((item) => !!item).join(', ');
+    return [name, cityState].filter((item) => !!item).join(' - ');
   }),
 
   eventId: computed('event.id', 'event.eventInstanceId', function() {

@@ -1,10 +1,12 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
 moduleForAcceptance('Acceptance | events/show');
 
 test('visiting /events/show', function(assert) {
+  const location = mockLocationCookie(this.application);
   const event = server.create('event-instance');
   const url = `/events/${event.id}`;
   visit(url);
@@ -33,6 +35,6 @@ test('visiting /events/show', function(assert) {
   click(testSelector('link', 'close-detail-page'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/events', 'clicking close button should go to /events/');
+    assert.equal(currentURL(), `/${location.id}/events`, 'clicking close button should go to /{location id}/events/');
   });
 });

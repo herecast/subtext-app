@@ -12,7 +12,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:isPreview'],
   model: null,
-  closeRoute: 'events.all',
+  closeRoute: 'events',
   closeLabel: 'Events',
   fastboot: inject.service(),
   api: inject.service(),
@@ -26,7 +26,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
       );
     }
   },
- 
+
   didInsertElement() {
     this._super(...arguments);
     this._trackImpression();

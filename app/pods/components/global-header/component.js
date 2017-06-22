@@ -13,6 +13,7 @@ export default Ember.Component.extend(TestSelector, {
   currentChannel     : computed.alias('currentController.currentChannel'),
   modals: inject.service(),
   routing: inject.service('-routing'),
+  userLocationService: inject.service('user-location'),
   showSignIn: false,
   showUserMenu: false,
   signInTab: 'sign-in',

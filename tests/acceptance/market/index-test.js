@@ -2,26 +2,59 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 
-moduleForAcceptance('Acceptance | market/index');
+moduleForAcceptance('Acceptance | /{location-slug}/market/index', {
+  beforeEach() {
+    this.location = server.create('location');
+  }
+});
 
-test('visiting /market/', function(assert) {
-  assert.expect(2);
+test('visiting', function(assert) {
+  const marketItemsLocation1 = server.createList('market-post', 3, {
+    imageUrl: "//the-image.jpg"
+  });
+  server.createList('market-post', 4);
 
-  const url = '/market/?flat=true';
+  const location1 = this.location;
+  server.get('/market_posts', function({marketPosts}, request) {
+    const locationId = request.queryParams['location_id'];
+
+    assert.equal(locationId, location1.id,
+      "passes location_id to api");
+
+
+    if(locationId === location1.id) {
+      return marketPosts.find(marketItemsLocation1.mapBy('id'));
+    } else {
+      return marketPosts.all();
+    }
+  });
+
+  const url = `/${this.location.id}/market/?flat=true`;
   visit(url);
 
   andThen(function() {
     assert.equal(currentURL(), url);
     assert.equal(find(testSelector('link', 'content-create-button')).length, 1, 'it should show the create content button');
+
+    assert.equal(
+      find(testSelector('market-card')).length, marketItemsLocation1.length,
+      "Visiting page, located displays market items for that location"
+    );
+
+    marketItemsLocation1.forEach((item) => {
+      assert.equal(
+        find(testSelector('market-card', item.id)).length, 1);
+    });
+
   });
 });
 
-test('visiting /market/ with 10 items lists all 10 items', function(assert) {
+test('visiting with 10 items lists all 10 items', function(assert) {
   assert.expect(3);
   server.createList('market-post', 10);
 
   // visiting the old market
-  const url = '/market/?flat=true';
+  const url = `/${this.location.id}/market/?flat=true`;
   visit(url);
 
   andThen(function() {
@@ -32,11 +65,12 @@ test('visiting /market/ with 10 items lists all 10 items', function(assert) {
   });
 });
 
-test('visiting /market/ with 50 items is paginated', function(assert) {
+test('visiting with 50 items is paginated', function(assert) {
   assert.expect(15);
   server.createList('market-post', 50);
+  const location = this.location;
 
-  const url = '/market/?flat=true';
+  const url = `/${location.id}/market/?flat=true`;
   visit(url);
 
   andThen(function() {
@@ -51,7 +85,7 @@ test('visiting /market/ with 50 items is paginated', function(assert) {
   click(testSelector('pagination-next'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/market?flat=true&page=2', 'it should be at the url /market?page=2');
+    assert.equal(currentURL(), `/${location.id}/market?flat=true&page=2`, 'it should be at the url /{location.id}/market?page=2');
     assert.equal(find(testSelector('market-card')).length, 24, 'it should show 24 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should show the "prev" button once on the second page');
@@ -62,7 +96,7 @@ test('visiting /market/ with 50 items is paginated', function(assert) {
   click(testSelector('pagination-next'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/market?flat=true&page=3', 'it should be at the url /market?page=3');
+    assert.equal(currentURL(), `/${location.id}/market?flat=true&page=3`, 'it should be at the url /{location.id}/market?page=3');
     assert.equal(find(testSelector('market-card')).length, 2, 'it should show 2 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should show the "prev" button once on the last page');

@@ -10,12 +10,10 @@
   }
   .flex-display();
   .align-items(center);
-  .justify-content(center);
+  .justify-content(space-between);
   height: 80px;
 
   &-brand {
-    -webkit-flex: 0 1 20%;
-    flex: 0 1 20%;
     .uppercase-bold-condensed;
 
     &-logo {
@@ -24,40 +22,22 @@
       margin: 0;
       white-space: nowrap;
       margin-left: -8px;
-      margin-right: 29px;
+      margin-right: 10px;
 
       img {
         width: 140px;
-      }
-    }
-
-    &-location {
-      font-size: 1.2rem;
-      display: block;
-      margin-left: -15px;
-      padding-left: 15px;
-      border-left: 1px solid #a2a2a2;
-      .justify-content(center);
-
-      a {
-        white-space: nowrap;
+        @media (max-width: @screen-sm-max) {
+          width: 100px;
+        }
       }
     }
   }
 
   &-channels {
-    -webkit-flex: 0 1 80%;
-    flex: 0 1 80%;
-
-    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-      -webkit-flex: 0 1 90%;
-      flex: 0 1 90%;
-    }
+    .flex(0 1 50%);
   }
 
   &-search {
-    -webkit-flex: 0 1 20%;
-    flex: 0 1 20%;
     > ul {
       .flex-display();
       .align-items(center);
@@ -65,7 +45,7 @@
     }
     &-searchButton {
       .h2;
-      padding-right: 26px;
+      padding: 0 10px 0 5px;
       &:hover {
         cursor: pointer;
       }
@@ -79,6 +59,14 @@
 
   &-signInJoin {
     min-width: 120px;
+
+    @media (max-width: @screen-sm-max) {
+      min-width: 110px;
+      text-align: center;
+      > button {
+        padding: 0;
+      }
+    }
   }
 
   &-userMenu {

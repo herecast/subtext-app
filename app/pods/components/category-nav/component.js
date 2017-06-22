@@ -3,10 +3,14 @@ import Ember from 'ember';
 
 const {
   get,
-  computed
+  computed,
+  inject
 } = Ember;
 
 export default Ember.Component.extend({
+  userLocation: inject.service(),
+  locationId: computed.oneWay('userLocation.locationId'),
+
   displayCategories: computed('categories.[]', function() {
     return get(this, 'categories').slice(0, 7);
   }),

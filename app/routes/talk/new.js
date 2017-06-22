@@ -62,8 +62,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, {
     },
 
     afterDiscard() {
-      this.transitionTo('talk.all').then(() => {
-      });
+      this.transitionTo('talk.index');
     },
 
     afterDetails() {
@@ -75,7 +74,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, {
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.all.show', talk.get('id'));
+      this.transitionTo('talk.show', talk.get('id'));
     },
 
     backToDetails() {

@@ -39,6 +39,15 @@
   flex-direction: @direction;
 }
 
+// Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse
+.flex-wrap(@wrap: nowrap) {
+  -webkit-flex-wrap: @wrap;
+  -ms-flex-wrap: @wrap;
+  flex-wrap: @wrap;
+}
+
 // Flex grow factor
 // - applies to: flex items
 // <number>

@@ -54,7 +54,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const match = new RegExp(`^events\\.edit`);
       const isExitingForm = !transition.targetName.match(match);
-      const isTransitioningToShowPage = transition.targetName === 'events.all.show';
+      const isTransitioningToShowPage = transition.targetName === 'events.show';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -68,7 +68,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
 
     afterDiscard(model) {
       if (!get(model, 'hasDirtyAttributes')) {
-        this.transitionTo(`events.all`);
+        this.transitionTo(`location.events`);
       }
     },
 
@@ -98,7 +98,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
         event.set('listservIds',[]);
 
         SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
-          this.transitionTo('events.all.show', firstInstanceId);
+          this.transitionTo('events.show', firstInstanceId);
         });
       });
     },

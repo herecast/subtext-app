@@ -60,13 +60,15 @@ export default Ember.Service.extend({
   getCurrentPosition() {
     return new RSVP.Promise((resolve, reject) => {
 
-      navigator.geolocation.getCurrentPosition(position => {
-        if(!get(this, 'isDestroying')) {
+      if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
           resolve(position);
-        }
-      }, error => {
-        reject(error);
-      });
+        }, error => {
+          reject(error);
+        });
+      } else {
+        reject();
+      }
     });
   },
 

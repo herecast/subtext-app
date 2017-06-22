@@ -12,22 +12,16 @@
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
             <img src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-with-tagline.svg' title="Daily UV">
           {{/link-to}}
-
         </h1>
-          {{#if session.isAuthenticated}}
-            <div class='MainNav-brand-location u-flexColumn' data-test-user-location>
-              {{#link-to 'account.community'}}
-              {{session.userLocation}}
-              {{/link-to}}
-            </div>
-          {{/if}}
       </div>
+
+      {{location-indicator}}
 
         <nav class='MainNav-channels' role="navigation">
           <ul class='SectionNavigation-list'>
             {{#if channelLinksEnabled}}
               <li class='SectionNavigation-listItem'>
-              {{#link-to 'news'
+              {{#location-link 'news'
               (query-params
               page=1
               query=newsFilter.defaultQuery
@@ -36,14 +30,13 @@
               locationId=newsFilter.defaultLocationId
               )
               class='SectionNavigation-link SectionNavigation-link--newsLink'
-              current-when='news'
               data-test-link='news-channel'
               }}
                 <span>News</span>
-              {{/link-to}}
+              {{/location-link}}
             </li>
             <li class='SectionNavigation-listItem'>
-              {{#link-to 'events'
+              {{#location-link 'events'
               (query-params
               page=1
               query=eventsFilter.defaultQuery
@@ -53,27 +46,25 @@
               days_ahead=eventsFilter.defaultDaysAhead
               )
               class='SectionNavigation-link SectionNavigation-link--eventLink'
-              current-when='events'
               data-test-link='events-channel'
               }}
                 <span>Events</span>
-              {{/link-to}}
+              {{/location-link}}
             </li>
             <li class='SectionNavigation-listItem'>
-              {{#link-to 'talk'
+              {{#location-link 'talk'
               (query-params
               page=1
               query=talkFilter.defaultQuery
               )
               class='SectionNavigation-link SectionNavigation-link--talkLink'
-              current-when='talk'
               data-test-link='talk-channel'
               }}
                 <span>Talk</span>
-              {{/link-to}}
+              {{/location-link}}
             </li>
             <li class='SectionNavigation-listItem'>
-              {{#link-to 'market'
+              {{#location-link 'market'
               (query-params
               page=1
               flat=false
@@ -82,16 +73,14 @@
               locationId=marketFilter.defaultLocationId
               )
               class='SectionNavigation-link SectionNavigation-link--marketLink'
-              current-when='market'
               data-test-link='market-channel'
               }}
                 <span>Market</span>
-              {{/link-to}}
+              {{/location-link}}
             </li>
             <li class='SectionNavigation-listItem'>
               {{#link-to 'directory'
               class='SectionNavigation-link SectionNavigation-link--directoryLink'
-              current-when='directory'
               data-test-link='directory-channel'
               }}
                 Directory

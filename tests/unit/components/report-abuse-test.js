@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('report-abuse', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon']
+  needs: ['component:fa-icon', 'service:history']
 });
 
 test('it renders', function(assert) {

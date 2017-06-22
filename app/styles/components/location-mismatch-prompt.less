@@ -1,0 +1,46 @@
+.LocationMismatchPrompt {
+  background-color: @brand-warning;
+  border-bottom: solid 1px darken(@gray-light, 10%);
+  font-weight: bold;
+  padding: 5px 0;
+
+  &-content {
+    .flex-display();
+    .justify-content(space-between);
+  }
+
+  &-switchLink {
+    display: inline-block;
+    background: white;
+    color: @news-brand;
+    padding: 4px 10px;
+    border: solid 1px @gray-light;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: white;
+      background: @news-brand;
+      text-decoration: none;
+    }
+
+    @media (max-width: @screen-xs-max) {
+      padding: 2px 5px;
+    }
+  }
+
+  &-closeButton {
+    font-size: 24px;
+    background: transparent;
+    color: @gray-medium;
+    font-weight: bold;
+    border: none;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &.active {
+      color: @text-color;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent('dashboard-postings', 'Unit | Component | dashboard postings', {
   // Specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar'],
-  needs: ['helper:eq', 'helper:not-eq','helper:capitalize','template:partials/pagination-nav'],
+  needs: ['helper:eq', 'helper:not-eq','helper:capitalize','template:partials/pagination-nav', 'service:history'],
   unit: true
 });
 

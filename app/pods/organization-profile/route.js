@@ -34,6 +34,12 @@ export default Ember.Route.extend(PaginatedFilter, History, {
 
   deactivate() {
     set(this.controllerFor('application'), 'channelLinksEnabled', true);
+  },
+
+  serialize(model) {
+    return {
+      slug: model.get('slug')
+    };
   }
 
 });

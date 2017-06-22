@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('event-preview-summary', {
-  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button', 'helper:not']
+  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button', 'helper:not', 'service:history']
 });
 
 test('it renders', function(assert) {

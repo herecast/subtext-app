@@ -1,41 +1,54 @@
+/* global window */
+
 import Ember from 'ember';
 
-const { get } = Ember;
+const {
+  $,
+  run,
+  get,
+  computed,
+  inject
+} = Ember;
 
 export default Ember.Mixin.create({
+  fastboot: inject.service(),
+  isFastBoot: computed.alias('fastboot.isFastBoot'),
+
   actions: {
     didTransition() {
-      const scrollPosition = this.controller.get('scrollPosition');
+      this._super(...arguments);
 
-      if (scrollPosition) {
-        Ember.run.later(function() {
-          Ember.$(window).scrollTop(scrollPosition);
-        });
+      if(!get(this, 'isFastBoot')) {
+        const scrollPosition = this.controller.get('scrollPosition') || 0;
+
+        if (scrollPosition) {
+          run.scheduleOnce("afterRender", this, function() {
+            $(window).scrollTop(scrollPosition);
+          });
+        }
+
+        return true; // bubble action
       }
-
-      return true; // bubble action
     },
 
     willTransition(transition) {
-      let scrollPosition;
+      this._super(...arguments);
 
-      if ((this.routeName !== 'directory') && transition.targetName === 'directory.index') {
-        Ember.$(window).scrollTop(0);
+      if(!get(this, 'isFastBoot')) {
+        if(transition.targetName === get(this, 'routeName')) {
+          const oldPage = this.controller.get('page');
 
-        this.controller.set('scrollPosition', 0);
-
-        return true;
+          if(transition.state.queryParams.page !== oldPage) {
+            // Same route, page param changed
+            this.controller.set('scrollPosition', 0);
+            // didTransition hook doesn't get called, so reset scroll manually
+            $(window).scrollTop(0);
+          }
+        } else {
+          const scrollPosition = $(window).scrollTop();
+          this.controller.set('scrollPosition', scrollPosition);
+        }
       }
-
-      if (transition.state.queryParams.page) {
-        Ember.$(window).scrollTop(0);
-
-        scrollPosition = 0;
-      } else {
-        scrollPosition = (transition.targetName === get(this, 'routeName')) ? 0 : Ember.$(window).pageYOffset;
-      }
-
-      this.controller.set('scrollPosition', scrollPosition);
 
       return true; // bubble action
     }

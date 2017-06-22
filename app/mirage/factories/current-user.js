@@ -1,5 +1,8 @@
+import Ember from 'ember';
 import Mirage, {faker} from 'ember-cli-mirage';
 import moment from 'moment';
+
+const {isBlank} = Ember;
 
 export default Mirage.Factory.extend({
   name() { return faker.name.findName(); },
@@ -8,12 +11,20 @@ export default Mirage.Factory.extend({
   imageUrl() {
     return (Math.random() > 0.5) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;
   },
-  location: 'Norwich, VT',
-  locationId: 1,
   testGroup: 'Consumer',
   listservId: 1,
   listservName: 'Norwich Listserv',
   //managedOrganizationIds() { return [1, 2, 3]; },
   canPublishNews: true,
-  userId(id) { return id; }
+  userId(id) { return id; },
+  locationId: null,
+
+  afterCreate(user, server) {
+    if(isBlank(user.locationId)) {
+      const location = server.create('location');
+      user.location = location.city + ', ' + location.state;
+      user.locationId = location.id;
+      user.save();
+    }
+  }
 });

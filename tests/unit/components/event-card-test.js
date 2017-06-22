@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-card', {
   // Specify the other units that are required for this test
-  needs: ['component:truncate-text', 'component:fa-icon', 'component:gradient-truncation', 'helper:eq', 'helper:and']
+  needs: ['component:truncate-text', 'component:fa-icon', 'component:gradient-truncation', 'helper:eq', 'helper:and', 'service:history']
 });
 
 test('it renders', function(assert) {

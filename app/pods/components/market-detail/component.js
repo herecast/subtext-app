@@ -11,7 +11,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(ModelResetScroll, {
-  closeRoute: 'market.all',
+  closeRoute: 'market',
   closeLabel: 'Market',
   fastboot: inject.service(),
   api: inject.service(),

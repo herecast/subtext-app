@@ -1,0 +1,44 @@
+<header class="LocationMenu-header">
+  <h2 class="LocationMenu-title">Choose your town</h2>
+  {{#async-button
+    action=(action 'locateMe')
+    class='LocationMenu-locateButton'
+    data-test-component='locate-me'
+  as |component state|}}
+    {{#if state.isPending}}
+      {{fa-icon "spinner" spin=true}} Locating you...
+    {{else}}
+      {{fa-icon 'location-arrow'}} Locate me
+    {{/if}}
+  {{/async-button}}
+</header>
+{{#unless showAllLocations}}
+  <ul class="LocationMenu-navigation">
+    {{#each states as |stateName|}}
+      <li class="{{if (eq selectedState stateName) 'active'}}">
+        <a href="#" {{action 'chooseStateTab' stateName}}>
+          {{state-acronym-to-name stateName}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+{{/unless}}
+<div class="row">
+  {{#each groupedLocations as |locationGroup|}}
+    <div class="col-xs-6 col-sm-4 col-md-3">
+      {{#each locationGroup as |locationLink|}}
+        {{#dynamic-link params=locationLink
+                        data-test-link="choose-location"
+                        data-test-location=locationLink.location.id
+                        className="LocationMenu-link"}}
+          <span {{action 'navigateToLocation' locationLink bubbles=false}}
+            data-test-click-target
+            class="LocationMenu-link-location">
+            {{locationLink.location.name}}
+            {{fa-icon 'location-arrow' class="LocationMenu-link-icon"}}
+          </span>
+        {{/dynamic-link}}
+      {{/each}}
+    </div>
+  {{/each}}
+</div>

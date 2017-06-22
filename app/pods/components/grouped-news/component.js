@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+import sortByPublishedAt from 'subtext-ui/utils/sort-by-published-at';
 
 const { computed, set, get } = Ember;
 
@@ -15,19 +16,7 @@ export default Ember.Component.extend({
 
   lastRefreshDate: null,
 
-  // newsSort: ['publishedAt:desc'],
-  orderedNews: computed.sort('news', function(a,b) {
-    const momentA = moment(get(a, 'publishedAt')),
-      momentB = moment(get(b, 'publishedAt'));
-
-    if (momentA.isBefore(momentB)) {
-      return 1;
-    } else if (momentA.isAfter(momentB)) {
-      return -1;
-    }
-
-    return 0;
-  }),
+  orderedNews: computed.sort('news', sortByPublishedAt),
 
   didReceiveAttrs({ newAttrs }) {
     this._super(...arguments);

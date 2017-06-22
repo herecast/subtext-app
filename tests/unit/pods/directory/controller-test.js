@@ -1,7 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:directory', 'Unit | Controller | directory', {
-  needs: ['model:business-profile']
+  needs: ['model:business-profile', 'service:history']
 });
 
 test('it exists', function(assert) {

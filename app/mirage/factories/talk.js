@@ -10,10 +10,6 @@ export default Mirage.Factory.extend({
   imageUrl(i) {
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250' : null;
   },
-  parentContentId() { return faker.random.number(1000); },
-  parentContentType() {
-    return (Math.random() < 0.5) ? 'event' : 'news';
-  },
   publishedAt() { return moment(faker.date.recent(-30)).toISOString(); },
   commenterCount() { return faker.random.number(25); },
   viewCount() { return faker.random.number(1000); },
@@ -21,5 +17,15 @@ export default Mirage.Factory.extend({
   authorImageUrl(i) {
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
   },
-  canEdit: true
+  canEdit: true,
+
+  afterCreate(talk, server) {
+    if(!talk.parentContentId) {
+      const parent = server.create('news');
+      talk.update({
+        parentContentId: parent.id,
+        parentContentType: 'news'
+      });
+    }
+  }
 });

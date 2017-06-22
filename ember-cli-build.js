@@ -27,6 +27,9 @@ module.exports = function(defaults) {
     }
   });
 
+  // provides String.endsWith String.includes etc.. for PhantomJS, and older browsers
+  app.import('bower_components/es6-shim/es6-shim.js');
+
   // BIG CONTRIBUTORS TO VENDOR FILE SIZE
   if (app.env !== 'production') {
     app.import('bower_components/Faker/build/build/faker.js'); // contributes 207kb gzipped file size

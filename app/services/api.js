@@ -372,6 +372,19 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
+  getLocationFromIP() {
+    return this.getJson('/locations/locate');
+  },
+
+  getLocationFromCoords(lat, lng) {
+    let url = '/locations/locate';
+    const coords = `${lat},${lng}`;
+
+    url = url + queryString({coords});
+
+    return this.getJson(url);
+  },
+
   getFeatures() {
     return this.getJson('/features');
   },

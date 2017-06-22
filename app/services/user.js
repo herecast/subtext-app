@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 const { get, inject } = Ember;
 
@@ -12,7 +13,9 @@ export default Ember.Service.extend({
   getCurrentUser() {
     // The current user endpoint does not take an ID, so we pass 'self' so that
     // it requests a single resource
-    return this.store.findRecord('current-user', 'self');
+    return DS.PromiseObject.create({
+      promise: this.store.findRecord('current-user', 'self')
+    });
   },
 
   resendConfirmation(identification) {

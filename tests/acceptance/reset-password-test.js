@@ -1,23 +1,15 @@
-import { module, test } from 'qunit';
-import startApp from 'subtext-ui/tests/helpers/start-app';
+import { test } from 'qunit';
+import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import mockService from 'subtext-ui/tests/helpers/mock-service';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 import Ember from 'ember';
 
 /* global sinon */
 
-var application;
-
 const { RSVP: {Promise} } = Ember;
 
-module('Acceptance | reset password', {
-  beforeEach: function() {
-    application = startApp();
-  },
-  afterEach: function() {
-    Ember.run(application, 'destroy');
-  }
-});
+moduleForAcceptance('Acceptance | reset password');
 
 test('filling out lost password request form', function(assert) {
   visit('/');
@@ -38,6 +30,8 @@ test('filling out lost password request form', function(assert) {
 });
 
 test('filling out lost password request form with returnUrl query param', function(assert) {
+  mockLocationCookie(this.application);
+
   let requestSpy = sinon.stub().returns(Ember.RSVP.Promise.resolve());
   let mockApi = Ember.Service.extend({
     requestPasswordReset: requestSpy,
@@ -51,7 +45,7 @@ test('filling out lost password request form with returnUrl query param', functi
       return Promise.resolve({features:[]});
     }
   });
-  mockService(application, 'api', mockApi);
+  mockService(this.application, 'api', mockApi);
 
   visit('/forgot-password?returnUrl=/test/url').then(()=> {
     assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
@@ -91,10 +85,11 @@ test('filling out lost password edit form with return url', function(assert) {
     referrer: function(){ return ''; },
     href: function() { return ''; },
     search: function() { return ''; },
-    pathname: function() { return ''; }
+    pathname: function() { return ''; },
+    protocol: function() { return ''; }
   });
 
-  mockService(application, 'windowLocation', mockLocation);
+  mockService(this.application, 'windowLocation', mockLocation);
 
   // Needs actual integration with mirage
   visit('/forgot-password/abc123?return_url=/go/here').then(() => {
