@@ -7,6 +7,9 @@ const {
   set,
   get,
   computed,
+  RSVP: {Promise},
+  PromiseProxyMixin,
+  ArrayProxy,
   inject
 } = Ember;
 
@@ -74,11 +77,16 @@ export default Ember.Controller.extend(PaginatedFilter, {
   navCategories: computed.union('featuredCategories', 'trendingCategories'),
 
   recentPosts: computed('userLocation.locationId', function() {
-    return get(this, "userLocation.location").then(location => {
-      return this.store.query('market-post', {
-        location_id: get(location, 'id'),
-        has_image: true
-      });
+    let ArrayPromiseProxy = ArrayProxy.extend(PromiseProxyMixin);
+    return ArrayPromiseProxy.create({
+      promise: new Promise((resolve) => {
+        get(this, "userLocation.location").then(location => {
+          this.store.query('market-post', {
+            location_id: get(location, 'id'),
+            has_image: true
+          }).then(resolve);
+        });
+      }),
     });
   }),
 
