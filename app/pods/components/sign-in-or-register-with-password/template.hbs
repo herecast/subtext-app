@@ -1,0 +1,73 @@
+<div class="SignInForm">
+  <ul class='SignInForm-tabs'>
+    <li class="{{if isSignIn 'active'}}">
+      <a onclick={{action 'changeMode' 'sign-in-with-password'}}>
+        Sign In
+      </a>
+    </li>
+    <li class="{{if isRegister 'active'}}">
+      <a onclick={{action 'changeMode' 'register'}}>
+        Join
+      </a>
+    </li>
+  </ul>
+
+  {{#form-group error=errors.email}}
+    {{form-input
+      value=email
+      type='email'
+      id="SignInForm-email"
+      placeholder='Email'
+      input=(action 'clearErrors')
+      data-test-field='sign-in-email'
+      required=true
+      autofocus=media.isNotMobile
+    }}
+    {{#if userMustConfirm}}
+      <div class='help-block SignInForm-reconfirmMessage'>
+        <strong>You have not yet confirmed your account.</strong> <br><br>
+        Please check your mailbox for DailyUV Confirmation Instructions sent to {{email}}.
+        Or <br>
+        <a class='SignInForm-reconfirmAction' href='#' {{action 'reconfirm'}}>click here to re-send the confirmation
+          email.</a><br>
+        You must confirm your account before signing in.
+      </div>
+    {{/if}}
+  {{/form-group}}
+
+  {{#form-group error=errors.password}}
+    {{form-input
+      value=password
+      placeholder='Password'
+      type='password'
+      data-test-field='sign-in-password'
+      required=true
+    }}
+  {{/form-group}}
+
+  <div class='SignInForm-submitWrapper'>
+    {{async-button
+      action=(action submit)
+      default=(if isSignIn 'Sign in' 'Join')
+      pending=(if isSignIn 'Signing in' 'Joining')
+      class='SignInForm-submitButton'
+      data-test-component='sign-in-submit'
+    }}
+
+    {{#if isSignIn}}
+      {{#link-to 'forgot-password' class='SignInForm-link' data-test-link='forgot-password'}}
+        Forgot password?
+      {{/link-to}}
+    {{else}}
+      <a class='SignInForm-link' {{action 'changeMode' 'sign-in-with-password'}}>
+        Already have an account?
+      </a>
+    {{/if}}
+  </div>
+</div>
+
+{{#content-footer}}
+  {{#text-block small=true hasMargin=false}}
+    {{legal-disclaimer}}
+  {{/text-block}}
+{{/content-footer}}

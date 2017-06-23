@@ -1,17 +1,15 @@
-{{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close')}}
-  <div class="Modal-dialogHeader">
-    <button class="Modal-action Modal-actionClose" {{action 'close'}}>
-      ×
-    </button>
-    <span class='UserMenu-user  Modal-dialogHeader-block'>
-      {{avatar-image
+{{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close') isSmall=true}}
+
+  {{#modal-header close=(action 'close')}}
+    {{avatar-image
       imageUrl=currentUser.userImageUrl
       userName=currentUser.name
       customSize=26
-      }}
-      <span class='UserMenu-avatarText'>{{currentUser.name}}</span>
+    }}
+    <span class="UserMenuModal-name">
+      {{currentUser.name}}
     </span>
-  </div>
+  {{/modal-header}}
 
   <nav class="UserMenuModal-topNav">
     <div class="UserMenuModal-topNav-item">

@@ -29,9 +29,6 @@ export default Ember.Controller.extend({
         }
       });
     },
-    join() {
-      this.transitionToRoute('register');
-    },
     clearToken() {
       set(this, 'auth_token', null);
     }

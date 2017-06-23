@@ -1,0 +1,15 @@
+{{#if hasBlock}}
+  {{yield this}}
+{{else}}
+  {{#async-button
+    action=(action "loginWithFacebook")
+    class='btn btn-lg btn-block btn-social btn-facebook FacebookLoginButton'
+  as |component state|}}
+    {{fa-icon 'facebook'}}
+    {{#if state.isPending}}
+      Signing in...
+    {{else}}
+      Continue with Facebook
+    {{/if}}
+  {{/async-button}}
+{{/if}}

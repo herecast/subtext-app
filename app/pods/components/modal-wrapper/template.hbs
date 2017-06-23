@@ -1,16 +1,7 @@
 <div class='Modal-inner'>
-  <div class='Modal-dialog {{if fullscreen "Modal-dialog--fullscreen"}} {{if isAnimated 'animated'}}'>
+  <div class='Modal-dialog {{if isSmall "Modal-dialog--small"}} {{if fullscreen "Modal-dialog--fullscreen"}} {{if isAnimated 'animated'}}'>
     {{#if showHeader}}
-      <div class='Modal-dialogHeader'>
-        {{#if close}}
-          <button class=' Modal-action Modal-actionClose' onclick={{action close}}>
-           ×
-          </button>
-        {{/if}}
-        {{#if title}}
-          <span class='Modal-dialogTitle'>{{title}}</span>
-        {{/if}}
-      </div>
+      {{modal-header close=close title=title}}
     {{/if}}
 
     {{yield this}}

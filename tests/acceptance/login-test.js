@@ -34,7 +34,7 @@ test('sign in via email', function(assert) {
 
   andThen(()=> {
     assert.equal(
-      find(testSelector('message', 'check-your-email')).length, 1,
+      find(testSelector('component', 'check-your-email')).length, 1,
       "Displays message to check email for link to sign in");
   });
 });
@@ -49,7 +49,7 @@ test('Follow sign in link, authentication succeeds', function(assert) {
 
     assert.equal(data.token, token, "Posts token to correct server endpoint");
 
-    currentUsers.create(user.attrs); 
+    currentUsers.create(user.attrs);
     done();
     return {
       email: user.email,

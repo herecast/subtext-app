@@ -3,13 +3,6 @@
     <div class='AuthForm-wrapper'>
       <div class='col-md-6 col-md-offset-3'>
         {{#unless session.isFastBoot}}
-          <nav class='PillNavigation'>
-            <a class='PillNavigation-item PillNavigation-item--active h3'>Sign in</a>
-            {{#link-to 'register' class="PillNavigation-item h3"}}
-              Join Now
-            {{/link-to}}
-          </nav>
-
           <div class='AuthForm'>
             <div class='AuthForm-header'>
               <h1 class='AuthForm-title h1'>Sign in</h1>
@@ -26,7 +19,6 @@
 
                 {{sign-in
                     afterAuthenticate=(action 'wasAuthenticated')
-                    onJoinClick=(action 'join')
                     didUpdate=(action 'clearToken')
                 }}
               </div>

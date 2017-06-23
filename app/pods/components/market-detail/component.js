@@ -15,17 +15,18 @@ export default Ember.Component.extend(ModelResetScroll, {
   closeLabel: 'Market',
   fastboot: inject.service(),
   api: inject.service(),
+  isPreview: false,
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
 
-    if(!get(this, 'fastboot.isFastBoot')) {
+    if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
       get(this, 'api').recordContentImpression(
         id
       );
     }
   },
- 
+
   didInsertElement() {
     this._super(...arguments);
     this._trackImpression();

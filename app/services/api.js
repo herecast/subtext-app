@@ -615,5 +615,11 @@ export default Ember.Service.extend(FastbootExtensions, {
     return returnJson(
       this.post('/users/sign_in_with_token', this.json({token: token}))
     );
+  },
+
+  signInWithOauth(authData) {
+    return returnJson(
+      this.post('/users/oauth', this.json(authData))
+    );
   }
 });

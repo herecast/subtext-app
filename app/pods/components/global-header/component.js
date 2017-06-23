@@ -37,16 +37,8 @@ export default Ember.Component.extend(TestSelector, {
         signOut(...arguments);
       }
     },
-    showSignInMenu(tab) {
-      const isShown = get(this, 'showSignIn');
-      const prevTab = get(this, 'signInTab');
-
-      if(isShown && (prevTab === tab)) {
-        this.send('closeSignInMenu');
-      } else {
-        set(this, 'signInTab', tab);
-        set(this, 'showSignIn', true);
-      }
+    showSignInMenu() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
     },
     registerModal() {
       get(this, 'modals').showModal('modals/sign-in-register', 'register');

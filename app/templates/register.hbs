@@ -1,13 +1,6 @@
 <div class='container'>
   <div class='row'>
     <div class='AuthForm-wrapper'>
-      <nav class='PillNavigation'>
-        {{#link-to 'login' class="PillNavigation-item h3"}}
-          Sign In
-        {{/link-to}}
-
-        <a class='PillNavigation-item PillNavigation-item--active h3' data-test-pill='join'>Join Now</a>
-      </nav>
 
       <div class='col-md-8 col-md-push-2'>
         <div class='AuthForm'>
@@ -34,11 +27,7 @@
 
               <div class='col-md-8 col-md-pull-4'>
                 <div class='AuthForm-form'>
-                  {{registration-form
-                    digests=model
-                    email=email
-                    onSuccess=(action 'afterRegister')
-                  }}
+                  {{sign-in signInModule='register'}}
                 </div>
               </div>
             </div>

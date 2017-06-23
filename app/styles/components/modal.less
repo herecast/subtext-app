@@ -11,7 +11,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  /** 
+  /**
    * https://bugs.webkit.org/show_bug.cgi?id=158342
    * https://github.com/twbs/bootstrap/commit/1ca6c9d7f1d15017c549dd1375ed98bf64404b33
    */
@@ -24,29 +24,6 @@
   &--no-padding {
     .Modal-dialog {
       padding: 0;
-    }
-  }
-
-  &-actionClose { }
-
-  &-dialogHeader {
-    overflow: hidden;
-    font-weight: bold;
-    position: relative;
-    min-height: 25px;
-
-    .Modal-actionClose {
-      background: none;
-      border: 0;
-      font-size: 50px;
-      font-weight: normal;
-      padding: 0;
-      display: block;
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      bottom: 8px;
-      vertical-align: middle;
     }
   }
 
@@ -69,6 +46,10 @@
   &.animated {
     animation: slide-up 0.5s;
   }
+
+  &--small {
+    max-width: 360px;
+  }
 }
 
 .Modal-dialog--fullscreen {
@@ -86,13 +67,6 @@
   }
 }
 
-.Modal-dialog--fullscreen .Modal-dialogHeader {
-  background: #fff;
-  max-width: 83.333em;
-  box-shadow: none;
-  margin: auto;
-}
-
 .Modal-dialogFooter {
   padding: 0 4px 10px 4px;
   text-align: center;
@@ -102,5 +76,26 @@
 @media (max-width: @screen-xs-max) {
   .Modal-dialog {
     .Modal-dialog--fullscreen;
+
+    &--small {
+      width: 90vw;
+      max-height: 90vh;
+      height: auto;
+      margin: 5vh 5vw;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .Modal-dialog {
+    .Modal-dialog--fullscreen;
+
+    &--small {
+      // Force it to go full screen. Match the min-height to the same height calculation of its container.
+      min-height: calc(100% + 1px);
+      width: 100vw;
+      padding-bottom: 10px;
+    }
   }
 }

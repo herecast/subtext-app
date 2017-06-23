@@ -11,8 +11,7 @@
 </div>
 
 <div class='MobileHeader-user'>
-{{#unless session.isFastBoot}}
-  {{#if session.isAuthenticated}}
+  {{#if showUserMenu}}
     <div class='UserMenu'>
       <a href='#' class='UserMenu-avatar' role='button' {{action 'openUserMenu'}}>
         {{avatar-image
@@ -25,10 +24,9 @@
     </div>
   {{else}}
     <button {{action 'signInModal'}} class='MobileHeader-signinAction'>
-      Sign in/Join
+      {{fa-icon 'user'}}
     </button>
   {{/if}}
-{{/unless}}
 </div>
 
 <div class='MobileHeader-search'>

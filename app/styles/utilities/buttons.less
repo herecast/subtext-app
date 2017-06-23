@@ -1,5 +1,5 @@
 .u-button {
-  border-radius: 3px;
+  border-radius: 4px;
   line-height: normal;
   vertical-align: middle;
   cursor: pointer;
@@ -7,25 +7,27 @@
 }
 
 .u-button-primary {
-  background: #3DA0E5;
+  background: @button-primary;
   color: #fff;
   border: none;
-  padding: 15px 25px;
+  padding: 15px 20px;
   text-transform: none;
   font-family: 'proxima-nova', Verdana, Arial, Helvetica, sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   transition: background 300ms;
 
   &[disabled],
+  &[disabled]:hover,
   &.disabled,
- &[disabled]:hover,
+  &.disabled:hover
   {
     cursor: pointer;
     opacity: 1;
     filter: none;
-    background: #b6bec5;
-    border-color: #b6bec5;
+    background: darken(@gray-light, 10%);
+    border-color: darken(@gray-light, 10%);
+    color: @gray-dark;
   }
 
 

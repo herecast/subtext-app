@@ -1,12 +1,21 @@
 .SignInForm {
+  padding: 0 15px 15px 15px;
+
   &-reconfirmAction {
     text-decoration: underline;
   }
 
-  &-forgotPasswordAction {
-    margin-top: 1em;
-    display: block;
-    text-decoration: underline;
+  &-link {
+    margin-left: 10px;
+    color: @link-color-new;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:active,
+    &:hover,
+    &:focus {
+      color: @link-color-new;
+    }
   }
 
   &-legal {
@@ -15,7 +24,40 @@
     line-height: 1.1;
   }
 
-  @media (max-width: @screen-xs-max) {
-    padding-bottom: 100px;
+  &-submitButton {
+    .u-button;
+    .u-button-primary;
+    padding: 10px 30px;
+  }
+
+  &-tabs {
+    .nav;
+    .nav-tabs;
+    .h3;
+    margin-bottom: 20px;
+
+    li {
+      width: 50%;
+      text-align: center;
+      font-weight: bold;
+
+      .active {
+        a {
+          color: @text-color;
+        }
+      }
+
+      a {
+        color: @link-color-new;
+        cursor: pointer;
+
+        &:active,
+        &:focus,
+        &:hover {
+          background: white;
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }

@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   fastboot: inject.service(),
 
   fullscreen: false,
+  isSmall: false,
 
   showHeader: computed('title', 'close', function() {
     return (get(this, 'title') || get(this, 'close'));
@@ -35,7 +36,7 @@ export default Ember.Component.extend({
   click(e) {
     // Clicking on overlay should close the modal
     const close = get(this, 'close');
-    if ($(e.target).hasClass('Modal') && close) {
+    if ($(e.target).hasClass('Modal-inner') && close) {
       close();
     }
   },

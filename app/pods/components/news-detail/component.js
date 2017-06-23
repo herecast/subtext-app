@@ -37,7 +37,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
 
     // Necessary to check fastboot here, in case
     // didUpdateAttrs calls this from fastboot.
-    if(!get(this, 'fastboot.isFastBoot')) {
+    if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
       get(this, 'api').recordContentImpression(
         model.id
       );

@@ -1,0 +1,47 @@
+{{#text-block center=true}}
+  Sign in with email.<br/>
+  No more having to remember passwords!
+{{/text-block}}
+
+{{#form-group error=error smallMargin=true}}
+  {{form-input
+    value=email
+    type='email'
+    id="SignInForm-email"
+    placeholder='Email'
+    input=(action 'validate')
+    data-test-field='sign-in-email'
+    required=true
+    margin=true
+  }}
+  {{#if noAccount}}
+    <div class="FormGroup-error">
+      An account does not yet exist for <strong>{{email}}</strong>.
+      {{#if onJoinClick}}
+        <button
+          {{action onJoinClick bubbles=false}}
+          class='u-textUnderline btn btn-link u-padding0'>
+          Join Now
+        </button>
+      {{/if}}
+    </div>
+  {{/if}}
+{{/form-group}}
+
+<div>
+  {{async-button
+    action=(action 'sendEmail')
+    default='Email me a link to sign in'
+    pending='Sending...'
+    class=(concat 'u-button u-button-primary' (if email '' ' disabled'))
+    data-test-action='send-sign-in-link'
+  }}
+
+  {{#if onJoinClick}}
+    <button class='SignInWithEmailOrOauth-joinLink'
+            data-test-action='change-sign-in-module-to-join'
+      {{action onJoinClick bubbles=false}}>
+      or Join
+    </button>
+  {{/if}}
+</div>

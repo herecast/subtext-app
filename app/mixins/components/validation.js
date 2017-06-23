@@ -115,7 +115,7 @@ export default Ember.Mixin.create({
     // Retrieved 2014-01-14
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-    return isEmpty(email) || emailRegex.test(email);
+    return emailRegex.test(email);
   },
 
   validatesEmailFormatOf(email) {

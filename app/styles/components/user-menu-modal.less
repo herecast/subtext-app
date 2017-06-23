@@ -1,31 +1,8 @@
 .UserMenuModal {
 
-  .Modal-dialogHeader {
-    overflow: auto;
-    display: flex;
-    flex-direction: row;
-    padding: 8px !important;
-    align-items: center;
-    align-content: center;
-
-    .Modal-actionClose {
-      position: initial !important;
-      top: initial !important;
-      left: initial !important;
-      right: initial !important;
-      min-width: 60px;
-      text-align: left;
-    }
-
-    .Modal-dialogTitle {
-      flex-grow: 1;
-      flex-basis: 100%;
-      display: block;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
+  &-name {
+    font-weight: bold;
+    padding-left: 5px;
   }
 
   &-signOut {
@@ -38,12 +15,12 @@
   }
 
   &-topNav {
-    margin-bottom: 20px;
+    margin: 10px 0 20px 0;
 
     &-item {
       .h1;
       margin: 0;
-      padding: 20px;
+      padding: 20px 20px 20px 10px;
       border-bottom: solid 1px darken(@gray-light, 10%);
     }
   }

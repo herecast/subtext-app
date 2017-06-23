@@ -10,11 +10,12 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   fastboot: inject.service(),
   api: inject.service(),
   closeLabel: 'Talk',
+  isPreview: false,
 
   _trackImpression() {
     const id = get(this, 'model.id');
 
-    if(!get(this, 'fastboot.isFastBoot')) {
+    if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
       get(this, 'api').recordContentImpression(
         id
       );

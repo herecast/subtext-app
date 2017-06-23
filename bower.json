@@ -7,7 +7,7 @@
     "blueimp-load-image": "~2.12.2",
     "bootstrap": "~3.3.4",
     "cropper": "0.11.1",
-    "font-awesome": "~4.4.0",
+    "font-awesome": "~4.7.0",
     "fullcalendar": "~3.2.0",
     "highlightjs": "9.1.0",
     "jquery-mask-plugin": "1.14.10",
@@ -27,6 +27,7 @@
     "summernote-image-attributes": "^0.1.2",
     "weather-icons": "~2.0.1",
     "PACE": "pace#^1.0.2",
+    "bootstrap-social": "^5.1.1",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "es6-shim": "^0.35.3"
   },

@@ -9,7 +9,7 @@ const {
 export default Ember.Component.extend({
   'data-test-component': 'sign-in',
   email: null,
-  signInModule: 'sign-in-with-email',
+  signInModule: 'sign-in-with-email-or-oauth',
   afterAuthenticate() {},
 
   trackMethodChange(name) {

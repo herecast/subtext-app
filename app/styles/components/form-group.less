@@ -1,7 +1,22 @@
 .FormGroup {
+  .form-group;
+
   &.has-error {
     .FormGroup-label {
-      color: #a94442;
+      color: @brand-danger;
     }
+  }
+
+  &--smallMargin {
+    margin-bottom: 10px;
+  }
+
+  &-error {
+    background: transparent;
+    border: none;
+    padding: 3px;
+    margin: 0;
+    line-height: 1.2;
+    color: @brand-danger;
   }
 }

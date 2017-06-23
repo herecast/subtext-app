@@ -23,6 +23,10 @@ export default Ember.Component.extend({
     return `MobileHeader--${get(this, 'currentChannel')}`;
   }),
 
+  showUserMenu: computed('session.isFastBoot', 'session.isAuthenticated', function() {
+    return !get(this, 'session.isFastBoot') && get(this, 'session.isAuthenticated');
+  }),
+
   init() {
     this._super(...arguments);
 
