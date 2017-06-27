@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
-/* global dataLayer */
 
 const {
   get,
@@ -66,14 +65,12 @@ export default Ember.Component.extend(ModelResetScroll, {
   },
 
   _trackMarketDigestSubscriptionClick(version, title) {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        'event': 'market-digest-subscribe',
-        'type': 'click',
-        'title': title,
-        'version': version
-      });
-    }
+    this.tracking.push({
+      'event': 'market-digest-subscribe',
+      'type': 'click',
+      'title': title,
+      'version': version
+    });
   },
 
   actions: {
@@ -101,11 +98,9 @@ export default Ember.Component.extend(ModelResetScroll, {
 
       get(this, 'intercom').trackEvent('market-reply-click');
 
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event': 'market-reply-click'
-        });
-      }
+      this.tracking.push({
+        'event': 'market-reply-click'
+      });
     }
   }
 });

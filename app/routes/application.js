@@ -2,7 +2,6 @@ import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 const { get, set, isPresent, isEmpty, inject, run } = Ember;
-/* global dataLayer */
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   intercom: inject.service(),
@@ -28,13 +27,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
       userActivity.register('sessionTimer', window);
       userActivity.triggerTimedEvents('sessionTimer', (time) => {
-        if (typeof dataLayer !== "undefined") {
-          dataLayer.push({
-            'event'             : 'VirtualSessionTimerEvent',
-            'virtualTimeOnPage' : time,
-            'virtualPageUrl'    : window.location.href
-          });
-        }
+        this.tracking.push({
+          'event'             : 'VirtualSessionTimerEvent',
+          'virtualTimeOnPage' : time,
+          'virtualPageUrl'    : window.location.href
+        });
       }, timeIntervals);
     }
   },

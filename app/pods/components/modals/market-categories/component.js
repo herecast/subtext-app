@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
-/* global dataLayer */
 
 const { get, inject, computed } = Ember;
 
@@ -28,13 +27,11 @@ export default ModalInstance.extend({
 
   actions: {
     trackCategoryClick(category) {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event'         : 'market-category-click',
-          'category-name' : get(category, 'name'),
-          'type'          : 'overlay-link'
-        });
-      }
+      this.tracking.push({
+        'event'         : 'market-category-click',
+        'category-name' : get(category, 'name'),
+        'type'          : 'overlay-link'
+      });
     }
   }
 });

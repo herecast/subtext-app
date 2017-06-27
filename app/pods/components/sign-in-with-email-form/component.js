@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import validateFormat from 'ember-validators/format';
 
-/* global dataLayer */
-
 const {
   inject,
   get,
@@ -55,12 +53,10 @@ export default Ember.Component.extend({
   },
 
   trackSignInClick() {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        event: 'sign-in-submit-click',
-        sign_in_type: 'magic'
-      });
-    }
+    this.tracking.push({
+      event: 'sign-in-submit-click',
+      sign_in_type: 'magic'
+    });
   },
 
   actions: {

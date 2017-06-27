@@ -1,6 +1,5 @@
 import config from 'subtext-ui/config/environment';
 import Ember from 'ember';
-/* global dataLayer */
 
 const {
   get,
@@ -34,6 +33,7 @@ export function initialize(application) {
 
     Router.reopen({
       session: inject.service(),
+      tracking: inject.service(),
       currentController: inject.service(),
 
       notifyGoogleTagManager: on('didTransition', function() {
@@ -43,11 +43,10 @@ export function initialize(application) {
           const currentUserID        = (currentUser) ? get(currentUser, 'userId') : 'anonymous';
           const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
 
-          if (typeof dataLayer !== "undefined") {
             const currentUrl = window.location.href;
             const currentOrgName = get(this,'currentController.currentController.model.organizationName') || null;
 
-            dataLayer.push({
+            get(this, 'tracking').push({
               'event':'VirtualPageview',
               'virtualPageURL'          : get(this, 'url'),
               'virtualPageTitle'        : document.title,
@@ -58,7 +57,6 @@ export function initialize(application) {
             });
 
             referrer = currentUrl;
-          }
         });
       })
     });

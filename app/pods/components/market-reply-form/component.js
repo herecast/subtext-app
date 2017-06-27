@@ -1,7 +1,5 @@
 import Ember from 'ember';
 
-/* global dataLayer */
-
 const { get, setProperties } = Ember;
 
 export default Ember.Component.extend({
@@ -46,11 +44,9 @@ export default Ember.Component.extend({
         hideForm: false
       });
 
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event': 'market-reply-click'
-        });
-      }
+      this.tracking.push({
+        'event': 'market-reply-click'
+      });
     },
 
     cancel() {
@@ -58,11 +54,9 @@ export default Ember.Component.extend({
     },
 
     trackDefaultEmailClick() {
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event': 'market-reply-default-email-click'
-        });
-      }
+      this.tracking.push({
+        'event': 'market-reply-default-email-click'
+      });
       return true;
     }
   }

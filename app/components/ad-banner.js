@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
-/* global dataLayer */
 
 const {
   get,
@@ -64,18 +63,16 @@ export default Ember.Component.extend(InViewportMixin, {
   _didSendImpression: false,
 
   _pushEvent(event) {
-    if (typeof dataLayer !== "undefined") {
-      const promo = get(this, 'promotion');
+    const promo = get(this, 'promotion');
 
-      dataLayer.push({
-        'event'           : event,
-        'advertiser'      : get(promo, 'organization_name'),
-        'promotion_id'    : get(promo, 'promotion_id'),
-        'banner_id'       : get(promo, 'id'),
-        'redirect_url'    : get(promo, 'redirect_url'),
-        'promotion_title' : get(promo, 'title')
-      });
-    }
+    this.tracking.push({
+      'event'           : event,
+      'advertiser'      : get(promo, 'organization_name'),
+      'promotion_id'    : get(promo, 'promotion_id'),
+      'banner_id'       : get(promo, 'id'),
+      'redirect_url'    : get(promo, 'redirect_url'),
+      'promotion_title' : get(promo, 'title')
+    });
 
   },
 

@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
-/* global dataLayer */
 
 const { computed, inject, get } = Ember;
 
@@ -32,14 +31,12 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   actions: {
     trackCardClick() {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event'    : 'market-post-click',
-          'category' : get(this, 'cat.name'),
-          'has-category-banner-image': get(this, 'cat.banner') ? true : false,
-          'type': 'new-market-card'
-        });
-      }
+      this.tracking.push({
+        'event'    : 'market-post-click',
+        'category' : get(this, 'cat.name'),
+        'has-category-banner-image': get(this, 'cat.banner') ? true : false,
+        'type': 'new-market-card'
+      });
     },
 
     openCategoriesModal() {

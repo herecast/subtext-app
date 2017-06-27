@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import moment from 'moment';
-/* global dataLayer */
 
 const {get, set, computed, run, $, inject:{service}} = Ember;
 
@@ -34,15 +33,13 @@ export default Ember.Component.extend({
   _gtmTrackEvent(name, content='') {
     get(this,'session').incrementEventSequence('events-interactions')
     .then((eventSequenceIndex) => {
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event': name,
-          'content': content,
-          'url': window.location.href,
-          'event-sequence': eventSequenceIndex,
-          'event_day': moment().format('YYYY-MM-DD')
-        });
-      }
+      this.tracking.push({
+        'event': name,
+        'content': content,
+        'url': window.location.href,
+        'event-sequence': eventSequenceIndex,
+        'event_day': moment().format('YYYY-MM-DD')
+      });
     });
   },
 

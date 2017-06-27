@@ -2,8 +2,6 @@ import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-/* global dataLayer */
-
 const {
   computed,
   get,
@@ -51,12 +49,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
   },
 
   trackSignInClick() {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        event: 'sign-in-submit-click',
-        sign_in_type: 'password'
-      });
-    }
+    this.tracking.push({
+      event: 'sign-in-submit-click',
+      sign_in_type: 'password'
+    });
   },
 
   authenticate() {

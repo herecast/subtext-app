@@ -1,7 +1,5 @@
 import Ember from 'ember';
 
-/* global dataLayer */
-
 const {
   set
 } = Ember;
@@ -13,12 +11,10 @@ export default Ember.Component.extend({
   afterAuthenticate() {},
 
   trackMethodChange(name) {
-    if(typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        event: 'sign-in-method-change',
-        selected: name
-      });
-    }
+    this.tracking.push({
+      event: 'sign-in-method-change',
+      selected: name
+    });
   },
 
   actions: {

@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
-/* global dataLayer */
 
 const {
   inject,
@@ -28,12 +27,10 @@ export default Ember.Component.extend(InViewportMixin, {
   }),
 
   _sendImpression() {
-    if (typeof dataLayer !== "undefined") {
-      dataLayer.push({
-        'event': 'market-digest-subscribe',
-        'type': 'impression'
-      });
-    }
+    this.tracking.push({
+      'event': 'market-digest-subscribe',
+      'type': 'impression'
+    });
 
     set(this, '_didSendImpression', true);
   },
@@ -76,12 +73,10 @@ export default Ember.Component.extend(InViewportMixin, {
 
   actions: {
     trackClick() {
-      if (typeof dataLayer !== "undefined") {
-        dataLayer.push({
-          'event': 'market-digest-subscribe',
-          'type': 'click'
-        });
-      }
+      this.tracking.push({
+        'event': 'market-digest-subscribe',
+        'type': 'click'
+      });
     }
   }
 });

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-/* global dataLayer */
 
 const { get, set, computed } = Ember;
 
@@ -48,11 +47,9 @@ export default Ember.Component.extend({
   },
 
   viewMoreGTMEvent() {
-    if(typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        'event': 'content-view-more'
-      });
-    }
+    this.tracking.push({
+      'event': 'content-view-more'
+    });
   },
 
   actions: {

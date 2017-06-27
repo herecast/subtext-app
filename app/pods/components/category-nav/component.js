@@ -1,5 +1,4 @@
 import Ember from 'ember';
-/* global dataLayer */
 
 const {
   get,
@@ -17,29 +16,23 @@ export default Ember.Component.extend({
 
   actions: {
     trackCategoryMoreClick() {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event' : 'market-categories-more-click',
-          'type'  : 'category-nav'
-        });
-      }
+      this.tracking.push({
+        'event' : 'market-categories-more-click',
+        'type'  : 'category-nav'
+      });
     },
     trackCreateButtonClick() {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event' : 'market-create-button-click'
-        });
-      }
+      this.tracking.push({
+        'event' : 'market-create-button-click'
+      });
     },
 
     trackCategoryClick(category) {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event'         : 'market-category-click',
-          'type'          : 'category-nav',
-          'category-name' : get(category, 'name')
-        });
-      }
+      this.tracking.push({
+        'event'         : 'market-category-click',
+        'type'          : 'category-nav',
+        'category-name' : get(category, 'name')
+      });
     },
 
     openCategoriesModal() {

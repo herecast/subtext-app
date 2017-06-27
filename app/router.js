@@ -3,6 +3,7 @@ import config from './config/environment';
 
 const { inject, on, get } = Ember;
 
+
 const Router = Ember.Router.extend({
   history: inject.service('history'),
   location: config.locationType,
@@ -13,7 +14,8 @@ const Router = Ember.Router.extend({
       this.currentRouteName,
       this.currentState
     );
-  })
+    return true;
+  }),
 });
 
 Router.map(function() {

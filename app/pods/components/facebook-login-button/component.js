@@ -1,4 +1,4 @@
-/* global FB, dataLayer */
+/* global FB */
 
 import Ember from 'ember';
 
@@ -35,12 +35,10 @@ export default Ember.Component.extend({
   },
 
   trackSignInClick() {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push({
-        event: 'sign-in-submit-click',
-        sign_in_type: 'facebook'
-      });
-    }
+    this.tracking.push({
+      event: 'sign-in-submit-click',
+      sign_in_type: 'facebook'
+    });
   },
 
   signInWithOauth(oauthData) {

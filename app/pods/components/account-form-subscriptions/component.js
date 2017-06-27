@@ -1,5 +1,4 @@
 import Ember from 'ember';
-/* global dataLayer */
 
 const { get, inject, computed } = Ember;
 
@@ -19,19 +18,17 @@ export default Ember.Component.extend({
   }),
 
   alertGTM(digest) {
-    if (typeof dataLayer !== 'undefined') {
-      if (get(digest, 'subscription')) {
-        dataLayer.push({
-          'event': 'dashboard-subscribe',
-          'digest-name': get(digest, 'name')
-        });
-        get(this, 'intercom').trackEvent('digest-subscribe');
-      } else {
-        dataLayer.push({
-          'event': 'dashboard-unsubscribe',
-          'digest-name': get(digest, 'name')
-        });
-      }
+    if (get(digest, 'subscription')) {
+      this.tracking.push({
+        'event': 'dashboard-subscribe',
+        'digest-name': get(digest, 'name')
+      });
+      get(this, 'intercom').trackEvent('digest-subscribe');
+    } else {
+      this.tracking.push({
+        'event': 'dashboard-unsubscribe',
+        'digest-name': get(digest, 'name')
+      });
     }
   },
 

@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 
-/* global dataLayer */
-
 const {
   set,
   get,
@@ -112,12 +110,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
       if(q.length > 2) {
         set(this, 'query', q);
 
-        if (typeof dataLayer !== 'undefined') {
-          dataLayer.push({
-            'event' : 'market-channel-search',
-            'query' : q
-          });
-        }
+        this.tracking.push({
+          'event' : 'market-channel-search',
+          'query' : q
+        });
       } else {
         set(this, 'query', "");
       }
@@ -125,31 +121,25 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
 
     trackCreateButtonClick() {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event' : 'market-create-button-click-jumbo',
-          'type'  : 'index-jumbotron'
-        });
-      }
+      this.tracking.push({
+        'event' : 'market-create-button-click-jumbo',
+        'type'  : 'index-jumbotron'
+      });
     },
 
     trackCategoryMoreClick() {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event' : 'market-categories-more-click',
-          'type'  : 'featured-card'
-        });
-      }
+      this.tracking.push({
+        'event' : 'market-categories-more-click',
+        'type'  : 'featured-card'
+      });
     },
 
     trackCategoryClick(category, type) {
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event'         : 'market-category-click',
-          'category-name' : get(category, 'name'),
-          'type'          : type
-        });
-      }
+      this.tracking.push({
+        'event'         : 'market-category-click',
+        'category-name' : get(category, 'name'),
+        'type'          : type
+      });
     },
 
     trackCardClick(cardType) {
@@ -161,13 +151,11 @@ export default Ember.Controller.extend(PaginatedFilter, {
         type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
       }
 
-      if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
-          'event' : 'market-post-click',
-          'query' : get(this, 'query'),
-          type
-        });
-      }
+      this.tracking.push({
+        'event' : 'market-post-click',
+        'query' : get(this, 'query'),
+        type
+      });
     },
 
     openCategoriesModal() {
