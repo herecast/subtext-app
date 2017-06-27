@@ -1,34 +1,4 @@
 <div class='PromotionSection'>
-  <label class='PromotionSection-label' for="category-enabled">Be Special <span class='PromotionSection-cost'>Free!</span></label>
-  <p class='PromotionSection-description'>
-    Maybe your event fits one of our pre-defined special searches:
-    Arts, Movies, Wellness, or Live Music. If it does, choose one!
-  </p>
-
-  <div class='row'>
-    <div class='col-sm-6'>
-      <div {{action 'toggleCategoryEnabled'}} class='PromotionSection-toggle'>
-        {{#if categoryEnabled}}
-          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-        {{else}}
-          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-        {{/if}}
-      </div>
-    </div>
-    <div class='col-sm-6'>
-      {{#if categoryEnabled}}
-        {{#x-select value=event.category class='form-control' as |xs|}}
-          {{#xs.option value=null}}Select a category:{{/xs.option}}
-          {{#each categories as |category|}}
-            {{#xs.option value=category.value}}{{category.label}}{{/xs.option}}
-          {{/each}}
-        {{/x-select}}
-      {{/if}}
-    </div>
-  </div>
-</div>
-
-<div class='PromotionSection'>
   <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
     <p class='PromotionSection-description PromotionSection-description--emphasized'>
       Send a text-only version of your event to one or more Upper Valley listservs with a link to the full listing.
