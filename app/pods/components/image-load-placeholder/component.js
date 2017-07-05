@@ -42,6 +42,12 @@ export default Ember.Component.extend({
         this.loadImage(imageUrl).then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
            set(this, 'imageIsLoaded', true);
+
+           // If onImageLoaded action given, trigger it
+           const onImageLoadedAction = get(this, 'onImageLoaded');
+           if(onImageLoadedAction) {
+             onImageLoadedAction();
+           }
           }
         });
       }

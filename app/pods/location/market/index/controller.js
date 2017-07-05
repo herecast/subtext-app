@@ -12,6 +12,7 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
+  tracking: inject.service(),
   userLocation: inject.service('user-location'),
   locationId: computed.oneWay('userLocation.locationId'),
 
@@ -110,7 +111,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
       if(q.length > 2) {
         set(this, 'query', q);
 
-        this.tracking.push({
+        get(this, 'tracking').push({
           'event' : 'market-channel-search',
           'query' : q
         });
@@ -121,21 +122,21 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
 
     trackCreateButtonClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event' : 'market-create-button-click-jumbo',
         'type'  : 'index-jumbotron'
       });
     },
 
     trackCategoryMoreClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event' : 'market-categories-more-click',
         'type'  : 'featured-card'
       });
     },
 
     trackCategoryClick(category, type) {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event'         : 'market-category-click',
         'category-name' : get(category, 'name'),
         'type'          : type
@@ -151,7 +152,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
         type = (get(this, 'flat')) ? 'new-market-card' : 'search-result';
       }
 
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event' : 'market-post-click',
         'query' : get(this, 'query'),
         type

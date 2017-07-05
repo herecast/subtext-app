@@ -5,6 +5,7 @@ import Ember from 'ember';
 const {get, set, isPresent, inject, RSVP} = Ember;
 
 export default Ember.Component.extend({
+  tracking: inject.service(),
   session: inject.service(),
   api: inject.service(),
   notify: inject.service('notification-messages'),
@@ -35,7 +36,7 @@ export default Ember.Component.extend({
   },
 
   trackSignInClick() {
-    this.tracking.push({
+    get(this, 'tracking').push({
       event: 'sign-in-submit-click',
       sign_in_type: 'facebook'
     });

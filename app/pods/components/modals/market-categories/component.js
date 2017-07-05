@@ -4,6 +4,7 @@ import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 const { get, inject, computed } = Ember;
 
 export default ModalInstance.extend({
+  tracking: inject.service(),
   userLocation: inject.service(),
   locationId: computed.oneWay('userLocation.locationId'),
 
@@ -27,7 +28,7 @@ export default ModalInstance.extend({
 
   actions: {
     trackCategoryClick(category) {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event'         : 'market-category-click',
         'category-name' : get(category, 'name'),
         'type'          : 'overlay-link'

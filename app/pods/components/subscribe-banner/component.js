@@ -14,6 +14,7 @@ export default Ember.Component.extend(InViewportMixin, {
   'data-test-component': 'market-digest-subscribe-banner',
 
   featureFlags: inject.service('feature-flags'),
+  tracking: inject.service(),
 
   variation: null,
 
@@ -27,7 +28,7 @@ export default Ember.Component.extend(InViewportMixin, {
   }),
 
   _sendImpression() {
-    this.tracking.push({
+    get(this, 'tracking').push({
       'event': 'market-digest-subscribe',
       'type': 'impression'
     });
@@ -73,7 +74,7 @@ export default Ember.Component.extend(InViewportMixin, {
 
   actions: {
     trackClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'market-digest-subscribe',
         'type': 'click'
       });

@@ -13,26 +13,43 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(InViewportMixin, {
-  api: inject.service(),
+  tracking: inject.service(),
   ads: inject.service(),
-  session: inject.service(),
   currentService: inject.service('currentController'),
   promotion: null,
   impressionPath: null,
   pagePositionForAnalytics: null,
   placeholderClass: null,
-
   adContextName: computed.reads('currentService.currentPath'),
+  lastRefreshDate: null,
 
+  _didSendImpression: false,
+  _isInViewPort: false,
+  _imageIsLoaded: false,
+
+  /**
+   * RULES for sending an impression
+   *
+   * Must be in viewport.
+   * Image must be downloaded and visible.
+   * We must be on the route which matches the impression path.
+   *   -  Do not send impression if ad is in a background page
+   *
+   */
   _canSendImpression: computed('impressionPath', '_didSendImpression',
-    '_currentPathMatchesImpressionPath', function() {
+    '_currentPathMatchesImpressionPath', '_isVisible', function() {
     const impressionPath = get(this, 'impressionPath');
     const didSendImpression = get(this, '_didSendImpression');
+    const isVisible = get(this, '_isVisible');
 
-    if(isPresent(impressionPath)) {
-      return !didSendImpression && get(this, '_currentPathMatchesImpressionPath');
+    if(!didSendImpression && isVisible) {
+      if(isPresent(impressionPath)) {
+        return get(this, '_currentPathMatchesImpressionPath');
+      } else {
+        return true;
+      }
     } else {
-      return !didSendImpression;
+      return false;
     }
   }),
 
@@ -43,29 +60,30 @@ export default Ember.Component.extend(InViewportMixin, {
     return currentPath === impressionPath;
   }),
 
+  _isVisible: computed('_isInViewPort', '_imageIsLoaded', function() {
+    return get(this, '_isInViewPort') && get(this, '_imageIsLoaded');
+  }),
+
+  /**
+   * Path changed, so if it was on a background page, which is now the
+   * focused page, recheck the conditions.
+   */
   pathDidChange: observer('currentService.currentPath', function() {
     const impressionPath = get(this, 'impressionPath');
 
     if(isPresent(impressionPath)) {
       run.next(()=>{
         if(!get(this, 'isDestroying')) {
-          if(get(this, '_currentPathMatchesImpressionPath')) {
-            // trigger enter view port event
-            this.resetViewportEntered();
-          }
+          this.trySendImpression();
         }
       });
     }
   }),
 
-  lastRefreshDate: null,
-
-  _didSendImpression: false,
-
   _pushEvent(event) {
     const promo = get(this, 'promotion');
 
-    this.tracking.push({
+    get(this, 'tracking').push({
       'event'           : event,
       'advertiser'      : get(promo, 'organization_name'),
       'promotion_id'    : get(promo, 'promotion_id'),
@@ -91,31 +109,18 @@ export default Ember.Component.extend(InViewportMixin, {
     });
   },
 
-  _validateGTM() {
-    return typeof window.google_tag_manager === 'undefined';
-  },
-
   _sendImpression() {
     const promo = get(this, 'promotion');
     if (! get(this, 'isDestroyed') && promo) {
       const contentId = get(this, 'contentModel.id');
-      const api = get(this, 'api');
-      const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
-      const clientId = get(this, 'session').getClientId();
 
-      api.recordPromoBannerImpression(metrics_id, {
+      get(this, 'tracking').promoImpression(promo, {
         content_id: contentId,
-        client_id: clientId,
-        gtm_blocked: this._validateGTM(),
         page_url: get(this, 'currentService.currentUrl'),
         page_placement: get(this, 'pagePositionForAnalytics')
       });
 
-      console.info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${this._validateGTM()}`);
-
       this._pushEvent('VirtualAdImpresion');
-
-      set(this, '_didSendImpression', true);
     }
   },
 
@@ -123,7 +128,6 @@ export default Ember.Component.extend(InViewportMixin, {
     const adContextName = get(this, 'adContextName');
     const content = get(this, 'contentModel');
     const ads = get(this, 'ads');
-    const clientId = get(this, 'session').getClientId();
     const promotionId = get(this, 'overrideId');
 
     let contentId;
@@ -132,42 +136,72 @@ export default Ember.Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
-    return ads.getAd(adContextName, {contentId, clientId, promotionId}).then(promotion => {
+    set(this, '_imageIsLoaded', false);
+
+    return ads.getAd(adContextName, {contentId, promotionId}).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
           promotion: Ember.Object.create(promotion),
           _didSendImpression: false
         });
 
-        console.info(`[Loaded banner]: ${promotion.id}`);
-
         this._pushEvent('VirtualAdLoaded');
       }
     });
   },
 
+  /**
+   * Check if an impression can be sent based on conditional,
+   * then queue up a timer to ensure ad is visible for the required
+   * length of time.
+   */
+  trySendImpression() {
+    run.cancel(get(this, '_pendingImpression'));
+    // In runloop to ensure any property changes have finished
+    // before checking if we can send the impression.
+    run.next(()=>{
+      if(!get(this, 'isDestroying')) {
+        if(get(this, '_canSendImpression')) {
+          this._timeImpressionThenSend();
+        }
+      }
+    });
+  },
+
+  // Industry standard is to make sure ad is visible for at least 1 second.
+  //
+  // Set timeout for 1 second, then ensure ad still visible before sending
+  // impression.
+  _timeImpressionThenSend() {
+    set(this, '_pendingImpression', run.later(this, ()=>{
+      if(!get(this, 'isDestroying')) {
+        // Check to make sure we are still good to record impression
+        // (not left viewport, or loaded new banner, etc...)
+        if(get(this, '_canSendImpression')) {
+          this._sendImpression();
+
+          set(this, '_didSendImpression', true);
+        }
+      }
+    }, 1000));
+  },
+
+  /**
+   * When ad scrolls into view, queue up an impression
+   */
   didEnterViewport() {
-    if (get(this, '_canSendImpression')) {
-      set(this, '_pendingImpression', run.later(this, this._sendImpression, 1000));
-    }
+    set(this, '_isInViewPort', true);
+    this.trySendImpression();
   },
 
   didExitViewport() {
-    run.cancel(get(this, '_pendingImpression'));
+    set(this, '_isInViewPort', false);
   },
-
-  resetViewportEntered() {
-    set(this, 'viewportEntered', false);
-    this._setViewportEntered(window);
-  },
-
 
   didUpdateAttrs({ newAttrs }) {
     // Reload the promotion if the last refresh date has changed
     if ('lastRefreshDate' in newAttrs && newAttrs.lastRefreshDate !== get(this, 'lastRefreshDate')) {
-      this._getPromotion().then(()=>{
-        this.resetViewportEntered();
-      });
+      this._getPromotion();
     }
 
     this._super(...arguments);
@@ -199,18 +233,23 @@ export default Ember.Component.extend(InViewportMixin, {
     if (get(this, 'promotion.redirect_url')) {
       const contentId = get(this, 'contentModel.contentId');
       const promo = get(this, 'promotion');
-      const api = get(this, 'api');
-      const metrics_id = get(promo, 'metrics_id') || get(promo, 'id');
-      const clientId = get(this, 'session').getClientId();
 
-      api.recordPromoBannerClick(metrics_id, {
-        content_id: (contentId) ? contentId : null,
-        client_id: clientId
+      get(this, 'tracking').promoBannerClick(promo, {
+        content_id: (contentId) ? contentId : null
       });
 
-      console.info(`[Click banner]: ${get(promo, 'id')}`);
-
       this._pushEvent('VirtualAdClicked');
+    }
+  },
+
+  actions: {
+    /**
+     * We need to wait until the image is actually downloaded and visible
+     * before queing up an impression.
+     */
+    imageFinishedLoading() {
+      set(this, '_imageIsLoaded', true);
+      this.trySendImpression();
     }
   }
 });

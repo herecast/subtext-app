@@ -315,7 +315,7 @@ export default function() {
   this.get('/locations');
 
   this.get('/locations/locate', function ({ locations }) {
-    return locations.first();
+    return locations.first() || locations.create({id: 'Nowhere, VT', city: 'Nowhere', state: 'VT'});
   });
 
   this.get('/locations/:id', function ({ locations }, { params }) {

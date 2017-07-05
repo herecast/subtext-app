@@ -22,11 +22,13 @@ module.exports = function(environment) {
       'GTM_PREVIEW',
       'OPTIMIZED_IMAGE_QUALITY',
       'ENABLE_IMAGE_OPTIMIZATION',
+      'LOG_TRACKING_EVENTS'
     ],
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
     FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
     //DEFAULT_HTTP_CACHE: " public, max-age=60",
+    LOG_TRACKING_EVENTS: false,
     locationRedirectRoutes: [
       'index',
       'news',
@@ -105,6 +107,11 @@ module.exports = function(environment) {
      ENV.APP.LOG_TRANSITIONS = false;
      ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
      ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+     ENV.LOG_TRACKING_EVENTS = true;
+
+    // Create a mock for ga variable for code that waits/depends on it
+     ENV.mockWindowGa = true;
 
     var hasApiHost = (process.env.API_BASE_URL && process.env.API_BASE_URL.trim().length > 0);
     if(hasApiHost) {

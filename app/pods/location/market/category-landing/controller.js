@@ -8,6 +8,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   page: 1,
   per_page: 24,
 
+  tracking: inject.service(),
   marketController: inject.controller('location.market.index'),
   categories:    computed.alias('marketController.navCategories'),
   allCategories: computed.alias('marketController.categories'),
@@ -31,7 +32,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   actions: {
     trackCardClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event'    : 'market-post-click',
         'category' : get(this, 'cat.name'),
         'has-category-banner-image': get(this, 'cat.banner') ? true : false,

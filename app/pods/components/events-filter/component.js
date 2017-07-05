@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   activeCategories: [],
   showCategoryChooser: false,
 
+  tracking: service(),
   api: service(),
   modals: service(),
   session: service(),
@@ -33,7 +34,7 @@ export default Ember.Component.extend({
   _gtmTrackEvent(name, content='') {
     get(this,'session').incrementEventSequence('events-interactions')
     .then((eventSequenceIndex) => {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': name,
         'content': content,
         'url': window.location.href,

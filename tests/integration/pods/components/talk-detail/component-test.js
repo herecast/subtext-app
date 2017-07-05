@@ -6,7 +6,7 @@ moduleForComponent('talk-detail', 'Integration | Component | talk detail', {
   integration: true,
   setup() {
     startMirage(this.container);
-    this.inject.service('api');
+    this.inject.service('tracking');
   }
 });
 
@@ -27,10 +27,9 @@ test('Tracking impressions', function(assert) {
 
   let impressions = [];
 
-  this.api.reopen({
-    recordContentImpression(id) {
+  this.tracking.reopen({
+    contentImpression(id) {
       impressions.push(id);
-      this._super(id);
     }
   });
 
@@ -46,7 +45,7 @@ test('Tracking impressions', function(assert) {
 
     assert.ok(
       impressions.indexOf(1) > -1,
-      'After render, api receives trackContentImpression');
+      'After render, tracks impression through tracking service');
 
     this.set('talk', {id: 2});
 

@@ -81,6 +81,10 @@ export default Ember.Service.extend({
       ctx.clientId = opts['clientId'];
     }
 
+    if(!ctx.locationId) {
+      ctx.locationId = opts['locationId'];
+    }
+
     ctx.promotionId = opts['promotionId'];
 
     const defer = Ember.RSVP.defer();
@@ -133,6 +137,7 @@ export default Ember.Service.extend({
       api.getContentPromotions({
         content_id: ctx.contentId,
         client_id: ctx.clientId,
+        location_id: ctx.locationId,
         promotion_id: ctx.promotionId,
         exclude: loadedIds,
         limit: ctx.promises.length

@@ -16,6 +16,7 @@ export default Ember.Component.extend({
 
   modals: service(),
   session: service(),
+  tracking: service(),
 
   didUpdateAttrs() {
     const newQuery = get(this, 'events.query');
@@ -61,7 +62,7 @@ export default Ember.Component.extend({
   _gtmTrackEvent(name, content='') {
     get(this,'session').incrementEventSequence('events-interactions')
     .then((eventSequenceIndex) => {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': name,
         'content': content,
         'url': window.location.href,

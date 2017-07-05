@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
-const { get, set, computed } = Ember;
+const { get, set, inject, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['ExpandableContent'],
+  tracking: inject.service(),
 
   height: 300,
 
@@ -47,7 +48,7 @@ export default Ember.Component.extend({
   },
 
   viewMoreGTMEvent() {
-    this.tracking.push({
+    get(this, 'tracking').push({
       'event': 'content-view-more'
     });
   },

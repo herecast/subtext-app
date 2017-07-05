@@ -12,6 +12,7 @@ const {
 export default Ember.Component.extend({
   tagName: 'form',
   api: inject.service(),
+  tracking: inject.service(),
 
   error: null,
   didComplete: false,
@@ -53,7 +54,7 @@ export default Ember.Component.extend({
   },
 
   trackSignInClick() {
-    this.tracking.push({
+    get(this, 'tracking').push({
       event: 'sign-in-submit-click',
       sign_in_type: 'magic'
     });

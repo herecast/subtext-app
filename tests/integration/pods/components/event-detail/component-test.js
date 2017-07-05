@@ -7,7 +7,7 @@ moduleForComponent('event-detail', 'Integration | Component | event detail', {
   integration: true,
   setup() {
     startMirage(this.container);
-    this.inject.service('api');
+    this.inject.service('tracking');
 
     // content comments was causing side affects, and needing special service injection.
     this.register('component:content-comments', Ember.Component.extend());
@@ -38,10 +38,9 @@ test('Tracking impressions', function(assert) {
 
   let impressions = [];
 
-  this.api.reopen({
-    recordContentImpression(id) {
+  this.tracking.reopen({
+    contentImpression(id) {
       impressions.push(id);
-      this._super(id);
     }
   });
 
@@ -61,7 +60,7 @@ test('Tracking impressions', function(assert) {
 
     assert.ok(
       impressions.indexOf(2) > -1,
-      'After render, api receives trackContentImpression');
+      'After render, records impression through tracking service');
 
   this.set('event', Ember.Object.create({
     id: 4,

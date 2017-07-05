@@ -11,7 +11,7 @@ const {
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   fastboot: inject.service(),
-  api: inject.service(),
+  tracking: inject.service(),
   tagName: 'main',
   closeRoute: 'news.index',
   closeLabel: 'News',
@@ -38,7 +38,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
     // Necessary to check fastboot here, in case
     // didUpdateAttrs calls this from fastboot.
     if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
-      get(this, 'api').recordContentImpression(
+      get(this, 'tracking').contentImpression(
         model.id
       );
     }

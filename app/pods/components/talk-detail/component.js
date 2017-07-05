@@ -8,7 +8,7 @@ const { get, computed, inject, isPresent } = Ember;
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeRoute: 'talk.index',
   fastboot: inject.service(),
-  api: inject.service(),
+  tracking: inject.service(),
   closeLabel: 'Talk',
   isPreview: false,
 
@@ -16,9 +16,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
     const id = get(this, 'model.id');
 
     if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
-      get(this, 'api').recordContentImpression(
-        id
-      );
+      get(this, 'tracking').contentImpression(id);
     }
   },
 

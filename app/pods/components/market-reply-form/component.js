@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
-const { get, setProperties } = Ember;
+const { get, setProperties, inject } = Ember;
 
 export default Ember.Component.extend({
+  tracking: inject.service(),
   post: null,
 
   classNames: ['MarketReplyForm'],
@@ -44,7 +45,7 @@ export default Ember.Component.extend({
         hideForm: false
       });
 
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'market-reply-click'
       });
     },
@@ -54,7 +55,7 @@ export default Ember.Component.extend({
     },
 
     trackDefaultEmailClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'market-reply-default-email-click'
       });
       return true;

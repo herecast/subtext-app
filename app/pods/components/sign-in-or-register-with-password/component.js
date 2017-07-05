@@ -14,7 +14,7 @@ const {
 
 export default Ember.Component.extend(TestSelector, Validation, {
   tagName: "form",
-
+  tracking: inject.service(),
   api: inject.service(),
   session: inject.service(),
   notify: inject.service('notification-messages'),
@@ -49,7 +49,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   },
 
   trackSignInClick() {
-    this.tracking.push({
+    get(this, 'tracking').push({
       event: 'sign-in-submit-click',
       sign_in_type: 'password'
     });

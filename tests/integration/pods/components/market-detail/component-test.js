@@ -6,7 +6,7 @@ moduleForComponent('market-detail', 'Integration | Component | market detail', {
   integration: true,
   setup() {
     startMirage(this.container);
-    this.inject.service('api');
+    this.inject.service('tracking');
   }
 });
 
@@ -29,10 +29,9 @@ test('Tracking impressions', function(assert) {
 
   let impressions = [];
 
-  this.api.reopen({
-    recordContentImpression(id) {
+  this.tracking.reopen({
+    contentImpression(id) {
       impressions.push(id);
-      this._super(id);
     }
   });
 
@@ -48,7 +47,7 @@ test('Tracking impressions', function(assert) {
 
     assert.ok(
       impressions.indexOf(2) > -1,
-      'After render, api receives trackContentImpression');
+      'After render, records impression through tracking service');
 
     this.set('market', {id: 4, contentId: 5});
 

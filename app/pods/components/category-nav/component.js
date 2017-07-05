@@ -8,6 +8,7 @@ const {
 
 export default Ember.Component.extend({
   userLocation: inject.service(),
+  tracking: inject.service(),
   locationId: computed.oneWay('userLocation.locationId'),
 
   displayCategories: computed('categories.[]', function() {
@@ -16,19 +17,19 @@ export default Ember.Component.extend({
 
   actions: {
     trackCategoryMoreClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event' : 'market-categories-more-click',
         'type'  : 'category-nav'
       });
     },
     trackCreateButtonClick() {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event' : 'market-create-button-click'
       });
     },
 
     trackCategoryClick(category) {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event'         : 'market-category-click',
         'type'          : 'category-nav',
         'category-name' : get(category, 'name')

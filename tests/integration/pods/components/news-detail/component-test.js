@@ -17,7 +17,7 @@ moduleForComponent('news-detail', 'Integration | Component | news detail', {
 
     this.register('service:promotion', promotionStub);
     this.inject.service('promotion');
-    this.inject.service('api');
+    this.inject.service('tracking');
   },
   afterEach() {
     window.server.shutdown();
@@ -46,10 +46,9 @@ test('Tracking impressions', function(assert) {
 
   let impressions = [];
 
-  this.api.reopen({
-    recordContentImpression(id) {
+  this.tracking.reopen({
+    contentImpression(id) {
       impressions.push(id);
-      this._super(id);
     }
   });
 
@@ -66,7 +65,7 @@ test('Tracking impressions', function(assert) {
 
     assert.ok(
       impressions.indexOf(1) > -1,
-      'After render, api receives trackContentImpression');
+      'After render, records impression through tracking service');
 
     this.set('news', {id: 2});
     assert.ok(

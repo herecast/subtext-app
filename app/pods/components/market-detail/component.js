@@ -13,14 +13,14 @@ export default Ember.Component.extend(ModelResetScroll, {
   closeRoute: 'market',
   closeLabel: 'Market',
   fastboot: inject.service(),
-  api: inject.service(),
+  tracking: inject.service(),
   isPreview: false,
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
 
     if(!get(this, 'fastboot.isFastBoot') && !(get(this, 'isPreview'))) {
-      get(this, 'api').recordContentImpression(
+      get(this, 'tracking').contentImpression(
         id
       );
     }
@@ -65,7 +65,7 @@ export default Ember.Component.extend(ModelResetScroll, {
   },
 
   _trackMarketDigestSubscriptionClick(version, title) {
-    this.tracking.push({
+    get(this, 'tracking').push({
       'event': 'market-digest-subscribe',
       'type': 'click',
       'title': title,
@@ -98,7 +98,7 @@ export default Ember.Component.extend(ModelResetScroll, {
 
       get(this, 'intercom').trackEvent('market-reply-click');
 
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'market-reply-click'
       });
     }

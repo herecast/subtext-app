@@ -494,11 +494,9 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  recordPromoBannerImpression(id, data) {
-    let body = "{}";
-    if(isPresent(data)) {
-      body = JSON.stringify(data);
-    }
+  recordPromoBannerImpression(id, data = {}) {
+    const body = JSON.stringify(data);
+
     return returnText(
       this.post(`/promotion_banners/${id}/impression`, {
         body: body,
@@ -518,11 +516,7 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  recordContentImpression(id) {
-    const session = get(this, 'session');
-    const data = {
-      client_id: session.getClientId() || null
-    };
+  recordContentImpression(id, data = {}) {
 
     return returnJson(
       this.post(`/metrics/contents/${id}/impressions`,

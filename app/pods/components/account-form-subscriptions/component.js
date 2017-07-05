@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 
   notify: inject.service('notification-messages'),
   intercom: inject.service(),
+  tracking: inject.service(),
 
   // Should be instantiated when the component is rendered
   digests: [],
@@ -19,13 +20,13 @@ export default Ember.Component.extend({
 
   alertGTM(digest) {
     if (get(digest, 'subscription')) {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'dashboard-subscribe',
         'digest-name': get(digest, 'name')
       });
       get(this, 'intercom').trackEvent('digest-subscribe');
     } else {
-      this.tracking.push({
+      get(this, 'tracking').push({
         'event': 'dashboard-unsubscribe',
         'digest-name': get(digest, 'name')
       });

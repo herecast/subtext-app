@@ -4,6 +4,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 const { get, set, isPresent, isEmpty, inject, run } = Ember;
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
+  tracking: inject.service(),
   intercom: inject.service(),
   history: inject.service(),
   windowLocation: inject.service(),
@@ -27,7 +28,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
       userActivity.register('sessionTimer', window);
       userActivity.triggerTimedEvents('sessionTimer', (time) => {
-        this.tracking.push({
+        get(this, 'tracking').push({
           'event'             : 'VirtualSessionTimerEvent',
           'virtualTimeOnPage' : time,
           'virtualPageUrl'    : window.location.href
