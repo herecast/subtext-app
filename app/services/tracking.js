@@ -111,7 +111,8 @@ export default Service.extend(Evented, {
         const trackData = assign(
           {
             client_id: data.clientId,
-            location_id: data.location.id,
+            // In some tests, location will be undefined
+            location_id: get(data, 'location.id'),
             gtm_blocked: gtmBlocked
           }, opts);
 
@@ -131,7 +132,8 @@ export default Service.extend(Evented, {
         const trackData = assign(
           {
             client_id: data.clientId,
-            location_id: data.location.id
+            // In some tests, location will be undefined
+            location_id: get(data, 'location.id')
           }, opts);
 
         get(this, 'api').recordPromoBannerClick(id, trackData);
