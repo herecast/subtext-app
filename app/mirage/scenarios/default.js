@@ -27,7 +27,7 @@ export default function (server) {
   server.createList('location', 8);
   server.createList('promotionCoupon', 10);
 
-  const user1 = server.create('user', {location_id: 1});
+  const user1 = server.create('user', {email: 'test@test.com', location_id: 1});
   const user2 = server.create('user', {location_id: 1});
 
   const listserv = server.create('listserv');

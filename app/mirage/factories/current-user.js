@@ -6,7 +6,7 @@ const {isBlank} = Ember;
 
 export default Mirage.Factory.extend({
   name() { return faker.name.findName(); },
-  email: "embertest@subtext.org",
+  email() { return faker.internet.email(); },
   createdAt() { return moment(faker.date.recent(-30)).toISOString(); },
   imageUrl() {
     return (Math.random() > 0.5) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;

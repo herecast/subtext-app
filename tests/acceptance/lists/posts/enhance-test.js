@@ -327,7 +327,7 @@ test('Enhance talk post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const user = server.create('user');
+  const user = server.create('user', {email: 'embertest@subtext.org'});
   const post = server.create('listservContent', {
     listserv: server.create('listserv'),
     user: user
@@ -470,7 +470,7 @@ test('Enhance market post', function(assert) {
   const done = assert.async(3);
 
   server.create('location');
-  const user = server.create('user');
+  const user = server.create('user', {email: 'embertest@subtext.org'});
   const post = server.create('listservContent', {
     listserv: server.create('listserv'),
     user: user
