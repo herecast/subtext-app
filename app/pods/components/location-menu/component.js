@@ -152,6 +152,8 @@ export default Ember.Component.extend({
           const route = get(this, 'locationLinkRoute');
           const models = userLocation.getModelsForLocationLink(get(location, 'id'));
 
+          userLocation.saveSelectedLocationId(get(location, 'id'));
+
           router.transitionTo(route, ...models);
         }
       });

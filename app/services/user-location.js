@@ -217,9 +217,10 @@ export default Ember.Service.extend(Ember.Evented, {
 
     return geolocation.getCurrentPosition().then(
       ({coords}) => {
-        return api.getLocationFromCoords(coords.latitude, coords.longitude).then(
-          (locationData) => this._saveLocationData(locationData)
-        );
+        return api.getLocationFromCoords(coords.latitude, coords.longitude)
+          .then((data) => {
+            return this._convertLocationData(data);
+          });
       }).catch(() => {
         /* uncaught, this messes with acceptance tests  */
       }
@@ -231,28 +232,53 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   loadLocationFromIP() {
     const api = get(this, 'api');
-    return api.getLocationFromIP().then(
-      (locationData) => this._saveLocationData(locationData)
-    );
+    return api.getLocationFromIP().then((data)=>{
+      return this._convertLocationData(data);
+    });
   },
 
   /**
-   * Locate the current user first by using their IP address, then by getting their geolocation.
-   * We do one after the other to avoid an async race-condition.
+   * Try locating the user by either geolocation or IP
    */
   locateUser() {
-    return this.loadLocationFromIP().then(
-      () => this.loadLocationFromCoords()
-    );
+    return new RSVP.Promise((resolve) => {
+      let resolved = false;
+
+      // Which ever finishes first
+      this.loadLocationFromCoords().then((location) => {
+        if(isPresent(location)) {
+          // Save location from coords, even if resolved already.
+          // It is a preferred method.
+          this.saveSelectedLocationId(get(location, 'id'));
+
+          if(!resolved) {
+            resolved = true;
+            resolve(location);
+          }
+        }
+      });
+
+      this.loadLocationFromIP().then((location) => {
+        if(isPresent(location)) {
+          // We prefer coords if possible,
+          // If still waiting then go ahead and save location
+          if(!resolved) {
+            resolved = true;
+            this.saveSelectedLocationId(get(location, 'id'));
+            resolve(location);
+          }
+        }
+      });
+    });
   },
 
   /**
-   * Save the given json object as a Location and set it as the user's selected Location.
+   * Convert location data into a record.
    *
    * @param locationData
    * @private
    */
-  _saveLocationData(locationData) {
+  _convertLocationData(locationData) {
     if (!get(this, 'isDestroying') && !get(this, 'isDestroyed')) {
       const locationId = get(locationData, 'location.id');
       const store = get(this, 'store');
@@ -263,9 +289,6 @@ export default Ember.Service.extend(Ember.Evented, {
         store.pushPayload('location', locationData);
         location = store.peekRecord('location', locationId);
       }
-
-      // Set the location as the selected locationId, but only after it is added to the store
-      this.saveSelectedLocationId(locationId);
 
       return location;
     }
