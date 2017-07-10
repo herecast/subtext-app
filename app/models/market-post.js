@@ -117,27 +117,6 @@ export default DS.Model.extend(FastbootExtensions, {
     return this.get('publishedAt').format('dddd, MMMM D, YYYY');
   }),
 
-  loadContactInfo() {
-    const api = get(this, 'api');
-    const id = get(this, 'id');
-
-    if (isPresent(id)) {
-      const promise = api.getMarketContactInfo(id).then((response) => {
-        this.setProperties({
-          contactEmail: response.market_post.contact_email,
-          contactPhone: response.market_post.contact_phone
-        });
-      });
-
-      // Inform fastboot to wait for this promise;
-      this.deferRenderingIfFastboot(promise);
-
-      return promise;
-    } else {
-      return null;
-    }
-  },
-
   rollbackImages() {
     get(this, 'images').forEach(image => image.rollbackAttributes());
   }

@@ -94,8 +94,6 @@ export default Ember.Component.extend(ModelResetScroll, {
     },
 
     clickReplyButton() {
-      get(this, 'model').loadContactInfo();
-
       get(this, 'intercom').trackEvent('market-reply-click');
 
       get(this, 'tracking').push({

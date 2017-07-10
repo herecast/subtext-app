@@ -11,7 +11,6 @@ moduleForComponent('market-detail', 'Integration | Component | market detail', {
 });
 
 test('it renders', function(assert) {
-  this.set('model', { loadContactInfo() {} });
   this.set('scrollToMock', () => {});
 
   this.render(hbs`
@@ -35,7 +34,7 @@ test('Tracking impressions', function(assert) {
     }
   });
 
-  this.set('market', {id: 1, contentId: 2, loadContactInfo(){}});
+  this.set('market', {id: 1, contentId: 2});
   this.set('scrollToMock', () => {});
 
   this.render(hbs`

@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
-const { get, setProperties, inject } = Ember;
+const {
+  get,
+  setProperties,
+  computed,
+  inject
+} = Ember;
 
 export default Ember.Component.extend({
   tracking: inject.service(),
@@ -34,9 +39,7 @@ export default Ember.Component.extend({
     };
   },
 
-  didInsertElement() {
-    get(this, 'post').loadContactInfo();
-  },
+  hasContactEmail: computed.notEmpty('post.contactEmail'),
 
   actions: {
     showForm() {

@@ -13,50 +13,54 @@
 
       <div class='u-flexRow'>
         <div>
-          <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Poster's email</span><br>
-          <a target="_blank"
-            href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
-            class='u-link u-bold market-reply-default-email-click'
-            >
-             {{post.contactEmail}}
-          </a><br>
+          {{#if hasContactEmail}}
+            <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Poster's email</span><br>
+            <a target="_blank"
+              href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
+              class='u-link u-bold market-reply-default-email-click'
+              >
+               {{post.contactEmail}}
+            </a><br>
+          {{/if}}
 
-          {{#if model.contactPhone}}
-            <span class='h3 u-layoutPadB20 u-layoutPadT10'>Phone</span><br>
-            {{model.contactPhone}}<br>
+          {{#if post.contactPhone}}
+            <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Poster's phone</span><br>
+            {{post.contactPhone}}<br>
           {{/if}}
         </div>
 
-        <div class='MarketReplyForm-webmailLinksWrapper'>
-          <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</span><br>
+        {{#if hasContactEmail}}
+          <div class='MarketReplyForm-webmailLinksWrapper'>
+            <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</span><br>
 
-          <a target="_blank"
-            href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
-            class='MarketReplyForm-webmailLinkButton-wrapper'
-            >
-            <span class='u-link u-bold MarketReplyForm-webmailLinkButton gmail'>
-              Google
-            </span>
-          </a>
+            <a target="_blank"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
+              class='MarketReplyForm-webmailLinkButton-wrapper'
+              >
+              <span class='u-link u-bold MarketReplyForm-webmailLinkButton gmail'>
+                Google
+              </span>
+            </a>
 
-          <a target="_blank"
-            href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose"
-            class='MarketReplyForm-webmailLinkButton-wrapper'
-            >
-            <span class='u-link u-bold MarketReplyForm-webmailLinkButton outlook'>
-              Outlook
-            </span>
-          </a>
+            <a target="_blank"
+              href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose"
+              class='MarketReplyForm-webmailLinkButton-wrapper'
+              >
+              <span class='u-link u-bold MarketReplyForm-webmailLinkButton outlook'>
+                Outlook
+              </span>
+            </a>
 
-          <a target="_blank"
-            href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
-            class='MarketReplyForm-webmailLinkButton-wrapper'
-            >
-            <span class='u-link u-bold MarketReplyForm-webmailLinkButton yahoo'>
-              Yahoo
-            </span>
-          </a>
-        </div>
+            <a target="_blank"
+              href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
+              class='MarketReplyForm-webmailLinkButton-wrapper'
+              >
+              <span class='u-link u-bold MarketReplyForm-webmailLinkButton yahoo'>
+                Yahoo
+              </span>
+            </a>
+          </div>
+        {{/if}}
       </div>
     {{/if}}
   {{/liquid-spacer}}

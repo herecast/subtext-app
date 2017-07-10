@@ -17,14 +17,6 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
     return this.store.findRecord('market-post', params.id, {reload: true});
   },
 
-  setupController(controller, model) {
-    this._super(controller, model);
-
-    if (model.get('hasContactInfo')) {
-      model.loadContactInfo();
-    }
-  },
-
   // We can't depend on model.hasDirtyAttributes because it is always true,
   // most likely because we're mutating some values when the form loads.
   // We can check changedAttributes() instead, but need to account for
