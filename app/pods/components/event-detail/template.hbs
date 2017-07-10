@@ -79,17 +79,9 @@
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section DetailPage-content ContentText">
     <h3 class='DetailPage-sectionTitle'>From the Organizer</h3>
-    {{#if isPreview}}
-      <div class="ContentText">
+      <div class="ContentText" data-test-event-detail-content>
         {{{ model.content }}}
       </div>
-    {{else}}
-      {{#expandable-content customLessLabel='View Less' customMoreLabel='View More'}}
-        <div class="ContentText" data-test-event-detail-content>
-          {{{ model.content }}}
-        </div>
-      {{/expandable-content}}
-    {{/if}}
   </div>
 </div>
 
