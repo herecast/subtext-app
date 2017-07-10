@@ -41,6 +41,13 @@ export default Ember.Component.extend({
 
   hasContactEmail: computed.notEmpty('post.contactEmail'),
 
+  _pushGTMReplyEvent(event) {
+    get(this, 'tracking').push({
+      'event'        : 'market-reply-email-click',
+      'email-choice' : event,
+    });
+  },
+
   actions: {
     showForm() {
       setProperties(this, {
@@ -57,11 +64,8 @@ export default Ember.Component.extend({
       this._resetProperties();
     },
 
-    trackDefaultEmailClick() {
-      get(this, 'tracking').push({
-        'event': 'market-reply-default-email-click'
-      });
-      return true;
+    trackReplyEmailClick(mailChoice) {
+      this._pushGTMReplyEvent(mailChoice);
     }
   }
 });

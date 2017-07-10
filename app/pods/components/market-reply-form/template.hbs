@@ -16,6 +16,7 @@
           {{#if hasContactEmail}}
             <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Poster's email</span><br>
             <a target="_blank"
+              {{action "trackReplyEmailClick" 'Client' preventDefault=false}}
               href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
               class='u-link u-bold market-reply-default-email-click'
               >
@@ -34,6 +35,7 @@
             <span class='h3 u-bold u-layoutPadB20 u-layoutPadT10'>Send your reply with:</span><br>
 
             <a target="_blank"
+              {{action "trackReplyEmailClick" 'Google' preventDefault=false}}
               href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
               class='MarketReplyForm-webmailLinkButton-wrapper'
               >
@@ -43,6 +45,7 @@
             </a>
 
             <a target="_blank"
+              {{action "trackReplyEmailClick" 'Outlook' preventDefault=false}}
               href="https://outlook.live.com/owa/#subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}&path=%2fmail%2faction%2fcompose"
               class='MarketReplyForm-webmailLinkButton-wrapper'
               >
@@ -52,6 +55,7 @@
             </a>
 
             <a target="_blank"
+              {{action "trackReplyEmailClick" 'Yahoo' preventDefault=false}}
               href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
               class='MarketReplyForm-webmailLinkButton-wrapper'
               >
