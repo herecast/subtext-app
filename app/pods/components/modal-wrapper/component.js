@@ -36,7 +36,8 @@ export default Ember.Component.extend({
   click(e) {
     // Clicking on overlay should close the modal
     const close = get(this, 'close');
-    if ($(e.target).hasClass('Modal-inner') && close) {
+    const $target = $(e.target);
+    if (close && ($target.hasClass('Modal-inner') || $target.hasClass('Modal'))) {
       close();
     }
   },
