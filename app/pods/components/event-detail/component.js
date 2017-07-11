@@ -5,7 +5,8 @@ import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 const {
   get,
   isPresent,
-  inject
+  inject,
+  computed
 } = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
@@ -43,6 +44,10 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
       }
     }
   },
+
+  hasContactInfo: computed('model.eventUrl', 'model.contactEmail', 'model.contactPhone', function() {
+    return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
+  }),
 
   actions: {
     scrollToMoreContent() {

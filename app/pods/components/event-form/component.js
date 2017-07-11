@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, isPresent, set, computed, run } = Ember;
+const { get, isBlank, isPresent, set, computed, run } = Ember;
 
 export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
@@ -71,7 +71,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   validateContactEmail() {
     const email = this.get('event.contactEmail');
 
-    if (this.hasValidEmail(email)) {
+    if (isBlank(email) || this.hasValidEmail(email)) {
       this.set('errors.contactEmail', null);
       delete this.get('errors').contactEmail;
     } else {

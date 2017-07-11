@@ -3,13 +3,14 @@
     <div class="DetailPage-navTop u-flexRow">
       {{detail-page-close-link defaultCloseRoute=closeRoute closeLabel=closeLabel}}
 
-      <img class='DetailPage-navTop-logo visible-xs' src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
+      <img class='DetailPage-navTop-logo visible-xs'
+           src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
 
       <div class="DetailPage-navTop-social-shareWrapper">
         {{social-share
-        title=model.title
-        sharedBy=session.userName
-        model=model
+          title=model.title
+          sharedBy=session.userName
+          model=model
         }}
       </div>
     </div>
@@ -33,7 +34,8 @@
     <p data-test-event-detail-timeRange>{{model.timeRange}}</p>
 
     {{#if model.hasRegistrationInfo}}
-      <p>Register by <span data-test-event-detail-registrationDeadline>{{model.formattedRegistrationDeadline}}</span></p>
+      <p>Register by <span data-test-event-detail-registrationDeadline>{{model.formattedRegistrationDeadline}}</span>
+      </p>
     {{/if}}
 
     {{#if model.presenterName}}
@@ -56,14 +58,15 @@
           </div>
         {{else}}
           <p>{{fa-icon 'dollar' size=2}}</p>
-           &mdash;
+          &mdash;
         {{/if}}
       </div>
       <div class="DetailPage-headerNavItem">
         <p>{{fa-icon 'map-marker' size=2}}</p>
         <a href='{{model.directionsUrl}}' target='_blank' data-test-event-detail-directionsUrl>
           <span data-test-event-detail-venueAddress>{{model.venueAddress}}</span>,
-          <br/><span data-test-event-detail-venueCity>{{model.venueCity}}</span> <span data-test-event-detail-venueState>{{model.venueState}}</span>
+          <br/><span data-test-event-detail-venueCity>{{model.venueCity}}</span> <span
+          data-test-event-detail-venueState>{{model.venueState}}</span>
         </a>
       </div>
     </div>
@@ -72,7 +75,7 @@
 
 {{#unless isPreview}}
   {{report-content-details
-  contentId=model.contentId
+    contentId=model.contentId
   }}
 {{/unless}}
 
@@ -92,7 +95,7 @@
         {{#if model.commentCount}}
           {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
         {{else}}
-           {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+          {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
         {{/if}}
       </button>
     </div>
@@ -116,30 +119,32 @@
           <span data-test-event-detail-cost>{{model.cost}}</span>
         {{/if}}
       </div>
-      <div class="col-xs-6">
-        <h4 class="DetailPage-sectionTitle">Contact</h4>
-        {{#if model.eventUrl}}
-          <div>
-            {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
-              {{truncate model.eventUrl length=22}}
-            {{/normalized-link}}
-          </div>
-        {{/if}}
-        {{#if model.contactEmail}}
-          <div>
-            <a href="mailto:{{model.contactEmail}}" target='_blank' data-test-event-detail-contactEmail>
-              {{truncate model.contactEmail length=22}}
-            </a>
-          </div>
-        {{/if}}
-        {{#if model.contactPhone}}
-          <div>
-            <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
-              {{model.contactPhone}}
-            </a>
-          </div>
-        {{/if}}
-      </div>
+      {{#if hasContactInfo}}
+        <div class="col-xs-6">
+          <h4 class="DetailPage-sectionTitle">Contact</h4>
+          {{#if model.eventUrl}}
+            <div>
+              {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
+                {{truncate model.eventUrl length=22}}
+              {{/normalized-link}}
+            </div>
+          {{/if}}
+          {{#if model.contactEmail}}
+            <div>
+              <a href="mailto:{{model.contactEmail}}" target='_blank' data-test-event-detail-contactEmail>
+                {{truncate model.contactEmail length=22}}
+              </a>
+            </div>
+          {{/if}}
+          {{#if model.contactPhone}}
+            <div>
+              <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
+                {{model.contactPhone}}
+              </a>
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>
@@ -157,9 +162,9 @@
 {{#unless isPreview}}
   {{#if model.canEdit}}
     {{edit-content-link
-    contentId=model.eventId
-    route='events.edit'
-    text='Edit Event'
+      contentId=model.eventId
+      route='events.edit'
+      text='Edit Event'
     }}
   {{/if}}
 {{/unless}}
@@ -170,8 +175,8 @@
       <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
 
       {{similar-content
-      contentId=model.contentId
-      limit=4
+        contentId=model.contentId
+        limit=4
       }}
     </div>
   </div>
