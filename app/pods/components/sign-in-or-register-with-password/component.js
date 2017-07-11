@@ -67,7 +67,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
             if (afterAuthenticate) {
               afterAuthenticate();
             }
-            get(this, 'notify').success('Signed in successfully!');
+            get(this, 'notify').notifyLoginSuccess();
             resolve();
           },
           (response) => {

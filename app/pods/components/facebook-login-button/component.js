@@ -52,7 +52,7 @@ export default Ember.Component.extend({
               if (afterAuthenticate) {
                 afterAuthenticate();
               }
-              get(this, 'notify').success('Signed in successfully!');
+              get(this, 'notify').notifyLoginSuccess();
             }).catch(error => {
               let errorMessage = ('error' in error) ? error.error : 'Error: Unable to sign in.';
               get(this, 'notify').error(errorMessage);
