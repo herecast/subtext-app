@@ -60,7 +60,7 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
     bytesMetric.put(data['heap']['used_heap_size'], 'heapUsed');
     bytesMetric.put(process.memoryUsage()['rss'], 'rss');
     percentMetric.put(data['cpuUsage']['usedPercent'], 'cpuUsedPercent');
-  }, 'B', 5000);
+  }, 'B', 20000);
 }
 
 let server = new FastBootAppServer({
