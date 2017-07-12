@@ -6,11 +6,13 @@
     {{else if isPromotion}}
       {{truncate-text text=content.title maxLength=50}}
     {{else if (eq type 'news')}}
-      {{#if hasTitle}}
-        {{truncate-text text=content.title maxLength=50}}
-      {{else}}
-        Untitled Draft
-      {{/if}}
+      {{#link-to 'news.show' content.id}}
+        {{#if hasTitle}}
+          {{truncate-text text=content.title maxLength=50}}
+        {{else}}
+          Untitled Draft
+        {{/if}}
+      {{/link-to}}
     {{else}}
       {{#link-to viewRoute content.id}}
         {{truncate-text text=content.title maxLength=50 tagName='span'}}
