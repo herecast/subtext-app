@@ -146,13 +146,17 @@ export default Ember.Service.extend(Ember.Evented, {
    * @param locationId
    */
   setActiveLocationId(locationId) {
-    set(this, 'activeLocationId', locationId);
+    const previousActiveLocationId = get(this, 'activeLocationId');
 
-    this.trigger('locationDidChange');
+    if(previousActiveLocationId !== locationId) {
+      set(this, 'activeLocationId', locationId);
 
-    const cookieLocationId = get(this, '_cookieLocationId');
-    if (isBlank(cookieLocationId)) {
-      this.saveLocationIdToCookie(locationId);
+      this.trigger('locationDidChange', locationId);
+
+      const cookieLocationId = get(this, '_cookieLocationId');
+      if (isBlank(cookieLocationId)) {
+        this.saveLocationIdToCookie(locationId);
+      }
     }
   },
 
