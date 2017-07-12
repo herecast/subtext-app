@@ -49,13 +49,15 @@
       }}
     {{/unless}}
 
-    {{#if model.canEdit}}
-      <div class="DetailPage-headerNavItem text-center">
-        {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
-          {{fa-icon 'pencil'}} Edit Listing
-        {{/link-to}}
-      </div>
-    {{/if}}
+    {{#unless isPreview}}
+      {{#if model.canEdit}}
+        <div class="DetailPage-headerNavItem text-center">
+          {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
+            {{fa-icon 'pencil'}} Edit Listing
+          {{/link-to}}
+        </div>
+      {{/if}}
+    {{/unless}}
   </div>
 </div>
 
