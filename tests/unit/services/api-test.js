@@ -739,39 +739,6 @@ test('getFeatures()', function(assert) {
   });
 });
 
-test('getMarketConttactInfo(id)', function(assert) {
-  const subject = this.subject({
-    session: this.session,
-    queryCache: this.queryCache
-  });
-  const id = 1;
-
-  const done = assert.async();
-  const returnData = {
-    root: {
-      field: 'value'
-    }
-  };
-
-  server.get('/market_posts/:id/contact', (schema, request) => {
-    expect.consumerAppHeader(assert, request);
-    expect.authorizationHeader(assert, request);
-    expect.acceptHeader(assert, request, 'application/json');
-
-    assert.equal(request.params.id, id,
-      'GET /market_posts/:id/contact');
-
-    return returnData;
-  });
-
-  subject.getMarketContactInfo(id).then((responseData) => {
-    assert.deepEqual(responseData, returnData,
-      'it returns parsed response JSON'
-    );
-    done();
-  });
-});
-
 test('getOrganizations()', function(assert) {
   const subject = this.subject({
     session: this.session,

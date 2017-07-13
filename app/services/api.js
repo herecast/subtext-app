@@ -389,10 +389,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson('/features');
   },
 
-  getMarketContactInfo(id) {
-    return this.getJson(`/market_posts/${id}/contact`);
-  },
-
   getOrganizations(query) {
     let url = '/organizations';
 
