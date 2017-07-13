@@ -21,6 +21,7 @@ export default Ember.Component.extend(Validation, {
     this.validateImage('profileImage');
     this.validateImage('backgroundImage');
     this.hasValidUrl('subscribeUrl');
+    this.hasValidTwitterHandle();
   },
 
   notifySaved() {

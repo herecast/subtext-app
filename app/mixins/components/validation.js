@@ -155,6 +155,18 @@ export default Ember.Mixin.create({
     }
   },
 
+  hasValidTwitterHandle() {
+    const twitterHandle = get(this, 'model.twitterHandle');
+    const twitterHandleRegex = /^@([A-Za-z0-9_]+)$/;
+
+    if (Ember.isBlank(twitterHandle) || twitterHandleRegex.test(twitterHandle)) {
+      this.set('errors.twitterHandle', null);
+      delete this.get('errors')['twitterHandle'];
+    } else {
+      this.set('errors.twitterHandle', 'Twitter handle must start with @. The handle may have letters, numbers and underscores, but no spaces.');
+    }
+  },
+
   actions: {
     validateForm() {
       if (get(this, 'hasSubmittedForm')) {

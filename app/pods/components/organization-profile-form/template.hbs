@@ -10,6 +10,18 @@
   }}
 {{/form-group}}
 
+{{#form-group error=errors.twitterHandle}}
+  <label class='control-label' for='twitter-handle'>Twitter Handle</label>
+  <div class='help-block'>
+    So you can join the conversation on Twitter! Must start with @.
+  </div>
+  {{input
+  id='twitter-handle'
+  class='form-control'
+  value=model.twitterHandle
+  }}
+{{/form-group}}
+
 {{#form-group error=errors.profileImage}}
   <label class='control-label'>Profile Image</label>
   <div class='help-block'>

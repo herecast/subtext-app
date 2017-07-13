@@ -17,6 +17,7 @@ export default DS.Model.extend({
   logoUrl: DS.attr('string'),
   profileImageUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
+  twitterHandle: DS.attr('string'),
   orgType: DS.attr('string'),
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
