@@ -1,0 +1,77 @@
+{{#if isOrganizationManager}}
+  {{biz-feed/card-manage
+    content=content
+    organization=organization
+    business=business
+  }}
+{{/if}}
+
+{{#unless isBannerAd}}
+
+  {{#if (eq contentType 'event')}}
+    <div class="BizFeed-Card-event-date">
+      {{startDay}} {{startMonth}}
+    </div>
+  {{/if}}
+  {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType)}}
+    <div class="BizFeed-Card-image-container" style={{imageStyle}}></div>
+  {{/link-to}}
+
+{{else}}
+
+  <a href='{{content.redirectUrl}}' target='_blank'>
+    <div class="BizFeed-Card-image-container" style={{imageStyle}}>
+      {{#if showTitle}}
+        <div class="BizFeed-Card-title u-textTruncate">
+          {{content.title}}
+        </div>
+      {{/if}}
+    </div>
+  </a>
+
+{{/unless}}
+
+{{#unless isBannerAd}}
+  <div class="BizFeed-Card-info-box">
+
+    <div class="BizFeed-Card-info-box-top">
+      <div class="BizFeed-Card-info-box-title">
+        {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType)}}
+          {{content.title}}
+        {{/link-to}}
+      </div>
+      {{#if (eq contentType 'event')}}
+        <div class="BizFeed-Card-info-box-event-venue">
+          {{fa-icon 'map-marker'}}  {{truncate-text text=venue maxLength=60 tagName='span'}}
+        </div>
+      {{else if (eq contentType 'market')}}
+        <div class="BizFeed-Card-info-box-market-price">
+          {{fullPrice}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="BizFeed-Card-info-box-table bottom">
+      <div class="BizFeed-Card-info-box-row">
+        <div class="BizFeed-Card-info-box-avatar-block BizFeed-Card-info-box-cell u-textPullLeft">
+          {{avatar-image
+            imageUrl=avatarUrl
+            userName=contentAuthor
+            customSize=40
+          }}
+        </div>
+        <div class="BizFeed-Card-info-box-cell u-textPullLeft">
+          <div>
+            {{#if (eq contentType 'event')}}
+              {{startTime}}
+            {{else if (eq contentType 'news')}}
+              {{relativeDate}}
+            {{/if}}
+          </div>
+          {{contentAuthor}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+{{/unless}}

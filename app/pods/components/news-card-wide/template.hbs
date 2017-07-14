@@ -15,8 +15,8 @@
       </div>
 
         <div class='Card-meta-avatar'>
-          {{#link-to 'organization-profile'
-            item.organization.slug
+          {{#link-to linkRoute
+            linkId
             class='Card-organization'
             tagName='a'
             data-test-link="organization-link"
@@ -33,8 +33,9 @@
         <div class='Card-meta-items'>
           <span class='Card-organization'>
             {{relativeDate}}<br />
-            {{#link-to 'organization-profile'
-            item.organization.id
+
+            {{#link-to linkRoute
+            linkId
             class='Card-organization'
             tagName='a'
             data-test-link="organization-link"

@@ -1,0 +1,60 @@
+.BizFeed-AboutForm {
+  &-title {
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: solid 1px grey;
+    margin:12px 0 8px 0;
+  }
+
+  &-iconLabel {
+    border-radius: 0;
+    font-size: 20px;
+    min-width: 50px;
+  }
+
+  &-error {
+    color: @brand-danger;
+    margin-left: 10px;
+  }
+
+  &label--required:after {
+    content: "*";
+    color: @brand-danger;
+  }
+
+  &-label {
+    .h4;
+  }
+
+  &-button-bar {
+    margin:20px 0 10px 0;
+    text-align: right;
+  }
+
+  &-save-button {
+    background: grey;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &-cancel-button {
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  &-business-hours-editor {
+    table {
+      width: 100%;
+    }
+    tr {
+      border-bottom: solid 1px grey;
+      &>td {
+        padding: 4px 0;
+      }
+    }
+  }
+}

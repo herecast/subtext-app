@@ -16,6 +16,9 @@ export default DS.Model.extend({
   }),
   hours: DS.attr('raw', { defaultValue: () => { return []; }}),
   email: DS.attr('string'),
+  emailLink: computed('email', function() {
+    return `mailto:${this.get('email')}`;
+  }),
   address: DS.attr('string'),
   city: DS.attr('string'),
   state: DS.attr('string'),
@@ -37,6 +40,7 @@ export default DS.Model.extend({
     //@todo inject location service
     return '(00.0 mi)';
   }),
+  claimed: DS.attr('boolean'),
   details: DS.attr('string'),
   logo: DS.attr('string'),
   images: DS.attr('raw', { defaultValue: () => { return []; }}),
@@ -46,8 +50,8 @@ export default DS.Model.extend({
   views: DS.attr('number'),
   canEdit: DS.attr('boolean'),
   has_rated: DS.attr('boolean'),
-
-  organization_id: DS.attr('number'), //To be replaced by relationship
+  organization: DS.belongsTo('organization'),
+  organization_id: DS.attr('number'),
   categories: DS.hasMany('business-category', {async: true}),
 
   featuredImage: computed('images.@each.primary', function() {

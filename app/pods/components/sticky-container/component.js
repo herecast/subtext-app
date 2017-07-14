@@ -105,9 +105,11 @@ export default Ember.Component.extend({
 
     // Use move start and end to detect beginning and end of touch scrolling
     // Have to disable scroll call (see below) in order for start/end pair to work
-    $scrollTarget.on(get(this, 'keyForOnMoveStartHook'), () => {
+    $scrollTarget.on(get(this, 'keyForOnMoveStartHook'), (e) => {
       const currentStickyItem = get(this, '_currentStickyItem');
-      if (currentStickyItem) {
+      const touchTargetIsDomChildOfStickyItem = isPresent(currentStickyItem) ? currentStickyItem.element.contains(e.target) : false;
+
+      if (currentStickyItem && !touchTargetIsDomChildOfStickyItem) {
         set(this, 'touchMoving', true);
         currentStickyItem.hide();
       }

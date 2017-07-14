@@ -1,0 +1,80 @@
+{{#modal-wrapper close=close}}
+
+  <div class='BizFeed-AboutForm-title'>
+    About {{business.name}}
+  </div>
+  {{summer-note
+    content=business.details
+    notifyChange=(action (mut business.details))
+  }}
+
+  <div class='BizFeed-AboutForm-title'>
+    Open Hours
+  </div>
+  {{business-hours-editor
+    class="BizFeed-AboutForm-business-hours-editor"
+    hours=business.hours
+    on-update=(action (mut business.hours))
+  }}
+
+  <div class='form-group'>
+    <div class='BizFeed-AboutForm-title'>Contact Info</div>
+
+    {{#form-group error=errors.email}}
+      <div class="input-group">
+        <span class="BizFeed-AboutForm-iconLabel BizFeed-AboutForm-label--required input-group-addon">
+          {{fa-icon 'fa-envelope-o'}}
+        </span>
+        {{input
+          id='business-email'
+          type='email'
+          placeholder='Email'
+          class='form-control'
+          value=business.email
+          input=(action 'validateEmail')
+          data-test-field='email'
+        }}
+      </div>
+    {{/form-group}}
+
+    {{#form-group error=errors.phone}}
+      <div class="input-group">
+        <span class="CBizFeed-AboutForm--iconLabel input-group-addon">
+          {{fa-icon 'phone'}}
+        </span>
+        {{input
+          id='business-phone'
+          type='tel'
+          placeholder='Phone'
+          class='form-control'
+          value=business.phone
+          data-test-field='phone'
+        }}
+      </div>
+    {{/form-group}}
+
+    {{#form-group error=errors.website}}
+      <div class="input-group">
+        <span class="BizFeed-AboutForm--iconLabel input-group-addon">
+          {{fa-icon 'link'}}
+        </span>
+        {{input
+          id='business-website'
+          type='url'
+          placeholder='Website'
+          class='form-control'
+          value=business.website
+          data-test-field='website'
+        }}
+      </div>
+    {{/form-group}}
+  </div>
+
+  {{#if business.hasDirtyAttributes}}
+    <div class="BizFeed-AboutForm-button-bar">
+      <button data-test-button="save" class="BizFeed-AboutForm-save-button" {{action 'submitForm'}}>Save Changes</button>
+      <span data-test-button="cancel" class="BizFeed-AboutForm-cancel-button" {{action cancel}}>Cancel</span>
+    </div>
+  {{/if}}
+
+{{/modal-wrapper}}

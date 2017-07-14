@@ -2,6 +2,13 @@
   text-shadow: @string;
 }
 
+.box-shadow(@string: 0 1px 1px 0 rgba(0,0,0,.18)) {
+  -webkit-box-shadow: @string;
+  -moz-mox-shadow: @string;
+  -ms-box-shadow: @string;
+  box-shadow: @string;
+}
+
 .border-radius (@radius: 5px) {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;

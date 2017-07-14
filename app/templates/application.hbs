@@ -18,11 +18,12 @@
 {{#if search.showSearch class='search'}}
   {{search-nav}}
 {{else}}
-  <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody'}}">
+  <div id="main" class="{{backgroundClass}} {{if showHeader 'padBody' 'noPadBody'}}">
+
     <div class='BackgroundIndex'>
       {{outlet 'background'}}
     </div>
-
+    
     {{outlet}}
   </div>
   {{modal-manager}}

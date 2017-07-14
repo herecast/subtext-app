@@ -179,7 +179,7 @@ test('Subscribe link, when subscribe url', function(assert) {
 test('Visiting news landing page, clicking organization name brings me to profile page', function(assert) {
   assert.expect(1);
 
-  let organization = server.create('organization', {name: 'meta tauta'});
+  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog'});
   let location = server.create('location');
   server.create('news', {
     organizationId: organization.id,
@@ -200,12 +200,11 @@ test('Visiting news item page, clicking organization name brings me to profile p
   assert.expect(1);
   mockLocationCookie(this.application);
 
-  let organization = server.create('organization', {name: 'meta tauta'});
+  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog'});
   let news = server.create('news', {
     organizationId: organization.id,
     title: 'revelation'
   });
-
   visit(`/news/${news.id}`).then(()=> {
     let $orgLink = find(testSelector('link', 'organization-link'));
     click($orgLink).then(()=> {
@@ -213,4 +212,3 @@ test('Visiting news item page, clicking organization name brings me to profile p
     });
   });
 });
-

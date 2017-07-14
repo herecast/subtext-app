@@ -23,6 +23,16 @@ export default Ember.Component.extend(TrackCard, {
     return dateFormat.relative(get(this, 'item.publishedAt'));
   }),
 
+  linkRoute: computed('item.organization.isBusiness', function() {
+    const isBusiness = get(this, 'item.organization.isBusiness');
+    return isBusiness ? 'biz.show' : 'organization-profile';
+  }),
+
+  linkId: computed('item.organization.isBusiness', function() {
+    const isBusiness = get(this, 'item.organization.isBusiness');
+    return isBusiness ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
+  }),
+
   missingContent: computed.empty('item'),
 
   date: computed('item.publishedAt', function() {

@@ -1,0 +1,34 @@
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeDetailPage') showHeader=false as |modal|}}
+
+  {{#if (eq contentType 'market')}}
+
+    {{market-detail
+      model=model
+      closeRoute='biz.show'
+      closeLabel=organization.name
+      scrollTo=(action 'scrollTo' target=modal)
+    }}
+
+  {{else if (eq contentType 'event')}}
+
+    {{event-detail
+      model=model
+      closeRoute='biz.show'
+      closeLabel=organization.name
+      scrollToAnchor=scrollToAnchor
+      scrollTo=(action 'scrollTo' target=modal)
+    }}
+
+  {{else if (eq contentType 'news')}}
+
+    {{news-detail
+      model=model
+      closeRoute='biz.show'
+      closeLabel=organization.name
+      isPreview=false
+      scrollTo=(action 'scrollTo' target=modal)
+    }}
+    
+  {{/if}}
+
+{{/modal-wrapper}}

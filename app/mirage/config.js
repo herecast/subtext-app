@@ -914,4 +914,13 @@ export default function() {
   });
 
   this.get('/features');
+
+  this.get('/organizations/:id/contents', function({db, organizationContents}){
+    return organizationContents.all();
+  });
+
+  this.get('/contents/:id/promotions', function() {
+    return {};
+  });
+
 }

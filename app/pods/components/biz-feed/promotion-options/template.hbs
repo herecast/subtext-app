@@ -1,0 +1,38 @@
+{{#if hasPromotionToRecord}}
+  <div class="BizFeed-PromotionOptions-record-promotion">
+    <div class="BizFeed-PromotionOptions-record-message">
+      <p>
+        Thank you for sharing on <span class="BizFeed-PromotionOptions-share-platform">{{lastSharePlatform}}.</span>
+      </p>
+      <p>
+        Would you like to record this share in your promotion history?
+      </p>
+    </div>
+    <div class="BizFeed-PromotionOptions-record-option BizFeed-PromotionOptions-yes" {{action 'savePromotionRecord'}}>Yes</div>
+    <div class="BizFeed-PromotionOptions-record-option BizFeed-PromotionOptions-no" {{action 'dumpPromotionRecord'}}>No</div>
+  </div>
+
+{{else}}
+  <div class="BizFeed-PromotionOptions-messaging">
+    Share on
+  </div>
+  <div>
+    <div class="BizFeed-PromotionOptions-promotion-option BizFeed-PromotionOptions-facebook" {{action 'shareFacebook'}}>
+      {{fa-icon 'facebook'}} Facebook
+    </div>
+    <a href="{{twitterLink}}" target="_blank" {{action 'shareTwitter' preventDefault=false}}>
+      <div class="BizFeed-PromotionOptions-promotion-option BizFeed-PromotionOptions-twitter">
+        {{fa-icon 'twitter'}} Twitter
+      </div>
+    </a>
+    <a href="{{mailtoLink}}" target="_blank" {{action 'shareEmail' preventDefault=false}}>
+      <div class="BizFeed-PromotionOptions-promotion-option BizFeed-PromotionOptions-email">
+        {{fa-icon 'envelope'}} Email
+      </div>
+    </a>
+  </div>
+  <div class="BizFeed-PromotionOptions-cancel-option">
+    <span class="BizFeed-PromotionOptions-action-button" {{action 'done'}}>Cancel</span>
+  </div>
+
+{{/if}}

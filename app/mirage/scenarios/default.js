@@ -26,6 +26,7 @@ export default function (server) {
   server.createList('content-metric', 1);
   server.createList('location', 8);
   server.createList('promotionCoupon', 10);
+  server.createList('organizationContent', 10);
 
   const user1 = server.create('user', {email: 'test@test.com', location_id: 1});
   const user2 = server.create('user', {location_id: 1});

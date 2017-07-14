@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('business-profile', 'Unit | Serializer | business profile', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:business-profile', 'model:business-category', 'transform:raw']
+  needs: ['serializer:business-profile', 'model:business-category', 'model:organization', 'transform:raw']
 });
 
 // Replace this with your real tests.

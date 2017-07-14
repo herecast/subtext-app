@@ -11,7 +11,6 @@ const {
 
 export default DS.Model.extend({
   api: inject.service('api'),
-
   name: DS.attr('string'),
   profileTitle: DS.attr('string'),
   logoUrl: DS.attr('string'),
@@ -24,6 +23,7 @@ export default DS.Model.extend({
   canPublishNews: DS.attr('boolean'),
   canEdit: DS.attr('boolean'),
   profileAdOverride: DS.attr('number'),
+  customLinks: DS.attr(),
 
   // Temporary for dashboard edit button
   businessProfileId: DS.attr(),

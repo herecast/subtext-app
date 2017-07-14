@@ -399,6 +399,10 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
+  getOrganizationContents(id) {
+    return this.getJson(`/organizations/${id}/contents`);
+  },
+
   getPromotionBannerMetrics(id, data) {
     return this.getJson(`/promotion_banners/${id}/metrics` + queryString(data));
   },
@@ -526,6 +530,42 @@ export default Ember.Service.extend(FastbootExtensions, {
       this.post(`/promotion_coupons/${id}/request_email`,
         this.json(data)
       )
+    );
+  },
+
+  recordOrganizationContentPromotion(contentId, promotionRecord) {
+    return returnJson(
+      this.post(`/contents/${contentId}/promotions`,
+        this.json({
+          promotion: promotionRecord
+        })
+      )
+    );
+  },
+
+  getOrganizationContentPromotions(contentId) {
+    return this.getJson(`/contents/${contentId}/promotions`);
+  },
+
+  setOrganizationContentStatus(organizationId, contentId, data) {
+    return returnJson(
+      this.put(`/organizations/${organizationId}/contents/${contentId}`,
+        this.json({
+          content: data
+        })
+      )
+    );
+  },
+
+  addOrganizationTagOnContent(organizationId, contentId) {
+    return returnJson(
+      this.post(`/organizations/${organizationId}/contents/${contentId}/tags`)
+    );
+  },
+
+  removeOrganizationTagOnContent(organizationId, contentId) {
+    return returnJson(
+      this.del(`/organizations/${organizationId}/contents/${contentId}/tags`)
     );
   },
 

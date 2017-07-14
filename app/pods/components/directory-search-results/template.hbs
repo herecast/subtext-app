@@ -10,9 +10,20 @@
   <li class="DirectoryListings-result">
     <div class="listing-info left">
       <div class="name-bar">
-        {{#link-to 'directory.show' result}}
-          <h4>{{result.name}}</h4>
-        {{/link-to}}
+        {{#if result.claimed}}
+          {{#link-to 'biz.show' result.organization_id}}
+            {{avatar-image
+              imageUrl=result.logo
+              userName=result.name
+              customSize=30
+            }}
+            <h4 style="display:inline-block;">{{result.name}}</h4>
+          {{/link-to}}
+        {{else}}
+          {{#link-to 'directory.show' result}}
+            <h4>{{result.name}}</h4>
+          {{/link-to}}
+        {{/if}}
         <div>
           <span class="hidden-xs">
             {{fa-icon 'fa-map-marker'}}

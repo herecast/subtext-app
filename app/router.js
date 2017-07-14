@@ -141,6 +141,12 @@ Router.map(function() {
   // Unfortunately, the catch-all route was not working nicely with intermediateTransitionTo, so both are necessary
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
+
+  this.route('biz', function() {
+    this.route('show', {path: '/:id'}, function() {
+      this.route('detail', {path: ':slug'});
+    });
+  });
 });
 
 export default Router;

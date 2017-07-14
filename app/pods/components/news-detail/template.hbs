@@ -67,8 +67,8 @@
     <div class='DetailPage-organization u-layoutPadB10'>
       <div class='DetailPage-organization-info'>
         {{#link-to
-          'organization-profile'
-          model.organization.slug
+          organizationLinkRoute
+          organizationLinkId
           class='DetailPage-organization-link'
           tagName='a'
           data-test-link="organization-link"

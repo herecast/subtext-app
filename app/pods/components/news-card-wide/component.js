@@ -21,5 +21,15 @@ export default NewsCard.extend({
 
   isWithoutImage: computed('item.imageUrl', function() {
     return !get(this, 'item.imageUrl');
-  })
+  }),
+
+  linkRoute: computed('item.organization.isBusiness', function() {
+    const isBusiness = get(this, 'item.organization.isBusiness');
+    return isBusiness ? 'biz.show' : 'organization-profile';
+  }),
+
+  linkId: computed('item.organization.isBusiness', function() {
+    const isBusiness = get(this, 'item.organization.isBusiness');
+    return isBusiness ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
+  }),
 });

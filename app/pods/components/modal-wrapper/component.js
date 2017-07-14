@@ -3,7 +3,6 @@ import Ember from 'ember';
 const { get, computed, $, inject, isBlank } = Ember;
 
 export default Ember.Component.extend({
-
   attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
 
