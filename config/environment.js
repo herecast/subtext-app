@@ -17,7 +17,6 @@ module.exports = function(environment) {
       'FACEBOOK_APP_ID',
       'GTM_API_TOKEN',
       'GTM_AUTH',
-      'FASTBOOT_DATA_CACHE_TIMEOUT',
       'OPTIMIZED_IMAGE_URI',
       'GTM_PREVIEW',
       'OPTIMIZED_IMAGE_QUALITY',
@@ -26,7 +25,6 @@ module.exports = function(environment) {
     ],
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
-    FASTBOOT_DATA_CACHE_TIMEOUT: 30000,
     //DEFAULT_HTTP_CACHE: " public, max-age=60",
     LOG_TRACKING_EVENTS: false,
     locationRedirectRoutes: [

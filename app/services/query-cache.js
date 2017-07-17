@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import config from 'subtext-ui/config/environment';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
 const {
@@ -12,25 +11,18 @@ const {
 
 export default Ember.Service.extend(FastbootExtensions, {
   windowLocation: inject.service('window-location'),
-  disableCache: false,
-  cacheTimeout: config.FASTBOOT_DATA_CACHE_TIMEOUT,
+  _disableCache: false,
 
   init() {
     this._super();
 
     if(!get(this, 'fastboot.isFastBoot')) {
-      const cacheTimeout = get(this, 'cacheTimeout');
-      const cacheTimeoutEnabled = !(
-        (cacheTimeout === false) || (cacheTimeout === 'false')
-      );
-
-      if(cacheTimeoutEnabled) {
-        run.later(() => {
-          if(!get(this, 'isDestroying')) {
-            set(this, 'disableCache', true);
-          }
-        }, parseInt(get(this, 'cacheTimeout')));
-      }
+      // Disable the cache after cold boot has re-rendered page
+      run.later(()=>{
+        if(!get(this, 'isDestroying')) {
+          run.scheduleOnce('afterRender',this, this.disableCache);
+        }
+      }, 500);
     }
   },
 
@@ -65,9 +57,15 @@ export default Ember.Service.extend(FastbootExtensions, {
     }
   },
 
+  disableCache() {
+    if(!get(this, 'isDestroying')) {
+      set(this, '_disableCache', true);
+    }
+  },
+
   /** Private */
-  _apiCache: computed('disableCache', function() {
-    if(get(this, 'disableCache')) {
+  _apiCache: computed('_disableCache', function() {
+    if(get(this, '_disableCache')) {
       return {};
     }
 

@@ -44,6 +44,7 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
       );
 
       if(data) {
+        console.log("Retrieved from Shoebox Cache:", url);
         return RSVP.resolve(data);
       } else {
         if(get(this, 'isFastBoot')) {
