@@ -74,7 +74,8 @@ export default Ember.Component.extend({
     },
 
     openCalendarWidget() {
-      get(this, 'modals').showModal('modals/date-picker').then((date) => {
+      const selectedDate = get(this, 'selectedDate');
+      get(this, 'modals').showModal('modals/date-picker', { initialSelectedDate: selectedDate}).then((date) => {
         this._gtmTrackEvent('events-jumped-to-date', date);
         this.attrs.jumpToDay(date);
         this.returnToTop();

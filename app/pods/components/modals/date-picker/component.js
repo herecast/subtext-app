@@ -6,13 +6,11 @@ const { get, set } = Ember;
 
 export default ModalInstance.extend({
   attributeBindings: ['data-test-modal-datepicker'],
-  selectedDate: null,
   sendAfterUpdate: true,
 
   actions: {
     updateSelected(date) {
       set(this, 'selectedDate', date);
-
       if (get(this, 'sendAfterUpdate')) {
         this.ok(date);
       }

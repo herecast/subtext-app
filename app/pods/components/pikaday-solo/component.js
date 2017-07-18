@@ -1,19 +1,23 @@
 import Ember from 'ember';
 /* global Pikaday */
 
-const { get, set } = Ember;
+const { get, set, isPresent } = Ember;
 
 export default Ember.Component.extend({
   attributeBindings: ['data-test-component'],
   "data-test-component": 'pickadaySolo',
   pikaday : null,
+  // this value must be an instance of Date
+  defaultDate: null,
 
   _initPikaday() {
     const that = this;
+    const defaultDate = get(this, 'defaultDate');
     const opts = {
       bound: false,
       theme: 'PikadaySolo',
-
+      defaultDate: defaultDate,
+      setDefaultDate: isPresent(defaultDate),
       onSelect() {
         that.attrs.updateSelected(this.getMoment().format('YYYY-MM-DD'));
 
