@@ -38,11 +38,6 @@ export default Ember.Controller.extend({
     return get(this, 'category') ? get(this, 'category').split(',') : [];
   }),
 
-  selectedDate: computed('date_start', function() {
-    const date_start_string = get(this, 'date_start');
-    return new Date (moment(date_start_string, "YYYY-MM-DD"));
-  }),
-
   isGroupedByDay: computed.empty('category'),
 
   formattedThroughDate: computed('date_start', 'days_ahead', function() {
