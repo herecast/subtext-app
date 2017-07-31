@@ -8,6 +8,8 @@
       <div class="DetailPage-navTop-social-shareWrapper">
         {{social-share
         title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
         sharedBy=session.userName
         model=model
         isTalkChannel=true

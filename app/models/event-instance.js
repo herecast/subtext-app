@@ -25,6 +25,7 @@ export default DS.Model.extend(BaseEvent, {
   venueLocateName: DS.attr('string'),
   publishedAt: DS.attr('moment-date'),
   updatedAt: DS.attr('moment-date'),
+  organization: DS.belongsTo('organization'),
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (this.get('isValid')) {

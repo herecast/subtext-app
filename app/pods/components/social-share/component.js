@@ -43,13 +43,24 @@ export default Ember.Component.extend({
     return `mailto:?subject=${subject}&body=${body}`;
   }),
 
-  twitterLink: computed('title', function() {
-    const title = encodeURIComponent(get(this, 'title'));
+  twitterLink: computed('title', 'authorName', 'twitterHandle', function() {
+    const authorName = get(this, 'authorName');
+    const twitterHandle = get(this, 'twitterHandle');
+    const title = get(this, 'title');
+    let twitterTitle;
+
+    if(twitterHandle) {
+      twitterTitle = encodeURIComponent(`${title} - by ${twitterHandle} on DailyUV`);
+    } else if(authorName && authorName !== 'DailyUV') {
+      twitterTitle = encodeURIComponent(`${title} - by ${authorName} on DailyUV`);
+    } else {
+      twitterTitle = encodeURIComponent(`${title} on DailyUV`);
+    }
+
     const url = this.urlForShare();
-    const via = 'thedailyUV';
     const hashtags = 'UpperValley';
 
-    return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}&hashtags=${hashtags}`);
+    return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&hashtags=${hashtags}`);
   }),
 
   actions: {
