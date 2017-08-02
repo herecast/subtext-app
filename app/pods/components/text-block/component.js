@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   classNameBindings: [
     'center:TextBlock--center',
     'hasMargin::TextBlock--noMargin',
+    'lighten:TextBlock--lighten',
     'sizing'
   ],
 

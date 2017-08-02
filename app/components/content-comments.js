@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
-const { computed, isPresent, get } = Ember;
+const { computed, isPresent, get, inject } = Ember;
 
 export default Ember.Component.extend({
+  features: inject.service('feature-flags'),
   contentComments: Ember.inject.service('content-comments'),
   scrollToAnchor: null,
   displayPromotion: false,

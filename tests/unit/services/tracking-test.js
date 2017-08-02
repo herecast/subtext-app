@@ -1,8 +1,10 @@
-import { moduleFor, test } from 'ember-qunit';
+import {moduleFor, test} from 'ember-qunit';
 
 moduleFor('service:tracking', 'Unit | Service | tracking', {
   // Specify the other units that are required for this test.
-  // needs: ['service:foo']
+  needs: ['service:user-location', 'service:cookies', 'service:geolocation', 'service:session',
+    'service:api', 'service:window-location', 'service:history', 'service:fastboot'
+  ]
 });
 
 // Replace this with your real tests.

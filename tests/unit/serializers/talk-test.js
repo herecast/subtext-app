@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('talk', 'Unit | Serializer | talk', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:talk', 'transform:moment-date', 'model:organization']
+  needs: ['serializer:talk', 'transform:moment-date', 'model:organization', 'model:content-location', 'transform:raw']
 });
 
 // Replace this with your real tests.

@@ -27,10 +27,10 @@ export default Ember.Service.extend({
       routeHistory.arrayContentWillChange(0, 0, 1);
       routeHistory.pushObject({
         routeName: routeName,
-        params: state.routerJsState.params
+        params: state.routerJsState.params,
+        queryParams: state.routerJsState.queryParams
       });
       routeHistory.arrayContentDidChange(0, 0, 1);
-
     }
 
     const limit = get(this, '_historyLimit');

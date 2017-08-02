@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('event-preview-summary', {
-  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button', 'helper:not', 'service:history']
+  needs: ['component:fa-icon', 'component:disabled-checkbox', 'component:async-button', 'helper:not', 'service:history', 'component:locations-nearby']
 });
 
 test('it renders', function(assert) {
@@ -12,6 +12,7 @@ test('it renders', function(assert) {
 
   // Creates the component instance
   var component = this.subject();
+
   assert.equal(component._state, 'preRender');
 
   // Renders the component to the page

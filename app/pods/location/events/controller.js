@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+import LocationMixin from 'subtext-ui/mixins/controllers/location';
 
 const {
   computed,
@@ -8,8 +9,10 @@ const {
   set
 } = Ember;
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(LocationMixin, {
+  channel: "events",
   userLocation: inject.service(),
+  selectedLocation: computed.readOnly('userLocation.activeLocation'),
   queryParams: ['category', 'query', 'date_start', 'days_ahead', 'organization'],
 
   category: null,

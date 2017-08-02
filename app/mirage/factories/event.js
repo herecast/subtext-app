@@ -21,6 +21,7 @@ export default Mirage.Factory.extend({
   venueState: faker.address.state(),
   venueUrl: faker.internet.url(),
   venueZip: faker.address.zipCode(),
+  contentLocations: [],
 
   afterCreate(record, server) {
     record.firstInstanceId = server.create('event-instance', {

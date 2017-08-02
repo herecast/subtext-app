@@ -47,6 +47,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
 
     if (confirmed) {
       model.rollbackImages();
+      model.resetContentLocationChanges();
       model.set('listservIds', []);
       model.rollbackAttributes();
     } else {

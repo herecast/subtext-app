@@ -18,9 +18,10 @@ const {
 export default Service.extend(Evented, {
   api: inject.service(),
   userLocation: inject.service(),
+  session: inject.service(),
   fastboot: inject.service(),
   clientId: null,
-  locationId: computed.alias('userLocation.locationId'),
+  locationId: computed.alias('userLocation.location.id'),
   _clientIdKey: 'dailyuv_session_client_id',
   logEnabled: config.LOG_TRACKING_EVENTS,
 
@@ -45,14 +46,26 @@ export default Service.extend(Evented, {
 
     deferred.promise.then((id) => {
       set(this, 'clientId', id);
+      if(typeof(dataLayer) !== "undefined") {
+        dataLayer.push({client_id: id});
+      }
     });
 
-    this._eventuallyGetClientId();
+    get(this, 'userLocation').on('locationDidChange', (locationId) => {
+      if(typeof(dataLayer) !== "undefined") {
+        dataLayer.push({location_id: locationId});
+      }
+    });
+
+    if(!get(this, 'fastboot.isFastBoot')) {
+      this._eventuallyGetClientId();
+    }
   },
 
   defaultDataLayerAttrs: computed('locationId', 'clientId', function() {
     return {
       client_id: get(this, 'clientId'),
+      user_id: get(this, 'session.currentUser.userId'),
       location_id: get(this, 'locationId')
     };
   }),
@@ -73,7 +86,7 @@ export default Service.extend(Evented, {
         this.trigger(trackData.event, trackData);
         this.trigger('DataLayerEvent', trackData);
 
-        if(get(this, 'logEnabled')) {
+        if(get(this, 'logEnabled') && trackData.event) {
           console.log("[dataLayer Event]: ", trackData.event, trackData);
         }
       });

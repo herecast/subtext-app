@@ -16,6 +16,7 @@
     <div class='col-sm-3 publishLink'>
       {{#async-button
         data-test-component='preview-publish'
+        disabled=isSaving
         action='save'
         class='Button Button--talk btn btn-primary pull-right save-and-publish'
       }}
@@ -42,12 +43,31 @@
         Here’s how you’ve chosen to promote your listing:
       </div>
       <ul class='ContentPreview-propertyList'>
-        {{#disabled-checkbox
-          checked=model.myTownOnly
+       {{#disabled-checkbox
+          checked=model.baseLocation
           tagName='li'
           class='ContentPreview-summaryProperty'
         }}
-          My Town Only
+          {{#locations-nearby
+            tagName='span'
+            location=(readonly model.baseLocation)
+            radius=(readonly model.promoteRadius)
+            nearbyLocations=(readonly model.promotedLocations)
+            as |nearby|
+          }}
+          Promoted to
+            {{#if nearby.radius}}
+              {{#if nearby.nearbyLocations}}
+              {{nearby.location.name}} + {{nearby.radius}} Miles
+                {{#x-button style='link' onClick=nearby.showActiveLocations}}
+                  ({{nearby.nearbyLocations.length}} towns)
+                {{/x-button}}.
+              {{/if}}
+            {{else}}
+              {{nearby.location.name}} only.
+            {{/if}}
+
+          {{/locations-nearby}}
         {{/disabled-checkbox}}
         {{#disabled-checkbox
           checked=model.listsEnabled

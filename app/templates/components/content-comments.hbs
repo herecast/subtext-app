@@ -23,13 +23,15 @@
   {{/if}}
 
     {{#if session.isAuthenticated}}
-      {{comment-new
-        parentContentId=contentId
-        contentTitle=contentTitle
-        comments=comments
-        disabled=commentingDisabled
-        afterComment='incrementCommentCount'
-      }}
+      {{#unless features.disable-content-creation}}
+        {{comment-new
+          parentContentId=contentId
+          contentTitle=contentTitle
+          comments=comments
+          disabled=commentingDisabled
+          afterComment='incrementCommentCount'
+        }}
+      {{/unless}}
     {{else}}
       <p class='CommentSection-helpText'>
         You need to log in to join this conversation. After

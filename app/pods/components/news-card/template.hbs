@@ -8,6 +8,9 @@
   </h2>
 
   <span class='Card-subtitle'>{{subtitle}}</span> <span class='Card-subtitle'>{{item.organizationName}}</span>
+
+  {{base-location-display model=item.baseLocationNames hideMultipleLocations=true}}
+
 {{else}}
   {{#unless variant}}
     <div class="media">
@@ -40,6 +43,8 @@
               {{/if}}
             {{/link-to}}<br />
           </h2>
+
+          {{base-location-display model=item.baseLocationNames}}
 
           {{#link-to linkRoute
             linkId
@@ -88,6 +93,8 @@
             </span>
           {{/link-to}}<br />
         </h2>
+        {{base-location-display model=item.baseLocationNames}}
+
         {{#unless hasImage}}
           <div class='Card-snippet u-textThreeLineTruncate'>
             {{{content}}}

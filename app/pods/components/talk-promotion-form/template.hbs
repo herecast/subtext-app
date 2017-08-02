@@ -1,4 +1,14 @@
 <div class='PromotionSection'>
+  <label class='PromotionSection-label'>
+    Who should see this post?
+  </label>
+
+  {{promote-locations
+      model=model
+  }}
+</div>
+
+<div class='PromotionSection'>
   <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
   <p class='PromotionSection-description PromotionSection-description--emphasized'>
     Send a text-only version of your comment to your home-community listserv with a link to your post.

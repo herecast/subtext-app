@@ -1,0 +1,36 @@
+.ChannelFilters {
+  .flex-display();
+  .justify-content(center);
+  .flex-wrap(nowrap);
+  border-bottom: solid 1px lighten(@gray-medium, 10%);
+
+  &-navigation {
+    padding: 15px 5px 10px 5px;
+    border-right: solid 1px lighten(@gray-medium, 10%);
+  }
+
+  &-filters {
+    padding: 15px 10px 10px 10px;
+  }
+
+  @media (max-width: @screen-xs-max) {
+    background-color: white;
+    border-bottom-color: darken(@gray-light, 10%);
+
+    .ChannelFilters-navigation {
+      padding: 5px 0 5px 5px;
+      border-right-color: darken(@gray-light, 10%);
+    }
+
+    .ChannelFilters-filters {
+      .flex-grow(2);
+      padding: 5px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .LocationRadiusSelector-miles {
+      font-size: 12px;
+    }
+  }
+}

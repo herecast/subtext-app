@@ -24,6 +24,7 @@ export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, Rout
           date_start: params.date_start,
           date_end: params.date_end,
           location_id: locationId,
+          radius: params.radius,
           page: params.page,
           per_page: params.per_page
         });
@@ -33,6 +34,7 @@ export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, Rout
           date_start: params.date_start,
           date_end: params.date_end,
           location_id: locationId,
+          radius: params.radius,
           page: params.page,
           per_page: params.per_page
         });

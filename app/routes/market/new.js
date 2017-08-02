@@ -8,19 +8,45 @@ const { get, run, inject } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
   location: inject.service('window-location'),
+  userLocation: inject.service(),
 
   model(params, transition) {
     const newRecordValues = {
-      publishedAt: moment()
+      publishedAt: moment(),
+      promoteRadius: 10
     };
+
+    const locationPromise = get(this, 'userLocation.location');
 
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        return this.store.createRecord('market-post', newRecordValues);
+        const model = this.store.createRecord('market-post', newRecordValues);
+        locationPromise.then((location) => {
+          model.contentLocations.addObject(
+            this.store.createRecord('content-location', {
+              locationType: 'base',
+              locationId: location.id,
+              location: location
+            })
+          );
+        });
+
+        return model;
       });
     } else {
-      return this.store.createRecord('market-post', newRecordValues);
+      const model = this.store.createRecord('market-post', newRecordValues);
+      locationPromise.then((location) => {
+        model.get('contentLocations').addObject(
+          this.store.createRecord('content-location', {
+            locationType: 'base',
+            locationId: location.id,
+            location: location
+          })
+        );
+      });
+
+      return model;
     }
   },
 

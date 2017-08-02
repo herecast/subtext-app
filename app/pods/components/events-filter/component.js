@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   api: service(),
   modals: service(),
   session: service(),
+  features: service('feature-flags'),
 
   categories: [],
 

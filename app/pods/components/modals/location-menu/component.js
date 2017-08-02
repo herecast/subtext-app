@@ -1,11 +1,17 @@
 import Ember from 'ember';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 
-const { get, set, inject } = Ember;
+const { get, set, inject, computed } = Ember;
 
 export default ModalInstance.extend({
   store: inject.service(),
+  userLocation: inject.service(),
+  tracking: inject.service(),
   isLoading: false,
+
+  currentLocation: computed('userLocation.location.id', 'model.location.id', function() {
+    return get(this, 'model.location') || get(this, 'userLocation.location');
+  }),
 
   init() {
     this._super(...arguments);
@@ -17,6 +23,17 @@ export default ModalInstance.extend({
       set(this, 'isLoading', false);
       set(this, 'locations', locations);
     });
+
+    get(this, 'tracking').push({
+      event: 'OpenLocationSelectionModal'
+    });
+  },
+
+  actions: {
+    chooseLocation(location) {
+      this.close();
+      get(this, 'model.onChooseLocation')(location);
+    }
   }
 
 });

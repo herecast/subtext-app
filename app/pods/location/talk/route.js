@@ -23,6 +23,7 @@ export default Ember.Route.extend(Authorized, PaginatedFilter, History, Maintain
           query: params.query,
           location_id: get(location, 'id'),
           date_start: params.date_start,
+          radius: params.radius,
           date_end: params.date_end,
           page: params.page,
           per_page: params.per_page

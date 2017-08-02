@@ -49,7 +49,8 @@ function template(id) {
     publishedAt: (id % 2 === 0) ? randomDate.toISOString() : null,
     updatedAt: (id % 2 === 0) ? randomDate.toISOString() : null,
     subtitle: titleize(faker.lorem.sentences(1)),
-    title: titleize(faker.lorem.sentences(1))
+    title: titleize(faker.lorem.sentences(1)),
+    baseLocationNames: ['BaseTown VT', 'HomeTown NH']
   };
 }
 

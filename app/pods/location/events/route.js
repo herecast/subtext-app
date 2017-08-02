@@ -23,6 +23,9 @@ export default Ember.Route.extend(History, MaintainScroll, RouteNameAdContext, {
     },
     days_ahead: {
       refreshModel: true
+    },
+    radius: {
+      refreshModel: true
     }
   },
 
@@ -36,6 +39,7 @@ export default Ember.Route.extend(History, MaintainScroll, RouteNameAdContext, {
         date_start: params.date_start,
         days_ahead: params.days_ahead,
         location_id: get(location, 'id'),
+        radius: params.radius
       });
     });
   },

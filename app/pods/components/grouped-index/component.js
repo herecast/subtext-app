@@ -7,8 +7,10 @@ export default Ember.Component.extend({
   store: inject.service(),
   userLocation: inject.service(),
   newsItems: computed.alias('news'),
+  radius: 0,
 
   talkItems: [],
+
   sortedTalkItems: computed.sort('talkItems', sortByPublishedAt),
   hasTalkItems: computed.notEmpty('talkItems'),
 
@@ -21,6 +23,7 @@ export default Ember.Component.extend({
         get(this, 'store').query('talk', {
           page: get(this, 'page'),
           location_id: get(location, 'id'),
+          radius: get(this, 'radius'),
           per_page: 4
         }).then(talkItems => {
           if (!get(this, 'isDestroyed')) {
@@ -38,6 +41,7 @@ export default Ember.Component.extend({
       return get(this, 'store').query('event', {
         page: get(this, 'page'),
         location_id: get(location, 'id'),
+        radius: get(this, 'radius'),
         per_page: 25,
         has_image: true
       }).then((events) => {
@@ -55,6 +59,7 @@ export default Ember.Component.extend({
       return get(this, 'store').query('market-post', {
         page: get(this, 'page'),
         location_id: get(location, 'id'),
+        radius: get(this, 'radius'),
         per_page: 25,
         has_image: true
       }).then((items) => {

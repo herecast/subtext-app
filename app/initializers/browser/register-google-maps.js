@@ -7,7 +7,9 @@ export default {
   // in the app, this initializer makes it possible to inject the
   // google maps service.
   initialize: function(application) {
-    application.register('google-maps:main', google, { instantiate: false });
-    application.inject('service:google-maps', 'googleMaps', 'google-maps:main');
+    if(typeof(google) !== 'undefined') {
+      application.register('google-maps:main', google, { instantiate: false });
+      application.inject('service:google-maps', 'googleMaps', 'google-maps:main');
+    }
   }
 };

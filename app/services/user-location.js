@@ -33,6 +33,7 @@ export default Ember.Service.extend(Ember.Evented, {
   windowLocation: inject.service('window-location'),
   history: inject.service(),
   fastboot: inject.service(),
+  routing: inject.service('-routing'),
 
   currentRouteName: computed.oneWay('history.currentRouteName'),
   currentRouteParams: computed.oneWay('history.currentRoute.params'),
@@ -83,7 +84,7 @@ export default Ember.Service.extend(Ember.Evented, {
           .then(resolve)
           .catch(() => {
             // Clear the cookie in case the user has a bad value set.
-            this._clearLocationCookie();
+            this.clearLocationCookie();
             if (!get(this, 'fastboot.isFastBoot')) {
               this.locateUser()
                 .then(resolve)
@@ -198,7 +199,7 @@ export default Ember.Service.extend(Ember.Evented, {
     set(this, '_cookieLocationId', locationId);
   },
 
-  _clearLocationCookie() {
+  clearLocationCookie() {
     get(this, 'cookies').clear('locationId');
     set(this, '_cookieLocationId', null);
   },
@@ -314,6 +315,21 @@ export default Ember.Service.extend(Ember.Evented, {
       return get(this, 'history').extractOrderedParams(models);
     } else {
       return [locationId];
+    }
+  },
+
+  navigateToLocation(location, channel) {
+    const locationId = get(location, 'id');
+    const models = this.getModelsForLocationLink(locationId);
+    const routing = get(this, 'routing');
+    const queryParams = get(this, 'history.currentRoute.queryParams');
+
+    this.saveSelectedLocationId(locationId);
+
+    if (get(this, 'isLocationRouteActive')) {
+      routing.transitionTo(`location.${channel}`, models, queryParams);
+    } else {
+      routing.transitionTo(`location.${channel}`, models);
     }
   },
 

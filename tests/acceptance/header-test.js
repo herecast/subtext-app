@@ -1,4 +1,4 @@
-import { test } from 'qunit';
+import { skip } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'ember-test-selectors';
 import CookiesService from 'subtext-ui/services/cookies';
@@ -7,7 +7,7 @@ import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
 
 moduleForAcceptance('Acceptance | header');
 
-test('My location is displayed in header', function(assert) {
+skip('My location is displayed in header', function(assert) {
   const location = server.create('location');
   const locationName = [location.city, location.state].join(', ');
 
@@ -22,7 +22,7 @@ test('My location is displayed in header', function(assert) {
   });
 });
 
-test('Changing my location, from header', function(assert) {
+skip('Changing my location, from header', function(assert) {
   const myLocation = server.create('location');
   const newLocation = server.create('location');
   let cookieValue = null;

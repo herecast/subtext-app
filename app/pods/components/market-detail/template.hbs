@@ -76,6 +76,9 @@
         Price: {{model.price}}
       </span>
     {{/if}}
+    <div>
+      {{fa-icon 'map-marker'}} <span>{{join model.baseLocationNames delimiter=','}}</span>
+    </div>
 
     <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
   </div>

@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('news', 'Unit | Serializer | news', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:news', 'model:organization', 'transform:raw', 'transform:moment-date']
+  needs: ['serializer:news', 'model:organization', 'model:content-location', 'transform:raw', 'transform:moment-date']
 });
 
 // Replace this with your real tests.

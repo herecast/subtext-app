@@ -1,24 +1,11 @@
 <div class='PromotionSection'>
-  <label class='PromotionSection-label' for="extended-reach">My Town Only <span class='PromotionSection-cost'>(Free)</span></label>
-  <p class='PromotionSection-description'>
-    Your listing will be shown to users in every community, so it gets the
-    greatest possible exposure. But if you want it shown only to other users
-    from {{session.userLocation}}, turn this feature on.
-  </p>
-  <div class='row'>
-    <div class='col-sm-6'>
-      <div {{action 'toggleMyTownOnly'}} class='PromotionSection-toggle PromotionSection-toggleMap'>
-        {{#if post.myTownOnly}}
-          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-        {{else}}
-          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-        {{/if}}
-      </div>
-    </div>
-    <div class='col-sm-6'>
-      <img class='img-responsive' src="/images/extended-reach-map.png">
-    </div>
-  </div>
+  <label class='PromotionSection-label'>
+    Who should see this post?
+  </label>
+
+  {{promote-locations
+      model=post
+  }}
 </div>
 
 {{#if listServAvailable}}

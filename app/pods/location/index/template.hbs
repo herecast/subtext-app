@@ -1,11 +1,22 @@
 <div data-test-page='location.index'>
+  {{#channel-filters channel='index'}}
+    {{location-radius-control
+      location=(readonly userLocation.location)
+      radius=(readonly radius)
+      onChooseRadius=(action "changeRadius")
+      onChooseLocation=(action 'chooseLocation')
+    }}
+  {{/channel-filters}}
+  
   <div class='Container--noGutter'>
+
     <h1><!-- for consistent spacing --></h1>
 
     {{grouped-index
       news=model
       page=page
       isAuthenticated=session.isAuthenticated
+      radius=radius
     }}
   </div>
 

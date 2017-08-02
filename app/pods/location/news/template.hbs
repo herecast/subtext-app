@@ -1,6 +1,15 @@
 <div data-test-page='location.news'>
   {{outlet}}
 
+  {{#channel-filters channel='news'}}
+    {{location-radius-control
+      location=(readonly userLocation.location)
+      radius=(readonly radius)
+      onChooseRadius=(action "changeRadius")
+      onChooseLocation=(action 'chooseLocation')
+    }}
+  {{/channel-filters}}
+
   <div class='Container--noGutter'>
     <div class='row'>
       <div class='col-xs-12'>
@@ -13,15 +22,17 @@
             </h1>
           </div>
 
-          {{#if session.currentUser.canPublishNews}}
-            <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
-              {{#link-to 'news.new' class='Button SectionNavigation-contentCreateButton btn btn-default Button--news' data-test-link='content-create-button'}}
-                <span class="visible-xs-inline visible-sm-inline">+</span>
-                <span class="hidden-xs hidden-sm">Create</span>
-                News
-              {{/link-to}}
-            </div>
-          {{/if}}
+          {{#unless features.disable-content-creation}}
+            {{#if session.currentUser.canPublishNews}}
+              <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+                {{#link-to 'news.new' class='Button SectionNavigation-contentCreateButton btn btn-default Button--news' data-test-link='content-create-button'}}
+                  <span class="visible-xs-inline visible-sm-inline">+</span>
+                  <span class="hidden-xs hidden-sm">Create</span>
+                  News
+                {{/link-to}}
+              </div>
+            {{/if}}
+          {{/unless}}
         </div>
       </div>
     </div>

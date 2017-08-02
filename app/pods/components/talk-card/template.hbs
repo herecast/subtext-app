@@ -50,6 +50,8 @@
         {{/if}}
       </h2>
 
+      {{base-location-display model=talk.baseLocationNames}}
+
       <div class='Card-commentInfo'>
         {{#if hasComments}}
           <span title="Comments">{{fa-icon 'comment-o'}}{{talk.commentCount}} {{commentPluralFriendly}} | Discussion started </span>

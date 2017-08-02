@@ -1,19 +1,30 @@
 <div data-test-page='location.market'>
   {{!-- old market landing page --}}
   {{#if flat}}
+    {{#channel-filters channel='market'}}
+      {{location-radius-control
+        location=(readonly userLocation.location)
+        radius=(readonly radius)
+        onChooseRadius=(action "changeRadius")
+        onChooseLocation=(action 'chooseLocation')
+      }}
+    {{/channel-filters}}
     <div class='Container--noGutter'>
+
       <div class='row'>
         <div class='col-xs-12 col-md-8 col-md-push-2'>
           <div class='ChannelTopper clearfix'>
-            {{#location-link 'market' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg'}}Local Market{{/location-link}}
+              {{#location-link 'market' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg'}}Local Market{{/location-link}}
 
-            <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
-              {{#link-to 'market.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--market' data-test-link='content-create-button'}}
-                <span class="visible-xs-inline visible-sm-inline">+</span>
-                <span class="hidden-xs hidden-sm">Create</span>
-                Listing
-              {{/link-to}}
-            </div>
+            {{#unless features.disable-content-creation}}
+              <div data-test-component='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+                {{#link-to 'market.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--market' data-test-link='content-create-button'}}
+                  <span class="visible-xs-inline visible-sm-inline">+</span>
+                  <span class="hidden-xs hidden-sm">Create</span>
+                  Listing
+                {{/link-to}}
+              </div>
+            {{/unless}}
           </div>
 
           {{#if model}}
@@ -75,11 +86,13 @@
                     {{#unless query}}
                       <div class='InfoHeader-CTAs-item InfoHeader-CTAs-middle h3 text-center u-bold u-textKnockout u-textShadow'>or</div>
 
-                      {{#link-to 'market.new' tagName='button' class='btn btn-primary InfoHeader-CTAs-item InfoHeader-CTAs-marketCTA h3 u-layoutPadT0'}}
-                        <span {{action (action 'trackCreateButtonClick')}}>
-                          Sell on Daily UV
-                        </span>
-                      {{/link-to}}
+                      {{#unless features.disable-content-creation}}
+                        {{#link-to 'market.new' tagName='button' class='btn btn-primary InfoHeader-CTAs-item InfoHeader-CTAs-marketCTA h3 u-layoutPadT0'}}
+                          <span {{action (action 'trackCreateButtonClick')}}>
+                            Sell on Daily UV
+                          </span>
+                        {{/link-to}}
+                      {{/unless}}
                     {{/unless}}
                   </div>
                 </div>

@@ -12,6 +12,7 @@ export default Ember.Route.extend(Scroll, Authorized, {
   model(params, transition) {
     const newRecordValues = {
       venueStatus: 'new',
+      promoteRadius: 10,
       listservIds: []
     };
 

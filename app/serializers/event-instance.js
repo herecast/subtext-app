@@ -11,7 +11,8 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     const json = this._super(snapshot, options);
 
     delete json.updated_at;
-    
+    delete json.base_location_names;
+
     return json;
   }
 });

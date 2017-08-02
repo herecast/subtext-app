@@ -23,22 +23,17 @@
     {{/each}}
   </ul>
 {{/unless}}
-<div class="row">
-  {{#each groupedLocations as |locationGroup|}}
-    <div class="col-xs-6 col-sm-4 col-md-3">
-      {{#each locationGroup as |locationLink|}}
-        {{#dynamic-link params=locationLink
-                        data-test-link="choose-location"
-                        data-test-location=locationLink.location.id
-                        className="LocationMenu-link"}}
-          <span {{action 'navigateToLocation' locationLink bubbles=false}}
-            data-test-click-target
-            class="LocationMenu-link-location">
+
+{{#responsive-list items=locationLinks as |locationLink|}}
+  {{#dynamic-link params=locationLink
+                  data-test-link="choose-location"
+                  data-test-location=locationLink.location.id
+                  className=(if (eq locationLink.location.id currentLocation.id) 'LocationMenu-link active' 'LocationMenu-link')}}
+    <span {{action 'chooseLocation' locationLink.location bubbles=false}}
+      data-test-click-target
+      class="LocationMenu-link-location">
             {{locationLink.location.name}}
-            {{fa-icon 'location-arrow' class="LocationMenu-link-icon"}}
+      {{fa-icon 'location-arrow' class="LocationMenu-link-icon"}}
           </span>
-        {{/dynamic-link}}
-      {{/each}}
-    </div>
-  {{/each}}
-</div>
+  {{/dynamic-link}}
+{{/responsive-list}}

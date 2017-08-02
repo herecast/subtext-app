@@ -9,7 +9,11 @@ export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, {
   userLocation: inject.service('user-location'),
 
   queryParams: {
-    page: {refreshModel: true}
+    page: {refreshModel: true},
+    radius: {
+      replace: true,
+      refreshModel: true
+    }
   },
 
   model(params) {
@@ -17,7 +21,8 @@ export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, {
       return this.store.query('news', {
         page: params.page,
         per_page: 4,
-        location_id: get(location, 'id')
+        location_id: get(location, 'id'),
+        radius: params.radius
       });
     });
   }

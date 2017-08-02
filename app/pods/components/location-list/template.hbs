@@ -1,0 +1,12 @@
+{{#content-container medium=true center=true}}
+  {{#content-header}}
+    {{#title-text center=true}}
+      Towns within {{radius}} miles of {{selectedLocation.name}}
+    {{/title-text}}
+  {{/content-header}}
+  {{#responsive-list items=sortedLocations as |location|}}
+    {{#subtitle-text}}
+      {{location.name}}
+    {{/subtitle-text}}
+  {{/responsive-list}}
+{{/content-container}}

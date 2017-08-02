@@ -25,15 +25,15 @@ export default Ember.Component.extend({
   large: false,
 
   size: computed('tiny', 'xsmall', 'small', 'medium', 'large', function() {
-    if (isPresent(get(this, 'tiny'))) {
+    if (get(this, 'tiny')) {
       return 'tiny';
-    } else if (isPresent(get(this, 'xsmall'))) {
+    } else if (get(this, 'xsmall')) {
       return 'xsmall';
-    } else if (isPresent(get(this, 'small'))) {
+    } else if (get(this, 'small')) {
       return 'small';
-    } else if (isPresent(get(this, 'medium'))) {
+    } else if (get(this, 'medium')) {
       return 'medium';
-    } else if (isPresent(get(this, 'large'))) {
+    } else if (get(this, 'large')) {
       return 'large';
     } else {
       return null;

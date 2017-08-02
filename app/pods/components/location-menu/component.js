@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import {chunk} from 'lodash';
 
 const {get, set, computed, inject, isPresent, getWithDefault} = Ember;
 
@@ -7,12 +6,14 @@ export default Ember.Component.extend({
   'data-test-component': 'location-menu',
   classNames: ['LocationMenu'],
   userLocation: inject.service(),
+  tracking: inject.service(),
   media: inject.service(),
   routing: inject.service('-routing'),
   history: inject.service(),
   fastboot: inject.service(),
 
   currentRouteName: computed.oneWay('history.currentRouteName'),
+  currentLocation: computed.oneWay('userLocation.location'),
 
   /**
    * List of `Location` objects.
@@ -114,31 +115,12 @@ export default Ember.Component.extend({
     return 'location.index';
   }),
 
-  /**
-   * The locations are divided into columns depending on the size of the viewport
-   */
-  groupedLocations: computed('locationLinks.[]', 'media.isMobile', 'media.isTablet', function () {
-    const locationLinks = get(this, 'locationLinks');
-    let columns;
-
-    if (get(this, 'media.isMobile')) {
-      columns = 2;
-    } else if (get(this, 'media.isTablet')) {
-      columns = 3;
-    } else {
-      columns = 4;
-    }
-
-    return chunk(locationLinks, Math.ceil(locationLinks.length / columns));
-  }),
-
   actions: {
-    navigateToLocation(locationLink) {
-      const userLocation = get(this, 'userLocation');
-      const router = get(this, 'routing.router');
-
-      userLocation.saveSelectedLocationId(get(locationLink, 'location.id'));
-      router.transitionTo(locationLink.route, ...locationLink.model);
+    chooseLocation(location) {
+      const onChooseLocation = get(this, 'onChooseLocation');
+      if (onChooseLocation) {
+        onChooseLocation(location);
+      }
     },
     chooseStateTab(stateName) {
       set(this, 'selectedState', stateName);
@@ -146,15 +128,21 @@ export default Ember.Component.extend({
     locateMe() {
       const userLocation = get(this, 'userLocation');
 
+      get(this, 'tracking').push({
+        event: "click-locate-me"
+      });
+
       return userLocation.loadLocationFromCoords().then(location => {
         if (!get(this, 'isDestroyed')) {
-          const router = get(this, 'routing.router');
-          const route = get(this, 'locationLinkRoute');
-          const models = userLocation.getModelsForLocationLink(get(location, 'id'));
-
-          userLocation.saveSelectedLocationId(get(location, 'id'));
-
-          router.transitionTo(route, ...models);
+          get(this, 'tracking').push({
+            event: 'user-located',
+            new_location_id: get(location, 'id'),
+            new_location_name: get(location, 'name')
+          });
+          const onChooseLocation = get(this, 'onChooseLocation');
+          if (onChooseLocation) {
+            onChooseLocation(location);
+          }
         }
       });
     }

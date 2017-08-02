@@ -24,6 +24,9 @@ export default Ember.Mixin.create({
     },
     page: {
       refreshModel: true
+    },
+    radius: {
+      refreshModel: true
     }
   },
 

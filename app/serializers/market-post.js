@@ -7,6 +7,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
 
   attrs: {
     images: { embedded: 'always' },
+    contentLocations: { embedded: 'always', serialize: 'records' }
   },
 
   serialize(snapshot, options) {
@@ -22,6 +23,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.updated_at;
     delete json.author_name;
     delete json.author_email;
+    delete json.base_location_names;
 
     return json;
   }

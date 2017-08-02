@@ -6,11 +6,9 @@ const {get, set, setProperties, computed, run, isEmpty, inject:{service}} = Embe
 
 export default Ember.Component.extend({
   classNames: 'EventsResults',
-  classNameBindings: ['hasActiveCategories:is-filtered'],
 
   events: null,
   query: null,
-  activeCategories: null,
   eventsAreLoading: false,
   reportScrollToEnd: false,
 
@@ -41,8 +39,6 @@ export default Ember.Component.extend({
   dayOrWeek: computed('isGroupedByDay', function() {
     return  get(this, 'isGroupedByDay') ? 'Day' : 'Week';
   }),
-
-  hasActiveCategories: computed.gt('activeCategories.length', 0),
 
   sortedEvents: computed('events.@each.startsAtUnix', function() {
     const events = get(this, 'events');

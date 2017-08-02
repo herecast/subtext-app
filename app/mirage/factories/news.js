@@ -22,5 +22,7 @@ export default Mirage.Factory.extend({
   commentCount: faker.random.number(8),
   organizationId: null,
   organizationName: faker.company.companyName(),
-  canEdit: true
+  canEdit: true,
+  baseLocationNames: ['BaseTown, VT'],
+  contentLocations: []
 });

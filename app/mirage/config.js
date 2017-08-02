@@ -52,7 +52,7 @@ const talkBaseProperties = [
 
 const newsBaseProperties = [
   'id', 'title', 'content', 'publishedAt', 'authorId', 'authorName',
-  'organizationName','organizationId', 'imageUrl', 'organization'
+  'organizationName','organizationId', 'imageUrl', 'organization', 'baseLocationNames'
 ];
 
 function dashboardTalks(db,start,stop) {
@@ -312,7 +312,14 @@ export default function() {
   });
 
   // Locations
-  this.get('/locations');
+  this.get('/locations', function({locations}, request) {
+    if('radius' in request.queryParams) {
+      const limit = parseInt(request.queryParams.radius || 1);
+      return {locations: locations.all().models.slice(0, parseInt(limit))};
+    } else {
+      return locations.all();
+    }
+  });
 
   this.get('/locations/locate', function ({ locations }) {
     return locations.first() || locations.create({id: 'Nowhere, VT', city: 'Nowhere', state: 'VT'});
@@ -386,9 +393,14 @@ export default function() {
 
     results = filterCollectionByDate(events, queryStart, queryEnd);
 
+    let total = results.models.length;
     results.models = results.models.slice(start, stop);
+    let response =  this.serializerOrRegistry.serialize(results, request);
+    response.meta = {
+      total: total
+    };
 
-    return results;
+    return new Mirage.Response(200, {}, response);
   });
 
   this.get('/event_instances/:id', 'event-instance');
@@ -480,7 +492,7 @@ export default function() {
       ]};
   });
 
-  // Used by the event creation page to find venues
+  // Used by the event creation page to find enues
   this.get('/venues', function({ db }, request) {
     let venues = [];
 
@@ -495,6 +507,13 @@ export default function() {
       venues: venues
     };
   });
+
+  this.get('/venues/:id/location', function({locations}) {
+    const all_locations =  locations.all();
+    return {locations: all_locations[Math.floor(Math.random()*all_locations.length)]};
+  });
+
+  this.del('/content_locations/:id', {}, 200);
 
   this.get('/comments');
   this.post('/comments');
@@ -554,10 +573,16 @@ export default function() {
     let results;
 
     results = filterCollectionByDate(marketPosts, queryStart, queryEnd);
+    let total = results.models.length;
 
     results.models = results.models.slice(start, stop);
 
-    return results;
+    let response =  this.serializerOrRegistry.serialize(results, request);
+    response.meta = {
+      total: total
+    };
+
+    return new Mirage.Response(200, {}, response);
   });
 
   this.get('/market_posts/:id', function({marketPosts}, request) {
@@ -582,6 +607,15 @@ export default function() {
     const putData = JSON.parse(request.requestBody);
 
     const attrs = putData['market_post'];
+
+    if('content_locations' in attrs) {
+      attrs['content_locations'].forEach((item) => {
+        if(!item['id']) {
+          item['id'] = (new Date()).getTime();
+        }
+      });
+    }
+
     const post = marketPosts.create(attrs);
 
     // This is so we show the edit button on the post show page
@@ -598,6 +632,13 @@ export default function() {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['market_post'];
+      if('content_locations' in attrs) {
+        attrs['content_locations'].forEach((item) => {
+          if(!item['id']) {
+            item['id'] = (new Date()).getTime();
+          }
+        });
+      }
       return db.marketPosts.update(id, attrs);
     } else {
       // We're using the UPDATE action to upload market images after the post
@@ -624,9 +665,15 @@ export default function() {
     const start = stop - params.per_page;
 
     let results = filterCollectionByDate(talks, params.date_start, params.dateEnd);
+    let total = results.models.length;
     results.models = results.models.slice(start, stop);
 
-    return results;
+    let response =  this.serializerOrRegistry.serialize(results, request);
+    response.meta = {
+      total: total
+    };
+
+    return new Mirage.Response(200, {}, response);
   });
 
   this.get('/talk/:id');

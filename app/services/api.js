@@ -372,6 +372,12 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
+  getLocationsNear(location, radius = 10) {
+    let url = `/locations/${location.id}/near?radius=${radius}`;
+
+    return this.getJson(url);
+  },
+
   getLocationFromIP() {
     return this.getJson('/locations/locate');
   },
@@ -420,6 +426,10 @@ export default Ember.Service.extend(FastbootExtensions, {
     }
 
     return this.getJson(url);
+  },
+
+  getVenueLocation(venue_id) {
+    return this.getJson(`/venues/${venue_id}/location`);
   },
 
   getVenueLocations(query) {
@@ -566,6 +576,12 @@ export default Ember.Service.extend(FastbootExtensions, {
   removeOrganizationTagOnContent(organizationId, contentId) {
     return returnJson(
       this.del(`/organizations/${organizationId}/contents/${contentId}/tags`)
+    );
+  },
+
+  removeContentLocation(id) {
+    return returnJson(
+      this.del(`/content_locations/${id}`)
     );
   },
 

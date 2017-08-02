@@ -1,0 +1,15 @@
+.LocationRadiusSelector {
+  .flex-display();
+  .align-items(center);
+
+  @media (max-width: @screen-xs-max) {
+    .justify-content(space-between);
+    &-location {
+      .flex-grow(2);
+    }
+  }
+
+  &-miles {
+    margin: 0;
+  }
+}

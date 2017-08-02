@@ -33,8 +33,6 @@ export default Ember.Component.extend({
         }
 
         this.sendAction('afterPublish', post);
-      }).finally(()=>{
-        set(this, 'isSaving', false);
       });
     }
   }

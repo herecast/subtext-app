@@ -1,0 +1,11 @@
+{{#modal-wrapper
+  fullscreen=true
+  close=(action 'close')}}
+
+  {{#if isLoading}}
+    {{x-loader}}
+  {{else}}
+    {{location-list locations=model.locations radius=model.radius selectedLocation=model.selectedLocation}}
+  {{/if}}
+
+{{/modal-wrapper}}

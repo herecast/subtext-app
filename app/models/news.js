@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
+import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
 
 const { computed, get } = Ember;
 
-export default DS.Model.extend({
+export default DS.Model.extend(ContentLocationsMixin, {
   title: DS.attr('string'),
   subtitle: DS.attr('string'),
   content: DS.attr('string'),
@@ -34,6 +35,8 @@ export default DS.Model.extend({
 
   organizationId: DS.attr('number'),
   organizationName: DS.attr('string'),
+  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
+  promoteRadius: DS.attr('number'),
 
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');

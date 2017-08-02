@@ -23,6 +23,7 @@ export default Ember.Route.extend(RequireCanEdit, {
       if (model.get('hasUnpublishedChanges')) {
         if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
           model.rollbackAttributes();
+          model.resetContentLocationChanges();
         } else {
           transition.abort();
         }

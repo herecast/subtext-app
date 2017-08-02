@@ -5,7 +5,8 @@ import { ActiveModelSerializer } from 'active-model-adapter';
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   isNewSerializerAPI: true,
   attrs: {
-    schedules: { embedded: 'always' }
+    schedules: { embedded: 'always' },
+    contentLocations: { embedded: 'always' }
   },
 
   serialize(snapshot, options) {
@@ -47,6 +48,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.venue_zip;
     delete json.owner_name;
     delete json.can_edit;
+    delete json.base_location_names;
 
     return json;
   }

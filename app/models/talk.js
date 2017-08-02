@@ -2,10 +2,11 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
+import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
 
 const { computed, get, inject } = Ember;
 
-export default DS.Model.extend({
+export default DS.Model.extend(ContentLocationsMixin, {
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorImageUrl: DS.attr('string'),
@@ -32,6 +33,8 @@ export default DS.Model.extend({
   canEdit: DS.attr('boolean', {defaultValue: false}),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
+  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
+  promoteRadius: DS.attr('number'),
 
   hasParentContent: computed('parentContentType', 'parentContentId', function() {
     return Ember.isPresent(this.get('parentContentType')) && Ember.isPresent(this.get('parentContentId'));

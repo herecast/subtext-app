@@ -11,11 +11,13 @@
             </span>
           {{/link-to}}
 
-          {{#link-to 'market.new' tagName='a' class='CategoryNav-marketCTA'}}
-            <span {{action (action 'trackCreateButtonClick')}}>
-              {{fa-icon 'camera'}} Sell
-            </span>
-          {{/link-to}}
+          {{#unless features.disable-content-creation}}
+            {{#link-to 'market.new' tagName='a' class='CategoryNav-marketCTA'}}
+              <span {{action (action 'trackCreateButtonClick')}}>
+                {{fa-icon 'camera'}} Sell
+              </span>
+            {{/link-to}}
+          {{/unless}}
         </div>
       </div>
 

@@ -7,6 +7,7 @@ const {
 } = Ember;
 
 export default Ember.Component.extend({
+  features: inject.service('feature-flags'),
   userLocation: inject.service(),
   tracking: inject.service(),
   locationId: computed.oneWay('userLocation.locationId'),

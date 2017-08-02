@@ -4,6 +4,7 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 import moment from 'moment';
+import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
 
 const { flatten } = _;
 
@@ -14,7 +15,7 @@ const {
   isEmpty
 } = Ember;
 
-export default DS.Model.extend(BaseEvent, {
+export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
   api: inject.service('api'),
   category: DS.attr('string'),
   firstInstanceId: DS.attr('number'),
@@ -25,6 +26,7 @@ export default DS.Model.extend(BaseEvent, {
   schedules: DS.hasMany('schedule'),
   organization: DS.belongsTo('organization'),
   ownerName: DS.attr('string'),
+  promoteRadius: DS.attr('number'),
 
   categoryEnabled: computed.notEmpty('category'),
   listsEnabled: computed.notEmpty('listservIds'),
@@ -120,5 +122,4 @@ export default DS.Model.extend(BaseEvent, {
       });
     });
   }
-
 });

@@ -14,6 +14,7 @@ export default Ember.Route.extend(PaginatedFilter, History, MaintainScroll, Rout
       return this.store.query('news', {
         query: params.query,
         location_id: get(location, 'id'),
+        radius: params.radius,
         organization: params.organization,
         page: params.page,
         per_page: params.per_page

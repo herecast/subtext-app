@@ -1,15 +1,26 @@
 <div data-test-page='location.events'>
-  {{events-filter
-    addCategory=(action 'addCategory')
-    removeCategory=(action 'removeCategory')
-    jumpToDay=(action 'jumpToDay')
-    activeCategories=activeCategories
-    clearCategories=(action 'clearCategories')
-  }}
+  <div class="EventsFilter-container {{if activeCategories 'is-filtered'}}">
+    {{events-filter
+      addCategory=(action 'addCategory')
+      removeCategory=(action 'removeCategory')
+      jumpToDay=(action 'jumpToDay')
+      activeCategories=activeCategories
+      clearCategories=(action 'clearCategories')
+    }}
+  </div>
+
+  {{#channel-filters channel='events'}}
+    {{location-radius-control
+      location=(readonly userLocation.location)
+      radius=(readonly radius)
+      onChooseRadius=(action "changeRadius")
+      onChooseLocation=(action 'chooseLocation')
+    }}
+  {{/channel-filters}}
+
   {{events-results
     events=model
     isGroupedByDay=isGroupedByDay
-    activeCategories=activeCategories
     adPath='location.events'
     formattedThroughDate=formattedThroughDate
     jumpToDay=(action 'jumpToDay')

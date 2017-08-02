@@ -2,6 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
 
 const {
   computed,
@@ -11,7 +12,7 @@ const {
   RSVP
 } = Ember;
 
-export default DS.Model.extend(FastbootExtensions, {
+export default DS.Model.extend(FastbootExtensions, ContentLocationsMixin, {
   api: inject.service('api'),
   authorName: DS.attr('string'),
   authorEmail: DS.attr('string'),
@@ -39,6 +40,8 @@ export default DS.Model.extend(FastbootExtensions, {
   city: DS.attr('string'),
   state: DS.attr('string'),
   zip: DS.attr('string'),
+  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
+  promoteRadius: DS.attr('number'),
 
   fullAddress: computed('address', 'city', 'state', 'zip', function() {
     const address = this.get('address');

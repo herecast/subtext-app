@@ -1,10 +1,15 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
+import LocationMixin from 'subtext-ui/mixins/controllers/location';
 
 const { computed, inject, get, set } = Ember;
 
-export default Ember.Controller.extend(PaginatedFilter, {
+export default Ember.Controller.extend(PaginatedFilter, LocationMixin, {
+  channel: "news",
+
   userLocation: inject.service(),
+  features: inject.service('feature-flags'),
+  selectedLocation: computed.readOnly('userLocation.activeLocation'),
   queryParams: ['query', 'organization', 'page', 'per_page'],
 
   page: 1,

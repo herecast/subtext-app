@@ -1,0 +1,24 @@
+{{#x-button-group xsBlockType='wide' class='LocationRadiusSelector-location'}}
+  {{#x-button color='primary' xsStyle='lighten' xsSize='x-small' onClick=(action 'chooseRadius' 0)}}
+    {{fa-icon 'location-arrow' class='hidden-xs'}}
+    {{location.name}}
+  {{/x-button}}
+  {{#x-button color='primary' xsStyle='lighten' xsSize='x-small' onClick=(action 'showLocationMenu')}}
+    {{fa-icon 'chevron-down'}}
+  {{/x-button}}
+{{/x-button-group}}
+
+{{#each radiusChoices as |radiusChoice|}}
+  {{#x-button color='primary'
+              style=(if (lt radius radiusChoice) 'outline' 'regular')
+              xsStyle=(if (lt radius radiusChoice) 'gray' 'lighten')
+              xsSize='x-small'
+              xsBlockType='wide'
+              onClick=(action 'chooseRadius' radiusChoice)}}
+    +{{radiusChoice}}
+  {{/x-button}}
+{{/each}}
+
+{{#subtitle-text strong=true inline=true lighten=true class='LocationRadiusSelector-miles'}}
+  miles
+{{/subtitle-text}}

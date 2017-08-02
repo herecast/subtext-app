@@ -1,10 +1,12 @@
-<div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
-  {{#link-to 'events.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--event' data-test-link='content-create-button'}}
-    <span class="visible-xs-inline visible-sm-inline">+</span>
-      <span class="hidden-xs hidden-sm">Create</span>
-    Event
-  {{/link-to}}
-</div>
+{{#unless features.disable-content-creation}}
+  <div data-test-compenent='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+    {{#link-to 'events.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--event' data-test-link='content-create-button'}}
+      <span class="visible-xs-inline visible-sm-inline">+</span>
+        <span class="hidden-xs hidden-sm">Create</span>
+      Event
+    {{/link-to}}
+  </div>
+{{/unless}}
 
 <div class="EventsFilter-main-bar">
   <span>

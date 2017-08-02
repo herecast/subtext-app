@@ -17,6 +17,7 @@
       {{#async-button
         data-test-component='preview-publish'
         action='save'
+        disabled=isSaving
         class='Button Button--talk btn btn-primary pull-right save-and-publish'
       }}
         {{#if isSaving}}
@@ -44,14 +45,33 @@
         Here’s how you’ve chosen to promote your event:
       </p>
       <ul class='ContentPreview-propertyList'>
-        {{#disabled-checkbox
-          checked=model.extendedReachEnabled
+       {{#disabled-checkbox
+          checked=model.baseLocation
           tagName='li'
           class='ContentPreview-summaryProperty'
         }}
-          Extend Your Reach
+          {{#locations-nearby
+            tagName='span'
+            location=(readonly model.baseLocation)
+            radius=(readonly model.promoteRadius)
+            nearbyLocations=(readonly model.promotedLocations)
+            as |nearby|
+          }}
+          Promoted to
+            {{#if nearby.radius}}
+              {{#if nearby.nearbyLocations}}
+              {{nearby.location.name}} + {{nearby.radius}} Miles
+                {{#x-button style='link' onClick=nearby.showActiveLocations}}
+                  ({{nearby.nearbyLocations.length}} towns)
+                {{/x-button}}.
+              {{/if}}
+            {{else}}
+              {{nearby.location.name}} only.
+            {{/if}}
+
+          {{/locations-nearby}}
         {{/disabled-checkbox}}
-        {{#disabled-checkbox
+       {{#disabled-checkbox
           checked=model.categoryEnabled
           tagName='li'
           class='ContentPreview-summaryProperty'

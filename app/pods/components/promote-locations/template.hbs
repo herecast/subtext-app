@@ -1,0 +1,23 @@
+{{#location-radius-control
+  location=(readonly baseLocation)
+  radius=(readonly model.promoteRadius)
+  onChooseRadius=(action 'updateRadius')
+  onChooseLocation=(action 'updateBaseLocation')
+  onNearbyLocationsChanged=(action 'updateLocations')
+as |location-control|}}
+  {{location-control.radius-selector}}
+  {{#location-control.nearby as |nearby|}}
+    {{#text-block small=true lighten=true}}
+      This {{contentType}} post will be visible to DailyUV users in
+      {{#if nearby.radius}}
+        {{#if nearby.nearbyLocations}}
+          {{#x-button style='link' onClick=nearby.showActiveLocations}}
+            {{nearby.nearbyLocations.length}} nearest towns.
+          {{/x-button}}
+        {{/if}}
+      {{else}}
+        {{nearby.location.name}} only.
+      {{/if}}
+    {{/text-block}}
+  {{/location-control.nearby}}
+{{/location-radius-control}}

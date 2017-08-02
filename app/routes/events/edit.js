@@ -19,6 +19,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
     if (confirm('Are you sure you want to discard your changes without saving?')) {
       model.rollbackAttributes();
       model.rollbackSchedules();
+      model.resetContentLocationChanges();
       model.set('listservIds',[]);
       return true;
     } else {

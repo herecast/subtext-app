@@ -4,7 +4,8 @@ import { ActiveModelSerializer } from 'active-model-adapter';
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   isNewSerializerAPI: true,
   attrs: {
-    images: { embedded: 'always' }
+    images: { embedded: 'always' },
+    contentLocations: { embedded: 'always' }
   },
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
@@ -19,6 +20,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.updated_at;
     delete json.can_edit;
     delete json.split_content;
+    delete json.base_location_names;
 
     return json;
   }

@@ -58,12 +58,14 @@
         }}
       </div>
       <div class='form-group col-xs-4'>
-      {{input
-        placeholder='State'
-        class='form-control'
-        value=venueState
-        input=(action 'validateForm')
-      }}
+        {{input
+          placeholder='State'
+          class='form-control'
+          value=venueState
+          maxlength=2
+          input=(action 'validateForm')
+        }}
+        <p class='help-block'>State Abbreviation. example: <strong>VT</strong></p>
       </div>
       <div class='form-group col-xs-3'>
         {{input

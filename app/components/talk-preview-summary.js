@@ -15,8 +15,6 @@ export default Ember.Component.extend({
 
       promise.then((savedTalk) => {
         this.sendAction('afterPublish', savedTalk);
-      }).finally(()=>{
-        this.set('isSaving', false);
       });
     }
   }

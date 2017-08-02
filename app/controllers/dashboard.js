@@ -12,6 +12,7 @@ const {
 
 export default Ember.Controller.extend({
   api: inject.service(),
+  features: inject.service('feature-flags'),
   notify: inject.service('notification-messages'),
   secondaryBackground: true,
   queryParams: ['page', 'per_page', 'sort', 'type', 'organization_id', 'new_content'],

@@ -44,7 +44,7 @@ export default Ember.Service.extend({
                                                   : get(this, 'fastboot.request.protocol');
 
       // Match protocol response from the browser
-      return `${protocol}:`;
+      return protocol.endsWith(':') ? protocol : `${protocol}:`;
     } else {
       return window.location.protocol;
     }

@@ -35,6 +35,7 @@ export default Ember.Mixin.create({
   venueUrl: DS.attr('string'),
   venueZip: DS.attr('string'),
   wantsToAdvertise: DS.attr('boolean'),
+  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
 
   isPaid: Ember.computed.equal('costType', 'paid'),
 

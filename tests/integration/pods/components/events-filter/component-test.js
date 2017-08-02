@@ -8,6 +8,9 @@ const apiStub = Ember.Service.extend({
     return Ember.RSVP.Promise.resolve({
       'event_categories':[]
     });
+  },
+  getFeatures() {
+    return Ember.RSVP.Promise.resolve({'features': []});
   }
 });
 

@@ -708,6 +708,38 @@ test('getLocations(query)', function(assert) {
   });
 });
 
+test('getLocationsNear(location, radius)', function(assert) {
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
+  const location = {id: 'cherry-hill-ct'};
+  const radius = 25;
+
+  const done = assert.async();
+  const returnData = {
+    locations: []
+  };
+
+  server.get('/locations/:id/near', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    assert.equal(request.params.id, location.id);
+    assert.equal(request.queryParams['radius'], radius);
+
+    return returnData;
+  });
+
+  subject.getLocationsNear(location, radius).then((responseData) => {
+    assert.deepEqual(responseData, returnData,
+      'it returns parsed response JSON'
+    );
+    done();
+  });
+});
+
 test('getFeatures()', function(assert) {
   const subject = this.subject({
     session: this.session,

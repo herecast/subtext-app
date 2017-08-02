@@ -19,12 +19,12 @@ export default function (server) {
   server.createList("venue", 5);
   server.createList('talk', 50);
   server.createList('comment', 8);
+  server.createList('location', 8);
   server.createList('market-post', 100);
   server.createList('marketCategory', 3, {trending: true});
   server.createList('marketCategory', 6, {featured: true});
   server.createList('marketCategory', 21);
   server.createList('content-metric', 1);
-  server.createList('location', 8);
   server.createList('promotionCoupon', 10);
   server.createList('organizationContent', 10);
 
@@ -99,6 +99,7 @@ export default function (server) {
     user: null
   });
   server.create('feature', {name: 'listserv-user-testing'});
+  //server.create('feature', {name: 'disable-content-creation'});
 
   /**
    * Business Categories

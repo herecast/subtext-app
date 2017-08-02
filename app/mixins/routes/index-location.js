@@ -6,6 +6,7 @@ export default Ember.Mixin.create({
   userLocation: inject.service('user-location'),
   session: inject.service('session'),
   fastboot: inject.service(),
+  tracking: inject.service(),
 
   init() {
     this._super(...arguments);
@@ -28,6 +29,10 @@ export default Ember.Mixin.create({
 
     if (locationId) {
       this.navigateToLocation(locationId, transition);
+    } else {
+      get(this, 'tracking').push({
+        event: 'OpenLocationSelectionPage'
+      });
     }
   },
 

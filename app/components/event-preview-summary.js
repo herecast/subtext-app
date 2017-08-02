@@ -15,8 +15,6 @@ export default Ember.Component.extend({
 
       promise.then((savedEvent) => {
         this.sendAction('afterPublish', savedEvent);
-      }).finally(()=>{
-        this.set('isSaving', false);
       });
     }
   }

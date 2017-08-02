@@ -5,6 +5,7 @@ const {get, inject, computed, isPresent} = Ember;
 export default Ember.Component.extend({
   'data-test-component': 'location-mismatch-prompt',
   userLocation: inject.service(),
+  tracking: inject.service(),
   fastboot: inject.service(),
   routing: inject.service('-routing'),
 
@@ -44,10 +45,22 @@ export default Ember.Component.extend({
 
   actions: {
     saveSelectedLocationId(locationId) {
+      get(this, 'tracking').push({
+        'VirtualComponent': 'location-mismatch-prompt',
+        event: 'SaveSelectedLocation',
+        selected: locationId
+      });
+
       const userLocation = get(this, 'userLocation');
       userLocation.saveSelectedLocationId(locationId);
     },
     navigateToLocation(locationLink) {
+      get(this, 'tracking').push({
+        'VirtualComponent': 'location-mismatch-prompt',
+        event: 'SwitchLocation',
+        selected: get(locationLink, 'location.id')
+      });
+
       const router = get(this, 'routing.router');
 
       // Note: we still want to call `saveSelectedLocationId`

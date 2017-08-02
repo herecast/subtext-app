@@ -1,19 +1,22 @@
 .TextBlock {
-  margin-bottom: 15px;
+  color: @text-color;
 
   &--small {
     font-size: 0.9rem;
     line-height: 1.1;
+    margin: 5px 0;
   }
 
   &--medium {
     font-size: 1rem;
     line-height: 1.2;
+    margin: 10px 0;
   }
 
   &--large {
     font-size: 1.3rem;
     line-height: 1.2;
+    margin: 15px 0;
   }
 
   &--center {
@@ -22,5 +25,9 @@
 
   &--noMargin {
     margin: 0;
+  }
+
+  &--lighten {
+    color: darken(@gray-dark, 10%);
   }
 }

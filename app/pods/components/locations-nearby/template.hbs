@@ -1,0 +1,23 @@
+{{#if hasBlock}}
+  {{yield (hash
+            showActiveLocations=(action 'showActiveLocations')
+            radius=radius
+            location=location
+            nearbyLocations=nearbyLocations
+          )
+  }}
+{{else}}
+  {{#text-block small=true lighten=true}}
+    Viewing content for {{location.name}}
+    {{#if radius}}
+      {{#if nearbyLocations}}
+        and
+        {{#x-button style='link' onClick=(action 'showActiveLocations')}}
+          {{nearestTowns}} towns within {{radius}} miles.
+        {{/x-button}}
+      {{/if}}
+    {{else}}
+      only.
+    {{/if}}
+  {{/text-block}}
+{{/if}}
