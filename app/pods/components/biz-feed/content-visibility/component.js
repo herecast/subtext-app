@@ -52,7 +52,7 @@ export default Ember.Component.extend({
 
     hideFromPublic() {
       const data = {
-        bizFeedPublic: false
+        biz_feed_public: false
       };
 
       set(this, 'content.bizFeedPublic', false);
@@ -62,7 +62,7 @@ export default Ember.Component.extend({
 
     showToPublic() {
       const data = {
-        bizFeedPublic: true
+        biz_feed_public: true
       };
 
       set(this, 'content.bizFeedPublic', true);
