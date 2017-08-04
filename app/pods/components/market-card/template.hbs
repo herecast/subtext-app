@@ -41,10 +41,6 @@
       <span class='Card-subtitle'>{{post.price}}</span><br>
       <span class='Card-subtitle'>{{relativeDate}}</span><br>
       {{base-location-display model=post.baseLocationNames}}
-
-      {{#if post.myTownOnly}}
-        <span class='Card-subtitle'>{{userLocation}} Only</span>
-      {{/if}}
     </div>
   </div>
 {{/if}}

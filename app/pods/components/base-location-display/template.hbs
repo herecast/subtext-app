@@ -5,11 +5,4 @@
   <p class='h5 visible-xs'>
     {{fa-icon 'map-marker'}} {{truncate-text text=(join model delimeter=', ') maxLength=22 tagName='span'}}
   </p>
-{{else}}
-  {{#unless hideMultipleLocations}}
-    <div>
-      {{fa-icon 'map-marker'}}
-      Multiple Locations
-    </div>
-  {{/unless}}
 {{/if}}

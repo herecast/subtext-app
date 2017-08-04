@@ -8,7 +8,6 @@
   }}
 </div>
 
-{{#if listServAvailable}}
   <div class='PromotionSection'>
     <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
     <p class='PromotionSection-description PromotionSection-description--emphasized'>
@@ -28,26 +27,16 @@
       </div>
       <div class='col-sm-8'>
         {{#if listsEnabled}}
-          {{#if post.myTownOnly}}
-            <ul>
-            {{content-form-listserv
-            listserv=currentUserListserv
-            selectedIds=post.listservIds
-            }}
-            </ul>
-          {{else}}
-            {{content-form-listservs
+          {{content-form-listservs
             model=post
             listservs=listservs
-            }}
-          {{/if}}
+          }}
         {{/if}}
       </div>
     </div>
   </div>
 
   {{partial 'partials/promotion-disclaimer'}}
-{{/if}}
 
 <div class='ContentForm-buttonGroup form-group'>
   <button class='Button btn btn-default pull-left ContentForm-button ContentForm-button--edit' {{action 'back'}}>
