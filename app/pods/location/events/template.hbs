@@ -9,6 +9,8 @@
     }}
   </div>
 
+  {{location-mismatch-prompt}}
+
   {{#channel-filters channel='events'}}
     {{location-radius-control
       location=(readonly userLocation.location)
