@@ -17,6 +17,8 @@ export default Ember.Component.extend({
   activeTab: null,
   isOrganizationManager: false,
 
+  defaultOrganizationId: 398,  //398 is dailyuv default organization
+
   store: service(),
 
   contentType: computed('content.contentType', function() {
@@ -91,19 +93,31 @@ export default Ember.Component.extend({
     }
   }),
 
+  contentOwnedByDefaultOrganization: computed('content.organizationId', function() {
+    return parseInt(get(this, 'content.organizationId')) === parseInt(get(this, 'defaultOrganizationId'));
+  }),
+
   currentOrganizationOwnsContent: computed('content.organizationId', 'organization.id', function() {
     return parseInt(get(this, 'content.organizationId')) === parseInt(get(this, 'organization.id'));
   }),
 
+  _orgIsListserv(orgName) {
+    return isPresent(orgName) ? orgName.toLowerCase().indexOf('listserv') >= 0 : false;
+  },
+
   contentAuthor: computed('organization.{name,id}', 'content.{authorName,organizationId}', function() {
     const currentOrganizationOwnsContent = get(this, 'currentOrganizationOwnsContent');
-    const authorName = get(this, 'content.authorName');
+    const authorString = get(this, 'content.authorName') || '';
+    const authorName = authorString.indexOf('@') >= 0 ? authorString.split('@')[0] : authorString;
     const contentOrganizationName = get(this, 'content.organizationName');
+
 
     if (currentOrganizationOwnsContent) {
       return get(this, 'organization.name');
-    } else {
+    } else if (this._orgIsListserv(contentOrganizationName) || get(this, 'contentOwnedByDefaultOrganization') ) {
       return isPresent(authorName) ? authorName : contentOrganizationName;
+    } else {
+      return isPresent(contentOrganizationName) ? contentOrganizationName : authorName;
     }
   }),
 
@@ -113,11 +127,14 @@ export default Ember.Component.extend({
     const profileImageUrl = get(this, 'organization.profileImageUrl');
     const organizationProfileImageUrl = get(this, 'content.organizationProfileImageUrl');
     const avatarUrl = get(this, 'content.avatarUrl');
+    const contentOrganizationName = get(this, 'content.organizationName');
 
     if (currentOrganizationOwnsContent) {
       return isPresent(profileImageUrl) ? profileImageUrl : (isPresent(logoUrl) ? logoUrl : null);
+    } else if (this._orgIsListserv(contentOrganizationName) || get(this, 'contentOwnedByDefaultOrganization')) {
+      return isPresent(avatarUrl) ? avatarUrl : null;
     } else {
-      return isPresent(avatarUrl) ? avatarUrl : (isPresent(organizationProfileImageUrl) ? organizationProfileImageUrl : null);
+      return isPresent(organizationProfileImageUrl) ? organizationProfileImageUrl : (isPresent(avatarUrl) ? avatarUrl : null);
     }
   }),
 

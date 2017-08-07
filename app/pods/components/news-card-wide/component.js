@@ -23,13 +23,13 @@ export default NewsCard.extend({
     return !get(this, 'item.imageUrl');
   }),
 
-  linkRoute: computed('item.organization.isBusiness', function() {
-    const isBusiness = get(this, 'item.organization.isBusiness');
-    return isBusiness ? 'biz.show' : 'organization-profile';
+  linkRoute: computed('item.organization.bizFeedActive', function() {
+    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
+    return bizFeedActive ? 'biz.show' : 'organization-profile';
   }),
 
-  linkId: computed('item.organization.isBusiness', function() {
-    const isBusiness = get(this, 'item.organization.isBusiness');
-    return isBusiness ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
-  }),
+  linkId: computed('item.organization.bizFeedActive', function() {
+    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
+    return bizFeedActive ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
+  })
 });

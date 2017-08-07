@@ -10,7 +10,7 @@
   <li class="DirectoryListings-result">
     <div class="listing-info left">
       <div class="name-bar">
-        {{#if result.claimed}}
+        {{#if result.bizFeedActive}}
           {{#link-to 'biz.show' result.organization_id}}
             {{avatar-image
               imageUrl=result.logo

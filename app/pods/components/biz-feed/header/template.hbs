@@ -132,7 +132,7 @@
     {{/if}}
   {{/if}}
 
-  {{#if hasDetails}}
+  {{#if (or hasDetails isOrganizationManager)}}
     <div class="BizFeed-Header-details BizFeed-Header-item BizFeed-Header-left">
       <div class="BizFeed-Headerdetails-title BizFeed-Header-header-title">
         About {{organization.name}}

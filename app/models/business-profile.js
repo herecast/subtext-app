@@ -40,6 +40,7 @@ export default DS.Model.extend({
     //@todo inject location service
     return '(00.0 mi)';
   }),
+  bizFeedActive: DS.attr('boolean'),
   claimed: DS.attr('boolean'),
   details: DS.attr('string'),
   logo: DS.attr('string'),

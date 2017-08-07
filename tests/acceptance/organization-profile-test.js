@@ -176,10 +176,10 @@ test('Subscribe link, when subscribe url', function(assert) {
   });
 });
 
-test('Visiting news landing page, clicking organization name brings me to profile page', function(assert) {
+test('Visiting news landing page, clicking organization name brings me to profile page if organization.bizFeedActive is false', function(assert) {
   assert.expect(1);
 
-  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog'});
+  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog', bizFeedActive: false});
   let location = server.create('location');
   server.create('news', {
     organizationId: organization.id,
@@ -196,11 +196,11 @@ test('Visiting news landing page, clicking organization name brings me to profil
   });
 });
 
-test('Visiting news item page, clicking organization name brings me to profile page', function(assert) {
+test('Visiting news item page, clicking organization name brings me to profile page if rganization.bizFeedActive is false', function(assert) {
   assert.expect(1);
   mockLocationCookie(this.application);
 
-  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog'});
+  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog', bizFeedActive: false});
   let news = server.create('news', {
     organizationId: organization.id,
     title: 'revelation'

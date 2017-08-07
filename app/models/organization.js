@@ -18,6 +18,7 @@ export default DS.Model.extend({
   subscribeUrl: DS.attr('string'),
   twitterHandle: DS.attr('string'),
   orgType: DS.attr('string'),
+  bizFeedActive: DS.attr('boolean'),
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),

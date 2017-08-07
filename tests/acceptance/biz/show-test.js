@@ -3,13 +3,16 @@ import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance'
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import startApp from 'subtext-ui/tests/helpers/start-app';
+/* global Ember, sinon */
 
 moduleForAcceptance('Acceptance | biz/show');
 
 test('visiting /biz/:id works', function(assert) {
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id
+    organizationId: organization.id,
+    bizFeedActive: true
   });
   server.createList('organization-content', 10);
 
@@ -25,7 +28,8 @@ test('visiting /biz/:id as a non-signed in user shows only public contents', fun
 
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id
+    organizationId: organization.id,
+    bizFeedActive: true
   });
 
   server.createList('organization-content', 100);
@@ -41,7 +45,8 @@ test('visiting /biz/:id as a non-signed in user shows only public contents', fun
 test('visiting /biz/:id as a signed in manager of the organization shows public, private, and draft contents', function(assert) {
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id
+    organizationId: organization.id,
+    bizFeedActive: true
   });
 
   server.create('organization-content', {bizFeedPublic: true, publishedAt: '2017-06-25T14:23:43-04:00'});
@@ -70,21 +75,48 @@ test('visiting /biz/:id as a signed in manager of the organization shows public,
   });
 });
 
-test('visiting /biz/:id as a signed in manager of the organization shows edit buttons', function(assert) {
-  const organization = server.create('organization');
-  server.create('business-profile', {
-    organizationId: organization.id
+
+test('visiting /biz/:id for a business that does not have bizFeedActive redirects to directory', function(assert) {
+  const application = startApp();
+  const { stub } = sinon;
+
+  const instance = {
+    fitBounds: stub(),
+    setCenter: stub(),
+  };
+
+  const googleMapsMock = Ember.Service.extend({
+    googleMaps: {
+      maps: {
+        Map: stub().returns(instance),
+        MapTypeId:  { ROADMAP: 'roadmap' },
+        InfoWindow: stub(),
+        Marker: stub().returns({ addListener() {}, setMap() {} }),
+        LatLng: stub(),
+        LatLngBounds: stub().returns({
+          extend: stub(),
+          getNorthEast: stub().returns({ lat() { }, lng() { }, })
+        })
+      }
+    }
   });
-  server.createList('organization-content', 10);
 
-  const currentUser = server.create('current-user');
-  currentUser.managedOrganizationIds = [`${organization.id}`];
+  application.register('service:googleMapsMock', googleMapsMock);
+  application.inject('component', 'googleMapsService', 'service:googleMapsMock');
 
-  authenticateUser(this.application, server, currentUser);
+  const organization = server.create('organization');
+  const businessProfile = server.create('business-profile', {
+    organizationId: organization.id,
+    bizFeedActive: false
+  });
 
   visit(`/biz/${organization.id}`);
 
   andThen(function() {
-    assert.ok(find(testSelector('biz-feed-header-edit-button')).length > 0);
+    const currentUrl = currentURL();
+    let baseUrl = currentUrl.split('?')[0];
+
+    assert.equal(baseUrl, `/directory/${businessProfile.id}`);
+    Ember.run(application, 'destroy');
   });
 });

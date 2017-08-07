@@ -12,12 +12,23 @@ export default Ember.Route.extend({
     });
   },
 
+  afterModel(models) {
+    //Note: Check here to see if ad team has turned on business profile page
+    const businessProfile = models.businessProfile;
+    const bizFeedActive = get(businessProfile, 'bizFeedActive');
+
+    if (!bizFeedActive) {
+      this.transitionTo('directory.show', get(businessProfile, 'id'));
+    }
+  },
+
   setupController(controller, models) {
-    const organization = get(models.businessProfile, 'organization');
+    const businessProfile = models.businessProfile;
+    const organization = get(businessProfile, 'organization');
 
     controller.setProperties({
       organization: organization,
-      business: models.businessProfile,
+      business: businessProfile,
       contents: models.organizationContents,
       isFirstTransition: true
     });
