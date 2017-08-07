@@ -3,29 +3,18 @@ import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
 import History from 'subtext-ui/mixins/routes/history';
 import ResetScroll from 'subtext-ui/mixins/routes/reset-scroll';
 
-const {get, inject} = Ember;
-
 export default Ember.Route.extend(PaginatedFilter, History, ResetScroll, {
-  userLocation: inject.service(),
-
   model(params) {
-    const self = this;
-    const promises = {
-      category: self.store.findRecord('market-category', params.cat_id),
-      posts: get(self, 'userLocation.location').then((location) => {
-        return self.store.findRecord('market-category', params.cat_id).then((category) => {
-          return self.store.query('market-post', {
-            query: category.get('query'),
-            page: params.page,
-            per_page: params.per_page,
-            location_id: get(location, 'id'),
-            query_modifier: category.get('query_modifier')
-          });
-        });
-      })
-    };
-
-    return Ember.RSVP.hash(promises);
+    return this.store.findRecord('market-category', params.cat_id).then((category) => {
+      return this.store.query('market-post', {
+        query: category.get('query'),
+        page: params.page,
+        per_page: params.per_page,
+        query_modifier: category.get('query_modifier')
+      }).then((marketPosts) => {
+        return {category: category, posts: marketPosts};
+      });
+    });
   },
 
   setupController(controller, model) {
