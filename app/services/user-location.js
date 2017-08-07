@@ -167,6 +167,9 @@ export default Ember.Service.extend(Ember.Evented, {
    * @param locationId
    */
   saveSelectedLocationId(locationId) {
+    // Write cookie immediately
+    this.saveLocationIdToCookie(locationId);
+
     if (get(this, 'session.isAuthenticated')) {
       const currentUser = get(this, 'session.currentUser');
 
@@ -177,8 +180,6 @@ export default Ember.Service.extend(Ember.Evented, {
         });
       }
     }
-
-    this.saveLocationIdToCookie(locationId);
   },
 
   /**

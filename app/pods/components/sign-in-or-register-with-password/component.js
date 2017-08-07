@@ -19,6 +19,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   session: inject.service(),
   notify: inject.service('notification-messages'),
   _routing: inject.service('-routing'),
+  userLocation: inject.service(),
 
   userMustConfirm: false,
 
@@ -99,27 +100,36 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
     return new Promise((resolve, reject) => {
       if (this.isValid()) {
-        api.createRegistration({
-          user: {
-            name: get(this, 'defaultName'),
-            email,
-            password,
-            password_confirmation: password
-          }
-        }).then(
-          (response) => {
-            const onRegistration = get(this, 'onRegistration');
-            if (onRegistration) {
-              onRegistration(response);
-            } else {
-              get(this, '_routing').transitionTo('register.complete');
+        const registerUser = (locationId) => {
+          api.createRegistration({
+            user: {
+              name: get(this, 'defaultName'),
+              email,
+              password,
+              password_confirmation: password,
+              location_id: locationId
             }
-            resolve();
-          },
-          (response) => {
-            notify.error(response.errors);
-            reject();
-          });
+          }).then(
+            (response) => {
+              const onRegistration = get(this, 'onRegistration');
+              if (onRegistration) {
+                onRegistration(response);
+              } else {
+                get(this, '_routing').transitionTo('register.complete');
+              }
+              resolve();
+            },
+            (response) => {
+              notify.error(response.errors);
+              reject();
+            });
+        };
+
+        // Register the user after we load the location
+        // If location does not load, register user with default location
+        get(this, 'userLocation.location').then(location => {
+          registerUser(get(location, 'id'));
+        }).catch(() => registerUser(null));
       } else {
         resolve();
       }
