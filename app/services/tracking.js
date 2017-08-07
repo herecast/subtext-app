@@ -19,6 +19,7 @@ export default Service.extend(Evented, {
   api: inject.service(),
   userLocation: inject.service(),
   session: inject.service(),
+  intercom: inject.service(),
   fastboot: inject.service(),
   clientId: null,
   locationId: computed.alias('userLocation.location.id'),
@@ -157,6 +158,18 @@ export default Service.extend(Evented, {
       });
     }
 
+  },
+
+  changeSearchRadius(newRadius, opts) {
+    opts = opts || {};
+    this.push({
+      event: 'ChangeRadius',
+      channel: opts['channel'],
+      old_value: opts['oldRadius'],
+      new_value: newRadius
+    });
+
+    get(this, 'intercom').trackEvent('change-radius');
   },
 
   /** Private **/

@@ -14,11 +14,9 @@ export default Ember.Mixin.create({
 
   actions: {
     changeRadius(radius) {
-      get(this, 'tracking').push({
-        event: 'ChangeRadius',
+      get(this, 'tracking').changeSearchRadius(radius, {
         channel: get(this, 'channel'),
-        old_value: get(this, 'radius'),
-        new_value: radius
+        oldRadius: get(this, 'radius')
       });
 
       set(this, 'radius', radius);
