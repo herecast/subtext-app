@@ -8,7 +8,7 @@ import BackgroundIndex from 'subtext-ui/mixins/routes/background-index';
 const { get, set } = Ember;
 
 export default Ember.Route.extend(ModalRoute, Redirect, RouteMetaMixin, DocTitleFromContent, BackgroundIndex, {
-  defaultBackgroundIndex: 'location.market.index',
+  defaultBackgroundIndex: 'location.market',
   modelImageKey: 'coverImageUrl',
   modelChannel: 'market',
 

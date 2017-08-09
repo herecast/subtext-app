@@ -39,8 +39,6 @@ module.exports = function(environment) {
       'location.news',
       'location.events',
       'location.market',
-      'location.market.index',
-      'location.market.category-landing',
       'location.talk',
       'organization-profile'
     ],

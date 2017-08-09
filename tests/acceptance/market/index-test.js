@@ -29,7 +29,7 @@ test('visiting', function(assert) {
     }
   });
 
-  const url = `/${this.location.id}/market/?flat=true`;
+  const url = `/${this.location.id}/market`;
   visit(url);
 
   andThen(function() {
@@ -54,7 +54,7 @@ test('visiting with 10 items lists all 10 items', function(assert) {
   server.createList('market-post', 10);
 
   // visiting the old market
-  const url = `/${this.location.id}/market/?flat=true`;
+  const url = `/${this.location.id}/market`;
   visit(url);
 
   andThen(function() {
@@ -70,11 +70,11 @@ test('visiting with 50 items is paginated', function(assert) {
   server.createList('market-post', 50);
   const location = this.location;
 
-  const url = `/${location.id}/market/?flat=true`;
+  const url = `/${location.id}/market`;
   visit(url);
 
   andThen(function() {
-    assert.equal(currentURL(), url, 'it should be at the url /market/');
+    assert.equal(currentURL(), url, 'it should be at the url /market');
     assert.equal(find(testSelector('market-card')).length, 24, 'it should show 24 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 0, 'it should not show the "prev" button on the first page');
@@ -85,7 +85,7 @@ test('visiting with 50 items is paginated', function(assert) {
   click(testSelector('pagination-next'));
 
   andThen(function() {
-    assert.equal(currentURL(), `/${location.id}/market?flat=true&page=2`, 'it should be at the url /{location.id}/market?page=2');
+    assert.equal(currentURL(), `/${location.id}/market?page=2`, 'it should be at the url /{location.id}/market?page=2');
     assert.equal(find(testSelector('market-card')).length, 24, 'it should show 24 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should show the "prev" button once on the second page');
@@ -96,7 +96,7 @@ test('visiting with 50 items is paginated', function(assert) {
   click(testSelector('pagination-next'));
 
   andThen(function() {
-    assert.equal(currentURL(), `/${location.id}/market?flat=true&page=3`, 'it should be at the url /{location.id}/market?page=3');
+    assert.equal(currentURL(), `/${location.id}/market?page=3`, 'it should be at the url /{location.id}/market?page=3');
     assert.equal(find(testSelector('market-card')).length, 2, 'it should show 2 market cards');
 
     assert.equal(find(testSelector('pagination-prev')).length, 1, 'it should show the "prev" button once on the last page');

@@ -1,1 +1,62 @@
-{{outlet}}
+<div data-test-page='location.market'>
+  {{#channel-filters channel='market'}}
+    {{location-radius-control
+      location=(readonly userLocation.location)
+      radius=(readonly radius)
+      onChooseRadius=(action "changeRadius")
+      onChooseLocation=(action 'chooseLocation')
+    }}
+  {{/channel-filters}}
+
+  <div class='Container--noGutter'>
+
+    <div class='row'>
+      <div class='col-xs-12 col-md-8 col-md-push-2'>
+        <div class='ChannelTopper clearfix'>
+          {{#location-link 'market' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg'}}
+            Local Market{{/location-link}}
+
+          {{#unless features.disable-content-creation}}
+            <div data-test-component='content-create-button'
+                 class='SectionNavigation-contentCreateButtonMobile pull-right'>
+              {{#link-to 'market.new.details'
+                         class='Button SectionNavigation-contentCreateButton btn btn-default Button--market'
+                         data-test-link='content-create-button'}}
+                <span class="visible-xs-inline visible-sm-inline">+</span>
+                <span class="hidden-xs hidden-sm">Create</span>
+                Listing
+              {{/link-to}}
+            </div>
+          {{/unless}}
+        </div>
+
+        {{#if model}}
+          {{sorted-market-posts
+            marketPosts=model
+            trackCardClick=(action 'trackCardClick')
+            adPath='location.market'
+          }}
+
+          <div class='Container--noGutter'>
+            <div class='row'>
+              <div class='col-xs-12 col-md-8 col-md-push-2'>
+                <div class='PaginationNav-wrapper'>
+                  <div class='PaginationNav PaginationNav--bottom'>
+                    {{partial 'partials/pagination-nav'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{outreach-cta
+    isButton=true
+    placement='bottom-of-page'
+    limitMessagesTo=2
+    class="sit-center"
+  }}
+</div>

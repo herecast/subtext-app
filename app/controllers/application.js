@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
   newsFilter: inject.controller('location.news'),
   eventsFilter: inject.controller('location.events'),
   talkFilter: inject.controller('location.talk'),
-  marketFilter: inject.controller('location.market.index'),
+  marketFilter: inject.controller('location.market'),
 
   searchType: computed.alias('search.searchType'),
   searchQuery: computed.alias('search.searchQuery'),
