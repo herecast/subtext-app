@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     const locationId = get(this, 'location.id');
 
     if (isPresent(locationId)) {
-      get(this, 'store').query('location', {near: locationId, radius: get(this, 'radius')}).then(locations => {
+      get(this, 'store').query('location', {near: locationId, radius: get(this, 'radius') || 0}).then(locations => {
         if (!get(this, 'isDestroyed')) {
           set(this, 'nearbyLocations', locations);
           const onNearbyLocationsChanged = get(this, 'onNearbyLocationsChanged');
