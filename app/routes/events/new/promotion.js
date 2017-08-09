@@ -19,8 +19,10 @@ export default Ember.Route.extend(Listservs, DocTitleFromContent, {
     return new RSVP.Promise((resolve) => {
       const venueId = get(model, 'venueId');
 
+      let locationPromise;
+
       if (venueId) {
-        get(this, 'api').getVenueLocation(venueId).then((data) => {
+        locationPromise = get(this, 'api').getVenueLocation(venueId).then((data) => {
           const location = this.store.push(this.store.normalize('location', data.location));
 
           if(location.id) {
@@ -30,22 +32,22 @@ export default Ember.Route.extend(Listservs, DocTitleFromContent, {
           }
         }, ()=>{
           return get(this, 'userLocation.location');
-        }).then((location) => {
-          get(model, 'contentLocations').addObject(
-            this.store.createRecord('content-location', {
-              locationType: 'base',
-              locationId: location.id,
-              location: location
-            })
-          );
-
-          resolve(model);
-        }).catch(() => {
-          resolve(model);
         });
       } else {
-        resolve(model);
+        locationPromise = get(this, 'userLocation.location');
       }
+
+      return locationPromise.then((location) => {
+        get(model, 'contentLocations').addObject(
+          this.store.createRecord('content-location', {
+            locationType: 'base',
+            locationId: location.id,
+            location: location
+          })
+        );
+
+        resolve(model);
+      });
     });
   }
 });
