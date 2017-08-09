@@ -45,7 +45,7 @@ export default Ember.Component.extend({
     return `mailto:?subject=${subject}&body=${body}`;
   }),
 
-  twitterLink: computed('content.title', function() {console.log('twitter',get(this, 'organization'), get(this, 'organization.name'));
+  twitterLink: computed('content.title', function() {
     const ctype = get(this, 'content.contentType');
     const title = ctype === 'campaign' ? get(this, 'organization.name') : encodeURIComponent(get(this, 'content.title'));
     const url = this._urlForShare();
