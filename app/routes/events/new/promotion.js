@@ -4,8 +4,8 @@ import DocTitleFromContent from '../../../mixins/routes/title-token-from-content
 
 const {
   get,
-  RSVP,
-  inject
+  inject,
+  RSVP
 } = Ember;
 
 export default Ember.Route.extend(Listservs, DocTitleFromContent, {
