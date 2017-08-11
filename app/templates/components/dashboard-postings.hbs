@@ -100,9 +100,22 @@
                 {{/if}}
               </button>
             </th>
+            <th class='ContentTable-name'>
+              <button class='ContentTable-sortButton' {{action 'sortBy' descriptionParam}}>
+                Description
+
+                {{#if sortedByName}}
+                  {{#if (eq sortDirection 'ASC')}}
+                    {{fa-icon 'caret-up'}}
+                  {{else}}
+                    {{fa-icon 'caret-down'}}
+                  {{/if}}
+                {{/if}}
+              </button>
+            </th>
             <th class='ContentTable-rightOnMobile'>
               <button class='ContentTable-sortButton' {{action 'sortBy' dateParam}}>
-                Date
+                Start Date
 
                 {{#if sortedByDate}}
                   {{#if (eq sortDirection 'ASC')}}
@@ -146,7 +159,12 @@
           {{#each ads as |ad|}}
             <tr>
               <td>{{truncate-text text=ad.title maxLength=50}}</td>
-              <td class='ContentTable-rightOnMobile'>{{moment-format ad.pubdate 'L'}}</td>
+              <td>{{truncate-text text=ad.description maxLength=50}}</td>
+              <td class='ContentTable-rightOnMobile'>
+                {{#if ad.campaign_start}}
+                  {{moment-format ad.campaign_start 'L'}}
+                {{/if}}
+              </td>
               <td class='hidden-xs'>{{ad.impressionCount}}</td>
               <td class='hidden-xs'>{{ad.clickCount}}</td>
               <td class='hidden-xs' colspan='2'>

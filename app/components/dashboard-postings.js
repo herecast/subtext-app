@@ -19,17 +19,22 @@ export default Ember.Component.extend({
   ads: null,
 
   notify: inject.service('notification-messages'),
+  descriptionParam: sortBy('description ASC'),
   nameParam: sortBy('title ASC'),
   typeParam: sortBy('channel_type ASC, pubdate DESC'),
-  dateParam: sortBy('pubdate DESC'),
+  dateParam: computed('postings.[]', 'type', function() {
+    const sort = get(this, 'type') === 'promotion-banner' ? 'start_date' : 'pubdate';
+    return sort + ' DESC';
+  }),
   viewsParam: sortBy('view_count DESC'),
   commentsParam: sortBy('comment_count DESC'),
   clicksParam: sortBy('click_count DESC'),
   impressionsParam: sortBy('impression_count DESC'),
 
+  sortedByDescription: match('sort', /^description/),
   sortedByName: match('sort', /^title/),
   sortedByType: match('sort', /^channel_type/),
-  sortedByDate: match('sort', /^pubdate/),
+  sortedByDate: match('sort', /^pubdate|start_date/),
   sortedByViews: match('sort', /^view_count/),
   sortedByComments: match('sort', /^comment_count/),
   sortedByClicks: match('sort', /^click_count/),

@@ -10,7 +10,9 @@ export default DS.Model.extend({
   imageUrl: attr('string'),
   redirectUrl: attr('string'),
   pubdate: attr('moment-date', {defaultValue: moment()}),
+  startDate: attr('moment-date', {defaultValue: moment()}),
   title: attr('string'),
+  description: attr('string'),
 
   campaign_start: attr('moment-date'),
   campaign_end: attr('moment-date'),
