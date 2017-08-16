@@ -46,6 +46,7 @@ function returnJson(request) {
       resolve(body);
     }, (err)=> {
       const response = err.response;
+      console.error(err);
 
       if(isRequestError(err)) {
         try {

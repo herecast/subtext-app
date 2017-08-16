@@ -4,13 +4,10 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { ActiveModelAdapter } from 'active-model-adapter';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
-import parseResponseHeaders from 'subtext-ui/utils/parse-response-headers';
 
 import {
   AdapterError,
 } from 'ember-data/adapters/errors';
-
-import { cloneDeep } from 'lodash';
 
 const { RSVP, inject, get, isPresent } = Ember;
 
@@ -45,10 +42,6 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
 
       if(data) {
         return RSVP.resolve(data);
-      } else {
-        if(get(this, 'isFastBoot')) {
-          return this._getAndCache(url, type, options);
-        }
       }
     }
 
@@ -66,80 +59,5 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
       }
     }
     return urlPlusQuery;
-  },
-
-  _getAndCache(url, type, options) {
-    /**
-     * This is a copy of with modifications to allow immutable caching:
-     * https://github.com/emberjs/data/blob/v2.4.0/addon/adapters/rest.js#L836
-     */
-
-    var adapter = this;
-
-    var requestData = {
-      url:    url,
-      method: type
-    };
-
-    /** addition */
-    const queryCache = get(this, 'queryCache');
-    const defer = RSVP.defer();
-    queryCache.cacheResponseIfFastboot(
-      this._urlPlusQuery(url, options),
-      defer.promise
-    );
-    /* /addition */
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      var hash = adapter.ajaxOptions(url, type, options);
-
-      hash.success = function(payload, textStatus, jqXHR) {
-        /** addition */
-        defer.resolve(
-          //clone object
-          cloneDeep(payload)
-        );
-        /* /addition */
-
-        let response = adapter.handleResponse(
-          jqXHR.status,
-          parseResponseHeaders(jqXHR.getAllResponseHeaders()),
-          payload,
-          requestData
-        );
-
-        if (response && response.isAdapterError) {
-          Ember.run.join(null, reject, response);
-        } else {
-          Ember.run.join(null, resolve, response);
-        }
-      };
-
-      hash.error = function(jqXHR, textStatus, errorThrown) {
-        /** addition */
-        defer.reject(errorThrown);
-        /* /addition */
-
-        let error;
-
-        if (errorThrown instanceof Error) {
-          error = errorThrown;
-        } else if (textStatus === 'timeout') {
-          error = new Ember.Error();
-        } else if (textStatus === 'abort') {
-          error = new Ember.Error();
-        } else {
-          error = adapter.handleResponse(
-            jqXHR.status,
-            parseResponseHeaders(jqXHR.getAllResponseHeaders()),
-            adapter.parseErrorResponse(jqXHR.responseText) || errorThrown,
-            requestData
-          );
-        }
-        Ember.run.join(null, reject, error);
-      };
-
-      adapter._ajaxRequest(hash);
-    }, 'DS: RESTAdapter#ajax ' + type + ' to ' + url);
   }
 });

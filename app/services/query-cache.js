@@ -34,7 +34,7 @@ export default Ember.Service.extend(FastbootExtensions, {
       return response.then((data) => {
         this.get('_apiCache')[url] = data;
         return data;
-      });
+      }).catch(()=>{/* Silence error */});
     } else {
       return response;
     }

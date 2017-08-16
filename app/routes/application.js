@@ -78,16 +78,27 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
         this.transitionTo('login');
       } else {
-        console.error(error);
+        let statusCode;
 
         if (isFastboot) {
-          let statusCode;
           try {
             statusCode = error.errors[0].status;
           } catch (err) {
             statusCode = 500;
           }
           set(this, 'fastboot.response.statusCode', statusCode);
+        }
+
+        let logError = true;
+
+        // If we get a status code other than client caused (400-499),
+        // then we want to log it.
+        if(isPresent(error.status) && (400 <= parseInt(error.status) < 500)) {
+          logError = false;
+        }
+
+        if(logError) {
+          console.error('[ApplicationRoute:]', error);
         }
 
         this.intermediateTransitionTo('error-404');
