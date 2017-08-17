@@ -1,0 +1,16 @@
+{{#if sold}}
+  <div class="FeedCard-Title-sold-tag">
+    <span>Sold</span>
+  </div>
+{{/if}}
+
+<div class="FeedCard-Title-title">
+  {{#feed-card/conditional-link-to
+    useLink=useLink
+    linkRouteName=routeName
+    linkId=contentId
+    eventInstanceId=eventInstanceId
+  }}
+    {{title}}
+  {{/feed-card/conditional-link-to}}
+</div>

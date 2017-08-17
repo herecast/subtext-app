@@ -41,7 +41,9 @@
           {{#if model.commentCount}}
             {{model.commentCount}} {{model.commentCountText}}
           {{/if}}
-          {{model.viewCount}} {{model.viewCountText}}
+          {{#if model.viewCount}}
+            {{model.viewCount}} {{model.viewCountText}}
+          {{/if}}
         </p>
       </div>
     </div>

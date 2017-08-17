@@ -1,0 +1,52 @@
+.FeedCard-EventDates {
+  padding: 0 15px 10px 15px;
+  margin-top: -8px;
+
+  &-date-tag {
+    display: inline-block;
+    padding: 3px 6px;
+    background: @event-brand;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    position: relative;
+    height: 28px;
+    margin-right: 15px;
+  }
+
+  &.has-additional-dates {
+    .FeedCard-EventDates-date-tag {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        right: -14px;
+        border-color: transparent transparent transparent @event-brand;
+        border-width: 14px 0 14px 14px;
+        border-style: solid;
+      }
+    }
+  }
+
+  &-other-dates-button {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font-weight: 600;
+    .dropdown-menu.open {
+      display: block;
+      min-width: 200px;
+    }
+  }
+
+  &-other-dates-list {
+    display: inline-block;
+    padding: 4px 8px;
+  }
+}

@@ -1,0 +1,7 @@
+{{#if useLink}}
+  {{#link-to linkRouteName linkId (query-params eventInstanceId=eventInstanceId)}}
+    {{yield}}
+  {{/link-to}}
+{{else}}
+  {{yield}}
+{{/if}}

@@ -1,11 +1,14 @@
 import Ember from 'ember';
-import PaginatedFilter from 'subtext-ui/mixins/routes/paginated-filter';
+import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 
 const { inject, get } = Ember;
 
-export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, {
+export default Ember.Route.extend(MaintainScroll, NavigationDisplay, InfinityRoute, History, {
+  hideFooter: true,
+
   userLocation: inject.service('user-location'),
 
   queryParams: {
@@ -18,12 +21,33 @@ export default Ember.Route.extend(MaintainScroll, PaginatedFilter, History, {
 
   model(params) {
     return get(this, 'userLocation.location').then((location) => {
-      return this.store.query('news', {
-        page: params.page,
-        per_page: 4,
+      return this.infinityModel('feed-content', {
+        startingPage: params.page,
+        perPage: 20,
         location_id: get(location, 'id'),
         radius: params.radius
       });
     });
+  },
+
+  infinityModelUpdated({lastPageLoaded}) {
+    const lastPageLoadedIsNotDefaultPage = lastPageLoaded > 1;
+
+    if (lastPageLoadedIsNotDefaultPage) {
+      this.controller.trackModelUpdates(lastPageLoaded);
+    }
+  },
+
+  actions: {
+    willTransition(transition) {
+      const isTransitioningToADetailPage = transition.targetName === 'location.index.show';
+      if (isTransitioningToADetailPage) {
+        const params = get(transition, 'params');
+        const contentId = params["location.index.show"].slug;
+
+        this.controller.trackDetailPageViews(contentId);
+      }
+    }
   }
+
 });

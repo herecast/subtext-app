@@ -962,6 +962,7 @@ export default function() {
 
   this.get('/features');
 
+
   this.get('/organizations/:id/contents', function({db, organizationContents}){
     return organizationContents.all();
   });
@@ -969,5 +970,25 @@ export default function() {
   this.get('/contents/:id/promotions', function() {
     return {};
   });
+
+  this.get('/contents', function({db, feedContents}, request) {
+    const {page, per_page} = request.queryParams;
+    const meta = {
+      total: feedContents.all().length,
+      total_pages: Math.ceil( feedContents.all().length / per_page )
+    };
+    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
+    const endIndex = startIndex + parseInt(per_page);
+
+    var response = this.serialize(feedContents.all().slice(startIndex, endIndex));
+    response.meta = meta;
+
+    return new Mirage.Response(200, {}, response);
+  });
+
+  this.get('/contents/:id', function({db, feedContents}, request){
+    return feedContents.find(request.params.id);
+  });
+
 
 }

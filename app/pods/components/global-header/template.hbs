@@ -7,6 +7,26 @@
     {{/if}}
 
     <div class='MainNav'>
+      <div class='MainNav-menu'>
+        <div class='dropdown'>
+          <a href='#'
+            class='MainNav-moreLink h2'
+            role='button'
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+            {{fa-icon 'navicon'}} Menu
+          </a>
+          {{extended-nav
+            eventsFilter=eventsFilter
+            newsFilter=newsFilter
+            talkFilter=talkFilter
+            marketFilter=marketFilter
+            class="dropdown-menu dropdown-menu-left"
+          }}
+        </div>
+      </div>
+
       <div class='MainNav-brand u-flexRow'>
         <h1 class='MainNav-brand-logo' data-test-brand>
           {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
@@ -15,78 +35,6 @@
         </h1>
       </div>
 
-        <nav class='MainNav-channels' role="navigation">
-          <ul class='SectionNavigation-list'>
-            {{#if channelLinksEnabled}}
-              <li class='SectionNavigation-listItem'>
-              {{#location-link 'news'
-              (query-params
-              page=1
-              query=newsFilter.defaultQuery
-              organization=newsFilter.defaultOrganization
-              location=newsFilter.defaultLocation
-              locationId=newsFilter.defaultLocationId
-              )
-              class='SectionNavigation-link SectionNavigation-link--newsLink'
-              data-test-link='news-channel'
-              }}
-                <span>News</span>
-              {{/location-link}}
-            </li>
-            <li class='SectionNavigation-listItem'>
-              {{#location-link 'events'
-              (query-params
-              page=1
-              query=eventsFilter.defaultQuery
-              category=eventsFilter.defaultCategory
-              location=eventsFilter.defaultLocation
-              date_start=eventsFilter.defaultStart
-              days_ahead=eventsFilter.defaultDaysAhead
-              )
-              class='SectionNavigation-link SectionNavigation-link--eventLink'
-              data-test-link='events-channel'
-              }}
-                <span>Events</span>
-              {{/location-link}}
-            </li>
-            <li class='SectionNavigation-listItem'>
-              {{#location-link 'talk'
-              (query-params
-              page=1
-              query=talkFilter.defaultQuery
-              )
-              class='SectionNavigation-link SectionNavigation-link--talkLink'
-              data-test-link='talk-channel'
-              }}
-                <span>Talk</span>
-              {{/location-link}}
-            </li>
-            <li class='SectionNavigation-listItem'>
-              {{#location-link 'market'
-              (query-params
-              page=1
-              flat=false
-              query=marketFilter.defaultQuery
-              location=marketFilter.defaultLocation
-              locationId=marketFilter.defaultLocationId
-              )
-              class='SectionNavigation-link SectionNavigation-link--marketLink'
-              data-test-link='market-channel'
-              }}
-                <span>Market</span>
-              {{/location-link}}
-            </li>
-            <li class='SectionNavigation-listItem'>
-              {{#link-to 'directory'
-              class='SectionNavigation-link SectionNavigation-link--directoryLink'
-              data-test-link='directory-channel'
-              }}
-                Directory
-              {{/link-to}}
-            </li>
-              {{/if}}
-          </ul>
-        </nav>
 
       <div class='MainNav-search'>
         <!-- will contain user menu/login/register, search -->
@@ -110,7 +58,7 @@
                     {{avatar-image
                       imageUrl=session.currentUser.userImageUrl
                       userName=session.currentUser.name
-                      hasCaret=true
+                      hasCaret=false
                     }}
                 </a>
                 {{#if showUserMenu}}
@@ -131,18 +79,6 @@
               </li>
             {{/if}}
           {{/unless}}
-          <li role="presentation" class="dropdown">
-            <a {{action 'trackMenuOpen'}}
-                href='#'
-                class='MainNav-moreLink h2'
-                role='button'
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-              {{fa-icon 'ellipsis-h'}}
-            </a>
-            {{extended-nav class="dropdown-menu dropdown-menu-right"}}
-          </li>
         </ul>
       </div>
     </div>

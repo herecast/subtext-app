@@ -7,25 +7,17 @@
       onChooseLocation=(action 'chooseLocation')
     }}
   {{/channel-filters}}
-  
-  <div class='Container--noGutter'>
 
-    <h1><!-- for consistent spacing --></h1>
+  {{feed/index-feed
+    feedContents=model
+  }}
 
-    {{grouped-index
-      news=model
-      page=page
-      isAuthenticated=session.isAuthenticated
-      radius=radius
-    }}
-  </div>
+  {{feed/model-auto-loader
+    infinityModel=model
+    seeMoreButtonClicked=(action 'seeMoreButtonClicked')
+  }}
 
   {{outlet}}
 
-  {{outreach-cta
-    isButton=true
-    placement='bottom-of-page'
-    limitMessagesTo=2
-    class="sit-center"
-  }}
+
 </div>

@@ -1,3 +1,23 @@
+<div class='MobileHeader-nav-menu'>
+  <div class='dropdown'>
+    <a href='#'
+      class='MainNav-moreLink h2'
+      role='button'
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false">
+      {{fa-icon 'navicon'}}
+    </a>
+    {{extended-nav
+      eventsFilter=eventsFilter
+      newsFilter=newsFilter
+      talkFilter=talkFilter
+      marketFilter=marketFilter
+      class="dropdown-menu dropdown-menu-left"
+    }}
+  </div>
+</div>
+
 <div class='MobileHeader-brand'>
   <h1 class='h4' data-test-brand>
     {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
@@ -14,7 +34,7 @@
           imageUrl=session.currentUser.userImageUrl
           userName=session.currentUser.name
           customSize=26
-          hasCaret=true
+          hasCaret=false
         }}
       </a>
     </div>

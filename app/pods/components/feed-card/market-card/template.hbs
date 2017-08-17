@@ -1,0 +1,51 @@
+<div class="FeedCard--card-front">
+  {{feed-card/title
+    title=model.title
+    routeName='location.index.show'
+    contentId=model.contentId
+    contentType=model.normalizedContentType
+    sold=model.sold
+  }}
+
+  {{#if activeImageUrl}}
+    {{feed-card/image
+      imageUrl=activeImageUrl
+      caption=model.primaryImageCaption
+      routeName='location.index.show'
+      contentId=model.contentId
+      contentType=model.normalizedContentType
+    }}
+  {{else}}
+    {{feed-card/text-snippet
+      content=model.content
+      showTextSnippet=isLoggedIn
+      routeName='location.index.show'
+      contentId=model.contentId
+      contentType=model.normalizedContentType
+    }}
+  {{/if}}
+
+  {{#if (or model.cost model.images)}}
+    {{feed-card/market-info
+      cost=model.cost
+      images=model.images
+      activeImageUrl=(mut activeImageUrl)
+    }}
+  {{/if}}
+
+  {{feed-card/attribution
+    avatarUrl=model.attributionImageUrl
+    author=model.attributionName
+    linkRouteName=attributionLinkRouteName
+    linkId=attributionLinkId
+    postedTime=model.publishedAtRelative
+    isListserv=model.isListserv
+    commentCount=model.commentCount
+    contentId=model.contentId
+  }}
+
+  {{feed-card/footer
+    locationTagName=sourceTag
+    commentCount=model.commentCount
+  }}
+</div>

@@ -1,0 +1,62 @@
+<div class="FeedCard--card-front">
+  {{feed-card/title
+    title=model.title
+    routeName='location.index.show'
+    contentId=model.contentId
+    eventInstanceId=model.eventInstanceId
+    sold=model.sold
+  }}
+
+  {{#if (or model.startsAtFormatted model.eventInstances)}}
+    {{feed-card/event-dates
+      eventDate=model.startsAtFormatted
+      otherInstances=model.eventInstances
+      linkRoute='location.index.show'
+      contentId=model.contentId
+    }}
+  {{/if}}
+
+  {{#if model.imageUrl}}
+    {{feed-card/image
+      imageUrl=model.imageUrl
+      caption=caption
+      routeName='location.index.show'
+      contentId=model.contentId
+      eventInstanceId=model.eventInstanceId
+    }}
+  {{else}}
+    {{feed-card/text-snippet
+      content=model.content
+      showTextSnippet=true
+      routeName='location.index.show'
+      contentId=model.contentId
+      eventInstanceId=model.eventInstanceId
+    }}
+  {{/if}}
+
+  {{#if (or startTime model.price model.venueAddress model.venueCity)}}
+    {{feed-card/event-info
+      startTime=startTime
+      endTime=endTime
+      cost=model.cost
+      address=model.venueAddress
+      city=model.venueCity
+      state=model.venueState
+    }}
+  {{/if}}
+
+  {{feed-card/attribution
+    avatarUrl=model.attributionImageUrl
+    author=model.attributionName
+    linkRouteName=attributionLinkRouteName
+    linkId=attributionLinkId
+    postedTime=model.publishedAtRelative
+    isListserv=model.isListserv
+    contentId=model.contentId
+  }}
+
+  {{feed-card/footer
+    locationTagName=sourceTag
+    commentCount=model.commentCount
+  }}
+</div>

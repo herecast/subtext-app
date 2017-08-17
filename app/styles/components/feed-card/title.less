@@ -1,0 +1,39 @@
+.FeedCard-Title {
+  display: grid;
+  grid-template-columns: auto;
+  padding: 15px 28px 15px 15px;
+  line-height: 1.1;
+
+  &-title {
+    font-size: 18px;
+    font-weight: bold;
+    grid-column: 1;
+  }
+
+  &.sold-tag-active {
+    grid-template-columns: 70px 1fr;
+    
+    .FeedCard-Title-sold-tag {
+      grid-column: 1;
+    }
+    .FeedCard-Title-title {
+      grid-column: 2;
+    }
+  }
+
+  &-posted-time {
+    font-size: 12px;
+  }
+
+  &-sold-tag > span{
+    padding: 3px 8px;
+    background: #F6A623;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    position: relative;
+    vertical-align: middle;
+  }
+}

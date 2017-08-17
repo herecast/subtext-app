@@ -7,7 +7,7 @@ export default Ember.Component.extend(InViewportMixin, {
   classNames: 'InviewportReporter',
 
   reportOnce: false,
-  reportreportScrollInto: false,
+  reportScrollInto: false,
   mustScrollUp: false,
   mustScrollDown: false,
   reportEnterViewport: false,

@@ -1,0 +1,16 @@
+<div class="FeedCard-MarketInfo-left">
+  <div class="FeedCard-MarketInfo-cost">
+    Price: {{price}}
+  </div>
+</div>
+<div class="FeedCard-MarketInfo-right">
+  <div class="FeedCard-MarketInfo-images">
+    {{#if hasMultipleImages}}
+      {{#each images as |image|}}
+        <div class="FeedCard-MarketInfo-thumbnail" {{action 'changeActiveImageUrl' image.imageUrl}}>
+            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" />
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
+</div>

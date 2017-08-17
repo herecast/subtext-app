@@ -132,6 +132,9 @@ Router.map(function() {
     this.route('news');
     this.route('talk');
     this.route('market');
+    this.route('index', {path: '/'}, function() {
+      this.route('show', {path: ':slug'});
+    });
   });
 
   // error-404 page is used for intermediateTransitionTo when a model returns 404

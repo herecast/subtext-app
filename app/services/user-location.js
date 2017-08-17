@@ -159,6 +159,7 @@ export default Ember.Service.extend(Ember.Evented, {
         this.saveLocationIdToCookie(locationId);
       }
     }
+
   },
 
   /**

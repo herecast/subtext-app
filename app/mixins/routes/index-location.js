@@ -38,7 +38,7 @@ export default Ember.Mixin.create({
 
   navigateToLocation(locationId, transition) {
     let locationRoute = transition.targetName;
-
+    
     // Normalize the location route
     if (locationRoute.endsWith('.index')) {
       locationRoute = locationRoute.substring(0, locationRoute.lastIndexOf('.index'));

@@ -16,5 +16,12 @@ export default DS.Model.extend({
     const publishedAt = get(this, 'publishedAt');
 
     return isPresent(publishedAt) ? publishedAt.fromNow() : '';
+  }),
+
+  contentStripped: computed('content', function() {
+    const content = get(this, 'content');
+    const strippedOfHTML = isPresent(content) ? content.replace(/(<([^>]+)>)/ig,"") : '';
+
+    return strippedOfHTML;
   })
 });

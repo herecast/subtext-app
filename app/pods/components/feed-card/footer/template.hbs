@@ -1,0 +1,22 @@
+{{#if (or hasSource canEdit hasComments)}}
+  <div class="FeedCard-Footer-wrap">
+    <div class="FeedCard-Footer-left">
+      {{#if hasSource}}
+        {{feed-card/source
+          locationTagName=locationTagName
+        }}
+      {{/if}}
+    </div>
+    
+    <div class="FeedCard-Footer-right">
+      {{#if hasComments}}
+        <div class="FeedCard-Footer-comments-wrap">
+          <div class="FeedCard-Footer-comments-icon-box">
+            <span>{{commentCount}}</span>
+            {{fa-icon 'comment'}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}

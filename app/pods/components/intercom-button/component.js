@@ -1,21 +1,15 @@
 import Ember from 'ember';
 
-const {get, set, computed, inject} = Ember;
+const {get, set, inject} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'IntercomButton',
-  classNameBindings : ['footerShowing:footer-nav-showing'],
 
   intercom: inject.service(),
-  footerService: inject.service('footer'),
-
-  footerShowing: computed('media.isMobile', 'footerService.hideFooter', function () {
-    return get(this, 'media.isMobile') && ! get(this, 'footerService.hideFooter');
-  }),
 
   intercomWindowOpen: false,
 
-  init() {
+  init() {//NOTE @todo If this is initiated multiple times, need to deal with set on destroyed objects...depends on omnibox implementation
     this._super(...arguments);
 
     const intercom = get(this, 'intercom');

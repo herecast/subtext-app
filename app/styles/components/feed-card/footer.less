@@ -1,0 +1,42 @@
+.FeedCard-Footer {
+  &-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 15px 10px;
+    border-top: solid 1px @secondary-bg;
+  }
+
+  &-left {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  &-right {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  &-comments-icon-box {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+
+    i {
+      position: absolute;
+      color: #efefef;;
+      font-size: 30px;
+      left: 50%;
+      top: 50%;
+      .transform( translateY(-50%) translateX(-50%) );
+      z-index: -1;
+    }
+
+    span {
+      font-size: 14px;
+      line-height: 30px;
+      font-weight: bold;
+    }
+  }
+}

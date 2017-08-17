@@ -1,0 +1,55 @@
+.FeedCard-TextSnippet {
+  padding: 0 15px 10px 15px;
+  line-height: 1.2;
+
+  &.snipped-text {
+    max-height: 150px;
+    overflow: hidden;
+    padding-bottom: 5px;
+    position: relative;
+  }
+
+  &-continue-reading {
+    display: inline-block;
+
+    a {
+      color: #409FE3;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #409FE3;
+    }
+  }
+
+  &.blurred-text {
+    position: relative;
+  }
+
+  &-text-box {
+    color: transparent;
+    .text-shadow( rgba(0, 0, 0, 0.5) 0px 0px 6px );
+  }
+
+  &-signin-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    white-space: nowrap;
+    .transform( translateX(-50%) translateY(-50%) );
+    background: #fff;
+    padding:8px 10px;
+    border-radius: 3px;
+    .box-shadow( 0 1px 1px 0 rgba(0, 0, 0, 0.18) );
+  }
+
+  &-signin-button {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+
+}

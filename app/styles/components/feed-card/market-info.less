@@ -1,0 +1,36 @@
+.FeedCard-MarketInfo {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  padding: 14px 10px 5px 10px;
+
+  &-left {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  &-right {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  &-cost {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &-thumbnail {
+    display: inline-block;
+    cursor: pointer;
+
+    &:not(last-of-type) {
+      margin-right: 5px;
+    }
+
+    img {
+      height: 40px;
+      width: 40px;
+      border-radius: 4px;
+    }
+  }
+
+}

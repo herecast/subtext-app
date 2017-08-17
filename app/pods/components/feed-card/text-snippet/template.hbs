@@ -1,0 +1,20 @@
+{{#if showTextSnippet}}
+  {{textSnippet}}
+  {{#if isSnipped}}
+    <div class="FeedCard-TextSnippet-continue-reading">
+      {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
+        ...Continue Reading
+      {{/link-to}}
+    </div>
+  {{/if}}
+{{else}}
+  <div class="FeedCard-TextSnippet-text-box">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Phasellus sit amet diam magna. Vivamus scelerisque venenatis purus, vitae consectetur risus egestas ut.
+    Orci varius natoque penatibus et magnis dis.
+  </div>
+  <div class="FeedCard-TextSnippet-signin-box">
+    Registered users only...
+    <span class="FeedCard-TextSnippet-signin-button" {{action 'showSignInMenu'}}>Sign in</span>
+  </div>
+{{/if}}

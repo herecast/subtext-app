@@ -1,0 +1,41 @@
+.FeedCard-Image {
+  &-image {
+    height: 240px;
+    width: 100%;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+
+    @media (min-width: 400px) {
+      height: 300px;
+    }
+  }
+
+  &-gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 90%, rgba(68, 68, 68, 0.65) 98%);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 90%, rgba(68, 68, 68, 0.65) 98%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 90%, rgba(68, 68, 68, 0.65) 98%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6444444', GradientType=0);
+  }
+
+  &-caption {
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    padding: 5px 12px;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
+}

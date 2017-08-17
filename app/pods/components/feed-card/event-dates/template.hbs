@@ -1,0 +1,25 @@
+{{#if eventDate}}
+  <div class="FeedCard-EventDates-date-tag">
+    {{eventDate}}
+  </div>
+{{/if}}
+
+{{#if hasOtherInstances}}
+  <div class="FeedCard-EventDates-other-dates-button" {{action 'toggleShowOtherDates'}}>
+    Additional Dates {{fa-icon 'caret-down'}}
+    {{#if showOtherDates}}
+      {{#click-outside action=(action 'toggleShowOtherDates') class='dropdown-menu dropdown-menu-right open'}}
+        <div class="FeedCard-EventDates-other-dates-list">
+          {{#each otherInstances as |instance|}}
+            <div>
+              {{#link-to linkRoute contentId (query-params eventInstanceId=instance.id)}}
+                {{formatted-date instance.startsAt 'ddd -  MMM DD, YYYY'}}
+              {{/link-to}}
+            </div>
+          {{/each}}
+        </div>
+      {{/click-outside}}
+
+    {{/if}}
+  </div>
+{{/if}}
