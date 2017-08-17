@@ -139,7 +139,7 @@
         id='email'
         placeholder='Contact Email'
         class='form-control'
-        value=post.contactEmail
+        value=(mut post.contactEmail)
         input=(action 'validateForm')
       }}
     </div>
@@ -154,7 +154,7 @@
         id='phone'
         placeholder='Contact Phone'
         class='form-control'
-        value=post.contactPhone
+        value=(mut post.contactPhone)
         type='tel'
         input=(action 'validateForm')
       }}

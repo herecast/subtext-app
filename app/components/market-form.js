@@ -3,7 +3,7 @@ import Validation from '../mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
 const { oneWay } = Ember.computed;
-const { get, set, run, isBlank } = Ember;
+const { get, set, run, isBlank, isPresent } = Ember;
 
 export default Ember.Component.extend(TestSelector, Validation, {
   tagName: 'form',
@@ -20,7 +20,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     const email = this.get('post.contactEmail');
     const phone = this.get('post.contactPhone');
 
-    const hasEitherField = Ember.isPresent(email) || Ember.isPresent(phone);
+    const hasEitherField = isPresent(email) || isPresent(phone);
 
     if (hasEitherField) {
       const hasValidEmail = isBlank(email) || this.hasValidEmail(email);

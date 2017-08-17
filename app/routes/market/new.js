@@ -4,16 +4,18 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get, run, inject } = Ember;
+const { get, run, inject, computed } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
   location: inject.service('window-location'),
   userLocation: inject.service(),
+  currentUserEmail: computed.oneWay('session.currentUser.email'),
 
   model(params, transition) {
     const newRecordValues = {
       publishedAt: moment(),
-      promoteRadius: 10
+      promoteRadius: 10,
+      contactEmail: get(this, 'currentUserEmail')
     };
 
     const locationPromise = get(this, 'userLocation.location');
