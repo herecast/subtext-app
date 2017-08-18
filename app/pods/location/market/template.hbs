@@ -13,8 +13,11 @@
     <div class='row'>
       <div class='col-xs-12 col-md-8 col-md-push-2'>
         <div class='ChannelTopper clearfix'>
-          {{#location-link 'market' tagName='h1' class='CategoryNav-mobileTitle h5 hidden-md hidden-lg'}}
-            Local Market{{/location-link}}
+          <h1 class='GroupHeader GroupHeader--market' style='display: inline-block; margin-bottom: 0'>
+            <span class='GroupHeader-channelLink GroupHeader-channelLink--market h3 ChannelTopper-title'>
+              Local Market
+            </span>
+          </h1>
 
           {{#unless features.disable-content-creation}}
             <div data-test-component='content-create-button'

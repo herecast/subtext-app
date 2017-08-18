@@ -14,13 +14,11 @@
     <div class='row'>
       <div class='col-xs-12'>
         <div class='ChannelTopper clearfix'>
-          <div class="visible-xs">
-            <h1 class='GroupHeader GroupHeader--news' style='display: inline-block; margin-bottom: 0'>
-              <span class='GroupHeader-channelLink GroupHeader-channelLink--news h3 ChannelTopper-title'>
-                Local News
-              </span>
-            </h1>
-          </div>
+          <h1 class='GroupHeader GroupHeader--news' style='display: inline-block; margin-bottom: 0'>
+            <span class='GroupHeader-channelLink GroupHeader-channelLink--news h3 ChannelTopper-title'>
+              Local News
+            </span>
+          </h1>
 
           {{#unless features.disable-content-creation}}
             {{#if session.currentUser.canPublishNews}}
