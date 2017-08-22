@@ -23,6 +23,5 @@ export default Mirage.Factory.extend({
   organizationId: null,
   organizationName: faker.company.companyName(),
   canEdit: true,
-  baseLocationNames: ['BaseTown, VT'],
   contentLocations: []
 });

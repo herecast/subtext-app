@@ -37,7 +37,9 @@ export default DS.Model.extend(BaseEvent, {
   startsAt: DS.attr('moment-date'),
   endsAt: DS.attr('moment-date'),
 
-  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
+  contentLocations: DS.hasMany('content-location'),
+  baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),
+  baseLocationNames: computed.mapBy('baseLocations', 'locationName'),
 
   publishedAt: DS.attr('moment-date'),
   updatedAt: DS.attr('moment-date'),

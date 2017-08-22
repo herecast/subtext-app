@@ -36,6 +36,5 @@ export default Mirage.Factory.extend({
   state: 'VT',
   zip: '05055',
   canEdit: true,
-  baseLocationNames: ['BaseTown, VT'],
   contentLocations: []
 });

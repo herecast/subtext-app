@@ -52,7 +52,7 @@ const talkBaseProperties = [
 
 const newsBaseProperties = [
   'id', 'title', 'content', 'publishedAt', 'authorId', 'authorName',
-  'organizationName','organizationId', 'imageUrl', 'organization', 'baseLocationNames'
+  'organizationName','organizationId', 'imageUrl', 'organization'
 ];
 
 function dashboardTalks(db,start,stop) {

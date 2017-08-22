@@ -54,7 +54,7 @@ export default Mirage.Factory.extend({
   endsAt() { return faker.date.future(); },
 
   baseLocationId: 1,
-  baseLocationNames: ['Barnard VT'],
+  contentLocations: [],
 
   publishedAt() { return faker.date.past(); },
   updatedAt() { return faker.date.past(); },

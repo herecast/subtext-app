@@ -35,7 +35,6 @@ export default DS.Model.extend(ContentLocationsMixin, {
 
   organizationId: DS.attr('number'),
   organizationName: DS.attr('string'),
-  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
   promoteRadius: DS.attr('number'),
 
   formattedPublishedAt: computed('publishedAt', function() {

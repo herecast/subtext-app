@@ -18,9 +18,15 @@ test('it renders', function(assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });
   const model = server.create('feed-content', {normalizedContentType: 'talk'});
 
-  this.set('model', model);
+  model.baseLocations = [];
 
-  this.render(hbs`{{feed-card/talk-card model=model}}`);
+  this.set('model', model);
+  this.set('userLocation', {
+    location: {},
+    locationId: 0
+  });
+
+  this.render(hbs`{{feed-card/talk-card model=model userLocation=userLocation}}`);
 
   assert.ok(this.$());
 });

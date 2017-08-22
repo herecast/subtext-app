@@ -4,6 +4,7 @@ import ApplicationSerializer from './application';
 export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
     images: { embedded: 'always' },
+    contentLocations: { embedded: 'always' },
     eventInstances: { embedded: 'always' }
   },
 

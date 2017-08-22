@@ -11,6 +11,8 @@ const {
 
 export default Mixin.create({
   contentLocations: DS.hasMany(),
+  baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),
+  baseLocationNames: computed.mapBy('baseLocations', 'locationName'),
 
   // First base location detected
   baseLocation: computed('_changedContentLocations.@each.locationType', 'contentLocations.@each.locationType', function() {

@@ -11,12 +11,11 @@ export default Ember.Component.extend({
   model: null,
 
   session: service(),
+  userLocation: service('userLocation'),
 
-  currentUser: computed.oneWay('session.currentUser'),
   isLoggedIn: computed.alias('session.isAuthenticated'),
 
   contentType: computed.alias('model.normalizedContentType'),
-  userLocation: computed.alias('session.userLocation'),
 
   componentType: computed('contentType', function() {
     const contentType = get(this, 'contentType');

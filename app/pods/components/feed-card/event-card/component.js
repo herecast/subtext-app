@@ -34,9 +34,14 @@ export default Ember.Component.extend({
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('model.{baseLocationNames,venueCity,venueState}', 'userLocation', function() {
-    const baseLocationName = get(this, 'model.baseLocationNames')[0] || null;
+  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', 'model.{venueCity,venueState}', function() {
+    const baseLocations = get(this, 'model.baseLocations');
+    const userLocation = get(this, 'userLocation');
 
-    return isPresent(baseLocationName) ? baseLocationName : `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
+    // Display location matching user if multiple bases
+    let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
+      get(baseLocations, 'firstObject');
+
+    return isPresent(baseLocation) ? get(baseLocation, 'locationName') : `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
   })
 });

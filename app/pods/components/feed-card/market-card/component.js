@@ -22,11 +22,15 @@ export default Ember.Component.extend({
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('model.baseLocationNames', 'userLocation', function() {
-    const baseLocationName = get(this, 'model.baseLocationNames')[0] || null;
+  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', function() {
+    const baseLocations = get(this, 'model.baseLocations');
     const userLocation = get(this, 'userLocation');
 
-    return isPresent(baseLocationName) ? baseLocationName : userLocation;
+    // Display location matching user if multiple bases
+    let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
+      get(baseLocations, 'firstObject');
+
+    return isPresent(baseLocation) ? get(baseLocation, 'locationName') : undefined;
   }),
 
   actions: {

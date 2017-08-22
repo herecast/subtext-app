@@ -18,7 +18,6 @@ export default Mirage.Factory.extend({
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
   },
   canEdit: true,
-  baseLocationNames: ['BaseTown, VT'],
   contentLocations: [],
 
   afterCreate(talk, server) {

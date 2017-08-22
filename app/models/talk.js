@@ -33,7 +33,6 @@ export default DS.Model.extend(ContentLocationsMixin, {
   canEdit: DS.attr('boolean', {defaultValue: false}),
 
   listEnabled: Ember.computed.notEmpty('listservId'),
-  baseLocationNames: DS.attr('raw', {defaultValue: function(){ return []; }}),
   promoteRadius: DS.attr('number'),
 
   hasParentContent: computed('parentContentType', 'parentContentId', function() {

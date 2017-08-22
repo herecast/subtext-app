@@ -23,15 +23,20 @@ export default Ember.Component.extend({
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('model.baseLocationNames', 'model.isListserv', 'userLocation', function() {
-    const baseLocationName = get(this, 'model.baseLocationNames')[0] || null;
-    const isListserv = get(this, 'model.isListserv');
+  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'model.isListserv', 'userLocation.locationId', function() {
+    const baseLocations = get(this, 'model.baseLocations');
     const userLocation = get(this, 'userLocation');
 
-    if (isListserv) {
-      return isPresent(baseLocationName) ? `${baseLocationName} List` : `${userLocation} List`;
-    }
+    // Display location matching user if multiple bases
+    let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
+      get(baseLocations, 'firstObject');
 
-    return isPresent(baseLocationName) ? baseLocationName : userLocation;
+    const isListserv = get(this, 'model.isListserv');
+
+    if (isPresent(baseLocation)) {
+      return `${get(baseLocation, 'locationName')}${isListserv ? ' List' : ''}`;
+    } else {
+      return undefined;
+    }
   })
 });

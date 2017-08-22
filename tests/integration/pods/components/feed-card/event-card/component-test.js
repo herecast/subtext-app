@@ -17,10 +17,20 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
   const model = server.create('feed-content', {normalizedContentType: 'event'});
+  model.baseLocations = [];
+
+  this.set('model', model);
+  this.set('userLocation', {
+    locationId: 0,
+    location: {
+      name: "",
+      id: 0
+    }
+  });
 
   this.set('model', model);
 
-  this.render(hbs`{{feed-card/event-card model=model}}`);
+  this.render(hbs`{{feed-card/event-card model=model userLocation=userLocation}}`);
 
   assert.ok(this.$());
 });

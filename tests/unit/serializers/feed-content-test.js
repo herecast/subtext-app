@@ -4,7 +4,7 @@ moduleForModel('feed-content', 'Unit | Serializer | feed content', {
   // Specify the other units that are required for this test.
   needs: [
     'serializer:feed-content', 'model:other-event-instance', 'model:image',
-    'model:organization', 'transform:moment-date', 'transform:raw'
+    'model:organization', 'transform:moment-date', 'transform:raw', 'model:content-location'
 ]
 });
 
