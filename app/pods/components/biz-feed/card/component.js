@@ -55,7 +55,7 @@ export default Ember.Component.extend({
 
   imageStyle: computed('content.imageUrl', function() {
     const imageUrl = get(this, 'content.imageUrl');
-    const options = get(this, 'isBannerAd') ? [imageUrl,386,320,true] : [imageUrl,400,200,true];
+    const options = get(this, 'isBannerAd') ? [imageUrl,386,320,true] : [imageUrl,360,320,true];
 
     if (isPresent(imageUrl)) {
         return htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
