@@ -91,8 +91,8 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
     },
 
     afterDiscard() {
-      this.transitionTo('location.market').then(() => {
-      });
+      this.transitionTo(`location.market`, get(this, 'userLocation.location'));
+
     },
 
     afterDetails() {

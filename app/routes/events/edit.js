@@ -12,6 +12,7 @@ const {
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
   location: inject.service('window-location'),
+  userLocation: inject.service(),
 
   discardRecord(model) {
     // Ember data doesn't automatically rollback relationship records, so we
@@ -67,10 +68,8 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
       }
     },
 
-    afterDiscard(model) {
-      if (!get(model, 'hasDirtyAttributes')) {
-        this.transitionTo(`location.events`);
-      }
+    afterDiscard() {
+      this.transitionTo(`location.events`, get(this, 'userLocation.location'));
     },
 
     afterDetails() {

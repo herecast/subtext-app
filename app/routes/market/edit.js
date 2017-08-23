@@ -12,6 +12,7 @@ const {
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
   location: inject.service('window-location'),
+  userLocation: inject.service(),
 
   model(params) {
     return this.store.findRecord('market-post', params.id, {reload: true});
@@ -24,8 +25,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
   // false positives, meaning it will tell the user there are changes when
   // there are not, but that seems better than false negatives.
   hasDirtyAttributes(model) {
-    // for some reason, contactEmail and contactPhone are marked as changed
-    const modelIsDirty = Object.keys(model.changedAttributes()).length > 2;
+    const modelIsDirty = Object.keys(model.changedAttributes()).length >= 1;
 
     // Ember data doesn't detect dirty attributes on relationship records,
     // so we need to do that manually.
@@ -78,7 +78,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
     },
 
     afterDiscard() {
-      this.transitionTo(`location.market`);
+      this.transitionTo(`location.market`, get(this, 'userLocation.location'));
     },
 
     afterDetails() {
