@@ -439,13 +439,7 @@ export function normalizeErrorResponse(status, headers, payload) {
         }
       ];
     } else {
-      return [
-        {
-          status: `${status}`,
-          title: payload.title || 'The backend responded with an error',
-          detail: payload
-        }
-      ];
+      return payload.errors;
     }
   }
 }

@@ -25,34 +25,40 @@ export default Ember.Service.extend({
   getUserLocation() {
     return new RSVP.Promise((resolve) => {
       this.getCurrentPosition().then((position) => {
-        const mapsService = get(this, 'mapsService');
-        const coords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-
-        /**************
-        * Remove this when location allowed outside test market
-        */
-        const defaultLocation = get(this, 'defaultLocation');
-        const distance = this.distance(defaultLocation.coords, coords) * 0.621371;
-        if(distance >= 50) {
-          return resolve(defaultLocation);
-        }
-        /****/
-
-        mapsService.geocode({location: coords}, (results) =>{
-          const loc = {
-            coords: coords,
-            human: mapsService.cityStateFormat(results[0])
+        if(!get(this, 'isDestroying')) {
+          const mapsService = get(this, 'mapsService');
+          const coords = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           };
-          resolve(loc);
-        });
+
+          /**************
+          * Remove this when location allowed outside test market
+          */
+          const defaultLocation = get(this, 'defaultLocation');
+          const distance = this.distance(defaultLocation.coords, coords) * 0.621371;
+          if(distance >= 50) {
+            return resolve(defaultLocation);
+          }
+          /****/
+
+          mapsService.geocode({location: coords}, (results) =>{
+            if(!get(this, 'isDestroying')) {
+              const loc = {
+                coords: coords,
+                human: mapsService.cityStateFormat(results[0])
+              };
+              resolve(loc);
+            }
+          });
+        }
       }, () => {
+        if(!get(this, 'isDestroying')) {
           /*
           * This is for the case that the user has blocked geopositioning in the browser
           */
           return resolve(get(this, 'defaultLocation'));
+        }
       });
     });
   },
@@ -62,9 +68,13 @@ export default Ember.Service.extend({
 
       if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(position => {
-          resolve(position);
+          if(!get(this, 'isDestroying')) {
+            resolve(position);
+          }
         }, error => {
-          reject(error);
+          if(!get(this, 'isDestroying')) {
+            reject(error);
+          }
         });
       } else {
         reject();

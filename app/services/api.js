@@ -50,15 +50,17 @@ function returnJson(request) {
 
       if(isRequestError(err)) {
         try {
-          body = response.json();
+          response.json().then((body) => {
+            err.errors = normalizeErrorResponse(response.status, response.headers, body);
+            reject(err);
+          });
         } catch(e) {
           console.error(e);
+          reject(err);
         }
-
-        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      } else {
+        reject(err);
       }
-
-      reject(err);
     });
   });
 }
@@ -73,15 +75,17 @@ function returnText(request) {
         let body = "";
 
         try {
-          body = response.text();
+          body = response.text().then((body) => {
+            err.errors = normalizeErrorResponse(response.status, response.headers, body);
+            reject(err);
+          });
         } catch(e) {
           console.error(e);
+          reject(err);
         }
-
-        err.errors = normalizeErrorResponse(response.status, response.headers, body);
+      } else {
+        reject(err);
       }
-
-      reject(err);
     });
   });
 }

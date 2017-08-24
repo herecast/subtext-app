@@ -1,12 +1,12 @@
 <div class="SignInForm">
   <ul class='SignInForm-tabs'>
     <li class="{{if isSignIn 'active'}}">
-      <a onclick={{action 'changeMode' 'sign-in-with-password'}}>
+      <a data-test-link='sign-in-tab' onclick={{action 'changeMode' 'sign-in-with-password'}}>
         Sign In
       </a>
     </li>
     <li class="{{if isRegister 'active'}}">
-      <a onclick={{action 'changeMode' 'register'}}>
+      <a data-test-link='join-tab' onclick={{action 'changeMode' 'register'}}>
         Join
       </a>
     </li>

@@ -2,6 +2,7 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 
 moduleForAcceptance('Acceptance | registration');
 
@@ -49,6 +50,8 @@ test('clicking join link displays the registration form', function(assert) {
 
 test('registration works', function(assert) {
   assert.expect(1);
+
+  mockLocationCookie(this.application);
 
   registrationMenuOrPage.open();
 

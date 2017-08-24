@@ -120,7 +120,17 @@ export default Ember.Component.extend(TestSelector, Validation, {
               resolve();
             },
             (response) => {
-              notify.error(response.errors);
+              console.error(response);
+
+              if('errors' in response) {
+                if('email' in response.errors &&
+                  response.errors['email'].includes("has already been taken")) {
+                  notify.error("An account already exists with that email. Try signing in instead.");
+                } else {
+                  notify.error("An unknown error has occurred. Please contact support.");
+                }
+              }
+
               reject();
             });
         };
@@ -129,7 +139,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
         // If location does not load, register user with default location
         get(this, 'userLocation.location').then(location => {
           registerUser(get(location, 'id'));
-        }).catch(() => registerUser(null));
+        }).catch((e) => {
+          console.error(e);
+          registerUser('hartford-vt');
+        });
       } else {
         resolve();
       }
