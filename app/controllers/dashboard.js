@@ -124,7 +124,9 @@ export default Ember.Controller.extend({
     },
 
     viewProfile(org) {
-      if (org.get('isBusiness')) {
+      if (org.get('bizFeedActive')) {
+        this.transitionToRoute('biz.show', org.get('id'));
+      } else if (org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
           this.transitionToRoute('directory.show', rec);
@@ -137,7 +139,9 @@ export default Ember.Controller.extend({
     },
 
     editProfile(org) {
-      if (org.get('isBusiness')) {
+      if (org.get('bizFeedActive')) {
+        this.transitionToRoute('biz.show', org.get('id'));
+      } else if (org.get('isBusiness')) {
         const bid = org.get('businessProfileId');
         this.store.findRecord('business-profile', bid).then((rec)=>{
           set(this, 'editingBusiness', rec);
