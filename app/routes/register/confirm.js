@@ -14,6 +14,10 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, FastbootExtensions,
      * We don't authenticate in fastboot
      * So let's defer this until ember-browser
      */
+    if(get(this, 'session.isAuthenticated')) {
+      this.transitionTo('index');
+      return;
+    }
 
     if(!get(this, 'isFastBoot')) {
       const token = transition.params['register.confirm']['token']; const notify = get(this, 'notify');
