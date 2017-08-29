@@ -178,9 +178,15 @@ export default Service.extend(Evented, {
     });
   },
 
-  trackFloatingActionButtonClick() {
+  trackUGCJobsTrayOpened() {
     this.push({
-      event: 'FloatingActionButtonClick'
+      event: 'UGCJobsTrayOpened'
+    });
+  },
+
+  trackUGCJobsTrayClosed() {
+    this.push({
+      event: 'UGCJobsTrayClosed'
     });
   },
 

@@ -44,6 +44,7 @@ export default Ember.Component.extend({
 
   collapse() {
     if (!get(this, 'isDestroyed')) {
+      get(this, 'tracking').trackUGCJobsTrayClosed();
       get(this, 'modals').removeModalBodyClass();
       set(this, 'isAnimatingAway', true);
       Ember.run.later(() => {
@@ -56,7 +57,7 @@ export default Ember.Component.extend({
   },
 
   expand() {
-    get(this, 'tracking').trackFloatingActionButtonClick();
+    get(this, 'tracking').trackUGCJobsTrayOpened();
     get(this, 'modals').addModalBodyClass();
     if (!get(this, 'isDestroyed')) {
       set(this, 'showContent', true);
