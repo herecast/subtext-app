@@ -1,32 +1,3 @@
-<div class="Feed-IndexFeed-content-create-wrap {{if session.isAuthenticated 'is-logged-in'}} {{if session.currentUser.canPublishNews 'can-publish-news'}}">
-  {{#link-to 'events.new.details' class='Button Feed-IndexFeed-content-create-button btn btn-default Button--event' data-test-link='content-create-button'}}
-    <span class="visible-xs-inline visible-sm-inline">+</span>
-      <span class="hidden-xs hidden-sm">Create</span>
-    Event
-  {{/link-to}}
-
-  {{#link-to 'market.new.details' class='Button Feed-IndexFeed-content-create-button btn btn-default Button--market' data-test-link='content-create-button'}}
-    <span class="visible-xs-inline visible-sm-inline">+</span>
-    <span class="hidden-xs hidden-sm">Create</span>
-    Listing
-  {{/link-to}}
-
-  {{#if session.isAuthenticated}}
-    {{#link-to 'talk.new.details' class='Button Feed-IndexFeed-content-create-button btn btn-default Button--talk' data-test-link='content-create-button'}}
-      <span class="visible-xs-inline visible-sm-inline">+</span>
-      <span class="hidden-xs hidden-sm">Create</span>
-      Talk
-    {{/link-to}}
-
-    {{#if session.currentUser.canPublishNews}}
-      {{#link-to 'news.new' class='Button Feed-IndexFeed-content-create-button btn btn-default Button--news' data-test-link='content-create-button'}}
-        <span class="visible-xs-inline visible-sm-inline">+</span>
-        <span class="hidden-xs hidden-sm">Create</span>
-        News
-      {{/link-to}}
-    {{/if}}
-  {{/if}}
-</div>
 
 {{#each feedContents as |content index|}}
   {{feed-card model=content}}

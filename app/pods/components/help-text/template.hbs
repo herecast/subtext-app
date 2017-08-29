@@ -1,0 +1,17 @@
+{{#unless openingHelp}}
+  {{fa-icon 'question-circle' class="HelpText-icon"}}
+  <div class="HelpText-text">
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{#text-block small=true color='primary' strong=true}}
+        Need help? Click here.
+      {{/text-block}}
+    {{/if}}
+  </div>
+{{else}}
+  {{fa-icon 'spinner' class="HelpText-icon" spin=true}}
+  <div class="HelpText-text">
+    Opening help...
+  </div>
+{{/unless}}

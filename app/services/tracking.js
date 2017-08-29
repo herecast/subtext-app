@@ -172,6 +172,25 @@ export default Service.extend(Evented, {
     get(this, 'intercom').trackEvent('change-radius');
   },
 
+  trackHelpTextClick() {
+    this.push({
+      event: 'HelpTextClick'
+    });
+  },
+
+  trackFloatingActionButtonClick() {
+    this.push({
+      event: 'FloatingActionButtonClick'
+    });
+  },
+
+  trackUGCJobClick(job) {
+    this.push({
+      job,
+      event: 'UGCJobClick'
+    });
+  },
+
   /** Private **/
 
   _eventuallyGetClientId() {

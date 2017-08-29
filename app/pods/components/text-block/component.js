@@ -14,18 +14,23 @@ export default Ember.Component.extend({
     'center:TextBlock--center',
     'hasMargin::TextBlock--noMargin',
     'lighten:TextBlock--lighten',
-    'sizing'
+    'sizing',
+    'colorClass',
+    'strongClass'
   ],
 
   // Public interface for styling
   // Note: be careful not to add too many params here, or we are no better than inline styles!
   center: false,
   hasMargin: true,
+  strong: false,
 
   // Font Size
   small: false,
   medium: false,
   large: false,
+
+  color: 'default', // primary, danger
 
   size: computed('small', 'medium', 'large', function() {
     if (get(this, 'small')) {
@@ -42,5 +47,14 @@ export default Ember.Component.extend({
   sizing: computed('size', function() {
     const size = get(this, 'size');
     return `TextBlock--${size}`;
+  }),
+
+  colorClass: computed('color', function() {
+    const color = get(this, 'color');
+    return `TextBlock--${color}`;
+  }),
+
+  strongClass: computed('strong', function() {
+    return get(this, 'strong') ? 'TextBlock--strong' : null;
   })
 });

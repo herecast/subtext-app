@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const { get, inject } = Ember;
 
-export default Ember.Route.extend(Scroll, ShareCaching, {
+export default Ember.Route.extend(Scroll, ShareCaching, Authorized, {
   userLocation: inject.service(),
 
   model(params, transition) {

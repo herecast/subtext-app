@@ -1,0 +1,29 @@
+<div class='FloatingActionButton-container'>
+  <header class='FloatingActionButton-header'>
+    {{#if showMessage}}
+      <div class="FloatingActionButton-message" {{action 'toggleContent'}}>
+        {{message}}
+      </div>
+      {{#unless showContent}}
+        {{fa-icon 'caret-right' class="FloatingActionButton-message-caret"}}
+      {{/unless}}
+    {{/if}}
+    {{#x-button
+      rounded='circle'
+      color=(if showContent 'medium-gray' 'attention')
+      style=(if showContent 'transparent' 'flatten')
+      shadow=(not showContent)
+      size='large'
+      onClick=(action 'toggleContent')
+      class='FloatingActionButton-toggleButton'
+    }}
+      {{fa-icon 'plus' class='FloatingActionButton-icon'}}
+    {{/x-button}}
+  </header>
+
+  {{#if showContent}}
+    <div class='FloatingActionButton-content' style={{styleForContent}}>
+      {{yield}}
+    </div>
+  {{/if}}
+</div>

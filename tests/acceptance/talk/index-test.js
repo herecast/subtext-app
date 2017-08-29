@@ -47,7 +47,6 @@ test('visiting /{location.id}/talk/', function(assert) {
 
   andThen(function() {
     assert.equal(currentURL(), `/${location.id}/talk/`, 'it should be at the /talk/ url');
-    assert.equal(find(testSelector('link', 'content-create-button')).length, 1, 'it should show the Create Talk button');
 
     assert.equal(
       find(testSelector('talk-card')).length, talkItemsLocation1.length,

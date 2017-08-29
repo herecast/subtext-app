@@ -1,6 +1,5 @@
 .x-button(@background-color, @text-color, @border-color, @hover-background-color, @hover-text-color, @hover-border-color) {
   display: inline-block;
-  border-radius: 4px;
   line-height: normal;
   vertical-align: middle;
   cursor: pointer;
@@ -45,19 +44,54 @@
 
   &.XButton--x-small {
     padding: 5px 10px;
+
+    &.XButton--circle {
+      font-size: 14px;
+      border-radius: 100%;
+      padding: 5px;
+      width: 30px;
+      height: 30px;
+    }
   }
 
   &.XButton--small {
     padding: 10px 15px;
+
+    &.XButton--circle {
+      border-radius: 100%;
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+    }
   }
 
   &.XButton--medium {
     padding: 15px 20px;
+
+    &.XButton--circle {
+      border-radius: 100%;
+      padding: 15px;
+      width: 50px;
+      height: 50px;
+    }
   }
 
   &.XButton--large {
     padding: 20px 25px;
-    font-size: 20px
+    font-size: 24px;
+
+    &.XButton--circle {
+      border-radius: 100%;
+      font-size: 28px;
+      padding: 15px;
+      width: 60px;
+      height: 60px;
+      box-sizing: border-box;
+      min-width: 60px;
+      max-width: 60px;
+      min-height: 60px;
+      max-height: 60px;
+    }
   }
 
   @media (max-width: @screen-xs-max) {
@@ -158,6 +192,20 @@
   }
 }
 
+.make-x-button-outline-gray(@primary-color, @secondary-color) {
+  @darken-primary: darken(@primary-color, 10%);
+  @darken-gray-light: darken(@gray-light, 10%);
+
+  &.XButton--outline-gray {
+    .x-button(white, @gray-dark, @darken-gray-light, @primary-color, @secondary-color, @darken-primary);
+  }
+  &.XButton--xs-outline-gray {
+    @media (max-width: @screen-xs-max) {
+      .x-button(white, @gray-dark, @darken-gray-light, @primary-color, @secondary-color, @darken-primary);
+    }
+  }
+}
+
 .make-x-button-lighten(@primary-color) {
   @lighten-primary: lighten(@primary-color, 38%);
   @darken-color: darken(@lighten-primary, 5%);
@@ -183,6 +231,28 @@
   }
 }
 
+.make-x-button-flatten(@primary-color, @secondary-color) {
+  &.XButton--flatten {
+    .x-button(@primary-color, @secondary-color, @primary-color, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @primary-color);
+  }
+  &.XButton--xs-flatten {
+    @media (max-width: @screen-xs-max) {
+      .x-button(@primary-color, @secondary-color, @primary-color, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @primary-color);
+    }
+  }
+}
+
+.make-x-button-transparent(@primary-color) {
+  &.XButton--transparent {
+    .x-button(transparent, @primary-color, transparent, transparent, lighten(@primary-color, 10%), transparent);
+  }
+  &.XButton--xs-transparent {
+    @media (max-width: @screen-xs-max) {
+      .x-button(transparent, @primary-color, transparent, transparent, lighten(@primary-color, 10%), transparent);
+    }
+  }
+}
+
 .make-x-button-link(@button-primary) {
   &.XButton--link {
     .x-button-link(@button-primary);
@@ -200,8 +270,11 @@
   .make-x-button-regular(@primary-color, @secondary-color, @darken-primary, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @darken-primary);
   .make-x-button-inverted(@secondary-color, @primary-color, @darken-secondary, lighten(saturate(@secondary-color, 40%), 5%), @primary-color, @darken-primary);
   .make-x-button-outline(transparent, @primary-color, @primary-color, @primary-color, @secondary-color, @darken-primary);
+  .make-x-button-outline-gray(@primary-color, @secondary-color);
   .make-x-button-lighten(@primary-color);
   .make-x-button-gray(@primary-color);
+  .make-x-button-flatten(@primary-color, @secondary-color);
+  .make-x-button-transparent(@primary-color);
   .make-x-button-link(@primary-color);
 }
 
@@ -215,13 +288,37 @@
   &.XButton--secondary {
     .make-button(white, @button-primary);
   }
+  &.XButton--attention {
+    .make-button(@brand-attention, white);
+  }
   &.XButton--danger {
     .make-button(@brand-danger, white);
+  }
+  &.XButton--light-gray {
+    .make-button(@gray-light, @gray-medium);
+  }
+  &.XButton--medium-gray {
+    .make-button(@gray-medium, @gray-light);
+  }
+  &.XButton--facebook {
+    .make-button(#3b5998, white);
+  }
+  &.XButton--twitter {
+    .make-button(#55acee, white);
   }
   &--wide {
     width: 100%;
     box-sizing: content-box;
     display: block;
+  }
+  &--rounded {
+    border-radius: 4px;
+  }
+  &--circle {
+    border-radius: 100%;
+  }
+  &--shadow {
+    .box-shadow(1px 2px 1px 0 rgba(0,0,0,.4));
   }
   @media (max-width: @screen-xs-max) {
     &--xs-wide {

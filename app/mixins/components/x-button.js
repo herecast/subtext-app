@@ -12,15 +12,19 @@ export default Ember.Mixin.create({
     'blockTypeClass',
     'xsStyleClass',
     'xsSizeClass',
-    'xsBlockTypeClass'
+    'xsBlockTypeClass',
+    'roundedClass',
+    'shadowClass'
   ],
   attributeBindings: ['type'],
   type: 'button',
 
-  color: 'default', // 'default', 'primary', 'secondary', 'danger'
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', transparent
   style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'
+  rounded: 'rounded', // false, 'rounded', 'circle'
+  shadow: false,
 
   // optional: set a specific style on mobile.
   xsStyle: null,
@@ -45,6 +49,16 @@ export default Ember.Mixin.create({
   blockTypeClass: computed('blockType', function() {
     const blockType = get(this, 'blockType');
     return (blockType) ? `XButton--${blockType}` : null;
+  }),
+
+  roundedClass: computed('rounded', function() {
+    const rounded = get(this, 'rounded');
+    return (rounded) ? `XButton--${rounded}` : null;
+  }),
+
+  shadowClass: computed('shadow', function() {
+    const shadow = get(this, 'shadow');
+    return (shadow) ? `XButton--shadow` : null;
   }),
 
   xsStyleClass: computed('xsStyle', function() {

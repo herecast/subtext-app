@@ -1,7 +1,11 @@
 <span class="SectionHeader-text SectionHeader-text--secondaryBg">
-  {{#if isNew}}
-    Create your {{formattedType}}
+  {{#if title}}
+    {{title}}
   {{else}}
-    Update your {{formattedType}}
+    {{#if isNew}}
+      Create your {{formattedType}}
+    {{else}}
+      Update your {{formattedType}}
+    {{/if}}
   {{/if}}
 </span>

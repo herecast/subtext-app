@@ -34,7 +34,6 @@ test('visiting', function(assert) {
 
   andThen(function() {
     assert.equal(currentURL(), url);
-    assert.equal(find(testSelector('link', 'content-create-button')).length, 1, 'it should show the create content button');
 
     assert.equal(
       find(testSelector('market-card')).length, marketItemsLocation1.length,
