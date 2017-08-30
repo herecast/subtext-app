@@ -32,14 +32,14 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
       Ember.isPresent(this.get('model.bannerImage.credit'));
   }),
 
-  organizationLinkRoute: computed('model.organization.isBusiness', function() {
-    const isBusiness = get(this, 'model.organization.isBusiness');
-    return isBusiness ? 'biz.show' : 'organization-profile';
+  organizationLinkRoute: computed('model.organization.bizFeedActive', function() {
+    const bizFeedActive = get(this, 'model.organization.bizFeedActive');
+    return bizFeedActive ? 'biz.show' : 'organization-profile';
   }),
 
-  organizationLinkId: computed('model.organization.isBusiness', function() {
-    const isBusiness = get(this, 'model.organization.isBusiness');
-    return isBusiness ? get(this, 'model.organization.id') : get(this, 'model.organization.slug');
+  organizationLinkId: computed('model.organization.bizFeedActive', function() {
+    const bizFeedActive = get(this, 'model.organization.bizFeedActive');
+    return bizFeedActive ? get(this, 'model.organization.id') : get(this, 'model.organization.slug');
   }),
 
   _trackImpression() {
