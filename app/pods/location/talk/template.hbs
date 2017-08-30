@@ -16,6 +16,16 @@
               Local Talk
             </span>
           </h1>
+
+          {{#unless features.disable-content-creation}}
+            <div data-test-component='content-create-button' class='SectionNavigation-contentCreateButtonMobile pull-right'>
+              {{#link-to 'talk.new.details' class='Button SectionNavigation-contentCreateButton btn btn-default Button--talk' data-test-link='content-create-button'}}
+                <span class="visible-xs-inline visible-sm-inline">+</span>
+                <span class="hidden-xs hidden-sm">Create</span>
+                Talk
+              {{/link-to}}
+            </div>
+          {{/unless}}
           <div class="hidden-xs">
             {{partial 'partials/pagination-nav'}}
           </div>
