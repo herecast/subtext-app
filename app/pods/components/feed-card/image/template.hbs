@@ -1,10 +1,17 @@
 {{#if hasImage}}
   {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
     <div class="FeedCard-Image-image" style={{imageStyle}}>
-      {{#if hasCaption}}
+      {{#if hasExcerpt}}
         <div class="FeedCard-Image-gradient">
-          <div class="FeedCard-Image-caption">
-            {{caption}}
+          <div class="FeedCard-Image-excerpt">
+            {{excerpt}}
+            {{#if showContinueReading}}
+              <div class="FeedCard-Image-continue-reading">
+                {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
+                  ...Continue Reading
+                {{/link-to}}
+              </div>
+            {{/if}}
           </div>
         </div>
       {{/if}}

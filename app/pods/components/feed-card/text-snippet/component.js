@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import textSnippet from 'subtext-ui/mixins/components/text-snippet';
 
-const { get, computed, isPresent, inject:{service} } = Ember;
+const { get, computed, inject:{service} } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(textSnippet, {
   classNames: 'FeedCard-TextSnippet',
   classNameBindings: ['isSnipped:snipped-text', 'isBlurred:blurred-text'],
 
@@ -14,21 +15,9 @@ export default Ember.Component.extend({
 
   maxSnippetLength: 200,
 
-  textSnippet: computed('content', function() {
-    const content = get(this, 'content');
-    const strippedOfHTML = isPresent(content) ? content.replace(/(<([^>]+)>)/ig,"") : '';
-    const maxSnippetLength = get(this, 'maxSnippetLength');
-
-    if (strippedOfHTML.length > maxSnippetLength) {
-      return strippedOfHTML.substring(0, maxSnippetLength-1);
-    }
-
-    return strippedOfHTML;
-  }),
-
-  isSnipped: computed('textSnippet', 'showTextSnippet', function() {
+  showContinueReading: computed('isSnipped', 'showTextSnippet', function() {
     if (get(this, 'showTextSnippet')) {
-      return get(this, 'textSnippet').length >= get(this, 'maxSnippetLength') - 1;
+      return get(this, 'isSnipped');
     }
 
     return false;

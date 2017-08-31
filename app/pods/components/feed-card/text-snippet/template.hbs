@@ -1,6 +1,6 @@
 {{#if showTextSnippet}}
   {{textSnippet}}
-  {{#if isSnipped}}
+  {{#if showContinueReading}}
     <div class="FeedCard-TextSnippet-continue-reading">
       {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
         ...Continue Reading
