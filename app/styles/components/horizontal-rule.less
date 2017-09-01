@@ -1,0 +1,26 @@
+.HorizontalRule {
+  .flex-display();
+  .align-items(center);
+  .justify-content(center);
+  position: relative;
+  padding: 20px 0;
+  width: 100%;
+
+  &-line {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: solid 1px darken(@gray-light, 5%);
+    margin: 0;
+    padding: 0;
+  }
+
+  &-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin: auto;
+  }
+}

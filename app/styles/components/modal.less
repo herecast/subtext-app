@@ -1,7 +1,7 @@
 .Modal {
   width: 100vw;
   height: 100vh;
-  background: rgba(3,3,3, 0.4);
+  background: rgba(3, 3, 3, 0.4);
   position: fixed;
   top: 0;
   left: 0;
@@ -21,44 +21,58 @@
     height: calc(100% + 1px);
   }
 
-  &--no-padding {
-    .Modal-dialog {
-      padding: 0;
-    }
+  &--willAnimateAway {
+    .flex-display();
+    .flex-direction(column);
   }
 
-  &-actionClose { }
+  &--no-padding {
+    .Modal-dialog {
+      padding: 0 0 45px 0;
+    }
+  }
 
   &-dialogHeader {
     overflow: hidden;
     font-weight: bold;
-    position: relative;
     min-height: 25px;
-
-    .Modal-actionClose {
-      background: none;
-      border: 0;
-      font-size: 50px;
-      font-weight: normal;
-      padding: 0;
-      display: block;
-      position: absolute;
-      right: 0;
-      top: 0;
-      vertical-align: middle;
-    }
   }
 }
 
 .Modal-dialog {
-  margin: 40px auto;
+  margin: 5vh auto;
   max-width: 640px;
   background: #fff;
   box-shadow: 3px 3px 15px #333;
-  padding: 10px;
+  padding: 10px 10px 45px 10px;
   transition: all 0.5s;
   z-index: 102;
   position: relative;
+
+  &-body {
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &-wrapper {
+      overflow: hidden;
+      max-height: 85vh;
+    }
+  }
+
+  .Modal-actionClose {
+    border: 0;
+    border-top: solid 1px darken(@gray-light, 10%);
+    font-weight: normal;
+    line-height: 45px;
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+  }
 
   .form-actions {
     text-align: center;
@@ -77,11 +91,14 @@
   width: 100%;
   width: 100vw;
   max-width: 100%;
-  height: 100vh;
-  position: absolute;
+  min-height: 100vh;
   margin: 0;
-  overflow: auto;
-  padding-bottom: 200px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+
+  .Modal-dialog-body {
+    max-height: 90vh;
+  }
 
   &.Modal-dialog--visible {
     opacity: 1;
@@ -94,16 +111,37 @@
   margin: 10px -10px -10px -10px;
 }
 
+.Modal-dialog-inset {
+  width: 90vw;
+  max-height: 90vh;
+  min-height: 0;
+  height: auto;
+  margin: 5vh 5vw;
+  padding-bottom: 45px;
+  box-sizing: border-box;
+
+  .Modal-dialog-body {
+    padding-bottom: 45px;
+  }
+}
+
 @media (max-width: @screen-xs-max) {
   .Modal-dialog {
     .Modal-dialog--fullscreen;
 
     &--small {
-      width: 90vw;
-      max-height: 90vh;
-      height: auto;
-      margin: 5vh 5vw;
-      padding-bottom: 10px;
+      .Modal-dialog-inset;
+    }
+  }
+
+  .Modal--willAnimateAway {
+    .Modal-dialog {
+      .Modal-dialog-inset;
+
+      &-body {
+        max-height: 85vh;
+        padding-bottom: 45px;
+      }
     }
   }
 }
@@ -113,10 +151,10 @@
     .Modal-dialog--fullscreen;
 
     &--small {
-      // Force it to go full screen. Match the min-height to the same height calculation of its container.
-      min-height: calc(100% + 1px);
+      min-height: 100vh;
       width: 100vw;
       padding-bottom: 10px;
+      box-sizing: border-box;
     }
   }
 }

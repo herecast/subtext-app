@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('content-comment', {
   // Specify the other units that are required for this test
-  needs: ['component:report-abuse', 'component:avatar-image']
+  needs: ['component:report-abuse', 'component:avatar-image', 'component:media-container']
 });
 
 test('it renders', function(assert) {

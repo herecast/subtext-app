@@ -1,14 +1,12 @@
-<span class='SocialShare-title hidden-xs'>Share&nbsp;</span>
-
 {{#unless isTalkChannel}}
-  <a href='#' {{action 'shareFacebook'}} class='SocialShare-icon'>
+  {{#x-button onClick=(action 'shareFacebook') size='small' color='facebook' style='outline-gray' rounded='circle'}}
     {{fa-icon 'facebook'}}
-  </a>
-  <a href='{{twitterLink}}' class='SocialShare-icon'>
+  {{/x-button}}
+  {{#x-link-url href=twitterLink size='small' color='twitter' style='outline-gray' rounded='circle'}}
     {{fa-icon 'twitter'}}
-  </a>
+  {{/x-link-url}}
 {{/unless}}
 
-<a href='#' {{action 'shareEmail'}} class='SocialShare-icon'>
+{{#x-button onClick=(action 'shareEmail') size='small' style='outline-gray' rounded='circle'}}
   {{fa-icon 'envelope'}}
-</a>
+{{/x-button}}

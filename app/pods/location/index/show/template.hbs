@@ -1,5 +1,4 @@
-{{#modal-wrapper class="Modal--no-padding" close=(action 'closeDetailPage') showHeader=false as |modal|}}
-
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeDetailPage') willAnimateAway=true showHeader=false as |modal|}}
   {{component componentName
     model=model
     closeRoute='location.index'

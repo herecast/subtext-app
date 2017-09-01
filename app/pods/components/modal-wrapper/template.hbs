@@ -1,9 +1,27 @@
-<div class='Modal-inner'>
-  <div class='Modal-dialog {{if isSmall "Modal-dialog--small"}} {{if fullscreen "Modal-dialog--fullscreen"}} {{if isAnimated 'animated'}}'>
+<div style="{{modalInnerStyle}}" class='Modal-inner {{if willAnimateAway 'Modal-inner--willAnimateAway'}}'>
+
+  <div style="{{modalDialogStyle}}"
+       class='Modal-dialog
+              {{if isSmall "Modal-dialog--small"}}
+              {{if fullscreen "Modal-dialog--fullscreen"}}
+              {{if isAnimated 'animated'}}'>
+
     {{#if showHeader}}
-      {{modal-header close=close title=title}}
+      {{modal-header title=title}}
     {{/if}}
 
-    {{yield this}}
+    {{#if close}}
+      {{#x-button color="light-gray" rounded=false class='Modal-actionClose' onClick=(action 'closeModal') data-test-component='modal-close-button'}}
+        {{fa-icon 'close'}}
+      {{/x-button}}
+    {{/if}}
+
+    <div class="Modal-dialog-body-wrapper">
+      <div class="Modal-dialog-body" style="{{modalBodyStyle}}">
+        {{yield this}}
+      </div>
+    </div>
+
   </div>
+
 </div>
