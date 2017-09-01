@@ -1,9 +1,8 @@
 import Ember from 'ember';
 import ExpandableContent from '../mixins/components/expandable-content';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
-import {chunk} from 'lodash';
 
-const { get, computed, inject, on, isPresent } = Ember;
+const { get, inject, on, isPresent } = Ember;
 
 export default Ember.Component.extend(ExpandableContent, FastbootExtensions, {
   classNames:[ 'SimilarContent'],
@@ -38,13 +37,5 @@ export default Ember.Component.extend(ExpandableContent, FastbootExtensions, {
       // ensure fastboot waits for promise before rendering
       this.deferRenderingIfFastboot(promise);
     }
-  }),
-
-  /**
-   * Group the content into rows of two items per row
-   */
-  groupedContent: computed('contentToDisplay.[]', function() {
-    const contentToDisplay = get(this, 'contentToDisplay');
-    return chunk(contentToDisplay, 2);
   })
 });

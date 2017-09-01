@@ -10,5 +10,6 @@ test('it renders', function(assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
   this.render(hbs`{{social-share}}`);
-  assert.ok(this.$());
+
+  assert.equal(this.$().text().trim(), 'Share');
 });

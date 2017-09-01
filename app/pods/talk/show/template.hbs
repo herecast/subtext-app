@@ -1,4 +1,4 @@
-{{#modal-wrapper class="Modal--no-padding" close=(action 'closeTalkDetailPage') willAnimateAway=true showHeader=false as |modal|}}
+{{#modal-wrapper class="Modal--no-padding" close=(action 'closeTalkDetailPage') showHeader=false as |modal|}}
   {{#if (eq ctype 'news')}}
     {{news-detail
       model=model

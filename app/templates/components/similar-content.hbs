@@ -1,13 +1,28 @@
 {{#if content}}
   <div class='Section'>
-    {{#each groupedContent as |contentGroup|}}
-      <div class='row'>
-        {{#each contentGroup as |content|}}
-          <div class='col-sm-6'>
-            {{small-card item=content}}
-          </div>
-        {{/each}}
-      </div>
-    {{/each}}
+    <div class='row'>
+      {{#each contentToDisplay as |content|}}
+        <div class='col-xs-12'>
+          {{content-card
+            item=content
+            showLink=false
+            isSimilarContent=true
+            sourceContentId=sourceContentId
+          }}
+        </div>
+      {{/each}}
+    </div>
+
+    {{#if hasMore}}
+    <div class='u-textCentered'>
+      <button class='Button btn h4 Button--viewMoreBtn' {{action 'toggleMore'}}>
+        {{#if showAll}}
+          View less {{fa-icon 'caret-up'}}
+        {{else}}
+          View more {{fa-icon 'caret-down'}}
+        {{/if}}
+      </button>
+    </div>
+    {{/if}}
   </div>
 {{/if}}

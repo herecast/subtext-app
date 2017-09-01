@@ -1,4 +1,22 @@
 <header class="DetailPage-navTop-container">
+  {{#unless isPreview}}
+    <div class="DetailPage-navTop u-flexRow">
+      {{detail-page-close-link defaultCloseRoute=closeRoute closeLabel=closeLabel}}
+
+      <img class='DetailPage-navTop-logo visible-xs'
+           src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
+
+      <div class="DetailPage-navTop-social-shareWrapper">
+        {{social-share
+          title=model.title
+          authorName=model.organization.name
+          twitterHandle=model.organization.twitterHandle
+          sharedBy=session.userName
+          model=model
+        }}
+      </div>
+    </div>
+  {{/unless}}
   {{#if model.imageUrl}}
     {{header-image
       imageUrl=model.imageUrl
@@ -65,9 +83,8 @@
 
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section DetailPage-content ContentText">
-    {{#title-text strong=true}}From the Organizer{{/title-text}}
-
-    <div class="ContentText" data-test-event-detail-content>
+    <h3 class='DetailPage-sectionTitle'>From the Organizer</h3>
+      <div class="ContentText" data-test-event-detail-content>
         {{{ model.content }}}
       </div>
   </div>
@@ -89,7 +106,7 @@
 
 <div class='DetailPage-sectionWrapper'>
   <div class="DetailPage-section">
-    {{#title-text strong=true}}Additional Dates{{/title-text}}
+    <h3 class='DetailPage-sectionTitle'>Additional Dates</h3>
     {{event-other-dates event=model}}
   </div>
 </div>
@@ -98,7 +115,7 @@
   <div class='DetailPage-section DetailPage-moreContent'>
     <div class="row">
       <div class="col-xs-6">
-        {{#title-text strong=true}}Price{{/title-text}}
+        <h4 class="DetailPage-sectionTitle">Price</h4>
         <p><em>{{dash-if-empty model.formattedCostType}}</em></p>
         {{#if model.costType}}
           <span data-test-event-detail-cost>{{model.cost}}</span>
@@ -106,7 +123,7 @@
       </div>
       {{#if hasContactInfo}}
         <div class="col-xs-6">
-          {{#title-text strong=true}}Contact{{/title-text}}
+          <h4 class="DetailPage-sectionTitle">Contact</h4>
           {{#if model.eventUrl}}
             <div>
               {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
@@ -135,6 +152,16 @@
 </div>
 
 {{#unless isPreview}}
+  <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+{{/unless}}
+
+{{#unless isPreview}}
   {{#if model.canEdit}}
     {{edit-content-link
       contentId=model.eventId
@@ -142,34 +169,12 @@
       text='Edit Event'
     }}
   {{/if}}
+{{/unless}}
 
-  {{#horizontal-rule}}
-    {{social-share
-      title=model.title
-      authorName=model.organization.name
-      twitterHandle=model.organization.twitterHandle
-      sharedBy=session.userName
-      model=model
-    }}
-  {{/horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-comments">
-      {{#title-text strong=true}}Comments{{/title-text}}
-
-      {{content-comments
-        content=model
-        scrollToAnchor=scrollToAnchor
-        scrollTo=(action scrollTo)
-      }}
-    </div>
-  </div>
-
-  {{horizontal-rule}}
-
+{{#unless isPreview}}
   <div class='DetailPage-sectionWrapper'>
     <div class='DetailPage-similarContent'>
-      {{#title-text strong=true}}Suggested{{/title-text}}
+      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
 
       {{similar-content
         contentId=model.contentId
@@ -178,14 +183,15 @@
     </div>
   </div>
 
-  {{horizontal-rule}}
-
   <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
+    <div class="DetailPage-section DetailPage-comments">
+      <h1 class='DetailPage-sectionTitle h2'>Talk</h1>
+
+      {{content-comments
+        content=model
+        scrollToAnchor=scrollToAnchor
+        scrollTo=(action scrollTo)
       }}
     </div>
   </div>
-
 {{/unless}}

@@ -1,6 +1,14 @@
+{{! flex's row-reverse is used so close button appears on right, so add items in reverse order }}
+
+{{#if close}}
+  <button class='ModalHeader-action' onclick={{action close}}>
+    {{fa-icon 'close'}}
+  </button>
+{{/if}}
+
 <div class="ModalHeader-content">
+  {{yield}}
   {{#if title}}
     <span class='ModalHeader-title'>{{title}}</span>
   {{/if}}
-  {{yield}}
 </div>
