@@ -47,11 +47,5 @@ export default Ember.Controller.extend(PaginatedFilter, LocationMixin, {
 
   trackDetailPageViews(contentId) {
     this._gtmTrackEvent('detail-page-viewed', `detail-page-viewed-${contentId}`);
-  },
-
-  actions: {
-    seeMoreButtonClicked() {
-      this._gtmTrackEvent('see-more-button-clicked');
-    }
   }
 });

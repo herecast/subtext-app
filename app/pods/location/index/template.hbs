@@ -1,25 +1,35 @@
-<div data-test-page='location.index'>
-  {{#channel-filters channel='index'}}
-    {{location-radius-control
-      location=(readonly userLocation.location)
-      radius=(readonly radius)
-      onChooseRadius=(action "changeRadius")
-      onChooseLocation=(action 'chooseLocation')
+<div class="Location-Index">
+  <div data-test-page='location.index'>
+    {{#channel-filters channel='index'}}
+      {{location-radius-control
+        location=(readonly userLocation.location)
+        radius=(readonly radius)
+        onChooseRadius=(action "changeRadius")
+        onChooseLocation=(action 'chooseLocation')
+      }}
+    {{/channel-filters}}
+
+    {{feed/index-feed
+      feedContents=model
     }}
-  {{/channel-filters}}
 
-  {{feed/index-feed
-    feedContents=model
-  }}
+    {{#infinity-loader
+      infinityModel=model
+    }}
+      {{#unless model.reachedInfinity}}
+        {{fa-icon 'spinner' class="fa-pulse"}}
+      {{else}}
+        <div class="infinity-loader-end-of-content">
+          That's Everything
+        </div>
+      {{/unless}}
+    {{/infinity-loader}}
 
-  {{feed/model-auto-loader
-    infinityModel=model
-    seeMoreButtonClicked=(action 'seeMoreButtonClicked')
-  }}
+    {{#floating-action-button}}
+      {{jobs-navigation}}
+    {{/floating-action-button}}
 
-  {{#floating-action-button}}
-    {{jobs-navigation}}
-  {{/floating-action-button}}
+    {{outlet}}
 
-  {{outlet}}
+  </div>
 </div>

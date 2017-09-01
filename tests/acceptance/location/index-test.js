@@ -19,10 +19,5 @@ test('visiting index shows feed', function(assert) {
   andThen(function() {
     assert.equal(currentURL(), `/${locationId}/`, 'should be on index page');
     assert.equal(find(testSelector('feed-card')).length, 20, 'should show first 20 content items');
-
-      click(find(testSelector('see-more-content')));
-      andThen(function() {
-        assert.equal(find(testSelector('see-more-content')).length, 0, 'should remove the see more content button after click');
-      });
   });
 });
