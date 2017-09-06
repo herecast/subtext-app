@@ -32,7 +32,7 @@ test('visiting /events/show', function(assert) {
     assert.ok(find(testSelector('component', 'event-other-dates')), 'it should show the other events component');
   });
 
-  click(testSelector('link', 'close-detail-page'));
+  click(testSelector('component', 'modal-close-button'));
 
   andThen(function() {
     assert.equal(currentURL(), `/${location.id}/events`, 'clicking close button should go to /{location id}/events/');

@@ -197,6 +197,24 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackCloseModalClickOutside() {
+    this.push({
+      event: 'CloseModalClickOutside'
+    });
+  },
+
+  trackCloseModalClickButton() {
+    this.push({
+      event: 'CloseModalClickButton'
+    });
+  },
+
+  trackCloseModalSlideAway() {
+    this.push({
+      event: 'CloseModalSlideAway'
+    });
+  },
+
   /** Private **/
 
   _eventuallyGetClientId() {

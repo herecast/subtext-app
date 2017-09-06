@@ -1,23 +1,21 @@
-
-{{avatar-image
-  imageUrl=comment.userImageUrl
-  userName=comment.userName
-}}
-<div class='Comment-body'>
-  <div class='Comment-userName'>
-    {{comment.userName}}
-  </div>
-
-  <div class='Comment-date'>
-    {{comment.formattedPostedAt}}
-  </div>
-
-  <div class='Comment-content'>
-    {{{comment.content}}}
-
-    {{report-abuse
-      contentId=comment.contentId
-      tagName='span'
+{{#media-container as |media|}}
+  {{#media.object}}
+    {{avatar-image
+      imageUrl=comment.userImageUrl
+      userName=comment.userName
     }}
-  </div>
-</div>
+  {{/media.object}}
+  {{#media.content}}
+    {{{comment.content}}}
+    {{#text-block lighten=true small=true}}
+      {{comment.userName}}
+      &bull;
+      {{comment.formattedPostedAt}}
+      &bull;
+      {{report-abuse
+        contentId=comment.contentId
+        tagName='span'
+      }}
+    {{/text-block}}
+  {{/media.content}}
+{{/media-container}}

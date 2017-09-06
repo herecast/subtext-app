@@ -1,22 +1,5 @@
 <article>
   <header class="DetailPage-navTop-container">
-    {{#unless isPreview}}
-      <div class="DetailPage-navTop u-flexRow">
-        {{detail-page-close-link defaultCloseRoute=closeRoute closeLabel=closeLabel}}
-
-        <img class='DetailPage-navTop-logo visible-xs' src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
-
-        <div class="DetailPage-navTop-social-shareWrapper">
-          {{social-share
-            title=model.title
-            authorName=model.organization.name
-            twitterHandle=model.organization.twitterHandle
-            sharedBy=session.userName
-            model=model
-          }}
-        </div>
-      </div>
-    {{/unless}}
 
     {{#if model.featuredImageUrl}}
       <div class='DetailPage-headerImage-wrapper'>
@@ -91,23 +74,7 @@
     </div>
 
     <div class="DetailPage-content News-content ContentText">
-
-      {{#if isPreview}}
-        {{{ model.content }}}
-      {{else}}
-        {{{model.splitContent.head}}}
-        <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
-          <div class='messageBar'>
-            Advertisement: Content continues below...
-          </div>
-          {{ad-banner
-            contentModel=model
-            pagePlacement='in-news-detail-body'
-            placeholderBlockFixedSize=true
-          }}
-        </div>
-        {{{model.splitContent.tail}}}
-      {{/if}}
+      {{{ model.content }}}
     </div>
   </div>
 
@@ -117,25 +84,7 @@
         contentId=model.contentId
       }}
     </div>
-  {{/unless}}
 
-  {{#unless isPreview}}
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-startDiscussion'>
-        <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
-          {{#if model.commentCount}}
-            {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
-          {{else}}
-            {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
-          {{/if}}
-        </button>
-      </div>
-    </div>
-
-
-  {{/unless}}
-
-  {{#unless isPreview}}
     {{#if canEdit}}
       {{edit-content-link
         contentId=model.id
@@ -144,23 +93,24 @@
       }}
     {{/if}}
 
-  {{/unless}}
-
-  {{#unless isPreview}}
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-similarContent'>
-        <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
-
-        {{similar-content
-          contentId=model.contentId
-          limit=4
-        }}
-      </div>
-    </div>
+    {{#horizontal-rule}}
+      {{social-share
+        title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
+        sharedBy=session.userName
+        model=model
+      }}
+    {{/horizontal-rule}}
 
     <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-comments'>
-        <h2 class='DetailPage-sectionTitle h2'>Talk</h2>
+        {{#title-text strong=true}}
+          Comments
+          {{#if model.commentCount}}
+            <span class="DetailPage-comments-count">{{model.commentCount}}</span>
+          {{/if}}
+        {{/title-text}}
 
         {{content-comments
           content=model
@@ -169,5 +119,32 @@
         }}
       </div>
     </div>
+
+    {{horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#title-text strong=true}}Suggested{{/title-text}}
+
+        {{similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+      </div>
+    </div>
   {{/unless}}
+
+  {{horizontal-rule}}
+
+  <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
+    <div class='messageBar'>
+      Advertisement
+    </div>
+    {{ad-banner
+      contentModel=model
+      pagePlacement='in-news-detail-body'
+      placeholderBlockFixedSize=true
+    }}
+  </div>
+
 </article>

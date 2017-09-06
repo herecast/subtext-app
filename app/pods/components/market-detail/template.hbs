@@ -1,23 +1,4 @@
 <header class="DetailPage-navTop-container">
-
-  {{#unless isPreview}}
-    <div class="DetailPage-navTop u-flexRow">
-      {{detail-page-close-link defaultCloseRoute=closeRoute closeLabel=closeLabel}}
-
-      <img class='DetailPage-navTop-logo visible-xs' src='https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg'>
-
-      <div class="DetailPage-navTop-social-shareWrapper">
-        {{social-share
-        title=model.title
-        authorName=model.organization.name
-        twitterHandle=model.organization.twitterHandle
-        sharedBy=session.userName
-        model=model
-        }}
-      </div>
-    </div>
-  {{/unless}}
-
   {{#if activeImage}}
     {{header-image
       imageUrl=activeImage
@@ -93,6 +74,29 @@
     {{/if}}
   {{/unless}}
 
+  {{#horizontal-rule}}
+    {{social-share
+      title=model.title
+      authorName=model.organization.name
+      twitterHandle=model.organization.twitterHandle
+      sharedBy=session.userName
+      model=model
+    }}
+  {{/horizontal-rule}}
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-similarContent">
+      {{#title-text strong=true}}Suggested{{/title-text}}
+
+      {{similar-content
+      contentId=model.contentId
+      limit=4
+      }}
+    </div>
+  </div>
+
+  {{horizontal-rule}}
+
   <div class='DetailPage-sectionWrapper'>
     <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
       {{ad-banner
@@ -100,16 +104,5 @@
       }}
     </div>
   </div>
-{{/unless}}
 
-{{#unless isPreview}}
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-similarContent">
-      <h2 class='DetailPage-sectionTitle h2'>Suggested</h2>
-      {{similar-content
-      contentId=model.contentId
-      limit=4
-      }}
-    </div>
-  </div>
 {{/unless}}

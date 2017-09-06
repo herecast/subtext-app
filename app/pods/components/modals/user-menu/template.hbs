@@ -1,14 +1,14 @@
 {{#modal-wrapper class='UserMenuModal' showHeader=false close=(action 'close') isSmall=true}}
 
-  {{#modal-header close=(action 'close')}}
+  {{#modal-header}}
+    <span class="UserMenuModal-name">
+      {{currentUser.name}}
+    </span>
     {{avatar-image
       imageUrl=currentUser.userImageUrl
       userName=currentUser.name
       customSize=26
     }}
-    <span class="UserMenuModal-name">
-      {{currentUser.name}}
-    </span>
   {{/modal-header}}
 
   <nav class="UserMenuModal-topNav">
