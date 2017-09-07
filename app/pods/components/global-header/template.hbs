@@ -28,8 +28,8 @@
       </div>
 
       <div class='MainNav-brand u-flexRow'>
-        <h1 class='MainNav-brand-logo' data-test-brand>
-          {{#link-to 'index' (query-params page=1) data-test-link='header-link'}}
+        <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
+          {{#link-to 'index' data-test-link='header-link'}}
             {{brand-logo}}
           {{/link-to}}
         </h1>

@@ -1,3 +1,4 @@
+/* global window */
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
@@ -52,6 +53,9 @@ export default Ember.Component.extend(TestSelector, {
     openAccountSettings() {
       set(this, 'showUserMenu', false);
       get(this, 'routing').transitionTo('account');
+    },
+    logoClicked() {
+      Ember.$(window).scrollTop(0);
     }
   }
 });

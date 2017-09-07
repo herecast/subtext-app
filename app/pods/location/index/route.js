@@ -1,12 +1,11 @@
 import Ember from 'ember';
 import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
-import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 
 const { inject, get } = Ember;
 
-export default Ember.Route.extend(MaintainScroll, NavigationDisplay, InfinityRoute, History, {
+export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   hideFooter: true,
 
   userLocation: inject.service('user-location'),

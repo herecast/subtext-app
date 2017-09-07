@@ -59,7 +59,9 @@ export default Ember.Component.extend({
     },
     registerModal() {
       get(this, 'modals').showModal('modals/sign-in-register', 'register');
+    },
+    logoClicked() {
+      Ember.$(window).scrollTop(0);
     }
-
   }
 });
