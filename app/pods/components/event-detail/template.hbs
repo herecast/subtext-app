@@ -154,6 +154,16 @@
   {{/horizontal-rule}}
 
   <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+
+  {{horizontal-rule}}
+
+  <div class='DetailPage-sectionWrapper'>
     <div class="DetailPage-section DetailPage-comments">
       {{#title-text strong=true}}Comments{{/title-text}}
 
@@ -174,16 +184,6 @@
       {{similar-content
         contentId=model.contentId
         limit=4
-      }}
-    </div>
-  </div>
-
-  {{horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
       }}
     </div>
   </div>

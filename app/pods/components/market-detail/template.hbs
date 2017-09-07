@@ -85,12 +85,9 @@
   {{/horizontal-rule}}
 
   <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-similarContent">
-      {{#title-text strong=true}}Suggested{{/title-text}}
-
-      {{similar-content
-      contentId=model.contentId
-      limit=4
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
       }}
     </div>
   </div>
@@ -98,9 +95,12 @@
   {{horizontal-rule}}
 
   <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
+    <div class="DetailPage-section DetailPage-similarContent">
+      {{#title-text strong=true}}Suggested{{/title-text}}
+
+      {{similar-content
+      contentId=model.contentId
+      limit=4
       }}
     </div>
   </div>

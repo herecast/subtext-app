@@ -66,6 +66,16 @@
   {{/horizontal-rule}}
 
   <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+
+  {{horizontal-rule}}
+
+  <div class='DetailPage-sectionWrapper'>
     <div class="DetailPage-section DetailPage-comments">
       {{#title-text strong=true}}
         Comments
@@ -95,13 +105,4 @@
     </div>
   </div>
 
-  {{horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
-      }}
-    </div>
-  </div>
 {{/unless}}

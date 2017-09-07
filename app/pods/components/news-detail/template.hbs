@@ -104,6 +104,16 @@
     {{/horizontal-rule}}
 
     <div class='DetailPage-sectionWrapper'>
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        {{ad-banner
+          contentModel=model
+        }}
+      </div>
+    </div>
+
+    {{horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-comments'>
         {{#title-text strong=true}}
           Comments
@@ -133,18 +143,5 @@
       </div>
     </div>
   {{/unless}}
-
-  {{horizontal-rule}}
-
-  <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
-    <div class='messageBar'>
-      Advertisement
-    </div>
-    {{ad-banner
-      contentModel=model
-      pagePlacement='in-news-detail-body'
-      placeholderBlockFixedSize=true
-    }}
-  </div>
 
 </article>
