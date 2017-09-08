@@ -18,6 +18,10 @@ export default Ember.Component.extend({
   willAnimateAway: false,
   animateAway: false,
 
+  windowHeight: 1000,
+  isScrollingBody: false,
+  isBodyAtBottom: false,
+
   showHeader: computed('title', function() {
     return isPresent(get(this, 'title'));
   }),
@@ -62,9 +66,6 @@ export default Ember.Component.extend({
     return `scroll.modal-body-${get(this, 'elementId')}`;
   }),
 
-  windowHeight: 1000,
-  isScrollingBody: false,
-
   totalScrollDistance: computed('windowHeight', 'media.isMobile', function() {
     if (get(this, 'media.isMobile')) {
       return get(this, 'windowHeight') * 0.25;
@@ -88,11 +89,11 @@ export default Ember.Component.extend({
     return Ember.String.htmlSafe(style);
   }),
 
-  modalInnerStyle: computed('totalScrollDistance', 'willAnimateAway', 'isScrollingBody',  function() {
+  modalInnerStyle: computed('totalScrollDistance', 'willAnimateAway', 'isScrollingBody', 'isBodyAtBottom',  function() {
     let style = '';
 
-    if (get(this, 'isScrollingBody')) {
-      style = 'margin-bottom: 0';
+    if (get(this, 'isScrollingBody') || ! get(this, 'isBodyAtBottom')) {
+      style = 'margin-bottom: 0; overflow: hidden';
     } else if (get(this, 'willAnimateAway')) {
       style = `margin-bottom: ${get(this, 'totalScrollDistance') + 100}px`;
     }
@@ -169,7 +170,26 @@ export default Ember.Component.extend({
   _recordWindowHeight() {
     if (!get(this, 'isDestroyed')) {
       set(this, 'windowHeight', Math.max(document.documentElement.clientHeight, window.innerHeight || 0));
+      this._determineIfBodyAtBottom();
     }
+  },
+
+  /**
+   * Determine if the modal dialog body is scrolled to the bottom,
+   * so we can determine if we should allow the overlay to scroll,
+   * so the user can swipe the modal away if `willAnimateAway` is true.
+   *
+   * @see https://stackoverflow.com/questions/876115/how-can-i-determine-if-a-div-is-scrolled-to-the-bottom#876134
+   * @private
+   */
+  _determineIfBodyAtBottom() {
+    const $modalBody = this.$().find('.Modal-dialog-body');
+    const scrollHeight = $modalBody.get(0).scrollHeight;
+    const scrollTop = $modalBody.scrollTop();
+    const height = $modalBody.outerHeight();
+
+    const diff = scrollHeight - height - scrollTop;
+    set(this, 'isBodyAtBottom', diff < 1);
   },
 
   didInsertElement() {
@@ -179,6 +199,9 @@ export default Ember.Component.extend({
     // Addresses this problem: https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html
     this._recordWindowHeight();
     Ember.$(window).on(get(this, 'keyForResizeEvent'), debounce(() => this._recordWindowHeight(), 50));
+
+    // Determine if we are at the bottom of the dialog already
+    this._determineIfBodyAtBottom();
 
     if (get(this, 'willAnimateAway')) {
       const $this = this.$();
@@ -203,6 +226,7 @@ export default Ember.Component.extend({
       const debouncedScrollingBody = debounce(() => {
         if (!get(this, 'isDestroyed') && get(this, 'isScrollingBody')) {
           set(this, 'isScrollingBody', false);
+          this._determineIfBodyAtBottom();
           $this.css({opacity: 1});
         }
       }, 750);
@@ -253,6 +277,7 @@ export default Ember.Component.extend({
       const $el = this.$();
       if ($el && $el.length) {
         this.$().find('.Modal-dialog-body').scrollTop(offset);
+        this._determineIfBodyAtBottom();
       }
     },
     closeModal() {
