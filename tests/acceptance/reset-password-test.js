@@ -71,8 +71,8 @@ test('filling out lost password edit form', function(assert) {
     fillIn(testSelector('field', 'password-reset-form-confirm-password'), '123abc');
 
     click(testSelector('password-reset-form-submit')).then(() => {
-      assert.ok(find(testSelector('password-reset-form-confirmation')).length,
-        "Should see confirmation message; After submitting form."
+      assert.equal(currentURL(), '/sign_in',
+          "After successful reset, redirects to sign in "
       );
     });
   });

@@ -12,6 +12,8 @@ const {
 export default Ember.Component.extend(TestSelector, {
   api: inject.service('api'),
   windowLocation: inject.service('windowLocation'),
+  router : inject.service('-routing'),
+  notify: inject.service('notification-messages'),
   returnUrl: null,
   tagName: 'form',
   showErrors: false,
@@ -31,6 +33,7 @@ export default Ember.Component.extend(TestSelector, {
 
       if (get(this, 'passwordsMatch')) {
         const api = get(this, 'api');
+        const notify = get(this, 'notify');
         set(this, 'showErrors', false);
 
         api.resetPassword({
@@ -43,6 +46,9 @@ export default Ember.Component.extend(TestSelector, {
           set(this, 'showConfirmation', true);
           if(isPresent(returnUrl)) {
             windowLocation.redirectTo(returnUrl);
+          } else {
+            get(this, 'router').transitionTo('login');
+            notify.success('Password Successfully Updated!  Please Sign In.');
           }
         }, (response) => {
           if (isBlank(response)) {
@@ -50,6 +56,7 @@ export default Ember.Component.extend(TestSelector, {
             set(this, 'showConfirmation', true);
           } else {
             set(this, 'serverErrors', response.errors);
+            notify.error('There was problem updating your password.');
             set(this, 'showErrors', true);
           }
         });
