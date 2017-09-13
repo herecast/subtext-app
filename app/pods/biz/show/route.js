@@ -3,12 +3,23 @@ import Ember from 'ember';
 const {get, set, RSVP:{hash}, inject:{service}} = Ember;
 
 export default Ember.Route.extend({
+  queryParams: {
+    query: {
+      replace: true,
+      refreshModel: true
+    }
+  },
+
   fastboot: service(),
 
   model(params) {
     return hash({
       businessProfile: this.store.queryRecord('business-profile', {'organization_id': params.id}),
-      organizationContents: this.store.query('organization-content', {'organization_id': params.id, 'per_page':10000})
+      organizationContents: this.store.query('organization-content', {
+        'query' : params.query,
+        'organization_id': params.id,
+        'per_page':10000
+      })
     });
   },
 

@@ -3,6 +3,8 @@ import Ember from 'ember';
 const {computed, get} = Ember;
 
 export default Ember.Controller.extend({
+  query: '',
+  queryParams: ['query'],
   managedOrganizations: computed.oneWay('session.currentUser.managedOrganizations'),
   channelLinksEnabled: false,
 

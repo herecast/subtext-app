@@ -16,8 +16,13 @@ export default Ember.Component.extend(TestSelector, {
 
   keyUp: function(e) {
     const esc = 27;
+    const enter = 13;
+
     if(e.which === esc) {
       this._updateAction("");
+    } else if(e.which === enter) {
+      // unfocus so the mobile keyboard will hide.
+      Ember.$(e.target).blur();
     }
   },
 

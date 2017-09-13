@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
-const {set, setProperties} = Ember;
+const {
+  set,
+  get,
+  computed,
+  setProperties
+} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'BizFeed',
@@ -11,6 +16,18 @@ export default Ember.Component.extend({
 
   inPublicPreviewMode: false,
   activeTab: 'public',
+
+  showSearchBox: computed('updateQuery', 'query', 'contents.[]', function() {
+    const hasAction = get(this, 'updateQuery');
+    const hasQuery = get(this, 'query.length');
+    const hasContents = get(this, 'contents.length');
+
+    if(hasAction) {
+      return hasQuery || hasContents;
+    } else {
+      return false;
+    }
+  }),
 
   actions: {
     switchTab(tab) {

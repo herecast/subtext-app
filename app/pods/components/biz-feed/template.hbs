@@ -25,6 +25,12 @@
   </div>
 {{/if}}
 
+{{#if showSearchBox}}
+  <div class='BizFeed-search'>
+    {{search-input value=query update=updateQuery data-test-component='organization-content-query'}}
+  </div>
+{{/if}}
+
 {{#if isOrganizationManager}}
   <div class="BizFeed-manage-feed {{activeTab}}">
     {{#each contents as |content|}}

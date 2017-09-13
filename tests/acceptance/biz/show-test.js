@@ -120,3 +120,39 @@ test('visiting /biz/:id for a business that does not have bizFeedActive redirect
     Ember.run(application, 'destroy');
   });
 });
+
+test('search', function(assert) {
+  const done = assert.async();
+
+  const organization = server.create('organization');
+  server.create('business-profile', {
+    organizationId: organization.id,
+    bizFeedActive: true
+  });
+  server.createList('organization-content', 10);
+
+  server.get('/organizations/:id/contents', function({organizationContents}, request) {
+    if(request.queryParams.query ==='test-query') {
+      assert.ok(true, 'entering query requests queried data from API');
+      done();
+    }
+
+    return organizationContents.all();
+  });
+
+  visit(`/biz/${organization.id}`);
+
+  andThen(()=>{
+
+    const $searchComponent = find(testSelector('component', 'organization-content-query'));
+
+    fillIn(
+      find('input', $searchComponent),
+      'test-query'
+    );
+  });
+
+  andThen(()=>{
+    assert.equal(currentURL(), `/biz/${organization.id}?query=test-query`, 'Entering a query updates the url');
+  });
+});
