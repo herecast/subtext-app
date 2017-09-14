@@ -6,11 +6,14 @@ const {
   get,
   inject,
   set,
+  run,
   computed
 } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
+  classNames: ['GlobalHeader'],
   currentController  : inject.service(),
+  searchService      : inject.service('search'),
   currentChannel     : computed.alias('currentController.currentChannel'),
   modals: inject.service(),
   routing: inject.service('-routing'),
@@ -19,13 +22,22 @@ export default Ember.Component.extend(TestSelector, {
   showUserMenu: false,
   signInTab: 'sign-in',
   features: inject.service('feature-flags'),
-
-  channelLinksEnabled: true,
+  showSearch: computed.alias('searchService.searchActive'),
 
   actions: {
-    openSearch() {
-      this.sendAction('openSearch');
+    toggleSearch() {
+      const searchService = get(this, 'searchService');
+      if(get(searchService, 'searchActive')) {
+        searchService.clearSearch();
+      } else {
+        run.next(() => {
+          this.$('.SearchInput input').focus();
+        });
+      }
+
+      searchService.toggleProperty('searchActive');
     },
+
     trackMenuOpen() {
       const trackMenuOpen = get(this, 'trackMenuOpen');
       if (trackMenuOpen) {
@@ -56,6 +68,9 @@ export default Ember.Component.extend(TestSelector, {
     },
     logoClicked() {
       Ember.$(window).scrollTop(0);
+    },
+    updateSearchQuery(query) {
+      get(this, 'searchService').performSearch(query);
     }
   }
 });

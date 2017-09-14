@@ -21,6 +21,7 @@ export default Ember.Component.extend({
 
   isAnimatingAway: false,
   windowHeight: 1000,
+  touchKeyboardIsOpen: false,
 
   styleForContent: computed('isAnimatingAway', 'windowHeight', 'showContent', function() {
     const styles = [];
@@ -42,6 +43,10 @@ export default Ember.Component.extend({
     return `resize.fab-${get(this, 'elementId')}`;
   }),
 
+  namespaceForFocusEvent: computed('elementId', function() {
+    return `fab-${get(this, 'elementId')}`;
+  }),
+
   collapse() {
     if (!get(this, 'isDestroyed')) {
       get(this, 'tracking').trackUGCJobsTrayClosed();
@@ -54,6 +59,32 @@ export default Ember.Component.extend({
         }
       }, 300);
     }
+  },
+
+  /**
+   * The only way to know if the mobile keyboard is open is to track focus on inputs.
+   * The purpose of this is to toggle a property to hide the jobs button if
+   * an element has focus which utilizes keyboard input.
+   */
+  _watchFocus() {
+    const namespace = get(this, 'namespaceForFocusEvent');
+    Ember.$('body').on(`focus.${namespace}`, 'input,textarea,[contenteditable]', () => {
+      if(!get(this, 'isDestroying')){
+        set(this, 'touchKeyboardIsOpen', true);
+      }
+    });
+
+    Ember.$('body').on(`focusout.${namespace}`, 'input,textarea,[contenteditable]', () => {
+      if(!get(this, 'isDestroying')) {
+        set(this, 'touchKeyboardIsOpen', false);
+      }
+    });
+  },
+  _unWatchFocus() {
+    const namespace = get(this, 'namespaceForFocusEvent');
+
+    Ember.$('body').off(`focus.${namespace}`);
+    Ember.$('body').off(`focusout.${namespace}`);
   },
 
   expand() {
@@ -74,6 +105,8 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    this._watchFocus();
+
     const $window = $(window);
     set(this, 'windowHeight', $window.height());
     $window.on(get(this, 'keyForResizeWindow'), () => {
@@ -85,6 +118,8 @@ export default Ember.Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
+    this._unWatchFocus();
+
     $(window).off(get(this, 'keyForResizeWindow'));
     get(this, 'modals').removeModalBodyClass();
   },

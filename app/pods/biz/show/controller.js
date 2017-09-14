@@ -6,7 +6,6 @@ export default Ember.Controller.extend({
   query: '',
   queryParams: ['query'],
   managedOrganizations: computed.oneWay('session.currentUser.managedOrganizations'),
-  channelLinksEnabled: false,
 
   isOrganizationManager: computed('managedOrganizations', function() {
     const organizationId = get(this, 'organization.id');

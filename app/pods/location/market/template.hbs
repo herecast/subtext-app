@@ -1,17 +1,25 @@
 <div data-test-page='location.market'>
-  {{#channel-filters channel='market'}}
-    {{location-radius-control
-      location=(readonly userLocation.location)
-      radius=(readonly radius)
-      onChooseRadius=(action "changeRadius")
-      onChooseLocation=(action 'chooseLocation')
+    {{to-elsewhere named="page-toolbar"
+      send=(component "channel-filters"
+        channel="index"
+        filterComponent=(component "location-radius-selector"
+          location=(readonly userLocation.location)
+          radius=(readonly radius)
+          onChooseRadius=(action "changeRadius")
+          onChooseLocation=(action "chooseLocation")
+        )
+      )
     }}
-  {{/channel-filters}}
 
   <div class='Container--noGutter'>
 
     <div class='row'>
       <div class='col-xs-12 col-md-8 col-md-push-2'>
+        {{locations-nearby
+          location=(readonly userLocation.location)
+          radius=(readonly radius)
+          class='text-center'
+        }}
         <div class='ChannelTopper clearfix'>
           <h1 class='GroupHeader GroupHeader--market' style='display: inline-block; margin-bottom: 0'>
             <span class='GroupHeader-channelLink GroupHeader-channelLink--market h3 ChannelTopper-title'>

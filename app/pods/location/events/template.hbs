@@ -11,15 +11,23 @@
 
   {{location-mismatch-prompt}}
 
-  {{#channel-filters channel='events'}}
-    {{location-radius-control
-      location=(readonly userLocation.location)
-      radius=(readonly radius)
-      onChooseRadius=(action "changeRadius")
-      onChooseLocation=(action 'chooseLocation')
+    {{to-elsewhere named="page-toolbar"
+      send=(component "channel-filters"
+        channel="index"
+        filterComponent=(component "location-radius-selector"
+          location=(readonly userLocation.location)
+          radius=(readonly radius)
+          onChooseRadius=(action "changeRadius")
+          onChooseLocation=(action "chooseLocation")
+        )
+      )
     }}
-  {{/channel-filters}}
 
+  {{locations-nearby
+    location=(readonly userLocation.location)
+    radius=(readonly radius)
+    class='text-center'
+  }}
   {{events-results
     events=model
     isGroupedByDay=isGroupedByDay

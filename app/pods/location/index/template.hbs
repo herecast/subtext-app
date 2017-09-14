@@ -1,27 +1,39 @@
 <div class="Location-Index">
   <div data-test-page='location.index'>
-    {{#channel-filters channel='index'}}
-      {{location-radius-control
-        location=(readonly userLocation.location)
-        radius=(readonly radius)
-        onChooseRadius=(action "changeRadius")
-        onChooseLocation=(action 'chooseLocation')
-      }}
-    {{/channel-filters}}
-
-    {{feed/index-feed
-      feedContents=model
+    {{to-elsewhere named="page-toolbar"
+      send=(component "channel-filters"
+        channel="index"
+        filterComponent=(component "location-radius-selector"
+          location=(readonly userLocation.location)
+          radius=(readonly radius)
+          onChooseRadius=(action "changeRadius")
+          onChooseLocation=(action "chooseLocation")
+        )
+      )
     }}
+
+    {{locations-nearby
+      location=(readonly userLocation.location)
+      radius=(readonly radius)
+      class='text-center'
+    }}
+
+    {{#if model}}
+      {{feed/index-feed
+        feedContents=model
+      }}
+    {{else}}
+      <p class='text-center h2'>
+        No results were found matching your criteria.<br>
+        Try changing your search or expand the search area.
+      </p>
+    {{/if}}
 
     {{#infinity-loader
       infinityModel=model
     }}
       {{#unless model.reachedInfinity}}
         {{fa-icon 'spinner' class="fa-pulse"}}
-      {{else}}
-        <div class="infinity-loader-end-of-content">
-          That's Everything
-        </div>
       {{/unless}}
     {{/infinity-loader}}
 

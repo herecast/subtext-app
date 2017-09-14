@@ -1,12 +1,11 @@
-<div class='MainNav-wrapper'>
-  <div class='Container--noGutter'>
+  <div class='MainNav-wrapper'>
     {{#if features.listserv-user-testing}}
       <div style="position:absolute;margin-left:-5px" data-test-listservtest>
         Test
       </div>
     {{/if}}
 
-    <div class='MainNav'>
+    <div class='MainNav {{if showSearch "searchOpen"}}'>
       <div class='MainNav-menu'>
         <div class='dropdown'>
           <a href='#'
@@ -15,7 +14,8 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false">
-            {{fa-icon 'navicon'}} Menu
+            {{fa-icon 'navicon' class='MainNav-menu-icon'}}
+            Menu
           </a>
           {{extended-nav
             eventsFilter=eventsFilter
@@ -30,7 +30,8 @@
       <div class='MainNav-brand u-flexRow'>
         <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
           {{#link-to 'index' data-test-link='header-link'}}
-            {{brand-logo}}
+            {{brand-logo tagline=false class='MainNav-brand-logo--mobile'}}
+            {{brand-logo tagline=(not showSearch) class='MainNav-brand-logo--desktop'}}
           {{/link-to}}
         </h1>
       </div>
@@ -39,11 +40,6 @@
       <div class='MainNav-search'>
         <!-- will contain user menu/login/register, search -->
         <ul class='list-inline'>
-          <li>
-            <span {{action 'openSearch'}} class='MainNav-search-searchButton'>
-              {{fa-icon 'search'}}
-            </span>
-          </li>
           {{#unless session.isFastBoot}}
             {{#if session.isAuthenticated}}
               <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
@@ -59,6 +55,7 @@
                       imageUrl=session.currentUser.userImageUrl
                       userName=session.currentUser.name
                       hasCaret=false
+                      customSize=30
                     }}
                 </a>
                 {{#if showUserMenu}}
@@ -73,14 +70,42 @@
               </li>
             {{else}}
               <li class='MainNav-signInJoin'>
-                <button {{action 'showSignInMenu' bubbles=false}} class='btn-link' data-test-link='login-link'>
-                  {{fa-icon 'user' size=2}}
+                <button {{action 'showSignInMenu' bubbles=false}} class='btn-link MainNav-button MainNav-loginLink' data-test-link='login-link'>
+                  {{fa-icon 'user'}}
                 </button>
               </li>
             {{/if}}
           {{/unless}}
+          <li>
+            <button {{action 'toggleSearch'}} class='btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}'>
+              {{#if showSearch}}
+                {{fa-icon 'times'}}
+              {{else}}
+                {{fa-icon 'search'}}
+              {{/if}}
+            </button>
+          </li>
         </ul>
       </div>
     </div>
   </div>
-</div>
+  {{#if showSearch}}
+    <div class='GlobalHeader-globalSearch'>
+      {{search-input
+        showIcon=true
+        value=(readonly searchService.query)
+        update=(action 'updateSearchQuery')
+        clearButtonText='Clear'
+        isLoading=searchService.isLoading
+      }}
+    </div>
+  {{/if}}
+  <div class='GlobalHeader-pageToolbar'>
+    {{#from-elsewhere name="page-toolbar" as |toolbar|}}
+      {{#if toolbar}}
+        <div class="GlobalHeader-pageToolbar-wrapper">
+          {{component toolbar}}
+        </div>
+      {{/if}}
+    {{/from-elsewhere}}
+  </div>

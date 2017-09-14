@@ -13,11 +13,12 @@
 
   {{#if value}}
   <button class='SearchInput-clear' title={{clearTooltip}} {{action "update" ""}}>
-    {{#if clearButtonText}}
-      {{clearButtonText}}
+    {{#if isLoading}}
+      {{fa-icon 'spinner fa-spin'}}
     {{else}}
-      <i class='fa fa-times'></i>
+        <i class='fa fa-times'></i>
     {{/if}}
+    {{clearButtonText}}
   </button>
   {{/if}}
 </div>

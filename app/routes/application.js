@@ -20,6 +20,10 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
   },
+  
+  queryParams: {
+    q: {refreshModel: true}
+  },
 
   beforeModel(transition) {
     if (transition.sequence === 0 && !Ember.testing && !get(this, 'fastboot.isFastBoot')) {

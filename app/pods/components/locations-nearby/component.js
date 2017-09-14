@@ -1,13 +1,16 @@
 import Ember from 'ember';
 
-const {get, inject, computed} = Ember;
+const {get, set, computed, inject, isPresent} = Ember;
 
 export default Ember.Component.extend({
+  userLocation: inject.service(),
+  store: inject.service(),
   modals: inject.service(),
 
   radius: 10,
-  location: null,
+  location: computed.oneWay('userLocation.location'),
   nearbyLocations: [],
+  onNearbyLocationsChanged: null, // closure action for listening to changes
 
   /**
    * Number of nearest towns excluding the current one
@@ -16,6 +19,27 @@ export default Ember.Component.extend({
     const nearbyLocationsLength = get(this, 'nearbyLocations.length');
     return (nearbyLocationsLength) ? nearbyLocationsLength - 1 : 0;
   }),
+
+  _updateNearbyLocations() {
+    const locationId = get(this, 'location.id');
+
+    if (isPresent(locationId)) {
+      get(this, 'store').query('location', {near: locationId, radius: get(this, 'radius') || 0}).then(locations => {
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'nearbyLocations', locations);
+          const onNearbyLocationsChanged = get(this, 'onNearbyLocationsChanged');
+          if (onNearbyLocationsChanged) {
+            onNearbyLocationsChanged(locations);
+          }
+        }
+      });
+    }
+  },
+
+  didReceiveAttrs() {
+    this._super();
+    this._updateNearbyLocations();
+  },
 
   actions: {
     showActiveLocations() {

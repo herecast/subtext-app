@@ -66,6 +66,7 @@
     "ember-click-outside": "0.1.6",
     "ember-cookies": "0.0.13",
     "ember-data": "~2.11.0",
+    "ember-elsewhere": "1.0.2",
     "ember-export-application-global": "^1.0.5",
     "ember-faker": "1.1.0",
     "ember-font-awesome": "3.0.3",

@@ -15,10 +15,12 @@ export default Ember.Controller.extend(PaginatedFilter, LocationMixin, {
   userLocation: service(),
   tracking: service(),
   session: service(),
+  search: service(),
 
   selectedLocation: computed.readOnly('userLocation.activeLocation'),
-  queryParams: ['page'],
+  queryParams: ['page', 'query'],
   page: 1,
+  query: computed.alias('search.query'),
 
   init() {
     this._super(...arguments);

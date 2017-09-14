@@ -46,18 +46,10 @@ export default Ember.Route.extend({
 
     set(this, 'title', `${models.businessProfile.get('name')} on DailyUV`);
 
-    set(this.controllerFor('application'), 'channelLinksEnabled', false);
-
     this._super(...arguments);
   },
 
   actions: {
-    willTransition(transition) {
-      if (!transition.targetName.startsWith('biz.')) {
-        set(this.controllerFor('application'), 'channelLinksEnabled', true);
-      }
-    },
-
     didTransition() {
       const controller = this.controllerFor('biz.show');
       const isFirstTransition = controller.get('isFirstTransition');

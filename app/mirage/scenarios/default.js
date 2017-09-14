@@ -99,8 +99,6 @@ export default function (server) {
     verifiedAt: '2012-08-01',
     user: null
   });
-  server.create('feature', {name: 'listserv-user-testing'});
-  //server.create('feature', {name: 'disable-content-creation'});
 
   /**
    * Business Categories

@@ -2,13 +2,17 @@
   {{#subtitle-text strong=true inline=true lighten=true class='hidden-xs'}}
     Show:
   {{/subtitle-text}}
-  {{#x-link-to 'dashboard' color='primary' style='outline' xsStyle='gray' xsSize='x-small'}}
+  {{#x-link-to 'dashboard' color='primary' style='outline' xsSize='x-small'}}
     <span onclick={{action 'trackMyStuff'}}>
-      My Stuff
+      My&nbsp;Stuff
     </span>
   {{/x-link-to}}
 </div>
 
 <div class="ChannelFilters-filters">
-  {{yield}}
+  {{#if filterComponent}}
+    {{component filterComponent}}
+  {{else}}
+    {{yield}}
+  {{/if}}
 </div>

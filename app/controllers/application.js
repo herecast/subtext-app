@@ -4,26 +4,10 @@ import moment from 'moment';
 const {
   computed,
   inject,
-  get,
-  set,
-  observer
-  } = Ember;
+  get
+} = Ember;
 
 export default Ember.Controller.extend({
-  queryParams: [
-    {searchType: {as: 't'}},
-    {searchQuery: {as: 'q'}},
-    {searchPage: {as: 'pg'}},
-    {searchPerPage: {as: 'pp'}},
-    {searchLocation: {as: 'loc'}},
-    {searchLocationId: {as: 'lid'}},
-    {searchDateStart: {as: 'start'}},
-    {searchDateEnd: {as: 'end'}},
-    {searchOrganization: {as: 'org'}},
-    {searchCategory: {as: 'cat'}}
-  ],
-
-  search: inject.service(),
   modals: inject.service(),
 
   currentController: inject.service('current-controller'),
@@ -34,33 +18,8 @@ export default Ember.Controller.extend({
   eventsFilter: inject.controller('location.events'),
   talkFilter: inject.controller('location.talk'),
   marketFilter: inject.controller('location.market'),
-
-  searchType: computed.alias('search.searchType'),
-  searchQuery: computed.alias('search.searchQuery'),
-  searchPage: computed.alias('search.searchPage'),
-  searchPerPage: computed.alias('search.searchPerPage'),
-  searchLocation: computed.alias('search.searchLocation'),
-  searchLocationId: computed.alias('search.searchLocationId'),
-  searchDateStart: computed.alias('search.searchDateStart'),
-  searchDateEnd: computed.alias('search.searchDateEnd'),
-  searchOrganization: computed.alias('search.searchOrganization'),
-  searchCategory: computed.alias('search.searchCategory'),
-
-  showHeader: computed.alias('currentController.showHeader'),
-
-  channelLinksEnabled: true,
-
-  showOrHideSearch: observer('currentPath', function() {
-    const shouldShow = get(this, 'searchQuery') || get(this, 'search.hasFilter');
-
-    if (shouldShow) {
-      if (!get(this, 'search.showSearch')) {
-        get(this, 'search').openSearch();
-      }
-    } else {
-      set(this, 'search.showSearch', false);
-    }
-  }),
+  searchService: inject.service('search'),
+  searchOpen: computed.alias('searchService.searchActive'),
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
@@ -81,10 +40,6 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
-    openSearch() {
-      get(this, 'search').openSearch();
-    },
-
     trackMenuOpen() {
       // The menu opens after the event is fired, so we need to check if it's
       // closed. When the menu closes, the length is 1.
