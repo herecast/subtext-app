@@ -20,15 +20,14 @@ export default Ember.Component.extend({
   intercom: inject.service(),
 
   urlForShare() {
-    const routeName = get(this, 'routing.currentRouteName');
     const model = get(this, 'model');
     const locationService = get(this, 'location');
 
-    return SocialSharing.getShareUrl(locationService, routeName, model);
+    return SocialSharing.getShareUrl(locationService, model);
   },
 
   mailtoLink: computed('title', 'sharedBy', function() {
-    const href = `${location.protocol}//${location.host}${location.pathname}`;
+    const href = this.urlForShare();
     const title = encodeURIComponent(get(this, 'title'));
     const sharedBy = get(this, 'sharedBy');
     const subject = `Shared with you: ${title}`;

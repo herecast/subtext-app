@@ -82,7 +82,6 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
-      const sharePath = `/events/${firstInstanceId}`;
       const locationService = get(this, 'location');
 
       // Rollback the schedules after persisting changes so that the user can
@@ -97,7 +96,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
         // Unset so not checked the next time this event is edited.
         event.set('listservIds',[]);
 
-        SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+        SocialSharing.checkFacebookCache(locationService, event).finally(() => {
           this.transitionTo('events.show', firstInstanceId);
         });
       });

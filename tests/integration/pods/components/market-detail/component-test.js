@@ -12,6 +12,7 @@ moduleForComponent('market-detail', 'Integration | Component | market detail', {
 
 test('it renders', function(assert) {
   this.set('scrollToMock', () => {});
+  this.set('model', {id: 1});
 
   this.render(hbs`
     {{market-detail

@@ -100,12 +100,10 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, {
           post.rollbackImages();
         }
 
-        const modelId = get(this, 'controller.model.id');
-        const sharePath = `/market/${modelId}`;
         const locationService = get(this, 'location');
 
         run.next(this, () => {
-          SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+          SocialSharing.checkFacebookCache(locationService, post).finally(() => {
             this.transitionTo('market.show', post.id);
           });
         });

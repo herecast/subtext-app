@@ -269,11 +269,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
   _recacheFacebook() {
     // Reload FB cache of this news article
-    const modelId = get(this, 'news.id');
-    const sharePath = `/news/${modelId}`;
     const locationService = get(this, 'location');
+    const model = get(this, 'news');
 
-    return SocialSharing.checkFacebookCache(locationService, sharePath);
+    return SocialSharing.checkFacebookCache(locationService, model);
   },
 
   _saveImage(file, primary = 0, caption = null) {

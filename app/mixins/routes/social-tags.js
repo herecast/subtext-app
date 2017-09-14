@@ -31,7 +31,7 @@ export default Ember.Mixin.create({
       channel = get(this, 'modelChannel') || 'base';
     }
 
-    const url = SocialSharing.getShareUrl(locationService, routeName, model);
+    const url = SocialSharing.getShareUrl(locationService, model);
     const imageUrl = get(model,'featuredImageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
     const imageWidth = get(model, 'featuredImageWidth') || get(model, 'imageWidth') || 266;
     const imageHeight = get(model, 'featuredImageHeight') || get(model, 'imageHeight') || 200;
@@ -174,11 +174,10 @@ export default Ember.Mixin.create({
 
   links() {
     const model = this.modelForMetaTags();
-    const routeName = this.routeName;
     const locationService = get(this, 'location');
 
     return {
-      canonical: SocialSharing.getShareUrl(locationService, routeName, model)
+      canonical: SocialSharing.getShareUrl(locationService, model)
     };
   },
 

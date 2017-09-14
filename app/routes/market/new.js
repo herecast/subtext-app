@@ -104,13 +104,11 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
     },
 
     afterPublish(post) {
-      const modelId = get(this, 'controller.model.id');
-      const sharePath = `/market/${modelId}`;
       const locationService = get(this, 'location');
 
       run.next(()=>{
         post.set('listservIds', []);
-        SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+        SocialSharing.checkFacebookCache(locationService, post).finally(() => {
           this.transitionTo('market.show', post.get('id'));
         });
       });

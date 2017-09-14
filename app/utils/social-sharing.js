@@ -1,12 +1,11 @@
 import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
-import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
 
-const { get, RSVP } = Ember;
+const { RSVP, get } = Ember;
 
 export default {
-  checkFacebookCache(locationService, path) {
-    const shareUrl = this.getShareUrl(locationService, path);
+  checkFacebookCache(locationService, model) {
+    const shareUrl = this.getShareUrl(locationService, model);
     return this.cacheFacebook(shareUrl);
   },
 
@@ -29,28 +28,15 @@ export default {
     });
   },
 
-  getShareUrl(locationService, routeName, model) {
-    let shareUrl;
+  getShareUrl(locationService, model) {
+    const contentId = get(model, 'contentId') || get(model, 'id');
+    let url = `${locationService.origin()}/feed/${contentId}`;
 
-    if (this.isModalRoute(routeName)) {
-      let id = get(model, 'id');
-      let ctype = normalizeContentType( get(model, '_internalModel.modelName') );
-
-      if (ctype === 'event-instance') {
-        ctype = 'events';
-      } else if (ctype === 'market-post') {
-        ctype = 'market';
-      }
-      shareUrl = `${locationService.origin()}/${ctype}/${id}`;
-    } else if (typeof(routeName) === 'string' && routeName.match(/^\/.*\/.*$/)) {
-      //Checks to see if the routeName is actually a valid path
-      shareUrl = locationService.origin() + routeName;
-    } else {
-      let url = locationService.href();
-      shareUrl = url.split('?')[0];
+    if (get(model, 'eventId')) {
+      url += `?eventInstanceId=${get(model, 'id')}`;
     }
 
-    return shareUrl;
+    return url;
   },
 
   isModalRoute(routeName) {

@@ -8,7 +8,8 @@ moduleForComponent('social-share', 'Integration | Component | social share', {
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  this.set('model', {contentId: 1});
 
-  this.render(hbs`{{social-share}}`);
+  this.render(hbs`{{social-share model=model}}`);
   assert.ok(this.$());
 });

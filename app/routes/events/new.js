@@ -106,14 +106,13 @@ export default Ember.Route.extend(Scroll, Authorized, {
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
-      const sharePath = `/events/${firstInstanceId}`;
       const locationService = get(this, 'location');
 
       this.get('intercom').trackEvent('published-event');
 
       run.next(() => {
         event.set('listservIds',[]);
-        SocialSharing.checkFacebookCache(locationService, sharePath).finally(() => {
+        SocialSharing.checkFacebookCache(locationService, event).finally(() => {
           this.transitionTo('events.show', firstInstanceId);
         });
       });

@@ -137,6 +137,10 @@ Router.map(function() {
     });
   });
 
+  this.route('feed', function() {
+    this.route('show', {path: '/:id'});
+  });
+
   // error-404 page is used for intermediateTransitionTo when a model returns 404
   // error-404-passthrough is used as a catch-all route to render a 404 page when a non-existent route is requested
   // Unfortunately, the catch-all route was not working nicely with intermediateTransitionTo, so both are necessary
