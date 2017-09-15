@@ -9,6 +9,7 @@
 
             nearby=(component 'locations-nearby'
               location=(readonly location)
+              onNearbyLocationsChanged=onNearbyLocationsChanged
               radius=(readonly radius)
             )
           )
@@ -23,5 +24,6 @@
   {{locations-nearby
     location=(readonly location)
     radius=(readonly radius)
+    onNearbyLocationsChanged=onNearbyLocationsChanged
   }}
 {{/if}}
