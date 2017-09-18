@@ -3,13 +3,14 @@ import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 
-const { inject, get, on, set } = Ember;
+const { get, set, on, inject:{service} } = Ember;
 
 export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   hideFooter: true,
 
-  userLocation: inject.service('user-location'),
-  search: inject.service(),
+  userLocation: service(),
+  session: service(),
+  search: service(),
 
   queryParams: {
     page: {refreshModel: true},
@@ -36,7 +37,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   model(params) {
     return get(this, 'userLocation.location').then((location) => {
       return this.infinityModel('feed-content', {
-        //params 
+        //params
         startingPage: params.page,
         perPage: 20,
         location_id: get(location, 'id'),
@@ -60,6 +61,8 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       if (isTransitioningToADetailPage) {
         const params = get(transition, 'params');
         const contentId = params["location.index.show"].slug;
+
+        set(this, 'session.startedOnIndexRoute', true);
 
         this.controller.trackDetailPageViews(contentId);
       }

@@ -179,12 +179,12 @@
 
   <div class='DetailPage-sectionWrapper'>
     <div class='DetailPage-similarContent'>
-      {{#title-text strong=true}}Suggested{{/title-text}}
-
-      {{similar-content
+      {{#similar-content
         contentId=model.contentId
         limit=4
       }}
+        {{#title-text strong=true}}Suggested{{/title-text}}
+      {{/similar-content}}
     </div>
   </div>
 

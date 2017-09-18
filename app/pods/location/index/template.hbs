@@ -12,16 +12,22 @@
       )
     }}
 
+
     {{locations-nearby
       location=(readonly userLocation.location)
       radius=(readonly radius)
       class='text-center'
     }}
 
+
+
     {{#if model}}
-      {{feed/index-feed
+      {{#feed/index-feed
         feedContents=model
       }}
+        {{outlet}}
+
+      {{/feed/index-feed}}
     {{else}}
       <p class='text-center h2'>
         No results were found matching your criteria.<br>
@@ -41,7 +47,7 @@
       {{jobs-navigation}}
     {{/floating-action-button}}
 
-    {{outlet}}
+
 
   </div>
 </div>

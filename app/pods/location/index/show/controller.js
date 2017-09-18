@@ -1,11 +1,13 @@
 import Ember from 'ember';
 
-const { computed, get } = Ember;
+const { computed, get, inject:{controller} } = Ember;
 
 export default Ember.Controller.extend({
   queryParams: {
     eventInstanceId: 'eventInstanceId'
   },
+
+  parentController: controller('location.index'),
 
   eventInstanceId: null,
 
@@ -17,6 +19,10 @@ export default Ember.Controller.extend({
   actions: {
     closeDetailPage() {
       this.transitionToRoute('location.index');
+    },
+
+    scrolledPastDetail(contentId) {
+      get(this, 'parentController').trackScrollPastIntegratedDetail(contentId);
     }
   }
 });

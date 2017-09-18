@@ -12,8 +12,10 @@ export default Ember.Mixin.create({
   actions: {
     didTransition() {
       this._super(...arguments);
-
-      get(this, 'modals').addModalBodyClass();
+      
+      if (get(this, 'modals.serviceIsActive')) {
+        get(this, 'modals').addModalBodyClass();
+      }
     }
   }
 });

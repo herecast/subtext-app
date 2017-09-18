@@ -4,6 +4,7 @@ const a = Ember.A;
 
 export default Ember.Service.extend({
   modals:null,
+  serviceIsActive: true,
   fastboot: inject.service(),
   isFastboot() {
     return get(this, 'fastboot.isFastBoot');
@@ -94,6 +95,14 @@ export default Ember.Service.extend({
   clearModals() {
     set(this, 'modals', a());
     this.removeModalBodyClass();
+  },
+
+  pauseService() {
+    set(this, 'serviceIsActive', false);
+  },
+
+  resumeService() {
+    set(this, 'serviceIsActive', true);
   }
 
 });

@@ -18,6 +18,7 @@ export default SessionService.extend({
   fastboot    : inject.service(),
   userLocationService: Ember.inject.service('user-location'),
   sequenceTrackers: {},
+  startedOnIndexRoute: false,
 
   signOut() {
     return get(this, 'api').signOut().then(() => {

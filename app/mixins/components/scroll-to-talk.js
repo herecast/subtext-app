@@ -3,6 +3,8 @@ import Ember from 'ember';
 const { get } = Ember;
 
 export default Ember.Mixin.create({
+  scrollTo: function() {},
+  
   actions: {
     scrollToTalk() {
       const $el = this.$('.CommentSection');
