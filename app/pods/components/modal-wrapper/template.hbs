@@ -11,8 +11,14 @@
     {{/if}}
 
     {{#if close}}
-      {{#x-button color="light-gray" rounded=false class='Modal-actionClose' onClick=(action 'closeModal') data-test-component='modal-close-button'}}
-        {{fa-icon 'close'}}
+      {{#x-button
+        color="light-gray"
+        rounded=false
+        size='x-small'
+        class='Modal-actionClose'
+        onClick=(action 'closeModal')
+        data-test-component='modal-close-button'}}
+          {{fa-icon 'close'}}
       {{/x-button}}
     {{/if}}
 

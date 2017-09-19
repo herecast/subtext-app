@@ -1,136 +1,149 @@
-<article>
-  <header class="DetailPage-navTop-container">
+{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+  <article>
+    <header class="DetailPage-navTop-container">
 
-    {{#if model.featuredImageUrl}}
-      <div class='DetailPage-headerImage-wrapper'>
-        <div class='DetailPage-headerImage'>
-          {{#image-load-placeholder
-            placeholderBlockWidth=640
-            placeholderBlockHeight=480
-            imageUrl=(optimized-image-url model.featuredImageUrl 640 480 true)
-            placeholderUrl=(optimized-image-url model.featuredImageUrl 64 48 true)
-            placeholderImageClass='img-responsive'
+      {{#if model.featuredImageUrl}}
+        <div class='DetailPage-headerImage-wrapper'>
+          <div class='DetailPage-headerImage'>
+            {{#image-load-placeholder
+              placeholderBlockWidth=640
+              placeholderBlockHeight=480
+              imageUrl=(optimized-image-url model.featuredImageUrl 640 480 true)
+              placeholderUrl=(optimized-image-url model.featuredImageUrl 64 48 true)
+              placeholderImageClass='img-responsive'
 
-          }}
-            <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
-          {{/image-load-placeholder}}
+            }}
+              <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
+            {{/image-load-placeholder}}
+          </div>
+
+          {{#if hasCaptionOrCredit}}
+            <div class='DetailPage-headerImageCaption'>
+              {{model.featuredImageCaption}}
+
+              {{#if model.bannerImage.credit}}
+                / Source: {{model.bannerImage.credit}}
+              {{/if}}
+            </div>
+          {{/if}}
+        </div>
+      {{else}}
+        {{#if isPreview}}
+          <p class='text-center'>Please consider adding a featured image.</p>
+        {{/if}}
+      {{/if}}
+    </header>
+
+    {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true}}
+      {{#content-body}}
+
+        <div class="DetailPage-headerSection">
+          {{#title-text noMargin=true strong=true}}
+            <span data-test-news-title='{{model.title}}'>{{model.title}}</span>
+          {{/title-text}}
         </div>
 
-        {{#if hasCaptionOrCredit}}
-          <div class='DetailPage-headerImageCaption'>
-            {{model.featuredImageCaption}}
+        {{horizontal-rule short=true}}
 
-            {{#if model.bannerImage.credit}}
-              / Source: {{model.bannerImage.credit}}
-            {{/if}}
-          </div>
+        {{#media-container reverse=true centerVertically=true noRightMargin=true as |media|}}
+
+          {{#media.object}}
+            {{#unless isPreview}}
+              {{#if showEditButton}}
+                {{#x-link-to 'news.edit' model.id size='medium' nowrap=true}}
+                  {{fa-icon 'pencil'}}
+                  Edit Post
+                {{/x-link-to}}
+              {{else}}
+                {{#if model.organization.subscribeUrl}}
+                  {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
+                {{/if}}
+              {{/if}}
+            {{/unless}}
+          {{/media.object}}
+
+          {{#media.content}}
+            {{#link-to
+              model.organization.organizationLinkRoute
+              model.organization.organizationLinkId
+              class='DetailPage-organization-link'
+              data-test-link="organization-link"
+            }}
+              {{author-byline
+                authorName=model.authorName
+                organizationName=model.organization.name
+                imageUrl=model.organization.displayImageUrl
+              }}
+            {{/link-to}}
+          {{/media.content}}
+
+        {{/media-container}}
+      {{/content-body}}
+    {{/sticky.item}}
+
+
+    <div class='DetailPage-sectionWrapper'>
+
+      <div class="DetailPage-content News-content ContentText">
+        {{#text-block small=true}}
+          {{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}
+        {{/text-block}}
+
+        {{#if model.subtitle}}
+          {{#subtitle-text}}
+            {{model.subtitle}}
+          {{/subtitle-text}}
         {{/if}}
+
+        {{{ model.content }}}
       </div>
-    {{else}}
-      {{#if isPreview}}
-        <p class='text-center'>Please consider adding a featured image.</p>
-      {{/if}}
-    {{/if}}
-  </header>
-
-  <div class="DetailPage-headerContainer">
-    <div class="DetailPage-headerSection">
-      <h1 class='DetailPage-title h1' data-test-news-title='{{model.title}}'>{{model.title}}</h1>
-
-      {{#if model.subtitle}}
-        <h2 class='DetailPage-subtitle h2'>{{model.subtitle}}</h2>
-      {{/if}}
-
-      <p>
-        {{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}
-      </p>
     </div>
-  </div>
 
-  <div class='DetailPage-sectionWrapper'>
+    {{report-content-details
+      contentId=model.contentId
+    }}
 
-    <div class='DetailPage-organization u-layoutPadB10'>
-      <div class='DetailPage-organization-info'>
-        {{#link-to
-          organizationLinkRoute
-          organizationLinkId
-          class='DetailPage-organization-link'
-          tagName='a'
-          data-test-link="organization-link"
+    {{#unless isPreview}}
+      {{#horizontal-rule}}
+        {{social-share
+          title=model.title
+          authorName=model.organization.name
+          twitterHandle=model.organization.twitterHandle
+          sharedBy=session.userName
+          model=model
         }}
-          {{avatar-image
-            imageUrl=model.organization.displayImageUrl
-            userName=model.organization.name
-            customSize=32
-            class="DetailPage-organization-avatar"
+      {{/horizontal-rule}}
+
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
+        <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+          {{ad-banner
+            contentModel=model
+            pagePlacement='in-news-detail-body'
+            placeholderBlockFixedSize=true
           }}
-          <span data-test-author-name>{{model.authorName}}</span>
-          <span><br/>{{model.organizationName}}</span>
-        {{/link-to}}
+        </div>
       </div>
-      {{#if model.organization.subscribeUrl}}
-        {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
-      {{/if}}
-    </div>
 
-    <div class="DetailPage-content News-content ContentText">
-      {{{ model.content }}}
-    </div>
-  </div>
+      {{horizontal-rule}}
 
-  {{#unless isPreview}}
-    <div class='DetailPage-sectionWrapper'>
-      {{report-content-details
-        contentId=model.contentId
-      }}
-    </div>
+      <div class='DetailPage-sectionWrapper'>
+        <div class='DetailPage-section DetailPage-comments'>
+          {{#title-text strong=true}}
+            Comments
+            {{#if model.commentCount}}
+              <span class="DetailPage-comments-count">{{model.commentCount}}</span>
+            {{/if}}
+          {{/title-text}}
 
-    {{#if canEdit}}
-      {{edit-content-link
-        contentId=model.id
-        route='news.edit'
-        text='Edit Post'
-      }}
-    {{/if}}
-
-    {{#horizontal-rule}}
-      {{social-share
-        title=model.title
-        authorName=model.organization.name
-        twitterHandle=model.organization.twitterHandle
-        sharedBy=session.userName
-        model=model
-      }}
-    {{/horizontal-rule}}
-
-    <div class='DetailPage-sectionWrapper'>
-      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-        {{ad-banner
-          contentModel=model
-        }}
+          {{content-comments
+            content=model
+            scrollToAnchor=scrollToAnchor
+            scrollTo=(action scrollTo)
+          }}
+        </div>
       </div>
-    </div>
 
-    {{horizontal-rule}}
-
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-comments'>
-        {{#title-text strong=true}}
-          Comments
-          {{#if model.commentCount}}
-            <span class="DetailPage-comments-count">{{model.commentCount}}</span>
-          {{/if}}
-        {{/title-text}}
-
-        {{content-comments
-          content=model
-          scrollToAnchor=scrollToAnchor
-          scrollTo=(action scrollTo)
-        }}
-      </div>
-    </div>
-
-    {{horizontal-rule}}
+      {{horizontal-rule}}
 
     <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-similarContent'>
@@ -142,6 +155,8 @@
         {{/similar-content}}
       </div>
     </div>
-  {{/unless}}
 
-</article>
+    {{/unless}}
+
+  </article>
+{{/sticky-container}}

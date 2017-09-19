@@ -12,7 +12,7 @@
     {{#if radius}}
       {{#if nearbyLocations}}
         and
-        {{#x-button style='link' onClick=(action 'showActiveLocations')}}
+        {{#x-button style='link' strong=true onClick=(action 'showActiveLocations')}}
           {{nearestTowns}} towns within {{radius}} miles.
         {{/x-button}}
       {{/if}}

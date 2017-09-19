@@ -3,7 +3,7 @@ import Ember from 'ember';
 const {get, getWithDefault, computed} = Ember;
 
 export default Ember.Mixin.create({
-  tagName: 'button',
+
   classNames: ['XButton'],
   classNameBindings: [
     'colorClass',
@@ -14,17 +14,19 @@ export default Ember.Mixin.create({
     'xsSizeClass',
     'xsBlockTypeClass',
     'roundedClass',
-    'shadowClass'
+    'shadow:XButton--shadow',
+    'strong:XButton--strong',
+    'nowrap:XButton--nowrap'
   ],
-  attributeBindings: ['type'],
-  type: 'button',
 
-  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', transparent
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black'
   style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'
   rounded: 'rounded', // false, 'rounded', 'circle'
   shadow: false,
+  strong: false,
+  nowrap: false,
 
   // optional: set a specific style on mobile.
   xsStyle: null,
@@ -54,11 +56,6 @@ export default Ember.Mixin.create({
   roundedClass: computed('rounded', function() {
     const rounded = get(this, 'rounded');
     return (rounded) ? `XButton--${rounded}` : null;
-  }),
-
-  shadowClass: computed('shadow', function() {
-    const shadow = get(this, 'shadow');
-    return (shadow) ? `XButton--shadow` : null;
   }),
 
   xsStyleClass: computed('xsStyle', function() {

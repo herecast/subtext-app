@@ -7,7 +7,15 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
   classNames: ['MediaContainer'],
-  classNameBindings: ['reverse:MediaContainer--reverse'],
+  classNameBindings: [
+    'reverse:MediaContainer--reverse',
+    'noMargin:MediaContainer--noMargin',
+    'noRightMargin:MediaContainer--noRightMargin',
+    'centerVertically:MediaContainer--centerVertically'
+  ],
 
   reverse: false,
+  noMargin: false,
+  noRightMargin: false,
+  centerVertically: false
 });

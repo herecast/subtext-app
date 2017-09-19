@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 
 const {
   computed,
@@ -28,6 +29,10 @@ export default DS.Model.extend({
 
   // Temporary for dashboard edit button
   businessProfileId: DS.attr(),
+
+  isDefaultOrganization: computed('id', function() {
+    return isDefaultOrganization(get(this, 'id'));
+  }),
 
   slug: computed('name', 'id', function() {
     const id = get(this, 'id');
@@ -61,6 +66,16 @@ export default DS.Model.extend({
   displayImageUrl: computed('logoUrl', 'profileImageUrl', function() {
     const profileImageUrl = get(this, 'profileImageUrl');
     return profileImageUrl ? profileImageUrl : get(this, 'logoUrl');
+  }),
+
+  organizationLinkRoute: computed('bizFeedActive', function() {
+    const bizFeedActive = get(this, 'bizFeedActive');
+    return bizFeedActive ? 'biz.show' : 'organization-profile';
+  }),
+
+  organizationLinkId: computed('bizFeedActive', function() {
+    const bizFeedActive = get(this, 'bizFeedActive');
+    return bizFeedActive ? get(this, 'id') : get(this, 'slug');
   }),
 
   uploadImage(type, image) {

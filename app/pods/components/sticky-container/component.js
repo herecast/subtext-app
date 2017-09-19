@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import {throttle, debounce} from 'lodash';
 
 const { get, set, computed, inject, $, isPresent, run } = Ember;
 
 /**
  * Contextual component for rendering a list of "sticky" items.
  * Namely, these are headers that stick to a given position until it is replaced by the next one as the user scrolls.
- * Each sticky item will "stick" to the location of the named sticky-position, which is required.
+ * Each sticky item will "stick" to the location of the named sticky-position, which is optional.
  */
 export default Ember.Component.extend({
   _items: Ember.A(),
@@ -14,31 +15,32 @@ export default Ember.Component.extend({
   // the name of the sticky-position element elsewhere on the page marking where the items should stick
   position: null,
   defaultPosition: 0,
-  touchMoving: false,
+  enabled: true,
 
   scrollTarget: window,
+  refreshOffsetDuringScroll: false,
 
   stickyService: inject.service('sticky'),
   fastboot: inject.service(),
 
-  keyForOnMoveStartHook: computed('position', function() {
-    const position = get(this, 'position');
-    return `touchstart.stickies-${position}`;
+  keyForOnTouchMoveHook: computed('elementId', function() {
+    const elementId = get(this, 'elementId');
+    return `touchmove.stickies-${elementId}`;
   }),
 
-  keyForOnMoveEndHook: computed('position', function() {
-    const position = get(this, 'position');
-    return `touchend.stickies-${position}`;
+  keyForOnTouchEndHook: computed('elementId', function() {
+    const elementId = get(this, 'elementId');
+    return `touchend.stickies-${elementId}`;
   }),
 
-  keyForScrollHook: computed('position', function() {
-    const position = get(this, 'position');
-    return `scroll.stickies-${position}`;
+  keyForScrollHook: computed('elementId', function() {
+    const elementId = get(this, 'elementId');
+    return `scroll.stickies-${elementId}`;
   }),
 
-  keyForResizeHook: computed('position', function() {
-    const position = get(this, 'position');
-    return `resize.stickies-${position}`;
+  keyForResizeHook: computed('elementId', function() {
+    const elementId = get(this, 'elementId');
+    return `resize.stickies-${elementId}`;
   }),
 
   sortedItems: computed('_items.@each.originalTopOffset', function() {
@@ -60,16 +62,28 @@ export default Ember.Component.extend({
   },
 
   _findNextStickyItem(stickyPosition) {
-    let absoluteStickyPosition = $(get(this, 'scrollTarget')).scrollTop() + stickyPosition + 5;
+    const scrollTarget = get(this, 'scrollTarget');
+    const refreshOffset = scrollTarget !== window && get(this, 'refreshOffsetDuringScroll');
+
+    let absoluteStickyPosition = stickyPosition;
+
+    if (refreshOffset) {
+      absoluteStickyPosition += $(scrollTarget).offset().top;
+    } else {
+      absoluteStickyPosition += $(scrollTarget).scrollTop();
+    }
 
     // Get the last item that we've scrolled past.
     return get(this, 'sortedItemsReverse').find(function(item) {
-      return get(item, 'originalTopOffset') <= absoluteStickyPosition;
+      let itemOffset = refreshOffset ? item.getOffsetTop() : get(item, 'originalTopOffset');
+      itemOffset += get(item, 'stickyBuffer');
+
+      return itemOffset <= absoluteStickyPosition;
     });
   },
 
   _updateStickyPositions() {
-    if (get(this, 'isDestroying')) {
+    if (get(this, 'isDestroying') || ! get(this, 'enabled')) {
       return;
     }
 
@@ -103,40 +117,27 @@ export default Ember.Component.extend({
 
     const $scrollTarget = $(get(this, 'scrollTarget'));
 
-    // Use move start and end to detect beginning and end of touch scrolling
-    // Have to disable scroll call (see below) in order for start/end pair to work
-    $scrollTarget.on(get(this, 'keyForOnMoveStartHook'), (e) => {
-      const currentStickyItem = get(this, '_currentStickyItem');
-      const touchTargetIsDomChildOfStickyItem = isPresent(currentStickyItem) ? currentStickyItem.element.contains(e.target) : false;
+    // Note: throttling/debounce is necessary since we are polling the sticky position each time
+    // Debounce ensures UI is correct after the last scroll action
+    // Using lodash's throttle & debounce instead of Ember's because it works better w/ jQuery
+    const throttledUpdate = throttle(() => this._updateStickyPositions(), 50);
+    const debouncedUpdate = debounce(() => this._updateStickyPositions(), 50);
 
-      if (currentStickyItem && !touchTargetIsDomChildOfStickyItem) {
-        set(this, 'touchMoving', true);
-        currentStickyItem.hide();
-      }
-    });
+    // Update sticky positions when the user moves the page on mobile
+    $scrollTarget.on(get(this, 'keyForOnTouchMoveHook'), throttledUpdate);
 
-    $scrollTarget.on(get(this, 'keyForOnMoveEndHook'), () => {
-      set(this, 'touchMoving', false);
-      run.throttle(this, this._updateStickyPositions, 50, true);
-      run.debounce(this, this._updateStickyPositions, 100);
-    });
+    // Final update after user has finished moving the page on mobile
+    // No need to debounce, this is fired only once per user interaction
+    $scrollTarget.on(get(this, 'keyForOnTouchEndHook'), () => this._updateStickyPositions());
 
     // Update sticky positions when the user scrolls
     $scrollTarget.on(get(this, 'keyForScrollHook'), () => {
-      // Note: throttling/debounce is necessary since we are polling the sticky position each time
-      // Run immediately and throttle calls spaced 50 ms
-      // Debounce ensures UI is correct after the last scroll action
-      // Must check if touchMoving or not, as both will fire in parallel
-      if (!get(this, 'touchMoving')){
-        run.throttle(this, this._updateStickyPositions, 50, true);
-        run.debounce(this, this._updateStickyPositions, 100);
-      }
+      throttledUpdate();
+      debouncedUpdate();
     });
 
     // Update sticky positions when the user resizes the window
-    $(window).on(get(this, 'keyForResizeHook'), () => {
-      run.debounce(this, this._updateStickyPositions, 50);
-    });
+    $(window).on(get(this, 'keyForResizeHook'), debouncedUpdate);
 
     // Update the sticky positions at least once after the page has loaded
     // This is useful for cases where the user is already scrolled down the page
@@ -147,7 +148,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
     const $scrollTarget = $(get(this, 'scrollTarget'));
 
-    $scrollTarget.off(get(this, 'keyForOnMoveHook'));
+    $scrollTarget.off(get(this, 'keyForOnTouchMoveHook'));
     $scrollTarget.off(get(this, 'keyForScrollHook'));
     $(window).off(get(this, 'keyForResizeHook'));
   },

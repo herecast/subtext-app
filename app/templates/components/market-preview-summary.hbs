@@ -59,7 +59,7 @@
             {{#if nearby.radius}}
               {{#if nearby.nearbyLocations}}
               {{nearby.location.name}} + {{nearby.radius}} Miles
-                {{#x-button style='link' onClick=nearby.showActiveLocations}}
+                {{#x-button style='link' strong=true onClick=nearby.showActiveLocations}}
                   ({{nearby.nearbyLocations.length}} towns)
                 {{/x-button}}.
               {{/if}}

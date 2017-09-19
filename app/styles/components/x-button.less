@@ -123,7 +123,6 @@
   padding: 0;
   margin: 0;
   border: 0;
-  font-weight: 600;
   text-decoration: none;
   color: @color;
   background-color: transparent;
@@ -306,6 +305,9 @@
   &.XButton--twitter {
     .make-button(#55acee, white);
   }
+  &.XButton--black {
+    .make-button(@text-color, white);
+  }
   &--wide {
     width: 100%;
     box-sizing: content-box;
@@ -319,6 +321,12 @@
   }
   &--shadow {
     .box-shadow(1px 2px 1px 0 rgba(0,0,0,.4));
+  }
+  &--strong {
+    font-weight: 600;
+  }
+  &--nowrap {
+    white-space: nowrap;
   }
   @media (max-width: @screen-xs-max) {
     &--xs-wide {

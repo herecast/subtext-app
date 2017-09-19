@@ -11,7 +11,7 @@ as |location-control|}}
       This {{contentType}} post will be visible to DailyUV users in
       {{#if nearby.radius}}
         {{#if nearby.nearbyLocations}}
-          {{#x-button style='link' onClick=nearby.showActiveLocations}}
+          {{#x-button style='link' strong=true onClick=nearby.showActiveLocations}}
             {{nearby.nearbyLocations.length}} nearest towns.
           {{/x-button}}
         {{/if}}

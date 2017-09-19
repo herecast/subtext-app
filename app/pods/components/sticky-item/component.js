@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, set, setProperties, computed } = Ember;
+const {get, set, setProperties, computed} = Ember;
 
 /**
  * This component should not be used directly. Rather, it should be used
@@ -8,14 +8,25 @@ const { get, set, setProperties, computed } = Ember;
  */
 export default Ember.Component.extend({
   classNames: ['StickyItem-wrapper'],
+  classNameBindings: ['activeClassName'],
   attributeBindings: ['style'],
 
   originalTopOffset: null,
   originalHeight: null,
 
+  stickyBuffer: 0,
+
   topPosition: null,
   isSticky: false,
   isHidden: false,
+  useAbsolutePositioning: false,
+
+  activeClass: '',
+  inactiveClass: '',
+
+  activeClassName: computed('isSticky', 'activeClass', function() {
+    return get(this, 'isSticky') ? get(this, 'activeClass') : get(this, 'inactiveClass');
+  }),
 
   style: computed('originalHeight', function() {
     // The parent wrapper must maintain the height of the StickyItem
@@ -23,7 +34,7 @@ export default Ember.Component.extend({
     return Ember.String.htmlSafe(`height:${get(this, 'originalHeight')}px`);
   }),
 
-  stickyItemStyle: computed('topPosition', 'isHidden', function() {
+  stickyItemStyle: computed('topPosition', 'isHidden', 'isSticky', 'useAbsolutePositioning', function() {
     const topPosition = get(this, 'topPosition');
     let style = '';
 
@@ -35,21 +46,27 @@ export default Ember.Component.extend({
       style += 'display: none;';
     }
 
+    if (get(this, 'isSticky')) {
+      style += `position: ${get(this, 'useAbsolutePositioning') ? 'absolute' : 'fixed'};`;
+    }
+
     return Ember.String.htmlSafe(style);
   }),
+
+  getOffsetTop() {
+    return this.$().offset().top;
+  },
 
   didInsertElement() {
     this._super(...arguments);
 
     // Save the initial position and height of the element
-    //Ember.run.next(this, function() {
-      const $this = this.$();
+    const $this = this.$();
 
-      setProperties(this, {
-        originalTopOffset: $this.offset().top,
-        originalHeight: $this.outerHeight()
-      });
-    //});
+    setProperties(this, {
+      originalTopOffset: $this.offset().top,
+      originalHeight: $this.outerHeight()
+    });
   },
 
   willDestroyElement() {

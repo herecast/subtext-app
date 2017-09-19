@@ -1,101 +1,120 @@
-<header class="DetailPage-navTop-container">
-  {{#if activeImage}}
-    {{header-image
-      imageUrl=activeImage
-      preserveAspectRatio=true
-    }}
-  {{/if}}
-</header>
+{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+  {{#sticky.item class='StickyItem--default-background' useAbsolutePositioning=true}}
+    {{#content-body verticalPadding=true}}
 
-<div class="DetailPage-headerContainer">
-  {{#if showThumbnails}}
-    <div class="DetailPage-headerSection">
-      {{#each sortedImages as |image|}}
-        <img src="{{optimized-image-url image.imageUrl 200 60 false}}" {{action 'chooseImage' image.imageUrl}} class="DetailPage-thumbnail"/>
-      {{/each}}
-    </div>
-  {{/if}}
+      {{#title-text strong=true topPadding=true noMargin=true}}
+        {{#if model.sold}}
+          <span class='h3 u-bold u-tag'>SOLD!</span>
+          &nbsp;&nbsp;
+        {{/if}}
+        <span data-test-market-title>
+          {{model.title}}
+        </span>
+      {{/title-text}}
 
-  <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h1" data-test-market-title>{{#if model.sold}}<span class='h3 u-bold u-tag'>SOLD!</span>{{/if}}&nbsp;&nbsp;{{model.title}}</h1>
+      {{horizontal-rule short=true}}
 
-    {{#if model.publishedAt}}
-      <p>{{formatted-date model.publishedAt}}</p>
-    {{/if}}
-  </div>
+      {{#media-container reverse=true noMargin=true centerVertically=true as |media|}}
+        {{#media.object}}
+          {{#unless isPreview}}
+            {{#if showEditButton}}
+              {{#x-link-to 'market.edit' model.id size='medium' nowrap=true}}
+                {{fa-icon 'pencil'}} Edit Listing
+              {{/x-link-to}}
+            {{/if}}
+          {{/unless}}
+        {{/media.object}}
 
-  <div>
-    {{#unless model.sold}}
-      {{market-reply-form
-        post=(readonly model)
-        clickReplyButton=(action 'clickReplyButton')
+        {{#media.content}}
+          {{#text-block small=true}}
+            Posted {{moment-from-now model.publishedAt}}
+            by {{model.authorName}}
+          {{/text-block}}
+        {{/media.content}}
+      {{/media-container}}
+
+    {{/content-body}}
+  {{/sticky.item}}
+
+  <header class="DetailPage-navTop-container">
+    {{#if activeImage}}
+      {{header-image
+        imageUrl=activeImage
+        preserveAspectRatio=true
       }}
-    {{/unless}}
+    {{/if}}
+  </header>
 
-    {{#unless isPreview}}
-      {{#if model.canEdit}}
-        <div class="DetailPage-headerNavItem text-center">
-          {{#link-to 'market.edit' model.id class='Button btn btn-default u-layoutPadB10'}}
-            {{fa-icon 'pencil'}} Edit Listing
-          {{/link-to}}
-        </div>
-      {{/if}}
-    {{/unless}}
+  <div class="DetailPage-headerContainer">
+    {{#if showThumbnails}}
+      <div class="DetailPage-headerSection">
+        {{#each sortedImages as |image|}}
+          <img src="{{optimized-image-url image.imageUrl 200 60 false}}" {{action 'chooseImage' image.imageUrl}}
+               class="DetailPage-thumbnail"/>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    <div>
+      {{#unless model.sold}}
+        {{market-reply-form
+          post=(readonly model)
+          clickReplyButton=(action 'clickReplyButton')
+        }}
+      {{/unless}}
+    </div>
   </div>
-</div>
 
-{{#unless isPreview}}
-  {{report-content-details
-  contentId=model.contentId
-  }}
-{{/unless}}
-
-<div class='DetailPage-sectionWrapper'>
-  <div class="DetailPage-section DetailPage-content">
-    {{#if model.price}}
-      <span class='h3 u-bold'>
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-content">
+      {{#if model.price}}
+        <span class='h3 u-bold'>
         Price: {{model.price}}
       </span>
-    {{/if}}
-    <div>
-      {{fa-icon 'map-marker'}} <span>{{join model.baseLocationNames delimiter=','}}</span>
-    </div>
+      {{/if}}
+      <div>
+        {{fa-icon 'map-marker'}} <span>{{join model.baseLocationNames delimiter=','}}</span>
+      </div>
 
-    <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
-  </div>
-</div>
-
-{{#unless isPreview}}
-
-  {{#horizontal-rule}}
-    {{social-share
-      title=model.title
-      authorName=model.organization.name
-      twitterHandle=model.organization.twitterHandle
-      sharedBy=session.userName
-      model=model
-    }}
-  {{/horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
-      }}
+      <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
     </div>
   </div>
 
-  {{horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-similarContent">
-      {{#similar-content
+  {{#unless isPreview}}
+    {{report-content-details
       contentId=model.contentId
-      limit=4
-      }}
-        {{#title-text strong=true}}Suggested{{/title-text}}
-      {{/similar-content}}
-    </div>
-  </div>
+    }}
 
-{{/unless}}
+    {{#horizontal-rule}}
+      {{social-share
+        title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
+        sharedBy=session.userName
+        model=model
+      }}
+    {{/horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        {{ad-banner
+          contentModel=model
+        }}
+      </div>
+    </div>
+
+    {{horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true}}Suggested{{/title-text}}
+        {{/similar-content}}
+      </div>
+    </div>
+
+  {{/unless}}
+{{/sticky-container}}

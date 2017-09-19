@@ -7,6 +7,7 @@
       closeRoute='biz.show'
       closeLabel=organization.name
       scrollTo=(action 'scrollTo' target=modal)
+      enableStickyHeader=true
     }}
 
   {{else if (eq contentType 'event')}}
@@ -17,6 +18,7 @@
       closeLabel=organization.name
       scrollToAnchor=scrollToAnchor
       scrollTo=(action 'scrollTo' target=modal)
+      enableStickyHeader=true
     }}
 
   {{else if (eq contentType 'news')}}
@@ -27,8 +29,9 @@
       closeLabel=organization.name
       isPreview=false
       scrollTo=(action 'scrollTo' target=modal)
+      enableStickyHeader=true
     }}
-    
+
   {{/if}}
 
 {{/modal-wrapper}}

@@ -9,6 +9,7 @@
       isPreview=false
       scrollTo=(action "scrollTo" target=modal)
       scrollToAnchor=scrollTo
+      enableStickyHeader=true
     }}
   {{else if (eq ctype 'event-instance')}}
     {{event-detail
@@ -17,12 +18,14 @@
       data-test-component='talk-detail'
       scrollTo=(action "scrollTo" target=modal)
       scrollToAnchor=scrollTo
+      enableStickyHeader=true
     }}
   {{else if (eq ctype 'market-post')}}
     {{market-detail
       model=model
       closeRoute='talk.index'
       data-test-component='talk-detail'
+      enableStickyHeader=true
     }}
   {{else if (eq ctype 'talk')}}
     {{talk-detail
@@ -31,6 +34,7 @@
       closeRoute='talk.index'
       scrollTo=(action "scrollTo" target=modal)
       scrollToAnchor=scrollTo
+      enableStickyHeader=true
     }}
   {{/if}}
 

@@ -15,6 +15,7 @@ export default Ember.Component.extend(ModelResetScroll, {
   fastboot: inject.service(),
   tracking: inject.service(),
   isPreview: false,
+  enableStickyHeader: false,
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
@@ -44,6 +45,10 @@ export default Ember.Component.extend(ModelResetScroll, {
 
   thumbSortDefinition: ['primary:desc'],
   sortedImages: computed.sort('model.images.[]', 'thumbSortDefinition'),
+
+  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', function() {
+    return get(this, 'model.canEdit') && ! get(this, 'fastboot.isFastBoot');
+  }),
 
   resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));

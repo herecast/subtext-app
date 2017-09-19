@@ -66,16 +66,12 @@ export default Ember.Component.extend({
     return `scroll.modal-body-${get(this, 'elementId')}`;
   }),
 
-  totalScrollDistance: computed('windowHeight', 'media.isMobile', function() {
-    if (get(this, 'media.isMobile')) {
-      return get(this, 'windowHeight') * 0.25;
-    } else {
-      return get(this, 'windowHeight') * 0.35;
-    }
+  totalScrollDistance: computed('windowHeight', function() {
+    return get(this, 'windowHeight') * 0.25;
   }),
 
   modalDialogStyle: computed('windowHeight', 'media.isMobile', function() {
-    const style = get(this, 'media.isMobile') ? `max-height: ${get(this, 'windowHeight')*0.90}px` : '';
+    const style = get(this, 'media.isMobile') ? `max-height: ${get(this, 'windowHeight')*0.92}px` : '';
     return Ember.String.htmlSafe(style);
   }),
 
@@ -83,7 +79,7 @@ export default Ember.Component.extend({
     let style = '';
 
     if (get(this, 'media.isMobile') && get(this, 'willAnimateAway')) {
-      style = `max-height: ${get(this, 'windowHeight') * 0.85}px`;
+      style = `max-height: ${get(this, 'windowHeight') * 0.92}px`;
     }
 
     return Ember.String.htmlSafe(style);
@@ -265,8 +261,7 @@ export default Ember.Component.extend({
     this.$().find('.Modal-dialog').css({
       animation: 'slide-up 0.5s',
       marginBottom: '100vh',
-      marginTop: '-100vh',
-      opacity: 0
+      marginTop: '-100vh'
     });
 
     this.close();

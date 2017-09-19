@@ -11,6 +11,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   tracking: inject.service(),
   closeLabel: 'Talk',
   isPreview: false,
+  enableStickyHeader: false,
 
   _trackImpression() {
     const id = get(this, 'model.id');

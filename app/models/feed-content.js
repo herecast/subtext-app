@@ -3,12 +3,9 @@ import DS from 'ember-data';
 import moment from 'moment';
 import dateFormat from 'subtext-ui/lib/dates';
 import BaseEvent from 'subtext-ui/mixins/models/base-event';
+import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 
 const { get, computed, isPresent, isEmpty } = Ember;
-
-function isDefaultOrganization(organizationId) {
-  return parseInt(organizationId) === 398;
-}
 
 export default DS.Model.extend(BaseEvent, {
   title: DS.attr('string'),

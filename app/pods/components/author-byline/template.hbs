@@ -1,0 +1,20 @@
+{{#media-container centerVertically=true noMargin=true as |media|}}
+  {{#media.object}}
+    {{avatar-image
+      imageUrl=imageUrl
+      userName=authorName
+      customSize=32
+    }}
+  {{/media.object}}
+  {{#media.content}}
+    {{#if authorName}}
+      <span data-test-author-name>{{authorName}}</span>
+    {{/if}}
+    {{#if (and authorName organizationName)}}
+      <br/>
+    {{/if}}
+    {{#if organizationName}}
+      {{organizationName}}
+    {{/if}}
+  {{/media.content}}
+{{/media-container}}

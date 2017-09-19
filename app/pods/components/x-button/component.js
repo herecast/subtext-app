@@ -7,6 +7,11 @@ import XButtonMixin from 'subtext-ui/mixins/components/x-button';
  * Also see `x-link-to` component, for a `link-to` version with the same styling.
  */
 export default Ember.Component.extend(XButtonMixin, {
+  tagName: 'button',
+
+  attributeBindings: ['type'],
+  type: 'button',
+
   click(e) {
     e.preventDefault();
     this.onClick();

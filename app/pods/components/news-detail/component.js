@@ -16,6 +16,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeRoute: 'news.index',
   closeLabel: 'News',
   isPreview: false,
+  enableStickyHeader: false,
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
@@ -27,19 +28,13 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
     return orgIds.indexOf(newsOrganizationId) !== -1;
   }),
 
+  showEditButton: computed('canEdit', 'fastboot.isFastBoot', function() {
+    return get(this, 'canEdit') && ! get(this, 'fastboot.isFastBoot');
+  }),
+
   hasCaptionOrCredit: computed('model.bannerImage.{caption,credit}', function() {
     return Ember.isPresent(this.get('model.bannerImage.caption')) ||
       Ember.isPresent(this.get('model.bannerImage.credit'));
-  }),
-
-  organizationLinkRoute: computed('model.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'model.organization.bizFeedActive');
-    return bizFeedActive ? 'biz.show' : 'organization-profile';
-  }),
-
-  organizationLinkId: computed('model.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'model.organization.bizFeedActive');
-    return bizFeedActive ? get(this, 'model.organization.id') : get(this, 'model.organization.slug');
   }),
 
   _trackImpression() {

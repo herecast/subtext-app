@@ -17,7 +17,13 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeLabel: 'Events',
   fastboot: inject.service(),
   tracking: inject.service(),
+  store: inject.service(),
   isPreview: false,
+  enableStickyHeader: false,
+
+  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', function() {
+    return get(this, 'model.canEdit') && ! get(this, 'fastboot.isFastBoot');
+  }),
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
@@ -47,6 +53,10 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
 
   hasContactInfo: computed('model.eventUrl', 'model.contactEmail', 'model.contactPhone', function() {
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
+  }),
+
+  feedContent: computed('model.contentId', function() {
+    return get(this, 'store').findRecord('feed-content', get(this, 'model.contentId'));
   }),
 
   actions: {

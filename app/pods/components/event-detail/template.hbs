@@ -1,191 +1,228 @@
-<header class="DetailPage-navTop-container">
-  {{#if model.imageUrl}}
-    {{header-image
-      imageUrl=model.imageUrl
-      preserveAspectRatio=true
-    }}
-  {{/if}}
-</header>
+{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
 
-<div class="DetailPage-headerContainer">
-  <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h1" data-test-event-detail-title>{{model.title}}</h1>
-
-    {{#if model.subtitle}}
-      <p class='DetailPage-subtitle h2' data-test-event-detail-subtitle>{{model.subtitle}}</p>
+  <header class="DetailPage-navTop-container">
+    {{#if model.imageUrl}}
+      {{header-image
+        imageUrl=model.imageUrl
+        preserveAspectRatio=true
+      }}
     {{/if}}
+  </header>
 
-    <p data-test-event-detail-timeRange>{{model.timeRange}}</p>
+  {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true}}
+    {{#content-body}}
 
-    {{#if model.hasRegistrationInfo}}
-      <p>Register by <span data-test-event-detail-registrationDeadline>{{model.formattedRegistrationDeadline}}</span>
-      </p>
-    {{/if}}
-
-    {{#if model.presenterName}}
-      <p>Presenter: <span data-test-event-detail-presenterName>{{model.presenterName}}</span></p>
-    {{/if}}
-  </div>
-  <div class="DetailPage-headerSection">
-    <div class="DetailPage-headerNav">
-      <div class="DetailPage-headerNavItem">
-        {{#if model.costType}}
-          <p>
-            <a href="#" {{action 'scrollToMoreContent'}}>
-              {{fa-icon 'dollar' size=2}}
-            </a>
-          </p>
-          <div>
-            <a href="#" {{action 'scrollToMoreContent'}}>
-              <span class='DetailPage-costType' data-test-event-detail-costType>{{model.formattedCostType}}</span>
-            </a>
-          </div>
-        {{else}}
-          <p>{{fa-icon 'dollar' size=2}}</p>
-          &mdash;
-        {{/if}}
+      <div class="DetailPage-headerSection">
+        {{#title-text strong=true noMargin=true}}
+          <span data-test-event-detail-title>{{model.title}}</span>
+        {{/title-text}}
       </div>
-      <div class="DetailPage-headerNavItem">
-        <p>{{fa-icon 'map-marker' size=2}}</p>
-        <a href='{{model.directionsUrl}}' target='_blank' data-test-event-detail-directionsUrl>
-          <span data-test-event-detail-venueAddress>{{model.venueAddress}}</span>,
-          <br/><span data-test-event-detail-venueCity>{{model.venueCity}}</span> <span
-          data-test-event-detail-venueState>{{model.venueState}}</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
-{{#unless isPreview}}
-  {{report-content-details
-    contentId=model.contentId
-  }}
-{{/unless}}
+      {{horizontal-rule short=true}}
 
-<div class='DetailPage-sectionWrapper'>
-  <div class="DetailPage-section DetailPage-content ContentText">
-    {{#title-text strong=true}}From the Organizer{{/title-text}}
+      {{#media-container reverse=true centerVertically=true noRightMargin=true as |media|}}
 
-    <div class="ContentText" data-test-event-detail-content>
-        {{{ model.content }}}
-      </div>
-  </div>
-</div>
+        {{#media.object}}
+          {{#unless isPreview}}
+            {{#if showEditButton}}
+              {{#x-link-to 'events.edit' model.id size='medium' nowrap=true}}
+                {{fa-icon 'pencil'}}
+                Edit Post
+              {{/x-link-to}}
+            {{else}}
+              {{#if model.organization.subscribeUrl}}
+                {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
+              {{/if}}
+            {{/if}}
+          {{/unless}}
+        {{/media.object}}
 
-{{#unless isPreview}}
+        {{#media.content}}
+          {{#if model.organization.isDefaultOrganization}}
+            {{author-byline authorName=feedContent.authorName imageUrl=feedContent.avatarUrl}}
+          {{else}}
+            {{#link-to
+              model.organization.organizationLinkRoute
+              model.organization.organizationLinkId
+              class='DetailPage-organization-link'
+              data-test-link="organization-link"
+            }}
+              {{author-byline
+                organizationName=model.organization.name
+                imageUrl=model.organization.displayImageUrl
+              }}
+            {{/link-to}}
+          {{/if}}
+        {{/media.content}}
+
+      {{/media-container}}
+    {{/content-body}}
+  {{/sticky.item}}
+
   <div class='DetailPage-sectionWrapper'>
-    <div class='DetailPage-section DetailPage-startDiscussion'>
-      <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
-        {{#if model.commentCount}}
-          {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
-        {{else}}
-          {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
-        {{/if}}
-      </button>
-    </div>
-  </div>
-{{/unless}}
+    {{#if model.subtitle}}
+      {{#subtitle-text}}
+        <span data-test-event-detail-subtitle>{{model.subtitle}}</span>
+      {{/subtitle-text}}
+    {{/if}}
 
-<div class='DetailPage-sectionWrapper'>
-  <div class="DetailPage-section">
-    {{#title-text strong=true}}Additional Dates{{/title-text}}
-    {{event-other-dates event=model}}
-  </div>
-</div>
-
-<div class='DetailPage-sectionWrapper'>
-  <div class='DetailPage-section DetailPage-moreContent'>
-    <div class="row">
-      <div class="col-xs-6">
-        {{#title-text strong=true}}Price{{/title-text}}
-        <p><em>{{dash-if-empty model.formattedCostType}}</em></p>
-        {{#if model.costType}}
-          <span data-test-event-detail-cost>{{model.cost}}</span>
-        {{/if}}
-      </div>
-      {{#if hasContactInfo}}
-        <div class="col-xs-6">
-          {{#title-text strong=true}}Contact{{/title-text}}
-          {{#if model.eventUrl}}
-            <div>
-              {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
-                {{truncate model.eventUrl length=22}}
-              {{/normalized-link}}
-            </div>
-          {{/if}}
-          {{#if model.contactEmail}}
-            <div>
-              <a href="mailto:{{model.contactEmail}}" target='_blank' data-test-event-detail-contactEmail>
-                {{truncate model.contactEmail length=22}}
-              </a>
-            </div>
-          {{/if}}
-          {{#if model.contactPhone}}
-            <div>
-              <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
-                {{model.contactPhone}}
-              </a>
-            </div>
+    {{#media-container as |media|}}
+      {{#media.content}}
+        <div data-test-event-detail-timeRange>
+          {{model.timeRange}}
+        </div>
+        <div>
+          Price:
+          {{#if model.costType}}
+            {{#if isPaid}}
+              <span data-test-event-detail-cost>{{model.cost}}</span>
+            {{else}}
+              Free Admission
+            {{/if}}
+          {{else}}
+            -
           {{/if}}
         </div>
-      {{/if}}
+        {{#if model.hasRegistrationInfo}}
+          <div>
+            Register by
+            <span data-test-event-detail-registrationDeadline>
+              {{model.formattedRegistrationDeadline}}
+            </span>
+          </div>
+        {{/if}}
+      {{/media.content}}
+      {{#media.object}}
+        {{directions-link
+          url=model.directionsUrl
+          addressLine1=model.venueAddress
+          city=model.venueCity
+          state=model.venueState
+        }}
+      {{/media.object}}
+    {{/media-container}}
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-content ContentText">
+      {{#title-text strong=true noMargin=true}}From the Organizer{{/title-text}}
+
+      <div class="ContentText" data-test-event-detail-content>
+        {{{ model.content }}}
+      </div>
     </div>
   </div>
-</div>
 
-{{#unless isPreview}}
-  {{#if model.canEdit}}
-    {{edit-content-link
-      contentId=model.eventId
-      route='events.edit'
-      text='Edit Event'
+  {{#unless isPreview}}
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-startDiscussion'>
+        <button class='DetailPage-startDiscussionBtn' {{action 'scrollToTalk'}}>
+          {{#if model.commentCount}}
+            {{model.commentCount}}&nbsp;{{if (eq model.commentCount 1) 'comment' 'comments'}}
+          {{else}}
+            {{fa-icon 'comment-o'}}&nbsp;Start a Discussion
+          {{/if}}
+        </button>
+      </div>
+    </div>
+  {{/unless}}
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section">
+      {{#title-text strong=true}}Additional Dates{{/title-text}}
+      {{event-other-dates event=model}}
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class='DetailPage-section DetailPage-moreContent'>
+      <div class="row">
+        <div class="col-xs-6">
+          {{#title-text strong=true}}Price{{/title-text}}
+          <p><em>{{dash-if-empty model.formattedCostType}}</em></p>
+          {{#if model.costType}}
+            <span data-test-event-detail-cost>{{model.cost}}</span>
+          {{/if}}
+        </div>
+        {{#if hasContactInfo}}
+          <div class="col-xs-6">
+            {{#title-text strong=true}}Contact{{/title-text}}
+            {{#if model.eventUrl}}
+              <div>
+                {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
+                  {{truncate model.eventUrl length=22}}
+                {{/normalized-link}}
+              </div>
+            {{/if}}
+            {{#if model.contactEmail}}
+              <div>
+                <a href="mailto:{{model.contactEmail}}" target='_blank' data-test-event-detail-contactEmail>
+                  {{truncate model.contactEmail length=22}}
+                </a>
+              </div>
+            {{/if}}
+            {{#if model.contactPhone}}
+              <div>
+                <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
+                  {{model.contactPhone}}
+                </a>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#unless isPreview}}
+    {{report-content-details
+      contentId=model.contentId
     }}
-  {{/if}}
 
-  {{#horizontal-rule}}
-    {{social-share
-      title=model.title
-      authorName=model.organization.name
-      twitterHandle=model.organization.twitterHandle
-      sharedBy=session.userName
-      model=model
-    }}
-  {{/horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
+    {{#horizontal-rule}}
+      {{social-share
+        title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
+        sharedBy=session.userName
+        model=model
       }}
+    {{/horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        {{ad-banner
+          contentModel=model
+        }}
+      </div>
     </div>
-  </div>
 
-  {{horizontal-rule}}
+    {{horizontal-rule}}
 
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-comments">
-      {{#title-text strong=true}}Comments{{/title-text}}
+    <div class='DetailPage-sectionWrapper'>
+      <div class="DetailPage-section DetailPage-comments">
+        {{#title-text strong=true}}Comments{{/title-text}}
 
-      {{content-comments
-        content=model
-        scrollToAnchor=scrollToAnchor
-        scrollTo=(action scrollTo)
-      }}
+        {{content-comments
+          content=model
+          scrollToAnchor=scrollToAnchor
+          scrollTo=(action scrollTo)
+        }}
+      </div>
     </div>
-  </div>
 
-  {{horizontal-rule}}
+    {{horizontal-rule}}
 
-  <div class='DetailPage-sectionWrapper'>
-    <div class='DetailPage-similarContent'>
-      {{#similar-content
-        contentId=model.contentId
-        limit=4
-      }}
-        {{#title-text strong=true}}Suggested{{/title-text}}
-      {{/similar-content}}
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true}}Suggested{{/title-text}}
+        {{/similar-content}}
+      </div>
     </div>
-  </div>
 
-{{/unless}}
+  {{/unless}}
+{{/sticky-container}}

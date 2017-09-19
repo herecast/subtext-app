@@ -10,7 +10,7 @@ moduleForAcceptance('Acceptance | talk/show', {
 });
 
 test('visiting /talk/:id', function(assert) {
-  assert.expect(7);
+  assert.expect(5);
 
   const talk = server.create('talk', {
     title: 'East Coast 4 life',
@@ -25,15 +25,11 @@ test('visiting /talk/:id', function(assert) {
 
   visit('/talk/1');
 
-  const beforeCommentCount = new RegExp('^'+`${talk.commentCount} comments`);
-  const afterCommentCount = new RegExp('^'+`${talk.commentCount + 1} comments`);
-
   andThen(function() {
     assert.equal(currentURL(), '/talk/1', 'it should be at the /talk/1 url');
     assert.equal(find(testSelector('talk-title')).text(), talk.title, 'it should show the title');
     assert.equal(find(testSelector('talk-content')).text(), talk.content, 'it should show the content');
     assert.equal(find(testSelector('talk-author-name')).first().text().trim(), talk.authorName, 'it should show the author\'s name');
-    assert.ok(find(testSelector('comment-count')).first().text().trim().match(beforeCommentCount), 'it should show a count of 8 comments');
     // assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
   });
 
@@ -42,7 +38,6 @@ test('visiting /talk/:id', function(assert) {
 
   andThen(function() {
     assert.equal(currentURL(), '/talk/1', 'it should be at the /talk/1 url');
-    assert.ok(find(testSelector('comment-count')).first().text().trim().match(afterCommentCount), 'it should show a count of 9 comments');
     // assert.equal(find(testSelector('content-comment')).length, comments.length + 1, 'it should show a count of 9 comments');
   });
 });

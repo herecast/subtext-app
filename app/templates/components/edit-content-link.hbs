@@ -1,11 +1,3 @@
-<h2 class='SectionHeader'>
-  <span class='SectionHeader-text'>
-    Admin
-  </span>
-</h2>
-
-<div class='{{if linkClasses linkClasses "u-textCentered u-layoutPadT40 u-layoutPadB30"}}'>
-  {{#link-to route contentId class='h4'}}
-    {{fa-icon 'pencil'}} {{text}}
-  {{/link-to}}
-</div>
+{{#link-to route contentId}}
+  {{fa-icon 'pencil'}} {{text}}
+{{/link-to}}

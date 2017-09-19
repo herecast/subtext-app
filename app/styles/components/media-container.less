@@ -5,15 +5,32 @@
   &--reverse {
     .flex-direction(row-reverse);
 
-    .MediaContainer-object {
+    > .MediaContainer-object {
       padding-left: 10px;
       padding-right: 0;
     }
   }
 
+  &--centerVertically {
+    .align-items(center);
+  }
+
+  &--noMargin {
+    margin: 0 !important;
+  }
+
+  &--noRightMargin {
+    margin-right: 0 !important;
+  }
+
   &-object {
     padding-left: 0;
     padding-right: 10px;
+  }
+
+  &-content {
+    width: 100%;
+    line-height: 1;
   }
 
   &-container {

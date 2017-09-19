@@ -1,109 +1,113 @@
-<header class="DetailPage-navTop-container">
-  {{#if model.imageUrl}}
-    {{header-image imageUrl=model.imageUrl}}
-  {{/if}}
-</header>
+{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+  <header class="DetailPage-navTop-container">
+    {{#if model.imageUrl}}
+      {{header-image imageUrl=model.imageUrl}}
+    {{/if}}
+  </header>
 
-<div class="DetailPage-headerContainer">
-  <div class="DetailPage-headerSection">
-    <h1 class="DetailPage-title h1" data-test-talk-title>{{model.title}}</h1>
-  </div>
-  <div class="DetailPage-headerSection">
-    <div class="DetailPage-headerNav">
-      <div class='DetailPage-headerNavItem'>
-        {{#if talk.authorImageUrl}}
-          <img src="{{model.authorImageUrl}}">
-        {{/if}}
-        <div class='h3'>
-          Discussion started by <span data-test-talk-author-name>{{model.authorName}}</span>
-          <br/>{{formattedPublishedAt}}
-        </div>
-        <p data-test-comment-count>
-          {{#if model.commentCount}}
-            {{model.commentCount}} {{model.commentCountText}}
+  {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true}}
+
+    {{#content-body}}
+
+      <div class="DetailPage-headerSection">
+        {{#title-text noMargin=true strong=true}}
+          <span data-test-talk-title>{{model.title}}</span>
+        {{/title-text}}
+      </div>
+
+      {{horizontal-rule short=true}}
+
+      {{#media-container noMargin=true centerVertically=true as |media|}}
+        {{#media.object}}
+          {{#if talk.authorImageUrl}}
+            <img src="{{model.authorImageUrl}}">
           {{/if}}
-          {{#if model.viewCount}}
-            {{model.viewCount}} {{model.viewCountText}}
-          {{/if}}
-        </p>
+        {{/media.object}}
+        {{#media.content}}
+          {{#text-block small=true}}
+            Discussion started by <span data-test-talk-author-name>{{model.authorName}}</span>
+            <br/>{{formattedPublishedAt}}
+          {{/text-block}}
+          {{#text-block small=true}}
+            {{#if model.commentCount}}
+              {{model.commentCount}} {{model.commentCountText}} &nbsp;
+            {{/if}}
+            {{#if model.viewCount}}
+              {{model.viewCount}} {{model.viewCountText}}
+            {{/if}}
+          {{/text-block}}
+        {{/media.content}}
+      {{/media-container}}
+
+    {{/content-body}}
+  {{/sticky.item}}
+
+
+  {{#unless isPreview}}
+    {{report-content-details
+      contentId=model.contentId
+    }}
+  {{/unless}}
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-section DetailPage-content">
+      <div class='ContentBody'>
+        <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
       </div>
     </div>
   </div>
-</div>
 
-{{#unless isPreview}}
-  {{report-content-details
-  contentId=model.contentId
-  }}
-{{/unless}}
-
-<div class='DetailPage-sectionWrapper'>
-  <div class="DetailPage-section DetailPage-content">
-    <div class='ContentBody'>
-      <div class='ContentText' data-test-talk-content>{{{model.content}}}</div>
-    </div>
-  </div>
-</div>
-
-{{#unless isPreview}}
-  {{#if model.canEdit}}
-    {{edit-content-link
-    contentId=model.id
-    route='talk.edit'
-    text='Edit Talk'
-    }}
-  {{/if}}
-
-  {{#horizontal-rule}}
-    {{social-share
-      title=model.title
-      authorName=model.organization.name
-      twitterHandle=model.organization.twitterHandle
-      sharedBy=session.userName
-      model=model
-      isTalkChannel=true
-    }}
-  {{/horizontal-rule}}
-
-  <div class='DetailPage-sectionWrapper'>
-    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-      {{ad-banner
-        contentModel=model
+  {{#unless isPreview}}
+    {{#horizontal-rule}}
+      {{social-share
+        title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
+        sharedBy=session.userName
+        model=model
+        isTalkChannel=true
       }}
+    {{/horizontal-rule}}
+
+    <div class='DetailPage-sectionWrapper'>
+      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        {{ad-banner
+          contentModel=model
+        }}
+      </div>
     </div>
-  </div>
 
-  {{horizontal-rule}}
+    {{horizontal-rule}}
 
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-comments">
-      {{#title-text strong=true}}
-        Comments
-        {{#if model.commentCount}}
-          <span class="DetailPage-comments-count">{{model.commentCount}}</span>
-        {{/if}}
-      {{/title-text}}
+    <div class='DetailPage-sectionWrapper'>
+      <div class="DetailPage-section DetailPage-comments">
+        {{#title-text strong=true}}
+          Comments
+          {{#if model.commentCount}}
+            <span class="DetailPage-comments-count">{{model.commentCount}}</span>
+          {{/if}}
+        {{/title-text}}
 
-      {{content-comments
-      content=model
-      scrollTo=scrollTo
-      displayPromotion=displayPromotion
-      }}
+        {{content-comments
+        content=model
+        scrollTo=scrollTo
+        displayPromotion=displayPromotion
+        }}
+      </div>
     </div>
-  </div>
 
-  {{horizontal-rule}}
+    {{horizontal-rule}}
 
-  <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-similarContent">
-      {{#similar-content
-        contentId=model.contentId
-        limit=4
-      }}
-        {{#title-text strong=true}}Suggested{{/title-text}}
-    {{/similar-content}}
-
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true}}Suggested{{/title-text}}
+        {{/similar-content}}
+      </div>
     </div>
-  </div>
 
-{{/unless}}
+  {{/unless}}
+{{/sticky-container}}

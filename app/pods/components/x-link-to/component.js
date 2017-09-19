@@ -7,4 +7,6 @@ import XButtonMixin from 'subtext-ui/mixins/components/x-button';
  */
 export default Ember.LinkComponent.extend(XButtonMixin, {
   tagName: 'a',
+  style: 'link',
+  color: 'black',
 });
