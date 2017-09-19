@@ -3,12 +3,12 @@ import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject, computed } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
+export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLocation, {
   location: inject.service('window-location'),
-  userLocation: inject.service(),
   currentUserEmail: computed.oneWay('session.currentUser.email'),
 
   model(params, transition) {
@@ -18,37 +18,13 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, {
       contactEmail: get(this, 'currentUserEmail')
     };
 
-    const locationPromise = get(this, 'userLocation.location');
-
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        const model = this.store.createRecord('market-post', newRecordValues);
-        locationPromise.then((location) => {
-          model.contentLocations.addObject(
-            this.store.createRecord('content-location', {
-              locationType: 'base',
-              locationId: location.id,
-              location: location
-            })
-          );
-        });
-
-        return model;
+        return this.store.createRecord('market-post', newRecordValues);
       });
     } else {
-      const model = this.store.createRecord('market-post', newRecordValues);
-      locationPromise.then((location) => {
-        model.get('contentLocations').addObject(
-          this.store.createRecord('content-location', {
-            locationType: 'base',
-            locationId: location.id,
-            location: location
-          })
-        );
-      });
-
-      return model;
+      return this.store.createRecord('market-post', newRecordValues);
     }
   },
 

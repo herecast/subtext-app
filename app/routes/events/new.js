@@ -2,10 +2,11 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, {
+export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
   intercom: inject.service('intercom'),
   location: inject.service('window-location'),
   userLocation: inject.service(),
@@ -17,40 +18,13 @@ export default Ember.Route.extend(Scroll, Authorized, {
       listservIds: []
     };
 
-    const locationPromise = get(this, 'userLocation.location');
-
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
         return this.store.createRecord('event', newRecordValues);
-      }).then((model) => {
-
-        locationPromise.then((location) => {
-          model.contentLocations.addObject(
-            this.store.createRecord('content-location', {
-              locationType: 'base',
-              locationId: location.id,
-              location: location
-            })
-          );
-        });
-
-        return model;
       });
     } else {
-      const model = this.store.createRecord('event', newRecordValues);
-
-      locationPromise.then((location) => {
-        model.get('contentLocations').addObject(
-          this.store.createRecord('content-location', {
-            locationType: 'base',
-            locationId: location.id,
-            location: location
-          })
-        );
-      });
-
-      return model;
+      return this.store.createRecord('event', newRecordValues);
     }
   },
 

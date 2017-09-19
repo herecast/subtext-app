@@ -2,11 +2,11 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
-const { get, inject } = Ember;
+const { get } = Ember;
 
-export default Ember.Route.extend(Scroll, ShareCaching, Authorized, {
-  userLocation: inject.service(),
+export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLocation, {
 
   model(params, transition) {
     let newRecordValues = {
@@ -17,40 +17,13 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, {
       authorName: this.get('session.currentUser.name')
     };
 
-    const locationPromise = get(this, 'userLocation.location');
-
     if ('organization_id' in transition.queryParams) {
-      const model = this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
+      return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
         return this.store.createRecord('talk', newRecordValues);
       });
-
-      locationPromise.then((location) => {
-        get(model, 'contentLocations').addObject(
-          this.store.createRecord('content-location', {
-            locationType: 'base',
-            locationId: location.id,
-            location: location
-          })
-        );
-      });
-
-      return model;
-
     } else {
-      const model = this.store.createRecord('talk', newRecordValues);
-
-      locationPromise.then((location) => {
-        get(model, 'contentLocations').addObject(
-          this.store.createRecord('content-location', {
-            locationType: 'base',
-            locationId: location.id,
-            location: location
-          })
-        );
-      });
-
-      return model;
+      return this.store.createRecord('talk', newRecordValues);
     }
   },
 
