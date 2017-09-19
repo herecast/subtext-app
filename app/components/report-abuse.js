@@ -4,6 +4,8 @@ import TestSelector from 'subtext-ui/mixins/components/test-selector';
 const { get, inject, observer } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
+  tracking: inject.service(),
+
   'data-test-component': 'report-abuse-link',
   classNames: ['ReportAbuse'],
   api: inject.service('api'),
@@ -19,8 +21,15 @@ export default Ember.Component.extend(TestSelector, {
 
   flagTypes: ['Offensive', 'Inflammatory', 'Personal Attack', 'Spam'],
 
+  _trackReportAbuseClick() {
+    get(this, 'tracking').push({
+      'event': 'select-report-abuse'
+    });
+  },
+
   actions: {
     reportAbuse() {
+      this._trackReportAbuseClick();
       const isPreview = get(this, 'isPreview');
       if(!isPreview) {
         this.set('showAbuseReportMenu', true);
