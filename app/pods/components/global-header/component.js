@@ -28,7 +28,9 @@ export default Ember.Component.extend(TestSelector, {
     toggleSearch() {
       const searchService = get(this, 'searchService');
       if(get(searchService, 'searchActive')) {
-        searchService.clearSearch();
+        if(get(searchService, 'query').length) {
+          searchService.clearSearch();
+        }
       } else {
         run.next(() => {
           this.$('.SearchInput input').focus();

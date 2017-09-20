@@ -21,14 +21,14 @@ export default Ember.Service.extend({
       query: query
     });
 
-    const userLocationId = get(this, 'userLocation.activeLocationId');
-
-    Ember.$(window).scrollTop(0,0);
-    get(this, 'routing').transitionTo('location.index',
-      [userLocationId],
-      {query: query}
-    ).finally(() => {
-      set(this, 'isLoading', false);
+    get(this, 'userLocation.location').then((userLocation) => {
+      Ember.$(window).scrollTop(0,0);
+      get(this, 'routing').transitionTo('location.index',
+        [get(userLocation, 'id')],
+        {query: query}
+      ).finally(() => {
+        set(this, 'isLoading', false);
+      });
     });
   },
 

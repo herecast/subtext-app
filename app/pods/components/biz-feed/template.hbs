@@ -26,9 +26,7 @@
 {{/if}}
 
 {{#if showSearchBox}}
-  <div class='BizFeed-search'>
-    {{search-input value=query update=updateQuery data-test-component='organization-content-query'}}
-  </div>
+  {{search-input value=query update=updateQuery data-test-component='organization-content-query' class='BizFeed-search'}}
 {{/if}}
 
 {{#if isOrganizationManager}}

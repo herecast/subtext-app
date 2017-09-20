@@ -9,6 +9,8 @@ const {
 
 export default Ember.Controller.extend({
   modals: inject.service(),
+  elsewhere: inject.service('ember-elsewhere'),
+  hasHeaderPageToolbar: computed.bool('elsewhere.actives.page-toolbar.length'),
 
   currentController: inject.service('current-controller'),
   routing: inject.service('_routing'),

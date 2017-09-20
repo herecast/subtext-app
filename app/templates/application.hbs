@@ -11,7 +11,7 @@
   }}
 {{/unless}}
 
-<div id="main" class="{{backgroundClass}} {{if searchOpen 'searchOpen'}}">
+<div id="main" class="{{backgroundClass}} {{if searchOpen 'search-open'}} {{if hasHeaderPageToolbar 'has-header-page-toolbar'}}">
   <div class='BackgroundIndex'>
     {{outlet 'background'}}
   </div>
