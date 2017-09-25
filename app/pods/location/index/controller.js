@@ -43,6 +43,10 @@ export default Ember.Controller.extend(PaginatedFilter, LocationMixin, {
     });
   },
 
+  trackIntegratedDetailLoaded(contentId) {
+    this._gtmTrackEvent('integrated-detail-loaded', `integrated-detail-loaded-${contentId}`);
+  },
+
   trackModelUpdates(lastPageUpdated) {
     this._gtmTrackEvent('end-of-index-reached', `last-page-updated-${lastPageUpdated}`);
   },

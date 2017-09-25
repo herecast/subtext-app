@@ -21,6 +21,10 @@ export default Ember.Controller.extend({
       this.transitionToRoute('location.index');
     },
 
+    integratedDetailLoaded(contentId) {
+      get(this, 'parentController').trackIntegratedDetailLoaded(contentId);
+    },
+
     scrolledPastDetail(contentId) {
       get(this, 'parentController').trackScrollPastIntegratedDetail(contentId);
     }
