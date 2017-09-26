@@ -37,6 +37,7 @@ export default Ember.Mixin.create({
   wantsToAdvertise: DS.attr('boolean'),
 
   isPaid: Ember.computed.equal('costType', 'paid'),
+  isFree: Ember.computed.equal('costType', 'free'),
 
   safeImageUrl: computed('imageUrl', function() {
     if (Ember.isPresent(this.get('imageUrl'))) {

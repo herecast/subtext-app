@@ -74,10 +74,14 @@
         <div>
           Price:
           {{#if model.costType}}
-            {{#if isPaid}}
-              <span data-test-event-detail-cost>{{model.cost}}</span>
+            {{#if model.cost}}
+              <span data-test-event-detail-header-cost>{{model.cost}}</span>
             {{else}}
-              Free Admission
+              {{#if model.isFree}}
+                Free Admission
+              {{else}}
+                {{model.costType}}
+              {{/if}}
             {{/if}}
           {{else}}
             -
