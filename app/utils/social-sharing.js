@@ -33,7 +33,8 @@ export default {
     let url = `${locationService.origin()}/feed/${contentId}`;
 
     if (get(model, 'eventId')) {
-      url += `?eventInstanceId=${get(model, 'id')}`;
+      let additionalParam = get(model, 'eventInstanceId') || get(model, 'id');
+      url += `?eventInstanceId=${additionalParam}`;
     }
 
     return url;
