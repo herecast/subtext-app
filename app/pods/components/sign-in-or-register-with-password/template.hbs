@@ -55,8 +55,11 @@
     }}
 
     {{#if isSignIn}}
-      {{#link-to 'forgot-password' class='SignInForm-link' data-test-link='forgot-password'}}
-        Forgot password?
+      {{#link-to 'forgot-password' class='SignInForm-link'
+        data-test-link='forgot-password' preventDefault=true}}
+        <span {{action forgotPassword }}>
+          Forgot Password?
+        </span>
       {{/link-to}}
     {{else}}
       <a class='SignInForm-link' {{action 'changeMode' 'sign-in-with-password'}}>

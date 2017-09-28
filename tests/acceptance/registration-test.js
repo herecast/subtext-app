@@ -20,7 +20,7 @@ const registrationMenuOrPage = {
   open() {
     this.visit();
     click(testSelector('link', 'login-link'));
-    click(testSelector('action', 'change-sign-in-module-to-join'));
+    click(testSelector('link', 'join-tab'));
   },
 
   submit() {

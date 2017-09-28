@@ -115,7 +115,11 @@ export default Ember.Component.extend(TestSelector, Validation, {
               if (onRegistration) {
                 onRegistration(response);
               } else {
-                get(this, '_routing').transitionTo('register.complete');
+                return get(this, '_routing').transitionTo('register.complete');
+              }
+              const afterAuthenticate = get(this, 'afterAuthenticate');
+              if (afterAuthenticate) {
+                afterAuthenticate();
               }
               resolve();
             },
@@ -194,5 +198,12 @@ export default Ember.Component.extend(TestSelector, Validation, {
         email: id
       });
     }
+  },
+
+  forgotPassword() {
+    get(this, '_routing').transitionTo('forgot-password');
+    const afterAuthenticate = get(this, 'afterAuthenticate');
+    afterAuthenticate();
   }
+
 });

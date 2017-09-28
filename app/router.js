@@ -16,6 +16,7 @@ const Router = Ember.Router.extend({
     );
     return true;
   }),
+
 });
 
 Router.map(function() {

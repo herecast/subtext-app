@@ -1,16 +1,23 @@
 <div class='SignIn-module'>
-  {{#if (eq signInModule 'sign-in-with-email-or-oauth')}}
-    {{sign-in-with-email-or-oauth
-      email=(mut email)
+  {{#content-body}}
+    {{#text-block center=true}}
+      Sign in or join to explore local Upper Valley
+      news, events and connect with your neighbors.
+    {{/text-block}}
+
+    {{facebook-login-button
       afterAuthenticate=afterAuthenticate
-      changeModule=(action 'changeModule')
     }}
-  {{else}}
+    
+    {{#text-block center=true large=true strong=true}}
+      or
+    {{/text-block}}
+
     {{sign-in-or-register-with-password
       email=(mut email)
       afterAuthenticate=afterAuthenticate
       tab=(mut signInModule)
       changeModule=(action 'changeModule')
     }}
-  {{/if}}
+  {{/content-body}}
 </div>

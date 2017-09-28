@@ -10,8 +10,10 @@ export default Ember.Component.extend({
   tracking: inject.service(),
   'data-test-component': 'sign-in',
   email: null,
-  signInModule: 'sign-in-with-email-or-oauth',
-  afterAuthenticate() {},
+  signInModule: 'sign-in-with-password',
+  afterAuthenticate() {
+    this.ok();
+  },
 
   trackMethodChange(name) {
     get(this, 'tracking').push({

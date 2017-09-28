@@ -116,12 +116,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       return promise;
     },
 
-    willTransition() {
-      get(this, 'modals').clearModals();
-    },
-
     didTransition() {
       this._super(...arguments);
+      get(this, 'modals').clearModals();
       /*
        * The history service is manually updated here
        * so it correctly tracks the referring page.

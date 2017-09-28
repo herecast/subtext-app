@@ -12,33 +12,6 @@ moduleForAcceptance('Acceptance | login', {
   }
 });
 
-test('sign in via email', function(assert) {
-  const testEmail = 'test@test.com';
-  const done = assert.async();
-
-  server.post('/users/email_signin_link', function(db, request) {
-    const attrs = JSON.parse(request.requestBody);
-
-    assert.expect(attrs.email, testEmail,
-      "Clicking the 'Send sign in link' button POSTs email to correct api endpoint");
-
-    done();
-    return {};
-  });
-
-  visit('/sign_in');
-
-  fillIn(testSelector('field', 'sign-in-email'), testEmail);
-
-  click(testSelector('action', 'send-sign-in-link'));
-
-  andThen(()=> {
-    assert.equal(
-      find(testSelector('component', 'check-your-email')).length, 1,
-      "Displays message to check email for link to sign in");
-  });
-});
-
 test('Follow sign in link, authentication succeeds', function(assert) {
   const done = assert.async();
   const user = server.create('user');
@@ -91,8 +64,6 @@ test('logging in works', function(assert) {
   visit('/');
 
   click(testSelector('link', 'login-link'));
-
-  click(testSelector('action', 'change-sign-in-module'));
 
   fillIn(testSelector('field', 'sign-in-email'), user.email);
   fillIn(testSelector('field', 'sign-in-password'), 'password');
