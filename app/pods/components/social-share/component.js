@@ -62,6 +62,17 @@ export default Ember.Component.extend({
     return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&hashtags=${hashtags}`);
   }),
 
+  orgHashtag: computed('model.organization.name', function(){
+    const orgName = get(this, 'model.organization.name');
+    const content_type = get(this, 'model.contentType');
+    if (content_type === 'news' && orgName) {
+      const formattedOrgName = orgName.replace(/[^a-zA-Z0-9]/g, '');
+      return `#${formattedOrgName}`;
+    } else {
+      return '';
+    }
+  }),
+
   actions: {
     shareEmail() {
       const isPreview = get(this, 'isPreview');
@@ -74,13 +85,15 @@ export default Ember.Component.extend({
 
     shareFacebook() {
       const urlForShare = this.urlForShare();
+      const orgHashtag = get(this, 'orgHashtag');
+
       //for live debug
       console.info(`Share to facebook of ${urlForShare}`);
 
       FB.ui({
         method: 'share',
         mobile_iframe: true,
-        hashtag: '#UpperValley',
+        hashtag: orgHashtag,
         href: urlForShare
       }, (response) => {
         if (response && !response.error_message) {

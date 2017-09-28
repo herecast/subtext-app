@@ -37,6 +37,8 @@ export default DS.Model.extend(ContentLocationsMixin, {
   organizationName: DS.attr('string'),
   promoteRadius: DS.attr('number'),
 
+  contentType: 'news',
+
   formattedPublishedAt: computed('publishedAt', function() {
     return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
   }),
