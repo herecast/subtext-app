@@ -32,4 +32,5 @@ export default Ember.Route.extend(ModalRoute, Redirect, RouteMetaMixin, DocTitle
 
     return this.store.findRecord('feed-content', params.slug, { reload: true });
   }
+
 });

@@ -196,7 +196,7 @@ test('Visiting news landing page, clicking organization name brings me to profil
   });
 });
 
-test('Visiting news item page, clicking organization name brings me to profile page if rganization.bizFeedActive is false', function(assert) {
+test('Visiting news item page, clicking organization name brings me to profile page if organization.bizFeedActive is false', function(assert) {
   assert.expect(1);
   mockLocationCookie(this.application);
 
@@ -205,10 +205,15 @@ test('Visiting news item page, clicking organization name brings me to profile p
     organizationId: organization.id,
     title: 'revelation'
   });
-  visit(`/news/${news.id}`).then(()=> {
-    let $orgLink = find(testSelector('link', 'organization-link'));
-    click($orgLink).then(()=> {
-      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
+
+  visit('/');
+
+  andThen(() => {
+    visit(`/news/${news.id}`).then(()=> {
+      let $orgLink = find(testSelector('link', 'organization-link'));
+      click($orgLink).then(()=> {
+        assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
+      });
     });
   });
 });

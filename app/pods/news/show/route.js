@@ -12,6 +12,18 @@ export default Ember.Route.extend(ModalRoute, Redirect, RouteMetaMixin, DocTitle
   modelImageKey: 'bannerImage.url',
   modelChannel: 'news',
 
+  beforeModel(transition) {
+    const wasADirectLinkToNews = transition.sequence === 0;
+
+    if (wasADirectLinkToNews) {
+      const contentId = transition.params['news.show'].id || false;
+
+      if (contentId) {
+        this.transitionTo('location.index.show', 'hartford-vt', contentId);
+      }
+    }
+  },
+
   model(params)  {
     return this.store.findRecord('news', params.id, { reload: true });
   },

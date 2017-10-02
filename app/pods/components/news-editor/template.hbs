@@ -251,7 +251,7 @@
               {{#if news.isPublished}}
                 Published {{formatted-date news.publishedAt}}.
                 {{#unless (or hasUnpublishedChanges isPublishing)}}
-                  {{link-to 'View it now' 'news.show' news.id}}
+                  {{link-to 'View it now' 'location.index.show' 'hartford-vt' news.id}}
                 {{/unless}}
 
                 {{#if (or news.hasUnpublishedChanges hasUnpublishedChanges)}}

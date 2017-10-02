@@ -14,27 +14,30 @@ test('news show page, direct', function(assert) {
   const news1 = server.create('news');
   const newsAll = server.createList('news', 3).concat([news1]);
 
-  visit(`/news/${news1.id}`);
+  visit('/');
 
-  andThen(()=>{
-    assert.equal(
-      currentURL(),
-      `/news/${news1.id}`);
+  andThen(() => {
+    visit(`/news/${news1.id}`);
 
-    assert.equal(
-      find(testSelector('component', 'news-detail')).length, 1,
-      "Displays news detail");
+    andThen(()=>{
+      assert.equal(
+        currentURL(),
+        `/news/${news1.id}`);
 
-    assert.equal(
-      find(testSelector('page', 'location.news')).length, 1,
-      "Displays location.news page in background");
+      assert.equal(
+        find(testSelector('component', 'news-detail')).length, 1,
+        "Displays news detail");
 
-    newsAll.forEach((item)=>{
-      assert.ok(
-        find(testSelector('news-card', item.title)).length,
-        "News card for news item is visible");
+      assert.equal(
+        find(testSelector('page', 'location.news')).length, 1,
+        "Displays location.news page in background");
+
+      newsAll.forEach((item)=>{
+        assert.ok(
+          find(testSelector('news-card', item.title)).length,
+          "News card for news item is visible");
+      });
     });
-
   });
 });
 

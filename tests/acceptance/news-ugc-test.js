@@ -113,7 +113,7 @@ test('/{location.id}/news cards link to full articles', function(assert) {
 test('/news/:id commenting as a logged in user', function(assert) {
   assert.expect(5);
   mockLocationCookie(this.application);
-  
+
   server.create('organization', { canPublishNews: true });
 
   const news = server.create('news', {
@@ -128,21 +128,28 @@ test('/news/:id commenting as a logged in user', function(assert) {
     contentId: news.contentId
   });
 
-  visit('/news/50');
+  visit('/');
+  //NOTE: This is required with news.show redirect to make detail visit not the first transition sequence
 
   andThen(() => {
-    assert.equal(currentURL(), '/news/50', 'it should be at the url for "/news/50"');
-    assert.equal(find(testSelector('news-title')).text(), news.title, 'it should show the title');
-    assert.equal(find(testSelector('author-name')).first().text().trim(), news.authorName, "it should show the author's name");
-    assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
+    visit('/news/50');
+
+    andThen(() => {
+      assert.equal(currentURL(), '/news/50', 'it should be at the url for "/news/50"');
+      assert.equal(find(testSelector('news-title')).text(), news.title, 'it should show the title');
+      assert.equal(find(testSelector('author-name')).first().text().trim(), news.authorName, "it should show the author's name");
+      assert.equal(find(testSelector('content-comment')).length, comments.length, 'it should show a count of 8 comments');
+    });
+
+    fillIn(testSelector('field', 'new-comment'), 'foobar');
+    click(testSelector('component', 'add-comment-button'));
+
+    andThen(() => {
+      assert.equal(find(testSelector('content-comment')).length, comments.length + 1, 'it should show a count of 9 comments');
+    });
+
   });
 
-  fillIn(testSelector('field', 'new-comment'), 'foobar');
-  click(testSelector('component', 'add-comment-button'));
-
-  andThen(() => {
-    assert.equal(find(testSelector('content-comment')).length, comments.length + 1, 'it should show a count of 9 comments');
-  });
 });
 
 // **can write acceptance tests for**
