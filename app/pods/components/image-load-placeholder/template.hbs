@@ -13,6 +13,9 @@
   </div>
   {{#if imageIsLoaded}}
     <div class="ImageLoadPlaceholder-yield ImageLoadPlaceholder-fade-in">
+      {{#if imageForContent}}
+        <div class="ImageLoadPlaceholder-gradient"></div>
+      {{/if}}
       {{yield}}
     </div>
   {{/if}}

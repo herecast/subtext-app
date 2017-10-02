@@ -68,20 +68,20 @@ export default DS.Model.extend(BaseEvent, {
   contentId: computed.alias('id'),
 
   bannerImage: computed.alias('primaryImage'),
-  coverImageUrl: computed.alias('bannerImage.url'),
+  coverImageUrl: computed.alias('bannerImage.imageUrl'),
   featuredImageWidth: computed.oneWay('bannerImage.width'),
   featuredImageHeight: computed.oneWay('bannerImage.height'),
-  featuredImageUrl: computed.oneWay('bannerImage.url'),
+  featuredImageUrl: computed.oneWay('bannerImage.imageUrl'),
   featuredImageCaption: computed.oneWay('bannerImage.caption'),
 
-  primaryImageUrl: computed.oneWay('primaryImage.url'),
+  primaryImageUrl: computed.oneWay('primaryImage.imageUrl'),
   primaryImageCaption: computed.oneWay('primaryImage.caption'),
   primaryImage: computed('images', function() {
     const primaryImage = get(this, 'images').find(image => {
-      return get(image, 'primary') === true;
+      return get(image, 'primary') === 1;
     });
 
-    return isPresent(primaryImage) ? primaryImage : {url: get(this, 'imageUrl'), caption: null};
+    return isPresent(primaryImage) ? primaryImage : {imageUrl: get(this, 'imageUrl'), caption: null};
   }),
 
   isNews: computed.equal('normalizedContentType', 'news'),

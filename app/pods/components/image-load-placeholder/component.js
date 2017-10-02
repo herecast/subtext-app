@@ -20,6 +20,7 @@ export default Ember.Component.extend({
 
   imageIsLoaded: false,
   blurIsLoaded: false,
+  imageForContent: false,
 
   didReceiveAttrs() {
     this._super(...arguments);

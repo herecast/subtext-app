@@ -24,6 +24,8 @@ export default Ember.Component.extend({
   activeClass: '',
   inactiveClass: '',
 
+  toggleCaption: function() {},
+
   activeClassName: computed('isSticky', 'activeClass', function() {
     return get(this, 'isSticky') ? get(this, 'activeClass') : get(this, 'inactiveClass');
   }),
@@ -93,6 +95,7 @@ export default Ember.Component.extend({
       isSticky: true,
       isHidden: false
     });
+    this.toggleCaption('hide');
   },
 
   resetPositioning() {
@@ -101,6 +104,7 @@ export default Ember.Component.extend({
       isSticky: false,
       isHidden: false
     });
+    this.toggleCaption('unhide');
   },
 
   hide() {

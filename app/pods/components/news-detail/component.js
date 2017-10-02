@@ -6,7 +6,8 @@ const {
   computed,
   inject,
   isPresent,
-  get
+  get,
+  set
 } = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
@@ -17,6 +18,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeLabel: 'News',
   isPreview: false,
   enableStickyHeader: false,
+  captionHidden: false,
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
@@ -66,5 +68,15 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
     this._super();
     this._trackImpression();
   },
+
+  actions: {
+    toggleCaption(toggle) {
+      if(toggle === 'hide') {
+        set(this, 'captionHidden', true);
+      } else if(toggle === 'unhide') {
+        set(this, 'captionHidden', false);
+      }
+    }
+  }
 
 });

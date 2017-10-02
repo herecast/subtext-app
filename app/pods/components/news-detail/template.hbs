@@ -11,21 +11,11 @@
               imageUrl=(optimized-image-url model.featuredImageUrl 640 480 true)
               placeholderUrl=(optimized-image-url model.featuredImageUrl 64 48 true)
               placeholderImageClass='img-responsive'
-
+              imageForContent=true
             }}
               <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
             {{/image-load-placeholder}}
           </div>
-
-          {{#if hasCaptionOrCredit}}
-            <div class='DetailPage-headerImageCaption'>
-              {{model.featuredImageCaption}}
-
-              {{#if model.bannerImage.credit}}
-                / Source: {{model.bannerImage.credit}}
-              {{/if}}
-            </div>
-          {{/if}}
         </div>
       {{else}}
         {{#if isPreview}}
@@ -34,8 +24,12 @@
       {{/if}}
     </header>
 
-    {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true}}
+    {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true
+    toggleCaption=(action 'toggleCaption')}}
       {{#content-body}}
+        <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
+          <p>{{model.featuredImageCaption}}</p>
+        </div>
 
         <div class="DetailPage-headerSection">
           {{#title-text noMargin=true strong=true}}
