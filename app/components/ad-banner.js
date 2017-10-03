@@ -17,7 +17,6 @@ export default Ember.Component.extend(InViewportMixin, {
   ads: inject.service(),
   currentService: inject.service('currentController'),
   promotion: null,
-  impressionPath: null,
   pagePositionForAnalytics: null,
   placeholderClass: null,
   adContextName: computed.reads('currentService.currentPath'),
@@ -32,32 +31,13 @@ export default Ember.Component.extend(InViewportMixin, {
    *
    * Must be in viewport.
    * Image must be downloaded and visible.
-   * We must be on the route which matches the impression path.
-   *   -  Do not send impression if ad is in a background page
-   *
+   * Must not have already been sent
    */
-  _canSendImpression: computed('impressionPath', '_didSendImpression',
-    '_currentPathMatchesImpressionPath', '_isVisible', function() {
-    const impressionPath = get(this, 'impressionPath');
+  _canSendImpression: computed('_didSendImpression', '_isVisible', function() {
     const didSendImpression = get(this, '_didSendImpression');
     const isVisible = get(this, '_isVisible');
 
-    if(!didSendImpression && isVisible) {
-      if(isPresent(impressionPath)) {
-        return get(this, '_currentPathMatchesImpressionPath');
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }),
-
-  _currentPathMatchesImpressionPath: computed('impressionPath', 'currentService.currentPath', function() {
-    const impressionPath = get(this, 'impressionPath');
-    const currentPath = get(this, 'currentService.currentPath');
-
-    return currentPath === impressionPath;
+    return !didSendImpression && isVisible;
   }),
 
   _isVisible: computed('_isInViewPort', '_imageIsLoaded', function() {
