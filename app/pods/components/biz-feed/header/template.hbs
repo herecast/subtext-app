@@ -64,7 +64,9 @@
             {{organization.name}}
           </div>
           <div class="BizFeed-Header-organization-info BizFeed-Header-address">
-            {{business.fullAddress}}
+            {{#if business.hasAddress}}
+              {{business.fullAddress}}
+            {{/if}}
           </div>
         </div>
       </div>
@@ -94,7 +96,7 @@
         </div>
 
         <div class="BizFeed-Header-icon-bar-item">
-          {{#if business.address}}
+          {{#if business.hasAddress}}
             <a href="{{business.directionsLink}}" target="_blank">{{fa-icon 'fa-map-marker'}} Directions</a>
           {{/if}}
         </div>

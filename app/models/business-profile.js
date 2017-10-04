@@ -19,6 +19,7 @@ export default DS.Model.extend({
   emailLink: computed('email', function() {
     return `mailto:${this.get('email')}`;
   }),
+  hasAddress: DS.attr('boolean'),
   address: DS.attr('string'),
   city: DS.attr('string'),
   state: DS.attr('string'),
