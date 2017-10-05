@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { get, set, copy } = Ember;
 
 const linkToContent = Ember.Component.extend({
-  tagname:'',
+  tagName:'',
   paramsForLinkTo: {},
   attrsForLinkTo: {},
   route: 'feed.show',
