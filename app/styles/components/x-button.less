@@ -158,6 +158,23 @@
   }
 }
 
+.x-button-tab(@primary-color, @secondary-color) {
+  @lighten-primary: lighten(@primary-color, 20%);
+
+  .x-button(transparent, @primary-color, transparent, @secondary-color, @primary-color, @lighten-primary);
+  border-bottom-color: transparent;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.active {
+    margin-bottom: -1px !important;
+    border-bottom-color: @secondary-color;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
 .make-x-button-regular(@background-color, @text-color, @border-color, @hover-background-color, @hover-text-color, @hover-border-color) {
   &.XButton--regular {
     .x-button(@background-color, @text-color, @border-color, @hover-background-color, @hover-text-color, @hover-border-color);
@@ -252,6 +269,17 @@
   }
 }
 
+.make-x-button-tab(@primary-color, @secondary-color) {
+  &.XButton--tab {
+    .x-button-tab(@primary-color, @secondary-color);
+  }
+  &.XButton--xs-tab {
+    @media (max-width: @screen-xs-max) {
+      .x-button-tab(@primary-color, @secondary-color);
+    }
+  }
+}
+
 .make-x-button-link(@button-primary) {
   &.XButton--link {
     .x-button-link(@button-primary);
@@ -275,6 +303,7 @@
   .make-x-button-flatten(@primary-color, @secondary-color);
   .make-x-button-transparent(@primary-color);
   .make-x-button-link(@primary-color);
+  .make-x-button-tab(@primary-color, @secondary-color);
 }
 
 .XButton {
@@ -297,7 +326,7 @@
     .make-button(@gray-light, @gray-medium);
   }
   &.XButton--medium-gray {
-    .make-button(@gray-medium, @gray-light);
+    .make-button(@gray-medium, white);
   }
   &.XButton--facebook {
     .make-button(#3b5998, white);
@@ -307,6 +336,9 @@
   }
   &.XButton--black {
     .make-button(@text-color, white);
+  }
+  &.XButton--steel-gray {
+    .make-button(@gray-steel, white);
   }
   &--wide {
     width: 100%;

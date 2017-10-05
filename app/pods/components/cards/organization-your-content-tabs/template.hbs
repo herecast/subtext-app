@@ -1,0 +1,13 @@
+{{#x-card}}
+
+  {{#card-body shortPadding=true}}
+    {{#subtitle-text noMargin=true center=true strong=true}}Your Content{{/subtitle-text}}
+  {{/card-body}}
+
+  {{#x-tabs}}
+    {{#x-link-to (query-params show='everything') color='steel-gray' style='tab' size='x-small'}}Everything{{/x-link-to}}
+    {{#x-link-to (query-params show='') color='steel-gray' style='tab' size='x-small'}}On page{{/x-link-to}}
+    {{#x-link-to (query-params show='hidden') color='steel-gray' style='tab' size='x-small'}}Hidden{{/x-link-to}}
+    {{#x-link-to (query-params show='draft') color='steel-gray' style='tab' size='x-small'}}Draft{{/x-link-to}}
+  {{/x-tabs}}
+{{/x-card}}

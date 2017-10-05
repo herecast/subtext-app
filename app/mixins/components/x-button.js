@@ -19,8 +19,8 @@ export default Ember.Mixin.create({
     'nowrap:XButton--nowrap'
   ],
 
-  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black'
-  style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link'
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black', 'steel-gray'
+  style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'tab'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'
   rounded: 'rounded', // false, 'rounded', 'circle'

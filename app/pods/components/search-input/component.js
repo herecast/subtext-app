@@ -6,6 +6,9 @@ const { get, run } = Ember;
 export default Ember.Component.extend(TestSelector, {
   tagName: 'span',
   classNames: ['SearchInput'],
+  classNameBindings: [
+    'noBorder:SearchInput-noBorder'
+  ],
   debounceWait: 900,
   value: null,
   placeholder: 'Search ...',
@@ -13,6 +16,8 @@ export default Ember.Component.extend(TestSelector, {
   showIcon: true,
   inputType: 'search',
   clearButtonText: null,
+
+  noBorder: false,
 
   keyUp: function(e) {
     const esc = 27;

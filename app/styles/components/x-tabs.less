@@ -1,0 +1,26 @@
+.XTabs {
+  .flex-display();
+  .justify-content(space-evenly);
+  width: 100%;
+
+  > a,
+  > button,
+  > .XButton {
+    .flex-grow(1);
+    margin: 0 !important;
+  }
+
+  &--noBottomBorder {
+    border-bottom: 0 !important;
+  }
+
+  &--default {
+    background-color: @gray-light;
+    border-bottom: solid 1px darken(@gray-light, 10%);
+  }
+
+  &--steel-gray {
+    background-color: lighten(@gray-steel, 40%);
+    border-bottom: solid 1px lighten(@gray-steel, 20%);
+  }
+}

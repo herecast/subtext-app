@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['XCard']
+  tagName: 'h5',
+  classNames: ['ContentLabel']
 });

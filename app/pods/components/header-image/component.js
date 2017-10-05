@@ -6,11 +6,17 @@ const { get, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['HeaderImage'],
-  classNameBindings: ['preserveAspectRatio:HeaderImage--preserveAspectRatio'],
-  attributeBindings: ['data-test-component', 'style'],
+  classNameBindings: [
+    'preserveAspectRatio:HeaderImage--preserveAspectRatio',
+    'short:HeaderImage--short'
+  ],
+  attributeBindings: [
+    'data-test-component', 'style'
+  ],
   'data-test-component': 'header-image',
 
   preserveAspectRatio: false,
+  short: false,
 
   style: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');
