@@ -7,11 +7,11 @@
         </span>
       {{/link-to}}
     {{else}}
-      {{#link-to 'talk.show' talk.id data-test-link='show'}}
+      {{#link-to-content talk data-test-link='show'}}
         <span {{action 'trackSuggestedContentClick'}}>
           {{title}}
         </span>
-      {{/link-to}}
+      {{/link-to-content}}
     {{/if}}
   </h2>
 
@@ -36,17 +36,17 @@
     <div class="media-body Card-content">
       <h2 class='Card-title' {{action 'onTitleClick'}}>
         {{#if talk.hasParentContent}}
-          {{#link-to (if routeName routeName 'talk.show') parentContentId (query-params ctype=talk.normalizedParentContentType scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
+          {{#link-to talk.parentContentRoute parentContentId (query-params ctype=talk.normalizedParentContentType scrollTo=talk.commentAnchor) classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
             <span {{action 'trackSuggestedContentClick'}}>
               {{title}}
             </span>
           {{/link-to}}
         {{else}}
-          {{#link-to (if routeName routeName 'talk.show') talk.id classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
+          {{#link-to-content talk classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
             <span {{action 'trackSuggestedContentClick'}}>
               {{title}}
             </span>
-          {{/link-to}}
+          {{/link-to-content}}
         {{/if}}
       </h2>
 

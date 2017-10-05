@@ -1,10 +1,10 @@
 {{#if minimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'news.show' item.id data-test-link='show'}}
+    {{#link-to-content item data-test-link='show'}}
       <span {{action 'trackSuggestedContentClick'}}>
         {{item.title}}
       </span>
-    {{/link-to}}
+    {{/link-to-content}}
   </h2>
 
   <span class='Card-subtitle'>{{subtitle}}</span> <span class='Card-subtitle'>{{item.organizationName}}</span>
@@ -18,11 +18,11 @@
         <div class="media-left">
           {{#if hasImage}}
             <div class='Card-imageContainer'>
-              {{#link-to (if routeName routeName 'news.show') item.id data-test-link='show'}}
+              {{#link-to-content item data-test-link='show'}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
-              {{/link-to}}
+              {{/link-to-content}}
             </div>
           {{/if}}
         </div>
@@ -31,7 +31,7 @@
       <div class="media-body Card-body">
         <div class='Card-titleGroup'>
           <h2 class='Card-title' {{action 'onTitleClick'}}>
-            {{#link-to (if routeName routeName 'news.show') item.id data-test-link=item.title data-test-link='show'}}
+            {{#link-to-content item data-test-link=item.title data-test-link='show'}}
               {{#if isNewsIndex}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   {{truncate-text text=item.title maxLength=30 tagName='span'}}
@@ -41,7 +41,7 @@
                   {{item.title}}
                 </span>
               {{/if}}
-            {{/link-to}}<br />
+            {{/link-to-content}}<br />
           </h2>
 
           {{base-location-display model=item.baseLocationNames}}
@@ -61,11 +61,11 @@
         <div class="media-right">
           {{#if hasImage}}
             <div class='Card-imageContainer'>
-              {{#link-to (if routeName routeName 'news.show') item.id}}
+              {{#link-to-content item}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
                 </span>
-              {{/link-to}}
+              {{/link-to-content}}
             </div>
           {{/if}}
         </div>
@@ -76,22 +76,22 @@
 
     {{#if hasImage}}
       <div class='Card-imageContainer'>
-        {{#link-to (if routeName routeName 'news.show') item.id classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
+        {{#link-to-content item classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
           <span {{action 'trackSuggestedContentClick'}}>
             <div class='Card-image img-responsive' style="background-image: url('{{optimized-image-url item.imageUrl 236 177 true}}')"></div>
           </span>
-        {{/link-to}}
+        {{/link-to-content}}
       </div>
     {{/if}}
 
     <div class='Card-content {{unless hasImage "no-image"}}'>
       <div class='Card-titleGroup'>
         <h2 class='Card-title h2 u-textThreeLineTruncate'>
-          {{#link-to (if routeName routeName 'news.show') item.id data-test-link='show' }}
+          {{#link-to-content item data-test-link='show' }}
             <span {{action 'trackSuggestedContentClick'}}>
               {{item.title}}
             </span>
-          {{/link-to}}<br />
+          {{/link-to-content}}<br />
         </h2>
         {{base-location-display model=item.baseLocationNames}}
 

@@ -67,7 +67,7 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
     },
 
     afterDiscard() {
-      this.transitionTo(`location.market`, get(this, 'userLocation.location'));
+      this.transitionTo('feed');
 
     },
 
@@ -85,7 +85,11 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
       run.next(()=>{
         post.set('listservIds', []);
         SocialSharing.checkFacebookCache(locationService, post).finally(() => {
-          this.transitionTo('market.show', post.get('id'));
+          this.transitionTo('feed.show', post.get('id'), {
+            queryParams: {
+              type: 'market'
+            }
+          });
         });
       });
     },

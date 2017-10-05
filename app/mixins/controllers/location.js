@@ -21,6 +21,7 @@ export default Ember.Mixin.create({
 
       set(this, 'radius', radius);
     },
+
     chooseLocation(location) {
       const channel = get(this, 'channel');
       const userLocation = get(this, 'userLocation');
@@ -32,7 +33,18 @@ export default Ember.Mixin.create({
         new_location_id: get(location, 'id')
       });
 
-      userLocation.navigateToLocation(location, channel);
+      // Work around until we remove events channel
+      if(channel === 'events') {
+        userLocation.navigateToLocation(location, 'events');
+        return;
+      }
+
+      userLocation.saveSelectedLocationId(get(location, 'id'));
+      this.transitionToRoute('feed', {
+        queryParams: {
+          location: get(location, 'id')
+        }
+      });
     }
   }
 });

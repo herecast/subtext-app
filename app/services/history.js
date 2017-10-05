@@ -11,7 +11,15 @@ export default Ember.Service.extend({
   referrer: "",
   current: null,
   historyLimit: 15,
-  routeHistory: Ember.A(),
+  routeHistory: null,
+  isFirstRoute: computed.empty('previousRouteName'),
+
+  init() {
+    this._super();
+
+    //reset so fastboot doesn't keep state
+    set(this, 'routeHistory', Ember.A());
+  },
 
   setRouteName(name) {
     set(this, 'routeName', name);
@@ -73,6 +81,7 @@ export default Ember.Service.extend({
 
   update() {
     const windowService = get(this, 'windowService');
+
     if (get(this, 'current')) {
       set(this, 'referrer', get(this, 'current'));
     } else {

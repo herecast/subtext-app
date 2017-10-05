@@ -176,22 +176,24 @@ test('Subscribe link, when subscribe url', function(assert) {
   });
 });
 
-test('Visiting news landing page, clicking organization name brings me to profile page if organization.bizFeedActive is false', function(assert) {
+test('Visiting landing page, clicking organization name brings me to profile page if organization.bizFeedActive is false', function(assert) {
   assert.expect(1);
 
-  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog', bizFeedActive: false});
+  let organization = server.create('organization', {orgType: 'Blog', bizFeedActive: false});
   let location = server.create('location');
-  server.create('news', {
+  server.create('feedContent', {
+    contentType: 'news',
+    contentOrigin: 'ugc',
     organizationId: organization.id,
     locationId: location.id,
     title: 'revelation'
   });
 
-  visit(`/${location.id}/news`).then(()=> {
+  visit(`/feed?location=${location.id}`).then(()=> {
     let $newsCard = find(testSelector('news-card', 'revelation'));
     let $orgLink = find(testSelector('link', 'organization-link'), $newsCard);
     click($orgLink).then(()=> {
-      assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
+      assert.equal(currentURL(), `/organizations/${organization.id}`);
     });
   });
 });
@@ -200,20 +202,23 @@ test('Visiting news item page, clicking organization name brings me to profile p
   assert.expect(1);
   mockLocationCookie(this.application);
 
-  let organization = server.create('organization', {name: 'meta tauta', orgType: 'Blog', bizFeedActive: false});
-  let news = server.create('news', {
+  let organization = server.create('organization', {
+    name: 'Fighters of Foo',
+    orgType: 'Blog',
+    bizFeedActive: false
+  });
+
+  let news = server.create('feedContent', {
+    contentType: 'news',
+    contentOrigin: 'ugc',
     organizationId: organization.id,
     title: 'revelation'
   });
 
-  visit('/');
-
-  andThen(() => {
-    visit(`/news/${news.id}`).then(()=> {
-      let $orgLink = find(testSelector('link', 'organization-link'));
-      click($orgLink).then(()=> {
-        assert.equal(currentURL(), `/organizations/${organization.id}-meta-tauta`);
-      });
+  visit(`/feed/${news.id}`).then(()=> {
+    let $orgLink = find(testSelector('link', 'organization-link'));
+    click($orgLink).then(()=> {
+      assert.equal(currentURL(), `/organizations/${organization.id}-fighters-of-foo`);
     });
   });
 });

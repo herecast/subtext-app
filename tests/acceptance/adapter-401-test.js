@@ -18,16 +18,17 @@ test('Adapter receives 401 error during route transition', function(assert) {
   let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
   let talk = server.create('talk');
 
-  server.get('/talk/:id', {message: 'unauthorized'}, 401);
+  server.get('/contents/:id', {message: 'unauthorized'}, 401);
 
-  visit(`/talk/${talk.id}`);
+  visit(`/feed/${talk.id}`);
 
   andThen(() => {
     assert.equal(currentRouteName(), 'login',
       "Should be directed to login page");
 
-    server.get('/talk/:id'); //default functionality
-
+    server.get('/contents/:id', function() {
+      return talk;
+    }); //default functionality
 
     fillIn(testSelector('field', 'sign-in-email'), user.email);
     fillIn(testSelector('field', 'sign-in-password'), 'password');
@@ -35,7 +36,7 @@ test('Adapter receives 401 error during route transition', function(assert) {
     click(testSelector('component', 'sign-in-submit'));
 
     andThen(() => {
-      assert.equal(currentURL(), `/talk/${talk.id}`,
+      assert.equal(currentURL(), `/feed/${talk.id}`,
         "After signing in, should be directed back to original page"
       );
     });

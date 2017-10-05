@@ -1,5 +1,5 @@
 {{#if hasImage}}
-  {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
+  {{#link-to-content model}}
     <div class="FeedCard-Image-image" style={{imageStyle}}>
       {{#if hasExcerpt}}
         <div class="FeedCard-Image-gradient">
@@ -7,14 +7,14 @@
             {{excerpt}}
             {{#if showContinueReading}}
               <div class="FeedCard-Image-continue-reading">
-                {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
+                {{#link-to-content model}}
                   ...Continue Reading
-                {{/link-to}}
+                {{/link-to-content}}
               </div>
             {{/if}}
           </div>
         </div>
       {{/if}}
     </div>
-  {{/link-to}}
+  {{/link-to-content}}
 {{/if}}

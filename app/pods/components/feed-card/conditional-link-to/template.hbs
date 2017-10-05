@@ -1,7 +1,7 @@
 {{#if useLink}}
-  {{#link-to linkRouteName linkId (query-params eventInstanceId=eventInstanceId)}}
+  {{#link-to-content model}}
     {{yield}}
-  {{/link-to}}
+  {{/link-to-content}}
 {{else}}
   {{yield}}
 {{/if}}

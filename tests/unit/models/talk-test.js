@@ -16,8 +16,8 @@ test('parentContentRoute', function(assert) {
   let model = this.subject();
 
   Ember.run(() => model.set('parentContentType', 'market-post'));
-  assert.equal(model.get('parentContentRoute'), 'market.show',
-    "when parentContentType is market-post: market.show"
+  assert.equal(model.get('parentContentRoute'), 'feed.show',
+    "when parentContentType is market-post: feed.show"
   );
 
   Ember.run(() => model.set('parentContentType', 'event'));
@@ -31,7 +31,7 @@ test('parentContentRoute', function(assert) {
   );
 
   Ember.run(() => model.set('parentContentType', 'talk_of_the_town'));
-  assert.equal(model.get('parentContentRoute'), 'talk.show',
-    "when parentContentType is talk_of_the_town: talk.show"
+  assert.equal(model.get('parentContentRoute'), 'feed.show',
+    "when parentContentType is talk_of_the_town: feed.show"
   );
 });

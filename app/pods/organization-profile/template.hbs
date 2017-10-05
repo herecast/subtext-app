@@ -43,7 +43,7 @@
           {{/if}}
         </div>
 
-        {{#if showLargeCard}}
+        {{#if (and showLargeCard news.firstObject)}}
           <div class="row">
             <div class="col-sm-12" data-test-featured-content="{{news.firstObject.id}}">
               {{news-card-wide
@@ -57,11 +57,13 @@
 
         <div class="row">
           <div class="col-sm-6">
-            {{news-card
-            item=newsList.firstObject
-            variant='vertical'
-            class="OrganizationProfile-newsCard"
-            }}
+            {{#if newsList.firstObject}}
+              {{news-card
+              item=newsList.firstObject
+              variant='vertical'
+              class="OrganizationProfile-newsCard"
+              }}
+            {{/if}}
           </div>
           <div class="col-sm-6">
             {{ad-banner

@@ -73,11 +73,12 @@
 
   &-brand {
     .uppercase-bold-condensed;
+    .flex-basis(100%);
 
     &-logo {
       .h1;
       line-height: 0.85;
-      margin: 0;
+      margin: 0 auto;
       white-space: nowrap;
 
       img {
@@ -93,10 +94,21 @@
     .flex(0 1 50%);
   }
 
+  &-menu-filters {
+    .flex-display();
+    .flex-basis(40%);
+  }
+
+  &-searchFilter {
+    margin-left: 1.5em;
+  }
+
   &-search {
+    .flex-basis(40%);
     > ul {
       .flex-display();
       .align-items(center);
+      .justify-content(flex-end);
       margin: 0;
       > li {
         padding: 0;

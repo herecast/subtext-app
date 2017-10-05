@@ -1,20 +1,20 @@
 <td data-test-content-row>
-    {{#if isTalkOrComment}}
-      {{#link-to viewRoute viewId (query-params scrollTo=contentAnchor)}}
+    {{#if isComment}}
+      {{#link-to "feed.show" content.id (query-params scrollTo=contentAnchor)}}
         {{truncate-text text=content.title maxLength=50}}
       {{/link-to}}
     {{else if isPromotion}}
       {{truncate-text text=content.title maxLength=50}}
     {{else if (eq type 'news')}}
-      {{#link-to 'news.show' content.id}}
+      {{#link-to-content content}}
         {{#if hasTitle}}
           {{truncate-text text=content.title maxLength=50}}
         {{else}}
           Untitled Draft
         {{/if}}
-      {{/link-to}}
+      {{/link-to-content}}
     {{else}}
-      {{#link-to viewRoute content.id}}
+      {{#link-to-content content}}
         {{truncate-text text=content.title maxLength=50 tagName='span'}}
 
         {{#if (eq contentType 'Market')}}
@@ -22,7 +22,7 @@
             <span>&nbsp;(SOLD)</span>
           {{/if}}
         {{/if}}
-      {{/link-to}}
+      {{/link-to-content}}
     {{/if}}
 </td>
 {{#if showTypeColumn}}

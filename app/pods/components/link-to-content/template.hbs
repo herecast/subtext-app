@@ -1,0 +1,5 @@
+{{#if paramsForLinkTo}}
+  {{#link-to params=paramsForLinkTo eventName=(if clickOverride 'noop' 'click') data-test-link=data-test-link class=class}}
+    {{yield}}
+  {{/link-to}}
+{{/if}}

@@ -1,5 +1,5 @@
 
-  {{#link-to (if routeName routeName 'market.show') post.id
+  {{#link-to-content post
     classNameBindings="isSimilarContent:SimilarContentLink"
     data-test-link='show'
   }}
@@ -8,4 +8,4 @@
         {{yield}}
       </span>
     </div>
-  {{/link-to}}
+  {{/link-to-content}}

@@ -5,8 +5,8 @@ const { get, computed, inject:{service} } = Ember;
 export default Ember.Component.extend({
   classNames: 'FeedCard',
   classNameBindings: ['isEditing:show-back', 'showOverlay:show-overlay'],
-  attributeBindings: ['data-test-feed-card'],
   'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
+  'data-test-content': computed.oneWay('model.contentId'),
 
   model: null,
 
@@ -15,7 +15,7 @@ export default Ember.Component.extend({
 
   isLoggedIn: computed.alias('session.isAuthenticated'),
 
-  contentType: computed.alias('model.normalizedContentType'),
+  contentType: computed.reads('model.normalizedContentType'),
 
   componentType: computed('contentType', function() {
     const contentType = get(this, 'contentType');

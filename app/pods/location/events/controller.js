@@ -108,6 +108,14 @@ export default Ember.Controller.extend(LocationMixin, {
     clearCategories() {
       this.goToCategories(null);
       this.setDaysAhead(1);
+    },
+
+    goToFeed() {
+      this.transitionToRoute("feed", {
+        queryParams: {
+          type: ""
+        }
+      });
     }
   }
 });

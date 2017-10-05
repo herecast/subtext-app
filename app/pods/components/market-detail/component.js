@@ -10,7 +10,9 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(ModelResetScroll, {
-  closeRoute: 'market',
+  'data-test-component': 'market-detail',
+  'data-test-content': computed.reads('model.contentId'),
+  closeRoute: 'feed',
   closeLabel: 'Market',
   fastboot: inject.service(),
   tracking: inject.service(),

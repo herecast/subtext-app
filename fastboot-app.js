@@ -1,4 +1,6 @@
 require('newrelic');
+var url = require('url');
+
 const FastBootAppServer = require('fastboot-app-server');
 const cluster = require('cluster');
 
@@ -64,7 +66,43 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
 }
 
 let server = new FastBootAppServer({
-  beforeMiddleware: function (app) { app.use('/healthcheck', require('express-healthcheck')()); },
+  beforeMiddleware: function (app) {
+    app.use('/healthcheck', require('express-healthcheck')());
+
+    /**
+     * Filter query params for direct feed detail urls
+     *
+     * Currently location, radius, query, and type should be removed
+     */
+    app.use(function(req, res, next) {
+      if(req.path.indexOf('/feed/') == 0) {
+        var filterOut = ['location','radius','query','type'];
+
+        var redirectNecessary = filterOut.some(function(param) {
+          return param in req.query;
+        });
+
+        if(redirectNecessary) {
+          var newQueryParams = {};
+
+          for(var param in req.query) {
+            if(!filterOut.includes(param)) {
+              newQueryParams[param] = req.query[param];
+            }
+          }
+
+          res.redirect(url.format({
+            pathname: req.path,
+            query: newQueryParams
+          }));
+        } else {
+          next();
+        }
+      } else {
+        next();
+      }
+    });
+  },
   distPath: 'dist',
   gzip: false,
   workerCount: process.env.EXPRESS_WORKER_COUNT || 1

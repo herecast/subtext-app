@@ -16,7 +16,7 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
-  const model = server.create('feed-content', {normalizedContentType: 'market'});
+  const model = server.create('feedContent', {normalizedContentType: 'market'});
   model.baseLocations = [];
 
   this.set('model', model);

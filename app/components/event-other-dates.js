@@ -8,6 +8,7 @@ const { get, isBlank, computed } = Ember;
 export default Ember.Component.extend(TestSelector, {
   'data-test-component': 'event-other-dates',
   showAll: false,
+  instanceRoute: 'feed.show-instance',
 
   eventInstances: computed('event.eventInstances.@each.startsAt', function() {
     const event = this.get('event');

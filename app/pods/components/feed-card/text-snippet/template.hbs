@@ -2,9 +2,9 @@
   {{textSnippet}}
   {{#if showContinueReading}}
     <div class="FeedCard-TextSnippet-continue-reading">
-      {{#link-to routeName contentId (query-params eventInstanceId=eventInstanceId)}}
+      {{#link-to-content model}}
         ...Continue Reading
-      {{/link-to}}
+      {{/link-to-content}}
     </div>
   {{/if}}
 {{else}}

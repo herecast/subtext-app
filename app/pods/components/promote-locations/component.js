@@ -72,7 +72,7 @@ export default Ember.Component.extend({
       const newContentLocations = locations.map((location) => {
         return get(this, 'store').createRecord('content-location', {
           location: location,
-          locationType: (location.id === baseLocationId ? 'base' : null)
+          locationType: (get(location, 'id') === baseLocationId ? 'base' : null)
         });
       });
 

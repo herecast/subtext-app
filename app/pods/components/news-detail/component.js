@@ -11,10 +11,12 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+  'data-test-component': 'news-detail',
+  'data-test-content': computed.reads('model.contentId'),
   fastboot: inject.service(),
   tracking: inject.service(),
   tagName: 'main',
-  closeRoute: 'news.index',
+  closeRoute: 'feed',
   closeLabel: 'News',
   isPreview: false,
   enableStickyHeader: false,

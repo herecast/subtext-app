@@ -1,26 +1,15 @@
 <li class="channel-filter" {{action 'onLinkClick'}}>
-  {{#location-link 'news'
-    (query-params
-      page=1
-      query=newsFilter.defaultQuery
-      organization=newsFilter.defaultOrganization
-      location=newsFilter.defaultLocation
-      locationId=newsFilter.defaultLocationId
-    )
-    data-test-link='news-channel'
+  {{#link-to 'feed'
+    (query-params type='news')
+    data-test-link='news-filter'
   }}
     News
-  {{/location-link}}
+  {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
   {{#location-link 'events'
     (query-params
       page=1
-      query=eventsFilter.defaultQuery
-      category=eventsFilter.defaultCategory
-      location=eventsFilter.defaultLocation
-      date_start=eventsFilter.defaultStart
-      days_ahead=eventsFilter.defaultDaysAhead
     )
     data-test-link='events-channel'
   }}
@@ -28,29 +17,12 @@
   {{/location-link}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
-  {{#location-link 'market'
-    (query-params
-      page=1
-      flat=false
-      query=marketFilter.defaultQuery
-      location=marketFilter.defaultLocation
-      locationId=marketFilter.defaultLocationId
-    )
-    data-test-link='market-channel'
+  {{#link-to 'feed'
+    (query-params type='market')
+    data-test-link='market-filter'
   }}
     Market
-  {{/location-link}}
-</li>
-<li class="channel-filter" {{action 'onLinkClick'}}>
-  {{#location-link 'talk'
-    (query-params
-      page=1
-      query=talkFilter.defaultQuery
-    )
-    data-test-link='talk-channel'
-  }}
-    Talk
-  {{/location-link}}
+  {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
   {{#link-to 'directory'
@@ -75,7 +47,7 @@
 </li>
 
 <li {{action 'onLinkClick'}}>
-  {{#link-to 'news.show' '790848'}}
+  {{#link-to 'feed.show' 790848}}
     Help
   {{/link-to}}
 </li>

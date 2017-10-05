@@ -9,7 +9,17 @@
     }}
   </div>
 
-  {{location-mismatch-prompt}}
+    {{#if (not session.isFastboot)}}
+      {{#if (and
+              userLocation.hasActiveLocation
+              userLocation.locationMismatch
+            )
+      }}
+        {{location-mismatch-prompt
+            changeLocation=(action "chooseLocation")
+        }}
+      {{/if}}
+    {{/if}}
 
     {{to-elsewhere named="page-toolbar"
       send=(component "channel-filters"
@@ -20,6 +30,13 @@
           onChooseRadius=(action "changeRadius")
           onChooseLocation=(action "chooseLocation")
         )
+      )
+    }}
+
+    {{to-elsewhere named='filters'
+      send=(component "search-type-tag"
+        type="event"
+        remove=(action "goToFeed")
       )
     }}
 

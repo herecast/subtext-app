@@ -10,10 +10,10 @@ moduleForAcceptance('Acceptance | reset to preferred location', {
   }
 });
 
-test('visiting / for location other than my preferred', function(assert) {
+test('visiting /feed for location other than my preferred', function(assert) {
   const otherLocation = server.create('location');
 
-  visit(`/${otherLocation.id}`);
+  visit(`/feed?location=${otherLocation.id}`);
 
   andThen(()=>{
     const $mismatchPrompt = find(testSelector('component', 'location-mismatch-prompt'));
@@ -33,42 +33,13 @@ test('visiting / for location other than my preferred', function(assert) {
   andThen(()=>{
     assert.equal(
       currentURL(),
-      `/${this.myLocation.id}`,
+      `/feed?location=${this.myLocation.id}`,
       "Clicking the change location buttons takes me to my preferred location version of this page"
     );
   });
 });
 
-test('visiting /news for location other than my preferred', function(assert) {
-  const otherLocation = server.create('location');
-
-  visit(`/${otherLocation.id}/news`);
-
-  andThen(()=>{
-    const $mismatchPrompt = find(testSelector('component', 'location-mismatch-prompt'));
-
-    assert.equal(
-      $mismatchPrompt.length,
-      1,
-      "Displays prompt about preferred location not matching current"
-    );
-
-    click(
-      testSelector('action', 'reset-location'),
-      $mismatchPrompt
-    );
-  });
-
-  andThen(()=>{
-    assert.equal(
-      currentURL(),
-      `/${this.myLocation.id}/news`,
-      "Clicking the change location buttons takes me to my preferred location version of this page"
-    );
-  });
-});
-
-test('visiting /events for location other than my preferred', function(assert) {
+test('visiting location.events for location other than my preferred', function(assert) {
   const otherLocation = server.create('location');
 
   visit(`/${otherLocation.id}/events`);
@@ -92,35 +63,6 @@ test('visiting /events for location other than my preferred', function(assert) {
     assert.equal(
       currentURL(),
       `/${this.myLocation.id}/events`,
-      "Clicking the change location buttons takes me to my preferred location version of this page"
-    );
-  });
-});
-
-test('visiting /market for location other than my preferred', function(assert) {
-  const otherLocation = server.create('location');
-
-  visit(`/${otherLocation.id}/market`);
-
-  andThen(()=>{
-    const $mismatchPrompt = find(testSelector('component', 'location-mismatch-prompt'));
-
-    assert.equal(
-      $mismatchPrompt.length,
-      1,
-      "Displays prompt about preferred location not matching current"
-    );
-
-    click(
-      testSelector('action', 'reset-location'),
-      $mismatchPrompt
-    );
-  });
-
-  andThen(()=>{
-    assert.equal(
-      currentURL(),
-      `/${this.myLocation.id}/market`,
       "Clicking the change location buttons takes me to my preferred location version of this page"
     );
   });

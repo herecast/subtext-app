@@ -8,8 +8,7 @@ export default Ember.Component.extend(textSnippet, {
   classNameBindings: ['isSnipped:snipped-text', 'isBlurred:blurred-text'],
 
   showTextSnippet: false,
-  content: null,
-  eventInstanceId: null,
+  content: computed.reads('model.content'),
 
   modals: service(),
 

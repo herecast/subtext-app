@@ -66,7 +66,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       // event/market/talk edit form routes without discarding changes,
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(`^market\\.edit`);
-      const isTransitioningToShowPage = transition.targetName === 'market.show';
+      const isTransitioningToShowPage = transition.targetName === 'feed.show';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -79,7 +79,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
     },
 
     afterDiscard() {
-      this.transitionTo(`location.market`, get(this, 'userLocation.location'));
+      this.transitionTo('feed');
     },
 
     afterDetails() {
@@ -105,7 +105,11 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
 
         run.next(this, () => {
           SocialSharing.checkFacebookCache(locationService, post).finally(() => {
-            this.transitionTo('market.show', post.id);
+            this.transitionTo('feed.show', post.id, {
+              queryParams: {
+                type: 'market'
+              }
+            });
           });
         });
 

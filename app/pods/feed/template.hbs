@@ -1,0 +1,65 @@
+<div class="Feed">
+  <div data-test-page='feed'>
+    {{#unless session.isFastBoot}}
+      {{to-elsewhere named="page-toolbar"
+        send=(component "channel-filters"
+          channel="index"
+          filterComponent=(component "location-radius-selector"
+            location=(readonly userLocation.location)
+            radius=(readonly radius)
+            onChooseRadius=(action "changeRadius")
+            onChooseLocation=(action "chooseLocation")
+          )
+        )
+      }}
+    {{/unless}}
+
+    {{#if type}}
+      {{to-elsewhere named='filters'
+        send=(component "search-type-tag"
+          type=type
+          remove=(action "filterType" "")
+        )
+      }}
+    {{/if}}
+
+    {{#unless session.isFastBoot}}
+      {{#if (and
+              userLocation.hasActiveLocation
+              userLocation.locationMismatch
+            )
+      }}
+        {{location-mismatch-prompt
+            changeLocation=(action "chooseLocation")
+        }}
+      {{/if}}
+
+      {{locations-nearby
+        location=(readonly userLocation.location)
+        radius=(readonly radius)
+        class='text-center'
+      }}
+    {{/unless}}
+
+    {{#feed/index-feed
+      feedContents=model
+      showingDetailInFeed=showingDetailInFeed
+    }}
+      {{outlet}}
+    {{/feed/index-feed}}
+
+    {{#infinity-loader
+      infinityModel=model
+    }}
+      {{#unless model.reachedInfinity}}
+        {{fa-icon 'spinner' class="fa-pulse"}}
+      {{/unless}}
+    {{/infinity-loader}}
+
+    {{#floating-action-button}}
+      {{jobs-navigation}}
+    {{/floating-action-button}}
+
+
+  </div>
+</div>

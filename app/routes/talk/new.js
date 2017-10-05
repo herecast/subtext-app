@@ -66,7 +66,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
     },
 
     afterDiscard() {
-      this.transitionTo('talk.index');
+      this.transitionTo('feed');
     },
 
     afterDetails() {
@@ -78,7 +78,11 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
     },
 
     afterPublish(talk) {
-      this.transitionTo('talk.show', talk.get('id'));
+      this.transitionTo('feed.show', talk.get('id'), {
+        queryParams: {
+          type: ''
+        }
+      });
     },
 
     backToDetails() {

@@ -4,6 +4,7 @@ const { get, computed, isPresent } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-NewsCard',
+  'data-test-news-card': computed.reads('model.title'),
 
   model: null,
   userLocation: null,

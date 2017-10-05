@@ -1,9 +1,11 @@
 {{#x-button-group xsBlockType='wide' class='LocationRadiusSelector-location'}}
-  {{#x-button color='primary' xsSize='x-small' onClick=(action 'chooseRadius' 0)}}
+  {{#x-button color='primary' xsSize='x-small' onClick=(action 'chooseRadius' 0) data-test-action="change-radius" data-test-radius=0 data-test-location-indicator=locaiton.id}}
     {{fa-icon 'location-arrow' class='hidden-xs'}}
     {{location.name}}
   {{/x-button}}
-  {{#x-button color='primary' xsSize='x-small' onClick=(action 'showLocationMenu')}}
+  {{#x-button color='primary' xsSize='x-small'
+    data-test-action='open-location-selector'
+    onClick=(action 'showLocationMenu')}}
     {{fa-icon 'chevron-down'}}
   {{/x-button}}
 {{/x-button-group}}
@@ -11,6 +13,8 @@
 {{#each radiusChoices as |radiusChoice|}}
   {{#x-button color='primary'
               style=(if (lt radius radiusChoice) 'outline' 'regular')
+              data-test-action='change-radius'
+              data-test-radius=radiusChoice
               xsSize='x-small'
               xsBlockType='wide'
               onClick=(action 'chooseRadius' radiusChoice)}}

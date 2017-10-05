@@ -20,6 +20,9 @@ export default SessionService.extend({
   sequenceTrackers: {},
   startedOnIndexRoute: false,
 
+  // Used in templates all over app.
+  isFastBoot: computed.reads('fastboot.isFastBoot'),
+
   signOut() {
     return get(this, 'api').signOut().then(() => {
       this.invalidate();

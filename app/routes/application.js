@@ -123,6 +123,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
        * The history service is manually updated here
        * so it correctly tracks the referring page.
        */
+
       this.get('history').update();
 
       const currentUser = get(this, 'session.currentUser');

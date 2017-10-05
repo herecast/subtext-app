@@ -6,26 +6,30 @@
     {{/if}}
 
     <div class='MainNav {{if showSearch "searchOpen"}}'>
-      <div class='MainNav-menu'>
-        <div class='dropdown'>
-          <a href='#'
-            class='MainNav-moreLink h2'
-            role='button'
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false">
-            {{fa-icon 'navicon' class='MainNav-menu-icon'}}
-            Menu
-          </a>
-          {{extended-nav
-            eventsFilter=eventsFilter
-            newsFilter=newsFilter
-            talkFilter=talkFilter
-            marketFilter=marketFilter
-            class="dropdown-menu dropdown-menu-left"
-          }}
+      <div class='MainNav-menu-filters'>
+        <div class='MainNav-menu'>
+          <div class='dropdown'>
+            <a href='#'
+              class='MainNav-moreLink h2'
+              role='button'
+              data-toggle="dropdown"
+              data-test-toggle='main-nav-more'
+              aria-haspopup="true"
+              aria-expanded="false">
+              {{fa-icon 'navicon' class='MainNav-menu-icon'}}
+            </a>
+            {{extended-nav class="dropdown-menu dropdown-menu-left"}}
+          </div>
         </div>
+        {{#from-elsewhere name='filters' as |filter|}}
+          {{#if filter}}
+            <div class='MainNav-searchFilter'>
+              {{component filter}}
+            </div>
+          {{/if}}
+        {{/from-elsewhere}}
       </div>
+
 
       <div class='MainNav-brand u-flexRow'>
         <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>

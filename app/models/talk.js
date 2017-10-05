@@ -41,14 +41,10 @@ export default DS.Model.extend(ContentLocationsMixin, {
 
   parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
-    if (parentContentType === 'market-post' || parentContentType === 'market') {
-      return 'market.show';
-    } else if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
+    if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
       return 'events.show';
-    } else if (parentContentType === 'talk_of_the_town') {
-      return 'talk.show';
     } else {
-      return `${parentContentType}.show`;
+      return 'feed.show';
     }
   }),
 

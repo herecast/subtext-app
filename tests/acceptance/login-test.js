@@ -7,8 +7,12 @@ import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 moduleForAcceptance('Acceptance | login', {
   beforeEach() {
     invalidateSession(this.application);
-    window.Intercom = function() {
+      window.Intercom = function() {
     };
+    // Default location as specified in user-location service
+    server.create('location', {
+      id: 'hartford-vt'
+    });
   }
 });
 

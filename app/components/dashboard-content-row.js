@@ -17,9 +17,12 @@ export default Ember.Component.extend({
     return `${contentId}` === `${highlight}`;
   }),
 
-  isTalkOrComment: computed('type', function() {
+  isComment: computed('type', 'content.{parentContentId,id}', function() {
     let type = get(this, 'type');
-    return type === 'talk' || type === 'comment';
+    let parentId = get(this, 'content.parentContentId');
+    let contentId = get(this, 'content.id');
+
+    return type === 'comment' && parentId !== contentId;
   }),
 
   hasTitle: computed.notEmpty('content.title'),
@@ -139,7 +142,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  viewId: computed('isTalkOrComment', 'content.id', 'parentOrSelfId', function() {
+  viewId: computed('isComment', 'content.id', 'parentOrSelfId', function() {
     if( get(this,'isTalkOrComment') ){
       return get(this,'parentOrSelfId');
     } else {

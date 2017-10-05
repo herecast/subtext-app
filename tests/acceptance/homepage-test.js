@@ -36,8 +36,8 @@ test('Location in cookie, visit /', function(assert) {
   visit('/');
 
   andThen(()=>{
-    assert.equal(currentURL(), `/${location.id}`,
-      "Redirects to located index with location id");
+    assert.equal(currentURL(), `/feed?location=${location.id}`,
+      "Redirects to feed index with location id");
   });
 
   andThen(function() {

@@ -8,12 +8,9 @@ export default Ember.Component.extend({
 
   postedTime: false,
   title: null,
-  routeName: null,
-  contentId: null,
-  contentType: null,
-  eventInstanceId: null,
   sold: false,
   isLoggedIn: false,
+  contentType: computed.reads('model.normalizedContentType'),
 
   useLink: computed('isLoggedIn', 'contentType', function() {
     if ( !get(this, 'isLoggedIn') && get(this, 'contentType') === 'talk') {

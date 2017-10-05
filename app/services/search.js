@@ -10,7 +10,6 @@ const {
 
 export default Ember.Service.extend({
   routing: inject.service('-routing'),
-  userLocation: inject.service('user-location'),
   query: "",
   isLoading: false,
   searchActive: false,
@@ -21,14 +20,12 @@ export default Ember.Service.extend({
       query: query
     });
 
-    get(this, 'userLocation.location').then((userLocation) => {
-      Ember.$(window).scrollTop(0,0);
-      get(this, 'routing').transitionTo('location.index',
-        [get(userLocation, 'id')],
-        {query: query}
-      ).finally(() => {
-        set(this, 'isLoading', false);
-      });
+    Ember.$(window).scrollTop(0,0);
+    get(this, 'routing').transitionTo('feed',
+      [],
+      {query: query, type: ""}
+    ).finally(() => {
+      set(this, 'isLoading', false);
     });
   },
 

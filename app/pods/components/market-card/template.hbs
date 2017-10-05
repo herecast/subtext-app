@@ -1,10 +1,10 @@
 {{#if isMinimal}}
   <h2 class='Card-title' {{action 'onTitleClick'}}>
-    {{#link-to 'market.show' post.id classNameBindings="isSimilarContent:SimilarContentLink"}}
+    {{#link-to-content post classNameBindings="isSimilarContent:SimilarContentLink"}}
       <span {{action 'trackSuggestedContentClick'}}>
         {{title}}
       </span>
-    {{/link-to}}
+    {{/link-to-content}}
   </h2>
   <span class='Card-subtitle'>{{post.price}} {{relativeDate}}</span>
 {{else}}

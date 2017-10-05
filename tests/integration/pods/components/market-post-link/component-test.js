@@ -7,9 +7,11 @@ moduleForComponent('market-post-link', 'Integration | Component | market post li
 
 test('it renders', function(assert) {
   this.set('externalAction', () => {});
+  this.set('model', {contentId: 123});
 
   this.render(hbs`
     {{#market-post-link
+      post=model
       onTitleClick=(action externalAction)
       trackSuggestedContentClick=(action externalAction)
     }}

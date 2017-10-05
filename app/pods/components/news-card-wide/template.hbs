@@ -1,14 +1,14 @@
   <div class='Card-imageContainer'>
-    {{#link-to (if routeName routeName 'news.show') item.id (query-params close=(if closeRoute closeRoute 'news.index')) data-test-link='show'}}
+    {{#link-to-content item data-test-link='show'}}
       <div class='Card-image img-responsive' style="background-image: url('{{if item.imageUrl (optimized-image-url item.imageUrl 706 530 true) item.organization.logoUrl}}')"></div>
-    {{/link-to}}
+    {{/link-to-content}}
   </div>
 
   <div class='Card-content'>
     <div class='Card-titleGroup'>
-      {{#link-to (if routeName routeName 'news.show') item.id data-test-link=item.title class="Card-title Card-title--wide" data-test-link='show'}}
+      {{#link-to-content item data-test-link=item.title class="Card-title Card-title--wide" data-test-link='show'}}
         {{item.title}}
-      {{/link-to}}
+      {{/link-to-content}}
 
       {{base-location-display model=item.baseLocationNames hideMultipleLocations=true}}
 
@@ -17,8 +17,7 @@
       </div>
 
         <div class='Card-meta-avatar'>
-          {{#link-to linkRoute
-            linkId
+          {{#link-to-content item
             class='Card-organization'
             tagName='a'
             data-test-link="organization-link"
@@ -28,7 +27,7 @@
               userName=item.organization.name
               customSize=32
             }}
-          {{/link-to}}
+          {{/link-to-content}}
 
         </div>
 
@@ -36,14 +35,13 @@
           <span class='Card-organization'>
             {{relativeDate}}<br />
 
-            {{#link-to linkRoute
-            linkId
+            {{#link-to-content item
             class='Card-organization'
             tagName='a'
             data-test-link="organization-link"
             }}
               {{item.organizationName}}
-            {{/link-to}}
+            {{/link-to-content}}
           </span>
         </div>
     </div>

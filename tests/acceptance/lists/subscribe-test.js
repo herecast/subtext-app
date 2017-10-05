@@ -76,7 +76,7 @@ test('visiting /lists/:id/subscribe when subscriber is not a dUV user and no act
       assert.ok(notification.indexOf('Thanks for registering on dailyUV!') > -1,
         "After registering: Should display thank you notification");
 
-      assert.equal(currentPath(), 'location.index.index',
+      assert.equal(currentPath(), 'feed.index',
         "After registering: Should be on home page");
     });
 

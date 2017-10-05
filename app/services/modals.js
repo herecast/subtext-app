@@ -59,19 +59,26 @@ export default Ember.Service.extend({
   },
 
   showModal(componentName, context){
+    const modal = this.createModal(componentName, context);
+    return modal.defer.promise;
+  },
+
+  createModal(componentName, context) {
     var defer = RSVP.defer();
 
     context = context || {};
 
-    get(this, 'modals').pushObject({
+    const modal = {
       componentName: componentName,
       context: context,
       defer: defer
-    });
+    };
+
+    get(this, 'modals').pushObject(modal);
 
     this.addModalBodyClass();
 
-    return defer.promise;
+    return modal;
   },
 
   removeModal(modal) {

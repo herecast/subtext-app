@@ -55,7 +55,6 @@ Router.map(function() {
   });
 
   this.route('market', function() {
-    this.route('show', {path: '/:id'});
     this.route('new', {path: '/new'}, function() {
       this.route('details');
       this.route('promotion');
@@ -69,13 +68,11 @@ Router.map(function() {
   });
 
   this.route('news', function() {
-    this.route('show', {path: '/:id'});
     this.route('new');
     this.route('edit', {path: '/:id/edit'});
   });
 
   this.route('talk', function() {
-    this.route('show', {path: '/:id'});
     this.route('new', {path: '/new'}, function() {
       this.route('details');
       this.route('promotion');
@@ -130,16 +127,11 @@ Router.map(function() {
 
   this.route('location', {path: '/:id'}, function () {
     this.route('events');
-    this.route('news');
-    this.route('talk');
-    this.route('market');
-    this.route('index', {path: '/'}, function() {
-      this.route('show', {path: ':slug'});
-    });
   });
 
   this.route('feed', function() {
     this.route('show', {path: '/:id'});
+    this.route('show-instance', {path: '/:id/:event_instance_id'});
   });
 
   // error-404 page is used for intermediateTransitionTo when a model returns 404

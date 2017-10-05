@@ -34,6 +34,7 @@ export default Ember.Service.extend(Ember.Evented, {
   history: inject.service(),
   fastboot: inject.service(),
   routing: inject.service('-routing'),
+  defaultLocationId: 'hartford-vt',
 
   currentRouteName: computed.oneWay('history.currentRouteName'),
   currentRouteParams: computed.oneWay('history.currentRoute.params'),
@@ -43,6 +44,11 @@ export default Ember.Service.extend(Ember.Evented, {
 
   // Location loaded from user
   _userLocationId: computed.alias('session.currentUser.locationId'),
+
+  hasActiveLocation: computed.bool('activeLocation.id'),
+  locationMismatch: computed('activeLocation.id', 'selectedLocation.id', function() {
+    return get(this, 'activeLocation.id') !== get(this, 'selectedLocation.id');
+  }),
 
   /**
    * The activeLocationId is set when the user visits a location route.
@@ -99,7 +105,10 @@ export default Ember.Service.extend(Ember.Evented, {
             .catch(reject);
         } else {
           // No Location has been selected yet, it's likely the user is on a location menu
-          resolve(null);
+
+          get(this, 'store').findRecord('location',
+            get(this, 'defaultLocationId')
+          ).then(resolve);
         }
       }
     });

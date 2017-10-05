@@ -10,6 +10,8 @@ const {
 } = Ember;
 
 export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+  'data-test-component': 'event-detail',
+  'data-test-content': computed.reads('model.contentId'),
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:isPreview'],
   model: null,

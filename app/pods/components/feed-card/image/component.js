@@ -8,10 +8,11 @@ export default Ember.Component.extend(textSnippet, {
   classNames: 'FeedCard-Image',
 
   eventInstanceId: null,
-  content: null,
+  model: null,
 
   maxSnippetLength: 160,
 
+  routeName: 'feed.show',
   hasImage: computed.notEmpty('imageUrl'),
   hasExcerpt: computed.gt('textSnippet.length', 10),
   excerpt: computed.alias('textSnippet'),

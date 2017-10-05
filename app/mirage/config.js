@@ -326,7 +326,12 @@ export default function() {
   });
 
   this.get('/locations/:id', function ({ locations }, { params }) {
-    return locations.findBy({id: params.id});
+    let location= locations.findBy({id: params.id});
+    if(!location) {
+      return new Mirage.Response(404, {}, {});
+    } else {
+      return location;
+    }
   });
 
   // Used by the event filter bar to find locations
@@ -761,12 +766,6 @@ export default function() {
 
   this.patch('listserv_contents/:id/update_metric', function() {
     return {};
-  });
-
-  this.get('/contents', function({ db }, request) {
-    return {
-      contents: mixedContent(db, request.queryParams)
-    };
   });
 
   this.get('/dashboard', function({ db }, request) {

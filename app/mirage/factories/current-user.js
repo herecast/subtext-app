@@ -17,7 +17,6 @@ export default Mirage.Factory.extend({
   //managedOrganizationIds() { return [1, 2, 3]; },
   canPublishNews: true,
   userId(id) { return id; },
-  locationId: null,
 
   afterCreate(user, server) {
     if(isBlank(user.locationId)) {

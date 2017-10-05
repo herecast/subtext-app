@@ -1,18 +1,16 @@
 <div class="FeedCard--card-front">
   {{feed-card/title
     title=model.title
-    routeName='location.index.show'
-    contentId=model.contentId
     eventInstanceId=model.eventInstanceId
     sold=model.sold
+    model=model
   }}
 
   {{#if (or model.startsAtFormatted model.eventInstances)}}
     {{feed-card/event-dates
       eventDate=model.startsAtFormatted
       otherInstances=model.eventInstances
-      linkRoute='location.index.show'
-      contentId=model.contentId
+      model=model
     }}
   {{/if}}
 
@@ -20,17 +18,12 @@
     {{feed-card/image
       imageUrl=model.imageUrl
       caption=caption
-      routeName='location.index.show'
-      contentId=model.contentId
-      eventInstanceId=model.eventInstanceId
+      model=model
     }}
   {{else}}
     {{feed-card/text-snippet
-      content=model.content
       showTextSnippet=true
-      routeName='location.index.show'
-      contentId=model.contentId
-      eventInstanceId=model.eventInstanceId
+      model=model
     }}
   {{/if}}
 

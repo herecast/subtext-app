@@ -28,7 +28,15 @@ export default Ember.Mixin.create({
     const locationId = get(this, 'userLocation.selectedLocationId');
 
     if (locationId) {
-      this.navigateToLocation(locationId, transition);
+      if(transition.targetName.includes('event')) {
+        this.navigateToLocation(locationId, transition);
+      } else {
+        this.replaceWith('feed', {
+          queryParams: {
+            location: locationId
+          }
+        });
+      }
     } else {
       get(this, 'tracking').push({
         event: 'OpenLocationSelectionPage'
@@ -38,7 +46,7 @@ export default Ember.Mixin.create({
 
   navigateToLocation(locationId, transition) {
     let locationRoute = transition.targetName;
-    
+
     // Normalize the location route
     if (locationRoute.endsWith('.index')) {
       locationRoute = locationRoute.substring(0, locationRoute.lastIndexOf('.index'));

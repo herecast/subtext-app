@@ -16,12 +16,6 @@ export default Ember.Controller.extend({
   routing: inject.service('_routing'),
   router: computed.alias('routing.router'),
   intercom: inject.service('intercom'),
-  newsFilter: inject.controller('location.news'),
-  eventsFilter: inject.controller('location.events'),
-  talkFilter: inject.controller('location.talk'),
-  marketFilter: inject.controller('location.market'),
-  searchService: inject.service('search'),
-  searchOpen: computed.alias('searchService.searchActive'),
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');

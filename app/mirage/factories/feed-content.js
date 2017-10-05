@@ -1,4 +1,4 @@
-import Mirage, {faker} from 'ember-cli-mirage';
+import {Factory, association, faker} from 'ember-cli-mirage';
 import { titleize } from 'subtext-ui/mirage/support/utils';
 
 function otherInstance() {
@@ -12,7 +12,7 @@ function otherInstance() {
   };
 }
 
-export default Mirage.Factory.extend({
+export default Factory.extend({
   title()    { return faker.lorem.sentence(); },
   subtitle() { return faker.lorem.sentence(); },
   contentType(id) {
@@ -37,12 +37,21 @@ export default Mirage.Factory.extend({
 
   eventId() { return faker.random.number(9999); },
   eventInstances() {
-    let instancesArray = [];
-    const iterations = 3;
-    for (var i=0; i<iterations; i++) {
-      instancesArray.push(otherInstance());
+    if(this.contentType === 'event') {
+      let instancesArray = [];
+      const iterations = 3;
+      for (var i=0; i<iterations; i++) {
+        instancesArray.push(otherInstance());
+      }
+      return instancesArray;
+    } else {
+      return [];
     }
-    return instancesArray;
+  },
+  eventInstanceId() {
+    if(this.eventInstances.length) {
+      return this.eventInstances[0].id;
+    }
   },
   venueName(id) { return (id % 3 === 0) ? titleize(faker.lorem.words(3)) : null;},
   venueAddress() { return faker.address.streetAddress();},
@@ -53,13 +62,13 @@ export default Mirage.Factory.extend({
   startsAt() { return faker.date.future(); },
   endsAt() { return faker.date.future(); },
 
-  baseLocationId: 1,
   contentLocations: [],
 
   publishedAt() { return faker.date.past(); },
   updatedAt() { return faker.date.past(); },
 
-  organizationId() { return faker.random.number(999); },
+  organization: association(),
+
   organizationName() { return faker.company.companyName(); },
   organizationProfileImageUrl() { return faker.image.business(); },
 

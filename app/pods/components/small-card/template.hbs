@@ -1,4 +1,4 @@
-{{#link-to routeName item.id}}
+{{#link-to-content item}}
   {{#media-container as |media|}}
     {{#media.object}}
       <img src="{{optimized-image-url item.imageUrl 40 30 true}}" alt="">
@@ -7,4 +7,4 @@
       {{item.title}}
     {{/media.content}}
   {{/media-container}}
-{{/link-to}}
+{{/link-to-content}}

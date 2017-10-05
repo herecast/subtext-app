@@ -1,0 +1,8 @@
+<span class='SearchTypeTag-label' data-test-label='search-type'>
+  {{label}}
+</span>
+{{#if remove}}
+  {{#x-button style='link' onClick=(action remove) class='SearchTypeTag-remove' data-test-action="remove-type-filter"}}
+    {{fa-icon "times"}}
+  {{/x-button}}
+{{/if}}
