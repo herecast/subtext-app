@@ -3,7 +3,8 @@ import Ember from 'ember';
 const {
   inject,
   set,
-  get
+  get,
+  isPresent
 } = Ember;
 
 const RenderInModal = Ember.Component.extend({
@@ -17,8 +18,17 @@ const RenderInModal = Ember.Component.extend({
   onOk() {},
   onCancel() {},
 
-  init() {
-    this._super();
+  removeModal() {
+    const modal = get(this, '_modal');
+    if(isPresent(modal)) {
+      get(this, 'modals').removeModal(modal);
+    }
+  },
+
+  didRender() {
+    this._super(...arguments);
+
+    this.removeModal();
 
     const modals = get(this, 'modals');
     const modalWrapper = get(this, 'modalWrapper');
@@ -35,9 +45,7 @@ const RenderInModal = Ember.Component.extend({
   },
 
   willDestroyElement() {
-    get(this, 'modals').removeModal(
-      get(this, '_modal')
-    );
+    this.removeModal();
   }
 });
 

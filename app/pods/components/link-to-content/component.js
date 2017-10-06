@@ -9,20 +9,6 @@ const linkToContent = Ember.Component.extend({
   route: 'feed.show',
   instanceRoute: 'feed.show-instance',
 
-  // closure action to override, and handle the click in the action
-  // instead of the default routing.
-  clickOverride: null,
-
-  init() {
-    this._super(...arguments);
-
-    const clickOverride = get(this, 'clickOverride');
-
-    if (clickOverride) {
-      this.on('click', clickOverride);
-    }
-  },
-
   didReceiveAttrs() {
     this._super(...arguments);
 

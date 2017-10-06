@@ -65,32 +65,3 @@ test('given an event model', function(assert) {
     "It links to the feed show instance route"
   );
 });
-
-test('given a clickOverride action', function(assert) {
-  const model = {id: 1, contentId: 123};
-  const clickAction = sinon.spy();
-
-  this.setProperties({
-    model,
-    clickAction
-  });
-
-  // Template block usage:
-  this.render(hbs`
-    {{#link-to-content model clickOverride=(action clickAction)}}
-      click here
-    {{/link-to-content}}
-  `);
-
-  this.$('a').click();
-
-  assert.ok(
-    this.routing.transitionTo.notCalled,
-    "It does not transition"
-  );
-
-  assert.ok(
-    clickAction.called,
-    "Click action is called"
-  );
-});

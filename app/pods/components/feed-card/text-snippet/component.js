@@ -7,7 +7,7 @@ export default Ember.Component.extend(textSnippet, {
   classNames: 'FeedCard-TextSnippet',
   classNameBindings: ['isSnipped:snipped-text', 'isBlurred:blurred-text'],
 
-  showTextSnippet: false,
+  showTextSnippet: true,
   content: computed.reads('model.content'),
 
   modals: service(),

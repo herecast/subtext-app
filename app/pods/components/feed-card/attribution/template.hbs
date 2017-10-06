@@ -10,13 +10,17 @@
   </div>
   <div class="FeedCard-Attribution-author-right">
     <div class="FeedCard-Attribution-author">
-      {{#link-to
-        linkRouteName
-        linkId
-        data-test-link='organization-link'
-      }}
+      {{#if hasLinkRouteName}}
+        {{#link-to
+          linkRouteName
+          linkId
+          data-test-link='organization-link'
+        }}
+          {{authorNameFormatted}}
+        {{/link-to}}
+      {{else}}
         {{authorNameFormatted}}
-      {{/link-to}}
+      {{/if}}
     </div>
     <div class="FeedCard-Attribution-posted-time">
       {{#unless isListserv}}
