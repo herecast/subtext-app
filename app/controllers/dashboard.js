@@ -36,6 +36,14 @@ export default Ember.Controller.extend({
   }),
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
+  init() {
+    this._super(...arguments);
+    const type = get(this, 'type');
+    if (type === 'promotion-banner') {
+      set(this, 'sort', 'start_date DESC');
+    }
+  },
+
   ads: computed('page', 'sort', 'type', 'refresh', 'organization.id', function() {
     const page = get(this, 'page');
     const per_page = get(this, 'per_page');
