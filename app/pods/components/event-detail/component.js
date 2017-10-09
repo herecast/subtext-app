@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import contentComments from 'subtext-ui/mixins/content-comments';
 
 const {
   get,
@@ -9,7 +10,7 @@ const {
   computed
 } = Ember;
 
-export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentComments, {
   'data-test-component': 'event-detail',
   'data-test-content': computed.reads('model.contentId'),
   classNames: ['DetailPage'],
@@ -19,7 +20,9 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
   closeLabel: 'Events',
   fastboot: inject.service(),
   tracking: inject.service(),
+
   store: inject.service(),
+
   isPreview: false,
   enableStickyHeader: false,
 

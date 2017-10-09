@@ -2,7 +2,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('comment-new', 'Unit | Component | comment new', {
   // Specify the other units that are required for this test
-  needs: ['component:async-button']
+  needs: ['helper:and', 'helper:not', 'component:fa-icon'],
+  unit: true
 });
 
 test('it renders', function(assert) {

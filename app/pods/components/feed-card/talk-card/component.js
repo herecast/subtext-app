@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import reloadComments from 'subtext-ui/mixins/reload-comments';
 
 const { get, computed, isPresent } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-TalkCard',
 
   model: null,

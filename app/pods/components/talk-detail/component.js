@@ -2,10 +2,11 @@ import Ember from 'ember';
 import moment from 'moment';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import contentComments from 'subtext-ui/mixins/content-comments';
 
 const { get, computed, inject, isPresent } = Ember;
 
-export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentComments, {
   'data-test-component': 'talk-detail',
   'data-test-content': computed.reads('model.contentId'),
   closeRoute: 'feed',

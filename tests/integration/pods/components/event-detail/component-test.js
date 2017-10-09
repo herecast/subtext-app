@@ -3,14 +3,16 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import startMirage from '../../../../helpers/setup-mirage';
 
+const contentCommentsStub = Ember.Service.extend({
+  getComments() { }
+});
+
 moduleForComponent('event-detail', 'Integration | Component | event detail', {
   integration: true,
   setup() {
     startMirage(this.container);
     this.inject.service('tracking');
-
-    // content comments was causing side affects, and needing special service injection.
-    this.register('component:content-comments', Ember.Component.extend());
+    this.register('service:content-comments', contentCommentsStub);
   }
 });
 

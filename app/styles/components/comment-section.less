@@ -5,17 +5,46 @@
     padding: 0;
   }
 
+  &-avatar { }
+
+  &-anonymousAvatar {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    background: gainsboro;
+    border-radius: 50%;
+  }
+
   &-replyBox {
+    resize: none;
     border-radius: 0;
-    font-weight: 700;
-    border: 1px solid #979797;
+    border: 1px solid #D2D2D2;
+    border-radius: 100px;
+    padding-right: 50px;
+    height: 40px;
+
+    &-wrapper {
+      margin-left: 50px;
+      position: relative;
+    }
   }
 
   &-replyButton {
-    border: 1px solid @text-color;
-    color: @text-color;
-    display: block;
-    margin: 0 auto;
+    color: #C9C6C6;
+    padding: 0;
+    line-height: 0;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    width: auto;
+    font-size: 30px;
+    border-radius: 50%;
+
+    &:hover, &:active, &:focus {
+      border: none;
+      outline: none;
+    }
   }
 
   &-toggleButton {

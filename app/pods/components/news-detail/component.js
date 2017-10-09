@@ -1,20 +1,22 @@
 import Ember from 'ember';
 import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import contentComments from 'subtext-ui/mixins/content-comments';
 
 const {
   computed,
-  inject,
+  inject: {service},
   isPresent,
   get,
   set
 } = Ember;
 
-export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, {
+export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentComments, {
   'data-test-component': 'news-detail',
   'data-test-content': computed.reads('model.contentId'),
-  fastboot: inject.service(),
-  tracking: inject.service(),
+  fastboot: service(),
+  tracking: service(),
+
   tagName: 'main',
   closeRoute: 'feed',
   closeLabel: 'News',

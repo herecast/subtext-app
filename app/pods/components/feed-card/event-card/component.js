@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import moment from 'moment';
+import reloadComments from 'subtext-ui/mixins/reload-comments';
 
 
 const { get, computed, isPresent } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',
 
   model: null,
@@ -44,4 +45,5 @@ export default Ember.Component.extend({
 
     return isPresent(baseLocation) ? get(baseLocation, 'locationName') : `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
   })
+
 });

@@ -65,6 +65,8 @@
     </div>
   </div>
 
+  {{horizontal-rule}}
+
   <div class='DetailPage-sectionWrapper'>
     <div class="DetailPage-section DetailPage-content">
       {{#if model.price}}
@@ -94,6 +96,18 @@
         model=model
       }}
     {{/horizontal-rule}}
+
+    <div class='DetailPage-section DetailPage-comments'>
+      {{comments-section
+        showSectionTitle=true
+        commentCount=model.commentCount
+        parentContentId=(readonly model.contentId)
+        comments=comments
+        contentTitle=(readonly model.title)
+        disabled=(readonly commentingDisabled)
+        afterComment=(action 'reloadComments')
+      }}
+    </div>
 
     <div class='DetailPage-sectionWrapper'>
       <div class='AdBanner-wrapper AdBanner-wrapper--detail'>

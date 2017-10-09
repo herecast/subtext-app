@@ -1,0 +1,30 @@
+{{#comments-section
+  parentContentId=parentContentId
+  comments=comments
+  contentTitle=contentTitle
+  disabled=disabled
+  afterComment=(action afterComment)
+}}
+  {{#if (gt commentCount 6)}}
+    <div class='CommentList-footer'>
+      {{#if eventInstanceId}}
+        {{#link-to 'feed.show' parentContentId
+          (query-params eventInstanceId=eventInstanceId)
+          class='u-link u-bold'
+        }}
+          View more comments
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'feed.show' parentContentId
+          class='u-link u-bold'
+        }}
+          View more comments
+        {{/link-to}}
+      {{/if}}
+
+        <span class='pull-right'>
+          {{comments.length}} of {{commentCount}}
+        </span>
+    </div>
+  {{/if}}
+{{/comments-section}}

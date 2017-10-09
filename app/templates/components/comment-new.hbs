@@ -1,24 +1,40 @@
-<div class='form-group'>
-  {{textarea
+{{#if (and (not session.isAuthenticated) showSignInPrompt)}}
+  <div class='CommentList-signInPrompt'>
+    <p class='text-center'>Please <a href="#" {{action 'postComment'}} class='u-textUnderline'>sign in</a> to post your comment.</p>
+  </div>
+{{/if}}
+
+{{#if session.isAuthenticated}}
+  {{avatar-image
+    imageUrl=(if session.currentUser.userImageUrl session.currentUser.userImageUrl)
+    userName=(if session.currentUser.name session.currentUser.name)
+    customSize=40
+    class='CommentSection-avatar pull-left'
+  }}
+{{else}}
+  <button {{action 'showSignInMenu' bubbles=false}} class='CommentSection-anonymousAvatar btn-link pull-left' data-test-link=''>
+    {{fa-icon 'user' size=2}}
+  </button>
+{{/if}}
+
+<div class='CommentSection-replyBox-wrapper'>
+  {{input
     value=newComment
+    enter=(action 'postComment' callback)
     placeholder='Your comment here...'
     class='form-control CommentSection-replyBox'
     data-test-field='new-comment'
   }}
-</div>
 
-<div class='form-group'>
   {{#if submitDisabled}}
-    <button disabled class='CommentSection-replyButton Button btn btn-default'>
-      Add Comment
+    <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
+      {{fa-icon 'arrow-circle-right' size=1}}
     </button>
   {{else}}
-    {{async-button
-      action='postComment'
-      default='Add Comment'
-      pending='Saving…'
-      class='CommentSection-replyButton Button btn btn-default'
-      data-test-component='add-comment-button'
-    }}
+    <button class='CommentSection-replyButton Button btn btn-default pull-right u-link' data-test-component='add-comment-button' {{action 'postComment' callback}}>
+      {{fa-icon 'arrow-circle-right' size=1}}
+    </button>
   {{/if}}
 </div>
+
+

@@ -1,0 +1,34 @@
+<div class='CommentList-wrapper'>
+  {{#if showSectionTitle}}
+    {{#title-text strong=true class='u-paddingLeft10'}}
+      Comments
+      {{#if commentCount}}
+        <span class="DetailPage-comments-count">{{commentCount}}</span>
+      {{/if}}
+    {{/title-text}}
+  {{/if}}
+
+  {{#unless features.disable-content-creation}}
+    <div class='CommentList-replyForm'>
+      {{comment-new
+        parentContentId=parentContentId
+        contentTitle=contentTitle
+        comments=comments
+        disabled=commentingDisabled
+        afterComment=(action afterComment)
+      }}
+    </div>
+  {{/unless}}
+
+  {{#if sortedComments}}
+    <div class='CommentList'>
+      {{#each sortedComments as |comment|}}
+        {{content-comment comment=comment}}
+      {{/each}}
+
+      {{yield}}
+    </div>
+  {{else if comments.isPending}}
+    {{x-loader}}
+  {{/if}}
+</div>

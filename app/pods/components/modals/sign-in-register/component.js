@@ -10,7 +10,7 @@ export default ModalInstance.extend({
   isRegister: computed.equal('model', 'register'),
 
   actions: {
-    reconfirm: function(email){
+    reconfirm(email) {
       // IDEA: Open secondary modal here?
       get(this, '_routing').transitionTo('register.reconfirm', null, {
         email: email

@@ -11,9 +11,9 @@ const {
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, {
+  comments: DS.hasMany('comment'),
   // Only returned by the API if the current user is an admin
   adminContentUrl: DS.attr('string'),
-
   canEdit: DS.attr('boolean'),
   commentCount: DS.attr('number'),
   contentId: DS.attr('number'),
@@ -27,6 +27,7 @@ export default DS.Model.extend(BaseEvent, {
   updatedAt: DS.attr('moment-date'),
   organization: DS.belongsTo('organization'),
 
+  eventInstanceId: computed.alias('id'),
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (this.get('isValid')) {
       const date = this.get('startsAt').format('MMM D');

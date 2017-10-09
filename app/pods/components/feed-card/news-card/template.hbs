@@ -23,12 +23,19 @@
     linkId=attributionLinkId
     postedTime=model.publishedAtRelative
     isListserv=model.isListserv
-    commentCount=model.commentCount
     contentId=model.contentId
   }}
 
   {{feed-card/footer
     locationTagName=sourceTag
+  }}
+
+  {{feed-card/comments
+    parentContentId=(readonly model.contentId)
+    comments=model.comments
     commentCount=model.commentCount
+    contentTitle=(readonly model.title)
+    disabled=(readonly commentingDisabled)
+    afterComment=(action 'reloadComments')
   }}
 </div>

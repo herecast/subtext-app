@@ -201,21 +201,17 @@
       </div>
     </div>
 
-    {{horizontal-rule}}
-
-    <div class='DetailPage-sectionWrapper'>
-      <div class="DetailPage-section DetailPage-comments">
-        {{#title-text strong=true}}Comments{{/title-text}}
-
-        {{content-comments
-          content=model
-          scrollToAnchor=scrollToAnchor
-          scrollTo=(action scrollTo)
-        }}
-      </div>
+    <div class='DetailPage-section DetailPage-comments'>
+      {{comments-section
+        showSectionTitle=true
+        commentCount=model.commentCount
+        parentContentId=(readonly model.contentId)
+        comments=comments
+        contentTitle=(readonly model.title)
+        disabled=(readonly commentingDisabled)
+        afterComment=(action 'reloadComments')
+      }}
     </div>
-
-    {{horizontal-rule}}
 
     <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-similarContent'>
@@ -227,6 +223,5 @@
         {{/similar-content}}
       </div>
     </div>
-
   {{/unless}}
 {{/sticky-container}}

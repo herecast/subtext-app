@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('feed-content', 'Unit | Model | feed content', {
   // Specify the other units that are required for this test.
-  needs: ['model:other-event-instance', 'model:image', 'model:organization', 'model:content-location']
+  needs: ['model:comment', 'model:other-event-instance', 'model:image', 'model:organization', 'model:content-location']
 });
 
 test('it exists', function(assert) {

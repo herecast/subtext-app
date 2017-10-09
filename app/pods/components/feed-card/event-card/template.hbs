@@ -50,6 +50,15 @@
 
   {{feed-card/footer
     locationTagName=sourceTag
+  }}
+
+  {{feed-card/comments
+    parentContentId=(readonly model.contentId)
     commentCount=model.commentCount
+    eventInstanceId=model.eventInstanceId
+    comments=model.comments
+    contentTitle=(readonly model.title)
+    disabled=(readonly commentingDisabled)
+    afterComment=(action 'reloadComments')
   }}
 </div>

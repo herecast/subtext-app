@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('content-preview', {
-  needs: ['component:content-comments', 'component:report-abuse',
+  needs: ['component:report-abuse',
     'component:fa-icon', 'component:background-image', 'component:truncate-text',
     'component:event-map', 'component:event-other-dates']
 });

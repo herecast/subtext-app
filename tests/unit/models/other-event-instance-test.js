@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('other-event-instance', {
+moduleForModel('other-event-instance', 'Unit | Model | other event instance', {
   // Specify the other units that are required for this test.
   needs: []
 });

@@ -17,6 +17,7 @@ const {
 
 export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
   api: inject.service('api'),
+  comments: DS.hasMany('comment'),
   category: DS.attr('string'),
   firstInstanceId: DS.attr('number'),
   canEdit: DS.attr('boolean', {defaultValue: false}),

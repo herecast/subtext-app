@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import contentComments from 'subtext-ui/mixins/content-comments';
 
 const {
   get,
@@ -9,7 +10,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Component.extend(ModelResetScroll, {
+export default Ember.Component.extend(ModelResetScroll, contentComments, {
   'data-test-component': 'market-detail',
   'data-test-content': computed.reads('model.contentId'),
   closeRoute: 'feed',

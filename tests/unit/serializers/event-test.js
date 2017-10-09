@@ -3,10 +3,10 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('event', {
+moduleForModel('event', 'Unit | Serializer | event', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:event', 'transform:moment-date', 'transform:raw', 'model:event-instance',
-    'model:other-event-instance', 'model:schedule', 'model:organization', 'model:content-location'
+  needs: ['serializer:event', 'transform:moment-date', 'transform:raw', 'model:event-instance', 'model:other-event-instance',
+    'model:schedule', 'model:organization', 'model:content-location', 'model:comment'
   ]
 });
 

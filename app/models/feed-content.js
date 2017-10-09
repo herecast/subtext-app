@@ -20,6 +20,7 @@ export default DS.Model.extend(BaseEvent, {
   authorName: DS.attr('string'),
   avatarUrl: DS.attr('string'),
 
+  comments: DS.hasMany(),
   commentCount: DS.attr('number'),
   viewCount: DS.attr('number'),
 

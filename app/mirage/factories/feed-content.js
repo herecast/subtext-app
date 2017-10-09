@@ -32,7 +32,6 @@ export default Factory.extend({
   authorName() { return faker.name.findName(); },
   avatarUrl() { return faker.image.avatar(); },
 
-  commentCount() { return faker.random.number(10); },
   viewCount() { return faker.random.number(999); },
 
   eventId() { return faker.random.number(9999); },

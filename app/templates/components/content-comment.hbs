@@ -1,21 +1,17 @@
-{{#media-container as |media|}}
-  {{#media.object}}
-    {{avatar-image
-      imageUrl=comment.userImageUrl
-      userName=comment.userName
-    }}
-  {{/media.object}}
-  {{#media.content}}
+{{!-- TODO upper content will need to decide what the userImageUrl should be --}}
+{{avatar-image
+  imageUrl=comment.userImageUrl
+  userName=comment.userName
+  customSize=40
+}}
+
+<div class='Comment-body'>
+  <div class='Comment-meta'>
+    {{comment.userName}}&nbsp;&#183;
+    {{if comment.formattedPostedAt comment.formattedPostedAt 'just now'}}&nbsp;&#183;
+    {{fa-icon 'flag'}} {{report-abuse contentId=comment.contentId tagName='span'}}
+  </div>
+  <div class='Comment-content'>
     {{{comment.content}}}
-    {{#text-block lighten=true small=true}}
-      {{comment.userName}}
-      &bull;
-      {{comment.formattedPostedAt}}
-      &bull;
-      {{report-abuse
-        contentId=comment.contentId
-        tagName='span'
-      }}
-    {{/text-block}}
-  {{/media.content}}
-{{/media-container}}
+  </div>
+</div>
