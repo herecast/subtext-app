@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 /* global FB */
 
 const { get, setProperties, computed, inject:{service}} = Ember;
@@ -18,9 +17,15 @@ export default Ember.Component.extend({
 
   _urlForShare() {
     const locationService = get(this, 'location');
-    const model = get(this, 'content');
-    
-    return SocialSharing.getShareUrl(locationService, model);
+    const id = get(this, 'contentId');
+    const baseLink = `${locationService.href()}`;
+    const ctype = get(this, 'content.contentType');
+
+    if (ctype === 'news') {
+      return `${baseLink}/${id}`;
+    }
+
+    return ctype === 'campaign' ? baseLink : `${baseLink}/${id}?ctype=${ctype}`;
   },
 
   _queuePromotionRecord(platform) {
