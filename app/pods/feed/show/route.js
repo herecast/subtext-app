@@ -22,6 +22,8 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent,
   afterModel(model) {
     if (isPresent(get(model, 'eventInstanceId'))) {
       this.transitionTo('feed.show-instance', get(model, 'id'), get(model, 'eventInstanceId'));
+    } else {
+      this._super(...arguments);
     }
   },
 
