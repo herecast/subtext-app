@@ -23,6 +23,8 @@
 
     {{to-elsewhere named="page-toolbar"
       send=(component "channel-filters"
+        radius=(readonly radius)
+        onChooseMyStuffOnly=(action 'chooseMyStuffOnly')
         channel="index"
         filterComponent=(component "location-radius-selector"
           location=(readonly userLocation.location)

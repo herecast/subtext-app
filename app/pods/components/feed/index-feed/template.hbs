@@ -15,11 +15,4 @@
       }}
     </div>
   {{/if}}
-{{else}}
-  <p class='NoResults' class='text-center'>
-    No results were found matching your criteria.<br>
-    Try changing your search or expand the search area.<br>
-    <br>
-    {{link-to 'Reset my Filters' 'feed' (query-params type='' radius='10' query='') class='Button Button--small'}}
-  </p>
 {{/each}}

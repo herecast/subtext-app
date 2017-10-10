@@ -1,14 +1,20 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
+const {get, computed, inject} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-Footer',
 
+  fastboot: inject.service(),
+
   locationTagName: null,
   canEdit: false,
-  commentCount: 0,
+  editRoute: null,
+  editRouteId: null,
 
   hasSource: computed.notEmpty('locationTagName'),
-  hasComments: computed.gt('commentCount', 0)
+
+  showEditButton: computed('canEdit', 'fastboot.isFastBoot', function() {
+    return get(this, 'canEdit') && !get(this, 'fastboot.isFastBoot');
+  })
 });

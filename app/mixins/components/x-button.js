@@ -16,7 +16,8 @@ export default Ember.Mixin.create({
     'roundedClass',
     'shadow:XButton--shadow',
     'strong:XButton--strong',
-    'nowrap:XButton--nowrap'
+    'nowrap:XButton--nowrap',
+    'active'
   ],
 
   color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black', 'steel-gray'
@@ -27,6 +28,7 @@ export default Ember.Mixin.create({
   shadow: false,
   strong: false,
   nowrap: false,
+  active: false,
 
   // optional: set a specific style on mobile.
   xsStyle: null,

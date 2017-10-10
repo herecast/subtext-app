@@ -1,0 +1,17 @@
+{{#x-card}}
+  {{#card-body center=true}}
+    {{#title-text strong=true}}
+      You haven’t created anything yet. (But if you had this is where you would find it.)
+    {{/title-text}}
+    {{#text-block}}
+      See what you can do with DailyUV!
+    {{/text-block}}
+
+    {{#text-block}}
+      {{#x-button color='primary' size='small' onClick=(action 'showJobsTray')}}
+        Get started
+        &nbsp; {{fa-icon 'long-arrow-right'}}
+      {{/x-button}}
+    {{/text-block}}
+  {{/card-body}}
+{{/x-card}}

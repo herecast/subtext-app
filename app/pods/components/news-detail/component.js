@@ -16,6 +16,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   'data-test-content': computed.reads('model.contentId'),
   fastboot: service(),
   tracking: service(),
+  session: service(),
 
   tagName: 'main',
   closeRoute: 'feed',
@@ -26,16 +27,18 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
-  canEdit: computed('organizations.@each.id', 'model.organization.id', function() {
-    const userOrganizations = get(this, 'organizations') || [];
-    const newsOrganizationId = get(this, 'model.organization.id');
-    const orgIds = userOrganizations.map((item) => { return get(item, 'id'); });
-
-    return orgIds.indexOf(newsOrganizationId) !== -1;
+  userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {
+    if (get(this, 'session.isAuthenticated')) {
+      return get(this, 'session.currentUser').then(currentUser => {
+        return currentUser.isManagerOfOrganizationID(get(this, 'model.organizationId'));
+      });
+    } else {
+      return false;
+    }
   }),
 
-  showEditButton: computed('canEdit', 'fastboot.isFastBoot', function() {
-    return get(this, 'canEdit') && ! get(this, 'fastboot.isFastBoot');
+  showEditButton: computed('userCanEditNews', 'fastboot.isFastBoot', function() {
+    return ! get(this, 'fastboot.isFastBoot') && get(this, 'userCanEditNews');
   }),
 
   hasCaptionOrCredit: computed('model.bannerImage.{caption,credit}', function() {

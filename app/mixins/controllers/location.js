@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const {get, set, inject} = Ember;
+const {get, set, computed, inject} = Ember;
 
 export default Ember.Mixin.create({
   channel: null, // required
@@ -10,7 +10,8 @@ export default Ember.Mixin.create({
   tracking: inject.service(),
   userLocation: inject.service(),
 
-  radius: 10,
+  radius: '10', // note, this query-param has to be a string so Ember doesn't cast 'me' to a Number
+  isMyStuffOnly: computed.equal('radius', 'me'),
 
   actions: {
     changeRadius(radius) {
@@ -21,7 +22,13 @@ export default Ember.Mixin.create({
 
       set(this, 'radius', radius);
     },
-
+    chooseMyStuffOnly() {
+      get(this, 'tracking').trackMyStuffClick();
+      this.transitionToRoute('feed', {queryParams: {
+        radius: 'me',
+        page: 1
+      }});
+    },
     chooseLocation(location) {
       const channel = get(this, 'channel');
       const userLocation = get(this, 'userLocation');

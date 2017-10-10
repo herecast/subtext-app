@@ -6,11 +6,12 @@ export default Ember.Component.extend({
   classNames: ['FloatingActionButton'],
   classNameBindings: ['showContent:expanded'],
 
-  tracking: inject.service(),
   modals: inject.service(),
+  floatingActionButton: inject.service(),
 
   showMessage: true,
-  showContent: false,
+  showContent: computed.alias('floatingActionButton.showContent'),
+  isAnimatingAway: computed.alias('floatingActionButton.isAnimatingAway'),
 
   messagePrompt: 'You can use DailyUV to do many things in your community!',
   messageHeader: 'What would you like to do on DailyUV?',
@@ -19,7 +20,6 @@ export default Ember.Component.extend({
     return get(this, 'showContent') ? get(this, 'messageHeader') : get(this, 'messagePrompt');
   }),
 
-  isAnimatingAway: false,
   windowHeight: 1000,
   touchKeyboardIsOpen: false,
 
@@ -47,20 +47,6 @@ export default Ember.Component.extend({
     return `fab-${get(this, 'elementId')}`;
   }),
 
-  collapse() {
-    if (!get(this, 'isDestroyed')) {
-      get(this, 'tracking').trackUGCJobsTrayClosed();
-      get(this, 'modals').removeModalBodyClass();
-      set(this, 'isAnimatingAway', true);
-      Ember.run.later(() => {
-        if (!get(this, 'isDestroyed')) {
-          set(this, 'showContent', false);
-          set(this, 'isAnimatingAway', false);
-        }
-      }, 300);
-    }
-  },
-
   /**
    * The only way to know if the mobile keyboard is open is to track focus on inputs.
    * The purpose of this is to toggle a property to hide the jobs button if
@@ -80,6 +66,7 @@ export default Ember.Component.extend({
       }
     });
   },
+
   _unWatchFocus() {
     const namespace = get(this, 'namespaceForFocusEvent');
 
@@ -87,19 +74,11 @@ export default Ember.Component.extend({
     Ember.$('body').off(`focusout.${namespace}`);
   },
 
-  expand() {
-    get(this, 'tracking').trackUGCJobsTrayOpened();
-    get(this, 'modals').addModalBodyClass();
-    if (!get(this, 'isDestroyed')) {
-      set(this, 'showContent', true);
-    }
-  },
-
   click(e) {
     // Clicking on overlay should close the modal
     const $target = $(e.target);
     if (get(this, 'showContent') && $target.hasClass('FloatingActionButton')) {
-      this.collapse();
+      get(this, 'floatingActionButton').collapse();
     }
   },
 
@@ -117,6 +96,8 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
+    set(this, 'floatingActionButton.showContent', false);
+
     this._super(...arguments);
     this._unWatchFocus();
 
@@ -127,9 +108,9 @@ export default Ember.Component.extend({
   actions: {
     toggleContent() {
       if (get(this, 'showContent')) {
-        this.collapse();
+        get(this, 'floatingActionButton').collapse();
       } else {
-        this.expand();
+        get(this, 'floatingActionButton').expand();
       }
     }
   }

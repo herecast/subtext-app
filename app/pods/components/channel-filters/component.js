@@ -2,22 +2,24 @@ import Ember from 'ember';
 
 const {
   get,
+  computed,
   inject
 } = Ember;
 
 export default Ember.Component.extend({
-  tracking: inject.service(),
   classNames: ['ChannelFilters'],
 
-  actions: {
-    trackMyStuff() {
-      get(this, 'tracking').push({
-        event: 'ChangeRadius',
-        channel: get(this, 'channel'),
-        new_value: 'myStuff'
-      });
+  userLocation: inject.service(),
 
-      return true;
+  radius: '10',
+  isMyStuffOnly: computed.equal('radius', 'me'),
+
+  actions: {
+    chooseMyStuffOnly() {
+      const onChooseMyStuffOnly = get(this, 'onChooseMyStuffOnly');
+      if (onChooseMyStuffOnly) {
+        onChooseMyStuffOnly();
+      }
     }
   }
 });

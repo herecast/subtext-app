@@ -2,11 +2,14 @@
   {{#subtitle-text strong=true inline=true lighten=true class='hidden-xs'}}
     Show:
   {{/subtitle-text}}
-  {{#x-link-to 'dashboard' color='primary' style='outline' xsSize='x-small'}}
-    <span onclick={{action 'trackMyStuff'}} data-test-action='my-stuff'>
-      My&nbsp;Stuff
-    </span>
-  {{/x-link-to}}
+  {{#x-button color='primary'
+              active=isMyStuffOnly
+              style=(if isMyStuffOnly 'regular' 'outline')
+              xsStyle=(if isMyStuffOnly 'lighten' 'gray')
+              xsSize='x-small'
+              onClick=(action 'chooseMyStuffOnly')}}
+    <span data-test-action='my-stuff'>My Stuff</span>
+  {{/x-button}}
 </div>
 
 <div class="ChannelFilters-filters">

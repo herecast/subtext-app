@@ -29,13 +29,16 @@
 
   &:hover,
   &:active,
-  &:focus,
   &.active {
     outline: none;
     color: @hover-text-color;
     background: @hover-background-color;
     border-color: @hover-border-color;
     text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
   }
 
   &:hover {

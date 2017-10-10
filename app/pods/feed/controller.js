@@ -22,7 +22,11 @@ export default Ember.Controller.extend(PaginatedFilter, {
   location: '',
   type: '',
   page: 1,
-  radius: 10,
+  radius: '10',
+
+  isMyStuffOnly: computed.equal('radius', 'me'),
+
+  isSearchActive: computed.notEmpty('query'),
 
   showingDetailInFeed: null,
 
@@ -68,7 +72,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
       location: get(this, 'location'),
       radius: get(this, 'radius'),
       type: get(this, 'type'),
-      query: get(this, 'query')
+      query: get(this, 'query'),
+      page: 1
     };
 
     this.transitionToRoute('feed', {
@@ -88,7 +93,14 @@ export default Ember.Controller.extend(PaginatedFilter, {
       });
 
       this._transitionToFeed({
-        radius: radius,
+        radius: radius
+      });
+    },
+
+    chooseMyStuffOnly() {
+      get(this, 'tracking').trackMyStuffClick();
+      this._transitionToFeed({
+        radius: 'me'
       });
     },
 

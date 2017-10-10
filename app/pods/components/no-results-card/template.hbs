@@ -1,0 +1,11 @@
+{{#x-card}}
+  {{#card-body center=true shortPadding=true}}
+    {{#text-block large=true strong=true}}
+      No results were found matching your criteria.<br>
+      Try changing your search or expand the search area.
+    {{/text-block}}
+    {{#text-block}}
+      {{link-to 'Reset my Filters' 'feed' (query-params page=1 type='' radius='10' query='') class='Button Button--small'}}
+    {{/text-block}}
+  {{/card-body}}
+{{/x-card}}

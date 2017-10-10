@@ -3,7 +3,7 @@ import Ember from 'ember';
 const {get, set} = Ember;
 
 export default Ember.Component.extend({
-  radius: 10,
+  radius: '10',
 
   onChooseRadius: null,
   onChooseLocation: null,

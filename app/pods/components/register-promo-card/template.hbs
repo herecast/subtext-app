@@ -1,0 +1,26 @@
+{{#x-card}}
+
+  {{#card-body center=true noBottomPadding=true}}
+    {{#title-text strong=true}}
+      This is where you would see everything created by you.
+    {{/title-text}}
+
+    {{#text-block}}
+      Post to your town, nearby towns, or to the entire Upper Valley for free and manage it all here.
+    {{/text-block}}
+
+    {{#text-block}}
+      {{#x-button color='primary' size='small' onClick=(action 'showSignInMenu')}}
+        Join Now. It's Free and Easy!
+      {{/x-button}}
+    {{/text-block}}
+
+    {{#text-block}}
+      {{#x-button color='primary' size='medium' style='link' onClick=(action 'showSignInMenu')}}
+        Have an account? Sign in.
+      {{/x-button}}
+    {{/text-block}}
+  {{/card-body}}
+
+  {{town-image}}
+{{/x-card}}

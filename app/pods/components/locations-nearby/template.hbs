@@ -8,16 +8,20 @@
   }}
 {{else}}
   {{#text-block small=true lighten=true}}
-    Viewing content for {{location.name}}
-    {{#if radius}}
-      {{#if nearbyLocations}}
-        and
-        {{#x-button style='link' strong=true onClick=(action 'showActiveLocations')}}
-          {{nearestTowns}} towns within {{radius}} miles.
-        {{/x-button}}
-      {{/if}}
+    {{#if isMyStuffOnly}}
+      Viewing my stuff only.
     {{else}}
-      only.
+      Viewing content for {{location.name}}
+      {{#if (gt radius 0)}}
+        {{#if nearbyLocations}}
+          and
+          {{#x-button style='link' strong=true onClick=(action 'showActiveLocations')}}
+            {{nearestTowns}} towns within {{radius}} miles.
+          {{/x-button}}
+        {{/if}}
+      {{else}}
+        only.
+      {{/if}}
     {{/if}}
   {{/text-block}}
 {{/if}}

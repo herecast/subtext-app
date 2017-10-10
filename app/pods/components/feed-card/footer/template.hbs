@@ -1,4 +1,4 @@
-{{#if (or hasSource canEdit hasComments)}}
+{{#if (or hasSource canEdit)}}
   <div class="FeedCard-Footer-wrap">
     <div class="FeedCard-Footer-left">
       {{#if hasSource}}
@@ -8,6 +8,13 @@
       {{/if}}
     </div>
 
-    <div class="FeedCard-Footer-right"></div>
+    <div class="FeedCard-Footer-right">
+      {{#if showEditButton}}
+        {{#x-link-to editRoute editRouteId style='regular' color='primary' size='x-small' nowrap=true}}
+          {{fa-icon 'pencil'}}
+          Edit Post
+        {{/x-link-to}}
+      {{/if}}
+    </div>
   </div>
 {{/if}}

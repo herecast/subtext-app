@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const {get, set, isPresent, inject} = Ember;
+const {get, set, isPresent, inject, computed} = Ember;
 
 export default Ember.Component.extend({
   classNames: ['LocationRadiusSelector'],
@@ -8,7 +8,9 @@ export default Ember.Component.extend({
 
   radiusChoices: [10, 20, 50],
 
-  radius: 10,
+  radius: '10',
+  isMyStuffOnly: computed.equal('radius', 'me'),
+
   location: null,
 
   actions: {

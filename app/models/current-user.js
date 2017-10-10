@@ -96,5 +96,10 @@ export default DS.Model.extend({
     });
 
     return promise;
+  },
+
+  isManagerOfOrganizationID(orgId) {
+    const managedOrganizations = get(this, 'managedOrganizations') || [];
+    return managedOrganizations.findBy('id', orgId);
   }
 });

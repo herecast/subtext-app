@@ -14,18 +14,20 @@ export default Ember.Component.extend(TestSelector, {
   'data-test-component': 'user-menu',
   session: inject.service('session'),
   routing: inject.service('-routing'),
+  userLocation: inject.service(),
 
   actions: {
     openDashboard(org) {
-      let id = null;
-
-      if(isPresent(org)) {
-        id = org.id;
+      if (isPresent(org)) {
+        get(this, 'routing').transitionTo('dashboard', null, {
+          organization_id: org.id
+        });
+      } else {
+        get(this, 'routing.router').transitionTo('feed', {queryParams: {
+          radius: 'me',
+          page: 1
+        }});
       }
-
-      get(this, 'routing').transitionTo('dashboard', null, {
-        organization_id: id
-      });
 
       const action = get(this, 'action');
       if (action) {

@@ -2,24 +2,26 @@
   <div data-test-page='feed'>
     {{#unless session.isFastBoot}}
       {{to-elsewhere named="page-toolbar"
-        send=(component "channel-filters"
-          channel="index"
-          filterComponent=(component "location-radius-selector"
-            location=(readonly userLocation.location)
-            radius=(readonly radius)
-            onChooseRadius=(action "changeRadius")
-            onChooseLocation=(action "chooseLocation")
-          )
-        )
+                     send=(component "channel-filters"
+                       channel="index"
+                       radius=(readonly radius)
+                       onChooseMyStuffOnly=(action "chooseMyStuffOnly")
+                       filterComponent=(component "location-radius-selector"
+                         location=(readonly userLocation.location)
+                         radius=(readonly radius)
+                         onChooseRadius=(action "changeRadius")
+                         onChooseLocation=(action "chooseLocation")
+                       )
+                     )
       }}
     {{/unless}}
 
     {{#if type}}
       {{to-elsewhere named='filters'
-        send=(component "search-type-tag"
-          type=type
-          remove=(action "filterType" "")
-        )
+                     send=(component "search-type-tag"
+                       type=type
+                       remove=(action "filterType" "")
+                     )
       }}
     {{/if}}
 
@@ -30,7 +32,7 @@
             )
       }}
         {{location-mismatch-prompt
-            changeLocation=(action "chooseLocation")
+          changeLocation=(action "chooseLocation")
         }}
       {{/if}}
 
@@ -41,20 +43,33 @@
       }}
     {{/unless}}
 
-    {{#feed/index-feed
-      feedContents=model
-      showingDetailInFeed=showingDetailInFeed
-    }}
-      {{outlet}}
-    {{/feed/index-feed}}
-
-    {{#infinity-loader
-      infinityModel=model
-    }}
-      {{#unless model.reachedInfinity}}
-        {{fa-icon 'spinner' class="fa-pulse"}}
-      {{/unless}}
-    {{/infinity-loader}}
+    {{#if currentlyLoading}}
+      {{x-loader}}
+    {{else}}
+      {{#feed/feed-container}}
+        {{#if model}}
+          {{#feed/index-feed
+            feedContents=model
+            showingDetailInFeed=showingDetailInFeed
+          }}
+            {{outlet}}
+          {{/feed/index-feed}}
+          {{#infinity-loader
+            infinityModel=model
+          }}
+            {{#unless model.reachedInfinity}}
+              {{fa-icon 'spinner' class="fa-pulse"}}
+            {{/unless}}
+          {{/infinity-loader}}
+        {{else}}
+          {{feed/no-results
+            isMyStuffOnly=isMyStuffOnly
+            currentlyLoading=currentlyLoading
+            isSearchActive=isSearchActive
+          }}
+        {{/if}}
+      {{/feed/feed-container}}
+    {{/if}}
 
     {{#floating-action-button}}
       {{jobs-navigation}}
