@@ -8,6 +8,7 @@ export default Ember.Component.extend(reloadComments, {
 
   model: null,
   userLocation: null,
+  isLoggedIn: false, //Overridden in feed-card
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
@@ -37,6 +38,17 @@ export default Ember.Component.extend(reloadComments, {
       return `${get(baseLocation, 'locationName')}${isListserv ? ' List' : ''}`;
     } else {
       return undefined;
+    }
+  }),
+
+  canAccessContent: computed('model.isListserv', 'isLoggedIn', function() {
+    const isListserv = get(this, 'model.isListserv');
+    const isLoggedIn = get(this, 'isLoggedIn');
+
+    if(!isListserv) {
+      return true;
+    } else {
+      return isLoggedIn;
     }
   }),
 

@@ -3,6 +3,7 @@
     title=model.title
     model=model
     sold=model.sold
+    useLink=canAccessContent
   }}
 
   {{#if activeImageUrl}}
@@ -13,7 +14,7 @@
     }}
   {{else}}
     {{feed-card/text-snippet
-      showTextSnippet=true
+      showTextSnippet=canAccessContent
       model=model
     }}
   {{/if}}
@@ -26,15 +27,17 @@
     }}
   {{/if}}
 
-  {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=attributionLinkRouteName
-    linkId=attributionLinkId
-    postedTime=model.publishedAtRelative
-    isListserv=model.isListserv
-    commentCount=model.commentCount
-  }}
+  {{#if canAccessContent}}
+    {{feed-card/attribution
+      avatarUrl=model.attributionImageUrl
+      author=model.attributionName
+      linkRouteName=attributionLinkRouteName
+      linkId=attributionLinkId
+      postedTime=model.publishedAtRelative
+      isListserv=model.isListserv
+      commentCount=model.commentCount
+    }}
+  {{/if}}
 
   {{feed-card/footer
     locationTagName=sourceTag
