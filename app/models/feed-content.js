@@ -55,15 +55,14 @@ export default DS.Model.extend(BaseEvent, {
   price: computed.alias('cost'),
   sold: DS.attr('boolean', {defaultValue: false}),
 
-  normalizedContentType: computed('contentType', 'isListserv', function() {
-  const isListserv = get(this, 'isListserv');
-   let contentType = get(this, 'contentType');
+  normalizedContentType: computed('contentType', function() {
+     let contentType = get(this, 'contentType');
 
-   if (contentType === 'talk_of_the_town' || isListserv) {
-     contentType = 'talk';
-   }
+     if (contentType === 'talk_of_the_town') {
+       contentType = 'talk';
+     }
 
-   return contentType;
+     return contentType;
   }),
 
   contentId: computed.alias('id'),

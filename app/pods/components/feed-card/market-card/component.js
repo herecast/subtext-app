@@ -23,7 +23,7 @@ export default Ember.Component.extend(reloadComments, {
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', function() {
+  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'model.isListserv', 'userLocation.locationId', function() {
     const baseLocations = get(this, 'model.baseLocations');
     const userLocation = get(this, 'userLocation');
 
@@ -31,7 +31,13 @@ export default Ember.Component.extend(reloadComments, {
     let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
       get(baseLocations, 'firstObject');
 
-    return isPresent(baseLocation) ? get(baseLocation, 'locationName') : undefined;
+    const isListserv = get(this, 'model.isListserv');
+
+    if (isPresent(baseLocation)) {
+      return `${get(baseLocation, 'locationName')}${isListserv ? ' List' : ''}`;
+    } else {
+      return undefined;
+    }
   }),
 
   actions: {
