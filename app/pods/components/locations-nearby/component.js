@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   radius: 10,
   location: computed.oneWay('userLocation.location'),
   isMyStuffOnly: computed('radius', function() {
-    return get(this, 'radius') === 'me';
+    return get(this, 'radius') === 'myStuff';
   }),
   nearbyLocations: [],
   onNearbyLocationsChanged: null, // closure action for listening to changes

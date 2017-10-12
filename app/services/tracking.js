@@ -172,12 +172,6 @@ export default Service.extend(Evented, {
     get(this, 'intercom').trackEvent('change-radius');
   },
 
-  trackMyStuffClick() {
-    this.push({
-      event: 'my-stuff-click'
-    });
-  },
-
   trackHelpTextClick() {
     this.push({
       event: 'HelpTextClick'

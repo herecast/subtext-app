@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   radiusChoices: [10, 20, 50],
 
   radius: '10',
-  isMyStuffOnly: computed.equal('radius', 'me'),
+  isMyStuffOnly: computed.equal('radius', 'myStuff'),
 
   location: null,
 

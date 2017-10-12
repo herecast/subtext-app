@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   userLocation: inject.service(),
 
   radius: '10',
-  isMyStuffOnly: computed.equal('radius', 'me'),
+  isMyStuffOnly: computed.equal('radius', 'myStuff'),
 
   actions: {
     chooseMyStuffOnly() {

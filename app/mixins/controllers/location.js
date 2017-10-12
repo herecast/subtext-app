@@ -10,22 +10,26 @@ export default Ember.Mixin.create({
   tracking: inject.service(),
   userLocation: inject.service(),
 
-  radius: '10', // note, this query-param has to be a string so Ember doesn't cast 'me' to a Number
-  isMyStuffOnly: computed.equal('radius', 'me'),
+  radius: '10', // note, this query-param has to be a string so Ember doesn't cast 'myStuff' to a Number
+  isMyStuffOnly: computed.equal('radius', 'myStuff'),
+
+  _trackRadiusChange(radius) {
+    get(this, 'tracking').changeSearchRadius(radius, {
+      channel: get(this, 'channel'),
+      oldRadius: get(this, 'radius')
+    });
+  },
 
   actions: {
     changeRadius(radius) {
-      get(this, 'tracking').changeSearchRadius(radius, {
-        channel: get(this, 'channel'),
-        oldRadius: get(this, 'radius')
-      });
-
+      this._trackRadiusChange(radius);
       set(this, 'radius', radius);
     },
     chooseMyStuffOnly() {
-      get(this, 'tracking').trackMyStuffClick();
+      const radius = 'myStuff';
+      this._trackRadiusChange(radius);
       this.transitionToRoute('feed', {queryParams: {
-        radius: 'me',
+        radius,
         page: 1
       }});
     },

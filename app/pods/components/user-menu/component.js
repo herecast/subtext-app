@@ -24,7 +24,7 @@ export default Ember.Component.extend(TestSelector, {
         });
       } else {
         get(this, 'routing.router').transitionTo('feed', {queryParams: {
-          radius: 'me',
+          radius: 'myStuff',
           page: 1
         }});
       }

@@ -70,17 +70,17 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       const isAuthenticated = get(this, 'session.isAuthenticated');
       const isFastBoot = get(this, 'fastboot.isFastBoot');
 
-      if (params.radius !== 'me' || (!isFastBoot && isAuthenticated)) {
+      if (params.radius !== 'myStuff' || (!isFastBoot && isAuthenticated)) {
         get(this, 'userLocation.location').then((location) => {
-          this.infinityModel('feed-content', {
+          return this.infinityModel('feed-content', {
             startingPage: params.page,
             perPage: 20,
             location_id: get(location, 'id'),
             radius: params.radius,
             query: params.query,
             content_type: params.type
-          }).then(resolve, reject);
-        });
+          });
+        }).then(resolve, reject);
       } else {
         resolve([]);
       }
