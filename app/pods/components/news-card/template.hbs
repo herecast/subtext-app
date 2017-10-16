@@ -17,7 +17,7 @@
       {{#unless (eq imagePosition 'right')}}
         <div class="media-left">
           {{#if hasImage}}
-            <div class='Card-imageContainer'>
+            <div class='Card-imageContainer' {{action 'trackClick'}}>
               {{#link-to-content item data-test-link='show'}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
@@ -60,7 +60,7 @@
       {{#if (eq imagePosition 'right')}}
         <div class="media-right">
           {{#if hasImage}}
-            <div class='Card-imageContainer'>
+            <div class='Card-imageContainer' {{action 'trackClick'}}>
               {{#link-to-content item}}
                 <span {{action 'trackSuggestedContentClick'}}>
                   <div class='media-object Card-image-tile' style="background-image: url('{{optimized-image-url item.imageUrl 133 115 true}}')"></div>
@@ -75,7 +75,7 @@
     {{!-- BEGIN variant --}}
 
     {{#if hasImage}}
-      <div class='Card-imageContainer'>
+      <div class='Card-imageContainer' {{action 'trackClick'}}>
         {{#link-to-content item classNameBindings="isSimilarContent:SimilarContentLink" data-test-link='show'}}
           <span {{action 'trackSuggestedContentClick'}}>
             <div class='Card-image img-responsive' style="background-image: url('{{optimized-image-url item.imageUrl 236 177 true}}')"></div>
@@ -86,7 +86,7 @@
 
     <div class='Card-content {{unless hasImage "no-image"}}'>
       <div class='Card-titleGroup'>
-        <h2 class='Card-title h2 u-textThreeLineTruncate'>
+        <h2 class='Card-title h2 u-textThreeLineTruncate' {{action 'trackClick'}}>
           {{#link-to-content item data-test-link='show' }}
             <span {{action 'trackSuggestedContentClick'}}>
               {{item.title}}

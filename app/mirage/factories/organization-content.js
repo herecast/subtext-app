@@ -25,9 +25,6 @@ export default Mirage.Factory.extend({
   eventId() { return faker.random.number(999); },
   eventInstanceId() { return faker.random.number(999); },
   imageUrl: imageUrl,
-  organizationId() { return faker.random.number(999); },
-  organizationName() { return faker.company.companyName(); },
-  organizationProfileImageUrl: imageUrl,
   parentContentId() { return faker.random.number(999); },
   parentContentType() { return faker.random.number(999); },
   parentEventInstanceId() { return faker.random.number(999); },
@@ -40,5 +37,11 @@ export default Mirage.Factory.extend({
   updatedAt() { return faker.random.arrayElement([null, date1, date2]); },
   venueAddress() { return faker.address.streetAddress(); },
   venueName() { return faker.company.companyName(); },
-  viewCount() { return faker.random.number(999); }
+  viewCount() { return faker.random.number(999); },
+
+  afterCreate(content, server) {
+    content.organization = content.organization || server.create('organization');
+    content.organizationName = content.organization.name;
+    content.organizationProfileImageUrl = content.organization.profileImageUrl;
+  }
 });

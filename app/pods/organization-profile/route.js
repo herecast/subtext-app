@@ -6,6 +6,7 @@ const { isEmpty, get, set, inject } = Ember;
 
 export default Ember.Route.extend(PaginatedFilter, History, {
   session: inject.service(),
+  tracking: inject.service(),
   fastboot: inject.service(),
   queryCache: inject.service(),
   historyRouteName: 'organization-profile',
@@ -47,6 +48,18 @@ export default Ember.Route.extend(PaginatedFilter, History, {
     return {
       slug: model.get('slug')
     };
+  },
+
+  actions: {
+    didTransition() {
+      if(!get(this, 'fastboot.isFastBoot')) {
+        get(this, 'tracking').profileImpression(
+          this.modelFor(this.routeName)
+        );
+
+        return true;
+      }
+    }
   }
 
 });

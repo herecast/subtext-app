@@ -523,6 +523,34 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  recordProfileImpression(id, data = {}) {
+    const body = JSON.stringify(data);
+
+    return returnJson(
+      this.post(`/metrics/profiles/${id}/impressions`, {
+        body: body,
+        headers: this.headers({
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
+        })
+      })
+    );
+  },
+
+  recordProfileClick(id, data = {}) {
+    const body = JSON.stringify(data);
+
+    return returnJson(
+      this.post(`/metrics/profiles/${id}/clicks`, {
+        body: body,
+        headers: this.headers({
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
+        })
+      })
+    );
+  },
+
   recordAdMetricEvent(data) {
     return returnJson(
       this.post(`/ad_metrics`,

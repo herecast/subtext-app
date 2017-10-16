@@ -5,10 +5,12 @@ const {
   computed,
   get,
   set,
+  inject,
   isBlank
 } = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
+  tracking: inject.service(),
   queryParams: ['query', 'page', 'per_page'],
   page: 1,
   per_page: 8,
@@ -106,6 +108,13 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
     closeModal() {
       set(this, 'editMode', false);
+    },
+
+    recordClick(content) {
+      get(this, 'tracking').profileContentClick(
+        get(this, 'model'),
+        content
+      );
     }
   }
 });

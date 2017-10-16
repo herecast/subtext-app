@@ -1,9 +1,12 @@
+import Mirage from 'ember-cli-mirage';
 import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import moment from 'moment';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
+
+// global sinon
 
 moduleForAcceptance('Acceptance | organization profile');
 
@@ -221,4 +224,56 @@ test('Visiting news item page, clicking organization name brings me to profile p
       assert.equal(currentURL(), `/organizations/${organization.id}-fighters-of-foo`);
     });
   });
+});
+
+/** TRACKING **/
+test('Visiting a profile page fires off an impression event to the api', function(assert) {
+  const organization = server.create("organization");
+  const done = assert.async();
+
+  server.post('/metrics/profiles/:organization_id/impressions', function(db, request) {
+    assert.equal(request.params.organization_id, organization.id);
+    done();
+
+    return new Mirage.Response(201, {}, {});
+  });
+
+  visit(`/organizations/${organization.id}`);
+});
+
+test('Clicking a post on their page, results in a click tracking event sent to the api', function(assert) {
+  const done = assert.async();
+  const organization = server.create("organization");
+  const orgContent = server.create('news', {
+    organization: organization
+  });
+
+  server.post('/metrics/profiles/:organization_id/clicks', function(db, request) {
+    assert.equal(request.params.organization_id, organization.id,
+      "Sends click event to api"
+    );
+
+    const data = JSON.parse(request.requestBody);
+
+    assert.equal(data.content_id, orgContent.id,
+      "The api post includes the content id that was clicked on"
+    );
+
+    done();
+
+    return new Mirage.Response(201, {}, {});
+  });
+
+  visit(`/organizations/${organization.id}`);
+
+  andThen(() => {
+    const card = find(testSelector('content', orgContent.id));
+    const link = testSelector('link', 'show');
+
+    click(
+      link,
+      card
+    );
+  });
+
 });

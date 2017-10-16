@@ -6,8 +6,8 @@ import dateFormat from 'subtext-ui/lib/dates';
 const {get, computed, isPresent, String:{htmlSafe}, inject:{service}} = Ember;
 
 export default Ember.Component.extend({
-  attributeBindings: ['data-test-biz-feed-card'],
   'data-test-biz-feed-card': computed.alias('content.viewStatus'),
+  'data-test-content': computed.alias('content.id'),
   classNames: ['BizFeed-Card'],
   classNameBindings: ['contentType', 'content.viewStatus'],
 
@@ -19,6 +19,7 @@ export default Ember.Component.extend({
 
   defaultOrganizationId: 398,  //398 is dailyuv default organization
 
+  tracking: service(),
   store: service(),
 
   contentType: computed('content.contentType', function() {
@@ -145,5 +146,14 @@ export default Ember.Component.extend({
   fullPrice: computed('content.cost', function() {
     const cost = get(this, 'content.cost') || 'Free';//@todo: need to get price through api
     return cost;
-  })
+  }),
+
+  actions: {
+    recordContentClick(content) {
+      get(this, 'tracking').profileContentClick(
+        get(this, 'organization'),
+        content
+      );
+    }
+  }
 });

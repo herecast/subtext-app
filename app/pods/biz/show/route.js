@@ -1,16 +1,22 @@
 import Ember from 'ember';
 
-const {get, set, RSVP:{hash}, inject:{service}} = Ember;
+const {
+  get,
+  set,
+  RSVP:{hash},
+  inject:{service}
+} = Ember;
 
 export default Ember.Route.extend({
+  tracking: service(),
+  fastboot: service(),
+
   queryParams: {
     query: {
       replace: true,
       refreshModel: true
     }
   },
-
-  fastboot: service(),
 
   model(params) {
     return hash({
@@ -54,9 +60,18 @@ export default Ember.Route.extend({
       const controller = this.controllerFor('biz.show');
       const isFirstTransition = controller.get('isFirstTransition');
 
-      if (!get(this, 'fastboot.isFastBoot') && isFirstTransition) {
-        Ember.$(window).scrollTop(0);
-        controller.set('isFirstTransition', false);
+      if(!get(this, 'fastboot.isFastBoot')) {
+        const model = this.modelFor(this.routeName).businessProfile;
+        model.get('organization').then((organization) => {
+          get(this, 'tracking').profileImpression(
+            organization
+          );
+        });
+
+        if(isFirstTransition) {
+          Ember.$(window).scrollTop(0);
+          controller.set('isFirstTransition', false);
+        }
       }
     }
   }

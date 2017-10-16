@@ -5,7 +5,6 @@ function generateLatLng(num) {
 }
 
 export default Mirage.Factory.extend({
-  organizationId() { return faker.random.number(5); },
   name() { return faker.company.companyName(); },
   phone() { return '8022951559'; },
   website() { return 'http://' + faker.internet.domainName(); },
@@ -41,5 +40,11 @@ export default Mirage.Factory.extend({
   views: "237",
   hasRetailLocation() { return faker.random.boolean(); },
   canEdit() { return faker.random.boolean(); },
-  hasRated() { return faker.random.boolean(); }
+  hasRated() { return faker.random.boolean(); },
+
+  afterCreate(bizProfile, server) {
+    bizProfile.organization = (
+      bizProfile.organization || server.create('organization')
+    );
+  }
 });

@@ -139,6 +139,35 @@ export default Service.extend(Evented, {
     }
   },
 
+  profileImpression(organization) {
+    if(!get(this, 'fastboot.isFastBoot')) {
+      this.waitForLocationAndClientId().then((data) => {
+        const trackData = {
+          client_id: data.clientId,
+          // In some tests, location will be undefined
+          location_id: get(data, 'location.id')
+        };
+
+        get(this, 'api').recordProfileImpression(get(organization, 'id'), trackData);
+      });
+    }
+  },
+
+  profileContentClick(organization, content) {
+    if(!get(this, 'fastboot.isFastBoot')) {
+      this.waitForLocationAndClientId().then((data) => {
+        const trackData = {
+          client_id: data.clientId,
+          content_id: get(content, 'id'),
+          // In some tests, location will be undefined
+          location_id: get(data, 'location.id')
+        };
+
+        get(this, 'api').recordProfileClick(get(organization, 'id'), trackData);
+      });
+    }
+  },
+
   promoBannerClick(promo, opts = {}) {
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {

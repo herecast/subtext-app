@@ -13,12 +13,14 @@
       {{startDay}} {{startMonth}}
     </div>
   {{/if}}
-  {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType)}}
-    <div class="BizFeed-Card-image-container" style={{imageStyle}}></div>
-  {{/link-to}}
+  <span {{action 'recordContentClick' content}}>
+    {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType)}}
+      <div class="BizFeed-Card-image-container" style={{imageStyle}}></div>
+    {{/link-to}}
+  </span>
 
 {{else}}
-
+<span {{action 'recordContentClick' content}}>
   <a href='{{content.redirectUrl}}' target='_blank'>
     <div class="BizFeed-Card-image-container" style={{imageStyle}}>
       {{#if showTitle}}
@@ -28,7 +30,7 @@
       {{/if}}
     </div>
   </a>
-
+</span>
 {{/unless}}
 
 {{#unless isBannerAd}}
@@ -36,9 +38,11 @@
 
     <div class="BizFeed-Card-info-box-top">
       <div class="BizFeed-Card-info-box-title">
-        {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType)}}
-          {{content.title}}
-        {{/link-to}}
+        <span {{action 'recordContentClick' content}}>
+          {{#link-to 'biz.show.detail' contentId (query-params ctype=contentType) data-test-link='biz-content-detail'}}
+            {{content.title}}
+          {{/link-to}}
+        </span>
       </div>
       {{#if (eq contentType 'event')}}
         <div class="BizFeed-Card-info-box-event-venue">

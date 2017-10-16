@@ -7,6 +7,8 @@ const {
 } = Ember;
 
 export default NewsCard.extend({
+  'data-test-component': 'NewsCard',
+  'data-test-content': computed.reads('item.id'),
   tagName: 'article',
   item: null,
   variant: null,
@@ -31,5 +33,16 @@ export default NewsCard.extend({
   linkId: computed('item.organization.bizFeedActive', function() {
     const bizFeedActive = get(this, 'item.organization.bizFeedActive');
     return bizFeedActive ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
-  })
+  }),
+
+  actions: {
+    trackClick() {
+      const clickAction = get(this, 'trackClick');
+      if(clickAction) {
+        clickAction();
+      }
+
+      return true;
+    }
+  }
 });

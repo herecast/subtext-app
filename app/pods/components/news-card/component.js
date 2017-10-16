@@ -7,6 +7,8 @@ import cheerio from 'npm:cheerio';
 const { get, computed } = Ember;
 
 export default Ember.Component.extend(TrackCard, {
+  'data-test-component': 'NewsCard',
+  'data-test-content': computed.reads('item.id'),
   tagName: 'article',
 
   attributeBindings: ['data-test-news-card'],
@@ -73,6 +75,17 @@ export default Ember.Component.extend(TrackCard, {
       if (onTitleClick) {
         onTitleClick();
       }
+      this.send('trackClick');
+
+      return true;
+    },
+
+    trackClick() {
+      const clickAction = get(this, 'trackClick');
+      if(clickAction) {
+        clickAction();
+      }
+
       return true;
     }
   }

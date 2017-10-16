@@ -760,9 +760,9 @@ export default function() {
     return { news: news };
   });
 
-  this.post('metrics/contents/:id/impressions', function(){
-    return {};
-  });
+  this.post('metrics/contents/:id/impressions', function() { return {}; });
+
+  this.post('metrics/profiles/:id/impressions', function() { return {}; });
 
   this.patch('listserv_contents/:id/update_metric', function() {
     return {};

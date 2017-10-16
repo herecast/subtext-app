@@ -1,4 +1,5 @@
 import { test } from 'qunit';
+import Mirage from 'ember-cli-mirage';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
@@ -11,7 +12,7 @@ moduleForAcceptance('Acceptance | biz/show');
 test('visiting /biz/:id works', function(assert) {
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id,
+    organization: organization,
     bizFeedActive: true
   });
   server.createList('organization-content', 10);
@@ -28,7 +29,7 @@ test('visiting /biz/:id as a non-signed in user shows only public contents', fun
 
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id,
+    organization: organization,
     bizFeedActive: true
   });
 
@@ -45,7 +46,7 @@ test('visiting /biz/:id as a non-signed in user shows only public contents', fun
 test('visiting /biz/:id as a signed in manager of the organization shows public, private, and draft contents', function(assert) {
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id,
+    organization: organization,
     bizFeedActive: true
   });
 
@@ -106,7 +107,7 @@ test('visiting /biz/:id for a business that does not have bizFeedActive redirect
 
   const organization = server.create('organization');
   const businessProfile = server.create('business-profile', {
-    organizationId: organization.id,
+    organization: organization,
     bizFeedActive: false
   });
 
@@ -126,7 +127,7 @@ test('search', function(assert) {
 
   const organization = server.create('organization');
   server.create('business-profile', {
-    organizationId: organization.id,
+    organization: organization,
     bizFeedActive: true
   });
   server.createList('organization-content', 10);
@@ -155,4 +156,67 @@ test('search', function(assert) {
   andThen(()=>{
     assert.equal(currentURL(), `/biz/${organization.id}?query=test-query`, 'Entering a query updates the url');
   });
+});
+
+/** TRACKING **/
+test('Visiting a biz page fires off an impression event to the api', function(assert) {
+  const organization = server.create("organization");
+  server.create('businessProfile', {
+    bizFeedActive: true,
+    organization: organization
+  });
+  const done = assert.async();
+
+  server.post('/metrics/profiles/:organization_id/impressions', function(db, request) {
+    assert.equal(request.params.organization_id, organization.id);
+    done();
+
+    return new Mirage.Response(201, {}, {});
+  });
+
+  visit(`/biz/${organization.id}`);
+});
+
+test('Clicking a post on their page, results in a click tracking event sent to the api', function(assert) {
+  const done = assert.async();
+  const organization = server.create("organization");
+  server.create('businessProfile', {
+    bizFeedActive: true,
+    organization: organization
+  });
+  const orgContent = server.create('organization-content', {
+    publishedAt: (new Date()).toISOString(),
+    contentType: 'news',
+    bizFeedPublic: true,
+    organization: organization
+  });
+
+  server.post('/metrics/profiles/:organization_id/clicks', function(db, request) {
+    assert.equal(request.params.organization_id, organization.id,
+      "Sends click event to api"
+    );
+
+    const data = JSON.parse(request.requestBody);
+
+    assert.equal(data.content_id, orgContent.id,
+      "The api post includes the content id that was clicked on"
+    );
+
+    done();
+
+    return new Mirage.Response(201, {}, {});
+  });
+
+  visit(`/biz/${organization.id}`);
+
+  andThen(() => {
+    const card = find(testSelector('content', orgContent.id));
+    const link = testSelector('link', 'biz-content-detail');
+
+    click(
+      link,
+      card
+    );
+  });
+
 });
