@@ -215,6 +215,32 @@ export default Service.extend(Evented, {
     });
   },
 
+  /** Commenting **/
+  trackCommentSubmitButtonClick(button_disabled = false) {
+    this.push({
+      button_disabled,
+      event: 'CommentSubmitButtonClicked'
+    });
+  },
+
+  trackCommentSignInOrRegisterToPost() {
+    this.push({
+      event: 'CommentSignInOrRegisterToPost'
+    });
+  },
+
+  trackCommentDeclinedToAuthenticate() {
+    this.push({
+      event: 'CommentDeclinedToAuthenticate'
+    });
+  },
+
+  trackCommentSaved() {
+    this.push({
+      event: 'CommentSaved'
+    });
+  },
+
   /** Private **/
 
   _eventuallyGetClientId() {

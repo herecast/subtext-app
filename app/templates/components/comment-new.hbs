@@ -28,11 +28,15 @@
 
   {{#if submitDisabled}}
     <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
-      {{fa-icon 'arrow-circle-right' size=1}}
+      <span {{action (action 'trackSubmitClick' true)}}>
+        {{fa-icon 'arrow-circle-right' size=1}}
+      </span>
     </button>
   {{else}}
     <button class='CommentSection-replyButton Button btn btn-default pull-right u-link' data-test-component='add-comment-button' {{action 'postComment' callback}}>
-      {{fa-icon 'arrow-circle-right' size=1}}
+      <span {{action (action 'trackSubmitClick')}}>
+        {{fa-icon 'arrow-circle-right' size=1}}
+      </span>
     </button>
   {{/if}}
 </div>

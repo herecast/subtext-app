@@ -6,12 +6,17 @@ const { get, set, computed, inject:{service} } = Ember;
 export default Ember.Component.extend({
   session: service(),
   modals: service(),
+  tracking: service(),
 
   submitDisabled: computed('disabled', 'newComment', function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
   }),
 
   actions: {
+    trackSubmitClick(buttonDisabled) {
+      get(this, 'tracking').trackCommentSubmitButtonClick(buttonDisabled);
+    },
+
     postComment() {
       const content = this.get('newComment');
       let title = this.get('contentTitle');
@@ -35,6 +40,7 @@ export default Ember.Component.extend({
 
         comment.save().then(() => {
           set(this, 'showSignInPrompt', false);
+          get(this, 'tracking').trackCommentSaved();
           resolve(comment);
         }, reject);
       };
@@ -43,11 +49,13 @@ export default Ember.Component.extend({
         if (get(this, 'session.isAuthenticated')) {
           saveComment(resolve, reject);
         } else {
+          get(this, 'tracking').trackCommentSignInOrRegisterToPost();
           get(this, 'modals').showModal('modals/sign-in-register', 'sign-in').then(() => {
             this.store.findRecord('current-user', 'self').then(() => {
               saveComment(resolve, reject);
             });
           }, () => {
+            get(this, 'tracking').trackCommentDeclinedToAuthenticate();
             set(this, 'showSignInPrompt', true);
             reject();
           }
