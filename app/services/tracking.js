@@ -117,6 +117,28 @@ export default Service.extend(Evented, {
     }
   },
 
+  promoLoad(promo, opts = {}) {
+    if(!get(this, 'fastboot.isFastBoot')) {
+      this.waitForLocationAndClientId().then((data) => {
+        const gtmBlocked = typeof window.google_tag_manager === 'undefined';
+        const id = get(promo, 'metrics_id') || get(promo, 'id');
+        const trackData = assign(
+          {
+            client_id: data.clientId,
+            // In some tests, location will be undefined
+            location_id: get(data, 'location.id'),
+            gtm_blocked: gtmBlocked
+          }, opts);
+
+        get(this, 'api').recordPromoBannerLoad(id, trackData);
+
+        if(get(this, 'logEnabled')) {
+          console.info(`[Load of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
+        }
+      });
+    }
+  },
+
   promoImpression(promo, opts = {}) {
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {

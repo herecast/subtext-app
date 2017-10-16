@@ -25,6 +25,8 @@ export default Ember.Component.extend(InViewportMixin, {
   _didSendImpression: false,
   _isInViewPort: false,
   _imageIsLoaded: false,
+  _renderedTime: null,
+  _loadedTime: null,
 
   /**
    * RULES for sending an impression
@@ -191,6 +193,8 @@ export default Ember.Component.extend(InViewportMixin, {
     // Note: it is considered safe to allow the ad-banner to render in fastboot since it never fires `didInsertElement`.
     // Thus, no ad impression should be triggered incorrectly.
     this._super();
+    set(this, '_renderedTime', (new Date()));
+
     this._viewportOptionsOverride();
 
     const promotion = get(this, 'promotion');
@@ -215,11 +219,32 @@ export default Ember.Component.extend(InViewportMixin, {
       const promo = get(this, 'promotion');
 
       get(this, 'tracking').promoBannerClick(promo, {
+        page_url: get(this, 'currentService.currentUrl'),
+        page_placement: get(this, 'pagePositionForAnalytics'),
         content_id: (contentId) ? contentId : null
       });
 
       this._pushEvent('VirtualAdClicked');
     }
+  },
+
+  trackLoad() {
+    const promo = get(this, 'promotion');
+    const contentId = get(this, 'contentModel.contentId');
+    const renderedTime = get(this, '_renderedTime');
+    const imageLoadedTime = get(this, '_imageLoadedTime');
+    const loadTime = (
+      imageLoadedTime.getTime() - renderedTime.getTime()
+    ) / 1000;
+
+    get(this, 'tracking').promoLoad(promo, {
+      load_time: loadTime,
+      page_url: get(this, 'currentService.currentUrl'),
+      page_placement: get(this, 'pagePositionForAnalytics'),
+      select_score: get(promo, 'select_score'),
+      select_method: get(promo, 'select_method'),
+      content_id: (contentId) ? contentId : null
+    });
   },
 
   actions: {
@@ -228,7 +253,10 @@ export default Ember.Component.extend(InViewportMixin, {
      * before queing up an impression.
      */
     imageFinishedLoading() {
+      set(this, '_imageLoadedTime', (new Date()));
       set(this, '_imageIsLoaded', true);
+
+      this.trackLoad();
       this.trySendImpression();
     }
   }

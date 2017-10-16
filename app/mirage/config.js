@@ -555,6 +555,7 @@ export default function() {
   });
 
   this.post('/promotion_banners/:id/track_click', function() {});
+  this.post('/promotion_banners/:id/track_load', function() {});
   this.post('/promotion_banners/:id/impression', function() {});
 
   this.post('/ad_metrics', function() {});

@@ -509,6 +509,14 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
+  recordPromoBannerLoad(id, data) {
+    return returnJson(
+      this.post(`/promotion_banners/${id}/track_load`,
+        this.json(data)
+      )
+    );
+  },
+
   recordPromoBannerImpression(id, data = {}) {
     const body = JSON.stringify(data);
 
