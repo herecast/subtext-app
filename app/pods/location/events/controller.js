@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import moment from 'moment';
-import LocationMixin from 'subtext-ui/mixins/controllers/location';
 
 const {
   computed,
@@ -9,12 +8,14 @@ const {
   set
 } = Ember;
 
-export default Ember.Controller.extend(LocationMixin, {
-  channel: "events",
+export default Ember.Controller.extend({
   userLocation: inject.service(),
   selectedLocation: computed.readOnly('userLocation.activeLocation'),
-  queryParams: ['category', 'query', 'date_start', 'days_ahead', 'organization'],
+  tracking: inject.service(),
 
+  queryParams: ['radius', 'category', 'query', 'date_start', 'days_ahead', 'organization'],
+
+  radius: 10,
   category: null,
   location: 'All Communities',
   query: null,
@@ -114,6 +115,35 @@ export default Ember.Controller.extend(LocationMixin, {
       this.transitionToRoute("feed", {
         queryParams: {
           type: ""
+        }
+      });
+    },
+
+    changeRadius(radius) {
+      get(this, 'tracking').changeSearchRadius(radius, {
+        channel: get(this, 'channel'),
+        oldRadius: get(this, 'radius')
+      });
+
+      this.setProperties({
+        days_ahead: 1,
+        radius: radius
+      });
+    },
+
+    chooseLocation(location) {
+      const userLocation = get(this, 'userLocation');
+
+      get(this, 'tracking').push({
+        event: "ChooseLocation",
+        location_id: get(userLocation, 'location.id'),
+        new_location_name: get(location, 'name'),
+        new_location_id: get(location, 'id')
+      });
+
+      this.transitionToRoute('location.events', location, {
+        queryParams: {
+          days_ahead: 1
         }
       });
     }

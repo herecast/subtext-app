@@ -95,6 +95,13 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
     }
   },
 
+  afterModel(model, transition) {
+    this._super(...arguments);
+
+    // Use the scrollTo action on application controller when transition completes
+    transition.send('scrollTo', 0);
+  },
+
   setupController(controller, model) {
     if (isBlank(model)) {
       // We're going to back fill because this transition is

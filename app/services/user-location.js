@@ -329,21 +329,6 @@ export default Ember.Service.extend(Ember.Evented, {
     }
   },
 
-  navigateToLocation(location, channel) {
-    const locationId = get(location, 'id');
-    const models = this.getModelsForLocationLink(locationId);
-    const routing = get(this, 'routing');
-    const queryParams = get(this, 'history.currentRoute.queryParams');
-
-    this.saveSelectedLocationId(locationId);
-
-    if (get(this, 'isLocationRouteActive')) {
-      routing.transitionTo(`location.${channel}`, models, queryParams);
-    } else {
-      routing.transitionTo(`location.${channel}`, models);
-    }
-  },
-
   init() {
     this._super(...arguments);
     this.loadLocationIdFromCookie();

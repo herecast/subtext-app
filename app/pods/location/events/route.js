@@ -45,12 +45,20 @@ export default Ember.Route.extend(History, MaintainScroll, RouteNameAdContext, {
   },
 
   afterModel(model, transition) {
+    this._super(...arguments);
+
     const isFirstVisitedPageThisSession = transition.sequence === 0;
     const hasCategoryInQuery = !isEmpty(transition.queryParams.category);
     const doesNotHaveDaysAhead = isEmpty(transition.queryParams.days_ahead);
 
     if (isFirstVisitedPageThisSession && hasCategoryInQuery && doesNotHaveDaysAhead) {
       set(this, 'fillAWeek', true);
+    }
+
+    const daysAheadChanged = transition.queryParams.days_ahead && transition.queryParams.days_ahead > 1;
+
+    if(!daysAheadChanged) {
+      transition.send('scrollTo', 0);
     }
   },
 
