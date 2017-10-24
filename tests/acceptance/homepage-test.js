@@ -19,7 +19,7 @@ test('visiting /, not located', function(assert) {
   });
 
   click(
-    '[data-test-link=choose-location][data-test-location=' + locations[0].id + ']'
+    `[data-test-link=choose-location][data-test-location=${locations[0].id}]`
   );
 
   andThen(function() {

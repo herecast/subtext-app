@@ -121,7 +121,7 @@ export default Ember.Controller.extend({
 
     changeRadius(radius) {
       get(this, 'tracking').changeSearchRadius(radius, {
-        channel: get(this, 'channel'),
+        channel: 'events',
         oldRadius: get(this, 'radius')
       });
 
@@ -146,6 +146,18 @@ export default Ember.Controller.extend({
           days_ahead: 1
         }
       });
-    }
+    },
+
+    chooseMyStuffOnly() {
+      const radius = 'myStuff';
+      get(this, 'tracking').changeSearchRadius(radius, {
+        channel: 'events',
+        oldRadius: get(this, 'radius')
+      });
+      this.transitionToRoute('feed', {queryParams: {
+        radius,
+        page: 1
+      }});
+    },
   }
 });
