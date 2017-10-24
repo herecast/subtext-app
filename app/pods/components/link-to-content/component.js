@@ -1,13 +1,22 @@
 import Ember from 'ember';
+import {startsWith} from 'lodash';
 
-const { get, set, copy } = Ember;
+const {get, set, copy, computed, inject} = Ember;
 
 const linkToContent = Ember.Component.extend({
-  tagName:'',
+  history: inject.service(),
+
+  tagName: '',
   paramsForLinkTo: {},
   attrsForLinkTo: {},
-  route: 'feed.show',
-  instanceRoute: 'feed.show-instance',
+
+  route: computed('history.currentRouteName', function() {
+    return startsWith(get(this, 'history.currentRouteName'), 'profile') ? 'profile.all.show' : 'feed.show';
+  }),
+
+  instanceRoute: computed('history.currentRouteName', function() {
+    return startsWith(get(this, 'history.currentRouteName'), 'profile') ? 'profile.all.show-instance' : 'feed.show-instance';
+  }),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -26,7 +35,7 @@ const linkToContent = Ember.Component.extend({
     let routeParameters = [get(model, 'contentId')];
     const eventInstanceId = get(model, 'eventInstanceId');
 
-    if(eventInstanceId) {
+    if (eventInstanceId) {
       route = get(this, 'instanceRoute');
       routeParameters.push(eventInstanceId);
     }

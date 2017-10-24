@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
     'active'
   ],
 
-  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black', 'steel-gray'
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black', 'neutral'
   style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'tab'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'
@@ -28,7 +28,6 @@ export default Ember.Mixin.create({
   shadow: false,
   strong: false,
   nowrap: false,
-  active: false,
 
   // optional: set a specific style on mobile.
   xsStyle: null,

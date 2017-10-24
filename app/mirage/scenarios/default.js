@@ -27,7 +27,11 @@ export default function (server) {
   server.createList('content-metric', 1);
   server.createList('promotionCoupon', 10);
   server.createList('organizationContent', 10);
-  const feedContents = server.createList('feedContent', 100);
+
+  const feedContents = server.createList('feedContent', 100, {
+    organization: server.create('organization')
+  });
+
   feedContents.forEach((record, index) => {
     if((index % 4) === 0) {
       server.createList('comment', 5, {feedContentId: record.id});

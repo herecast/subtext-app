@@ -1,13 +1,15 @@
 import Ember from 'ember';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, run } = Ember;
+const { get, run, computed, getWithDefault } = Ember;
 
 export default Ember.Component.extend(TestSelector, {
   tagName: 'span',
   classNames: ['SearchInput'],
   classNameBindings: [
-    'noBorder:SearchInput-noBorder'
+    'noBorder:SearchInput-noBorder',
+    'colorClass',
+    'sizeClass'
   ],
   debounceWait: 900,
   value: null,
@@ -18,6 +20,19 @@ export default Ember.Component.extend(TestSelector, {
   clearButtonText: null,
 
   noBorder: false,
+
+  color: 'default', // default, black, neutral, primary, danger
+  size: 'medium', // 'small', 'medium', 'large'
+
+  colorClass: computed('color', function() {
+    const color = getWithDefault(this, 'color', 'default');
+    return `SearchInput--${color}`;
+  }),
+
+  sizeClass: computed('size', function() {
+    const size = getWithDefault(this, 'size', 'medium');
+    return `SearchInput--${size}`;
+  }),
 
   keyUp: function(e) {
     const esc = 27;

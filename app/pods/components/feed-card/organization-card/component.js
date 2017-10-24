@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const {computed} = Ember;
+const {get, computed, isBlank} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-OrganizationCard',
@@ -9,6 +9,12 @@ export default Ember.Component.extend({
 
   willExpandDescription: false,
   isDescriptionExpanded: false,
+
+  isHeaderCard: false,
+
+  hasNoImage: computed('organization.{backgroundImageUrl,displayImageUrl}', function() {
+    return isBlank(get(this, 'organization.backgroundImageUrl')) && isBlank(get(this, 'organization.displayImageUrl'));
+  }),
 
   actions: {
     toggleDescription() {

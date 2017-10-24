@@ -1,0 +1,26 @@
+.SimpleHeader {
+  width: 100%;
+  position: relative;
+
+  &-homeLink {
+    height: 60px;
+    .flex-display();
+    .align-items(center);
+    position: absolute;
+    left: 10px;
+  }
+
+  &-title {
+    height: 60px;
+    .flex-display();
+    .align-items(center);
+    .justify-content(center);
+  }
+
+  @media (max-width: @screen-xs-max) {
+    .SimpleHeader-homeLink,
+    .SimpleHeader-title {
+      height: 40px;
+    }
+  }
+}

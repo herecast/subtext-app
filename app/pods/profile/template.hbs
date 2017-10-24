@@ -1,0 +1,18 @@
+{{to-elsewhere named='global-header' send=(component 'simple-header' title=model.name)}}
+
+{{feed-card/organization-card organization=model isHeaderCard=true}}
+
+{{#feed/feed-container}}
+
+  {{#if model.hasContactInfo}}
+    {{!-- The organization-card will already show the description if no contact info is present --}}
+    {{cards/organization-description organization=model}}
+  {{/if}}
+
+  {{#if model.hours}}
+    {{cards/hours-card organization=model}}
+  {{/if}}
+
+  {{outlet}}
+
+{{/feed/feed-container}}

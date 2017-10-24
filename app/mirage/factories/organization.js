@@ -11,5 +11,15 @@ export default Mirage.Factory.extend({
   description() { return faker.lorem.paragraph(); },
   canPublishNews() { return true; },
   canEdit() { return true; },
-  businessProfileId() { return 1; }
+  businessProfileId() { return 1; },
+
+  // Contact info: copied from business-profile factory to be consolidated
+  phone() { return '8022951559'; },
+  website() { return 'http://' + faker.internet.domainName(); },
+  email() { return faker.internet.email(); },
+  address() { return faker.address.streetAddress(); },
+  hours: ["Mo-Fr|08:00-16:30","Sa|10:00-16:00"],
+  city: "Norwich",
+  state: 'VT',
+  zip: '05055'
 });

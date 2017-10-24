@@ -1,53 +1,59 @@
-  <div class='MainNav-wrapper'>
-    {{#if features.listserv-user-testing}}
-      <div style="position:absolute;margin-left:-5px" data-test-listservtest>
-        Test
-      </div>
-    {{/if}}
+<div class='MainNav-wrapper'>
+  {{#if features.listserv-user-testing}}
+    <div style="position:absolute;margin-left:-5px" data-test-listservtest>
+      Test
+    </div>
+  {{/if}}
 
-    <div class='MainNav {{if showSearch "searchOpen"}}'>
-      <div class='MainNav-menu-filters'>
-        <div class='MainNav-menu'>
-          <div class='dropdown'>
-            <a href='#'
-              class='MainNav-moreLink h2'
-              role='button'
-              data-toggle="dropdown"
-              data-test-toggle='main-nav-more'
-              aria-haspopup="true"
-              aria-expanded="false">
-              {{fa-icon 'navicon' class='MainNav-menu-icon'}}
-            </a>
-            {{extended-nav class="dropdown-menu dropdown-menu-left"}}
-          </div>
-        </div>
-        {{#from-elsewhere name='filters' as |filter|}}
-          {{#if filter}}
-            <div class='MainNav-searchFilter'>
-              {{component filter}}
+
+  {{#from-elsewhere name="global-header" as |header|}}
+    {{#if header}}
+      {{component header}}
+    {{else}}
+      <div class='MainNav {{if showSearch "searchOpen"}}'>
+        <div class='MainNav-menu-filters'>
+          <div class='MainNav-menu'>
+            <div class='dropdown'>
+              <a href='#'
+                 class='MainNav-moreLink h2'
+                 role='button'
+                 data-toggle="dropdown"
+                 data-test-toggle='main-nav-more'
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                {{fa-icon 'navicon' class='MainNav-menu-icon'}}
+              </a>
+              {{extended-nav class="dropdown-menu dropdown-menu-left"}}
             </div>
-          {{/if}}
-        {{/from-elsewhere}}
-      </div>
+          </div>
+          {{#from-elsewhere name='filters' as |filter|}}
+            {{#if filter}}
+              <div class='MainNav-searchFilter'>
+                {{component filter}}
+              </div>
+            {{/if}}
+          {{/from-elsewhere}}
+        </div>
 
 
-      <div class='MainNav-brand u-flexRow'>
-        <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
-          {{#link-to 'index' data-test-link='header-link'}}
-            {{brand-logo tagline=false class='MainNav-brand-logo--mobile'}}
-            {{brand-logo tagline=(not showSearch) class='MainNav-brand-logo--desktop'}}
-          {{/link-to}}
-        </h1>
-      </div>
+        <div class='MainNav-brand u-flexRow'>
+          <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
+            {{#link-to 'index' data-test-link='header-link'}}
+              {{brand-logo tagline=false class='MainNav-brand-logo--mobile'}}
+              {{brand-logo tagline=(not showSearch) class='MainNav-brand-logo--desktop'}}
+            {{/link-to}}
+          </h1>
+        </div>
 
 
-      <div class='MainNav-search'>
-        <!-- will contain user menu/login/register, search -->
-        <ul class='list-inline'>
-          {{#unless session.isFastBoot}}
-            {{#if session.isAuthenticated}}
-              <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}" data-test-component-user-menu>
-                <a {{action 'toggleUserMenu'}}
+        <div class='MainNav-search'>
+          <!-- will contain user menu/login/register, search -->
+          <ul class='list-inline'>
+            {{#unless session.isFastBoot}}
+              {{#if session.isAuthenticated}}
+                <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}"
+                    data-test-component-user-menu>
+                  <a {{action 'toggleUserMenu'}}
                     href='#'
                     class='MainNav-moreLink'
                     data-test-link='user-menu'
@@ -61,55 +67,60 @@
                       hasCaret=false
                       customSize=30
                     }}
-                </a>
-                {{#if showUserMenu}}
-                  {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
-                    {{user-menu
+                  </a>
+                  {{#if showUserMenu}}
+                    {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
+                      {{user-menu
                         openMyAccount=(action 'openAccountSettings')
                         model=session.currentUser
                         action=(action 'toggleUserMenu')
                       }}
-                  {{/click-outside}}
-                {{/if}}
-              </li>
-            {{else}}
-              <li class='MainNav-signInJoin'>
-                <button {{action 'showSignInMenu' bubbles=false}} class='btn-link MainNav-button MainNav-loginLink' data-test-link='login-link'>
-                  {{fa-icon 'user'}}
-                </button>
-              </li>
-            {{/if}}
-          {{/unless}}
-          <li>
-            <button {{action 'toggleSearch'}} class='btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}'>
-              {{#if showSearch}}
-                {{fa-icon 'times'}}
+                    {{/click-outside}}
+                  {{/if}}
+                </li>
               {{else}}
-                {{fa-icon 'search'}}
+                <li class='MainNav-signInJoin'>
+                  <button {{action 'showSignInMenu' bubbles=false}} class='btn-link MainNav-button MainNav-loginLink'
+                                                                    data-test-link='login-link'>
+                    {{fa-icon 'user'}}
+                  </button>
+                </li>
               {{/if}}
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  {{#if showSearch}}
-    <div class='GlobalHeader-globalSearch'>
-      {{search-input
-        showIcon=true
-        value=(readonly searchService.query)
-        update=(action 'updateSearchQuery')
-        clearButtonText='Clear'
-        isLoading=searchService.isLoading
-      }}
-    </div>
-  {{/if}}
-  <div class='GlobalHeader-pageToolbar'>
-    {{#from-elsewhere name="page-toolbar" as |toolbar|}}
-      {{#if toolbar}}
-        <div class="GlobalHeader-pageToolbar-wrapper">
-          {{component toolbar}}
+            {{/unless}}
+            <li>
+              <button {{action 'toggleSearch'}}
+                class='btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}'>
+                {{#if showSearch}}
+                  {{fa-icon 'times'}}
+                {{else}}
+                  {{fa-icon 'search'}}
+                {{/if}}
+              </button>
+            </li>
+          </ul>
         </div>
-      {{/if}}
-    {{/from-elsewhere}}
+      </div>
+    {{/if}}
+  {{/from-elsewhere}}
+
+</div>
+{{#if showSearch}}
+  <div class='GlobalHeader-globalSearch'>
+    {{search-input
+      showIcon=true
+      value=(readonly searchService.query)
+      update=(action 'updateSearchQuery')
+      clearButtonText='Clear'
+      isLoading=searchService.isLoading
+    }}
   </div>
+{{/if}}
+<div class='GlobalHeader-pageToolbar'>
+  {{#from-elsewhere name="page-toolbar" as |toolbar|}}
+    {{#if toolbar}}
+      <div class="GlobalHeader-pageToolbar-wrapper">
+        {{component toolbar}}
+      </div>
+    {{/if}}
+  {{/from-elsewhere}}
+</div>

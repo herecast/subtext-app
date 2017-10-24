@@ -5,13 +5,15 @@ const {computed, getWithDefault} = Ember;
 export default Ember.Component.extend({
   classNames: ['XTabs'],
   classNameBindings: [
-    'colorClass'
+    'colorClass',
+    'noBottomBorder:XTabs--noBottomBorder'
   ],
 
-  color: 'default', // 'default', 'steel-gray'
+  color: 'default', // 'default', 'neutral'
+  noBottomBorder: false,
 
   colorClass: computed('color', function() {
-    const color = getWithDefault(this, 'color');
+    const color = getWithDefault(this, 'color', 'default');
     return `XTabs--${color}`;
   })
 });

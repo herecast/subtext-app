@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   classNames: ['HeaderImage'],
   classNameBindings: [
     'preserveAspectRatio:HeaderImage--preserveAspectRatio',
-    'short:HeaderImage--short'
+    'sizeClass'
   ],
   attributeBindings: [
     'data-test-component', 'style'
@@ -16,7 +16,12 @@ export default Ember.Component.extend({
   'data-test-component': 'header-image',
 
   preserveAspectRatio: false,
-  short: false,
+  size: null, // 'small', 'medium'
+
+  sizeClass: computed('size', function() {
+    const size = get(this, 'size');
+    return size ? `HeaderImage--${size}` : '';
+  }),
 
   style: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');

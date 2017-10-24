@@ -1,15 +1,16 @@
 <div class="FeedCard--card-front">
   {{#if organization.backgroundImageUrl}}
-    {{header-image imageUrl=organization.backgroundImageUrl short=true}}
+    {{header-image imageUrl=organization.backgroundImageUrl size=(if isHeaderCard 'medium' 'small')}}
   {{/if}}
 
   {{#if organization.displayImageUrl}}
     <div class="text-center">
-      <img src={{optimized-image-url organization.displayImageUrl 90 90 true}} class="FeedCard-floatingAvatar">
+      <img src="{{optimized-image-url organization.displayImageUrl 90 90 true}}"
+           class="FeedCard-avatar {{if organization.backgroundImageUrl 'FeedCard-avatar--floating'}}">
     </div>
   {{/if}}
 
-  {{#content-body increaseBottomPadding=true}}
+  {{#content-body verticalPadding=hasNoImage noBottomPadding=true}}
     {{#link-to organization.organizationLinkRoute organization.organizationLinkId}}
       {{#title-text noMargin=true center=true strong=true}}
         {{organization.name}}

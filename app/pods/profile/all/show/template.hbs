@@ -1,0 +1,11 @@
+{{render-in-modal
+  (component componentName
+    model=model
+    closeRoute='profile'
+    closeLabel='Back'
+    isPreview=false
+    enableStickyHeader=true
+  )
+  onClose=(action 'closeDetailPage')
+  modalWrapper='modals/headless-wrapper'
+}}

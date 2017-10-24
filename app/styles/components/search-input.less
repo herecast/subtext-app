@@ -1,8 +1,21 @@
+.search-color(@icon-color, @text-color: @icon-color, @background-color: white) {
+  background: @background-color;
+
+  .SearchInput-input {
+    color: @text-color;
+  }
+  .SearchInput-icon {
+    color: @icon-color;
+  }
+  .SearchInput-clear {
+    color: @icon-color;
+  }
+}
+
 .SearchInput {
   position: relative;
   display: inline-block;
   width: 100%;
-  background: white;
   border-radius: 2em;
 
   &-noBorder {
@@ -12,6 +25,52 @@
       border-radius: 0;
       border: none;
     }
+  }
+
+  &--default {
+    .search-color(@gray-dark, @text-color);
+  }
+
+  &--black {
+    .search-color(@text-color);
+  }
+
+  &--neutral {
+    .search-color(@neutral-dark);
+  }
+
+  &--primary {
+    .search-color(@button-primary);
+  }
+
+  &--danger {
+    .search-color(@brand-danger);
+  }
+
+  &--large {
+    font-size: 18px;
+
+    .SearchInput-icon {
+      font-size: 22px;
+      padding: 5px 15px;
+    }
+
+    .SearchInput-input {
+      padding-left: 0;
+      font-size: 18px;
+    }
+
+    .SearchInput-clear {
+      padding: 5px 15px;
+    }
+  }
+
+  &--medium {
+    font-size: 14px;
+  }
+
+  &--small {
+    font-size: 12px;
   }
 }
 

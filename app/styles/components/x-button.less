@@ -151,30 +151,26 @@
   }
 
   &.XButton--small {
-    font-size: 0.9rem;
+    font-size: 12px;
     line-height: 1.1;
   }
 
   &.XButton--large {
-    font-size: 1.3rem;
+    font-size: 16px;
     line-height: 1.2;
   }
 }
 
-.x-button-tab(@primary-color, @secondary-color) {
-  @lighten-primary: lighten(@primary-color, 20%);
-
-  .x-button(transparent, @primary-color, transparent, @secondary-color, @primary-color, @lighten-primary);
+.x-button-tab(@background-color, @text-color, @border-color) {
+  .x-button(transparent, @text-color, transparent, @background-color, @text-color, @border-color);
   border-bottom-color: transparent;
+  line-height: 1.5;
 
   &:hover,
   &:active,
-  &:focus,
   &.active {
     margin-bottom: -1px !important;
-    border-bottom-color: @secondary-color;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-bottom-color: @background-color;
   }
 }
 
@@ -272,13 +268,13 @@
   }
 }
 
-.make-x-button-tab(@primary-color, @secondary-color) {
+.make-x-button-tab(@background-color, @text-color, @border-color) {
   &.XButton--tab {
-    .x-button-tab(@primary-color, @secondary-color);
+    .x-button-tab(@background-color, @text-color, @border-color);
   }
   &.XButton--xs-tab {
     @media (max-width: @screen-xs-max) {
-      .x-button-tab(@primary-color, @secondary-color);
+      .x-button-tab(@background-color, @text-color, @border-color);
     }
   }
 }
@@ -294,7 +290,7 @@
   }
 }
 
-.make-button(@primary-color, @secondary-color) {
+.make-button(@primary-color, @secondary-color, @tertiary-color: @primary-color) {
   @darken-primary: darken(@primary-color, 10%);
   @darken-secondary: darken(@secondary-color, 10%);
   .make-x-button-regular(@primary-color, @secondary-color, @darken-primary, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @darken-primary);
@@ -306,7 +302,7 @@
   .make-x-button-flatten(@primary-color, @secondary-color);
   .make-x-button-transparent(@primary-color);
   .make-x-button-link(@primary-color);
-  .make-x-button-tab(@primary-color, @secondary-color);
+  .make-x-button-tab(@secondary-color, @primary-color, @tertiary-color);
 }
 
 .XButton {
@@ -340,8 +336,8 @@
   &.XButton--black {
     .make-button(@text-color, white);
   }
-  &.XButton--steel-gray {
-    .make-button(@gray-steel, white);
+  &.XButton--neutral {
+    .make-button(@neutral-dark, white, @outline-color);
   }
   &--wide {
     width: 100%;

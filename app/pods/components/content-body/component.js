@@ -7,11 +7,13 @@ export default Ember.Component.extend({
     'verticalPadding:ContentBody--verticalPadding',
     'center:ContentBody--center',
     'wideGutters:ContentBody--wideGutters',
-    'increaseBottomPadding:ContentBody--increaseBottomPadding'
+    'increaseBottomPadding:ContentBody--increaseBottomPadding',
+    'noBottomPadding:ContentBody--noBottomPadding'
   ],
 
   verticalPadding: false,
   center: false,
   wideGutters: false,
-  increaseBottomPadding: false
+  increaseBottomPadding: false,
+  noBottomPadding: false
 });

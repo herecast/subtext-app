@@ -1,8 +1,12 @@
-{{#content-body}}
-  {{#x-link-to 'index' strong=true}}
+<div class="SimpleHeader-homeLink">
+  {{#x-link-to 'index' strong=true nowrap=true size='large' color='primary'}}
     {{fa-icon 'arrow-left'}}
     Home
   {{/x-link-to}}
+</div>
 
-  {{title}}
-{{/content-body}}
+<div class="SimpleHeader-title">
+  {{#subtitle-text center=true strong=true noMargin=true class="hidden-xs"}}
+    {{title}}
+  {{/subtitle-text}}
+</div>

@@ -145,6 +145,13 @@ Router.map(function() {
       this.route('detail', {path: ':slug'});
     });
   });
+
+  this.route('profile', {path: '/profile/:organization_id'}, function() {
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
+    });
+  });
 });
 
 export default Router;

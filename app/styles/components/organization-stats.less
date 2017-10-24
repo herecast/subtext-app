@@ -1,14 +1,13 @@
 .OrganizationStats {
   .flex-display();
-  .border-radius(4px);
   .justify-content(space-evenly);
-  border: solid 1px darken(@gray-light, 20%);
-  background-color: @gray-light;
+  border: solid 1px @outline-color;
+  background-color: @neutral-light;
   margin-top: 10px;
 
   &-column {
     padding: 10px;
-    border-right: solid 1px darken(@gray-light, 20%);
+    border-right: solid 1px @outline-color;
     text-align: center;
     white-space: nowrap;
 
@@ -18,7 +17,7 @@
 
     @media (max-width: @screen-xs-max) {
       border-right: none;
-      border-bottom: solid 1px darken(@gray-light, 20%);
+      border-bottom: solid 1px @outline-color;
     }
   }
 

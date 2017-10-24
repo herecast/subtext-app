@@ -41,6 +41,7 @@ export default Mirage.Factory.extend({
   hasRetailLocation() { return faker.random.boolean(); },
   canEdit() { return faker.random.boolean(); },
   hasRated() { return faker.random.boolean(); },
+  bizFeedActive: true,
 
   afterCreate(bizProfile, server) {
     bizProfile.organization = (

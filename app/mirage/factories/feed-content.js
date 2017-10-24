@@ -20,7 +20,7 @@ export default Factory.extend({
     const minOfEach = 4;
 
     if (id < contentTypes.length * minOfEach) {
-      return contentTypes[id % minOfEach];
+      return contentTypes[id % contentTypes.length];
     }
 
     return faker.random.arrayElement(contentTypes);

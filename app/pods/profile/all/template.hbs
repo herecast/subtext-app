@@ -1,0 +1,25 @@
+{{#if isAdmin}}
+  {{cards/organization-stats organization=organization}}
+  {{cards/organization-your-content-tabs}}
+{{/if}}
+
+{{#x-card}}
+  {{search-input noBorder=true
+                 size='large'
+                 color='black'
+                 value=(readonly query)
+                 update=(action 'updateQuery')
+                 data-test-component='organization-content-query'}}
+{{/x-card}}
+
+{{#feed/index-feed feedContents=model}}
+  {{outlet}}
+{{/feed/index-feed}}
+
+{{#infinity-loader
+  infinityModel=model
+}}
+  {{#unless model.reachedInfinity}}
+    {{fa-icon 'spinner' class="fa-pulse"}}
+  {{/unless}}
+{{/infinity-loader}}
