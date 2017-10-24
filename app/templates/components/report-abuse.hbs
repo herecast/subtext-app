@@ -1,44 +1,9 @@
-{{#if showSuccess}}
-  <div class="alert alert-success" role="alert">
-    Thank you for reporting this content. We will review it shortly.
-  </div>
+{{#if session.currentUser}}
+  <a href='#' class='ResponseButton h6' {{action 'reportAbuse'}}>
+    {{fa-icon 'flag'}} Report Abuse
+  </a>
 {{else}}
-  {{#if session.currentUser}}
-    <a href='#' class='ResponseButton h6' {{action 'reportAbuse'}}>
-      Report Abuse
-    </a>
-  {{else}}
-    {{#link-to 'login' class='ResponseButton h6'}}
-      Report Abuse
-    {{/link-to}}
-  {{/if}}
-
-  {{#if showAbuseReportMenu}}
-    <div class='popover bottom in ReportAbuse-popover'>
-      <div class="popover-content">
-        {{#if invalid}}
-          <div class="alert alert-danger" role="alert">
-            Please select a type
-          </div>
-        {{/if}}
-        <ul class='ReportAbuse-flags'>
-          {{#each flagTypes as |flag|}}
-            <li class='ReportAbuse-flag'>
-              {{#radio-button
-                class='ReportAbuse-label'
-                name='flag-type'
-                value=flag
-                groupValue=flagType
-              }}
-                {{flag}}
-              {{/radio-button}}
-            </li>
-          {{/each}}
-        </ul>
-
-        <button class='btn Button--default' {{action 'close'}}>Close</button>
-        <button class='btn Button--primary' {{action 'submit'}}>Flag</button>
-      </div>
-    </div>
-  {{/if}}
+  {{#link-to 'login' class='ResponseButton h6'}}
+    {{fa-icon 'flag'}} Report Abuse
+  {{/link-to}}
 {{/if}}

@@ -9,7 +9,7 @@
   <div class='Comment-meta'>
     {{comment.userName}}&nbsp;&#183;
     {{if comment.formattedPostedAt comment.formattedPostedAt 'just now'}}&nbsp;&#183;
-    {{fa-icon 'flag'}} {{report-abuse contentId=comment.contentId tagName='span'}}
+    {{report-abuse contentId=comment.contentId tagName='span'}}
   </div>
   <div class='Comment-content'>
     {{{comment.content}}}

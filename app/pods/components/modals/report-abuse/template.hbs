@@ -1,0 +1,19 @@
+{{#modal-wrapper
+  showHeader=false
+  isAnimated=true
+  isSmall=true
+  data-test-modal='report-abuse'
+}}
+  {{#title-text
+    strong=true
+    center=true
+    class='u-paddingTop20'
+  }}
+    Report Abuse
+  {{/title-text}}
+
+  {{report-abuse-body
+    contentId=model.contentId
+    close=(action 'close')
+  }}
+{{/modal-wrapper}}

@@ -1,0 +1,27 @@
+.ReportAbuseBody {
+  &-actionButtons {
+    .flex-display();
+    .justify-content(center);
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  &-flags {
+    padding: 0;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+  }
+
+  &-flag {
+    list-style-type: none;
+
+    input[type=radio] {
+      margin-right: 7px;
+    }
+  }
+
+  &-label {
+    font-size: 14px; // TODO typographic styles should not be set ad hoc like this
+    font-weight: 300;
+  }
+}

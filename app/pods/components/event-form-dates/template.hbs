@@ -48,7 +48,7 @@
       {{/if}}
     </button>
     <br>
-    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}} daa-test-event-form-add-repeating-dates>
+    <button class='ContentForm-buttonLink EventForm-dateButton btn btn-link' {{action 'buildNewSchedule' 'recurring'}} data-test-event-form-add-repeating-dates>
       {{#if hasRecurringSchedule}}
         {{fa-icon 'plus-circle u-iconLeft'}} Add more repeating dates
       {{else}}
