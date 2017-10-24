@@ -11,7 +11,6 @@ const {
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, {
-  comments: DS.hasMany('comment'),
   // Only returned by the API if the current user is an admin
   adminContentUrl: DS.attr('string'),
   canEdit: DS.attr('boolean'),
@@ -75,15 +74,17 @@ export default DS.Model.extend(BaseEvent, {
   }),
 
   timeRangeNoDates: computed('startsAt', 'endsAt', function() {
-    const startTime = get(this, 'startsAt').format('h:mmA');
-    const endsAt = get(this, 'endsAt');
+    if (get(this, 'isValid')) {
+      const startTime = get(this, 'startsAt').format('h:mmA');
+      const endsAt = get(this, 'endsAt');
 
-    if (isEmpty(endsAt)) {
-      return startTime;
-    } else {
-      const endTime = endsAt.format('h:mmA');
+      if (isEmpty(endsAt)) {
+        return startTime;
+      } else {
+        const endTime = endsAt.format('h:mmA');
 
-      return `${startTime}-${endTime}`;
+        return `${startTime}-${endTime}`;
+      }
     }
   }),
 
