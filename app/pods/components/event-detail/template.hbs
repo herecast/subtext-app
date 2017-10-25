@@ -213,15 +213,17 @@
       }}
     </div>
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-similarContent'>
-        {{#similar-content
-          contentId=model.contentId
-          limit=4
-        }}
-          {{#title-text strong=true}}Suggested{{/title-text}}
-        {{/similar-content}}
+    {{#unless (eq model.contentOrigin 'listserv')}}
+      <div class='DetailPage-sectionWrapper'>
+        <div class='DetailPage-section DetailPage-similarContent'>
+          {{#similar-content
+            contentId=model.contentId
+            limit=4
+          }}
+            {{#title-text strong=true}}Suggested{{/title-text}}
+          {{/similar-content}}
+        </div>
       </div>
-    </div>
+    {{/unless}}
   {{/unless}}
 {{/sticky-container}}

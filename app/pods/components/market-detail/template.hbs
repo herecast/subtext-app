@@ -117,18 +117,20 @@
       </div>
     </div>
 
-    {{horizontal-rule}}
+    {{#unless (eq model.contentOrigin 'listserv')}}
+      {{horizontal-rule}}
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-similarContent'>
-        {{#similar-content
-          contentId=model.contentId
-          limit=4
-        }}
-          {{#title-text strong=true}}Suggested{{/title-text}}
-        {{/similar-content}}
+      <div class='DetailPage-sectionWrapper'>
+        <div class='DetailPage-section DetailPage-similarContent'>
+          {{#similar-content
+            contentId=model.contentId
+            limit=4
+          }}
+            {{#title-text strong=true}}Suggested{{/title-text}}
+          {{/similar-content}}
+        </div>
       </div>
-    </div>
+    {{/unless}}
 
   {{/unless}}
 {{/sticky-container}}
