@@ -12,6 +12,13 @@ function otherInstance() {
   };
 }
 
+function generateSplitContent() {
+  const head = '<p>' + faker.lorem.sentences() + '</p>';
+  const tail = '<p>' + faker.lorem.paragraphs() + '</p>';
+
+  return {head: head, tail: tail};
+}
+
 export default Factory.extend({
   title()    { return faker.lorem.sentence(); },
   subtitle() { return faker.lorem.sentence(); },
@@ -25,6 +32,10 @@ export default Factory.extend({
 
     return faker.random.arrayElement(contentTypes);
   },
+
+  splitContent() { return generateSplitContent(); },
+  content() { return this.splitContent.head + this.splitContent.tail; },
+  embeddedAd() { return faker.random.arrayElement([true, false, false, false, false]); },
   contentOrigin() { return faker.random.arrayElement(['ugc', 'listserv']); },
   canEdit() { return faker.random.arrayElement([true, false]); },
 

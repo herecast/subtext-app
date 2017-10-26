@@ -89,7 +89,28 @@
           {{/subtitle-text}}
         {{/if}}
 
-        {{{ model.content }}}
+        {{#unless model.embeddedAd}}
+          {{{ model.content }}}
+        {{else}}
+          {{{ model.splitContent.head }}}
+
+          <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
+            <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+              <div class='AdBanner--inContentBody-messageBar'>
+                Advertisement: Content continues below...
+              </div>
+              {{ad-banner
+                contentModel=model
+                pagePlacement='in-news-detail-body'
+                placeholderBlockFixedSize=true
+              }}
+            </div>
+          </div>
+
+          {{{ model.splitContent.tail }}}
+        {{/unless}}
+
+
       </div>
     </div>
 
@@ -108,15 +129,17 @@
         }}
       {{/horizontal-rule}}
 
-      <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
-        <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-          {{ad-banner
-            contentModel=model
-            pagePlacement='in-news-detail-body'
-            placeholderBlockFixedSize=true
-          }}
+      {{#unless model.embeddedAd}}
+        <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news'>
+          <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+            {{ad-banner
+              contentModel=model
+              pagePlacement='in-news-detail-body'
+              placeholderBlockFixedSize=true
+            }}
+          </div>
         </div>
-      </div>
+      {{/unless}}
 
       <div class='DetailPage-section DetailPage-comments'>
         {{comments-section

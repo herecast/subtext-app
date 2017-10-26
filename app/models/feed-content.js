@@ -12,6 +12,7 @@ export default DS.Model.extend(BaseEvent, {
   subtitle: DS.attr('string'),
   content: DS.attr('string'),
   splitContent: DS.attr(),
+  embeddedAd: DS.attr('boolean'),
   contentType: DS.attr('string'),
   contentOrigin: DS.attr('string'),
   canEdit: DS.attr('boolean', {defaultValue: false}),
