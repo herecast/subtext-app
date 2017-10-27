@@ -15,7 +15,7 @@ export default {
         Ember.$.post('https://graph.facebook.com', {
           scrape: true,
           id: url
-        }, (response, status, xhr) => {
+        }).always((xhr) => {
           if (xhr.status === 200) {
             resolve();
           } else {
