@@ -28,13 +28,8 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {
-    if (get(this, 'session.isAuthenticated')) {
-      return get(this, 'session.currentUser').then(currentUser => {
-        return currentUser.isManagerOfOrganizationID(get(this, 'model.organizationId'));
-      });
-    } else {
-      return false;
-    }
+    const managedOrganizations = get(this, 'organizations') || [];
+    return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
   }),
 
   showEditButton: computed('userCanEditNews', 'fastboot.isFastBoot', function() {
