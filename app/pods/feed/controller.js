@@ -14,6 +14,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   userLocation: service(),
   tracking: service(),
+  windowLocation: service(),
   session: service(),
   search: service(),
 
@@ -45,7 +46,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
       get(this, 'tracking').push({
         'event': name,
         'content': content,
-        'url': window.location.href,
+        'url': get(this, 'windowLocation').href(),
         'event-sequence': eventSequenceIndex
       });
     });
