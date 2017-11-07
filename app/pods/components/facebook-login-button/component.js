@@ -49,6 +49,7 @@ export default Ember.Component.extend({
 
       const registerUser = (locationId) => {
         oauthData.location_id = locationId;
+        oauthData.location_confirmed = get(this, 'userLocation.locationIsConfirmed');
 
         get(this, 'api').signInWithOauth(oauthData)
           .then(response => {

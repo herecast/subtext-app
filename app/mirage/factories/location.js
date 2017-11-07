@@ -5,7 +5,8 @@ export default Mirage.Factory.extend({
     return faker.address.city();
   },
   state: 'VT',
+
   id() {
-    return `${this.city}-${this.state}`.toLowerCase().replace(/\s+/g,'-');
+    return `${this.city}-${this.state}`.toLowerCase().replace(/\s+/, '-');
   }
 });

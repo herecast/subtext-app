@@ -20,6 +20,7 @@ module('Acceptance | intercom, lists', {
     application.register('service:intercomTest', intercom);
 
     application.inject('route', 'intercom', 'service:intercomTest');
+
   },
 
   afterEach: function() {

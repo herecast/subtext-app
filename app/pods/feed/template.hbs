@@ -2,17 +2,17 @@
   <div data-test-page='feed'>
     {{#unless session.isFastBoot}}
       {{to-elsewhere named="page-toolbar"
-                     send=(component "channel-filters"
-                       channel="index"
-                       radius=(readonly radius)
-                       onChooseMyStuffOnly=(action "chooseMyStuffOnly")
-                       filterComponent=(component "location-radius-selector"
-                         location=(readonly userLocation.location)
-                         radius=(readonly radius)
-                         onChooseRadius=(action "changeRadius")
-                         onChooseLocation=(action "chooseLocation")
-                       )
-                     )
+        send=(component "channel-filters"
+          channel="index"
+          radius=(readonly radius)
+          onChooseMyStuffOnly=(action "chooseMyStuffOnly")
+          filterComponent=(component "header-location-control"
+            location=(readonly userLocation.location)
+            radius=(readonly radius)
+            onChooseRadius=(action "changeRadius")
+            onChooseLocation=(action "chooseLocation")
+          )
+        )
       }}
     {{/unless}}
 
@@ -26,16 +26,6 @@
     {{/if}}
 
     {{#unless session.isFastBoot}}
-      {{#if (and
-              userLocation.hasActiveLocation
-              userLocation.locationMismatch
-            )
-      }}
-        {{location-mismatch-prompt
-          changeLocation=(action "chooseLocation")
-        }}
-      {{/if}}
-
       {{locations-nearby
         location=(readonly userLocation.location)
         radius=(readonly radius)

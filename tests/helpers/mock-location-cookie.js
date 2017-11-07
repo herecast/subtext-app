@@ -10,6 +10,8 @@ export default function(application, location=null) {
     read(name) {
       if(name === 'locationId') {
         return location.id;
+      } else if (name === 'locationConfirmed') {
+        return true;
       } else {
         return this._super(...arguments);
       }

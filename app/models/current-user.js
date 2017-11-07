@@ -11,6 +11,7 @@ export default DS.Model.extend({
   listservName: DS.attr('string'),
   location: DS.attr('string'),
   locationId: DS.attr('string'),
+  locationConfirmed: DS.attr('boolean'),
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
   userId: DS.attr('number'),

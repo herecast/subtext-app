@@ -17,6 +17,8 @@ const {
 export default Ember.Component.extend({
   tracking: inject.service(),
   store: inject.service(),
+  session: inject.service(),
+  userLocation: inject.service(),
   model: null,
 
   didReceiveAttrs() {
@@ -33,6 +35,13 @@ export default Ember.Component.extend({
           }
         });
       }
+    }
+  },
+
+  _confirmCurrentUserLocation(location) {
+    const user = get(this, 'session.currentUser');
+    if(!get(user, 'locationConfirmed')) {
+      get(this, 'userLocation').saveSelectedLocationId(get(location, 'id'));
     }
   },
 
@@ -65,6 +74,7 @@ export default Ember.Component.extend({
       });
 
       set(this, 'baseLocation', location);
+      this._confirmCurrentUserLocation(location);
     },
 
     updateLocations(locations){

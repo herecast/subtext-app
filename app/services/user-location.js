@@ -25,6 +25,7 @@ const {inject, get, set, computed, isBlank, isPresent, assign, RSVP} = Ember;
  *
  */
 export default Ember.Service.extend(Ember.Evented, {
+  defaultLocationId: 'sharon-vt',
   cookies: inject.service(),
   geolocation: inject.service(),
   session: inject.service(),
@@ -34,20 +35,28 @@ export default Ember.Service.extend(Ember.Evented, {
   history: inject.service(),
   fastboot: inject.service(),
   routing: inject.service('-routing'),
-  defaultLocationId: 'hartford-vt',
 
   currentRouteName: computed.oneWay('history.currentRouteName'),
   currentRouteParams: computed.oneWay('history.currentRoute.params'),
 
   // Location loaded from cookie
   _cookieLocationId: null,
+  _cookieLocationIsConfirmed: false,
 
   // Location loaded from user
   _userLocationId: computed.alias('session.currentUser.locationId'),
+  _userLocationIsConfirmed: computed.alias('session.currentUser.locationConfirmed'),
 
   hasActiveLocation: computed.bool('activeLocation.id'),
   locationMismatch: computed('activeLocation.id', 'selectedLocation.id', function() {
     return get(this, 'activeLocation.id') !== get(this, 'selectedLocation.id');
+  }),
+
+  locationIsConfirmed: computed('_userLocationIsConfirmed', '_cookieLocationIsConfirmed', function() {
+    const userConfirmed = get(this, '_userLocationIsConfirmed');
+    const cookieConfirmed = get(this, '_cookieLocationIsConfirmed');
+
+    return userConfirmed || cookieConfirmed;
   }),
 
   /**
@@ -74,11 +83,20 @@ export default Ember.Service.extend(Ember.Evented, {
    * The selectedLocationId is the Location previously selected by the user.
    * If the user is authenticated, it takes precedence over the location id stored in a cookie.
    */
-  selectedLocationId: computed('_userLocationId', '_cookieLocationId', function() {
+  selectedLocationId: computed('_userLocationId', '_cookieLocationId',
+    '_cookieLocationIsConfirmed', function() {
     const _cookieLocationId = get(this, '_cookieLocationId');
+    const _cookieLocationIsConfirmed = get(this, '_cookieLocationIsConfirmed');
     const _userLocationId = get(this, '_userLocationId');
 
-    return _userLocationId || _cookieLocationId || null;
+    if(_cookieLocationIsConfirmed && _cookieLocationId) {
+      // Prefer cookie location if confirmed.
+      return _cookieLocationId;
+
+    } else if(_userLocationId) {
+      // If cookie location is not confirmed, prefer user location.
+      return _userLocationId;
+    }
   }),
 
   selectedLocation: computed('selectedLocationId', function() {
@@ -116,15 +134,26 @@ export default Ember.Service.extend(Ember.Evented, {
     return ObjectPromiseProxy.create({promise});
   }),
 
-  /**
-   * This is the default Location ID to use, such as when constructing
-   * routes in the location-link component. If the user has an 'active' location,
-   * that one will take precedence over a previously selected location id.
-   */
+  selectedOrDefaultLocationId: computed.or('selectedLocationId', 'defaultLocationId'),
+
   locationId: computed.readOnly('location.id'),
-  location: computed('activeLocationId', 'selectedLocationId', function() {
+  location: computed('activeLocationId', 'selectedLocationId', 'defaultLocationId', function() {
+    const activeLocationId = get(this, 'activeLocationId');
+    const selectedLocationId = get(this, 'selectedLocationId');
+    const defaultLocationId = get(this, 'defaultLocationId');
+
+    let location;
+
+    if(activeLocationId) {
+      location = get(this, 'activeLocation');
+    } else if(selectedLocationId) {
+      location = get(this, 'selectedLocation');
+    } else {
+      location = get(this, 'store').findRecord('location', defaultLocationId);
+    }
+
     return ObjectPromiseProxy.create({
-      promise: isPresent(get(this, 'activeLocationId')) ? get(this, 'activeLocation') : get(this, 'selectedLocation')
+      promise: location
     });
   }),
 
@@ -179,16 +208,59 @@ export default Ember.Service.extend(Ember.Evented, {
   saveSelectedLocationId(locationId) {
     // Write cookie immediately
     this.saveLocationIdToCookie(locationId);
+    this.saveLocationConfirmed();
 
     if (get(this, 'session.isAuthenticated')) {
-      const currentUser = get(this, 'session.currentUser');
+      this.saveCurrentUserLocationId(locationId);
+    }
+  },
 
-      if (currentUser) {
-        currentUser.then((user) => {
-          set(user, 'locationId', locationId);
+  saveCurrentUserLocationId(locationId) {
+    const currentUser = get(this, 'session.currentUser');
+
+    if (currentUser) {
+      currentUser.then((user) => {
+        if(!get(this, 'isDestroying')) {
+          if(get(user, 'locationId') !== locationId) {
+            set(user, 'locationId', locationId);
+            user.save();
+          }
+        }
+      });
+    }
+  },
+
+  saveLocationConfirmed() {
+    this.saveLocationConfirmedCookie();
+
+    if (get(this, 'session.isAuthenticated')) {
+      this.saveCurrentUserLocationConfirmed();
+    }
+  },
+
+  saveLocationConfirmedCookie() {
+    const cookies = get(this, 'cookies');
+    const windowLocation = get(this, 'windowLocation');
+
+    cookies.write('locationConfirmed', true, {
+      path: '/',
+      secure: windowLocation.protocol() === 'https',
+      expires: moment().add(5, 'years').toDate()
+    });
+
+    set(this, '_cookieLocationIsConfirmed', true);
+  },
+
+  saveCurrentUserLocationConfirmed() {
+    const currentUser = get(this, 'session.currentUser');
+
+    if (currentUser) {
+      currentUser.then((user) => {
+        if(!get(user, 'locationConfirmed')) {
+          set(user, 'locationConfirmed', true);
           user.save();
-        });
-      }
+        }
+      });
     }
   },
 
@@ -212,6 +284,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
   clearLocationCookie() {
     get(this, 'cookies').clear('locationId');
+    get(this, 'cookies').clear('locationConfirmed');
     set(this, '_cookieLocationId', null);
   },
 
@@ -221,7 +294,9 @@ export default Ember.Service.extend(Ember.Evented, {
   loadLocationIdFromCookie() {
     const cookies = get(this, 'cookies');
     const locationId = cookies.read('locationId');
+    const locationIsConfirmed = cookies.read('locationConfirmed') || 'false';
     set(this, '_cookieLocationId', locationId);
+    set(this, '_cookieLocationIsConfirmed', (locationIsConfirmed.toString().toLowerCase() === 'true'));
   },
 
   /**
@@ -244,70 +319,18 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   /**
-   * Attempt to get the Location from the user's IP address.
-   */
-  loadLocationFromIP() {
-    const api = get(this, 'api');
-    return api.getLocationFromIP().then((data)=>{
-      return this._convertLocationData(data);
-    });
-  },
-
-  /**
    * Try locating the user by either geolocation or IP
    */
   locateUser() {
     return new RSVP.Promise((resolve) => {
-      let resolved = false;
-
-      // Which ever finishes first
       this.loadLocationFromCoords().then((location) => {
         if(isPresent(location)) {
-          // Save location from coords, even if resolved already.
-          // It is a preferred method.
           this.saveSelectedLocationId(get(location, 'id'));
 
-          if(!resolved) {
-            resolved = true;
-            resolve(location);
-          }
-        }
-      });
-
-      this.loadLocationFromIP().then((location) => {
-        if(isPresent(location)) {
-          // We prefer coords if possible,
-          // If still waiting then go ahead and save location
-          if(!resolved) {
-            resolved = true;
-            this.saveSelectedLocationId(get(location, 'id'));
-            resolve(location);
-          }
+          resolve(location);
         }
       });
     });
-  },
-
-  /**
-   * Convert location data into a record.
-   *
-   * @param locationData
-   * @private
-   */
-  _convertLocationData(locationData) {
-    if (!get(this, 'isDestroying') && !get(this, 'isDestroyed')) {
-      const locationId = get(locationData, 'location.id');
-      const store = get(this, 'store');
-      let location = store.peekRecord('location', locationId);
-
-      // Only push the locationData into the data store if it does not already exist
-      if (isBlank(location)) {
-        store.pushPayload('location', locationData);
-        location = store.peekRecord('location', locationId);
-      }
-
-      return location;
-    }
   },
 
   /**
@@ -332,5 +355,75 @@ export default Ember.Service.extend(Ember.Evented, {
   init() {
     this._super(...arguments);
     this.loadLocationIdFromCookie();
+
+    if(get(this, 'session.isAuthenticated')) {
+      const currentUser = get(this, 'session.currentUser');
+      if(currentUser && currentUser.then) {
+        currentUser.then(()=>{
+          if(!get(this, 'isDestroying')) {
+            this._syncUserAndCookieData();
+          }
+        });
+      }
+    } else {
+      this._bindSessionAuthenticatedToSyncWithUser();
+    }
+  },
+
+  /*##  Private ##*/
+  _bindSessionAuthenticatedToSyncWithUser() {
+    get(this, 'session').on('authenticationSucceeded', ()=>{
+      const currentUser = get(this, 'session.currentUser');
+      if(currentUser && currentUser.then) {
+        currentUser.then(()=>{
+          if(!get(this, 'isDestroying')) {
+            this._syncUserAndCookieData();
+          }
+        });
+      }
+    });
+  },
+
+  _syncUserAndCookieData() {
+    const userLocationId = get(this, '_userLocationId');
+    const userLocationIsConfirmed = get(this, '_userLocationIsConfirmed');
+    const cookieLocationId = get(this, '_cookieLocationId');
+    const cookieLocationIsConfirmed = get(this, '_cookieLocationIsConfirmed');
+    const isSignedIn = get(this, 'session.isAuthenticated');
+
+    if(isSignedIn) {
+      if(userLocationIsConfirmed) {
+        if(userLocationId && cookieLocationId !== userLocationId) {
+          this.saveSelectedLocationId(userLocationId);
+        }
+      }
+
+      // Has cookie confirmed location, but not user location confirmed
+      if(!userLocationIsConfirmed && cookieLocationIsConfirmed) {
+        this.saveCurrentUserLocationConfirmed();
+      }
+    }
+  },
+
+  /**
+   * Convert location data into a record.
+   *
+   * @param locationData
+   * @private
+   */
+  _convertLocationData(locationData) {
+    if (!get(this, 'isDestroying') && !get(this, 'isDestroyed')) {
+      const locationId = get(locationData, 'location.id');
+      const store = get(this, 'store');
+      let location = store.peekRecord('location', locationId);
+
+      // Only push the locationData into the data store if it does not already exist
+      if (isBlank(location)) {
+        store.pushPayload('location', locationData);
+        location = store.peekRecord('location', locationId);
+      }
+
+      return location;
+    }
   }
 });

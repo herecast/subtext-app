@@ -5,8 +5,10 @@ const {get, set, computed, inject, $} = Ember;
 
 export default Ember.Component.extend({
   classNames: ['FloatingActionButton'],
-  classNameBindings: ['showJobTray:expanded'],
+  classNameBindings: ['showContent:expanded'],
 
+  session: inject.service(),
+  userLocation: inject.service(),
   modals: inject.service(),
   floatingActionButton: inject.service(),
   cookies: inject.service(),
@@ -34,6 +36,16 @@ export default Ember.Component.extend({
   windowHeight: 1000,
   touchKeyboardIsOpen: false,
 
+  hidden: computed('touchKeyboardIsOpen',
+      'userLocation.locationIsConfirmed',
+      'session.isLocationSwitcherToolTipOpen', function() {
+    const touchKeyboardIsOpen = get(this, 'touchKeyboardIsOpen');
+    const locationTooltipIsOpen = get(this, 'session.isLocationSwitcherToolTipOpen');
+    const locationIsConfirmed = get(this, 'userLocation.locationIsConfirmed');
+
+    return touchKeyboardIsOpen || (!locationIsConfirmed && locationTooltipIsOpen);
+  }),
+
   styleForContent: computed('isAnimatingAway', 'windowHeight', 'showJobTray', function() {
     const styles = [];
     const $this = this.$();
@@ -60,7 +72,7 @@ export default Ember.Component.extend({
 
   /**
    * The only way to know if the mobile keyboard is open is to track focus on inputs.
-   * The purpose of this is to toggle a property to hide the jobs button if
+   * The purpose of this is to toggle a propverty to hide the jobs button if
    * an element has focus which utilizes keyboard input.
    */
   _watchFocus() {

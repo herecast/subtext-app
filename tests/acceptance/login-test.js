@@ -9,10 +9,6 @@ moduleForAcceptance('Acceptance | login', {
     invalidateSession(this.application);
       window.Intercom = function() {
     };
-    // Default location as specified in user-location service
-    server.create('location', {
-      id: 'hartford-vt'
-    });
   }
 });
 
@@ -38,8 +34,8 @@ test('Follow sign in link, authentication succeeds', function(assert) {
 
   andThen(() => {
     assert.equal(
-      currentPath(),'index',
-      "Should be on home page");
+      currentPath(),'feed.index',
+      "Should be on feed home page");
 
     assert.equal(
       find(testSelector('link', 'user-menu')).length, 1,
@@ -118,7 +114,6 @@ test('logging out works', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(currentURL(), '/', 'it should be at the correct url');
     assert.equal(find(testSelector('link', 'login-link')).length, 0, 'it should not show the sign in link');
   });
 
@@ -126,7 +121,6 @@ test('logging out works', function(assert) {
   click(testSelector('link', 'logout-link'));
 
   andThen(function() {
-    assert.equal(currentURL(), '/', 'it should be at the correct url after logging out');
     assert.equal(find(testSelector('link', 'login-link')).length, 1, 'it should show the sign in link');
   });
 });
@@ -138,16 +132,12 @@ test('visiting log in page while already authenticated redirects to root page', 
   visit('/sign_in');
 
   andThen(function() {
-    assert.equal(currentURL(), '/', 'it should be at the correct url');
+    assert.equal(currentPath(), 'feed.index', 'it should be at the correct url');
   });
 });
 
 test('clicking sign in link displays login form', function(assert) {
   visit('/');
-
-  andThen(function() {
-    assert.equal(currentURL(), '/', 'it should be at the correct url');
-  });
 
   click(testSelector('link', 'login-link'));
 

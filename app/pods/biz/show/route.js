@@ -62,6 +62,7 @@ export default Ember.Route.extend({
 
       if(!get(this, 'fastboot.isFastBoot')) {
         const model = this.modelFor(this.routeName).businessProfile;
+
         model.get('organization').then((organization) => {
           get(this, 'tracking').profileImpression(
             organization

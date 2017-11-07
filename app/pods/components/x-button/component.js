@@ -11,6 +11,7 @@ export default Ember.Component.extend(XButtonMixin, {
 
   attributeBindings: ['type'],
   type: 'button',
+  onClick(){},
 
   click(e) {
     e.preventDefault();

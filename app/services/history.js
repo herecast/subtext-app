@@ -24,6 +24,7 @@ export default Ember.Service.extend({
   setRouteName(name) {
     set(this, 'routeName', name);
   },
+
   setRouteModel(model) {
     set(this, 'routeModel', model);
   },

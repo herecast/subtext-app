@@ -107,7 +107,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
               email,
               password,
               password_confirmation: password,
-              location_id: locationId
+              location_id: locationId,
+              location_confirmed: get(this, 'userLocation.locationIsConfirmed')
             }
           }).then(
             (response) => {

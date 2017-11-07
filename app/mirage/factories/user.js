@@ -17,9 +17,11 @@ export default Mirage.Factory.extend({
   afterCreate(user, server) {
     if(!user.locationId) {
       const location = server.create('location');
-      user.location = location.city + ', ' + location.state;
-      user.locationId = location.id;
-      user.save();
+      user.update({
+        location: location.city + ', ' + location.state,
+        locationId: location.id,
+        locationConfirmed: false,
+      });
     }
   }
 });

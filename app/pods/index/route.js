@@ -1,6 +1,16 @@
 import Ember from 'ember';
-import IndexLocation from 'subtext-ui/mixins/routes/index-location';
 
-export default Ember.Route.extend(IndexLocation, {
+const { inject, get } = Ember;
 
+export default Ember.Route.extend({
+  userLocation: inject.service('user-location'),
+
+  redirect() {
+    const locationId = get(this, 'userLocation.selectedOrDefaultLocationId');
+    this.replaceWith('feed', {
+      queryParams: {
+        location: locationId
+      }
+    });
+  }
 });

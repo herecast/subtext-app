@@ -22,7 +22,8 @@ export default Service.extend(Evented, {
   intercom: inject.service(),
   fastboot: inject.service(),
   clientId: null,
-  locationId: computed.alias('userLocation.location.id'),
+  locationId: computed.reads('userLocation.location.id'),
+  locationIsConfirmed: computed.reads('userLocation.locationIsConfirmed'),
   _clientIdKey: 'dailyuv_session_client_id',
   logEnabled: config.LOG_TRACKING_EVENTS,
 
@@ -33,9 +34,15 @@ export default Service.extend(Evented, {
   },
 
   waitForLocationAndClientId() {
-    return RSVP.hash({
-      location: get(this, 'userLocation.location'),
-      clientId: this.waitForClientId()
+    return new RSVP.Promise((resolve, reject)=> {
+      RSVP.hash({
+        location: get(this, 'userLocation.location'),
+        clientId: this.waitForClientId()
+      }).then((resolvedData) => {
+        if(!get(this, 'isDestroying')) {
+          resolve(resolvedData);
+        }
+      }).catch(reject);
     });
   },
 
@@ -63,11 +70,12 @@ export default Service.extend(Evented, {
     }
   },
 
-  defaultDataLayerAttrs: computed('locationId', 'clientId', function() {
+  defaultDataLayerAttrs: computed('locationId', 'clientId', 'locationIsConfirmed', 'session.currentUser.userId', function() {
     return {
       client_id: get(this, 'clientId'),
       user_id: get(this, 'session.currentUser.userId'),
-      location_id: get(this, 'locationId')
+      location_id: get(this, 'locationId'),
+      location_confirmed: get(this, 'locationIsConfirmed')
     };
   }),
 
@@ -101,7 +109,8 @@ export default Service.extend(Evented, {
           {
             client_id: data.clientId,
             // In some tests, location will be undefined
-            location_id: get(data, 'location.id')
+            location_id: get(data, 'location.id'),
+            location_confirmed: get(this, 'locationIsConfirmed')
           },
           opts
         );
@@ -127,6 +136,7 @@ export default Service.extend(Evented, {
             client_id: data.clientId,
             // In some tests, location will be undefined
             location_id: get(data, 'location.id'),
+            location_confirmed: get(this, 'locationIsConfirmed'),
             gtm_blocked: gtmBlocked
           }, opts);
 
@@ -149,6 +159,7 @@ export default Service.extend(Evented, {
             client_id: data.clientId,
             // In some tests, location will be undefined
             location_id: get(data, 'location.id'),
+            location_confirmed: get(this, 'locationIsConfirmed'),
             gtm_blocked: gtmBlocked
           }, opts);
 
@@ -167,6 +178,7 @@ export default Service.extend(Evented, {
         const trackData = {
           client_id: data.clientId,
           // In some tests, location will be undefined
+          location_confirmed: get(this, 'locationIsConfirmed'),
           location_id: get(data, 'location.id')
         };
 
@@ -182,6 +194,7 @@ export default Service.extend(Evented, {
           client_id: data.clientId,
           content_id: get(content, 'id'),
           // In some tests, location will be undefined
+          location_confirmed: get(this, 'locationIsConfirmed'),
           location_id: get(data, 'location.id')
         };
 
@@ -198,7 +211,8 @@ export default Service.extend(Evented, {
           {
             client_id: data.clientId,
             // In some tests, location will be undefined
-            location_id: get(data, 'location.id')
+            location_id: get(data, 'location.id'),
+            location_confirmed: get(this, 'locationIsConfirmed')
           }, opts);
 
         get(this, 'api').recordPromoBannerClick(id, trackData);
@@ -289,6 +303,12 @@ export default Service.extend(Evented, {
   trackCommentSaved() {
     this.push({
       event: 'CommentSaved'
+    });
+  },
+
+  trackLocationToolTipDismiss() {
+    this.push({
+      event: 'LocationToolTipDismissed'
     });
   },
 

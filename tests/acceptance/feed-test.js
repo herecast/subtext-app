@@ -4,23 +4,16 @@ import testSelector from 'ember-test-selectors';
 import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
-
+import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
 
 moduleForAcceptance('Acceptance | feed', {
   beforeEach() {
+    this.cookies = {};
+    mockCookies(this.application, this.cookies);
+
     invalidateSession(this.application);
     window.Intercom = function() {};
   }
-});
-
-test('visiting /feed no location previously selected', function(assert) {
-  visit('/feed');
-
-  andThen(function() {
-    assert.equal(currentURL(), '/',
-      "You are redirected to home page. (Location Menu)"
-    );
-  });
 });
 
 test('visiting /feed with location previously selected', function(assert) {
@@ -97,37 +90,6 @@ test('visiting /feed?location= with location in url', function(assert) {
       assert.ok($feedCard.length,
         `A feed card exists for content: ${record.title}`);
     });
-  });
-});
-
-test('visiting with location in url other than previously selected location', function(assert) {
-  assert.expect(2);
-
-  mockLocationCookie(this.application);
-  const otherLocation = server.create('location');
-  server.createList('feedContent', 3);
-  const done = assert.async();
-
-  server.get('/contents', function({feedContents}, request) {
-    if(request.queryParams.location_id) {
-      assert.equal(request.queryParams.location_id,
-        otherLocation.id,
-        "The location id from the url is passed to the api request");
-      done();
-    }
-
-    return feedContents.all();
-  });
-
-  visit('/feed?location=' + otherLocation.id);
-
-  andThen(()=>{
-    const $locationMismatch = find(
-      testSelector('component', 'location-mismatch-prompt')
-    );
-
-    assert.ok($locationMismatch.length,
-      "Should show the location mismatch prompt");
   });
 });
 
@@ -499,3 +461,33 @@ test('hamburger menu, events', function(assert) {
   });
 });
 
+test('visiting /feed; selected location in cookie, unauthenticated; signing in with user having different location', function(assert) {
+  const visitorLocation = server.create('location');
+  const userLocation = server.create('location');
+  const user = server.create('user', {
+    locationId: userLocation.id,
+    locationConfirmed: true
+  });
+
+  this.cookies['locationId'] = visitorLocation.id;
+  this.cookies['locationConfirmed'] = true;
+
+  visit(`/feed?location=${visitorLocation.id}`);
+
+  click(testSelector('link', 'login-link'));
+
+  fillIn(testSelector('field', 'sign-in-email'), user.email);
+  fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+  click(testSelector('component', 'sign-in-submit'));
+
+  andThen(() => {
+    assert.equal(currentURL(), `/feed?location=${userLocation.id}`,
+      "Signing in: Reloads feed with user's location"
+    );
+
+    assert.equal(this.cookies['locationId'], userLocation.id,
+      "Signing in: sets cookie location to user location"
+    );
+  });
+});

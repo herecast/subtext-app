@@ -326,12 +326,18 @@ export default function() {
   });
 
   this.get('/locations/:id', function ({ locations }, { params }) {
-    let location= locations.findBy({id: params.id});
-    if(!location) {
-      return new Mirage.Response(404, {}, {});
-    } else {
-      return location;
+    const defaultAppLocation = 'sharon-vt';
+    let location = locations.findBy({id: params.id});
+
+    if(!location && params.id === defaultAppLocation) {
+      location = server.create('location', {
+        id: 'sharon-vt',
+        city: 'sharon',
+        state: 'vt'
+      });
     }
+
+    return location;
   });
 
   // Used by the event filter bar to find locations

@@ -1,0 +1,12 @@
+{{#if showTip}}
+  <div class='Tooltip Tooltip--bold Tooltip--pointing Tooltip--pointingTop'>
+    <div class='Tooltip-message' data-test-message>
+      Click the arrow to confirm your town so we can show you content about where you live
+    </div>
+    <div class='Tooltip-cta'>
+      {{#x-button nowrap=true color='primary' onClick=(action 'dismiss') data-test-action='dismiss'}}
+        Got it
+      {{/x-button}}
+    </div>
+  </div>
+{{/if}}
