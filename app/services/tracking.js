@@ -292,6 +292,12 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackUGCTooltipHide() {
+    this.push({
+      event: 'UGCJobsTooltipHide'
+    });
+  },
+
   /** Private **/
 
   _eventuallyGetClientId() {

@@ -1,19 +1,34 @@
 {{#unless touchKeyboardIsOpen}}
   <div class='FloatingActionButton-container'>
     <header class='FloatingActionButton-header'>
-      {{#if showMessage}}
-        <div class="FloatingActionButton-message" {{action 'toggleContent'}}>
-          {{message}}
-        </div>
-        {{#unless showContent}}
-          {{fa-icon 'caret-right' class="FloatingActionButton-message-caret"}}
-        {{/unless}}
+      {{#if showTooltip}}
+        {{!-- 'message' is the tooltip content when tray is closed and the tray header content when open --}}
+        {{#if message}}
+          <div class="FloatingActionButton-message">
+            {{message}}
+
+            {{#if canShowTooltip}}
+              {{#unless showJobTray}} {{!-- showJobTray reflects the open/closed state --}}
+                <span class='FloatingActionButton-dismissButton' {{action 'dismissTooltip'}}>
+                  Don't show again
+                </span>
+              {{/unless}}
+            {{/if}}
+          </div>
+        {{/if}}
+
+        {{#if canShowTooltip}}
+          {{#unless showJobTray}}
+            {{fa-icon 'caret-right' class="FloatingActionButton-message-caret"}}
+          {{/unless}}
+        {{/if}}
       {{/if}}
+
       {{#x-button
         rounded='circle'
-        color=(if showContent 'medium-gray' 'attention')
-        style=(if showContent 'transparent' 'flatten')
-        shadow=(not showContent)
+        color=(if showJobTray 'medium-gray' 'attention')
+        style=(if showJobTray 'transparent' 'flatten')
+        shadow=(not showJobTray)
         size='large'
         onClick=(action 'toggleContent')
         class='FloatingActionButton-toggleButton'
@@ -22,7 +37,7 @@
       {{/x-button}}
     </header>
 
-    {{#if showContent}}
+    {{#if showJobTray}}
       <div class='FloatingActionButton-content' style={{styleForContent}}>
         {{yield}}
       </div>

@@ -1,29 +1,40 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 const {get, set, computed, inject, $} = Ember;
 
 export default Ember.Component.extend({
   classNames: ['FloatingActionButton'],
-  classNameBindings: ['showContent:expanded'],
+  classNameBindings: ['showJobTray:expanded'],
 
   modals: inject.service(),
   floatingActionButton: inject.service(),
+  cookies: inject.service(),
+  tracking: inject.service(),
+  windowLocation: inject.service('window-location'),
 
-  showMessage: true,
-  showContent: computed.alias('floatingActionButton.showContent'),
+  canShowTooltip: false,
+  showTooltip: true,
+  showJobTray: computed.alias('floatingActionButton.showContent'),
   isAnimatingAway: computed.alias('floatingActionButton.isAnimatingAway'),
 
   messagePrompt: 'You can use DailyUV to do many things in your community!',
   messageHeader: 'What would you like to do on DailyUV?',
 
-  message: computed('messagePrompt', 'messageHeader', 'showContent', function() {
-    return get(this, 'showContent') ? get(this, 'messageHeader') : get(this, 'messagePrompt');
+  message: computed('messagePrompt', 'messageHeader', 'showJobTray', 'canShowTooltip', function() {
+    if (!get(this, 'showJobTray') && !get(this, 'canShowTooltip')) {
+      // we are not showing the job tray (orange button is visible) and
+      // we are not permitted to show the tooltip, so let's clear out the message
+      return null;
+    } else {
+      return get(this, 'showJobTray') ? get(this, 'messageHeader') : get(this, 'messagePrompt');
+    }
   }),
 
   windowHeight: 1000,
   touchKeyboardIsOpen: false,
 
-  styleForContent: computed('isAnimatingAway', 'windowHeight', 'showContent', function() {
+  styleForContent: computed('isAnimatingAway', 'windowHeight', 'showJobTray', function() {
     const styles = [];
     const $this = this.$();
 
@@ -77,13 +88,19 @@ export default Ember.Component.extend({
   click(e) {
     // Clicking on overlay should close the modal
     const $target = $(e.target);
-    if (get(this, 'showContent') && $target.hasClass('FloatingActionButton')) {
+    if (get(this, 'showJobTray') && $target.hasClass('FloatingActionButton')) {
       get(this, 'floatingActionButton').collapse();
     }
   },
 
   didInsertElement() {
     this._super(...arguments);
+
+    const cookies = get(this, 'cookies');
+    if (!cookies.read('hideUGCToolTip')) {
+      set(this, 'canShowTooltip', true);
+    }
+
     this._watchFocus();
 
     const $window = $(window);
@@ -106,8 +123,22 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    dismissTooltip() {
+      const cookies = get(this, 'cookies');
+      const windowLocation = get(this, 'windowLocation');
+
+      cookies.write('hideUGCToolTip', true, {
+        path: '/',
+        secure: windowLocation.protocol() === 'https',
+        expires: moment().add(14, 'days').toDate()
+      });
+
+      set(this, 'canShowTooltip', false);
+
+      get(this, 'tracking').trackUGCTooltipHide();
+    },
     toggleContent() {
-      if (get(this, 'showContent')) {
+      if (get(this, 'showJobTray')) {
         get(this, 'floatingActionButton').collapse();
       } else {
         get(this, 'floatingActionButton').expand();

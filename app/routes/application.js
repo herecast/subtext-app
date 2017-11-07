@@ -20,7 +20,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
   },
-  
+
   queryParams: {
     q: {refreshModel: true}
   },
