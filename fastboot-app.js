@@ -68,6 +68,7 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
 let server = new FastBootAppServer({
   beforeMiddleware: function (app) {
     app.use('/healthcheck', require('express-healthcheck')());
+    app.set('trust proxy', true);
 
     /**
      * Filter query params for direct feed detail urls
