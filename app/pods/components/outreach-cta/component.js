@@ -19,6 +19,7 @@ export default Ember.Component.extend(InViewportMixin, {
 
   _impressionSent: false,
 
+  ctaTarget: 'https://subtextmedialtd.wufoo.com/forms/sztftvb1xfr0qv/',
 
   defaultMessages: [
     {
@@ -32,17 +33,6 @@ export default Ember.Component.extend(InViewportMixin, {
     {
       message: 'Want to see your ad here?',
       tag: 'see-your-out'
-    }
-  ],
-
-  defaultTargets: [
-    {
-      url: 'https://subtextmedialtd.wufoo.com/forms/s1nqgrje1gdj90w/',
-      tag: 'verbose'
-    },
-    {
-      url: 'https://subtextmedialtd.wufoo.com/forms/sztftvb1xfr0qv/',
-      tag: 'succinct'
     }
   ],
 
@@ -66,26 +56,6 @@ export default Ember.Component.extend(InViewportMixin, {
     const messageIndex = get(this, 'messageIndex');
 
     return defaultMessages[messageIndex].tag;
-  }),
-
-  targetIndex: computed('defaultTargets.[]', 'url', function () {
-    const defaultTargets = get(this, 'defaultTargets');
-
-    return Math.floor( Math.random() * defaultTargets.length );
-  }),
-
-  ctaTarget: computed('defaultTargets.[]', 'targetIndex', function () {
-    const defaultTargets = get(this, 'defaultTargets');
-    const targetIndex = get(this, 'targetIndex');
-
-    return defaultTargets[targetIndex].url;
-  }),
-
-  ctaTargetTag: computed('defaultTargets.[]', 'targetIndex', function () {
-    const defaultTargets = get(this, 'defaultTargets');
-    const targetIndex = get(this, 'targetIndex');
-
-    return defaultTargets[targetIndex].tag;
   }),
 
   _resetImpression: observer('currentController.currentUrl', function() {
@@ -115,7 +85,7 @@ export default Ember.Component.extend(InViewportMixin, {
   recordEvent(type) {
     get(this, 'api').recordAdMetricEvent({
       ad_metric: {
-        campaign: `${get(this, 'placement')}--${get(this,'ctaTargetTag')}`,
+        campaign: `${get(this, 'placement')}`,
         content: get(this, 'ctaMessageTag'),
         event_type: type,
         page_url: get(this, 'url')
