@@ -7,7 +7,7 @@ export function initialize() {
       let initOptions = {
         appId   : config['FACEBOOK_APP_ID'],
         xfbml   : true,
-        version : 'v2.4'
+        version : 'v2.11'
       };
       FB.init(initOptions);
     }
