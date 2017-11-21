@@ -5,7 +5,7 @@ const {get, set, computed, inject, $} = Ember;
 
 export default Ember.Component.extend({
   classNames: ['FloatingActionButton'],
-  classNameBindings: ['showContent:expanded'],
+  classNameBindings: ['showJobTray:expanded'],
 
   session: inject.service(),
   userLocation: inject.service(),
