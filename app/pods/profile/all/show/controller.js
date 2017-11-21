@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
 
   actions: {
     closeDetailPage() {
-      this.transitionToRoute('profile');
+      this.transitionToRoute('profile.all');
     }
   }
 });

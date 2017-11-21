@@ -6,7 +6,10 @@
     {{/content-label}}
 
     {{#text-block}}
-      {{{organization.description}}}
+      {{truncate-text
+        text=organization.description
+        maxLength=(if media.isNotMobile 120 80)
+        showToggleButton=true}}
     {{/text-block}}
 
   {{/card-body}}

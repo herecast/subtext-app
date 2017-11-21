@@ -4,8 +4,17 @@
       No results were found matching your criteria.<br>
       Try changing your search or expand the search area.
     {{/text-block}}
-    {{#text-block}}
-      {{link-to 'Reset my Filters' 'feed' (query-params page=1 type='' radius='10' query='') class='Button Button--small'}}
-    {{/text-block}}
+
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{#text-block}}
+        {{x-link-to 'RESET MY FILTERS'
+                    'feed'
+                    (query-params page=1 type='' radius='10' query='')
+                    size='medium'
+        }}
+      {{/text-block}}
+    {{/if}}
   {{/card-body}}
 {{/x-card}}

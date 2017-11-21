@@ -1,5 +1,6 @@
-<a href="tel:+1{{phone}}" class="visible-xs-inline">
-  {{fa-icon 'fa-phone'}} Call
+<a href="tel:+1{{phone}}" class="visible-xs-inline" title="Call">
+  {{fa-icon 'fa-phone'}}
+  {{#unless hideLabel}}Call{{/unless}}
 </a>
 <span class="hidden-xs">
   {{fa-icon 'fa-phone'}} {{formatted-phone phone}}

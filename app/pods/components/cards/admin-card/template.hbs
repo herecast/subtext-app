@@ -1,0 +1,58 @@
+{{#if isAdmin}}
+  {{#x-card color='neutral'}}
+    {{#card-body slimPadding=true}}
+      {{#media-container centerVertically=true reverse=true noMargin=true as |media|}}
+
+        {{#media.object}}
+          {{#if enableToggleButton}}
+            {{toggle-switch color='success' active=(readonly isActive) onChange=(action 'updateCardStatus')}}
+          {{/if}}
+        {{/media.object}}
+
+        {{#media.content}}
+          <div class="AdminCard-title">
+            {{#if title}}
+              <strong>{{title}}</strong> &mdash;
+            {{/if}}
+            <span class="AdminCard-visibility">
+              {{#if subtitle}}
+                {{subtitle}}
+              {{else if isActive}}
+                This block is publicly visible
+              {{else}}
+                This block is hidden from the public
+              {{/if}}
+            </span>
+          </div>
+        {{/media.content}}
+
+      {{/media-container}}
+
+      {{#if isEditing}}
+        {{component editForm organization=(readonly organization) onFormUpdate=(action 'formUpdated')}}
+      {{else}}
+        {{yield}}
+      {{/if}}
+
+      {{#if editForm}}
+        <div class="AdminCard-footer">
+          {{#if isEditing}}
+            {{#x-button onClick=(action 'cancel') style='regular' color='light-gray' size='x-small'}}
+              Cancel
+            {{/x-button}}
+            {{#x-button onClick=(action 'saveChanges') style='regular' color='primary' size='x-small' noMargin=true}}
+              Save Changes
+            {{/x-button}}
+          {{else}}
+            {{#x-button onClick=(action 'editContent') style='regular' color='primary' size='x-small' noMargin=true}}
+              Edit
+            {{/x-button}}
+          {{/if}}
+        </div>
+      {{/if}}
+
+    {{/card-body}}
+  {{/x-card}}
+{{else}}
+  {{yield}}
+{{/if}}

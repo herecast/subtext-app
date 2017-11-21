@@ -7,7 +7,8 @@ const {
   get,
   inject,
   isPresent,
-  setProperties
+  setProperties,
+  RSVP
 } = Ember;
 
 export default DS.Model.extend({
@@ -29,10 +30,13 @@ export default DS.Model.extend({
   profileAdOverride: DS.attr('number'),
   customLinks: DS.attr(),
 
+  contactCardActive: DS.attr('boolean', {defaultValue: true}),
+  descriptionCardActive: DS.attr('boolean', {defaultValue: true}),
+  hoursCardActive: DS.attr('boolean', {defaultValue: true}),
+
   // Temporary for dashboard edit button
   businessProfileId: DS.attr(),
 
-  // Contact info: copied from business-profile model to be consolidated
   phone: DS.attr('string'),
   website: DS.attr('string'),
 
@@ -47,6 +51,12 @@ export default DS.Model.extend({
   state: DS.attr('string'),
   zip: DS.attr('string'),
 
+  // properties for social sharing tags
+  title: computed.reads('name'),
+  content: computed.reads('description'),
+  featuredImageUrl: computed.reads('profileImageUrl'),
+  normalizedContentType: 'organization',
+
   websiteLink: computed('website', function() {
     let siteLink = get(this, 'website');
     if (isPresent(siteLink) && siteLink.match(`^(http|https)://`) === null) {
@@ -59,12 +69,18 @@ export default DS.Model.extend({
     return `mailto:${this.get('email')}`;
   }),
 
+  twitterHandleLink: computed('twitterHandle', function() {
+    const twitterHandle = get(this, 'twitterHandle');
+    return isPresent(twitterHandle) ? `https://twitter.com/${twitterHandle}` : null;
+  }),
+
   fullAddress: computed('address', 'city', 'state', 'zip', function() {
     const address = this.get('address');
     const city = this.get('city');
     const state = this.get('state');
+    const zip = this.get('zip');
 
-    return `${address}, ${city}, ${state}`;
+    return [address, city, state, zip].filter(isPresent).join(', ');
   }),
 
   directionsLink: computed('fullAddress', function() {
@@ -96,15 +112,12 @@ export default DS.Model.extend({
   publications: DS.hasMany('organization', {async: true, inverse: 'publisher'}),
 
   // Placeholders for image objects to be uploaded
-  logo: null,
+  logo: null, // note: logo is now deprecated
   profileImage: null,
   backgroundImage: null,
 
   // Used for avatars - default to profile image
-  displayImageUrl: computed('logoUrl', 'profileImageUrl', function() {
-    const profileImageUrl = get(this, 'profileImageUrl');
-    return profileImageUrl ? profileImageUrl : get(this, 'logoUrl');
-  }),
+  displayImageUrl: computed.reads('profileImageUrl'),
 
   isDefaultOrganization: computed('id', function() {
     return isDefaultOrganization(get(this, 'id'));
@@ -120,9 +133,44 @@ export default DS.Model.extend({
     return bizFeedActive ? get(this, 'id') : get(this, 'slug');
   }),
 
-  hasContactInfo: computed('phone', 'email', 'address', function() {
-    return isPresent(get(this, 'phone')) || isPresent(get(this, 'email')) || isPresent(get(this, 'address'));
+  hasContactInfo: computed('phone', 'email', 'address', 'website', 'twitterHandle', function() {
+    return ['phone', 'email', 'address', 'website', 'twitterHandle'].any(
+      (key) => isPresent(get(this, key))
+    );
   }),
+
+  organizationId: computed.reads('id'),
+
+  save() {
+    const saveItBaby = this._super(...arguments);
+
+    return new RSVP.Promise((resolve, reject) => {
+      saveItBaby.then((result) => {
+        const rsvpHash = {};
+
+        if (isPresent(get(this, 'logo'))) {
+          rsvpHash.logo = this.uploadLogo();
+        }
+
+        if (isPresent(get(this, 'profileImage'))) {
+          rsvpHash.profileImage = this.uploadProfileImage();
+        }
+
+        if (isPresent(get(this, 'backgroundImage'))) {
+          rsvpHash.backgroundImage = this.uploadBackgroundImage();
+        }
+
+        if (isPresent(rsvpHash)) {
+          RSVP.hash(rsvpHash).then(() => {
+            // Reload to update the image urls
+            this.reload().then(resolve, reject);
+          }, reject);
+        } else {
+          resolve(result);
+        }
+      }, reject);
+    });
+  },
 
   uploadImage(type, image) {
     if (isPresent(image)) {

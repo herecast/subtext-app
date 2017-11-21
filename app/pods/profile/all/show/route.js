@@ -5,20 +5,20 @@ import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-conte
 
 const {
   get,
-  isPresent,
+  isPresent
 } = Ember;
 
 export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
 
   model(params)  {
-    return this.store.findRecord('feed-content', params.id, {reload: true});
+    return this.store.findRecord('feed-content', params.contentId, {reload: true});
   },
 
   afterModel(model) {
     if (isPresent(get(model, 'eventInstanceId'))) {
-      this.transitionTo('profile.show-instance', get(model, 'id'), get(model, 'eventInstanceId'));
+      return this.transitionTo(`${this.routeName}-instance`, get(model, 'contentId'), get(model, 'eventInstanceId'));
     } else {
-      this._super(...arguments);
+      return this._super(...arguments);
     }
   }
 });

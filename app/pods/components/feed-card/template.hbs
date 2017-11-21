@@ -2,4 +2,19 @@
   model=model
   userLocation=userLocation
   isLoggedIn=isLoggedIn
+  context=(hash
+    canManage=(readonly canManage)
+    displayAsPublic=(readonly displayAsPublic)
+    promotionMenuOpen=(readonly promotionMenuOpen)
+    openPromotionMenu=(action 'openPromotionMenu')
+    onContentClick=(action 'onContentClick')
+  )
 }}
+
+{{#if promotionMenuOpen}}
+  {{promotion-menu
+    organization=organization
+    content=model
+    close=(action 'closePromotionMenu')
+  }}
+{{/if}}

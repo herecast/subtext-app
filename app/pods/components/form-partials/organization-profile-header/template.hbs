@@ -1,0 +1,45 @@
+{{#x-card}}
+  {{#card-body slimPadding=true}}
+    {{#form-group error=errors.profileImage}}
+      <label class='control-label ContentForm-label'>Profile Image</label>
+      <div class='help-block'>
+        The avatar associated with your posts
+      </div>
+      {{content-form-image
+        image=(readonly model.profileImage)
+        originalImageUrl=(readonly model.profileImageUrl)
+        onImageUpdate=(action 'updateProfileImage')
+        error=errors.profileImage
+        class="OrganizationProfile-editForm-imageForm"
+      }}
+    {{/form-group}}
+
+    {{#form-group error=errors.backgroundImage}}
+      <label class='control-label ContentForm-label'>Background Image</label>
+      <div class='help-block'>
+        The background header on your home page
+      </div>
+      {{content-form-image
+        image=(readonly model.backgroundImage)
+        originalImageUrl=(readonly model.backgroundImageUrl)
+        onImageUpdate=(action 'updateBackgroundImage')
+        error=errors.backgroundImage
+        class="OrganizationProfile-editForm-imageForm"
+      }}
+    {{/form-group}}
+
+    {{#form-group error=errors.subscribeUrl}}
+      <label class='control-label ContentForm-label' for='subscribe-url'>Subscribe URL</label>
+      <div class='help-block'>
+        Link for user email alerts when you post. Copy and share!
+      </div>
+      {{input
+        id='subscribe-url'
+        class='form-control'
+        value=model.subscribeUrl
+        input=(action 'formUpdated')
+      }}
+    {{/form-group}}
+
+  {{/card-body}}
+{{/x-card}}

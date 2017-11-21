@@ -1,0 +1,38 @@
+{{#if hasPromotionToRecord}}
+  <div class="PromotionMenu-PromotionOptions-record-promotion">
+    <div class="PromotionMenu-PromotionOptions-record-message">
+      <p>
+        Thank you for sharing on <span class="PromotionMenu-PromotionOptions-share-platform">{{lastSharePlatform}}.</span>
+      </p>
+      <p>
+        Would you like to record this share in your promotion history?
+      </p>
+    </div>
+    <div class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-yes" {{action 'savePromotionRecord'}}>Yes</div>
+    <div class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-no" {{action 'dumpPromotionRecord'}}>No</div>
+  </div>
+
+{{else}}
+  <div class="PromotionMenu-PromotionOptions-messaging">
+    Share on
+  </div>
+  <div>
+    <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-facebook" {{action 'shareFacebook'}}>
+      {{fa-icon 'facebook'}} Facebook
+    </div>
+    <a href="{{twitterLink}}" target="_blank" {{action 'shareTwitter' preventDefault=false}}>
+      <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-twitter">
+        {{fa-icon 'twitter'}} Twitter
+      </div>
+    </a>
+    <a href="{{mailtoLink}}" target="_blank" {{action 'shareEmail' preventDefault=false}}>
+      <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-email">
+        {{fa-icon 'envelope'}} Email
+      </div>
+    </a>
+  </div>
+  <div class="PromotionMenu-PromotionOptions-cancel-option">
+    <span class="PromotionMenu-PromotionOptions-action-button" {{action 'done'}}>Cancel</span>
+  </div>
+
+{{/if}}

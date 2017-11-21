@@ -1,0 +1,50 @@
+{{#x-card}}
+
+  {{#if showGearButton}}
+    {{cards/organization-profile-header/button-menu}}
+  {{/if}}
+
+  {{#if organization.backgroundImageUrl}}
+    {{header-image imageUrl=organization.backgroundImageUrl size=backgroundImageSize}}
+  {{/if}}
+
+  {{#if organization.profileImageUrl}}
+    <div class="text-center">
+      <img src="{{optimized-image-url organization.profileImageUrl 90 90 true}}"
+           class="FeedCard-avatar {{if organization.backgroundImageUrl 'FeedCard-avatar--floating'}}">
+    </div>
+  {{/if}}
+
+  {{#content-body verticalPadding=true
+                  increaseBottomPadding=(not (or organization.customLinks organization.subscribeUrl))}}
+    {{#link-to organization.organizationLinkRoute organization.organizationLinkId}}
+      {{#title-text noMargin=true center=true strong=true}}
+        {{organization.name}}
+      {{/title-text}}
+    {{/link-to}}
+
+    {{#if organization.fullAddress}}
+      {{#text-block center=true hasMargin=false}}
+        {{organization.fullAddress}}
+      {{/text-block}}
+    {{/if}}
+
+    {{#if organization.customLinks}}
+      {{#text-block center=true}}
+        {{cards/organization-profile-header/hotlinks customLinks=organization.customLinks}}
+      {{/text-block}}
+    {{/if}}
+
+    {{#if organization.subscribeUrl}}
+      {{#text-block center=true}}
+        {{#x-link-url href=organization.subscribeUrl
+                      style='regular'
+                      color='primary'
+                      size='x-small'}}
+          Subscribe
+        {{/x-link-url}}
+      {{/text-block}}
+    {{/if}}
+
+  {{/content-body}}
+{{/x-card}}

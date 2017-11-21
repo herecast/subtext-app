@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
+import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
-const {get, set, inject} = Ember;
+const {get, set, inject, observer, run} = Ember;
 
 export default Ember.Route.extend(InfinityRoute, History, {
   session: inject.service(),
@@ -24,7 +25,7 @@ export default Ember.Route.extend(InfinityRoute, History, {
 
   _getOrganizationId() {
     const profileParams = this.paramsFor('profile');
-    return profileParams.organization_id;
+    return idFromSlug(profileParams.organizationId);
   },
 
   beforeModel() {
@@ -44,6 +45,22 @@ export default Ember.Route.extend(InfinityRoute, History, {
     }
   },
 
+  reloadOnAuthentication: observer('session.isAuthenticated', function() {
+    if (get(this, 'session.isAuthenticated')) {
+      run.once(() => this.refreshAfterLogin());
+    }
+  }),
+
+  refreshAfterLogin() {
+    // HACK to force the Edit buttons to appear on the feed cards
+    // TODO remove this when we move `canEdit` out of the contents response
+    run.later(() => {
+      get(this, 'session.currentUser').then(() => {
+        this.refresh();
+      });
+    }, 3500);
+  },
+
   model(params) {
     // Do not attempt to render content in fastboot if we need to first determine if user has access to it
     const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
@@ -57,8 +74,19 @@ export default Ember.Route.extend(InfinityRoute, History, {
       });
   },
 
-  setupController(controller, model) {
-    this._super(controller, model);
-    set(controller, 'organization', this.modelFor('profile'));
+  actions: {
+    loading(transition) {
+      const targetName = get(transition, 'targetName');
+
+      if (targetName === 'profile.all.index') {
+        let controller = this.controllerFor(this.routeName);
+
+        set(controller, 'isLoading', true);
+
+        transition.promise.finally(function() {
+          set(controller, 'isLoading', false);
+        });
+      }
+    }
   }
 });

@@ -1,24 +1,42 @@
 import Ember from 'ember';
 import sanitize from 'npm:sanitize-html';
 
-const { computed } = Ember;
+const {get, isPresent, computed} = Ember;
 
 export default Ember.Component.extend({
   classNames: ['Truncate'],
+  classNameBindings: [
+    'truncatedWithButtonVisible:Truncate--inline'
+  ],
 
-  truncatedText: computed('text', function() {
-    const text = this.get('text');
+  text: null,
+  maxLength: 50,
+  willTruncateText: true,
+  showToggleButton: false,
+
+  isTextTruncated: computed.and('willTruncateText', 'shouldTruncateText'),
+  isButtonVisible: computed.and('shouldTruncateText', 'showToggleButton'),
+  truncatedWithButtonVisible: computed.and('isTextTruncated', 'isButtonVisible'),
+
+  truncatedText: computed('text', 'isTextTruncated', 'maxLength', function() {
+    const text = get(this, 'text');
+    const isTextTruncated = get(this, 'isTextTruncated');
+    const maxLength = get(this, 'maxLength');
+
+    if (isTextTruncated) {
+      const truncatedText = text.substring(0, maxLength);
+      return `${truncatedText}...`;
+    } else {
+      return text;
+    }
+  }),
+
+  shouldTruncateText: computed('text', 'maxLength', function() {
+    const text = get(this, 'text');
     const displayTextLength = this.stripHtml(text).length;
     const maxLength = this.get('maxLength');
 
-    if (text) {
-      if (displayTextLength > maxLength) {
-        const truncatedText = text.substring(0, maxLength);
-        return `${truncatedText}...`;
-      } else {
-        return text;
-      }
-    }
+    return (isPresent(text) && displayTextLength > maxLength);
   }),
 
   stripHtml: function(text) {
@@ -26,6 +44,12 @@ export default Ember.Component.extend({
       allowedTags: [],
       allowedAttributes: []
     });
+  },
+
+  actions: {
+    toggleTruncatedText() {
+      this.toggleProperty('willTruncateText');
+    }
   }
 
 });

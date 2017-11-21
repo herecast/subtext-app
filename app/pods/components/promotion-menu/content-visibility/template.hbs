@@ -1,0 +1,42 @@
+<div class="PromotionMenu-ContentVisibility-status-line">
+  Content is {{manageText}}.
+</div>
+
+{{#if (eq viewStatus 'public')}}
+
+  {{#if bizIsOwner}}
+    <div class="PromotionMenu-ContentVisibility-action-button" {{action 'hideFromPublic'}}>
+      Hide from Page
+    </div>
+
+  {{else}}
+    {{#unless aboutToUntag}}
+      <div class="PromotionMenu-ContentVisibility-action-button">
+        <span {{action 'toggleUntag'}}>Un-tag Your Business</span>
+      </div>
+
+    {{else}}
+      <div>
+        Are you sure?
+      </div>
+      <span class="PromotionMenu-ContentVisibility-action-button" {{action 'untagContent'}}>Yes</span>
+      <span class="PromotionMenu-ContentVisibility-action-button" {{action 'toggleUntag'}}>No</span>
+
+    {{/unless}}
+  {{/if}}
+
+{{else if (eq viewStatus 'private')}}
+
+  <div class="PromotionMenu-ContentVisibility-action-button" {{action 'showToPublic'}}>
+    Show on Page
+  </div>
+
+{{else if (eq viewStatus 'draft')}}
+
+  {{#link-to editRoute editId (query-params organization_id=organization.id)}}
+    <div class="PromotionMenu-ContentVisibility-action-button">
+      Publish Content
+    </div>
+  {{/link-to}}
+
+{{/if}}

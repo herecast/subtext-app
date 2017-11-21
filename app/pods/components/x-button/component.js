@@ -9,7 +9,7 @@ import XButtonMixin from 'subtext-ui/mixins/components/x-button';
 export default Ember.Component.extend(XButtonMixin, {
   tagName: 'button',
 
-  attributeBindings: ['type'],
+  attributeBindings: ['type', 'disabled'],
   type: 'button',
   onClick(){},
 

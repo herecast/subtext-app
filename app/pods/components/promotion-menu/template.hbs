@@ -1,0 +1,79 @@
+{{#if showPromotionOptions}}
+  {{promotion-menu/promotion-options
+    content=content
+    organization=organization
+    done=(action 'togglePromotionOptions')
+  }}
+
+{{else if showPromotionHistory}}
+  {{promotion-menu/promotion-history
+    content=content
+    done=(action 'togglePromotionHistory')
+  }}
+
+{{else if showAddToMenu}}
+  {{promotion-menu/add-to-menu
+    content=content
+    organization=organization
+    inputValue=currentHotlinkTitle
+    contentHotlink=contentHotlink
+    done=(action 'toggleAddToMenu')
+  }}
+
+{{else}}
+  <div>
+    {{#if isNotBannerAd}}
+      {{content.viewCount}} {{content.viewCountText}}
+      {{content.commentCount}} {{content.commentCountText}}
+    {{else}}
+      Advertising metrics will be provided by frequent reports directly from DailyUV.
+      If you have further questions, please contact
+      <a href="mailto:ads@dailyuv.com">ads@dailyuv.com</a>
+    {{/if}}
+    <div class="PromotionMenu-close-overlay" {{action 'close'}}>
+      Close {{fa-icon 'times'}}
+    </div>
+  </div>
+
+  <div class="PromotionMenu-manage">
+
+    <div class="PromotionMenu-manage-button" {{action 'togglePromotionOptions'}}>
+      {{fa-icon 'paper-plane-o'}}  Promote
+    </div>
+
+    <div class="PromotionMenu-manage-button" {{action 'togglePromotionHistory'}}>
+      {{fa-icon 'history'}}  Promotion History
+    </div>
+
+    <div class="PromotionMenu-manage-button" {{action 'toggleAddToMenu'}}>
+      {{#if contentHotlink}}
+        {{fa-icon 'level-up'}}  Change Menu Button
+      {{else}}
+        {{fa-icon 'level-up'}}  Add to Menu
+      {{/if}}
+    </div>
+
+    <div class="PromotionMenu-manage-button" {{action 'openCalendarWidget'}}>
+      {{fa-icon 'calendar'}} {{#unless hasSunsetDate}}Set {{/unless}}Expiration Date
+    </div>
+    {{#if hasSunsetDate}}
+      <div class="PromotionMenu-sunset-options">
+        Will expire from public view on {{sunsetDate}}
+        <div>
+          <span class="PromotionMenu-action-button" {{action 'openCalendarWidget'}}>{{fa-icon 'pencil'}}
+            Change</span>
+          <span class="PromotionMenu-action-button" {{action 'removeSunsetDate'}}>{{fa-icon 'times'}} Remove</span>
+        </div>
+      </div>
+    {{/if}}
+
+  </div>
+
+  {{promotion-menu/content-visibility
+    content=content
+    organization=organization
+    bizIsOwner=bizIsOwner
+  }}
+
+{{/if}}
+

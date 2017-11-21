@@ -104,10 +104,22 @@ export default Ember.Component.extend({
 
     } else {
       // Nothing should be sticky
-      if (currentStickyItem) {
-        currentStickyItem.resetPositioning();
-        set(this, '_currentStickyItem', null);
-      }
+      this.clearActiveStickyItem();
+    }
+  },
+
+  clearActiveStickyItem() {
+    const currentStickyItem = get(this, '_currentStickyItem');
+    if (currentStickyItem) {
+      currentStickyItem.resetPositioning();
+      set(this, '_currentStickyItem', null);
+    }
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    if (!get(this, 'enabled')) {
+      this.clearActiveStickyItem();
     }
   },
 

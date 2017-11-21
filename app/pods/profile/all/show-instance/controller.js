@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 
   actions: {
     closeDetailPage() {
-      this.transitionToRoute('feed');
+      this.transitionToRoute('profile.all');
     }
   }
 });

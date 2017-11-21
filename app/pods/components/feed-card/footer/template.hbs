@@ -1,4 +1,4 @@
-{{#if (or hasSource canEdit)}}
+{{#if (or hasSource showEditButton showManageButton)}}
   <div class="FeedCard-Footer-wrap">
     <div class="FeedCard-Footer-left">
       {{#if hasSource}}
@@ -9,12 +9,14 @@
     </div>
 
     <div class="FeedCard-Footer-right">
-      {{#if showEditButton}}
-        {{#x-link-to editRoute editRouteId style='regular' color='primary' size='x-small' nowrap=true}}
-          {{fa-icon 'pencil'}}
-          Edit Post
-        {{/x-link-to}}
-      {{/if}}
+      {{#unless displayAsPublic}}
+        {{#if showManageButton}}
+          {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
+        {{/if}}
+        {{#if showEditButton}}
+          {{#x-link-to editRoute editRouteId style='regular' color='primary' size='x-small'}}Edit{{/x-link-to}}
+        {{/if}}
+      {{/unless}}
     </div>
   </div>
 {{/if}}

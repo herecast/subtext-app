@@ -1,1 +1,21 @@
-{{yield}}
+{{yield (hash
+          button=(component "x-button"
+            color=color
+            style=style
+            size=size
+            rounded=rounded
+          )
+          link-to=(component 'x-link-to'
+            color=color
+            style=style
+            size=size
+            rounded=rounded
+          )
+          link-url=(component 'x-link-url'
+            color=color
+            style=style
+            size=size
+            rounded=rounded
+          )
+        )
+}}

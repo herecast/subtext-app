@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, set, computed, isPresent } = Ember;
+const {get, set, computed, isPresent} = Ember;
 
 export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-MarketCard',
@@ -9,6 +9,7 @@ export default Ember.Component.extend(reloadComments, {
   model: null,
   userLocation: null,
   isLoggedIn: false, //Overridden in feed-card
+  context: null,
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
@@ -45,7 +46,7 @@ export default Ember.Component.extend(reloadComments, {
     const isListserv = get(this, 'model.isListserv');
     const isLoggedIn = get(this, 'isLoggedIn');
 
-    if(!isListserv) {
+    if (!isListserv) {
       return true;
     } else {
       return isLoggedIn;
@@ -55,6 +56,20 @@ export default Ember.Component.extend(reloadComments, {
   actions: {
     stopEditing() {
       set(this, 'isEditing', false);
+    },
+
+    onContentClick() {
+      const onContentClick = get(this, 'context.onContentClick');
+      if (onContentClick) {
+        onContentClick();
+      }
+    },
+
+    openPromotionMenu() {
+      const openPromotionMenu = get(this, 'context.openPromotionMenu');
+      if (openPromotionMenu) {
+        openPromotionMenu();
+      }
     }
   }
 });

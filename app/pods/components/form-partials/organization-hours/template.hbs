@@ -1,0 +1,14 @@
+{{#x-card}}
+  {{#card-body slimPadding=true}}
+
+    <div class="row">
+      <div class="col-xs-12">
+        {{business-hours-editor
+          hours=model.hours
+          on-update=(action 'formUpdated')
+        }}
+      </div>
+    </div>
+
+  {{/card-body}}
+{{/x-card}}

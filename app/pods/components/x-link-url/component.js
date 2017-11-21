@@ -7,6 +7,7 @@ import XButtonMixin from 'subtext-ui/mixins/components/x-button';
  */
 export default Ember.Component.extend(XButtonMixin, {
   tagName: 'a',
-  attributeBindings: ['href'],
-  href: null
+  attributeBindings: ['href', 'target'],
+  href: null,
+  target: '_blank'
 });

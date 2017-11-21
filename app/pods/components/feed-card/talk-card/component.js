@@ -9,6 +9,7 @@ export default Ember.Component.extend(reloadComments, {
   model: null,
   userLocation: null,
   isLoggedIn: false,
+  context: null,
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
@@ -39,5 +40,21 @@ export default Ember.Component.extend(reloadComments, {
     } else {
       return undefined;
     }
-  })
+  }),
+
+  actions: {
+    onContentClick() {
+      const onContentClick = get(this, 'context.onContentClick');
+      if (onContentClick) {
+        onContentClick();
+      }
+    },
+
+    openPromotionMenu() {
+      const openPromotionMenu = get(this, 'context.openPromotionMenu');
+      if (openPromotionMenu) {
+        openPromotionMenu();
+      }
+    }
+  }
 });

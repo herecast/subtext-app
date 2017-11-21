@@ -23,11 +23,15 @@
       {{/if}}
     </div>
     <div class="FeedCard-Attribution-posted-time">
-      {{#unless isListserv}}
-        Posted {{postedTime}}
+      {{#if postedTime}}
+        {{#unless isListserv}}
+          Posted {{postedTime}}
+        {{else}}
+          Submitted {{postedTime}}
+        {{/unless}}
       {{else}}
-        Submitted {{postedTime}}
-      {{/unless}}
+        Not yet published
+      {{/if}}
     </div>
   </div>
 </div>

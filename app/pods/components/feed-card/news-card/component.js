@@ -11,6 +11,7 @@ export default Ember.Component.extend(reloadComments, {
 
   model: null,
   userLocation: null,
+  context: null,
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
@@ -41,5 +42,21 @@ export default Ember.Component.extend(reloadComments, {
 
 
     return isPresent(baseLocation) ? get(baseLocation, 'locationName') : undefined;
-  })
+  }),
+
+  actions: {
+    onContentClick() {
+      const onContentClick = get(this, 'context.onContentClick');
+      if (onContentClick) {
+        onContentClick();
+      }
+    },
+
+    openPromotionMenu() {
+      const openPromotionMenu = get(this, 'context.openPromotionMenu');
+      if (openPromotionMenu) {
+        openPromotionMenu();
+      }
+    }
+  }
 });

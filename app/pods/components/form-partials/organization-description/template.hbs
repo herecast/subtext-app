@@ -1,0 +1,14 @@
+{{#x-card}}
+  {{#card-body slimPadding=true}}
+
+    <div class="row">
+      <div class="col-xs-12">
+        {{summer-note
+          content=model.description
+          notifyChange=(action 'formUpdated')
+        }}
+      </div>
+    </div>
+
+  {{/card-body}}
+{{/x-card}}

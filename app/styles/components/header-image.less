@@ -15,13 +15,21 @@
   }
 
   &--small {
-    height: 90px;
+    height: 70px;
   }
 
   &--medium {
     height: 150px;
   }
-  
+
+  &--smallOnMobileMediumOnDesktop {
+    height: 150px;
+
+    @media (max-width: @screen-xs-max) {
+      height: 70px;
+    }
+  }
+
   &--block {
     height: 70px;
   }

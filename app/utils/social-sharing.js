@@ -30,14 +30,19 @@ export default {
 
   getShareUrl(locationService, model) {
     const contentId = get(model, 'contentId') || get(model, 'id');
-    let url = `${locationService.origin()}/feed/${contentId}`;
+    const normalizedContentType = get(model, 'normalizedContentType');
 
-    if (get(model, 'eventId')) {
-      let additionalParam = get(model, 'eventInstanceId') || get(model, 'id');
-      url += `?eventInstanceId=${additionalParam}`;
+    if (normalizedContentType === 'organization') {
+      return `${locationService.origin()}/profile/${contentId}`;
+    } else {
+      let url = `${locationService.origin()}/feed/${contentId}`;
+      if (get(model, 'eventId')) {
+        let additionalParam = get(model, 'eventInstanceId') || get(model, 'id');
+        url += `?eventInstanceId=${additionalParam}`;
+      }
+
+      return url;
     }
-
-    return url;
   },
 
   isModalRoute(routeName) {

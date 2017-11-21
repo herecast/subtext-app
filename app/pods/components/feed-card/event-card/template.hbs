@@ -4,6 +4,7 @@
     eventInstanceId=model.eventInstanceId
     sold=model.sold
     model=model
+    onContentClick=(action 'onContentClick')
   }}
 
   {{#if (or model.startsAtFormatted model.eventInstances)}}
@@ -19,6 +20,7 @@
       imageUrl=model.imageUrl
       caption=caption
       model=model
+      onContentClick=(action 'onContentClick')
     }}
   {{else}}
     {{feed-card/text-snippet
@@ -51,17 +53,18 @@
   {{feed-card/footer
     locationTagName=sourceTag
     canEdit=model.canEdit
+    canManage=(readonly context.canManage)
+    displayAsPublic=(readonly context.displayAsPublic)
+    openPromotionMenu=(action 'openPromotionMenu')
     editRoute='events.edit'
     editRouteId=model.eventId
   }}
 
   {{feed-card/comments
-    parentContentId=(readonly model.contentId)
-    commentCount=model.commentCount
-    eventInstanceId=model.eventInstanceId
-    comments=model.comments
-    contentTitle=(readonly model.title)
+    contentModel=(readonly model)
     disabled=(readonly commentingDisabled)
+    promotionMenuOpen=(readonly context.promotionMenuOpen)
     afterComment=(action 'reloadComments')
+    onContentClick=(action 'onContentClick')
   }}
 </div>

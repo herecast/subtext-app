@@ -1,7 +1,17 @@
 {{#if useLink}}
-  {{#link-to-content model}}
-    {{yield}}
-  {{/link-to-content}}
+  {{#if linkUrl}}
+    <span {{action onContentClick}}>
+      <a href="{{linkUrl}}" target="_blank">
+        {{yield}}
+      </a>
+    </span>
+  {{else}}
+    <span {{action onContentClick}}>
+      {{#link-to-content model}}
+        {{yield}}
+      {{/link-to-content}}
+    </span>
+  {{/if}}
 {{else}}
   {{yield}}
 {{/if}}

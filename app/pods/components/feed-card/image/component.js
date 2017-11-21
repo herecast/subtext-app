@@ -9,6 +9,7 @@ export default Ember.Component.extend(textSnippet, {
 
   eventInstanceId: null,
   model: null,
+  onContentClick() {},
 
   maxSnippetLength: 160,
 

@@ -11,5 +11,9 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
 
   modelNameFromPayloadKey() {
     return this._super('feed-content');
+  },
+
+  payloadKeyFromModelName() {
+    return 'content';
   }
 });

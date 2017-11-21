@@ -198,7 +198,7 @@ test('Clicking a post on their page, results in a click tracking event sent to t
 
     const data = JSON.parse(request.requestBody);
 
-    assert.equal(data.content_id, orgContent.id,
+    assert.equal(data.content_id, orgContent.contentId,
       "The api post includes the content id that was clicked on"
     );
 

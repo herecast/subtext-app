@@ -1,0 +1,31 @@
+<div class="PromotionMenu-AddToMenu-hotlink-message">
+  {{#if contentHotlink}}
+    Appears in page menu as:
+  {{else}}
+    Please enter a shortcut word for this content item to be shown on the menu:
+  {{/if}}
+</div>
+<div>
+  {{input
+    value=inputValue
+    placeholder=inputPlaceholder
+    class='form-control'
+  }}
+</div>
+<div class="PromotionMenu-AddToMenu-hotlink-options">
+  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-save" {{action 'saveHotlink'}}>
+    {{#if contentHotlink}}
+      Change
+    {{else}}
+      Save
+    {{/if}}
+  </div>
+  {{#if contentHotlink}}
+    <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-remove" {{action 'removeHotlink'}}>
+      Remove
+    </div>
+  {{/if}}
+  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-cancel" {{action 'cancelHotlink'}}>
+    Cancel
+  </div>
+</div>

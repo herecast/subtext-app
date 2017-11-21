@@ -188,11 +188,12 @@ export default Service.extend(Evented, {
   },
 
   profileContentClick(organization, content) {
+    console.log('profileContentClick', organization, content);
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {
         const trackData = {
           client_id: data.clientId,
-          content_id: get(content, 'id'),
+          content_id: get(content, 'contentId'),
           // In some tests, location will be undefined
           location_confirmed: get(this, 'locationIsConfirmed'),
           location_id: get(data, 'location.id')

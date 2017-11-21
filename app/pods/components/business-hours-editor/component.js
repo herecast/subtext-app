@@ -37,6 +37,7 @@ function extractCloseTimes(data) {
 }
 
 export default Ember.Component.extend({
+  classNames: ['BusinessHoursEditor'],
   model: [],
   availableTimes: [
     {value: '00:00', label: '12:00 AM'},

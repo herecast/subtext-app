@@ -3,6 +3,7 @@
     title=model.title
     model=model
     isLoggedIn=isLoggedIn
+    onContentClick=(action 'onContentClick')
   }}
 
   {{#if activeImageUrl}}
@@ -10,6 +11,7 @@
       imageUrl=activeImageUrl
       caption=model.primaryImageCaption
       model=model
+      onContentClick=(action 'onContentClick')
     }}
   {{else}}
     {{feed-card/text-snippet
@@ -31,15 +33,17 @@
   {{/if}}
 
   {{feed-card/footer
+    canManage=(readonly context.canManage)
+    displayAsPublic=(readonly context.displayAsPublic)
+    openPromotionMenu=(action 'openPromotionMenu')
     locationTagName=sourceTag
   }}
 
   {{feed-card/comments
-    parentContentId=(readonly model.contentId)
-    comments=model.comments
-    commentCount=model.commentCount
-    contentTitle=(readonly model.title)
+    contentModel=(readonly model)
     disabled=(readonly commentingDisabled)
+    promotionMenuOpen=(readonly context.promotionMenuOpen)
     afterComment=(action 'reloadComments')
+    onContentClick=(action 'onContentClick')
   }}
 </div>

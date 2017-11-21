@@ -17,7 +17,7 @@ export default Mirage.Factory.extend({
   commentCount() { return faker.random.number(999); },
   commenterCount() { return faker.random.number(999); },
   content() { return faker.lorem.sentences(5); },
-  contentId() { return faker.random.number(9999); },
+  contentId(id) { return id; },
   contentType() { return faker.random.arrayElement(["market", "news", "event", "campaign", "sponsored_content"]); },
   cost() { return faker.random.number(999); },
   createdAt() { return moment(date2).toISOString(); },

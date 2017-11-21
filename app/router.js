@@ -146,10 +146,10 @@ Router.map(function() {
     });
   });
 
-  this.route('profile', {path: '/profile/:organization_id'}, function() {
+  this.route('profile', {path: '/profile/:organizationId'}, function() {
     this.route('all', {path: '/'}, function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
+      this.route('show', {path: '/:contentId'});
+      this.route('show-instance', {path: '/:id/:eventInstanceId'});
     });
   });
 

@@ -1,0 +1,9 @@
+{{yield}}
+
+{{#each feedContents as |content|}}
+  {{feed-card model=content
+              organization=organization
+              canManage=canManage
+              displayAsPublic=displayAsPublic
+  }}
+{{/each}}

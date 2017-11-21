@@ -1,0 +1,83 @@
+.make-button-theme(@color) {
+  .ToggleSwitch-button {
+    &.active {
+      text-align: right;
+      background-color: @color;
+      border-color: @color;
+      outline: none;
+
+      .ToggleSwitch-circle {
+        border-color: @color;
+        margin-left: 0;
+        margin-right: -1px;
+      }
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+}
+
+.ToggleSwitch {
+  .flex-display(inline-flex);
+  .align-items(center);
+  width: auto;
+
+  &--reverse {
+    .flex-direction(row-reverse);
+
+    .ToggleSwitch-label {
+      margin: 0 0 0 5px;
+    }
+  }
+
+  &-label {
+    font-size: 0.9rem;
+    color: @neutral-dark;
+    font-weight: 600;
+    margin: 0 5px 0 0;
+    cursor: pointer;
+  }
+
+  &-circle {
+    .border-radius(100%);
+    border: solid 1px @gray-dark;
+    margin-left: -1px;
+    margin-right: 0;
+    margin-top: -1px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: @neutral-light;
+    vertical-align: top;
+  }
+
+  &-button {
+    .border-radius(8px);
+    transition: all 0.5s;
+    border: solid 1px @gray-dark;
+    text-align: left;
+    padding: 0;
+    width: 30px;
+    height: 16px;
+    background-color: transparent;
+  }
+
+  &--default {
+    .make-button-theme(black);
+  }
+
+  &--primary {
+    .make-button-theme(@button-primary);
+  }
+
+  &--success {
+    .make-button-theme(@brand-success);
+  }
+
+  &--danger {
+    .make-button-theme(@brand-danger);
+  }
+}

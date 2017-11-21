@@ -15,6 +15,9 @@ export default Ember.Component.extend({
   minWidth: 200,
   minHeight: 200,
 
+  // To be passed in as a closure action for receiving the new image
+  onImageUpdate(){},
+
   // Display the JS image cropping tool if the user has attached an image
   displayImagePreview: computed('imageUrl', 'originalImageUrl', 'replacingImage', 'displayImageUrl', 'error', function () {
     const displayImage = get(this, 'displayImage');
@@ -85,6 +88,7 @@ export default Ember.Component.extend({
 
     canvas.toBlob((data) => {
       this.set('image', data);
+      this.onImageUpdate(data);
     }, imageType, blobQuality);
   },
 

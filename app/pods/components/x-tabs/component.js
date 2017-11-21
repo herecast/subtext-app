@@ -9,7 +9,12 @@ export default Ember.Component.extend({
     'noBottomBorder:XTabs--noBottomBorder'
   ],
 
-  color: 'default', // 'default', 'neutral'
+  // button styles are passed-through to contextual components for convenience
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'black', 'neutral'
+  style: 'tab', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'tab', 'transparent'
+  size: 'small', // 'x-small', 'small', 'medium', 'large'
+  rounded: false,
+
   noBottomBorder: false,
 
   colorClass: computed('color', function() {

@@ -1,25 +1,117 @@
-{{#if isAdmin}}
-  {{cards/organization-stats organization=organization}}
-  {{cards/organization-your-content-tabs}}
-{{/if}}
+{{to-elsewhere named='global-header' send=(component 'simple-header' title=organization.name)}}
 
-{{#x-card}}
-  {{search-input noBorder=true
-                 size='large'
-                 color='black'
-                 value=(readonly query)
-                 update=(action 'updateQuery')
-                 data-test-component='organization-content-query'}}
-{{/x-card}}
+{{sticky-position name='profile/contact'}}
 
-{{#feed/index-feed feedContents=model}}
-  {{outlet}}
-{{/feed/index-feed}}
+{{#sticky-container position='profile/contact' enabled=stickyContainerEnabled as |sticky|}}
+  {{#if isAdmin}}
+    {{cards/organization-toggle-admin-view
+      displayAsAdminIfAllowed=(readonly displayAsAdminIfAllowed)
+      onUpdate=(action 'updateAdminView')
+    }}
+  {{/if}}
 
-{{#infinity-loader
-  infinityModel=model
-}}
-  {{#unless model.reachedInfinity}}
-    {{fa-icon 'spinner' class="fa-pulse"}}
-  {{/unless}}
-{{/infinity-loader}}
+  {{#cards/admin-card
+    isAdmin=showAdminCards
+    enableToggleButton=false
+    organization=(readonly organization)
+    editForm='form-partials/organization-profile-header'
+    title='Profile Card'
+    subtitle='This block will also appear in search results'
+  }}
+    {{cards/organization-profile-header organization=organization isProfileHeader=true}}
+  {{/cards/admin-card}}
+
+  {{#feed/feed-container}}
+
+    {{#if showContactCard}}
+      {{#cards/admin-card
+        isAdmin=showAdminCards
+        organization=(readonly organization)
+        isActive=(readonly organization.contactCardActive)
+        editForm='form-partials/organization-contact'
+        updateCardStatus=(action 'toggleContactCard')
+        title='Contact Details'
+      }}
+        {{#sticky.item as |stickyContact|}}
+          {{cards/organization-contact organization=organization flattenCard=stickyContact.isSticky}}
+        {{/sticky.item}}
+      {{/cards/admin-card}}
+    {{/if}}
+
+    {{#if showDescriptionHoursTabsCard}}
+      {{cards/organization-about-hours-tabs organization=organization}}
+    {{else}}
+      {{#if showDescriptionCard}}
+        {{#cards/admin-card
+          isAdmin=showAdminCards
+          organization=(readonly organization)
+          isActive=(readonly organization.descriptionCardActive)
+          editForm='form-partials/organization-description'
+          updateCardStatus=(action 'toggleDescriptionCard')
+          title='About'
+        }}
+          {{cards/organization-description organization=organization}}
+        {{/cards/admin-card}}
+      {{/if}}
+
+      {{#if showHoursCard}}
+        {{#cards/admin-card
+          isAdmin=showAdminCards
+          organization=(readonly organization)
+          isActive=(readonly organization.hoursCardActive)
+          editForm='form-partials/organization-hours'
+          updateCardStatus=(action 'toggleHoursCard')
+          title='Hours'
+        }}
+          {{cards/hours-card organization=organization}}
+        {{/cards/admin-card}}
+      {{/if}}
+    {{/if}}
+
+    {{#if showAdminCards}}
+      {{cards/create-content-menu organization=organization}}
+      {{cards/organization-your-content-tabs}}
+    {{/if}}
+
+    {{#x-card}}
+      {{search-input noBorder=true
+                     size='large'
+                     color='black'
+                     value=(readonly query)
+                     update=(action 'updateQuery')
+                     data-test-component='organization-content-query'
+                     isLoading=isLoading
+      }}
+    {{/x-card}}
+
+    {{#if model}}
+      {{feed/profile-feed feedContents=(readonly contentVisible)
+                          organization=(readonly organization)
+                          canManage=(readonly isAdmin)
+                          displayAsPublic=(not showAdminCards)
+      }}
+    {{else}}
+      {{#no-results-card}}
+        {{#text-block}}
+          {{x-link-to 'RESET MY FILTERS'
+                      'profile.all'
+                      (query-params page=1 query='' show=null)
+                      size='medium'
+          }}
+        {{/text-block}}
+      {{/no-results-card}}
+    {{/if}}
+
+    {{#infinity-loader
+      infinityModel=model
+    }}
+      {{#unless model.reachedInfinity}}
+        {{x-loader}}
+      {{/unless}}
+    {{/infinity-loader}}
+
+  {{/feed/feed-container}}
+
+{{/sticky-container}}
+
+{{outlet}}

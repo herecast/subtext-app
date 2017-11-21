@@ -1,0 +1,19 @@
+{{#x-card}}
+  {{#card-body slimPadding=true}}
+    {{#x-button onClick=(action 'toggleJobsMenu')
+                color='primary'
+                blockType='wide'
+    }}
+      Create Content
+      {{#if showMenu}}
+        {{fa-icon 'caret-up'}}
+      {{else}}
+        {{fa-icon 'caret-down'}}
+      {{/if}}
+    {{/x-button}}
+
+    {{#if showMenu}}
+      {{jobs-navigation organization=organization noFooterImage=true hideTalk=true}}
+    {{/if}}
+  {{/card-body}}
+{{/x-card}}

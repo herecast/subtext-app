@@ -49,6 +49,13 @@ export default DS.Model.extend(BaseEvent, {
   organizationProfileImageUrl: DS.attr('string'),
   organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}),
 
+  sunsetDate: DS.attr('moment-date'),
+  bizFeedPublic: DS.attr('string'),
+  campaignEnd: DS.attr('moment-date'),
+  campaignStart: DS.attr('moment-date'),
+  clickCount: DS.attr('number'),
+  redirectUrl: DS.attr('string'),
+
   imageUrl: DS.attr('string'),
   images: DS.hasMany('image', { async: false }),
 
@@ -89,6 +96,7 @@ export default DS.Model.extend(BaseEvent, {
   isMarket: computed.equal('normalizedContentType', 'market'),
   isEvent: computed.equal('normalizedContentType', 'event'),
   isTalk: computed.equal('normalizedContentType', 'talk'),
+  isCampaign: computed.equal('normalizedContentType', 'campaign'),
   isListserv: computed.equal('contentOrigin', 'listserv'),
 
   isOwnedByOrganization: computed('isListserv', 'isNews', 'organizationId', function() {
@@ -141,7 +149,8 @@ export default DS.Model.extend(BaseEvent, {
   }),
 
   publishedAtRelative: computed('publishedAt', function() {
-    return dateFormat.relative(get(this, 'publishedAt'));
+    const publishedAt = get(this, 'publishedAt');
+    return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
   }),
 
   startsAtFormatted: computed('startsAt', function() {
@@ -210,5 +219,33 @@ export default DS.Model.extend(BaseEvent, {
     } else {
       return isPresent(start);
     }
-  })
+  }),
+
+  campaignIsActive: computed('campaignStart', 'campaignEnd', function() {
+    const campaignStart = moment(get(this, 'campaignStart'));
+    const campaignEnd = moment(get(this, 'campaignEnd'));
+
+    return moment().isAfter(campaignStart) && moment().isBefore(campaignEnd);
+  }),
+
+  viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
+    const publishedAt = get(this, 'publishedAt');
+
+    if (!isPresent(publishedAt)) {
+      return 'draft';
+    }
+
+    const contentType = get(this, 'contentType');
+    let publicProperty = get(this, 'bizFeedPublic');
+
+    if (contentType === 'campaign' && !isPresent(publicProperty)) {
+      publicProperty = get(this, 'campaignIsActive');
+    }
+
+    const isPublic = isPresent(publicProperty) ? publicProperty : true;
+
+    return (isPublic === "true" || isPublic === true) ? 'public' : 'private';
+  }),
+
+  isPublic: computed.equal('viewStatus', 'public')
 });

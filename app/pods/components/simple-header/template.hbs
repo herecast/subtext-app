@@ -1,12 +1,12 @@
 <div class="SimpleHeader-homeLink">
   {{#x-link-to 'index' strong=true nowrap=true size='large' color='primary'}}
     {{fa-icon 'arrow-left'}}
-    Home
+    <span class="hidden-xs">Home</span>
   {{/x-link-to}}
 </div>
 
 <div class="SimpleHeader-title">
-  {{#subtitle-text center=true strong=true noMargin=true class="hidden-xs"}}
+  {{#x-button onClick=(action 'scrollTop') style='link' color='black' size='large' strong=true}}
     {{title}}
-  {{/subtitle-text}}
+  {{/x-button}}
 </div>

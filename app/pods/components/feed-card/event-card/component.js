@@ -2,7 +2,6 @@ import Ember from 'ember';
 import moment from 'moment';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-
 const { get, computed, isPresent } = Ember;
 
 export default Ember.Component.extend(reloadComments, {
@@ -10,6 +9,7 @@ export default Ember.Component.extend(reloadComments, {
 
   model: null,
   userLocation: null,
+  context: null,
 
   startTime: computed('model.startsAt', function() {
     const startsAt = get(this, 'model.startsAt');
@@ -44,6 +44,22 @@ export default Ember.Component.extend(reloadComments, {
       get(baseLocations, 'firstObject');
 
     return isPresent(baseLocation) ? get(baseLocation, 'locationName') : `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
-  })
+  }),
+
+  actions: {
+    onContentClick() {
+      const onContentClick = get(this, 'context.onContentClick');
+      if (onContentClick) {
+        onContentClick();
+      }
+    },
+
+    openPromotionMenu() {
+      const openPromotionMenu = get(this, 'context.openPromotionMenu');
+      if (openPromotionMenu) {
+        openPromotionMenu();
+      }
+    }
+  }
 
 });

@@ -1,12 +1,17 @@
 {{#if hasImage}}
-  {{#link-to-content model}}
+  {{#feed-card/conditional-link-to
+    useLink=useLink
+    linkUrl=linkUrl
+    model=model
+    onContentClick=onContentClick
+  }}
     <div class="FeedCard-Image-image" style={{imageStyle}}></div>
-  {{/link-to-content}}
+  {{/feed-card/conditional-link-to}}
   {{#if hasExcerpt}}
     <div class="FeedCard-Image-excerpt">
       {{{excerpt}}}
       {{#if showContinueReading}}
-        <div class="FeedCard-Image-continue-reading">
+        <div class="FeedCard-Image-continue-reading" {{action onContentClick}}>
           {{#link-to-content model}}
             ...Continue Reading
           {{/link-to-content}}

@@ -17,6 +17,10 @@ export default Ember.Component.extend({
       get(this, 'tracking').trackCommentSubmitButtonClick(buttonDisabled);
     },
 
+    showSignInMenu() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+    },
+
     postComment() {
       const content = this.get('newComment');
       let title = this.get('contentTitle');

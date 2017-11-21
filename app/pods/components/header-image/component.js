@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   'data-test-component': 'header-image',
 
   preserveAspectRatio: false,
-  size: null, // 'small', 'medium'
+  size: null, // 'small', 'medium', smallOnMobileMediumOnDesktop
 
   sizeClass: computed('size', function() {
     const size = get(this, 'size');

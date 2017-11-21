@@ -1,5 +1,4 @@
 .x-button(@background-color, @text-color, @border-color, @hover-background-color, @hover-text-color, @hover-border-color) {
-  display: inline-block;
   line-height: normal;
   vertical-align: middle;
   cursor: pointer;
@@ -14,6 +13,10 @@
   font-size: 16px;
   transition: background 300ms;
   text-align: center;
+
+  &.XButton--noMargin {
+    margin: 0;
+  }
 
   &[disabled],
   &[disabled]:hover,
@@ -131,12 +134,14 @@
   background-color: transparent;
   font-size: 1rem;
   line-height: 1.2;
+  cursor: pointer;
 
   &:hover,
   &:active,
   &:focus,
   &.active {
     text-decoration: underline;
+    outline: none;
   }
 
   &.XButton--link-underline {
@@ -155,6 +160,11 @@
     line-height: 1.1;
   }
 
+  &.XButton--medium {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
   &.XButton--large {
     font-size: 16px;
     line-height: 1.2;
@@ -163,14 +173,32 @@
 
 .x-button-tab(@background-color, @text-color, @border-color) {
   .x-button(transparent, @text-color, transparent, @background-color, @text-color, @border-color);
+  .border-radius(0);
   border-bottom-color: transparent;
   line-height: 1.5;
 
-  &:hover,
+  @darken-background-color: darken(@background-color, 5%);
+
+  &:hover:not(.active) {
+    outline: none;
+    color: @text-color;
+    background: @darken-background-color;
+    border-color: @darken-background-color;
+    text-decoration: none;
+  }
+
   &:active,
   &.active {
     margin-bottom: -1px !important;
-    border-bottom-color: @background-color;
+    border-bottom: none;
+  }
+
+  &:first-child.active {
+    border-left-color: transparent;
+  }
+
+  &:last-child.active {
+    border-right-color: transparent;
   }
 }
 
@@ -246,13 +274,13 @@
   }
 }
 
-.make-x-button-flatten(@primary-color, @secondary-color) {
+.make-x-button-flatten(@primary-color, @secondary-color, @tertiary-color) {
   &.XButton--flatten {
-    .x-button(@primary-color, @secondary-color, @primary-color, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @primary-color);
+    .x-button(@primary-color, @secondary-color, @primary-color, @tertiary-color, @secondary-color, @primary-color);
   }
   &.XButton--xs-flatten {
     @media (max-width: @screen-xs-max) {
-      .x-button(@primary-color, @secondary-color, @primary-color, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @primary-color);
+      .x-button(@primary-color, @secondary-color, @primary-color, @tertiary-color, @secondary-color, @primary-color);
     }
   }
 }
@@ -290,18 +318,32 @@
   }
 }
 
-.make-button(@primary-color, @secondary-color, @tertiary-color: @primary-color) {
+.make-x-button-menu-link(@button-primary) {
+  &.XButton--menu-link {
+    .x-button-link(@button-primary);
+    padding: 3px 20px;
+  }
+  &.XButton--xs-menu-link {
+    @media (max-width: @screen-xs-max) {
+      .x-button-link(@button-primary);
+      padding: 3px 20px;
+    }
+  }
+}
+
+.make-button(@primary-color, @secondary-color, @tertiary-color: lighten(saturate(@primary-color, 40%), 5%)) {
   @darken-primary: darken(@primary-color, 10%);
   @darken-secondary: darken(@secondary-color, 10%);
-  .make-x-button-regular(@primary-color, @secondary-color, @darken-primary, lighten(saturate(@primary-color, 40%), 5%), @secondary-color, @darken-primary);
-  .make-x-button-inverted(@secondary-color, @primary-color, @darken-secondary, lighten(saturate(@secondary-color, 40%), 5%), @primary-color, @darken-primary);
+  .make-x-button-regular(@primary-color, @secondary-color, @darken-primary, @tertiary-color, @secondary-color, @darken-primary);
+  .make-x-button-inverted(@secondary-color, @primary-color, @darken-secondary, @tertiary-color, @primary-color, @darken-primary);
   .make-x-button-outline(transparent, @primary-color, @primary-color, @primary-color, @secondary-color, @darken-primary);
   .make-x-button-outline-gray(@primary-color, @secondary-color);
   .make-x-button-lighten(@primary-color);
   .make-x-button-gray(@primary-color);
-  .make-x-button-flatten(@primary-color, @secondary-color);
+  .make-x-button-flatten(@primary-color, @secondary-color, @tertiary-color);
   .make-x-button-transparent(@primary-color);
   .make-x-button-link(@primary-color);
+  .make-x-button-menu-link(@primary-color);
   .make-x-button-tab(@secondary-color, @primary-color, @tertiary-color);
 }
 
@@ -327,6 +369,9 @@
   &.XButton--medium-gray {
     .make-button(@gray-medium, white);
   }
+  &.XButton--transparent-gray {
+    .make-button(fade(black, 25%), #ccc, fade(black, 50%));
+  }
   &.XButton--facebook {
     .make-button(#3b5998, white);
   }
@@ -341,7 +386,7 @@
   }
   &--wide {
     width: 100%;
-    box-sizing: content-box;
+    box-sizing: border-box;
     display: block;
   }
   &--rounded {
@@ -349,6 +394,9 @@
   }
   &--circle {
     border-radius: 100%;
+  }
+  &--curved {
+    border-radius: 500px;
   }
   &--shadow {
     .box-shadow(1px 2px 1px 0 rgba(0,0,0,.4));
@@ -358,6 +406,13 @@
   }
   &--nowrap {
     white-space: nowrap;
+  }
+  &--noPadding {
+    padding: 0 !important;
+  }
+  &--verticalCenter {
+    .flex-display(inline-flex) !important;
+    .align-items(center) !important;
   }
   @media (max-width: @screen-xs-max) {
     &--xs-wide {

@@ -1,0 +1,21 @@
+{{#if model.imageUrl}}
+  {{#x-card}}
+
+    {{feed-card/image
+      imageUrl=model.imageUrl
+      model=model
+      useLink=true
+      linkUrl=model.redirectUrl
+      onContentClick=context.onContentClick
+    }}
+
+    {{#if showManageButton}}
+      {{feed-card/footer
+        canEdit=false
+        canManage=(readonly context.canManage)
+        displayAsPublic=(readonly context.displayAsPublic)
+        openPromotionMenu=(action context.openPromotionMenu)
+      }}
+    {{/if}}
+  {{/x-card}}
+{{/if}}

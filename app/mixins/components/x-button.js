@@ -3,7 +3,6 @@ import Ember from 'ember';
 const {get, getWithDefault, computed} = Ember;
 
 export default Ember.Mixin.create({
-  attributeBindings: ['target'],
   classNames: ['XButton'],
   classNameBindings: [
     'colorClass',
@@ -17,17 +16,33 @@ export default Ember.Mixin.create({
     'shadow:XButton--shadow',
     'strong:XButton--strong',
     'nowrap:XButton--nowrap',
-    'active'
+    'noMargin:XButton--noMargin',
+    'noPadding:XButton--noPadding',
+    'verticalCenter:XButton--verticalCenter',
+    'active',
+    'disabled'
+  ],
+  attributeBindings: [
+    'target',
+    'data-toggle',
+    'data-test-button'
   ],
 
-  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'flatten', 'transparent', 'black', 'neutral'
-  style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'tab'
+  'data-toggle': null,
+  'data-test-button': 'button',
+
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'medium-gray', 'transparent-gray', 'flatten', 'black', 'neutral'
+  style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'menu-link', 'tab', 'transparent'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'
-  rounded: 'rounded', // false, 'rounded', 'circle'
+  rounded: 'rounded', // false, 'rounded', 'circle', 'curved'
   shadow: false,
   strong: false,
   nowrap: false,
+  noMargin: false,
+  noPadding: false,
+  disabled: false,
+  verticalCenter: false,
 
   // optional: set a specific style on mobile.
   xsStyle: null,

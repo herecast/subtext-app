@@ -2,6 +2,7 @@
   {{feed-card/title
     title=model.title
     model=model
+    onContentClick=(action 'onContentClick')
   }}
 
   {{#if model.primaryImageUrl}}
@@ -9,6 +10,7 @@
       imageUrl=model.primaryImageUrl
       model=model
       content=model.content
+      onContentClick=(action 'onContentClick')
     }}
   {{else}}
     {{feed-card/text-snippet
@@ -30,16 +32,18 @@
   {{feed-card/footer
     locationTagName=sourceTag
     canEdit=userCanEditNews
+    canManage=(readonly context.canManage)
+    displayAsPublic=(readonly context.displayAsPublic)
+    openPromotionMenu=(action 'openPromotionMenu')
     editRoute='news.edit'
     editRouteId=model.id
   }}
 
   {{feed-card/comments
-    parentContentId=(readonly model.contentId)
-    comments=model.comments
-    commentCount=model.commentCount
-    contentTitle=(readonly model.title)
+    contentModel=(readonly model)
     disabled=(readonly commentingDisabled)
+    promotionMenuOpen=(readonly context.promotionMenuOpen)
     afterComment=(action 'reloadComments')
+    onContentClick=(action 'onContentClick')
   }}
 </div>

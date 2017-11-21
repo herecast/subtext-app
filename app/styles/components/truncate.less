@@ -1,4 +1,12 @@
-.Truncate--singleLine {
-  overflow: hidden;
-  white-space: nowrap;
+.Truncate {
+  &--singleLine {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &--inline {
+    div, p {
+      display: inline;
+    }
+  }
 }

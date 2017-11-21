@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, computed, inject:{service} } = Ember;
+const { get, set, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard',
@@ -9,17 +9,43 @@ export default Ember.Component.extend({
   'data-test-content': computed.oneWay('model.contentId'),
 
   model: null,
+  organization: null,
+  canManage: false,
+  displayAsPublic: false,
+  promotionMenuOpen: false,
 
   session: service(),
   userLocation: service('userLocation'),
+  tracking: service(),
 
   isLoggedIn: computed.alias('session.isAuthenticated'),
 
   contentType: computed.reads('model.normalizedContentType'),
-
   componentType: computed('contentType', function() {
     const contentType = get(this, 'contentType');
 
     return `feed-card/${contentType}-card`;
-  })
+  }),
+
+  actions: {
+    closePromotionMenu() {
+      set(this, 'promotionMenuOpen', false);
+    },
+    openPromotionMenu() {
+      set(this, 'promotionMenuOpen', true);
+      Ember.$('html, body').animate({
+        scrollTop: this.$().offset().top - 60
+      }, 250);
+    },
+    onContentClick() {
+      const organization = get(this, 'organization');
+
+      if (organization) {
+        get(this, 'tracking').profileContentClick(
+          organization,
+          get(this, 'model')
+        );
+      }
+    }
+  }
 });

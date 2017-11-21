@@ -1,0 +1,25 @@
+{{#divided-list}}
+  {{#each customLinksWithContent as |customLink|}}
+    {{#if customLink.content.isPublic}}
+      <li>
+        {{#if customLink.content.isCampaign}}
+          {{#if customLink.content.redirectUrl}}
+            {{#x-link-url href=customLink.content.redirectUrl
+                          target='_blank'
+                          color='primary'
+                          size='medium'}}
+              {{customLink.title}}
+            {{/x-link-url}}
+          {{/if}}
+        {{else}}
+          {{#x-link-to 'profile.all.show'
+                       customLink.content.contentId
+                       color='primary'
+                       size='medium'}}
+            {{customLink.title}}
+          {{/x-link-to}}
+        {{/if}}
+      </li>
+    {{/if}}
+  {{/each}}
+{{/divided-list}}

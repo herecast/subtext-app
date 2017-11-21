@@ -6,12 +6,12 @@ import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-conte
 export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
 
   model(params)  {
-    const eventInstanceId = params.event_instance_id || false;
+    const eventInstanceId = params.eventInstanceId || false;
 
     if (eventInstanceId) {
-      return this.store.findRecord('event-instance', eventInstanceId, { reload: true });
+      return this.store.findRecord('event-instance', eventInstanceId, {reload: true});
     } else {
-      this.transitionToRoute('show', params.id);
+      this.transitionToRoute('show', params.contentId);
     }
   }
 });

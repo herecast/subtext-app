@@ -1,0 +1,41 @@
+{{#x-card noShadow=flattenCard noMargin=flattenCard}}
+  <div class="OrganizationContactCard-content">
+    {{#if organization.phone}}
+      <div class="OrganizationContactCard-item">
+        {{render-phone phone=organization.phone hideLabel=hideLabels}}
+      </div>
+    {{/if}}
+
+    {{#if organization.email}}
+      <div class="OrganizationContactCard-item">
+        <a href="{{organization.emailLink}}" target="_blank" title="Email">
+          {{fa-icon 'envelope'}} {{#unless hideLabels}}Email{{/unless}}
+        </a>
+      </div>
+    {{/if}}
+
+    {{#if organization.address}}
+      <div class="OrganizationContactCard-item">
+        <a href="{{organization.directionsLink}}" target="_blank" title="Directions">
+          {{fa-icon 'map-marker'}} {{#unless hideLabels}}Directions{{/unless}}
+        </a>
+      </div>
+    {{/if}}
+
+    {{#if organization.website}}
+      <div class="OrganizationContactCard-item">
+        <a href="{{organization.websiteLink}}" target="_blank" title="Website">
+          {{fa-icon 'link'}} {{#unless hideLabels}}Website{{/unless}}
+        </a>
+      </div>
+    {{/if}}
+
+    {{#if organization.twitterHandle}}
+      <div class="OrganizationContactCard-item">
+        <a href="{{organization.twitterHandleLink}}" target="_blank" title="Twitter">
+          {{fa-icon 'twitter'}} {{#unless hideLabels}}Twitter{{/unless}}
+        </a>
+      </div>
+    {{/if}}
+  </div>
+{{/x-card}}
