@@ -1,6 +1,12 @@
 <div class="FeedCard--card-front">
-  {{#if organization.backgroundImageUrl}}
-    {{header-image imageUrl=organization.backgroundImageUrl size=(if isHeaderCard 'medium' 'small')}}
+  {{#if organization.subtextCertified}}
+    <div class="FeedCard-certification">
+      {{fa-icon 'certificate'}} DailyUV Certified
+    </div>
+  {{/if}}
+
+  {{#if (or backgroundImageUrl backgroundImageBlock)}}
+    {{header-image imageUrl=backgroundImageUrl short=true block=backgroundImageBlock}}
   {{/if}}
 
   {{#if organization.displayImageUrl}}
@@ -19,7 +25,11 @@
 
     {{#text-block center=true hasMargin=false}}
       {{#if organization.hasContactInfo}}
-        {{organization.fullAddress}}
+        {{#unless onlyShowCityAndState}}
+          {{organization.fullAddress}}
+        {{else}}
+          {{organization.city}}, {{organization.state}}
+        {{/unless}}
       {{else}}
         {{#if isDescriptionExpanded}}
           {{{organization.description}}}
@@ -29,6 +39,8 @@
       {{/if}}
     {{/text-block}}
   {{/content-body}}
+
+  {{yield}}
 
   {{#content-footer center=true noPadding=true}}
     {{#if organization.hasContactInfo}}
@@ -47,7 +59,7 @@
         </div>
       {{/if}}
 
-      {{#if organization.address}}
+      {{#if (and organization.address showDirections)}}
         <div class="FeedCard-footer-item">
           <a href="{{organization.directionsLink}}" target="_blank">
             {{fa-icon 'fa-map-marker'}} Directions

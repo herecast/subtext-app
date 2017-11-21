@@ -3,7 +3,7 @@ import Ember from 'ember';
 const {get, getWithDefault, computed} = Ember;
 
 export default Ember.Mixin.create({
-
+  attributeBindings: ['target'],
   classNames: ['XButton'],
   classNameBindings: [
     'colorClass',

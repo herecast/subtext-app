@@ -5,7 +5,18 @@ const {get, computed, isBlank} = Ember;
 export default Ember.Component.extend({
   classNames: 'FeedCard-OrganizationCard',
   model: null,
+  backgroundImageBlock: false,
+  onlyShowCityAndState: false,
+  showDirections: false,
+
   organization: computed.oneWay('model.organization'),
+
+  backgroundImageUrl: computed('organization.backgroundImageUrl', 'backgroundImageBlock', function() {
+    if (get(this, 'backgroundImageBlock')) {
+      return '';
+    }
+    return get(this, 'organiztaion.backgroundImageUrl');
+  }),
 
   willExpandDescription: false,
   isDescriptionExpanded: false,

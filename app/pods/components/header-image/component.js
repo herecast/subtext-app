@@ -8,7 +8,9 @@ export default Ember.Component.extend({
   classNames: ['HeaderImage'],
   classNameBindings: [
     'preserveAspectRatio:HeaderImage--preserveAspectRatio',
-    'sizeClass'
+    'sizeClass',
+    'short:HeaderImage--short',
+    'block:HeaderImage--block'
   ],
   attributeBindings: [
     'data-test-component', 'style'

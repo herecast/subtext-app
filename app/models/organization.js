@@ -23,6 +23,8 @@ export default DS.Model.extend({
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
+  subtextCertified: DS.attr('boolean'),
+  services: DS.attr('string'),
   canEdit: DS.attr('boolean'),
   profileAdOverride: DS.attr('number'),
   customLinks: DS.attr(),
@@ -33,6 +35,7 @@ export default DS.Model.extend({
   // Contact info: copied from business-profile model to be consolidated
   phone: DS.attr('string'),
   website: DS.attr('string'),
+
   hours: DS.attr('raw', {
     defaultValue: () => {
       return [];

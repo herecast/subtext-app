@@ -152,6 +152,9 @@ Router.map(function() {
       this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
   });
+
+  this.route('storytellers');
+
 });
 
 export default Router;

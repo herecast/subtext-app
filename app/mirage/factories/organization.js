@@ -13,6 +13,10 @@ export default Mirage.Factory.extend({
   canEdit() { return true; },
   businessProfileId() { return 1; },
 
+
+  subtextCertified() { return faker.random.arrayElement([true, false, false, false, false]); },
+  services() { return faker.lorem.sentence(); },
+
   // Contact info: copied from business-profile factory to be consolidated
   phone() { return '8022951559'; },
   website() { return 'http://' + faker.internet.domainName(); },
@@ -22,4 +26,5 @@ export default Mirage.Factory.extend({
   city: "Norwich",
   state: 'VT',
   zip: '05055'
+
 });

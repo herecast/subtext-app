@@ -1,0 +1,93 @@
+<div class="Storytellers-background-image"></div>
+
+<div class="Storytellers-feed">
+  <div class="Storytellers-floating-card">
+    <div class="Storytellers-floating-title">
+      What's Your Story?
+    </div>
+    <div class="Storytellers-floating-subtitle">
+      Customers NEED to know who you are <br />and what you've got to offer.
+    </div>
+  </div>
+
+  {{#x-card}}
+    {{#card-body shortPadding=true}}
+
+    <div class="Storytellers-description-title">
+      Work with a DailyUV <br />Certified Storyteller Today
+    </div>
+
+      {{#if showDescription}}
+        {{#text-block}}
+          DailyUV Certified Storytellers are media and marketing experts looking to help local businesses tell their stories on our platform,
+          build digital presence, and promote their brand from DailyUV across several social and other digital media.
+        {{/text-block}}
+
+        {{#text-block}}
+          If you are a local business looking for support, look through our partners below and see if there is a match for your needs.
+          Then go ahead and make contact with whomever you'd like and they can explain all about what they and DailyUV have to offer.
+          If you don't see someone that fits what you need, feel free to contact us by pressing above
+        {{/text-block}}
+
+        {{#text-block}}
+          If you are a local expert in marketing, writing, photography, videography, social media, or graphic designa and you're
+          interested in supporting local businesses with their digital presence, press the button above to become a Certified Storyteller.
+        {{/text-block}}
+
+      {{else}}
+        {{#text-block}}
+          DailyUV Certified Storytellers are media and marketing experts looking to help...
+          <span class="Storytellers-continue-reading" {{action 'toggleDescription'}}>Continue Reading {{fa-icon 'caret-down'}}</span>
+        {{/text-block}}
+      {{/if}}
+
+      <div class="Storytellers-cta-wrap">
+        <div class="Storytellers-cta">
+          {{#x-link-url href='https://subtextmedialtd.wufoo.com/forms/z1xbr14z0cljao6/' target='_blank' style='regular' color='primary' size='x-small' nowrap=true}}
+           Find a Storyteller
+          {{/x-link-url}}
+        </div>
+        <div class="Storytellers-cta Storytellers-cta-link">
+          <a href='http://goo.gl/J4wRAx' target='_blank'>
+            Become a Storyteller
+          </a>
+        </div>
+      </div>
+
+    {{/card-body}}
+  {{/x-card}}
+
+  <div class="Storytellers-floating-subtitle">
+    DailyUV Certified Storytellers
+  </div>
+
+  {{#each model as |organization|}}
+    {{#feed-card/organization-card
+      organization=organization
+      backgroundImageBlock=true
+      onlyShowCityAndState=true
+      showDirections=false
+    }}
+
+      {{#content-body increaseBottomPadding=true}}
+        {{#if organization.services}}
+          {{#text-block hasMargin=true}}
+            Services:   <span class="Storytellers--services">{{organization.services}}</span>
+          {{/text-block}}
+        {{/if}}
+
+        {{#text-block hasMargin=false}}
+          {{truncate-text text=organization.description maxLength=140}}
+          <div class="Storytellers--see-more">
+            {{#link-to organization.organizationLinkRoute organization.organizationLinkId}}
+              See more {{fa-icon 'chevron-down'}}
+            {{/link-to}}
+          </div>
+        {{/text-block}}
+      {{/content-body}}
+
+    {{/feed-card/organization-card}}
+  {{/each}}
+</div>
+
+{{outlet}}

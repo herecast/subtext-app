@@ -369,6 +369,10 @@ export default function() {
       organizations = schema.organizations.all().filter((org) => {
         return request.queryParams.ids.indexOf(String(org.id)) !== -1;
       });
+    } else if ('subtext_certified' in request.queryParams) {
+      organizations = schema.organizations.all().filter((org) => {
+        return org.subtextCertified;
+      });
     } else {
       organizations = schema.organizations.all();
     }
