@@ -1,6 +1,5 @@
 import Ember from 'ember';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
-import Configuration from 'ember-simple-auth/configuration';
+import WillAuthenticateMixin from 'subtext-ui/mixins/routes/will-authenticate';
 
 const {
   inject,
@@ -8,30 +7,25 @@ const {
   get
 } = Ember;
 
-export default Ember.Route.extend(UnauthenticatedRouteMixin, {
+export default Ember.Route.extend(WillAuthenticateMixin, {
   fastboot: inject.service(),
-  notify: inject.service('notification-messages'),
   session: inject.service(),
-  cookies: inject.service('cookies'),
   titleToken: 'Sign in',
 
   // Override UnauthenticatedRouteMixin
   beforeModel(transition) {
     const isFastBoot = get(this, 'fastboot.isFastBoot');
-    if(isFastBoot) {
+
+    if (isFastBoot) {
       //Suspend redirecting because we need to wait for browser-mode
       //Ember to handle this. (Fastboot requests are unauthnticated)
       return;
-
-    } else if('auth_token' in transition.queryParams) {
-
+    } else if ('auth_token' in transition.queryParams) {
       return this.trySignInWithToken(transition.queryParams.auth_token);
-
     } else {
-
       const isAuthenticated = get(this, 'session.isAuthenticated');
-      if(isAuthenticated) {
-        return this.actions.transitionAfterAuthentication.bind(this)();
+      if (isAuthenticated) {
+        return this.transitionAfterAuthentication();
       }
     }
 
@@ -39,31 +33,15 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
   },
 
   trySignInWithToken(token) {
-    return new Promise((resolve)=> {
+    return new Promise((resolve) => {
       get(this, 'session').signInWithToken(token)
-        .then(()=>{
-          this.actions.transitionAfterAuthentication.bind(this)();
+        .then(() => {
+          this.transitionAfterAuthentication();
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error("An error occurred signing in with an auth token", e);
         })
         .finally(resolve);
     });
   },
-
-  actions: {
-    transitionAfterAuthentication() {
-      const cookies = get(this, 'cookies');
-      const redirectTarget = cookies.read('ember_simple_auth-redirectTarget');
-
-      if(redirectTarget) {
-        // Lets go back to where they were tring to go in the first place
-        return this.replaceWith(redirectTarget).then(()=>{
-          cookies.clear('ember_simple_auth-redirectTarget');
-        });
-      } else {
-        return this.transitionTo(Configuration.routeAfterAuthentication);
-      }
-    }
-  }
 });

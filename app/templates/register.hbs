@@ -27,7 +27,10 @@
 
               <div class='col-md-8 col-md-pull-4'>
                 <div class='AuthForm-form'>
-                  {{sign-in signInModule='register'}}
+                  {{sign-in
+                    signInModule='register'
+                    afterAuthenticate=(action 'wasAuthenticated')
+                  }}
                 </div>
               </div>
             </div>
