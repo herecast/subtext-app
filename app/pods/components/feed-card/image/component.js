@@ -7,8 +7,10 @@ const { get, computed, isPresent, String:{htmlSafe} } = Ember;
 export default Ember.Component.extend(textSnippet, {
   classNames: 'FeedCard-Image',
 
-  eventInstanceId: null,
   model: null,
+  isLoggedIn: false,
+  linkUrl: null,
+  eventInstanceId: null,
   onContentClick() {},
 
   maxSnippetLength: 160,
@@ -18,6 +20,7 @@ export default Ember.Component.extend(textSnippet, {
   hasExcerpt: computed.gt('textSnippet.length', 10),
   excerpt: computed.alias('textSnippet'),
   showContinueReading: computed.alias('isSnipped'),
+  contentType: computed.reads('model.normalizedContentType'),
 
   imageStyle: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');
@@ -28,5 +31,13 @@ export default Ember.Component.extend(textSnippet, {
     }
 
     return '';
+  }),
+
+  useLink: computed('isLoggedIn', 'contentType', function() {
+    if ( !get(this, 'isLoggedIn') && get(this, 'contentType') === 'talk') {
+      return false;
+    }
+
+    return true;
   })
 });
