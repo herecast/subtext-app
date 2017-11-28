@@ -33,33 +33,31 @@
       }}
     {{/unless}}
 
-    {{#if currentlyLoading}}
-      {{x-loader}}
-    {{else}}
-      {{#feed/feed-container}}
-        {{#if model}}
-          {{#feed/index-feed
-            feedContents=model
-            showingDetailInFeed=showingDetailInFeed
-          }}
-            {{outlet}}
-          {{/feed/index-feed}}
-          {{#infinity-loader
-            infinityModel=model
-          }}
-            {{#unless model.reachedInfinity}}
-              {{fa-icon 'spinner' class="fa-pulse"}}
-            {{/unless}}
-          {{/infinity-loader}}
-        {{else}}
-          {{feed/no-results
-            isMyStuffOnly=isMyStuffOnly
-            currentlyLoading=currentlyLoading
-            isSearchActive=isSearchActive
-          }}
-        {{/if}}
-      {{/feed/feed-container}}
-    {{/if}}
+
+    {{#feed/feed-container}}
+        {{#feed/index-feed
+          feedContents=model
+          showingDetailInFeed=showingDetailInFeed
+        }}
+          {{outlet}}
+        {{/feed/index-feed}}
+
+      {{#if model}}
+        {{#infinity-loader
+          infinityModel=model
+        }}
+          {{#unless model.reachedInfinity}}
+            {{fa-icon 'spinner' class="fa-pulse"}}
+          {{/unless}}
+        {{/infinity-loader}}
+      {{else}}
+        {{feed/no-results
+          isMyStuffOnly=isMyStuffOnly
+          currentlyLoading=currentlyLoading
+          isSearchActive=isSearchActive
+        }}
+      {{/if}}
+    {{/feed/feed-container}}
 
     {{#floating-action-button}}
       {{jobs-navigation}}
