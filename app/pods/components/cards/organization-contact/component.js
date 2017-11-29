@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   organization: null,
 
   flattenCard: false,
+  showTopBorder: false,
 
   hideLabels: computed('organization.{phone,email,address,website,twitter}', function() {
     return ['phone', 'email', 'address', 'website', 'twitterHandle']

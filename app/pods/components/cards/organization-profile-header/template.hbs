@@ -1,11 +1,19 @@
-{{#x-card}}
+{{#x-card noShadow=noShadow}}
 
   {{#if showGearButton}}
     {{cards/organization-profile-header/button-menu}}
   {{/if}}
 
-  {{#if organization.backgroundImageUrl}}
-    {{header-image imageUrl=organization.backgroundImageUrl size=backgroundImageSize}}
+  {{#if organization.subtextCertified}}
+    <div class="OrganizationProfileHeaderCard-certification">
+      {{fa-icon 'certificate'}} DailyUV Certified
+    </div>
+  {{/if}}
+
+  {{#if showBackgroundImage}}
+    {{header-image imageUrl=backgroundImageUrl size=backgroundImageSize}}
+  {{else}}
+
   {{/if}}
 
   {{#if organization.profileImageUrl}}
@@ -25,7 +33,7 @@
 
     {{#if organization.fullAddress}}
       {{#text-block center=true hasMargin=false}}
-        {{organization.fullAddress}}
+        {{addressToShow}}
       {{/text-block}}
     {{/if}}
 

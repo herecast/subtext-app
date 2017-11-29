@@ -1,5 +1,5 @@
 {{#x-card noShadow=flattenCard noMargin=flattenCard}}
-  <div class="OrganizationContactCard-content">
+  <div class="OrganizationContactCard-content {{if showTopBorder 'border-top'}}">
     {{#if organization.phone}}
       <div class="OrganizationContactCard-item">
         {{render-phone phone=organization.phone hideLabel=hideLabels}}

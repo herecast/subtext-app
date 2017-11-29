@@ -62,12 +62,14 @@
   </div>
 
   {{#each model as |organization|}}
-    {{#feed-card/organization-card
-      organization=organization
-      backgroundImageBlock=true
-      onlyShowCityAndState=true
-      showDirections=false
-    }}
+    {{#x-card}}
+      {{cards/organization-profile-header
+        organization=organization
+        showGearButton=false
+        showBlankBackgroundImage=true
+        onlyShowCityAndState=true
+        noShadow=true
+      }}
 
       {{#content-body increaseBottomPadding=true}}
         {{#if organization.services}}
@@ -86,7 +88,11 @@
         {{/text-block}}
       {{/content-body}}
 
-    {{/feed-card/organization-card}}
+      {{cards/organization-contact
+        organization=organization
+        showTopBorder=true
+      }}
+    {{/x-card}}
   {{/each}}
 </div>
 

@@ -68,18 +68,20 @@
       {{/if}}
 
     {{else}}
-      {{#content-body verticalPadding=true}}
-        {{#x-button onClick=(action 'toggleDescription')
-                    style='link'
-                    color='primary'
-                    size='medium'}}
-          {{#if isDescriptionExpanded}}
-            See Less {{fa-icon 'chevron-up'}}
-          {{else}}
-            See More {{fa-icon 'chevron-down'}}
-          {{/if}}
-        {{/x-button}}
-      {{/content-body}}
+      {{#unless hideExpandedFooter}}
+        {{#content-body verticalPadding=true}}
+          {{#x-button onClick=(action 'toggleDescription')
+                      style='link'
+                      color='primary'
+                      size='medium'}}
+            {{#if isDescriptionExpanded}}
+              See Less {{fa-icon 'chevron-up'}}
+            {{else}}
+              See More {{fa-icon 'chevron-down'}}
+            {{/if}}
+          {{/x-button}}
+        {{/content-body}}
+      {{/unless}}
     {{/if}}
   {{/content-footer}}
 </div>

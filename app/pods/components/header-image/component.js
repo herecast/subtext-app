@@ -27,8 +27,13 @@ export default Ember.Component.extend({
 
   style: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');
-    let optimizedImageUrl = makeOptimizedImageUrl(imageUrl, 640, 360, false);
 
-    return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl}');`);
+    if (imageUrl) {
+      let optimizedImageUrl = makeOptimizedImageUrl(imageUrl, 640, 360, false);
+
+      return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl}');`);
+    }
+
+    return Ember.String.htmlSafe(`background: rgba(255,255,255,1);`);
   })
 });

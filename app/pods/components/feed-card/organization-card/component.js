@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   backgroundImageBlock: false,
   onlyShowCityAndState: false,
   showDirections: false,
+  hideExpandedFooter: false,
 
   organization: computed.oneWay('model.organization'),
 
