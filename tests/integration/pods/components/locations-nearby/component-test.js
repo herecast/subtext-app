@@ -1,8 +1,12 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import startMirage from '../../../../helpers/setup-mirage';
 
 moduleForComponent('locations-nearby', 'Integration | Component | locations nearby', {
-  integration: true
+  integration: true,
+  setup() {
+    startMirage(this.container);
+  }
 });
 
 test('it renders', function(assert) {

@@ -33,7 +33,7 @@ test('it shows future event dates', function(assert) {
 
   this.set('eventinst', Ember.Object.create({
     startsAt: moment(),
-    eventInstances: [
+    futureInstances: [
       instance1,
       instance2
     ]
@@ -44,30 +44,3 @@ test('it shows future event dates', function(assert) {
   assert.equal(this.$('.FutureEvent').length, 2);
 });
 
-test('it does not show dates in the past', function(assert) {
-
-  const instance1 = Ember.Object.create({
-    startsAt: moment().subtract(1, 'days'),
-    id: 1,
-    subtitle: 'A past time'
-  });
-
-  const instance2 = Ember.Object.create({
-    startsAt: moment().add(2, 'days'),
-    id: 2,
-    subtitle: 'The next time'
-  });
-
-  this.set('eventinst', Ember.Object.create({
-    startsAt: moment(),
-    eventInstances: [
-      instance1,
-      instance2
-    ]
-  }));
-
-  this.render(hbs`{{event-other-dates event=eventinst}}`);
-
-  assert.equal(this.$('.FutureEvent').length, 1);
-  assert.equal(this.$('.FutureEvent .FutureEvent-header:first').text(), instance2.startsAt.format('MMMM D, YYYY'));
-});

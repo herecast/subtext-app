@@ -34,8 +34,6 @@ Router.map(function() {
 
   this.route('events', {path: '/events'}, function() {
 
-    this.route('show', {path: ':id'});
-
     this.route('new', {path: '/new'}, function() {
       this.route('details');
       this.route('promotion');
@@ -124,10 +122,6 @@ Router.map(function() {
   this.route('kitchen-sink');
 
   this.route('promotions.show', {path: '/promotions/:id'});
-
-  this.route('location', {path: '/:id'}, function () {
-    this.route('events');
-  });
 
   this.route('feed', function() {
     this.route('show', {path: '/:id'});

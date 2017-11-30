@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
+import moment from 'moment';
 
 const {
   inject:{service},
   get,
   computed,
   assign,
-  set
+  set,
+  RSVP: {Promise}
 } = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
@@ -17,19 +19,28 @@ export default Ember.Controller.extend(PaginatedFilter, {
   windowLocation: service(),
   session: service(),
   search: service(),
+  api: service(),
 
-  queryParams: ['page', 'query', 'location', 'type', 'radius'],
+  queryParams: ['query', 'location', 'type', 'radius', 'startDate'],
   query: computed.alias('search.query'),
   location: '',
   type: '',
-  page: 1,
   radius: '10',
+  enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
+  enabledEventsQueryParams: {},
 
   isMyStuffOnly: computed.equal('radius', 'myStuff'),
 
   isSearchActive: computed.notEmpty('query'),
 
   showingDetailInFeed: null,
+
+  eventFilterAndNotMyStuff: computed('type', 'radius', function() {
+    const isMyStuff = get(this, 'radius') === "myStuff";
+    const isEventFilter = get(this, 'type') === 'event';
+
+    return isEventFilter && !isMyStuff;
+  }),
 
   init() {
     this._super(...arguments);
@@ -42,14 +53,14 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   _gtmTrackEvent(name, content='') {
     get(this,'session').incrementEventSequence('index-feed-interactions')
-    .then((eventSequenceIndex) => {
-      get(this, 'tracking').push({
-        'event': name,
-        'content': content,
-        'url': get(this, 'windowLocation').href(),
-        'event-sequence': eventSequenceIndex
+      .then((eventSequenceIndex) => {
+        get(this, 'tracking').push({
+          'event': name,
+          'content': content,
+          'url': get(this, 'windowLocation').href(),
+          'event-sequence': eventSequenceIndex
+        });
       });
-    });
   },
 
   trackIntegratedDetailLoaded(contentId) {
@@ -74,7 +85,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
       radius: get(this, 'radius'),
       type: get(this, 'type'),
       query: get(this, 'query'),
-      page: 1
+      startDate: undefined
     };
 
     this.transitionToRoute('feed', {
@@ -82,9 +93,74 @@ export default Ember.Controller.extend(PaginatedFilter, {
     });
   },
 
+  queryParamsChanged({ location_id, query, radius }) {
+    const oldQueryParams = get(this, 'enabledEventsQueryParams');
+
+    return oldQueryParams.location_id !== location_id || oldQueryParams.radius !== radius || oldQueryParams.query !== query;
+  },
+
   actions: {
+    updateEnabledEventDays(selectedDate) {
+      const enabledEventDays = get(this, 'enabledEventDays');
+      const api = get(this, 'api');
+      const location = get(this, 'location');
+      const radius = get(this, 'radius');
+      const query = get(this, 'query');
+      const queryParams = {
+        location_id: location,
+        radius: radius,
+        query: query
+      };
+      let end, start;
+
+      if(this.queryParamsChanged(queryParams)){
+        enabledEventDays.clear();
+      }
+
+      if (enabledEventDays.content.length === 0){
+        // get [T-1, T+4]
+
+        start = moment(selectedDate).subtract(1, 'M').format('YYYY-MM-DD');
+        end = moment(selectedDate).add(4, 'M').format('YYYY-MM-DD');
+
+      } else {
+        // don't worry about days in the past for now.
+        const lastEvent =  enabledEventDays.get('lastObject');
+        const acceptableEndOfDateRange = moment(selectedDate).add(4, 'M');
+
+        if (moment(lastEvent.date).isBefore(acceptableEndOfDateRange)) {
+          start = moment(lastEvent.date).add(1, 'd').format('YYYY-MM-DD');
+          end = moment(lastEvent.date).add(4, 'M').format('YYYY-MM-DD');
+        } else {
+          return Promise.resolve();
+        }
+      }
+
+      queryParams.start_date = start;
+      queryParams.end_date = end;
+
+      set(this, 'enabledEventsQueryParams', queryParams);
+
+      return api.getDaysWithEvents(queryParams)
+        .then(({ active_dates }) => {
+          enabledEventDays.pushObjects(active_dates);
+        });
+    },
+
     filterType(type) {
-      set(this, 'type', type);
+      /**
+       * Transition necessary because of different model types for
+       * event-instances.
+       * Otherwise, this throws a console error changing type from 'event'.
+       */
+      this.setProperties({
+        currentlyLoading: true,
+        model: []
+      });
+
+      this._transitionToFeed({
+        type: type
+      });
     },
 
     changeRadius(radius) {
@@ -116,6 +192,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
       this._transitionToFeed({
         location: get(location, 'id'),
       });
+    },
+
+    jumpToDay(date){
+      set(this, 'startDate', date);
     }
   }
 });

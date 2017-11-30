@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-EventDates',
@@ -8,6 +8,12 @@ export default Ember.Component.extend({
 
   showOtherDates: false,
   otherInstances: [],
+
+  sortedInstances: computed('otherInstances.@each.startAt', function() {
+    return get(this, 'otherInstances').sort((a,b) => {
+      return get(a, 'startsAt') - get(b, 'startsAt');
+    });
+  }),
 
   hasOtherInstances: computed.gt('otherInstances.length', 1),
 

@@ -24,16 +24,16 @@
   </ul>
 {{/unless}}
 
-{{#responsive-list items=locationLinks as |locationLink|}}
-  {{#dynamic-link params=locationLink
-                  data-test-link="choose-location"
-                  data-test-location=locationLink.location.id
-                  className=(if (eq locationLink.location.id currentLocation.id) 'LocationMenu-link active' 'LocationMenu-link')}}
-    <span {{action 'chooseLocation' locationLink.location bubbles=false}}
+{{#responsive-list items=sortedLocations as |location|}}
+  {{#link-to 'feed' (query-params location=location.name)
+      data-test-link="choose-location"
+      data-test-location=location.id
+      class=(if (eq location.id currentLocation.id) 'LocationMenu-link active' 'LocationMenu-link')}}
+    <span {{action 'chooseLocation' location bubbles=false}}
       data-test-click-target
       class="LocationMenu-link-location">
-            {{locationLink.location.name}}
+            {{location.name}}
       {{fa-icon 'location-arrow' class="LocationMenu-link-icon"}}
           </span>
-  {{/dynamic-link}}
+  {{/link-to}}
 {{/responsive-list}}

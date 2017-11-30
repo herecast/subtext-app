@@ -367,6 +367,10 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson("/listservs");
   },
 
+  getDaysWithEvents(query) {
+    return this.getJson(`/event_instances/active_dates${queryString(query)}`);
+  },
+
   getLocations(query) {
     let url = '/locations';
 

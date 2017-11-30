@@ -22,7 +22,7 @@ test('it renders', function(assert) {
   this.set('scrollToMock', () => {});
   this.set('event', Ember.Object.create({
     id: 1,
-    eventInstances: []
+    futureInstances: []
   }));
 
   this.render(hbs`
@@ -49,7 +49,7 @@ test('Tracking impressions', function(assert) {
   this.set('event', Ember.Object.create({
     id: 1,
     contentId: 2,
-    eventInstances: []
+    futureInstances: []
   }));
   this.set('scrollToMock', () => {});
 
@@ -67,7 +67,7 @@ test('Tracking impressions', function(assert) {
   this.set('event', Ember.Object.create({
     id: 4,
     contentId: 5,
-    eventInstances: []
+    futureInstances: []
   }));
 
     assert.ok(

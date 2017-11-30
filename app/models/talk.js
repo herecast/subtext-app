@@ -42,7 +42,7 @@ export default DS.Model.extend(ContentLocationsMixin, {
   parentContentRoute: computed('parentContentType', function() {
     const parentContentType = this.get('parentContentType');
     if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
-      return 'events.show';
+      return 'feed.show-instance';
     } else {
       return 'feed.show';
     }

@@ -6,17 +6,6 @@ const { isPresent } = Ember;
 
 /*jshint multistr: true */
 
-// This is just a dumb method to make it look like we're doing filtering
-function filterByCategory(events, category) {
-  if (category === 'Everything') {
-    return events;
-  } else {
-    const size = 20 + category.length;
-
-    return events.slice(0, size);
-  }
-}
-
 function filterCollectionByDate(mirageCollection, queryStart, queryEnd) {
   if (isPresent(queryStart) && isPresent(queryEnd)) {
     return mirageCollection.where((item) => {
@@ -25,6 +14,12 @@ function filterCollectionByDate(mirageCollection, queryStart, queryEnd) {
 
       return (itemStart >= queryStart && itemStart <= queryEnd) ||
         (itemEnd >= queryStart && itemEnd <= queryEnd);
+    });
+  } else if (isPresent(queryStart)) {
+    return mirageCollection.where((item) => {
+      const itemStart = moment(item.startsAt);
+
+      return itemStart >= queryStart;
     });
   } else {
     return mirageCollection.all();
@@ -296,19 +291,63 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
+    const startParam = moment(params.start_date, 'YYYY-MM-DD') || moment().format('YYYY-MM-DD');
 
-    let results = filterCollectionByDate(eventInstances, params.date_start, params.date_end);
-    let total = results.models.length;
-    results.models = filterByCategory(results.models, params.category);
+    let results = filterCollectionByDate(eventInstances, startParam, params.date_end);
+
+    const meta = {
+      total: results.models.length,
+      total_pages: Math.ceil( results.models.length / params.per_page )
+    };
     results.models = results.models.slice(start, stop);
 
     let response = this.serializerOrRegistry.serialize(results, request);
 
-    response.meta = {
-      total
-    };
 
+    response.meta = meta;
     return new Mirage.Response(200, {}, response);
+
+  });
+
+  this.get('/event_instances/active_dates', function({ eventInstances }, request) {
+    const params = request.queryParams;
+    const startParam = moment(params.start_date, 'YYYY-MM-DD');
+
+    let results = filterCollectionByDate(eventInstances, startParam, params.date_end);
+    let sortedResults = results.sort((a, b) => {
+      var dateA = a.startsAt;
+      var dateB = b.startsAt;
+
+      if (moment(dateA).isBefore(dateB)) {
+        return -1;
+      }
+      if (moment(dateA).isAfter(dateB)) {
+        return 1;
+      }
+
+      return 0;
+    });
+    let eventDays = sortedResults.models.map((event) => {
+      return moment(event.startsAt).format('YYYY-MM-DD');
+    });
+
+    const reducedEventDays = eventDays.reduce((totalEvents, event) => {
+
+      if(event in totalEvents) {
+        totalEvents[event] ++;
+      } else {
+        totalEvents[event] = 1;
+      }
+      return totalEvents;
+    }, {});
+
+    const daysWithEvents = [];
+
+    Object.entries(reducedEventDays).forEach(([key, value]) => {
+      daysWithEvents.push({ date: key, count: value });
+    });
+
+    return new Mirage.Response(200, {}, {active_dates: daysWithEvents});
   });
 
   // Locations
@@ -454,6 +493,13 @@ export default function() {
       schedule.event_id = event.id;
     });
 
+    let i = 1;
+    event.content_locations.forEach((cl) => {
+      cl.id = i;
+      i++;
+    });
+
+    event.content_id = 1;
     event.first_instance_id = 1;
 
     return {
@@ -501,10 +547,10 @@ export default function() {
 
   this.get('/event_categories', function() {
     return {'event_categories':[
-        {'name':'Category1', 'slug':'Category1'},
-        {'name':'Category2', 'slug':'Category2'},
-        {'name':'Category3', 'slug':'Category3'}
-      ]};
+      {'name':'Category1', 'slug':'Category1'},
+      {'name':'Category2', 'slug':'Category2'},
+      {'name':'Category3', 'slug':'Category3'}
+    ]};
   });
 
   // Used by the event creation page to find enues

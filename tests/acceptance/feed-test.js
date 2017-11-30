@@ -411,7 +411,7 @@ test('hamburger menu, market filter', function(assert) {
     assert.equal(
       $searchFilterLabel.text().trim(),
       "Market",
-      "Should see news filter label"
+      "Should see a Market filter label"
     );
 
     server.get('/contents', function(db, request) {
@@ -439,8 +439,12 @@ test('hamburger menu, market filter', function(assert) {
   });
 });
 
-test('hamburger menu, events', function(assert) {
+test('hamburger menu, events filter', function(assert) {
   mockLocationCookie(this.application);
+  assert.expect(2);
+
+  // const eventInstances = server.createList('event-instance', 3);
+  server.createList('event-instance', 3);
 
   visit('/feed');
 
@@ -449,15 +453,32 @@ test('hamburger menu, events', function(assert) {
   );
 
   click(
-    testSelector('link', 'events-channel')
+    testSelector('link', 'event-filter')
   );
 
-  andThen(()=>{
-    assert.equal(
-      currentPath(),
-      'location.events',
-      "Clicking events link takes you to the event channel index"
+  andThen(()=> {
+    const $searchFilterLabel = find(
+      testSelector('label', 'search-type')
     );
+
+    assert.equal(
+      $searchFilterLabel.text().trim(),
+      "Events",
+      "Should see an Event filter label"
+    );
+
+    click(
+      testSelector("action", 'remove-type-filter')
+    );
+
+    andThen(()=>{
+      assert.notOk(
+        find(
+          testSelector('label', 'search-type')
+        ).length,
+        "Clicking the X button removes the filter label"
+      );
+    });
   });
 });
 

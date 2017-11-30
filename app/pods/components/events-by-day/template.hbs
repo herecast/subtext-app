@@ -1,0 +1,33 @@
+<div class="EventsByDay-header">
+  {{#if selectDay}}
+    <span class="EventsByDay-calendar-button" {{action 'openCalendarWidget'}}>
+      {{day}} {{fa-icon 'fa-sort-desc'}}
+    </span>
+  {{/if}}
+</div>
+
+{{#each eventsToDisplay as |eventInstance|}}
+  {{feed-card/event-card
+      model=eventInstance
+  }}
+
+  {{#if (show-events-ad eventInstance.indexInFullSetOfRecords)}}
+    <div class='AdBanner-wrapper AdBanner-wrapper--events'>
+      {{ad-banner
+        adContextName=adPath
+        impressionPath=adPath
+        lastRefreshDate=lastRefreshDate
+        pagePositionForAnalytics=event.indexInFullSetOfRecords
+        placeholderBlockFixedSize=true
+      }}
+    </div>
+  {{/if}}
+{{/each}}
+
+{{#if (gt events.length maxDisplay)}}
+  {{#if (not expanded)}}
+    {{#x-button onClick=(action 'toggleExpanded') styleClass='EventsByDay-expandToggle'}}
+      Show more from {{buttonDisplayDate}}
+    {{/x-button}}
+  {{/if}}
+{{/if}}

@@ -4,7 +4,9 @@ import { ActiveModelSerializer } from 'active-model-adapter';
 export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   isNewSerializerAPI: true,
   attrs: {
-    eventInstances: { embedded: 'always' }
+    eventInstances: { embedded: 'always' },
+    contentLocations: { embedded: 'always' },
+    comments: { embedded: 'always' }
   },
 
   serialize(snapshot, options) {

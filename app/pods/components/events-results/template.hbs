@@ -1,81 +1,19 @@
 <div class="EventsResults-results-box">
-
-  {{#liquid-spacer growDuration=300 growWidth=false}}
-    {{#if eventsByDay}}
-      {{#each eventsByDay as |dayOfEvents dayIndex|}}
-        {{#with dayOfEvents.displayValue as |dayName|}}
-          <div class="EventsResults-day-wrap">
-            <span class="EventsResults-current-day">
-              Events On {{dayName}}
-            </span>
-
-            <span class="EventsResults-calendar-button" {{action 'openCalendarWidget'}}>
-              {{fa-icon 'calendar'}}
-            </span>
-          </div>
-
-          {{#each dayOfEvents.items as |event|}}
-            {{events-results-item event=event}}
-
-            {{#if (show-events-ad event.indexInFullSetOfRecords)}}
-              <div class='AdBanner-wrapper AdBanner-wrapper--events'>
-                {{ad-banner
-                  adContextName=adPath
-                  impressionPath=adPath
-                  lastRefreshDate=lastRefreshDate
-                  pagePositionForAnalytics=event.indexInFullSetOfRecords
-                  placeholderBlockFixedSize=true
-                }}
-              </div>
-            {{/if}}
-          {{/each}}
-
-          {{#with dayOfEvents.items.length as |numberOfEvents|}}
-            <div class="EventsResults-results-guide">
-              Showing all {{numberOfEvents}} results for {{dayName}}
-            </div>
-          {{/with}}
-        {{/with}}
-      {{/each}}
-
-    {{else}}
-
-      <div class="EventsResults-no-results">
-        Nothing here! Add distance to see more events, or try a different day.
-      </div>
-
-    {{/if}}
-  {{/liquid-spacer}}
+  {{#if eventsByDay}}
+    {{#each eventsByDay as |dayOfEvents dayIndex|}}
+      {{events-by-day
+        day=dayOfEvents.displayValue
+        events=dayOfEvents.items
+        dayValue=dayOfEvents.paramValue
+        selectDay=jumpToDay
+        updateEnabledEventDays=updateEnabledEventDays
+        enabledEventDays=enabledEventDays
+      }}
+    {{/each}}
+  {{/if}}
 
   {{inviewport-reporter
     reportScrollInto=true
     callback=(action 'reachedEnd')
   }}
-
-  {{#if formattedThroughDate}}
-    <div class="EventsResults-through-indicator">
-      {{#unless eventsAreLoading}}
-        Showing Events through {{formattedThroughDate}}
-      {{else}}
-        Loading Events through {{formattedThroughDate}}
-      {{/unless}}
-    </div>
-  {{/if}}
-
-  <div class="EventsResults-add-day-button">
-    <span class="load-button {{if eventsAreLoading 'loading'}}" {{action 'loadNextDayOrWeek'}}>
-      {{#unless eventsAreLoading}}
-        See the next {{dayOrWeek}}
-      {{else}}
-        Loading next {{dayOrWeek}}
-      {{/unless}}
-    </span>
-  </div>
-
-  {{#if eventsAreLoading}}
-    <div class="EventsResults-group-is-loading">
-      {{fa-icon 'spinner' pulse=true size=5}}
-    </div>
-  {{/if}}
-
 </div>

@@ -91,6 +91,14 @@ export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
     return flatten(dates);
   }),
 
+  futureInstances: computed('eventInstances.@each.startsAt', function() {
+    const currentDate = new Date();
+
+    return get(this, 'eventInstances').filter((inst) => {
+      return get(inst, 'startsAt') > currentDate;
+    });
+  }),
+
   uploadImage() {
     const event_id = get(this, 'id');
     const api = get(this, 'api');

@@ -22,6 +22,8 @@ test('Yields when image is loaded', function(assert) {
     {{/image-load-placeholder}}
   `);
 
+  assert.equal(this.$().text().trim(), '');
+
   return wait().then(() => {
     assert.equal(this.$().text().trim(), 'template block text');
   });

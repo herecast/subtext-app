@@ -21,13 +21,13 @@ test('parentContentRoute', function(assert) {
   );
 
   Ember.run(() => model.set('parentContentType', 'event'));
-  assert.equal(model.get('parentContentRoute'), 'events.show',
-    "when parentContentType is event: events.show"
+  assert.equal(model.get('parentContentRoute'), 'feed.show-instance',
+    "when parentContentType is event: feed.show-instance"
   );
 
   Ember.run(() => model.set('parentContentType', 'event-instance'));
-  assert.equal(model.get('parentContentRoute'), 'events.show',
-    "when parentContentType is event-instance: events.show"
+  assert.equal(model.get('parentContentRoute'), 'feed.show-instance',
+    "when parentContentType is event-instance: feed.show-instance"
   );
 
   Ember.run(() => model.set('parentContentType', 'talk_of_the_town'));

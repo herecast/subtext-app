@@ -94,6 +94,7 @@ export default function (server) {
   server.createList('content-metric', 1);
   server.createList('promotionCoupon', 10);
   server.createList('organizationContent', 10);
+  server.createList('event-instance', 100);
 
   const feedContents = server.createList('feedContent', 100, {
     organization: server.create('organization')

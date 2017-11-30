@@ -7,10 +7,10 @@
     onContentClick=(action 'onContentClick')
   }}
 
-  {{#if (or model.startsAtFormatted model.eventInstances)}}
+  {{#if (or model.startsAt model.futureInstances)}}
     {{feed-card/event-dates
-      eventDate=model.startsAtFormatted
-      otherInstances=model.eventInstances
+      eventDate=(moment-format model.startsAt 'MMMM DD')
+      otherInstances=model.futureInstances
       model=model
     }}
   {{/if}}
@@ -45,7 +45,7 @@
     author=model.attributionName
     linkRouteName=attributionLinkRouteName
     linkId=attributionLinkId
-    postedTime=model.publishedAtRelative
+    postedTime=(moment-from-now model.publishedAt)
     isListserv=model.isListserv
     contentId=model.contentId
   }}

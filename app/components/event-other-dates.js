@@ -10,7 +10,7 @@ export default Ember.Component.extend(TestSelector, {
   showAll: false,
   instanceRoute: 'feed.show-instance',
 
-  eventInstances: computed('event.eventInstances.@each.startsAt', function() {
+  eventInstances: computed('event.futureInstances.@each.startsAt', function() {
     const event = this.get('event');
 
     if (event) {
@@ -19,12 +19,12 @@ export default Ember.Component.extend(TestSelector, {
       // show page.
       let startsAt = get(event, 'startsAt');
 
-      if (event.get('isNew') || isBlank(startsAt)) {
-        startsAt = event.get('eventInstances.firstObject.startsAt');
+      if (get(event, 'isNew') || isBlank(startsAt)) {
+        startsAt = get(event, 'eventInstances.firstObject.startsAt');
       }
 
-      return event.get('eventInstances').filter((instance) => {
-        return instance.get('startsAt').isAfter(startsAt);
+      return get(event, 'futureInstances').sort((a,b) => {
+        return get(a, 'startsAt') - get(b, 'startsAt');
       });
     } else {
       return [];

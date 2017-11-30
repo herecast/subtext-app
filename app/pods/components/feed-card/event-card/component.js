@@ -2,14 +2,16 @@ import Ember from 'ember';
 import moment from 'moment';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, computed, isPresent } = Ember;
+const { get, computed, isPresent, inject } = Ember;
 
 export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',
+  'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
+  'data-test-content': computed.oneWay('model.contentId'),
 
   model: null,
-  userLocation: null,
   context: null,
+  userLocation: inject.service(),
 
   startTime: computed('model.startsAt', function() {
     const startsAt = get(this, 'model.startsAt');
@@ -36,7 +38,7 @@ export default Ember.Component.extend(reloadComments, {
   attributionLinkId: computed.alias('model.organizationId'),
 
   sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', 'model.{venueCity,venueState}', function() {
-    const baseLocations = get(this, 'model.baseLocations');
+    const baseLocations = get(this, 'model.baseLocations') || [];
     const userLocation = get(this, 'userLocation');
 
     // Display location matching user if multiple bases

@@ -207,6 +207,14 @@ export default DS.Model.extend(BaseEvent, {
     }
   }),
 
+  futureInstances: computed('eventInstances.@each.startsAt', function() {
+    const currentDate = new Date();
+
+    return get(this, 'eventInstances').filter((inst) => {
+      return get(inst, 'startsAt') > currentDate;
+    });
+  }),
+
   isValid: computed('startsAt', 'endsAt', function() {
     const start = get(this, 'startsAt');
     const stop = get(this, 'endsAt');

@@ -7,14 +7,12 @@
   {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
-  {{#location-link 'events'
-    (query-params
-      page=1
-    )
-    data-test-link='events-channel'
+  {{#link-to 'feed'
+    (query-params type='event')
+    data-test-link='event-filter'
   }}
     Events
-  {{/location-link}}
+  {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
   {{#link-to 'feed'

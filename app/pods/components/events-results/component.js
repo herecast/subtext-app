@@ -34,8 +34,6 @@ export default Ember.Component.extend({
     this._super(...arguments);
   },
 
-
-
   dayOrWeek: computed('isGroupedByDay', function() {
     return  get(this, 'isGroupedByDay') ? 'Day' : 'Week';
   }),
@@ -50,41 +48,28 @@ export default Ember.Component.extend({
     const events = get(this, 'sortedEvents');
     const groupBy = 'startsAt';
 
-    return buildGroup(events, groupBy, 'dddd, MMMM D', (startsAt) => {
-      return startsAt.format('L');
+    return buildGroup(
+      events,
+      groupBy, 'dddd, MMMM D',
+      (startsAt) => {
+        return startsAt.format('L');
     });
   }),
 
   _gtmTrackEvent(name, content='') {
     get(this,'session').incrementEventSequence('events-interactions')
-    .then((eventSequenceIndex) => {
-      get(this, 'tracking').push({
-        'event': name,
-        'content': content,
-        'url': window.location.href,
-        'event-sequence': eventSequenceIndex,
-        'event_day': moment().format('YYYY-MM-DD')
+      .then((eventSequenceIndex) => {
+        get(this, 'tracking').push({
+          'event': name,
+          'content': content,
+          'url': window.location.href,
+          'event-sequence': eventSequenceIndex,
+          'event_day': moment().format('YYYY-MM-DD')
+        });
       });
-    });
   },
 
   actions: {
-
-    loadNextDayOrWeek() {
-      if (!get(this, 'eventsAreLoading')) {
-        set(this, 'eventsAreLoading', true);
-        this.attrs.loadNextDayOrWeek();
-      }
-    },
-
-    openCalendarWidget() {
-      get(this, 'modals').showModal('modals/date-picker').then((date) => {
-        this._gtmTrackEvent('events-jumped-to-date', date);
-        this.attrs.jumpToDay(date);
-      });
-      this._gtmTrackEvent('events-clicked-calendar-icon');
-    },
-
     reachedEnd() {
       if (get(this, 'reportScrollToEnd')) {
         this._gtmTrackEvent('events-scrolled-to-end');

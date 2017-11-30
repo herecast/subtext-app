@@ -10,7 +10,7 @@
     {{#if showOtherDates}}
       {{#click-outside action=(action 'toggleShowOtherDates') class='dropdown-menu dropdown-menu-right open'}}
         <div class="FeedCard-EventDates-other-dates-list">
-          {{#each otherInstances as |instance|}}
+          {{#each sortedInstances as |instance|}}
             <div>
               {{#link-to 'feed.show-instance' model.id instance.id}}
                 {{formatted-date instance.startsAt 'ddd -  MMM DD, YYYY'}}

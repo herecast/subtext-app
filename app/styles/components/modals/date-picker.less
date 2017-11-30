@@ -1,11 +1,27 @@
 .Modals-datePicker {
+  font-family: 'proxima-nova', Verdana, Arial, Helvetica, sans-serif;
+
+  .Modal-dialog {
+    background-color: @neutral-light;
+    border-radius: 6px;
+    min-height: unset;
+
+    button {
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+
   &-header {
-    padding-bottom: 22px;
+    padding-bottom: 16px;
+
+    button {
+      border-radius: 4px;
+    }
   }
 
   &-title {
-    text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 600;
     margin: 0;
     display: inline-block;
     vertical-align: middle;
@@ -14,9 +30,10 @@
   }
 
   &-todayButton {
+    color: @gray-dark;
     background: #ffffff;
-    padding: 4px 8px;
-    border: 1px solid #d0d0d0;
+    padding: 4px 12px;
+    border: 1px solid @outline-color;
   }
 
   &-cancelButton,

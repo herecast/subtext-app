@@ -5,12 +5,16 @@
   data-test-modal='datepicker'
   class="Modals-datePicker" }}
   <div class='Modals-datePicker-header'>
-    <p class='h2 Modals-datePicker-title'>Choose Date</p>
-    <button class='btn Modals-datePicker-todayButton pull-right' {{action 'returnToday'}}>Today</button>
+    <p class='h3 Modals-datePicker-title'>Choose date</p>
+    {{#if displayTodayButton}}
+      <button class='btn Modals-datePicker-todayButton pull-right' {{action 'returnToday'}}>Today</button>
+    {{/if}}
   </div>
 
   {{pikaday-solo
     updateSelected=(action 'updateSelected')
+    disableDay=(action 'disableDay')
+    selectedDate=model.selectedDay
   }}
 
   <div class='Modals-datePicker-footer u-layoutPadT10'>

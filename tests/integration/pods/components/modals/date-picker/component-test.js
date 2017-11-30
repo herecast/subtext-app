@@ -7,11 +7,15 @@ moduleForComponent('modals/date-picker', 'Integration | Component | modals/date 
 });
 
 test('it renders', function(assert) {
-  this.render(hbs`
-    {{modals/date-picker}}
-  `);
+  assert.expect(1);
 
-  // assert.ok(this.$().text().trim().match(/^Choose Date/i));
+  const model = { enabledDays: [], selectedDay: 'some day'};
+  this.set('model', model );
+  this.render(hbs`
+    {{modals/date-picker
+      model=model
+    }}
+  `);
 
   const $modalDialog = this.$(testSelector('modal', 'datepicker'));
 

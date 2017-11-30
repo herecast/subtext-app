@@ -80,41 +80,6 @@ export default Ember.Component.extend({
     }
   }),
 
-  /**
-   * Returns a list of route data to render the list of location links.
-   */
-  locationLinks: computed('sortedLocations.[]', function () {
-    const locationLinkRoute = get(this, 'locationLinkRoute');
-    const userLocation = get(this, 'userLocation');
-
-    return get(this, 'sortedLocations').map((location) => {
-      return {
-        location,
-        model: userLocation.getModelsForLocationLink(get(location, 'id')),
-        route: locationLinkRoute
-      };
-    });
-  }),
-
-  /**
-   * The location links will always point to a location route,
-   * - using the channel if it was set on the component.
-   * - otherwise it uses the current route if it is a location route
-   * - else we point to the location's homepage.
-   */
-  locationLinkRoute: computed('channel', 'userLocation.isLocationRouteActive', function () {
-    const channel = get(this, 'channel');
-    if (isPresent(channel)) {
-      return `location.${channel}`;
-    }
-
-    if (get(this, 'userLocation.isLocationRouteActive')) {
-      return get(this, 'currentRouteName');
-    }
-
-    return 'location.index';
-  }),
-
   actions: {
     chooseLocation(location) {
       const onChooseLocation = get(this, 'onChooseLocation');

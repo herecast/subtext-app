@@ -3,8 +3,10 @@ import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 import _ from 'lodash';
+import moment from 'moment';
 
 const {
+  isPresent,
   get,
   set,
   setProperties,
@@ -31,7 +33,6 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   history: service(),
 
   queryParams: {
-    page: {refreshModel: true},
     query: {refreshModel: true},
     radius: {
       refreshModel: true
@@ -40,6 +41,9 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       refreshModel: true
     },
     type: {
+      refreshModel: true
+    },
+    startDate: {
       refreshModel: true
     }
   },
@@ -134,14 +138,27 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
 
       if (params.radius !== 'myStuff' || (!isFastBoot && isAuthenticated)) {
         get(this, 'userLocation.location').then((location) => {
-          return this.infinityModel('feed-content', {
-            startingPage: params.page,
-            perPage: 20,
-            location_id: get(location, 'id'),
-            radius: params.radius,
-            query: params.query,
-            content_type: params.type
-          });
+          if(params.radius !== 'myStuff' && params.type === 'event') {
+            let startDate;
+            if(isPresent(params.startDate)) {
+              startDate = moment(params.startDate).startOf('day').format();
+            }
+
+            return this.infinityModel('event-instance', {
+              query: params.query,
+              location_id: get(location, 'id'),
+              start_date: startDate,
+              per_page: 2,
+              radius: params.radius
+            });
+          } else {
+            return this.infinityModel('feed-content', {
+              location_id: get(location, 'id'),
+              radius: params.radius,
+              query: params.query,
+              content_type: params.type
+            });
+          }
         }).then(resolve, reject);
       } else {
         resolve([]);
@@ -177,6 +194,13 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       });
     } else {
       controller.set('model', model);
+      controller.set('currentlyLoading', false);
+    }
+  },
+
+  resetController(controller, isExiting) {
+    if(isExiting) {
+      controller.set('currentlyLoading', false);
     }
   },
 

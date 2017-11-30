@@ -34,30 +34,45 @@
     {{/unless}}
 
 
-    {{#feed/feed-container}}
-        {{#feed/index-feed
-          feedContents=model
-          showingDetailInFeed=showingDetailInFeed
-        }}
-          {{outlet}}
-        {{/feed/index-feed}}
+      {{#feed/feed-container}}
+        {{outlet}}
 
-      {{#if model}}
-        {{#infinity-loader
-          infinityModel=model
-        }}
-          {{#unless model.reachedInfinity}}
-            {{fa-icon 'spinner' class="fa-pulse"}}
-          {{/unless}}
-        {{/infinity-loader}}
-      {{else}}
-        {{feed/no-results
-          isMyStuffOnly=isMyStuffOnly
-          currentlyLoading=currentlyLoading
-          isSearchActive=isSearchActive
-        }}
-      {{/if}}
-    {{/feed/feed-container}}
+        {{#if currentlyLoading}}
+          {{x-loader}}
+        {{else}}
+          {{#if model}}
+            {{#if eventFilterAndNotMyStuff}}
+              {{outlet}}
+              {{events-results
+                events=model
+                adPath='feed.index'
+                jumpToDay=(action 'jumpToDay')
+                updateEnabledEventDays=(action 'updateEnabledEventDays')
+                enabledEventDays=enabledEventDays
+              }}
+            {{else}}
+              {{feed/index-feed
+                feedContents=model
+                showingDetailInFeed=showingDetailInFeed
+              }}
+            {{/if}}
+
+            {{#infinity-loader
+              infinityModel=model
+            }}
+              {{#unless model.reachedInfinity}}
+                {{fa-icon 'spinner' class="fa-pulse"}}
+              {{/unless}}
+            {{/infinity-loader}}
+          {{else}}
+            {{feed/no-results
+              isMyStuffOnly=isMyStuffOnly
+              currentlyLoading=currentlyLoading
+              isSearchActive=isSearchActive
+            }}
+          {{/if}}
+        {{/if}}
+      {{/feed/feed-container}}
 
     {{#floating-action-button}}
       {{jobs-navigation}}

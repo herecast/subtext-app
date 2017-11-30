@@ -12,6 +12,8 @@ export default Ember.Mixin.create({
   contactPhone: DS.attr('string'),
   content: DS.attr('string'),
   contentId: DS.attr('number'),
+  comments: DS.hasMany(),
+  commentCount: DS.attr('number'),
   cost: DS.attr('string'),
   costType: DS.attr('string'),
   endsAt: DS.attr('moment-date'),
@@ -36,8 +38,18 @@ export default Ember.Mixin.create({
   venueZip: DS.attr('string'),
   wantsToAdvertise: DS.attr('boolean'),
 
+  organization: DS.belongsTo('organization', {async: true}),
+  organizationId: DS.attr('number'),
+  organizationName: DS.attr('string'),
+  organizationProfileImageUrl: DS.attr('string'),
+  organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}),
+
   isPaid: Ember.computed.equal('costType', 'paid'),
   isFree: Ember.computed.equal('costType', 'free'),
+
+  contentLocations: DS.hasMany('content-location'),
+  baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),
+  baseLocationNames: computed.mapBy('baseLocations', 'locationName'),
 
   safeImageUrl: computed('imageUrl', function() {
     if (Ember.isPresent(this.get('imageUrl'))) {
