@@ -4,9 +4,7 @@ import { module, test } from 'qunit';
 
 module('Unit | Helper | show feed ad');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let result = showFeedAd([42]);
-  assert.ok(result);
-});
 
+test('it knows the correct starting position for display ads', function(assert) {
+  assert.ok(showFeedAd([2]));
+});
