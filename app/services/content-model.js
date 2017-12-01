@@ -13,7 +13,6 @@ export default Ember.Service.extend({
   convert(record) {
     const type = record.content_type;
     const views = record.view_count;
-    const comments = record.comment_count;
     const parentContentType = this.convertType(record.parent_content_type);
     const parentId = record.parent_content_id;
     const parentEventInstanceId = record.parent_event_instance_id;
@@ -26,6 +25,11 @@ export default Ember.Service.extend({
       record.content_id = record.id;
     }
 
+    if(modelName === 'event-instance' && record['event_instance_id']) {
+      record.id = record.event_instance_id;
+    }
+
+
     // Do not push the item into the store if its type is unrecognized
     if (isBlank(modelName)) {
       return false;
@@ -34,7 +38,6 @@ export default Ember.Service.extend({
 
       item.set('contentType', modelName);
       item.set('views', views);
-      item.set('comments', comments);
       item.set('parentContentType', parentContentType);
       item.set('parentId', parentId);
       item.set('parentEventInstanceId', parentEventInstanceId);

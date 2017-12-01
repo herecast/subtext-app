@@ -21,11 +21,13 @@ export default Ember.Controller.extend(PaginatedFilter, {
   search: service(),
   api: service(),
 
-  queryParams: ['query', 'location', 'type', 'radius', 'startDate'],
+  queryParams: ['query', 'location', 'type', 'radius', 'startDate', 'endDate'],
   query: computed.alias('search.query'),
   location: '',
   type: '',
   radius: '10',
+  startDate: '',
+  endDate: '',
   enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
   enabledEventsQueryParams: {},
 
@@ -85,7 +87,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
       radius: get(this, 'radius'),
       type: get(this, 'type'),
       query: get(this, 'query'),
-      startDate: undefined
+      startDate: '',
+      endDate: ''
     };
 
     this.transitionToRoute('feed', {
@@ -195,7 +198,9 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
 
     jumpToDay(date){
-      set(this, 'startDate', date);
+      this._transitionToFeed({
+        startDate: date
+      });
     }
   }
 });

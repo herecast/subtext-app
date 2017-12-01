@@ -45,6 +45,9 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
     },
     startDate: {
       refreshModel: true
+    },
+    endDate: {
+      refreshModel: true
     }
   },
 
@@ -144,10 +147,16 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               startDate = moment(params.startDate).startOf('day').format();
             }
 
+            let endDate;
+            if(isPresent(params.endDate)) {
+              endDate = moment(params.endDate).endOf('day').format();
+            }
+
             return this.infinityModel('event-instance', {
               query: params.query,
               location_id: get(location, 'id'),
               start_date: startDate,
+              end_date: endDate,
               per_page: 2,
               radius: params.radius
             });
@@ -200,7 +209,11 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
 
   resetController(controller, isExiting) {
     if(isExiting) {
-      controller.set('currentlyLoading', false);
+      controller.setProperties({
+        endDate: '',
+        startDate: '',
+        currentlyLoading: false
+      });
     }
   },
 

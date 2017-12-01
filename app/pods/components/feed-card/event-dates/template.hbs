@@ -12,7 +12,7 @@
         <div class="FeedCard-EventDates-other-dates-list">
           {{#each sortedInstances as |instance|}}
             <div>
-              {{#link-to 'feed.show-instance' model.id instance.id}}
+              {{#link-to 'feed.show-instance' model.contentId instance.id}}
                 {{formatted-date instance.startsAt 'ddd -  MMM DD, YYYY'}}
               {{/link-to}}
             </div>

@@ -23,7 +23,7 @@ export default Ember.Service.extend({
     Ember.$(window).scrollTop(0,0);
     get(this, 'routing').transitionTo('feed',
       [],
-      {query: query, type: ""}
+      {query: query, type: "", startDate: '', endDate: ''}
     ).finally(() => {
       set(this, 'isLoading', false);
     });

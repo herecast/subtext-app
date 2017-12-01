@@ -1,5 +1,5 @@
 {{#unless isDirectLink}}
-
+  {{! Adding the model property triggers this to rerender on same page transitions. }}
   {{render-in-modal
       (component 'event-detail'
         model=model
@@ -11,6 +11,9 @@
       )
       onClose=(action 'closeDetailPage')
       modalWrapper='modals/headless-wrapper'
+      tagName="div"
+      class="renderInModal"
+      model=model
   }}
 
 {{else}}

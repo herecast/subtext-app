@@ -8,7 +8,7 @@
 
       <div class='FutureEvent-body'>
         {{#if (eq instanceRoute  'feed.show-instance')}}
-          {{#link-to instanceRoute event.id instance.id }}
+          {{#link-to instanceRoute event.contentId instance.id }}
             <h4 class='FutureEvent-header'>{{moment-format instance.startsAt 'MMMM D, YYYY'}}</h4>
             <p class='FutureEvent-header'>{{instance.subtitle}}</p>
             <div class='FutureEvent-time'>{{fa-icon 'clock-o FutureEvent-icon hidden-xs'}} {{instance.formattedHours}}</div>
