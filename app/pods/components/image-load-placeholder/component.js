@@ -17,6 +17,7 @@ export default Ember.Component.extend({
 
   imageUrl: null,
   placeholderUrl: null,
+  formerImageUrl: null,
 
   imageIsLoaded: false,
   blurIsLoaded: false,
@@ -30,6 +31,7 @@ export default Ember.Component.extend({
     if(!isFastBoot) {
       const placeholderUrl = get(this,'placeholderUrl');
       const imageUrl = get(this, 'imageUrl');
+      const formerImageUrl = get(this, 'formerImageUrl');
 
       if(placeholderUrl) {
         this.loadImage(placeholderUrl).then(() => {
@@ -39,7 +41,8 @@ export default Ember.Component.extend({
         });
       }
 
-      if(imageUrl) {
+      if(imageUrl && imageUrl !== formerImageUrl) {
+        set(this, 'formerImageUrl', imageUrl);
         this.loadImage(imageUrl).then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
            set(this, 'imageIsLoaded', true);
