@@ -43,7 +43,9 @@ test('visiting /feed with location previously selected', function(assert) {
   visit('/feed');
 
   andThen(()=>{
-    assert.equal(currentURL(), `/feed`);
+    assert.equal(currentURL(), `/feed?location=${location.id}`,
+      "Redirects to feed with location parameter"
+    );
 
     feedRecords.forEach((record) => {
       const $feedCard = find(
