@@ -32,6 +32,7 @@ export default DS.Model.extend(ContentLocationsMixin, {
   organization: DS.belongsTo('organization'),
   canEdit: DS.attr('boolean', {defaultValue: false}),
 
+  ugcJob: DS.attr('string'),
   listEnabled: Ember.computed.notEmpty('listservId'),
   promoteRadius: DS.attr('number'),
 

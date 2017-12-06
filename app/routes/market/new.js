@@ -15,7 +15,8 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
     const newRecordValues = {
       publishedAt: moment(),
       promoteRadius: 10,
-      contactEmail: get(this, 'currentUserEmail')
+      contactEmail: get(this, 'currentUserEmail'),
+      ugcJob: params.job
     };
 
     if ('organization_id' in transition.queryParams) {
@@ -84,7 +85,10 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
 
       run.next(()=>{
         post.set('listservIds', []);
-        SocialSharing.checkFacebookCache(locationService, post).finally(() => {
+        SocialSharing.checkFacebookCache(locationService, post).catch((e)=>{
+          console.log(e);
+          // Do nothing, don't raise error.
+        }).finally(() => {
           this.transitionTo('feed.show', post.get('id'), {
             queryParams: {
               type: 'market'

@@ -15,6 +15,7 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
     const newRecordValues = {
       venueStatus: 'new',
       promoteRadius: 10,
+      ugcJob: params.job,
       listservIds: []
     };
 
@@ -87,7 +88,10 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
 
       run.next(() => {
         event.set('listservIds',[]);
-        SocialSharing.checkFacebookCache(locationService, event).finally(() => {
+        SocialSharing.checkFacebookCache(locationService, event).catch((e) => {
+          console.error(e);
+          // don't bubble this error.  It doesn't matter.
+        }).finally(() => {
           this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
             queryParams: {
               type: 'event'

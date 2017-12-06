@@ -24,7 +24,7 @@ export default Mirage.Factory.extend({
   contentLocations: [],
 
   afterCreate(record, server) {
-    record.firstInstanceId = server.create('event-instance', {
+    record.firstInstanceId = server.create('eventInstance', {
       eventId: record.id
     }).id;
     record.save();

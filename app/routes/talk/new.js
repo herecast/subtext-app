@@ -14,6 +14,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
       commenterCount: 1,
       commentCount: 1,
       promoteRadius: 10,
+      ugcJob: params.job,
       authorName: this.get('session.currentUser.name')
     };
 

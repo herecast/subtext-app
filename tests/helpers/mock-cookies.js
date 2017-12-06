@@ -8,6 +8,9 @@ export default function(application, cookies={}) {
     },
     write(name, value){
       cookies[name] = value;
+    },
+    clear(name) {
+      delete cookies[name];
     }
   }));
 }

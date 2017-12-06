@@ -44,7 +44,9 @@
     Edit Post
   </button>
 
-  <button class='Button Button--primary btn btn-primary pull-right' {{action 'preview'}}>
+  <button class='Button Button--primary btn btn-primary pull-right'
+    data-test-action='next'
+    {{action 'preview'}}>
     Next Step
     {{fa-icon 'arrow-right u-iconRight'}}
   </button>

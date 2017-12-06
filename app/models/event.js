@@ -16,6 +16,7 @@ const {
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
+  ugcJob: DS.attr('string'),
   api: inject.service('api'),
   comments: DS.hasMany('comment'),
   category: DS.attr('string'),

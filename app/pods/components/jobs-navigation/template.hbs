@@ -2,7 +2,7 @@
   {{#if organization.canPublishNews}}
     {{#lm.item}}
       {{#link-to 'news.new' (query-params organization_id=organizationId)}}
-        <span onclick={{action 'selectedMenuItem' 'Create news post'}}>
+        <span onclick={{action 'selectedMenuItem' 'Create news post'}} data-test-ugc-job-link data-test-link="Create news post">
           Create news post
         </span>
       {{/link-to}}
@@ -10,7 +10,7 @@
   {{/if}}
   {{#lm.item}}
     {{#link-to 'market.new' (query-params organization_id=organizationId job='Sell or give something away')}}
-      <span onclick={{action 'selectedMenuItem' 'Sell or give something away'}}>
+      <span onclick={{action 'selectedMenuItem' 'Sell or give something away'}} data-test-ugc-job-link data-test-link="Sell or give something away">
         Sell or give something away
       </span>
     {{/link-to}}
@@ -18,7 +18,7 @@
   {{#unless hideTalk}}
     {{#lm.item}}
       {{#link-to 'talk.new' (query-params organization_id=organizationId job='Ask your neighbors for a recommendation')}}
-        <span onclick={{action 'selectedMenuItem' 'Ask your neighbors for a recommendation'}}>
+        <span onclick={{action 'selectedMenuItem' 'Ask your neighbors for a recommendation'}} data-test-ugc-job-link data-test-link="Ask your neighbors for a recommendation">
         Ask your neighbors for a recommendation
       </span>
       {{/link-to}}
@@ -26,7 +26,7 @@
   {{/unless}}
   {{#lm.item}}
     {{#link-to 'market.new' (query-params organization_id=organizationId job='Buy, borrow or rent from your neighbors')}}
-      <span onclick={{action 'selectedMenuItem' 'Buy, borrow or rent from your neighbors'}}>
+      <span onclick={{action 'selectedMenuItem' 'Buy, borrow or rent from your neighbors'}} data-test-ugc-job-link data-test-link="Buy, borrow or rent from your neighbors">
         Buy, borrow or rent from your neighbors
       </span>
     {{/link-to}}
@@ -34,7 +34,7 @@
   {{#unless hideTalk}}
     {{#lm.item}}
       {{#link-to 'talk.new' (query-params organization_id=organizationId job='Make an announcement')}}
-        <span onclick={{action 'selectedMenuItem' 'Make an announcement'}}>
+        <span onclick={{action 'selectedMenuItem' 'Make an announcement'}} data-test-ugc-job-link data-test-link="Make an announcement">
           Make an announcement
         </span>
       {{/link-to}}
@@ -42,14 +42,14 @@
   {{/unless}}
   {{#lm.item}}
     {{#link-to 'events.new' (query-params organization_id=organizationId job='Post an event like a concert')}}
-      <span onclick={{action 'selectedMenuItem' 'Post an event like a concert'}}>
+      <span onclick={{action 'selectedMenuItem' 'Post an event like a concert'}} data-test-ugc-job-link data-test-link="Post an event like a concert">
         Post an event like a concert
       </span>
     {{/link-to}}
   {{/lm.item}}
   {{#lm.item}}
     {{#link-to 'events.new' (query-params organization_id=organizationId job='Post a recurring event like a yoga class')}}
-      <span onclick={{action 'selectedMenuItem' 'Post a recurring event like a yoga class'}}>
+      <span onclick={{action 'selectedMenuItem' 'Post a recurring event like a yoga class'}} data-test-ugc-job-link data-test-link="Post a recurring event like a yoga class">
         Post a recurring event like a yoga class
       </span>
     {{/link-to}}
@@ -57,7 +57,7 @@
   {{#unless hideTalk}}
     {{#lm.item}}
       {{#link-to 'talk.new' (query-params organization_id=organizationId job='Ask your neighbors a question')}}
-        <span onclick={{action 'selectedMenuItem' 'Ask your neighbors a question'}}>
+        <span onclick={{action 'selectedMenuItem' 'Ask your neighbors a question'}} data-test-ugc-job-link data-test-link="Ask your neighbors a question">
           Ask your neighbors a question
         </span>
       {{/link-to}}

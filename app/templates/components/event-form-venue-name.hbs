@@ -20,7 +20,7 @@
       </li>
     {{else}}
       {{#each venues as |venue|}}
-        <li><a href='#' {{action 'setVenue' venue}} data-test-venue-result>{{venue.name}}</a></li>
+        <li><a href='#' {{action 'setVenue' venue}} data-test-venue-result={{venue.id}}>{{venue.name}}</a></li>
       {{else}}
         <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
       {{/each}}
