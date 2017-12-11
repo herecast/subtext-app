@@ -11,6 +11,7 @@ export default Ember.Component.extend(TestSelector, {
     return `Create or manage content as '${get(this,'name')}'.`;
   }),
   name: null,
+  isUserAccount: false,
   avatarUrl: null,
   expanded: true,
 

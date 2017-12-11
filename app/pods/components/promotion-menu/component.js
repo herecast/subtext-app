@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     const customLinks = get(this, 'organization.customLinks') || [];
     const contentId = get(this, 'content.contentId');
 
-    return isPresent(customLinks) ? customLinks.findBy('content_id', contentId) : null;
+    return isPresent(customLinks) ? customLinks.findBy('contentId', contentId) : null;
   }),
 
   currentHotlinkTitle: computed.oneWay('contentHotlink.title'),

@@ -28,7 +28,7 @@ export default Ember.Component.extend(Validation, {
       customLinks = [];
     }
 
-    const existingLinkObject = customLinks.findBy('content_id', linkObject.content_id);
+    const existingLinkObject = customLinks.findBy('contentId', linkObject.contentId);
 
     if (isPresent(existingLinkObject)) {
       setProperties(existingLinkObject, linkObject);
@@ -49,7 +49,7 @@ export default Ember.Component.extend(Validation, {
       customLinks = [];
     }
 
-    customLinks = customLinks.rejectBy('content_id', get(this, 'content.contentId'));
+    customLinks = customLinks.rejectBy('contentId', get(this, 'content.contentId'));
 
     set(organization, 'customLinks', customLinks);
 
@@ -61,8 +61,9 @@ export default Ember.Component.extend(Validation, {
       if (this.isValid()) {
         const customLink = {
           title: get(this, 'inputValue'),
-          content_id: get(this, 'content.contentId'),
-          content_type: get(this, 'content.contentType')
+          contentId: get(this, 'content.contentId'),
+          contentType: get(this, 'content.contentType'),
+          eventInstanceId: get(this, 'content.eventInstanceId')
         };
         const notify = get(this, 'notify');
 

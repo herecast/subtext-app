@@ -26,34 +26,54 @@
 
 .UserMenuIdentityItem {
   position: relative;
-  padding-left: 50px;
   border-bottom: 1px solid #eee;
 
   &:last-of-type {
     border-bottom: none;
   }
 
-  &-avatar {
-    max-width: 40px;
-    max-height: 40px;
-    width: 40px;
-    position: absolute !important;
-    left: 0;
+  &-title,
+  &-body {
+    line-height: 1.2;
+    min-height: 40px;
+    padding: 2px;
+    display: grid;
+    grid-template-columns: 45px 1fr;
   }
 
   &-title {
     cursor: pointer;
-    line-height: 40px;
-    min-height: 40px;
-    padding: 2px;
+  }
+
+  &-identifier {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  &-avatar {
+    max-width: 40px;
+    max-height: 40px;
+    width: 40px;
+    grid-column: 1;
+    justify-self: center;
+    align-self: center;
   }
 
   &-name {
     display: inline;
     line-height: 1.2;
+    grid-column: 2;
+    align-self: center;
+  }
+
+  &-helpText {
+    line-height: 1.2;
+    grid-column-start: 2;
   }
 
   &-action {
+    grid-column-start: 2;
     width: auto !important;
     display: inline-block !important;
     background: #3DA0E5;
@@ -61,10 +81,9 @@
     &:hover, &:active {
       background: #3DA0E5 !important;
     }
-    margin-right: 0;
-    margin-left: auto;
+  
     margin-bottom: 10px;
-    padding: 5px 8px !important;
+    padding: 8px !important;
     cursor: pointer;
     border-radius: 3px;
     &:after {
@@ -78,4 +97,3 @@
     background: #efefef;
   }
 }
-

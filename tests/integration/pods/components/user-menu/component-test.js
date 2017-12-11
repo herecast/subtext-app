@@ -34,7 +34,7 @@ test('Given a user, it renders', function(assert) {
   let $myAccountLink = this.$(testSelector('link', 'my-account-link'));
   let $dashboardLink = this.$(testSelector('link', 'manage-content-link'));
 
-  assert.equal($userName.text().trim(), user.name,
+  assert.ok($userName.text().trim().indexOf(user.name) >= 0,
     'It displays user name'
   );
 

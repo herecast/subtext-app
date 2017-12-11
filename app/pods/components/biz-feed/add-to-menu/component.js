@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const { get, set, computed, isPresent, inject:{service} } = Ember;
+const { get, set, isPresent, inject:{service} } = Ember;
 
 export default Ember.Component.extend(Validation, {
   classNames: 'BizFeed-AddToMenu',
@@ -31,17 +31,14 @@ export default Ember.Component.extend(Validation, {
     return organizationModel.save();
   },
 
-  contentId: computed('content.{contentType,contentId,eventInstanceId}', function() {
-    return get(this, 'content.contentType') === 'event' ? get(this, 'content.eventInstanceId') : get(this, 'content.contentId');
-  }),
-
   actions: {
     saveHotlink() {
       if (this.isValid()) {
         const customLink = {
           title: get(this, 'inputValue'),
-          content_id: get(this, 'contentId'),
-          content_type: get(this, 'content.contentType')
+          contentId: get(this, 'content.contentId'),
+          eventInstanceId: get(this, 'content.eventInstanceId'),
+          contentType: get(this, 'content.contentType')
         };
 
         this._saveHotlink(customLink).then(() => {

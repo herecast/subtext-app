@@ -45,14 +45,16 @@
       {{fa-icon 'history'}}  Promotion History
     </div>
 
-    <div class="PromotionMenu-manage-button" {{action 'toggleAddToMenu'}}>
-      {{#if contentHotlink}}
-        {{fa-icon 'level-up'}}  Change Menu Button
-      {{else}}
-        {{fa-icon 'level-up'}}  Add to Menu
-      {{/if}}
-    </div>
-
+    {{#if isNotBannerAd}}
+      <div class="PromotionMenu-manage-button" {{action 'toggleAddToMenu'}}>
+        {{#if contentHotlink}}
+          {{fa-icon 'level-up'}}  Change Menu Button
+        {{else}}
+          {{fa-icon 'level-up'}}  Add to Menu
+        {{/if}}
+      </div>
+    {{/if}}
+    
     <div class="PromotionMenu-manage-button" {{action 'openCalendarWidget'}}>
       {{fa-icon 'calendar'}} {{#unless hasSunsetDate}}Set {{/unless}}Expiration Date
     </div>
@@ -76,4 +78,3 @@
   }}
 
 {{/if}}
-

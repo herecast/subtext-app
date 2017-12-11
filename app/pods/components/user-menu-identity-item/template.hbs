@@ -5,7 +5,14 @@
   customSize=35
   class="UserMenuIdentityItem-avatar"
   }}
-  <span data-test-user-menu-name>{{name}}</span>
+  <div class="UserMenuIdentityItem-name" data-test-user-menu-name>
+    {{name}}
+    {{#if isUserAccount}}
+    <span class="UserMenuIdentityItem-identifier">
+      (Personal Account)
+    </span>
+    {{/if}}
+  </div>
 </div>
 
 {{#if expanded}}

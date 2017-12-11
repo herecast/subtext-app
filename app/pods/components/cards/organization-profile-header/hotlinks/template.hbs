@@ -1,25 +1,23 @@
 {{#divided-list}}
-  {{#each customLinksWithContent as |customLink|}}
-    {{#if customLink.content.isPublic}}
-      <li>
-        {{#if customLink.content.isCampaign}}
-          {{#if customLink.content.redirectUrl}}
-            {{#x-link-url href=customLink.content.redirectUrl
-                          target='_blank'
-                          color='primary'
-                          size='medium'}}
-              {{customLink.title}}
-            {{/x-link-url}}
-          {{/if}}
-        {{else}}
-          {{#x-link-to 'profile.all.show'
-                       customLink.content.contentId
+  {{#each customLinks as |customLink|}}
+    <li>
+      {{#if customLink.eventInstanceId}}
+        {{#x-link-to  'profile.all.show-instance'
+                       customLink.contentId
+                       customLink.eventInstanceId
                        color='primary'
                        size='medium'}}
-            {{customLink.title}}
-          {{/x-link-to}}
-        {{/if}}
-      </li>
-    {{/if}}
+          {{customLink.title}}
+        {{/x-link-to}}
+      {{else}}
+        {{#x-link-to 'profile.all.show'
+                     customLink.contentId
+                     color='primary'
+                     size='medium'}}
+          {{customLink.title}}
+        {{/x-link-to}}
+      {{/if}}
+    </li>
+
   {{/each}}
 {{/divided-list}}

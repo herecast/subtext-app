@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   showBlankBackgroundImage: false,
   onlyShowCityAndState: false,
   noShadow:false,
+  showCustomLinks: true,
 
   fastboot: inject.service(),
 

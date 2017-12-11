@@ -56,14 +56,15 @@
         {{/link-to}}
       {{/if}}
 
-      <div class="BizFeed-CardManage-manage-button" {{action 'toggleAddToMenu'}}>
-        {{#if contentIsHotlink}}
-          {{fa-icon 'level-up'}}  Change Menu Button
-        {{else}}
-          {{fa-icon 'level-up'}}  Add to Menu
-        {{/if}}
-      </div>
-
+      {{#unless isBannerAd}}
+        <div class="BizFeed-CardManage-manage-button" {{action 'toggleAddToMenu'}}>
+          {{#if contentIsHotlink}}
+            {{fa-icon 'level-up'}}  Change Menu Button
+          {{else}}
+            {{fa-icon 'level-up'}}  Add to Menu
+          {{/if}}
+        </div>
+      {{/unless}}
 
         <div class="BizFeed-CardManage-manage-button" {{action 'openCalendarWidget'}}>
           {{fa-icon 'calendar'}} {{#unless hasSunsetDate}}Set {{/unless}}Expiration Date

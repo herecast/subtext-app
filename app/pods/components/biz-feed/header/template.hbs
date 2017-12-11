@@ -104,9 +104,15 @@
         {{#if hasCustomLinks}}
           {{#each organization.customLinks as |customLink|}}
             <div class="BizFeed-Header-icon-bar-item">
-              {{#link-to 'biz.show.detail' customLink.content_id (query-params ctype=customLink.content_type)}}
-                {{fa-icon 'link'}} {{customLink.title}}
-              {{/link-to}}
+              {{#if customLink.eventInstanceId}}
+                {{#link-to 'biz.show.detail' customLink.eventInstanceId (query-params ctype=customLink.contentType)}}
+                  {{fa-icon 'link'}} {{customLink.title}}
+                {{/link-to}}
+              {{else}}
+                {{#link-to 'biz.show.detail' customLink.contentId (query-params ctype=customLink.contentType)}}
+                  {{fa-icon 'link'}} {{customLink.title}}
+                {{/link-to}}
+              {{/if}}
             </div>
           {{/each}}
         {{/if}}

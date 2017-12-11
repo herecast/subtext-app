@@ -24,14 +24,15 @@
         {{/text-block}}
 
         {{#text-block}}
-          If you are a local business looking for support, look through our partners below and see if there is a match for your needs.
-          Then go ahead and make contact with whomever you'd like and they can explain all about what they and DailyUV have to offer.
-          If you don't see someone that fits what you need, feel free to contact us by pressing above
+          If you are a local business looking for support, look through our partners below and find the right match for your needs.
+          Make contact and they can explain all about what they and DailyUV have to offer.
+          If you don't see someone that fits what you need, feel free to contact us by clicking the Find A Storyteller button.
         {{/text-block}}
 
         {{#text-block}}
-          If you are a local expert in marketing, writing, photography, videography, social media, or graphic designa and you're
-          interested in supporting local businesses with their digital presence, press the button above to become a Certified Storyteller.
+          If you are a local expert in marketing, writing, photography, videography, social media, or graphic design and you're
+          interested in helping local businesses build their digital presence, click the become a Certified Storyteller link.
+          We'd love to hear from you!
         {{/text-block}}
 
       {{else}}
@@ -69,6 +70,7 @@
         showBlankBackgroundImage=true
         onlyShowCityAndState=true
         noShadow=true
+        showCustomLinks=false
       }}
 
       {{#content-body increaseBottomPadding=true}}
@@ -82,7 +84,7 @@
           {{truncate-text text=organization.description maxLength=140}}
           <div class="Storytellers--see-more">
             {{#link-to organization.organizationLinkRoute organization.organizationLinkId}}
-              See more {{fa-icon 'chevron-down'}}
+              See profile
             {{/link-to}}
           </div>
         {{/text-block}}
