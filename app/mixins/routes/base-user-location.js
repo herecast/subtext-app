@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const {
   get,
+  set,
   isPresent,
   inject
 } = Ember;
@@ -14,18 +15,13 @@ export default Ember.Mixin.create({
    */
   afterModel(model) {
     this._super(...arguments);
-    const baseLocation = get(model, 'contentLocations').findBy('locationType', 'base');
+    return get(model, 'ugcBaseLocation').then((baseLocation) => {
 
-    if(!isPresent(baseLocation)) {
-      get(this, 'userLocation.location').then((location) => {
-        get(model, 'contentLocations').addObject(
-          this.store.createRecord('content-location', {
-            locationType: 'base',
-            locationId: location.id,
-            location: location
-          })
-        );
-      });
-    }
+      if(!isPresent(baseLocation)) {
+        get(this, 'userLocation.location').then((location) => {
+          set(model, 'ugcBaseLocation', location);
+        });
+      }
+    });
   }
 });

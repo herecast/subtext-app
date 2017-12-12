@@ -50,6 +50,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.can_edit;
     delete json.base_location_names;
     delete json.comment_count;
+    delete json.content_locations;
 
     return json;
   }

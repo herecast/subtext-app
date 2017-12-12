@@ -1,9 +1,8 @@
 {{#location-radius-control
-  location=(readonly baseLocation)
+  location=(readonly model.ugcBaseLocation)
   radius=(readonly model.promoteRadius)
   onChooseRadius=(action 'updateRadius')
   onChooseLocation=(action 'updateBaseLocation')
-  onNearbyLocationsChanged=(action 'updateLocations')
 as |location-control|}}
   {{location-control.radius-selector}}
   {{#location-control.nearby as |nearby|}}

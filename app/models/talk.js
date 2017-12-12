@@ -34,7 +34,6 @@ export default DS.Model.extend(ContentLocationsMixin, {
 
   ugcJob: DS.attr('string'),
   listEnabled: Ember.computed.notEmpty('listservId'),
-  promoteRadius: DS.attr('number'),
 
   hasParentContent: computed('parentContentType', 'parentContentId', function() {
     return Ember.isPresent(this.get('parentContentType')) && Ember.isPresent(this.get('parentContentId'));

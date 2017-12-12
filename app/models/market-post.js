@@ -39,7 +39,6 @@ export default DS.Model.extend(FastbootExtensions, ContentLocationsMixin, {
   city: DS.attr('string'),
   state: DS.attr('string'),
   zip: DS.attr('string'),
-  promoteRadius: DS.attr('number'),
   ugcJob: DS.attr('string'),
 
   fullAddress: computed('address', 'city', 'state', 'zip', function() {

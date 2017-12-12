@@ -6,6 +6,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
     contentLocations: { embedded: 'always' }
   },
+
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
 
@@ -28,6 +29,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.initialCommentAuthor;
     delete json.initialCommentAuthorImageUrl;
     delete json.base_location_names;
+    delete json.content_locations;
 
     return json;
   }

@@ -3,7 +3,7 @@ import Ember from 'ember';
 
 moduleForModel('talk', 'Unit | Model | talk', {
   // Specify the other units that are required for this test.
-  needs: ['model:organization', 'model:content-location']
+  needs: ['model:organization', 'model:content-location', 'model:location']
 });
 
 test('it exists', function(assert) {

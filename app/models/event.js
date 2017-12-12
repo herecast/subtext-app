@@ -28,7 +28,6 @@ export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
   schedules: DS.hasMany('schedule'),
   organization: DS.belongsTo('organization'),
   ownerName: DS.attr('string'),
-  promoteRadius: DS.attr('number'),
 
   categoryEnabled: computed.notEmpty('category'),
   listsEnabled: computed.notEmpty('listservIds'),
