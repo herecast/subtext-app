@@ -7,7 +7,7 @@
           radius=(readonly radius)
           onChooseMyStuffOnly=(action "chooseMyStuffOnly")
           filterComponent=(component "header-location-control"
-            location=(readonly userLocation.location)
+            location=locationForControls
             radius=(readonly radius)
             onChooseRadius=(action "changeRadius")
             onChooseLocation=(action "chooseLocation")
@@ -27,7 +27,7 @@
 
     {{#unless session.isFastBoot}}
       {{locations-nearby
-        location=(readonly userLocation.location)
+        location=locationForControls
         radius=(readonly radius)
         class='text-center'
       }}
