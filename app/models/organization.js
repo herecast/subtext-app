@@ -21,6 +21,7 @@ export default DS.Model.extend({
   twitterHandle: DS.attr('string'),
   orgType: DS.attr('string'),
   bizFeedActive: DS.attr('boolean'),
+  claimed: DS.attr('boolean'),
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
@@ -66,7 +67,8 @@ export default DS.Model.extend({
   }),
 
   emailLink: computed('email', function() {
-    return `mailto:${this.get('email')}`;
+    const email = get(this, 'email') || false;
+    return email ? `mailto:${this.get('email')}` : '';
   }),
 
   twitterHandleLink: computed('twitterHandle', function() {
@@ -84,8 +86,9 @@ export default DS.Model.extend({
   }),
 
   directionsLink: computed('fullAddress', function() {
-    const addressLink = get(this, 'fullAddress') + "," + get(this, 'zip');
-    return 'http://maps.google.com/?q=' + encodeURIComponent(addressLink);
+    const fullAddress = get(this, 'fullAddress') || false;
+
+    return fullAddress ? 'http://maps.google.com/?q=' + encodeURIComponent(fullAddress) : '';
   }),
 
   slug: computed('name', 'id', function() {

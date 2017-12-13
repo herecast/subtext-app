@@ -319,6 +319,24 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackCarouselEvent(eventName, carouselId) {
+    this.push({
+      event: `Carousel${eventName}`,
+      carousel_id: carouselId,
+      url: window.location.href
+    });
+  },
+
+  trackCarouselCardClickEvent(elementName, carouselId, contentId) {
+    this.push({
+      event: `CarouselClickedCard`,
+      content_id: contentId,
+      element: elementName,
+      carousel_id: carouselId,
+      url: window.location.href
+    });
+  },
+
   /** Private **/
 
   _eventuallyGetClientId() {

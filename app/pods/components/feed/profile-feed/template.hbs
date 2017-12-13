@@ -1,9 +1,10 @@
 {{yield}}
 
-{{#each feedContents as |content|}}
-  {{feed-card model=content
-              organization=organization
-              canManage=canManage
-              displayAsPublic=displayAsPublic
+{{#each feedItems as |feedItem|}}
+  {{feed/feed-item
+    model=feedItem
+    organization=organization
+    canManage=canManage
+    displayAsPublic=displayAsPublic
   }}
 {{/each}}

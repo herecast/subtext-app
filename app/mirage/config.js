@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import Mirage from 'ember-cli-mirage';
 
-const { isPresent } = Ember;
+const { isPresent, isBlank, get } = Ember;
 
 /*jshint multistr: true */
 
@@ -1027,17 +1027,75 @@ export default function() {
     return {};
   });
 
-  this.get('/contents', function({db, feedContents}, request) {
-    const {page, per_page} = request.queryParams;
-    const meta = {
-      total: feedContents.all().length,
-      total_pages: Math.ceil( feedContents.all().length / per_page )
-    };
+  this.get('/contents', function({db, feedItems}, request) {
+    const {page, per_page, content_type, query, organization_id} = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
-    var response = this.serialize(feedContents.all().slice(startIndex, endIndex));
-    response.meta = meta;
+    let response;
+
+    const showProfilePageContents = isPresent(organization_id);
+    const showOrganizationCards = content_type === 'organization';
+    const justShowOneContentType = isPresent(content_type) && content_type !== 'organization' && isBlank(query);
+    const showACollectionFirstThenContents = isBlank(content_type) && isPresent(query);
+
+    if (showProfilePageContents) {
+      let organizationFeedItems = feedItems.all().filter((feedItem) => {
+        return feedItem.modelType === 'feedContent' && feedItem.organizationId === organization_id;
+      });
+
+      response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
+
+      response.meta = {
+        total: organizationFeedItems.length,
+        total_pages: Math.ceil( organizationFeedItems.length / per_page )
+      };
+
+    } else if (showOrganizationCards) {
+      let organizationFeedItems = feedItems.all().filter((feedItem) => {
+        return feedItem.modelType === 'organization';
+      });
+
+      response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
+
+      response.meta = {
+        total: organizationFeedItems.length,
+        total_pages: Math.ceil( organizationFeedItems.length / per_page )
+      };
+
+    } else if (justShowOneContentType) {
+      let feedContentTypeFeedItems = feedItems.all().filter((feedItem) => {
+        if (feedItem.modelType === 'feedContent') {
+          return get(feedItem.feedContent, 'contentType') === content_type;
+        }
+        return false;
+      });
+
+      response = this.serialize(feedContentTypeFeedItems.slice(startIndex, endIndex));
+
+      response.meta = {
+        total: feedContentTypeFeedItems.length,
+        total_pages: Math.ceil( feedContentTypeFeedItems.length / per_page )
+      };
+
+    } else if (showACollectionFirstThenContents) {
+      response = this.serialize(feedItems.all().slice(startIndex, endIndex));
+      response.meta = {
+        total: feedItems.all().length,
+        total_pages: Math.ceil( feedItems.all().length / per_page )
+      };
+    } else {
+      let defaultItems = feedItems.all().filter((feedItem) => {
+        return feedItem.modelType === 'feedContent';
+      });
+
+      response = this.serialize(defaultItems.slice(startIndex, endIndex));
+
+      response.meta = {
+        total: defaultItems.length,
+        total_pages: Math.ceil( defaultItems.length / per_page )
+      };
+    }
 
     return new Mirage.Response(200, {}, response);
   });
@@ -1045,6 +1103,5 @@ export default function() {
   this.get('/contents/:id', function({db, feedContents}, request){
     return feedContents.find(request.params.id);
   });
-
 
 }

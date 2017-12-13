@@ -1,0 +1,25 @@
+{{#if isFeedContent}}
+  {{#unless (is-equal itemModel.id showingDetailInFeed)}}
+    {{feed-card
+      model=itemModel
+      organization=organization
+      canManage=canManage
+      displayAsPublic=displayAsPublic
+    }}
+  {{/unless}}
+{{else if isCarousel}}
+  {{feed-carousel/carousel
+    model=itemModel
+    isSearchActive=isSearchActive
+  }}
+{{else if isOrganization}}
+  {{#x-card}}
+    {{cards/organization-profile-header
+      organization=itemModel
+      showGearButton=false
+    }}
+    {{cards/organization-contact
+      organization=itemModel
+    }}
+  {{/x-card}}
+{{/if}}

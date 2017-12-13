@@ -74,22 +74,32 @@
     {{/if}}
 
     {{#x-card}}
-      {{search-input noBorder=true
-                     size='large'
-                     color='black'
-                     value=(readonly query)
-                     update=(action 'updateQuery')
-                     data-test-component='organization-content-query'
-                     isLoading=isLoading
+      {{search-input
+        noBorder=true
+        size='large'
+        color='black'
+        value=(readonly query)
+        update=(action 'updateQuery')
+        data-test-component='organization-content-query'
+        isLoading=isLoading
       }}
     {{/x-card}}
 
     {{#if model}}
-      {{feed/profile-feed feedContents=(readonly contentVisible)
-                          organization=(readonly organization)
-                          canManage=(readonly isAdmin)
-                          displayAsPublic=(not showAdminCards)
+      {{feed/profile-feed
+        feedItems=(readonly visibleFeedItems)
+        organization=(readonly organization)
+        canManage=(readonly isAdmin)
+        displayAsPublic=(not showAdminCards)
       }}
+
+      {{#infinity-loader
+        infinityModel=model
+      }}
+        {{#unless model.reachedInfinity}}
+          {{x-loader}}
+        {{/unless}}
+      {{/infinity-loader}}
     {{else}}
       {{#no-results-card}}
         {{#text-block}}
@@ -101,14 +111,6 @@
         {{/text-block}}
       {{/no-results-card}}
     {{/if}}
-
-    {{#infinity-loader
-      infinityModel=model
-    }}
-      {{#unless model.reachedInfinity}}
-        {{x-loader}}
-      {{/unless}}
-    {{/infinity-loader}}
 
   {{/feed/feed-container}}
 

@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     if (get(this, 'backgroundImageBlock')) {
       return '';
     }
-    return get(this, 'organiztaion.backgroundImageUrl');
+    return get(this, 'organization.backgroundImageUrl');
   }),
 
   willExpandDescription: false,

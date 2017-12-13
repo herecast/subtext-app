@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { get, set, computed, inject:{service} } = Ember;
+const { get, set, computed, isBlank, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard',
@@ -22,7 +22,11 @@ export default Ember.Component.extend({
 
   contentType: computed.reads('model.normalizedContentType'),
   componentType: computed('contentType', function() {
-    const contentType = get(this, 'contentType');
+    let contentType = get(this, 'contentType');
+
+    if (isBlank(contentType) || contentType === 'campaign') {
+      contentType = 'talk';
+    }
 
     return `feed-card/${contentType}-card`;
   }),

@@ -77,6 +77,8 @@ export default Factory.extend({
   publishedAt() { return faker.date.past(); },
   updatedAt() { return faker.date.past(); },
 
+  bizFeedPublic() { return faker.random.arrayElement([true, false]); },
+
   organization: association(),
 
   organizationName() { return faker.company.companyName(); },

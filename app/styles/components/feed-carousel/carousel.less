@@ -1,0 +1,80 @@
+.FeedCarousel-Carousel {
+  width: 100%;
+
+  &-wrapper {
+    padding: 10px 15px;
+  }
+
+  &-title-bar {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-transform: capitalize;
+    border-bottom: solid 1px #ECF2F5;
+  }
+
+  &-carousel {
+    padding: 10px 15px;
+  }
+
+  .swiper-container {
+    padding: 15px;
+  }
+
+  .swiper-slide {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background: #efefef;
+    padding: 8px;
+    border-radius: 50%;
+    z-index: 10;
+    height: 40px;
+    width: 40px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .swiper-button-next:after {
+    content: '\f054';
+    font-size: 24px;
+    color: #4e4e4e;
+    font-family: FontAwesome;
+    margin-left: 3px;
+  }
+  .swiper-button-prev:after {
+    content: '\f053';
+    font-size: 24px;
+    color: #4e4e4e;
+    font-family: FontAwesome;
+    margin-right: 3px;
+  }
+  .swiper-button-disabled {
+    pointer-events: all !important;
+  }
+
+  @media (max-width: @screen-xs-max) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none;
+    }
+  }
+
+  &-cta-card {
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      font-size: 30px;
+    }
+  }
+}

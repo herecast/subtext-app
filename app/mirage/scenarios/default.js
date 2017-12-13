@@ -96,18 +96,10 @@ export default function (server) {
   server.createList('organizationContent', 10);
   server.createList('event-instance', 100);
 
-  const feedContents = server.createList('feedContent', 100, {
-    organization: server.create('organization')
-  });
+  server.createList('feedItem', 120);
 
-  feedContents.forEach((record, index) => {
-    if((index % 4) === 0) {
-      server.createList('comment', 5, {feedContentId: record.id});
-    }
-  });
-
-  const user1 = server.create('user', {email: 'test@test.com', locationId: 'hartford-vt'});
-  const user2 = server.create('user', {locationId: 'hanover-nh'});
+  const user1 = server.create('user', {email: 'test@test.com', location_id: 1});
+  const user2 = server.create('user', {location_id: 1});
 
   const listserv = server.create('listserv');
   const listserv2 = server.create('listserv');

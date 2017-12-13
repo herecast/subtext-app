@@ -16,12 +16,13 @@ moduleForAcceptance('Acceptance | feed', {
   }
 });
 
-test('visiting /feed with location previously selected', function(assert) {
+
+test('visiting /feed with location previously selected ', function(assert) {
   const done = assert.async();
 
   const location = mockLocationCookie(this.application);
 
-  const feedRecords = server.createList('feedContent', 3, {
+  server.createList('feedContent', 3, {
     contentLocations: [{
       id: 1,
       location_type: 'base',
@@ -29,7 +30,7 @@ test('visiting /feed with location previously selected', function(assert) {
     }]
   });
 
-  server.get('/contents', function({feedContents}, request) {
+  server.get('/contents', function({feedItems}, request) {
     if(request.queryParams.location_id) {
       assert.equal(request.queryParams.location_id,
         location.id,
@@ -37,7 +38,12 @@ test('visiting /feed with location previously selected', function(assert) {
       done();
     }
 
-    return feedContents.all();
+    return feedItems.all();
+  });
+
+
+  const feedItems = server.createList('feedItem', 3, {
+    modelType: 'feedContent'
   });
 
   visit('/feed');
@@ -47,13 +53,13 @@ test('visiting /feed with location previously selected', function(assert) {
       "Redirects to feed with location parameter"
     );
 
-    feedRecords.forEach((record) => {
+    feedItems.forEach((record) => {
       const $feedCard = find(
         testSelector('feed-card') +
-        testSelector('content', record.id)
+        testSelector('content', record.feedContent.id)
       );
       assert.ok($feedCard.length,
-        `A feed card exists for content: ${record.title}`);
+        `A feed card exists for content id: ${record.feedContent.id}`);
     });
   });
 });
@@ -62,7 +68,8 @@ test('visiting /feed?location= with location in url', function(assert) {
   const done = assert.async();
 
   const location = mockLocationCookie(this.application);
-  const feedRecords = server.createList('feedContent', 3, {
+
+  server.createList('feedContent', 3, {
     contentLocations: [{
       id: 1,
       location_type: 'base',
@@ -70,7 +77,7 @@ test('visiting /feed?location= with location in url', function(assert) {
     }]
   });
 
-  server.get('/contents', function({feedContents}, request) {
+  server.get('/contents', function({feedItems}, request) {
     if(request.queryParams.location_id) {
       assert.equal(request.queryParams.location_id,
         location.id,
@@ -78,19 +85,23 @@ test('visiting /feed?location= with location in url', function(assert) {
       done();
     }
 
-    return feedContents.all();
+    return feedItems.all();
+  });
+
+  const feedItems = server.createList('feedItem', 3, {
+    modelType: 'feedContent'
   });
 
   visit('/feed?location=' + location.id);
 
   andThen(()=>{
-    feedRecords.forEach((record) => {
+    feedItems.forEach((record) => {
       const $feedCard = find(
         testSelector('feed-card') +
-        testSelector('content', record.id)
+        testSelector('content', record.feedContent.id)
       );
       assert.ok($feedCard.length,
-        `A feed card exists for content: ${record.title}`);
+        `A feed card exists for content id : ${record.feedContent.id}`);
     });
   });
 });
@@ -196,8 +207,8 @@ test('feed show page, event with instance id', function(assert) {
     );
 
     const $eventDetail = find(
-      testSelector('feed-card', 'event') +
-      testSelector('content', feedRecord.id)
+      testSelector('component', 'event-detail') +
+      testSelector('content', eventInstance.contentId)
     );
 
     assert.ok($eventDetail.length, 'Displays event detail');

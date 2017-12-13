@@ -10,7 +10,9 @@ const {
 export default Ember.Controller.extend({
   modals: inject.service(),
   elsewhere: inject.service('ember-elsewhere'),
+  searchService: inject.service('search'),
   hasHeaderPageToolbar: computed.bool('elsewhere.actives.page-toolbar.length'),
+  searchOpen: computed.alias('searchService.searchActive'),
 
   currentController: inject.service('current-controller'),
   routing: inject.service('_routing'),

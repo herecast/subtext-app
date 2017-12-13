@@ -92,6 +92,7 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
           console.error(e);
           // don't bubble this error.  It doesn't matter.
         }).finally(() => {
+          this.controllerFor('feed').set('model', []);
           this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
             queryParams: {
               type: 'event'

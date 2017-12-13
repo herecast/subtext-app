@@ -3,11 +3,22 @@ import Mirage, {faker} from 'ember-cli-mirage';
 export default Mirage.Factory.extend({
   name() { return faker.company.companyName(); },
   profileTitle() { return faker.company.companyName(); },
-  profileImageUrl() { return faker.image.avatar(); },
+  profileImageUrl() {
+    return faker.random.arrayElement([
+      faker.image.avatar(),
+      null
+    ]);
+  },
+  claimed() { return faker.random.arrayElement([true, false]); },
   logoUrl() { return 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Company+Logo&w=300&h=200'; },
   subscribeUrl() { return 'http://example.org/subscribe'; },
   orgType() { return faker.random.arrayElement(["Business", "Blog"]); },
-  backgroundImageUrl() { return faker.image.business(); },
+  backgroundImageUrl() {
+    return faker.random.arrayElement([
+      faker.image.business(),
+      null
+    ]);
+  },
   description() { return faker.lorem.paragraph(); },
   canPublishNews() { return true; },
   canEdit() { return true; },

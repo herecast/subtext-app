@@ -184,7 +184,14 @@ test('Visiting landing page, clicking organization name brings me to profile pag
 
   let organization = server.create('organization', {orgType: 'Blog', bizFeedActive: false});
   let location = server.create('location');
-  server.create('feedContent', {
+
+  const feedItem = server.create('feedItem', {
+    modelType: 'feedContent'
+  });
+
+  let feedContent = feedItem.feedContent;
+
+  feedContent.update({
     contentType: 'news',
     contentOrigin: 'ugc',
     organizationId: organization.id,

@@ -79,13 +79,13 @@ export default Ember.Component.extend({
     const namespace = get(this, 'namespaceForFocusEvent');
     Ember.$('body').on(`focus.${namespace}`, 'input,textarea,[contenteditable]', () => {
       if(!get(this, 'isDestroying')){
-        set(this, 'touchKeyboardIsOpen', true);
+        Ember.run(() => {set(this, 'touchKeyboardIsOpen', true); });
       }
     });
 
     Ember.$('body').on(`focusout.${namespace}`, 'input,textarea,[contenteditable]', () => {
       if(!get(this, 'isDestroying')) {
-        set(this, 'touchKeyboardIsOpen', false);
+        Ember.run(() => {set(this, 'touchKeyboardIsOpen', false); });
       }
     });
   },

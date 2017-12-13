@@ -101,7 +101,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
             radius: params.radius
           }));
         } else {
-          resolve(this.infinityModel('feed-content', {
+          resolve(this.infinityModel('feed-item', {
             location_id: params.location || selectedOrDefaultLocationId,
             radius: params.radius,
             query: params.query,
@@ -162,7 +162,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
     }
   },
 
-  /** 
+  /**
    * The following logic is to ensure if we're on the feed route when authenticating,
    * that the feed is reloaded with the user's location
    */

@@ -1,0 +1,55 @@
+{{#if (and isOrganizationCarousel hasCards)}}
+  {{#x-card class="FeedCarousel-wrapper"}}
+
+    {{#if carouselTitle}}
+      <div class="FeedCarousel-Carousel-title-bar">
+        {{carouselTitle}}
+      </div>
+    {{/if}}
+
+    {{#swiper-container
+      grabCursor=false
+      pagination=false
+      navigation=true
+      centered=false
+      slidesPerView="auto"
+      updateFor=cards.length
+      onChange=(action 'onChange')
+    }}
+
+      {{#each cards as |card|}}
+        {{#swiper-slide}}
+          {{feed-carousel/card
+            model=card
+            type=carouselType
+            carouselId=carouselId
+          }}
+        {{/swiper-slide}}
+      {{/each}}
+
+      {{#if queryParams}}
+        {{#swiper-slide}}
+          <span {{action 'onClickSeeMore'}}>
+            {{#link-to params=(dynamic-params 'feed.index' queryParams)}}
+              <div class="FeedCarousel-Carousel-cta-card">
+                <div>
+                  {{fa-icon 'search'}}
+                  <div>
+                    See More {{seeMoreText}}<br />Like These
+                  </div>
+                </div>
+              </div>
+            {{/link-to}}
+          </span>
+        {{/swiper-slide}}
+      {{/if}}
+
+    {{/swiper-container}}
+
+  {{/x-card}}
+
+{{else if isFeedContentCarousel}}
+  {{feed/index-feed
+    feedContents=cards
+  }}
+{{/if}}

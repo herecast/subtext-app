@@ -65,9 +65,8 @@ export default Ember.Route.extend(InfinityRoute, History, {
     // Do not attempt to render content in fastboot if we need to first determine if user has access to it
     const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
 
-    return hideContent ? [] : this.infinityModel('feed-content', {
-        startingPage: params.page,
-        perPage: 20,
+    return hideContent ? [] : this.infinityModel('feed-item', {
+        page: params.page,
         organization_id: this._getOrganizationId(),
         query: params.query,
         show: params.show

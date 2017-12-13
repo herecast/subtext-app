@@ -75,5 +75,3 @@ test('visiting registration page while already authenticated redirects to root p
     assert.equal(currentPath(), 'feed.index', 'it should redirect to the correct url when the user is already authenticated');
   });
 });
-
-

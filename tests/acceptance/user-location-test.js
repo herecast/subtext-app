@@ -3,7 +3,7 @@ import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance'
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 
 
-moduleForAcceptance('Acceptance | feed', {
+moduleForAcceptance('Acceptance | user location', {
   beforeEach() {
     invalidateSession(this.application);
     window.Intercom = function() {};
@@ -20,4 +20,3 @@ test('visiting /feed no location previously selected', function(assert) {
     );
   });
 });
-

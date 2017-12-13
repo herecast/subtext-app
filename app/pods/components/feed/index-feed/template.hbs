@@ -1,7 +1,11 @@
-{{#each feedContents as |content index|}}
-  {{#unless (is-equal content.id showingDetailInFeed)}}
-    {{feed-card model=content}}
-  {{/unless}}
+{{yield}}
+
+{{#each feedItems as |feedItem index|}}
+  {{feed/feed-item
+    model=feedItem
+    showingDetailInFeed=showingDetailInFeed
+    isSearchActive=isSearchActive
+  }}
 
   {{#if (show-feed-ad index)}}
     <div class='AdBanner-wrapper AdBanner-wrapper--feed'>
