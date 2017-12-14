@@ -21,7 +21,6 @@ export default Service.extend(Evented, {
   session: inject.service(),
   intercom: inject.service(),
   fastboot: inject.service(),
-  logger: inject.service(),
   clientId: null,
   locationId: computed.reads('userLocation.location.id'),
   locationIsConfirmed: computed.reads('userLocation.locationIsConfirmed'),
@@ -97,7 +96,7 @@ export default Service.extend(Evented, {
         this.trigger('DataLayerEvent', trackData);
 
         if(get(this, 'logEnabled') && trackData.event) {
-          get(this, 'logger').log("[dataLayer Event]: ", trackData.event, trackData);
+          console.log("[dataLayer Event]: ", trackData.event, trackData);
         }
       });
     }
@@ -121,7 +120,7 @@ export default Service.extend(Evented, {
         );
 
         if(get(this, 'logEnabled')) {
-          get(this, 'logger').info(`[Impression of content]: ${content_id}`);
+          console.info(`[Impression of content]: ${content_id}`);
         }
       });
     }
@@ -144,7 +143,7 @@ export default Service.extend(Evented, {
         get(this, 'api').recordPromoBannerLoad(id, trackData);
 
         if(get(this, 'logEnabled')) {
-          get(this, 'logger').info(`[Load of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
+          console.info(`[Load of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
         }
       });
     }
@@ -167,7 +166,7 @@ export default Service.extend(Evented, {
         get(this, 'api').recordPromoBannerImpression(id, trackData);
 
         if(get(this, 'logEnabled')) {
-          get(this, 'logger').info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
+          console.info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
         }
       });
     }
@@ -189,7 +188,7 @@ export default Service.extend(Evented, {
   },
 
   profileContentClick(organization, content) {
-    get(this, 'logger').log('profileContentClick', organization, content);
+    console.log('profileContentClick', organization, content);
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {
         const trackData = {
@@ -220,7 +219,7 @@ export default Service.extend(Evented, {
         get(this, 'api').recordPromoBannerClick(id, trackData);
 
         if(get(this, 'logEnabled')) {
-          get(this, 'logger').info(`[Click banner]: ${get(promo, 'id')}`);
+          console.info(`[Click banner]: ${get(promo, 'id')}`);
         }
       });
     }
@@ -364,7 +363,7 @@ export default Service.extend(Evented, {
           deferred.resolve(clientId);
         } else {
           if(get(this, 'logEnabled')) {
-            get(this, 'logger').log('No client id availble from GA yet');
+            console.log('No client id availble from GA yet');
           }
           // Try again in 3 seconds
           this._gaDelayedCapture = run.later(this, this._eventuallyGetClientId, 3000);
@@ -380,7 +379,7 @@ export default Service.extend(Evented, {
       clientId = ga.getAll()[0].get('clientId');
 
       if(get(this, 'logEnabled')) {
-        get(this, 'logger').log('Client ID from GA:', clientId);
+        console.log('Client ID from GA:', clientId);
       }
     }
 

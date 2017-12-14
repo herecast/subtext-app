@@ -26,15 +26,73 @@ const {
 } = Ember;
 
 let pendingRequestCount = 0;
-if (testing) {
+if(testing) {
   Test.registerWaiter(function() {
     return pendingRequestCount === 0;
   });
 }
 
+function returnJson(request) {
+  return new RSVP.Promise((resolve, reject) => {
+    let body = {};
+
+    request.then((response)=>{
+      if(response.status === 204) {
+        body = {};
+      } else {
+        body = response.json();
+      }
+
+      resolve(body);
+    }, (err)=> {
+      const response = err.response;
+      console.error(err);
+
+      if(isRequestError(err)) {
+        try {
+          response.json().then((body) => {
+            err.errors = normalizeErrorResponse(response.status, response.headers, body);
+            reject(err);
+          });
+        } catch(e) {
+          console.error(e);
+          reject(err);
+        }
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+function returnText(request) {
+  return new RSVP.Promise((resolve, reject) => {
+    request.then((response)=>{
+      resolve(response.text());
+    }, (err) => {
+      if(isRequestError(err)) {
+        const response = err.response;
+        let body = "";
+
+        try {
+          body = response.text().then((body) => {
+            err.errors = normalizeErrorResponse(response.status, response.headers, body);
+            reject(err);
+          });
+        } catch(e) {
+          console.error(e);
+          reject(err);
+        }
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
 function queryString(data) {
-  if (isPresent(data)) {
-    return "?" + qs.stringify(data, {arrayFormat: 'brackets'});
+  if(isPresent(data)) {
+    return "?" + qs.stringify(data, { arrayFormat: 'brackets' });
   } else {
     return "";
   }
@@ -43,8 +101,6 @@ function queryString(data) {
 export default Ember.Service.extend(FastbootExtensions, {
   session: inject.service('session'),
   queryCache: inject.service('query-cache'),
-  logger: inject.service(),
-
   defaultHeaders: computed('session.isAuthenticated', function() {
     let headers = {};
     const session = get(this, 'session');
@@ -71,7 +127,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   json(data) {
     return {
       headers: this.headers({
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type' : 'application/json; charset=utf-8'
       }),
       body: JSON.stringify(data)
     };
@@ -108,41 +164,41 @@ export default Ember.Service.extend(FastbootExtensions, {
           pendingRequestCount = pendingRequestCount - 1;
           run.join(null, resolve, response);
         }, (msg) => {
-          get(this, 'logger').error(new Error(msg));
+          console.error(msg);
           pendingRequestCount = pendingRequestCount - 1;
           run.join(null, reject, new UnknownFetchError());
-        });
+      });
     });
   },
 
   request(path, opts) {
     return this.fetch(path, assign({
-      method: 'GET'
-    }, opts || {})).then(detectResponseStatus);
+        method: 'GET'
+      }, opts || {})).then(detectResponseStatus);
   },
 
   patch(path, opts) {
     return this.fetch(path, assign({
-      method: 'PATCH'
-    }, opts || {})).then(detectResponseStatus);
+        method: 'PATCH'
+      }, opts || {})).then(detectResponseStatus);
   },
 
   del(path, opts) {
     return this.fetch(path, assign({
-      method: 'DELETE'
-    }, opts || {})).then(detectResponseStatus);
+        method: 'DELETE'
+      }, opts || {})).then(detectResponseStatus);
   },
 
   put(path, opts) {
     return this.fetch(path, assign({
-      method: 'PUT'
-    }, opts || {})).then(detectResponseStatus);
+        method: 'PUT'
+      }, opts || {})).then(detectResponseStatus);
   },
 
   post(path, opts) {
     return this.fetch(path, assign({
-      method: 'POST'
-    }, opts || {})).then(detectResponseStatus);
+        method: 'POST'
+      }, opts || {})).then(detectResponseStatus);
   },
 
   getJson(path) {
@@ -152,10 +208,10 @@ export default Ember.Service.extend(FastbootExtensions, {
     const queryCache = get(this, 'queryCache');
     const data = queryCache.retrieveFromCache(apiUrl);
 
-    if (data) {
+    if(data) {
       return RSVP.resolve(data);
     } else {
-      const response = this.returnJson(
+      const response = returnJson(
         this.request(path).then((data) => {
           return data;
         })
@@ -166,63 +222,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     }
   },
 
-  returnJson(request) {
-    return new RSVP.Promise((resolve, reject) => {
-      let body = {};
-
-      request.then((response) => {
-        if (response.status === 204) {
-          body = {};
-        } else {
-          body = response.json();
-        }
-
-        resolve(body);
-      }, (err) => {
-        const response = err.response;
-        get(this, 'logger').error(err);
-
-        if (isRequestError(err)) {
-          try {
-            response.json().then((body) => {
-              err.errors = normalizeErrorResponse(response.status, response.headers, body);
-              reject(err);
-            });
-          } catch (e) {
-            get(this, 'logger').error(e);
-            reject(err);
-          }
-        } else {
-          reject(err);
-        }
-      });
-    });
-  },
-
-  returnText(request) {
-    return new RSVP.Promise((resolve, reject) => {
-      request.then((response) => {
-        resolve(response.text());
-      }, (err) => {
-        if (isRequestError(err)) {
-          const response = err.response;
-          let body = "";
-
-          try {
-            body = response.text().then((body) => {
-              err.errors = normalizeErrorResponse(response.status, response.headers, body);
-              reject(err);
-            });
-          } catch (e) {
-            get(this, 'logger').error(e);
-            reject(err);
-          }
-        } else {
-          reject(err);
-        }
-      });
-    });
-  },
 
   /********************************************************
    * API methods start here
@@ -235,7 +234,7 @@ export default Ember.Service.extend(FastbootExtensions, {
         }
       };
     }
-    return this.returnJson(
+    return returnJson(
       this.patch(`/listserv_contents/${id}`,
         this.json(data)
       )
@@ -243,20 +242,20 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   confirmListservSubscription(id) {
-    return this.returnJson(
+    return returnJson(
       this.patch(`/subscriptions/${id}/confirm`)
     );
   },
 
   unsubscribeSubscription(id) {
-    return this.returnJson(
+    return returnJson(
       this.del(`/subscriptions/${id}`)
     );
   },
 
   unsubscribeFromListserv(id, email) {
     const encodedEmail = encodeURIComponent(btoa(email));
-    return this.returnJson(
+    return returnJson(
       this.del(`/subscriptions/${id}/${encodedEmail}`)
     );
   },
@@ -282,7 +281,7 @@ export default Ember.Service.extend(FastbootExtensions, {
    * }
    */
   confirmedRegistration(data) {
-    return this.returnJson(
+    return returnJson(
       this.post('/registrations/confirmed',
         this.json(data)
       )
@@ -290,7 +289,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   createRegistration(data) {
-    return this.returnJson(
+    return returnJson(
       this.post('/users/sign_up',
         this.json(data)
       )
@@ -300,7 +299,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   createFeedback(id, data) {
     const url = `/businesses/${id}/feedback`;
 
-    return this.returnJson(
+    return returnJson(
       this.post(url,
         this.json(data)
       )
@@ -310,7 +309,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   updateFeedback(id, data) {
     const url = `/businesses/${id}/feedback`;
 
-    return this.returnJson(
+    return returnJson(
       this.put(url,
         this.json(data)
       )
@@ -318,7 +317,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   createImage(data) {
-    return this.returnJson(
+    return returnJson(
       this.post("/images",
         this.formData(data)
       )
@@ -326,7 +325,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateImage(imageId, data) {
-    return this.returnJson(
+    return returnJson(
       this.put(`/images/${imageId}`,
         this.json({
           image: data
@@ -453,7 +452,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   getWeather() {
-    return this.returnText(
+    return returnText(
       this.request('/weather', {
         headers: this.headers({
           accept: 'text/html'
@@ -468,7 +467,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateCurrentUserAvatar(data) {
-    return this.returnJson(
+    return returnJson(
       this.put('/current_user',
         this.formData(data)
       )
@@ -476,7 +475,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateEventImage(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.put(`/events/${id}`,
         this.formData(data)
       )
@@ -484,7 +483,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateOrganizationImage(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.put(`/organizations/${id}`,
         this.formData(data)
       )
@@ -492,7 +491,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateTalkImage(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.put(`/talk/${id}`,
         this.formData(data)
       )
@@ -500,14 +499,14 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateCurrentUserPassword(data) {
-    return this.returnJson(
+    return returnJson(
       this.put('/current_user', this.json(data))
     );
   },
 
 
   recordPromoBannerClick(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/promotion_banners/${id}/track_click`,
         this.json(data)
       )
@@ -515,7 +514,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   recordPromoBannerLoad(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/promotion_banners/${id}/track_load`,
         this.json(data)
       )
@@ -525,12 +524,12 @@ export default Ember.Service.extend(FastbootExtensions, {
   recordPromoBannerImpression(id, data = {}) {
     const body = JSON.stringify(data);
 
-    return this.returnText(
+    return returnText(
       this.post(`/promotion_banners/${id}/impression`, {
         body: body,
         headers: this.headers({
-          'Accept': 'text/plain',
-          'Content-Type': 'application/json'
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
         })
       })
     );
@@ -539,12 +538,12 @@ export default Ember.Service.extend(FastbootExtensions, {
   recordProfileImpression(id, data = {}) {
     const body = JSON.stringify(data);
 
-    return this.returnJson(
+    return returnJson(
       this.post(`/metrics/profiles/${id}/impressions`, {
         body: body,
         headers: this.headers({
-          'Accept': 'text/plain',
-          'Content-Type': 'application/json'
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
         })
       })
     );
@@ -553,19 +552,19 @@ export default Ember.Service.extend(FastbootExtensions, {
   recordProfileClick(id, data = {}) {
     const body = JSON.stringify(data);
 
-    return this.returnJson(
+    return returnJson(
       this.post(`/metrics/profiles/${id}/clicks`, {
         body: body,
         headers: this.headers({
-          'Accept': 'text/plain',
-          'Content-Type': 'application/json'
+          'Accept' : 'text/plain',
+          'Content-Type' : 'application/json'
         })
       })
     );
   },
 
   recordAdMetricEvent(data) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/ad_metrics`,
         this.json(data)
       )
@@ -574,7 +573,7 @@ export default Ember.Service.extend(FastbootExtensions, {
 
   recordContentImpression(id, data = {}) {
 
-    return this.returnJson(
+    return returnJson(
       this.post(`/metrics/contents/${id}/impressions`,
         this.json(data)
       )
@@ -582,7 +581,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   recordCouponRequest(id, data) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/promotion_coupons/${id}/request_email`,
         this.json(data)
       )
@@ -590,7 +589,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   recordOrganizationContentPromotion(contentId, promotionRecord) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/contents/${contentId}/promotions`,
         this.json({
           promotion: promotionRecord
@@ -604,7 +603,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   setOrganizationContentStatus(organizationId, contentId, data) {
-    return this.returnJson(
+    return returnJson(
       this.put(`/organizations/${organizationId}/contents/${contentId}`,
         this.json({
           content: data
@@ -614,25 +613,25 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   addOrganizationTagOnContent(organizationId, contentId) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/organizations/${organizationId}/contents/${contentId}/tags`)
     );
   },
 
   removeOrganizationTagOnContent(organizationId, contentId) {
-    return this.returnJson(
+    return returnJson(
       this.del(`/organizations/${organizationId}/contents/${contentId}/tags`)
     );
   },
 
   removeContentLocation(id) {
-    return this.returnJson(
+    return returnJson(
       this.del(`/content_locations/${id}`)
     );
   },
 
   updateListservProgress(listserv_content_id, data) {
-    return this.returnJson(
+    return returnJson(
       this.patch(`/listserv_contents/${listserv_content_id}/update_metric`,
         this.json(data)
       )
@@ -640,7 +639,7 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   reportAbuse(content_id, flag_type) {
-    return this.returnJson(
+    return returnJson(
       this.post(`/contents/${content_id}/moderate`,
         this.json({
           flag_type: flag_type
@@ -656,17 +655,17 @@ export default Ember.Service.extend(FastbootExtensions, {
       }
     };
 
-    if (returnUrl) {
+    if(returnUrl) {
       data['return_url'] = returnUrl;
     }
 
-    return this.returnJson(
+    return returnJson(
       this.post('/password_resets', this.json(data))
     );
   },
 
   resendConfirmation(email) {
-    return this.returnJson(
+    return returnJson(
       this.post('/users/resend_confirmation',
         this.json({
           user: {
@@ -678,39 +677,39 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   sendEmailSignInLink(email) {
-    return this.returnJson(
+    return returnJson(
       this.post('/users/email_signin_link',
-        this.json({email: email})
+        this.json({email:email})
       )
     );
   },
 
   resetPassword(data) {
-    return this.returnJson(
+    return returnJson(
       this.put('/password_resets', this.json(data))
     );
   },
 
   signOut() {
-    return this.returnJson(
+   return returnJson(
       this.post('/users/logout')
     );
   },
 
   sendUnconfirmedUserRegistration(name, email) {
-    return this.returnJson(
+    return returnJson(
       this.post('/temp_user_captures', this.json({name, email}))
     );
   },
 
   signInWithToken(token) {
-    return this.returnJson(
+    return returnJson(
       this.post('/users/sign_in_with_token', this.json({token: token}))
     );
   },
 
   signInWithOauth(authData) {
-    return this.returnJson(
+    return returnJson(
       this.post('/users/oauth', this.json(authData))
     );
   }

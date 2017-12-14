@@ -14,8 +14,7 @@ moduleFor('route:application', {
     'service:fastboot',
     'service:intercom',
     'service:user-location',
-    'service:history',
-    'service:logger',
+    'service:history'
   ]
 });
 

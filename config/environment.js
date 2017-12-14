@@ -21,10 +21,7 @@ module.exports = function(environment) {
       'GTM_PREVIEW',
       'OPTIMIZED_IMAGE_QUALITY',
       'ENABLE_IMAGE_OPTIMIZATION',
-      'LOG_TRACKING_EVENTS',
-      'STACK_NAME',
-      'NEW_RELIC_BROWSER_APP_ID',
-      'NEW_RELIC_BROWSER_LICENSE_KEY',
+      'LOG_TRACKING_EVENTS'
     ],
     API_NAMESPACE: 'api/v3',
     API_BASE_URL: "",
@@ -62,6 +59,7 @@ module.exports = function(environment) {
     }
   };
 
+
   ENV['simple-auth-devise'] = {
     serverTokenEndpoint: '/api/v3/users/sign_in',
   };
@@ -80,12 +78,6 @@ module.exports = function(environment) {
   ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'https://qa-consumer.subtext.org/imopt';
   ENV['OPTIMIZED_IMAGE_QUALITY'] = process.env.OPTIMIZED_IMAGE_QUALITY || 80;
   ENV['ENABLE_IMAGE_OPTIMIZATION'] = 'ENABLE_IMAGE_OPTIMIZATION' in process.env ? process.env.ENABLE_IMAGE_OPTIMIZATION : true;
-
-  ENV['STACK_NAME'] = process.env.STACK_NAME;
-
-  ENV['NEW_RELIC_BROWSER_APP_ID'] = process.env.NEW_RELIC_BROWSER_APP_ID;
-  ENV['NEW_RELIC_BROWSER_LICENSE_KEY'] = process.env.NEW_RELIC_BROWSER_LICENSE_KEY;
-
 
   // The incoming process.env.IMOPT_ALLOWED_SOURCES list can contain hostnames, e.g. 'd3ctw1a5413a3o.cloudfront.net'
   // or URIs, e.g. 'https://d3ctw1a5413a3o.cloudfront.net'.  We want to convert each item to a simple hostname.
@@ -135,6 +127,7 @@ module.exports = function(environment) {
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;
     ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;
+
   }
 
   if (environment === 'test') {

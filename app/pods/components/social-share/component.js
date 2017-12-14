@@ -10,7 +10,6 @@ const {
 
 export default Ember.Component.extend({
   location: inject.service('window-location'),
-  logger: inject.service(),
   classNames: ['SocialShare'],
   isPreview: false,
   isTalkChannel: false,
@@ -89,7 +88,7 @@ export default Ember.Component.extend({
       const orgHashtag = get(this, 'orgHashtag');
 
       //for live debug
-      get(this, 'logger').info(`Share to facebook of ${urlForShare}`);
+      console.info(`Share to facebook of ${urlForShare}`);
 
       FB.ui({
         method: 'share',

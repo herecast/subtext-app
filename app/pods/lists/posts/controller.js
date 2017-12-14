@@ -14,7 +14,6 @@ export default Ember.Controller.extend({
   features: inject.service('feature-flags'),
   api: inject.service(),
   notify: inject.service('notification-messages'),
-  logger: inject.service(),
 
   forgotPasswordReturnUrl: computed(function(){
     return get(this, 'windowLocation').href();
@@ -98,8 +97,7 @@ export default Ember.Controller.extend({
             this.transitionToDashboard();
           },
           (e) => {
-            e.message = ['Could not save listserv content.', e.message].join(' ');
-            get(this, 'logger').error(e);
+            console.error('Could not save listserv content', e);
             get(this, 'notify').error('Something went wrong. Please contact us by clicking the ? icon near the bottom of the page.');
           }
         );
