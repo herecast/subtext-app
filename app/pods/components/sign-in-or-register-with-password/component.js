@@ -20,6 +20,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   notify: inject.service('notification-messages'),
   _routing: inject.service('-routing'),
   userLocation: inject.service(),
+  logger: inject.service(),
 
   userMustConfirm: false,
 
@@ -125,7 +126,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
               resolve();
             },
             (response) => {
-              console.error(response);
+              get(this, 'logger').error(response);
 
               if('errors' in response) {
                 if('email' in response.errors &&
@@ -145,7 +146,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
         get(this, 'userLocation.location').then(location => {
           registerUser(get(location, 'id'));
         }).catch((e) => {
-          console.error(e);
+          get(this, 'logger').error(e);
           registerUser('hartford-vt');
         });
       } else {

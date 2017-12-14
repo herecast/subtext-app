@@ -13,6 +13,7 @@ const { RSVP, inject, get, isPresent } = Ember;
 
 export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
   queryCache: inject.service('query-cache'),
+  logger: inject.service('logger'),
   host: config.API_BASE_URL,
   namespace: config.API_NAMESPACE,
   coalesceFindRequests: true,
@@ -27,6 +28,12 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
     if (response instanceof AdapterError) {
       // Weirdly, status code isn't available on AdapterErrors
       response.status = status;
+    }
+
+    if (status >= 500) {
+      // The adapter returns a malformed response message, which breaks our ability to build a stack trace
+      // So, pull the useful information from the response message and log it with a new error
+      get(this, 'logger').error(new Error(response.message.split("\n")[0]));
     }
 
     return response;

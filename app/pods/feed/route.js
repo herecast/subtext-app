@@ -23,6 +23,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   search: service(),
   fastboot: service(),
   history: service(),
+  logger: service(),
 
   queryParams: {
     query: {refreshModel: true},
@@ -203,9 +204,9 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       this.store.findRecord('location', transition.queryParams.location).then((location) => {
         userLocation.setActiveLocationId(get(location, 'id'));
       }).catch((e) => {
-        console.error(e);
+        e.message = [`This location most likely does not exist on the back-end: ${transition.queryParams.location}`, e.message].join(' ');
+        get(this, 'logger').error(e);
 
-        console.error("This location most likely does not exist on the back-end:", transition.queryParams.location);
         // We have a bad location in the URL. Clear it out and start over.
         userLocation.setActiveLocationId(null);
         userLocation.clearLocationCookie();

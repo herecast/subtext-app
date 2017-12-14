@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   tagName: 'form',
   api: inject.service(),
   tracking: inject.service(),
+  logger: inject.service(),
 
   error: null,
   didComplete: false,
@@ -89,7 +90,7 @@ export default Ember.Component.extend({
             }
 
             set(this, 'error', "An unknown error occurred. Please contact support.");
-            console.error(e);
+            get(this, 'logger').error(e);
           }
         );
       } else {

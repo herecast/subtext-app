@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-const { get, set, isPresent, isEmpty, inject, run } = Ember;
+const {get, set, isPresent, isEmpty, inject, run} = Ember;
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   tracking: inject.service(),
@@ -13,6 +13,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   fastboot: inject.service(),
   userActivity: inject.service(),
   cookies: inject.service(),
+  logger: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -33,9 +34,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       userActivity.register('sessionTimer', window);
       userActivity.triggerTimedEvents('sessionTimer', (time) => {
         get(this, 'tracking').push({
-          'event'             : 'VirtualSessionTimerEvent',
-          'virtualTimeOnPage' : time,
-          'virtualPageUrl'    : window.location.href
+          'event': 'VirtualSessionTimerEvent',
+          'virtualTimeOnPage': time,
+          'virtualPageUrl': window.location.href
         });
       }, timeIntervals);
     }
@@ -53,7 +54,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     //session destroy override: so app is not reloaded to root
     if (get(this, 'session.skipRedirect')) {
       set(this, 'session.skipRedirect', false);
-      get(this,'windowLocation').reload();
+      get(this, 'windowLocation').reload();
     } else {
       this._super(...arguments);
     }
@@ -97,12 +98,12 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
         // If we get a status code other than client caused (400-499),
         // then we want to log it.
-        if(isPresent(error.status) && (400 <= parseInt(error.status) < 500)) {
+        if (isPresent(error.status) && (400 <= parseInt(error.status) < 500)) {
           logError = false;
         }
 
-        if(logError) {
-          console.error('[ApplicationRoute:]', error);
+        if (logError) {
+          get(this, 'logger').error(error);
         }
 
         this.intermediateTransitionTo('error-404');
