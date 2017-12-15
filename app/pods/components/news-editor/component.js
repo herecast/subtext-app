@@ -2,7 +2,6 @@ import Ember from 'ember';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 
 const {
   computed,
@@ -168,14 +167,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
                 // re-align featuredImageUrl to use actual url instead of base64 image data url
                 set(news, 'featuredImageUrl', get(news, 'bannerImage.url'));
 
-                if (get(this, 'news.isPublished')) {
-                  // Reload FB cache with the most up-to-date news content
-                  this._recacheFacebook().finally(() => {
-                    resolve();
-                  });
-                } else {
-                  resolve();
-                }
+                resolve();
               });
             },
             error => {
@@ -190,14 +182,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
             }
           );
         } else {
-          if (get(this, 'news.isPublished')) {
-            // Reload FB cache with the most up-to-date news content
-            this._recacheFacebook().finally(() => {
-              resolve();
-            });
-          } else {
-            resolve();
-          }
+          resolve();
         }
       });
     });
@@ -265,14 +250,6 @@ export default Ember.Component.extend(TestSelector, Validation, {
       // No need for validations
       this._save();
     }
-  },
-
-  _recacheFacebook() {
-    // Reload FB cache of this news article
-    const locationService = get(this, 'location');
-    const model = get(this, 'news');
-
-    return SocialSharing.checkFacebookCache(locationService, model);
   },
 
   _saveImage(file, primary = 0, caption = null) {

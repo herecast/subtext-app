@@ -2,7 +2,6 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const {
@@ -83,7 +82,6 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
 
     afterPublish(event) {
       const firstInstanceId = event.get('firstInstanceId');
-      const locationService = get(this, 'location');
       const contentId = get(event, 'contentId');
 
       // Rollback the schedules after persisting changes so that the user can
@@ -98,12 +96,10 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
         // Unset so not checked the next time this event is edited.
         event.set('listservIds',[]);
 
-        SocialSharing.checkFacebookCache(locationService, event).finally(() => {
-          this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
-            queryParams: {
-              type: 'event'
-            }
-          });
+        this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
+          queryParams: {
+            type: 'event'
+          }
         });
       });
     },

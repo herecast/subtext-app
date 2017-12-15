@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject } = Ember;
@@ -82,22 +81,17 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
     afterPublish(event) {
       const firstInstanceId = get(event, 'firstInstanceId');
       const contentId = get(event, 'contentId');
-      const locationService = get(this, 'location');
 
       this.get('intercom').trackEvent('published-event');
 
       run.next(() => {
         event.set('listservIds',[]);
-        SocialSharing.checkFacebookCache(locationService, event).catch((e) => {
-          console.error(e);
-          // don't bubble this error.  It doesn't matter.
-        }).finally(() => {
-          this.controllerFor('feed').set('model', []);
-          this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
-            queryParams: {
-              type: 'event'
-            }
-          });
+
+        this.controllerFor('feed').set('model', []);
+        this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
+          queryParams: {
+            type: 'event'
+          }
         });
       });
     },
