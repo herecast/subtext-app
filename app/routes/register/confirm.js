@@ -7,6 +7,7 @@ const { get, inject } = Ember;
 export default Ember.Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
   titleToken: 'Registration Complete!',
   session: inject.service(),
+  logger: inject.service(),
   notify: inject.service('notification-messages'),
 
   beforeModel(transition) {
@@ -27,7 +28,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, FastbootExtensions,
           notify.success('Registration complete. You are now signed in.');
         });
       }).catch(() => {
-        console.error("Authentication Error");
+        get(this, 'logger').error(new Error("Authentication Error"));
         this.transitionTo('register.error');
       });
 

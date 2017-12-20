@@ -11,6 +11,7 @@ export default Ember.Route.extend(WillAuthenticateMixin, {
   fastboot: inject.service(),
   session: inject.service(),
   titleToken: 'Sign in',
+  logger: inject.service(),
 
   // Override UnauthenticatedRouteMixin
   beforeModel(transition) {
@@ -39,7 +40,7 @@ export default Ember.Route.extend(WillAuthenticateMixin, {
           this.transitionAfterAuthentication();
         })
         .catch((e) => {
-          console.error("An error occurred signing in with an auth token", e);
+          get(this, 'logger').error('An error occurred signing in with an auth token.', e);
         })
         .finally(resolve);
     });

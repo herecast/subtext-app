@@ -11,6 +11,7 @@ const {
 export default Ember.Route.extend({
   session: inject.service(),
   fastboot: inject.service(),
+  logger: inject.service(),
 
   model(params) {
     return this.store.findRecord('listserv-content', params.id);
@@ -32,7 +33,7 @@ export default Ember.Route.extend({
     return new Promise((resolve)=> {
       get(this, 'session').signInWithToken(token)
         .catch((e)=>{
-          console.error("An error occurred signing in with an auth token", e);
+          get(this, 'logger').error('An error occurred signing in with an auth token', e);
         })
         .finally(resolve);
     });
