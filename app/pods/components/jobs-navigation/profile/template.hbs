@@ -1,0 +1,31 @@
+{{#list-menu as |lm|}}
+  {{#if organization.canPublishNews}}
+    {{#lm.item}}
+      {{#link-to 'news.new' (query-params organization_id=organizationId job="Tell a story")}}
+        <span onclick={{action 'selectedMenuItem' 'Tell a story about your expertise, staff, or history'}} data-test-ugc-job-link data-test-link="Tell a story">
+          Tell a story
+        </span>
+      {{/link-to}}
+    {{/lm.item}}
+  {{/if}}
+
+  {{#if showBusinessOptions}}
+    {{#lm.item}}
+      {{#link-to 'market.new' (query-params organization_id=organizationId job='Promote a sale or product')}}
+        <span onclick={{action 'selectedMenuItem' 'Promote a sale or product'}} data-test-ugc-job-link data-test-link="Promote a sale or product">
+          Promote a sale or product
+        </span>
+      {{/link-to}}
+    {{/lm.item}}
+
+    {{#lm.item}}
+      {{#link-to 'events.new' (query-params organization_id=organizationId job='Post an event in the calendar')}}
+        <span onclick={{action 'selectedMenuItem' 'Post an event in the calendar'}} data-test-ugc-job-link data-test-link="Post an event in the calendar">
+          Post an event in the calendar
+        </span>
+      {{/link-to}}
+    {{/lm.item}}
+  {{/if}}
+{{/list-menu}}
+
+{{help-text}}

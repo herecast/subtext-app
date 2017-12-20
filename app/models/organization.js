@@ -126,15 +126,8 @@ export default DS.Model.extend({
     return isDefaultOrganization(get(this, 'id'));
   }),
 
-  organizationLinkRoute: computed('bizFeedActive', function() {
-    const bizFeedActive = get(this, 'bizFeedActive');
-    return bizFeedActive ? 'biz.show' : 'organization-profile';
-  }),
-
-  organizationLinkId: computed('bizFeedActive', function() {
-    const bizFeedActive = get(this, 'bizFeedActive');
-    return bizFeedActive ? get(this, 'id') : get(this, 'slug');
-  }),
+  organizationLinkRoute: 'profile',
+  organizationLinkId: computed.alias('id'),
 
   hasContactInfo: computed('phone', 'email', 'address', 'website', 'twitterHandle', function() {
     return ['phone', 'email', 'address', 'website', 'twitterHandle'].any(

@@ -9,10 +9,11 @@ export default Ember.Route.extend(PaginatedFilter, History, {
   tracking: inject.service(),
   fastboot: inject.service(),
   queryCache: inject.service(),
+  notify: inject.service('notification-messages'),
   historyRouteName: 'organization-profile',
 
   beforeModel() {
-    if(!get(this, 'fastboot.isFastBoot') && 
+    if(!get(this, 'fastboot.isFastBoot') &&
         get(this, 'session.isAuthenticated')) {
 
       // We need to get a fresh model, in case
@@ -33,6 +34,22 @@ export default Ember.Route.extend(PaginatedFilter, History, {
       const id = numerics[0];
 
       return this.store.findRecord('organization', id);
+    }
+  },
+
+  afterModel(model) {
+    //Note: Need to remove this route and create rewrite to profile
+    const organizationId = get(model, 'id');
+
+    if (!get(this, 'fastboot.isFastBoot')) {
+      get(this, 'notify').warning(
+        `<div>This URL will expire January 10, 2018, but this page lives on.
+        <a href="/profile/${organizationId}">Click to see and bookmark the new version!</a></div>`,
+        {
+          htmlContent: true,
+          autoClear: false
+        }
+      );
     }
   },
 

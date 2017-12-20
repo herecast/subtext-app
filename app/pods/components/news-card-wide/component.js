@@ -25,15 +25,9 @@ export default NewsCard.extend({
     return !get(this, 'item.imageUrl');
   }),
 
-  linkRoute: computed('item.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
-    return bizFeedActive ? 'biz.show' : 'organization-profile';
-  }),
+  linkRoute: computed.alias('item.organization.organizationLinkRoute'),
 
-  linkId: computed('item.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
-    return bizFeedActive ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
-  }),
+  linkId: computed.alias('item.organization.organizationLinkId'),
 
   actions: {
     trackClick() {

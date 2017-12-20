@@ -31,7 +31,7 @@
 
   {{feed-card/footer
     locationTagName=sourceTag
-    canEdit=userCanEditNews
+    canEdit=userCanEditFeedCard
     canManage=(readonly context.canManage)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
@@ -39,11 +39,13 @@
     editRouteId=model.id
   }}
 
-  {{feed-card/comments
-    contentModel=(readonly model)
-    disabled=(readonly commentingDisabled)
-    promotionMenuOpen=(readonly context.promotionMenuOpen)
-    afterComment=(action 'reloadComments')
-    onContentClick=(action 'onContentClick')
-  }}
+  {{#unless context.hideComments}}
+    {{feed-card/comments
+      contentModel=(readonly model)
+      disabled=(readonly commentingDisabled)
+      promotionMenuOpen=(readonly context.promotionMenuOpen)
+      afterComment=(action 'reloadComments')
+      onContentClick=(action 'onContentClick')
+    }}
+  {{/unless}}
 </div>

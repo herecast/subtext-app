@@ -12,6 +12,7 @@ export default Ember.Component.extend({
   organization: null,
   canManage: false,
   displayAsPublic: false,
+  hideComments: false,
   promotionMenuOpen: false,
 
   session: service(),
@@ -24,7 +25,7 @@ export default Ember.Component.extend({
   componentType: computed('contentType', function() {
     let contentType = get(this, 'contentType');
 
-    if (isBlank(contentType) || contentType === 'campaign') {
+    if (isBlank(contentType)) {
       contentType = 'talk';
     }
 

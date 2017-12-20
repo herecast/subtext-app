@@ -6,5 +6,6 @@ export default Ember.Component.extend({
   feedItems: null,
   organization: null,
   canManage: false,
-  displayAsPublic: false
+  displayAsPublic: false,
+  hideComments: false
 });

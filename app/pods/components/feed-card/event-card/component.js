@@ -1,17 +1,18 @@
 import Ember from 'ember';
 import moment from 'moment';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
+import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
-const { get, computed, isPresent, inject } = Ember;
+const { get, computed, isPresent, inject:{service} } = Ember;
 
-export default Ember.Component.extend(reloadComments, {
+export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-EventCard',
   'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
   'data-test-content': computed.oneWay('model.contentId'),
 
   model: null,
   context: null,
-  userLocation: inject.service(),
+  userLocation: service(),
 
   startTime: computed('model.startsAt', function() {
     const startsAt = get(this, 'model.startsAt');
@@ -26,13 +27,9 @@ export default Ember.Component.extend(reloadComments, {
   }),
 
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
-    let routeName = null;
+    const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
 
-    if (get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'))) {
-      routeName = get(this, 'model.organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
-    }
-
-    return routeName;
+    return shouldLinkToProfile ? 'profile' : null;
   }),
 
   attributionLinkId: computed.alias('model.organizationId'),

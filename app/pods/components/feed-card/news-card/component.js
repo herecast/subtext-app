@@ -1,33 +1,21 @@
 import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
+import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
-const { get, computed, isPresent, inject } = Ember;
+const { get, computed, isPresent } = Ember;
 
-export default Ember.Component.extend(reloadComments, {
+export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-NewsCard',
   'data-test-news-card': computed.reads('model.title'),
-
-  session: inject.service(),
 
   model: null,
   userLocation: null,
   context: null,
 
-  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
-
-  userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {
-    const managedOrganizations = get(this, 'organizations') || [];
-    return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
-  }),
-
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
-    let routeName = null;
+    const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
 
-    if (get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'))) {
-      routeName = get(this, 'model.organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
-    }
-
-    return routeName;
+    return shouldLinkToProfile ? 'profile' : null;
   }),
 
   attributionLinkId: computed.alias('model.organizationId'),

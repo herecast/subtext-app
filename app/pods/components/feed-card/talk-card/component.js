@@ -14,13 +14,9 @@ export default Ember.Component.extend(reloadComments, {
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
-    let routeName = null;
+    const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
 
-    if (get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'))) {
-      routeName = get(this, 'model.organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
-    }
-
-    return routeName;
+    return shouldLinkToProfile ? 'profile' : null;
   }),
 
   attributionLinkId: computed.alias('model.organizationId'),

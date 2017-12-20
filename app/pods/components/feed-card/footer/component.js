@@ -1,11 +1,12 @@
 import Ember from 'ember';
 
-const {get, computed, inject} = Ember;
+const { get, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-Footer',
 
-  fastboot: inject.service(),
+  fastboot: service(),
+  session: service(),
 
   locationTagName: null,
   canEdit: false,

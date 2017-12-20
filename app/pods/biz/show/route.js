@@ -10,6 +10,7 @@ const {
 export default Ember.Route.extend({
   tracking: service(),
   fastboot: service(),
+  notify: service('notification-messages'),
 
   queryParams: {
     query: {
@@ -30,12 +31,18 @@ export default Ember.Route.extend({
   },
 
   afterModel(models) {
-    //Note: Check here to see if ad team has turned on business profile page
-    const businessProfile = models.businessProfile;
-    const bizFeedActive = get(businessProfile, 'bizFeedActive');
+    //Note: Need to remove this route and create rewrite to profile
+    const organizationId = get(models.businessProfile, 'organization_id');
 
-    if (!bizFeedActive) {
-      this.transitionTo('directory.show', get(businessProfile, 'id'));
+    if (!get(this, 'fastboot.isFastBoot')) {
+      get(this, 'notify').warning(
+        `<div>This URL will expire January 10, 2018, but this page lives on.
+        <a href="/profile/${organizationId}">Click to see and bookmark the new version!</a></div>`,
+        {
+          htmlContent: true,
+          autoClear: false
+        }
+      );
     }
   },
 

@@ -16,19 +16,19 @@ export default Ember.Controller.extend(PaginatedFilter, {
   query: '',
   show: null,
 
-  visibleFeedItems: computed('model.@each.feedContent.viewStatus', 'show', function() {
-    const model = get(this, 'model');
+  visibleFeedItems: computed('model.@each.viewStatus', 'show', function() {
+    const model = get(this, 'model') || [];
     const show = get(this, 'show');
 
     switch(show) {
       case 'everything':
         return model;
       case 'draft':
-        return model.filterBy('feedContent.viewStatus', 'draft');
+        return model.filterBy('viewStatus', 'draft');
       case 'hidden':
-        return model.filterBy('feedContent.viewStatus', 'private');
+        return model.filterBy('viewStatus', 'private');
       default:
-        return model.filterBy('feedContent.viewStatus', 'public');
+        return model.filterBy('viewStatus', 'public');
     }
   }),
 

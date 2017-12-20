@@ -10,6 +10,17 @@
     left: 10px;
   }
 
+  &-avatar {
+    margin-right: 5px;
+    @media (max-width: @screen-xs-max) {
+      img {
+        height: 30px !important;
+        width: 30px !important;
+        line-height: 30px !important;
+      }
+    }
+  }
+
   &-title {
     height: 60px;
     .flex-display();

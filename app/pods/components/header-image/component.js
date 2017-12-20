@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 
 const { get, computed } = Ember;
 
@@ -10,7 +10,8 @@ export default Ember.Component.extend({
     'preserveAspectRatio:HeaderImage--preserveAspectRatio',
     'sizeClass',
     'short:HeaderImage--short',
-    'block:HeaderImage--block'
+    'block:HeaderImage--block',
+    'profileHeader:HeaderImage--profile-header'
   ],
   attributeBindings: [
     'data-test-component', 'style'
@@ -19,6 +20,7 @@ export default Ember.Component.extend({
 
   preserveAspectRatio: false,
   size: null, // 'small', 'medium', smallOnMobileMediumOnDesktop
+  profileHeader: false,
 
   sizeClass: computed('size', function() {
     const size = get(this, 'size');
@@ -29,9 +31,9 @@ export default Ember.Component.extend({
     const imageUrl = get(this, 'imageUrl');
 
     if (imageUrl) {
-      let optimizedImageUrl = makeOptimizedImageUrl(imageUrl, 640, 360, false);
+      const options = get(this, 'profileHeader') ? [imageUrl, 1280, 720, false] : [imageUrl, 640, 360, false];
 
-      return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl}');`);
+      return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
     }
 
     return Ember.String.htmlSafe(`background: rgba(255,255,255,1);`);

@@ -1,4 +1,4 @@
-{{to-elsewhere named='global-header' send=(component 'simple-header' title=organization.name)}}
+{{to-elsewhere named='global-header' send=(component 'simple-header' title=organization.name avatarUrl=organization.profileImageUrl)}}
 
 {{sticky-position name='profile/contact'}}
 
@@ -71,26 +71,27 @@
     {{#if showAdminCards}}
       {{cards/create-content-menu organization=organization}}
       {{cards/organization-your-content-tabs}}
+      {{#x-card}}
+        {{search-input
+          noBorder=true
+          size='large'
+          color='black'
+          value=(readonly query)
+          update=(action 'updateQuery')
+          data-test-component='organization-content-query'
+          isLoading=isLoading
+        }}
+      {{/x-card}}
     {{/if}}
-
-    {{#x-card}}
-      {{search-input
-        noBorder=true
-        size='large'
-        color='black'
-        value=(readonly query)
-        update=(action 'updateQuery')
-        data-test-component='organization-content-query'
-        isLoading=isLoading
-      }}
-    {{/x-card}}
 
     {{#if model}}
       {{feed/profile-feed
-        feedItems=(readonly visibleFeedItems)
+        feedItems=visibleFeedItems
+        show=(readonly show)
         organization=(readonly organization)
         canManage=(readonly isAdmin)
         displayAsPublic=(not showAdminCards)
+        hideComments=(not showAdminCards)
       }}
 
       {{#infinity-loader

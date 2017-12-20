@@ -1,12 +1,12 @@
 {{#if useLink}}
   {{#if linkUrl}}
-    <span {{action onContentClick}}>
+    <span {{action onContentClick preventDefault=false}}>
       <a href="{{linkUrl}}" target="_blank">
         {{yield}}
       </a>
     </span>
   {{else}}
-    <span {{action onContentClick}}>
+    <span {{action onContentClick preventDefault=false}}>
       {{#link-to-content model}}
         {{yield}}
       {{/link-to-content}}

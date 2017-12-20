@@ -132,32 +132,14 @@ export default Ember.Controller.extend({
     },
 
     viewProfile(org) {
-      if (org.get('bizFeedActive')) {
-        this.transitionToRoute('biz.show', org.get('id'));
-      } else if (org.get('isBusiness')) {
-        const bid = org.get('businessProfileId');
-        this.store.findRecord('business-profile', bid).then((rec)=>{
-          this.transitionToRoute('directory.show', rec);
-        });
-      } else if (org.get('hasProfile')) {
-        this.transitionToRoute('organization-profile', org);
-      } else {
-        alert('Feature not available yet');
+      if (org.get('id')) {
+        this.transitionToRoute('profile', org.get('id'));
       }
     },
 
     editProfile(org) {
-      if (org.get('bizFeedActive')) {
-        this.transitionToRoute('biz.show', org.get('id'));
-      } else if (org.get('isBusiness')) {
-        const bid = org.get('businessProfileId');
-        this.store.findRecord('business-profile', bid).then((rec)=>{
-          set(this, 'editingBusiness', rec);
-        });
-      } else if (org.get('hasProfile')) {
-          set(this, 'editingBlog', org);
-      } else {
-        alert('Feature not available yet');
+      if (org.get('id')) {
+        this.transitionToRoute('profile', org.get('id'));
       }
     },
 

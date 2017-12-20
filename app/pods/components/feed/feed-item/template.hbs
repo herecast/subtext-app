@@ -1,25 +1,26 @@
 {{#if isFeedContent}}
-  {{#unless (is-equal itemModel.id showingDetailInFeed)}}
+  {{#unless (is-equal feedItemModel.id showingDetailInFeed)}}
     {{feed-card
-      model=itemModel
+      model=feedItemModel
       organization=organization
       canManage=canManage
       displayAsPublic=displayAsPublic
+      hideComments=hideComments
     }}
   {{/unless}}
 {{else if isCarousel}}
   {{feed-carousel/carousel
-    model=itemModel
+    model=feedItemModel
     isSearchActive=isSearchActive
   }}
 {{else if isOrganization}}
   {{#x-card}}
     {{cards/organization-profile-header
-      organization=itemModel
+      organization=feedItemModel
       showGearButton=false
     }}
     {{cards/organization-contact
-      organization=itemModel
+      organization=feedItemModel
     }}
   {{/x-card}}
 {{/if}}

@@ -9,8 +9,8 @@ export default Ember.Component.extend({
   flattenCard: false,
   showTopBorder: false,
 
-  hideLabels: computed('organization.{phone,email,address,website,twitter}', function() {
-    return ['phone', 'email', 'address', 'website', 'twitterHandle']
+  hideLabels: computed('organization.{phone,email,address,website}', function() {
+    return ['phone', 'email', 'address', 'website']
         .map((k) => { return get(this, `organization.${k}`); })
         .filter(isPresent)
         .length > 3;

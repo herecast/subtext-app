@@ -1,12 +1,20 @@
 <div class="FeedCard-Attribution-author-wrap">
   <div class="FeedCard-Attribution-author-left">
-    {{#link-to linkRouteName linkId}}
+    {{#if hasLinkRouteName}}
+      {{#link-to linkRouteName linkId}}
+        {{avatar-image
+          imageUrl=avatarUrl
+          userName=author
+          customSize=40
+        }}
+      {{/link-to}}
+    {{else}}
       {{avatar-image
         imageUrl=avatarUrl
         userName=author
         customSize=40
       }}
-    {{/link-to}}
+    {{/if}}
   </div>
   <div class="FeedCard-Attribution-author-right">
     <div class="FeedCard-Attribution-author">

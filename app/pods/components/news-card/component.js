@@ -25,15 +25,9 @@ export default Ember.Component.extend(TrackCard, {
     return dateFormat.relative(get(this, 'item.publishedAt'));
   }),
 
-  linkRoute: computed('item.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
-    return bizFeedActive ? 'biz.show' : 'organization-profile';
-  }),
+  linkRoute: computed.alias('item.organization.organizationLinkRoute'),
 
-  linkId: computed('item.organization.bizFeedActive', function() {
-    const bizFeedActive = get(this, 'item.organization.bizFeedActive');
-    return bizFeedActive ? get(this, 'item.organization.id') : get(this, 'item.organization.slug');
-  }),
+  linkId: computed('item.organization.organizationLinkId'),
 
   missingContent: computed.empty('item'),
 

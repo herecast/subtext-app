@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
+import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
 const {get, set, computed, isPresent} = Ember;
 
-export default Ember.Component.extend(reloadComments, {
+export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-MarketCard',
 
   model: null,
@@ -14,13 +15,9 @@ export default Ember.Component.extend(reloadComments, {
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
-    let routeName = null;
+    const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
 
-    if (get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'))) {
-      routeName = get(this, 'model.organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
-    }
-
-    return routeName;
+    return shouldLinkToProfile ? 'profile' : null;
   }),
 
   attributionLinkId: computed.alias('model.organizationId'),

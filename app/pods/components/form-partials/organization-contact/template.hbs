@@ -126,25 +126,5 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-xs-12">
-        {{#form-group error=errors.twitterHandle}}
-          <div class="input-group">
-            <span class="ContentForm-iconLabel input-group-addon">
-              {{fa-icon 'twitter'}}
-            </span>
-            {{input
-              id='organization-twitterHandle'
-              placeholder='Twitter handle'
-              class='form-control'
-              value=model.twitterHandle
-              input=(action 'formUpdated')
-              data-test-field='twitterHandle'
-            }}
-          </div>
-        {{/form-group}}
-      </div>
-    </div>
-
   {{/card-body}}
 {{/x-card}}

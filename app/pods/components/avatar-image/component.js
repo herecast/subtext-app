@@ -52,7 +52,7 @@ export default Ember.Component.extend({
     return htmlSafe(style);
   }),
 
-  optimizedImageUrl: computed('imageUrl', 'customSize', function() {
+  optimizedImageUrlString: computed('imageUrl', 'customSize', function() {
     const imageUrl = get(this, 'imageUrl');
     const customSize = get(this, 'customSize');
 

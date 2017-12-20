@@ -14,20 +14,18 @@ export default Ember.Component.extend({
 
   fastboot: inject.service(),
 
-  backgroundImageSize: computed('isProfileHeader', function() {
-    return get(this, 'isProfileHeader') ? 'smallOnMobileMediumOnDesktop' : 'small';
-  }),
-
   hasNoImage: computed('organization.{backgroundImageUrl,displayImageUrl}', function() {
     return isBlank(get(this, 'organization.backgroundImageUrl')) && isBlank(get(this, 'organization.displayImageUrl'));
   }),
+
+  hasProfileImage: computed.notEmpty('organization.profileImageUrl'),
 
   showGearButton: computed('session.isAuthenticated', 'fastboot.isFastBoot', function() {
     return !get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot');
   }),
 
   showBackgroundImage: computed('organization.backgroundImageUrl', 'showBlankBackgroundImage', function() {
-    return isPresent(get(this, 'organization.backgroundImageUrl')) || get(this, 'showBlankBackgroundImage');
+    return isPresent(get(this, 'organization.backgroundImageUrl')) && !get(this, 'showBlankBackgroundImage');
   }),
 
   backgroundImageUrl: computed('organization.backgroundImageUrl', 'showBlankBackgroundImage', function() {

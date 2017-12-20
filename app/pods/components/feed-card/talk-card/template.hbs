@@ -40,11 +40,13 @@
     locationTagName=sourceTag
   }}
 
-  {{feed-card/comments
-    contentModel=(readonly model)
-    disabled=(readonly commentingDisabled)
-    promotionMenuOpen=(readonly context.promotionMenuOpen)
-    afterComment=(action 'reloadComments')
-    onContentClick=(action 'onContentClick')
-  }}
+  {{#unless context.hideComments}}
+    {{feed-card/comments
+      contentModel=(readonly model)
+      disabled=(readonly commentingDisabled)
+      promotionMenuOpen=(readonly context.promotionMenuOpen)
+      afterComment=(action 'reloadComments')
+      onContentClick=(action 'onContentClick')
+    }}
+  {{/unless}}
 </div>
