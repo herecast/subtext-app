@@ -67,7 +67,7 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
     },
 
     afterDiscard() {
-      this.transitionTo(`location.events`, get(this, 'userLocation.location'));
+      this.transitionTo('feed');
     },
 
     afterDetails() {
