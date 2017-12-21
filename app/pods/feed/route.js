@@ -98,7 +98,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
             location_id: params.location || selectedOrDefaultLocationId,
             start_date: startDate,
             end_date: endDate,
-            per_page: 2,
+            per_page: 20,
             radius: params.radius
           }));
         } else {

@@ -189,6 +189,10 @@ export default Service.extend(Evented, {
   },
 
   profileContentClick(organization, content) {
+    if(get(this, 'logEnabled')) {
+      console.log('profileContentClick', organization, content);
+    }
+
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {
         const trackData = {

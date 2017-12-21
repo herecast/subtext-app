@@ -1,11 +1,19 @@
 <div class="EventsResults-results-box">
   {{#if eventsByDay}}
     {{#each eventsByDay as |dayOfEvents dayIndex|}}
+      {{inviewport-reporter
+        reportEnterViewport=true
+        reportExitViewport=true
+        callback=(action 'viewportDateScroll' dayOfEvents.paramValue)
+      }}
+
       {{events-by-day
+        id=dayOfEvents.paramValue
         day=dayOfEvents.displayValue
         events=dayOfEvents.items
         dayValue=dayOfEvents.paramValue
-        selectDay=jumpToDay
+        selectDay=updateStartDate
+        openCalendar=(action 'openCalendarWidget')
         updateEnabledEventDays=updateEnabledEventDays
         enabledEventDays=enabledEventDays
       }}
@@ -16,4 +24,21 @@
     reportScrollInto=true
     callback=(action 'reachedEnd')
   }}
+</div>
+
+<div class='EventsResults-floatingActions'>
+  <button {{action 'openCalendarWidget'}}
+      class='EventsResults-floatingAction EventsResults-floatingAction--iconOnly'>
+    {{fa-icon 'calendar'}}
+  </button>
+  <button {{action 'jumpToPrevDay'}}
+      class='EventsResults-floatingAction'>
+    {{fa-icon 'arrow-up'}}<br>
+    PREV<br>DAY
+  </button>
+  <button {{action 'jumpToNextDay'}}
+      class='EventsResults-floatingAction'>
+    NEXT<br>DAY<br>
+    {{fa-icon 'arrow-down'}}
+  </button>
 </div>

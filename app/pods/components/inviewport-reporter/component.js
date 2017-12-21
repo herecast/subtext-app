@@ -35,14 +35,14 @@ export default Ember.Component.extend(InViewportMixin, {
       if( (get(this, 'mustScrollUp') && direction === 'up') ||
           (get(this, 'mustScrollDown') && direction === 'down') ||
           ((!get(this, 'mustScrollUp') && !get(this, 'mustScrollDown')) && get(this, 'reportScrollInto')) ) {
-          this.reportEvent('reportScrollInto');
+          this.reportEvent('reportScrollInto', direction);
       }
     }
   },
 
-  reportEvent(trigger) {
+  reportEvent(trigger, direction) {
     if (get(this, trigger)) {
-      this.attrs.callback();
+      this.attrs.callback(trigger.replace('report',''), direction);
     }
   }
 

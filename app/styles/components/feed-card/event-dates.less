@@ -7,7 +7,7 @@
     padding: 3px 6px;
     background: @event-brand;
     text-transform: uppercase;
-    color: #fff;
+    color: #000;
     font-size: 14px;
     font-weight: bold;
     border-radius: 4px;
@@ -42,11 +42,39 @@
     .dropdown-menu.open {
       display: block;
       min-width: 200px;
+      overflow-y: auto;
+      max-height: 400px;
+      @media (max-width: @screen-sm-max) {
+        position: relative;
+        width: ~"calc(100vw - 40px)";
+        max-width: 460px;
+        float: none;
+      }
     }
   }
 
-  &-other-dates-list {
-    display: inline-block;
-    padding: 4px 8px;
+  &-additionalDates {
+    display: table;
+    border-collapse: collapse;
+  }
+
+  &-additionalDate {
+    color: #666 !important;
+    display: table-row;
+    border-bottom: 1px solid #ccc;
+
+    strong {
+      color: #333;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &-weekDay, &-date, &-time {
+      white-space: nowrap;
+      display: table-cell;
+      padding: 5px 10px;
+    }
   }
 }

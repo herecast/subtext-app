@@ -331,20 +331,17 @@ export default function() {
       return moment(event.startsAt).format('YYYY-MM-DD');
     });
 
-    const reducedEventDays = eventDays.reduce((totalEvents, event) => {
-
-      if(event in totalEvents) {
-        totalEvents[event] ++;
+    const eventCountsByDay = eventDays.reduce((totalEvents, date) => {
+      if(date in totalEvents) {
+        totalEvents[date] ++;
       } else {
-        totalEvents[event] = 1;
+        totalEvents[date] = 1;
       }
       return totalEvents;
     }, {});
 
-    const daysWithEvents = [];
-
-    Object.entries(reducedEventDays).forEach(([key, value]) => {
-      daysWithEvents.push({ date: key, count: value });
+    const daysWithEvents = Object.keys(eventCountsByDay).map((date) => {
+      return { date: date, count: eventCountsByDay[date] };
     });
 
     return new Mirage.Response(200, {}, {active_dates: daysWithEvents});

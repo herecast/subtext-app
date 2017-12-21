@@ -2,7 +2,16 @@ import Ember from 'ember';
 import { buildGroup } from 'subtext-ui/lib/group-by-date';
 import moment from 'moment';
 
-const {get, set, setProperties, computed, run, isEmpty, inject:{service}} = Ember;
+const {
+  get,
+  set,
+  setProperties,
+  computed,
+  run,
+  isEmpty,
+  isPresent,
+  inject:{service}
+} = Ember;
 
 export default Ember.Component.extend({
   classNames: 'EventsResults',
@@ -15,6 +24,25 @@ export default Ember.Component.extend({
   modals: service(),
   session: service(),
   tracking: service(),
+
+  startDate: null,
+  enabledEventDays: [],
+  updateStartDate: function(){},
+  updateEnabledEventDays: function(){},
+
+  momentStartDateOrNow: computed('startDate', function() {
+    let startDate = get(this, 'startDate');
+    if (isEmpty(startDate)) {
+      startDate = moment();
+    }
+
+    return moment(startDate);
+  }),
+
+  init() {
+    this._super(...arguments);
+    this._resetVisibleDates();
+  },
 
   didUpdateAttrs() {
     const newQuery = get(this, 'events.query');
@@ -34,6 +62,13 @@ export default Ember.Component.extend({
     this._super(...arguments);
   },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    this._resetVisibleDates();
+    this.updateEnabledEventDays(get(this, 'momentStartDateOrNow'));
+  },
+
   dayOrWeek: computed('isGroupedByDay', function() {
     return  get(this, 'isGroupedByDay') ? 'Day' : 'Week';
   }),
@@ -43,6 +78,8 @@ export default Ember.Component.extend({
 
     return (events) ? events.sortBy('startsAtUnix', 'venueName', 'title') : [];
   }),
+
+  loadedEventDates: computed.mapBy('sortedEvents', 'startsAt'),
 
   eventsByDay: computed('sortedEvents.[]', function() {
     const events = get(this, 'sortedEvents');
@@ -70,11 +107,180 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    /**
+     * This action is called when a date header is scrolled into or out of the
+     * viewport.  Since there is only one generic callback, this takes the
+     * event name and switches the action it takes with it.
+     */
+    viewportDateScroll(date, event) {
+      const visibleDates = get(this, 'visibleDates');
+      if(event === 'EnterViewport') {
+        if(visibleDates.indexOf(date) === -1) {
+          visibleDates.pushObject(date);
+        }
+
+      } else if(event === 'ExitViewport') {
+        visibleDates.removeObject(date);
+      }
+    },
+
     reachedEnd() {
       if (get(this, 'reportScrollToEnd')) {
         this._gtmTrackEvent('events-scrolled-to-end');
         set(this, 'reportScrollToEnd', false);
       }
+    },
+
+    openCalendarWidget () {
+      const startDate = get(this, 'momentStartDateOrNow');
+      const selectedDay = startDate.toDate();
+      const updateEnabledEventDays = get(this, 'updateEnabledEventDays');
+
+      updateEnabledEventDays(selectedDay).then(() => {
+        const enabledDays = get(this, 'enabledEventDays').mapBy('date').uniq();
+
+        get(this, 'modals').showModal('modals/date-picker', { enabledDays, selectedDay }).then((date) => {
+          this._gtmTrackEvent('events-jumped-to-date', date);
+          get(this, 'updateStartDate')(date);
+        });
+      });
+
+      this._gtmTrackEvent('events-clicked-calendar-icon');
+    },
+
+    jumpToPrevDay() {
+      const prevDateOnPage = get(this, '_previousLoadedDate');
+
+      if(isPresent(prevDateOnPage)) {
+        if(this._scrollIntoView(prevDateOnPage)) {
+          return;
+        } else {
+          return this._startOnPrevEnabledDate();
+        }
+      } else {
+        return this._startOnPrevEnabledDate();
+      }
+    },
+
+    jumpToNextDay() {
+      const nextDateOnPage = get(this, '_nextLoadedDate');
+
+      if(isPresent(nextDateOnPage)) {
+        if(this._scrollIntoView(nextDateOnPage)) {
+          return;
+        } else {
+          return this._startOnNextEnabledDate();
+        }
+      } else {
+        return this._startOnNextEnabledDate();
+      }
     }
-  }
+  },
+
+  /** Private **/
+
+  _startOnNextEnabledDate() {
+    return get(this, 'updateStartDate')(
+      get(this, '_nextEnabledDate').format('YYYY-MM-DD')
+    );
+  },
+
+  _startOnPrevEnabledDate() {
+    return get(this, 'updateStartDate')(
+      get(this, '_previousEnabledDate').format('YYYY-MM-DD')
+    );
+  },
+
+  _scrollIntoView(date) {
+    const fDate = moment(date).format('YYYY-MM-DD');
+    const el = this.$(`#${fDate}`);
+
+    if(el[0]) {
+      // Scroll to next event day section
+      el[0].scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  _resetVisibleDates() {
+    set(this, 'visibleDates', []);
+  },
+
+  _previousLoadedDate: computed('visibleDates.[]', 'loadedEventDates.[]', 'momentStartDateOrNow', function() {
+    const loadedEventDates = get(this, 'loadedEventDates');
+    const firstVisibleDate = get(this, 'visibleDates').sort()[0];
+
+    let currentDate = get(this, 'momentStartDateOrNow').startOf('day');
+
+    if(firstVisibleDate) {
+      currentDate = moment(firstVisibleDate).startOf('day');
+    }
+
+    return loadedEventDates.slice().reverse().find((date) => {
+      return moment(date).startOf('day').isBefore( currentDate );
+    });
+  }),
+
+  _previousEnabledDate: computed('visibleDates.[]', 'enabledDates.[]', 'momentStartDateOrNow', function() {
+    const enabledEventDays = get(this, 'enabledEventDays');
+    const firstVisibleDate = get(this, 'visibleDates').sort()[0];
+
+    let currentDate = get(this, 'momentStartDateOrNow').startOf('day');
+
+    if(firstVisibleDate) {
+      currentDate = moment(firstVisibleDate).startOf('day');
+    }
+
+    const prevEnabledDay = enabledEventDays.slice().reverse().find((day) => {
+      return moment(day.date).startOf("day").isBefore( currentDate );
+    });
+
+    if(prevEnabledDay) {
+      return moment(prevEnabledDay.date);
+    } else {
+      return currentDate.subtract(1, 'days');
+    }
+  }),
+
+  _nextLoadedDate: computed('visibleDates.[]', 'loadedEventDates.[]', 'momentStartDateOrNow', function() {
+    const lastVisibleDate = get(this, 'visibleDates').sort().slice(-1)[0];
+
+    if(lastVisibleDate) {
+      const currentDate = moment(lastVisibleDate).startOf('day');
+      const loadedEventDates = get(this, 'loadedEventDates');
+
+      return loadedEventDates.find((date) => {
+        return moment(date).startOf('day').isAfter( currentDate );
+      });
+    } else {
+      return null;
+    }
+  }),
+
+  _nextEnabledDate: computed('visibleDates.[]', 'enabledDates.[]', 'momentStartDateOrNow', function() {
+    const enabledEventDays = get(this, 'enabledEventDays');
+    const lastVisibleDate = get(this, 'visibleDates').sort().slice(-1)[0];
+
+    let currentDate = get(this, 'momentStartDateOrNow').startOf('day');
+
+    if(lastVisibleDate) {
+      currentDate = moment(lastVisibleDate).startOf('day');
+    }
+
+    const nextEnabledDay = enabledEventDays.find((day) => {
+      return moment(day.date).startOf("day").isAfter( currentDate );
+    });
+
+    if(nextEnabledDay) {
+      return moment(nextEnabledDay.date);
+    } else {
+      return currentDate.add(1, 'days');
+    }
+  })
 });
+

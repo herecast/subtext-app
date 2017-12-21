@@ -1,1 +1,5 @@
-<div class="IntoViewReporter-pixel"></div>
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  <div class="IntoViewReporter-pixel"></div>
+{{/if}}
