@@ -1104,4 +1104,14 @@ export default function() {
     return feedContents.find(request.params.id);
   });
 
+  this.get('/content_permissions', function(db, request) {
+    const responseObj = {content_permissions: []};
+    if (request.queryParams['content_ids[]'] != null) {
+      request.queryParams['content_ids[]'].forEach(function(content_id) {
+        responseObj['content_permissions'].push({content_id: content_id, can_edit: true});
+      });
+    }
+    return responseObj;
+  });
+
 }

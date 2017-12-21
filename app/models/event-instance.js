@@ -14,7 +14,6 @@ const {
 export default DS.Model.extend(BaseEvent, {
   // Only returned by the API if the current user is an admin
   adminContentUrl: DS.attr('string'),
-  canEdit: DS.attr('boolean'),
   commentCount: DS.attr('number'),
   contentId: DS.attr('number'),
   eventId: DS.attr('number'),

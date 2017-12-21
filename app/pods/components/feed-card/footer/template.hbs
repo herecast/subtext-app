@@ -1,22 +1,26 @@
-{{#if (or hasSource showEditButton showManageButton)}}
-  <div class="FeedCard-Footer-wrap">
-    {{#if hasSource}}
-      <div class="FeedCard-Footer-left">
-        {{feed-card/source
-          locationTagName=locationTagName
-        }}
-      </div>
-    {{/if}}
+<div class="FeedCard-Footer-wrap">
+  {{#if hasSource}}
+    <div class="FeedCard-Footer-left">
+      {{feed-card/source
+        locationTagName=locationTagName
+      }}
+    </div>
+  {{/if}}
 
-    {{#unless displayAsPublic}}
-      <div class="FeedCard-Footer-right">
-        {{#if showManageButton}}
-          {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
-        {{/if}}
-        {{#if showEditButton}}
-          {{#x-link-to editRoute editRouteId style='regular' color='primary' size='x-small'}}Edit{{/x-link-to}}
-        {{/if}}
-      </div>
-    {{/unless}}
-  </div>
-{{/if}}
+  {{#unless displayAsPublic}}
+    <div class="FeedCard-Footer-right">
+      {{#if showManageButton}}
+        {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
+      {{/if}}
+      {{feed-card/edit-button 
+        editPath=editPath
+        editPathId=editPathId
+        model=model
+        iconSize="x-small"
+        color="primary"
+        style="regular"
+        }}
+    </div>
+  {{/unless}}
+</div>
+

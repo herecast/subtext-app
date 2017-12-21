@@ -19,6 +19,7 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   tracking: inject.service(),
   isPreview: false,
   enableStickyHeader: false,
+  editPath: 'market.edit',
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
@@ -48,10 +49,6 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
 
   thumbSortDefinition: ['primary:desc'],
   sortedImages: computed.sort('model.images.[]', 'thumbSortDefinition'),
-
-  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', function() {
-    return get(this, 'model.canEdit') && ! get(this, 'fastboot.isFastBoot');
-  }),
 
   resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));

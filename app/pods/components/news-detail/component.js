@@ -24,16 +24,14 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   isPreview: false,
   enableStickyHeader: false,
   captionHidden: false,
+  editPath: 'news.edit',
+  editPathId: computed.oneWay('model.id'),
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {
     const managedOrganizations = get(this, 'organizations') || [];
     return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
-  }),
-
-  showEditButton: computed('userCanEditNews', 'fastboot.isFastBoot', function() {
-    return ! get(this, 'fastboot.isFastBoot') && get(this, 'userCanEditNews');
   }),
 
   hasCaptionOrCredit: computed('model.bannerImage.{caption,credit}', function() {

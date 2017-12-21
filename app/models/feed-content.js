@@ -15,7 +15,6 @@ export default DS.Model.extend(BaseEvent, {
   embeddedAd: DS.attr('boolean'),
   contentType: DS.attr('string'),
   contentOrigin: DS.attr('string'),
-  canEdit: DS.attr('boolean', {defaultValue: false}),
 
   authorId: DS.attr('number'),
   authorName: DS.attr('string'),

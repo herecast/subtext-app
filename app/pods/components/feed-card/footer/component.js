@@ -19,10 +19,6 @@ export default Ember.Component.extend({
 
   hasSource: computed.notEmpty('locationTagName'),
 
-  showEditButton: computed('canEdit', 'fastboot.isFastBoot', function() {
-    return get(this, 'canEdit') && !get(this, 'fastboot.isFastBoot');
-  }),
-
   showManageButton: computed('canManage', 'fastboot.isFastBoot', function() {
     return get(this, 'canManage') && !get(this, 'fastboot.isFastBoot');
   }),

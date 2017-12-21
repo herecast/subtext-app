@@ -360,6 +360,14 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(`/promotions${qstring}`);
   },
 
+  getContentPermissions(content_id) {
+    const query = {
+      content_ids: content_id
+    };
+    const qstring = queryString(query);
+    return this.getJson(`/content_permissions${qstring}`);
+  },
+
   getEventCategories() {
     return this.getJson('/event_categories');
   },

@@ -17,11 +17,13 @@
       {{#media-container reverse=true noMargin=true centerVertically=true as |media|}}
         {{#media.object}}
           {{#unless isPreview}}
-            {{#if showEditButton}}
-              {{#x-link-to 'market.edit' model.id size='medium' nowrap=true}}
-                {{fa-icon 'pencil'}} Edit Listing
-              {{/x-link-to}}
-            {{/if}}
+            {{feed-card/edit-button 
+            model=model 
+            editPath=editPath 
+            editPathId=model.id
+            color=''
+            style=''
+            iconSize="medium"}}
           {{/unless}}
         {{/media.object}}
 

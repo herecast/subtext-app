@@ -21,18 +21,18 @@
       {{horizontal-rule short=true}}
 
       {{#media-container reverse=true centerVertically=true noRightMargin=true as |media|}}
+        {{feed-card/edit-button 
+          model=model 
+          editPath=editPath 
+          iconSize='medium'
+          color=''
+          style=''
+          editPathId=editPathId }}
 
         {{#media.object}}
           {{#unless isPreview}}
-            {{#if showEditButton}}
-              {{#x-link-to 'events.edit' model.eventId size='medium' nowrap=true}}
-                {{fa-icon 'pencil'}}
-                Edit Post
-              {{/x-link-to}}
-            {{else}}
-              {{#if model.organization.subscribeUrl}}
-                {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
-              {{/if}}
+            {{#if model.organization.subscribeUrl}}
+              {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
             {{/if}}
           {{/unless}}
         {{/media.object}}

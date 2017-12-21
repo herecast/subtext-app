@@ -31,12 +31,12 @@
 
   {{feed-card/footer
     locationTagName=sourceTag
-    canEdit=userCanEditFeedCard
     canManage=(readonly context.canManage)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
-    editRoute='news.edit'
-    editRouteId=model.id
+    editPath='news.edit'
+    editPathId=model.id
+    model=model
   }}
 
   {{#unless context.hideComments}}

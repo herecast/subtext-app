@@ -43,12 +43,12 @@
 
   {{feed-card/footer
     locationTagName=sourceTag
-    canEdit=userCanEditFeedCard
     canManage=(readonly context.canManage)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
-    editRoute='market.edit'
-    editRouteId=model.id
+    editPath='market.edit'
+    editPathId=model.id
+    model=model
   }}
 
   {{#unless context.hideComments}}

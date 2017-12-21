@@ -18,6 +18,8 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   model: null,
   closeRoute: 'events',
   closeLabel: 'Events',
+  editPath:   'events.edit',
+  editPathId: computed.oneWay('model.eventId'),
   fastboot: inject.service(),
   tracking: inject.service(),
 
@@ -25,10 +27,6 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
 
   isPreview: false,
   enableStickyHeader: false,
-
-  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', function() {
-    return get(this, 'model.canEdit') && ! get(this, 'fastboot.isFastBoot');
-  }),
 
   _trackImpression() {
     const id = get(this, 'model.contentId');

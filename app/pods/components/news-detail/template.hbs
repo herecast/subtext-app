@@ -40,18 +40,22 @@
         {{horizontal-rule short=true}}
 
         {{#media-container reverse=true centerVertically=true noRightMargin=true as |media|}}
+          <div class="u-marginLeft15">
+            {{#unless isPreview}}
+              {{feed-card/edit-button 
+              model=model 
+              editPath=editPath 
+              editPathId=model.id
+              color=''
+              style=''
+              iconSize="medium"}}
+            {{/unless}}
+          </div>
 
           {{#media.object}}
             {{#unless isPreview}}
-              {{#if showEditButton}}
-                {{#x-link-to 'news.edit' model.id size='medium' nowrap=true}}
-                  {{fa-icon 'pencil'}}
-                  Edit Post
-                {{/x-link-to}}
-              {{else}}
-                {{#if model.organization.subscribeUrl}}
-                  {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
-                {{/if}}
+              {{#if model.organization.subscribeUrl}}
+                {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
               {{/if}}
             {{/unless}}
           {{/media.object}}
