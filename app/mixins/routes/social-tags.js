@@ -31,7 +31,8 @@ export default Ember.Mixin.create({
       channel = get(this, 'modelChannel') || 'base';
     }
 
-    const url = SocialSharing.getShareUrl(locationService, model);
+    const fromProfile = routeName.startsWith('profile');
+    const url = SocialSharing.getShareUrl(locationService, model, fromProfile);
     const imageUrl = get(model,'featuredImageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
     const imageWidth = get(model, 'featuredImageWidth') || get(model, 'imageWidth') || 266;
     const imageHeight = get(model, 'featuredImageHeight') || get(model, 'imageHeight') || 200;
@@ -49,6 +50,7 @@ export default Ember.Mixin.create({
     return [
       {
         type: 'meta',
+        tagId: 'meta-fb-app-id',
         attrs: {
           property: 'fb:app_id',
           content:  config['FACEBOOK_APP_ID'],
@@ -56,6 +58,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-site-name',
         attrs: {
           property: 'og:site_name',
           content: 'dailyUV'
@@ -63,6 +66,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-image',
         attrs: {
           property: 'og:image',
           content: optimizedImageUrl,
@@ -71,6 +75,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-image-width',
         attrs: {
           property: 'og:image:width',
           content: imageWidth,
@@ -79,6 +84,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-image-height',
         attrs: {
           property: 'og:image:height',
           content: imageHeight,
@@ -87,6 +93,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-title',
         attrs: {
           property: 'og:title',
           content: title
@@ -94,6 +101,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-description',
         attrs: {
           property: 'og:description',
           content: descriptionTruncated
@@ -101,6 +109,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-og-url',
         attrs: {
           property: 'og:url',
           content: url
@@ -108,6 +117,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-card',
         attrs: {
           name: 'twitter:card',
           content: 'summary_large_image'
@@ -115,6 +125,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-site',
         attrs: {
           name: 'twitter:site',
           content: '@thedailyUV'
@@ -122,6 +133,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-creator',
         attrs: {
           name: 'twitter:creator',
           content: '@thedailyUV'
@@ -129,6 +141,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-url',
         attrs: {
           name: 'twitter:url',
           content: url
@@ -136,6 +149,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-title',
         attrs: {
           name: 'twitter:title',
           content: title
@@ -143,6 +157,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-description',
         attrs: {
           name: 'twitter:description',
           content: descriptionTruncated
@@ -150,6 +165,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-twitter-image',
         attrs: {
           name: 'twitter:image',
           content: imageUrl
@@ -157,6 +173,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-language',
         attrs: {
           name: 'language',
           content: 'English'
@@ -164,6 +181,7 @@ export default Ember.Mixin.create({
       },
       {
         type: 'meta',
+        tagId: 'meta-content-language',
         attrs: {
           "http-equiv": 'content-language',
           content: 'en'

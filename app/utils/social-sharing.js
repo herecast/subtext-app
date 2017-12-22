@@ -28,21 +28,28 @@ export default {
     });
   },
 
-  getShareUrl(locationService, model) {
-    const contentId = get(model, 'contentId') || get(model, 'id');
+  getShareUrl(locationService, model, detailPageFromProfile=false) {
     const normalizedContentType = get(model, 'normalizedContentType');
+    const contentId = get(model, 'contentId');
+    const isOrganization = normalizedContentType === 'organization';
+    const organizationId = isOrganization ? get(model, 'id') : get(model, 'organizationId');
 
-    if (normalizedContentType === 'organization') {
-      return `${locationService.origin()}/profile/${contentId}`;
+    let url;
+
+    if (isOrganization) {
+      url = `${locationService.origin()}/profile/${organizationId}`;
+    } else if (detailPageFromProfile && organizationId) {
+      url = `${locationService.origin()}/profile/${organizationId}/${contentId}`;
     } else {
-      let url = `${locationService.origin()}/feed/${contentId}`;
-      if (get(model, 'eventId')) {
-        let additionalParam = get(model, 'eventInstanceId') || get(model, 'id');
-        url += `?eventInstanceId=${additionalParam}`;
-      }
-
-      return url;
+      url = `${locationService.origin()}/feed/${contentId}`;
     }
+
+    if (get(model, 'eventId')) {
+      let additionalParam = get(model, 'eventInstanceId') || get(model, 'id');
+      url += `/${additionalParam}`;
+    }
+
+    return url;
   },
 
   isModalRoute(routeName) {

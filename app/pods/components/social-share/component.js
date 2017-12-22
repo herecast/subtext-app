@@ -23,8 +23,10 @@ export default Ember.Component.extend({
   urlForShare() {
     const model = get(this, 'model');
     const locationService = get(this, 'location');
+    const routeName = get(this,'routing.router.currentRouteName') || '';
+    const fromProfile = routeName.startsWith('profile');
 
-    return SocialSharing.getShareUrl(locationService, model);
+    return SocialSharing.getShareUrl(locationService, model, fromProfile);
   },
 
   mailtoLink: computed('title', 'sharedBy', function() {
