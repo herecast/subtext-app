@@ -38,7 +38,8 @@ export default Ember.Service.extend({
         // Add the messages to each Error and fire it to newrelic.
         // Add the error's own message to the end, so newrelic's ability to parse the stack trace doesn't break
         errors.forEach(error => {
-          let errorMessages = [].concat(strings).push(error.message);
+          let errorMessages = [].concat(strings);
+          errorMessages.push(error.message);
           error.message = errorMessages.join(' ');
 
           NREUM.noticeError(error);

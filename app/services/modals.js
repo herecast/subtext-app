@@ -96,6 +96,15 @@ export default Ember.Service.extend({
 
   rejectModal(modal, results) {
     this.removeModal(modal);
+    modal.defer.promise.catch((e) => {
+      // Silence non-errors from bubbling up to RSVP.onerror
+      // These are not actually errors, but simply an inverse of
+      // the preferred modal action. If it matters, it should be
+      // caught in the calling code.
+      if (typeof e !== "undefined") {
+        throw e;
+      }
+    });
     modal.defer.reject(results);
   },
 
