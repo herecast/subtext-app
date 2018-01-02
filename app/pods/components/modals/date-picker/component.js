@@ -20,14 +20,17 @@ export default ModalInstance.extend({
   actions: {
     disableDay(day) {
       const { enabledDays } = get(this, 'model');
-      let {0: firstDay, [enabledDays.length-1]: lastDay } = enabledDays;
-      firstDay = moment(firstDay);
-      lastDay = moment(lastDay);
 
-      if(moment(day).isBefore(firstDay) || moment(day).isAfter(lastDay)) {
-        return false;
-      } else {
-        return !enabledDays.includes(moment(day).format('YYYY-MM-DD'));
+      if (enabledDays) {
+        let {0: firstDay, [enabledDays.length-1]: lastDay } = enabledDays;
+        firstDay = moment(firstDay);
+        lastDay = moment(lastDay);
+
+        if(moment(day).isBefore(firstDay) || moment(day).isAfter(lastDay)) {
+          return false;
+        } else {
+          return !enabledDays.includes(moment(day).format('YYYY-MM-DD'));
+        }
       }
     },
 

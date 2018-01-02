@@ -81,9 +81,11 @@ export default Ember.Component.extend({
     },
 
     openCalendarWidget() {
-      get(this, 'modals').showModal('modals/date-picker').then((date) => {
-        this.updateExpirationDate(moment(date));
-      });
+      get(this, 'modals').showModal('modals/date-picker')
+        .then((date) => {
+          this.updateExpirationDate(moment(date));
+        })
+        .catch(() => {});
     },
 
     removeSunsetDate() {
