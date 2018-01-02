@@ -10,7 +10,6 @@ export default Ember.Route.extend(InfinityRoute, History, {
   fastboot: inject.service(),
 
   queryParams: {
-    page: {refreshModel: true},
     query: {refreshModel: true},
     show: {refreshModel: true},
   },
@@ -50,7 +49,6 @@ export default Ember.Route.extend(InfinityRoute, History, {
     const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
 
     return hideContent ? [] : this.infinityModel('feed-item', {
-        page: params.page,
         organization_id: this._getOrganizationId(),
         query: params.query,
         show: params.show

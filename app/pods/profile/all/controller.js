@@ -11,8 +11,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   profileController: inject.controller('profile'),
   organization: computed.oneWay('profileController.model'),
 
-  queryParams: ['page', 'query', 'show'],
-  page: 1,
+  queryParams: ['query', 'show'],
   query: '',
   show: null,
 

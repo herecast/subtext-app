@@ -9,10 +9,7 @@
 
   {{#unless displayAsPublic}}
     <div class="FeedCard-Footer-right">
-      {{#if showManageButton}}
-        {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
-      {{/if}}
-      {{feed-card/edit-button 
+      {{feed-card/edit-button
         editPath=editPath
         editPathId=editPathId
         model=model
@@ -20,7 +17,9 @@
         color="primary"
         style="regular"
         }}
+      {{#if showManageButton}}
+        {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
+      {{/if}}
     </div>
   {{/unless}}
 </div>
-
