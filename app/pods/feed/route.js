@@ -10,6 +10,7 @@ const {
   set,
   setProperties,
   on,
+  RSVP,
   RSVP:{Promise},
   inject:{service},
   isBlank
@@ -93,20 +94,26 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
             endDate = moment(params.endDate).endOf('day').format();
           }
 
-          resolve(this.infinityModel('event-instance', {
-            query: params.query,
-            location_id: params.location || selectedOrDefaultLocationId,
-            start_date: startDate,
-            end_date: endDate,
-            per_page: 20,
-            radius: params.radius
+          resolve(RSVP.hash({
+            eventInstances: this.infinityModel('event-instance', {
+              query: params.query,
+              location_id: params.location || selectedOrDefaultLocationId,
+              start_date: startDate,
+              end_date: endDate,
+              per_page: 20,
+              radius: params.radius
+            }),
+            feedItems: []
           }));
         } else {
-          resolve(this.infinityModel('feed-item', {
-            location_id: params.location || selectedOrDefaultLocationId,
-            radius: params.radius,
-            query: params.query,
-            content_type: params.type
+          resolve(RSVP.hash({
+            feedItems: this.infinityModel('feed-item', {
+              location_id: params.location || selectedOrDefaultLocationId,
+              radius: params.radius,
+              query: params.query,
+              content_type: params.type
+            }),
+            eventInstances: []
           }));
         }
       }
@@ -117,7 +124,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
     if (transition.targetName !== 'feed.show' && transition.targetName !== 'feed.show-instance') {
       return this.getModel(params, transition);
     } else {
-      return [];
+      return null;
     }
   },
 

@@ -37,6 +37,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   showingDetailInFeed: null,
 
+  hasResults: computed('model.eventInstances.[]', 'model.feedItems.[]', function() {
+    return get(this, 'model.feedItems.length') || get(this, 'model.eventInstances.length');
+  }),
+
   locationForControls: computed('userLocation.location.id', function() {
     return get(this, 'userLocation.location');
   }),
@@ -155,16 +159,6 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
 
     filterType(type) {
-      /**
-       * Transition necessary because of different model types for
-       * event-instances.
-       * Otherwise, this throws a console error changing type from 'event'.
-       */
-      this.setProperties({
-        currentlyLoading: true,
-        model: []
-      });
-
       this._transitionToFeed({
         type: type
       });

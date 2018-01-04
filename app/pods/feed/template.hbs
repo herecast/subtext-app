@@ -37,31 +37,40 @@
     {{#feed/feed-container}}
       {{outlet}}
 
-      {{#if model}}
+      {{#if hasResults}}
         {{#if eventFilterAndNotMyStuff}}
           {{events-results
-            events=model
+            events=model.eventInstances
             adPath='feed.index'
             startDate=startDate
             updateEnabledEventDays=(action "updateEnabledEventDays")
             enabledEventDays=enabledEventDays
             updateStartDate=(action 'jumpToDay')
           }}
+
+          {{#infinity-loader
+            infinityModel=model.eventInstances
+          }}
+            {{#unless model.eventInstances.reachedInfinity}}
+              {{fa-icon 'spinner' class="fa-pulse"}}
+            {{/unless}}
+          {{/infinity-loader}}
         {{else}}
           {{feed/index-feed
-            feedItems=model
+            feedItems=model.feedItems
             showingDetailInFeed=showingDetailInFeed
             isSearchActive=isSearchActive
           }}
+
+          {{#infinity-loader
+            infinityModel=model.feedItems
+          }}
+            {{#unless model.feedItems.reachedInfinity}}
+              {{fa-icon 'spinner' class="fa-pulse"}}
+            {{/unless}}
+          {{/infinity-loader}}
         {{/if}}
 
-        {{#infinity-loader
-          infinityModel=model
-        }}
-          {{#unless model.reachedInfinity}}
-            {{fa-icon 'spinner' class="fa-pulse"}}
-          {{/unless}}
-        {{/infinity-loader}}
       {{else}}
         {{feed/no-results
           isMyStuffOnly=isMyStuffOnly

@@ -238,7 +238,7 @@ test('feed show page, event no instance id', function(assert) {
 });
 
 test('radius control, api radius parameter', function(assert) {
-  const done = assert.async(4);
+  const done = assert.async(2);
 
   const loc = server.create('location');
   let radius = 10;
@@ -264,7 +264,7 @@ test('radius control, api radius parameter', function(assert) {
 });
 
 test('location control', function(assert) {
-  const done = assert.async(2);
+  const done = assert.async();
 
   const location1 = server.create('location');
   const location2 = server.create('location');
@@ -330,7 +330,7 @@ test('Clicking "my stuff" - signed in, no content', function(assert) {
 });
 
 test('hamburger menu, news filter', function(assert) {
-  const done = assert.async(4);
+  const done = assert.async(2);
 
   mockLocationCookie(this.application);
 
@@ -392,7 +392,7 @@ test('hamburger menu, news filter', function(assert) {
 });
 
 test('hamburger menu, market filter', function(assert) {
-  const done = assert.async(4);
+  const done = assert.async(2);
   mockLocationCookie(this.application);
 
   visit('/feed');
