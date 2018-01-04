@@ -93,15 +93,15 @@ export default Ember.Component.extend({
     });
   }),
 
-  _gtmTrackEvent(name, content='') {
+  _gtmTrackEvent(name, context='') {
     get(this,'session').incrementEventSequence('events-interactions')
       .then((eventSequenceIndex) => {
         get(this, 'tracking').push({
           'event': name,
-          'content': content,
+          'context': context,
           'url': window.location.href,
           'event-sequence': eventSequenceIndex,
-          'event_day': moment().format('YYYY-MM-DD')
+          'event_day': get(this, 'momentStartDateOrNow').format('YYYY-MM-DD')
         });
       });
   },
@@ -131,7 +131,7 @@ export default Ember.Component.extend({
       }
     },
 
-    openCalendarWidget () {
+    openCalendarWidget(source) {
       const startDate = get(this, 'momentStartDateOrNow');
       const selectedDay = startDate.toDate();
       const updateEnabledEventDays = get(this, 'updateEnabledEventDays');
@@ -145,49 +145,47 @@ export default Ember.Component.extend({
         });
       });
 
-      this._gtmTrackEvent('events-clicked-calendar-icon');
+      this._gtmTrackEvent(`events-clicked-calendar-icon`, source);
     },
 
     jumpToPrevDay() {
       const prevDateOnPage = get(this, '_previousLoadedDate');
 
-      if(isPresent(prevDateOnPage)) {
-        if(this._scrollIntoView(prevDateOnPage)) {
-          return;
-        } else {
-          return this._startOnPrevEnabledDate();
-        }
+      if(isPresent(prevDateOnPage) && this._canScrollIntoView(prevDateOnPage)) {
+        this._gtmTrackEvent(`events-clicked-prev-day`, prevDateOnPage.format('YYYY-MM-DD'));
+        this._scrollIntoView(prevDateOnPage);
+        return;
       } else {
-        return this._startOnPrevEnabledDate();
+        const prevDate = get(this, '_previousEnabledDate').format('YYYY-MM-DD');
+
+        this._gtmTrackEvent(`events-clicked-prev-day`, prevDate);
+        return this._startOnDate(prevDate);
       }
     },
 
     jumpToNextDay() {
       const nextDateOnPage = get(this, '_nextLoadedDate');
 
-      if(isPresent(nextDateOnPage)) {
-        if(this._scrollIntoView(nextDateOnPage)) {
-          return;
-        } else {
-          return this._startOnNextEnabledDate();
-        }
+      if(isPresent(nextDateOnPage) && this._canScrollIntoView(nextDateOnPage)) {
+        this._gtmTrackEvent(`events-clicked-next-day`, nextDateOnPage.format('YYYY-MM-DD'));
+
+        this._scrollIntoView(nextDateOnPage);
+        return;
+
       } else {
-        return this._startOnNextEnabledDate();
+
+        const nextDate = get(this, '_nextEnabledDate').format('YYYY-MM-DD');
+        this._gtmTrackEvent(`events-clicked-next-day`, nextDate);
+        return this._startOnDate(nextDate);
       }
     }
   },
 
   /** Private **/
 
-  _startOnNextEnabledDate() {
+  _startOnDate(date) {
     return get(this, 'updateStartDate')(
-      get(this, '_nextEnabledDate').format('YYYY-MM-DD')
-    );
-  },
-
-  _startOnPrevEnabledDate() {
-    return get(this, 'updateStartDate')(
-      get(this, '_previousEnabledDate').format('YYYY-MM-DD')
+      date
     );
   },
 
@@ -195,13 +193,19 @@ export default Ember.Component.extend({
     const fDate = moment(date).format('YYYY-MM-DD');
     const el = this.$(`#${fDate}`);
 
-    if(el[0]) {
-      // Scroll to next event day section
-      el[0].scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-      return true;
+    // Scroll to next event day section
+    el[0].scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  },
+
+  _canScrollIntoView(date) {
+    if(isPresent(date)) {
+      const fDate = moment(date).format('YYYY-MM-DD');
+      const el = this.$(`#${fDate}`);
+
+      return el.length > 0;
     } else {
       return false;
     }

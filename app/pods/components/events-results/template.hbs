@@ -13,7 +13,7 @@
         events=dayOfEvents.items
         dayValue=dayOfEvents.paramValue
         selectDay=updateStartDate
-        openCalendar=(action 'openCalendarWidget')
+        openCalendar=(action 'openCalendarWidget' 'date-header')
         updateEnabledEventDays=updateEnabledEventDays
         enabledEventDays=enabledEventDays
       }}
@@ -27,16 +27,19 @@
 </div>
 
 <div class='EventsResults-floatingActions'>
-  <button {{action 'openCalendarWidget'}}
+  <button {{action 'openCalendarWidget' 'floating-calendar-button'}}
+      data-test-action='open-calendar'
       class='EventsResults-floatingAction EventsResults-floatingAction--iconOnly'>
     {{fa-icon 'calendar'}}
   </button>
   <button {{action 'jumpToPrevDay'}}
+      data-test-action='previous-day'
       class='EventsResults-floatingAction'>
     {{fa-icon 'arrow-up'}}<br>
     PREV<br>DAY
   </button>
   <button {{action 'jumpToNextDay'}}
+      data-test-action='next-day'
       class='EventsResults-floatingAction'>
     NEXT<br>DAY<br>
     {{fa-icon 'arrow-down'}}

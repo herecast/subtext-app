@@ -4,6 +4,7 @@ import format from 'ember-moment/computeds/format';
 
 export default Ember.Component.extend({
   classNames: ['EventsByDay'],
+  'data-test-component': 'events-by-day',
 
   selectDay: null,
   maxDisplay: 5,

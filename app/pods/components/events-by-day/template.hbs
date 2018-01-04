@@ -1,6 +1,6 @@
 <div class="EventsByDay-header">
   {{#if selectDay}}
-    <span class="EventsByDay-calendar-button u-bold" {{action openCalendar}}>
+    <span class="EventsByDay-calendar-button u-bold" {{action openCalendar}} data-test-action='open-calendar'>
       {{day}} {{fa-icon 'calendar'}} {{fa-icon 'fa-sort-desc'}}
     </span>
   {{/if}}
