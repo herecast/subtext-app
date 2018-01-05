@@ -101,7 +101,8 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               start_date: startDate,
               end_date: endDate,
               per_page: 20,
-              radius: params.radius
+              radius: params.radius,
+              modelPath: 'controller.model.eventInstances'
             }),
             feedItems: []
           }));
@@ -111,7 +112,8 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               location_id: params.location || selectedOrDefaultLocationId,
               radius: params.radius,
               query: params.query,
-              content_type: params.type
+              content_type: params.type,
+              modelPath: 'controller.model.feedItems'
             }),
             eventInstances: []
           }));
