@@ -10,6 +10,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   profileController: inject.controller('profile'),
   organization: computed.oneWay('profileController.model'),
+  profileIsDisabled: computed.not('organization.profileIsActive'),
 
   queryParams: ['query', 'show'],
   query: '',
@@ -42,11 +43,31 @@ export default Ember.Controller.extend(PaginatedFilter, {
   showAdminCards: computed.and('isAdmin', 'displayAsAdminIfAllowed'),
   stickyContainerEnabled: computed.not('showAdminCards'),
 
+  avatarUrl: computed('profileIsDisabled', 'organization.profileImageUrl', function() {
+    if (get(this, 'profileIsDisabled')) {
+      return false;
+    }
+
+    return get(this, 'organization.profileImageUrl');
+  }),
+
+  allowToEditHeader: computed('showAdminCards', 'profileIsDisabled', function() {
+    if (get(this, 'profileIsDisabled')) {
+      return false;
+    }
+
+    return get(this, 'showAdminCards');
+  }),
+
   showContactCard: computed('showAdminCards', 'organization.contactCardActive', 'organization.hasContactInfo', function() {
     return get(this, 'showAdminCards') || (get(this, 'organization.contactCardActive') && get(this, 'organization.hasContactInfo'));
   }),
 
-  showDescriptionCard: computed('showAdminCards', 'organization.descriptionCardActive', 'organization.description', function() {
+  showDescriptionCard: computed('showAdminCards', 'profileIsDisabled', 'organization.descriptionCardActive', 'organization.description', function() {
+    if (get(this, 'profileIsDisabled')) {
+      return false;
+    }
+
     return get(this, 'showAdminCards') || (get(this, 'organization.descriptionCardActive') && get(this, 'organization.description'));
   }),
 
@@ -56,6 +77,14 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   showDescriptionHoursTabsCard: computed('showAdminCards', 'showDescriptionCard', 'showHoursCard', function() {
     return ! get(this, 'showAdminCards') && get(this, 'showDescriptionCard') && get(this, 'showHoursCard');
+  }),
+
+  showCreateContentCards: computed('showAdminCards', 'profileIsDisabled', function() {
+    if (get(this, 'profileIsDisabled')) {
+      return false;
+    }
+
+    return get(this, 'showAdminCards');
   }),
 
   updateOrganizationField(fieldName, value) {
@@ -69,6 +98,23 @@ export default Ember.Controller.extend(PaginatedFilter, {
       () => notify.error('Update failed')
     );
   },
+
+  mailtoHref: computed('isAdmin', 'organization', function() {
+    const organization = get(this, 'organization');
+
+    let email,
+      subject;
+
+    if (get(this, 'isAdmin')) {
+      subject = encodeURIComponent(`Profile Page Manager's Query [${get(organization, 'name')}|${organization.id}]`);
+      email = `ads@dailyuv.com`;
+    } else {
+      subject = encodeURIComponent(`Profile Page Query [${get(organization, 'name')}|${organization.id}]`);
+      email = `dailyuv@subtext.org`;
+    }
+
+    return Ember.String.htmlSafe(`mailto:${email}?subject=${subject}`);
+  }),
 
   actions: {
     updateQuery(searchText) {

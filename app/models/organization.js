@@ -111,6 +111,16 @@ export default DS.Model.extend({
     return validOrgTypes.includes(orgType);
   }),
 
+  profileIsActive: computed('bizFeedActive', 'isBusiness', 'hasProfile', function() {
+    const isBusiness = get(this, 'isBusiness');
+
+    if (isBusiness) {
+      return get(this, 'bizFeedActive');
+    }
+
+    return get(this, 'hasProfile');
+  }),
+
   publisher: DS.belongsTo('organization', {async: true, inverse: 'publications'}),
   publications: DS.hasMany('organization', {async: true, inverse: 'publisher'}),
 
