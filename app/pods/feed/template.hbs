@@ -42,6 +42,7 @@
           {{events-results
             events=model.eventInstances
             adPath='feed.index'
+            enableImpressionTracking=(eq currentRouteName 'feed.index')
             startDate=startDate
             updateEnabledEventDays=(action "updateEnabledEventDays")
             enabledEventDays=enabledEventDays
@@ -60,6 +61,7 @@
             feedItems=model.feedItems
             showingDetailInFeed=showingDetailInFeed
             isSearchActive=isSearchActive
+            enableImpressionTracking=(eq currentRouteName 'feed.index')
           }}
 
           {{#infinity-loader

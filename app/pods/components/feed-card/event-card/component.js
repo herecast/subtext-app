@@ -7,7 +7,7 @@ const { get, computed, isPresent, inject:{service} } = Ember;
 
 export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-EventCard',
-  'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
+  'data-test-event-card': computed.reads('model.title'),
   'data-test-content': computed.oneWay('model.contentId'),
 
   model: null,

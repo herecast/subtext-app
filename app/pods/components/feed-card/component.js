@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import CardMetrics from 'subtext-ui/mixins/components/card-metrics';
 
 const { get, set, computed, isBlank, inject:{service} } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(CardMetrics, {
   classNames: 'FeedCard',
   classNameBindings: ['isEditing:show-back', 'showOverlay:show-overlay'],
   'data-test-feed-card': computed.oneWay('model.normalizedContentType'),

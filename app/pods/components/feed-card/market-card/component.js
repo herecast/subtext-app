@@ -2,13 +2,14 @@ import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
-const {get, set, computed, isPresent} = Ember;
+const {get, set, computed, isPresent, inject: {service}} = Ember;
 
 export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-MarketCard',
+  'data-test-market-card': computed.reads('model.title'),
 
   model: null,
-  userLocation: null,
+  userLocation: service(),
   isLoggedIn: false, //Overridden in feed-card
   context: null,
 

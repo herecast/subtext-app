@@ -5,6 +5,8 @@ import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
 import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
+import Ember from 'ember';
+import moment from 'moment';
 
 moduleForAcceptance('Acceptance | feed', {
   beforeEach() {
@@ -523,5 +525,95 @@ test('visiting /feed; selected location in cookie, unauthenticated; signing in w
     assert.equal(this.cookies['locationId'], userLocation.id,
       "Signing in: sets cookie location to user location"
     );
+  });
+});
+
+test('tracking impression events fired on feed index', function(assert) {
+  let impressions = 0;
+  const done = assert.async();
+  const tracking = Ember.Service.extend({
+    trackTileLoad(){},
+    trackTileImpression() {
+      impressions = impressions+1;
+      done();
+    }
+  });
+
+  this.application.register('services:trackingMock', tracking);
+  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+  const feedContent = server.create('feedContent', {
+      contentType: 'news'
+    });
+
+  const feedItem = server.create('feedItem', {
+    modelType: 'feedContent'
+   });
+
+  feedItem.feedContent = feedContent;
+  feedItem.save();
+
+  visit('/feed/');
+
+  andThen(()=> {
+    assert.notEqual(impressions, 0,
+      "Impressions were tracked on feed index page");
+  });
+});
+
+test('tracking impression events fired on event feed index', function(assert) {
+  let impressions = 0;
+  const done = assert.async();
+  const tracking = Ember.Service.extend({
+    trackTileLoad(){},
+    trackTileImpression() {
+      impressions = impressions+1;
+      done();
+    }
+  });
+
+  this.application.register('services:trackingMock', tracking);
+  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+  server.create('event-instance', {
+    startsAt: moment().add(1, 'day').format('YYYY-MM-DD')
+  });
+
+  visit('/feed?type=event&location=sharon-vt');
+
+  andThen(()=> {
+    assert.notEqual(impressions, 0,
+      "Impressions were tracked on feed index page");
+  });
+});
+
+test('tracking impression events are not fired on feed detail page', function(assert) {
+  let impressions = 0;
+  const tracking = Ember.Service.extend({
+    trackTileLoad(){},
+    trackTileImpression() {
+      impressions = impressions+1;
+    }
+  });
+
+  this.application.register('services:trackingMock', tracking);
+  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+  const feedContent = server.create('feedContent', {
+      contentType: 'news'
+    });
+
+  const feedItem = server.create('feedItem', {
+    modelType: 'feedContent'
+   });
+
+  feedItem.feedContent = feedContent;
+  feedItem.save();
+
+  visit('/feed/' + feedContent.id);
+
+  andThen(()=> {
+    assert.equal(impressions, 0,
+      "Impressions were not tracked on feed detail page");
   });
 });

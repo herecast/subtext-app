@@ -6,12 +6,14 @@
       canManage=canManage
       displayAsPublic=displayAsPublic
       hideComments=hideComments
+      impressionsEnabled=enableImpressionTracking
     }}
   {{/unless}}
 {{else if isCarousel}}
   {{feed-carousel/carousel
     model=feedItemModel
     isSearchActive=isSearchActive
+    enableImpressionTracking=enableImpressionTracking
   }}
 {{else if isOrganization}}
   {{#x-card}}

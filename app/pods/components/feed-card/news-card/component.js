@@ -2,14 +2,14 @@ import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
-const { get, computed, isPresent } = Ember;
+const { get, computed, isPresent, inject:{service} } = Ember;
 
 export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   classNames: 'FeedCard-NewsCard',
   'data-test-news-card': computed.reads('model.title'),
 
   model: null,
-  userLocation: null,
+  userLocation: service(),
   context: null,
 
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {

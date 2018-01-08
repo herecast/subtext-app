@@ -1,36 +1,37 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from 'subtext-ui/tests/helpers/setup-mirage';
+import Ember from 'ember';
 
 moduleForComponent('feed-card/event-card', 'Integration | Component | feed card/event card', {
   integration: true,
   beforeEach() {
-    startMirage(this.container);
-  },
-  afterEach() {
-    window.server.shutdown();
+    this.register('service:feature-flags', Ember.Service.extend({}));
+
+    this.register('service:user-location', Ember.Service.extend({
+      locationId: 0,
+      location: {
+        name: "",
+        id: 0
+      },
+      on(){},
+
+    }));
   }
 });
 
+const model = {
+  id: 1,
+  modelType: 'event',
+  title: 'God rest ye merry gentlemen!',
+  normalizedContentType: 'event',
+  baseLocations: []
+};
+
 test('it renders', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  const model = server.create('feedContent', {normalizedContentType: 'event'});
-  model.baseLocations = [];
-
-  this.set('model', model);
-  this.set('userLocation', {
-    locationId: 0,
-    location: {
-      name: "",
-      id: 0
-    }
-  });
-
   this.set('model', model);
 
-  this.render(hbs`{{feed-card/event-card model=model userLocation=userLocation}}`);
+  this.render(hbs`{{feed-card/event-card model=model}}`);
 
   assert.ok(this.$());
 });

@@ -490,12 +490,6 @@ export default function() {
       schedule.event_id = event.id;
     });
 
-    let i = 1;
-    event.content_locations.forEach((cl) => {
-      cl.id = i;
-      i++;
-    });
-
     event.content_id = 1;
     event.first_instance_id = 1;
 

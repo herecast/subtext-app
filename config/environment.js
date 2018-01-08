@@ -156,6 +156,7 @@ module.exports = function(environment) {
     };
 
     ENV['ENABLE_IMAGE_OPTIMIZATION'] = false;
+
   }
 
   if (environment === 'production') {

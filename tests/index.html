@@ -16,6 +16,14 @@
     <script>
       function ga(){}
     </script>
+    <!-- Polyfills /-->
+    <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
+    <script type="test/javascript">
+      // For polyfills on older browsers
+      // REF: https://github.com/w3c/IntersectionObserver/tree/master/polyfill
+      IntersectionObserver.prototype.POLL_INTERVAL = 100;
+    </script>
+
     <style>#blanket-main { position: relative; z-index: 99999; }</style>
 
     {{content-for "head-footer"}}

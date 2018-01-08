@@ -3,6 +3,11 @@ machine:
     version: 6.1.0
 dependencies:
   pre:
+    - sudo apt-get update
+    - sudo apt-get install lsb-release
+    - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - sudo dpkg -i google-chrome.deb
+    - rm google-chrome.deb
     - npm install -g npm@4.0.5
     - npm install -g bower
   override:

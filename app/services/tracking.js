@@ -20,8 +20,9 @@ export default Service.extend(Evented, {
   userLocation: inject.service(),
   session: inject.service(),
   intercom: inject.service(),
-  fastboot: inject.service(),
   logger: inject.service(),
+  permissions: inject.service('content-permissions'),
+  fastboot: inject.service(),
   clientId: null,
   locationId: computed.reads('userLocation.location.id'),
   locationIsConfirmed: computed.reads('userLocation.locationIsConfirmed'),
@@ -189,10 +190,7 @@ export default Service.extend(Evented, {
   },
 
   profileContentClick(organization, content) {
-    if(get(this, 'logEnabled')) {
-      console.log('profileContentClick', organization, content);
-    }
-
+    get(this, 'logger').log('profileContentClick', organization, content);
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {
         const trackData = {
@@ -341,7 +339,42 @@ export default Service.extend(Evented, {
     });
   },
 
+  /**
+   * The following methods needed the canEdit promise logic isolated into it's
+   * own function.  Putting all the promise logic here caused a massive memory leak
+   * because it had to hold reference to content, in each of the anonymous
+   * promise callbacks.
+   */
+
+  trackTileLoad(content) {
+    this._pushDataIfCannotEdit(get(content, 'id'), {
+      event: 'VirtualTileLoad',
+      content_type: get(content, 'contentType'),
+      content_id: get(content, 'contentId'),
+      organization_id: get(content, 'organizationId')
+    });
+  },
+
+  trackTileImpression(content) {
+    this._pushDataIfCannotEdit(get(content, 'id'), {
+      event: 'VirtualTileImpression',
+      content_type: get(content, 'contentType'),
+      content_id: get(content, 'contentId'),
+      organization_id: get(content, 'organizationId')
+    });
+  },
+
   /** Private **/
+
+  _pushDataIfCannotEdit(content_id, data) {
+    get(this, 'permissions').canEdit(content_id).then((canEdit) => {
+      run(() => {
+        if(!canEdit) {
+          this.push(data);
+        }
+      });
+    });
+  },
 
   _eventuallyGetClientId() {
     run.cancel(this._gaDelayedCapture);
