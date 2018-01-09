@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { inject, get, set, RSVP, run } = Ember;
+const { inject, get, set, RSVP, run, isPresent } = Ember;
 
 export default Ember.Service.extend({
   api: inject.service(),
@@ -19,11 +19,9 @@ export default Ember.Service.extend({
   },
 
   _clearDeferredPromises(deferredPromises, resolvedValue) {
-    if (resolvedValue) {
-      deferredPromises.forEach((deferredPromise) => {
-        deferredPromise.resolve(resolvedValue);
-      });
-    }
+    deferredPromises.forEach((deferredPromise) => {
+      deferredPromise.resolve(resolvedValue);
+    });
   },
 
   canEdit(content_id) {
@@ -71,7 +69,7 @@ export default Ember.Service.extend({
         for (let key in permissionQueue) {
           let fetchedContentPermission = fetchedContentPermissions[key];
 
-          if (fetchedContentPermission !== null) {
+          if (isPresent(fetchedContentPermission)) {
             let deferredPromises = permissionQueue[key].deferredPromises;
 
             this._clearDeferredPromises(deferredPromises, fetchedContentPermission);

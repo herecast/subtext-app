@@ -347,7 +347,7 @@ export default Service.extend(Evented, {
    */
 
   trackTileLoad(content) {
-    this._pushDataIfCannotEdit(get(content, 'id'), {
+    this._pushDataIfCannotEdit(get(content, 'contentId'), {
       event: 'VirtualTileLoad',
       content_type: get(content, 'contentType'),
       content_id: get(content, 'contentId'),
@@ -356,7 +356,7 @@ export default Service.extend(Evented, {
   },
 
   trackTileImpression(content) {
-    this._pushDataIfCannotEdit(get(content, 'id'), {
+    this._pushDataIfCannotEdit(get(content, 'contentId'), {
       event: 'VirtualTileImpression',
       content_type: get(content, 'contentType'),
       content_id: get(content, 'contentId'),
