@@ -1,9 +1,9 @@
 {{#if session.currentUser}}
-  <a href='#' class='ResponseButton h6' {{action 'reportAbuse'}}>
-    {{fa-icon 'flag'}} Report Abuse
+  <a href='#' {{action 'reportAbuse'}}>
+    {{fa-icon 'flag'}} Report
   </a>
 {{else}}
-  {{#link-to 'login' class='ResponseButton h6'}}
-    {{fa-icon 'flag'}} Report Abuse
+  {{#link-to 'login'}}
+    {{fa-icon 'flag'}} Report
   {{/link-to}}
 {{/if}}

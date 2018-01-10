@@ -1,93 +1,175 @@
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
-  {{#sticky.item class='StickyItem--default-background' useAbsolutePositioning=true}}
-    {{#content-body verticalPadding=true}}
+  {{#sticky.item class='StickyItem--default-background u-boxShadowBottom u-marginBottom16' useAbsolutePositioning=true}}
+    {{#content-body classNames="u-padding0"}}
 
-      {{#title-text strong=true topPadding=true noMargin=true}}
-        {{#if model.sold}}
-          <span class='h3 u-bold u-tag'>SOLD!</span>
-          &nbsp;&nbsp;
-        {{/if}}
-        <span data-test-market-title>
-          {{model.title}}
-        </span>
-      {{/title-text}}
+      <div class="DetailPage-headerSection u-paddingVertical16 u-paddingLeft8">
+        {{#title-text strong=true classNames="TitleText--noMargin u-inlineFlex u-flexAlign-center"}}
+          {{#if model.sold}}
+            <div class="FeedCard-Title-sold-tag">
+              Sold
+            </div>
+          {{/if}}
+          <div data-test-market-title>
+            {{model.title}}
+          </div>
+        {{/title-text}}
+      </div>
+      <div class="DetailPage-headerSubSection">
+        {{report-content-details
+            contentId=model.contentId
+            class="DetailPage-reportFlag h4 u-paddingLeft8 u-paddingBottom8"
+        }}
+      </div>
 
-      {{horizontal-rule short=true}}
+      {{horizontal-rule classNames="u-padding0"}}
 
-      {{#media-container reverse=true noMargin=true centerVertically=true as |media|}}
-        {{#media.object}}
-          {{#unless isPreview}}
-            {{feed-card/edit-button 
-            model=model 
-            editPath=editPath 
-            editPathId=model.id
-            color=''
-            style=''
-            iconSize="medium"}}
-          {{/unless}}
-        {{/media.object}}
+      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center">
+          {{#if model.organization.isDefaultOrganization}}
+            {{author-byline
+              authorName=model.authorName
+              imageUrl=model.avatarUrl
+              postedTime=model.publishedAtRelative
+              classNames="u-padding8"
+            }}
+          {{else}}
+            {{feed-card/attribution
+              avatarUrl=model.attributionImageUrl
+              author=model.attributionName
+              linkRouteName=model.attributionLinkRouteName
+              linkId=model.attributionLinkId
+              postedTime=model.publishedAtRelative
+              isListserv=model.isListserv
+              contentId=model.contentId
+              classNames="u-padding8"
+            }}
+          {{/if}}
+          <div class='u-flexRow u-flexAlign-center'>
+            {{#unless isPreview}}
+              <div class='u-paddingRight8'>
+                {{feed-card/edit-button
+                  model=model
+                  editPath='market.edit'
+                  editPathId=model.contentId
+                  iconSize=""
+                  style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                }}
+              </div>
+            {{/unless}}
 
-        {{#media.content}}
-          {{#text-block small=true}}
-            Posted {{moment-from-now model.publishedAt}}
-            by {{model.authorName}}
-          {{/text-block}}
-        {{/media.content}}
-      {{/media-container}}
+            {{#unless model.sold}}
+              {{contact-poster-button
+                model=(readonly model)
+                clickReplyButton=(action 'clickReplyButton')
+                classNames="u-paddingRight8"
+                tagName='span'
+              }}
+            {{/unless}}
+          </div>
+      </div>
 
     {{/content-body}}
   {{/sticky.item}}
 
-  <header class="DetailPage-navTop-container">
-    {{#if activeImage}}
+  {{#if activeImage}}
+    <header class="DetailPage-navTop-container">
       {{header-image
         imageUrl=activeImage
         preserveAspectRatio=true
       }}
-    {{/if}}
-  </header>
+    </header>
+  {{/if}}
 
-  <div class="DetailPage-headerContainer">
-    {{#if showThumbnails}}
-      <div class="DetailPage-headerSection">
+  <div class="FeedCard-MarketInfo-right">
+    <div class="FeedCard-MarketInfo-images u-paddingTop8">
+      {{#if showThumbnails}}
         {{#each sortedImages as |image|}}
-          <img src="{{optimized-image-url image.imageUrl 200 60 false}}" {{action 'chooseImage' image.imageUrl}}
-               class="DetailPage-thumbnail"/>
+          <div class="FeedCard-MarketInfo-thumbnail u-paddingRight8 u-marginBottom8" {{action 'chooseImage' image.imageUrl}}>
+            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" />
+          </div>
         {{/each}}
-      </div>
-    {{/if}}
-
-    <div>
-      {{#unless model.sold}}
-        {{market-reply-form
-          post=(readonly model)
-          clickReplyButton=(action 'clickReplyButton')
-        }}
-      {{/unless}}
+      {{/if}}
     </div>
   </div>
 
-  {{horizontal-rule}}
+  {{#if activeImage}}
+    {{horizontal-rule classNames="u-paddingBottom16"}}
+  {{/if}}
 
   <div class='DetailPage-sectionWrapper'>
-    <div class="DetailPage-section DetailPage-content">
-      {{#if model.price}}
-        <span class='h3 u-bold'>
-        Price: {{model.price}}
-      </span>
-      {{/if}}
-      <div>
-        {{fa-icon 'map-marker'}} <span>{{join model.baseLocationNames delimiter=','}}</span>
+    <div class="DetailPage-metaBloc">
+      <table>
+        {{#if model.price}}
+          <tr>
+            <td>
+              <div class="DetailPage-metaBloc-price">
+                Price:
+                {{model.price}}
+              </div>
+            </td>
+            <td>
+              <div class="DetailPage-metaBloc-location">
+                {{#if model.isListserv}}
+                  {{listservLocationLabel}} List
+                {{else}}
+                  {{model.baseLocationNames}}
+                {{/if}}
+              </div>
+            </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="2">
+              <div class="DetailPage-metaBloc-location">
+                {{#if model.isListserv}}
+                  {{listservLocationLabel}} List
+                {{else}}
+                  {{model.baseLocationNames}}
+                {{/if}}
+              </div>
+            </td>
+          </tr>
+        {{/if}}
+        {{#if (or model.contantPhone model.eventUrl)}}
+          <tr>
+            <td>
+              <div class="DetailPage-metaBloc-phone">
+                {{#if model.contactPhone}}
+                  <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
+                    {{model.contactPhone}}
+                  </a>
+                {{/if}}
+              </div>
+            </td>
+            <td>
+              <div class="DetailPage-metaBloc-url">
+                {{#if model.eventUrl}}
+                  {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
+                    {{truncate model.eventUrl length=30}}
+                  {{/normalized-link}}
+                {{/if}}
+              </div>
+            </td>
+          </tr>
+          {{/if}}
+          <tr>
+            <td colspan="2">
+              {{detail-meta-bloc
+              avatarUrl=model.avatarUrl
+              customSize=24
+              avatarName=model.authorName
+              isDefaultOrganization=model.organization.isDefaultOrganization
+              isListServ=model.isListserv
+              }}
+            </td>
+          </tr>
+      </table>
+      <div class="DetailPage-section DetailPage-content">
+        <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
       </div>
-
-      <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
     </div>
   </div>
 
   {{#unless isPreview}}
-    {{report-content-details
-      contentId=model.contentId
-    }}
 
     {{#horizontal-rule}}
       {{social-share
@@ -128,7 +210,7 @@
             contentId=model.contentId
             limit=4
           }}
-            {{#title-text strong=true}}Suggested{{/title-text}}
+            {{#title-text strong=true small=true}}Suggested{{/title-text}}
           {{/similar-content}}
         </div>
       </div>

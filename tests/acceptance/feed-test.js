@@ -189,53 +189,26 @@ test('feed show page, talk', function(assert) {
   });
 });
 
-test('feed show page, event with instance id', function(assert) {
-  const eventInstance = server.create('event-instance');
+test('feed show page, event', function(assert) {
   const feedRecord = server.create('feedContent', {
     contentOrigin: 'ugc',
-    contentType: 'event',
-    eventInstances: [
-      eventInstance
-    ],
-    eventInstanceId: eventInstance.id
-  });
-
-  visit(`/feed/${feedRecord.id}/${eventInstance.id}`);
-
-  andThen(()=>{
-    assert.equal(
-      currentPath(),
-      'feed.show-instance'
-    );
-
-    const $eventDetail = find(
-      testSelector('component', 'event-detail') +
-      testSelector('content', eventInstance.contentId)
-    );
-
-    assert.ok($eventDetail.length, 'Displays event detail');
-  });
-});
-
-test('feed show page, event no instance id', function(assert) {
-  const eventInstance = server.create('event-instance');
-  const feedRecord = server.create('feedContent', {
-    contentOrigin: 'ugc',
-    contentType: 'event',
-    eventInstances: [
-      eventInstance
-    ],
-    eventInstanceId: eventInstance.id
+    contentType: 'event'
   });
 
   visit(`/feed/${feedRecord.id}`);
 
   andThen(()=>{
     assert.equal(
-      currentURL(),
-      `/feed/${feedRecord.id}/${eventInstance.id}`,
-      'it redirects to instance route'
+      currentPath(),
+      'feed.show'
     );
+
+    const $eventDetail = find(
+      testSelector('component', 'event-detail') +
+      testSelector('content', feedRecord.id)
+    );
+
+    assert.ok($eventDetail.length, 'Displays event detail');
   });
 });
 

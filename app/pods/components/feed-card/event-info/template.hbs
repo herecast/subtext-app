@@ -1,23 +1,29 @@
-{{#if (or eventTime price)}}
+{{#if (or timeRangeNoDates price)}}
   <div class="FeedCard-EventInfo-left">
     <div class="FeedCard-EventInfo-time">
-      {{eventTime}}
+      {{timeRangeNoDates}}
     </div>
     <div class="FeedCard-EventInfo-price">
-      Admission: {{admission}}
+      Price: {{admission}}
     </div>
   </div>
 {{/if}}
 
-{{#if (or address eventLocation)}}
-  <div class="FeedCard-EventInfo-right">
-    <div class="FeedCard-EventInfo-address">
-      {{#if address}}
-        {{fa-icon 'map-marker'}}  {{address}}
-      {{/if}}
-    </div>
-    <div class="FeedCard-EventInfo-location">
-      {{eventLocation}}
-    </div>
+<div class="FeedCard-EventInfo-right">
+  <div class="FeedCard-EventInfo-address">
+    {{#if url}}
+      {{directions-link
+            url=url
+            venueName=venueName
+            addressLine1=address
+            city=city
+            state=state
+      }}
+    {{else if eventLocation}}
+      <div class="FeedCard-EventInfo-location">
+        {{eventLocation}}
+      </div>
+    {{/if}}
   </div>
-{{/if}}
+</div>
+

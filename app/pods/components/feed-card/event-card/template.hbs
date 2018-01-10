@@ -5,13 +5,15 @@
     sold=model.sold
     model=model
     onContentClick=(action 'onContentClick')
+    classNames="u-paddingTop16 u-paddingHorizontal8"
   }}
 
-  {{#if (or model.startsAt model.futureInstances)}}
+  {{#if (or model.startsAtFormatted model.futureInstances)}}
     {{feed-card/event-dates
-      eventDate=(moment-format model.startsAt 'MMMM DD')
+      eventDate=model.startsAtFormatted
       otherInstances=model.futureInstances
       model=model
+      classNames="u-paddingTop8"
     }}
   {{/if}}
 
@@ -29,11 +31,13 @@
     }}
   {{/if}}
 
-  {{#if (or startTime model.price model.venueAddress model.venueCity)}}
+  {{#if (or model.timeRangeNoDates model.price model.venueAddress model.venueCity)}}
+
     {{feed-card/event-info
-      startTime=startTime
-      endTime=endTime
+      timeRangeNoDates=model.timeRangeNoDates
       cost=model.cost
+      url=model.directionsUrl
+      venueName=model.venueName
       address=model.venueAddress
       city=model.venueCity
       state=model.venueState
@@ -43,11 +47,12 @@
   {{feed-card/attribution
     avatarUrl=model.attributionImageUrl
     author=model.attributionName
-    linkRouteName=attributionLinkRouteName
-    linkId=attributionLinkId
+    linkRouteName=model.attributionLinkRouteName
+    linkId=model.attributionLinkId
     postedTime=(moment-from-now model.publishedAt)
     isListserv=model.isListserv
     contentId=model.contentId
+    classNames="u-padding8"
   }}
 
   {{feed-card/footer

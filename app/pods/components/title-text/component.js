@@ -13,7 +13,8 @@ export default Ember.Component.extend({
     'strong:TitleText--strong',
     'noMargin:TitleText--noMargin',
     'inline:TitleText--inline',
-    'lighten:TitleText--lighten'
+    'lighten:TitleText--lighten',
+    'small:TitleText--small'
   ],
 
   // Public interface for styling
@@ -22,5 +23,6 @@ export default Ember.Component.extend({
   strong: false, // "strong" not "bold", so it can evolve with time, should "strong" take a new meaning
   noMargin: false,
   inline: false,
-  lighten: false
+  lighten: false,
+  small: false
 });

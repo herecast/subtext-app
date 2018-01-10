@@ -1,0 +1,78 @@
+.Modals-contactPoster {
+  font-family: 'proxima-nova', Verdana, Arial, Helvetica, sans-serif;
+
+  a:hover {
+    text-decoration: none !important;
+  }
+
+  .Modal-dialog {
+    padding: 0;
+    background-color: white;
+    min-height: unset;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  &-field {
+    min-height: 56px;
+  }
+
+  &-emailButtons {
+    min-height: 180px;
+  }
+
+  &-emailButton {
+    .flex-display();
+    .flex-direction(column);
+    .align-items(center);
+    .justify-content(center);
+    height: 80px;
+    width: 64px;
+    border-radius: 4px;
+    background-color: @gray-light;
+  }
+
+  &-title {
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .emailIcon-gmail, .emailIcon-outlook, .emailIcon-yahoo {
+    background-image: url(/images/webmail-icons.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .emailIcon-gmail {
+    height: 36px;
+    width: 40px;
+    background-position: 0 0;
+  }
+
+  .emailIcon-outlook {
+    height: 36px;
+    width: 36px;
+    background-position: 0 -36px;
+  }
+
+  .emailIcon-yahoo {
+    height: 36px;
+    width: 40px;
+    background-position: 0 -79px;
+  }
+
+  // really the .Modal-inner element but child selector used
+  // here to avoid mixing component namespaces
+  > div {
+    background: none;
+    margin: 0 auto;
+    max-width: 330px;
+    width: 100%;
+    margin-top: 70px;
+    position: relative;
+    min-height: unset;
+    > div {
+      padding-bottom: 10px;
+    }
+  }
+}

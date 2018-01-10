@@ -12,9 +12,14 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   closeRoute: 'feed',
   fastboot: inject.service(),
   tracking: inject.service(),
+  userLocation: inject.service('user-location'),
   closeLabel: 'Talk',
   isPreview: false,
   enableStickyHeader: false,
+
+  listservLocationLabel: computed('userLocation.location.city', 'userLocation.location.state', function() {
+    return `${get(this, 'userLocation.location.city')} ${get(this, 'userLocation.location.state')}`;
+   }),
 
   _trackImpression() {
     const id = get(this, 'model.id');

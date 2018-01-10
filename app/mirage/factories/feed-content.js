@@ -1,16 +1,5 @@
 import {Factory, association, faker} from 'ember-cli-mirage';
-import { titleize } from 'subtext-ui/mirage/support/utils';
-
-function otherInstance() {
-  return {
-    ends_at: faker.date.future(),
-    starts_at: faker.date.past(),
-    id: faker.random.number(9999),
-    presenter_name: faker.name.findName(),
-    subtitle: faker.lorem.sentence(),
-    title: faker.lorem.sentence()
-  };
-}
+import moment from 'moment';
 
 function generateSplitContent() {
   const head = '<p>' + faker.lorem.sentences() + '</p>';
@@ -20,7 +9,18 @@ function generateSplitContent() {
 }
 
 export default Factory.extend({
-  title()    { return faker.lorem.sentence(); },
+  afterCreate(feedContent, server) {
+    if (feedContent.contentType === 'event' && !feedContent.eventInstances.length) {
+      let newEndDate = moment(feedContent.startsAt).add(1, 'hours').toDate();
+
+      feedContent.update({endsAt: newEndDate});
+
+      const instances = server.createList('event-instance', 3, { event: feedContent.id });
+      return instances.map(({id}) => id);
+    }
+  },
+
+  title()    { return faker.company.catchPhrase(); },
   subtitle() { return faker.lorem.sentence(); },
   contentType(id) {
     const contentTypes = ['news', 'event', 'market', 'talk'];
@@ -47,31 +47,32 @@ export default Factory.extend({
 
   eventId() { return faker.random.number(9999); },
   eventInstances() {
-    if(this.contentType === 'event') {
-      let instancesArray = [];
-      const iterations = 3;
-      for (var i=0; i<iterations; i++) {
-        instancesArray.push(otherInstance());
-      }
-      return instancesArray;
-    } else {
-      return [];
-    }
+    return [];
   },
   eventInstanceId() {
     if(this.eventInstances.length) {
       return this.eventInstances[0].id;
     }
   },
-  venueName(id) { return (id % 3 === 0) ? titleize(faker.lorem.words(3)) : null;},
+  venueName() { return faker.random.arrayElement(["Grannie's Garage", "Krusty Kastle", "Club Hee-Haw", "Chez Charli"]);},
   venueAddress() { return faker.address.streetAddress();},
   venueCity() { return faker.address.city();},
   venueState: 'VT',
   venueZip() { return faker.address.zipCode();},
+  costType: 'paid', // free, paid, donation
   cost() { return faker.random.arrayElement(['Free', `$${faker.random.number(999)}`]); },
-  startsAt() { return faker.date.future(); },
-  endsAt() { return faker.date.future(); },
+  startsAt() {
+    let rangeStart = moment().add(1, 'days').toDate();
+    let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
 
+    return faker.date.between(rangeStart, rangeEnd);
+  },
+  endsAt() {
+    let rangeStart = moment().add(3, 'days').toDate();
+    let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
+
+    return faker.date.between(rangeStart, rangeEnd);
+  },
   contentLocations: [],
 
   publishedAt() { return faker.date.past(); },
@@ -94,15 +95,15 @@ export default Factory.extend({
     width: 266,
     height: 200
   },
-  {
-    id: 2,
-    caption() { return faker.lorem.sentence(); },
-    credit: null,
-    image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
-    primary: false,
-    width: 266,
-    height: 200
-  }],
+    {
+      id: 2,
+      caption() { return faker.lorem.sentence(); },
+      credit: null,
+      image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
+      primary: false,
+      width: 266,
+      height: 200
+    }],
 
   price() { return `$${faker.random.number(999)} OBO`; },
   sold() { return faker.random.arrayElement([true, false]); }

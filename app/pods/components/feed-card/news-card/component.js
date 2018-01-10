@@ -12,12 +12,14 @@ export default Ember.Component.extend(reloadComments, canEditFeedCard, {
   userLocation: service(),
   context: null,
 
+  // TODO: refactor duplications (๏д๏)
   attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
     const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
 
     return shouldLinkToProfile ? 'profile' : null;
   }),
 
+  // TODO: refactor duplications (๏д๏)
   attributionLinkId: computed.alias('model.organizationId'),
 
   sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', function() {

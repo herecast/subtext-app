@@ -147,6 +147,18 @@ export default DS.Model.extend(BaseEvent, {
     return attributionImageUrl;
   }),
 
+  attributionLinkRouteName: computed('isOwnedByOrganization', function() {
+    let routeName = null;
+
+    if (get(this, 'isOwnedByOrganization') && isPresent(get(this, 'organizationId'))) {
+      routeName = get(this, 'organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
+    }
+
+    return routeName;
+  }),
+
+  attributionLinkId: computed.alias('organizationId'),
+
   publishedAtRelative: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');
     return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
@@ -193,15 +205,15 @@ export default DS.Model.extend(BaseEvent, {
 
   timeRangeNoDates: computed('startsAt', 'endsAt', function() {
     if (this.get('isValid')) {
-      const startTime = get(this, 'startsAt').format('h:mmA');
+      const startTime = get(this, 'startsAt').format('h:mm A');
       const endsAt = get(this, 'endsAt');
 
       if (isEmpty(endsAt)) {
         return startTime;
       } else {
-        const endTime = endsAt.format('h:mmA');
+        const endTime = endsAt.format('h:mm A');
 
-        return `${startTime}-${endTime}`;
+        return `${startTime} ${String.fromCharCode(0x2014)} ${endTime}`;
       }
     }
   }),

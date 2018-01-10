@@ -1,0 +1,86 @@
+{{#modal-wrapper
+    close=(action 'close')
+    showHeader=false
+    isAnimated=true
+    data-test-modal='contact-poster'
+    class="Modals-contactPoster" }}
+
+  <div class="Modals-contactPoster-title h2 u-margin0 u-paddingVertical16">
+    Contact Info
+  </div>
+
+  <div class="u-paddingHorizontal16">
+    {{#if model.contactPhone}}
+    <div class="Modals-contactPoster-field">
+      <div class="u-bold">
+        Phone
+      </div>
+      {{model.contactPhone}}
+    </div>
+    {{/if}}
+
+    {{#if model.contactEmail}}
+
+    <div class="Modals-contactPoster-field">
+      <div class="u-bold">
+        Email
+      </div>
+      <a target="_blank"
+         data-test-client-link
+         {{action "trackReplyEmailClick" 'Client' preventDefault=false}}
+         href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
+         class='u-link u-bold market-reply-default-email-click'
+         >
+         {{model.contactEmail}}
+      </a>
+    </div>
+    {{/if}}
+  </div>
+
+  {{#if model.contactEmail}}
+    {{horizontal-rule}}
+
+    <div class="Modals-contactPoster-emailButtons u-paddingHorizontal16">
+      <div class="u-paddingTop8">
+        <div class="u-bold u-paddingBottom16">
+          Or send your email reply with:
+        </div>
+        <div class="u-flexRow">
+          <a target="_blank"
+             data-test-gmail-link
+             {{action "trackReplyEmailClick" 'Google' preventDefault=false}}
+             href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
+             class="Modals-contactPoster-emailButton u-marginRight8"
+             >
+             <div class="emailIcon-gmail"></div>
+             <div class="u-paddingTop8">
+               Gmail
+             </div>
+          </a>
+          <a target="_blank"
+             data-test-outlook-link
+             {{action "trackReplyEmailClick" 'Outlook' preventDefault=false}}
+             href="https://outlook.live.com/owa/?rru=compose&subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}#page=Compose"
+             class="Modals-contactPoster-emailButton u-marginRight8"
+             >
+             <div class="emailIcon-outlook"></div>
+             <div class="u-paddingTop8">
+               Outlook
+             </div>
+          </a>
+          <a target="_blank"
+             data-test-yahoo-link
+             {{action "trackReplyEmailClick" 'Yahoo' preventDefault=false}}
+             href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
+             class="Modals-contactPoster-emailButton"
+             >
+             <div class="emailIcon-yahoo"></div>
+             <div class="u-paddingTop8">
+               Yahoo
+             </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+{{/modal-wrapper}}

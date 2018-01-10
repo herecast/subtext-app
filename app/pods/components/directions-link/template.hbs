@@ -1,6 +1,16 @@
-{{fa-icon 'map-marker'}}
-{{addressLine1}},
-{{#if addressLine2}}
-  <br />{{addressLine2}},
-{{/if}}
-<br />{{city}}, {{state}}
+<div class="DirectionsLink-mapMarker">
+  {{fa-icon 'map-marker'}}
+</div>
+<div class="DirectionsLink-address">
+  {{#if venueName}}
+    <div>
+      {{venueName}}
+    </div>
+  {{/if}}
+  <div>
+    {{addressLine1}},
+  </div>
+  <div>
+    {{city}}, {{state}}
+  </div>
+</div>

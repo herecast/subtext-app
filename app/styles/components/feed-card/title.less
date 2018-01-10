@@ -1,10 +1,12 @@
 .FeedCard-Title {
   display: grid;
   grid-template-columns: auto;
-  padding: 15px 28px 15px 15px;
+  padding: 16px 8px;
   line-height: 1.1;
 
   &-title {
+    .flex-display();
+    .align-items(center);
     font-size: 18px;
     font-weight: bold;
     grid-column: 1;
@@ -12,7 +14,7 @@
 
   &.sold-tag-active {
     grid-template-columns: 70px 1fr;
-    
+
     .FeedCard-Title-sold-tag {
       grid-column: 1;
     }
@@ -25,15 +27,18 @@
     font-size: 12px;
   }
 
-  &-sold-tag > span{
-    padding: 3px 8px;
+  &-sold-tag {
+    .flex-display();
+    .justify-content(center);
+    .align-items(center);
+    padding: 3px 10px;
+    margin-right: 16px;
     background: #F6A623;
     text-transform: uppercase;
-    color: #fff;
-    font-size: 14px;
+    color: #000;
+    font-size: 12px;
     font-weight: bold;
     border-radius: 4px;
-    position: relative;
-    vertical-align: middle;
+    height: 28px;
   }
 }

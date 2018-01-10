@@ -5,8 +5,8 @@ import {
 
 moduleForComponent('content-preview', {
   needs: ['component:report-abuse',
-    'component:fa-icon', 'component:background-image', 'component:truncate-text',
-    'component:event-map', 'component:event-other-dates']
+    'component:fa-icon', 'component:background-image',
+    'component:truncate-text', 'component:event-map']
 });
 
 test('it renders', function(assert) {

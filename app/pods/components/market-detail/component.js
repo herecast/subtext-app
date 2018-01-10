@@ -17,6 +17,7 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   closeLabel: 'Market',
   fastboot: inject.service(),
   tracking: inject.service(),
+  userLocation: inject.service('user-location'),
   isPreview: false,
   enableStickyHeader: false,
   editPath: 'market.edit',
@@ -36,6 +37,9 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     this._trackImpression();
   },
 
+  listservLocationLabel: computed('userLocation.location.city', 'userLocation.location.state', function() {
+    return `${get(this, 'userLocation.location.city')} ${get(this, 'userLocation.location.state')}`;
+   }),
 
   activeImage: computed.oneWay('model.coverImageUrl'),
 
@@ -50,20 +54,23 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   thumbSortDefinition: ['primary:desc'],
   sortedImages: computed.sort('model.images.[]', 'thumbSortDefinition'),
 
-  resetProperties() {
+  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', 'isPreview', function() {
+    return get(this, 'model.canEdit') && ! get(this, 'isPreview') && ! get(this, 'fastboot.isFastBoot');
+  }),
+
+  _resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));
   },
 
   didUpdateAttrs(changes) {
     this._super(...arguments);
 
-    this.resetProperties();
+    this._resetProperties();
 
     const newId = get(changes, 'newAttrs.model.value.id');
     if(isPresent(newId)) {
       const oldId = get(changes, 'oldAttrs.model.value.id');
       if(newId !== oldId) {
-        // we have a different model now
         this._trackImpression();
       }
     }

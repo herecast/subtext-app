@@ -58,10 +58,6 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
-  feedContent: computed('model.contentId', function() {
-    return get(this, 'store').findRecord('feed-content', get(this, 'model.contentId'));
-  }),
-
   actions: {
     scrollToMoreContent() {
       const elem = this.$('.DetailPage-moreContent');
@@ -73,6 +69,10 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
           scrollTo(offset);
         }
       }
+    },
+
+    clickReplyButton() {
+      get(this, 'tracking').trackMarketReplyButtonClick();
     }
   }
 });

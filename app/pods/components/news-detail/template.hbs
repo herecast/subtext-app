@@ -24,64 +24,94 @@
       {{/if}}
     </header>
 
-    {{#sticky.item class='StickyItem--default-background FloatingBox' useAbsolutePositioning=true
+    {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true
     toggleCaption=(action 'toggleCaption')}}
-      {{#content-body}}
+      {{#content-body classNames="u-padding0"}}
         <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
           <p>{{model.featuredImageCaption}}</p>
         </div>
 
-        <div class="DetailPage-headerSection">
+        <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
           {{#title-text noMargin=true strong=true}}
             <span data-test-news-title='{{model.title}}'>{{model.title}}</span>
           {{/title-text}}
         </div>
 
-        {{horizontal-rule short=true}}
+        <div class="DetailPage-headerSubSection u-flexJustify-start u-paddingLeft8 u-paddingTop8">
+          {{report-content-details
+              contentId=model.contentId
+              class="DetailPage-reportFlag h4 u-paddingRight8 u-paddingBottom8"
+          }}
+        </div>
 
-        {{#media-container reverse=true centerVertically=true noRightMargin=true as |media|}}
-          <div class="u-marginLeft15">
-            {{#unless isPreview}}
-              {{feed-card/edit-button 
-              model=model 
-              editPath=editPath 
-              editPathId=model.id
-              color=''
-              style=''
-              iconSize="medium"}}
-            {{/unless}}
-          </div>
+        {{horizontal-rule classNames="u-padding0"}}
 
-          {{#media.object}}
-            {{#unless isPreview}}
-              {{#if model.organization.subscribeUrl}}
-                {{subscribe-button subscribeUrl=model.organization.subscribeUrl}}
-              {{/if}}
-            {{/unless}}
-          {{/media.object}}
-
-          {{#media.content}}
-            {{#link-to
+        <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingLeft8 u-paddingVertical8">
+          {{#link-to
               model.organization.organizationLinkRoute
               model.organization.organizationLinkId
               class='DetailPage-organization-link'
               data-test-link="organization-link"
+          }}
+          {{#if model.organization.isDefaultOrganization}}
+            {{author-byline
+              authorName=model.authorName
+              imageUrl=model.avatarUrl
+              postedTime=model.publishedAtRelative
             }}
-              {{author-byline
-                authorName=model.authorName
-                organizationName=model.organization.name
-                imageUrl=model.organization.displayImageUrl
-              }}
-            {{/link-to}}
-          {{/media.content}}
+          {{else}}
+            {{feed-card/attribution
+              avatarUrl=model.attributionImageUrl
+              author=model.attributionName
+              linkRouteName=model.attributionLinkRouteName
+              linkId=model.attributionLinkId
+              postedTime=model.publishedAtRelative
+              isListserv=model.isListserv
+              contentId=model.contentId
+            }}
+          {{/if}}
+          {{/link-to}}
 
-        {{/media-container}}
+          <div class='u-flexRow u-flexAlign-center'>
+            {{#unless isPreview}}
+              <div class="u-paddingRight8">
+                {{feed-card/edit-button
+                  model=model
+                  editPath=editPath
+                  editPathId=model.id
+                  iconSize=""
+                  style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                }}
+              </div>
+              {{#if model.organization.subscribeUrl}}
+                {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName='span'}}
+              {{/if}}
+            {{/unless}}
+          </div>
+        </div>
+
       {{/content-body}}
     {{/sticky.item}}
 
+    <div class="DetailPage-sectionWrapper u-paddingTop16 u-paddingHorizontal8">
+      <div class="DetailPage-metaBloc">
+        <table>
+          <tr>
+            <td colspan="2">
+              {{detail-meta-bloc
+              avatarUrl=model.avatarUrl
+              customSize=24
+              avatarName=model.authorName
+              isDefaultOrganization=model.organization.isDefaultOrganization
+              isListServ=model.isListserv
+              }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
     <div class='DetailPage-sectionWrapper'>
-
       <div class="DetailPage-content News-content ContentText">
         {{#text-block small=true}}
           {{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}
@@ -113,14 +143,8 @@
 
           {{{ model.splitContent.tail }}}
         {{/unless}}
-
-
       </div>
     </div>
-
-    {{report-content-details
-      contentId=model.contentId
-    }}
 
     {{#unless isPreview}}
       {{#horizontal-rule}}
@@ -157,16 +181,16 @@
         }}
       </div>
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-similarContent'>
-        {{#similar-content
-          contentId=model.contentId
-          limit=4
-        }}
-          {{#title-text strong=true}}Suggested{{/title-text}}
-        {{/similar-content}}
+      <div class='DetailPage-sectionWrapper'>
+        <div class='DetailPage-section DetailPage-similarContent'>
+          {{#similar-content
+              contentId=model.contentId
+              limit=4
+          }}
+            {{#title-text strong=true small=true}}Suggested{{/title-text}}
+          {{/similar-content}}
+        </div>
       </div>
-    </div>
 
     {{/unless}}
 

@@ -1,6 +1,50 @@
+.metaBlocFormated {
+  padding: 8px 16px;
+}
+
 .DetailPage {
-  &-title
-  &-subtitle {
+
+  &-metaBloc {
+    table {
+      width: 100%;
+      border: 1px solid darken(@gray-light, 5%);
+    }
+
+    td {
+      border: 1px solid darken(@gray-light, 5%);
+      width: 50%;
+    }
+
+    &-eventTime, &-price, &-location, &-location-only, &-attribution,
+    &-phone, &-url, &-registrationInfo
+    {
+      .metaBlocFormated;
+    }
+
+    &-address {
+      .metaBlocFormated;
+
+      a:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &-reportFlag {
+    margin: 0;
+
+    a {
+      color: lighten(@gray-medium, 10%);
+      font-weight: 700;
+
+      &:hover {
+        text-decoration: none;
+        color: @gray-dark;
+      }
+    }
+  }
+
+  &-title {
     line-height: 1;
   }
 
@@ -30,15 +74,6 @@
   &-title {
     font-weight: 700;
     max-width: 80%;
-    margin: 0 auto;
-    margin-top: 0.5em;
-    text-overflow: ellipsis;
-    overflow-wrap: break-word;
-    overflow: hidden;
-  }
-
-  &-subtitle {
-    margin-top: 0;
     text-overflow: ellipsis;
     overflow-wrap: break-word;
     overflow: hidden;
@@ -50,8 +85,8 @@
   }
 
   &-sectionWrapper {
-    padding: 0 10px;
-    margin-bottom: 20px;
+    padding: 0 8px;
+    margin-bottom: 16px;
 
     @media (min-width: @screen-xs-max) {
       padding: 0 20px;
@@ -63,7 +98,6 @@
     left: 0;
     top: 0;
     right: 0;
-    // background: rgba(0, 0, 0, 0.25);
     background: #ffffff;
     margin: 0;
     z-index: 50;
@@ -79,6 +113,7 @@
     &-container {
       min-height: 50px;
       position: relative;
+      .u-pattern;
     }
 
     &-backLink,
@@ -113,8 +148,13 @@
     }
   }
 
-  &-headerSection {
-    padding-top: 10px;
+  &-headerSubSection {
+    .flex-display();
+    .align-items(center);
+
+    .FeedCard-EventDates {
+      margin: 0px;
+    }
   }
 
   &-headerNav {
@@ -160,10 +200,6 @@
       float: left;
       padding-right: 5px;
     }
-
-    &-link {
-      color: @gray-dark;
-    }
   }
 
   &-headerImageCaption {
@@ -177,10 +213,10 @@
   }
 
   &-startDiscussion { }
-    &-startDiscussionBtn {
-      .btn;
-      .btn-default;
-    }
+  &-startDiscussionBtn {
+    .btn;
+    .btn-default;
+  }
 
   &-thumbnail {
     height: 60px;

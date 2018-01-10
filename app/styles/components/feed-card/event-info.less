@@ -1,7 +1,7 @@
 .FeedCard-EventInfo {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 15px 15px 0 15px;
+  padding: 8px;
   line-height: 1.2;
   font-size: 14px;
 
@@ -10,18 +10,20 @@
   }
 
   &-left {
+    max-width: 234px;
     grid-column: 1;
     text-align: left;
   }
 
   &-right {
+    max-width: 234px;
     grid-column: 2;
     text-align: right;
   }
 
   &-address {
-    i {
-      margin-right: 4px;
+    a:hover {
+      text-decoration: none;
     }
   }
 

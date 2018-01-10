@@ -11,7 +11,7 @@ const {
 export default Ember.Component.extend({
   location: inject.service('window-location'),
   logger: inject.service(),
-  classNames: ['SocialShare'],
+  classNames: ['SocialShare u-flexRow'],
   isPreview: false,
   isTalkChannel: false,
 

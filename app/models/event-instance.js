@@ -3,6 +3,7 @@ import Ember from 'ember';
 import BaseEvent from '../mixins/models/base-event';
 import moment from 'moment';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
+import dateFormat from 'subtext-ui/lib/dates';
 
 const {
   computed,
@@ -61,6 +62,12 @@ export default DS.Model.extend(BaseEvent, {
     return moment(get(this, 'startsAt')).unix();
   }),
 
+  startsAtFormatted: computed('startsAt', function() {
+    const startsAt = get(this, 'startsAt');
+
+    return isPresent(startsAt) ? moment(startsAt).format('MMMM DD') : false;
+  }),
+
   endsAtHour: Ember.computed('endsAt', function() {
     if(get(this, 'isValid')) {
        const endsAt = get(this, 'endsAt');
@@ -84,15 +91,15 @@ export default DS.Model.extend(BaseEvent, {
 
   timeRangeNoDates: computed('startsAt', 'endsAt', function() {
     if (get(this, 'isValid')) {
-      const startTime = get(this, 'startsAt').format('h:mmA');
+      const startTime = get(this, 'startsAt').format('h:mm A');
       const endsAt = get(this, 'endsAt');
 
       if (isEmpty(endsAt)) {
         return startTime;
       } else {
-        const endTime = endsAt.format('h:mmA');
+        const endTime = endsAt.format('h:mm A');
 
-        return `${startTime}-${endTime}`;
+        return `${startTime} ${String.fromCharCode(0x2014)} ${endTime}`;
       }
     }
   }),
@@ -160,4 +167,9 @@ export default DS.Model.extend(BaseEvent, {
       return get(inst, 'startsAt') > currentDate;
     });
   }),
+
+  publishedAtRelative: computed('publishedAt', function() {
+    const publishedAt = get(this, 'publishedAt');
+    return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
+  })
 });

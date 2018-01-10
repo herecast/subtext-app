@@ -240,6 +240,14 @@ export default Service.extend(Evented, {
     get(this, 'intercom').trackEvent('change-radius');
   },
 
+  trackMarketReplyButtonClick() {
+    this.push({
+      event: 'event-reply-click'
+    });
+
+    get(this, 'intercom').trackEvent('event-reply-click');
+  },
+
   trackHelpTextClick() {
     this.push({
       event: 'HelpTextClick'

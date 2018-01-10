@@ -149,6 +149,7 @@ function fillOutEventForm(opts) {
 ['Post an event like a concert',
   'Post a recurring event like a yoga class'].forEach((job) => {
 
+  // TODO: This functionality still works - but the test is broken. Something is happening on the event data entry page.
   test(job, function(assert) {
     const venue = server.create('venue');
 

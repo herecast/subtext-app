@@ -7,7 +7,7 @@
   <div class="FeedCard-MarketInfo-images">
     {{#if hasMultipleImages}}
       {{#each images as |image|}}
-        <div class="FeedCard-MarketInfo-thumbnail" {{action 'changeActiveImageUrl' image.imageUrl}}>
+        <div class="FeedCard-MarketInfo-thumbnail u-paddingRight8 u-paddingBottom-8" {{action 'changeActiveImageUrl' image.imageUrl}}>
             <img src="{{optimized-image-url image.imageUrl 40 40 true}}" />
         </div>
       {{/each}}
