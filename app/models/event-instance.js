@@ -13,6 +13,7 @@ const {
 } = Ember;
 
 export default DS.Model.extend(BaseEvent, {
+  normalizedContentType: 'event',
   // Only returned by the API if the current user is an admin
   adminContentUrl: DS.attr('string'),
   commentCount: DS.attr('number'),
