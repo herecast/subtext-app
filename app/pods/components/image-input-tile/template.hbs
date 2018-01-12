@@ -1,8 +1,0 @@
-<label class='ImageInputTile-label'>
-  {{#if hasBlock}}
-    {{yield}}
-  {{else}}
-    {{fa-icon 'plus'}}
-  {{/if}}
-  <input class='ImageInputTile-input' type='file' accept="{{accept}}" multiple={{multiple}} onchange={{action 'filesSelected' value="target.files"}}>
-</label>

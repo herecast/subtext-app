@@ -999,14 +999,6 @@ export default function() {
   this.get('/listservs');
   this.get('/listservs/:id');
 
-  this.get('/listserv_contents', 'listservContents');
-  this.get('/listserv_contents/:id', 'listservContents');
-  this.post('/listserv_contents/:id', 'listservContent');
-  this.put('/listserv_contents/:id', 'listservContent');
-  this.patch('/listserv_contents/:id', function() {
-    return {};
-  });
-
   this.get('/features');
 
 

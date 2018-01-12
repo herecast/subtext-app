@@ -100,26 +100,11 @@ Router.map(function() {
     this.route('subscribe', {path: '/:id/subscribe'});
   });
 
-  this.route('lists', function() {
-    this.route('example-preview');
-    this.route('subscribe', {path: '/:id/subscribe'});
-    this.route('unsubscribe', {path: '/:listserv_id/unsubscribe'});
-    this.route('manage', {path: '/:id/manage'});
-    this.route('posts', {path: '/posts/:id'}, function() {
-      this.route('edit');
-      this.route('review');
-      this.route('confirmed');
-      this.route('register');
-    });
-    this.route('confirm_post', {path: '/confirm_post/:id'});
-  });
   this.route('prohibited-items');
 
   this.route('account', function() {
     this.route('subscriptions');
   });
-
-  this.route('kitchen-sink');
 
   this.route('promotions.show', {path: '/promotions/:id'});
 

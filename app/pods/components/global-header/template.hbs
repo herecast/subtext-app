@@ -1,11 +1,4 @@
 <div class='MainNav-wrapper'>
-  {{#if features.listserv-user-testing}}
-    <div style="position:absolute;margin-left:-5px" data-test-listservtest>
-      Test
-    </div>
-  {{/if}}
-
-
   {{#from-elsewhere name="global-header" as |header|}}
     {{#if header}}
       {{component header}}
@@ -35,7 +28,6 @@
           {{/from-elsewhere}}
         </div>
 
-
         <div class='MainNav-brand u-flexRow'>
           <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
             {{#link-to 'index' data-test-link='header-link'}}
@@ -44,7 +36,6 @@
             {{/link-to}}
           </h1>
         </div>
-
 
         <div class='MainNav-search'>
           <!-- will contain user menu/login/register, search -->

@@ -19,7 +19,6 @@ const {
   computed,
   get,
   run,
-  isEmpty,
   isPresent,
   testing,
   Test,
@@ -227,39 +226,6 @@ export default Ember.Service.extend(FastbootExtensions, {
   /********************************************************
    * API methods start here
    */
-  confirmListservPost(id, data) {
-    if (isEmpty(data)) {
-      data = {
-        listserv_content: {
-          id: id
-        }
-      };
-    }
-    return this.returnJson(
-      this.patch(`/listserv_contents/${id}`,
-        this.json(data)
-      )
-    );
-  },
-
-  confirmListservSubscription(id) {
-    return this.returnJson(
-      this.patch(`/subscriptions/${id}/confirm`)
-    );
-  },
-
-  unsubscribeSubscription(id) {
-    return this.returnJson(
-      this.del(`/subscriptions/${id}`)
-    );
-  },
-
-  unsubscribeFromListserv(id, email) {
-    const encodedEmail = encodeURIComponent(btoa(email));
-    return this.returnJson(
-      this.del(`/subscriptions/${id}/${encodedEmail}`)
-    );
-  },
 
   /*
    * Confirmed registration does a few things:
@@ -636,14 +602,6 @@ export default Ember.Service.extend(FastbootExtensions, {
   removeContentLocation(id) {
     return this.returnJson(
       this.del(`/content_locations/${id}`)
-    );
-  },
-
-  updateListservProgress(listserv_content_id, data) {
-    return this.returnJson(
-      this.patch(`/listserv_contents/${listserv_content_id}/update_metric`,
-        this.json(data)
-      )
     );
   },
 
