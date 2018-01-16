@@ -1,0 +1,31 @@
+{{#if isListservCard}}
+  <div class="FeedCarousel-FeedContentCard-title">
+    {{feed-card/title
+      title=model.title
+      model=model
+      useLink=linkIsActive
+      onContentClick=(action 'onLinkClick' 'title')
+    }}
+  </div>
+
+  <div class="FeedCarousel-FeedContentCard-body">
+    {{feed-card/text-snippet
+      model=model
+      showTextSnippet=isLoggedIn
+    }}
+  </div>
+
+  <div class="FeedCarousel-FeedContentCard-attribution">
+    {{feed-card/attribution
+      avatarUrl=model.attributionImageUrl
+      author=model.attributionName
+      linkRouteName=attributionLinkRouteName
+      linkId=attributionLinkId
+      postedTime=model.publishedAtRelative
+      isListserv=model.isListserv
+      contentId=model.contentId
+      noPadding=true
+      customSize=24
+    }}
+  </div>
+{{/if}}

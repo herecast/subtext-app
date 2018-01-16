@@ -50,14 +50,12 @@
     linkRouteName=model.attributionLinkRouteName
     linkId=model.attributionLinkId
     postedTime=(moment-from-now model.publishedAt)
-    isListserv=model.isListserv
     contentId=model.contentId
     classNames="u-padding8"
   }}
 
   {{feed-card/footer
     locationTagName=sourceTag
-    canEdit=userCanEditFeedCard
     canManage=(readonly context.canManage)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')

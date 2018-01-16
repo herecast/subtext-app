@@ -50,7 +50,6 @@
             linkRouteName=model.attributionLinkRouteName
             linkId=model.organizationId
             postedTime=model.publishedAtRelative
-            isListserv=model.isListserv
             contentId=model.contentId
             classNames="u-paddingBottom8"
           }}
@@ -166,7 +165,6 @@
               customSize=24
               avatarName=model.authorName
               isDefaultOrganization=model.organization.isDefaultOrganization
-              isListServ=model.isListserv
           }}
           </td>
         </tr>
@@ -213,17 +211,15 @@
       }}
     </div>
 
-    {{#unless (eq model.contentOrigin 'listserv')}}
-      <div class='DetailPage-sectionWrapper'>
-        <div class='DetailPage-section DetailPage-similarContent'>
-          {{#similar-content
-            contentId=model.contentId
-            limit=4
-          }}
-            {{#title-text strong=true small=true}}Suggested{{/title-text}}
-          {{/similar-content}}
-        </div>
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true small=true}}Suggested{{/title-text}}
+        {{/similar-content}}
       </div>
-    {{/unless}}
+    </div>
   {{/unless}}
 {{/sticky-container}}

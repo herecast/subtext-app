@@ -7,7 +7,11 @@ export default Ember.Component.extend({
   comments: null,
   parentContentId: null,
 
-  sortedComments: computed.sort('comments', function(comment1, comment2) {
+  goodComments: computed.filter('comments', function(comment){
+    return get(comment, 'hasUserName');
+  }),
+
+  sortedComments: computed.sort('goodComments', function(comment1, comment2) {
     const publishedAt1 = get(comment1, 'publishedAt');
     const publishedAt2 = get(comment2, 'publishedAt');
 

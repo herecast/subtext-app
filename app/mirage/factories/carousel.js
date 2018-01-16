@@ -9,8 +9,5 @@ export default Factory.extend({
   },
   queryParams() {
     return {"type": "organization"};
-  },
-  afterCreate(content, server) {
-    server.createList(content.carouselType, 5, {carouselId: parseInt(content.id)});
   }
 });

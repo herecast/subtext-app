@@ -21,7 +21,8 @@
               data-test-radius=radiusChoice
               xsSize='x-small'
               xsBlockType='wide'
-              onClick=(action 'chooseRadius' radiusChoice)}}
+              onClick=(action 'chooseRadius' radiusChoice)
+              disabled=radiusDisabled}}
     +{{radiusChoice}}
   {{/x-button}}
 {{/each}}

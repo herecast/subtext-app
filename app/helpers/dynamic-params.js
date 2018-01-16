@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function dynamicParams([routeName, params]/*, hash*/) {
+export function dynamicParams([routeName, params]) {
   return [
     routeName,
     {

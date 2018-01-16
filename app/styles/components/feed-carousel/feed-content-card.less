@@ -1,0 +1,63 @@
+.FeedCarousel-FeedContentCard {
+  width: 200px;
+  height: 250px;
+  .box-shadow(0 2px 4px 2px rgba(0, 0, 0, .2));
+  border-radius: 3px;
+  overflow: hidden;
+
+  &-title {
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    line-height: 1.1;
+
+    .FeedCard-Title {
+      padding: 0;
+    }
+  }
+
+  &-body {
+    font-size: 16px;
+    padding: 0 8px;
+    line-height: 1.2;
+    font-size: 14px;
+
+    .FeedCard-TextSnippet {
+      padding: 0;
+      &.snipped-text {
+        max-height: none;
+      }
+
+      &-signin-box {
+        width: 168px;
+        white-space: normal;
+      }
+    }
+  }
+
+  &-attribution {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: solid 1px #ECF2F5;
+
+    .FeedCard-Attribution {
+      padding: 8px;
+
+      &-author-wrap {
+        grid-template-columns: 30px 1fr;
+      }
+      &-author {
+        font-size: 11px;
+      }
+
+      &-posted-time {
+        font-size: 12px;
+      }
+    }
+  }
+
+
+}

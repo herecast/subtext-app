@@ -1,0 +1,82 @@
+{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+  {{#sticky.item class='StickyItem--default-background u-boxShadowBottom u-marginBottom16' useAbsolutePositioning=true}}
+    {{#content-body classNames="u-padding0"}}
+
+      <div class="DetailPage-headerSection u-paddingVertical16 u-paddingLeft8">
+        {{#title-text strong=true classNames="TitleText--noMargin u-inlineFlex u-flexAlign-center"}}
+          <div data-test-market-title>
+            {{model.title}}
+          </div>
+        {{/title-text}}
+      </div>
+      <div class="DetailPage-headerSubSection">
+        {{report-content-details
+            contentId=model.contentId
+            class="DetailPage-reportFlag h4 u-paddingLeft8 u-paddingBottom8"
+        }}
+      </div>
+
+      {{horizontal-rule classNames="u-padding0"}}
+
+      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center">
+        {{feed-card/attribution
+          avatarUrl=model.attributionImageUrl
+          author=model.attributionName
+          linkRouteName=model.attributionLinkRouteName
+          linkId=model.attributionLinkId
+          postedTime=model.publishedAtRelative
+          isListserv=model.isListserv
+          contentId=model.contentId
+          classNames="u-padding8"
+        }}
+
+        <div class='u-flexRow u-flexAlign-center'>
+          {{contact-poster-button
+            model=(readonly model)
+            clickReplyButton=(action 'clickReplyButton')
+            classNames="u-paddingRight8"
+            tagName='span'
+          }}
+        </div>
+      </div>
+
+    {{/content-body}}
+  {{/sticky.item}}
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-metaBloc">
+      <table>
+        <tr>
+          <td colspan="2">
+            <div class="DetailPage-metaBloc-location">
+              {{listservLocationLabel}} List
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="DetailPage-section DetailPage-content">
+        <div class="ContentText" data-test-market-content>{{{ model.content }}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class='DetailPage-sectionWrapper'>
+    <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+      {{ad-banner
+        contentModel=model
+      }}
+    </div>
+  </div>
+
+  <div class='DetailPage-section DetailPage-comments'>
+    {{comments-section
+      showSectionTitle=true
+      commentCount=model.commentCount
+      parentContentId=(readonly model.contentId)
+      comments=comments
+      contentTitle=(readonly model.title)
+      disabled=(readonly commentingDisabled)
+      afterComment=(action 'reloadComments')
+    }}
+  </div>
+{{/sticky-container}}

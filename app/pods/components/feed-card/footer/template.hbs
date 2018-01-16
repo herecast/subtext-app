@@ -9,16 +9,27 @@
 
   {{#unless displayAsPublic}}
     <div class="FeedCard-Footer-right">
-      {{feed-card/edit-button
-        editPath=editPath
-        editPathId=editPathId
-        model=model
-        iconSize="x-small"
-        color="primary"
-        style="regular"
-        }}
+      {{#unless isListserv}}
+        {{feed-card/edit-button
+          editPath=editPath
+          editPathId=editPathId
+          model=model
+          iconSize="x-small"
+          color="primary"
+          style="regular"
+          }}
+      {{/unless}}
       {{#if showManageButton}}
-        {{#x-button onClick=(action 'openPromotionMenu') style='regular' color='primary' size='x-small'}}Manage{{/x-button}}
+        <div class="FeedCard-Footer-manage-button">
+          {{#x-button
+            onClick=(action 'openPromotionMenu')
+            style='regular'
+            color='primary'
+            size='x-small'
+          }}
+            Manage
+          {{/x-button}}
+        </div>
       {{/if}}
     </div>
   {{/unless}}

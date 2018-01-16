@@ -1011,16 +1011,15 @@ export default function() {
   });
 
   this.get('/contents', function({db, feedItems}, request) {
-    const {page, per_page, content_type, query, organization_id} = request.queryParams;
+    const {page, per_page, type, query, organization_id} = request.queryParams;
+    const content_type = type;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
     let response;
 
     const showProfilePageContents = isPresent(organization_id);
-    const showOrganizationCards = content_type === 'organization';
-    const justShowOneContentType = isPresent(content_type) && content_type !== 'organization' && isBlank(query);
-    const showACollectionFirstThenContents = isBlank(content_type) && isPresent(query);
+    const justShowOneContentType = isPresent(content_type) && isBlank(query);
 
     if (showProfilePageContents) {
       let organizationFeedItems = feedItems.all().filter((feedItem) => {
@@ -1034,52 +1033,36 @@ export default function() {
         total_pages: Math.ceil( organizationFeedItems.length / per_page )
       };
 
-    } else if (showOrganizationCards) {
-      let organizationFeedItems = feedItems.all().filter((feedItem) => {
-        return feedItem.modelType === 'organization';
-      });
-
-      response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
-
-      response.meta = {
-        total: organizationFeedItems.length,
-        total_pages: Math.ceil( organizationFeedItems.length / per_page )
-      };
-
     } else if (justShowOneContentType) {
-      let feedContentTypeFeedItems = feedItems.all().filter((feedItem) => {
-        if (feedItem.modelType === 'feedContent') {
-          return get(feedItem.feedContent, 'contentType') === content_type;
-        }
-        return false;
-      });
+      let oneContentTypeFeedItems;
 
-      response = this.serialize(feedContentTypeFeedItems.slice(startIndex, endIndex));
+      if (content_type === 'organization') {
+        oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
+          return feedItem.modelType === 'organization';
+        });
+      } else {
+        oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
+          if (feedItem.modelType === 'feedContent') {
+            return get(feedItem.feedContent, 'contentType') === content_type;
+          }
+          return false;
+        });
+      }
+
+      response = this.serialize(oneContentTypeFeedItems.slice(startIndex, endIndex));
 
       response.meta = {
-        total: feedContentTypeFeedItems.length,
-        total_pages: Math.ceil( feedContentTypeFeedItems.length / per_page )
+        total: oneContentTypeFeedItems.length,
+        total_pages: Math.ceil( oneContentTypeFeedItems.length / per_page )
       };
 
-    } else if (showACollectionFirstThenContents) {
+    } else {
       response = this.serialize(feedItems.all().slice(startIndex, endIndex));
       response.meta = {
         total: feedItems.all().length,
         total_pages: Math.ceil( feedItems.all().length / per_page )
       };
-    } else {
-      let defaultItems = feedItems.all().filter((feedItem) => {
-        return feedItem.modelType === 'feedContent';
-      });
-
-      response = this.serialize(defaultItems.slice(startIndex, endIndex));
-
-      response.meta = {
-        total: defaultItems.length,
-        total_pages: Math.ceil( defaultItems.length / per_page )
-      };
     }
-
     return new Mirage.Response(200, {}, response);
   });
 

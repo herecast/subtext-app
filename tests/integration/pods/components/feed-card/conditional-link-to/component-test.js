@@ -10,16 +10,11 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{feed-card/conditional-link-to}}`);
+  this.render(hbs`{{feed-card/conditional-link-to
+    useLink=true
+    linkUrl='http://asdf.com'
+  }}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$());
 
-  // Template block usage:
-  this.render(hbs`
-    {{#feed-card/conditional-link-to}}
-      template block text
-    {{/feed-card/conditional-link-to}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

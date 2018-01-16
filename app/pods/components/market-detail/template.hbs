@@ -38,7 +38,6 @@
               linkRouteName=model.attributionLinkRouteName
               linkId=model.attributionLinkId
               postedTime=model.publishedAtRelative
-              isListserv=model.isListserv
               contentId=model.contentId
               classNames="u-padding8"
             }}
@@ -108,11 +107,7 @@
             </td>
             <td>
               <div class="DetailPage-metaBloc-location">
-                {{#if model.isListserv}}
-                  {{listservLocationLabel}} List
-                {{else}}
-                  {{model.baseLocationNames}}
-                {{/if}}
+                {{model.baseLocationNames}}
               </div>
             </td>
           </tr>
@@ -120,16 +115,12 @@
           <tr>
             <td colspan="2">
               <div class="DetailPage-metaBloc-location">
-                {{#if model.isListserv}}
-                  {{listservLocationLabel}} List
-                {{else}}
-                  {{model.baseLocationNames}}
-                {{/if}}
+                {{model.baseLocationNames}}
               </div>
             </td>
           </tr>
         {{/if}}
-        {{#if (or model.contantPhone model.eventUrl)}}
+        {{#if (or model.contactPhone model.eventUrl)}}
           <tr>
             <td>
               <div class="DetailPage-metaBloc-phone">
@@ -158,7 +149,6 @@
               customSize=24
               avatarName=model.authorName
               isDefaultOrganization=model.organization.isDefaultOrganization
-              isListServ=model.isListserv
               }}
             </td>
           </tr>
@@ -170,7 +160,6 @@
   </div>
 
   {{#unless isPreview}}
-
     {{#horizontal-rule}}
       {{social-share
         title=model.title
@@ -201,20 +190,18 @@
       </div>
     </div>
 
-    {{#unless (eq model.contentOrigin 'listserv')}}
-      {{horizontal-rule}}
+    {{horizontal-rule}}
 
-      <div class='DetailPage-sectionWrapper'>
-        <div class='DetailPage-section DetailPage-similarContent'>
-          {{#similar-content
-            contentId=model.contentId
-            limit=4
-          }}
-            {{#title-text strong=true small=true}}Suggested{{/title-text}}
-          {{/similar-content}}
-        </div>
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true small=true}}Suggested{{/title-text}}
+        {{/similar-content}}
       </div>
-    {{/unless}}
+    </div>
 
   {{/unless}}
 {{/sticky-container}}

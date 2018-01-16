@@ -3,7 +3,7 @@ import History from 'subtext-ui/mixins/routes/history';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
-const {get, inject: {service}} = Ember;
+const {get, isPresent, inject: {service}} = Ember;
 
 export default Ember.Route.extend(History, RouteMetaMixin, {
   tracking: service(),
@@ -14,6 +14,12 @@ export default Ember.Route.extend(History, RouteMetaMixin, {
   },
 
   titleToken(model) {
-    return get(model, 'organization.name');
+    const organization = model;
+
+    if (isPresent(organization)) {
+      return get(organization, 'name');
+    }
+
+    return 'DailyUV';
   }
 });

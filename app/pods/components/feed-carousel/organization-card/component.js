@@ -4,33 +4,24 @@ import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 const { get, computed, String:{htmlSafe}, isPresent, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
-  classNames: 'FeedCarousel-Card',
+  classNames: 'FeedCarousel-OrganizationCard',
   classNameBindings: ['profileImageUrl:has-profile-image'],
 
   model: null,
-  type: null,
   carouselId: null,
 
   tracking: service(),
 
-  linkRouteName: computed('type', function() {
-    const type = get(this, 'type');
+  linkRouteName: computed.alias('model.organizationLinkRoute', function() {
+    const linkRouteName = get(this, 'model.organizationLinkRoute');
 
-    if (type === 'organization') {
-      return get(this, 'model.organizationLinkRoute');
-    }
-
-    return 'feed.show';
+    return linkRouteName || 'feed.show';
   }),
 
-  linkRouteId: computed('type', function() {
-    const type = get(this, 'type');
+  linkRouteId: computed('model.organizationLinkId', function() {
+    const linkRouteId = get(this, 'model.organizationLinkId');
 
-    if (type === 'organization') {
-      return get(this, 'model.organizationLinkId');
-    }
-
-    return get(this, 'model.id');
+    return linkRouteId ||  get(this, 'model.id');
   }),
 
   backgroundImageUrl: computed.alias('model.backgroundImageUrl'),

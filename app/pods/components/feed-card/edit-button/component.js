@@ -3,7 +3,8 @@ import Ember from 'ember';
 const { inject, get, set } = Ember;
 
 export default Ember.Component.extend({
-  tagName: 'span',
+  classNameBindings: ['canEdit:can-edit-button-active'],
+  
   session: inject.service(),
   contentPermissions: inject.service('content-permissions'),
   canEdit: false,

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
+import isLocationDependentOrganization from 'subtext-ui/utils/is-location-dependent-organization';
 
 const {
   computed,
@@ -18,6 +19,8 @@ export default DS.Model.extend({
   logoUrl: DS.attr('string'),
   profileImageUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
+  specialLinkUrl: DS.attr('string'),
+  specialLinkText: DS.attr('string'),
   twitterHandle: DS.attr('string'),
   orgType: DS.attr('string'),
   bizFeedActive: DS.attr('boolean'),
@@ -146,6 +149,10 @@ export default DS.Model.extend({
   }),
 
   organizationId: computed.reads('id'),
+
+  isLocationDependentOrganization: computed('id', function() {
+    return isLocationDependentOrganization(get(this, 'id'));
+  }),
 
   save() {
     const saveItBaby = this._super(...arguments);

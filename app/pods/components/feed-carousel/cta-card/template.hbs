@@ -1,0 +1,25 @@
+<span {{action onClickAction preventDefault=false}}>
+  {{#if linkToFeed}}
+    {{#link-to params=(dynamic-params ctaRouteName queryParams) class="FeedCarousel-CtaCard-link"}}
+      <div class="FeedCarousel-CtaCard-card">
+        <div>
+          {{fa-icon 'search'}}
+          <div>
+            See More {{seeMoreText}}<br />Like These
+          </div>
+        </div>
+      </div>
+    {{/link-to}}
+  {{else if linkToProfile}}
+    {{#link-to ctaRouteName profileId (query-params location=linkLocation) class="FeedCarousel-CtaCard-link"}}
+      <div class="FeedCarousel-CtaCard-card">
+        <div>
+          {{fa-icon 'search'}}
+          <div>
+            See All From {{seeMoreText}}
+          </div>
+        </div>
+      </div>
+    {{/link-to}}
+  {{/if}}
+</span>

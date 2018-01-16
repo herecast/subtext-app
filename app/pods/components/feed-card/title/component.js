@@ -14,7 +14,7 @@ export default Ember.Component.extend({
   onContentClick() {},
 
   useLink: computed('isLoggedIn', 'contentType', function() {
-    if ( !get(this, 'isLoggedIn') && get(this, 'contentType') === 'talk') {
+    if ( !get(this, 'isLoggedIn') && get(this, 'contentType') === 'listserv') {
       return false;
     }
 

@@ -1,14 +1,14 @@
-<div class="FeedCarousel-Card-header">
+<div class="FeedCarousel-OrganizationCard-header">
   {{#if backgroundImageUrl}}
-    <div class="FeedCarousel-Card-background-image" style={{backgroundImageStyle}}>
+    <div class="FeedCarousel-OrganizationCard-background-image" style={{backgroundImageStyle}}>
     </div>
   {{else}}
-    <div class="FeedCarousel-Card-background-image-blank">
+    <div class="FeedCarousel-OrganizationCard-background-image-blank">
     </div>
   {{/if}}
 
   {{#if isNotClaimed}}
-    <div class="FeedCarousel-Card-cta-claim">
+    <div class="FeedCarousel-OrganizationCard-cta-claim">
       Is this your business?<br />
       <a href="{{claimEmail}}">Claim it now</a>
     </div>
@@ -17,54 +17,54 @@
   {{#if profileImageUrl}}
     {{#link-to linkRouteName linkRouteId}}
       <span {{action 'onLinkClick' 'profile-image'}}>
-        <div class="FeedCarousel-Card-profile-image">
-          <img class="FeedCarousel-Card-profile-image-image" src={{profileImageUrl}} />
+        <div class="FeedCarousel-OrganizationCard-profile-image">
+          <img class="FeedCarousel-OrganizationCard-profile-image-image" src={{profileImageUrl}} />
         </div>
       </span>
     {{/link-to}}
   {{/if}}
 </div>
 
-<div class="FeedCarousel-Card-identity">
+<div class="FeedCarousel-OrganizationCard-identity">
   {{#link-to linkRouteName linkRouteId}}
     <span {{action 'onLinkClick' 'name-address'}}>
       {{#if orgName}}
-        <div class="FeedCarousel-Card-org-name">
+        <div class="FeedCarousel-OrganizationCard-org-name">
           {{orgName}}
         </div>
       {{/if}}
 
       {{#if cityState}}
-        <div class="FeedCarousel-Card-full-address">
+        <div class="FeedCarousel-OrganizationCard-full-address">
           {{cityState}}
         </div>
       {{/if}}
     </span>
-  {{/link-to}}  
+  {{/link-to}}
 </div>
 
-<div class="FeedCarousel-Card-footer">
-  <div class="FeedCarousel-Card-footer-left">
+<div class="FeedCarousel-OrganizationCard-footer">
+  <div class="FeedCarousel-OrganizationCard-footer-left">
     {{#if phone}}
-      <div class="FeedCarousel-Card-contact-button">
+      <div class="FeedCarousel-OrganizationCard-contact-button">
         <a href="tel:+1{{phone}}" {{action 'onLinkClick' 'phone' preventDefault=false}}>
           {{fa-icon 'phone'}}
         </a>
       </div>
     {{/if}}
   </div>
-  <div class="FeedCarousel-Card-footer-center">
+  <div class="FeedCarousel-OrganizationCard-footer-center">
     {{#if emailLink}}
-      <div class="FeedCarousel-Card-contact-button">
+      <div class="FeedCarousel-OrganizationCard-contact-button">
         <a href="{{emailLink}}" target="_blank" {{action 'onLinkClick' 'email' preventDefault=false}}>
           {{fa-icon 'envelope'}}
         </a>
       </div>
     {{/if}}
   </div>
-  <div class="FeedCarousel-Card-footer-right">
+  <div class="FeedCarousel-OrganizationCard-footer-right">
     {{#if directionsLink}}
-      <div class="FeedCarousel-Card-contact-button">
+      <div class="FeedCarousel-OrganizationCard-contact-button">
         <a href="{{directionsLink}}" target="_blank" {{action 'onLinkClick' 'directions' preventDefault=false}}>
           {{fa-icon 'map-marker'}}
         </a>

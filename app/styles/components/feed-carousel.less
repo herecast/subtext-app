@@ -1,16 +1,39 @@
-.FeedCarousel-Carousel {
+.FeedCarousel {
   width: 100%;
 
-  &-wrapper {
+  &-title-bar {
+    display: grid;
+    grid-template-columns: 1fr 64px;
     padding: 10px 15px;
+    border-bottom: solid 1px #ECF2F5;
+
+    &-left {
+      grid-column: 1;
+      justify-self: start;
+    }
+    &-right {
+      grid-column: 2;
+      justify-self: end;
+      align-self: center;
+
+      a:hover {
+        color: @button-primary;
+      }
+    }
   }
 
-  &-title-bar {
+  &-title {
     font-size: 18px;
     font-weight: bold;
-    padding: 10px 15px;
     text-transform: capitalize;
-    border-bottom: solid 1px #ECF2F5;
+  }
+
+  &-see-more {
+    font-size: 14px;
+    text-align: right;
+    cursor: pointer;
+    color: @button-primary;
+    font-weight: bold;
   }
 
   &-carousel {
@@ -22,8 +45,8 @@
   }
 
   .swiper-slide {
-    width: 200px;
-    height: 200px;
+    width: auto;
+    height: auto;
     margin-right: 10px;
   }
 
@@ -38,43 +61,32 @@
     line-height: 24px;
     text-align: center;
     cursor: pointer;
+    .transition(opacity 0.3s linear);
+    .box-shadow(0 2px 4px 2px rgba(0, 0, 0, 0.2));
   }
   .swiper-button-next:after {
     content: '\f054';
     font-size: 24px;
-    color: #4e4e4e;
+    color: @button-primary;
     font-family: FontAwesome;
     margin-left: 3px;
   }
   .swiper-button-prev:after {
     content: '\f053';
     font-size: 24px;
-    color: #4e4e4e;
+    color: @button-primary;
     font-family: FontAwesome;
     margin-right: 3px;
   }
   .swiper-button-disabled {
     pointer-events: all !important;
+    opacity: 0;
   }
 
   @media (max-width: @screen-xs-max) {
     .swiper-button-next,
     .swiper-button-prev {
       display: none;
-    }
-  }
-
-  &-cta-card {
-    padding: 10px;
-    display: grid;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
-
-    i {
-      font-size: 30px;
     }
   }
 }

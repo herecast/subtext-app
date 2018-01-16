@@ -8,22 +8,11 @@ export default Ember.Component.extend(reloadComments, {
 
   model: null,
   userLocation: null,
-  isLoggedIn: false,
   context: null,
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
-  // TODO: refactor duplications (๏д๏)
-  attributionLinkRouteName: computed('model.isOwnedByOrganization', function() {
-    const shouldLinkToProfile = get(this, 'model.isOwnedByOrganization') && isPresent(get(this, 'model.organizationId'));
-
-    return shouldLinkToProfile ? 'profile' : null;
-  }),
-
-  // TODO: refactor duplications (๏д๏)
-  attributionLinkId: computed.alias('model.organizationId'),
-
-  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'model.isListserv', 'userLocation.locationId', function() {
+  sourceTag: computed('userLocation.locationId', function() {
     const baseLocations = get(this, 'model.baseLocations');
     const userLocation = get(this, 'userLocation');
 
@@ -31,13 +20,7 @@ export default Ember.Component.extend(reloadComments, {
     let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
       get(baseLocations, 'firstObject');
 
-    const isListserv = get(this, 'model.isListserv');
-
-    if (isPresent(baseLocation)) {
-      return `${get(baseLocation, 'locationName')}${isListserv ? ' List' : ''}`;
-    } else {
-      return undefined;
-    }
+    return isPresent(baseLocation) ? get(baseLocation, 'locationName') : undefined;
   }),
 
   actions: {

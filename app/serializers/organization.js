@@ -11,6 +11,12 @@ export default ActiveModelSerializer.extend({
     delete result.logo_url;
     delete result.background_image_url;
     delete result.name;
+    delete result.biz_feed_active;
+    delete result.business_profile_id;
+    delete result.org_type;
+    delete result.profile_ad_override;
+    delete result.subtext_certified;
+    delete result.can_edit;
 
     return result;
   }

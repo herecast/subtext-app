@@ -12,6 +12,8 @@ export default DS.Model.extend({
   userImageUrl: DS.attr('string'),
   publishedAt: DS.attr('moment-date'),
 
+  hasUserName: computed.notEmpty('userName'),
+
   formattedPostedAt: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');
 

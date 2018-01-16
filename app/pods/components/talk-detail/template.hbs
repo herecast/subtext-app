@@ -43,7 +43,6 @@
             linkRouteName=model.attributionLinkRouteName
             linkId=model.attributionLinkId
             postedTime=model.publishedAtRelative
-            isListserv=model.isListserv
             contentId=model.contentId
             class="u-paddingLeft0"
           }}
@@ -70,11 +69,7 @@
         <tr>
           <td colspan="2">
             <div class="DetailPage-metaBloc-location">
-              {{#if model.isListserv}}
-                {{listservLocationLabel}} List
-              {{else}}
-                {{model.baseLocationNames}}
-              {{/if}}
+              {{model.baseLocationNames}}
             </div>
           </td>
         </tr>
@@ -119,18 +114,15 @@
       </div>
     </div>
 
-    {{#unless (eq model.contentOrigin 'listserv')}}
-      <div class='DetailPage-sectionWrapper'>
-        <div class='DetailPage-section DetailPage-similarContent'>
-          {{#similar-content
-            contentId=model.contentId
-            limit=4
-          }}
-            {{#title-text strong=true small=true}}Suggested{{/title-text}}
-          {{/similar-content}}
-        </div>
+    <div class='DetailPage-sectionWrapper'>
+      <div class='DetailPage-section DetailPage-similarContent'>
+        {{#similar-content
+          contentId=model.contentId
+          limit=4
+        }}
+          {{#title-text strong=true small=true}}Suggested{{/title-text}}
+        {{/similar-content}}
       </div>
-    {{/unless}}
-
+    </div>
   {{/unless}}
 {{/sticky-container}}

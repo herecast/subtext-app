@@ -1,5 +1,22 @@
 {{to-elsewhere named='global-header' send=(component 'simple-header' title=organization.name avatarUrl=avatarUrl)}}
 
+{{#if isLocationDependentProfile}}
+  {{#unless session.isFastBoot}}
+    {{to-elsewhere named="page-toolbar"
+      send=(component "channel-filters"
+        channel="index"
+        radius=0
+        onChooseMyStuffOnly=(action "onChooseMyStuffOnly")
+        filterComponent=(component "header-location-control"
+          location=locationForControls
+          radiusDisabled=true
+          onChooseLocation=(action 'onChooseLocation')
+        )
+      )
+    }}
+  {{/unless}}
+{{/if}}
+
 {{sticky-position name='profile/contact'}}
 
 {{#sticky-container position='profile/contact' enabled=stickyContainerEnabled as |sticky|}}

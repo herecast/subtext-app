@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import moment from 'moment';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
-import canEditFeedCard from 'subtext-ui/mixins/components/can-edit-feed-card';
 
 const { get, computed, isPresent, inject:{service} } = Ember;
 
-export default Ember.Component.extend(reloadComments, canEditFeedCard, {
+export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',
   'data-test-event-card': computed.reads('model.title'),
   'data-test-content': computed.oneWay('model.contentId'),
@@ -34,7 +33,7 @@ export default Ember.Component.extend(reloadComments, canEditFeedCard, {
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('model.baseLocations.@each.{locationId,location.name}', 'userLocation.locationId', 'model.{venueCity,venueState}', function() {
+  sourceTag: computed('userLocation.locationId', 'model.{venueCity,venueState}', function() {
     const baseLocations = get(this, 'model.baseLocations') || [];
     const userLocation = get(this, 'userLocation');
 

@@ -62,14 +62,17 @@ export default DS.Model.extend(BaseEvent, {
   price: computed.alias('cost'),
   sold: DS.attr('boolean', {defaultValue: false}),
 
-  normalizedContentType: computed('contentType', function() {
-     let contentType = get(this, 'contentType');
+  normalizedContentType: computed('contentType', 'isListserv', function() {
+    const isListserv = get(this, 'isListserv');
+    let contentType = get(this, 'contentType');
 
-     if (contentType === 'talk_of_the_town') {
-       contentType = 'talk';
-     }
+    if (contentType === 'talk_of_the_town') {
+      contentType = 'talk';
+    } else if (isListserv) {
+      contentType = 'listserv';
+    }
 
-     return contentType;
+    return contentType;
   }),
 
   contentId: computed.alias('id'),
@@ -151,7 +154,7 @@ export default DS.Model.extend(BaseEvent, {
     let routeName = null;
 
     if (get(this, 'isOwnedByOrganization') && isPresent(get(this, 'organizationId'))) {
-      routeName = get(this, 'organizationBizFeedActive') ? 'biz.show' : 'organization-profile';
+      routeName = 'profile';
     }
 
     return routeName;

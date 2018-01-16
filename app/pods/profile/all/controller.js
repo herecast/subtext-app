@@ -1,20 +1,31 @@
 import Ember from 'ember';
 import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 
-const {get, set, setProperties, isPresent, computed, inject, run} = Ember;
+const {get, set, setProperties, isPresent, computed, inject:{service,controller}, run} = Ember;
 
 export default Ember.Controller.extend(PaginatedFilter, {
-  session: inject.service(),
-  notify: inject.service('notification-messages'),
-  tracking: inject.service(),
+  userLocation: service(),
+  session: service(),
+  notify: service('notification-messages'),
+  tracking: service(),
 
-  profileController: inject.controller('profile'),
+  profileController: controller('profile'),
   organization: computed.oneWay('profileController.model'),
   profileIsDisabled: computed.not('organization.profileIsActive'),
 
-  queryParams: ['query', 'show'],
+  isFirstTransition: true,
+
+  queryParams: ['page', 'query', 'show', 'location'],
+  page: 1,
   query: '',
   show: null,
+  location: '',
+
+  locationForControls: computed('userLocation.location.id', function() {
+    return get(this, 'userLocation.location');
+  }),
+
+  isLocationDependentProfile: computed.alias('organization.isLocationDependentOrganization'),
 
   visibleFeedItems: computed('model.@each.viewStatus', 'show', function() {
     const model = get(this, 'model') || [];
@@ -139,6 +150,28 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
     toggleHoursCard(visibility) {
       this.updateOrganizationField('hoursCardActive', visibility);
-    }
+    },
+
+    onChooseLocation(location) {
+      const userLocation = get(this, 'userLocation');
+
+      get(this, 'tracking').push({
+        event: "ChooseLocation",
+        location_id: get(userLocation, 'location.id'),
+        new_location_name: get(location, 'name'),
+        new_location_id: get(location, 'id')
+      });
+
+      userLocation.saveSelectedLocationId(get(location, 'id'));
+      set(this, 'location', get(location, 'id'));
+    },
+
+    onChooseMyStuffOnly() {
+      this.transitionToRoute('feed', {
+        queryParams: {
+          radius: 'myStuff'
+        }
+      });
+    },
   }
 });

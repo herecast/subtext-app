@@ -329,10 +329,11 @@ export default Service.extend(Evented, {
     });
   },
 
-  trackCarouselEvent(eventName, carouselId) {
+  trackCarouselEvent(eventName, carouselId, carouselType) {
     this.push({
       event: `Carousel${eventName}`,
       carousel_id: carouselId,
+      carousel_type: carouselType,
       url: window.location.href
     });
   },

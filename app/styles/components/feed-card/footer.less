@@ -3,19 +3,22 @@
   &-wrap {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    padding: 8px;
     border-top: solid 1px @secondary-bg;
   }
 
   &-left {
     grid-column: 1;
     text-align: left;
-    padding: 10px 0 10px 10px;
+    padding: 8px 0 8px 8px;
   }
 
   &-right {
     grid-column: 2;
     text-align: right;
-    padding: 10px 10px 10px 0;
+    .FeedCard-Footer-manage-button,
+    .can-edit-button-active {
+      display: inline-block;
+      padding: 8px 0;
+    }
   }
 }

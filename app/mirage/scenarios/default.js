@@ -96,7 +96,33 @@ export default function (server) {
   server.createList('organizationContent', 10);
   server.createList('event-instance', 100);
 
-  server.createList('feedItem', 120);
+  const listservContent = server.createList('feedContent', 5, {
+    contentOrigin: 'listserv'
+  });
+  const listservCarousel = server.create('carousel', {
+    title: 'Local Listserv',
+    carouselType: 'feedContent',
+    queryParams: {"organization_id": 447},
+    feedContents: listservContent
+  });
+  server.create('feedItem', {
+    modelType: 'carousel',
+    carouselId: listservCarousel.id
+  });
+
+  const businessContent = server.createList('organization', 5);
+  const businessesCarousel = server.create('carousel', {
+    title: 'Businesses',
+    carouselType: 'organization',
+    queryParams: {"type": 'organization'},
+    organizations: businessContent
+  });
+  server.create('feedItem', {
+    modelType: 'carousel',
+    carouselId: businessesCarousel.id
+  });
+
+  server.createList('feedItem', 40);
 
   const user1 = server.create('user', {email: 'test@test.com', location_id: 1});
   const user2 = server.create('user', {location_id: 1});

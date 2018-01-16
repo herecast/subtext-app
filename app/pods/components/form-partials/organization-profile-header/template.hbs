@@ -28,17 +28,57 @@
       }}
     {{/form-group}}
 
-    {{#form-group error=errors.subscribeUrl}}
-      <label class='control-label ContentForm-label' for='subscribe-url'>Subscribe URL</label>
+    {{#form-group}}
+      <label class='control-label ContentForm-label' for='subscribe-url'>Your Special Link Button</label>
       <div class='help-block'>
-        Link for user email alerts when you post. Copy and share!
+        You can choose to display one of the two options below
       </div>
-      {{input
-        id='subscribe-url'
-        class='form-control'
-        value=model.subscribeUrl
-        input=(action 'formUpdated')
-      }}
+      {{#x-link-url href='#'
+                    target=null
+                    onClick=(action 'chooseSpecialLinkOption' 'subscribe')
+                    disabled=specialLinkOptionIsActive
+                    style='regular'
+                    color='primary'
+                    size='x-small'}}
+        Subscribe
+      {{/x-link-url}}
+      OR
+      {{#x-link-url href='#'
+                    target=null
+                    onClick=(action 'chooseSpecialLinkOption' 'donate')
+                    disabled=subscribeOptionIsActive
+                    style='regular'
+                    color='primary'
+                    size='x-small'}}
+        Donate
+      {{/x-link-url}}
+    {{/form-group}}
+
+    {{#form-group error=errors.subscribeUrl}}
+      {{#if subscribeOptionIsActive}}
+        <div class='help-block'>
+          Link for user email alerts when you post. Copy and share!
+        </div>
+        {{input
+          id='subscribe-url'
+          class='form-control'
+          value=model.subscribeUrl
+          input=(action 'formUpdated')
+        }}
+      {{/if}}
+    {{/form-group}}
+    {{#form-group error=errors.specialLinkUrl}}
+      {{#if specialLinkOptionIsActive}}
+        <div class='help-block'>
+          Link to send users to donate to your organization or cause.
+        </div>
+        {{input
+          id='special-link-url'
+          class='form-control'
+          value=model.specialLinkUrl
+          input=(action 'formUpdated')
+        }}
+      {{/if}}
     {{/form-group}}
 
   {{/card-body}}

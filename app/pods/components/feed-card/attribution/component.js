@@ -11,6 +11,8 @@ export default Ember.Component.extend({
   linkRouteName: null,
   linkId: null,
   contentId: null,
+  noPadding: false,
+  customSize: 40,
 
   hasLinkRouteName: computed.notEmpty('linkRouteName'),
 

@@ -37,10 +37,6 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     this._trackImpression();
   },
 
-  listservLocationLabel: computed('userLocation.location.city', 'userLocation.location.state', function() {
-    return `${get(this, 'userLocation.location.city')} ${get(this, 'userLocation.location.state')}`;
-   }),
-
   activeImage: computed.oneWay('model.coverImageUrl'),
 
   controller: inject.service('current-controller'),

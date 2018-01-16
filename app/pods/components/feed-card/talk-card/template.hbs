@@ -2,7 +2,6 @@
   {{feed-card/title
     title=model.title
     model=model
-    isLoggedIn=isLoggedIn
     onContentClick=(action 'onContentClick')
   }}
 
@@ -11,7 +10,6 @@
       imageUrl=activeImageUrl
       caption=model.primaryImageCaption
       model=model
-      isLoggedIn=isLoggedIn
       onContentClick=(action 'onContentClick')
     }}
   {{else}}
@@ -25,10 +23,9 @@
     {{feed-card/attribution
       avatarUrl=model.attributionImageUrl
       author=model.attributionName
-      linkRouteName=attributionLinkRouteName
-      linkId=attributionLinkId
+      linkRouteName=model.attributionLinkRouteName
+      linkId=model.attributionLinkId
       postedTime=model.publishedAtRelative
-      isListserv=model.isListserv
       contentId=model.contentId
       classNames="u-padding8"
     }}

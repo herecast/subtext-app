@@ -230,5 +230,5 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
         }
       });
     }
-  },
+  }
 });

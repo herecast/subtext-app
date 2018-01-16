@@ -3,15 +3,17 @@ import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
 import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
-const { get, set, inject } = Ember;
+const { get, set, inject:{service} } = Ember;
 
 export default Ember.Route.extend(InfinityRoute, History, {
-  session: inject.service(),
-  fastboot: inject.service(),
+  session: service(),
+  userLocation: service(),
+  fastboot: service(),
 
   queryParams: {
     query: {refreshModel: true},
     show: {refreshModel: true},
+    location: {refreshModel: true}
   },
 
   _redirectToPublicView() {
@@ -27,8 +29,21 @@ export default Ember.Route.extend(InfinityRoute, History, {
     return idFromSlug(profileParams.organizationId);
   },
 
-  beforeModel() {
+  beforeModel(transition) {
     const params = this.paramsFor(this.routeName);
+    const organization = this.modelFor('profile');
+
+    if (get(organization, 'isLocationDependentOrganization') && !('location' in transition.queryParams)) {
+      transition.abort();
+
+      const locationId = get(this, 'userLocation.selectedOrDefaultLocationId');
+
+      this.transitionTo('profile', organization, {queryParams: {
+        location: locationId
+      }});
+
+      return;
+    }
 
     // Redirect the user if they do not have access to view this content
     if ('show' in params && params.show && !get(this, 'fastboot.isFastBoot')) {
@@ -42,6 +57,13 @@ export default Ember.Route.extend(InfinityRoute, History, {
         return this._redirectToPublicView();
       }
     }
+
+    this._setupActiveLocation(transition);
+  },
+
+  afterModel() {
+    const controller = this.controllerFor(this.routeName);
+    set(controller, 'isFirstTransition', true);
   },
 
   model(params) {
@@ -51,8 +73,37 @@ export default Ember.Route.extend(InfinityRoute, History, {
     return hideContent ? [] : this.infinityModel('feed-item', {
         organization_id: this._getOrganizationId(),
         query: params.query,
-        show: params.show
+        show: params.show,
+        location_id: params.location
       });
+  },
+
+  _setupActiveLocation(transition) {
+
+    if('location' in transition.queryParams) {
+      const userLocation = get(this, 'userLocation');
+
+      this.store.findRecord('location', transition.queryParams.location).then((location) => {
+        userLocation.setActiveLocationId(get(location, 'id'));
+      }).catch((e) => {
+        console.error(e);
+
+        console.error("This location most likely does not exist on the back-end:", transition.queryParams.location);
+        // We have a bad location in the URL. Clear it out and start over.
+        userLocation.setActiveLocationId(null);
+        userLocation.clearLocationCookie();
+        const redirects = get(this, 'session._locationRedirect') || 0;
+        if(!redirects || redirects < 2) {
+          this.transitionTo({queryParams: {
+            location: get(userLocation, 'defaultLocationId')
+          }});
+
+          set(this, 'session._locationRedirect', (redirects + 1));
+        } else {
+          throw new Error('Too many location redirects');
+        }
+      });
+    }
   },
 
   actions: {
@@ -72,7 +123,12 @@ export default Ember.Route.extend(InfinityRoute, History, {
 
     didTransition() {
       if(!get(this, 'fastboot.isFastBoot')) {
-        Ember.$('html,body').scrollTop(0);
+        const controller = this.controllerFor(this.routeName);
+
+        if (get(controller, 'isFirstTransition')) {
+          Ember.$('html,body').scrollTop(0);
+          set(controller, 'isFirstTransition', false);
+        }
 
         const model = this.modelFor('profile');
 

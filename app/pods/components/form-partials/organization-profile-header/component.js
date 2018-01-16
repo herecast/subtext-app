@@ -15,12 +15,23 @@ export default Ember.Component.extend(Validation, {
   backgroundImageFormVisible: false,
   profileImageFormVisible: false,
 
+  showSubscribeOption: false,
+  showSpecialLinkOption: false,
+
   displayBackgroundImageForm: computed('model.backgroundImageUrl', 'backgroundImageFormVisible', function() {
     return get(this, 'backgroundImageFormVisible') || isBlank(get(this, 'model.backgroundImageUrl'));
   }),
 
   displayProfileImageForm: computed('model.profileImageUrl', 'profileImageFormVisible', function() {
     return get(this, 'profileImageFormVisible') || isBlank(get(this, 'model.profileImageUrl'));
+  }),
+
+  subscribeOptionIsActive: computed('model.subscribeUrl', 'showSubscribeOption', function() {
+    return isPresent(get(this,'model.subscribeUrl')) || get(this, 'showSubscribeOption');
+  }),
+
+  specialLinkOptionIsActive: computed('model.specialLinkUrl', 'showSpecialLinkOption', function() {
+    return isPresent(get(this,'model.specialLinkUrl')) || get(this, 'showSpecialLinkOption');
   }),
 
   didReceiveAttrs() {
@@ -35,6 +46,7 @@ export default Ember.Component.extend(Validation, {
     if (isPresent(organization)) {
       set(this, 'model', getProperties(organization, [
         'subscribeUrl',
+        'specialLinkUrl',
         'profileImage',
         'profileImageUrl',
         'backgroundImage',
@@ -45,6 +57,7 @@ export default Ember.Component.extend(Validation, {
 
   validateForm() {
     this.hasValidUrl('subscribeUrl');
+    this.hasValidUrl('specialLinkUrl');
     this.validateImage('profileImage');
     this.validateImage('backgroundImage');
   },
@@ -69,6 +82,24 @@ export default Ember.Component.extend(Validation, {
     },
     updateBackgroundImage(imageData) {
       set(this, 'model.backgroundImage', imageData);
+      this.send('formUpdated');
+    },
+    chooseSpecialLinkOption(option) {
+      if (option === 'subscribe') {
+        this.setProperties({
+          'showSubscribeOption': true,
+          'showSpecialLinkOption': false,
+          'model.specialLinkUrl': null,
+          'model.specialLinkText': null
+        });
+      } else if (option === 'donate') {
+        this.setProperties({
+          'showSubscribeOption': false,
+          'showSpecialLinkOption': true,
+          'model.subscribeUrl': null,
+          'model.specialLinkText': 'Donate'
+        });
+      }
       this.send('formUpdated');
     }
   }
