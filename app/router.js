@@ -92,10 +92,6 @@ Router.map(function() {
   this.route('copyright');
   this.route('copyright-agent');
 
-  this.route('organization-profile', {path: '/organizations/:slug'}, function() {
-    this.route('edit');
-  });
-
   this.route('digests', function() {
     this.route('subscribe', {path: '/:id/subscribe'});
   });
@@ -118,12 +114,6 @@ Router.map(function() {
   // Unfortunately, the catch-all route was not working nicely with intermediateTransitionTo, so both are necessary
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
-
-  this.route('biz', function() {
-    this.route('show', {path: '/:id'}, function() {
-      this.route('detail', {path: ':slug'});
-    });
-  });
 
   this.route('profile', {path: '/profile/:organizationId'}, function() {
     this.route('all', {path: '/'}, function() {
