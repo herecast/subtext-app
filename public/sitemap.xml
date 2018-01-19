@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.corg/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://dailyuv.com/sitemap-general.txt</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://dailyuv.com/sitemap-contents.txt</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://dailyuv.com/sitemap-events.txt</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://dailyuv.com/sitemap-profiles.txt</loc>
+  </sitemap>
+</sitemapindex>
+

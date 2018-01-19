@@ -1,4 +1,6 @@
 require('newrelic');
+const express = require('express');
+const fetch = require('node-fetch');
 
 const cookieParser = require('cookie-parser');
 
@@ -138,12 +140,74 @@ const removeFeedQueryParamsForDirect = function(req, res, next) {
   }
 };
 
+function sitemapMiddleware(req, res, next) {
+  const api_base = process.env.API_BASE_URL || (req.protocol + req.hostname);
+  const consumer_base = `${req.protocol}://${req.hostname}`;
+
+  const sitemaps = {
+    '/sitemap-contents.txt' : function() {
+
+      return fetch(api_base + "/api/v3/contents/sitemap_ids?type=news,market,talk").then(response => {
+        return response.json().then(json => {
+          let output = "";
+          json['content_ids'].forEach(id => {
+            output = output + `${consumer_base}/feed/${id}\n`;
+          });
+          return output;
+        });
+      });
+    },
+    '/sitemap-profiles.txt' : function() {
+
+      return fetch(api_base + "/api/v3/organizations/sitemap_ids").then(response => {
+        return response.json().then(json => {
+          let output = "";
+          json['organization_ids'].forEach(id => {
+            output = output + `${consumer_base}/profile/${id}\n`;
+          });
+          return output;
+        });
+      });
+    },
+    '/sitemap-events.txt' : function() {
+
+      return fetch(api_base + "/api/v3/event_instances/sitemap_ids").then(response => {
+        return response.json().then(json => {
+          let output = "";
+          json['instances'].forEach(record => {
+            output = output + `${consumer_base}/feed/${record.content_id}/${record.id}\n`;
+          });
+          return output;
+        });
+      });
+    }
+  };
+
+  if(Object.keys(sitemaps).includes(req.path)) {
+    sitemaps[ req.path ]().then(output => {
+      res.set({'Cache-Control' : 'public, max-age=86400'});
+      res.status(200).type('text/plain').send(output);
+    }).catch(error => {
+      console.error(error);
+      res.status(500).type('text/plain').send("ERROR: Check the logs for the error message.");
+    });
+  } else {
+    return next();
+  }
+}
+
 let server = new FastBootAppServer({
   beforeMiddleware: function (app) {
     app.use('/healthcheck', require('express-healthcheck')());
     app.set('trust proxy', true);
 
+    // serve files out of public folder
+    app.use(express.static('public'));
+
     app.use(cookieParser());
+
+    app.use(sitemapMiddleware);
+
     app.use(cookieLocationRedirect);
 
     app.use(removeFeedQueryParamsForDirect);
