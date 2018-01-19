@@ -42,6 +42,9 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
     },
     endDate: {
       refreshModel: true
+    },
+    page: {
+      refreshModel: true
     }
   },
 
@@ -102,7 +105,8 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               end_date: endDate,
               per_page: 20,
               radius: params.radius,
-              modelPath: 'controller.model.eventInstances'
+              modelPath: 'controller.model.eventInstances',
+              startingPage: params.page || 1
             }),
             feedItems: []
           }));
@@ -113,7 +117,8 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               radius: params.radius,
               query: params.query,
               content_type: params.type,
-              modelPath: 'controller.model.feedItems'
+              modelPath: 'controller.model.feedItems',
+              startingPage: params.page || 1
             }),
             eventInstances: []
           }));

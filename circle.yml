@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 6.1.0
+    version: 8.9.0
 dependencies:
   pre:
     - sudo apt-get update
@@ -8,8 +8,8 @@ dependencies:
     - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - sudo dpkg -i google-chrome.deb
     - rm google-chrome.deb
-    - npm install -g npm@4.0.5
+    - npm install -g yarn
     - npm install -g bower
   override:
-    - npm install
+    - yarn install
     - bower install

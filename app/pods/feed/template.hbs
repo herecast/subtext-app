@@ -56,6 +56,7 @@
               {{fa-icon 'spinner' class="fa-pulse"}}
             {{/unless}}
           {{/infinity-loader}}
+          {{feed-pagination page=page totalPages=model.eventInstances.meta.total_pages}}
         {{else}}
           {{feed/index-feed
             feedItems=model.feedItems
@@ -71,6 +72,7 @@
               {{fa-icon 'spinner' class="fa-pulse"}}
             {{/unless}}
           {{/infinity-loader}}
+          {{feed-pagination page=page totalPages=model.feedItems.meta.total_pages}}
         {{/if}}
 
       {{else}}

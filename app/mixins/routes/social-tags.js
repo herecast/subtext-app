@@ -4,6 +4,7 @@ import SocialSharing from 'subtext-ui/utils/social-sharing';
 import sanitize from 'npm:sanitize-html';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
+
 const {get, inject} = Ember;
 
 export default Ember.Mixin.create({
@@ -48,6 +49,14 @@ export default Ember.Mixin.create({
     const descriptionTruncated = this.truncateDescription(description);
 
     return [
+      {
+        type: 'link',
+        tagId: 'canonical-link',
+        attrs: {
+          rel: 'canonical',
+          href: url
+        }
+      },
       {
         type: 'meta',
         tagId: 'meta-fb-app-id',

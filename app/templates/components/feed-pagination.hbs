@@ -1,0 +1,10 @@
+{{#if showPrevPage}}
+  {{#link-to (query-params page=prevPage) class='FeedPagination-prev'}}
+    previous
+  {{/link-to}}
+{{/if}}
+{{#if showNextPage}}
+  {{#link-to (query-params page=nextPage) class='FeedPagination-next'}}
+    next
+  {{/link-to}}
+{{/if}}

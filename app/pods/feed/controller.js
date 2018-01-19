@@ -24,10 +24,11 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   currentRouteName: computed.reads('history.currentRouteName'),
 
-  queryParams: ['query', 'location', 'type', 'radius', 'startDate', 'endDate'],
+  queryParams: ['page', 'query', 'location', 'type', 'radius', 'startDate', 'endDate'],
   query: computed.alias('search.query'),
   location: '',
   type: '',
+  page: 1,
   radius: '10',
   startDate: '',
   endDate: '',
