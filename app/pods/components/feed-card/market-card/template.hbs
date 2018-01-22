@@ -15,7 +15,7 @@
     }}
   {{else}}
     {{feed-card/text-snippet
-      showTextSnippet=canAccessContent
+      showTextSnippet=true
       model=model
     }}
   {{/if}}
@@ -27,7 +27,6 @@
       activeImageUrl=(mut activeImageUrl)
     }}
   {{/if}}
-
 
   {{feed-card/attribution
     avatarUrl=model.attributionImageUrl
