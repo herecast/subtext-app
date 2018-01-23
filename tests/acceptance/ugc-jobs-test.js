@@ -107,7 +107,6 @@ function fillOutEventForm(opts) {
  * Talk Jobs
  */
 ['Ask your neighbors for a recommendation',
-  'Make an announcement',
   'Ask your neighbors a question'].forEach((job) => {
 
   test(job, function(assert) {
