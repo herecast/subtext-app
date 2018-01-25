@@ -98,7 +98,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
 
         this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
           queryParams: {
-            type: 'event'
+            type: 'calendar'
           }
         });
       });

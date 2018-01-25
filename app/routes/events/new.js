@@ -90,7 +90,7 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
         this.controllerFor('feed').set('model', []);
         this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
           queryParams: {
-            type: 'event'
+            type: 'calendar'
           }
         });
       });

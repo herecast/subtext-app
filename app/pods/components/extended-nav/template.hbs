@@ -1,17 +1,17 @@
 <li class="channel-filter" {{action 'onLinkClick'}}>
   {{#link-to 'feed'
-    (query-params type='news')
+    (query-params type='stories')
     data-test-link='news-filter'
   }}
-    News
+    Stories
   {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>
   {{#link-to 'feed'
-    (query-params type='event')
+    (query-params type='calendar')
     data-test-link='event-filter'
   }}
-    Events
+    Calendar
   {{/link-to}}
 </li>
 <li class="channel-filter" {{action 'onLinkClick'}}>

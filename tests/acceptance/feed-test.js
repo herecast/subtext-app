@@ -304,7 +304,7 @@ test('Clicking "my stuff" - signed in, no content', function(assert) {
   });
 });
 
-test('hamburger menu, news filter', function(assert) {
+test('hamburger menu, stories filter', function(assert) {
   const done = assert.async(2);
 
   mockLocationCookie(this.application);
@@ -313,7 +313,7 @@ test('hamburger menu, news filter', function(assert) {
 
   andThen(()=>{
     server.get('/contents', function(db, request) {
-      assert.equal(request.queryParams.content_type, 'news',
+      assert.equal(request.queryParams.content_type, 'stories',
         `Api endpoint called with news content_type param`
       );
       done();
@@ -337,7 +337,7 @@ test('hamburger menu, news filter', function(assert) {
 
     assert.equal(
       $searchFilterLabel.text().trim(),
-      "News",
+      "Stories",
       "Should see news filter label"
     );
 
@@ -427,7 +427,7 @@ test('hamburger menu, market filter', function(assert) {
   });
 });
 
-test('hamburger menu, events filter', function(assert) {
+test('hamburger menu, calendar filter', function(assert) {
   mockLocationCookie(this.application);
   assert.expect(2);
 
@@ -451,7 +451,7 @@ test('hamburger menu, events filter', function(assert) {
 
     assert.equal(
       $searchFilterLabel.text().trim(),
-      "Events",
+      "Calendar",
       "Should see an Event filter label"
     );
 

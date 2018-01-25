@@ -86,7 +86,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
       if(params.radius === 'myStuff' && isFastBoot) {
         resolve([]);
       } else {
-        if(params.radius !== 'myStuff' && params.type === 'event') {
+        if(params.radius !== 'myStuff' && params.type === 'calendar') {
           let startDate;
           if(isPresent(params.startDate)) {
             startDate = moment(params.startDate).startOf('day').format();

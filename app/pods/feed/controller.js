@@ -51,7 +51,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   eventFilterAndNotMyStuff: computed('type', 'radius', function() {
     const isMyStuff = get(this, 'radius') === "myStuff";
-    const isEventFilter = get(this, 'type') === 'event';
+    const isEventFilter = get(this, 'type') === 'calendar';
 
     return isEventFilter && !isMyStuff;
   }),
