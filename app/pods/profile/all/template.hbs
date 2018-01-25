@@ -19,7 +19,14 @@
 
 {{sticky-position name='profile/contact'}}
 
+{{organization-profile-desktop-image imageUrl=organization.desktopImageUrl}}
+
 {{#sticky-container position='profile/contact' enabled=stickyContainerEnabled as |sticky|}}
+
+  {{#feed/feed-container noMargin=true}}
+    {{outlet}}
+  {{/feed/feed-container}}
+
   {{#if isAdmin}}
     {{cards/organization-toggle-admin-view
       displayAsAdminIfAllowed=(readonly displayAsAdminIfAllowed)
@@ -49,7 +56,7 @@
         updateCardStatus=(action 'toggleContactCard')
         title='Contact Details'
       }}
-        {{#sticky.item as |stickyContact|}}
+        {{#sticky.item maintainStickyItemSpace=false as |stickyContact| }}
           {{cards/organization-contact organization=organization flattenCard=stickyContact.isSticky}}
         {{/sticky.item}}
       {{/cards/admin-card}}
@@ -119,24 +126,38 @@
         {{/unless}}
       {{/infinity-loader}}
     {{else}}
+
       {{#x-card}}
         {{#card-body shortPadding=true}}
           {{#text-block}}
-            {{#if isAdmin}}
-              This is a basic DailyUV business page.<br />
-              You can edit hours and contact information.<br />
-              If you’d like to learn about enhancing your presence on DailyUV, please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
+            {{#if hasPaidProfile}}
+              {{#if (and isAdmin showAdminCards)}}
+                <p>Take advantage of your page!</p>
+                <p>As soon as you post to DailyUV, your content will begin appearing here.</p>
+                <p>Just hit the blue "Create Content" button below.</p>
+              {{else}}
+                <p>{{organization.name}} hasn't posted any content yet.</p>
+                <p>Contact them through one of the options above and let them know that you want to hear from them!</p>
+              {{/if}}
             {{else}}
-              If you own or manage this business and want to edit your information or learn about enhancing this page,
-              please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
+              {{#if (and isAdmin showAdminCards)}}
+                <p>This is a basic DailyUV business page.</p>
+                <p>You can edit hours and contact information.</p>
+                <p>
+                  If you’d like to learn about enhancing your presence on DailyUV, please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
+                </p>
+              {{else}}
+                <p>
+                  If you own or manage this business and want to edit your information or learn about enhancing this page, please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
+                </p>
+              {{/if}}
             {{/if}}
           {{/text-block}}
         {{/card-body}}
       {{/x-card}}
+
     {{/if}}
 
   {{/feed/feed-container}}
 
 {{/sticky-container}}
-
-{{outlet}}

@@ -1,7 +1,16 @@
 <div class="FeedCard--card-front">
-  {{#if organization.subtextCertified}}
+  {{#if (or organization.certifiedStoryteller organization.certifiedSocial)}}
     <div class="FeedCard-certification">
-      {{fa-icon 'certificate'}} DailyUV Certified
+      {{#if organization.certifiedStoryteller}}
+        <div class="FeedCard-certification-storyteller">
+          {{fa-icon 'certificate'}} Certified Storyteller
+        </div>
+      {{/if}}
+      {{#if organization.certifiedSocial}}
+        <div class="FeedCard-certification-social">
+          {{fa-icon 'certificate'}} Certified in Social
+        </div>
+      {{/if}}
     </div>
   {{/if}}
 

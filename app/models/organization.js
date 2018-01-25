@@ -28,11 +28,13 @@ export default DS.Model.extend({
   backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
-  subtextCertified: DS.attr('boolean'),
+  certifiedStoryteller: DS.attr('boolean'),
+  certifiedSocial: DS.attr('boolean'),
   services: DS.attr('string'),
   canEdit: DS.attr('boolean'),
   profileAdOverride: DS.attr('number'),
   customLinks: DS.attr(),
+  desktopImageUrl: DS.attr('string'),
 
   contactCardActive: DS.attr('boolean', {defaultValue: true}),
   descriptionCardActive: DS.attr('boolean', {defaultValue: true}),
@@ -131,6 +133,7 @@ export default DS.Model.extend({
   logo: null, // note: logo is now deprecated
   profileImage: null,
   backgroundImage: null,
+  desktopImage: null,
 
   // Used for avatars - default to profile image
   displayImageUrl: computed.reads('profileImageUrl'),
@@ -173,6 +176,9 @@ export default DS.Model.extend({
           rsvpHash.backgroundImage = this.uploadBackgroundImage();
         }
 
+        if (isPresent(get(this, 'desktopImage'))) {
+          rsvpHash.desktopImage = this.uploadDesktopImage();
+        }
         if (isPresent(rsvpHash)) {
           RSVP.hash(rsvpHash).then(() => {
             // Reload to update the image urls
@@ -209,15 +215,20 @@ export default DS.Model.extend({
     return this.uploadImage('background_image', get(this, 'backgroundImage'));
   },
 
-  hasNewImage: computed('logo', 'profileImage', 'backgroundImage', function() {
-    return isPresent(get(this, 'logo')) || isPresent(get(this, 'profileImage')) || isPresent(get(this, 'backgroundImage'));
+  uploadDesktopImage() {
+    return this.uploadImage('desktop_image', get(this, 'desktopImage'));
+  },
+
+  hasNewImage: computed('logo', 'profileImage', 'backgroundImage', 'desktopImage', function() {
+    return isPresent(get(this, 'logo')) || isPresent(get(this, 'profileImage')) || isPresent(get(this, 'backgroundImage') || isPresent(get(this, 'desktopImage')));
   }),
 
   clearNewImages() {
     setProperties(this, {
       logo: null,
       profileImage: null,
-      backgroundImage: null
+      backgroundImage: null,
+      desktopImage: null
     });
   }
 });

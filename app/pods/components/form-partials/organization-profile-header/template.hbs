@@ -28,6 +28,21 @@
       }}
     {{/form-group}}
 
+    {{#form-group error=errors.desktopImage}}
+      <label class='control-label ContentForm-label'>Desktop Background Image</label>
+      <div class='help-block'>
+        The background image for your page when viewed on desktop<br />
+        Your image will be blurred to provide contrast from your contents.
+      </div>
+      {{content-form-image
+        image=(readonly model.desktopImage)
+        originalImageUrl=(readonly model.desktopImageUrl)
+        onImageUpdate=(action 'updateDesktopImage')
+        error=errors.desktopImage
+        class="OrganizationProfile-editForm-imageForm"
+      }}
+    {{/form-group}}
+
     {{#form-group}}
       <label class='control-label ContentForm-label' for='subscribe-url'>Your Special Link Button</label>
       <div class='help-block'>

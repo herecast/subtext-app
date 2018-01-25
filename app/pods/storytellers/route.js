@@ -6,7 +6,8 @@ export default Ember.Route.extend({
     return this.store.query('organization', {
       'page': 1,
       'per_page': 100,
-      'subtext_certified': true
+      'certified_storyteller': true,
+      'certified_social': true
     });
   }
 });

@@ -27,16 +27,26 @@ export default Ember.Component.extend({
   backgroundImageUrl: computed.alias('model.backgroundImageUrl'),
   backgroundImageStyle: computed('backgroundImageUrl', function() {
     const backgroundImageUrl = get(this, 'backgroundImageUrl');
-    const options = [backgroundImageUrl, 300, 200, true];
 
     if (isPresent(backgroundImageUrl)) {
+      const options = [backgroundImageUrl, 300, 200, true];
       return htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
     }
 
     return '';
   }),
 
-  profileImageUrl: computed.alias('model.profileImageUrl'),
+  profileImageUrl: computed('model.profileImageUrl', function() {
+    const profileImageUrl = get(this, 'model.profileImageUrl');
+
+    if (isPresent(profileImageUrl)) {
+      const options = [profileImageUrl, 100, 100, true];
+      return optimizedImageUrl(options);
+    }
+
+    return '';
+  }),
+
   orgName: computed.alias('model.name'),
   cityState: computed('model.{city,state}', function() {
     const city = get(this, 'model.city');

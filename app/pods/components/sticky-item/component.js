@@ -13,6 +13,7 @@ export default Ember.Component.extend({
 
   originalTopOffset: null,
   originalHeight: null,
+  enabled: true,
 
   stickyBuffer: 0,
 
@@ -20,6 +21,7 @@ export default Ember.Component.extend({
   isSticky: false,
   isHidden: false,
   useAbsolutePositioning: false,
+  maintainStickyItemSpace: true,
 
   activeClass: '',
   inactiveClass: '',
@@ -33,7 +35,8 @@ export default Ember.Component.extend({
   style: computed('originalHeight', function() {
     // The parent wrapper must maintain the height of the StickyItem
     // to prevent the elements in the DOM from jumping around
-    return Ember.String.htmlSafe(`height:${get(this, 'originalHeight')}px`);
+    const height = get(this, 'maintainStickyItemSpace') ? `height:${get(this, 'originalHeight')}px` : '';
+    return Ember.String.htmlSafe(height);
   }),
 
   stickyItemStyle: computed('topPosition', 'isHidden', 'isSticky', 'useAbsolutePositioning', function() {
@@ -61,31 +64,36 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    if (get(this, 'enabled')) {
+      // Save the initial position and height of the element
+      const $this = this.$();
 
-    // Save the initial position and height of the element
-    const $this = this.$();
-
-    setProperties(this, {
-      originalTopOffset: $this.offset().top,
-      originalHeight: $this.outerHeight()
-    });
+      setProperties(this, {
+        originalTopOffset: $this.offset().top,
+        originalHeight: $this.outerHeight()
+      });
+    }
   },
 
   willDestroyElement() {
-    // Remove the element from its container
-    const removeItem = get(this, 'removeItem');
-    if (removeItem) {
-      removeItem(this);
+    if (get(this, 'enabled')) {
+      // Remove the element from its container
+      const removeItem = get(this, 'removeItem');
+      if (removeItem) {
+        removeItem(this);
+      }
     }
   },
 
   init() {
     this._super(...arguments);
 
-    // Register the element with its container
-    const registerItem = get(this, 'registerItem');
-    if (registerItem) {
-      registerItem(this);
+    if (get(this, 'enabled')) {
+      // Register the element with its container
+      const registerItem = get(this, 'registerItem');
+      if (registerItem) {
+        registerItem(this);
+      }
     }
   },
 

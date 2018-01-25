@@ -25,7 +25,8 @@ export default Mirage.Factory.extend({
   businessProfileId() { return 1; },
 
 
-  subtextCertified() { return faker.random.arrayElement([true, false, false, false, false]); },
+  certifiedStoryteller() { return faker.random.arrayElement([true, false, false, false, false]); },
+  certifiedSocial() { return faker.random.arrayElement([true, false, false, false, false]); },
   services() { return faker.lorem.sentence(); },
 
   // Contact info: copied from business-profile factory to be consolidated

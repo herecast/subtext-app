@@ -25,6 +25,14 @@
         </span>
       {{/link-to}}
     {{/lm.item}}
+
+    {{#lm.item}}
+      {{#link-to 'talk.new' (query-params organization_id=organizationId job='Post an announcement')}}
+        <span onclick={{action 'selectedMenuItem' 'Post an announcement'}} data-test-ugc-job-link data-test-link="Post an announcement">
+          Post an announcement
+        </span>
+      {{/link-to}}
+    {{/lm.item}}
   {{/if}}
 {{/list-menu}}
 

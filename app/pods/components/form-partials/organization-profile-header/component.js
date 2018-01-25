@@ -11,19 +11,25 @@ export default Ember.Component.extend(Validation, {
 
   profileImage: computed.alias('model.profileImage'),
   backgroundImage: computed.alias('model.backgroundImage'),
+  desktopImage: computed.alias('model.desktopImage'),
 
-  backgroundImageFormVisible: false,
   profileImageFormVisible: false,
+  backgroundImageFormVisible: false,
+  desktopImageFormVisible: false,
 
   showSubscribeOption: false,
   showSpecialLinkOption: false,
+
+  displayProfileImageForm: computed('model.profileImageUrl', 'profileImageFormVisible', function() {
+    return get(this, 'profileImageFormVisible') || isBlank(get(this, 'model.profileImageUrl'));
+  }),
 
   displayBackgroundImageForm: computed('model.backgroundImageUrl', 'backgroundImageFormVisible', function() {
     return get(this, 'backgroundImageFormVisible') || isBlank(get(this, 'model.backgroundImageUrl'));
   }),
 
-  displayProfileImageForm: computed('model.profileImageUrl', 'profileImageFormVisible', function() {
-    return get(this, 'profileImageFormVisible') || isBlank(get(this, 'model.profileImageUrl'));
+  displayDesktopImageForm: computed('model.desktopImageUrl', 'desktopImageFormVisible', function() {
+    return get(this, 'desktopImageFormVisible') || isBlank(get(this, 'model.pdesktopImageUrl'));
   }),
 
   subscribeOptionIsActive: computed('model.subscribeUrl', 'showSubscribeOption', function() {
@@ -50,7 +56,9 @@ export default Ember.Component.extend(Validation, {
         'profileImage',
         'profileImageUrl',
         'backgroundImage',
-        'backgroundImageUrl'
+        'backgroundImageUrl',
+        'desktopImage',
+        'desktopImageUrl'
       ]));
     }
   },
@@ -60,6 +68,7 @@ export default Ember.Component.extend(Validation, {
     this.hasValidUrl('specialLinkUrl');
     this.validateImage('profileImage');
     this.validateImage('backgroundImage');
+    this.validateImage('desktopImage');
   },
 
   formUpdated() {
@@ -70,11 +79,14 @@ export default Ember.Component.extend(Validation, {
     formUpdated() {
       run.debounce(this, this.formUpdated, 100);
     },
+    showProfileImageForm() {
+      set(this, 'profileImageFormVisible', true);
+    },
     showBackgroundImageForm() {
       set(this, 'backgroundImageFormVisible', true);
     },
-    showProfileImageForm() {
-      set(this, 'profileImageFormVisible', true);
+    showDesktopImageForm() {
+      set(this, 'desktopImageFormVisible', true);
     },
     updateProfileImage(imageData) {
       set(this, 'model.profileImage', imageData);
@@ -82,6 +94,10 @@ export default Ember.Component.extend(Validation, {
     },
     updateBackgroundImage(imageData) {
       set(this, 'model.backgroundImage', imageData);
+      this.send('formUpdated');
+    },
+    updateDesktopImage(imageData) {
+      set(this, 'model.desktopImage', imageData);
       this.send('formUpdated');
     },
     chooseSpecialLinkOption(option) {

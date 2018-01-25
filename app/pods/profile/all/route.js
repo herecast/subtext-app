@@ -3,7 +3,7 @@ import InfinityRoute from "ember-infinity/mixins/route";
 import History from 'subtext-ui/mixins/routes/history';
 import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
-const { get, set, inject:{service} } = Ember;
+const { get, set, isPresent, inject:{service} } = Ember;
 
 export default Ember.Route.extend(InfinityRoute, History, {
   session: service(),
@@ -123,17 +123,28 @@ export default Ember.Route.extend(InfinityRoute, History, {
 
     didTransition() {
       if(!get(this, 'fastboot.isFastBoot')) {
+        const model = this.modelFor('profile');
         const controller = this.controllerFor(this.routeName);
+        const doNotScrollToTop =  isPresent(get(controller, 'show')) ||
+                                  isPresent(get(controller, 'comingFromRouteWithShowParam')) ||
+                                  !get(controller, 'isFirstTransition');
 
-        if (get(controller, 'isFirstTransition')) {
+        if (!doNotScrollToTop) {
           Ember.$('html,body').scrollTop(0);
           set(controller, 'isFirstTransition', false);
         }
 
-        const model = this.modelFor('profile');
-
         get(this, 'tracking').profileImpression(model);
       }
+    },
+
+    willTransition() {
+      const controller = this.controllerFor(this.routeName);
+      const comingFromRouteWithShowParam = isPresent(get(controller, 'show'));
+
+      set(controller, 'comingFromRouteWithShowParam', comingFromRouteWithShowParam);
+
+      return true;
     }
   }
 });

@@ -25,7 +25,7 @@
     </header>
 
     {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true
-    toggleCaption=(action 'toggleCaption')}}
+    toggleCaption=(action 'toggleCaption') enabled=enableStickyHeader}}
       {{#content-body classNames="u-padding0"}}
         <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
           <p>{{model.featuredImageCaption}}</p>

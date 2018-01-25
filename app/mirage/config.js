@@ -407,7 +407,7 @@ export default function() {
       });
     } else if ('subtext_certified' in request.queryParams) {
       organizations = schema.organizations.all().filter((org) => {
-        return org.subtextCertified;
+        return org.certifiedSocial || org.certifiedStoryteller;
       });
     } else {
       organizations = schema.organizations.all();

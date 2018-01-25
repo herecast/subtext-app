@@ -83,7 +83,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   }),
 
   showHoursCard: computed('showAdminCards', 'organization.hours', 'organization.hoursCardActive', function() {
-    return get(this, 'showAdminCards') || (get(this, 'organization.hours') && get(this, 'organization.hoursCardActive'));
+    return get(this, 'showAdminCards') || (isPresent(get(this, 'organization.hours')) && get(this, 'organization.hoursCardActive'));
   }),
 
   showDescriptionHoursTabsCard: computed('showAdminCards', 'showDescriptionCard', 'showHoursCard', function() {
@@ -97,6 +97,8 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
     return get(this, 'showAdminCards');
   }),
+
+  hasPaidProfile: computed.alias('organization.bizFeedActive'),
 
   updateOrganizationField(fieldName, value) {
     const notify = get(this, 'notify');

@@ -125,35 +125,39 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    set(this, 'defaultPosition', this.$().position().top);
 
-    const $scrollTarget = $(get(this, 'scrollTarget'));
+    if (get(this, 'enabled')) {
 
-    // Note: throttling/debounce is necessary since we are polling the sticky position each time
-    // Debounce ensures UI is correct after the last scroll action
-    // Using lodash's throttle & debounce instead of Ember's because it works better w/ jQuery
-    const throttledUpdate = throttle(() => this._updateStickyPositions(), 50);
-    const debouncedUpdate = debounce(() => this._updateStickyPositions(), 50);
+      set(this, 'defaultPosition', this.$().position().top);
 
-    // Update sticky positions when the user moves the page on mobile
-    $scrollTarget.on(get(this, 'keyForOnTouchMoveHook'), throttledUpdate);
+      const $scrollTarget = $(get(this, 'scrollTarget'));
 
-    // Final update after user has finished moving the page on mobile
-    // No need to debounce, this is fired only once per user interaction
-    $scrollTarget.on(get(this, 'keyForOnTouchEndHook'), () => this._updateStickyPositions());
+      // Note: throttling/debounce is necessary since we are polling the sticky position each time
+      // Debounce ensures UI is correct after the last scroll action
+      // Using lodash's throttle & debounce instead of Ember's because it works better w/ jQuery
+      const throttledUpdate = throttle(() => this._updateStickyPositions(), 50);
+      const debouncedUpdate = debounce(() => this._updateStickyPositions(), 50);
 
-    // Update sticky positions when the user scrolls
-    $scrollTarget.on(get(this, 'keyForScrollHook'), () => {
-      throttledUpdate();
-      debouncedUpdate();
-    });
+      // Update sticky positions when the user moves the page on mobile
+      $scrollTarget.on(get(this, 'keyForOnTouchMoveHook'), throttledUpdate);
 
-    // Update sticky positions when the user resizes the window
-    $(window).on(get(this, 'keyForResizeHook'), debouncedUpdate);
+      // Final update after user has finished moving the page on mobile
+      // No need to debounce, this is fired only once per user interaction
+      $scrollTarget.on(get(this, 'keyForOnTouchEndHook'), () => this._updateStickyPositions());
 
-    // Update the sticky positions at least once after the page has loaded
-    // This is useful for cases where the user is already scrolled down the page
-    run.later(this, this._updateStickyPositions, 50);
+      // Update sticky positions when the user scrolls
+      $scrollTarget.on(get(this, 'keyForScrollHook'), () => {
+        throttledUpdate();
+        debouncedUpdate();
+      });
+
+      // Update sticky positions when the user resizes the window
+      $(window).on(get(this, 'keyForResizeHook'), debouncedUpdate);
+
+      // Update the sticky positions at least once after the page has loaded
+      // This is useful for cases where the user is already scrolled down the page
+      run.later(this, this._updateStickyPositions, 50);
+    }
   },
 
   willDestroyElement() {

@@ -1,6 +1,10 @@
 .OrganizationProfileHeaderCard {
   position: relative;
 
+  &-card-wrap {
+    margin-top: 0 !important;
+  }
+
   &-menuButton {
     position: absolute;
     top: 5px;
@@ -13,12 +17,17 @@
     top: 5px;
     left: 5px;
 
-    color: green;
     font-weight: bold;
 
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.8);
     padding: 0 5px;
-    border-radius: 500px;
+    border-radius: 5px;
+    &-storyteller {
+      color: green;
+    }
+    &-social {
+      color: #3DA0E5;
+    }
   }
 
   &-header-image-wrap {
