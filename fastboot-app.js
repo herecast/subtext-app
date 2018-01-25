@@ -140,6 +140,36 @@ const removeFeedQueryParamsForDirect = function(req, res, next) {
   }
 };
 
+const legacyRedirect = function(req, res, next) {
+  /*
+   * Redirects to redirect from legacy paths and query params to current ones
+   */
+  if (req.path.indexOf('/feed') == 0) {
+    var typeRedirects = {
+      "news" : "stories",
+      "event": "calendar"
+    };
+    var redirectNecessary = ('type' in req.query) && Object.keys(typeRedirects).some(function(param) {
+      return param == req.query.type;
+    });
+
+    if (redirectNecessary) {
+      req.query.type = typeRedirects[req.query.type];
+
+      res.setHeader('Cache-Control', 'max-age=3600');
+
+      res.redirect(url.format({
+        pathname: req.path,
+        query: req.query
+      }));
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+}
+
 function sitemapMiddleware(req, res, next) {
   const api_base = process.env.API_BASE_URL || (req.protocol + req.hostname);
   const consumer_base = `${req.protocol}://${req.hostname}`;
@@ -207,6 +237,8 @@ let server = new FastBootAppServer({
     app.use(cookieParser());
 
     app.use(sitemapMiddleware);
+
+    app.use(legacyRedirect);
 
     app.use(cookieLocationRedirect);
 
