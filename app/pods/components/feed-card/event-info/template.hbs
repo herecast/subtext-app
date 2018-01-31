@@ -1,10 +1,10 @@
 {{#if (or timeRangeNoDates price)}}
   <div class="FeedCard-EventInfo-left">
-    <div class="FeedCard-EventInfo-time">
+    <div class="FeedCard-EventInfo-time" data-test-card-event-time>
       {{timeRangeNoDates}}
     </div>
     <div class="FeedCard-EventInfo-price">
-      Price: {{admission}}
+      Price: <span data-test-card-event-price>{{admission}}</span>
     </div>
   </div>
 {{/if}}
@@ -20,7 +20,7 @@
             state=state
       }}
     {{else if eventLocation}}
-      <div class="FeedCard-EventInfo-location">
+      <div class="FeedCard-EventInfo-location" data-test-card-event-location>
         {{eventLocation}}
       </div>
     {{/if}}

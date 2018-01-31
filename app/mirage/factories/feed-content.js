@@ -36,7 +36,12 @@ export default Factory.extend({
   splitContent() { return generateSplitContent(); },
   content() { return this.splitContent.head + this.splitContent.tail; },
   embeddedAd() { return faker.random.arrayElement([true, false, false, false, false]); },
-  contentOrigin() { return faker.random.arrayElement(['ugc', 'listserv']); },
+
+  // This was random, but it caused issues with debugging tests that would
+  // randomly fail.  We should move these random boolean values, which can
+  // alter the presentation drastically, to the development scenario. So
+  // we can have more predictable tests.
+  contentOrigin: 'ugc',
   canEdit() { return faker.random.arrayElement([true, false]); },
 
   authorId() { return faker.random.number(9999); },
@@ -45,33 +50,64 @@ export default Factory.extend({
 
   viewCount() { return faker.random.number(999); },
 
-  eventId() { return faker.random.number(9999); },
+  eventId() {
+    if(this.contentType === 'event') {
+      return faker.random.number(9999);
+    }
+  },
+
   eventInstances() {
-    return [];
+    if(this.contentType === 'event') {
+      return [];
+    }
   },
   eventInstanceId() {
-    if(this.eventInstances.length) {
+    if(this.eventInstances && this.eventInstances.length) {
       return this.eventInstances[0].id;
     }
   },
-  venueName() { return faker.random.arrayElement(["Grannie's Garage", "Krusty Kastle", "Club Hee-Haw", "Chez Charli"]);},
-  venueAddress() { return faker.address.streetAddress();},
-  venueCity() { return faker.address.city();},
-  venueState: 'VT',
-  venueZip() { return faker.address.zipCode();},
+  venueName() {
+    if(this.contentType === 'event') {
+      return faker.random.arrayElement(["Grannie's Garage", "Krusty Kastle", "Club Hee-Haw", "Chez Charli"]);
+    }
+  },
+  venueAddress() {
+    if(this.contentType === 'event') {
+      return faker.address.streetAddress();
+    }
+  },
+  venueCity() {
+    if(this.contentType === 'event') {
+      return faker.address.city();
+    }
+  },
+  venueState() {
+    if(this.contentType === 'event') {
+      return 'VT';
+    }
+  },
+  venueZip() {
+    if(this.contentType === 'event') {
+      return faker.address.zipCode();
+    }
+  },
   costType: 'paid', // free, paid, donation
   cost() { return faker.random.arrayElement(['Free', `$${faker.random.number(999)}`]); },
   startsAt() {
-    let rangeStart = moment().add(1, 'days').toDate();
-    let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
+    if(this.contentType === 'event') {
+      let rangeStart = moment().add(1, 'days').toDate();
+      let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
 
-    return faker.date.between(rangeStart, rangeEnd);
+      return faker.date.between(rangeStart, rangeEnd);
+    }
   },
   endsAt() {
-    let rangeStart = moment().add(3, 'days').toDate();
-    let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
+    if(this.contentType === 'event') {
+      let rangeStart = moment().add(3, 'days').toDate();
+      let rangeEnd = moment(rangeStart).add(1, 'days').toDate();
 
-    return faker.date.between(rangeStart, rangeEnd);
+      return faker.date.between(rangeStart, rangeEnd);
+    }
   },
   contentLocations: [],
 

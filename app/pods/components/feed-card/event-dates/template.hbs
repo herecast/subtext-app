@@ -1,5 +1,5 @@
 {{#if eventDate}}
-  <div class="FeedCard-EventDates-date-tag">
+  <div class="FeedCard-EventDates-date-tag" data-test-card-event-date>
     {{eventDate}}
   </div>
 {{/if}}
@@ -24,7 +24,7 @@
               <span class='FeedCard-EventDates-additionalDate-time'>
                 {{moment-format instance.startsAt 'LT'}}
                 {{#if instance.endsAt}}
-                  - 
+                  -
                   {{moment-format instance.endsAt 'LT'}}
                 {{/if}}
               </span>

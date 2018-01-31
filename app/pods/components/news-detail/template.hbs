@@ -13,7 +13,7 @@
               placeholderImageClass='img-responsive'
               imageForContent=true
             }}
-              <img class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
+              <img data-test-detail-page-image class='img-responsive' src={{optimized-image-url model.featuredImageUrl 640 480 true}}>
             {{/image-load-placeholder}}
           </div>
         </div>
@@ -121,26 +121,28 @@
           {{/subtitle-text}}
         {{/if}}
 
-        {{#unless model.embeddedAd}}
-          {{{ model.content }}}
-        {{else}}
-          {{{ model.splitContent.head }}}
+        <div data-test-detail-page-content>
+          {{#unless model.embeddedAd}}
+            {{{ model.content }}}
+          {{else}}
+            {{{ model.splitContent.head }}}
 
-          <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
-            <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-              <div class='AdBanner--inContentBody-messageBar'>
-                Advertisement: Content continues below...
+            <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
+              <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+                <div class='AdBanner--inContentBody-messageBar'>
+                  Advertisement: Content continues below...
+                </div>
+                {{ad-banner
+                  contentModel=model
+                  pagePlacement='in-news-detail-body'
+                  placeholderBlockFixedSize=true
+                }}
               </div>
-              {{ad-banner
-                contentModel=model
-                pagePlacement='in-news-detail-body'
-                placeholderBlockFixedSize=true
-              }}
             </div>
-          </div>
 
-          {{{ model.splitContent.tail }}}
-        {{/unless}}
+            {{{ model.splitContent.tail }}}
+          {{/unless}}
+        </div>
       </div>
     </div>
 

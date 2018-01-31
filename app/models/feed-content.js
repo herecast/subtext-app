@@ -86,7 +86,7 @@ export default DS.Model.extend(BaseEvent, {
 
   primaryImageUrl: computed.oneWay('primaryImage.imageUrl'),
   primaryImageCaption: computed.oneWay('primaryImage.caption'),
-  primaryImage: computed('images', function() {
+  primaryImage: computed('images.@each.{imageUrl,primary}', 'imageUrl', function() {
     const primaryImage = get(this, 'images').find(image => {
       return get(image, 'primary') === 1;
     });

@@ -1,6 +1,6 @@
 <div class="FeedCard-MarketInfo-left">
   <div class="FeedCard-MarketInfo-cost">
-    Price: {{price}}
+    Price: <span data-test-card-market-price>{{price}}</span>
   </div>
 </div>
 <div class="FeedCard-MarketInfo-right">
@@ -8,7 +8,7 @@
     {{#if hasMultipleImages}}
       {{#each images as |image|}}
         <div class="FeedCard-MarketInfo-thumbnail u-paddingRight8 u-paddingBottom-8" {{action 'changeActiveImageUrl' image.imageUrl}}>
-            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" />
+            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" data-test-card-market-thumbnail />
         </div>
       {{/each}}
     {{/if}}

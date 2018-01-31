@@ -23,7 +23,7 @@
 
       {{horizontal-rule classNames="u-padding0"}}
 
-      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center">
+      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center" data-test-market-attribution>
           {{#if model.organization.isDefaultOrganization}}
             {{author-byline
               authorName=model.authorName
@@ -83,7 +83,7 @@
       {{#if showThumbnails}}
         {{#each sortedImages as |image|}}
           <div class="FeedCard-MarketInfo-thumbnail u-paddingRight8 u-marginBottom8" {{action 'chooseImage' image.imageUrl}}>
-            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" />
+            <img src="{{optimized-image-url image.imageUrl 40 40 true}}" data-test-market-thumbnail />
           </div>
         {{/each}}
       {{/if}}
@@ -102,7 +102,7 @@
             <td>
               <div class="DetailPage-metaBloc-price">
                 Price:
-                {{model.price}}
+                <span data-test-market-price>{{model.price}}</span>
               </div>
             </td>
             <td>

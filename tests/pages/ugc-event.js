@@ -21,6 +21,9 @@ export default create({
     click(testSelector('event-form-add-single-date'));
     // Focusing causes today to be selected
     triggerEvent(testSelector('component', 'start-date') + " input", 'focus');
+    andThen(()=>{
+      triggerEvent(testSelector('component', 'start-time') + " input", 'focus');
+    });
     click(testSelector('save-event-date'));
   },
   next: clickable(testSelector('action', 'next')),

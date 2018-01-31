@@ -58,7 +58,7 @@ export default Mirage.Factory.extend({
   registrationDeadline(id) {
     return (id % 4 === 0) ? Date.parse(this.startsAt) : null;
   },
-  imageUrl(id) { return (id % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Event&w=500&h=500' : null;},
+  imageUrl(id) { return (id % 2 === 0) ? 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240' : null;},
   updatedAt() { return moment(faker.date.recent(-1)).toISOString();},
   publishedAt() { return moment(faker.date.recent(-5)).toISOString();},
 

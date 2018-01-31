@@ -552,7 +552,7 @@ test('tracking impression events fired on event feed index', function(assert) {
     startsAt: moment().add(1, 'day').format('YYYY-MM-DD')
   });
 
-  visit('/feed?type=event&location=sharon-vt');
+  visit('/feed?type=calendar&location=sharon-vt');
 
   andThen(()=> {
     assert.notEqual(impressions, 0,
