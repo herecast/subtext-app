@@ -1,4 +1,14 @@
-{{#if sold}}
+{{#if showToggleSold}}
+  <div class="FeedCard-Title-sold-toggle" {{action 'toggleSold'}}>
+    {{#if sold}}
+      {{fa-icon 'toggle-on' class="toggle-on"}}
+      <div>Sold</div>
+    {{else}}
+      {{fa-icon 'toggle-off'}}
+      <div>Not Sold</div>
+    {{/if}}
+  </div>
+{{else if sold}}
   <div class="FeedCard-Title-sold-tag">
    Sold
   </div>
@@ -6,7 +16,7 @@
 
 <div class="FeedCard-Title-title" {{action onContentClick}} data-test-card-title>
   {{#feed-card/conditional-link-to
-    useLink=useLink
+    useLink=linkToDetailIsActive
     model=model
   }}
     {{title}}

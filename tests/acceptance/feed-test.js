@@ -304,6 +304,83 @@ test('Clicking "my stuff" - signed in, no content', function(assert) {
   });
 });
 
+test('Clicking "my stuff" - signed in, with content, content shows manage buttons', function(assert) {
+  mockLocationCookie(this.application);
+  authenticateUser(this.application);
+
+  const feedContent = server.create('feedContent', {
+    authorId: 1
+  });
+
+  server.create('feedItem', {
+    modelType: 'feedContent',
+    feedContentId: feedContent.id
+  });
+
+  visit('/feed');
+
+  click(
+    testSelector('action', 'my-stuff')
+  );
+
+  andThen(()=>{
+    assert.ok(
+      find(testSelector('button', 'manage')).length,
+      "Manage button should show on feed cards in myStuff"
+    );
+  });
+});
+
+test('Clicking "my stuff" - signed in, with content, click on consolidated view and it works as expected', function(assert) {
+  mockLocationCookie(this.application);
+  authenticateUser(this.application);
+
+  const feedContentsForMystuff = server.createList('feedContent', 5, {
+    authorId: 1
+  });
+
+  let feedContentsIds = feedContentsForMystuff.map(feedContent => feedContent.id);
+
+  const feedContentsForGeneral = server.createList('feedContent', 5, {
+    authorId: 2
+  });
+
+  let additionalIds = feedContentsForGeneral.map(feedContent => feedContent.id);
+
+  const allIds = feedContentsIds.concat(additionalIds);
+
+  allIds.forEach((id) => {
+    server.create('feedItem', {
+      modelType: 'feedContent',
+      feedContentId: id
+    });
+  });
+
+  visit('/feed');
+
+  andThen(()=>{
+    assert.equal(find(testSelector('feed-card')).length, 10, "All Feed cards show in regular feed");
+    assert.equal(find(testSelector('condensed')).length, 0, "All Feed cards shown in uncondensed view");
+
+    click(
+      testSelector('action', 'my-stuff')
+    );
+
+    andThen(()=>{
+      assert.equal(find(testSelector('feed-card')).length, 5, "Only author specific feed cards show in feed after mystuff clicked");
+
+
+      assert.ok(find(testSelector('button', 'condensed')).length, "Condensed button shows in myStuff");
+
+      click(testSelector('button', 'condensed'));
+
+      andThen(()=>{
+        assert.equal(find(testSelector('condensed')).length, 5, "After condensed chosen, all feed cards show in condensed view");
+      });
+    });
+  });
+});
+
 test('hamburger menu, stories filter', function(assert) {
   const done = assert.async(2);
 

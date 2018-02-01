@@ -8,9 +8,9 @@ moduleForComponent('user-menu-identity-switcher', 'Integration | Component | use
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
 
-  this.on('openDashboard', function() {});
+  this.on('openProfileOrMyStuff', function() {});
 
-  this.render(hbs`{{user-menu-identity-switcher openDashboard=(action 'openDashboard')}}`);
+  this.render(hbs`{{user-menu-identity-switcher openProfileOrMyStuff=(action 'openProfileOrMyStuff')}}`);
 
   assert.ok(this.$());
 

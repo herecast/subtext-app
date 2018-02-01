@@ -1,0 +1,108 @@
+{{#modal-wrapper
+  close=(action 'close')
+  showHeader=true
+  title=title
+  isAnimated=false
+  data-test-modal='content-metrics'
+  class="Modals-contentMetrics" }}
+
+  <div class='ContentMetrics'>
+    <div class='ContentMetrics-titleBar'>
+      <div class="ContentMetrics-titleBar-left">
+        <ul class="nav nav-pills">
+          {{#if isCampaign}}
+            <li role="presentation" class={{if (eq 'views' metricType) 'active'}}>
+              <a href="#" {{action 'setMetric' 'views'}}>Views</a>
+            </li>
+            <li role="presentation" class={{if (eq 'clicks' metricType) 'active'}}>
+              <a href="#" {{action 'setMetric' 'clicks'}}>Clicks</a>
+            </li>
+          {{/if}}
+        </ul>
+      </div>
+      <div class="ContentMetrics-titleBar-right">
+        <div class='ContentMetrics-dateRange form-inline'>
+          Previous:
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'week') 'active'}}" {{action 'updateStartDate' 'week'}}>
+            Week
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'two-weeks') 'active'}}" {{action 'updateStartDate' 'two-weeks'}}>
+            2 Weeks
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'three-weeks') 'active'}}" {{action 'updateStartDate' 'three-weeks'}}>
+            3 Weeks
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'month') 'active'}}" {{action 'updateStartDate' 'month'}}>
+            Month
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ContentMetrics-message">
+      {{#if lifetimeMessage}}
+        <div class="ContentMetrics-message-lifetime">{{lifetimeMessage}}</div>
+      {{/if}}
+      {{viewingMessage}}
+    </div>
+
+    {{#if isLoadingModel}}
+      <div class="ContentMetrics-loading">
+        <div class="ContentMetrics-loading-box">
+          {{fa-icon 'gear' class="fa-spin"}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if (eq 'views' metricType)}}
+      {{#if hasViewData}}
+        {{#if cumulative}}
+          {{line-chart
+            labels=viewLabels
+            data=cumulativeViewData
+            chartClass='ContentMetrics-chart'
+          }}
+        {{else}}
+          {{line-chart
+            labels=viewLabels
+            data=viewData
+            chartClass='ContentMetrics-chart'
+          }}
+        {{/if}}
+      {{else}}
+        <p>No data available yet!</p>
+      {{/if}}
+    {{else}}
+      {{#if hasClickData}}
+        {{#if cumulative}}
+          {{line-chart
+            labels=clickLabels
+            data=cumulativeClickData
+            chartClass='ContentMetrics-chart'
+          }}
+        {{else}}
+          {{line-chart
+            labels=clickLabels
+            data=clickData
+            chartClass='ContentMetrics-chart'
+          }}
+        {{/if}}
+      {{else}}
+        <p>No data available yet!</p>
+      {{/if}}
+    {{/if}}
+
+    <ul class="nav nav-tabs nav-tabs--bottom">
+      <li role="presentation" class={{if (eq cumulative false) 'active'}}>
+        <a href="#" {{action 'toggleCumulative'}}>Daily</a>
+      </li>
+      <li role="presentation" class={{if cumulative 'active'}}>
+        <a href="#" {{action 'toggleCumulative'}}>Cumulative</a>
+      </li>
+    </ul>
+    <div class="chartNote"><b>NOTE:</b> Data shown in the chart is collected and reported at the end of each day.</div>
+  </div>
+
+
+
+{{/modal-wrapper}}

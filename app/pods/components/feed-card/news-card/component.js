@@ -23,6 +23,16 @@ export default Ember.Component.extend(reloadComments, {
     return isPresent(baseLocation) ? get(baseLocation, 'locationName') : undefined;
   }),
 
+  canManage: computed('context.canManage', 'model.isDraft', function() {
+    const isDraft = get(this, 'model.isDraft');
+
+    if (!isDraft) {
+      return get(this, 'context.canManage');
+    }
+
+    return false;
+  }),
+
   actions: {
     onContentClick() {
       const onContentClick = get(this, 'context.onContentClick');

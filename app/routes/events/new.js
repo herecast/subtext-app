@@ -3,7 +3,7 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
-const { get, run, inject } = Ember;
+const { get, run, inject, isPresent } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
   intercom: inject.service('intercom'),
@@ -82,17 +82,24 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
       const firstInstanceId = get(event, 'firstInstanceId');
       const contentId = get(event, 'contentId');
 
+      const controller = this.controllerFor(this.routeName);
+      const goToProfilePage = isPresent(get(controller, 'organization_id'));
+
       this.get('intercom').trackEvent('published-event');
 
       run.next(() => {
         event.set('listservIds',[]);
 
-        this.controllerFor('feed').set('model', []);
-        this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
-          queryParams: {
-            type: 'calendar'
-          }
-        });
+        if (goToProfilePage) {
+          this.transitionTo('profile.all.show-instance', get(controller, 'organization_id'), contentId, firstInstanceId);
+        } else {
+          this.controllerFor('feed').set('model', []);
+          this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
+            queryParams: {
+              type: 'calendar'
+            }
+          });
+        }
       });
     },
 

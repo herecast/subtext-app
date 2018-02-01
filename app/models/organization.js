@@ -40,9 +40,6 @@ export default DS.Model.extend({
   descriptionCardActive: DS.attr('boolean', {defaultValue: true}),
   hoursCardActive: DS.attr('boolean', {defaultValue: true}),
 
-  // Temporary for dashboard edit button
-  businessProfileId: DS.attr(),
-
   phone: DS.attr('string'),
   website: DS.attr('string'),
 

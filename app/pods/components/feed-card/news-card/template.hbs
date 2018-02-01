@@ -2,22 +2,27 @@
   {{feed-card/title
     title=model.title
     model=model
+    linkToDetailIsActive=context.linkToDetailIsActive
     onContentClick=(action 'onContentClick')
   }}
 
-  {{#if model.primaryImageUrl}}
-    {{feed-card/image
-      imageUrl=model.primaryImageUrl
-      model=model
-      content=model.content
-      onContentClick=(action 'onContentClick')
-    }}
-  {{else}}
-    {{feed-card/text-snippet
-      model=model
-      showTextSnippet=true
-    }}
-  {{/if}}
+  {{#unless context.condensedView}}
+    {{#if model.primaryImageUrl}}
+      {{feed-card/image
+        imageUrl=model.primaryImageUrl
+        model=model
+        content=model.content
+        linkToDetailIsActive=context.linkToDetailIsActive
+        onContentClick=(action 'onContentClick')
+      }}
+    {{else}}
+      {{feed-card/text-snippet
+        model=model
+        showTextSnippet=true
+        linkToDetailIsActive=context.linkToDetailIsActive
+      }}
+    {{/if}}
+  {{/unless}}
 
   {{feed-card/attribution
     avatarUrl=model.attributionImageUrl
@@ -31,7 +36,7 @@
 
   {{feed-card/footer
     locationTagName=sourceTag
-    canManage=(readonly context.canManage)
+    canManage=canManage
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     editPath='news.edit'
@@ -39,7 +44,7 @@
     model=model
   }}
 
-  {{#unless context.hideComments}}
+  {{#unless (or context.condensedView context.hideComments)}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)

@@ -37,6 +37,13 @@
     {{#feed/feed-container}}
       {{outlet}}
 
+      {{#if canManage}}
+        <div class="Feed-IndexFeed-controls">
+          {{fa-icon 'th-list' class=(if (not condensedView) 'active') click=(action 'toggleCondensedView') data-test-button='normal'}}
+          {{fa-icon 'list' class=(if condensedView 'active') click=(action 'toggleCondensedView') data-test-button='condensed'}}
+        </div>
+      {{/if}}
+
       {{#if hasResults}}
         {{#if eventFilterAndNotMyStuff}}
           {{events-results
@@ -62,6 +69,8 @@
             feedItems=model.feedItems
             showingDetailInFeed=showingDetailInFeed
             isSearchActive=isSearchActive
+            canManage=canManage
+            condensedView=condensedView
             enableImpressionTracking=(eq currentRouteName 'feed.index')
           }}
 

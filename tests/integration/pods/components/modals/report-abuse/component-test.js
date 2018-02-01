@@ -12,5 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{modals/report-abuse}}`);
 
-  assert.ok(this.$().text().trim(), '');
+  assert.ok(this.$());
 });

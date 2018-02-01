@@ -17,11 +17,9 @@ export default Ember.Component.extend(TestSelector, {
   userLocation: inject.service(),
 
   actions: {
-    openDashboard(org) {
+    openProfileOrMyStuff(org) {
       if (isPresent(org)) {
-        get(this, 'routing').transitionTo('dashboard', null, {
-          organization_id: org.id
-        });
+        get(this, 'routing.router').transitionTo('profile', org.id);
       } else {
         get(this, 'routing.router').transitionTo('feed', {queryParams: {
           radius: 'myStuff',

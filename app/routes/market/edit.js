@@ -7,7 +7,8 @@ import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 const {
   get,
   run,
-  inject
+  inject,
+  isPresent
 } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLocation, {
@@ -65,7 +66,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       // event/market/talk edit form routes without discarding changes,
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const isExitingForm = !transition.targetName.match(`^market\\.edit`);
-      const isTransitioningToShowPage = transition.targetName === 'feed.show';
+      const isTransitioningToShowPage = transition.targetName === 'feed.show' || 'profile.all.show';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -94,6 +95,8 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       // transition to the show page without seeing a "discard changes" modal.
       // Normally ember data does this automatically on save, but does not do
       // it for relationship records.
+      const controller = this.controllerFor(this.routeName);
+      const goToProfilePage = isPresent(get(controller, 'organization_id'));
 
       run.next(() => {
         if (this.hasDirtyAttributes(post)) {
@@ -101,11 +104,15 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
         }
 
         run.next(this, () => {
-          this.transitionTo('feed.show', post.id, {
-            queryParams: {
-              type: 'market'
-            }
-          });
+          if (goToProfilePage) {
+            this.transitionTo('profile.all.show', get(controller, 'organization_id'), get(post, 'id'));
+          } else {
+            this.transitionTo('feed.show', post.id, {
+              queryParams: {
+                type: 'market'
+              }
+            });
+          }
         });
 
         post.set('listservIds', []);

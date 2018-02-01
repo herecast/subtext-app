@@ -21,9 +21,11 @@ export default Ember.Component.extend({
   api: service(),
   modals: service(),
   notify: service('notification-messages'),
+  contentMetrics: service(),
 
   isNotBannerAd: computed.not('content.isCampaign'),
   hasSunsetDate: computed.notEmpty('content.sunsetDate'),
+  hasOrganization: computed.notEmpty('organization'),
 
   sunsetDate: computed('content.sunsetDate', function() {
     return moment(get(this, 'content.sunsetDate')).format('MMMM DD, YYYY');
@@ -90,6 +92,10 @@ export default Ember.Component.extend({
 
     removeSunsetDate() {
       this.updateExpirationDate(null);
+    },
+
+    openContentMetrics() {
+      get(this, 'modals').showModal('modals/content-metrics', get(this, 'content'));
     }
   }
 });

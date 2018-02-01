@@ -20,17 +20,12 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('dashboard');
-
   this.route('login', {path: '/sign_in'});
   this.route('register', {path: '/sign_up'});
   this.route('register.complete', {path: '/sign_up/complete'});
   this.route('register.reconfirm',{path: '/sign_up/reconfirm'});
   this.route('register.confirm', {path: '/sign_up/confirm/:token'});
   this.route('register.error', {path: '/sign_up/error'});
-
-  this.route('content-metrics.show', {path: '/metrics/content/:content_id'});
-  this.route('ad-metrics.show', {path: '/metrics/ad/:content_id'});
 
   this.route('events', {path: '/events'}, function() {
 

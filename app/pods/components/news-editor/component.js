@@ -73,6 +73,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
+  hasOrganization: computed.notEmpty('news.organization'),
+  organizationId: computed.readOnly('news.organizationId'),
+
   hasUnpublishedChanges: computed('news{hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
   }),

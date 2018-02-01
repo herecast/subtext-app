@@ -26,10 +26,10 @@ export default Ember.Component.extend(TestSelector, {
     expandItem(ctx) {
       set(this, 'openItem', ctx);
     },
-    openDashboard() {
-      const openDashboard = get(this, 'openDashboard');
-      if (openDashboard) {
-        openDashboard(...arguments);
+    openProfileOrMyStuff() {
+      const openProfileOrMyStuff = get(this, 'openProfileOrMyStuff');
+      if (openProfileOrMyStuff) {
+        openProfileOrMyStuff(...arguments);
       }
     }
   }

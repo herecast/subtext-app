@@ -7,7 +7,8 @@ import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 const {
   get,
   run,
-  inject
+  inject,
+  isPresent
 } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLocation, {
@@ -56,7 +57,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       // but as soon as they try to leave those pages, prompt them with the dialog.
       const match = new RegExp(`^events\\.edit`);
       const isExitingForm = !transition.targetName.match(match);
-      const isTransitioningToShowPage = transition.targetName === 'feed.show-instance';
+      const isTransitioningToShowPage = transition.targetName === 'feed.show-instance' || 'profile.all.show-instance';
 
       // If we are transitioning to the an event show page,
       // that means the user clicked the publish button, so we don't
@@ -84,6 +85,9 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       const firstInstanceId = event.get('firstInstanceId');
       const contentId = get(event, 'contentId');
 
+      const controller = this.controllerFor(this.routeName);
+      const goToProfilePage = isPresent(get(controller, 'organization_id'));
+
       // Rollback the schedules after persisting changes so that the user can
       // transition to the show page without seeing a "discard changes" modal.
       // Normally ember data does this automatically on save, but does not do
@@ -96,11 +100,15 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
         // Unset so not checked the next time this event is edited.
         event.set('listservIds',[]);
 
-        this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
-          queryParams: {
-            type: 'calendar'
-          }
-        });
+        if (goToProfilePage) {
+          this.transitionTo('profile.all.show-instance', get(controller, 'organization_id'), contentId, firstInstanceId);
+        } else {
+          this.transitionTo('feed.show-instance', contentId, firstInstanceId, {
+            queryParams: {
+              type: 'calendar'
+            }
+          });
+        }
       });
     },
 

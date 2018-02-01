@@ -2,7 +2,7 @@
     name=user.name
     isUserAccount=true
     avatarUrl=user.userImageUrl
-    buttonAction=(action openDashboard)
+    buttonAction=(action openProfileOrMyStuff)
     titleAction=(action 'expandItem' user)
     expanded=(eq openItem user)
     data-test-component="user-menu-item"
@@ -12,7 +12,7 @@
   {{user-menu-identity-item
       name=org.name
       avatarUrl=org.displayImageUrl
-      buttonAction=(action openDashboard org)
+      buttonAction=(action openProfileOrMyStuff org)
       titleAction=(action "expandItem" org)
       expanded=(eq openItem org)
       data-test-component="organization-menu-item"

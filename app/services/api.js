@@ -301,10 +301,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  getDashboard(data) {
-    return this.getJson('/dashboard' + queryString(data));
-  },
-
   getContents(data) {
     return this.getJson('/contents' + queryString(data));
   },

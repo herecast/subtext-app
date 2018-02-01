@@ -5,7 +5,7 @@ import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
-const { get, run, inject, computed } = Ember;
+const { get, run, inject, computed, isPresent } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLocation, {
   location: inject.service('window-location'),
@@ -81,14 +81,21 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
     },
 
     afterPublish(post) {
+      const controller = this.controllerFor(this.routeName);
+      const goToProfilePage = isPresent(get(controller, 'organization_id'));
+
       run.next(()=>{
         post.set('listservIds', []);
 
-        this.transitionTo('feed.show', post.get('id'), {
-          queryParams: {
-            type: 'market'
-          }
-        });
+        if (goToProfilePage) {
+          this.transitionTo('profile.all.show', get(controller, 'organization_id'), get(post, 'id'));
+        } else {
+          this.transitionTo('feed.show', post.id, {
+            queryParams: {
+              type: 'market'
+            }
+          });
+        }
       });
     },
 

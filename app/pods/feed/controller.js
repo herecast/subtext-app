@@ -34,8 +34,11 @@ export default Ember.Controller.extend(PaginatedFilter, {
   endDate: '',
   enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
   enabledEventsQueryParams: {},
+  condensedView: false,
+  hasClickedCondensedView: false,
 
   isMyStuffOnly: computed.equal('radius', 'myStuff'),
+  canManage: computed.and('session.isAuthenticated', 'isMyStuffOnly'),
 
   isSearchActive: computed.notEmpty('query'),
 
@@ -93,7 +96,13 @@ export default Ember.Controller.extend(PaginatedFilter, {
     this._gtmTrackEvent('scroll-past-integrated-detail', `scroll-past-integrated-detail-${contentId}`);
   },
 
+  trackCondensedViewClicked() {
+    this._gtmTrackEvent('condensed-view-clicked');
+  },
+
   _transitionToFeed(overrides = {}) {
+    set(this, 'condensedView', false);
+
     const defaults = {
       location: get(this, 'location'),
       radius: get(this, 'radius'),
@@ -203,6 +212,18 @@ export default Ember.Controller.extend(PaginatedFilter, {
       this._transitionToFeed({
         startDate: date
       });
+    },
+
+    toggleCondensedView() {
+      const hasClickedCondensedView = get(this, 'hasClickedCondensedView');
+
+      if (!hasClickedCondensedView) {
+        this.trackCondensedViewClicked();
+        set(this, 'hasClickedCondensedView', true);
+      }
+
+      this.toggleProperty('condensedView');
     }
+
   }
 });

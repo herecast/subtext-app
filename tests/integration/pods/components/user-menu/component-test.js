@@ -32,7 +32,7 @@ test('Given a user, it renders', function(assert) {
   let $userName = this.$(testSelector('user-menu-name'));
   let $logoutLink = this.$(testSelector('link', 'logout-link'));
   let $myAccountLink = this.$(testSelector('link', 'my-account-link'));
-  let $dashboardLink = this.$(testSelector('link', 'manage-content-link'));
+  let $manageContentLink = this.$(testSelector('link', 'manage-content-link'));
 
   assert.ok($userName.text().trim().indexOf(user.name) >= 0,
     'It displays user name'
@@ -46,8 +46,8 @@ test('Given a user, it renders', function(assert) {
     'It has a my account link'
   );
 
-  assert.ok($dashboardLink.length,
-    'It has a dashboard link'
+  assert.ok($manageContentLink.length,
+    'It has a manage content link'
   );
 });
 
@@ -90,7 +90,7 @@ test('sign out link - invalidates session', function(assert) {
   );
 });
 
-test('User has organizations, organization dashboard links', function(assert) {
+test('User has organizations, organization profile links', function(assert) {
 
   let organizations = [
     {

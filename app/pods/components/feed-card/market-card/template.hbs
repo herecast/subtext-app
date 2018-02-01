@@ -3,22 +3,25 @@
     title=model.title
     model=model
     sold=model.sold
+    showToggleSold=(readonly context.canManage)
     onContentClick=(action 'onContentClick')
   }}
 
-  {{#if activeImageUrl}}
-    {{feed-card/image
-      imageUrl=activeImageUrl
-      caption=model.primaryImageCaption
-      model=model
-      onContentClick=(action 'onContentClick')
-    }}
-  {{else}}
-    {{feed-card/text-snippet
-      showTextSnippet=true
-      model=model
-    }}
-  {{/if}}
+  {{#unless context.condensedView}}
+    {{#if activeImageUrl}}
+      {{feed-card/image
+        imageUrl=activeImageUrl
+        caption=model.primaryImageCaption
+        model=model
+        onContentClick=(action 'onContentClick')
+      }}
+    {{else}}
+      {{feed-card/text-snippet
+        showTextSnippet=true
+        model=model
+      }}
+    {{/if}}
+  {{/unless}}
 
   {{#if (or model.cost model.images)}}
     {{feed-card/market-info
@@ -28,16 +31,18 @@
     }}
   {{/if}}
 
-  {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=model.attributionLinkRouteName
-    linkId=model.attributionLinkId
-    postedTime=model.publishedAtRelative
-    isListserv=model.isListserv
-    commentCount=model.commentCount
-    classNames="u-padding8"
-  }}
+  {{#unless context.condensedView}}
+    {{feed-card/attribution
+      avatarUrl=model.attributionImageUrl
+      author=model.attributionName
+      linkRouteName=model.attributionLinkRouteName
+      linkId=model.attributionLinkId
+      postedTime=model.publishedAtRelative
+      isListserv=model.isListserv
+      commentCount=model.commentCount
+      classNames="u-padding8"
+    }}
+  {{/unless}}
 
   {{feed-card/footer
     locationTagName=sourceTag
@@ -49,7 +54,7 @@
     model=model
   }}
 
-  {{#unless context.hideComments}}
+  {{#unless (or context.condensedView context.hideComments)}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)

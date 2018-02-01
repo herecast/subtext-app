@@ -2,7 +2,6 @@
   {{feed-card/title
     title=model.title
     eventInstanceId=model.eventInstanceId
-    sold=model.sold
     model=model
     onContentClick=(action 'onContentClick')
     classNames="u-paddingTop16 u-paddingHorizontal8"
@@ -17,19 +16,21 @@
     }}
   {{/if}}
 
-  {{#if model.imageUrl}}
-    {{feed-card/image
-      imageUrl=model.imageUrl
-      caption=caption
-      model=model
-      onContentClick=(action 'onContentClick')
-    }}
-  {{else}}
-    {{feed-card/text-snippet
-      showTextSnippet=true
-      model=model
-    }}
-  {{/if}}
+  {{#unless context.condensedView}}
+    {{#if model.imageUrl}}
+      {{feed-card/image
+        imageUrl=model.imageUrl
+        caption=caption
+        model=model
+        onContentClick=(action 'onContentClick')
+      }}
+    {{else}}
+      {{feed-card/text-snippet
+        showTextSnippet=true
+        model=model
+      }}
+    {{/if}}
+  {{/unless}}
 
   {{#if (or model.timeRangeNoDates model.price model.venueAddress model.venueCity)}}
 
@@ -44,15 +45,17 @@
     }}
   {{/if}}
 
-  {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=model.attributionLinkRouteName
-    linkId=model.attributionLinkId
-    postedTime=(moment-from-now model.publishedAt)
-    contentId=model.contentId
-    classNames="u-padding8"
-  }}
+  {{#unless context.condensedView}}
+    {{feed-card/attribution
+      avatarUrl=model.attributionImageUrl
+      author=model.attributionName
+      linkRouteName=model.attributionLinkRouteName
+      linkId=model.attributionLinkId
+      postedTime=(moment-from-now model.publishedAt)
+      contentId=model.contentId
+      classNames="u-padding8"
+    }}
+  {{/unless}}
 
   {{feed-card/footer
     locationTagName=sourceTag
@@ -64,7 +67,7 @@
     editPathId=model.eventId
   }}
 
-  {{#unless context.hideComments}}
+  {{#unless (or context.condensedView context.hideComments)}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)

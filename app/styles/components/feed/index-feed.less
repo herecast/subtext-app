@@ -1,46 +1,31 @@
 .Feed-IndexFeed {
 
-  &-overlay {
-    position: fixed;
-    background: rgba(0,0,0,0.4);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
+  &-controls {
+    text-align: right;
 
-  &-content-create-wrap {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-self: center;
-    max-width: 500px;
-    grid-gap: 0 4px;
-    padding: 0 4px;
+    i {
+      font-size: 25px;
+      cursor: pointer;
+      margin-left: 16px;
+      color: grey;
 
-    @media (min-width: 500px) {
-      padding: 0;
-    }
-
-    &.is-logged-in {
-      grid-template-columns: repeat(3, 1fr);
-      &.can-publish-news {
-        grid-template-columns: repeat(4, 1fr);
+      &.active {
+        color: #000;
       }
     }
-  }
-
-  .Feed-IndexFeed-content-create-button {
-    text-align: center;
-    border-radius: 4px;
-    padding: 9px 0 6px 0;
-
-    @media (min-width: @screen-sm-max)
-       and (max-width: @screen-md-max) {
-      font-size: 20px;
+    @media (max-width: 500px) {
+      padding-right: 8px;
     }
   }
 
   .AdBanner-wrapper {
     padding: 10px 0;
   }
+
+  .FeedCard {
+    &.promotion-menu-open {
+      min-height: 150px;
+    }
+  }
+
 }

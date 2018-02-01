@@ -249,9 +249,12 @@
               {{/if}}
 
               {{#if news.isPublished}}
-                Published {{formatted-date news.publishedAt}}.
+                Published {{formatted-date news.publishedAt}}.<br />
                 {{#unless (or hasUnpublishedChanges isPublishing)}}
-                  {{link-to 'View it now' 'feed.show' news.id  (query-params type='stories')}}
+                  {{#if hasOrganization}}
+                    {{link-to 'View it now in profile' 'profile.all.show' organizationId news.id}}<br />
+                  {{/if}}
+                  {{link-to 'View it now in feed' 'feed.show' news.id  (query-params type='stories')}}
                 {{/unless}}
 
                 {{#if (or news.hasUnpublishedChanges hasUnpublishedChanges)}}

@@ -816,30 +816,6 @@ export default function() {
     return {};
   });
 
-  this.get('/dashboard', function({ db }, request) {
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-
-    let contents = [];
-
-    if(params['channel_type'] === 'news') {
-      contents = dashboardNews(db,start,stop);
-    } else if(params['channel_type'] === 'talk') {
-      contents = dashboardTalks(db,start,stop);
-    } else if(params['channel_type'] === 'events') {
-      contents = dashboardEvents(db,start,stop);
-    } else if(params['channel_type'] === 'market') {
-      contents = dashboardMarketPosts(db,start,stop);
-    } else {
-      contents = mixedContent(db).slice(start, stop);
-    }
-
-    return {
-      contents: contents
-    };
-  });
-
   this.get('/promotion_banners', function({ db }, request) {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
@@ -1011,7 +987,7 @@ export default function() {
   });
 
   this.get('/contents', function({db, feedItems}, request) {
-    const {page, per_page, type, query, organization_id} = request.queryParams;
+    const { page, per_page, type, query, organization_id, radius } = request.queryParams;
     const content_type = type;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
@@ -1020,8 +996,24 @@ export default function() {
 
     const showProfilePageContents = isPresent(organization_id);
     const justShowOneContentType = isPresent(content_type) && isBlank(query);
+    const showMyStuffOnly = radius.toLowerCase() === 'mystuff';
 
-    if (showProfilePageContents) {
+    if (showMyStuffOnly) {
+        let myStuffContents = feedItems.all().filter((feedItem) => {
+        if (feedItem.modelType === 'feedContent') {
+          return parseInt(get(feedItem.feedContent, 'authorId')) === 1;
+        }
+        return false;
+      });
+
+      response = this.serialize(myStuffContents.slice(startIndex, endIndex));
+
+      response.meta = {
+        total: myStuffContents.length,
+        total_pages: Math.ceil( myStuffContents.length / per_page )
+      };
+
+    } else if (showProfilePageContents) {
       let organizationFeedItems = feedItems.all().filter((feedItem) => {
         return feedItem.modelType === 'feedContent' && feedItem.organizationId === organization_id;
       });

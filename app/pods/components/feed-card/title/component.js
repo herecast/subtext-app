@@ -1,23 +1,24 @@
 import Ember from 'ember';
 
-const { get, computed } = Ember;
+const { get } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-Title',
-  classNameBindings: ['sold:sold-tag-active'],
+  classNameBindings: ['sold:sold-tag-active', 'showToggleSold:sold-tag-active'],
 
+  model: null,
   postedTime: false,
   title: null,
   sold: false,
+  showToggleSold: false,
   isLoggedIn: false,
-  contentType: computed.reads('model.normalizedContentType'),
+  linkToDetailIsActive: true,
   onContentClick() {},
 
-  useLink: computed('isLoggedIn', 'contentType', function() {
-    if ( !get(this, 'isLoggedIn') && get(this, 'contentType') === 'listserv') {
-      return false;
+  actions: {
+    toggleSold() {
+      this.toggleProperty('sold');
+      get(this, 'model').save();
     }
-
-    return true;
-  })
+  }
 });

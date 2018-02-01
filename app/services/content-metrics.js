@@ -21,5 +21,13 @@ export default Ember.Service.extend({
     return api.getPromotionBannerMetrics(id, data).then((response) => {
       return AdMetric.create(response.promotion_banner_metrics);
     });
+  },
+
+  getMetrics(type, id, data) {
+    if (type === 'campaign') {
+      return this.findAd(id, data);
+    } else {
+      return this.findContent(id, data);
+    }
   }
 });

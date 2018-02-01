@@ -15,6 +15,8 @@ export default Ember.Component.extend({
   location: service('window-location'),
   api: service(),
 
+  hasOrganization: computed.notEmpty('organization'),
+
   _urlForShare() {
     const locationService = get(this, 'location');
     const id = get(this, 'content.contentId');
@@ -31,10 +33,12 @@ export default Ember.Component.extend({
   },
 
   _queuePromotionRecord(platform) {
-    setProperties(this, {
-      hasPromotionToRecord: true,
-      lastSharePlatform: platform
-    });
+    if (get(this, 'hasOrganiation')) {
+      setProperties(this, {
+        hasPromotionToRecord: true,
+        lastSharePlatform: platform
+      });
+    }
   },
 
   mailtoLink: computed('content.title', 'organization.name', function() {

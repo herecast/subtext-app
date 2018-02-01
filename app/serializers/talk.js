@@ -11,6 +11,7 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     const json = this._super(snapshot, options);
 
     // Remove read only attributes that should not be sent to the API
+    delete json.can_edit;
     delete json.content_id;
     delete json.image_url;
     delete json.image_height;
@@ -20,7 +21,6 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.view_count;
     delete json.commenter_count;
     delete json.comment_count;
-    delete json.can_edit;
     delete json.parent_content_id;
     delete json.parent_content_type;
     delete json.parent_event_instance_id;

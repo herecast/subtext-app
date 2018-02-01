@@ -4,7 +4,7 @@ import ShareCaching from '../../mixins/routes/share-caching';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
-const { get } = Ember;
+const { get, run, isPresent } = Ember;
 
 export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLocation, {
 
@@ -79,9 +79,18 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
     },
 
     afterPublish(talk) {
-      this.transitionTo('feed.show', talk.get('id'), {
-        queryParams: {
-          type: ''
+      const controller = this.controllerFor(this.routeName);
+      const goToProfilePage = isPresent(get(controller, 'organization_id'));
+
+      run.next(() => {
+        if (goToProfilePage) {
+          this.transitionTo('profile.all.show', get(controller, 'organization_id'), get(talk, 'id'));
+        } else {
+          this.transitionTo('feed.show', get(talk, 'id'), {
+            queryParams: {
+              radius: 50
+            }
+          });
         }
       });
     },

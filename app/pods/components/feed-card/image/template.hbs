@@ -1,6 +1,7 @@
 {{#if hasImage}}
   {{#feed-card/conditional-link-to
     linkUrl=linkUrl
+    useLink=linkToDetailIsActive
     model=model
     onContentClick=onContentClick
   }}
@@ -9,7 +10,7 @@
   {{#if hasExcerpt}}
     <div class="FeedCard-Image-excerpt" data-test-card-excerpt>
       {{{excerpt}}}
-      {{#if showContinueReading}}
+      {{#if (and showContinueReading linkToDetailIsActive)}}
         <div class="FeedCard-Image-continue-reading" {{action onContentClick}} data-test-card-continue-reading>
           {{#link-to-content model}}
             ...Continue Reading

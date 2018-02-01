@@ -13,7 +13,7 @@ export default Ember.Component.extend({
 
   tracking: service(),
 
-  isListservCard: computed.alias('model.isListserv'),
+  isListservCard: computed.readOnly('model.isListserv'),
 
   linkIsActive: computed('isListservCard', 'isLoggedIn', function() {
     if (get(this, 'isListservCard')) {

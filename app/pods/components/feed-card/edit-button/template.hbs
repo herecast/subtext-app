@@ -1,7 +1,13 @@
-{{#if canEdit }}
+{{#if canEdit}}
 
-  {{#x-link-to editPath editPathId size=iconSize nowrap=true color=color
-    nowrap=true style=style}}
+  {{#x-link-to editPath editPathId 
+    size=iconSize
+    nowrap=true
+    color=color
+    nowrap=true
+    style=style
+    contentOrganizationId=contentOrganizationId
+  }}
     Edit
   {{/x-link-to}}
 

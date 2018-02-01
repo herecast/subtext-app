@@ -333,39 +333,6 @@ test('updateImage(id, data)', function(assert) {
   });
 });
 
-test('getDashboard(data)', function(assert) {
-  const subject = this.subject({
-    session: this.session,
-    queryCache: this.queryCache
-  });
-  const data = {filter: 'data'};
-
-  const done = assert.async();
-  const returnData = {
-    root: {
-      field: 'value'
-    }
-  };
-
-  server.get('/dashboard', (schema, request) => {
-    expect.consumerAppHeader(assert, request);
-    expect.authorizationHeader(assert, request);
-    expect.acceptHeader(assert, request, 'application/json');
-
-    assert.deepEqual(request.queryParams, data,
-      "GET /dashboard with query params");
-
-    return returnData;
-  });
-
-  subject.getDashboard(data).then((responseData) => {
-    assert.deepEqual(responseData, returnData,
-      'it returns parsed response JSON'
-    );
-    done();
-  });
-});
-
 test('getContents(data)', function(assert) {
   const subject = this.subject({
     session: this.session,

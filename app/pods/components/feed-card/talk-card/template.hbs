@@ -5,38 +5,45 @@
     onContentClick=(action 'onContentClick')
   }}
 
-  {{#if activeImageUrl}}
-    {{feed-card/image
-      imageUrl=activeImageUrl
-      caption=model.primaryImageCaption
-      model=model
-      onContentClick=(action 'onContentClick')
-    }}
-  {{else}}
-    {{feed-card/text-snippet
-      showTextSnippet=true
-      model=model
-    }}
-  {{/if}}
+  {{#unless context.condensedView}}
+    {{#if activeImageUrl}}
+      {{feed-card/image
+        imageUrl=activeImageUrl
+        caption=model.primaryImageCaption
+        model=model
+        onContentClick=(action 'onContentClick')
+      }}
+    {{else}}
+      {{feed-card/text-snippet
+        showTextSnippet=true
+        model=model
+      }}
+    {{/if}}
+  {{/unless}}
 
-  {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=model.attributionLinkRouteName
-    linkId=model.attributionLinkId
-    postedTime=model.publishedAtRelative
-    contentId=model.contentId
-    classNames="u-padding8"
-  }}
-  
+  {{#unless context.condensedView}}
+    {{feed-card/attribution
+      avatarUrl=model.attributionImageUrl
+      author=model.attributionName
+      linkRouteName=model.attributionLinkRouteName
+      linkId=model.attributionLinkId
+      postedTime=model.publishedAtRelative
+      contentId=model.contentId
+      classNames="u-padding8"
+    }}
+  {{/unless}}
+
   {{feed-card/footer
     canManage=(readonly context.canManage)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     locationTagName=sourceTag
+    editPath='talk.edit'
+    editPathId=model.id
+    model=model
   }}
 
-  {{#unless context.hideComments}}
+  {{#unless (or context.condensedView context.hideComments)}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)

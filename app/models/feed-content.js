@@ -252,8 +252,9 @@ export default DS.Model.extend(BaseEvent, {
 
   viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
     const publishedAt = get(this, 'publishedAt');
+    const scheduledToPublish = moment().diff(publishedAt) < 0;
 
-    if (!isPresent(publishedAt)) {
+    if (!isPresent(publishedAt) || scheduledToPublish) {
       return 'draft';
     }
 
@@ -269,5 +270,6 @@ export default DS.Model.extend(BaseEvent, {
     return (isPublic === "true" || isPublic === true) ? 'public' : 'private';
   }),
 
-  isPublic: computed.equal('viewStatus', 'public')
+  isPublic: computed.equal('viewStatus', 'public'),
+  isDraft: computed.equal('viewStatus', 'draft')
 });
