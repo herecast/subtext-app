@@ -57,7 +57,7 @@ test('testing talk detail page', function(assert) {
 
   andThen(function() {
     assert.equal(find(testSelector('talk-title')).text().trim(), feedContent.title, 'it should have the correct title');
-    assert.equal(find(testSelector('component', 'header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
+    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
     assert.equal(find(testSelector('talk-content')).text().trim().substring(0, 50), feedContent.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find(testSelector('talk-author-name')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
@@ -97,7 +97,7 @@ test('testing event detail page', function(assert) {
     assert.equal(find(testSelector('event-detail-cost')).text().trim(), eventInstance.cost, 'it should show the correct event price');
     assert.equal(find(testSelector('directions-address')).first().text().trim(), eventInstance.venueAddress, 'it should show the correct event address');
     assert.equal(find(testSelector('directions-city-state')).first().text().trim(), `${eventInstance.venueCity}, ${eventInstance.venueState}`, 'it should show the event location');
-    assert.equal(find(testSelector('component', 'header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
+    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
     assert.ok(find(testSelector('event-detail-attribution')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
   });
@@ -135,7 +135,7 @@ test('testing market detail page', function(assert) {
 
   andThen(function() {
     assert.equal(find(testSelector('market-title')).text().trim(), feedContent.title, 'it should have the correct title');
-    assert.equal(find(testSelector('component', 'header-image')).css('background-image'), `url(\"${imageUrl}\")`, 'it should show the card image');
+    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${imageUrl}\")`, 'it should show the card image');
     assert.ok(find(testSelector('market-thumbnail')).length, 'it should show the market thumbnail images');
     assert.equal(find(testSelector('market-price')).text(), feedContent.cost, 'it should show the correct market price');
     assert.equal(find(testSelector('market-content')).text().trim().substring(0, 50), feedContent.content.substring(0, 50), 'it should show the detail page content');

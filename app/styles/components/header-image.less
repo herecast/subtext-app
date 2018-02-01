@@ -1,11 +1,36 @@
 .HeaderImage {
+  position: relative;
+  overflow: hidden;
   height: 360px; // 4:3 ratio. on desktop this is 480x360
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
 
   @media (max-width: @screen-xs-max) {
     height: 225px; // 4:3 ratio. on mobile this is 300x225
+  }
+
+  &-image {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+  }
+
+  &-background {
+    min-height: 50px;
+    height: 110%;
+    width: 110%;
+    margin-left: -5%;
+    margin-top: -5%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    .filter(blur(5px) grayscale(15%));
   }
 
   &--preserveAspectRatio {
@@ -35,4 +60,5 @@
   &--profile-header {
     max-height: 300px;
   }
+
 }

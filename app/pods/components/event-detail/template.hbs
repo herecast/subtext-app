@@ -1,12 +1,10 @@
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
 
   {{#if model.imageUrl}}
-    <header class="DetailPage-navTop-container">
-      {{header-image
-        imageUrl=model.imageUrl
-        preserveAspectRatio=true
-      }}
-    </header>
+    {{header-image
+      imageUrl=model.imageUrl
+      preserveAspectRatio=true
+    }}
   {{/if}}
 
   {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true}}

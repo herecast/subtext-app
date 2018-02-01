@@ -1,5 +1,5 @@
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
-  {{#sticky.item class='StickyItem--default-background u-boxShadowBottom u-marginBottom16' useAbsolutePositioning=true}}
+  {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true}}
     {{#content-body classNames="u-padding0"}}
 
       <div class="DetailPage-headerSection u-paddingVertical16 u-paddingLeft8">
@@ -70,12 +70,10 @@
   {{/sticky.item}}
 
   {{#if activeImage}}
-    <header class="DetailPage-navTop-container">
-      {{header-image
-        imageUrl=activeImage
-        preserveAspectRatio=true
-      }}
-    </header>
+    {{header-image
+      imageUrl=activeImage
+      preserveAspectRatio=true
+    }}
   {{/if}}
 
   <div class="FeedCard-MarketInfo-right">

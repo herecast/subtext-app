@@ -13,9 +13,7 @@ export default Ember.Component.extend({
     'block:HeaderImage--block',
     'profileHeader:HeaderImage--profile-header'
   ],
-  attributeBindings: [
-    'data-test-component', 'style'
-  ],
+  attributeBindings: ['data-test-component'],
   'data-test-component': 'header-image',
 
   preserveAspectRatio: false,
@@ -27,7 +25,7 @@ export default Ember.Component.extend({
     return size ? `HeaderImage--${size}` : '';
   }),
 
-  style: computed('imageUrl', function() {
+  imageStyle: computed('imageUrl', 'profileHeader', function() {
     const imageUrl = get(this, 'imageUrl');
 
     if (imageUrl) {
