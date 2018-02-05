@@ -9,6 +9,7 @@ export default Ember.Component.extend(CardMetrics, {
   'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
   'data-test-content': computed.oneWay('model.contentId'),
   'data-test-condensed': computed.oneWay('condensedView'),
+  'data-test-entered-viewport': computed.oneWay('_didEnterViewPort'),
 
   model: null,
   organization: null,

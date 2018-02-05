@@ -19,6 +19,8 @@ export default Ember.Mixin.create({
   rootMargin: "60px 0px 0px 0px", //(Viewport/document margin)
   threshold: 0.1,
 
+  _didEnterViewPort: false,
+
   // Use to disable when being covered by another layer or modal.
   impressionsEnabled: true,
 

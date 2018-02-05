@@ -85,7 +85,15 @@ test('impression scroll', function(assert) {
     const $feedCard = this.$('[data-test-feed-card]')[0];
     $feedCard.scrollIntoView();
 
+    const testWaiter = function() {
+      return this.$('[data-test-entered-viewport]').length > 0;
+    };
+    
+    Ember.Test.registerWaiter(this, testWaiter);
+
     return wait().then(()=>{
+      Ember.Test.unregisterWaiter(this, testWaiter);
+
       assert.equal(impressions, 1,
         "Impression event fired when tile is scrolled into view");
 
