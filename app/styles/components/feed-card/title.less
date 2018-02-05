@@ -1,34 +1,60 @@
+
+
 .FeedCard-Title {
   display: grid;
   grid-template-columns: auto;
   padding: 16px 8px;
   line-height: 1.1;
+  align-items: center;
+  grid-template-columns: e("[sold-start] 62px [title-start] 1fr [views-start] 62px");
 
   &-title {
     .flex-display();
     .align-items(center);
     font-size: 18px;
     font-weight: bold;
-    grid-column: 1;
+    grid-column-start: sold-start;
+    grid-column-end: views-end;
   }
 
   &.sold-tag-active {
-    grid-template-columns: 70px 1fr;
-
     .FeedCard-Title-sold-tag {
-      grid-column: 1;
+      grid-column-start: sold-start;
     }
     .FeedCard-Title-title {
-      grid-column: 2;
+      grid-column-start: title-start;
+      grid-column-end: title-end;
+    }
+    &.condensed-view {
+      .FeedCard-Title-title {
+        grid-column-start: title-start;
+        grid-column-end: views-start;
+      }
+      .FeedCard-Title-views-and-comments {
+        grid-column-start: views-start;
+      }
     }
   }
+
+  &.condensed-view {
+    &:not(.sold-tag-active) {
+      .FeedCard-Title-title {
+        grid-column-start: sold-start;
+        grid-column-end: views-start;
+      }
+      .FeedCard-Title-views-and-comments {
+        grid-column-start: views-start;
+      }
+    }
+  }
+
 
   &-sold-toggle {
     cursor: pointer;
     i {
       font-size: 20px;
       &.toggle-on {
-        color: #F6A623; 
+        color: #F6A623;
       }
     }
   }
@@ -42,7 +68,7 @@
     .justify-content(center);
     .align-items(center);
     padding: 3px 10px;
-    margin-right: 16px;
+    margin-right: 8px;
     background: #F6A623;
     text-transform: uppercase;
     color: #000;
@@ -50,5 +76,24 @@
     font-weight: bold;
     border-radius: 4px;
     height: 28px;
+  }
+
+  &-views,
+  &-comments {
+    display: inline-block;
+    justify-self: end;
+    text-align: center;
+    padding: 2px;
+    width: 100%;
+    background: #efefef;
+    display: inline-block;
+    border-radius: 4px;
+    font-size: 14px;
+    i {
+      margin-right: 4px;
+    }
+  }
+  &-views {
+    margin-bottom: 4px;
   }
 }

@@ -14,6 +14,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
   profileIsDisabled: computed.not('organization.profileIsActive'),
 
   isFirstTransition: true,
+  condensedView: false,
 
   queryParams: ['page', 'query', 'show', 'location'],
   page: 1,
@@ -139,6 +140,10 @@ export default Ember.Controller.extend(PaginatedFilter, {
     updateAdminView(displayAsAdminIfAllowed) {
       set(this, 'show', null);
 
+      if (!displayAsAdminIfAllowed) {
+        set(this, 'condensedView', false);
+      }
+
       // Avoid glimmer double-render error. using `setProperties` did not prevent it.
       run.next(() => {
         set(this, 'displayAsAdminIfAllowed', displayAsAdminIfAllowed);
@@ -175,5 +180,9 @@ export default Ember.Controller.extend(PaginatedFilter, {
         }
       });
     },
+
+    toggleCondensedView() {
+      this.toggleProperty('condensedView');
+    }
   }
 });

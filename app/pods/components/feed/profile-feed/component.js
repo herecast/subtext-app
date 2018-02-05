@@ -7,5 +7,6 @@ export default Ember.Component.extend({
   organization: null,
   canManage: false,
   displayAsPublic: false,
-  hideComments: false
+  hideComments: false,
+  condensedView: false
 });
