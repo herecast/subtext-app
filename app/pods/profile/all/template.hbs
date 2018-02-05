@@ -95,7 +95,7 @@
     {{#if showCreateContentCards}}
       {{cards/create-content-menu organization=organization}}
       {{cards/organization-your-content-tabs}}
-      {{#x-card}}
+      {{#x-card class="Feed-ProfileFeed-search-bar"}}
         {{search-input
           noBorder=true
           size='large'
@@ -104,13 +104,14 @@
           update=(action 'updateQuery')
           data-test-component='organization-content-query'
           isLoading=isLoading
+          class="Feed-ProfileFeed-search-input"
         }}
+        <div class="Feed-ProfileFeed-controls">
+          {{fa-icon 'th-list' class=(if (not condensedView) 'active') click=(action 'toggleCondensedView') data-test-button='normal'}}
+          {{fa-icon 'list' class=(if condensedView 'active') click=(action 'toggleCondensedView') data-test-button='condensed'}}
+        </div>
       {{/x-card}}
 
-      <div class="Feed-IndexFeed-controls">
-        {{fa-icon 'th-list' class=(if (not condensedView) 'active') click=(action 'toggleCondensedView') data-test-button='normal'}}
-        {{fa-icon 'list' class=(if condensedView 'active') click=(action 'toggleCondensedView') data-test-button='condensed'}}
-      </div>
     {{/if}}
 
     {{#if model}}

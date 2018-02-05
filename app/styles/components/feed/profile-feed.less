@@ -1,5 +1,32 @@
 .Feed-ProfileFeed {
 
+  &-search-bar {
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    align-items: center;
+  }
+  &-search-input {
+
+  }
+
+  &-controls {
+    text-align: right;
+    display: inline-block;
+    padding-right: 8px;
+
+    i {
+      font-size: 25px;
+      cursor: pointer;
+      margin-left: 16px;
+      color: grey;
+
+      &.active {
+        color: #000;
+      }
+    }
+  }
+
+
   .FeedCard {
     &.promotion-menu-open {
       min-height: 300px;
