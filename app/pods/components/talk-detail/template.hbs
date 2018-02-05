@@ -22,12 +22,7 @@
       {{horizontal-rule classNames="u-padding0"}}
 
       <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-talk-author-name>
-        {{#link-to
-            model.organization.organizationLinkRoute
-            model.organization.organizationLinkId
-            class='DetailPage-organization-link'
-            data-test-link="organization-link"
-        }}
+
         {{#if model.organization.isDefaultOrganization}}
           {{author-byline
             authorName=model.authorName
@@ -45,7 +40,7 @@
             class="u-paddingLeft0"
           }}
         {{/if}}
-        {{/link-to}}
+
         {{#unless isPreview}}
           <div class='u-paddingRight8'>
             {{feed-card/edit-button
