@@ -1,98 +1,57 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import moment from 'moment';
-import normalizeContentType from 'subtext-ui/utils/normalize-content-type';
-import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
+import Content from 'subtext-ui/mixins/models/content';
 
-const { computed, get, inject } = Ember;
+const { computed, get, inject:{service}, RSVP } = Ember;
 
-export default DS.Model.extend(ContentLocationsMixin, {
-  api: inject.service('api'),
-  authorName: DS.attr('string'),
-  authorImageUrl: DS.attr('string'),
-  commentCount: DS.attr('number'),
-  commenterCount: DS.attr('number'),
-  content: DS.attr('string'),
-  contentId: DS.attr('number'),
-  imageUrl: DS.attr('string'),
-  imageWidth: DS.attr('string'),
-  imageHeight: DS.attr('string'),
-  listservId: DS.attr('number'), // write only
-  parentContentId: DS.attr('number'),
-  parentContentType: DS.attr('string'),
-  initialCommentAuthor: DS.attr('string'),
-  initialCommentAuthorImageUrl: DS.attr('string'),
-  normalizedParentContentType: computed(function() {
-    return normalizeContentType(get(this, 'parentContentType'));
-  }),
-  parentEventInstanceId: DS.attr('number'),
-  publishedAt: DS.attr('moment-date', {defaultValue: moment()}),
-  title: DS.attr('string'),
-  viewCount: DS.attr('number'),
-  organization: DS.belongsTo('organization'),
-  canEdit: DS.attr('boolean', {defaultValue: false}),
+export default DS.Model.extend(Content, {
+  api: service(),
+  contentId: DS.attr('number'), //TAG:NOTE overridden from the Content model mixin
+  listservId: DS.attr('number'), //TAG:NOTE the concept of listservId is applied inconsistently ie., listservId vs listservIds
+  listEnabled: computed.notEmpty('listservId'), //TAG:NOTE: make into an array in the serializer? // NOTE this can possibly be replaced with a helper
 
-  ugcJob: DS.attr('string'),
-  listEnabled: Ember.computed.notEmpty('listservId'),
-
-  hasParentContent: computed('parentContentType', 'parentContentId', function() {
-    return Ember.isPresent(this.get('parentContentType')) && Ember.isPresent(this.get('parentContentId'));
-  }),
-
-  parentContentRoute: computed('parentContentType', function() {
-    const parentContentType = this.get('parentContentType');
-    if (parentContentType === 'event' || parentContentType === 'event_instance' || parentContentType === 'event-instance') {
-      return 'feed.show-instance';
-    } else {
-      return 'feed.show';
-    }
-  }),
-
-  commentCountText: computed('commentCount', function() {
-    const count = get(this, 'commentCount');
-
-    if (count === 1) {
-      return 'comment';
-    } else {
-      return 'comments';
-    }
-  }),
-
-  viewCountText:computed('viewCount',  function() {
-    const count = get(this, 'viewCount');
-
-    if (count === 1) {
-      return 'view';
-    } else {
-      return 'views';
-    }
-  }),
-
-  commentAnchor: computed('talk.id', function() {
-    return `comment-${this.get('id')}`;
-  }),
+  // NOTE:this model does not have 'authorId'
+  // NOTE:this model does not have 'comments'
+  // NOTE:this model does not have 'updatedAt'
+  // parentContentRoute: '' //TAG:DELETED
+  // initialCommentAuthor: DS.attr('string'), //TAG:DELETED
+  // initialCommentAuthorImageUrl: DS.attr('string'), //TAG:DELETED
+  // authorName: DS.attr('string'), // TAG:MOVED
+  // commentCount: DS.attr('number'), //TAG:MOVED
+  // content: DS.attr('string'), //TAG:MOVED
+  // imageUrl: DS.attr('string'), //TAG:MOVED
+  // NOTE:this model does not have 'listservIds'
+  // publishedAt: DS.attr('moment-date', {defaultValue: moment()}), //TAG:MOVED
+  // title: DS.attr('string'), //TAG:MOVED
+  // organization: DS.belongsTo('organization'), //TAG:MOVED
+  // ugcJob: DS.attr('string'), //TAG:MOVED
+  // viewCount: DS.attr('number'), //TAG:MOVED
+  // parentContentId: DS.attr('number'), //TAG:MOVED
+  // parentContentType: DS.attr('string'), //TAG:MOVED
+  // parentEventInstanceId: DS.attr('number'), //TAG:MOVED
+  // imageWidth: DS.attr('string'), //TAG:MOVED
+  // imageHeight: DS.attr('string'), //TAG:MOVED
 
   uploadImage() {
-    if (this.get('image')) {
+    if (get(this, 'image')) {
       const api = get(this, 'api');
-      const talk_id = get(this, 'id');
       const data = new FormData();
 
-      data.append('talk[image]', this.get('image'));
+      data.append('talk[image]', get(this, 'image'));
 
-      return api.updateTalkImage(talk_id, data);
+      return api.updateTalkImage(get(this, 'id'), data);
     }
   },
 
   save() {
-    return this._super().then((savedTalk) => {
-      return new Ember.RSVP.Promise((resolve, reject) => {
-        if(savedTalk.get('image')) {
-          savedTalk.uploadImage().then(()=>{
-            resolve(savedTalk);
+    return this._super().then((saved) => {
+      return new RSVP.Promise((resolve, reject) => {
+        if (saved.get('image')) {
+          saved.uploadImage().then(()=>{
+            resolve(saved);
           }, reject);
         } else {
-          resolve(savedTalk);
+          resolve(saved);
         }
       });
     });

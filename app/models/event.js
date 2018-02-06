@@ -2,53 +2,48 @@
 
 import DS from 'ember-data';
 import Ember from 'ember';
-import BaseEvent from '../mixins/models/base-event';
 import moment from 'moment';
-import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
+
+import BaseEvent from 'subtext-ui/mixins/models/base-event';
+import Content from 'subtext-ui/mixins/models/content';
 
 const { flatten } = _;
 
 const {
   computed,
-  inject,
-  get,
-  isEmpty
+  inject: {service},
+  get
 } = Ember;
 
-export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
-  ugcJob: DS.attr('string'),
-  api: inject.service('api'),
-  comments: DS.hasMany('comment'),
-  category: DS.attr('string'),
-  firstInstanceId: DS.attr('number'),
-  canEdit: DS.attr('boolean', {defaultValue: false}),
-  // Cannot use defaultValue: [] here.
-  // See: https://github.com/emberjs/ember.js/issues/9260
-  listservIds: DS.attr('raw', {defaultValue: function() { return []; }}),
-  schedules: DS.hasMany('schedule'),
-  organization: DS.belongsTo('organization'),
-  ownerName: DS.attr('string'),
-
-  categoryEnabled: computed.notEmpty('category'),
-  listsEnabled: computed.notEmpty('listservIds'),
+export default DS.Model.extend(BaseEvent, Content, {
+  // TAG:NOTE: events don't have authorName
+  // TAG:NOTE: events don't have authorId
+  // TAG:NOTE: events don't have publishedAt
+  // TAG:NOTE: events don't have updatedAt
+  // TAG:NOTE: events don't have listservId
+  // ugcJob: DS.attr('string'), // TAG:MOVED
+  // organization: DS.belongsTo('organization'), //TAG:MOVED
+  // listservIds: DS.attr('raw', {defaultValue: function() { return []; }}), //TAG:MOVED
+  comments: DS.hasMany('comment'), //TAG:RESTORED
   subtitle: computed.oneWay('eventInstances.firstObject.subtitle'),
-  presenterName: computed.oneWay('eventInstances.firstObject.presenterName'),
-  timeRange: computed.oneWay('eventInstances.firstObject.timeRange'),
 
-  formattedDate: computed('startsAt', 'endsAt', function() {
-    const date = get(this, 'startsAt').format('MMM D');
-    const startTime = get(this, 'startsAt').format('h:mmA');
+  api: service(),
+  schedules: DS.hasMany('schedule'),
 
-    if (isEmpty(get(this, 'endsAt'))) {
-      return `${date} | ${startTime}`;
-    } else {
-      const endTime = get(this, 'endsAt').format('h:mmA');
+  /* NOT USED */
+  ownerName: DS.attr('string'), // TAG:NOTE: this field is not present on other models
+  category: DS.attr('string'), // TAG:DELETE
+  categoryEnabled: computed.notEmpty('category'), //TAG:DELETE from here and preview page
+  /* END NOT USED */
 
-      return `${date} | ${startTime}-${endTime}`;
-    }
-  }),
+  firstInstanceId: DS.attr('number'), //TAG:NOTE we need this for teh redirect after creating events
+
+  listsEnabled: computed.notEmpty('listservIds'),
+
   // This is used to create temporary event instances so they can be displayed
   // on the event preview page in the "other event dates" section.
+  //
+  // TAG:TODO move to preview component ~Nik
   eventInstances: computed('schedules.@each.{startsAt,endsAt,subtitle,_remove,hasExcludedDates}', function() {
     const schedules = get(this, 'schedules').rejectBy('_remove');
 
@@ -90,7 +85,7 @@ export default DS.Model.extend(BaseEvent, ContentLocationsMixin, {
 
     return flatten(dates);
   }),
-
+  timeRange: computed.oneWay('eventInstances.firstObject.timeRange'),
   futureInstances: computed('eventInstances.@each.startsAt', function() {
     const currentDate = new Date();
 

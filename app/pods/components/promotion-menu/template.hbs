@@ -23,8 +23,9 @@
 {{else}}
   <div>
     {{#if isNotBannerAd}}
-      {{content.viewCount}} {{content.viewCountText}}
-      {{content.commentCount}} {{content.commentCountText}}
+      {{pluralize content.viewCount "view"}}
+
+      {{pluralize content.commentCount "comment"}}
     {{else}}
       Advertising metrics will be provided by frequent reports directly from DailyUV.
       If you have further questions, please contact

@@ -111,10 +111,6 @@
 
     <div class='DetailPage-sectionWrapper'>
       <div class="DetailPage-content News-content ContentText">
-        {{#text-block small=true}}
-          {{if model.isDraft 'Date will appear here when published' model.formattedPublishedAt}}
-        {{/text-block}}
-
         {{#if model.subtitle}}
           {{#subtitle-text}}
             {{model.subtitle}}

@@ -4,95 +4,62 @@ import moment from 'moment';
 
 const {
   computed,
-  get
+  get,
+  isPresent
 } = Ember;
 
+/*
+ * NOTE: this mixin is used in events,
+ * event-instances, and feed-content models
+ */
+
 export default Ember.Mixin.create({
-  contactEmail: DS.attr('string'),
-  contactPhone: DS.attr('string'),
-  content: DS.attr('string'),
   contentId: DS.attr('number'),
-  comments: DS.hasMany(),
-  commentCount: DS.attr('number'),
-  cost: DS.attr('string'),
-  costType: DS.attr('string'),
-  endsAt: DS.attr('moment-date'),
-  eventUrl: DS.attr('string'),
-  eventInstanceId: DS.attr('number'),
-  extendedReachEnabled: DS.attr('boolean', {defaultValue: false}),
-  imageUrl: DS.attr('string'),
-  imageWidth: DS.attr('string'),
-  imageHeight: DS.attr('string'),
-  registrationDeadline: DS.attr('moment-date'),
-  socialEnabled: DS.attr('boolean', {defaultValue: true}),
-  startsAt: DS.attr('moment-date'),
-  subtitle: DS.attr('string'),
-  title: DS.attr('string'),
-  venueAddress: DS.attr('string'),
-  venueCity: DS.attr('string'),
-  venueId: DS.attr('number'),
-  venueName: DS.attr('string'),
-  venueState: DS.attr('string'),
-  venueStatus: DS.attr('string'),
-  venueUrl: DS.attr('string'),
-  venueZip: DS.attr('string'),
-  wantsToAdvertise: DS.attr('boolean'),
+  // socialEnabled: DS.attr('boolean', {defaultValue: true}), //TAG:DELETED
+  // extendedReachEnabled: DS.attr('boolean', {defaultValue: false}), //TAG:DELETED
+  // contactEmail: DS.attr('string'), //TAG:MOVED
+  // contactPhone: DS.attr('string'), //TAG:MOVED
+  // content: DS.attr('string'), //TAG:MOVED
+  // wantsToAdvertise: DS.attr('boolean'), //TAG:MOVED
 
-  organization: DS.belongsTo('organization', {async: true}),
-  organizationId: DS.attr('number'),
-  organizationName: DS.attr('string'),
-  organizationProfileImageUrl: DS.attr('string'),
-  organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}),
-
-  isPaid: Ember.computed.equal('costType', 'paid'),
-  isFree: Ember.computed.equal('costType', 'free'),
-
-  contentLocations: DS.hasMany('content-location'),
-  baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),
-  baseLocationNames: computed.mapBy('baseLocations', 'locationName'),
-
-  safeImageUrl: computed('imageUrl', function() {
-    if (Ember.isPresent(this.get('imageUrl'))) {
-      return this.get('imageUrl');
-    } else {
-      return '//placehold.it/800x600&text=+';
-    }
-  }),
-
-  formattedCostType: computed('costType', function() {
-    const costType = this.get('costType');
-    if (Ember.isPresent(costType)) {
-      return costType.charAt(0).toUpperCase() + costType.slice(1);
-    }
-  }),
-
-  formattedRegistrationDeadline: computed('registrationDeadline', function() {
-    const deadline = get(this, 'registrationDeadline');
-
-    if (deadline) {
-      return moment(deadline).format('L');
-    }
-  }),
-
-  hasLocationInfo: computed('venueAddress', 'venueCity', 'venueState', 'venueZip', 'venueName', function() {
-    return Ember.isPresent(this.get('venueAddress')) || Ember.isPresent(this.get('venueCity')) ||
-      Ember.isPresent(this.get('venueName')) || Ember.isPresent(this.get('venueState')) ||
-      Ember.isPresent(this.get('venueZip'));
-  }),
-
-  hasContactInfo: computed('contactEmail', 'contactPhone', 'eventUrl', function() {
-    return Ember.isPresent(this.get('contactEmail')) || Ember.isPresent(this.get('contactPhone')) ||
-      Ember.isPresent(this.get('eventUrl'));
-  }),
-
-  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
+  // comments: DS.hasMany(), //TAG:MOVED
+  // commentCount: DS.attr('number'), //TAG:MOVED
+  // cost: DS.attr('string'), //TAG:MOVED TAG:NORMALIZE. is used as Price in market-post model
+  // imageUrl: DS.attr('string'), //TAG:MOVED
+  // imageWidth: DS.attr('string'), //TAG:MOVED
+  // imageHeight: DS.attr('string'), //TAG:MOVED
+  // title: DS.attr('string'), //TAG:MOVED
+  // subtitle: DS.attr('string'), //TAG:DELETED
+  // contentLocations: DS.hasMany('content-location'), //TAG:MOVED
+  // baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),  //TAG:MOVED
+  // baseLocationNames: computed.mapBy('baseLocations', 'locationName'), //TAG:MOVED
+  // isPaid: computed.equal('costType', 'paid'), //TAG:DELETED (unused property)
+  // isFree: computed.equal('costType', 'free'), //TAG:DELETED (unused property)
+  // formattedCostType //TAG:DELETED (unused computed property)
+  // hasContactInfo //TAG:DELETED (unused computed property)
+  // eventInstanceId // TAG:MOVED
+  // startsAt: DS.attr('moment-date'), //TAG:MOVED
+  // endsAt: DS.attr('moment-date'), //TAG:MOVED
+  // venueAddress: DS.attr('string'), //TAG:MOVED
+  // venueCity: DS.attr('string'), //TAG:MOVED
+  // venueName: DS.attr('string'), //TAG:MOVED
+  // venueState: DS.attr('string'), //TAG:MOVED
+  // venueZip: DS.attr('string'), //TAG:MOVED
+  // costType: DS.attr('string'), //TAG:MOVED
+  // venueId: DS.attr('number'), //TAG:MOVED
+  // venueStatus: DS.attr('string'), //TAG:MOVED
+  // venueUrl: DS.attr('string'), //TAG:MOVED
+  // registrationDeadline: DS.attr('moment-date'), //TAG:MOVED
+  // hasRegistrationInfo: computed.notEmpty('registrationDeadline'), //TAG:MOVED
+  // eventUrl: DS.attr('string'), //TAG:MOVED
+  // formattedRegistrationDeadline, computed //TAG:MOVED
 
   fullAddress: computed('venueAddress', 'venueCity', 'venueState', function() {
-    let addr = this.get('venueAddress');
-    let city = this.get('venueCity');
-    const state = this.get('venueState');
+    let addr = get(this, 'venueAddress');
+    let city = get(this, 'venueCity');
+    const state = get(this, 'venueState');
 
-    if (Ember.isPresent(addr) && Ember.isPresent(city) && Ember.isPresent(state)) {
+    if (isPresent(addr) && isPresent(city) && isPresent(state)) {
       addr = addr.split(' ').join('+');
       city = city.split(' ').join('+');
 
@@ -116,5 +83,19 @@ export default Ember.Mixin.create({
     } else {
       return `https://${url}`;
     }
+  }),
+
+  futureInstances: computed('eventInstances.@each.startsAt', function() {
+    const currentDate = new Date();
+
+    return get(this, 'eventInstances').filter((inst) => {
+      return get(inst, 'startsAt') > currentDate;
+    });
+  }),
+
+  startsAtFormatted: computed('startsAt', function() {
+    const startsAt = get(this, 'startsAt');
+
+    return isPresent(startsAt) ? moment(startsAt).format('MMMM DD') : false;
   })
 });

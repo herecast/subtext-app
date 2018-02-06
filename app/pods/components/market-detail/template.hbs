@@ -95,16 +95,16 @@
   <div class='DetailPage-sectionWrapper'>
     <div class="DetailPage-metaBloc">
       <table>
-        {{#if model.price}}
+        {{#if model.cost}}
           <tr>
             <td>
-              <div class="DetailPage-metaBloc-price">
-                Price:
-                <span data-test-market-price>{{model.price}}</span>
+              <div class="DetailPage-metaBloc-cost">
+                Cost:
+                <span data-test-market-cost>{{model.cost}}</span>
               </div>
             </td>
             <td>
-              <div class="DetailPage-metaBloc-location">
+              <div class="DetailPage-metaBloc-location" data-test-market-location>
                 {{model.baseLocationNames}}
               </div>
             </td>
@@ -112,7 +112,7 @@
         {{else}}
           <tr>
             <td colspan="2">
-              <div class="DetailPage-metaBloc-location">
+              <div class="DetailPage-metaBloc-location" data-test-market-location>
                 {{model.baseLocationNames}}
               </div>
             </td>

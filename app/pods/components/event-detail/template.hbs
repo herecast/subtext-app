@@ -136,7 +136,7 @@
             <td>
               <div class="DetailPage-metaBloc-url">
                 {{#if model.eventUrl}}
-                  {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl}}
+                  {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl data-test-event-detail-url=true}}
                     {{truncate model.eventUrl length=30}}
                   {{/normalized-link}}
                 {{/if}}

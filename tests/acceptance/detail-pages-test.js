@@ -73,6 +73,7 @@ test('testing event detail page', function(assert) {
     startsAt: "2018-01-30T21:19:17+00:00",
     endsAt: "2018-01-30T21:22:17+00:00",
     cost: 123,
+    eventUrl: 'httx://test.test',
     venueAddress: '15 Railroad Row',
     venueCity: 'White River Junction',
     venueState: 'VT'
@@ -92,14 +93,47 @@ test('testing event detail page', function(assert) {
   const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
 
   andThen(function() {
-    assert.equal(find(testSelector('event-detail-title')).text().trim(), eventInstance.title, 'it should have the correct title');
-    assert.equal(find(testSelector('event-detail-timeRange')).text().trim(), eventTime, 'it should show the correct event time');
-    assert.equal(find(testSelector('event-detail-cost')).text().trim(), eventInstance.cost, 'it should show the correct event price');
-    assert.equal(find(testSelector('directions-address')).first().text().trim(), eventInstance.venueAddress, 'it should show the correct event address');
-    assert.equal(find(testSelector('directions-city-state')).first().text().trim(), `${eventInstance.venueCity}, ${eventInstance.venueState}`, 'it should show the event location');
-    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
-    assert.ok(find(testSelector('event-detail-attribution')).length, 'it should show the attribution');
-    assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
+    assert.equal(
+      find(testSelector('event-detail-title')).text().trim(),
+      eventInstance.title,
+      'it should have the correct title');
+
+    assert.equal(
+      find(testSelector('event-detail-timeRange')).text().trim(),
+      eventTime,
+      'it should show the correct event time');
+
+    assert.equal(
+      find(testSelector('event-detail-cost')).text().trim(),
+      eventInstance.cost,
+      'it should show the correct event price');
+
+    assert.equal(
+      find(testSelector('event-detail-url')).text().trim(),
+      eventInstance.eventUrl,
+      'it should show the correct event url');
+
+    assert.equal(
+      find(testSelector('directions-address')).first().text().trim(),
+      eventInstance.venueAddress,
+      'it should show the correct event address');
+
+    assert.equal(find(testSelector('directions-city-state')).first().text().trim(),
+      `${eventInstance.venueCity}, ${eventInstance.venueState}`,
+      'it should show the event location');
+
+    assert.equal(
+      find(testSelector('header-image')).css('background-image'),
+      `url(\"${feedContent.imageUrl}\")`,
+      'it should show the card image');
+
+    assert.ok(
+      find(testSelector('event-detail-attribution')).length,
+      'it should show the attribution');
+
+    assert.ok(
+      find(testSelector('comments-section')).length,
+      'it should show the comments section');
   });
 });
 
@@ -108,6 +142,7 @@ test('testing market detail page', function(assert) {
   authenticateUser(this.application, server, user);
 
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
+  const location = server.create('location');
   const feedContent = server.create('feedContent', {
     contentOrigin: 'ugc',
     contentType: 'market',
@@ -123,7 +158,15 @@ test('testing market detail page', function(assert) {
       primary: 0
     }],
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    cost: 123
+    cost: 123,
+    contentLocations: [
+      {
+        id: 1,
+        location_type: 'base',
+        location_id: location.id,
+        location_name: [location.city, location.state].join(', ')
+      }
+    ]
   });
 
   server.create('feedItem', {
@@ -134,12 +177,41 @@ test('testing market detail page', function(assert) {
   visit(`/feed/${feedContent.id}`);
 
   andThen(function() {
-    assert.equal(find(testSelector('market-title')).text().trim(), feedContent.title, 'it should have the correct title');
-    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${imageUrl}\")`, 'it should show the card image');
-    assert.ok(find(testSelector('market-thumbnail')).length, 'it should show the market thumbnail images');
-    assert.equal(find(testSelector('market-price')).text(), feedContent.cost, 'it should show the correct market price');
-    assert.equal(find(testSelector('market-content')).text().trim().substring(0, 50), feedContent.content.substring(0, 50), 'it should show the detail page content');
-    assert.ok(find(testSelector('market-attribution')).length, 'it should show the attribution');
-    assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
+    assert.equal(
+      find(testSelector('market-title')).text().trim(),
+      feedContent.title,
+      'it should have the correct title');
+
+    assert.equal(
+      find(testSelector('header-image')).css('background-image'),
+      `url(\"${imageUrl}\")`,
+      'it should show the card image');
+
+    assert.ok(
+      find(testSelector('market-thumbnail')).length,
+      'it should show the market thumbnail images');
+
+    assert.equal(
+      find(testSelector('market-cost')).text(),
+      feedContent.cost,
+      'it should show the correct market cost');
+
+    assert.equal(
+      find(testSelector('market-location')).text().trim(),
+      [location.city, location.state].join(', '),
+      'it should show the correct market location');
+
+    assert.equal(
+      find(testSelector('market-content')).text().trim().substring(0, 50),
+      feedContent.content.substring(0, 50),
+      'it should show the detail page content');
+
+    assert.ok(
+      find(testSelector('market-attribution')).length,
+      'it should show the attribution');
+
+    assert.ok(
+      find(testSelector('comments-section')).length,
+      'it should show the comments section');
   });
 });

@@ -5,20 +5,27 @@ import ContentLocationsMixin from 'subtext-ui/mixins/models/content-locations';
 
 const { computed, get } = Ember;
 
+/* Properties in this model tagged with 'TAG:COMMON'
+ * are marked because they are common to all of our main
+ * content models (event, talk, market-post) but unlike those
+ * other models, they are not provided via a mixin at this time
+ */
+
 export default DS.Model.extend(ContentLocationsMixin, {
-  title: DS.attr('string'),
+  // NOTE:this model does not have 'comments' //TAG:DISCUSS
+  title: DS.attr('string'), //TAG:COMMON
   subtitle: DS.attr('string'),
-  content: DS.attr('string'),
+  content: DS.attr('string'), //TAG:COMMON
   splitContent: DS.attr(),
-  canEdit: DS.attr('boolean', {defaultValue: false}),
 
   adminContentUrl: DS.attr('string'),
-  authorId: DS.attr('number'),
-  authorName: DS.attr('string'),
-  commentCount: DS.attr('number'),
+  authorId: DS.attr('number'), //TAG:COMMON
+  authorName: DS.attr('string'), //TAG:COMMON
+  commentCount: DS.attr('number'), //TAG:COMMON
   contentId: computed.alias('id'),
-  imageUrl: DS.attr('string'),
+  imageUrl: DS.attr('string'), //TAG:COMMON
 
+  // NOTE:this model does not have 'listservIds'
   // Cannot use defaultValue: [] here.
   // See: https://github.com/emberjs/ember.js/issues/9260
   images: DS.attr('raw', {defaultValue: function(){ return [];}}),
@@ -28,20 +35,16 @@ export default DS.Model.extend(ContentLocationsMixin, {
   featuredImageUrl: computed.oneWay('bannerImage.url'),
   featuredImageCaption: computed.oneWay('bannerImage.caption'),
 
-  organization: DS.belongsTo('Organization', {async: true}),
+  organization: DS.belongsTo('Organization', {async: true}), //TAG:COMMON
+  organizationId: DS.attr('number'), //TAG:COMMON
+  organizationName: DS.attr('string'), //TAG:COMMON
 
-  publishedAt: DS.attr('moment-date'),
-  updatedAt: DS.attr('moment-date'),
+  publishedAt: DS.attr('moment-date'), //TAG:COMMON
+  updatedAt: DS.attr('moment-date'), //TAG:COMMON
 
-  organizationId: DS.attr('number'),
-  organizationName: DS.attr('string'),
   promoteRadius: DS.attr('number'),
 
-  contentType: 'news',
-
-  formattedPublishedAt: computed('publishedAt', function() {
-    return moment(this.get('publishedAt')).format('dddd, MMMM D, YYYY');
-  }),
+  contentType: 'news', //TAG:NOTE: the api should provide this TAG:COMMON
 
   bannerImage: computed('images', function() {
     return get(this, 'images').find(image => {

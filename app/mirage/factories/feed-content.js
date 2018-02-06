@@ -42,6 +42,7 @@ export default Factory.extend({
   // alter the presentation drastically, to the development scenario. So
   // we can have more predictable tests.
   contentOrigin: 'ugc',
+
   canEdit() { return faker.random.arrayElement([true, false]); },
 
   authorId() { return faker.random.number(9999); },
@@ -140,7 +141,7 @@ export default Factory.extend({
       width: 266,
       height: 200
     }],
-
+  ugcBaseLocation: null,
   price() { return `$${faker.random.number(999)} OBO`; },
   sold() { return faker.random.arrayElement([true, false]); }
 });

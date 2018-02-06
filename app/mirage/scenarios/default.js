@@ -93,7 +93,6 @@ export default function (server) {
   server.createList('marketCategory', 21);
   server.createList('content-metric', 1);
   server.createList('promotionCoupon', 10);
-  server.createList('organizationContent', 10);
   server.createList('event-instance', 100);
 
   const listservContent = server.createList('feedContent', 5, {

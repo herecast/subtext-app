@@ -1,9 +1,10 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import BaseEvent from '../mixins/models/base-event';
+import BaseEvent from 'subtext-ui/mixins/models/base-event';
 import moment from 'moment';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import dateFormat from 'subtext-ui/lib/dates';
+import Content from 'subtext-ui/mixins/models/content';
 
 const {
   computed,
@@ -12,54 +13,72 @@ const {
   isEmpty
 } = Ember;
 
-export default DS.Model.extend(BaseEvent, {
+export default DS.Model.extend(BaseEvent, Content, {
   normalizedContentType: 'event',
-  // Only returned by the API if the current user is an admin
-  adminContentUrl: DS.attr('string'),
-  commentCount: DS.attr('number'),
-  contentId: DS.attr('number'),
-  eventId: DS.attr('number'),
-  eventInstances: DS.hasMany('other-event-instance'),
-  presenterName: DS.attr('string'),
-  venueLatitude: DS.attr('string'),
-  venueLongitude: DS.attr('string'),
-  venueLocateName: DS.attr('string'),
-  publishedAt: DS.attr('moment-date'),
-  updatedAt: DS.attr('moment-date'),
-  organization: DS.belongsTo('organization'),
-  organizationName: DS.attr('string'),
-  organizationId: DS.attr('number'),
-  organizationProfileImageUrl: DS.attr('string'),
+  comments: DS.hasMany(), //TAG:NOTE:no longer provided by BaseEvent mixin
+  contentId: DS.attr('number'), //TAG:NOTE override in other serializers where it is an alias of ID
+  ugcBaseLocation: null, //TAG:NOTE this is overridden from the Content model mixin to prevent errors about missing a relationship to 'location'
+  baseLocationNames: computed.mapBy('baseLocations', 'locationName'), //TAG:DISCUSS has different value in mixins/models/content
+  eventInstances: DS.hasMany('other-event-instance'), //N
+  organization: DS.belongsTo('organization'), //NOTE:DISCUSS is async true in mixins/models/content
 
-  eventInstanceId: computed.alias('id'),
-  isListserv: computed.equal('contentOrigin', 'listserv'),
-
-  authorId: DS.attr('number'),
-  authorName: DS.attr('string'),
-  avatarUrl: DS.attr('string'),
+  // venueLatitude: DS.attr('string'), //TAG:DELETED
+  // venueLongitude: DS.attr('string'), //TAG:DELETED
+  // venueLocateName: DS.attr('string'), //TAG:DELETED
+  // adminContentUrl: DS.attr('string'), //TAG:DELETED
+  // contentLocations: DS.hasMany('content-location'), //TAG:MOVED
+  // baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'), //TAG:MOVED
+  // title: DS.attr('string'), //TAG:MOVED
+  // content: DS.attr('string'), //TAG:MOVED
+  // costType: DS.attr('string'), //TAG:MOVED
+  // imageUrl: DS.attr('string'), //TAG:MOVED
+  // imageWidth: DS.attr('string'), //TAG:MOVED
+  // imageHeight: DS.attr('string'), //TAG:MOVED
+  // contactEmail: DS.attr('string'), //TAG:MOVED
+  // contactPhone: DS.attr('string'), //TAG:MOVED
+  // cost: DS.attr('string'), //TAG:MOVED
+  // startsAt: DS.attr('moment-date'), //TAG:MOVED
+  // endsAt: DS.attr('moment-date'), //TAG:MOVED
+  // venueAddress: DS.attr('string'), //TAG:MOVED
+  // venueCity: DS.attr('string'), //TAG:MOVED
+  // venueName: DS.attr('string'), //TAG:MOVED
+  // venueState: DS.attr('string'), //TAG:MOVED
+  // venueZip: DS.attr('string'), //TAG:MOVED
+  // commentCount: DS.attr('number'), //TAG:MOVED
+  // eventId: DS.attr('number'), //TAG:MOVED
+  // publishedAt: DS.attr('moment-date'), //TAG:MOVED //TAG:DISCUSS if this creates a default value, it will mess with the news editor
+  // updatedAt: DS.attr('moment-date'), //TAG:MOVED
+  // organizationName: DS.attr('string'), //TAG:MOVED
+  // organizationId: DS.attr('number'), //TAG:MOVED
+  // organizationProfileImageUrl: DS.attr('string'), //TAG:MOVED
+  // organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}), //TAG:MOVED
+  // isListserv: computed.equal('contentOrigin', 'listserv'), //TAG:MOVED
+  // authorId: DS.attr('number'), //TAG:MOVED
+  // authorName: DS.attr('string'), //TAG:MOVED
+  // avatarUrl: DS.attr('string'), //TAG:MOVED
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
-    if (this.get('isValid')) {
-      const date = this.get('startsAt').format('MMM D');
-      const startTime = this.get('startsAt').format('h:mmA');
+    if (get(this, 'isValid')) {
+      const date = get(this, 'startsAt').format('MMM D');
+      const startTime = get(this, 'startsAt').format('h:mmA');
 
-      if (Ember.isEmpty(this.get('endsAt'))) {
+      if (isEmpty(get(this, 'endsAt'))) {
         return `${date} | ${startTime}`;
       } else {
-        const endTime = this.get('endsAt').format('h:mmA');
+        const endTime = get(this, 'endsAt').format('h:mmA');
 
         return `${date} | ${startTime}-${endTime}`;
       }
     }
   }),
 
-  startsAtHour: Ember.computed('startsAt', function() {
+  startsAtHour: computed('startsAt', function() {
     if(get(this, 'isValid')) {
       return get(this, 'startsAt').format('h:mmA');
     }
   }),
 
-  startsAtUnix: Ember.computed('startsAt', function() {
+  startsAtUnix: computed('startsAt', function() {
     return moment(get(this, 'startsAt')).unix();
   }),
 
@@ -69,7 +88,7 @@ export default DS.Model.extend(BaseEvent, {
     return isPresent(startsAt) ? moment(startsAt).format('MMMM DD') : false;
   }),
 
-  endsAtHour: Ember.computed('endsAt', function() {
+  endsAtHour: computed('endsAt', function() {
     if(get(this, 'isValid')) {
        const endsAt = get(this, 'endsAt');
 
@@ -77,79 +96,7 @@ export default DS.Model.extend(BaseEvent, {
      }
   }),
 
-  timeRange: computed('startsAt', 'endsAt', function() {
-    if (this.get('isValid')) {
-      const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
-
-      if (Ember.isEmpty(this.get('endsAt'))) {
-        return `${startTime}`;
-      } else {
-        const endTime = this.get('endsAt').format('LT');
-        return `${startTime} - ${endTime}`;
-      }
-    }
-  }),
-
-  timeRangeNoDates: computed('startsAt', 'endsAt', function() {
-    if (get(this, 'isValid')) {
-      const startTime = get(this, 'startsAt').format('h:mm A');
-      const endsAt = get(this, 'endsAt');
-
-      if (isEmpty(endsAt)) {
-        return startTime;
-      } else {
-        const endTime = endsAt.format('h:mm A');
-
-        return `${startTime} ${String.fromCharCode(0x2014)} ${endTime}`;
-      }
-    }
-  }),
-
-  isValid: computed('startsAt', 'endsAt', function() {
-    const start = get(this, 'startsAt');
-    const stop = get(this, 'endsAt');
-
-    if (isPresent(start) && isPresent(stop)) {
-      const earlierByHour = start.hour() < stop.hour();
-      const earlierByMinute = start.hour() === stop.hour() && start.minute() <= stop.minute();
-
-      return earlierByHour || earlierByMinute;
-    } else {
-      return isPresent(start);
-    }
-  }),
-
-  attributionName: computed('organizationName', 'authorName', function() {
-    const organizationName = get(this, 'organizationName');
-    const authorName = get(this, 'authorName');
-
-    let attributionName = null;
-
-    if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv') ) {
-      attributionName = organizationName;
-    } else if (isPresent(authorName)) {
-      attributionName = authorName;
-    }
-
-    return attributionName;
-  }),
-
-  attributionImageUrl: computed('isNews', 'organizationProfileImageUrl', 'avatarUrl', function() {
-    const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
-    const avatarUrl = get(this, 'avatarUrl');
-
-    let attributionImageUrl = null;
-
-    if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv')) {
-      attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(avatarUrl)) {
-      attributionImageUrl = avatarUrl;
-    }
-
-    return attributionImageUrl;
-  }),
-
-  isOwnedByOrganization: computed('isListserv', 'organizationId', function() {
+  isOwnedByOrganization: computed('isListserv', 'organizationId', function() { //TAG:DISCUSS
     const isListserv = get(this, 'isListserv');
     const organizationId = get(this, 'organizationId');
     const organiztionIsDefaultOrganization = isDefaultOrganization(organizationId);
@@ -159,14 +106,6 @@ export default DS.Model.extend(BaseEvent, {
     } else {
       return isPresent(organizationId);
     }
-  }),
-
-  futureInstances: computed('eventInstances.@each.startsAt', function() {
-    const currentDate = new Date();
-
-    return get(this, 'eventInstances').filter((inst) => {
-      return get(inst, 'startsAt') > currentDate;
-    });
   }),
 
   publishedAtRelative: computed('publishedAt', function() {

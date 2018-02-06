@@ -19,9 +19,9 @@ export default Mirage.Factory.extend({
   canEdit: true,
   title() { return titleize(faker.lorem.sentences(1));},
   subtitle() { return titleize(faker.lorem.sentences(1));},
+  presenterName() { return `${faker.name.firstName} ${faker.name.lastName}`; },
   commentCount() { return faker.random.number(8);},
   content() { return `<p>${faker.lorem.paragraph(5)}</p>`;},
-  presenterName() { return `${faker.name.firstName} ${faker.name.lastName}`; },
   contentId() { return faker.random.number(1000);},
   costType: 'paid', // free, paid, donation
   cost: '$15-$55',
@@ -35,9 +35,6 @@ export default Mirage.Factory.extend({
   venueState: 'VT',
   venueZip() { return faker.address.zipCode();},
   venueUrl() { return `http://${faker.internet.domainName()}`;},
-  venueLatitude: '44.4758',
-  venueLongitude: '-73.2119',
-  venueLocateName() { return titleize(faker.lorem.sentences(1));},
   registrationUrl() { return `http://${faker.internet.domainName()}`;},
   registrationPhone() { return faker.phone.phoneNumber();},
   registrationEmail() { return faker.internet.email();},
@@ -66,7 +63,7 @@ export default Mirage.Factory.extend({
   organizationProfileImageUrl() { return faker.image.business(); },
   authorName() { return faker.name.findName(); },
   avatarUrl() { return faker.image.avatar(); },
-  contentOrigin() { return faker.random.arrayElement(['ugc', 'listserv']); },
+  contentOrigin() { return faker.random.arrayElement(['ugc', 'listserv']); }, //TAG:DISCUSS
   authorId() { return faker.random.number(9999); },
   eventInstances() {
     let instancesArray = [];

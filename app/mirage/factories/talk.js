@@ -11,12 +11,8 @@ export default Mirage.Factory.extend({
     return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250' : null;
   },
   publishedAt() { return moment(faker.date.recent(-30)).toISOString(); },
-  commenterCount() { return faker.random.number(25); },
   viewCount() { return faker.random.number(1000); },
   authorName() { return faker.name.findName(); },
-  authorImageUrl(i) {
-    return (i % 2 === 0) ? 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Author+Face&w=100&h=100' : null;
-  },
   canEdit: true,
   contentLocations: [],
 

@@ -1,82 +1,77 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
-import dateFormat from 'subtext-ui/lib/dates';
 import BaseEvent from 'subtext-ui/mixins/models/base-event';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
+import Content from 'subtext-ui/mixins/models/content';
 
 const { get, computed, isPresent, isEmpty } = Ember;
 
-export default DS.Model.extend(BaseEvent, {
-  title: DS.attr('string'),
-  subtitle: DS.attr('string'),
-  content: DS.attr('string'),
-  splitContent: DS.attr(),
-  embeddedAd: DS.attr('boolean'),
-  contentType: DS.attr('string'),
-  contentOrigin: DS.attr('string'),
+export default DS.Model.extend(BaseEvent, Content, {
+  // authorId: DS.attr('number'), //TAG:MOVED
+  // authorName: DS.attr('string'), // TAG:MOVED
+  // commentCount: DS.attr('number'), //TAG:MOVED
+  // content: DS.attr('string'), //TAG:MOVED
+  // contentOrigin: DS.attr('string'), //TAG:MOVED
+  // contentType: DS.attr('string'), //TAG:MOVED
+  // cost: DS.attr('string'), //TAG:MOVED
+  // imageUrl: DS.attr('string'), //TAG:MOVED
+  // isNews: computed.equal('normalizedContentType', 'news'), //TAG:MOVED
+  // isMarket: computed.equal('normalizedContentType', 'market'), //TAG:MOVED
+  // isEvent: computed.equal('normalizedContentType', 'event'), //TAG:MOVED
+  // isTalk: computed.equal('normalizedContentType', 'talk'), //TAG:MOVED
+  // isCampaign: computed.equal('normalizedContentType', 'campaign'),
+  // isListserv: computed.equal('contentOrigin', 'listserv'), //TAG:MOVED
+  // organization: DS.belongsTo('organization', {async: true}), //TAG:MOVED
+  // organizationId: DS.attr('number'), //TAG:MOVED
+  // organizationName: DS.attr('string'), //TAG:MOVED
+  // organizationProfileImageUrl: DS.attr('string'), //TAG:MOVED
+  // organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}), //TAG:MOVED
+  // price: computed.alias('cost'), //TAG:MOVED
+  // publishedAt: DS.attr('moment-date'), //TAG:MOVED
+  // sold: DS.attr('boolean', {defaultValue: false}), //TAG:MOVED
+  // title: DS.attr('string'), //TAG:MOVED
+  // updatedAt: DS.attr('moment-date'), //TAG:MOVED
+  // comments: DS.hasMany(), //TAG:MOVED
+  // contentLocations: DS.hasMany('content-location'), //TAG:DISCUSS why different from content-locations mixin
+  // baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'), //TAG:DISCUSS why different from content-locations mixin
+  // baseLocationNames: computed.mapBy('baseLocations', 'locationName'), //TAG:DISCUSS why different from content-locations mixin
+  // viewCount: DS.attr('number'), //TAG:MOVED
+  // eventInstanceId: DS.attr('number'), //TAG:MOVED
+  // subtitle: DS.attr('string'), //TAG:MOVED
+  // eventId: DS.attr('number'), //TAG:MOVED
+  // startsAt: DS.attr('moment-date'), //TAG:MOVED
+  // endsAt: DS.attr('moment-date'), //TAG:MOVED
+  // avatarUrl: DS.attr('string'), //TAG:MOVED
+  // embeddedAd: DS.attr('boolean'), //TAG:MOVED
 
-  authorId: DS.attr('number'),
-  authorName: DS.attr('string'),
-  avatarUrl: DS.attr('string'),
-
-  comments: DS.hasMany(),
-  commentCount: DS.attr('number'),
-  viewCount: DS.attr('number'),
-
-  eventId: DS.attr('number'),
+  ugcBaseLocation: null, //TAG:OVERRIDDEN from Content model mixin because 'feed-content' has no 'location' relationship
   eventInstances: DS.hasMany('other-event-instance', {async: false}),
-  eventInstanceId: DS.attr('number'),
-  venueAddress: DS.attr('string'),
-  venueCity: DS.attr('string'),
-  venueName: DS.attr('string'),
-  venueState: DS.attr('string'),
-  venueZip: DS.attr('string'),
-  startsAt: DS.attr('moment-date'),
-  endsAt: DS.attr('moment-date'),
+  images: DS.hasMany('image', { async: false }),
 
-  contentLocations: DS.hasMany('content-location'),
-  baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),
-  baseLocationNames: computed.mapBy('baseLocations', 'locationName'),
+  splitContent: DS.attr(),
+  comments: DS.hasMany('comment'), //TAG:RESTORED
 
-  publishedAt: DS.attr('moment-date'),
-  updatedAt: DS.attr('moment-date'),
 
-  organization: DS.belongsTo('organization', {async: true}),
-  organizationId: DS.attr('number'),
-  organizationName: DS.attr('string'),
-  organizationProfileImageUrl: DS.attr('string'),
-  organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}),
-
+  /* BEGIN Leaving these here for now as they appear to be not applicable to the old channel models */
   sunsetDate: DS.attr('moment-date'),
   bizFeedPublic: DS.attr('string'),
   campaignEnd: DS.attr('moment-date'),
   campaignStart: DS.attr('moment-date'),
   clickCount: DS.attr('number'),
   redirectUrl: DS.attr('string'),
+  /* END Leaving these here for now as they appear to be not applicable to the old channel models */
 
-  imageUrl: DS.attr('string'),
-  images: DS.hasMany('image', { async: false }),
 
-  cost: DS.attr('string'),
-  price: computed.alias('cost'),
-  sold: DS.attr('boolean', {defaultValue: false}),
 
-  normalizedContentType: computed('contentType', 'isListserv', function() {
-    const isListserv = get(this, 'isListserv');
-    let contentType = get(this, 'contentType');
 
-    if (contentType === 'talk_of_the_town') {
-      contentType = 'talk';
-    } else if (isListserv) {
-      contentType = 'listserv';
-    }
 
-    return contentType;
-  }),
 
-  contentId: computed.alias('id'),
 
+
+  contentId: computed.alias('id'), //TAG:NOTE contentId is treated inconsistently across models
+
+  // TAG:NOTE image handling should be stanardized. Notes on this sent to JohnO ~cm
   bannerImage: computed.alias('primaryImage'),
   coverImageUrl: computed.alias('bannerImage.imageUrl'),
   featuredImageWidth: computed.oneWay('bannerImage.width'),
@@ -94,14 +89,8 @@ export default DS.Model.extend(BaseEvent, {
     return isPresent(primaryImage) ? primaryImage : {imageUrl: get(this, 'imageUrl'), caption: null};
   }),
 
-  isNews: computed.equal('normalizedContentType', 'news'),
-  isMarket: computed.equal('normalizedContentType', 'market'),
-  isEvent: computed.equal('normalizedContentType', 'event'),
-  isTalk: computed.equal('normalizedContentType', 'talk'),
-  isCampaign: computed.equal('normalizedContentType', 'campaign'),
-  isListserv: computed.equal('contentOrigin', 'listserv'),
-
-  isOwnedByOrganization: computed('isListserv', 'isNews', 'organizationId', function() {
+  // TAG:NOTE: Do this server-side. Have the server figure out what attribution should be displayed
+  isOwnedByOrganization: computed('isListserv', 'isNews', 'organizationId', function() { //TAG:DISCUSS
     const isListserv = get(this, 'isListserv');
     const isNews = get(this, 'isNews');
     const organizationId = get(this, 'organizationId');
@@ -116,40 +105,6 @@ export default DS.Model.extend(BaseEvent, {
     }
   }),
 
-  attributionName: computed('isNews', 'organizationName', 'authorName', function() {
-    const organizationName = get(this, 'organizationName');
-    const authorName = get(this, 'authorName');
-
-    let attributionName = null;
-
-    if (get(this, 'isNews')) {
-      attributionName = organizationName;
-    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv') ) {
-      attributionName = organizationName;
-    } else if (isPresent(authorName)) {
-      attributionName = authorName;
-    }
-
-    return attributionName;
-  }),
-
-  attributionImageUrl: computed('isNews', 'organizationProfileImageUrl', 'avatarUrl', function() {
-    const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
-    const avatarUrl = get(this, 'avatarUrl');
-
-    let attributionImageUrl = null;
-
-    if (get(this, 'isNews')) {
-      attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv')) {
-      attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(avatarUrl)) {
-      attributionImageUrl = avatarUrl;
-    }
-
-    return attributionImageUrl;
-  }),
-
   attributionLinkRouteName: computed('isOwnedByOrganization', function() {
     let routeName = null;
 
@@ -162,52 +117,21 @@ export default DS.Model.extend(BaseEvent, {
 
   attributionLinkId: computed.alias('organizationId'),
 
-  publishedAtRelative: computed('publishedAt', function() {
-    const publishedAt = get(this, 'publishedAt');
-    return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
-  }),
-
-  startsAtFormatted: computed('startsAt', function() {
-    const startsAt = get(this, 'startsAt');
-
-    return isPresent(startsAt) ? moment(startsAt).format('MMMM DD') : false;
-  }),
-
-  commentCountText: computed('commentCount', function() {
-    const count = get(this, 'commentCount');
-
-    if (count === 1) {
-      return 'comment';
-    } else {
-      return 'comments';
-    }
-  }),
-
-  viewCountText:computed('viewCount',  function() {
-    const count = get(this, 'viewCount');
-
-    if (count === 1) {
-      return 'view';
-    } else {
-      return 'views';
-    }
-  }),
-
   timeRange: computed('startsAt', 'endsAt', function() {
-    if (this.get('isValid')) {
-      const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
+    if (get(this, 'isValid')) {
+      const startTime = get(this, 'startsAt').format('MMMM D, YYYY LT');
 
-      if (Ember.isEmpty(this.get('endsAt'))) {
+      if (isEmpty(get(this, 'endsAt'))) {
         return `${startTime}`;
       } else {
-        const endTime = this.get('endsAt').format('LT');
+        const endTime = get(this, 'endsAt').format('LT');
         return `${startTime} - ${endTime}`;
-      }
+        }
     }
   }),
 
   timeRangeNoDates: computed('startsAt', 'endsAt', function() {
-    if (this.get('isValid')) {
+    if (get(this, 'isValid')) {
       const startTime = get(this, 'startsAt').format('h:mm A');
       const endsAt = get(this, 'endsAt');
 
@@ -243,6 +167,7 @@ export default DS.Model.extend(BaseEvent, {
     }
   }),
 
+  /* BEGIN Biz/org/content-management properties */
   campaignIsActive: computed('campaignStart', 'campaignEnd', function() {
     const campaignStart = moment(get(this, 'campaignStart'));
     const campaignEnd = moment(get(this, 'campaignEnd'));
@@ -250,6 +175,7 @@ export default DS.Model.extend(BaseEvent, {
     return moment().isAfter(campaignStart) && moment().isBefore(campaignEnd);
   }),
 
+  //TAG:NOTE should this be a mixin that is pulled into components that care about viewStatus (e.g., profile controller, promotion-menu, bizfeed etc)
   viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
     const publishedAt = get(this, 'publishedAt');
     const scheduledToPublish = moment().diff(publishedAt) < 0;
@@ -272,4 +198,5 @@ export default DS.Model.extend(BaseEvent, {
 
   isPublic: computed.equal('viewStatus', 'public'),
   isDraft: computed.equal('viewStatus', 'draft')
+  /* END Biz/org/content-management properties */
 });

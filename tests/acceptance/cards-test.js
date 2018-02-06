@@ -255,7 +255,7 @@ test('testing market card', function(assert) {
   andThen(function() {
     assert.equal(find(testSelector('card-title')).text().trim(), feedContent.title, 'it should have the correct title');
     assert.equal(find(testSelector('card-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
-    assert.equal(find(testSelector('card-market-price')).text(), feedContent.cost, 'it should show the correct market price');
+    assert.equal(find(testSelector('card-market-cost')).text(), feedContent.cost, 'it should show the correct market cost');
     assert.ok(find(testSelector('card-market-thumbnail')).length, 'it should show the market thumbnail images');
     assert.ok(find(testSelector('card-attribution')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
