@@ -20,12 +20,12 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
   this.set('scrollToMock', () => {});
-  this.set('feedContentMock', ()=>{});
+  this.set('contentMock', ()=>{});
   this.set('event', {contentId: 1});
 
   this.render(hbs`
    {{event-detail
-      feedContent=feedContentMock
+      content=contentMock
       model=event
       scrollTo=(action scrollToMock)
    }}
@@ -51,11 +51,11 @@ test('Tracking impressions', function(assert) {
     futureInstances: []
   }));
   this.set('scrollToMock', () => {});
-  this.set('feedContentMock', ()=>{});
+  this.set('contentMock', ()=>{});
 
   this.render(hbs`
     {{event-detail
-      feedContent=feedContentMock
+      content=contentMock
       model=event
       scrollTo=(action scrollToMock)
     }}

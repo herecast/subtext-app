@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('carousel', 'Unit | Serializer | carousel', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:carousel', 'model:organization', 'model:feed-content']
+  needs: ['serializer:carousel', 'model:organization', 'model:content']
 });
 
 // Replace this with your real tests.

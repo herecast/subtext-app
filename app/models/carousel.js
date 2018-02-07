@@ -9,10 +9,10 @@ export default DS.Model.extend({
   carouselType: DS.attr('string'),
 
   organizations: DS.hasMany('organization', {async: false}),
-  feedContents: DS.hasMany('feed-content', {async: false}),
+  contents: DS.hasMany('content', {async: false}),
 
   isOrganizationCarousel: computed.equal('carouselType', 'organization'),
-  isFeedContentCarousel: computed('carouselType', function() {
-    return get(this, 'carouselType').dasherize() === 'feed-content';
+  isContentCarousel: computed('carouselType', function() {
+    return get(this, 'carouselType').dasherize() === 'content';
   })
 });

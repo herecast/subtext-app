@@ -1,5 +1,5 @@
 {{#if isListservCard}}
-  <div class="FeedCarousel-FeedContentCard-title">
+  <div class="FeedCarousel-ContentCard-title">
     {{feed-card/title
       title=model.title
       model=model
@@ -8,14 +8,14 @@
     }}
   </div>
 
-  <div class="FeedCarousel-FeedContentCard-body">
+  <div class="FeedCarousel-ContentCard-body">
     {{feed-card/text-snippet
       model=model
       showTextSnippet=isLoggedIn
     }}
   </div>
 
-  <div class="FeedCarousel-FeedContentCard-attribution">
+  <div class="FeedCarousel-ContentCard-attribution">
     {{feed-card/attribution
       avatarUrl=model.attributionImageUrl
       author=model.attributionName

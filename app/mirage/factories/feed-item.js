@@ -8,7 +8,7 @@ export default Factory.extend({
     if (id % 20 === 0 && id <= 100) {
       return 'carousel';
     } else if (id <= 100){
-      return 'feedContent';
+      return 'content';
     } else {
       return 'organization';
     }
@@ -16,19 +16,19 @@ export default Factory.extend({
 
   carousel: association(),
   organization: association(),
-  feedContent: association(),
+  content: association(),
 
-  afterCreate(content, server) {
-    const modelType = content.modelType;
-    const feedItemContent = isPresent(content[modelType]) ? content[modelType] : server.create(modelType);
+  afterCreate(item, server) {
+    const modelType = item.modelType;
+    const feedItemContent = isPresent(item[modelType]) ? item[modelType] : server.create(modelType);
 
-    if (modelType === 'feedContent' && content.id % 4 === 0) {
-      server.createList('comment', 4, {feedContentId: feedItemContent.id});
+    if (modelType === 'content' && item.id % 4 === 0) {
+      server.createList('comment', 4, {contentId: feedItemContent.id});
     }
 
     let options = {};
     options[`${modelType}Id`] = feedItemContent.id;
 
-    content.update(options);
+    item.update(options);
   }
 });

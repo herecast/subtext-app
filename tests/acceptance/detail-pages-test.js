@@ -12,7 +12,7 @@ test('testing news detail page', function(assert) {
     tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   };
 
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'news',
     title: 'hello world',
@@ -22,16 +22,16 @@ test('testing news detail page', function(assert) {
   });
 
   server.create('feedItem', {
-    modelType: 'feedContent',
-    feedContentId: feedContent.id
+    modelType: 'content',
+    contentId: content.id
   });
 
-  visit(`/feed/${feedContent.id}`);
+  visit(`/feed/${content.id}`);
 
   andThen(function() {
-    assert.equal(find(testSelector('news-title')).text().trim(), feedContent.title, 'it should have the correct title');
-    assert.equal(find(testSelector('detail-page-image')).attr('src'), feedContent.imageUrl, 'it should show the detail page image');
-    assert.equal(find(testSelector('detail-page-content')).text().trim().substring(0, 50), feedContent.content.substring(0, 50), 'it should show the detail page content');
+    assert.equal(find(testSelector('news-title')).text().trim(), content.title, 'it should have the correct title');
+    assert.equal(find(testSelector('detail-page-image')).attr('src'), content.imageUrl, 'it should show the detail page image');
+    assert.equal(find(testSelector('detail-page-content')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find(testSelector('link', 'organization-link')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
   });
@@ -41,7 +41,7 @@ test('testing talk detail page', function(assert) {
   let user = server.create('user');
   authenticateUser(this.application, server, user);
 
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
     contentType: 'talk',
     title: 'hello world',
     imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
@@ -49,16 +49,16 @@ test('testing talk detail page', function(assert) {
   });
 
   server.create('feedItem', {
-    modelType: 'feedContent',
-    feedContentId: feedContent.id
+    modelType: 'content',
+    contentId: content.id
   });
 
-  visit(`/feed/${feedContent.id}`);
+  visit(`/feed/${content.id}`);
 
   andThen(function() {
-    assert.equal(find(testSelector('talk-title')).text().trim(), feedContent.title, 'it should have the correct title');
-    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${feedContent.imageUrl}\")`, 'it should show the card image');
-    assert.equal(find(testSelector('talk-content')).text().trim().substring(0, 50), feedContent.content.substring(0, 50), 'it should show the detail page content');
+    assert.equal(find(testSelector('talk-title')).text().trim(), content.title, 'it should have the correct title');
+    assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${content.imageUrl}\")`, 'it should show the card image');
+    assert.equal(find(testSelector('talk-content')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find(testSelector('talk-author-name')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
   });
@@ -78,16 +78,16 @@ test('testing event detail page', function(assert) {
     venueCity: 'White River Junction',
     venueState: 'VT'
   });
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
     contentType: 'event',
   });
 
   server.create('feedItem', {
-    modelType: 'feedContent',
-    feedContentId: feedContent.id
+    modelType: 'content',
+    contentId: content.id
   });
 
-  visit(`/feed/${feedContent.id}/${eventInstance.id}`);
+  visit(`/feed/${content.id}/${eventInstance.id}`);
 
   const {startsAt, endsAt} = eventInstance;
   const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
@@ -124,7 +124,7 @@ test('testing event detail page', function(assert) {
 
     assert.equal(
       find(testSelector('header-image')).css('background-image'),
-      `url(\"${feedContent.imageUrl}\")`,
+      `url(\"${content.imageUrl}\")`,
       'it should show the card image');
 
     assert.ok(
@@ -143,7 +143,7 @@ test('testing market detail page', function(assert) {
 
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
   const location = server.create('location');
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'market',
     title: 'hello world',
@@ -170,16 +170,16 @@ test('testing market detail page', function(assert) {
   });
 
   server.create('feedItem', {
-    modelType: 'feedContent',
-    feedContentId: feedContent.id
+    modelType: 'content',
+    contentId: content.id
   });
 
-  visit(`/feed/${feedContent.id}`);
+  visit(`/feed/${content.id}`);
 
   andThen(function() {
     assert.equal(
       find(testSelector('market-title')).text().trim(),
-      feedContent.title,
+      content.title,
       'it should have the correct title');
 
     assert.equal(
@@ -193,7 +193,7 @@ test('testing market detail page', function(assert) {
 
     assert.equal(
       find(testSelector('market-cost')).text(),
-      feedContent.cost,
+      content.cost,
       'it should show the correct market cost');
 
     assert.equal(
@@ -203,7 +203,7 @@ test('testing market detail page', function(assert) {
 
     assert.equal(
       find(testSelector('market-content')).text().trim().substring(0, 50),
-      feedContent.content.substring(0, 50),
+      content.content.substring(0, 50),
       'it should show the detail page content');
 
     assert.ok(

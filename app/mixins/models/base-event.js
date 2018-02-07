@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import moment from 'moment';
 
 const {
   computed,
@@ -91,11 +90,5 @@ export default Ember.Mixin.create({
     return get(this, 'eventInstances').filter((inst) => {
       return get(inst, 'startsAt') > currentDate;
     });
-  }),
-
-  startsAtFormatted: computed('startsAt', function() {
-    const startsAt = get(this, 'startsAt');
-
-    return isPresent(startsAt) ? moment(startsAt).format('MMMM DD') : false;
   })
 });

@@ -11,7 +11,7 @@ const {
 export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
 
   model(params)  {
-    return this.store.findRecord('feed-content', params.contentId, {reload: true});
+    return this.store.findRecord('content', params.contentId, {reload: true});
   },
 
   afterModel(model) {

@@ -40,6 +40,8 @@ export default DS.Model.extend(FastbootExtensions, Content, {
 
   listsEnabled: computed.notEmpty('listservIds'),
 
+  // Populated images filter is here because there are times when
+  // the image-upload component can set a null value to imageUrl
   populatedImages: computed('images.@each.imageUrl', function() {
     return get(this, 'images')
       .filter((image) => isPresent(get(image, 'imageUrl')));
@@ -53,7 +55,7 @@ export default DS.Model.extend(FastbootExtensions, Content, {
   featuredImageWidth: computed.oneWay('primaryImage.width'),
   featuredImageHeight: computed.oneWay('primaryImage.height'),
 
-  coverImageUrl: computed('images.@each.{primary,imageUrl}', 'imageUrl', function() {
+  coverImageUrl: computed('populatedImages.@each.{primary,imageUrl}', 'imageUrl', function() {
     const images = get(this, 'populatedImages');
     const primaryImage = images.findBy('primary');
 

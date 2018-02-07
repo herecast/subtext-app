@@ -2,6 +2,6 @@ import { Model, belongsTo } from 'ember-cli-mirage';
 
 export default Model.extend({
   carousel: belongsTo(),
-  feedContent: belongsTo(),
+  content: belongsTo(),
   organization: belongsTo()
 });

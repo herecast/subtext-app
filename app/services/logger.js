@@ -15,11 +15,13 @@ export default Ember.Service.extend(Ember.Evented, {
 
   _initializeEmberLoggers() {
     // Note: using `.bind` here instead of a fat-arrow closure to avoid any risk of a memory leak
+    /*
     Ember.onerror = this._handleEmberError.bind(this);
     Ember.RSVP.on('error', this._handleEmberError.bind(this));
     ['debug', 'log', 'info', 'warn', 'error'].forEach(logMethod => {
       Ember.Logger[logMethod] = this[logMethod].bind(this);
     });
+    */
   },
 
   _handleEmberError(error) {

@@ -986,9 +986,17 @@ export default function() {
     return {};
   });
 
-  this.get('/contents', function({db, feedItems}, request) {
-    const { page, per_page, type, query, organization_id, radius } = request.queryParams;
-    const content_type = type;
+  this.get('/feed', function({db, feedItems}, request) {
+    const typeMap = {
+      stories: 'news',
+      calendar: 'event',
+      news: 'news',
+      event: 'event',
+      market: 'market',
+      talk: 'talk'
+    };
+
+    const { page, per_page, content_type, query, organization_id, radius } = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
@@ -1000,8 +1008,8 @@ export default function() {
 
     if (showMyStuffOnly) {
         let myStuffContents = feedItems.all().filter((feedItem) => {
-        if (feedItem.modelType === 'feedContent') {
-          return parseInt(get(feedItem.feedContent, 'authorId')) === 1;
+        if (feedItem.modelType === 'content') {
+          return parseInt(get(feedItem.content, 'authorId')) === 1;
         }
         return false;
       });
@@ -1015,7 +1023,7 @@ export default function() {
 
     } else if (showProfilePageContents) {
       let organizationFeedItems = feedItems.all().filter((feedItem) => {
-        return feedItem.modelType === 'feedContent' && feedItem.organizationId === organization_id;
+        return feedItem.modelType === 'content' && feedItem.organizationId === organization_id;
       });
 
       response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
@@ -1034,8 +1042,8 @@ export default function() {
         });
       } else {
         oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
-          if (feedItem.modelType === 'feedContent') {
-            return get(feedItem.feedContent, 'contentType') === content_type;
+          if (feedItem.modelType === 'content') {
+            return get(feedItem.content, 'contentType') === typeMap[ content_type ];
           }
           return false;
         });
@@ -1058,8 +1066,8 @@ export default function() {
     return new Mirage.Response(200, {}, response);
   });
 
-  this.get('/contents/:id', function({db, feedContents}, request){
-    return feedContents.find(request.params.id);
+  this.get('/contents/:id', function({contents}, request){
+    return contents.find(request.params.id);
   });
 
   this.get('/content_permissions', function(db, request) {

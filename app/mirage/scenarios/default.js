@@ -85,24 +85,19 @@ export default function (server) {
   });
 
   server.createList("venue", 5);
-  server.createList('talk', 50);
   server.createList('comment', 8);
-  server.createList('market-post', 100);
-  server.createList('marketCategory', 3, {trending: true});
-  server.createList('marketCategory', 6, {featured: true});
-  server.createList('marketCategory', 21);
   server.createList('content-metric', 1);
   server.createList('promotionCoupon', 10);
   server.createList('event-instance', 100);
 
-  const listservContent = server.createList('feedContent', 5, {
+  const listservContent = server.createList('content', 5, {
     contentOrigin: 'listserv'
   });
   const listservCarousel = server.create('carousel', {
     title: 'Local Listserv',
-    carouselType: 'feedContent',
+    carouselType: 'content',
     queryParams: {"organization_id": 447},
-    feedContents: listservContent
+    contents: listservContent
   });
   server.create('feedItem', {
     modelType: 'carousel',

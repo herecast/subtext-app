@@ -17,7 +17,7 @@ export default Ember.Component.extend({
   profileRoute: 'profile.all',
 
   isOrganizationCarousel: computed.alias('model.isOrganizationCarousel'),
-  isFeedContentCarousel: computed.alias('model.isFeedContentCarousel'),
+  isContentCarousel: computed.alias('model.isContentCarousel'),
   carouselId: computed.alias('model.id'),
   carouselType: computed.alias('model.carouselType'),
 
@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     let carouselType = get(this, 'carouselType').dasherize();
 
     if (isBlank(carouselType)) {
-      cardType = 'feed-content';
+      cardType = 'content';
     } else {
       cardType = carouselType;
     }
@@ -43,13 +43,13 @@ export default Ember.Component.extend({
     return `feed-carousel/${cardType}-card`;
   }),
 
-  cards: computed('model', 'isOrganizationCarousel', 'isFeedContentCarousel', function() {
+  cards: computed('model', 'isOrganizationCarousel', 'isContentCarousel', function() {
     const model = get(this, 'model');
 
     if ( get(this, 'isOrganizationCarousel') ) {
       return get(model, 'organizations');
-    } else if ( get(this, 'isFeedContentCarousel') ) {
-      return get(model, 'feedContents');
+    } else if ( get(this, 'isContentCarousel') ) {
+      return get(model, 'contents');
     }
   }),
 

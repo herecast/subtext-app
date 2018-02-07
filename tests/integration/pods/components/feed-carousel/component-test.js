@@ -18,10 +18,10 @@ function makeListservCarousel(numberOfCards) {
   const listservCarousel = {
     id: 1,
     title: 'Local Listserv',
-    carouselType: 'feedContent',
+    carouselType: 'content',
     queryParams: {"organization_id": 447},
-    feedContents: listservContents,
-    isFeedContentCarousel: true
+    contents: listservContents,
+    isContentCarousel: true
   };
 
   return listservCarousel;
@@ -91,7 +91,7 @@ test('feed-carousel fires correct tracking events', function(assert) {
 
   let $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
 
-  assert.equal($feedCarouselCard.find('div.FeedCarousel-FeedContentCard-title a').length, 0, 'Card title should not be clickable when not logged in');
+  assert.equal($feedCarouselCard.find('div.FeedCarousel-ContentCard-title a').length, 0, 'Card title should not be clickable when not logged in');
 
   this.render(hbs`{{feed-carousel
     model=model
@@ -99,14 +99,14 @@ test('feed-carousel fires correct tracking events', function(assert) {
   }}`);
 
   $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
-  let $cardLink = $feedCarouselCard.find('div.FeedCarousel-FeedContentCard-title a');
+  let $cardLink = $feedCarouselCard.find('div.FeedCarousel-ContentCard-title a');
 
   assert.ok($cardLink.length, 'Card title should be clickable when logged in');
 
   $cardLink.click();
   assert.equal(cardTrackingSpy.args[0][0], 'title', 'tracking event shows correct elemeent');
   assert.equal(cardTrackingSpy.args[0][1], this.get('model.id'), 'tracking card click event sends the correct carousel id');
-  assert.equal(cardTrackingSpy.args[0][2], this.get('model.feedContents')[0].id, 'tracking card click event sends the correct content id');
+  assert.equal(cardTrackingSpy.args[0][2], this.get('model.contents')[0].id, 'tracking card click event sends the correct content id');
 });
 
 test('feed-carousel displays cards and no cta if fewer than 5 cards present', function(assert) {

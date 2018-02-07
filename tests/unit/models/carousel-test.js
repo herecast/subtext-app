@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('carousel', 'Unit | Model | carousel', {
   // Specify the other units that are required for this test.
-  needs: ['model:organization', 'model:feed-content']
+  needs: ['model:organization', 'model:content']
 });
 
 test('it exists', function(assert) {

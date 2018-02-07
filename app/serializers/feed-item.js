@@ -4,7 +4,7 @@ import ApplicationSerializer from './application';
 export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
     carousel: { embedded: 'always' },
-    feedContent: { embedded: 'always' },
+    content: { embedded: 'always' },
     organization: { embedded: 'always' }
   },
 

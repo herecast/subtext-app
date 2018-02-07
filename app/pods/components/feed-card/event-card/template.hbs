@@ -8,9 +8,9 @@
     classNames="u-paddingTop16 u-paddingHorizontal8"
   }}
 
-  {{#if (or model.startsAtFormatted model.futureInstances)}}
+  {{#if (or model.startsAt model.futureInstances)}}
     {{feed-card/event-dates
-      eventDate=model.startsAtFormatted
+      eventDate=(moment-format model.startsAt "MMMM DD")
       otherInstances=model.futureInstances
       model=model
       classNames="u-paddingTop8"

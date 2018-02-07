@@ -89,7 +89,7 @@ function fillOutEventForm(opts) {
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });
-        server.create('feedContent', {id: newPost.id});
+        server.create('content', {id: newPost.id});
 
         return newPost;
       });
@@ -129,7 +129,7 @@ function fillOutEventForm(opts) {
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });
-        server.create('feedContent', {id: newPost.id});
+        server.create('content', {id: newPost.id});
 
         return newPost;
       });
@@ -167,8 +167,8 @@ function fillOutEventForm(opts) {
           "Includes job in api attributes"
         );
 
-        const feedContent = server.create('feedContent');
-        const newPost = server.create('event', {contentId: feedContent.id});
+        const content = server.create('content');
+        const newPost = server.create('event', {contentId: content.id});
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });

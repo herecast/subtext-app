@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   displayAsPublic: false,
   hideComments: false,
 
-  isFeedContent: computed.alias('model.isFeedContent'),
+  isContent: computed.alias('model.isContent'),
   isCarousel: computed.alias('model.isCarousel'),
   isOrganization: computed.alias('model.isOrganization'),
 

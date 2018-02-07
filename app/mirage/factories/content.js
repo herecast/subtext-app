@@ -9,13 +9,13 @@ function generateSplitContent() {
 }
 
 export default Factory.extend({
-  afterCreate(feedContent, server) {
-    if (feedContent.contentType === 'event' && !feedContent.eventInstances.length) {
-      let newEndDate = moment(feedContent.startsAt).add(1, 'hours').toDate();
+  afterCreate(content, server) {
+    if (content.contentType === 'event' && !content.eventInstances.length) {
+      let newEndDate = moment(content.startsAt).add(1, 'hours').toDate();
 
-      feedContent.update({endsAt: newEndDate});
+      content.update({endsAt: newEndDate});
 
-      const instances = server.createList('event-instance', 3, { event: feedContent.id });
+      const instances = server.createList('event-instance', 3, { event: content.id });
       return instances.map(({id}) => id);
     }
   },

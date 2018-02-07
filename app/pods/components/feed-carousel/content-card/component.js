@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { get, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
-  classNames: 'FeedCarousel-FeedContentCard',
+  classNames: 'FeedCarousel-ContentCard',
   classNameBindings: ['isListservCard:is-listserv-card'],
   'data-test-feed-carousel-card': computed.oneWay('model.normalizedContentType'),
 

@@ -24,7 +24,7 @@ test('visiting /feed with location previously selected ', function(assert) {
 
   const location = mockLocationCookie(this.application);
 
-  server.createList('feedContent', 3, {
+  server.createList('content', 3, {
     contentLocations: [{
       id: 1,
       location_type: 'base',
@@ -32,7 +32,7 @@ test('visiting /feed with location previously selected ', function(assert) {
     }]
   });
 
-  server.get('/contents', function({feedItems}, request) {
+  server.get('/feed', function({feedItems}, request) {
     if(request.queryParams.location_id) {
       assert.equal(request.queryParams.location_id,
         location.id,
@@ -45,7 +45,7 @@ test('visiting /feed with location previously selected ', function(assert) {
 
 
   const feedItems = server.createList('feedItem', 3, {
-    modelType: 'feedContent'
+    modelType: 'content'
   });
 
   visit('/feed');
@@ -58,10 +58,10 @@ test('visiting /feed with location previously selected ', function(assert) {
     feedItems.forEach((record) => {
       const $feedCard = find(
         testSelector('feed-card') +
-        testSelector('content', record.feedContent.id)
+        testSelector('content', record.content.id)
       );
       assert.ok($feedCard.length,
-        `A feed card exists for content id: ${record.feedContent.id}`);
+        `A feed card exists for content id: ${record.content.id}`);
     });
   });
 });
@@ -71,7 +71,7 @@ test('visiting /feed?location= with location in url', function(assert) {
 
   const location = mockLocationCookie(this.application);
 
-  server.createList('feedContent', 3, {
+  server.createList('content', 3, {
     contentLocations: [{
       id: 1,
       location_type: 'base',
@@ -79,7 +79,7 @@ test('visiting /feed?location= with location in url', function(assert) {
     }]
   });
 
-  server.get('/contents', function({feedItems}, request) {
+  server.get('/feed', function({feedItems}, request) {
     if(request.queryParams.location_id) {
       assert.equal(request.queryParams.location_id,
         location.id,
@@ -91,7 +91,7 @@ test('visiting /feed?location= with location in url', function(assert) {
   });
 
   const feedItems = server.createList('feedItem', 3, {
-    modelType: 'feedContent'
+    modelType: 'content'
   });
 
   visit('/feed?location=' + location.id);
@@ -100,16 +100,16 @@ test('visiting /feed?location= with location in url', function(assert) {
     feedItems.forEach((record) => {
       const $feedCard = find(
         testSelector('feed-card') +
-        testSelector('content', record.feedContent.id)
+        testSelector('content', record.content.id)
       );
       assert.ok($feedCard.length,
-        `A feed card exists for content id : ${record.feedContent.id}`);
+        `A feed card exists for content id : ${record.content.id}`);
     });
   });
 });
 
 test('visiting feed show page no location in url or cookie', function(assert) {
-  const feedRecord = server.create('feedContent');
+  const feedRecord = server.create('content');
 
   visit('/feed/' + feedRecord.id);
 
@@ -121,7 +121,7 @@ test('visiting feed show page no location in url or cookie', function(assert) {
 });
 
 test("feed show page, news", function(assert) {
-  const feedRecord = server.create('feedContent', {
+  const feedRecord = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'news'
   });
@@ -144,7 +144,7 @@ test("feed show page, news", function(assert) {
 });
 
 test('feed show page, market post', function(assert) {
-  const feedRecord = server.create('feedContent', {
+  const feedRecord = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'market'
   });
@@ -167,7 +167,7 @@ test('feed show page, market post', function(assert) {
 });
 
 test('feed show page, talk', function(assert) {
-  const feedRecord = server.create('feedContent', {
+  const feedRecord = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'talk'
   });
@@ -190,7 +190,7 @@ test('feed show page, talk', function(assert) {
 });
 
 test('feed show page, event', function(assert) {
-  const feedRecord = server.create('feedContent', {
+  const feedRecord = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'event'
   });
@@ -218,13 +218,13 @@ test('radius control, api radius parameter', function(assert) {
   const loc = server.create('location');
   let radius = 10;
 
-  server.get('/contents', function(db, request) {
+  server.get('/feed', function(db, request) {
     assert.equal(request.queryParams.radius, radius,
       `Api endpoint called with radius: ${radius}`
     );
     done();
 
-    return db.feedContents.all();
+    return db.contents.all();
   });
 
   visit('/feed?location=' + loc.id);
@@ -247,13 +247,13 @@ test('location control', function(assert) {
   visit('/feed?location=' + location1.id);
 
   andThen(()=>{
-    server.get('/contents', function(db, request) {
+    server.get('/feed', function(db, request) {
       assert.equal(request.queryParams.location_id, location2.id,
         `Api endpoint called with location selected from location selector`
       );
       done();
 
-      return db.feedContents.all();
+      return db.contents.all();
     });
     click(
       testSelector('action', 'open-location-selector')
@@ -308,13 +308,13 @@ test('Clicking "my stuff" - signed in, with content, content shows manage button
   mockLocationCookie(this.application);
   authenticateUser(this.application);
 
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
     authorId: 1
   });
 
   server.create('feedItem', {
-    modelType: 'feedContent',
-    feedContentId: feedContent.id
+    modelType: 'content',
+    contentId: content.id
   });
 
   visit('/feed');
@@ -335,24 +335,24 @@ test('Clicking "my stuff" - signed in, with content, click on consolidated view 
   mockLocationCookie(this.application);
   authenticateUser(this.application);
 
-  const feedContentsForMystuff = server.createList('feedContent', 5, {
+  const contentsForMystuff = server.createList('content', 5, {
     authorId: 1
   });
 
-  let feedContentsIds = feedContentsForMystuff.map(feedContent => feedContent.id);
+  let contentsIds = contentsForMystuff.map(content => content.id);
 
-  const feedContentsForGeneral = server.createList('feedContent', 5, {
+  const contentsForGeneral = server.createList('content', 5, {
     authorId: 2
   });
 
-  let additionalIds = feedContentsForGeneral.map(feedContent => feedContent.id);
+  let additionalIds = contentsForGeneral.map(content => content.id);
 
-  const allIds = feedContentsIds.concat(additionalIds);
+  const allIds = contentsIds.concat(additionalIds);
 
   allIds.forEach((id) => {
     server.create('feedItem', {
-      modelType: 'feedContent',
-      feedContentId: id
+      modelType: 'content',
+      contentId: id
     });
   });
 
@@ -389,13 +389,13 @@ test('hamburger menu, stories filter', function(assert) {
   visit('/feed');
 
   andThen(()=>{
-    server.get('/contents', function(db, request) {
+    server.get('/feed', function(db, request) {
       assert.equal(request.queryParams.content_type, 'stories',
         `Api endpoint called with news content_type param`
       );
       done();
 
-      return db.feedContents.all();
+      return db.contents.all();
     });
   });
 
@@ -418,13 +418,13 @@ test('hamburger menu, stories filter', function(assert) {
       "Should see news filter label"
     );
 
-    server.get('/contents', function(db, request) {
+    server.get('/feed', function(db, request) {
       assert.equal(request.queryParams.content_type, '',
         `Api endpoint called with no content_type param`
       );
       done();
 
-      return db.feedContents.all();
+      return db.contents.all();
     });
 
     click(
@@ -450,13 +450,13 @@ test('hamburger menu, market filter', function(assert) {
   visit('/feed');
 
   andThen(()=>{
-    server.get('/contents', function(db, request) {
+    server.get('/feed', function(db, request) {
       assert.equal(request.queryParams.content_type, 'market',
         `Api endpoint called with market content_type param`
       );
       done();
 
-      return db.feedContents.all();
+      return db.contents.all();
     });
   });
 
@@ -479,13 +479,13 @@ test('hamburger menu, market filter', function(assert) {
       "Should see a Market filter label"
     );
 
-    server.get('/contents', function(db, request) {
+    server.get('/feed', function(db, request) {
       assert.equal(request.queryParams.content_type, '',
         `Api endpoint called with no content_type param`
       );
       done();
 
-      return db.feedContents.all();
+      return db.contents.all();
     });
 
     click(
@@ -592,15 +592,15 @@ test('tracking impression events fired on feed index', function(assert) {
   this.application.register('services:trackingMock', tracking);
   this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
 
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
       contentType: 'news'
     });
 
   const feedItem = server.create('feedItem', {
-    modelType: 'feedContent'
+    modelType: 'content'
    });
 
-  feedItem.feedContent = feedContent;
+  feedItem.content = content;
   feedItem.save();
 
   visit('/feed/');
@@ -649,18 +649,18 @@ test('tracking impression events are not fired on feed detail page', function(as
   this.application.register('services:trackingMock', tracking);
   this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
 
-  const feedContent = server.create('feedContent', {
+  const content = server.create('content', {
       contentType: 'news'
     });
 
   const feedItem = server.create('feedItem', {
-    modelType: 'feedContent'
+    modelType: 'content'
    });
 
-  feedItem.feedContent = feedContent;
+  feedItem.content = content;
   feedItem.save();
 
-  visit('/feed/' + feedContent.id);
+  visit('/feed/' + content.id);
 
   andThen(()=> {
     assert.equal(impressions, 0,
