@@ -3,6 +3,7 @@
     <li>
       {{#if customLink.eventInstanceId}}
         {{#x-link-to  'profile.all.show-instance'
+                       organization.organizationLinkId
                        customLink.contentId
                        customLink.eventInstanceId
                        color='primary'
@@ -11,6 +12,7 @@
         {{/x-link-to}}
       {{else}}
         {{#x-link-to 'profile.all.show'
+                     organization.organizationLinkId
                      customLink.contentId
                      color='primary'
                      size='medium'}}

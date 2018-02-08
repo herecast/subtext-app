@@ -110,7 +110,7 @@ export default Ember.Component.extend({
     const queryParams = get(this, 'model.queryParams');
     let profileId = null;
 
-    if (isPresent(queryParams.organization_id)) {
+    if (isPresent(queryParams) && isPresent(queryParams.organization_id)) {
       profileId = queryParams.organization_id;
     }
 

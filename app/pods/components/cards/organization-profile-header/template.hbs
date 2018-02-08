@@ -57,7 +57,9 @@
 
     {{#if (and organization.customLinks showCustomLinks)}}
       {{#text-block center=true topMargin=true}}
-        {{cards/organization-profile-header/hotlinks customLinks=organization.customLinks}}
+        {{cards/organization-profile-header/hotlinks
+            organization=organization
+            customLinks=organization.customLinks}}
       {{/text-block}}
     {{/if}}
 
