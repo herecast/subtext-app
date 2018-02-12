@@ -1,19 +1,19 @@
 .FeedCard-Footer {
 
   &-wrap {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    .display-grid();
+    .grid-template-columns(1fr 1fr);
     border-top: solid 1px @secondary-bg;
   }
 
   &-left {
-    grid-column: 1;
+    .grid-column( 1 );
     text-align: left;
     padding: 8px 0 8px 8px;
   }
 
   &-right {
-    grid-column: 2;
+    .grid-column( 2 );
     text-align: right;
     .FeedCard-Footer-manage-button,
     .can-edit-button-active {

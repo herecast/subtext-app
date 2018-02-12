@@ -1,18 +1,19 @@
 .Feed-ProfileFeed {
 
   &-search-bar {
-    display: grid;
-    grid-template-columns: 1fr 100px;
-    align-items: center;
+    .display-grid();
+    .grid-template-columns( 1fr 100px );
   }
   &-search-input {
-
+    .grid-column(1);
   }
 
   &-controls {
     text-align: right;
     display: inline-block;
     padding-right: 8px;
+    .grid-column(2);
+    .grid-align-self(center);
 
     i {
       font-size: 25px;

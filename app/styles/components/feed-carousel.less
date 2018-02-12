@@ -2,19 +2,19 @@
   width: 100%;
 
   &-title-bar {
-    display: grid;
-    grid-template-columns: 1fr 64px;
+    .display-grid();
+    .grid-template-columns( 1fr 64px );
     padding: 10px 15px;
     border-bottom: solid 1px #ECF2F5;
 
     &-left {
-      grid-column: 1;
-      justify-self: start;
+      .grid-column( 1 );
+      .grid-justify-self(start);
     }
     &-right {
-      grid-column: 2;
-      justify-self: end;
-      align-self: center;
+      .grid-column( 2 );
+      .grid-justify-self(end);
+      .grid-align-self(center);
 
       a:hover {
         color: @button-primary;

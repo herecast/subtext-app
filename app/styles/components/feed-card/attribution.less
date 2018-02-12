@@ -1,18 +1,19 @@
 .FeedCard-Attribution {
 
   &-author-wrap {
-    display: grid;
-    grid-template-columns: 45px 1fr;
-    grid-column: 1;
+    .display-grid();
+    .grid-template-columns( 45px 1fr );
+    .grid-column( 1 );
   }
   &-author-left {
-    grid-column: 1;
+    .grid-column( 1 );
     text-align: left;
   }
 
   &-author-right {
-    grid-column: 2;
-    align-self: center;
+    .grid-column( 2 );
+    .grid-align-self(center);
+    .grid-justify-self(start);
     text-align: left;
     line-height: 1.2;
   }

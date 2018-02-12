@@ -31,23 +31,24 @@
   }
 
   &-header-image-wrap {
-    display: grid;
-    grid-template-columns: 1fr;
+    .display-grid();
+    .grid-template-columns( 1fr );
   }
 
   &-header-image,
   &-profile-image {
-    grid-column: 1;
-    grid-row: 1;
+    .grid-column( 1 );
+    .grid-row( 1 );
   }
   &-header-image {
     width: 100%;
     height: 100%;
-    align-self: center;
+    .grid-align-self(center);
   }
   &-profile-image {
-    justify-self: center;
-    align-self: end;
+    position: relative;
+    .grid-justify-self(center);
+    .grid-align-self( end );
     z-index: 2;
   }
 

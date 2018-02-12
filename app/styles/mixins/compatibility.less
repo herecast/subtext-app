@@ -153,3 +153,61 @@
   -ms-filter: @arguments;
 	filter: @arguments;
 }
+
+
+// GRID
+
+.display-grid() {
+  display: grid;
+  display: -ms-grid;
+}
+
+.grid-template-columns(@arguments) {
+  grid-template-columns: @arguments;
+  -ms-grid-columns: @arguments;
+}
+
+.grid-template-rows(@arguments) {
+  grid-template-rows: @arguments;
+  -ms-grid-rows: @arguments;
+}
+
+.grid-column(@arguments) {
+  grid-column: @arguments;
+  -ms-grid-column: @arguments;
+}
+
+.grid-row(@arguments) {
+  grid-row: @arguments;
+  -ms-grid-row: @arguments;
+}
+
+.grid-row-start(@arguments) {
+  grid-row-start: @arguments;
+  -ms-grid-row-start: @arguments;
+}
+
+.grid-column-start(@arguments) {
+  grid-column-start: @arguments;
+  -ms-grid-column-start: @arguments;
+}
+
+.grid-row-end(@arguments) {
+  grid-column-end: @arguments;
+  -ms-grid-row-span: @arguments;
+}
+
+.grid-column-end(@arguments) {
+  grid-column-end: @arguments;
+  -ms-grid-column-span: @arguments;
+}
+
+.grid-align-self(@arguments) {
+  align-self: @arguments;
+  -ms-grid-row-align: @arguments;
+}
+
+.grid-justify-self(@arguments) {
+  justify-self: @arguments;
+  -ms-grid-column-align: @arguments;
+}
