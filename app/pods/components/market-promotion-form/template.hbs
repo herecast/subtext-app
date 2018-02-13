@@ -17,7 +17,7 @@
     </p>
     <div class='row'>
       <div class='col-sm-2 col-sm-offset-2'>
-        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle'>
+        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle' data-test-listserv-toggle>
           {{#if listsEnabled}}
             {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
           {{else}}

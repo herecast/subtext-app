@@ -132,7 +132,7 @@
         }}
           <label>
             Author Override
-              <span class='NewsEditor-toggle' {{action 'toggleAuthorOverride'}}>
+              <span class='NewsEditor-toggle' {{action 'toggleAuthorOverride'}} data-test-author-override="toggle">
                 No
                 {{#if authorOverrideEnabled}}
                   {{fa-icon 'toggle-on is-on' size='lg'}}
@@ -151,6 +151,7 @@
                 type='checkbox'
                 checked=hasAuthorName
                 change=(action 'toggleAuthorName')
+                data-test-author-override='checkbox'
                 }}
                 <span>
                   {{#if hasAuthorName}}
@@ -203,6 +204,7 @@
                     placeholder="Pick a date"
                     class='form-control'
                     id="scheduled_date"
+                    data-test-schedule-publish='date'
                     }}
                   {{/form-group}}
                   {{#form-group error=errors.publishedAt hideError=true}}
@@ -215,14 +217,15 @@
                     placeholder="Pick a time"
                     class='form-control'
                     id="scheduled_time"
+                    data-test-schedule-publish='time'
                     }}
                   {{/form-group}}
-                  <button {{action 'schedulePublish'}} class='btn btn-primary'>Confirm</button>
+                  <button {{action 'schedulePublish'}} class='btn btn-primary' data-test-schedule-publish='confirm'>Confirm</button>
                   <button {{action 'cancelSchedulePublish'}} class='btn'>Cancel</button>
                 {{else}}
                   <button {{action 'publish'}} class='btn btn-primary'>Publish Now</button>
                   <br/>
-                  <button {{action 'choosePubDate'}} class='btn'>Schedule Publish</button>
+                  <button {{action 'choosePubDate'}} class='btn' data-test-schedule-publish='button'>Schedule Publish</button>
 
                   <button {{action 'togglePreview'}} class='btn'>Preview Post</button>
                 {{/if}}

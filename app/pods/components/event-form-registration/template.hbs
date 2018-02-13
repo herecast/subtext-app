@@ -2,7 +2,7 @@
   <label>
     Registration
 
-    <span class='EventForm-toggle' {{action 'toggleRegistration'}}>
+    <span class='EventForm-toggle' {{action 'toggleRegistration'}} data-test-deadline>
       No
       {{#if registrationEnabled}}
         {{fa-icon 'toggle-on is-on' size='lg'}}
@@ -26,6 +26,7 @@
               format='MM/DD/YYYY'
               placeholder='12/25/2020'
               update=(action (mut date))
+              data-test-input='event-deadline'
           }}
         </div>
       </div>

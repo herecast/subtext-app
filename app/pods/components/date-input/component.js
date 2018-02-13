@@ -68,7 +68,7 @@ export default Ember.Component.extend({
    * Parse the value coming from the input
    */
   parseUpdate(value) {
-    if(get(this, '_isNative')) {
+    if(get(this, '_isNative') || !(value._isAMomentObject)) {
       return moment(value, nativeFormat, true);
     } else {
       // already a moment object

@@ -1,4 +1,5 @@
-  <button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown">
+  <button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown"
+    data-test-organization-dropdown>
       {{#if selection}}
         {{ selection.name }}
       {{else}}
@@ -19,7 +20,7 @@
   {{#each organizations as |org|}}
       <li role="separator" class="divider"></li>
       <li>
-        <a href="#" {{action 'selectOrganization' org}}>{{ org.name }}</a>
+        <a href="#" {{action 'selectOrganization' org}} data-test-organization-select='{{org.id}}'>{{ org.name }}</a>
     </li>
   {{/each}}
 </ul>

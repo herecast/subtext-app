@@ -12,7 +12,8 @@
   name='cost'
   value='paid'
   groupValue=costType
-  onChange=(action 'setCostType' 'paid')}}
+  onChange=(action 'setCostType' 'paid')
+  data-test-paid-toggle=true}}
   &nbsp;Paid
 {{/radio-button}}
 
@@ -38,5 +39,6 @@
     placeholder=costPlaceholder
     value=cost
     class='form-control notapplicable'
+    data-test-price-description=true
   }}
 {{/liquid-unless}}

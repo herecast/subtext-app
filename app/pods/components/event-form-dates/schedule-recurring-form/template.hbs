@@ -9,6 +9,7 @@
             format='MM/DD/YYYY'
             placeholder='12/25/2020'
             update=(action (mut startDate))
+            data-test-recurring-component='start-date'
         }}
     {{/form-group}}
 
@@ -19,6 +20,7 @@
           format='MM/DD/YYYY'
           placeholder='12/25/2020'
           update=(action (mut stopDate))
+          data-test-recurring-component='end-date'
       }}
     {{/form-group}}
   {{/form-group}}
@@ -27,7 +29,7 @@
     <label class='ContentForm-label--required'>Repeats</label>
 
     <div class='form-group'>
-      <select onchange={{action 'selectRepeatType' value="target.value"}} class='form-control'>
+      <select onchange={{action 'selectRepeatType' value="target.value"}} class='form-control' data-test-recurring-component='repeat-type'>
         {{#each repeatTypes as |repeatChoice|}}
           <option value={{repeatChoice.value}} selected={{eq repeats repeatChoice.value}}>{{repeatChoice.key}}</option>
         {{/each}}
@@ -67,6 +69,7 @@
           format='h:mm a'
           placeholder='9:00 am'
           update=(action (mut startTime))
+          data-test-recurring-component='start-time'
       }}
     {{/form-group}}
 
@@ -89,6 +92,7 @@
           placeholder="Subtitle ex: 10th Annual"
           class='form-control'
           value=subtitle
+          data-test-recurring-component='subtitle'
         }}
       </div>
       <div class='col-xs-6'>
@@ -97,12 +101,13 @@
           placeholder="Presenter / Instructor"
           class='form-control'
           value=presenterName
+          data-test-recurring-component='presenter'
         }}
       </div>
     </div>
   </div>
 
   {{!-- TODO optional information --}}
-  <button class="Button Button--primary pull-right" {{action 'save'}}>Done</button>
+  <button class="Button Button--primary pull-right" {{action 'save'}} data-test-complete-recurring-form>Done</button>
   <button class="Button ContentForm-discardButton Button--default pull-right" {{action 'cancel'}}>Cancel</button>
 </div>

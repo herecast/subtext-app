@@ -26,6 +26,14 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.base_location_names;
     delete json.content_locations;
     delete json.comment_count;
+    delete json.venue_id;
+    delete json.venue_address;
+    delete json.venue_city;
+    delete json.venue_name;
+    delete json.venue_state;
+    delete json.venue_url;
+    delete json.venue_zip;
+    delete json.venue_status;
 
     return json;
   }

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 /* global loadImage */
 
-const {get, set, setProperties, computed, isBlank, isPresent} = Ember;
+const {get, set, run, setProperties, computed, isBlank, isPresent} = Ember;
 
 export default Ember.Component.extend({
   originalImageFile: null,
@@ -68,10 +68,22 @@ export default Ember.Component.extend({
       maxHeight: 2000
     };
 
+    if(Ember.testing) {
+      this._canvasLoaded = false;
+      Ember.Test.registerWaiter(()=> this._canvasLoaded === true);
+    }
+
     loadImage(file, (canvas) => {
-      if (this.validateCanvasDimensions(canvas)) {
-        this._saveCanvas(canvas, get(file, 'type'));
-      }
+
+      run(()=>{
+        if (this.validateCanvasDimensions(canvas)) {
+          this._saveCanvas(canvas, get(file, 'type'));
+        }
+
+        if(Ember.testing) {
+          this._canvasLoaded = true;
+        }
+      });
     }, options);
   },
 
@@ -86,9 +98,20 @@ export default Ember.Component.extend({
     set(this, 'imageType', imageType);
     this.set('imageUrl', url);
 
+    if(Ember.testing) {
+      this._blobLoaded = false;
+      Ember.Test.registerWaiter(()=> this._blobLoaded === true);
+    }
+
     canvas.toBlob((data) => {
-      this.set('image', data);
-      this.onImageUpdate(data);
+      run(()=>{
+        this.set('image', data);
+        this.onImageUpdate(data);
+
+        if(Ember.testing) {
+          this._blobLoaded = true;
+        }
+      });
     }, imageType, blobQuality);
   },
 
@@ -97,25 +120,36 @@ export default Ember.Component.extend({
       const image = new Image();
       image.crossOrigin = "anonymous";
 
+      if(Ember.testing) {
+        this._imageLoaded = false;
+        Ember.Test.registerWaiter(()=> this._imageLoaded === true);
+      }
+
       image.onload = () => {
-        const { width, height } = image;
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        run(()=>{
+          const { width, height } = image;
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
 
-        canvas.setAttribute('width', height);
-        canvas.setAttribute('height', width);
+          canvas.setAttribute('width', height);
+          canvas.setAttribute('height', width);
 
-        ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.translate(canvas.width / 2, canvas.height / 2);
 
-        if (direction === 'left') {
-          ctx.rotate(-0.5 * Math.PI);
-        } else {
-          ctx.rotate(0.5 * Math.PI);
-        }
+          if (direction === 'left') {
+            ctx.rotate(-0.5 * Math.PI);
+          } else {
+            ctx.rotate(0.5 * Math.PI);
+          }
 
-        ctx.drawImage(image, -width/2, -height/2);
+          ctx.drawImage(image, -width/2, -height/2);
 
-        this._saveCanvas(canvas);
+          if(Ember.testing) {
+            this._imageLoaded = true;
+          }
+
+          this._saveCanvas(canvas);
+        });
       };
 
       image.src = get(this, 'displayImageUrl');

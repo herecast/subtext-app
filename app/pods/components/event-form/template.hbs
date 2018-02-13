@@ -13,7 +13,7 @@
     placeholder='Keep it short and informative'
     value=(mut model.title)
     class="form-control"
-    data-test-field="market-title"
+    data-test-field="event-title"
   )
   content-input=(component 'summer-note'
     content=(readonly model.content)
@@ -128,6 +128,7 @@
         type='checkbox'
         checked=event.wantsToAdvertise
         change=(action 'toggleAdvertisingRequest')
+        data-test-input='expand-reach'
       }}
       <span>
         {{if event.wantsToAdvertise 'I will receive ' 'Please send me '}}information about paid options for reaching a wider audience through DailyUV.
@@ -176,6 +177,7 @@
     imageUrl=event.imageUrl
     originalImageFile=event.originalImageFile
     error=errors.image
+    data-test-event-image=true
   }}
 {{/if}}
 
@@ -205,6 +207,7 @@
         class='form-control'
         value=event.contactEmail
         input=(action 'validateForm')
+        data-test-contact-email=true
       }}
     </div>
   {{/form-group}}
@@ -219,6 +222,7 @@
         class='form-control'
         value=event.contactPhone
         input=(action 'validateForm')
+        data-test-contact-phone=true
       }}
     </div>
   {{/form-group}}
@@ -234,6 +238,7 @@
         value=event.eventUrl
         focus-out='normalizeUrl'
         input=(action 'validateForm')
+        data-test-event-url=true
       }}
     </div>
   {{/form-group}}

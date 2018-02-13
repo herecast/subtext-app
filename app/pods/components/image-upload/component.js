@@ -5,7 +5,8 @@ const {
   computed,
   get,
   set,
-  isBlank
+  isBlank,
+  run
 } = Ember;
 
 export default Ember.Component.extend({
@@ -58,6 +59,11 @@ export default Ember.Component.extend({
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
+    if(Ember.testing) {
+      this._imageLoaded = false;
+      Ember.Test.registerWaiter(() => this._imageLoaded === true);
+    }
+
     loadImage.parseMetaData(file, () => {
       const options = {
         // Convert to a canvas object so that we can validate it
@@ -69,15 +75,21 @@ export default Ember.Component.extend({
       // Because loadImage is asynchronous, when the canvas property is
       // changed, it triggers a function that updates the imageUrl on an image.
       loadImage(file, (canvas) => {
-        const $canvas = Ember.$(canvas);
-        if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
-          set(this, 'fileErrorMessage', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
-          return false;
-        } else {
-          set(this, 'fileErrorMessage', null);
-          set(this, 'image.file', file);
-          set(this, 'image.imageUrl', canvas.toDataURL(get(file, 'type')));
-        }
+        run(() => {
+          const $canvas = Ember.$(canvas);
+          if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
+            set(this, 'fileErrorMessage', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
+            return false;
+          } else {
+            set(this, 'fileErrorMessage', null);
+            set(this, 'image.file', file);
+            set(this, 'image.imageUrl', canvas.toDataURL(get(file, 'type')));
+
+            if(Ember.testing) {
+              this._imageLoaded = true;
+            }
+          }
+        });
       }, options);
     });
   },

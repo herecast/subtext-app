@@ -8,12 +8,13 @@
       image=image
       remove=(action 'removeImage')
       setPrimary=(action 'setPrimary')
+      data-test-market-image=true
     }}
   {{/each}}
 {{/form-group}}
 
 {{#if underImageLimit}}
-  <button {{action 'addImage'}} class='Button Button--default'>
+  <button {{action 'addImage'}} class='Button Button--default' data-test-add-another-image>
     {{fa-icon 'plus-circle'}} Add another image
   </button>
 {{/if}}

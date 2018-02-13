@@ -115,11 +115,13 @@
     placeholder='A dollar figure or text'
     class='form-control'
     value=post.cost
+    data-test-field='market-cost'
   }}
 </div>
 
 {{image-upload-list
   model=post
+  data-test-market-image=true
 }}
 
 {{#form-group error=errors.contact hideError=true class='u-layoutPadT50'}}
@@ -141,6 +143,7 @@
         class='form-control'
         value=(mut post.contactEmail)
         input=(action 'validateForm')
+        data-test-field='market-contactEmail'
       }}
     </div>
   </div>
@@ -157,6 +160,7 @@
         value=(mut post.contactPhone)
         type='tel'
         input=(action 'validateForm')
+        data-test-field='market-contactPhone'
       }}
     </div>
   </div>
