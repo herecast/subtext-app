@@ -6,6 +6,7 @@ import Ember from 'ember';
 // Browser functions required:
 /* global FormData */
 /* global Blob */
+/* global btoa */
 /* global encodeURI */
 
 
@@ -71,6 +72,75 @@ moduleFor('service:api', 'Unit | Service | api', {
   }
 });
 
+test('unsubscribeSubscription(id)', function(assert) {
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
+
+  const id = 1;
+
+  const done = assert.async();
+  const returnData = {
+    root: {
+      field: 'value'
+    }
+  };
+
+  server.del('/subscriptions/:id', (schema, request)=> {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    assert.equal(request.params.id, id,
+      'DELETE /subscriptions/:id with correct id');
+    return returnData;
+  });
+
+  subject.unsubscribeSubscription(id).then((responseData) => {
+    assert.deepEqual(responseData, returnData,
+      'it returns parsed response JSON'
+    );
+    done();
+  });
+});
+
+test('unsubscribeFromListserv(id, email)', function(assert) {
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
+
+  const id = 1;
+  const email = 'test@foo.com';
+
+  const done = assert.async();
+  const returnData = {
+    root: {
+      field: 'value'
+    }
+  };
+
+  server.del('/subscriptions/:id/:encoded_email', (schema, request)=> {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    const encodedEmail = encodeURIComponent(btoa(email));
+
+    assert.equal(request.params.id, id);
+    assert.equal(request.params.encoded_email, encodedEmail);
+    assert.ok(true, 'DELETE /subscriptions/:id/:encoded_email with correct id and email');
+    return returnData;
+  });
+
+  subject.unsubscribeFromListserv(id, email).then((responseData) => {
+    assert.deepEqual(responseData, returnData,
+      'it returns parsed response JSON'
+    );
+    done();
+  });
+});
 
 test('confirmedRegistration(data)', function(assert) {
   const subject = this.subject({
@@ -427,6 +497,37 @@ test('getContentPromotions(options)', function(assert) {
   });
 
   subject.getContentPromotions({content_id}).then((responseData) => {
+    assert.deepEqual(responseData, returnData,
+      'it returns parsed response JSON'
+    );
+    done();
+  });
+});
+
+test('getListServs()', function(assert) {
+  const subject = this.subject({
+    session: this.session,
+    queryCache: this.queryCache
+  });
+
+  const done = assert.async();
+  const returnData = {
+    root: {
+      field: 'value'
+    }
+  };
+
+  server.get('/listservs', (schema, request) => {
+    expect.consumerAppHeader(assert, request);
+    expect.authorizationHeader(assert, request);
+    expect.acceptHeader(assert, request, 'application/json');
+
+    assert.ok(true, 'GET /listservs');
+
+    return returnData;
+  });
+
+  subject.getListServs().then((responseData) => {
     assert.deepEqual(responseData, returnData,
       'it returns parsed response JSON'
     );

@@ -91,6 +91,10 @@ Router.map(function() {
     this.route('subscribe', {path: '/:id/subscribe'});
   });
 
+  this.route('lists', function() {
+    this.route('unsubscribe', {path: '/:listserv_id/unsubscribe'});
+  });
+
   this.route('prohibited-items');
 
   this.route('account', function() {

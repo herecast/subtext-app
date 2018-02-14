@@ -227,6 +227,19 @@ export default Ember.Service.extend(FastbootExtensions, {
    * API methods start here
    */
 
+  unsubscribeSubscription(id) {
+    return this.returnJson(
+      this.del(`/subscriptions/${id}`)
+    );
+  },
+
+  unsubscribeFromListserv(id, email) {
+    const encodedEmail = encodeURIComponent(btoa(email));
+    return this.returnJson(
+      this.del(`/subscriptions/${id}/${encodedEmail}`)
+    );
+  },
+
   /*
    * Confirmed registration does a few things:
    * 1. it registers a new user account
