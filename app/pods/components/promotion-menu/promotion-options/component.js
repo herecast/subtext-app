@@ -33,7 +33,7 @@ export default Ember.Component.extend({
   },
 
   _queuePromotionRecord(platform) {
-    if (get(this, 'hasOrganiation')) {
+    if (get(this, 'hasOrganization')) {
       setProperties(this, {
         hasPromotionToRecord: true,
         lastSharePlatform: platform
