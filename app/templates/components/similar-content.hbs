@@ -5,7 +5,10 @@
       <div class='row'>
         {{#each contentGroup as |content|}}
           <div class='col-sm-6'>
-            {{small-card item=content}}
+            {{small-card
+              item=content
+              isSimilarContent=true
+            }}
           </div>
         {{/each}}
       </div>

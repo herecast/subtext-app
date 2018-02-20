@@ -1,10 +1,12 @@
 {{#link-to-content item}}
   {{#media-container as |media|}}
-    {{#media.object}}
-      <img src="{{optimized-image-url item.imageUrl 40 30 true}}" alt="">
-    {{/media.object}}
-    {{#media.content}}
-      {{item.title}}
-    {{/media.content}}
+    <span {{action 'trackClick' item}}>
+      {{#media.object}}
+        <img src="{{optimized-image-url item.imageUrl 40 30 true}}" alt="">
+      {{/media.object}}
+      {{#media.content}}
+        {{item.title}}
+      {{/media.content}}
+    </span>
   {{/media-container}}
 {{/link-to-content}}
