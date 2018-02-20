@@ -43,7 +43,11 @@ export default Ember.Mixin.create({
       if(!get(this, 'isDestroying')) {
         if(notAlreadySent && canSend) {
           const model = get(this, 'model');
-          get(this, 'tracking').trackTileImpression(model);
+          const impressionLocation = get(this, 'impressionLocation');
+          get(this, 'tracking').trackTileImpression({
+            model: model,
+            impressionLocation: impressionLocation
+          });
           set(this, '_didEnterViewPort', true);
 
           this._unbindListeners();

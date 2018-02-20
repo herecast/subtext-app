@@ -66,14 +66,17 @@ test('trackTileImpression', function(assert) {
     organizationId: 21
   };
 
-  service.trackTileImpression(content);
+  const impressionLocation = 'index-feed';
+
+  service.trackTileImpression({model: content, impressionLocation: impressionLocation});
 
   return wait().then(()=>{
     assert.deepEqual(service.push.lastCall.args[0], {
       event: 'VirtualTileImpression',
       content_type: content.contentType,
       content_id: content.contentId,
-      organization_id: content.organizationId
+      organization_id: content.organizationId,
+      impression_location: impressionLocation
     }, "It sends a VirtualTileImpression event to the data layer, with expected fields");
   });
 });
@@ -96,7 +99,7 @@ test('User can edit content', function(assert) {
   };
 
   service.trackTileLoad(content);
-  service.trackTileImpression(content);
+  service.trackTileImpression({model:content, impressionLocation: 'index-feed'});
 
   return wait().then(()=>{
     assert.notOk(service.push.called,

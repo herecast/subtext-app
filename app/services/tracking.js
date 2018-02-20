@@ -364,12 +364,14 @@ export default Service.extend(Evented, {
     });
   },
 
-  trackTileImpression(content) {
+  trackTileImpression(options) {
+    const content = options.model;
     this._pushDataIfCannotEdit(get(content, 'contentId'), {
       event: 'VirtualTileImpression',
       content_type: get(content, 'contentType'),
       content_id: get(content, 'contentId'),
-      organization_id: get(content, 'organizationId')
+      organization_id: get(content, 'organizationId'),
+      impression_location: options.impressionLocation
     });
   },
 
