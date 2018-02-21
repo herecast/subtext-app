@@ -16,7 +16,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
   userLocation: inject.service(),
 
   model(params) {
-    return this.store.findRecord('market-post', params.id, {reload: true});
+    return this.store.findRecord('content', params.id, {reload: true});
   },
 
   // We can't depend on model.hasDirtyAttributes because it is always true,
@@ -48,7 +48,6 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
 
     if (confirmed) {
       model.rollbackImages();
-      model.resetContentLocationChanges();
       model.set('listservIds', []);
       model.rollbackAttributes();
     } else {

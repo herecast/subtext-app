@@ -33,7 +33,7 @@
     {{/if}}
   {{/unless}}
 
-  {{#if (or model.timeRangeNoDates model.price model.venueAddress model.venueCity)}}
+  {{#if (or model.timeRangeNoDates model.cost model.venueAddress model.venueCity)}}
 
     {{feed-card/event-info
       timeRangeNoDates=model.timeRangeNoDates
@@ -65,7 +65,7 @@
     openPromotionMenu=(action 'openPromotionMenu')
     model=model
     editPath="events.edit"
-    editPathId=model.eventId
+    editPathId=model.contentId
   }}
 
   {{#unless (or context.condensedView context.hideComments)}}

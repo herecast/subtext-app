@@ -12,6 +12,7 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
     let newRecordValues = {
       viewCount: 0,
       promoteRadius: 10,
+      contentType: 'talk',
       ugcJob: params.job,
       authorName: this.get('session.currentUser.name')
     };
@@ -19,10 +20,10 @@ export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLoca
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        return this.store.createRecord('talk', newRecordValues);
+        return this.store.createRecord('content', newRecordValues);
       });
     } else {
-      return this.store.createRecord('talk', newRecordValues);
+      return this.store.createRecord('content', newRecordValues);
     }
   },
 

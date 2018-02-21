@@ -20,7 +20,6 @@ export default Ember.Mixin.create({
   // The following fields are only present for events,
   // and should be removed once events handle multiple
   // images.
-  eventId: attr('number'),
   imageUrl: attr('string'),
   imageWidth: attr('string'),
   imageHeight: attr('string'),
@@ -33,7 +32,10 @@ export default Ember.Mixin.create({
   }),
 
   // TAG:NOTE image handling should be stanardized. Notes on this sent to JohnO ~cm
-  bannerImage: computed.alias('primaryImage'),
+  // Different for news..  Do not use the current primary image implementation with imageUrl
+  bannerImage: computed('images.@each.primary', function() {
+    return get(this, 'images').findBy('primary', 1);
+  }),
   featuredImageWidth: computed.oneWay('bannerImage.width'),
   featuredImageHeight: computed.oneWay('bannerImage.height'),
   featuredImageUrl: computed.oneWay('bannerImage.imageUrl'),
@@ -67,34 +69,25 @@ export default Ember.Mixin.create({
 
 
   // @TODO remove once events support multiple images
-  uploadEventImage() {
-    const event_id = get(this, 'eventId');
-    const api = get(this, 'api');
+  uploadImage(image) {
     const data = new FormData();
 
-    if (this.get('image')) {
-      data.append('event[image]', this.get('image'));
+    data.append('image[primary]', true);
+    data.append('image[image]', image);
+    data.append('image[content_id]', get(this, 'id'));
 
-      return api.updateEventImage(event_id, data);
-    }
-  },
-  uploadTalkImage() {
-    if (get(this, 'image')) {
-      const api = get(this, 'api');
-      const data = new FormData();
-
-      data.append('talk[image]', get(this, 'image'));
-
-      return api.updateTalkImage(get(this, 'id'), data);
-    }
+    return get(this, 'api').upsertImage(data);
   },
 
   save() {
-    const imagesToSave = get(this, 'images').filterBy('imageUrl');
+    const imagesToSave = get(this, 'images')
+      .filterBy('hasDirtyAttributes')
+      .filterBy('imageUrl');
+
     const imagesToDelete = get(this, 'images').filterBy('_delete');
 
-    return this._super().then((post) => {
-      imagesToSave.setEach('contentId', get(post, 'id'));
+    return this._super().then(() => {
+      imagesToSave.setEach('contentId', get(this, 'id'));
 
       let position = 1;
       const savedImages = imagesToSave.map((image) => {
@@ -113,23 +106,23 @@ export default Ember.Mixin.create({
 
       // Single image
       // @TODO remove once event has multiple images
-      if(post.get('image')) {
-        if(post.get('contentType') === 'talk') {
-          allImages.push(post.uploadTalkImage());
-        } else if(post.get('contentType') === 'event') {
-          allImages.push(post.uploadEventImage());
-        }
+      if(this.get('image')) {
+        allImages.push(this.uploadImage(get(this, 'image')));
       }
 
-      return RSVP.all(allImages);
+      return RSVP.all(allImages).then(() => {
+        // Clean up any images build for the form, or that did not save
+        this.rollbackImages();
+        return this;
+      });
     });
   },
 
-  saveWithImages() {
-    this.save();
-  },
-
   rollbackImages() {
-    get(this, 'images').forEach(image => image.rollbackAttributes());
+    get(this, 'images').forEach((image) => {
+      if(!image.get('id')) {
+        image.rollbackAttributes();
+      }
+    });
   }
 });

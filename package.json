@@ -111,6 +111,7 @@
   ],
   "dependencies": {
     "cookie-parser": "^1.4.3",
-    "express-healthcheck": "^0.1.0"
+    "express-healthcheck": "^0.1.0",
+    "later": "^1.2.0"
   }
 }

@@ -8,15 +8,17 @@ export default Ember.Route.extend(Authorized, Scroll, {
   titleToken: 'Create News',
 
   model(params, transition) {
-    let newRecordValues = {};
+    let newRecordValues = {
+      contentType: 'news'
+    };
 
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        return this.store.createRecord('news', newRecordValues);
+        return this.store.createRecord('content', newRecordValues);
       });
     } else {
-      return this.store.createRecord('news');
+      return this.store.createRecord('content', newRecordValues);
     }
   },
 

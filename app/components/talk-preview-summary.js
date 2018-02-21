@@ -13,8 +13,8 @@ export default Ember.Component.extend({
 
       callback(promise);
 
-      promise.then((savedTalk) => {
-        this.sendAction('afterPublish', savedTalk);
+      promise.then(() => {
+        this.sendAction('afterPublish', talk);
       });
     }
   }

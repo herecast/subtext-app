@@ -19,7 +19,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   closeRoute: 'events',
   closeLabel: 'Events',
   editPath:   'events.edit',
-  editPathId: computed.oneWay('model.eventId'),
+  editPathId: computed.oneWay('model.contentId'),
   fastboot: inject.service(),
   tracking: inject.service(),
 

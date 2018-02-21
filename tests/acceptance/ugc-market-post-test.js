@@ -21,49 +21,37 @@ test('Every field available filled in', function(assert) {
   const phone = '8025555555';
   const cost = "7";
 
-  server.post('/market_posts', function() {
+  server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();
-    assert.equal(JSON.stringify(attrs), JSON.stringify({
-      authorId: null,
-      avatarUrl: null,
+    assert.deepEqual(attrs, {
+      authorName: null,
       contactEmail: email,
       contactPhone: phone,
       content: description,
-      contentType: null,
-      contentOrigin: null,
+      contentType: "market",
       cost: cost,
       costType: null,
-      embeddedAd: false,
-      endsAt: null,
-      eventId: null,
-      eventInstanceId: null,
       eventUrl: null,
-      imageWidth: null,
-      imageHeight: null,
       listservIds: [parseInt(get(listserv, 'id'))],
       organizationId: null,
-      organizationName: null,
-      organizationProfileImageUrl: null,
-      organizationBizFeedActive: false,
-      parentContentId: null,
-      parentContentType: null,
-      parentEventInstanceId: null,
-      registrationDeadline: null,
-      sold: false,
-      startsAt: null,
-      subtitle: null,
-      title: title,
-      ugcJob: null,
-      viewCount: null,
-      wantsToAdvertise:false,
       promoteRadius: 50,
-      ugcBaseLocationId: get(location, 'id')
-    }),
+      publishedAt: null,
+      registrationDeadline: null,
+      schedules: [],
+      sold: false,
+      subtitle: null,
+      sunsetDate: null,
+      title: title,
+      ugcBaseLocationId: get(location, 'id'),
+      ugcJob: null,
+      venueId: null,
+      venueStatus: null,
+      wantsToAdvertise:false,
+    },
       "Server received expected POST data."
     );
     done();
-    const content = server.create('content');
-    return server.create('market-post', {id: content.id});
+    return server.create('content', attrs);
   });
 
   server.post('/images', function(_, request) {

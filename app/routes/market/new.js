@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
@@ -13,19 +12,19 @@ export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLoc
 
   model(params, transition) {
     const newRecordValues = {
-      publishedAt: moment(),
       promoteRadius: 10,
       contactEmail: get(this, 'currentUserEmail'),
+      contentType: 'market',
       ugcJob: params.job
     };
 
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        return this.store.createRecord('market-post', newRecordValues);
+        return this.store.createRecord('content', newRecordValues);
       });
     } else {
-      return this.store.createRecord('market-post', newRecordValues);
+      return this.store.createRecord('content', newRecordValues);
     }
   },
 

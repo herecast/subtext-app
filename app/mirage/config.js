@@ -26,124 +26,6 @@ function filterCollectionByDate(mirageCollection, queryStart, queryEnd) {
   }
 }
 
-const eventBaseProperties = [
-  'id', 'content_id', 'content', 'image_url', 'cost', 'cost_type',
-  'venue_name', 'venue_address', 'venue_city', 'venue_state',
-  'venue_zip', 'venue_id', 'venue_latitude', 'venue_longitude',
-  'venue_locate_name', 'venue_url', 'registration_deadline',
-  'registration_url', 'registration_phone', 'registration_email',
-  'event_url', 'contact_phone', 'contact_email','can_edit',
-  'title', 'subtitle', 'ends_at', 'starts_at', 'event_id', 'publishedAt'
-];
-
-const marketPostBaseProperties = [
-  'id', 'title', 'imageUrl', 'publishedAt', 'contentId'
-];
-
-const talkBaseProperties = [
-  'id', 'title', 'author_image_url', 'published_at', 'commenter_count',
-  'view_count', 'author_name'
-];
-
-const newsBaseProperties = [
-  'id', 'title', 'content', 'publishedAt', 'authorId', 'authorName',
-  'organizationName','organizationId', 'imageUrl', 'organization'
-];
-
-function dashboardTalks(db,start,stop) {
-  return db.talks.slice(start,stop).map((item) => {
-    const record = Ember.getProperties(item, talkBaseProperties);
-    record.content_type = 'talk_of_the_town';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    return record;
-  });
-}
-function dashboardTalkComments(db,start,stop) {
-  return db.news.slice(start,stop).map((item) => {
-    const record = Ember.getProperties(item, talkBaseProperties);
-    record.content_type = 'Comment';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    return record;
-  });
-}
-function dashboardNews(db,start,stop) {
-  return db.news.slice(start,stop).map((item) => {
-    const record = Ember.getProperties(item, newsBaseProperties);
-    record.content_type = 'news';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    record.updated_at = moment(faker.date.recent(-30)).toISOString();
-    return record;
-  });
-}
-function dashboardMarketPosts(db,start,stop) {
-  return db.marketPosts.slice(start,stop).map((item) => {
-    const record = Ember.getProperties(item, marketPostBaseProperties);
-    record.content_type = 'MarketPost';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    return record;
-  });
-}
-function dashboardEvents(db,start,stop) {
-  return db.eventInstances.slice(start,stop).map((item) => {
-    const record = Ember.getProperties(item, eventBaseProperties);
-    record.content_type = 'event';
-    record.view_count = faker.random.number(100);
-    record.comment_count = faker.random.number(100);
-    return record;
-  });
-}
-
-function dashboardAds(db,start,stop) {
-  return db.promotionBanners.slice(start,stop);
-}
-
-function mixedContent(db, params={}) {
-  const contents = [];
-
-  // per_page is the number of non-news content items returned by the api and
-  // when combined with news_per_page is ADDITIVE, ie: {news_per_page: 5, per_page: 2}
-  // will result in 7 items being returned from the api
-  const {news_per_page} = params || 2;
-
-  dashboardNews(db, 0, news_per_page).forEach(record => {
-    contents.push(record);
-  });
-
-  dashboardTalks(db,0,2).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardMarketPosts(db,0,1).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardEvents(db,0,3).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardMarketPosts(db,0,2).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardEvents(db,0,1).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardTalkComments(db,0,2).forEach((record)=> {
-    contents.push(record);
-  });
-
-  dashboardMarketPosts(db,0,1).forEach((record)=> {
-    contents.push(record);
-  });
-
-  return contents;
-}
-
 export default function() {
   this.pretender.post.call(
     this.pretender,
@@ -433,108 +315,7 @@ export default function() {
     }
   });
 
-  this.get('/events', function({ events }, request) {
-
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-    const queryStart = params.date_start;
-    const queryEnd = params.date_end;
-    let results;
-
-    results = filterCollectionByDate(events, queryStart, queryEnd);
-
-    let total = results.models.length;
-    results.models = results.models.slice(start, stop);
-    let response =  this.serializerOrRegistry.serialize(results, request);
-    response.meta = {
-      total: total
-    };
-
-    return new Mirage.Response(200, {}, response);
-  });
-
   this.get('/event_instances/:id', 'event-instance');
-
-  this.get('/events/:id', function({ events }, request) {
-    /*const event = db.events.find(request.params.id);
-    const baseProperties = Ember.copy(eventBaseProperties);
-    const showProperties = [
-      'contentId', 'category'
-    ];
-
-    const properties = baseProperties.concat(showProperties);
-    const data = Ember.getProperties(event, properties);
-
-    data.schedules = db.schedules;
-
-    return {
-      event: data
-    };
-    */
-    return events.find(request.params.id);
-  });
-
-  this.post('/events', function({ db }, request) {
-    const putData = JSON.parse(request.requestBody);
-
-    const eventAttrs = putData['event'];
-    const event = db.events.insert(eventAttrs);
-
-
-    const scheduleAttrs = putData['event']['schedules'];
-    const schedules = db.schedules.insert(scheduleAttrs);
-
-    event.schedules = schedules;
-    event.schedules.forEach((schedule) => {
-      schedule.event_id = event.id;
-    });
-
-    event.content_id = 1;
-    event.first_instance_id = 1;
-
-    return {
-      event: event
-    };
-  });
-
-  this.post('/events/:id/publish', function({ db }, request) {
-    db.events.update(request.params.id, {published: true});
-    const event = db.events.find(request.params.id);
-
-    return {
-      event: Ember.getProperties(event, eventBaseProperties)
-    };
-  });
-
-  this.post('/contents/:id/moderate', function() {
-    return { };
-  });
-
-  this.put('/events/:id', function({ db }, request) {
-    if (request && request.requestBody && typeof request.requestBody === 'string') {
-      var id = request.params.id;
-      var putData = JSON.parse(request.requestBody);
-      var attrs = putData['event'];
-      var event = db.events.update(id, attrs);
-
-      const scheduleAttrs = putData['event']['schedules'];
-      event.schedules = db.schedules.insert(scheduleAttrs);
-      event.schedules.forEach((schedule) => {
-        schedule.event_id = event.id;
-      });
-
-      event.first_instance_id = 1;
-
-      return {event: event};
-    } else {
-      // We're using the UPDATE action to upload event images after the event
-      // has been created. Mirage can't really handle this, so we ignore it.
-      console.log('Ignoring image upload');
-    }
-  });
-
-  this.del('/events/:id');
 
   this.get('/event_categories', function() {
     return {'event_categories':[
@@ -570,9 +351,9 @@ export default function() {
   this.get('/comments');
   this.post('/comments');
 
-  this.get('/contents/:id/similar_content', function({ db }) {
+  this.get('/contents/:id/similar_content', function({ contents }) {
     return {
-      similar_content: mixedContent(db)
+      similar_content: contents.all().slice(5)
     };
   });
 
@@ -617,89 +398,6 @@ export default function() {
     return { marketCategory: marketCategory };
   });
 
-  this.get('/market_posts', function({ marketPosts }, request) {
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-    const queryStart = params.date_start;
-    const queryEnd = params.date_end;
-    let results;
-
-    results = filterCollectionByDate(marketPosts, queryStart, queryEnd);
-    let total = results.models.length;
-
-    results.models = results.models.slice(start, stop);
-
-    let response =  this.serializerOrRegistry.serialize(results, request);
-    response.meta = {
-      total: total
-    };
-
-    return new Mirage.Response(200, {}, response);
-  });
-
-  this.get('/market_posts/:id', function({marketPosts}, request) {
-    var marketPost = marketPosts.find(request.params.id);
-
-    return marketPost;
-  });
-
-  this.get('/market_posts/:id/contact', function({ db }, request) {
-    const post = db.marketPosts.find(request.params.id);
-
-    return {
-      market_post: {
-        id: post.id,
-        contact_phone: faker.phone.phoneNumber(),
-        contact_email: faker.internet.email()
-      }
-    };
-  });
-
-  this.post('/market_posts', function({ marketPosts }, request) {
-    const putData = JSON.parse(request.requestBody);
-
-    const attrs = putData['market_post'];
-
-    if('content_locations' in attrs) {
-      attrs['content_locations'].forEach((item) => {
-        if(!item['id']) {
-          item['id'] = (new Date()).getTime();
-        }
-      });
-    }
-
-    const post = marketPosts.create(attrs);
-
-    // This is so we show the edit button on the post show page
-    post.update({
-      can_edit: true,
-      content_id: post.id
-    });
-
-    return post;
-  });
-
-  this.put('/market_posts/:id', function({ db }, request) {
-    if (request && request.requestBody && typeof request.requestBody === 'string') {
-      var id = request.params.id;
-      var putData = JSON.parse(request.requestBody);
-      var attrs = putData['market_post'];
-      if('content_locations' in attrs) {
-        attrs['content_locations'].forEach((item) => {
-          if(!item['id']) {
-            item['id'] = (new Date()).getTime();
-          }
-        });
-      }
-      return db.marketPosts.update(id, attrs);
-    } else {
-      // We're using the UPDATE action to upload market images after the post
-      // has been created. Mirage can't really handle this, so we ignore it.
-      console.log('Ignoring image upload');
-    }
-  });
-
   this.post('/password_resets', function() {
     return {};
   });
@@ -712,119 +410,9 @@ export default function() {
     return {};
   });
 
-  this.get('/talk', function({ talks }, request) {
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-
-    let results = filterCollectionByDate(talks, params.date_start, params.dateEnd);
-    let total = results.models.length;
-    results.models = results.models.slice(start, stop);
-
-    let response =  this.serializerOrRegistry.serialize(results, request);
-    response.meta = {
-      total: total
-    };
-
-    return new Mirage.Response(200, {}, response);
-  });
-
-  this.get('/talk/:id');
-
-  this.post('/talk', function({ talks }, request) {
-    const putData = JSON.parse(request.requestBody);
-
-    const attrs = putData['talk'];
-    const talk = talks.create(attrs);
-
-    // This is so we show the edit button on the talk show page
-    talk.update({
-      can_edit: true,
-      content_id: talk.id
-    });
-
-    return talk;
-  });
-
-  this.put('/talk/:id', function({ db }, request) {
-    if (request && request.requestBody && typeof request.requestBody === 'string') {
-      var id = request.params.id;
-      var putData = JSON.parse(request.requestBody);
-      var attrs = putData['talk'];
-      var data = db.talks.update(id, attrs);
-      return data;
-    } else {
-      // We're using the UPDATE action to upload talk images after the talk
-      // has been created. Mirage can't really handle this, so we ignore it.
-      console.log('Ignoring image upload');
-    }
-  });
-
-  this.get('/news', function({ news }, request) {
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-    const organizationId = params.organizationId;
-    const query = params.query;
-
-    let results = filterCollectionByDate(news, params.date_start, params.dateEnd);
-
-    if(isPresent(organizationId)) {
-      results.models = results.models.filter((item)=> {
-        return item.organizationId.toString() === organizationId;
-      });
-    }
-
-    if(isPresent(query)) {
-      results.models = results.models.filter((item)=> {
-        return isPresent(item.title) && (item.title.indexOf(query) > -1);
-      });
-    }
-
-    // Get the total number of results, then cut the results by the current start and stop points
-    let total = results.models.length;
-    results.models = results.models.slice(start,stop);
-
-    // Build the response with the meta total
-    let response =  this.serializerOrRegistry.serialize(results, request);
-    response.meta = {
-      total: total
-    };
-
-    return new Mirage.Response(200, {}, response);
-  });
-
-  this.get('/news/:id');
-  this.delete('/news/:id');
-
-  this.post('news');
-
-  this.put('news/:id', function({ db }, request) {
-    const id = request.params.id;
-    const data = JSON.parse(request.requestBody);
-
-    const news = db.news.update(id, data['news']);
-
-    return { news: news };
-  });
-
   this.post('metrics/contents/:id/impressions', function() { return {}; });
 
   this.post('metrics/profiles/:id/impressions', function() { return {}; });
-
-  this.patch('listserv_contents/:id/update_metric', function() {
-    return {};
-  });
-
-  this.get('/promotion_banners', function({ db }, request) {
-    const params = request.queryParams;
-    const stop = (params.page * params.per_page);
-    const start = stop - params.per_page;
-
-    return {
-      promotionBanners: dashboardAds(db,start,stop)
-    };
-  });
 
   this.get('/weather', function() {
     const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"><a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank">80° Clear</a></div><div class="pull-left" id="forecast_icon"><i class="wi wi-day-sunny"></i></div>';
@@ -834,6 +422,20 @@ export default function() {
   this.post('/images', function({ db }) {
     const image = db.images.insert({
       id: faker.random.number(1000),
+      content_id: faker.random.number(100),
+      primary: false,
+      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
+    });
+
+    return {
+      image: image
+    };
+  });
+
+  this.post('/images/upsert', function({ db }) {
+    const image = db.images.insert({
+      id: faker.random.number(1000),
+      content_id: faker.random.number(100),
       primary: false,
       url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
     });
@@ -977,11 +579,6 @@ export default function() {
 
   this.get('/features');
 
-
-  this.get('/organizations/:id/contents', function({db, organizationContents}){
-    return organizationContents.all();
-  });
-
   this.get('/contents/:id/promotions', function() {
     return {};
   });
@@ -1004,7 +601,7 @@ export default function() {
 
     const showProfilePageContents = isPresent(organization_id);
     const justShowOneContentType = isPresent(content_type) && isBlank(query);
-    const showMyStuffOnly = radius.toLowerCase() === 'mystuff';
+    const showMyStuffOnly = isPresent(radius) && radius.toLowerCase() === 'mystuff';
 
     if (showMyStuffOnly) {
         let myStuffContents = feedItems.all().filter((feedItem) => {
@@ -1063,17 +660,64 @@ export default function() {
         total_pages: Math.ceil( feedItems.all().length / per_page )
       };
     }
+
     return new Mirage.Response(200, {}, response);
   });
 
-  this.get('/contents/:id', function({contents}, request){
-    return contents.find(request.params.id);
+  this.post('/contents', function({schedules, contents, eventInstances}) {
+    let attrs = this.normalizedRequestAttrs();
+    const scheduleAttrs = attrs['schedules'];
+
+    delete attrs['schedules'];
+    const content = contents.create(attrs);
+
+
+    if(isPresent(scheduleAttrs)) {
+      scheduleAttrs.forEach((data) => {
+        data['content'] = content;
+        schedules.create(data);
+      });
+    }
+
+    if(content.contentType === 'event') {
+      let eventInstance = eventInstances.first();
+      if(!isPresent(eventInstance)) {
+        eventInstance = eventInstances.create(attrs);
+        eventInstance.startsAt = (new Date()).toISOString();
+      }
+
+      content.eventInstanceId = eventInstance.id;
+    }
+
+    return content;
+  });
+
+  this.get('/contents/:id');
+
+  this.put('/contents/:id', function({schedules, contents, eventInstances}, {params}) {
+    let attrs = this.normalizedRequestAttrs();
+    const scheduleAttrs = attrs['schedules'];
+    const content = contents.find(params.id);
+
+    delete attrs['schedules'];
+
+    content.update(attrs);
+
+    if(content.contentType === 'event') {
+      if(isPresent(scheduleAttrs)) {
+        scheduleAttrs.forEach((data) => {
+          data['content'] = content;
+          schedules.create(data);
+        });
+      }
+    }
+    return content;
   });
 
   this.get('/content_permissions', function(db, request) {
     const responseObj = {content_permissions: []};
-    if (request.queryParams['content_ids[]'] != null) {
-      request.queryParams['content_ids[]'].forEach(function(content_id) {
+    if (request.queryParams['content_ids'] != null) {
+      request.queryParams['content_ids'].forEach(function(content_id) {
         responseObj['content_permissions'].push({content_id: content_id, can_edit: true});
       });
     }

@@ -37,14 +37,14 @@ export default create({
   scheduleDate(date) {
     click(testSelector('schedule-publish', 'date'));
     andThen(() => {
-      click(find(`[data-pick='${date}']`));
+      find(`[data-pick='${date}']`).trigger('click');
     });
   },
   scheduleTime(time) {
     click(testSelector('schedule-publish', 'time'));
     andThen(() => {
-      click(find(`[data-pick='${time}']`));
+      find(`[data-pick='${time}']`).trigger('click');
     });
   },
-  confirm: clickable(testSelector('schedule-publish', 'confirm'))
+  scheduleConfirm: clickable(testSelector('schedule-publish', 'confirm'))
 });

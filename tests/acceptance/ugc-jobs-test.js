@@ -78,18 +78,19 @@ function fillOutEventForm(opts) {
     andThen(function() {
       assert.equal(currentPath(), 'market.new.details');
 
-      server.post('/market_posts', function(db, request) {
-        const marketPostData = JSON.parse(request.requestBody)['market_post'];
+      server.post('/contents', function({contents}) {
+        const marketPostData = this.normalizedRequestAttrs();
 
-        assert.equal(marketPostData['ugc_job'], job,
+        assert.equal(marketPostData['ugcJob'], job,
           "Includes job in api attributes"
         );
 
-        const newPost = server.create('marketPost', this.normalizedRequestAttrs());
+        const newPost = contents.create(marketPostData);
+        /*
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });
-        server.create('content', {id: newPost.id});
+        */
 
         return newPost;
       });
@@ -118,18 +119,19 @@ function fillOutEventForm(opts) {
     andThen(function() {
       assert.equal(currentPath(), 'talk.new.details');
 
-      server.post('/talk', function(db, request) {
-        const talkPostData = JSON.parse(request.requestBody)['talk'];
+      server.post('/contents', function({contents}) {
+        const talkPostData = this.normalizedRequestAttrs();
 
-        assert.equal(talkPostData['ugc_job'], job,
+        assert.equal(talkPostData['ugcJob'], job,
           "Includes job in api attributes"
         );
 
-        const newPost = server.create('talk', this.normalizedRequestAttrs());
+        const newPost = contents.create(talkPostData);
+        /*
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });
-        server.create('content', {id: newPost.id});
+        */
 
         return newPost;
       });
@@ -160,20 +162,21 @@ function fillOutEventForm(opts) {
     andThen(function() {
       assert.equal(currentPath(), 'events.new.details');
 
-      server.post('/events', function(db, request) {
-        const eventPostData = JSON.parse(request.requestBody)['event'];
+      server.post('/contents', function({contents}) {
+        const eventPostData = this.normalizedRequestAttrs();
 
-        assert.equal(eventPostData['ugc_job'], job,
+        assert.equal(eventPostData['ugcJob'], job,
           "Includes job in api attributes"
         );
 
-        const content = server.create('content');
-        const newPost = server.create('event', {contentId: content.id});
+        const newPost = contents.create(eventPostData);
+        /*
         newPost.contentLocations.forEach((cl, index) => {
           cl.id = index+1;
         });
+        */
 
-        newPost.attrs.firstInstanceId = newPost.attrs.firstInstanceId || server.create('eventInstance').id;
+        newPost.attrs.eventInstanceId = newPost.attrs.eventInstanceId || server.create('eventInstance').id;
         newPost.save();
 
         return newPost;

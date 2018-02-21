@@ -2,8 +2,9 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
 import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
+import later from 'npm:later';
 
-/* global later, _ */
+/* global _ */
 
 const { computed, get, isPresent, set } = Ember;
 const { attr } = DS;
@@ -56,19 +57,18 @@ const getTime = function(datetimeKey, dateKey) {
 
 export default DS.Model.extend(ScheduleSummary, {
   daysOfWeek: attr('raw'),
-  endsAt: attr('moment-date'), // time of day the event ends
   endDate: attr('moment-date'), // date that the repeating schedule runs until
-  repeats: attr('string'),
+  endsAt: attr('moment-date'), // time of day the event ends
   overrides: attr('raw'),
-  startsAt: attr('moment-date'),
-  subtitle: attr('string'),
   presenterName: attr('string'),
   _remove: attr('boolean'),
-  weeksOfMonth: attr('raw'),
-
+  repeats: attr('string'),
   startDate: getDate('startsAt'),
-  stopDate: getDate('endDate'),
+  startsAt: attr('moment-date'),
   startTime: getTime('startsAt', 'startDate'),
+  stopDate: getDate('endDate'),
+  subtitle: attr('string'),
+  weeksOfMonth: attr('raw'),
 
   stopTime: computed('endsAt', {
     get() {

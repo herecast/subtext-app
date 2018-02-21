@@ -15,7 +15,12 @@ export default Factory.extend({
 
       content.update({endsAt: newEndDate});
 
-      const instances = server.createList('event-instance', 3, { event: content.id });
+      const instances = server.createList('event-instance', 3, {
+        event: content.id,
+        startsAt: content.startsAt,
+        endsAt: newEndDate
+      });
+
       return instances.map(({id}) => id);
     }
   },
@@ -51,17 +56,12 @@ export default Factory.extend({
 
   viewCount() { return faker.random.number(999); },
 
-  eventId() {
-    if(this.contentType === 'event') {
-      return faker.random.number(9999);
-    }
-  },
-
   eventInstances() {
     if(this.contentType === 'event') {
       return [];
     }
   },
+
   eventInstanceId() {
     if(this.eventInstances && this.eventInstances.length) {
       return this.eventInstances[0].id;
@@ -123,24 +123,28 @@ export default Factory.extend({
   organizationProfileImageUrl() { return faker.image.business(); },
 
   imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
-  images: [{
-    id: 1,
-    caption() { return faker.lorem.sentence(); },
-    credit: null,
-    image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
-    primary: true,
-    width: 266,
-    height: 200
-  },
+  images() {
+    return [{
+      id: 1,
+      content_id: this.id,
+      caption() { return faker.lorem.sentence(); },
+      credit: null,
+      image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
+      primary: true,
+      width: 266,
+      height: 200
+    },
     {
       id: 2,
+      content_id: this.id,
       caption() { return faker.lorem.sentence(); },
       credit: null,
       image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
       primary: false,
       width: 266,
       height: 200
-    }],
+    }];
+  },
   ugcBaseLocation: null,
   price() { return `$${faker.random.number(999)} OBO`; },
   sold() { return faker.random.arrayElement([true, false]); }

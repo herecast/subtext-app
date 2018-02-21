@@ -9,7 +9,7 @@ const { get, run, isPresent } = Ember;
 export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLocation, {
 
   model(params) {
-    return this.store.findRecord('talk', params.id, {reload: true});
+    return this.store.findRecord('content', params.id, {reload: true});
   },
 
   redirect(params, transition) {

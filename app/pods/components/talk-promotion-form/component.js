@@ -15,14 +15,14 @@ export default Ember.Component.extend(PromotionForm, {
   listservName: Ember.computed.oneWay('session.currentUser.listservName'),
   listservId: Ember.computed.oneWay('session.currentUser.listservId'),
 
-  listEnabled: Ember.computed.notEmpty('talk.listservId'),
+  listEnabled: Ember.computed.notEmpty('talk.listservIds'),
 
   actions: {
     toggleListserv() {
       if (this.get('listEnabled')) {
-        this.set('talk.listservId', null);
+        this.set('talk.listservIds', []);
       } else {
-        this.set('talk.listservId', this.get('listservId'));
+        this.set('talk.listservIds', [this.get('listservId')]);
       }
     }
   }

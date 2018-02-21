@@ -22,96 +22,79 @@ test('Every field avaliable filled in **filter', function(assert) {
 
   const presenter = 'Vader';
   const subtitle = 'My life on Mustafar';
-  const repeat = 'bi-weekly';
+  const repeat = 'daily';
   const price = '$7';
 
   const timeFormat = 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]';
   const dateFormat = 'MM[/]DD[/]YYYY';
   const singleStartDate = moment().add(2, 'days').startOf('day');
-  const recurringStartDate = moment().add(1, 'days').startOf('day');
-  const recurringEndDate = moment().add(8, 'days').startOf('day');
+  const recurringStartDate = moment().startOf('week').add(1, 'week').add(1, 'days').startOf('day');
+  const recurringEndDate = recurringStartDate.add(8, 'weeks').startOf('day');
   const startTime = moment().add('2', 'days').startOf('day').utc().add(9, 'hours').format(timeFormat);
   const deadlineDate = moment().add('3', 'days').startOf('day');
 
-  server.post('/events', function() {
+  server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();
-    assert.equal(JSON.stringify(attrs), JSON.stringify({
-      authorId: null,
-      authorName: null,
-      avatarUrl: null,
-      contactEmail: 'chewie@resistance.org',
-      contactPhone: '6035555555',
-      content: 'test-description',
-      contentType: null,
-      contentOrigin: null,
-      cost: price,
-      costType: 'paid',
-      embeddedAd: false,
-      eventId: null,
-      eventInstanceId: null,
-      eventUrl: 'http://resistance.onion',
-      hasContactInfo: false,
-      imageWidth: null,
-      imageHeight: null,
-      listservIds: [parseInt(get(listserv, 'id'))],
-      organizationId: get(organization, 'id'),
-      organizationName: null,
-      organizationProfileImageUrl: null,
-      organizationBizFeedActive: false,
-      parentContentId: null,
-      parentContentType: null,
-      parentEventInstanceId: null,
-      registrationDeadline: deadlineDate,
-      sold: false,
-      title: 'test-title',
-      updatedAt: null,
-      ugcJob: null,
-      viewCount: null,
-      venueId: parseInt(get(venue, 'id')),
-      venueStatus: 'new',
-      wantsToAdvertise: true,
-      promoteRadius: 50,
-      category: null,
-      ugcBaseLocationId: get(location, 'id'),
-      schedules: [
-        {
-          subtitle: subtitle,
-          starts_at: startTime,
-          ends_at: null,
-          presenter_name: presenter,
-          repeats: 'once',
-          days_of_week: [],
-          overrides: [],
-          weeks_of_month: [],
-          _remove: false,
-          end_date: singleStartDate.utc().format(timeFormat)
-        },
-        {
-          subtitle: subtitle,
-          starts_at: recurringStartDate.utc().add(9, 'hours').format(timeFormat),
-          ends_at: null,
-          presenter_name: presenter,
-          repeats: repeat,
-          days_of_week: [
-            // +1 for different convention
-            (parseInt(moment().format('d')) + 1)
-          ],
-          overrides: [],
-          weeks_of_month: [],
-          _remove: false,
-          end_date: recurringEndDate.utc().format(timeFormat)
-        }
-      ]
-    }),
+    assert.deepEqual(
+      attrs,
+      {
+        authorName: null,
+        contactEmail: 'chewie@resistance.org',
+        contactPhone: '6035555555',
+        content: 'test-description',
+        contentType: 'event',
+        cost: price,
+        costType: 'paid',
+        eventUrl: 'http://resistance.onion',
+        listservIds: [parseInt(get(listserv, 'id'))],
+        organizationId: get(organization, 'id'),
+        promoteRadius: 50,
+        publishedAt: null,
+        registrationDeadline: deadlineDate.utc().format(timeFormat),
+        schedules: [
+          {
+            days_of_week: [],
+            end_date: singleStartDate.utc().format(timeFormat),
+            ends_at: null,
+            overrides: [],
+            presenter_name: presenter,
+            _remove: false,
+            repeats: 'once',
+            starts_at: startTime,
+            subtitle: subtitle,
+            weeks_of_month: [],
+          },
+          {
+            days_of_week: [1,2,3,4,5,6,7],
+            end_date: recurringEndDate.utc().format(timeFormat),
+            ends_at: null,
+            overrides: [],
+            presenter_name: presenter,
+            repeats: repeat,
+            starts_at: recurringStartDate.utc().add(9, 'hours').format(timeFormat),
+            subtitle: subtitle,
+            weeks_of_month: [],
+            _remove: false,
+          }
+        ],
+        sold: false,
+        subtitle: null,
+        sunsetDate: null,
+        title: 'test-title',
+        ugcBaseLocationId: get(location, 'id'),
+        ugcJob: null,
+        venueId: parseInt(get(venue, 'id')),
+        venueStatus: 'new',
+        wantsToAdvertise: true,
+      },
       "Server received expected POST data."
     );
     done();
-    const feedContent = server.create('feedContent');
     const eventInstance = server.create('eventInstance');
-    return server.create('event', {firstInstanceId: eventInstance.id, contentId: feedContent.id});
+    return server.create('content', {eventInstanceId: eventInstance.id});
   });
 
-  server.put(`/events/:id`, function(_, request) {
+  server.post(`/images/upsert`, function(_, request) {
     if(request.requestBody.constructor === FormData) {
       done();
       assert.ok(true, 'Uploaded the image');

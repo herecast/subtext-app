@@ -2,7 +2,6 @@
  * Seeds for development
  */
 export default function (server) {
-  server.loadFixtures();
   server.createList('ad-metric', 1);
   const promotionBanners = server.createList('promotion-banner', 50);
   const promotion = server.create('promotion', {
@@ -84,6 +83,10 @@ export default function (server) {
     locationId: 'hartford-vt'
   });
 
+  server.create('user', {
+    email: 'test@test.com'
+  });
+
   server.createList("venue", 5);
   server.createList('comment', 8);
   server.createList('content-metric', 1);
@@ -118,9 +121,6 @@ export default function (server) {
 
   server.createList('feedItem', 40);
 
-  const user1 = server.create('user', {email: 'test@test.com', location_id: 1});
-  const user2 = server.create('user', {location_id: 1});
-
   const listserv = server.create('listserv');
   const listserv2 = server.create('listserv');
   const listserv3 = server.create('listserv');
@@ -135,58 +135,6 @@ export default function (server) {
 
   server.create('digest', {
     id: listserv3.id
-  });
-
-  server.create('subscription', {
-    confirmedAt: null,
-    listserv: listserv,
-    user: user1,
-    email: user1.email
-  });
-
-  server.create('subscription', {
-    listserv: listserv,
-    user: user1,
-    email: user1.email,
-    confirmedAt: '2012-08-01'
-  });
-
-  server.create('subscription', {
-    listserv: listserv,
-    email: 'embertest3@subtext.org',
-    confirmedAt: null,
-    user: null
-  });
-
-  server.create('subscription', {
-    listserv: listserv,
-    user: user2,
-    email: user2.email,
-    confirmedAt: '2012-08-01'
-  });
-
-  server.create('listservContent', {
-    listserv: listserv,
-    body: 'No Content',
-    user: user1,
-    senderEmail: user1.email
-  });
-
-  server.create('listservContent', {
-    listserv: listserv,
-    user: user2,
-    senderEmail: user2.email
-  });
-
-  server.create('listservContent', {
-    listserv: listserv,
-    user: null
-  });
-  server.create('listservContent', {
-    listserv: listserv,
-    id: 4,
-    verifiedAt: '2012-08-01',
-    user: null
   });
 
   /**

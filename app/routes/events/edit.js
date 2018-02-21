@@ -21,7 +21,6 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
     if (confirm('Are you sure you want to discard your changes without saving?')) {
       model.rollbackAttributes();
       model.rollbackSchedules();
-      model.resetContentLocationChanges();
       model.set('listservIds',[]);
       return true;
     } else {
@@ -30,7 +29,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
   },
 
   model(params) {
-    return this.store.findRecord('event', params.id, {reload: true});
+    return this.store.findRecord('content', params.id, {reload: true});
   },
 
   redirect() {
@@ -82,7 +81,7 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
     },
 
     afterPublish(event) {
-      const firstInstanceId = event.get('firstInstanceId');
+      const firstInstanceId = event.get('eventInstanceId');
       const contentId = get(event, 'contentId');
 
       const controller = this.controllerFor(this.routeName);
@@ -93,9 +92,9 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, BaseUserLo
       // Normally ember data does this automatically on save, but does not do
       // it for relationship records.
       run.next(() => {
-        if (this.hasDirtyAttributes(event)) {
-          event.rollbackSchedules();
-        }
+        //if (this.hasDirtyAttributes(event)) {
+        //  event.rollbackSchedules();
+        //}
 
         // Unset so not checked the next time this event is edited.
         event.set('listservIds',[]);

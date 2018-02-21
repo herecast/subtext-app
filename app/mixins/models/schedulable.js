@@ -18,20 +18,18 @@ const {
 } = DS;
 
 export default Ember.Mixin.create({
-  endsAt: attr('moment-date'),
+  //endsAt: attr('moment-date'),
   eventUrl: attr('string'),
   registrationDeadline: attr('moment-date'),
   schedules: hasMany('schedule'),
-  startsAt: attr('moment-date'),
+  //startsAt: attr('moment-date'),
 
-  // @TODO: unify this
-  eventInstanceId: attr('number'),
-  firstInstanceId: attr('number'), //TAG:NOTE we need this for teh redirect after creating events
+  eventInstanceId: attr('number'), //TAG:NOTE we need this for teh redirect after creating events
 
   otherEventInstances: hasMany('other-event-instance', {async: false}),
 
   // TAG:TODO move to preview component ~Nik
-  eventInstances: computed('schedules.@each.{startsAt,endsAt,_remove,hasExcludedDates}', function() {
+  scheduleInstances: computed('schedules.@each.{startsAt,endsAt,_remove,hasExcludedDates}', function() {
     const schedules = get(this, 'schedules').rejectBy('_remove');
 
     const dates = schedules.map((schedule) => {
@@ -69,6 +67,13 @@ export default Ember.Mixin.create({
     return flatten(dates);
   }),
 
+  // Switches to getting these from schedule if this event is being edited.
+  eventInstances: computed('scheduleInstances.[]', 'hasDirtyAttributes', 'otherEventInstances.[]', function() {
+    const hasDirtyAttributes = get(this, 'hasDirtyAttributes');
+
+    return hasDirtyAttributes ? get(this, 'scheduleInstances') : get(this, 'otherEventInstances');
+  }),
+
   futureInstances: computed('eventInstances.@each.startsAt', function() {
     const currentDate = new Date();
 
@@ -77,6 +82,8 @@ export default Ember.Mixin.create({
     });
   }),
 
+  startsAt: computed.alias('futureInstances.firstObject.startsAt'),
+  endsAt: computed.alias('futureInstances.firstObject.endsAt'),
 
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 
@@ -122,12 +129,13 @@ export default Ember.Mixin.create({
   },
 
   save() {
-    return this._super().then((savedEvent) => {
+    return this._super().then(() => {
       if(!get(this, 'isDestroying')) {
-        savedEvent.get('schedules').filterBy('isNew').forEach((schedule) => {
+        this.get('schedules').filterBy('isNew').forEach((schedule) => {
           schedule.destroyRecord();
         });
       }
+      return this;
     });
   },
 

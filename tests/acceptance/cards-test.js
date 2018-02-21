@@ -156,13 +156,19 @@ test('testing event card, with image', function(assert) {
     title: 'hello world',
     imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    startsAt: moment().toISOString(),
-    endsAt: moment().add(8, 'hours').toISOString(),
     cost: 123,
+    eventInstances: [],
     venueAddress: '15 Railroad Row',
     venueCity: 'White River Junction',
     venueState: 'VT'
   });
+
+  const eventInstance = server.create('eventInstance', {
+    contentId: content.id,
+    startsAt: moment().add(1, 'hour').toISOString(),
+    endsAt: moment().add(3, 'hours').toISOString(),
+  });
+
 
   server.create('feedItem', {
     modelType: 'content',
@@ -171,7 +177,7 @@ test('testing event card, with image', function(assert) {
 
   visit('/');
 
-  const {startsAt, endsAt} = content;
+  const {startsAt, endsAt} = eventInstance;
   const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
   const eventDate = moment(startsAt).format('MMMM DD');
 
@@ -198,13 +204,19 @@ test('testing event card, without image', function(assert) {
     images: [],
     title: 'hello world',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis.',
-    startsAt: moment().toISOString(),
-    endsAt: moment().add(8, 'hours').toISOString(),
     cost: 123,
+    eventInstances: [],
     venueAddress: '15 Railroad Row',
     venueCity: 'White River Junction',
     venueState: 'VT'
   });
+
+  const eventInstance = server.create('eventInstance', {
+    contentId: content.id,
+    startsAt: moment().add(1, 'hour').toISOString(),
+    endsAt: moment().add(3, 'hours').toISOString(),
+  });
+
 
   server.create('feedItem', {
     modelType: 'content',
@@ -213,7 +225,7 @@ test('testing event card, without image', function(assert) {
 
   visit('/');
 
-  const {startsAt, endsAt} = content;
+  const {startsAt, endsAt} = eventInstance;
   const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
   const eventDate = moment(startsAt).format('MMMM DD');
 

@@ -26,8 +26,12 @@
 
     <div class='col-xs-12'>
       {{#each news as |item|}}
-        <div class='col-md-3'>
-          {{news-card item=item}}
+        <div class='col-md-4'>
+          {{feed-card model=item
+            organization=item.organization
+            hideComments=true
+            consensedView=true
+          }}
         </div>
       {{/each}}
     </div>

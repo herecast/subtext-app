@@ -14,7 +14,7 @@
 
       <div class="DetailPage-headerSubSection u-flexJustify-start u-paddingLeft8">
         {{report-content-details
-            contentId=model.contentId
+            contentId=model.id
             class="DetailPage-reportFlag h4 u-paddingRight8 u-paddingBottom8"
         }}
        </div>
@@ -36,7 +36,7 @@
             linkRouteName=model.attributionLinkRouteName
             linkId=model.attributionLinkId
             postedTime=model.publishedAtRelative
-            contentId=model.contentId
+            contentId=model.id
             class="u-paddingLeft0"
           }}
         {{/if}}
@@ -46,7 +46,7 @@
             {{feed-card/edit-button
               model=model
               editPath='talk.edit'
-              editPathId=model.contentId
+              editPathId=model.id
               iconSize=""
               style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
             }}
@@ -91,7 +91,7 @@
       {{comments-section
         showSectionTitle=true
         commentCount=model.commentCount
-        parentContentId=(readonly model.contentId)
+        parentContentId=(readonly model.id)
         comments=comments
         contentTitle=(readonly model.title)
         disabled=(readonly commentingDisabled)
@@ -110,7 +110,7 @@
     <div class='DetailPage-sectionWrapper'>
       <div class='DetailPage-section DetailPage-similarContent'>
         {{#similar-content
-          contentId=model.contentId
+          contentId=model.id
           limit=4
         }}
           {{#title-text strong=true small=true}}Suggested{{/title-text}}

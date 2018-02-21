@@ -7,7 +7,7 @@ export default Ember.Route.extend(RequireCanEdit, {
   titleToken: 'Edit News',
 
   model(params) {
-    return this.store.findRecord('news', params.id, { reload: true });
+    return this.store.findRecord('content', params.id, { reload: true });
   },
 
   setupController(controller, model) {
@@ -23,7 +23,6 @@ export default Ember.Route.extend(RequireCanEdit, {
       if (model.get('hasUnpublishedChanges')) {
         if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
           model.rollbackAttributes();
-          model.resetContentLocationChanges();
         } else {
           transition.abort();
         }

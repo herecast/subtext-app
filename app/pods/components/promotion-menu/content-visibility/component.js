@@ -34,11 +34,7 @@ export default Ember.Component.extend({
     return `${baseRoute}.edit`;
   }),
 
-  editId: computed('content.contentType', function() {
-    const contentType = get(this, 'content.contentType');
-
-    return contentType === 'event' ? get(this, 'content.eventId') : get(this, 'content.contentId');
-  }),
+  editId: computed.alias('content.contentId'),
 
   updateVisibility(isVisible) {
     const notify = get(this, 'notify');

@@ -15,16 +15,17 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
       venueStatus: 'new',
       promoteRadius: 10,
       ugcJob: params.job,
+      contentType: 'event',
       listservIds: []
     };
 
     if ('organization_id' in transition.queryParams) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
-        return this.store.createRecord('event', newRecordValues);
+        return this.store.createRecord('content', newRecordValues);
       });
     } else {
-      return this.store.createRecord('event', newRecordValues);
+      return this.store.createRecord('content', newRecordValues);
     }
   },
 
@@ -79,12 +80,11 @@ export default Ember.Route.extend(Scroll, Authorized, BaseUserLocation, {
     },
 
     afterPublish(event) {
-      const firstInstanceId = get(event, 'firstInstanceId');
-      const contentId = get(event, 'contentId');
+      const firstInstanceId = get(event, 'eventInstanceId');
+      const contentId = get(event, 'id');
 
       const controller = this.controllerFor(this.routeName);
       const goToProfilePage = isPresent(get(controller, 'organization_id'));
-
       this.get('intercom').trackEvent('published-event');
 
       run.next(() => {

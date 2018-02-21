@@ -168,9 +168,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
             () => {
               news.reload().then(() => {
                 // re-align featuredImageUrl to use actual url instead of base64 image data url
-                set(news, 'featuredImageUrl', get(news, 'bannerImage.url'));
+                set(news, 'featuredImageUrl', get(news, 'bannerImage.imageUrl'));
 
-                resolve();
+               resolve();
               });
             },
             error => {

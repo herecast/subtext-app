@@ -14,50 +14,42 @@ test('Every field available filled in', function(assert) {
   const done = assert.async(2);
   const location = server.create('location');
   const listserv = server.create('listserv');
+  const user = server.create('user');
 
-  server.post('/talk', function() {
+  server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();
-    assert.equal(JSON.stringify(attrs), JSON.stringify({
-      authorId: null,
-      avatarUrl: null,
+    assert.deepEqual(attrs, {
+      authorName: user.name,
       contactEmail: null,
       contactPhone: null,
       content: 'test-content',
-      contentType: null,
-      contentOrigin: null,
+      contentType: 'talk',
       cost: null,
       costType: null,
-      embeddedAd: false,
-      endsAt: null,
-      eventId: null,
-      eventInstanceId: null,
       eventUrl: null,
-      hasContactInfo: false,
-      listservIds: [],
+      listservIds: [parseInt(get(listserv, 'id'))],
       organizationId: null,
-      organizationName: null,
-      organizationProfileImageUrl: null,
-      organizationBizFeedActive:false,
-      registrationDeadline: null,
-      sold: false,
-      startsAt: null,
-      subtitle: null,
-      title: 'test-title',
-      updatedAt: null,
-      ugcJob: null,
-      wantsToAdvertise: false,
       promoteRadius: 20,
-      listservId: parseInt(get(listserv, 'id')),
-      ugcBaseLocationId: get(location, 'id')
-    }),
+      publishedAt: null,
+      registrationDeadline: null,
+      schedules: [],
+      sold: false,
+      subtitle: null,
+      sunsetDate: null,
+      title: 'test-title',
+      ugcBaseLocationId: get(location, 'id'),
+      ugcJob: null,
+      venueId: null,
+      venueStatus: null,
+      wantsToAdvertise:false,
+    },
       "Server received expected POST data."
     );
     done();
-    server.create('content', attrs);
-    return server.create('talk', attrs);
+    return server.create('content', attrs);
   });
 
-  server.put(`/talk/:id`, function(_, request) {
+  server.post(`/images/upsert`, function(_, request) {
     if(request.requestBody.constructor === FormData) {
       done();
       assert.ok(true, 'Uploaded the image');
@@ -66,7 +58,7 @@ test('Every field available filled in', function(assert) {
   });
 
   Ember.run(() => {
-    authenticateUser(this.application);
+    authenticateUser(this.application, user);
 
     ugcTalk.visit();
     ugcTalk.fillInTitle('test-title');

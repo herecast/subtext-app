@@ -40,7 +40,6 @@ export default DS.Model.extend(
   Locatable,
   {
   // <FIELDS>
-  adminContentUrl: attr('string'), //FROM: news
   authorId: attr('number'),
   authorName: attr('string'),
   avatarUrl: attr('string'),
@@ -58,8 +57,6 @@ export default DS.Model.extend(
   costType: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean'),
-  hasContactInfo: attr('boolean'),
-  listservId: attr('number'), //TAG:NOTE the concept of listservId is applied inconsistently ie., listservId vs listservIds
   listservIds: attr('raw', {defaultValue() { return []; }}),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
   organizationId: attr('number'),
@@ -68,7 +65,7 @@ export default DS.Model.extend(
   parentContentId: attr('number'), //TAG:NOTE can be removed after dashboard is removed (was a talk model property)
   parentContentType: attr('string'), //TAG:NOTE can possibly be removed after dashboard is removed (was a talk model property)
   parentEventInstanceId: attr('number'), //TAG:NOTE can possibly be removed after dashboard is removed
-  publishedAt: attr('moment-date', {defaultValue() { return moment(); }}),
+  publishedAt: attr('moment-date', {defaultValue: null}),
   redirectUrl: attr('string'),
   sold: attr('boolean', {defaultValue: false}),
   splitContent: attr(),

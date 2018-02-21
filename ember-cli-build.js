@@ -76,7 +76,6 @@ module.exports = function(defaults) {
 
     app.import('bower_components/blueimp-load-image/js/load-image.all.min.js');
     app.import('bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js');
-    app.import('bower_components/later/later.js');
 
     app.import('bower_components/fullcalendar/dist/fullcalendar.js');
   }

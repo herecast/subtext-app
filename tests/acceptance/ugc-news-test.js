@@ -11,7 +11,7 @@ const { get } = Ember;
 moduleForAcceptance('Acceptance | ugc news');
 
 test('Every field available filled in', function(assert) {
-  const done = assert.async(5);
+  const done = assert.async(7);
   const organization = server.create('organization', {can_publish_news: true});
   const currentUser = server.create('current-user', { email: 'example@example.com' });
   currentUser.managedOrganizationIds = [parseInt(get(organization, 'id'))];
@@ -26,24 +26,41 @@ test('Every field available filled in', function(assert) {
 
   let currentAttrs = {
     authorName: currentUser.name,
-    title: title,
+    contactEmail: null,
+    contactPhone: null,
     content: null,
-    contentLocations: [],
+    contentType: "news",
+    cost: null,
+    costType: null,
+    eventUrl: null,
+    listservIds: [],
     organizationId: organization.id,
-    organizationName: null,
     promoteRadius: null,
     publishedAt: null,
+    registrationDeadline: null,
+    schedules: [],
+    sold: false,
     subtitle: null,
-    ugcBaseLocationId: null
+    sunsetDate: null,
+    title: title,
+    ugcBaseLocationId: null,
+    ugcJob: null,
+    venueId: null,
+    venueStatus: null,
+    wantsToAdvertise: false
   };
 
-  server.post('/news', function() {
+  server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();
     assert.deepEqual(attrs, currentAttrs, 'Server received POST data.');
     done();
     let mockData = {};
-    Object.assign(mockData, currentAttrs, {image_url: null, images: []});
-    return server.create('news', mockData);
+    Object.assign(mockData, {imageUrl: null, images: []}, attrs);
+
+    delete mockData['schedules'];
+    const content = server.create('content', mockData);
+
+    return content;
   });
 
   server.post('/images', function(_, request) {
@@ -54,13 +71,20 @@ test('Every field available filled in', function(assert) {
     return {};
   });
 
-  server.put(`/news/:id`, function() {
+  server.put(`/contents/:id`, function({contents}, request) {
     const attrs = this.normalizedRequestAttrs();
+
     assert.deepEqual(attrs, currentAttrs, 'Server received PUT data.');
+
     done();
     let mockData = {};
-    Object.assign(mockData, currentAttrs, {image_url: null, images: []});
-    return server.create('news', mockData);
+    Object.assign(mockData, {imageUrl: null, images: []}, attrs);
+    let content = contents.find(request.params.id);
+
+    delete mockData['schedules'];
+
+    content.update(mockData);
+    return content;
   });
 
   Ember.run(() => {
@@ -72,30 +96,21 @@ test('Every field available filled in', function(assert) {
     andThen(() => {
       currentAttrs.subtitle = subtitle;
       currentAttrs.id = "1";
-      ugcNews.fillInSubtitle(subtitle);
+      return ugcNews.fillInSubtitle(subtitle);
     });
 
     andThen(() => {
       currentAttrs.content = content;
-      ugcNews.fillInContent(content);
+      return ugcNews.fillInContent(content);
     });
 
     andThen(() => {
-      ugcNews.startOverrideAuthor();
+      return ugcNews.startOverrideAuthor();
     });
 
     andThen(() => {
       currentAttrs.authorName = author;
-      ugcNews.overrideAuthor(author);
-    });
-
-    andThen(() => {
-      currentAttrs.publishedAt = scheduleDate.utc().add(12, 'hours').format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-      ugcNews.pickToSchedule();
-      ugcNews.scheduleDate(scheduleDate.subtract(12, 'hours').format('x'));
-      andThen(() => {
-        ugcNews.scheduleTime(scheduleTime);
-      });
+      return ugcNews.overrideAuthor(author);
     });
 
     andThen(()=>{
@@ -107,6 +122,16 @@ test('Every field available filled in', function(assert) {
       });
     });
 
-   ugcNews.confirm();
+    ugcNews.pickToSchedule();
+    ugcNews.scheduleDate(scheduleDate.subtract(12, 'hours').format('x'));
+    ugcNews.scheduleTime(scheduleTime);
+
+    andThen(() => {
+      currentAttrs.publishedAt = scheduleDate.utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+    });
+
+    andThen(()=>{
+      ugcNews.scheduleConfirm();
+    });
   });
 });
