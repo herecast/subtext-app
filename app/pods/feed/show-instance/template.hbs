@@ -8,6 +8,7 @@
         isPreview=false
         instanceRoute='feed.show-instance'
         enableStickyHeader=true
+        trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
       )
       onClose=(action 'closeDetailPage')
       modalWrapper='modals/headless-wrapper'
@@ -17,11 +18,6 @@
   }}
 
 {{else}}
-  {{inviewport-reporter
-    reportEnterViewport=true
-    reportOnce=true
-    callback=(action 'integratedDetailLoaded' model.id)
-  }}
 
   <div class="Location-Index-Show-wrapper">
     {{component 'event-detail'
@@ -30,13 +26,8 @@
       closeLabel='Back'
       isPreview=false
       instanceRoute='feed.show-instance'
+      trackDetailEngagement=(action 'trackDetailEngagement' model.id 'integrated')
     }}
   </div>
-
-  {{inviewport-reporter
-    reportEnterViewport=true
-    reportOnce=true
-    callback=(action 'scrolledPastDetail' model.id)
-  }}
 
 {{/unless}}

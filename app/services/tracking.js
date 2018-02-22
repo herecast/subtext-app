@@ -348,6 +348,17 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackDetailEngagementEvent(contentId, detailType, startOrComplete, contentType, whichFeed) {
+    this.push({
+      event: `DetailEngagement-${startOrComplete}`,
+      content_id: contentId,
+      content_type: contentType,
+      detail_type: detailType,
+      detail_location: whichFeed,
+      url: window.location.href
+    });
+  },
+
   /**
    * The following methods needed the canEdit promise logic isolated into it's
    * own function.  Putting all the promise logic here caused a massive memory leak

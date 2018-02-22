@@ -27,6 +27,8 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   editPath: 'news.edit',
   editPathId: computed.oneWay('model.id'),
 
+  trackDetailEngagement: function() {},
+
   organizations: computed.oneWay('session.currentUser.managedOrganizations'),
 
   userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {

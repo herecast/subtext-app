@@ -13,12 +13,8 @@ export default Ember.Controller.extend({
       this.transitionToRoute('feed');
     },
 
-    integratedDetailLoaded(contentId) {
-      get(this, 'parentController').trackIntegratedDetailLoaded(contentId);
-    },
-
-    scrolledPastDetail(contentId) {
-      get(this, 'parentController').trackScrollPastIntegratedDetail(contentId);
+    trackDetailEngagement(contentId, detailType, startOrComplete) {
+      get(this, 'tracking').trackDetailEngagementEvent(contentId, detailType, startOrComplete, 'event', 'feed');
     }
   }
 });

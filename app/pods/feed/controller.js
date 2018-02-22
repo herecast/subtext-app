@@ -80,20 +80,12 @@ export default Ember.Controller.extend(PaginatedFilter, {
       });
   },
 
-  trackIntegratedDetailLoaded(contentId) {
-    this._gtmTrackEvent('integrated-detail-loaded', `integrated-detail-loaded-${contentId}`);
-  },
-
   trackModelUpdates(lastPageUpdated) {
     this._gtmTrackEvent('end-of-index-reached', `last-page-updated-${lastPageUpdated}`);
   },
 
   trackDetailPageViews(contentId) {
     this._gtmTrackEvent('detail-page-viewed', `detail-page-viewed-${contentId}`);
-  },
-
-  trackScrollPastIntegratedDetail(contentId) {
-    this._gtmTrackEvent('scroll-past-integrated-detail', `scroll-past-integrated-detail-${contentId}`);
   },
 
   trackCondensedViewClicked() {

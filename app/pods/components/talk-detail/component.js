@@ -16,6 +16,8 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   isPreview: false,
   enableStickyHeader: false,
 
+  trackDetailEngagement: function() {},
+
   listservLocationLabel: computed('userLocation.location.city', 'userLocation.location.state', function() {
     return `${get(this, 'userLocation.location.city')} ${get(this, 'userLocation.location.state')}`;
    }),

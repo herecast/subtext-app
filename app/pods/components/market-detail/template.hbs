@@ -1,3 +1,9 @@
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'start')
+}}
+
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
   {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true}}
     {{#content-body classNames="u-padding0"}}
@@ -157,6 +163,12 @@
     </div>
   </div>
 
+  {{inviewport-reporter
+    reportEnterViewport=true
+    reportOnce=true
+    callback=(action trackDetailEngagement 'read')
+  }}
+
   {{#unless isPreview}}
     {{#horizontal-rule}}
       {{social-share
@@ -203,3 +215,9 @@
 
   {{/unless}}
 {{/sticky-container}}
+
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'complete')
+}}

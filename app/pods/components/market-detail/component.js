@@ -22,6 +22,8 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   enableStickyHeader: false,
   editPath: 'market.edit',
 
+  trackDetailEngagement: function() {},
+
   _trackImpression() {
     const id = get(this, 'model.contentId');
 

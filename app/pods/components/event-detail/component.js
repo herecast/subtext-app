@@ -22,8 +22,9 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
   editPathId: computed.oneWay('model.contentId'),
   fastboot: inject.service(),
   tracking: inject.service(),
-
   store: inject.service(),
+
+  trackDetailEngagement: function() {},
 
   isPreview: false,
   enableStickyHeader: false,

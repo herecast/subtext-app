@@ -1,3 +1,9 @@
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'start')
+}}
+
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
   <article>
     <header class="DetailPage-navTop-container">
@@ -142,6 +148,12 @@
       </div>
     </div>
 
+    {{inviewport-reporter
+      reportEnterViewport=true
+      reportOnce=true
+      callback=(action trackDetailEngagement 'read')
+    }}
+    
     {{#unless isPreview}}
       {{#horizontal-rule}}
         {{social-share
@@ -192,3 +204,9 @@
 
   </article>
 {{/sticky-container}}
+
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'complete')
+}}
