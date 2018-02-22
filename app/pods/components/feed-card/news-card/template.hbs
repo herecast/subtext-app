@@ -8,9 +8,9 @@
   }}
 
   {{#unless context.condensedView}}
-    {{#if model.primaryImageUrl}}
+    {{#if model.primaryImage}}
       {{feed-card/image
-        imageUrl=model.primaryImageUrl
+        imageUrl=model.primaryImage.imageUrl
         model=model
         content=model.content
         linkToDetailIsActive=context.linkToDetailIsActive

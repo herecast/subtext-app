@@ -3,6 +3,7 @@ import DS from 'ember-data';
 
 const {
   get,
+  set,
   inject
 } = Ember;
 
@@ -10,7 +11,7 @@ export default DS.Model.extend({
   api: inject.service('api'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
-  primary: DS.attr('number'),
+  primary: DS.attr('boolean'),
   caption: DS.attr('string'),
   width: DS.attr('string'),
   height: DS.attr('string'),
@@ -30,6 +31,7 @@ export default DS.Model.extend({
   // uploaded to the API. This requires us to tell Ember Data that the model
   // has been updated with adapterWillCommit() and adapterDidCommit() so that
   // the record is not in the "isNew" state after saving.
+
   _create() {
     const api = get(this, 'api');
     const data = new FormData();
@@ -44,7 +46,9 @@ export default DS.Model.extend({
 
     return api.createImage(data).then((response) => {
       const id = get(response, 'image.id');
-      internalModel.setId(id);
+      set(this, 'file', null);
+
+      internalModel.setId(id.toString());
       internalModel.adapterDidCommit();
     });
   }

@@ -39,7 +39,7 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     this._trackImpression();
   },
 
-  activeImage: computed.oneWay('model.coverImageUrl'),
+  activeImage: computed.oneWay('model.primaryOrFirstImage.imageUrl'),
 
   controller: inject.service('current-controller'),
   intercom: inject.service(),

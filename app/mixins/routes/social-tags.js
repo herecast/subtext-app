@@ -34,9 +34,9 @@ export default Ember.Mixin.create({
 
     const fromProfile = routeName.startsWith('profile');
     const url = SocialSharing.getShareUrl(locationService, model, fromProfile);
-    const imageUrl = get(model,'featuredImageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
-    const imageWidth = get(model, 'featuredImageWidth') || get(model, 'imageWidth') || 266;
-    const imageHeight = get(model, 'featuredImageHeight') || get(model, 'imageHeight') || 200;
+    const imageUrl = get(model,'primaryImage.imageUrl') || get(model, 'imageUrl') || this.defaultImage(channel);
+    const imageWidth = get(model, 'primaryImage.width') || get(model, 'imageWidth') || 266;
+    const imageHeight = get(model, 'primaryImage.height') || get(model, 'imageHeight') || 200;
     const optimizedImageUrl = makeOptimizedImageUrl(imageUrl, imageWidth, imageHeight, true);
     const title = get(model, 'title');
 

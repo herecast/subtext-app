@@ -8,12 +8,10 @@ const {
   isBlank,
   isPresent,
   get,
-  getProperties,
   setProperties,
   set,
   run,
-  inject,
-  RSVP
+  inject
   } = Ember;
 
 export default Ember.Component.extend(TestSelector, Validation, {
@@ -21,7 +19,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   "data-test-component": "NewsEditor",
   news: null,
   showPreview: false,
-
+  store: inject.service(),
   location: inject.service('window-location'),
 
   authorOverrideEnabled: computed(function() {
@@ -141,53 +139,32 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
     set(this, 'news.authorName', this.authorName());
 
-    return new RSVP.Promise((resolve) => {
-      news.save().then(() => {
-        set(this, 'news.didOrgChange', false);
+    const image = get(this, 'pendingFeaturedImage');
+    let existingPrimaries = [];
 
-        const featuredImage = get(this, 'pendingFeaturedImage');
+    if (image) {
+      set(this, 'pendingFeaturedImage', null);
 
-        if (featuredImage) {
-          set(this, 'pendingFeaturedImage', null);
-          const { file, caption } = getProperties(featuredImage, 'file', 'caption');
-          let promise;
+      if(image.file) {
+        existingPrimaries = get(news, 'images').filterBy('primary');
 
-          if (file) {
-            promise = this._saveImage(file, 1, caption);
-          } else {
-            const imageID = get(this, 'news.bannerImage.id');
+        const newImage = get(this, 'store').createRecord('image', {
+          primary: true,
+          caption: image.caption,
+          file: image.file,
+          imageUrl: image.imageUrl
+        });
 
-            promise = get(this, 'api').updateImage(imageID, {
-              caption: caption,
-              primary: 1,
-              content_id: get(this, 'news.id')
-            });
-          }
+        get(news, 'images').addObject(newImage);
+      } else {
+        const primary = get(news, 'primaryImage');
+        primary.set('caption', image.caption);
+      }
+    }
 
-          return promise.then(
-            () => {
-              news.reload().then(() => {
-                // re-align featuredImageUrl to use actual url instead of base64 image data url
-                set(news, 'featuredImageUrl', get(news, 'bannerImage.imageUrl'));
-
-               resolve();
-              });
-            },
-            error => {
-              const serverError = get(error, 'errors.image');
-              let errorMessage = 'Error: Unable to save featured image.';
-
-              if (serverError) {
-                errorMessage += ' ' + serverError;
-              }
-
-              get(this, 'notify').error(errorMessage);
-            }
-          );
-        } else {
-          resolve();
-        }
-      });
+    return news.save().then(() => {
+      set(this, 'news.didOrgChange', false);
+      existingPrimaries.forEach(i => i.destroyRecord());
     });
   },
 
@@ -396,10 +373,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
       return this._saveImage(file);
     },
 
-    saveFeaturedImage(file, caption) {
+    saveFeaturedImage(file, caption, imageUrl) {
       // Save the featured image data to be committed
       // the next time the rest of the form is saved.
-      set(this, 'pendingFeaturedImage', {file, caption});
+      set(this, 'pendingFeaturedImage', {file, caption, imageUrl});
 
       this.send('notifyChange');
     },

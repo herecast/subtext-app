@@ -52,6 +52,7 @@ export default Ember.Mixin.create({
 
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 
+  primaryImageUrl: computed.alias('imageUrl'),
   imageUrl: attr('string'),
   imageWidth: attr('string'),
   imageHeight: attr('string'),

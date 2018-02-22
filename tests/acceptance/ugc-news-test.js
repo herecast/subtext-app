@@ -63,12 +63,12 @@ test('Every field available filled in', function(assert) {
     return content;
   });
 
-  server.post('/images', function(_, request) {
+  server.post('/images', function({images}, request) {
     if(request.requestBody.constructor === FormData) {
       done();
       assert.ok(true, 'Uploaded the image');
     }
-    return {};
+    return images.create();
   });
 
   server.put(`/contents/:id`, function({contents}, request) {

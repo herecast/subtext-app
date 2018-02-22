@@ -8,10 +8,14 @@ const {
   set
 } = Ember;
 
-const maxImages = 6;
-
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+
+  imageLimit: 6,
+  imageLimitReached: computed('imageLImit', 'visibleImages.[]', function() {
+    const limit = get(this, 'imageLimit');
+    return get(this, 'visibleImages').length >= limit;
+  }),
 
   init() {
     this._super(...arguments);
@@ -26,14 +30,12 @@ export default Ember.Component.extend({
     return images.rejectBy('_delete');
   }),
 
-  underImageLimit: computed.lt('visibleImages.length', maxImages),
-
   resetProperties() {
     const images = get(this, 'images');
 
     if (isEmpty(images)) {
       const initialImage = get(this, 'store').createRecord('image', {
-        primary: 1
+        primary: true
       });
 
       set(this, 'images', [initialImage]);
@@ -42,7 +44,13 @@ export default Ember.Component.extend({
 
   actions: {
     addImage() {
-      const newImage = get(this, 'store').createRecord('image', { primary: 0 });
+      const images = get(this, 'images').rejectBy('_delete');
+      let primary = false;
+      if(isEmpty(images)) {
+        primary=true;
+      }
+
+      const newImage = get(this, 'store').createRecord('image', { primary: primary });
 
       get(this, 'images').pushObject(newImage);
     },
@@ -66,7 +74,7 @@ export default Ember.Component.extend({
           .get('firstObject');
 
         if(firstImage) {
-          set(firstImage, 'primary', 1);
+          set(firstImage, 'primary', true);
         }
       }
 
@@ -74,8 +82,8 @@ export default Ember.Component.extend({
     },
 
     setPrimary(image) {
-      get(this, 'images').setEach('primary', 0);
-      set(image, 'primary', 1);
+      get(this, 'images').setEach('primary', false);
+      set(image, 'primary', true);
     }
   }
 });

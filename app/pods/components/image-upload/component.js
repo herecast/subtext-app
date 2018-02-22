@@ -25,7 +25,7 @@ export default Ember.Component.extend({
   },
 
   isPrimary: computed('image.primary', function() {
-    return (get(this, 'image.primary') === 1);
+    return get(this, 'image.primary');
   }),
 
   // When a user attaches an image and proceeds to a further step in the

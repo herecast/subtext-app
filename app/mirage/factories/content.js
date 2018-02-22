@@ -129,7 +129,7 @@ export default Factory.extend({
       content_id: this.id,
       caption() { return faker.lorem.sentence(); },
       credit: null,
-      image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
+      image_url: this.imageUrl,
       primary: true,
       width: 266,
       height: 200
@@ -139,7 +139,7 @@ export default Factory.extend({
       content_id: this.id,
       caption() { return faker.lorem.sentence(); },
       credit: null,
-      image_url: "http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240",
+      image_url: this.imageUrl,
       primary: false,
       width: 266,
       height: 200

@@ -23,11 +23,9 @@
     data-test-field="talk-content"
   )
 
-  talk-image=(component "content-form-image"
-    image=(mut model.image)
-    imageUrl=(mut model.imageUrl)
-    originalImageFile=(mut model.originalImageFile)
-    error=errors.image
+  talk-images=(component "image-upload-list"
+    model: talk
+    imageLimit: 1
   )
 )}}
 
@@ -59,14 +57,10 @@
   {{/summer-note}}
 {{/form-group}}
 
-{{content-form-image
-  data-test-talk-image=true
-  image=talk.image
-  imageUrl=talk.imageUrl
-  originalImageFile=talk.originalImageFile
-  error=errors.image
-  class='u-layoutPadT50'
-}}
+{{image-upload-list
+    data-test-talk-image=true
+    model=talk
+    imageLimit=1}}
 
 <div class='form-group ContentForm-helpText'>
   <span class='ContentForm-requiredIndicator'>*</span> = required fields

@@ -89,8 +89,8 @@
           {{#form-group error=errors.image}}
             <label class='control-label'>Featured Image</label>
             {{thumbnail-image-modal
-              imageUrl=(mut news.featuredImageUrl)
-              caption=(mut news.featuredImageCaption)
+              imageUrl=(readonly news.primaryImage.imageUrl)
+              caption=(readonly news.primaryImage.caption)
               title="Featured Image"
               saveImage=(action 'saveFeaturedImage')
               saveCaption=(action 'saveFeaturedImageCaption')

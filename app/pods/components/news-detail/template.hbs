@@ -8,18 +8,18 @@
   <article>
     <header class="DetailPage-navTop-container">
 
-      {{#if model.primaryImageUrl}}
+      {{#if model.primaryImage.imageUrl}}
         <div class='DetailPage-headerImage-wrapper'>
           <div class='DetailPage-headerImage'>
             {{#image-load-placeholder
               placeholderBlockWidth=640
               placeholderBlockHeight=480
-              imageUrl=(optimized-image-url model.primaryImageUrl 640 480 true)
-              placeholderUrl=(optimized-image-url model.primaryImageUrl 64 48 true)
+              imageUrl=(optimized-image-url model.primaryImage.imageUrl 640 480 true)
+              placeholderUrl=(optimized-image-url model.primaryImage.imageUrl 64 48 true)
               placeholderImageClass='img-responsive'
               imageForContent=true
             }}
-              <img data-test-detail-page-image class='img-responsive' src={{optimized-image-url model.primaryImageUrl 640 480 true}}>
+              <img data-test-detail-page-image class='img-responsive' src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}>
             {{/image-load-placeholder}}
           </div>
         </div>
@@ -34,7 +34,7 @@
     toggleCaption=(action 'toggleCaption') enabled=enableStickyHeader}}
       {{#content-body classNames="u-padding0"}}
         <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
-          <p>{{model.primaryImageCaption}}</p>
+          <p>{{model.primaryImage.caption}}</p>
         </div>
 
         <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">

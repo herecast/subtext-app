@@ -18,7 +18,7 @@ export default create({
         return this[index];
       };
 
-      findWithAssert(testSelector('market-image') + ' input[type=file]').triggerHandler({
+      findWithAssert(testSelector('market-images') + ' input[type=file]').triggerHandler({
         type: 'change',
         target: {
           files: files

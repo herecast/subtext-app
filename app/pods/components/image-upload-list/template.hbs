@@ -8,13 +8,13 @@
       image=image
       remove=(action 'removeImage')
       setPrimary=(action 'setPrimary')
-      data-test-market-image=true
+      data-test-component="image-upload"
     }}
   {{/each}}
 {{/form-group}}
 
-{{#if underImageLimit}}
+{{#unless imageLimitReached}}
   <button {{action 'addImage'}} class='Button Button--default' data-test-add-another-image>
     {{fa-icon 'plus-circle'}} Add another image
   </button>
-{{/if}}
+{{/unless}}

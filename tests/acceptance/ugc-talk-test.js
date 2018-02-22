@@ -49,12 +49,12 @@ test('Every field available filled in', function(assert) {
     return server.create('content', attrs);
   });
 
-  server.post(`/images/upsert`, function(_, request) {
+  server.post(`/images`, function({images}, request) {
     if(request.requestBody.constructor === FormData) {
       done();
       assert.ok(true, 'Uploaded the image');
     }
-    return {};
+    return images.create();
   });
 
   Ember.run(() => {

@@ -94,12 +94,12 @@ test('Every field avaliable filled in **filter', function(assert) {
     return server.create('content', {eventInstanceId: eventInstance.id});
   });
 
-  server.post(`/images/upsert`, function(_, request) {
+  server.post(`/images`, function({images}, request) {
     if(request.requestBody.constructor === FormData) {
       done();
       assert.ok(true, 'Uploaded the image');
     }
-    return {};
+    return images.create();
   });
 
   Ember.run(() => {

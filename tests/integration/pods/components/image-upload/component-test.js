@@ -15,7 +15,7 @@ test('the primary image is visually distinct', function(assert) {
 
   const image = {
     imageUrl: imageUrl,
-    primary: 1
+    primary: true
   };
 
   this.set('image', image);
@@ -30,7 +30,7 @@ test('the primary image is visually distinct', function(assert) {
 
   assert.ok($ImageUpload.hasClass('is-primary'), 'image-upload with primary image should have modifying class');
 
-  this.set('image.primary', 0);
+  this.set('image.primary', false);
 
   assert.ok(!$ImageUpload.hasClass('is-primary'), 'image-upload without primary image should not have modifying class');
 });
@@ -52,7 +52,7 @@ test('without existing image data url, the file input is present', function(asse
 test('Removing an image sends image to the remove image action', function(assert) {
   assert.expect(1);
 
-  const image = {primary: 1};
+  const image = {primary: true};
   this.set('image', image);
 
   this.set('actions', {
@@ -78,7 +78,7 @@ test('The original image name is used for new images', function(assert) {
 
   const image = {
     imageUrl: imageUrl,
-    primary: 1,
+    primary: true,
     isNew: true,
     originalImageFile: {name: 'bears.jpg'}
   };
@@ -101,7 +101,7 @@ test('The file URL is used for existing images', function(assert) {
 
   const image = {
     imageUrl: 'http://www.stuff.com/things/bees.png',
-    primary: 1,
+    primary: true,
     isNew: false
   };
 
@@ -123,7 +123,7 @@ test('Set image as primary', function(assert) {
 
   const image = {
     imageUrl: imageUrl,
-    primary: 0
+    primary: false
   };
 
   this.set('image', image);

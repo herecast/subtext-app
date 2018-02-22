@@ -24,9 +24,9 @@ export default Ember.Component.extend({
       set(this, '_showImageModal', false);
     },
 
-    save(selectedImage, caption) {
+    save(selectedImage, caption, imageUrl) {
       if (selectedImage) {
-        get(this, 'saveImage')(selectedImage, caption);
+        get(this, 'saveImage')(selectedImage, caption, imageUrl);
       } else if (get(this, 'saveCaption')) {
         get(this, 'saveCaption')(caption);
       }
