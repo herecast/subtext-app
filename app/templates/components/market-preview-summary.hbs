@@ -45,15 +45,14 @@
       </div>
       <ul class='ContentPreview-propertyList'>
        {{#disabled-checkbox
-          checked=model.baseLocation
+          checked=model.location
           tagName='li'
           class='ContentPreview-summaryProperty'
         }}
           {{#locations-nearby
             tagName='span'
-            location=(readonly model.baseLocation)
+            location=(readonly model.location)
             radius=(readonly model.promoteRadius)
-            nearbyLocations=(readonly model.promotedLocations)
             as |nearby|
           }}
           Promoted to

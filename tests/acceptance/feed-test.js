@@ -25,11 +25,7 @@ test('visiting /feed with location previously selected ', function(assert) {
   const location = mockLocationCookie(this.application);
 
   server.createList('content', 3, {
-    contentLocations: [{
-      id: 1,
-      location_type: 'base',
-      location_id: location.id
-    }]
+    locationIds: [ location.id ]
   });
 
   server.get('/feed', function({feedItems}, request) {
@@ -72,11 +68,7 @@ test('visiting /feed?location= with location in url', function(assert) {
   const location = mockLocationCookie(this.application);
 
   server.createList('content', 3, {
-    contentLocations: [{
-      id: 1,
-      location_type: 'base',
-      location_id: location.id
-    }]
+    locationIds: [ location.id ]
   });
 
   server.get('/feed', function({feedItems}, request) {

@@ -5,7 +5,6 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
   isNewSerializerAPI: true,
   attrs: {
     eventInstances: { embedded: 'always' },
-    contentLocations: { embedded: 'always' },
     comments: { embedded: 'always' }
   },
 

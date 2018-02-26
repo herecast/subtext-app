@@ -29,9 +29,6 @@ export default Ember.Mixin.create({
   // imageHeight: DS.attr('string'), //TAG:MOVED
   // title: DS.attr('string'), //TAG:MOVED
   // subtitle: DS.attr('string'), //TAG:DELETED
-  // contentLocations: DS.hasMany('content-location'), //TAG:MOVED
-  // baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'),  //TAG:MOVED
-  // baseLocationNames: computed.mapBy('baseLocations', 'locationName'), //TAG:MOVED
   // isPaid: computed.equal('costType', 'paid'), //TAG:DELETED (unused property)
   // isFree: computed.equal('costType', 'free'), //TAG:DELETED (unused property)
   // formattedCostType //TAG:DELETED (unused computed property)

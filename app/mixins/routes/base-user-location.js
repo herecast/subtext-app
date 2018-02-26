@@ -15,11 +15,11 @@ export default Ember.Mixin.create({
    */
   afterModel(model) {
     this._super(...arguments);
-    return get(model, 'ugcBaseLocation').then((baseLocation) => {
+    return get(model, 'location').then((location) => {
 
-      if(!isPresent(baseLocation)) {
+      if(!isPresent(location)) {
         get(this, 'userLocation.location').then((location) => {
-          set(model, 'ugcBaseLocation', location);
+          set(model, 'location', location);
         });
       }
     });

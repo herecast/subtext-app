@@ -44,7 +44,7 @@ test('Every field available filled in', function(assert) {
     subtitle: null,
     sunsetDate: null,
     title: title,
-    ugcBaseLocationId: null,
+    locationId: null,
     ugcJob: null,
     venueId: null,
     venueStatus: null,

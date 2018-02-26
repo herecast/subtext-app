@@ -27,7 +27,7 @@ export default Ember.Component.extend({
       get(this, 'tracking').push({
         event: 'ChangePromoteRadius',
         radius: radius,
-        selected_location: get(this, 'model.ugcBaseLocation.id')
+        selected_location: get(this, 'model.location.id')
       });
     },
 
@@ -35,10 +35,10 @@ export default Ember.Component.extend({
       get(this, 'tracking').push({
         event: 'ChangeSelectedLocation',
         new_location: get(location, 'id'),
-        previous_location: get(this, 'model.ugcBaseLocation.id')
+        previous_location: get(this, 'model.location.id')
       });
 
-      set(this, 'model.ugcBaseLocation', location);
+      set(this, 'model.location', location);
       this._confirmCurrentUserLocation(location);
     }
   }

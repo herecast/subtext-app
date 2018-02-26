@@ -110,7 +110,6 @@ export default Factory.extend({
       return faker.date.between(rangeStart, rangeEnd);
     }
   },
-  contentLocations: [],
 
   publishedAt() { return faker.date.past(); },
   updatedAt() { return faker.date.past(); },
@@ -145,7 +144,8 @@ export default Factory.extend({
       height: 200
     }];
   },
-  ugcBaseLocation: null,
+  locationId: null,
+  baseLocationIds: [],
   price() { return `$${faker.random.number(999)} OBO`; },
   sold() { return faker.random.arrayElement([true, false]); }
 });

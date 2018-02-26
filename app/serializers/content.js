@@ -12,16 +12,16 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       deserialize: 'records',
       serialize: false
     },
-    contentLocations: {
-      deserialize: 'records',
-      serialize: false
-    },
     otherEventInstances: {
       deserialize: 'records',
       serialize: false
     },
     schedules: {
       embedded: 'always'
+    },
+    baseLocations: {
+      deserialize: 'ids',
+      serialize: false
     }
   },
 
@@ -50,14 +50,13 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
 
     delete json.author_id;
     delete json.avatar_url;
-    delete json.base_location_names;
+    delete json.biz_feed_public;
     delete json.business_profile_id;
     delete json.campaign_end;
     delete json.campaign_start;
     delete json.click_count;
     delete json.comment_count;
     delete json.commenter_count;
-    delete json.content_locations;
     delete json.content_origin;
     delete json.created_at;
     delete json.embedded_ad;

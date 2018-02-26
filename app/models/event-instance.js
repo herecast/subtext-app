@@ -17,8 +17,6 @@ export default DS.Model.extend(BaseEvent, Content, {
   normalizedContentType: 'event',
   comments: DS.hasMany(), //TAG:NOTE:no longer provided by BaseEvent mixin
   contentId: DS.attr('number'), //TAG:NOTE override in other serializers where it is an alias of ID
-  ugcBaseLocation: null, //TAG:NOTE this is overridden from the Content model mixin to prevent errors about missing a relationship to 'location'
-  baseLocationNames: computed.mapBy('baseLocations', 'locationName'), //TAG:DISCUSS has different value in mixins/models/content
   eventInstances: DS.hasMany('other-event-instance'), //N
   organization: DS.belongsTo('organization'), //NOTE:DISCUSS is async true in mixins/models/content
 
@@ -26,8 +24,6 @@ export default DS.Model.extend(BaseEvent, Content, {
   // venueLongitude: DS.attr('string'), //TAG:DELETED
   // venueLocateName: DS.attr('string'), //TAG:DELETED
   // adminContentUrl: DS.attr('string'), //TAG:DELETED
-  // contentLocations: DS.hasMany('content-location'), //TAG:MOVED
-  // baseLocations: computed.filterBy('contentLocations', 'locationType', 'base'), //TAG:MOVED
   // title: DS.attr('string'), //TAG:MOVED
   // content: DS.attr('string'), //TAG:MOVED
   // costType: DS.attr('string'), //TAG:MOVED

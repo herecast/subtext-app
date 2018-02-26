@@ -17,11 +17,11 @@ export default Ember.Component.extend(reloadComments, {
     const userLocation = get(this, 'userLocation');
 
     // Display location matching user if multiple bases
-    let baseLocation = baseLocations.findBy('location.id', get(userLocation, 'locationId')) ||
+    let baseLocation = baseLocations.findBy('id', get(userLocation, 'locationId')) ||
       get(baseLocations, 'firstObject');
 
     if (isPresent(baseLocation)) {
-      return `${get(baseLocation, 'locationName')} List`;
+      return `${get(baseLocation, 'name')} List`;
     } else {
       return undefined;
     }

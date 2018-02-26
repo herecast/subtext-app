@@ -159,14 +159,7 @@ test('testing market detail page', function(assert) {
     }],
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     cost: 123,
-    contentLocations: [
-      {
-        id: 1,
-        location_type: 'base',
-        location_id: location.id,
-        location_name: [location.city, location.state].join(', ')
-      }
-    ]
+    locationId: location.id
   });
 
   server.create('feedItem', {

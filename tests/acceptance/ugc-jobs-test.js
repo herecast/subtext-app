@@ -86,11 +86,6 @@ function fillOutEventForm(opts) {
         );
 
         const newPost = contents.create(marketPostData);
-        /*
-        newPost.contentLocations.forEach((cl, index) => {
-          cl.id = index+1;
-        });
-        */
 
         return newPost;
       });
@@ -127,11 +122,6 @@ function fillOutEventForm(opts) {
         );
 
         const newPost = contents.create(talkPostData);
-        /*
-        newPost.contentLocations.forEach((cl, index) => {
-          cl.id = index+1;
-        });
-        */
 
         return newPost;
       });
@@ -170,11 +160,6 @@ function fillOutEventForm(opts) {
         );
 
         const newPost = contents.create(eventPostData);
-        /*
-        newPost.contentLocations.forEach((cl, index) => {
-          cl.id = index+1;
-        });
-        */
 
         newPost.attrs.eventInstanceId = newPost.attrs.eventInstanceId || server.create('eventInstance').id;
         newPost.save();

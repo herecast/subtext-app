@@ -82,7 +82,7 @@ test('Every field avaliable filled in **filter', function(assert) {
         subtitle: null,
         sunsetDate: null,
         title: 'test-title',
-        ugcBaseLocationId: get(location, 'id'),
+        locationId: get(location, 'id'),
         ugcJob: null,
         venueId: parseInt(get(venue, 'id')),
         venueStatus: 'new',
