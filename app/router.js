@@ -97,10 +97,6 @@ Router.map(function() {
 
   this.route('prohibited-items');
 
-  this.route('account', function() {
-    this.route('subscriptions');
-  });
-
   this.route('promotions.show', {path: '/promotions/:id'});
 
   this.route('feed', function() {
@@ -122,6 +118,21 @@ Router.map(function() {
   });
 
   this.route('storytellers');
+
+  this.route('mystuff', function() {
+    this.route('comments', function() {
+      this.route('show', {path: '/:id'});
+    });
+
+    this.route('subscriptions');
+
+    this.route('account');
+
+    this.route('contents', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
+    });
+  });
 });
 
 export default Router;

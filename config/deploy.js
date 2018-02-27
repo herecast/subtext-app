@@ -12,6 +12,9 @@ module.exports = function(deployTarget) {
     },
     gzip: {
       ignorePattern: '**/*.map'
+    },
+    'copy-assets': {
+      filePattern: '**/*.{js,css,json,ico,map,xml,txt,svg,eot,ttf,woff,woff2}'
     }
   };
 

@@ -11,11 +11,19 @@ const linkToContent = Ember.Component.extend({
   attrsForLinkTo: {},
 
   route: computed('history.currentRouteName', function() {
-    return startsWith(get(this, 'history.currentRouteName'), 'profile') ? 'profile.all.show' : 'feed.show';
+    const currentRouteName = get(this, 'history.currentRouteName');
+
+    if (startsWith(currentRouteName, 'profile')) {
+      return 'profile.all.show';
+    } else if (startsWith(currentRouteName, 'mystuff')) {
+      return 'mystuff.contents.show';
+    } else {
+      return 'feed.show';
+    }
   }),
 
-  instanceRoute: computed('history.currentRouteName', function() {
-    return startsWith(get(this, 'history.currentRouteName'), 'profile') ? 'profile.all.show-instance' : 'feed.show-instance';
+  instanceRoute: computed('route', function() {
+    return `${get(this, 'route')}-instance`;
   }),
 
   didReceiveAttrs() {
@@ -25,6 +33,7 @@ const linkToContent = Ember.Component.extend({
     const model = params.shift();
 
     params.unshift(...this.calculateRouteParams(model));
+
     set(this, 'paramsForLinkTo',
       params
     );

@@ -297,8 +297,6 @@ export default function() {
     return organizations;
   });
 
-
-
   this.get('/organizations/:id');
   this.put('/organizations/:id', function({ db }, request) {
     if (request && request.requestBody && typeof request.requestBody === 'string') {
@@ -583,6 +581,52 @@ export default function() {
     return {};
   });
 
+  this.get('/users/:id/comments', function({comments}, request) {
+    const { page, per_page } = request.queryParams;
+    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
+    const endIndex = startIndex + parseInt(per_page);
+
+    let response = {};
+
+    let myStuffComments = comments.all().filter((comment) => {
+      return parseInt(get(comment, 'userId')) === parseInt(request.params.id);
+
+    });
+
+    response = this.serialize(myStuffComments.slice(startIndex, endIndex));
+
+    response.meta = {
+      total: myStuffComments.length,
+      total_pages: Math.ceil( myStuffComments.length / per_page )
+    };
+
+    return new Mirage.Response(200, {}, response);
+  });
+
+  this.get('/users/:id/contents', function({feedItems}, request){
+    const { page, per_page } = request.queryParams;
+    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
+    const endIndex = startIndex + parseInt(per_page);
+
+    let response = {};
+
+    let myStuffContents = feedItems.all().filter((feedItem) => {
+      if (feedItem.modelType === 'content') {
+          return parseInt(get(feedItem.content, 'authorId')) === parseInt(request.params.id);
+        }
+        return false;
+    });
+
+    response = this.serialize(myStuffContents.slice(startIndex, endIndex));
+
+    response.meta = {
+      total: myStuffContents.length,
+      total_pages: Math.ceil( myStuffContents.length / per_page )
+    };
+
+    return new Mirage.Response(200, {}, response);
+  });
+
   this.get('/feed', function({db, feedItems}, request) {
     const typeMap = {
       stories: 'news',
@@ -593,7 +637,7 @@ export default function() {
       talk: 'talk'
     };
 
-    const { page, per_page, content_type, query, organization_id, radius } = request.queryParams;
+    const { page, per_page, content_type, query, organization_id } = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
@@ -601,24 +645,8 @@ export default function() {
 
     const showProfilePageContents = isPresent(organization_id);
     const justShowOneContentType = isPresent(content_type) && isBlank(query);
-    const showMyStuffOnly = isPresent(radius) && radius.toLowerCase() === 'mystuff';
 
-    if (showMyStuffOnly) {
-        let myStuffContents = feedItems.all().filter((feedItem) => {
-        if (feedItem.modelType === 'content') {
-          return parseInt(get(feedItem.content, 'authorId')) === 1;
-        }
-        return false;
-      });
-
-      response = this.serialize(myStuffContents.slice(startIndex, endIndex));
-
-      response.meta = {
-        total: myStuffContents.length,
-        total_pages: Math.ceil( myStuffContents.length / per_page )
-      };
-
-    } else if (showProfilePageContents) {
+    if (showProfilePageContents) {
       let organizationFeedItems = feedItems.all().filter((feedItem) => {
         return feedItem.modelType === 'content' && feedItem.organizationId === organization_id;
       });

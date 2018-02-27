@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('image-upload-list', 'Unit | Component | image upload list', {
   // Specify the other units that are required for this test
-  needs: ['component:form-group', 'component:fa-icon', 'component:image-upload'],
+  needs: ['component:form-group', 'component:image-upload'],
   unit: true
 });
 

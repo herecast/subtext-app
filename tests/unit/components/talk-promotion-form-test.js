@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import resolver from '../../helpers/resolver';
 
 moduleForComponent('talk-promotion-form', 'Unit | Component | talk promotion form', {
-  needs: ['component:fa-icon', 'component:promote-locations'],
+  needs: ['component:promote-locations'],
 
   setup: function() {
     this.container.registry.register('template:partials/promotion-disclaimer',

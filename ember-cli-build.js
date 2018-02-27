@@ -9,7 +9,7 @@ module.exports = function(defaults) {
 
       // SVG images are not fingerprinted by default so we have to specify
       // them along with the others that are in the default list.
-      extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'svg']
+      extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'svg', 'woff2']
     },
     lessOptions: {
       paths: [

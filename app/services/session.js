@@ -43,6 +43,8 @@ export default SessionService.extend({
     }
   }),
 
+  userId: computed.oneWay('currentUser.userId'),
+
   userName: computed.oneWay('currentUser.name'),
 
   userLocation: computed.alias('userLocationService.location.name'),

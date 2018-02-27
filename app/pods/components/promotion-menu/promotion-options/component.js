@@ -20,7 +20,11 @@ export default Ember.Component.extend({
   _urlForShare() {
     const locationService = get(this, 'location');
     const id = get(this, 'content.contentId');
-    const baseLink = `${locationService.href()}`;
+    let baseLink = `${locationService.href()}`;
+
+    if (baseLink.endsWith('mystuff')) {
+      baseLink = baseLink.replace('mystuff', 'feed');
+    }
 
     if (get(this, 'content.isCampaign')) {
       return baseLink;

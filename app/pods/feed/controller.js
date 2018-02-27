@@ -181,7 +181,7 @@ export default Ember.Controller.extend(PaginatedFilter, {
     },
 
     chooseMyStuffOnly() {
-      this.send('changeRadius', 'myStuff');
+      this.transitionToRoute('mystuff');
     },
 
     chooseLocation(location) {

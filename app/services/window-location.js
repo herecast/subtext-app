@@ -42,7 +42,6 @@ export default Ember.Service.extend({
       // Use AWS X-Forwarded-Proto header if available, else use what fastboot has
       const protocol = isPresent(xForwardedProto) ? xForwardedProto
                                                   : get(this, 'fastboot.request.protocol');
-
       // Match protocol response from the browser
       return protocol.endsWith(':') ? protocol : `${protocol}:`;
     } else {
@@ -104,7 +103,7 @@ export default Ember.Service.extend({
     if(this.isFastBoot()) {
       const headers = get(this, 'fastboot.request.headers');
 
-      return get(headers, 'Referer');
+      return headers.get('Referer');
     } else {
       return window.location.referrer;
     }

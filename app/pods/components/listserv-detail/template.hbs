@@ -1,3 +1,9 @@
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'start')
+}}
+
 {{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
   {{#sticky.item class='StickyItem--default-background u-boxShadowBottom u-marginBottom16' useAbsolutePositioning=true}}
     {{#content-body classNames="u-padding0"}}
@@ -60,6 +66,12 @@
     </div>
   </div>
 
+  {{inviewport-reporter
+    reportEnterViewport=true
+    reportOnce=true
+    callback=(action trackDetailEngagement 'read')
+  }}
+  
   <div class='DetailPage-sectionWrapper'>
     <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
       {{ad-banner
@@ -80,3 +92,9 @@
     }}
   </div>
 {{/sticky-container}}
+
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement 'complete')
+}}

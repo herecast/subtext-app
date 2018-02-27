@@ -31,7 +31,6 @@ test('Given a user, it renders', function(assert) {
 
   let $userName = this.$(testSelector('user-menu-name'));
   let $logoutLink = this.$(testSelector('link', 'logout-link'));
-  let $myAccountLink = this.$(testSelector('link', 'my-account-link'));
   let $manageContentLink = this.$(testSelector('link', 'manage-content-link'));
 
   assert.ok($userName.text().trim().indexOf(user.name) >= 0,
@@ -42,35 +41,11 @@ test('Given a user, it renders', function(assert) {
     'It has a logout link'
   );
 
-  assert.ok($myAccountLink.length,
-    'It has a my account link'
-  );
-
   assert.ok($manageContentLink.length,
     'It has a manage content link'
   );
 });
 
-test('my account link - given a openMyAccount action', function(assert) {
-
-  let user =  {
-    name: 'My Name',
-    userImageUrl: 'http://go.test/user-image.jpg',
-  };
-
-  this.set('currentUser', user);
-
-  let openMyAccount = sinon.spy();
-  this.set('myAccountAction', openMyAccount);
-
-  this.render(hbs`{{user-menu model=currentUser openMyAccount=(action myAccountAction)}}`);
-
-  this.$('.UserMenu-myAccount').click();
-
-  assert.ok(openMyAccount.calledWith(user),
-    'Calls openMyAccount action'
-  );
-});
 
 test('sign out link - invalidates session', function(assert) {
 

@@ -119,6 +119,28 @@ export default function (server) {
     carouselId: businessesCarousel.id
   });
 
+  const mystuffContents = server.createList('content', 5, {
+    authorId: 1,
+    contentOrigin: 'ugc'
+  });
+  mystuffContents.forEach((content) => {
+    server.create('feedItem', {
+      contentId: content.id
+    });
+  });
+
+  const mystuffCommentParent = server.create('content', {
+    id: 1000,
+    contentOrigin: 'ugc'
+  });
+
+  server.createList('comment', 10, {
+    userId: 1,
+    userName: "Thad Copeland",
+    userImageUrl: null,
+    parentContentId: mystuffCommentParent.id
+  });
+
   server.createList('feedItem', 40);
 
   const listserv = server.create('listserv');

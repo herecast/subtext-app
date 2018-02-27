@@ -1,0 +1,78 @@
+{{#if (or hasOrganizations hasTypes)}}
+  <div class="Mystuff-FilterBar-intro">
+    Filter By:
+  </div>
+
+  {{#if (or hasOrganizations activeOrganization)}}
+    <div class="Mystuff-FilterBar-organizations">
+      {{#if activeOrganization}}
+        {{search-type-tag
+          type=activeOrganization.name
+          allowWrap=true
+          remove=(action 'resetOrganization')
+        }}
+      {{else if activeMyOrganization}}
+        {{search-type-tag
+          type="My Personal Stuff"
+          allowWrap=true
+          remove=(action 'resetOrganization')
+        }}
+      {{else}}
+        <div class="Mystuff-FilterBar-choose-box">
+          <div class="Mystuff-FilterBar-choose dropdown-toggle" data-toggle="dropdown" data-test-button="mystuff-organization-filter">
+            Personal/Profile{{fa-icon 'chevron-down'}}
+          </div>
+          <div class="Mystuff-FilterBar-dropdown-menu dropdown-menu">
+            <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeOrganization' myOrganization}} data-test-button="mystuff-organization-choice-personal">
+              {{avatar-image
+              imageUrl=currentUser.userImageUrl
+              userName=currentUser.name
+              customSize=35
+              class="Mystuff-FilterBar-dropdown-avatar"
+              }}
+              <span>My Personal Stuff</span>
+            </div>
+            {{#each organizations as |organization|}}
+              <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeOrganization' organization}} data-test-button="mystuff-organization-choice">
+                {{avatar-image
+                imageUrl=organization.displayImageUrl
+                userName=organization.name
+                customSize=35
+                class="Mystuff-FilterBar-dropdown-avatar"
+                }}
+                <span>{{organization.name}}</span>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{#if hasTypes}}
+    <div class="Mystuff-FilterBar-types">
+      {{#if activeType}}
+        {{search-type-tag
+          type=activeType
+          remove=(action 'resetType')
+        }}
+      {{else}}
+        <div class="Mystuff-FilterBar-choose-box">
+          <div class="Mystuff-FilterBar-choose dropdown-toggle" data-toggle="dropdown" data-test-button="mystuff-content-type-filter">
+            Content Type{{fa-icon 'chevron-down'}}
+          </div>
+          <div class="Mystuff-FilterBar-dropdown-menu dropdown-menu">
+            {{#each types as |type|}}
+              <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeType' type}} data-test-button="mystuff-content-type-choice">
+                <div>
+                  {{type}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+{{/if}}

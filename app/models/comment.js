@@ -10,6 +10,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   userName: DS.attr('string'),
   userImageUrl: DS.attr('string'),
+  userId: DS.attr('number'),
   publishedAt: DS.attr('moment-date'),
 
   hasUserName: computed.notEmpty('userName'),

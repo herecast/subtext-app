@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('event-location-filter', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon']
+  needs: []
 });
 
 test('it renders', function(assert) {

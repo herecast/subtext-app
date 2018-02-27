@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('top-scroller', 'Unit | Component | top scroller', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon'],
+  needs: [],
   unit: true
 });
 

@@ -4,7 +4,7 @@ import {
 } from 'ember-qunit';
 
 moduleForComponent('disabled-checkbox', {
-  needs: ['component:fa-icon', 'component:gradient-truncation']
+  needs: ['component:gradient-truncation']
 });
 
 test('it renders', function(assert) {

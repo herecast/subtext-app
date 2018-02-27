@@ -1,0 +1,62 @@
+.Mystuff-FilterBar {
+  .display-grid();
+  .grid-template-columns(70px 1fr 1fr);
+  padding: 8px 0;
+
+  &-intro,
+  &-organizations,
+  &-types {
+    .grid-align-self(center);
+  }
+
+  &-intro {
+    color: #636262;
+    @media (max-width: 500px) {
+      padding-left: 8px;
+    }
+  }
+
+  &-organizations {
+    padding-right: 8px;
+  }
+
+  &-choose-box {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    border: solid 1px #636262;
+    color: #636262;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #f6f8f9;
+    font-weight: bold;
+  }
+
+  &-choose {
+    i {
+      margin-left: 4px;
+    }
+  }
+
+  &-dropdown {
+    &-menu {
+      padding: 4px;
+      overflow-y: scroll;
+      width: 200px;
+      max-height: 500px;
+    }
+    &-choice {
+      text-transform: capitalize;
+      padding: 16px 8px;
+      .display-grid();
+      .grid-template-columns(40px 1fr);
+      span {
+        .grid-align-self(center);
+        line-height: 1.1;
+      }
+    }
+    &-choice:not(:last-of-type) {
+      border-bottom: solid 1px #ECF2F5;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{{#x-card class="Mystuff-CommentCard-card"}}
+  <div class="Mystuff-CommentCard-title">
+    {{#link-to linkRoute linkId}}
+      {{comment.title}}
+    {{/link-to}}
+  </div>
+
+  {{content-comment
+    comment=comment
+    hideReportAbuse=true
+  }}
+{{/x-card}}

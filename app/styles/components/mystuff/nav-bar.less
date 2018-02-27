@@ -1,0 +1,46 @@
+.Mystuff-NavBar {
+  @media (max-width: 500px) {
+    border-bottom: solid 1px #636262;
+  }
+  
+  &-nav {
+    .display-grid();
+    .grid-template-columns(repeat(auto-fit, minmax(40px, 1fr)));
+    padding: 4px 0 8px 0;
+  }
+
+  &-button {
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    color: #636262;
+    .transition(all 0.3s linear);
+
+    i {
+      display: block;
+      font-size: 24px;
+    }
+    span {
+      text-transform: capitalize;
+      @media (max-width: 500px) {
+        display: none;
+      }
+    }
+    &.active {
+      color: @filter-tag;
+      .transform(scale(1.1));
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &-breadcrumb {
+    p {
+      margin-top: 0;
+    }
+    @media (min-width: 500px) {
+      display: none;
+    }
+  }
+}

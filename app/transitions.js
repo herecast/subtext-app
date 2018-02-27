@@ -36,10 +36,13 @@ export default function(){
     this.reverse('toRight', {duration: 300})
   );
 
+
   this.transition(
-    this.fromRoute('account.index'),
-    this.toRoute('account.subscriptions'),
-    this.use('toLeft'),
-    this.reverse('toRight')
+    this.hasClass('Mystuff-toLeft'),
+    this.use('toLeft', {duration: 300})
+  );
+  this.transition(
+    this.hasClass('Mystuff-toRight'),
+    this.use('toRight', {duration: 300})
   );
 }

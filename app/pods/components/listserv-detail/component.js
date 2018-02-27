@@ -18,6 +18,8 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   userLocation: inject.service('user-location'),
   enableStickyHeader: false,
 
+  trackDetailEngagement: function(){},
+
   _trackImpression() {
     const id = get(this, 'model.contentId');
 

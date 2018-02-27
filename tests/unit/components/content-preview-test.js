@@ -5,7 +5,7 @@ import {
 
 moduleForComponent('content-preview', {
   needs: ['component:report-abuse',
-    'component:fa-icon', 'component:truncate-text']
+    'component:truncate-text']
 });
 
 test('it renders', function(assert) {

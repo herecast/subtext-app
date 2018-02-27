@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('comment-new', 'Unit | Component | comment new', {
   // Specify the other units that are required for this test
-  needs: ['helper:and', 'helper:not', 'component:fa-icon'],
+  needs: ['helper:and', 'helper:not'],
   unit: true
 });
 

@@ -6,6 +6,7 @@ const { get, set, setProperties, computed, isBlank, inject, run } = Ember;
 export default Ember.Component.extend(Validation, {
   tagName: 'form',
   classNames: ['AccountFormDetails'],
+  'data-test-account-form': true,
   intercom: inject.service(),
 
   notify: inject.service('notification-messages'),

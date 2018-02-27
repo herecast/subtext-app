@@ -9,6 +9,8 @@ export default Ember.Component.extend({
   attributeBindings: ['dataAnchor:data-anchor', 'data-test-content-comment', 'data-test-component'],
   'data-test-content-comment': Ember.computed.oneWay('comment.id'),
 
+  hideReportAbuse: false,
+  
   dataAnchor: computed('comment.id', function() {
     return `comment-${this.get('comment.contentId')}`;
   }),

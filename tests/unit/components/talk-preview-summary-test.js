@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('talk-preview-summary', 'Unit | Component | talk preview summary', {
   // Specify the other units that are required for this test
-  needs: ['component:disabled-checkbox', 'component:async-button', 'component:fa-icon', 'helper:not', 'service:history', 'component:locations-nearby'],
+  needs: ['component:disabled-checkbox', 'component:async-button', 'helper:not', 'service:history', 'component:locations-nearby'],
   unit: true
 });
 

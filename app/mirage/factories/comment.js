@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export default Mirage.Factory.extend({
   content() { return `<p>${faker.lorem.paragraph(1)}</p>`; },
+  title()    { return faker.company.catchPhrase(); },
   parentContentId() { return faker.random.number(1000); },
   userName() { return faker.name.findName(); },
   userImageUrl(i) {

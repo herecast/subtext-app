@@ -21,10 +21,7 @@ export default Ember.Component.extend(TestSelector, {
       if (isPresent(org)) {
         get(this, 'routing.router').transitionTo('profile', org.id);
       } else {
-        get(this, 'routing.router').transitionTo('feed', {queryParams: {
-          radius: 'myStuff',
-          page: 1
-        }});
+        get(this, 'routing.router').transitionTo('mystuff');
       }
 
       const action = get(this, 'action');

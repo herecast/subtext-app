@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('content-query-filter', 'Unit | Component | content query filter', {
   // Specify the other units that are required for this test
-  needs: ['component:fa-icon'],
+  needs: [],
   unit: true
 });
 
