@@ -350,8 +350,9 @@ export default function() {
   this.post('/comments');
 
   this.get('/contents/:id/similar_content', function({ contents }) {
+    const allContents = contents.all();
     return {
-      similar_content: contents.all().slice(5)
+      similar_content: allContents.models.slice(5)
     };
   });
 

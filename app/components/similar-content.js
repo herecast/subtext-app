@@ -8,6 +8,7 @@ export default Ember.Component.extend(ExpandableContent, {
   classNames:[ 'SimilarContent'],
   api: inject.service('api'),
   fastboot: inject.service('fastboot'),
+  store: inject.service(),
   content: null,
 
   getSimilarContent: on('init', function() {
@@ -18,9 +19,22 @@ export default Ember.Component.extend(ExpandableContent, {
       const api = get(this, 'api');
 
       if (contentId) {
-        api.getSimilarContent(contentId).then(({similarContent}) => {
-          if(isPresent(similarContent)) {
-            this.set('content', similarContent);
+        api.getSimilarContent(contentId).then((payload) => {
+          if(isPresent(payload.similar_content) && payload.similar_content.length) {
+            payload.contents = payload.similar_content;
+            delete payload.similar_content;
+
+            const similarContentIds = payload.contents.map(content => content.id);
+
+            get(this, 'store').pushPayload('content', payload);
+
+            let similarContents = [];
+
+            similarContentIds.forEach((similarContentId) => {
+              similarContents.push(get(this, 'store').peekRecord('content', similarContentId));
+            });
+
+            this.set('content', similarContents);
             this.set('sourceContentId', contentId);
           }
         });
