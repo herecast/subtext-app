@@ -26,7 +26,7 @@ test('Every field available filled in', function(assert) {
 
   let currentAttrs = {
     authorName: currentUser.name,
-    bizFeedPublic: null,
+    bizFeedPublic: true,
     contactEmail: null,
     contactPhone: null,
     content: null,

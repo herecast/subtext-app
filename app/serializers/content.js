@@ -50,7 +50,6 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
 
     delete json.author_id;
     delete json.avatar_url;
-    delete json.biz_feed_public;
     delete json.business_profile_id;
     delete json.campaign_end;
     delete json.campaign_start;

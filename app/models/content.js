@@ -43,7 +43,7 @@ export default DS.Model.extend(
   authorId: attr('number'),
   authorName: attr('string'),
   avatarUrl: attr('string'),
-  bizFeedPublic: attr('string'),
+  bizFeedPublic: attr('boolean', {defaultValue: true, allowNull: true}),
   campaignEnd: attr('moment-date'),
   campaignStart: attr('moment-date'),
   clickCount: attr('number'),
@@ -195,15 +195,13 @@ export default DS.Model.extend(
     }
 
     const contentType = get(this, 'contentType');
-    let publicProperty = get(this, 'bizFeedPublic');
+    let isPublic = isPresent(get(this, 'bizFeedPublic')) ? get(this, 'bizFeedPublic') : true;
 
-    if (contentType === 'campaign' && !isPresent(publicProperty)) {
-      publicProperty = get(this, 'campaignIsActive');
+    if (contentType === 'campaign' && !isPresent(isPublic)) {
+      isPublic = get(this, 'campaignIsActive');
     }
 
-    const isPublic = isPresent(publicProperty) ? publicProperty : true;
-
-    return (isPublic === "true" || isPublic === true) ? 'public' : 'private';
+    return isPublic ? 'public' : 'private';
   }),
 
   /* END Biz/org/content-management properties */

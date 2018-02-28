@@ -39,7 +39,7 @@ test('Every field avaliable filled in **filter', function(assert) {
       attrs,
       {
         authorName: null,
-        bizFeedPublic: null,
+        bizFeedPublic: true,
         contactEmail: 'chewie@resistance.org',
         contactPhone: '6035555555',
         content: 'test-description',
