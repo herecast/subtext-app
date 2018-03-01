@@ -18,9 +18,9 @@
   {{/if}}
 
   {{#unless context.condensedView}}
-    {{#if model.primaryImageUrl}}
+    {{#if model.primaryOrFirstImage}}
       {{feed-card/image
-        imageUrl=model.primaryImageUrl
+        imageUrl=model.primaryOrFirstImage.imageUrl
         caption=caption
         model=model
         onContentClick=(action 'onContentClick')

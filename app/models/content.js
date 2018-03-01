@@ -9,17 +9,6 @@ import HasVenue from 'subtext-ui/mixins/models/has-venue';
 import HasImages from 'subtext-ui/mixins/models/has-images';
 import Locatable from 'subtext-ui/mixins/models/content-locations';
 
-/* This class contains common properties for the following models:
- * - feed-content
- * - event
- * - talk
- * - market-post
- * - event-instance
- *   NOT YET INCLUDED:
- *   - news
- *   - organization-content
- */
-
 const {
   computed:{equal},
   computed,

@@ -1,10 +1,11 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import BaseEvent from 'subtext-ui/mixins/models/base-event';
 import moment from 'moment';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import dateFormat from 'subtext-ui/lib/dates';
-import Content from 'subtext-ui/mixins/models/content';
+import HasImages from 'subtext-ui/mixins/models/has-images';
+import Locatable from 'subtext-ui/mixins/models/content-locations';
+import HasVenue from 'subtext-ui/mixins/models/has-venue';
 
 const {
   computed,
@@ -13,45 +14,66 @@ const {
   isEmpty
 } = Ember;
 
-export default DS.Model.extend(BaseEvent, Content, {
-  normalizedContentType: 'event',
-  comments: DS.hasMany(), //TAG:NOTE:no longer provided by BaseEvent mixin
-  contentId: DS.attr('number'), //TAG:NOTE override in other serializers where it is an alias of ID
-  eventInstances: DS.hasMany('other-event-instance'), //N
-  organization: DS.belongsTo('organization'), //NOTE:DISCUSS is async true in mixins/models/content
+const { attr, belongsTo, hasMany, Model } = DS;
 
-  // venueLatitude: DS.attr('string'), //TAG:DELETED
-  // venueLongitude: DS.attr('string'), //TAG:DELETED
-  // venueLocateName: DS.attr('string'), //TAG:DELETED
-  // adminContentUrl: DS.attr('string'), //TAG:DELETED
-  // title: DS.attr('string'), //TAG:MOVED
-  // content: DS.attr('string'), //TAG:MOVED
-  // costType: DS.attr('string'), //TAG:MOVED
-  // imageUrl: DS.attr('string'), //TAG:MOVED
-  // imageWidth: DS.attr('string'), //TAG:MOVED
-  // imageHeight: DS.attr('string'), //TAG:MOVED
-  // contactEmail: DS.attr('string'), //TAG:MOVED
-  // contactPhone: DS.attr('string'), //TAG:MOVED
-  // cost: DS.attr('string'), //TAG:MOVED
-  // startsAt: DS.attr('moment-date'), //TAG:MOVED
-  // endsAt: DS.attr('moment-date'), //TAG:MOVED
-  // venueAddress: DS.attr('string'), //TAG:MOVED
-  // venueCity: DS.attr('string'), //TAG:MOVED
-  // venueName: DS.attr('string'), //TAG:MOVED
-  // venueState: DS.attr('string'), //TAG:MOVED
-  // venueZip: DS.attr('string'), //TAG:MOVED
-  // commentCount: DS.attr('number'), //TAG:MOVED
-  // eventId: DS.attr('number'), //TAG:MOVED
-  // publishedAt: DS.attr('moment-date'), //TAG:MOVED //TAG:DISCUSS if this creates a default value, it will mess with the news editor
-  // updatedAt: DS.attr('moment-date'), //TAG:MOVED
-  // organizationName: DS.attr('string'), //TAG:MOVED
-  // organizationId: DS.attr('number'), //TAG:MOVED
-  // organizationProfileImageUrl: DS.attr('string'), //TAG:MOVED
-  // organizationBizFeedActive: DS.attr('boolean', {defaultValue: false}), //TAG:MOVED
-  // isListserv: computed.equal('contentOrigin', 'listserv'), //TAG:MOVED
-  // authorId: DS.attr('number'), //TAG:MOVED
-  // authorName: DS.attr('string'), //TAG:MOVED
-  // avatarUrl: DS.attr('string'), //TAG:MOVED
+/**
+ * NOTE: this is a read-only model
+ */
+
+export default Model.extend(Locatable, HasImages, HasVenue, {
+  authorId: attr('number'),
+  authorName: attr('string'),
+  avatarUrl: attr('string'),
+  bizFeedPublic: attr('string'),
+  businessProfile: belongsTo('business-profile'),
+  clickCount: attr('number'),
+  commentCount: attr('number'),
+  comments: hasMany(),
+  contactEmail: attr('string'),
+  contactPhone: attr('string'),
+  content: attr('string'),
+  contentId: attr('number'),
+  contentOrigin: attr('string'),
+  contentType: 'event',
+  cost: attr('string'),
+  costType: attr('string'),
+  embeddedAd: attr('boolean'),
+  endsAt: attr('moment-date'),
+  eventId: attr('number'),
+  eventInstanceId: attr('number'),
+  otherEventInstances: hasMany('other-event-instance'),
+  eventUrl: attr('string'),
+  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
+  isEvent: true,
+  normalizedContentType: 'event',
+  organization: belongsTo('organization'),
+  organizationBizFeedActive: attr('boolean', {defaultValue: false}),
+  organizationId: attr('number'),
+  organizationName: attr('string'),
+  organizationProfileImageUrl: attr('string'),
+  publishedAt: attr('moment-date', {defaultValue() { return moment(); }}),
+  registrationDeadline: attr('moment-date'),
+  startsAt: attr('moment-date'),
+  subtitle: attr('string'),
+  title: attr('string'),
+  updatedAt: attr('moment-date'),
+  viewCount: attr('number'),
+  wantsToAdvertise: attr('boolean'),
+
+  eventInstances: computed.alias('otherEventInstances'),
+
+  publishedAtRelative: computed('publishedAt', function() {
+    const publishedAt = get(this, 'publishedAt');
+    return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
+  }),
+
+  futureInstances: computed('eventInstances.@each.startsAt', function() {
+    const currentDate = new Date();
+
+    return get(this, 'eventInstances').filter((inst) => {
+      return get(inst, 'startsAt') > currentDate;
+    });
+  }),
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (get(this, 'isValid')) {
@@ -104,8 +126,99 @@ export default DS.Model.extend(BaseEvent, Content, {
     }
   }),
 
-  publishedAtRelative: computed('publishedAt', function() {
-    const publishedAt = get(this, 'publishedAt');
-    return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
-  })
+  attributionImageUrl: computed('isNews', 'organizationProfileImageUrl', 'avatarUrl', function() {
+    const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
+    const avatarUrl = get(this, 'avatarUrl');
+
+    let attributionImageUrl = null;
+
+    if (get(this, 'isNews')) {
+      attributionImageUrl = organizationProfileImageUrl;
+    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv')) {
+      attributionImageUrl = organizationProfileImageUrl;
+    } else if (isPresent(avatarUrl)) {
+      attributionImageUrl = avatarUrl;
+    }
+
+    return attributionImageUrl;
+  }),
+
+  attributionName: computed('isNews', 'organizationName', 'authorName', function() {
+    const organizationName = get(this, 'organizationName');
+    const authorName = get(this, 'authorName');
+
+    let attributionName = null;
+
+    if (get(this, 'isNews')) {
+      attributionName = organizationName;
+    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv') ) {
+      attributionName = organizationName;
+    } else if (isPresent(authorName)) {
+      attributionName = authorName;
+    }
+
+    return attributionName;
+  }),
+
+  attributionLinkRouteName: computed('isOwnedByOrganization', function() {
+    let routeName = null;
+
+    if (get(this, 'isOwnedByOrganization') && isPresent(get(this, 'organizationId'))) {
+      routeName = 'profile';
+    }
+
+    return routeName;
+  }),
+
+  attributionLinkId: computed.alias('organizationId'),
+
+  formattedRegistrationDeadline: computed('registrationDeadline', function() { //TAG:NOTE can be deleted when dashboard is removed
+    const deadline = get(this, 'registrationDeadline');
+
+    if (deadline) {
+      return moment(deadline).format('L');
+    }
+  }),
+
+  isValid: computed('startsAt', 'endsAt', function() {
+    const start = get(this, 'startsAt');
+    const stop = get(this, 'endsAt');
+
+    if (isPresent(start) && isPresent(stop)) {
+      const earlierByHour = start.hour() < stop.hour();
+      const earlierByMinute = start.hour() === stop.hour() && start.minute() <= stop.minute();
+
+      return earlierByHour || earlierByMinute;
+    } else {
+      return isPresent(start);
+    }
+  }),
+
+  timeRange: computed('startsAt', 'endsAt', function() {
+    if (get(this, 'isValid')) {
+      const startTime = get(this, 'startsAt').format('MMMM D, YYYY LT');
+
+      if (isEmpty(get(this, 'endsAt'))) {
+        return `${startTime}`;
+      } else {
+        const endTime = get(this, 'endsAt').format('LT');
+        return `${startTime} - ${endTime}`;
+      }
+    }
+  }),
+
+  timeRangeNoDates: computed('startsAt', 'endsAt', function() {
+    if (get(this, 'isValid')) {
+      const startTime = get(this, 'startsAt').format('h:mm A');
+      const endsAt = get(this, 'endsAt');
+
+      if (isEmpty(endsAt)) {
+        return startTime;
+      } else {
+        const endTime = endsAt.format('h:mm A');
+
+        return `${startTime} ${String.fromCharCode(0x2014)} ${endTime}`;
+      }
+    }
+  }),
 });

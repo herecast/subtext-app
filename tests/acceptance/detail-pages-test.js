@@ -68,7 +68,9 @@ test('testing event detail page', function(assert) {
   const eventInstance = server.create('eventInstance', {
     costType: 'paid',
     title: 'hello world',
-    imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+    images: [
+      {id:1, primary: true, imageUrl:'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'}
+    ],
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     startsAt: "2018-01-30T21:19:17+00:00",
     endsAt: "2018-01-30T21:22:17+00:00",
@@ -124,7 +126,7 @@ test('testing event detail page', function(assert) {
 
     assert.equal(
       find(testSelector('header-image')).css('background-image'),
-      `url(\"${content.imageUrl}\")`,
+      `url(\"${eventInstance.images[0].imageUrl}\")`,
       'it should show the card image');
 
     assert.ok(
