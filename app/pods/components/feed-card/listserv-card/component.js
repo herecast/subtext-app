@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, set, computed, isPresent, inject:{service} } = Ember;
+const { get, set, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-ListservCard',
@@ -11,21 +11,7 @@ export default Ember.Component.extend(reloadComments, {
   userLocation: service(),
   isLoggedIn: false,
   context: null,
-
-  sourceTag: computed('userLocation.locationId', function() {
-    const baseLocations = get(this, 'model.baseLocations');
-    const userLocation = get(this, 'userLocation');
-
-    // Display location matching user if multiple bases
-    let baseLocation = baseLocations.findBy('id', get(userLocation, 'locationId')) ||
-      get(baseLocations, 'firstObject');
-
-    if (isPresent(baseLocation)) {
-      return `${get(baseLocation, 'name')} List`;
-    } else {
-      return undefined;
-    }
-  }),
+  sourceTag: null,
 
   canAccessContent: computed.alias('isLoggedIn'),
 

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, computed, isPresent } = Ember;
+const { get, computed } = Ember;
 
 export default Ember.Component.extend(reloadComments, {
   classNames: 'FeedCard-TalkCard',
@@ -9,19 +9,9 @@ export default Ember.Component.extend(reloadComments, {
   model: null,
   userLocation: null,
   context: null,
+  sourceTag: null,
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
-
-  sourceTag: computed('userLocation.locationId', function() {
-    const baseLocations = get(this, 'model.baseLocations');
-    const userLocation = get(this, 'userLocation');
-
-    // Display location matching user if multiple bases
-    let baseLocation = baseLocations.findBy('id', get(userLocation, 'locationId')) ||
-      get(baseLocations, 'firstObject');
-
-    return isPresent(baseLocation) ? get(baseLocation, 'name') : undefined;
-  }),
 
   actions: {
     onContentClick() {

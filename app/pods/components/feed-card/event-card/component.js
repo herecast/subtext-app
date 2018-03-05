@@ -12,6 +12,7 @@ export default Ember.Component.extend(reloadComments, {
   model: null,
   context: null,
   userLocation: service(),
+  sourceTag: null,
 
   startTime: computed('model.startsAt', function() {
     const startsAt = get(this, 'model.startsAt');
@@ -33,15 +34,18 @@ export default Ember.Component.extend(reloadComments, {
 
   attributionLinkId: computed.alias('model.organizationId'),
 
-  sourceTag: computed('userLocation.locationId', 'model.{venueCity,venueState}', function() {
-    const baseLocations = get(this, 'model.baseLocations') || [];
-    const userLocation = get(this, 'userLocation');
+  sourceOrVenueTag: computed('sourceTag', 'model.{venueCity,venueState}', function() {
+    const sourceTag = get(this, 'sourceTag');
 
-    // Display location matching user if multiple bases
-    let baseLocation = baseLocations.findBy('id', get(userLocation, 'locationId')) ||
-      get(baseLocations, 'firstObject');
+    if (isPresent(sourceTag)) {
+      return sourceTag;
+    }
 
-    return isPresent(baseLocation) ? get(baseLocation, 'name') : `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
+    if (isPresent(get(this, 'model.venueCity')) && isPresent(get(this, 'model.venueState'))) {
+      return `${get(this, 'model.venueCity')}, ${get(this, 'model.venueState')}`;
+    } else {
+      return null;
+    }
   }),
 
   actions: {

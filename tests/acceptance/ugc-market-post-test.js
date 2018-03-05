@@ -25,6 +25,7 @@ test('Every field available filled in', function(assert) {
     const attrs = this.normalizedRequestAttrs();
     assert.deepEqual(attrs, {
       authorName: null,
+      baseLocationName: null,
       bizFeedPublic: true,
       contactEmail: email,
       contactPhone: phone,

@@ -11,7 +11,7 @@ const { get } = Ember;
 
 moduleForAcceptance('Acceptance | ugc event');
 
-test('Every field avaliable filled in **filter', function(assert) {
+test('Every field avaliable filled in', function(assert) {
   const done = assert.async(2);
   const venue = server.create('venue');
   const location = server.create('location');
@@ -39,6 +39,7 @@ test('Every field avaliable filled in **filter', function(assert) {
       attrs,
       {
         authorName: null,
+        baseLocationName: null,
         bizFeedPublic: true,
         contactEmail: 'chewie@resistance.org',
         contactPhone: '6035555555',
@@ -86,7 +87,7 @@ test('Every field avaliable filled in **filter', function(assert) {
         ugcJob: null,
         venueId: parseInt(get(venue, 'id')),
         venueStatus: 'new',
-        wantsToAdvertise: true,
+        wantsToAdvertise: true
       },
       "Server received expected POST data."
     );

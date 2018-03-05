@@ -65,6 +65,7 @@ export default DS.Model.extend(
   updatedAt: attr('moment-date'),
   viewCount: attr('number'),
   wantsToAdvertise: attr('boolean'),
+  baseLocationName: DS.attr('string'),
   // </FIELDS>
 
 
