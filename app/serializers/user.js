@@ -12,6 +12,10 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       primaryModelClass = this.store.modelFor('comment');
     }
 
+    if (Object.keys(payload).includes('bookmarks')) {
+      primaryModelClass = this.store.modelFor('bookmark');
+    }
+
     return this._super(store, primaryModelClass, payload, id, requestType);
   }
 });

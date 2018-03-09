@@ -15,6 +15,8 @@ export default ActiveModelSerializer.extend({
 
     // Remove read only attributes that should not be sent to the API
     delete json.location;
+    delete json.can_publish_news;
+    delete json.created_at;
     return json;
   }
 });

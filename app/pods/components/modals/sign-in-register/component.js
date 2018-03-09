@@ -6,8 +6,19 @@ const { get, set, computed, inject } = Ember;
 export default ModalInstance.extend({
   _routing: inject.service('-routing'),
   model: 'sign-in',
+
   isSignIn: computed.equal('model', 'sign-in'),
   isRegister: computed.equal('model', 'register'),
+
+  alternateSignInMessage: computed('model', function() {
+    const model = get(this, 'model');
+
+    if (get(model, 'alternateSignInMessage')) {
+      return get(model, 'alternateSignInMessage');
+    }
+
+    return false;
+  }),
 
   actions: {
     reconfirm(email) {

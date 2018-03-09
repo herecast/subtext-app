@@ -1,14 +1,17 @@
 import Ember from 'ember';
 
-const { inject, computed, get, set } = Ember;
+const { readOnly } = Ember.computed;
+const { service } = Ember.inject;
+const { Promise } = Ember.RSVP;
+const { computed, get, set } = Ember;
+import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 
 export default Ember.Component.extend({
-  classNameBindings: ['canEdit:can-edit-button-active'],
+  tagName: 'span',
 
-  session: inject.service(),
-  currentService: inject.service('currentController'),
-  contentPermissions: inject.service('content-permissions'),
-  canEdit: false,
+  currentService: service('currentController'),
+  session: service(),
+
   model: null,
 
   editPath: null,
@@ -16,11 +19,18 @@ export default Ember.Component.extend({
   iconSize: null,
   color: null,
   style: null,
+  editButtonIsActive: false,
 
-  currentPath: computed.readOnly('currentService.currentPath'),
+  currentUser: computed(function() {
+    return Promise.resolve( get(this, 'session.currentUser') );
+  }),
+
+  currentPath: readOnly('currentService.currentPath'),
+
   fromProfile: computed('currentPath', function() {
     return get(this,'currentPath').startsWith('profile');
   }),
+
   contentOrganizationId: computed('fromProfile', 'model.organizationId', function() {
     if (get(this, 'fromProfile')) {
       return get(this, 'model.organizationId') || null;
@@ -29,27 +39,21 @@ export default Ember.Component.extend({
     return null;
   }),
 
-  init() {
-    get(this, 'session').on('authenticationSucceeded', this, '_setPermissions');
-    get(this, 'session').on('invalidationSucceeded', this, '_setPermissions');
-    this._super(...arguments);
-    const contentId = get(this, 'model.contentId');
-    const contentPermissions = get(this, 'contentPermissions');
+  canEditContent: computed('model.{authorId,organizationId}', 'session.isAuthenticated', function() {
+    if ( get(this, 'session.isAuthenticated')) {
+      const promise =  get(this, 'currentUser').then(currentUser => {
+        const authorId = get(this, 'model.authorId');
+        const organizationId = get(this, 'model.organizationId') || null;
 
-    contentPermissions.canEdit(contentId).then((permission) => {
-      if(!get(this, 'isDestroying')) {
-        set(this, 'canEdit', permission);
-      }
-    });
-  },
+        const canEditContent = currentUser.canEditContent(authorId, organizationId);
+        console.log('canEditContent', canEditContent);
+        set(this, 'editButtonIsActive', canEditContent);
+        return canEditContent;
+      });
 
-  _setPermissions: function () {
-    const contentId = get(this, 'model.contentId');
-    const contentPermissions = get(this, 'contentPermissions');
-    contentPermissions.canEdit(contentId).then((permission) => {
-      if(!get(this, 'isDestroying')) {
-        set(this, 'canEdit', permission);
-      }
-    });
-  }
+      return ObjectPromiseProxy.create({promise});
+    }
+
+    return false;
+  })
 });

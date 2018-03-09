@@ -17,8 +17,8 @@ export default Ember.Controller.extend({
 
   session: service(),
 
-  hasResults: computed('model.contents.[]', function() {
-    return get(this, 'model.contents.length');
+  hasResults: computed('model.[]', function() {
+    return get(this, 'model.length');
   }),
 
   hasActiveFilters: computed('organizationId', 'type', 'query', function() {

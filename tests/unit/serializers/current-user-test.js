@@ -5,7 +5,7 @@ import {
 
 moduleForModel('current-user', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:current-user', 'model:organization']
+  needs: ['serializer:current-user', 'model:organization', 'model:bookmark']
 });
 
 // Replace this with your real tests.

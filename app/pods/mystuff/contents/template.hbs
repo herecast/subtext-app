@@ -33,15 +33,16 @@
 {{#if hasResults}}
 
   {{feed/index-feed
-    feedItems=model.contents
+    feedItems=model
     canManage=true
+    canEditIfAllowed=true
     condensedView=condensedView
   }}
 
   {{#infinity-loader
-    infinityModel=model.contents
+    infinityModel=model
   }}
-    {{#unless model.contents.reachedInfinity}}
+    {{#unless model.reachedInfinity}}
       {{fa-icon 'spinner' class="fa-pulse"}}
     {{/unless}}
   {{/infinity-loader}}

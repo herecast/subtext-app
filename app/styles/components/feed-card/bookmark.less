@@ -1,0 +1,90 @@
+@bookmark-new-color: #409FE3;
+
+.FeedCard-Bookmark {
+  padding: 0 8px;
+
+  &-button {
+    cursor: pointer;
+    position: relative;
+    &-icon {
+      font-size: 30px;
+      color: @gray-dark;
+    }
+  }
+
+  &.bookmarked {
+    .text-shadow(1px 1px 0 rgba(0, 0, 0, 0.18));
+
+    &.has-not-read {
+      .FeedCard-Bookmark-button-icon {
+        color: @bookmark-new-color;
+      }
+    }
+
+    &.has-read {
+      .FeedCard-Bookmark-button-icon {
+        color: @gray-dark;
+      }
+    }
+  }
+
+  &-tooltip {
+    .box-shadow(2px 2px 4px rgba(0, 0, 0, 0.18));
+    padding: 8px;
+    border-radius: 8px;
+    border: solid 1px #fff;
+    background: @bookmark-new-color;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    bottom: 100%;
+    right: -8px;
+    width: 200px;
+    height: 60px;
+
+    &:before {
+      content: " ";
+      display: block;
+      height: 0px;
+      position: absolute;
+      bottom: 0;
+      right: 6px;
+      transform: translateY(100%);
+      border-left: 12px transparent solid;
+      border-right: 12px transparent solid;
+      border-top: 12px #fff solid;
+    }
+
+    &:after {
+      content: " ";
+      display: block;
+      height: 0px;
+      position: absolute;
+      bottom: 0;
+      right: 8px;
+      transform: translateY(100%);
+      border-left: 10px transparent solid;
+      border-right: 10px transparent solid;
+      border-top: 10px @bookmark-new-color solid;
+    }
+
+    &-left {
+      margin-right: 12px;
+    }
+
+    &-right {
+      text-align: center;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
+    &-close {
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+
+}

@@ -16,7 +16,9 @@ export default DS.Model.extend({
   testGroup: DS.attr('string'),
   userId: DS.attr('number'),
   managedOrganizations: DS.hasMany('organization', {async: true}),
+  bookmarks: DS.hasMany('bookmark'),
   canPublishNews: DS.attr('boolean'),
+  hasHadBookmarks: DS.attr('boolean'),
 
   // Used to store pending changes which are submitted via the api service
   password: null,
@@ -101,6 +103,25 @@ export default DS.Model.extend({
 
   isManagerOfOrganizationID(orgId) {
     const managedOrganizations = get(this, 'managedOrganizations') || [];
-    return managedOrganizations.findBy('id', orgId);
+
+    const matchedOrganization =  managedOrganizations.find(org=>{
+      return parseInt(org.id) === parseInt(orgId);
+    });
+    
+    return isPresent(matchedOrganization);
+  },
+
+  canEditContent(contentAuthorId, contentOrganizationId) {
+    const currentUserId = get(this, 'userId') || null;
+
+    if (parseInt(contentAuthorId) === parseInt(currentUserId)) {
+      return true;
+    }
+
+    if (isPresent(contentOrganizationId)) {
+      return this.isManagerOfOrganizationID(contentOrganizationId);
+    }
+
+    return false;
   }
 });

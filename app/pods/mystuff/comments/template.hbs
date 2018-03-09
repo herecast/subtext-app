@@ -2,7 +2,7 @@
 
 {{#if hasResults}}
 
-  {{#each model.comments as |comment|}}
+  {{#each model as |comment|}}
     {{mystuff/comment-card comment=comment}}
   {{/each}}
 
@@ -16,5 +16,5 @@
       {{/text-block}}
     {{/card-body}}
   {{/x-card}}
-  
+
 {{/if}}

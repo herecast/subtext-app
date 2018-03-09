@@ -5,7 +5,7 @@ import {
 
 moduleForModel('current-user', {
   // Specify the other units that are required for this test.
-  needs: ['model:organization']
+  needs: ['model:organization', 'model:bookmark']
 });
 
 test('it exists', function(assert) {

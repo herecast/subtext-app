@@ -24,7 +24,7 @@ test('Visiting /mystuff not signed in, then signing in', function(assert) {
   andThen(function() {
     assert.equal(currentURL(), '/sign_in', 'user should be redirected to sign_in');
 
-    const user = server.create('user');
+    const user = server.create('current-user');
 
     fillIn(testSelector('field', 'sign-in-email'), user.email);
     fillIn(testSelector('field', 'sign-in-password'), 'password');
@@ -152,7 +152,7 @@ test('Visiting /mystuff - signed in, with organization related content, organiza
 
       click(find(testSelector('button', 'mystuff-organization-choice'))[0]);
 
-      server.get('/users/:id/contents', function(db, request) {console.log('requset', request);
+      server.get('/users/:id/contents', function(db, request) {
         assert.equal(request.queryParams.organization_id, org.id,
           `Api endpoint called with correct organization_id`
         );
@@ -166,7 +166,7 @@ test('Visiting /mystuff - signed in, with organization related content, organiza
 
         click(testSelector('action', 'remove-type-filter'));
 
-        server.get('/users/:id/contents', function(db, request) {console.log('requset2', request);
+        server.get('/users/:id/contents', function(db, request) {
           assert.equal(request.queryParams.organization_id, '',
             `Api endpoint called with correct organization_id`
           );
@@ -237,7 +237,7 @@ test('Visiting /mystuff - signed in, with organization related content, organiza
 });
 
 test('Visiting /mystuff - signed in, content type filter works as expected', function(assert) {
-  let user = server.create('user', {
+  let user = server.create('current-user', {
     id: 1
   });
 

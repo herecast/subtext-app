@@ -4,13 +4,17 @@ const { get, inject } = Ember;
 
 export default Ember.Mixin.create({
   notify: inject.service('notification-messages'),
-  permissions: inject.service('content-permissions'),
+  api: inject.service(),
 
   afterModel(model) {
     this._super(...arguments);
 
-    return get(this, 'permissions').canEdit(get(model, 'contentId')).then((canEdit) => {
-      if(!canEdit) {
+    //NOTE: Should modify back end to work better with this, knowing that we don't need an array, just one at a time.
+    //Will also need to update the api call
+    return get(this, 'api').getContentPermissions(get(model, 'contentId')).then(({content_permissions}) => {
+      const { can_edit } = content_permissions[0];
+
+      if(!can_edit) {
         get(this, 'notify').error('You must be signed in as the content owner to edit this resource.');
         this.transitionTo('index');
       }

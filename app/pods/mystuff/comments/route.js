@@ -10,14 +10,11 @@ export default Ember.Route.extend(History, InfinityRoute, {
   model(params) {
     const currentUserId = this.controllerFor('mystuff').get('currentUserId');
 
-    return Ember.RSVP.hash({
-      user: this.store.peekRecord('current-user', currentUserId),
-      comments: this.infinityModel('user', {
-        user_id: currentUserId,
-        include: 'comments',
-        modelPath: 'controller.model.comments',
-        startingPage: params.page || 1
-      })
+    return this.infinityModel('user', {
+      user_id: currentUserId,
+      include: 'comments',
+      modelPath: 'controller.model',
+      startingPage: params.page || 1
     });
   },
 });

@@ -12,7 +12,7 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS NOT a re
 
   const digests = server.createList('digest', 3);
   const digest  = digests[1];
-  server.create('user', { email: 'example@example.com'});
+  server.create('current-user', { email: 'example@example.com'});
 
   visit(`/digests/${digest.id}/subscribe`);
 
@@ -41,7 +41,7 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS a regist
     digests.push(server.create('digest', {id: listserv.id}));
   });
   const digest  = digests[1];
-  const user    = server.create('user', { email: 'example@example.com'});
+  const user    = server.create('current-user', { email: 'example@example.com'});
 
   visit(`/digests/${digest.id}/subscribe`);
 

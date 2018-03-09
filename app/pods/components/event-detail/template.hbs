@@ -40,24 +40,17 @@
       {{horizontal-rule classNames="u-paddingTop8"}}
 
       <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingHorizontal8" data-test-event-detail-attribution>
-        {{#if model.organization.isDefaultOrganization}}
-          {{author-byline
-            authorName=model.authorName
-            imageUrl=model.avatarUrl
-            postedTime=(moment-from-now model.publishedAt)
-            classNames="u-paddingBottom8"
-          }}
-        {{else}}
-          {{feed-card/attribution
-            avatarUrl=model.attributionImageUrl
-            author=model.attributionName
-            linkRouteName=model.attributionLinkRouteName
-            linkId=model.organizationId
-            postedTime=model.publishedAtRelative
-            contentId=model.contentId
-            classNames="u-paddingBottom8"
-          }}
-        {{/if}}
+
+        {{feed-card/attribution
+          avatarUrl=model.attributionImageUrl
+          author=model.attributionName
+          linkRouteName=model.attributionLinkRouteName
+          linkId=model.organizationId
+          postedTime=model.publishedAtRelative
+          contentId=model.contentId
+          classNames="u-paddingBottom8"
+          isOnDetailView=true
+        }}
 
         <div class='u-flexRow u-flexAlign-center u-paddingBottom8'>
           {{#unless isPreview}}
@@ -69,9 +62,10 @@
                 iconSize=""
                 tagName='span'
                 style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                editButtonIsActive=(mut editButtonIsActive)
               }}
             </div>
-            {{#if model.contactEmail}}
+            {{#if (and model.contactEmail (not editButtonIsActive))}}
               {{contact-poster-button
                 model=(readonly model)
                 clickReplyButton=(action 'clickReplyButton')

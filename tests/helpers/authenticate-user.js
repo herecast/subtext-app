@@ -17,7 +17,7 @@ export default function(application) {
   }
 
   if(isEmpty(user)) {
-    user = server.create('user');
+    user = server.create('current-user');
   }
 
   authenticateSession(application, {

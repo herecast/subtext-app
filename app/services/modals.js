@@ -3,7 +3,7 @@ const { $, get, set, on, RSVP, inject } = Ember;
 const a = Ember.A;
 
 export default Ember.Service.extend({
-  modals:null,
+  modals: null,
   serviceIsActive: true,
   fastboot: inject.service(),
   isFastboot() {

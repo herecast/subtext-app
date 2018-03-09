@@ -9,12 +9,6 @@ const promotionStub = Ember.Service.extend({
   }
 });
 
-const permissionsReturn = Ember.Service.extend({
-  canEdit(){
-    return  { then() {} };
-  }
-});
-
 const adStub = Ember.Service.extend({
   getAd() {
    return { then() {} };
@@ -28,7 +22,6 @@ moduleForComponent('news-detail', 'Integration | Component | news detail', {
     startMirage(this.container);
 
     this.register('service:promotion', promotionStub);
-    this.register('service:contentPermissions', permissionsReturn);
     this.register('service:ads', adStub);
     this.inject.service('promotion');
     this.inject.service('tracking');

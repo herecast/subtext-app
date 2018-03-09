@@ -38,6 +38,7 @@
   {{feed-card/footer
     locationTagName=sourceTag
     canManage=canManage
+    canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     editPath='news.edit'

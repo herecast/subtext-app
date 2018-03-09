@@ -14,7 +14,7 @@ moduleForAcceptance('Acceptance | login', {
 
 test('Follow sign in link, authentication succeeds', function(assert) {
   const done = assert.async();
-  const user = server.create('user');
+  const user = server.create('current-user');
   const token = "sakj342qk223dk";
 
   server.post('/users/sign_in_with_token', function({currentUsers}, request) {
@@ -59,7 +59,7 @@ test('Follow sign in link, authentication fails', function(assert) {
 
 test('logging in works', function(assert) {
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
+  let user = server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});
 
   visit('/');
 
@@ -78,7 +78,7 @@ test('logging in works', function(assert) {
 
 skip('using incorrect login information', function(assert) {
   let location = server.create('location');
-  let user = server.create('user', {location_id: location.id});
+  let user = server.create('current-user', {location_id: location.id});
 
   visit('/');
 
@@ -108,7 +108,7 @@ skip('using incorrect login information', function(assert) {
 });
 
 test('logging out works', function(assert) {
-  let user = server.create('user');
+  let user = server.create('current-user');
   authenticateUser(this.application, server, user);
 
   visit('/');
@@ -126,7 +126,7 @@ test('logging out works', function(assert) {
 });
 
 test('visiting log in page while already authenticated redirects to root page', function(assert) {
-  let user = server.create('user');
+  let user = server.create('current-user');
   authenticateUser(this.application, server, user);
 
   visit('/sign_in');

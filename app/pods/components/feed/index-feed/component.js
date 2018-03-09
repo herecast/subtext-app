@@ -6,5 +6,7 @@ export default Ember.Component.extend({
   feedItems: null,
   showingDetailInFeed: null,
   isSearchActive: false,
-  condensedView: false
+  condensedView: false,
+  canEditIfAllowed: false,
+  canManage: false
 });

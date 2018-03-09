@@ -21,13 +21,15 @@ export default Service.extend(Evented, {
   session: inject.service(),
   intercom: inject.service(),
   logger: inject.service(),
-  permissions: inject.service('content-permissions'),
   fastboot: inject.service(),
   clientId: null,
   locationId: computed.reads('userLocation.location.id'),
   locationIsConfirmed: computed.reads('userLocation.locationIsConfirmed'),
   _clientIdKey: 'dailyuv_session_client_id',
   logEnabled: config.LOG_TRACKING_EVENTS,
+  currentUser: computed(function() {
+    return RSVP.Promise.resolve( get(this, 'session.currentUser') );
+  }),
 
   _waitForClientId: null,
 
@@ -359,43 +361,59 @@ export default Service.extend(Evented, {
     });
   },
 
-  /**
-   * The following methods needed the canEdit promise logic isolated into it's
-   * own function.  Putting all the promise logic here caused a massive memory leak
-   * because it had to hold reference to content, in each of the anonymous
-   * promise callbacks.
-   */
+  trackBookmarkEvent(bookmarkAction, contentId, whichFeed) {
+    this.push({
+      event: `BookmarkEvent`,
+      event_action: bookmarkAction,
+      content_id: contentId,
+      event_location: whichFeed,
+      url: window.location.href
+    });
+  },
+
 
   trackTileLoad(content) {
-    this._pushDataIfCannotEdit(get(content, 'contentId'), {
-      event: 'VirtualTileLoad',
-      content_type: get(content, 'contentType'),
-      content_id: get(content, 'contentId'),
-      organization_id: get(content, 'organizationId')
+    this._checkIfCanEditContent(content).then(canEditContent => {
+      if (!canEditContent) {
+        this.push({
+          event: 'VirtualTileLoad',
+          content_type: get(content, 'contentType'),
+          content_id: get(content, 'contentId'),
+          organization_id: get(content, 'organizationId')
+        });
+      }
     });
   },
 
   trackTileImpression(options) {
     const content = options.model;
-    this._pushDataIfCannotEdit(get(content, 'contentId'), {
-      event: 'VirtualTileImpression',
-      content_type: get(content, 'contentType'),
-      content_id: get(content, 'contentId'),
-      organization_id: get(content, 'organizationId'),
-      impression_location: options.impressionLocation
+
+    this._checkIfCanEditContent(content).then(canEditContent => {
+      if (!canEditContent) {
+        this.push({
+          event: 'VirtualTileImpression',
+          content_type: get(content, 'contentType'),
+          content_id: get(content, 'contentId'),
+          organization_id: get(content, 'organizationId'),
+          impression_location: options.impressionLocation
+        });
+      }
     });
   },
 
   /** Private **/
 
-  _pushDataIfCannotEdit(content_id, data) {
-    get(this, 'permissions').canEdit(content_id).then((canEdit) => {
-      run(() => {
-        if(!canEdit) {
-          this.push(data);
-        }
+  _checkIfCanEditContent(content) {
+    if (get(this, 'session.isAuthenticated')) {
+      return get(this, 'currentUser').then(currentUser => {
+        const authorId = get(content, 'authorId');
+        const organizationId = get(content, 'organizationId') || null;
+
+        return currentUser.canEditContent(authorId, organizationId);
       });
-    });
+    }
+
+    return RSVP.Promise.resolve(false);
   },
 
   _eventuallyGetClientId() {

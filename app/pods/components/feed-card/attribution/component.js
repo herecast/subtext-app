@@ -4,6 +4,7 @@ const { get, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCard-Attribution',
+  classNameBindings: ['isOnDetailView:detail-view', 'hideBookmark:no-bookmark:with-bookmark'],
 
   avatarUrl: null,
   author: null,
@@ -11,6 +12,9 @@ export default Ember.Component.extend({
   linkRouteName: null,
   linkId: null,
   contentId: null,
+  isOnDetailView: false,
+  eventInstanceId: null,
+  hideBookmark: false,
   noPadding: false,
   customSize: 40,
 

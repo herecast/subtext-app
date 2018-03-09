@@ -53,29 +53,15 @@
         {{horizontal-rule classNames="u-padding0"}}
 
         <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingLeft8 u-paddingVertical8">
-          {{#link-to
-              model.organization.organizationLinkRoute
-              model.organization.organizationLinkId
-              class='DetailPage-organization-link'
-              data-test-link="organization-link"
+          {{feed-card/attribution
+            avatarUrl=model.attributionImageUrl
+            author=model.attributionName
+            linkRouteName=model.attributionLinkRouteName
+            linkId=model.attributionLinkId
+            postedTime=model.publishedAtRelative
+            contentId=model.contentId
+            isOnDetailView=true
           }}
-          {{#if model.organization.isDefaultOrganization}}
-            {{author-byline
-              authorName=model.authorName
-              imageUrl=model.avatarUrl
-              postedTime=model.publishedAtRelative
-            }}
-          {{else}}
-            {{feed-card/attribution
-              avatarUrl=model.attributionImageUrl
-              author=model.attributionName
-              linkRouteName=model.attributionLinkRouteName
-              linkId=model.attributionLinkId
-              postedTime=model.publishedAtRelative
-              contentId=model.contentId
-            }}
-          {{/if}}
-          {{/link-to}}
 
           <div class='u-flexRow u-flexAlign-center'>
             {{#unless isPreview}}
@@ -86,9 +72,10 @@
                   editPathId=model.id
                   iconSize=""
                   style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                  editButtonIsActive=(mut editButtonIsActive)
                 }}
               </div>
-              {{#if model.organization.subscribeUrl}}
+              {{#if (and model.organization.subscribeUrl (not editButtonIsActive))}}
                 {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName='span'}}
               {{/if}}
             {{/unless}}
@@ -153,7 +140,7 @@
       reportOnce=true
       callback=(action trackDetailEngagement 'read')
     }}
-    
+
     {{#unless isPreview}}
       {{#horizontal-rule}}
         {{social-share

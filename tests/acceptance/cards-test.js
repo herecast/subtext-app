@@ -244,7 +244,8 @@ test('testing event card, without image', function(assert) {
 });
 
 test('testing market card', function(assert) {
-  let user = server.create('user');
+  let user = server.create('current-user');
+
   authenticateUser(this.application, server, user);
 
   const content = server.create('content', {

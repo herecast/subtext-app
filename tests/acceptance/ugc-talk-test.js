@@ -14,7 +14,7 @@ test('Every field available filled in', function(assert) {
   const done = assert.async(2);
   const location = server.create('location');
   const listserv = server.create('listserv');
-  const user = server.create('user');
+  const user = server.create('current-user');
 
   server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();

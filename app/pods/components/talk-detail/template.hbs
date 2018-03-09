@@ -29,24 +29,17 @@
 
       <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-talk-author-name>
 
-        {{#if model.organization.isDefaultOrganization}}
-          {{author-byline
-            authorName=model.authorName
-            imageUrl=model.avatarUrl
-            postedTime=model.publishedAtRelative
-          }}
-        {{else}}
-          {{feed-card/attribution
-            avatarUrl=model.attributionImageUrl
-            author=model.attributionName
-            linkRouteName=model.attributionLinkRouteName
-            linkId=model.attributionLinkId
-            postedTime=model.publishedAtRelative
-            contentId=model.id
-            class="u-paddingLeft0"
-          }}
-        {{/if}}
-
+        {{feed-card/attribution
+          avatarUrl=model.attributionImageUrl
+          author=model.attributionName
+          linkRouteName=model.attributionLinkRouteName
+          linkId=model.attributionLinkId
+          postedTime=model.publishedAtRelative
+          contentId=model.id
+          class="u-paddingLeft0"
+          isOnDetailView=true
+        }}
+        
         {{#unless isPreview}}
           <div class='u-paddingRight8'>
             {{feed-card/edit-button

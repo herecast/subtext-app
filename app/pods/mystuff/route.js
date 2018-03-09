@@ -21,5 +21,13 @@ export default Ember.Route.extend(Authorized, {
     }
 
     this._super(...arguments);
+  },
+
+  actions: {
+    didTransition() {
+      if(!get(this, 'fastboot.isFastBoot')) {
+        Ember.$('html,body').scrollTop(0);
+      }
+    },
   }
 });

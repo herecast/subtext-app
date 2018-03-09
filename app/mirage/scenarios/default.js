@@ -78,12 +78,9 @@ export default function (server) {
     server.create('location', loc);
   });
 
-  server.create('currentUser', {
+  server.create('current-user', {
     managedOrganizations: organizations.slice(0, 2),
-    locationId: 'hartford-vt'
-  });
-
-  server.create('user', {
+    locationId: 'hartford-vt',
     email: 'test@test.com'
   });
 
@@ -125,6 +122,10 @@ export default function (server) {
   });
   mystuffContents.forEach((content) => {
     server.create('feedItem', {
+      contentId: content.id
+    });
+    server.create('bookmark', {
+      userId: 1,
       contentId: content.id
     });
   });

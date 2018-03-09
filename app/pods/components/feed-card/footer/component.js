@@ -9,11 +9,11 @@ export default Ember.Component.extend({
   session: service(),
 
   locationTagName: null,
-  canEdit: false,
+  canEditIfAllowed: false,
   canManage: false,
   contentId: null,
-  editRoute: null,
-  editRouteId: null,
+  editPath: null,
+  editPathId: null,
   displayAsPublic: false,
   openPromotionMenu(){},
 
@@ -21,6 +21,14 @@ export default Ember.Component.extend({
 
   showManageButton: computed('canManage', 'fastboot.isFastBoot', function() {
     return get(this, 'canManage') && !get(this, 'fastboot.isFastBoot');
+  }),
+
+  showEditButton: computed('canEditIfAllowed', 'fastboot.isFastBoot', function() {
+    return get(this, 'canEditIfAllowed') && !get(this, 'fastboot.isFastBoot');
+  }),
+
+  dontShowButtons: computed('showManageButton', 'showEditButton', function() {
+    return !get(this, 'showManageButton') && !get(this, 'showEditButton');
   }),
 
   actions: {

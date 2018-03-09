@@ -37,6 +37,7 @@
 
   {{feed-card/footer
     canManage=(readonly context.canManage)
+    canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     locationTagName=sourceTag

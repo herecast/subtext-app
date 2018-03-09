@@ -7,9 +7,9 @@
     </div>
   {{/if}}
 
-  {{#unless displayAsPublic}}
+  {{#unless (or displayAsPublic dontShowButtons)}}
     <div class="FeedCard-Footer-right">
-      {{#unless isListserv}}
+      {{#if showEditButton}}
         {{feed-card/edit-button
           editPath=editPath
           editPathId=editPathId
@@ -18,7 +18,7 @@
           color="primary"
           style="regular"
           }}
-      {{/unless}}
+      {{/if}}
       {{#if showManageButton}}
         <div class="FeedCard-Footer-manage-button">
           {{#x-button

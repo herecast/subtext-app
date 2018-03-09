@@ -15,7 +15,7 @@ moduleForAcceptance('Acceptance | adapter 401', {
 test('Adapter receives 401 error during route transition', function(assert) {
   const location = mockLocationCookie(this.application);
 
-  let user = server.create('user', {location_id: location.id, email: "embertest@subtext.org"});
+  let user = server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});
   let talk = server.create('content', { contentType: 'talk' });
 
   server.get('/contents/:id', {message: 'unauthorized'}, 401);

@@ -1,11 +1,7 @@
 /* global sinon */
 import {moduleFor, test} from 'ember-qunit';
-import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
-
-const {
-  RSVP
-} = Ember;
+import Ember from 'ember';
 
 moduleFor('service:tracking', 'Unit | Service | tracking', {
   // Specify the other units that are required for this test.
@@ -22,12 +18,14 @@ test('it exists', function(assert) {
 });
 
 test('trackTileLoad', function(assert) {
-  let service = this.subject({
-    permissions: {
-      canEdit() {
-        return RSVP.resolve(false);
-      }
+  let currentUser = {
+    canEditContent() {
+      return false;
     }
+  };
+
+  let service = this.subject({
+    currentUser: Ember.RSVP.Promise.resolve(currentUser)
   });
   service.push = sinon.spy();
 
@@ -51,12 +49,14 @@ test('trackTileLoad', function(assert) {
 
 
 test('trackTileImpression', function(assert) {
-  let service = this.subject({
-    permissions: {
-      canEdit() {
-        return RSVP.resolve(false);
-      }
+  let currentUser = {
+    canEditContent() {
+      return false;
     }
+  };
+
+  let service = this.subject({
+    currentUser: Ember.RSVP.Promise.resolve(currentUser)
   });
   service.push = sinon.spy();
 
@@ -82,12 +82,17 @@ test('trackTileImpression', function(assert) {
 });
 
 test('User can edit content', function(assert) {
-  let service = this.subject({
-    permissions: {
-      canEdit() {
-        return RSVP.resolve(true);
-      }
+  let currentUser = {
+    canEditContent() {
+      return true;
     }
+  };
+
+  let service = this.subject({
+    session: {
+      isAuthenticated: true
+    },
+    currentUser: Ember.RSVP.Promise.resolve(currentUser)
   });
 
   service.push = sinon.spy();
@@ -103,6 +108,6 @@ test('User can edit content', function(assert) {
 
   return wait().then(()=>{
     assert.notOk(service.push.called,
-      "It does not send tile tracking events for a user whoe can edit the content.");
+      "It does not send tile tracking events for a user who can edit the content.");
   });
 });

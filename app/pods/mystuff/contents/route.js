@@ -16,19 +16,15 @@ export default Ember.Route.extend(History, InfinityRoute, {
     return this.controllerFor('mystuff').get('currentUser').then((currentUser) => {
       const currentUserId = get(currentUser, 'userId');
 
-      return Ember.RSVP.hash({
-        user: this.store.peekRecord('current-user', currentUserId),
-        contents: this.infinityModel('user', {
+      return this.infinityModel('user', {
           user_id: currentUserId,
           include: 'contents',
           organization_id: params.organizationId,
           query: params.query,
           content_type: params.type,
-          modelPath: 'controller.model.contents',
+          modelPath: 'controller.model',
           startingPage: params.page || 1
-        })
-      });
-
+        });
     });
   },
 

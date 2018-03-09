@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   'data-test-component': 'sign-in',
   email: null,
   signInModule: 'sign-in-with-password',
+  alternateSignInMessage: false,
   afterAuthenticate() {
     this.ok();
   },

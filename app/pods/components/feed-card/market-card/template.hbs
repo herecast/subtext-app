@@ -38,8 +38,8 @@
       author=model.attributionName
       linkRouteName=model.attributionLinkRouteName
       linkId=model.attributionLinkId
+      contentId=model.contentId
       postedTime=model.publishedAtRelative
-      isListserv=model.isListserv
       commentCount=model.commentCount
       classNames="u-padding8"
     }}
@@ -48,6 +48,7 @@
   {{feed-card/footer
     locationTagName=sourceTag
     canManage=(readonly context.canManage)
+    canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     editPath='market.edit'

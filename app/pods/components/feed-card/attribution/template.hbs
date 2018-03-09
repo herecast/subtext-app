@@ -1,45 +1,57 @@
-<div class="FeedCard-Attribution-author-wrap {{unless noPadding 'u-paddingBottom8'}}" data-test-card-attribution>
-  <div class="FeedCard-Attribution-author-left {{unless noPadding 'u-paddingLeft8'}}">
-    {{#if hasLinkRouteName}}
-      {{#link-to linkRouteName linkId}}
+<div class="FeedCard-Attribution-box-left">
+  <div class="FeedCard-Attribution-author-wrap {{unless noPadding 'u-paddingBottom8'}}" data-test-card-attribution>
+    <div class="FeedCard-Attribution-author-left {{unless noPadding 'u-paddingLeft8'}}">
+      {{#if hasLinkRouteName}}
+        {{#link-to linkRouteName linkId}}
+          {{avatar-image
+            imageUrl=avatarUrl
+            userName=author
+            customSize=customSize
+          }}
+        {{/link-to}}
+      {{else}}
         {{avatar-image
           imageUrl=avatarUrl
           userName=author
           customSize=customSize
         }}
-      {{/link-to}}
-    {{else}}
-      {{avatar-image
-        imageUrl=avatarUrl
-        userName=author
-        customSize=customSize
-      }}
-    {{/if}}
-  </div>
-  <div class="FeedCard-Attribution-author-right">
-    <div class="FeedCard-Attribution-author {{unless noPadding 'u-paddingLeft8'}}" data-test-detail-page-attribution>
-      {{#if hasLinkRouteName}}
-        {{#link-to
-          linkRouteName
-          linkId
-          data-test-link='organization-link'
-        }}
-          {{authorNameFormatted}}
-        {{/link-to}}
-      {{else}}
-        {{authorNameFormatted}}
       {{/if}}
     </div>
-    <div class="FeedCard-Attribution-posted-time {{unless noPadding 'u-paddingLeft8'}}">
-      {{#if postedTime}}
-        {{#unless isListserv}}
-          Posted {{postedTime}}
+    <div class="FeedCard-Attribution-author-right">
+      <div class="FeedCard-Attribution-author {{unless noPadding 'u-paddingLeft8'}}" data-test-detail-page-attribution>
+        {{#if hasLinkRouteName}}
+          {{#link-to
+            linkRouteName
+            linkId
+            data-test-link='organization-link'
+          }}
+            {{authorNameFormatted}}
+          {{/link-to}}
         {{else}}
-          Submitted {{postedTime}}
-        {{/unless}}
-      {{else}}
-        Not yet published
-      {{/if}}
+          {{authorNameFormatted}}
+        {{/if}}
+      </div>
+      <div class="FeedCard-Attribution-posted-time {{unless noPadding 'u-paddingLeft8'}}">
+        {{#if postedTime}}
+          {{#unless isListserv}}
+            Posted {{postedTime}}
+          {{else}}
+            Submitted {{postedTime}}
+          {{/unless}}
+        {{else}}
+          Not yet published
+        {{/if}}
+      </div>
     </div>
   </div>
 </div>
+
+{{#unless hideBookmark}}
+  <div class="FeedCard-Attribution-box-right">
+    {{feed-card/bookmark
+      contentId=contentId
+      eventInstanceId=eventInstanceId
+      isOnDetailView=isOnDetailView
+    }}
+  </div>
+{{/unless}}

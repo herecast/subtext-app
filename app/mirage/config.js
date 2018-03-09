@@ -46,16 +46,15 @@ export default function() {
   };
 
   this.post('/users/sign_in', function(schema, request) {
-    schema.db['currentUsers'].remove();
     let user;
 
     if(request.requestBody.indexOf('{') >= 0) {
       //json
       let json = JSON.parse(request.requestBody)['user'];
       if(json['email']) {
-        user = schema.users.where({email: json['email']}).models[0];
+        user = schema.currentUsers.where({email: json['email']}).models[0];
       } else {
-        user = schema.users.first();
+        user = schema.currentUsers.first();
       }
     } else {
       let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
@@ -63,9 +62,9 @@ export default function() {
 
       if(matches) {
         let email = matches[1];
-        user = schema.users.where({email: email}).models[0];
+        user = schema.currentUsers.where({email: email}).models[0];
       } else {
-        user = schema.users.first();
+        user = schema.currentUsers.first();
       }
     }
 
@@ -96,7 +95,7 @@ export default function() {
     const token = JSON.parse(request.requestBody)['token'] || "";
 
     if(token === "valid") {
-      const user = db.users.first();
+      const user = db.currentUsers.first();
       db.currentUsers.create(user.attrs);
       return {
         token: "FCxUDexiJsyChbMPNSyy",
@@ -118,7 +117,7 @@ export default function() {
     const email = request.queryParams.email;
     let response;
 
-    if (db.users.where({ email }).length > 0) {
+    if (db.currentUsers.where({ email }).length > 0) {
       response = new Mirage.Response(200);
     } else {
       response = new Mirage.Response(404);
@@ -555,10 +554,10 @@ export default function() {
     return {};
   });
 
-  this.post('/registrations/confirmed', function({db, users, currentUsers}, request) {
+  this.post('/registrations/confirmed', function({db, currentUsers}, request) {
     var putData = JSON.parse(request.requestBody);
     var attrs = putData['registration'];
-    users.create(attrs);
+    currentUsers.create(attrs);
 
     db.currentUsers.remove();
     var current_user = currentUsers.create(attrs);
@@ -626,6 +625,27 @@ export default function() {
     };
 
     return new Mirage.Response(200, {}, response);
+  });
+
+  this.get('/users/:id/bookmarks', function({bookmarks}) {
+    let response = this.serialize(bookmarks.all());
+
+    return new Mirage.Response(200, {}, response);
+  });
+
+  this.post('/users/:id/bookmarks', function({bookmarks}) {
+    let attrs = this.normalizedRequestAttrs();
+    attrs.id = attrs.contentId;
+    return bookmarks.create(attrs);
+  });
+  this.put('/users/:id/bookmarks/:id', function({bookmarks}) {
+    let attrs = this.normalizedRequestAttrs();
+    const bookmark = bookmarks.find(attrs.id);
+
+    return bookmark.update(attrs);
+  });
+  this.delete('/users/:id/bookmarks/:id', function() {
+    return new Mirage.Response(204);
   });
 
   this.get('/feed', function({db, feedItems}, request) {

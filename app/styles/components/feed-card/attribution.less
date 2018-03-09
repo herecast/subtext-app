@@ -1,17 +1,40 @@
 .FeedCard-Attribution {
+  &.with-bookmark {
+    .display-grid();
+    .grid-template-columns(1fr 1fr);
+  }
+
+  &-box {
+    &-left {
+      .grid-justify-self(start);
+      .grid-align-self(center);
+    }
+    &-right {
+      .grid-justify-self(end);
+      .grid-align-self(center);
+    }
+  }
+
+  &.detail-view {
+    .grid-template-columns(1.5fr 0.5fr);
+    .FeedCard-Attribution-box-right {
+      .grid-justify-self(start);
+      padding-left: 16px;
+    }
+  }
 
   &-author-wrap {
     .display-grid();
-    .grid-template-columns( 45px 1fr );
-    .grid-column( 1 );
+    .grid-template-columns(45px 1fr);
+    .grid-column(1);
   }
   &-author-left {
-    .grid-column( 1 );
+    .grid-column(1);
     text-align: left;
   }
 
   &-author-right {
-    .grid-column( 2 );
+    .grid-column(2);
     .grid-align-self(center);
     .grid-justify-self(start);
     text-align: left;

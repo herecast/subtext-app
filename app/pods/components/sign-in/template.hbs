@@ -1,14 +1,18 @@
 <div class='SignIn-module'>
   {{#content-body}}
     {{#text-block center=true}}
-      Sign in or join to explore local Upper Valley
-      news, events and connect with your neighbors.
+      {{#unless alternateSignInMessage}}
+        Sign in or join to explore local Upper Valley
+        news, events and connect with your neighbors.
+      {{else}}
+        {{alternateSignInMessage}}
+      {{/unless}}
     {{/text-block}}
 
     {{facebook-login-button
       afterAuthenticate=afterAuthenticate
     }}
-    
+
     {{#text-block center=true large=true strong=true}}
       or
     {{/text-block}}

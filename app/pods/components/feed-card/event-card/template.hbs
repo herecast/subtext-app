@@ -54,6 +54,7 @@
       linkId=model.attributionLinkId
       postedTime=(moment-from-now model.publishedAt)
       contentId=model.contentId
+      eventInstanceId=model.eventInstanceId
       classNames="u-padding8"
     }}
   {{/unless}}
@@ -61,6 +62,7 @@
   {{feed-card/footer
     locationTagName=sourceOrVenueTag
     canManage=(readonly context.canManage)
+    canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action 'openPromotionMenu')
     model=model

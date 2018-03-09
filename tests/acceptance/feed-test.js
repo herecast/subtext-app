@@ -461,7 +461,7 @@ test('hamburger menu, calendar filter', function(assert) {
 test('visiting /feed; selected location in cookie, unauthenticated; signing in with user having different location', function(assert) {
   const visitorLocation = server.create('location');
   const userLocation = server.create('location');
-  const user = server.create('user', {
+  const user = server.create('current-user', {
     locationId: userLocation.id,
     locationConfirmed: true
   });

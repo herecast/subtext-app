@@ -16,7 +16,12 @@ const linkToContent = Ember.Component.extend({
     if (startsWith(currentRouteName, 'profile')) {
       return 'profile.all.show';
     } else if (startsWith(currentRouteName, 'mystuff')) {
-      return 'mystuff.contents.show';
+      if (currentRouteName.indexOf('contents') > 0) {
+        return 'mystuff.contents.show';
+      } else if (currentRouteName.indexOf('bookmarks') > 0) {
+        return 'mystuff.bookmarks.show';
+      }
+
     } else {
       return 'feed.show';
     }

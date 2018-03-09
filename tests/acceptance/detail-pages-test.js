@@ -38,7 +38,7 @@ test('testing news detail page', function(assert) {
 });
 
 test('testing talk detail page', function(assert) {
-  let user = server.create('user');
+  let user = server.create('current-user');
   authenticateUser(this.application, server, user);
 
   const content = server.create('content', {
@@ -140,7 +140,7 @@ test('testing event detail page', function(assert) {
 });
 
 test('testing market detail page', function(assert) {
-  let user = server.create('user');
+  let user = server.create('current-user');
   authenticateUser(this.application, server, user);
 
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';

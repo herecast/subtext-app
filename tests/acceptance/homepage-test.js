@@ -59,7 +59,7 @@ test('Location in cookie; confirmed; signed in; user location not confirmed; vis
   this.cookies['locationConfirmed'] = true;
 
   authenticateUser(this.application,
-    server.create('user', {
+    server.create('current-user', {
       locationConfirmed: false
     })
   );
@@ -88,7 +88,7 @@ test('Location in cookie; confirmed cookie; signed in ; user location confirmed;
   this.cookies['locationConfirmed'] = true;
 
   authenticateUser(this.application,
-    server.create('user', {
+    server.create('current-user', {
       locationConfirmed: true,
       locationId: location.id
     })
@@ -107,7 +107,7 @@ test('No location cookie; no confirmed cookie; signed in; user location; user lo
   const location = server.create('location');
 
   authenticateUser(this.application,
-    server.create('user', {
+    server.create('current-user', {
       locationConfirmed: false,
       locationId: location.id
     })
@@ -129,7 +129,7 @@ test('No location cookie; no confirmed cookie; signed in; user location; user lo
   const location = server.create('location');
 
   authenticateUser(this.application,
-    server.create('user', {
+    server.create('current-user', {
       locationConfirmed: true,
       locationId: location.id
     })

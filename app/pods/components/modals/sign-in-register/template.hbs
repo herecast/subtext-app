@@ -2,5 +2,8 @@
   <div class="SignInRegisterModal-logo">
     {{brand-logo}}
   </div>
-  {{sign-in afterAuthenticate=(action 'didSignIn') }}
+  {{sign-in
+    afterAuthenticate=(action 'didSignIn')
+    alternateSignInMessage=alternateSignInMessage
+  }}
 {{/modal-wrapper}}

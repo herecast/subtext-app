@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   showingDetailInFeed: null,
   organization: null,
   canManage: false,
+  canEditIfAllowed: false,
   displayAsPublic: false,
   hideComments: false,
 
