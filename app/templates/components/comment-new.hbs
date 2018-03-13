@@ -25,19 +25,26 @@
     data-test-field='new-comment'
   }}
 
-  {{#if submitDisabled}}
+  {{#if isSavingComment}}
     <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
+      {{fa-icon 'spinner' spin=true}}
+    </button>
+  {{else}}
+    {{#if submitDisabled}}
+      <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
       <span {{action (action 'trackSubmitClick' true)}}>
         {{fa-icon 'arrow-circle-right' size=1}}
       </span>
-    </button>
-  {{else}}
-    <button class='CommentSection-replyButton Button btn btn-default pull-right u-link' data-test-component='add-comment-button' {{action 'postComment' callback}}>
+      </button>
+    {{else}}
+      <button class='CommentSection-replyButton Button btn btn-default pull-right u-link' data-test-component='add-comment-button' {{action 'postComment' callback}}>
       <span {{action (action 'trackSubmitClick')}}>
         {{fa-icon 'arrow-circle-right' size=1}}
       </span>
-    </button>
+      </button>
+    {{/if}}
   {{/if}}
+
 </div>
 
 

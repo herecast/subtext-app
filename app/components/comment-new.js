@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   session: service(),
   modals: service(),
   tracking: service(),
+  isSavingComment: false,
 
   submitDisabled: computed('disabled', 'newComment', function() {
     return this.get('disabled') || Ember.isBlank(this.get('newComment'));
@@ -42,11 +43,13 @@ export default Ember.Component.extend({
           return reject();
         }
 
+        set(this, 'isSavingComment', true);
+
         comment.save().then(() => {
           set(this, 'showSignInPrompt', false);
           get(this, 'tracking').trackCommentSaved();
           resolve(comment);
-        }, reject);
+        }, reject).finally(() => set(this, 'isSavingComment', false));
       };
 
       const promise = new Ember.RSVP.Promise((resolve, reject) => {
