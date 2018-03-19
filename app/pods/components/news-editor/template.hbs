@@ -302,8 +302,8 @@
               <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Featured Image</span></h2>
               <div class='SidebarWidget-body'>
                 {{thumbnail-image-modal
-                imageUrl=(mut news.featuredImageUrl)
-                caption=(mut news.featuredImageCaption)
+                imageUrl=(mut news.primaryImageUrl)
+                caption=(mut news.primaryImageCaption)
                 title="Featured Image"
                 saveImage=(action 'saveFeaturedImage')
                 saveCaption=(action 'saveFeaturedImageCaption')

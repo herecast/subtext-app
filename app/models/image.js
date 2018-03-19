@@ -41,6 +41,7 @@ export default DS.Model.extend({
     data.append('image[image]', get(this, 'file'));
     data.append('image[content_id]', get(this, 'contentId'));
     data.append('image[position]', get(this, 'position'));
+    data.append('image[caption]', get(this, 'caption'));
 
     internalModel.adapterWillCommit();
 
