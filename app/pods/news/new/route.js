@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
-import AuthenticatedRouteProtocol from 'subtext-ui/mixins/routes/authenticated-route-protocol';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(AuthenticatedRouteProtocol, Scroll, {
+export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
   titleToken: 'Create News',
 
   model(params, transition) {

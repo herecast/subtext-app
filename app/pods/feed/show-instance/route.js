@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 
 const {
   get,
@@ -9,7 +10,7 @@ const {
   inject: {service}
 } = Ember;
 
-export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
+export default Ember.Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMetaMixin, DocTitleFromContent, {
   session: service(),
   modals: service(),
   fastboot: service(),

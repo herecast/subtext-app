@@ -1,9 +1,10 @@
 import Ember from 'ember';
-import AuthenticatedRouteProtocol from 'subtext-ui/mixins/routes/authenticated-route-protocol';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const { get, inject:{service} } = Ember;
 
-export default Ember.Route.extend(AuthenticatedRouteProtocol, {
+export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, {
   fastboot: service(),
 
   actions: {

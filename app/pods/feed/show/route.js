@@ -2,15 +2,15 @@ import Ember from 'ember';
 import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 
 const {
   get,
-  isPresent,
   isBlank,
   inject: {service}
 } = Ember;
 
-export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
+export default Ember.Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMetaMixin, DocTitleFromContent, {
   session: service(),
   modals: service(),
   fastboot: service(),
@@ -21,8 +21,10 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent,
   },
 
   afterModel(model) {
-    if (isPresent(get(model, 'eventInstanceId'))) {
-      this.transitionTo('feed.show-instance', get(model, 'id'), this.controllerFor(this.routeName).get('isDirectLink'));
+    const eventInstanceId = get(model, 'eventInstanceId') || false;
+
+    if (eventInstanceId) {
+      this.transitionTo('feed.show-instance', get(model, 'id'), eventInstanceId);
     } else {
       this._super(...arguments);
     }

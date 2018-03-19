@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
-import AuthenticatedRouteProtocol from 'subtext-ui/mixins/routes/authenticated-route-protocol';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
@@ -11,7 +12,7 @@ const {
   isPresent
 } = Ember;
 
-export default Ember.Route.extend(RequireCanEdit, Scroll, AuthenticatedRouteProtocol, BaseUserLocation, {
+export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, FastbootTransitionRouteProtocol, BaseUserLocation, {
   location: inject.service('window-location'),
   userLocation: inject.service(),
 
