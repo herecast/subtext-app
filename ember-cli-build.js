@@ -30,6 +30,11 @@ module.exports = function(defaults) {
     }
   });
 
+  //Intersection observer
+  if (!process.env.EMBER_CLI_FASTBOOT) {
+    app.import('vendor/intersection-observer.js');
+  }
+
   // provides String.endsWith String.includes etc.. for PhantomJS, and older browsers
   app.import('bower_components/es6-shim/es6-shim.js');
 

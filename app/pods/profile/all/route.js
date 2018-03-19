@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import InfinityRoute from "ember-infinity/mixins/route";
+import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
 import History from 'subtext-ui/mixins/routes/history';
 import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
 const { get, set, isPresent, inject:{service} } = Ember;
 
-export default Ember.Route.extend(InfinityRoute, History, {
+export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, History, {
   session: service(),
   userLocation: service(),
   fastboot: service(),
@@ -66,7 +67,7 @@ export default Ember.Route.extend(InfinityRoute, History, {
     set(controller, 'isFirstTransition', true);
   },
 
-  model(params) {
+  getModel(params) {
     // Do not attempt to render content in fastboot if we need to first determine if user has access to it
     const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
 
@@ -75,7 +76,15 @@ export default Ember.Route.extend(InfinityRoute, History, {
         query: params.query,
         show: params.show,
         location_id: params.location
-      });
+      }, this.ExtendedInfinityModel);
+  },
+
+  model(params, transition) {
+    if (transition.targetName !== 'profile.all.show' && transition.targetName !== 'profile.all.show-instance') {
+      return this.getModel(params, transition);
+    } else {
+      return null;
+    }
   },
 
   _setupActiveLocation(transition) {
@@ -122,6 +131,7 @@ export default Ember.Route.extend(InfinityRoute, History, {
     },
 
     didTransition() {
+      this._super(...arguments);
       if(!get(this, 'fastboot.isFastBoot')) {
         const model = this.modelFor('profile');
         const controller = this.controllerFor(this.routeName);
@@ -145,6 +155,19 @@ export default Ember.Route.extend(InfinityRoute, History, {
       set(controller, 'comingFromRouteWithShowParam', comingFromRouteWithShowParam);
 
       return true;
+    },
+
+    loadProfileFeedFromChild() {
+      let controller = this.controllerFor(this.routeName);
+
+      controller.set('isLoading', true);
+
+      this.getModel(this.paramsFor(this.routeName)).then((model) => {
+        controller.setProperties({
+          model,
+          isLoading: false
+        });
+      });
     }
   }
 });

@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 
 const {get, set, setProperties, isPresent, computed, inject:{service,controller}, run} = Ember;
 
-export default Ember.Controller.extend(PaginatedFilter, {
+export default Ember.Controller.extend({
   userLocation: service(),
   session: service(),
   notify: service('notification-messages'),
@@ -16,8 +15,9 @@ export default Ember.Controller.extend(PaginatedFilter, {
   isFirstTransition: true,
   condensedView: false,
 
-  queryParams: ['page', 'query', 'show', 'location'],
+  queryParams: ['page', 'perPage', 'query', 'show', 'location'],
   page: 1,
+  perPage: 5,
   query: '',
   show: null,
   location: '',

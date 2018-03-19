@@ -46,7 +46,7 @@ export default Ember.Component.extend({
         const organizationId = get(this, 'model.organizationId') || null;
 
         const canEditContent = currentUser.canEditContent(authorId, organizationId);
-        console.log('canEditContent', canEditContent);
+
         set(this, 'editButtonIsActive', canEditContent);
         return canEditContent;
       });

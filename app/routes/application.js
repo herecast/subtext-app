@@ -26,22 +26,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     q: {refreshModel: true}
   },
 
-  beforeModel(transition) {
-    if (transition.sequence === 0 && !Ember.testing && !get(this, 'fastboot.isFastBoot')) {
-      const userActivity = get(this, 'userActivity');
-      const timeIntervals = [0, 11000, 31000, 61000, 181000, 601000, 1801000];
-
-      userActivity.register('sessionTimer', window);
-      userActivity.triggerTimedEvents('sessionTimer', (time) => {
-        get(this, 'tracking').push({
-          'event': 'VirtualSessionTimerEvent',
-          'virtualTimeOnPage': time,
-          'virtualPageUrl': window.location.href
-        });
-      }, timeIntervals);
-    }
-  },
-
   model() {
     return this.get('session.currentUser');
   },

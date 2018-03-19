@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
-import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import AuthenticatedRouteProtocol from 'subtext-ui/mixins/routes/authenticated-route-protocol';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject, computed, isPresent } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, SocialSharing, BaseUserLocation, {
+export default Ember.Route.extend(Scroll, AuthenticatedRouteProtocol, SocialSharing, BaseUserLocation, {
   location: inject.service('window-location'),
   currentUserEmail: computed.oneWay('session.currentUser.email'),
 

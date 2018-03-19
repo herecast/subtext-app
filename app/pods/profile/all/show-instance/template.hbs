@@ -1,16 +1,32 @@
-{{#modal-wrapper
-  close=(action 'closeDetailPage')
-  showHeader=false
-  willAnimateAway=true
-  class='Modal--no-padding'
-}}
-  {{event-detail
-    model=model
-    closeRoute='profile.all'
-    closeLabel='Back'
-    isPreview=false
-    instanceRoute='profile.all.show-instance'
-    enableStickyHeader=true
-    trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
+{{#unless isDirectLink}}
+  {{render-in-modal
+      (component 'event-detail'
+        model=model
+        closeRoute='profile.all'
+        closeLabel='Back'
+        isPreview=false
+        instanceRoute='profile.all.show-instance'
+        enableStickyHeader=true
+        trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
+      )
+      onClose=(action 'closeDetailPage')
+      modalWrapper='modals/headless-wrapper'
+      tagName="div"
+      class="renderInModal"
+      model=model
   }}
-{{/modal-wrapper}}
+
+{{else}}
+
+  <div class="Location-Index-Show-wrapper">
+    {{component 'event-detail'
+      model=model
+      closeRoute='profile.all'
+      closeLabel='Back'
+      isPreview=false
+      instanceRoute='profile.all.show-instance'
+      trackDetailEngagement=(action 'trackDetailEngagement' model.id 'integrated')
+    }}
+  </div>
+
+{{/unless}}

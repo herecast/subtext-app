@@ -1,9 +1,12 @@
 import Ember from 'ember';
 
-const { get, inject:{service} } = Ember;
+const { get, computed, inject:{service} } = Ember;
 
 export default Ember.Controller.extend({
   tracking: service(),
+  history: service(),
+
+  isDirectLink: computed.reads('history.isFirstRoute'),
 
   actions: {
     closeDetailPage() {

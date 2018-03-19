@@ -10,6 +10,7 @@ export default Ember.Mixin.create({
       const routeName = this.get('historyRouteName') || this.routeName;
       this.get('history').setRouteName(routeName);
       this.get('history').setRouteModel(this.get('historyRouteModel'));
+      
       return true;
     }
   }

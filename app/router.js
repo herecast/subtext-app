@@ -15,7 +15,7 @@ const Router = Ember.Router.extend({
       this.currentState
     );
     return true;
-  }),
+  })
 
 });
 

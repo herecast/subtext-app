@@ -20,17 +20,15 @@
           }}
       {{/if}}
       {{#if showManageButton}}
-        <div class="FeedCard-Footer-manage-button">
-          {{#x-button
-            onClick=(action 'openPromotionMenu')
-            style='regular'
-            color='primary'
-            size='x-small'
-            data-test-button='manage'
-          }}
-            Manage
-          {{/x-button}}
-        </div>
+        {{#x-button
+          onClick=(action 'openPromotionMenu')
+          style='regular'
+          color='primary'
+          size='x-small'
+          data-test-button='manage'
+        }}
+          Manage
+        {{/x-button}}
       {{/if}}
     </div>
   {{/unless}}

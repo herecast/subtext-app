@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import InfinityRoute from "ember-infinity/mixins/route";
+import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
 import History from 'subtext-ui/mixins/routes/history';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 import moment from 'moment';
@@ -8,15 +9,13 @@ const {
   isPresent,
   get,
   set,
-  setProperties,
   on,
   RSVP,
   RSVP:{Promise},
-  inject:{service},
-  isBlank
+  inject:{service}
 } = Ember;
 
-export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
+export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfinityModelParams, History, {
   hideFooter: true,
 
   userLocation: service(),
@@ -27,26 +26,16 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   logger: service(),
 
   queryParams: {
-    query: {refreshModel: true},
-    radius: {
-      refreshModel: true
-    },
-    location: {
-      refreshModel: true
-    },
-    type: {
-      refreshModel: true
-    },
-    startDate: {
-      refreshModel: true
-    },
-    endDate: {
-      refreshModel: true
-    },
-    page: {
-      refreshModel: true
-    }
+    query: { refreshModel: true },
+    radius: { refreshModel: true },
+    location: { refreshModel: true },
+    type: { refreshModel: true },
+    startDate: { refreshModel: true },
+    endDate: { refreshModel: true },
+    page: { refreshModel: true }
   },
+
+  hasLoadedInitialSetOfItems: false,
 
   beforeModel(transition) {
     if (transition.targetName !== 'feed.show' && transition.targetName !== 'feed.show-instance') {
@@ -74,7 +63,6 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   },
 
   hideSearchBox: on('deactivate', function() {
-    // transitioning away, let's close the search box
     set(this, 'search.searchActive', false);
   }),
 
@@ -103,11 +91,11 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               location_id: params.location || selectedOrDefaultLocationId,
               start_date: startDate,
               end_date: endDate,
-              per_page: 20,
+              per_page: params.perPage,
               radius: params.radius,
               modelPath: 'controller.model.eventInstances',
               startingPage: params.page || 1
-            }),
+            }, this.ExtendedInfinityModel),
             feedItems: []
           }));
         } else {
@@ -116,10 +104,11 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
               location_id: params.location || selectedOrDefaultLocationId,
               radius: params.radius,
               query: params.query,
+              per_page: params.perPage,
               content_type: params.type,
               modelPath: 'controller.model.feedItems',
               startingPage: params.page || 1
-            }),
+            }, this.ExtendedInfinityModel),
             eventInstances: []
           }));
         }
@@ -129,7 +118,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
 
   model(params, transition) {
     if (transition.targetName !== 'feed.show' && transition.targetName !== 'feed.show-instance') {
-      return this.getModel(params, transition);
+      return this.getModel(params);
     } else {
       return null;
     }
@@ -143,17 +132,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
   },
 
   setupController(controller, model) {
-    if (isBlank(model)) {
-      // We're going to back fill because this transition is
-      // intending to land on the show route.
-      controller.set('currentlyLoading', true);
-      this.getModel(this.paramsFor(this.routeName)).then((model) => {
-        setProperties(controller, {
-          model,
-          currentlyLoading: false
-        });
-      });
-    } else {
+    if (isPresent(model)) {
       controller.set('model', model);
       controller.set('currentlyLoading', false);
     }
@@ -233,6 +212,21 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, History, {
         } else {
           throw new Error('Too many location redirects');
         }
+      });
+    }
+  },
+
+  actions: {
+    loadFeedFromChild() {
+      let controller = this.controllerFor(this.routeName);
+
+      controller.set('currentlyLoading', true);
+
+      this.getModel(this.paramsFor(this.routeName)).then((model) => {
+        controller.setProperties({
+          model,
+          currentlyLoading: false
+        });
       });
     }
   }

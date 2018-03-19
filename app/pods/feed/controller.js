@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import PaginatedFilter from 'subtext-ui/mixins/controllers/paginated-filter';
 import moment from 'moment';
 
 const {
@@ -11,7 +10,7 @@ const {
   RSVP: {Promise}
 } = Ember;
 
-export default Ember.Controller.extend(PaginatedFilter, {
+export default Ember.Controller.extend({
   channel: "feed",
 
   userLocation: service(),
@@ -24,11 +23,12 @@ export default Ember.Controller.extend(PaginatedFilter, {
 
   currentRouteName: computed.reads('history.currentRouteName'),
 
-  queryParams: ['page', 'query', 'location', 'type', 'radius', 'startDate', 'endDate'],
+  queryParams: ['page', 'perPage', 'query', 'location', 'type', 'radius', 'startDate', 'endDate'],
   query: computed.alias('search.query'),
   location: '',
   type: '',
   page: 1,
+  perPage: 5,
   radius: '10',
   startDate: '',
   endDate: '',

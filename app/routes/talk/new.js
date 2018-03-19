@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
-import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import AuthenticatedRouteProtocol from 'subtext-ui/mixins/routes/authenticated-route-protocol';
 import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, isPresent } = Ember;
 
-export default Ember.Route.extend(Scroll, ShareCaching, Authorized, BaseUserLocation, {
+export default Ember.Route.extend(Scroll, ShareCaching, AuthenticatedRouteProtocol, BaseUserLocation, {
 
   model(params, transition) {
     let newRecordValues = {

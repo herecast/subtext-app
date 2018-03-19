@@ -5,6 +5,7 @@ import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-conte
 
 const {
   get,
+  isBlank,
   inject: {service}
 } = Ember;
 
@@ -24,6 +25,16 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent,
     }
   },
 
+  loadFeedInParent() {
+    //This is to delay load of the feed until after load of integrated detail
+    //to speed up first page load speed
+    const parentModel = this.modelFor('feed');
+
+    if (!get(this, 'fastboot.isFastBoot') && isBlank(parentModel)) {
+      this.send('loadFeedFromChild');
+    }
+  },
+
   actions: {
     didTransition() {
       this._super();
@@ -38,8 +49,12 @@ export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent,
       }
 
       feedController.trackDetailPageViews(contentId);
+
+      this.loadFeedInParent();
+
       return true;
     },
+
     willTransition() {
       this._super();
       const feedController = this.controllerFor('feed');
