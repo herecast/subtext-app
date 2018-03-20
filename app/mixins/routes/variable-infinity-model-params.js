@@ -18,11 +18,18 @@ export default Ember.Mixin.create({
       if (isPresent(get(this, 'infinityPageOptions'))) {
         const { perPageInitial, perPageAfter } = get(this, 'infinityPageOptions');
 
-        let inflectionPage = perPageAfter / perPageInitial;
+        const inflectionPage = perPageAfter / perPageInitial;
+        const paramPageIsBeforeInflectionPage = parseInt(params['page']) <= parseInt(inflectionPage);
+        const hasNotYetInflected = !get(this, 'hasInflected');
 
-        if (parseInt(params['page']) <= parseInt(inflectionPage)) {
+        if (paramPageIsBeforeInflectionPage && hasNotYetInflected) {
           params['per_page'] = perPageInitial;
-        } else if (!get(this, 'hasInflected')) {
+        } else if (hasNotYetInflected) {
+          this.setProperties({
+            currentPage: 1,
+            hasInflected: true
+          });
+
           params['page'] = 2;
           params['per_page'] = perPageAfter;
         } else {

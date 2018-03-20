@@ -127,8 +127,10 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfi
   afterModel(model, transition) {
     this._super(...arguments);
 
-    // Use the scrollTo action on application controller when transition completes
-    transition.send('scrollTo', 0);
+    if (!get(this, 'fastboot.isFastBoot') && !get(this, 'history.isFirstRoute')) {
+      // Use the scrollTo action on application controller when transition completes
+      transition.send('scrollTo', 0);
+    }
   },
 
   setupController(controller, model) {
