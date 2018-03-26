@@ -11,7 +11,7 @@
   {{#if (or model.startsAt model.futureInstances)}}
     {{feed-card/event-dates
       eventDate=(moment-format model.startsAt "MMMM DD")
-      otherInstances=model.futureInstances
+      futureInstances=model.futureInstances
       model=model
       classNames="u-paddingTop8"
     }}

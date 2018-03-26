@@ -18,13 +18,13 @@ const {
 } = DS;
 
 export default Ember.Mixin.create({
-  //endsAt: attr('moment-date'),
+  //NOTE: this is for the content model and not the event-instance model
   eventUrl: attr('string'),
   registrationDeadline: attr('moment-date'),
   schedules: hasMany('schedule'),
-  //startsAt: attr('moment-date'),
 
-  eventInstanceId: attr('number'), //TAG:NOTE we need this for teh redirect after creating events
+  //TAG:NOTE we need this for the redirect after creating events
+  eventInstanceId: attr('number'),
 
   otherEventInstances: hasMany('other-event-instance', {async: false}),
 
@@ -82,8 +82,18 @@ export default Ember.Mixin.create({
     });
   }),
 
-  startsAt: computed.alias('futureInstances.firstObject.startsAt'),
-  endsAt: computed.alias('futureInstances.firstObject.endsAt'),
+  defaultInstance: computed('futureInstances.[]', function() {
+    if (get(this, 'futureInstances.length')) {
+      return get(this, 'futureInstances.firstObject');
+    } else {
+      return get(this, 'otherEventInstances.lastObject');
+    }
+  }),
+
+  startsAt: computed.alias('defaultInstance.startsAt'),
+  endsAt: computed.alias('defaultInstance.endsAt'),
+
+  hasExpired: computed.empty('futureInstances'),
 
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
 

@@ -40,7 +40,7 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
   embeddedAd: attr('boolean'),
   endsAt: attr('moment-date'),
   eventId: attr('number'),
-  eventInstanceId: attr('number'),
+  eventInstanceId: computed.alias('id'),
   otherEventInstances: hasMany('other-event-instance'),
   eventUrl: attr('string'),
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
@@ -74,6 +74,8 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
       return get(inst, 'startsAt') > currentDate;
     });
   }),
+
+  hasExpired: computed.empty('futureInstances'),
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (get(this, 'isValid')) {

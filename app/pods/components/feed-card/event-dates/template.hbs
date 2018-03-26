@@ -1,5 +1,6 @@
 {{#if eventDate}}
   <div class="FeedCard-EventDates-date-tag" data-test-card-event-date>
+    {{#if model.hasExpired}}Ended {{/if}}
     {{eventDate}}
   </div>
 {{/if}}
