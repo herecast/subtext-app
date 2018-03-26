@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     save() {
       const selectedImage = get(this, '_selectedImage'),
         imageUrl = get(this, 'imageUrl'),
-        caption = get(this, 'caption');
+        caption = get(this, 'caption') || '';
 
       get(this, 'save')(selectedImage, caption, imageUrl);
     },
