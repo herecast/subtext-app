@@ -17,7 +17,7 @@
               imageUrl=(optimized-image-url model.primaryImage.imageUrl 640 480 true)
               placeholderUrl=(optimized-image-url model.primaryImage.imageUrl 64 48 true)
               placeholderImageClass='img-responsive'
-              imageForContent=true
+              showGradient=hasCaption
             }}
               <img data-test-detail-page-image class='img-responsive' src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}>
             {{/image-load-placeholder}}
@@ -33,9 +33,11 @@
     {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true
     toggleCaption=(action 'toggleCaption') enabled=enableStickyHeader}}
       {{#content-body classNames="u-padding0"}}
-        <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
-          <p>{{model.primaryImage.caption}}</p>
-        </div>
+        {{#if hasCaption}}
+          <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
+            <p>{{model.primaryImageCaption}}</p>
+          </div>
+        {{/if}}
 
         <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
           {{#title-text noMargin=true strong=true}}

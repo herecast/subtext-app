@@ -36,10 +36,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
     return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
   }),
 
-  hasCaptionOrCredit: computed('model.primaryImage.{caption,credit}', function() {
-    return Ember.isPresent(this.get('model.primaryImage.caption')) ||
-      Ember.isPresent(this.get('model.primaryImage.credit'));
-  }),
+  hasCaption: computed.notEmpty('model.primaryImageCaption'),
 
   _trackImpression() {
     const model = get(this, 'model');

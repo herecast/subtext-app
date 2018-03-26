@@ -21,7 +21,7 @@ export default Ember.Component.extend({
 
   imageIsLoaded: false,
   blurIsLoaded: false,
-  imageForContent: false,
+  showGradient: false,
 
   didReceiveAttrs() {
     this._super(...arguments);
