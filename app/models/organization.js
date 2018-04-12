@@ -39,6 +39,12 @@ export default DS.Model.extend({
   contactCardActive: DS.attr('boolean', {defaultValue: true}),
   descriptionCardActive: DS.attr('boolean', {defaultValue: true}),
   hoursCardActive: DS.attr('boolean', {defaultValue: true}),
+  calendarCardActive: DS.attr('boolean', {defaultValue: false}),
+  calendarViewFirst: DS.attr('boolean', {defaultValue: false}),
+  calendarViewIsDefault: computed.and('calendarCardActive', 'calendarViewFirst'),
+  postsOnlyViewIsDefault: computed('calendarCardActive', 'calendarViewFirst', function() {
+    return get(this, 'calendarCardActive') && !get(this, 'calendarViewFirst');
+  }),
 
   phone: DS.attr('string'),
   website: DS.attr('string'),

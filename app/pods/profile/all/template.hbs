@@ -92,6 +92,23 @@
       {{/if}}
     {{/if}}
 
+    {{#if showCalendarCard}}
+      {{#cards/admin-card
+        isAdmin=showAdminCards
+        organization=(readonly organization)
+        isActive=(readonly organization.calendarCardActive)
+        editForm='form-partials/organization-calendar'
+        updateCardStatus=(action 'toggleCalendarCard')
+        title='Calendar View'
+      }}
+        {{#if showAdminCards}}Switching views only works when viewed by public{{/if}}
+        {{cards/calendar-card
+          organization=organization
+          onTabChange=(action 'toggleFeedItemsView')
+        }}
+      {{/cards/admin-card}}
+    {{/if}}
+
     {{#if showCreateContentCards}}
       {{cards/create-content-menu organization=organization}}
       {{cards/organization-your-content-tabs}}
@@ -114,7 +131,7 @@
 
     {{/if}}
 
-    {{#if model}}
+    {{#if hasResults}}
       {{feed/profile-feed
         feedItems=visibleFeedItems
         show=(readonly show)

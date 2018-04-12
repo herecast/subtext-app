@@ -14,8 +14,11 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
   queryParams: {
     query: {refreshModel: true},
     show: {refreshModel: true},
-    location: {refreshModel: true}
+    location: {refreshModel: true},
+    startDate: { refreshModel: true },
   },
+
+  initialLoad: true,
 
   _redirectToPublicView() {
     return this.replaceWith(this.routeName, {
@@ -34,6 +37,7 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     const params = this.paramsFor(this.routeName);
     const organization = this.modelFor('profile');
 
+    //For listserv - to show location bar
     if (get(organization, 'isLocationDependentOrganization') && !('location' in transition.queryParams)) {
       transition.abort();
 
@@ -62,29 +66,60 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     this._setupActiveLocation(transition);
   },
 
-  afterModel() {
-    const controller = this.controllerFor(this.routeName);
-    set(controller, 'isFirstTransition', true);
-  },
-
-  getModel(params) {
-    // Do not attempt to render content in fastboot if we need to first determine if user has access to it
-    const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
-
-    return hideContent ? [] : this.infinityModel('feed-item', {
-        organization_id: this._getOrganizationId(),
-        query: params.query,
-        show: params.show,
-        location_id: params.location
-      }, this.ExtendedInfinityModel);
-  },
-
   model(params, transition) {
     if (transition.targetName !== 'profile.all.show' && transition.targetName !== 'profile.all.show-instance') {
       return this.getModel(params, transition);
     } else {
       return null;
     }
+  },
+
+  getModel(params) {
+    // Do not attempt to render content in fastboot if we need to first determine if user has access to it
+    const hideContent = ('show' in params && params.show && get(this, 'fastboot.isFastBoot'));
+
+    if (hideContent) {
+      return [];
+    } else {
+      const controller = this.controllerFor(this.routeName);
+      const organization = this.modelFor('profile');
+      const initialLoad = get(this, 'initialLoad');
+      const calendarViewIsDefault = get(organization, 'calendarViewIsDefault');
+      const postsOnlyViewIsDefault = get(organization, 'postsOnlyViewIsDefault');
+
+      let options = {
+        organization_id: this._getOrganizationId(),
+        query: params.query,
+        show: params.show,
+        location_id: params.location,
+        startingPage: params.page || 1
+      };
+
+      if (get(controller, 'showCalendarView') || (calendarViewIsDefault && initialLoad)) {
+        options.content_type = 'calendar';
+        options.sort_by = 'starts_at';
+        options.sort_order = 'asc';
+      } else if (get(controller, 'showPostsOnlyView') || (postsOnlyViewIsDefault && initialLoad)) {
+        options.calendar = false;
+      }
+
+      return this.infinityModel('feed-item', options, this.ExtendedInfinityModel);
+    }
+  },
+
+  afterModel() {
+    const controller = this.controllerFor(this.routeName);
+    set(controller, 'isFirstTransition', true);
+  },
+
+  setupController(controller) {
+    if (get(controller, 'showAdminCards') && get(this, 'initialLoad')) {
+      set(this, 'initialLoad', false);
+      this.refresh();
+    } else {
+      set(this, 'initialLoad', false);
+    }
+    this._super(...arguments);
   },
 
   _setupActiveLocation(transition) {
@@ -168,6 +203,13 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
           isLoading: false
         });
       });
+    },
+
+    refreshForCalendar(resetInitialLoad=false) {
+      if (resetInitialLoad) {
+        set(this, 'initialLoad', true);
+      }
+      this.refresh();
     }
   }
 });

@@ -1,0 +1,16 @@
+{{#x-card}}
+  {{#card-body slimPadding=true}}
+
+    <div class="row">
+      <div class="col-xs-12">
+        {{toggle-switch active=calendarViewFirst color='success' onChange=(action 'formUpdated')}}
+        {{#if calendarViewFirst}}
+          Calendar View will be the default view
+        {{else}}
+          Content View will be the default view
+        {{/if}}
+      </div>
+    </div>
+
+  {{/card-body}}
+{{/x-card}}

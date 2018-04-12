@@ -13,6 +13,7 @@ export default Ember.Controller.extend({
   profileIsDisabled: computed.not('organization.profileIsActive'),
 
   isFirstTransition: true,
+  initialLoad: true,
   condensedView: false,
 
   queryParams: ['page', 'perPage', 'query', 'show', 'location'],
@@ -21,6 +22,20 @@ export default Ember.Controller.extend({
   query: '',
   show: null,
   location: '',
+
+  displayAsAdminIfAllowed: true,
+  firstLoad: true,
+
+  feedItemsView: 'default',
+  showDefaultView: computed('feedItemsView', 'showAdminCards', function() {
+    return get(this, 'feedItemsView') === 'default' || get(this, 'showAdminCards');
+  }),
+  showCalendarView: computed('feedItemsView', 'showAdminCards', function() {
+    return get(this, 'feedItemsView') === 'calendar' && !get(this, 'showAdminCards');
+  }),
+  showPostsOnlyView: computed('feedItemsView', 'showAdminCards', function() {
+    return get(this, 'feedItemsView') === 'postsOnly' && !get(this, 'showAdminCards');
+  }),
 
   locationForControls: computed('userLocation.location.id', function() {
     return get(this, 'userLocation.location');
@@ -42,9 +57,11 @@ export default Ember.Controller.extend({
       default:
         return model.filterBy('viewStatus', 'public');
     }
+
   }),
 
-  displayAsAdminIfAllowed: true,
+  hasResults: computed.gt('model.length', 0),
+
   managedOrganizations: computed.alias('session.currentUser.managedOrganizations'),
 
   isAdmin: computed('session.isAuthenticated', 'managedOrganizations.@each.id', 'organization.id', function() {
@@ -89,6 +106,14 @@ export default Ember.Controller.extend({
 
   showDescriptionHoursTabsCard: computed('showAdminCards', 'showDescriptionCard', 'showHoursCard', function() {
     return ! get(this, 'showAdminCards') && get(this, 'showDescriptionCard') && get(this, 'showHoursCard');
+  }),
+
+  showCalendarCard: computed('showAdminCards', 'profileIsDisabled', 'organization.calendarCardActive', function() {
+    if (get(this, 'profileIsDisabled')) {
+      return false;
+    }
+
+    return get(this, 'showAdminCards') || (get(this, 'organization.calendarCardActive'));
   }),
 
   showCreateContentCards: computed('showAdminCards', 'profileIsDisabled', function() {
@@ -142,11 +167,13 @@ export default Ember.Controller.extend({
 
       if (!displayAsAdminIfAllowed) {
         set(this, 'condensedView', false);
+        set(this, 'feedItemsView', 'default');
       }
 
       // Avoid glimmer double-render error. using `setProperties` did not prevent it.
       run.next(() => {
         set(this, 'displayAsAdminIfAllowed', displayAsAdminIfAllowed);
+        get(this, 'target').send('refreshForCalendar', true);
       });
     },
     toggleContactCard(visibility) {
@@ -157,6 +184,21 @@ export default Ember.Controller.extend({
     },
     toggleHoursCard(visibility) {
       this.updateOrganizationField('hoursCardActive', visibility);
+    },
+    toggleCalendarCard(visibility) {
+      this.updateOrganizationField('calendarCardActive', visibility);
+    },
+
+    toggleFeedItemsView(showCalendar) {
+      const feedItemsView = showCalendar ? 'calendar' : 'postsOnly';
+      set(this, 'feedItemsView', feedItemsView);
+
+      const showAdminCards = get(this, 'showAdminCards');
+
+      if (!showAdminCards) {
+
+        get(this, 'target').send('refreshForCalendar');
+      }
     },
 
     onChooseLocation(location) {
@@ -174,11 +216,7 @@ export default Ember.Controller.extend({
     },
 
     onChooseMyStuffOnly() {
-      this.transitionToRoute('feed', {
-        queryParams: {
-          radius: 'myStuff'
-        }
-      });
+      this.transitionToRoute('mystuff');
     },
 
     toggleCondensedView() {

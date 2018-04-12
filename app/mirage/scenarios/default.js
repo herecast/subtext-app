@@ -144,6 +144,17 @@ export default function (server) {
 
   server.createList('feedItem', 40);
 
+  const profilePageContents = server.createList('content', 20, {
+    contentOrigin: 'ugc',
+    organizationId: 1
+  });
+
+  profilePageContents.forEach(content => {
+    server.create('feedItem', {
+      contentId: content.id
+    });
+  });
+
   const listserv = server.create('listserv');
   const listserv2 = server.create('listserv');
   const listserv3 = server.create('listserv');

@@ -669,7 +669,7 @@ export default function() {
 
     if (showProfilePageContents) {
       let organizationFeedItems = feedItems.all().filter((feedItem) => {
-        return feedItem.modelType === 'content' && feedItem.organizationId === organization_id;
+        return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id);
       });
 
       response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));

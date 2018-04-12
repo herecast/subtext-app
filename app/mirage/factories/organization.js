@@ -37,6 +37,6 @@ export default Mirage.Factory.extend({
   hours: ["Mo-Fr|08:00-16:30","Sa|10:00-16:00"],
   city: "Norwich",
   state: 'VT',
-  zip: '05055'
-
+  zip: '05055',
+  bizFeedActive: true
 });
