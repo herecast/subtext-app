@@ -17,7 +17,6 @@ export default Ember.Controller.extend({
   currentController: inject.service('current-controller'),
   routing: inject.service('_routing'),
   router: computed.alias('routing.router'),
-  intercom: inject.service('intercom'),
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
@@ -38,16 +37,6 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
-    trackMenuOpen() {
-      // The menu opens after the event is fired, so we need to check if it's
-      // closed. When the menu closes, the length is 1.
-      const menuOpened = Ember.$('.ActionDropdown .dropdown.open').length === 0;
-
-      if (menuOpened) {
-        this.get('intercom').trackEvent('avatar-user-menu-opened');
-      }
-    },
-
     signOut() {
       get(this, 'session').signOut();
     },

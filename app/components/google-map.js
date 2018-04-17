@@ -6,7 +6,8 @@ const {
   computed,
   isEmpty,
   isPresent,
-  inject
+  inject:{service},
+  RSVP:{Promise}
 } = Ember;
 
 export default Ember.Component.extend({
@@ -24,46 +25,79 @@ export default Ember.Component.extend({
     }
   }),
 
-  googleMapsService: inject.service('google-maps'),
+  googleMapsService: service('google-maps'),
+  googleMaps: null,
+  googleMapInstance: null,
+
   userLocation: null,
   defaultLocation: null,
   locations: null,
   markers: null,
-  googleMapInstance: null,
+
+  didInsertElement() {
+    this.initGoogleMap().then(() => {
+      this.updateMap();
+    });
+  },
+
+  didUpdateAttrs() {
+    this._super();
+    set(this, 'locations', get(this, 'locations'));
+    this.updateMap();
+  },
 
   initGoogleMap() {
-    const googleMapsService = get(this, 'googleMapsService').googleMaps;
-    const $mapContainer      = this.$().find('.GoogleMap-embed');
-    const defaultLocation   = get(this, 'defaultLocation');
-    const userLocation      = get(this, 'userLocation');
+    return get(this, 'googleMapsService').getGoogleMaps().then(googleMaps => {
+      set(this, 'googleMaps', googleMaps);
+      const $mapContainer     = this.$().find('.GoogleMap-embed');
+      const defaultLocation   = get(this, 'defaultLocation');
+      const userLocation      = get(this, 'userLocation');
 
-    const googleMapInstance = new googleMapsService.maps.Map($mapContainer[0], {
-      center: defaultLocation,
-      mapTypeId: googleMapsService.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: false,
-      zoom: 15 });
+      const googleMapInstance = new googleMaps.Map($mapContainer[0], {
+        center: defaultLocation,
+        mapTypeId: googleMaps.MapTypeId.ROADMAP,
+        disableDefaultUI: false,
+        zoom: 15 });
 
-    set(this, 'googleMapInstance', googleMapInstance);
+      set(this, 'googleMapInstance', googleMapInstance);
 
-    if (userLocation) {
-      googleMapInstance.setCenter(userLocation);
-    }
+      if (userLocation) {
+        googleMapInstance.setCenter(userLocation);
+      }
+
+      return Promise.resolve();
+    });
+  },
+
+  updateMap() {
+    const googleMapInstance = get(this, 'googleMapInstance');
+    const locations = get(this, 'locations') || [];
+    let newMapMarkers;
+    let newLatLngBounds;
+
+    this.removeOldMapMarkers();
+
+    newMapMarkers = this.buildMapMarkers(locations) || [];
+    newLatLngBounds = this.getBounds(newMapMarkers);
+
+    this.placeMapMarkers(newMapMarkers, googleMapInstance);
+    this.zoomMap(newLatLngBounds, googleMapInstance);
   },
 
   infoWindow: computed(function() {
-    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+    const googleMaps = get(this, 'googleMaps');
 
-    return new googleMapsService.maps.InfoWindow();
+    return new googleMaps.InfoWindow();
   }),
 
   buildMapMarkers(locations) {
-    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+    const googleMaps = get(this, 'googleMaps');
     const googleMapInstance  = get(this, 'googleMapInstance');
     const infoWindow = get(this, 'infoWindow');
 
     if (!isEmpty(locations)) {
       const markers = get(this, 'locations').map((location) => {
-        return new googleMapsService.maps.Marker({
+        return new googleMaps.Marker({
           position: location.coords,
           title: location.title,
           infoWindowContent: location.content
@@ -100,8 +134,8 @@ export default Ember.Component.extend({
   },
 
   getBounds(markers) {
-    const googleMapsService = get(this, 'googleMapsService').googleMaps;
-    const LatLngBounds = new googleMapsService.maps.LatLngBounds();
+    const googleMaps = get(this, 'googleMaps');
+    const LatLngBounds = new googleMaps.LatLngBounds();
 
     markers.forEach(marker => {
       return LatLngBounds.extend(marker.position);
@@ -110,48 +144,22 @@ export default Ember.Component.extend({
     return LatLngBounds;
   },
 
-  zoomMap(LatLngBounds, googleMap) {
-    const googleMapsService = get(this, 'googleMapsService').googleMaps;
+  zoomMap(LatLngBounds, googleMapInstance) {
+    const googleMaps = get(this, 'googleMaps');
     // Don't zoom in too far on only one marker
     const offset = 0.002;
 
-    const extendPoint1 = new googleMapsService.maps.LatLng(
+    const extendPoint1 = new googleMaps.LatLng(
       LatLngBounds.getNorthEast().lat() + offset,
       LatLngBounds.getNorthEast().lng() + offset);
 
-    const extendPoint2 = new googleMapsService.maps.LatLng(
+    const extendPoint2 = new googleMaps.LatLng(
       LatLngBounds.getNorthEast().lat() - offset,
       LatLngBounds.getNorthEast().lng() - offset);
 
     LatLngBounds.extend(extendPoint1);
     LatLngBounds.extend(extendPoint2);
 
-    googleMap.fitBounds(LatLngBounds);
-  },
-
-  updateMap() {
-    const googleMapInstance = get(this, 'googleMapInstance');
-    const locations = get(this, 'locations') || [];
-    let newMapMarkers;
-    let newLatLngBounds;
-
-    this.removeOldMapMarkers();
-
-    newMapMarkers = this.buildMapMarkers(locations) || [];
-    newLatLngBounds = this.getBounds(newMapMarkers);
-
-    this.placeMapMarkers(newMapMarkers, googleMapInstance);
-    this.zoomMap(newLatLngBounds, googleMapInstance);
-  },
-
-  didInsertElement() {
-    this.initGoogleMap();
-    this.updateMap();
-  },
-
-  didUpdateAttrs() {
-    this._super();
-    set(this, 'locations', get(this, 'locations'));
-    this.updateMap();
+    googleMapInstance.fitBounds(LatLngBounds);
   }
 });

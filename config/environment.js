@@ -105,7 +105,6 @@ module.exports = function(environment) {
   let imopt_sources = process.env.IMOPT_ALLOWED_SOURCES || ['d3ctw1a5413a3o.cloudfront.net', 'knotweed.s3.amazonaws.com', 'subtext-misc.s3.amazonaws.com'];
   ENV['IMOPT_ALLOWED_HOSTNAMES'] = normalizeSourcesToHostnames(imopt_sources);
 
-
   if (environment === 'development') {
      ENV.APP.LOG_RESOLVER = false;
      ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -131,7 +130,6 @@ module.exports = function(environment) {
     ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
     ENV['GMAPS_API_TOKEN'] = 'AIzaSyBY8KLZXqpXrMbEorrQWjEuQjl7yO3sVAc';
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
-    ENV['FACEBOOK_APP_ID'] = process.env.FACEBOOK_APP_ID;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;
     ENV['GTM_PREVIEW'] = process.env.GTM_PREVIEW;

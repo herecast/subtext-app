@@ -42,7 +42,6 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   activeImage: computed.oneWay('model.primaryOrFirstImage.imageUrl'),
 
   controller: inject.service('current-controller'),
-  intercom: inject.service(),
   featureFlags: inject.service('feature-flags'),
 
   showThumbnails: computed('model.images.[]', function() {
@@ -104,8 +103,6 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     },
 
     clickReplyButton() {
-      get(this, 'intercom').trackEvent('market-reply-click');
-
       get(this, 'tracking').push({
         'event': 'market-reply-click'
       });

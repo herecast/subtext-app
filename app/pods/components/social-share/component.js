@@ -1,24 +1,25 @@
 import Ember from 'ember';
+import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
-/* global FB */
 
 const {
   computed,
   get,
-  inject
+  inject:{service}
 } = Ember;
 
-export default Ember.Component.extend({
-  location: inject.service('window-location'),
-  logger: inject.service(),
+export default Ember.Component.extend(SocialPreloaded, {
+  location: service('window-location'),
+  logger: service(),
+  facebook: service(),
+
   classNames: ['SocialShare u-flexRow'],
   isPreview: false,
   isTalkChannel: false,
 
   model: null,
 
-  routing: inject.service('-routing'),
-  intercom: inject.service(),
+  routing: service('-routing'),
 
   urlForShare() {
     const model = get(this, 'model');
@@ -93,15 +94,11 @@ export default Ember.Component.extend({
       //for live debug
       get(this, 'logger').info(`Share to facebook of ${urlForShare}`);
 
-      FB.ui({
+      get(this, 'facebook').ui({
         method: 'share',
         mobile_iframe: true,
         hashtag: orgHashtag,
         href: urlForShare
-      }, (response) => {
-        if (response && !response.error_message) {
-          get(this, 'intercom').trackEvent('facebook-share');
-        }
       });
     }
   }

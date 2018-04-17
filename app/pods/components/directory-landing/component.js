@@ -21,13 +21,15 @@ export default Ember.Component.extend({
       };
 
       get(this, 'store').query('feed-item', query).then((items) => {
-        set(this, 'news',
-          items.filter((item) => {
-            return get(item, 'modelType') === 'content';
-          }).map((item)=>{
-            return get(item, 'content');
-          })
-        );
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'news',
+            items.filter((item) => {
+              return get(item, 'modelType') === 'content';
+            }).map((item)=>{
+              return get(item, 'content');
+            })
+          );
+        }
       });
     });
   }

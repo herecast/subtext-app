@@ -6,6 +6,7 @@ const { inject, computed, get } = Ember;
 export default Ember.Controller.extend({
   location: inject.service('window-location'),
   geo: inject.service('geolocation'),
+  intercom: inject.service(),
   myCoords: computed.oneWay('geo.userLocation.coords'),
   fromSearch: computed('location.href', function() {
     return get(this, 'location').href().indexOf('?') >= 0;
@@ -56,12 +57,8 @@ Thanks again for helping us build the Upper Valley’s best business directory!`
 
   actions: {
     contactUs() {
-      let intercomButton = Ember.$('.intercom-launcher-button');
-      if (intercomButton.length > 0) {
-        intercomButton[0].click();
-      } else {
-        window.location.href = "mailto:dailyuv@subtext.org?subject=My Business on dailyUV";
-      }
+      const subject = 'My Business on dailyUV';
+      get(this, 'intercom').contactUs(subject);
     },
 
     toggleEditForm() {

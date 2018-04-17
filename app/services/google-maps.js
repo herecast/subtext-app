@@ -1,14 +1,53 @@
+import $ from 'jquery';
 import Ember from 'ember';
+/* global google*/
+
+const { set, get, RSVP:{Promise}, inject:{service} } = Ember;
 
 export default Ember.Service.extend({
-  // googleMaps set by iniitializer
-  geocoder: Ember.computed('googleMaps', function() {
-    return new this.googleMaps.maps.Geocoder();
-  }),
+  fastboot: service(),
+
+  googleMapsInit: null,
+  googleMaps: null,
+
+  getGoogleMaps() {
+    if(!get(this, 'fastboot.isFastBoot')) {
+      if (get(this, 'googleMaps')) {
+        return Promise.resolve(get(this, 'googleMaps'));
+      } else {
+        return this._loadGoogleMaps();
+      }
+    }
+  },
+
+  _loadGoogleMaps() {
+    if (this.googleMapsInit) { return this.googleMapsInit; }
+
+    const thisService = this;
+
+    this.googleMapsInit = new Promise((resolve) => {
+      $.getScript(`https://maps.googleapis.com/maps/api/js`, function() {
+        set(thisService, 'googleMaps', google.maps);
+        resolve(google.maps);
+      });
+    });
+
+    return this.googleMapsInit;
+  },
 
   geocode() {
-    const geocoder = this.get('geocoder');
-    return geocoder.geocode(...arguments);
+    let Geocoder;
+
+    if (!get(this, 'googleMaps')) {
+      return this._loadGoogleMaps().then((googleMaps) => {
+        Geocoder = new googleMaps.Geocoder();
+        return Geocoder.geocode(...arguments);
+      });
+    } else {
+      const googleMaps = get(this, 'googleMaps');
+      Geocoder = new googleMaps.Geocoder();
+      return Geocoder.geocode(...arguments);
+    }
   },
 
   boundingBox(location, distance) {
@@ -16,8 +55,9 @@ export default Ember.Service.extend({
     const lng = location.lng || location.get('lng');
     const mi_per_deg = 1.1132 / 1609.34 ;//miles per degree
     const deg = distance * mi_per_deg;
+    const googleMaps = get(this, 'googleMaps');
 
-    return new this.googleMaps.maps.LatLngBounds({
+    return new googleMaps.LatLngBounds({
       lat: lat - deg,
       lng: lng - deg
     },{

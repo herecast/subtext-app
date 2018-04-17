@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-const { RSVP, get, computed } = Ember;
+const { RSVP, get, computed, inject:{service} } = Ember;
 
 export default Ember.Service.extend({
-  mapsService: Ember.inject.service('google-maps'),
+  mapsService: service('google-maps'),
   defaultLocation: {
     human: 'Lebanon, NH',
     coords: {
@@ -42,7 +42,7 @@ export default Ember.Service.extend({
           }
           /****/
 
-          mapsService.geocode({location: coords}, (results) =>{
+          mapsService.geocode({location: coords}, (results) => {
             if(!get(this, 'isDestroying')) {
               const loc = {
                 coords: coords,
@@ -65,8 +65,12 @@ export default Ember.Service.extend({
 
   getCurrentPosition() {
     return new RSVP.Promise((resolve, reject) => {
-
       if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        };
         navigator.geolocation.getCurrentPosition(position => {
           if(!get(this, 'isDestroying')) {
             resolve(position);
@@ -75,7 +79,7 @@ export default Ember.Service.extend({
           if(!get(this, 'isDestroying')) {
             reject(error);
           }
-        });
+        }, options);
       } else {
         reject();
       }

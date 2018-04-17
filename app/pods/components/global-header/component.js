@@ -39,13 +39,6 @@ export default Ember.Component.extend(TestSelector, {
 
       searchService.toggleProperty('searchActive');
     },
-
-    trackMenuOpen() {
-      const trackMenuOpen = get(this, 'trackMenuOpen');
-      if (trackMenuOpen) {
-        trackMenuOpen(...arguments);
-      }
-    },
     signOut() {
       const signOut = get(this, 'signOut');
       if (signOut) {

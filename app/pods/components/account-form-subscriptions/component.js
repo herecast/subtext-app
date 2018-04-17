@@ -5,7 +5,6 @@ const { get, inject, computed } = Ember;
 export default Ember.Component.extend({
 
   notify: inject.service('notification-messages'),
-  intercom: inject.service(),
   tracking: inject.service(),
 
   // Should be instantiated when the component is rendered
@@ -24,7 +23,6 @@ export default Ember.Component.extend({
         'event': 'dashboard-subscribe',
         'digest-name': get(digest, 'name')
       });
-      get(this, 'intercom').trackEvent('digest-subscribe');
     } else {
       get(this, 'tracking').push({
         'event': 'dashboard-unsubscribe',

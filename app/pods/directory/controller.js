@@ -32,8 +32,6 @@ export default Ember.Controller.extend(FastbootExtensions, {
 
   intercom: inject.service(),
 
-  
-
   canSearch: computed('query', 'category_id', 'lat', 'lng', function() {
     const query = get(this, 'query') || '';
     const category_id = get(this, 'category_id');

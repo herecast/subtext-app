@@ -1,13 +1,12 @@
 import { moduleFor, test } from 'ember-qunit';
 
-
-moduleFor('service:intercom', 'Unit | Service | intercom', {
+moduleFor('service:twitter', 'Unit | Service | twitter', {
   // Specify the other units that are required for this test.
   // needs: ['service:foo']
 });
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
-  var service = this.subject();
+  let service = this.subject();
   assert.ok(service);
 });

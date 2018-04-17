@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
+import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 
 const {
   get,
@@ -11,7 +12,7 @@ const {
   inject
 } = Ember;
 
-export default Ember.Route.extend(History, MaintainScroll, {
+export default Ember.Route.extend(History, MaintainScroll, FastbootTransitionRouteProtocol, {
   geo: inject.service('geolocation'),
   fastboot: inject.service(),
   isFastBoot: computed.readOnly('fastboot.isFastBoot'),

@@ -9,11 +9,9 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.on('trackMenuOpen', function () {});
   this.on('signOut', function () {});
 
   this.render(hbs`{{global-header
-    trackMenuOpen=(action 'trackMenuOpen')
     signOut=(action 'signOut')
   }}`);
   assert.ok(this.$());

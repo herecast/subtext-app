@@ -1,23 +1,42 @@
+import $ from 'jquery';
 import Ember from 'ember';
-import config from '../config/environment';
 
 const {
   get,
   set,
   isPresent,
-  inject
+  inject,
+  RSVP: {Promise}
 } = Ember;
 
 export default Ember.Service.extend({
   enableTracking: true,
+  intercomInitPromise: null,
   fastboot: inject.service(),
 
+  _loadIntercom() {
+    if (this.intercomInitPromise) { return this.intercomInitPromise; }
+
+    this.intercomInitPromise = new Promise((resolve) => {
+      window.intercomSettings = { app_id: 't4i5jg89' };
+
+      $.getScript(`https://widget.intercom.io/widget/t4i5jg89`, function() {
+        resolve();
+      });
+    });
+
+    return this.intercomInitPromise;
+  },
+
   intercom() {
-    /**
-     * Noop if in fastboot mode
-     */
     if(!get(this, 'fastboot.isFastBoot')) {
-      window.Intercom(...arguments);
+      if (window.Intercom) {
+        window.Intercom(...arguments);
+      } else {
+        this._loadIntercom().then(() => {
+          window.Intercom(...arguments);
+        });
+      }
     }
   },
 
@@ -27,32 +46,6 @@ export default Ember.Service.extend({
 
   doNotTrack() {
     set(this, 'enableTracking', false);
-  },
-
-  boot(user) {
-    // The existing logged out version of Intercom needs to be shutdown
-    // so that the logged in version can boot up.
-    this.intercom('shutdown');
-
-    const intercomId = config['INTERCOM_API_TOKEN'];
-    const userPresent = isPresent(user) && isPresent(get(user, 'email'));
-
-    if (userPresent && get(this, 'enableTracking')) {
-      this.intercom('boot', {
-        app_id: intercomId,
-        email: user.get('email'),
-        name: user.get('name'),
-        user_id: user.get('userId'),
-        created_at: user.get('createdAt'),
-        test_group: user.get('testGroup')
-      });
-    } else {
-      // TODO this code is unreachable and probably not
-      // needed since the app reloads when the user logs out.
-      this.intercom('boot', {
-        app_id: intercomId
-      });
-    }
   },
 
   update(user) {
@@ -104,12 +97,6 @@ export default Ember.Service.extend({
       this.intercom('onHide', () => {
         fn();
       });
-    }
-  },
-
-  trackEvent(eventName, metadata) {
-    if(get(this, 'enableTracking')) {
-      this.intercom('trackEvent', eventName, metadata);
     }
   },
 

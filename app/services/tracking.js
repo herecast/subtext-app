@@ -19,7 +19,6 @@ export default Service.extend(Evented, {
   api: inject.service(),
   userLocation: inject.service(),
   session: inject.service(),
-  intercom: inject.service(),
   logger: inject.service(),
   fastboot: inject.service(),
   clientId: null,
@@ -238,16 +237,12 @@ export default Service.extend(Evented, {
       old_value: opts['oldRadius'],
       new_value: newRadius
     });
-
-    get(this, 'intercom').trackEvent('change-radius');
   },
 
   trackMarketReplyButtonClick() {
     this.push({
       event: 'event-reply-click'
     });
-
-    get(this, 'intercom').trackEvent('event-reply-click');
   },
 
   trackHelpTextClick() {

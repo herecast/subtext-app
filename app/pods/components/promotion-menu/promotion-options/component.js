@@ -1,9 +1,9 @@
+import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
 import Ember from 'ember';
-/* global FB */
 
 const { get, setProperties, computed, inject:{service}} = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(SocialPreloaded, {
   classNames: 'PromotionMenu-PromotionOptions',
 
   content: null,
@@ -14,6 +14,7 @@ export default Ember.Component.extend({
 
   location: service('window-location'),
   api: service(),
+  facebook: service(),
 
   hasOrganization: computed.notEmpty('organization'),
 
@@ -76,8 +77,7 @@ export default Ember.Component.extend({
       this._queuePromotionRecord('facebook');
 
       const urlForShare = this._urlForShare();
-
-      FB.ui({
+      get(this, 'facebook').ui({
         method: 'share',
         mobile_iframe: true,
         href: urlForShare

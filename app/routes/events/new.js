@@ -7,7 +7,6 @@ import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 const { get, run, inject, isPresent } = Ember;
 
 export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, BaseUserLocation, {
-  intercom: inject.service('intercom'),
   location: inject.service('window-location'),
   userLocation: inject.service(),
 
@@ -86,7 +85,6 @@ export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRoutePro
 
       const controller = this.controllerFor(this.routeName);
       const goToProfilePage = isPresent(get(controller, 'organization_id'));
-      this.get('intercom').trackEvent('published-event');
 
       run.next(() => {
         event.set('listservIds',[]);

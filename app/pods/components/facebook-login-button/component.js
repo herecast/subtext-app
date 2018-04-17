@@ -1,19 +1,20 @@
-/* global FB */
-
+import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
 import Ember from 'ember';
 
 const {get, set, isPresent, inject, RSVP} = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(SocialPreloaded, {
   tracking: inject.service(),
   session: inject.service(),
   api: inject.service(),
   notify: inject.service('notification-messages'),
   userLocation: inject.service(),
+  facebook: inject.service(),
 
   permissions: 'email,public_profile',
 
   tryAgain: false,
+  socialPreloadedOnDidInsert: true,
 
   loginWithFacebook() {
     this.trackSignInClick();
@@ -29,8 +30,8 @@ export default Ember.Component.extend({
 
     set(this, 'tryAgain', false);
 
-    return new RSVP.Promise(resolve => {
-      FB.login(response => {
+    return new RSVP.Promise((resolve) => {
+      get(this, 'facebook').login(response => {
         resolve(response);
         this._handleFacebookResponse(response);
       }, options);

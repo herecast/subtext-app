@@ -12,18 +12,21 @@ moduleForComponent('directory-search', 'Integration | Component | directory sear
       setCenter: spy(),
     };
 
-    const googleMaps = { googleMaps: {
-        maps: {
-          Map: stub().returns(instance),
-          MapTypeId:  { ROADMAP: 'roadmap' },
-          InfoWindow: spy(),
-          Marker: stub().returns({ addListener() {}, setMap() {} }),
-          LatLng: spy(),
-          LatLngBounds: stub().returns({
-            extend: stub(),
-            getNorthEast: stub().returns({ lat() { }, lng() { }, })
-          })
-        }
+    const googleMapsResolved = {
+      Map: stub().returns(instance),
+      MapTypeId:  { ROADMAP: 'roadmap' },
+      InfoWindow: spy(),
+      Marker: stub().returns({ addListener() {}, setMap() {} }),
+      LatLng: spy(),
+      LatLngBounds: stub().returns({
+        extend: stub(),
+        getNorthEast: stub().returns({ lat() { }, lng() { }, })
+      })
+    };
+
+    const googleMaps = {
+      getGoogleMaps() {
+        return Ember.RSVP.Promise.resolve(googleMapsResolved);
       }
     };
 
