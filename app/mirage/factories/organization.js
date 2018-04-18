@@ -2,7 +2,6 @@ import Mirage, {faker} from 'ember-cli-mirage';
 
 export default Mirage.Factory.extend({
   name() { return faker.company.companyName(); },
-  profileTitle() { return faker.company.companyName(); },
   profileImageUrl() {
     return faker.random.arrayElement([
       faker.image.avatar(),

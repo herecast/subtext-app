@@ -15,7 +15,6 @@ const {
 export default DS.Model.extend({
   api: inject.service('api'),
   name: DS.attr('string'),
-  profileTitle: DS.attr('string'),
   logoUrl: DS.attr('string'),
   profileImageUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
