@@ -74,11 +74,13 @@ export default Ember.Mixin.create({
     return hasDirtyAttributes ? get(this, 'scheduleInstances') : get(this, 'otherEventInstances');
   }),
 
-  futureInstances: computed('eventInstances.@each.startsAt', function() {
+  futureInstances: computed('eventInstances.@each.{startsAt,endsAt}', function() {
     const currentDate = new Date();
 
     return get(this, 'eventInstances').filter((inst) => {
-      return get(inst, 'startsAt') > currentDate;
+      let timeToCompare = get(inst, 'endsAt') ? get(inst, 'endsAt') : get(inst, 'startsAt');
+
+      return timeToCompare > currentDate;
     });
   }),
 

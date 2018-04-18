@@ -67,11 +67,13 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
     return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
   }),
 
-  futureInstances: computed('eventInstances.@each.startsAt', function() {
+  futureInstances: computed('eventInstances.@each.{startsAt,endsAt}', function() {
     const currentDate = new Date();
 
     return get(this, 'eventInstances').filter((inst) => {
-      return get(inst, 'startsAt') > currentDate;
+      let timeToCompare = get(inst, 'endsAt') ? get(inst, 'endsAt') : get(inst, 'startsAt');
+
+      return timeToCompare > currentDate;
     });
   }),
 
