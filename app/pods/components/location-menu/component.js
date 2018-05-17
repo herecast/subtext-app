@@ -15,6 +15,8 @@ export default Ember.Component.extend({
   currentRouteName: computed.oneWay('history.currentRouteName'),
   currentLocation: computed.oneWay('userLocation.location'),
 
+  autoLocationNotAvailable: false,
+
   /**
    * List of `Location` objects.
    * @required
@@ -109,6 +111,8 @@ export default Ember.Component.extend({
             onChooseLocation(location);
           }
         }
+      }).catch(()=>{
+        set(this, 'autoLocationNotAvailable', true);
       });
     }
   }

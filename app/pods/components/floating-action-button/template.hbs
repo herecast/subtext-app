@@ -1,27 +1,10 @@
 {{#unless hidden}}
   <div class='FloatingActionButton-container'>
     <header class='FloatingActionButton-header'>
-      {{#if showTooltip}}
-        {{!-- 'message' is the tooltip content when tray is closed and the tray header content when open --}}
-        {{#if message}}
-          <div class="FloatingActionButton-message">
-            {{message}}
-
-            {{#if canShowTooltip}}
-              {{#unless showJobTray}} {{!-- showJobTray reflects the open/closed state --}}
-                <span class='FloatingActionButton-dismissButton' {{action 'dismissTooltip'}}>
-                  Don't show again
-                </span>
-              {{/unless}}
-            {{/if}}
-          </div>
-        {{/if}}
-
-        {{#if canShowTooltip}}
-          {{#unless showJobTray}}
-            {{fa-icon 'caret-right' class="FloatingActionButton-message-caret"}}
-          {{/unless}}
-        {{/if}}
+      {{#if showJobTray}}
+        <div class="FloatingActionButton-message">
+        'What would you like to do on DailyUV?'
+        </div>
       {{/if}}
 
       {{#x-button

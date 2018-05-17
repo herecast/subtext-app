@@ -1,16 +1,22 @@
 <header class="LocationMenu-header">
   <h2 class="LocationMenu-title">Choose your town</h2>
-  {{#async-button
-    action=(action 'locateMe')
-    class='LocationMenu-locateButton'
-    data-test-component='locate-me'
-  as |component state|}}
-    {{#if state.isPending}}
-      {{fa-icon "spinner" spin=true}} Locating you...
-    {{else}}
-      {{fa-icon 'location-arrow'}} Locate me
-    {{/if}}
-  {{/async-button}}
+  {{#unless autoLocationNotAvailable}}
+    {{#async-button
+      action=(action 'locateMe')
+      class='LocationMenu-locateButton'
+      data-test-component='locate-me'
+    as |component state|}}
+      {{#if state.isPending}}
+        {{fa-icon "spinner" spin=true}} Locating you...
+      {{else}}
+        {{fa-icon 'location-arrow'}} Locate me
+      {{/if}}
+    {{/async-button}}
+  {{else}}
+    Auto Location Not Available<br />
+    Please choose from list below.
+  {{/unless}}
+
 </header>
 {{#unless showAllLocations}}
   <ul class="LocationMenu-navigation">

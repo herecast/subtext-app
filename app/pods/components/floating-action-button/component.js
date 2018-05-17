@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 
 const {get, set, computed, inject, $} = Ember;
 
@@ -15,36 +14,13 @@ export default Ember.Component.extend({
   tracking: inject.service(),
   windowLocation: inject.service('window-location'),
 
-  canShowTooltip: false,
-  showTooltip: true,
   showJobTray: computed.alias('floatingActionButton.showContent'),
   isAnimatingAway: computed.alias('floatingActionButton.isAnimatingAway'),
-
-  messagePrompt: 'You can use DailyUV to do many things in your community!',
-  messageHeader: 'What would you like to do on DailyUV?',
-
-  message: computed('messagePrompt', 'messageHeader', 'showJobTray', 'canShowTooltip', function() {
-    if (!get(this, 'showJobTray') && !get(this, 'canShowTooltip')) {
-      // we are not showing the job tray (orange button is visible) and
-      // we are not permitted to show the tooltip, so let's clear out the message
-      return null;
-    } else {
-      return get(this, 'showJobTray') ? get(this, 'messageHeader') : get(this, 'messagePrompt');
-    }
-  }),
 
   windowHeight: 1000,
   touchKeyboardIsOpen: false,
 
-  hidden: computed('touchKeyboardIsOpen',
-      'userLocation.locationIsConfirmed',
-      'session.isLocationSwitcherToolTipOpen', function() {
-    const touchKeyboardIsOpen = get(this, 'touchKeyboardIsOpen');
-    const locationTooltipIsOpen = get(this, 'session.isLocationSwitcherToolTipOpen');
-    const locationIsConfirmed = get(this, 'userLocation.locationIsConfirmed');
-
-    return touchKeyboardIsOpen || (!locationIsConfirmed && locationTooltipIsOpen);
-  }),
+  hidden: computed.readOnly('touchKeyboardIsOpen'),
 
   styleForContent: computed('isAnimatingAway', 'windowHeight', 'showJobTray', function() {
     const styles = [];
@@ -108,11 +84,6 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    const cookies = get(this, 'cookies');
-    if (!cookies.read('hideUGCToolTip')) {
-      set(this, 'canShowTooltip', true);
-    }
-
     this._watchFocus();
 
     const $window = $(window);
@@ -135,20 +106,6 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    dismissTooltip() {
-      const cookies = get(this, 'cookies');
-      const windowLocation = get(this, 'windowLocation');
-
-      cookies.write('hideUGCToolTip', true, {
-        path: '/',
-        secure: windowLocation.protocol() === 'https',
-        expires: moment().add(14, 'days').toDate()
-      });
-
-      set(this, 'canShowTooltip', false);
-
-      get(this, 'tracking').trackUGCTooltipHide();
-    },
     toggleContent() {
       if (get(this, 'showJobTray')) {
         get(this, 'floatingActionButton').collapse();
