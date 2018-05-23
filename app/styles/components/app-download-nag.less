@@ -1,0 +1,58 @@
+.AppDownloadNag {
+  .transition(all 0.3s linear);
+  background: #2b72a5;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px;
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .box-shadow(1px 0 2px #999);
+
+  &.open {
+    .transform(translateY(0));
+  }
+
+  &.closed {
+    .transform(translateY(100%));
+  }
+
+  &-close {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    cursor: pointer;
+  }
+
+  &-images {
+    .display-grid();
+    .grid-template-columns(1fr 108px 108px);
+    &-apple,
+    &-android {
+      display: inline-block;
+      width: 100px;
+      &>img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    &-logo {
+      height: 50px;
+    }
+    &-left {
+      .grid-align-self(center);
+      .grid-justify-self(start);
+    }
+    &-center {
+      .grid-align-self(end);
+      .grid-justify-self(end);
+    }
+    &-right {
+      .grid-align-self(end);
+      .grid-justify-self(end);
+    }
+  }
+}

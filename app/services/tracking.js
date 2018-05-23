@@ -366,6 +366,13 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackAppDownloadNagEvent(appDownloadNagAction) {
+    this.push({
+      event: `AppDownloadNagEvent`,
+      event_action: appDownloadNagAction
+    });
+  },
+
 
   trackTileLoad(content) {
     this._checkIfCanEditContent(content).then(canEditContent => {

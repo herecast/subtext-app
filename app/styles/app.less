@@ -14,6 +14,7 @@
 // UX3 Components
 //
 @import 'components/account';
+@import 'components/app-download-nag';
 @import 'components/business-feedback-badge';
 @import 'components/checklist';
 @import 'components/media';
@@ -273,6 +274,11 @@ body {
     overflow: hidden;
   }
 }
+
+[data-ember-action]:not(:disabled) {
+  cursor: pointer;
+}
+
 /* The default interferes with app modals */
 body.modal-open > .modal-backdrop {
   z-index: 60;
