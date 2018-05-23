@@ -107,6 +107,7 @@ export default Ember.Controller.extend({
     this.transitionToRoute('feed', {
       queryParams: assign({}, defaults, overrides)
     });
+
   },
 
   queryParamsChanged({ location_id, query, radius }) {
@@ -216,6 +217,5 @@ export default Ember.Controller.extend({
 
       this.toggleProperty('condensedView');
     }
-
   }
 });

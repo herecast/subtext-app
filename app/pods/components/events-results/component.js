@@ -69,28 +69,30 @@ export default Ember.Component.extend({
     this.updateEnabledEventDays(get(this, 'momentStartDateOrNow'));
   },
 
-  dayOrWeek: computed('isGroupedByDay', function() {
-    return  get(this, 'isGroupedByDay') ? 'Day' : 'Week';
-  }),
-
-  sortedEvents: computed('events.@each.startsAtUnix', function() {
-    const events = get(this, 'events');
+  sortedEvents: computed('events.[]', function() {
+    const events = get(this, 'events') || [];
 
     return (events) ? events.sortBy('startsAtUnix', 'venueName', 'title') : [];
   }),
 
   loadedEventDates: computed.mapBy('sortedEvents', 'startsAt'),
 
+  storedGroups: null,
   eventsByDay: computed('sortedEvents.[]', function() {
-    const events = get(this, 'sortedEvents');
+    const sortedEvents = get(this, 'sortedEvents');
     const groupBy = 'startsAt';
+    const storedGroups = get(this, 'storedGroups');
 
-    return buildGroup(
-      events,
+    const groups = buildGroup(
+      sortedEvents,
+      storedGroups,
       groupBy, 'dddd, MMMM D',
       (startsAt) => {
         return startsAt.format('L');
     });
+    set(this, 'storedGroups', groups);
+
+    return groups;
   }),
 
   _gtmTrackEvent(name, context='') {
@@ -141,6 +143,7 @@ export default Ember.Component.extend({
 
         get(this, 'modals').showModal('modals/date-picker', { enabledDays, selectedDay }).then((date) => {
           this._gtmTrackEvent('events-jumped-to-date', date);
+          set(this, 'storedGroups', null);
           get(this, 'updateStartDate')(date);
         });
       });
@@ -149,6 +152,7 @@ export default Ember.Component.extend({
     },
 
     jumpToPrevDay() {
+      set(this, 'storedGroups', null);
       const prevDateOnPage = get(this, '_previousLoadedDate');
 
       if(isPresent(prevDateOnPage) && this._canScrollIntoView(prevDateOnPage)) {
@@ -164,6 +168,7 @@ export default Ember.Component.extend({
     },
 
     jumpToNextDay() {
+      set(this, 'storedGroups', null);
       const nextDateOnPage = get(this, '_nextLoadedDate');
 
       if(isPresent(nextDateOnPage) && this._canScrollIntoView(nextDateOnPage)) {
