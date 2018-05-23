@@ -48,6 +48,7 @@ export default Ember.Component.extend({
 
     if ( this._hasNoCookieInPlace() && get(this, 'media.isMobileButNotNative')) {
       set(this, 'showNag', true);
+      this.tracking.trackAppDownloadNagEvent('show-nag');
     }
   },
 
