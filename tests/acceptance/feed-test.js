@@ -208,7 +208,7 @@ test('radius control, api radius parameter', function(assert) {
   const done = assert.async(2);
 
   const loc = server.create('location');
-  let radius = 10;
+  let radius = 50;
 
   server.get('/feed', function(db, request) {
     assert.equal(request.queryParams.radius, radius,

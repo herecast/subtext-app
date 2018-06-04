@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
   type: '',
   page: 1,
   perPage: 5,
-  radius: '10',
+  radius: '50',
   startDate: '',
   endDate: '',
   enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
