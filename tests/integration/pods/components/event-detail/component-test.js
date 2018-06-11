@@ -2,6 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import startMirage from '../../../../helpers/setup-mirage';
+import moment from 'moment';
+
+const { get } = Ember;
 
 const contentCommentsStub = Ember.Service.extend({
   getComments() { }
@@ -20,13 +23,12 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
   this.set('scrollToMock', () => {});
-  this.set('contentMock', ()=>{});
-  this.set('event', {contentId: 1});
+  this.set('eventInstance', {startsAt: moment()});
+  this.set('content', {futureInstances: [get(this, 'eventInstance')]});
 
   this.render(hbs`
    {{event-detail
-      content=contentMock
-      model=event
+      model=content
       scrollTo=(action scrollToMock)
    }}
   `);

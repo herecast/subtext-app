@@ -21,9 +21,9 @@
         {{/title-text}}
 
         <div class="DetailPage-headerSubSection u-flexSpace">
-          {{#if (or model.startsAt model.futureInstances)}}
+          {{#if nextInstance}}
             {{feed-card/event-dates
-                eventDate=(moment-format model.startsAt 'MMMM DD')
+                eventDate=(moment-format nextInstance.startsAt 'MMMM DD')
                 futureInstances=model.futureInstances
                 model=model
                 class='u-padding0'
