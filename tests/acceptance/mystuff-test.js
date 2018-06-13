@@ -295,11 +295,7 @@ test('Visiting /mystuff - signed in, route navigation works as expected', functi
 
   authenticateUser(this.application, user);
 
-  const listserv = server.create('listserv');
-
-  server.create('digest', {
-    id: listserv.id
-  });
+  server.create('digest');
 
   visit('/mystuff');
 

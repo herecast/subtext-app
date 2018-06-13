@@ -13,7 +13,6 @@ moduleForAcceptance('Acceptance | ugc market post');
 test('Every field available filled in', function(assert) {
   const done = assert.async(3);
   const location = server.create('location');
-  const listserv = server.create('listserv');
 
   const title = 'Flying the Millennium Falcon';
   const description = 'Really not that tough...';
@@ -34,8 +33,8 @@ test('Every field available filled in', function(assert) {
       cost: cost,
       costType: null,
       eventUrl: null,
-      listservIds: [parseInt(get(listserv, 'id'))],
       organizationId: null,
+      listservIds:[],
       promoteRadius: 50,
       publishedAt: null,
       registrationDeadline: null,
@@ -93,7 +92,6 @@ test('Every field available filled in', function(assert) {
 
     ugcMarket.selectLocation(location);
     ugcMarket.pickRadius(50);
-    ugcMarket.pickListserv(listserv);
 
     ugcMarket.next();
     ugcMarket.saveAndPublish();

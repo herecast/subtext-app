@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
-import isLocationDependentOrganization from 'subtext-ui/utils/is-location-dependent-organization';
 
 const {
   computed,
@@ -63,7 +62,7 @@ export default DS.Model.extend({
   title: computed.reads('name'),
   content: computed.reads('description'),
   featuredImageUrl: computed.reads('profileImageUrl'),
-  normalizedContentType: 'organization',
+  contentType: 'organization',
 
   websiteLink: computed('website', function() {
     let siteLink = get(this, 'website');
@@ -154,10 +153,6 @@ export default DS.Model.extend({
   }),
 
   organizationId: computed.reads('id'),
-
-  isLocationDependentOrganization: computed('id', function() {
-    return isLocationDependentOrganization(get(this, 'id'));
-  }),
 
   save() {
     const saveItBaby = this._super(...arguments);

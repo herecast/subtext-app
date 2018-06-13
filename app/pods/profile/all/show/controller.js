@@ -8,8 +8,8 @@ export default Ember.Controller.extend({
 
   isDirectLink: computed.reads('history.isFirstRoute'),
 
-  contentType: computed('model.normalizedContentType', function() {
-    return get(this, 'model.normalizedContentType') || 'event';
+  contentType: computed('model.contentType', function() {
+    return get(this, 'model.contentType') || 'event';
   }),
 
   componentName: computed('contentType', function() {

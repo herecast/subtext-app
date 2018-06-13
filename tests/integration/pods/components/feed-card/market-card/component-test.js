@@ -22,7 +22,7 @@ const model = {
   id: 1,
   modelType: 'market',
   title: 'God rest ye merry gentlemen!',
-  normalizedContentType: 'market',
+  contentType: 'market',
   baseLocations: []
 };
 

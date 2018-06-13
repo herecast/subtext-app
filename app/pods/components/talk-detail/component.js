@@ -18,10 +18,6 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
 
   trackDetailEngagement: function() {},
 
-  listservLocationLabel: computed('userLocation.location.city', 'userLocation.location.state', function() {
-    return `${get(this, 'userLocation.location.city')} ${get(this, 'userLocation.location.state')}`;
-   }),
-
   _trackImpression() {
     const id = get(this, 'model.id');
 

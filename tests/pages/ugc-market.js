@@ -53,14 +53,6 @@ export default create({
       testSelector('radius', radius)
     );
   },
-  pickListserv(listserv) {
-    click(testSelector('listserv-toggle'));
-    andThen(() => {
-      click(
-        testSelector('for-listserv', listserv.id)
-        );
-    });
-  },
   next: clickable(testSelector('action', 'next')),
   saveAndPublish: clickable(testSelector('action', 'save-and-publish'))
 });

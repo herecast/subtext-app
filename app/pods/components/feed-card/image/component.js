@@ -19,7 +19,7 @@ export default Ember.Component.extend(textSnippet, {
   hasExcerpt: computed.gt('textSnippet.length', 10),
   excerpt: computed.alias('textSnippet'),
   showContinueReading: computed.alias('isSnipped'),
-  contentType: computed.reads('model.normalizedContentType'),
+  contentType: computed.reads('model.contentType'),
 
   imageStyle: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');

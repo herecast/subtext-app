@@ -17,8 +17,8 @@
   </p>
   <div class='row'>
     <div class='col-sm-2 col-sm-offset-2'>
-      <div {{action 'toggleListserv'}} class='PromotionSection-toggle' data-test-listserv-toggle>
-        {{#if listEnabled}}
+      <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle' data-test-listserv-toggle>
+        {{#if listsEnabled}}
           {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
         {{else}}
           {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
@@ -26,8 +26,11 @@
       </div>
     </div>
     <div class='col-sm-8'>
-      {{#if listEnabled}}
-        <strong>{{listservName}}</strong>
+      {{#if listsEnabled}}
+        {{content-form-listservs
+          model=talk
+          listservs=listservs
+        }}
       {{/if}}
     </div>
   </div>

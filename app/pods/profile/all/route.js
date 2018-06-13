@@ -8,13 +8,11 @@ const { get, set, isPresent, inject:{service} } = Ember;
 
 export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, History, {
   session: service(),
-  userLocation: service(),
   fastboot: service(),
 
   queryParams: {
     query: {refreshModel: true},
     show: {refreshModel: true},
-    location: {refreshModel: true},
     startDate: { refreshModel: true },
   },
 
@@ -33,22 +31,8 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     return idFromSlug(profileParams.organizationId);
   },
 
-  beforeModel(transition) {
+  beforeModel() {
     const params = this.paramsFor(this.routeName);
-    const organization = this.modelFor('profile');
-
-    //For listserv - to show location bar
-    if (get(organization, 'isLocationDependentOrganization') && !('location' in transition.queryParams)) {
-      transition.abort();
-
-      const locationId = get(this, 'userLocation.selectedOrDefaultLocationId');
-
-      this.transitionTo('profile', organization, {queryParams: {
-        location: locationId
-      }});
-
-      return;
-    }
 
     // Redirect the user if they do not have access to view this content
     if ('show' in params && params.show && !get(this, 'fastboot.isFastBoot')) {
@@ -62,8 +46,6 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
         return this._redirectToPublicView();
       }
     }
-
-    this._setupActiveLocation(transition);
   },
 
   model(params, transition) {
@@ -91,7 +73,6 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
         organization_id: this._getOrganizationId(),
         query: params.query,
         show: params.show,
-        location_id: params.location,
         startingPage: params.page || 1
       };
 
@@ -120,34 +101,6 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
       set(this, 'initialLoad', false);
     }
     this._super(...arguments);
-  },
-
-  _setupActiveLocation(transition) {
-
-    if('location' in transition.queryParams) {
-      const userLocation = get(this, 'userLocation');
-
-      this.store.findRecord('location', transition.queryParams.location).then((location) => {
-        userLocation.setActiveLocationId(get(location, 'id'));
-      }).catch((e) => {
-        console.error(e);
-
-        console.error("This location most likely does not exist on the back-end:", transition.queryParams.location);
-        // We have a bad location in the URL. Clear it out and start over.
-        userLocation.setActiveLocationId(null);
-        userLocation.clearLocationCookie();
-        const redirects = get(this, 'session._locationRedirect') || 0;
-        if(!redirects || redirects < 2) {
-          this.transitionTo({queryParams: {
-            location: get(userLocation, 'defaultLocationId')
-          }});
-
-          set(this, 'session._locationRedirect', (redirects + 1));
-        } else {
-          throw new Error('Too many location redirects');
-        }
-      });
-    }
   },
 
   actions: {

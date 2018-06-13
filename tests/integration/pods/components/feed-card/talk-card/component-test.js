@@ -16,7 +16,7 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
-  const model = server.create('content', {normalizedContentType: 'talk', contentId: 123});
+  const model = server.create('content', {contentType: 'talk', contentId: 123});
 
   model.baseLocations = [];
 

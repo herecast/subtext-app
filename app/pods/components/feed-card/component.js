@@ -6,7 +6,7 @@ const { get, set, computed, isBlank, inject:{service} } = Ember;
 export default Ember.Component.extend(CardMetrics, {
   classNames: 'FeedCard',
   classNameBindings: ['isEditing:show-back', 'showOverlay:show-overlay', 'promotionMenuOpen:promotion-menu-open'],
-  'data-test-feed-card': computed.oneWay('model.normalizedContentType'),
+  'data-test-feed-card': computed.oneWay('model.contentType'),
   'data-test-content': computed.oneWay('model.contentId'),
   'data-test-condensed': computed.oneWay('condensedView'),
   'data-test-entered-viewport': computed.oneWay('_didEnterViewPort'),
@@ -24,11 +24,10 @@ export default Ember.Component.extend(CardMetrics, {
   tracking: service(),
 
   isLoggedIn: computed.alias('session.isAuthenticated'),
-  isListserv: computed.readOnly('model.isListserv'),
   isDraft: computed.readOnly('model.isDraft'),
   hasOrganization: computed.notEmpty('organization'),
 
-  contentType: computed.reads('model.normalizedContentType'),
+  contentType: computed.reads('model.contentType'),
   componentType: computed('contentType', function() {
     let contentType = get(this, 'contentType');
 
@@ -39,16 +38,8 @@ export default Ember.Component.extend(CardMetrics, {
     return `feed-card/${contentType}-card`;
   }),
 
-  linkToDetailIsActive: computed('isLoggedIn', 'isListserv', 'isDraft', function() {
-    const isListserv = get(this, 'isListserv');
-    const isNotLoggedIn = !get(this, 'isLoggedIn');
-    const isDraft = get(this, 'isDraft');
-
-    if (  (isListserv && isNotLoggedIn) || isDraft ) {
-      return false;
-    }
-
-    return true;
+  linkToDetailIsActive: computed('isDraft', function() {
+    return !get(this, 'isDraft');
   }),
 
   actions: {

@@ -1,32 +1,29 @@
-{{#if isListservCard}}
-  <div class="FeedCarousel-ContentCard-title">
-    {{feed-card/title
-      title=model.title
-      model=model
-      linkToDetailIsActive=linkIsActive
-      onContentClick=(action 'onLinkClick' 'title')
-    }}
-  </div>
+<div class="FeedCarousel-ContentCard-title">
+  {{feed-card/title
+    title=model.title
+    model=model
+    linkToDetailIsActive=linkIsActive
+    onContentClick=(action 'onLinkClick' 'title')
+  }}
+</div>
 
-  <div class="FeedCarousel-ContentCard-body">
-    {{feed-card/text-snippet
-      model=model
-      showTextSnippet=isLoggedIn
-    }}
-  </div>
+<div class="FeedCarousel-ContentCard-body">
+  {{feed-card/text-snippet
+    model=model
+    showTextSnippet=true
+  }}
+</div>
 
-  <div class="FeedCarousel-ContentCard-attribution">
-    {{feed-card/attribution
-      avatarUrl=model.attributionImageUrl
-      author=model.attributionName
-      linkRouteName=attributionLinkRouteName
-      linkId=attributionLinkId
-      postedTime=model.publishedAtRelative
-      isListserv=model.isListserv
-      hideBookmark=true
-      contentId=model.contentId
-      noPadding=true
-      customSize=24
-    }}
-  </div>
-{{/if}}
+<div class="FeedCarousel-ContentCard-attribution">
+  {{feed-card/attribution
+    avatarUrl=model.attributionImageUrl
+    author=model.attributionName
+    linkRouteName=attributionLinkRouteName
+    linkId=attributionLinkId
+    postedTime=model.publishedAtRelative
+    hideBookmark=true
+    contentId=model.contentId
+    noPadding=true
+    customSize=24
+  }}
+</div>

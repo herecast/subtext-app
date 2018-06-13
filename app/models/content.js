@@ -77,44 +77,27 @@ export default DS.Model.extend(
 
 
   contentId: computed.alias('id'),
-  isEvent: equal('normalizedContentType', 'event'),
-  isNews: equal('normalizedContentType', 'news'),
-  isMarket: equal('normalizedContentType', 'market'),
-  isTalk: equal('normalizedContentType', 'talk'),
-  isCampaign: equal('normalizedContentType', 'campaign'),
-  isListserv: equal('contentOrigin', 'listserv'),
+  isEvent: equal('contentType', 'event'),
+  isNews: equal('contentType', 'news'),
+  isMarket: equal('contentType', 'market'),
+  isTalk: equal('contentType', 'talk'),
+  isCampaign: equal('contentType', 'campaign'),
 
   listsEnabled: computed.notEmpty('listservIds'),
 
-  normalizedContentType: computed('contentType', 'isListserv', function() {
-    const isListserv = get(this, 'isListserv');
-    let contentType = get(this, 'contentType');
-
-    if (contentType === 'talk_of_the_town') {
-      contentType = 'talk';
-    } else if (isListserv) {
-      contentType = 'listserv';
-    }
-
-    return contentType;
-  }),
-
-  // TAG:NOTE: This is presentational
   publishedAtRelative: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');
     return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
   }),
 
-  // TAG:NOTE: Do this server-side. Have the server figure out what attribution should be displayed
-  isOwnedByOrganization: computed('isListserv', 'isNews', 'organizationId', function() { //TAG:DISCUSS
-    const isListserv = get(this, 'isListserv');
+  isOwnedByOrganization: computed('isNews', 'organizationId', function() {
     const isNews = get(this, 'isNews');
     const organizationId = get(this, 'organizationId');
     const organizationIsDefaultOrganization = isDefaultOrganization(organizationId);
 
     if (isNews) {
       return true;
-    } else if (organizationIsDefaultOrganization || isListserv) {
+    } else if (organizationIsDefaultOrganization) {
       return false;
     } else {
       return isPresent(organizationId);
@@ -141,7 +124,7 @@ export default DS.Model.extend(
 
     if (get(this, 'isNews')) {
       attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv')) {
+    } else if ( isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionImageUrl = organizationProfileImageUrl;
     } else if (isPresent(avatarUrl)) {
       attributionImageUrl = avatarUrl;
@@ -158,7 +141,7 @@ export default DS.Model.extend(
 
     if (get(this, 'isNews')) {
       attributionName = organizationName;
-    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv') ) {
+    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionName = organizationName;
     } else if (isPresent(authorName)) {
       attributionName = authorName;
@@ -175,7 +158,6 @@ export default DS.Model.extend(
     return moment().isAfter(campaignStart) && moment().isBefore(campaignEnd);
   }),
 
-  //TAG:NOTE should this be a mixin that is pulled into components that care about viewStatus (e.g., profile controller, promotion-menu, bizfeed etc)
   viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
     const publishedAt = get(this, 'publishedAt');
     const scheduledToPublish = moment().diff(publishedAt) < 0;

@@ -4,8 +4,7 @@ import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 const {
   computed,
   observer,
-  on,
-  get
+  on
 } = Ember;
 
 export default Ember.Component.extend(PromotionForm, {
@@ -13,13 +12,6 @@ export default Ember.Component.extend(PromotionForm, {
 
   // Required by the promotion form mixin
   model: computed.alias('post'),
-
-  currentUserListserv: computed('session.currentUser.listservId', 'session.currentUser.listservName', function() {
-    return {
-      id: get(this, 'session.currentUser.listservId'),
-      name: get(this, 'session.currentUser.listservName')
-    };
-  }),
 
   displayListservs: on('didInsertElement', function() {
     if (Ember.isPresent(this.get('post.listservIds'))) {

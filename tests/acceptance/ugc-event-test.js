@@ -15,7 +15,6 @@ test('Every field avaliable filled in', function(assert) {
   const done = assert.async(2);
   const venue = server.create('venue');
   const location = server.create('location');
-  const listserv = server.create('listserv');
   const organization = server.create('organization');
   const currentUser = server.create('current-user', { email: 'example@example.com' });
   currentUser.managedOrganizationIds = [parseInt(get(organization, 'id'))];
@@ -48,7 +47,7 @@ test('Every field avaliable filled in', function(assert) {
         cost: price,
         costType: 'paid',
         eventUrl: 'http://resistance.onion',
-        listservIds: [parseInt(get(listserv, 'id'))],
+        listservIds: [],
         organizationId: get(organization, 'id'),
         promoteRadius: 50,
         publishedAt: null,
@@ -142,7 +141,6 @@ test('Every field avaliable filled in', function(assert) {
 
     ugcEvent.selectLocation(location);
     ugcEvent.pickRadius(50);
-    ugcEvent.pickListserv(listserv);
     ugcEvent.next();
 
     ugcEvent.saveAndPublish();

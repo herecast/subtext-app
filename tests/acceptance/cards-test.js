@@ -10,8 +10,6 @@ test('testing news card', function(assert) {
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
 
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'news',
     title: 'hello world',
@@ -43,8 +41,6 @@ test('testing news card', function(assert) {
 test('testing talk card - with image', function(assert) {
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'talk',
     title: 'hello world',
@@ -72,8 +68,6 @@ test('testing talk card - with image', function(assert) {
 
 test('testing talk card - without image', function(assert) {
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'talk',
     title: 'hello world',
@@ -99,58 +93,8 @@ test('testing talk card - without image', function(assert) {
 });
 
 
-test('testing - listserv content - without image, not logged in', function(assert) {
-  const content = server.create('content', {
-    contentOrigin: 'listserv',
-    contentType: 'talk',
-    title: 'hello world',
-    imageUrl: null,
-    images: []
-  });
-
-  server.create('feedItem', {
-    modelType: 'content',
-    contentId: content.id
-  });
-
-  visit('/');
-
-  andThen(function() {
-    assert.equal(find(testSelector('card-title')).text().trim(), content.title, 'it should have the correct title');
-    assert.ok(find(testSelector('card-fake-news')).length, 'it should show the lorem ipsum fake text');
-    assert.ok(find(testSelector('card-login-to-view')).length, 'it should show the link to login to view');
-  });
-});
-
-test('testing - listserv content - without image, logged in', function(assert) {
-  authenticateUser(this.application, server);
-  const content = server.create('content', {
-    contentOrigin: 'listserv',
-    contentType: 'talk',
-    title: 'hello world',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    imageUrl: null,
-    images: []
-  });
-
-  server.create('feedItem', {
-    modelType: 'content',
-    contentId: content.id
-  });
-
-  visit('/');
-
-  andThen(function() {
-    assert.equal(find(testSelector('card-title')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal(find(testSelector('card-excerpt')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the card excerpt');
-    assert.ok(find(testSelector('card-continue-reading')).length, 'it should show the continue reading link');
-  });
-});
-
 test('testing event card, with image', function(assert) {
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'event',
     title: 'hello world',
@@ -196,8 +140,6 @@ test('testing event card, with image', function(assert) {
 
 test('testing event card, without image', function(assert) {
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'event',
     imageUrl: null,
@@ -249,8 +191,6 @@ test('testing market card', function(assert) {
   authenticateUser(this.application, server, user);
 
   const content = server.create('content', {
-    // contentOrigin required so listserv card isn't
-    // selected at random
     contentOrigin: 'ugc',
     contentType: 'market',
     title: 'hello world',

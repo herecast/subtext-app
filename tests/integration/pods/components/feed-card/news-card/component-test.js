@@ -21,7 +21,7 @@ const model = {
   id: 1,
   modelType: 'news',
   title: 'God rest ye merry gentlemen!',
-  normalizedContentType: 'news',
+  contentType: 'news',
   baseLocations: []
 };
 

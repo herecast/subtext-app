@@ -10,7 +10,12 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{feed-carousel/content-card}}`);
+  const model = {
+    contentId: 1
+  };
+  this.set('model', model);
+
+  this.render(hbs`{{feed-carousel/content-card model=model}}`);
 
   assert.ok(this.$());
 });

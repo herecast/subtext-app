@@ -134,7 +134,7 @@ test('unsubscribeFromListserv(id, email)', function(assert) {
     return returnData;
   });
 
-  subject.unsubscribeFromListserv(id, email).then((responseData) => {
+  subject.unsubscribeFromDigest(id, email).then((responseData) => {
     assert.deepEqual(responseData, returnData,
       'it returns parsed response JSON'
     );

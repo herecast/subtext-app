@@ -3,28 +3,27 @@ import hbs from 'htmlbars-inline-precompile';
 import testSelector from 'ember-test-selectors';
 /* global Ember, sinon */
 
-function makeListservCarousel(numberOfCards) {
-  let listservContents = [];
+function makeContentCarousel(numberOfCards) {
+  let contents = [];
 
   for (var i=0; i<numberOfCards; i++) {
-    listservContents.push({
+    contents.push({
       id: i+1,
-      contentOrigin: 'listserv',
-      isListserv: true,
-      normalizedContentType: 'listserv'
+      contentOrigin: 'ugc',
+      contentType: 'news'
     });
   }
 
-  const listservCarousel = {
+  const contentCarousel = {
     id: 1,
-    title: 'Local Listserv',
+    title: 'Local Content',
     carouselType: 'content',
-    queryParams: {"organization_id": 447},
-    contents: listservContents,
+    queryParams: {"organization_id": 398},
+    contents: contents,
     isContentCarousel: true
   };
 
-  return listservCarousel;
+  return contentCarousel;
 }
 
 moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
@@ -55,7 +54,7 @@ moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
 });
 
 test('feed-carousel fires correct tracking events', function(assert) {
-  assert.expect(11);
+  assert.expect(10);
 
   const { spy } = sinon;
 
@@ -69,9 +68,9 @@ test('feed-carousel fires correct tracking events', function(assert) {
   this.register('service:tracking', trackingService);
   this.inject.service('tracking', { as: 'tracking' });
 
-  const listservCarousel = makeListservCarousel(5);
+  const carousel = makeContentCarousel(5);
 
-  this.set('model', listservCarousel);
+  this.set('model', carousel);
 
   this.render(hbs`{{feed-carousel
     model=model
@@ -89,16 +88,12 @@ test('feed-carousel fires correct tracking events', function(assert) {
   assert.equal(carouselTrackingSpy.args[1][0], 'ClickedSeeMore', 'tracking event is an ClickedSeeMore');
   assert.equal(carouselTrackingSpy.args[1][1], this.get('model.id'), 'tracking cta click event sends the correct carousel id');
 
-  let $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
-
-  assert.equal($feedCarouselCard.find('div.FeedCarousel-ContentCard-title a').length, 0, 'Card title should not be clickable when not logged in');
-
   this.render(hbs`{{feed-carousel
     model=model
     isLoggedIn=true
   }}`);
 
-  $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
+  let $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
   let $cardLink = $feedCarouselCard.find('div.FeedCarousel-ContentCard-title a');
 
   assert.ok($cardLink.length, 'Card title should be clickable when logged in');
@@ -112,9 +107,9 @@ test('feed-carousel fires correct tracking events', function(assert) {
 test('feed-carousel displays cards and no cta if fewer than 5 cards present', function(assert) {
   assert.expect(2);
 
-  let listservCarousel = makeListservCarousel(2);
+  let carousel = makeContentCarousel(2);
 
-  this.set('model', listservCarousel);
+  this.set('model', carousel);
 
   this.render(hbs`{{feed-carousel model=model}}`);
 
@@ -128,9 +123,9 @@ test('feed-carousel displays cards and no cta if fewer than 5 cards present', fu
 test('feed-carousel displays cards and cta if 5 or more cards present', function(assert) {
   assert.expect(3);
 
-  let listservCarousel = makeListservCarousel(5);
+  let carousel = makeContentCarousel(5);
 
-  this.set('model', listservCarousel);
+  this.set('model', carousel);
 
   this.render(hbs`{{feed-carousel model=model}}`);
 

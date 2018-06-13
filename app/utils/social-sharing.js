@@ -29,9 +29,9 @@ export default {
   },
 
   getShareUrl(locationService, model, detailPageFromProfile=false) {
-    const normalizedContentType = get(model, 'normalizedContentType');
+    const contentType = get(model, 'contentType');
     const contentId = get(model, 'contentId');
-    const isOrganization = normalizedContentType === 'organization';
+    const isOrganization = contentType === 'organization';
     const organizationId = isOrganization ? get(model, 'id') : get(model, 'organizationId');
 
     let url;

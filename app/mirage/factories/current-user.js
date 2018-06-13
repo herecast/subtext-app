@@ -12,9 +12,7 @@ export default Mirage.Factory.extend({
     return (Math.random() > 0.5) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;
   },
   testGroup: 'Consumer',
-  listservId: 1,
-  listservName: 'Norwich Listserv',
-  //managedOrganizationIds() { return [1, 2, 3]; },
+  
   canPublishNews: true,
   userId(id) { return id; },
 

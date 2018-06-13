@@ -4,7 +4,7 @@ import Validations from 'subtext-ui/mixins/components/validation';
 const { get, inject, isPresent, RSVP } = Ember;
 
 export default Ember.Controller.extend(Validations, {
-  listserv: null,
+  digest: null,
   email: null,
   api: inject.service(),
 
@@ -26,11 +26,11 @@ export default Ember.Controller.extend(Validations, {
   actions: {
     unsubscribe() {
       if(this.isValid()) {
-        const listservId = get(this, 'model.id');
+        const digestId = get(this, 'model.id');
         const email = get(this, 'email');
 
-        return get(this, 'api').unsubscribeFromListserv(
-          listservId,
+        return get(this, 'api').unsubscribeFromDigest(
+          digestId,
           email
         );
       } else {

@@ -13,7 +13,6 @@ moduleForAcceptance('Acceptance | ugc talk');
 test('Every field available filled in', function(assert) {
   const done = assert.async(2);
   const location = server.create('location');
-  const listserv = server.create('listserv');
   const user = server.create('current-user');
 
   server.post('/contents', function() {
@@ -29,7 +28,7 @@ test('Every field available filled in', function(assert) {
       cost: null,
       costType: null,
       eventUrl: null,
-      listservIds: [parseInt(get(listserv, 'id'))],
+      listservIds: [],
       organizationId: null,
       promoteRadius: 20,
       publishedAt: null,
@@ -77,7 +76,6 @@ test('Every field available filled in', function(assert) {
 
     ugcTalk.selectLocation(location);
     ugcTalk.pickRadius(20);
-    ugcTalk.pickListserv();
 
     ugcTalk.next();
     ugcTalk.saveAndPublish();

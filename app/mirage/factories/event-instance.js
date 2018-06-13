@@ -63,7 +63,7 @@ export default Mirage.Factory.extend({
   organizationProfileImageUrl() { return faker.image.business(); },
   authorName() { return faker.name.findName(); },
   avatarUrl() { return faker.image.avatar(); },
-  contentOrigin() { return faker.random.arrayElement(['ugc', 'listserv']); }, //TAG:DISCUSS
+  contentOrigin: 'ugc',
   authorId() { return faker.random.number(9999); },
   eventInstances() {
     let instancesArray = [];

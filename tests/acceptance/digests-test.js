@@ -35,11 +35,7 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS a regist
   assert.expect(5);
   invalidateSession(this.application);
 
-  const digests = [];
-  const listservs = server.createList('listserv', 3);
-  listservs.forEach((listserv) => {
-    digests.push(server.create('digest', {id: listserv.id}));
-  });
+  const digests = server.createList('digest', 3);
   const digest  = digests[1];
   const user    = server.create('current-user', { email: 'example@example.com'});
 

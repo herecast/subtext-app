@@ -3,7 +3,6 @@ import Ember from 'ember';
 const {get, set, setProperties, isPresent, computed, inject:{service,controller}, run} = Ember;
 
 export default Ember.Controller.extend({
-  userLocation: service(),
   session: service(),
   notify: service('notification-messages'),
   tracking: service(),
@@ -36,12 +35,6 @@ export default Ember.Controller.extend({
   showPostsOnlyView: computed('feedItemsView', 'showAdminCards', function() {
     return get(this, 'feedItemsView') === 'postsOnly' && !get(this, 'showAdminCards');
   }),
-
-  locationForControls: computed('userLocation.location.id', function() {
-    return get(this, 'userLocation.location');
-  }),
-
-  isLocationDependentProfile: computed.alias('organization.isLocationDependentOrganization'),
 
   visibleFeedItems: computed('model.@each.viewStatus', 'show', function() {
     const model = get(this, 'model') || [];
@@ -199,20 +192,6 @@ export default Ember.Controller.extend({
 
         get(this, 'target').send('refreshForCalendar');
       }
-    },
-
-    onChooseLocation(location) {
-      const userLocation = get(this, 'userLocation');
-
-      get(this, 'tracking').push({
-        event: "ChooseLocation",
-        location_id: get(userLocation, 'location.id'),
-        new_location_name: get(location, 'name'),
-        new_location_id: get(location, 'id')
-      });
-
-      userLocation.saveSelectedLocationId(get(location, 'id'));
-      set(this, 'location', get(location, 'id'));
     },
 
     onChooseMyStuffOnly() {

@@ -90,20 +90,6 @@ export default function (server) {
   server.createList('promotionCoupon', 10);
   server.createList('event-instance', 100);
 
-  const listservContent = server.createList('content', 5, {
-    contentOrigin: 'listserv'
-  });
-  const listservCarousel = server.create('carousel', {
-    title: 'Local Listserv',
-    carouselType: 'content',
-    queryParams: {"organization_id": 447},
-    contents: listservContent
-  });
-  server.create('feedItem', {
-    modelType: 'carousel',
-    carouselId: listservCarousel.id
-  });
-
   const businessContent = server.createList('organization', 5);
   const businessesCarousel = server.create('carousel', {
     title: 'Businesses',
@@ -155,21 +141,7 @@ export default function (server) {
     });
   });
 
-  const listserv = server.create('listserv');
-  const listserv2 = server.create('listserv');
-  const listserv3 = server.create('listserv');
-
-  server.create('digest', {
-    id: listserv.id
-  });
-
-  server.create('digest', {
-    id: listserv2.id
-  });
-
-  server.create('digest', {
-    id: listserv3.id
-  });
+  server.createList('digest', 2);
 
   /**
    * Business Categories

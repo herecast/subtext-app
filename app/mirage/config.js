@@ -572,8 +572,16 @@ export default function() {
     };
   });
 
-  this.get('/listservs');
-  this.get('/listservs/:id');
+  this.get('/listservs', function() {
+    return [
+      {id: 1,
+        name: "Listserv1"},
+      {id: 2,
+        name: "Listserv2"},
+      {id: 3,
+        name: "Listserv3"},
+    ];
+  });
 
   this.get('/features');
 

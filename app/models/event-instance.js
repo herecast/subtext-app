@@ -45,7 +45,6 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
   eventUrl: attr('string'),
   hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
   isEvent: true,
-  normalizedContentType: 'event',
   organization: belongsTo('organization'),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
   organizationId: attr('number'),
@@ -118,12 +117,11 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
      }
   }),
 
-  isOwnedByOrganization: computed('isListserv', 'organizationId', function() { //TAG:DISCUSS
-    const isListserv = get(this, 'isListserv');
+  isOwnedByOrganization: computed('organizationId', function() { //TAG:DISCUSS
     const organizationId = get(this, 'organizationId');
     const organiztionIsDefaultOrganization = isDefaultOrganization(organizationId);
 
-    if (organiztionIsDefaultOrganization || isListserv) {
+    if (organiztionIsDefaultOrganization) {
       return false;
     } else {
       return isPresent(organizationId);
@@ -138,7 +136,7 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
 
     if (get(this, 'isNews')) {
       attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv')) {
+    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionImageUrl = organizationProfileImageUrl;
     } else if (isPresent(avatarUrl)) {
       attributionImageUrl = avatarUrl;
@@ -155,7 +153,7 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
 
     if (get(this, 'isNews')) {
       attributionName = organizationName;
-    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) && !get(this, 'isListserv') ) {
+    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionName = organizationName;
     } else if (isPresent(authorName)) {
       attributionName = authorName;

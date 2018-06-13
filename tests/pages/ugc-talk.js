@@ -43,11 +43,6 @@ export default create({
       testSelector('radius', radius)
     );
   },
-  pickListserv() {
-    click(
-      testSelector('listserv-toggle')
-    );
-  },
   next: clickable(testSelector('action', 'next')),
   saveAndPublish: clickable(testSelector('action', 'save-and-publish'))
 });

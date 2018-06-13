@@ -233,7 +233,7 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  unsubscribeFromListserv(id, email) {
+  unsubscribeFromDigest(id, email) {
     const encodedEmail = encodeURIComponent(btoa(email));
     return this.returnJson(
       this.del(`/subscriptions/${id}/${encodedEmail}`)

@@ -23,7 +23,7 @@ const model = {
   id: 1,
   modelType: 'event',
   title: 'God rest ye merry gentlemen!',
-  normalizedContentType: 'event',
+  contentType: 'event',
   baseLocations: []
 };
 

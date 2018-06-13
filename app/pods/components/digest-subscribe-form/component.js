@@ -31,8 +31,9 @@ export default Ember.Component.extend(Validation, {
     const notify = get(this, 'notify');
     const store = get(this, 'store');
 
-    store.findRecord('listserv', id).then((listserv) => {
-      store.createRecord('subscription', { email, name, listserv }).save().then(
+    store.findRecord('digest', id).then((digest) => {
+      const digestId = digest.id;
+      store.createRecord('subscription', { email, name, digestId }).save().then(
         () => {
           notify.success('You are successfully registered!');
         },

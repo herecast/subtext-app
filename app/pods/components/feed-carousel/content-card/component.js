@@ -4,24 +4,13 @@ const { get, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'FeedCarousel-ContentCard',
-  classNameBindings: ['isListservCard:is-listserv-card'],
-  'data-test-feed-carousel-card': computed.oneWay('model.normalizedContentType'),
+  'data-test-feed-carousel-card': computed.oneWay('model.contentType'),
 
   model: null,
   carouselId: null,
-  isLoggedIn: false,
+  linkIsActive: true,
 
   tracking: service(),
-
-  isListservCard: computed.readOnly('model.isListserv'),
-
-  linkIsActive: computed('isListservCard', 'isLoggedIn', function() {
-    if (get(this, 'isListservCard')) {
-      return get(this, 'isLoggedIn');
-    }
-
-    return true;
-  }),
 
   title: computed.alias('model.title'),
 

@@ -33,11 +33,7 @@
       </div>
       <div class="FeedCard-Attribution-posted-time {{unless noPadding 'u-paddingLeft8'}}">
         {{#if postedTime}}
-          {{#unless isListserv}}
-            Posted {{postedTime}}
-          {{else}}
-            Submitted {{postedTime}}
-          {{/unless}}
+          Submitted {{postedTime}}
         {{else}}
           Not yet published
         {{/if}}

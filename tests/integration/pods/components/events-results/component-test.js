@@ -33,7 +33,7 @@ test('it renders', function(assert) {
 test('clicking the date header calendar button, gtm event', function(assert) {
   const events = Ember.A([
     Ember.Object.create({
-      normalizedContentType: 'event',
+      contentType: 'event',
       startsAt: moment(),
       startsAtUnix: moment().unix(),
       title: "must see event"
@@ -80,7 +80,7 @@ test('clicking the date header calendar button, gtm event', function(assert) {
 test('clicking the floating calendar button, gtm event', function(assert) {
   const events = Ember.A([
     Ember.Object.create({
-      normalizedContentType: 'event',
+      contentType: 'event',
       startsAt: moment(),
       startsAtUnix: moment().unix(),
       title: "must see event"
@@ -129,7 +129,7 @@ test('clicking the prev day button, gtm event', function(assert) {
 
   const events = Ember.A([
     Ember.Object.create({
-      normalizedContentType: 'event',
+      contentType: 'event',
       startsAt: moment(startDate),
       startsAtUnix: moment(startDate).unix(),
       title: "must see event"
@@ -189,7 +189,7 @@ test('clicking the next day button, gtm event', function(assert) {
 
   const events = Ember.A([
     Ember.Object.create({
-      normalizedContentType: 'event',
+      contentType: 'event',
       startsAt: moment(startDate),
       startsAtUnix: moment(startDate).unix(),
       title: "must see event"

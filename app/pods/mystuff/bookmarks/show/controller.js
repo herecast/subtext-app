@@ -5,8 +5,8 @@ const { computed, get, inject:{service} } = Ember;
 export default Ember.Controller.extend({
   tracking: service(),
 
-  contentType: computed('model.normalizedContentType', function() {
-    return get(this, 'model.normalizedContentType') || 'event';
+  contentType: computed('model.contentType', function() {
+    return get(this, 'model.contentType') || 'event';
   }),
 
   componentName: computed('contentType', function() {
