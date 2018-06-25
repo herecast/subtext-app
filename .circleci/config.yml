@@ -1,0 +1,31 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/subtext-ui
+    docker:
+      - image: circleci/node:8.9.0-browsers
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - subtext-ui-yarn-{{ checksum "yarn.lock" }}
+            - subtext-ui-yarn-
+
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      - save_cache:
+          key: subtext-ui-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: Bower Install
+          command: node_modules/bower/bin/bower install
+
+      - run:
+          name: Run tests
+          command: yarn test
