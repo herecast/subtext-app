@@ -37,7 +37,6 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
   contentType: 'event',
   cost: attr('string'),
   costType: attr('string'),
-  embeddedAd: attr('boolean'),
   endsAt: attr('moment-date'),
   eventId: attr('number'),
   eventInstanceId: computed.alias('id'),
