@@ -20,13 +20,17 @@
     resize: none;
     border-radius: 0;
     border: 1px solid #D2D2D2;
-    border-radius: 100px;
-    padding-right: 50px;
-    height: 40px;
+    border-radius: 20px;
+    padding: 8px 50px 8px 12px;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    outline: none;
 
     &-wrapper {
       margin-left: 50px;
       position: relative;
+      height: 40px;
     }
   }
 
@@ -35,7 +39,7 @@
     padding: 0;
     line-height: 0;
     position: absolute;
-    top: 5px;
+    top: 4px;
     right: 7px;
     width: auto;
     font-size: 30px;
@@ -56,5 +60,10 @@
   &-helpText {
     color: @gray-dark;
     font-weight: 600;
+  }
+
+  &-new-comment-length {
+    text-align: right;
+    font-size: 11px;
   }
 }

@@ -17,12 +17,17 @@
   </button>
 {{/if}}
 
-<div class='CommentSection-replyBox-wrapper'>
-  {{input
+<div class='CommentSection-replyBox-wrapper' style={{textareaStyle}}>
+  {{textarea
     value=newComment
     placeholder='Your comment here...'
-    class='form-control CommentSection-replyBox'
+    class='CommentSection-replyBox'
+    maxlength=maxCommentLength
     data-test-field='new-comment'
+    focusIn=(action 'onFocusIn')
+    focusOut=(action 'onFocusOut')
+    keyUp=(action 'commentChanging')
+    keyDown=(action 'checkKeys')
   }}
 
   {{#if isSavingComment}}
@@ -46,5 +51,8 @@
   {{/if}}
 
 </div>
-
-
+{{#if commentInFocus}}
+  <div class="CommentSection-new-comment-length">
+    {{newCommentLength}}/{{maxCommentLength}} Max
+  </div>
+{{/if}}
