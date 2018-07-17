@@ -406,6 +406,15 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
+
+  createOrganization(organization) {
+    return this.returnJson(
+      this.post(`/organizations`,
+        this.json({organization})
+      )
+    );
+  },
+
   getOrganizationContents(id) {
     return this.getJson(`/organizations/${id}/contents`);
   },
@@ -456,6 +465,10 @@ export default Ember.Service.extend(FastbootExtensions, {
   isRegisteredUser(email) {
     // returns either a 404 Not Found or a 200 OK
     return this.getJson('/user/' + queryString({email: encodeURI(email)}));
+  },
+
+  isExistingOrganizationName(name) {
+    return this.getJson(`/organizations/${encodeURIComponent(name)}/validation`);
   },
 
   updateCurrentUserAvatar(data) {

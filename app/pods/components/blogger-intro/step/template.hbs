@@ -1,0 +1,61 @@
+{{#if (and modal isCurrentStep)}}
+  {{#modal-wrapper isAnimated=false class=modalClass modalDialogStyle=modalDialogStyle style=modalStyle}}
+    {{#if avatarUrl}}
+      <div class="BloggerIntro-Step-avatar">
+        <img src={{avatarUrl}} />
+      </div>
+    {{/if}}
+
+    {{#if title}}
+      <div class="BloggerIntro-Step-title">
+        {{title}}
+      </div>
+    {{/if}}
+
+    {{#if subtitle}}
+      <div class="BloggerIntro-Step-subtitle">
+        {{subtitle}}
+      </div>
+    {{/if}}
+
+    {{#unless replaceTooltip}}
+      <div class="BloggerIntro-Step-main">
+        {{yield isCurrentStep}}
+      </div>
+    {{/unless}}
+
+    {{#unless hideNavigation}}
+      <div class="BloggerIntro-Step-nav">
+        {{#if nextButton}}
+          {{#x-button onClick=(action 'skipToNextStep') color='primary' disabled=nextButtonDisabled}}
+            {{nextButton}}
+          {{/x-button}}
+        {{/if}}
+
+        {{#if actionButtonAction}}
+          {{#x-button onClick=(action 'actionButtonClick') color='attention' disabled=actionButtonDisabled}}
+            {{actionButton}}
+          {{/x-button}}
+        {{/if}}
+
+        {{#if confirmButton}}
+          {{#x-button onClick=(action 'confirmToNextStep') color='primary' disabled=confirmButtonDisabled}}
+            {{#unless confirmButtonIsLoading}}
+              {{confirmButton}}
+            {{else}}
+              Checking {{fa-icon 'cog' spin=true}}
+            {{/unless}}
+          {{/x-button}}
+        {{/if}}
+      </div>
+
+      <div class="BloggerIntro-Step-bullets">
+        {{blogger-intro/bullets totalSteps=totalSteps currentStep=currentStep}}
+      </div>
+    {{/unless}}
+  {{/modal-wrapper}}
+{{/if}}
+
+{{#if (or replaceTooltip (not modal))}}
+  {{yield isCurrentStep}}
+{{/if}}

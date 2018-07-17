@@ -106,6 +106,11 @@
 @import 'components/divided-list';
 @import 'components/icon';
 @import 'components/events-by-day';
+@import 'components/blogger-intro/blogger-intro';
+@import 'components/blogger-intro/bullets';
+@import 'components/blogger-intro/legal';
+@import 'components/blogger-intro/status-button';
+
 
 //
 // UX2 Components
@@ -231,6 +236,7 @@
 
 @import 'routes/mystuff/account';
 @import 'routes/mystuff/contents';
+@import 'routes/startablog';
 @import 'routes/storytellers';
 
 //
@@ -267,6 +273,15 @@
 //
 // Overrides
 //
+html {
+  &.modal-open {
+    overflow: hidden;
+    [class*="c-notification__container"] {
+      z-index: 2000000000 !important;
+    }
+  }
+}
+
 body {
   background-color: @secondary-bg;
 

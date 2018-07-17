@@ -1,0 +1,9 @@
+<div class="BloggerIntro-StatusButton-icon">
+  {{#if isLoading}}
+    {{fa-icon 'cog' spin=true}}
+  {{else if isNotOk}}
+    {{fa-icon 'times-circle'}}
+  {{else if isOk}}
+    {{fa-icon 'check-circle'}}
+  {{/if}}
+</div>

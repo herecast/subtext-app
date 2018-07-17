@@ -1,0 +1,46 @@
+.BloggerIntro-Legal {
+  text-align: center;
+  padding: 16px 0;
+
+  &-header {
+    font-weight: bold;
+    font-size: 22px;
+    color: rgb(0, 151, 167);
+    margin-bottom: 16px;
+  }
+
+  &-body {
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  &-grid {
+    .display-grid();
+    .grid-template-columns(40px 1fr 40px);
+
+    &>div {
+      .grid-align-self(center);
+    }
+
+    i {
+      font-size: 30px;
+    }
+
+    span {
+      font-style: italic;
+      display: block;
+      margin: 4px 0;
+    }
+  }
+
+  &-link {
+    text-decoration: underline;
+    color: rgb(0, 151, 167);
+  }
+
+  &-agree {
+    margin-top: 32px;
+    font-weight: bold;
+  }
+}

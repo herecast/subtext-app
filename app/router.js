@@ -137,6 +137,9 @@ Router.map(function() {
       this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
   });
+
+  this.route('startablog');
+  this.route('publisher-agreement');
 });
 
 export default Router;

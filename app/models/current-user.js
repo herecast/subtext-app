@@ -19,6 +19,7 @@ export default DS.Model.extend({
   bookmarks: DS.hasMany('bookmark'),
   canPublishNews: DS.attr('boolean'),
   hasHadBookmarks: DS.attr('boolean'),
+  isBlogger: DS.attr('boolean'),
 
   // Used to store pending changes which are submitted via the api service
   password: null,
@@ -107,7 +108,7 @@ export default DS.Model.extend({
     const matchedOrganization =  managedOrganizations.find(org=>{
       return parseInt(org.id) === parseInt(orgId);
     });
-    
+
     return isPresent(matchedOrganization);
   },
 

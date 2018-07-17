@@ -14,6 +14,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   userActivity: inject.service(),
   cookies: inject.service(),
   logger: inject.service(),
+  store: inject.service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -39,6 +40,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     if (get(this, 'session.skipRedirect')) {
       set(this, 'session.skipRedirect', false);
       get(this, 'windowLocation').reload();
+    } else if (get(this, 'session.noReload')) {
+      set(this, 'session.noReload', false);
+      get(this, 'store').unloadAll('currentUser');
     } else {
       this._super(...arguments);
     }

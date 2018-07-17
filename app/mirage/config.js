@@ -106,25 +106,47 @@ export default function() {
     }
   });
 
-  this.post('/users/sign_up', function() {
-  });
+  this.post('/users/sign_up', function(db, request) {
+    const json = JSON.parse(request.requestBody);
+    const instant_signup = json.instant_signup || false;
+    const password = json.user.password || '';
+
+    if (password.length < 8) {
+      return new Mirage.Response(422, {'Content-Type': 'application/json'}, {error: `password length too short: 8 character minimum. Password provided was only ${password.length} characters.`});
+    }
+
+    if (instant_signup) {
+      const user = json['user'] || false;
+
+      if (user) {
+        db.currentUsers.create(user.attrs);
+        return {
+          token: "FCxUDexiJsyChbMPNSyy",
+          email: user.email
+        };
+      }
+    }
+  }, { timing: 1500 });
+
 
   this.post('/users/logout', function(schema) {
     schema.db.currentUsers.remove();
   });
 
-  this.get('/user/', function({ db }, request) {
+  this.get('/user/', function({currentUsers}, request) {
     const email = request.queryParams.email;
+    const isACurrentUser = isPresent(currentUsers.findBy({email}));
+    const bloggerOnboardingMatches = email === 'blog@blog.com' || email === 'test@test.com';
     let response;
 
-    if (db.currentUsers.where({ email }).length > 0) {
+    if (bloggerOnboardingMatches || isACurrentUser) {
       response = new Mirage.Response(200);
     } else {
       response = new Mirage.Response(404);
     }
 
     return response;
-  });
+  }, { timing: 1000 });
 
   this.get('/current_user', function(schema) {
     var current_user = schema.currentUsers.first();
@@ -296,8 +318,22 @@ export default function() {
     return organizations;
   });
 
+  this.get('organizations/:name/validation', function(schema, { params }) {
+    const name = params.name;
+    let response;
+
+    if (name === 'DailyUV' || name === 'blogblog') {
+      response = new Mirage.Response(404);
+    } else {
+      response = new Mirage.Response(200);
+    }
+
+    return response;
+  }, { timing: 1000 });
+
   this.get('/organizations/:id');
   this.put('/organizations/:id', function({ db }, request) {
+
     if (request && request.requestBody && typeof request.requestBody === 'string') {
       var id = request.params.id;
       var putData = JSON.parse(request.requestBody);
@@ -308,9 +344,19 @@ export default function() {
     } else {
       // We're using the UPDATE action to upload event images after the event
       // has been created. Mirage can't really handle this, so we ignore it.
-      console.log('Ignoring image upload');
+      console.log('Ignoring image upload: PUT organizations/:id');
     }
   });
+
+  this.post('/organizations', function({db, organizations}, request) {
+    const postedData = JSON.parse(request.requestBody);
+    let organization = postedData.organization;
+
+    organization.canPublishNews = true;
+    organization.bizFeedActive = true;
+
+    return organizations.create(organization);
+  }, { timing: 2000 });
 
   this.get('/event_instances/:id', 'event-instance');
 

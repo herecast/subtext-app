@@ -36,12 +36,16 @@ export default Ember.Mixin.create({
     const value = this.get(attr);
     const attrName = Ember.A(attr.split('.')).get('lastObject');
 
-    if (Ember.isPresent(value)) {
+    const isValid = Ember.isPresent(value);
+
+    if (isValid) {
       this.set(`errors.${attrName}`, null);
       delete this.get('errors')[attrName];
     } else {
       this.set(`errors.${attrName}`, 'Cannot be blank');
     }
+
+    return isValid;
   },
 
   validateImage(name) {
@@ -113,13 +117,16 @@ export default Ember.Mixin.create({
   hasValidEmail(email) {
     // From https://html.spec.whatwg.org/multipage/forms.html#valid-e-mail-address
     // Retrieved 2014-01-14
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
+    //const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    // FROM http://emailregex.com/ 6/30/2018
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
   },
 
   validatesEmailFormatOf(email) {
-    if (this.hasValidEmail(email)) {
+    const isValid = this.hasValidEmail(email);
+
+    if (isValid) {
       set(this, 'errors.email', null);
       delete get(this, 'errors')['email'];
     } else {
@@ -128,6 +135,8 @@ export default Ember.Mixin.create({
     if (isEmpty(email)) {
       set(this, 'errors.email', 'Cannot be blank');
     }
+
+    return isValid && !isEmpty(email);
   },
 
   hasValidPhone(phone) {
