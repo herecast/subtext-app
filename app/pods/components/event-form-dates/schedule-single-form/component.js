@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   initValues() {
     const schedule = get(this, 'schedule');
     const properties = schedule.getProperties(
-      'startDate', 'startTime', 'stopDate', 'stopTime', 'subtitle', 'presenterName');
+      'startDate', 'startTime', 'stopDate', 'stopTime');
 
     properties.startTime = schedule.getWithDefault('startTime', '09:00 am');
     properties.stopTime = get(schedule, 'stopTime');
@@ -36,9 +36,7 @@ export default Ember.Component.extend({
         startDate:     get(this, 'startDate'),
         startTime:     get(this, 'startTime'),
         stopDate:      get(this, 'startDate'),
-        stopTime:      get(this, 'stopTime'),
-        subtitle:      get(this, 'subtitle'),
-        presenterName: get(this, 'presenterName')
+        stopTime:      get(this, 'stopTime')
       };
 
       // TODO: move to model and split apart isValid and errors properties

@@ -29,13 +29,11 @@ test('saving', function(assert) {
     addNewSchedule: function(schedule, actual) {
       let expected = {
         "daysOfWeek": [],
-        "presenterName": undefined,
         "repeats": "weekly",
         "startDate": undefined,
         "startTime": "09:00 am",
         "stopDate": undefined,
         "stopTime": undefined,
-        "subtitle": undefined,
         "weeksOfMonth": [],
       };
 

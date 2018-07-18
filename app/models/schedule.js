@@ -60,7 +60,6 @@ export default DS.Model.extend(ScheduleSummary, {
   endDate: attr('moment-date'), // date that the repeating schedule runs until
   endsAt: attr('moment-date'), // time of day the event ends
   overrides: attr('raw'),
-  presenterName: attr('string'),
   _remove: attr('boolean'),
   repeats: attr('string'),
   startDate: getDate('startsAt'),

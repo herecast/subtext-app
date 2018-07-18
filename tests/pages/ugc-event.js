@@ -29,8 +29,6 @@ export default create({
       triggerEvent(testSelector('component', 'start-date') + " input", 'focus');
     } else {
       fillIn(testSelector('component', 'start-date') + " input", options.startDate);
-      fillIn(testSelector('event-subtitle'), options.subtitle);
-      fillIn(testSelector('event-presenter'), options.presenter);
     }
     andThen(()=>{
       triggerEvent(testSelector('component', 'start-time') + " input", 'focus');
@@ -44,8 +42,6 @@ export default create({
       fillIn(testSelector('recurring-component', 'end-date') + " input", options.recurringEndDate);
       fillIn(testSelector('recurring-component', 'repeat-type'), options.repeat);
       triggerEvent(testSelector('recurring-component', 'start-time') + " input", 'focus');
-      fillIn(testSelector('recurring-component', 'subtitle'), options.subtitle);
-      fillIn(testSelector('recurring-component', 'presenter'), options.presenter);
       andThen(() => {
         click(testSelector('complete-recurring-form'));
       });

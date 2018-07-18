@@ -36,22 +36,6 @@
 {{/form-group}}
 
 <div class='form-group'>
-  <div class='row'>
-    <div class='col-xs-6'>
-      {{input
-        placeholder="Subtitle ex: 10th Annual"
-        class='form-control'
-        value=subtitle
-      }}
-    </div>
-    <div class='col-xs-6'>
-      {{input
-        placeholder="Presenter / Instructor"
-        class='form-control'
-        value=instance.presenterName
-      }}
-    </div>
-  </div>
   <div>
     {{#if isRemovable}}
       <button {{action 'removeDate' instance}} class='ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link'>

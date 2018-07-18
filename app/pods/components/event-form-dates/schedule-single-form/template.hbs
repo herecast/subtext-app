@@ -37,29 +37,6 @@
     {{/form-group}}
   {{/form-group}}
 
-  <div class='form-group'>
-    <div class='row'>
-      <div class='col-xs-6'>
-        <label>Subtitle</label>
-        {{input
-          placeholder="Subtitle ex: 10th Annual"
-          class='form-control'
-          value=subtitle
-          data-test-event-subtitle=true
-        }}
-      </div>
-      <div class='col-xs-6'>
-        <label>Presenter/Instructor</label>
-        {{input
-          placeholder="Presenter / Instructor"
-          class='form-control'
-          value=presenterName
-          data-test-event-presenter=true
-        }}
-      </div>
-    </div>
-  </div>
-
   {{!-- TODO optional information --}}
   <button class="Button Button--primary pull-right" {{action 'save'}} data-test-save-event-date>Done</button>
   <button class="Button ContentForm-discardButton Button--default pull-right" {{action 'cancel'}}>Cancel</button>

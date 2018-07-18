@@ -19,8 +19,6 @@ test('Every field avaliable filled in', function(assert) {
   const currentUser = server.create('current-user', { email: 'example@example.com' });
   currentUser.managedOrganizationIds = [parseInt(get(organization, 'id'))];
 
-  const presenter = 'Vader';
-  const subtitle = 'My life on Mustafar';
   const repeat = 'daily';
   const price = '$7';
 
@@ -58,11 +56,10 @@ test('Every field avaliable filled in', function(assert) {
             end_date: singleStartDate.utc().format(timeFormat),
             ends_at: null,
             overrides: [],
-            presenter_name: presenter,
             _remove: false,
             repeats: 'once',
             starts_at: startTime,
-            subtitle: subtitle,
+            subtitle: null,
             weeks_of_month: [],
           },
           {
@@ -70,10 +67,9 @@ test('Every field avaliable filled in', function(assert) {
             end_date: recurringEndDate.utc().format(timeFormat),
             ends_at: null,
             overrides: [],
-            presenter_name: presenter,
             repeats: repeat,
             starts_at: recurringStartDate.utc().add(9, 'hours').format(timeFormat),
-            subtitle: subtitle,
+            subtitle: null,
             weeks_of_month: [],
             _remove: false,
           }
@@ -111,13 +107,9 @@ test('Every field avaliable filled in', function(assert) {
     ugcEvent.fillInTitle('test-title');
     ugcEvent.selectVenue(venue);
     ugcEvent.addSingleDate({
-      startDate: singleStartDate.format(dateFormat),
-      subtitle: subtitle,
-      presenter: presenter
+      startDate: singleStartDate.format(dateFormat)
     });
     ugcEvent.addRecurringDates({
-      subtitle: subtitle,
-      presenter: presenter,
       repeat: repeat,
       recurringStartDate: recurringStartDate.format(dateFormat),
       recurringEndDate: recurringEndDate.format(dateFormat)

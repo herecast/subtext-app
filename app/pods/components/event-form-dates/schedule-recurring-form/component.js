@@ -22,7 +22,7 @@ export default Ember.Component.extend(ScheduleSummary, {
     const schedule = get(this, 'schedule');
     const properties = schedule.getProperties(
       'startDate', 'startTime', 'stopDate', 'stopTime', 'daysOfWeek',
-      'weeksOfMonth', 'subtitle', 'presenterName');
+      'weeksOfMonth');
 
     properties.repeats = schedule.getWithDefault('repeats', 'weekly');
     properties.startTime = schedule.getWithDefault('startTime', '09:00 am');
@@ -127,9 +127,7 @@ export default Ember.Component.extend(ScheduleSummary, {
         stopDate:      get(this, 'stopDate'),
         stopTime:      get(this, 'stopTime'),
         daysOfWeek:    get(this, 'daysOfWeek'),
-        weeksOfMonth:  get(this, 'weeksOfMonth'),
-        subtitle:      get(this, 'subtitle'),
-        presenterName: get(this, 'presenterName')
+        weeksOfMonth:  get(this, 'weeksOfMonth')
       };
 
       const validate = get(this, 'validate');
@@ -175,4 +173,3 @@ export default Ember.Component.extend(ScheduleSummary, {
     },
   }
 });
-

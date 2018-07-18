@@ -92,7 +92,6 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
         'ends_at',
         'id',
         'overrides',
-        'presenter_name',
         '_remove',
         'repeats',
         'starts_at',

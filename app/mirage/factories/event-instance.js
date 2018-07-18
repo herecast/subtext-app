@@ -7,7 +7,6 @@ function otherInstance() {
     ends_at: faker.date.future(),
     starts_at: faker.date.past(),
     id: faker.random.number(9999),
-    presenter_name: faker.name.findName(),
     subtitle: faker.lorem.sentence(),
     title: faker.lorem.sentence()
   };
@@ -19,7 +18,6 @@ export default Mirage.Factory.extend({
   canEdit: true,
   title() { return titleize(faker.lorem.sentences(1));},
   subtitle() { return titleize(faker.lorem.sentences(1));},
-  presenterName() { return `${faker.name.firstName} ${faker.name.lastName}`; },
   commentCount() { return faker.random.number(8);},
   content() { return `<p>${faker.lorem.paragraph(5)}</p>`;},
   contentId() { return faker.random.number(1000);},
