@@ -45,6 +45,7 @@ export default DS.Model.extend(
   cost: attr('string'),
   costType: attr('string'),
   createdAt: attr('moment-date'),
+  embeddedAd: attr('boolean', {defaultValue: true}),
   listservIds: attr('raw', {defaultValue() { return []; }}),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
   organizationId: attr('number'),

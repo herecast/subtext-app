@@ -40,6 +40,7 @@ export default Factory.extend({
 
   splitContent() { return generateSplitContent(); },
   content() { return this.splitContent.head + this.splitContent.tail; },
+  embeddedAd() { return faker.random.arrayElement([true, false, false, false, false]); },
 
   // This was random, but it caused issues with debugging tests that would
   // randomly fail.  We should move these random boolean values, which can
