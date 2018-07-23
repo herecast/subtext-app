@@ -9,13 +9,14 @@ export default Ember.Route.extend({
     const controller = this.controllerFor('startablog');
 
     return get(this, 'store').createRecord('organization', {
-      name: 'Jennifer',
+      name: 'Best of the UV',
       profileImageUrl: get(controller, 'avatarUrls.profile'),
       backgroundImageUrl: get(controller, 'avatarUrls.background'),
-      email: 'jennifer@dailyuv.com',
+      email: 'bestoftheuv@gmail.com',
       website: 'http://instagram.com/thedailyuv',
-      description: 'Jennifer is an amazing part of the team at DailyUV. She has done wonderful work in the world of the Upper Valley.',
-      orgType: 'Blog'
+      description: "A blog of the best of everything in the Upper Valley—according to the people who live here and know best. Each week I'll post a topic (best sandwich, best village green, best museum, etc.) and invite readers to share their favorites in the comments. Then I'll pull together your recommendations into THE definitive list. Me? I'm just the messenger, but of course I have my favorites, too! Want to suggest a best-of topic? Email me at bestoftheuv@gmail.com.",
+      orgType: 'Blog',
+      hoursCardActive: false
     });
   },
 

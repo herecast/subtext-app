@@ -15,7 +15,6 @@ export default DS.Model.extend({
   api: inject.service('api'),
   name: DS.attr('string'),
   logoUrl: DS.attr('string'),
-  profileImageUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
   specialLinkUrl: DS.attr('string'),
   specialLinkText: DS.attr('string'),
@@ -23,7 +22,6 @@ export default DS.Model.extend({
   orgType: DS.attr('string'),
   bizFeedActive: DS.attr('boolean'),
   claimed: DS.attr('boolean'),
-  backgroundImageUrl: DS.attr('string'),
   description: DS.attr('string'),
   canPublishNews: DS.attr('boolean'),
   certifiedStoryteller: DS.attr('boolean'),
@@ -33,6 +31,11 @@ export default DS.Model.extend({
   profileAdOverride: DS.attr('number'),
   customLinks: DS.attr(),
   desktopImageUrl: DS.attr('string'),
+
+  profileImageUrl: DS.attr('string'),
+  backgroundImageUrl: DS.attr('string'),
+  remoteProfileImageUrl: DS.attr('string', {defaultValue: null}),
+  remoteBackgroundImageUrl: DS.attr('string', {defaultValue: null}),
 
   contactCardActive: DS.attr('boolean', {defaultValue: true}),
   descriptionCardActive: DS.attr('boolean', {defaultValue: true}),

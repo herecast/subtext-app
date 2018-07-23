@@ -20,6 +20,10 @@ export default StepComponent.extend({
   nextButtonAction: null,
   nextButtonDisabled: false,
 
+  innerStepButton: null,
+  innerStepButtonAction: null,
+  innerStepButtonDisabled: null,
+
   actionButton: null,
   actionButtonAction: null,
   continueAfterAction: false,
@@ -199,6 +203,12 @@ export default StepComponent.extend({
 
       if (get(this, 'continueAfterAction') && !get(this, 'isLastStep')) {
         get(this, 'nextStep')();
+      }
+    },
+
+    innerStepButtonClick() {
+      if (get(this, 'innerStepButtonAction')) {
+        get(this, 'innerStepButtonAction')();
       }
     }
   }

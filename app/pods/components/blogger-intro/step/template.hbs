@@ -49,10 +49,23 @@
         {{/if}}
       </div>
 
+      {{#if innerStepButton}}
+        <div class="BloggerIntro-Step-inner-button-bar">
+          {{#x-button onClick=(action 'innerStepButtonClick') color='secondary' disabled=innerStepButtonDisabled class="small"}}
+            {{innerStepButton}}
+          {{/x-button}}
+        </div>
+      {{/if}}
+
       <div class="BloggerIntro-Step-bullets">
         {{blogger-intro/bullets totalSteps=totalSteps currentStep=currentStep}}
       </div>
     {{/unless}}
+
+    <div class="BloggerIntro-Step-help-bar">
+      <a href="mailto:dailyuv@subtext.org">{{fa-icon 'info-circle' class="help-button"}} Need help?</a>
+    </div>
+
   {{/modal-wrapper}}
 {{/if}}
 

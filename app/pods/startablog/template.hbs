@@ -31,16 +31,12 @@
       {{#blogger-intro.step step=3
         modal=true
         replaceTooltip=true
-        nextButton="Skip for now"
-        nextButtonAction=(action 'setBackgroundImageToStock')
-        nextButtonDisabled=hasNewOrganizationBackgroundImage
-        actionButton="Upload"
+        actionButton="Upload New Image"
         actionButtonAction=(action 'uploadBackgroundImage')
         confirmButton="Looks good"
-        confirmButtonDisabled=(not hasNewOrganizationBackgroundImage)
+        confirmButtonAction=(action 'setBackgroundImage')
         avatarUrl=(if hasNewOrganizationProfileImage avatarUrls.thumbsup avatarUrls.smiling)
         title="Add a banner image to give your page more zazzle."
-        infoText="We'll use this one for now. You can change it later: just crop to this shape before uploading."
         highlightedIdentifier='.OrganizationProfileHeaderCard-header-image'
         class="OrganizationProfileHeaderCard-header-image"
       }}
@@ -55,16 +51,13 @@
       {{#blogger-intro.step step=4
         modal=true
         replaceTooltip=true
-        nextButton="Skip for now"
-        nextButtonAction=(action 'setProfileImageToStock')
-        nextButtonDisabled=hasNewOrganizationProfileImage
-        actionButton="Upload"
+        onStepStartAction=(action 'setProfileImageToStock')
+        actionButton="Upload New Image"
         actionButtonAction=(action 'uploadProfileImage')
         confirmButton="Looks good"
-        confirmButtonDisabled=(not hasNewOrganizationProfileImage)
+        confirmButtonAction=(action 'setProfileImage')
         avatarUrl=(if hasNewOrganizationProfileImage avatarUrls.thumbsup avatarUrls.smiling)
         title="Add a profile picture to help readers connect with who you are."
-        infoText="This helps readers connect with who you are."
         highlightedIdentifier='.OrganizationProfileHeaderCard-profile-image'
         class="OrganizationProfileHeaderCard-profile-image"
       }}
@@ -80,12 +73,11 @@
       modal=true
       replaceTooltip=true
       onStepStartAction=(action 'nameStepStart')
-      confirmButton="Next"
+      confirmButton=(if organizationNameIsGood 'Looks Good' 'Please Enter a Name')
       confirmButtonDisabled=(not organizationNameIsGood)
       confirmButtonIsLoading=isCheckingOrganizationName
       avatarUrl=(if organizationNameIsGood avatarUrls.thumbsup avatarUrls.thinking)
       title="What would you like to name your blog?"
-      infoText="Not sure? Just put something temporary and you can change it later"
       highlightedIdentifier='.OrganizationProfileHeaderCard-name'
       as |isCurrentStep|
     }}
@@ -103,6 +95,9 @@
                 class='BloggerIntro-Step-blog-name'
                 keyUp=(action 'nameIsChanging')
               }}
+              <div class="BloggerIntro-Step-name-length">
+                {{nameLengthText}}
+              </div>
             {{/unless}}
           </div>
         {{/title-text}}
@@ -117,20 +112,20 @@
           modal=true
           replaceTooltip=true
           onStepStartAction=(action 'emailStepStart')
-          actionButton=connectEmailButtonText
-          actionButtonAction=(action 'useCurrentUserEmail')
-          continueAfterAction=true
-          confirmButton=(concat "Use " organization.email)
+          nextButton=connectEmailButtonText
+          nextButtonAction=(action 'useDefaultEmail')
+          innerStepButton=(unless wantsNewEmail "Use Different Email")
+          innerStepButtonAction=(action 'useDifferentEmail')
+          confirmButton=(if wantsNewEmail (if hasValidEmail (concat 'Use ' organization.email) 'We Need a Valid Email'))
           confirmButtonDisabled=(not hasValidEmail)
-          avatarUrl=avatarUrls.smiling
+          avatarUrl=(if (and wantsNewEmail hasValidEmail) avatarUrls.thumbsup avatarUrls.smiling)
           title="What email do you want readers to use to reach you?"
-          infoText="So your readers can get in touch. Or skip for now and deal with it later."
           highlightedIdentifier='.OrganizationContactCard-email'
           class="OrganizationContactCard-item"
           as |isCurrentStep|
         }}
           <div class="OrganizationContactCard-email {{if isCurrentStep 'on-top-of-modal'}}">
-            {{#unless isCurrentStep}}
+            {{#unless (and isCurrentStep wantsNewEmail)}}
               <a href="#" target="_blank" title="Email">
                 {{fa-icon 'envelope'}}
                 {{organization.email}}
@@ -153,9 +148,9 @@
           modal=true
           replaceTooltip=true
           onStepStartAction=(action 'websiteStepStart')
-          nextButton="No thanks"
-          nextButtonDisabled=hasValidWebsite
-          confirmButton="Connect it"
+          nextButton="Skip for Now"
+          nextButtonAction=(action 'useNoWebsite')
+          confirmButton=(if hasValidWebsite (concat 'Use ' organization.website) 'Need Valid Website')
           confirmButtonDisabled=(not hasValidWebsite)
           avatarUrl=(if hasValidWebsite avatarUrls.thumbsup avatarUrls.thinking)
           title="What social media or website do you want readers to visit?"
@@ -189,8 +184,7 @@
       modal=true
       replaceTooltip=true
       onStepStartAction=(action 'descriptionStepStart')
-      confirmButton="Next"
-      confirmButtonDisabled=(not hasValidDescription)
+      confirmButton="Looks Good"
       avatarUrl=(if hasValidDescription avatarUrls.thumbsup avatarUrls.thinking)
       title="Describe yourself and your blog to your readers."
       infoText="A couple of sentences willdo -- and don't agonize! You can change this later."
@@ -210,9 +204,6 @@
               {{organization.description}}
             {{else}}
               {{textarea value=organization.description class='BloggerIntro-Step-description-textarea'}}
-              <div class="BloggerIntro-Step-description-length">
-                {{descriptionLengthText}}
-              </div>
             {{/unless}}
           {{/text-block}}
 

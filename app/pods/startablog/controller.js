@@ -2,7 +2,7 @@ import Ember from 'ember';
 import emailIsValid from 'subtext-ui/utils/email-is-valid';
 /* global loadImage */
 
-const { set, get, computed, inject:{service}, run, RSVP:{Promise} } = Ember;
+const { set, get, setProperties, computed, inject:{service}, run, RSVP:{Promise} } = Ember;
 
 export default Ember.Controller.extend({
   startIntro: true,
@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
     smiling: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_smiling.png',
     thinking: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thinking.png',
     thumbsup: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thumbsup.png',
-    profile: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_profile.png',
+    profile: 'http://d3ctw1a5413a3o.cloudfront.net/organization/2454/7a342b89283a777f-blob.png',
     background: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_background.png'
   },
 
@@ -33,10 +33,24 @@ export default Ember.Controller.extend({
   profileImageInputClass: 'BloggerIntro-Step-profile-image-input',
 
   hasStartedWritingName: false,
-  hasOrganizationName: computed.gt('organization.name.length', 4),
+  minNameLength: 4,
+  hasOrganizationName: computed('organization.name.length', function() {
+    return get(this, 'organization.name.length') >= get(this, 'minNameLength');
+  }),
   organizationNameIsUnique: false,
   organizationNameIsGood: computed.and('hasOrganizationName', 'organizationNameIsUnique'),
   isCheckingOrganizationName: false,
+
+  nameLengthText: computed('organization.name', function() {
+    const minNameLength = get(this, 'minNameLength');
+    const nameLength = get(this, 'organization.name.length') || 0;
+
+    if (nameLength >= minNameLength) {
+      return 'Looks good.';
+    } else {
+      return `${nameLength}/${minNameLength} Minimum`;
+    }
+  }),
 
   hasNewOrganizationProfileImage: false,
 
@@ -45,6 +59,7 @@ export default Ember.Controller.extend({
   isCreatingOrganization: false,
 
   hasValidEmail: false,
+  wantsNewEmail: false,
   connectEmailButtonText: computed('organization.email', function() {
     return `Use ${get(this, 'currentUser.email')}`;
   }),
@@ -56,19 +71,9 @@ export default Ember.Controller.extend({
     return website.match(regexp);
   }),
 
-  minDescriptionLength: 100,
+  minDescriptionLength: 1,
   hasValidDescription: computed('organization.description.length', 'minDescriptionLength', function() {
     return get(this, 'organization.description.length') > get(this, 'minDescriptionLength');
-  }),
-  descriptionLengthText: computed('organization.description', function() {
-    const minDescriptionLength = get(this, 'minDescriptionLength');
-    const descriptionLength = get(this, 'organization.description.length') || 0;
-
-    if (descriptionLength > minDescriptionLength) {
-      return 'Looks good.';
-    } else {
-      return `${descriptionLength}/${minDescriptionLength} Required`;
-    }
   }),
 
   _loadImageFile(file, setToSquare) {
@@ -186,8 +191,20 @@ export default Ember.Controller.extend({
 
       organization.setProperties({
         profileImageUrl: get(this, 'genericProfileImageUrl'),
-        profileImage: null
+        profileImage: get(this, 'genericProfileImageUrl')
       });
+    },
+
+    setProfileImage() {
+      if (!get(this, 'hasNewOrganizationProfileImage')) {
+        const organization = get(this, 'organization');
+
+        organization.setProperties({
+          profileImage: null,
+          profileImageUrl: get(this, 'genericProfileImageUrl'),
+          remoteProfileImageUrl: get(this, 'genericProfileImageUrl')
+        });
+      }
     },
 
     profileImageSelected(files) {
@@ -215,13 +232,17 @@ export default Ember.Controller.extend({
       fileInput.click();
     },
 
-    setBackgroundImageToStock() {
-      const organization = get(this, 'organization');
+    setBackgroundImage() {
+      if (!get(this, 'hasNewOrganizationBackgroundImage')) {
+        const organization = get(this, 'organization');
+        const backgroundImageUrl = get(this, 'avatarUrls.background');
 
-      organization.setProperties({
-        backgroundImageUrl: '',
-        profileImage: null
-      });
+        organization.setProperties({
+          backgroundImage: null,
+          backgroundImageUrl: backgroundImageUrl,
+          remoteBackgroundImageUrl: backgroundImageUrl
+        });
+      }
     },
 
     backgroundImageSelected(files) {
@@ -247,6 +268,7 @@ export default Ember.Controller.extend({
     nameStepStart() {
       run.next(() => {
         set(this, 'organization.name', null);
+        Ember.$('#blog-name').focus();
       });
     },
 
@@ -257,14 +279,22 @@ export default Ember.Controller.extend({
 
     emailStepStart() {
       run.next(() => {
-        set(this, 'organization.email', null);
+        set(this, 'organization.email', get(this, 'currentUser.email'));
       });
     },
 
-    useCurrentUserEmail() {
-      const currentUserEmail = get(this, 'currentUser.email');
+    useDifferentEmail() {
+      setProperties(this, {
+        'organization.email': null,
+        wantsNewEmail: true
+      });
+      run.next(() => {
+        Ember.$('#blog-email').focus();
+      });
+    },
 
-      set(this, 'organization.email', currentUserEmail);
+    useDefaultEmail() {
+      set(this, 'organization.email', get(this, 'currentUser.email'));
     },
 
     emailIsChanging() {
@@ -274,7 +304,12 @@ export default Ember.Controller.extend({
     websiteStepStart() {
       run.next(() => {
         set(this, 'organization.website', null);
+        Ember.$('#blog-website').focus();
       });
+    },
+
+    useNoWebsite() {
+      set(this, 'organization.website', null);
     },
 
     descriptionStepStart() {
@@ -290,7 +325,7 @@ export default Ember.Controller.extend({
       .then((organization) => {
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);
-        get(this, 'notify').success('Welcome to your new profile page.');
+        get(this, 'notify').success('Welcome to your new blogger hompage. Your page is live and you can now publish content on the site!');
 
       })
       .catch(() => {

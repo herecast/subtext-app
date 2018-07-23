@@ -72,6 +72,21 @@
       }
     }
 
+    &-help-bar {
+      font-size: 11px;
+      position: absolute;
+      bottom: 4px;
+      right: 8px;
+      a,
+      i.help-button{
+        color: @button-primary;
+        background: none;
+        height: auto;
+        width: auto;
+        line-height: 1;
+      }
+    }
+
 
     &-avatar {
       height: 100px;
@@ -138,7 +153,8 @@
       min-height: 100px;
     }
 
-    &-description-length {
+    &-description-length,
+    &-name-length {
       font-size: 11px;
       text-align: right;
     }
@@ -147,6 +163,10 @@
       text-align: right;
       button:not(last-of-type) {
         margin-right: 8px;
+      }
+      button.small {
+        font-size: 11px !important;
+        padding: 4px !important;
       }
     }
 
