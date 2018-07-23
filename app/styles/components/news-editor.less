@@ -11,6 +11,27 @@
       color: @gray-medium;
     }
   }
+
+  &-delete-message {
+    margin-top: 0.5rem;
+  }
+
+  &-deleting-record-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding-top: 25%;
+    z-index: 1000000;
+
+    i {
+      color: #fff;
+      font-size: 90px;
+    }
+  }
 }
 .NewsEditor-postBody {
   padding: 10px 20px;

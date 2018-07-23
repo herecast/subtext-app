@@ -15,12 +15,24 @@ export default Ember.Controller.extend({
   initialLoad: true,
   condensedView: false,
 
-  queryParams: ['page', 'perPage', 'query', 'show', 'location'],
+  queryParams: ['page', 'perPage', 'query', 'show', 'location', 'resetController'],
   page: 1,
   perPage: 5,
   query: '',
   show: null,
   location: '',
+  resetController: null,
+
+  _resetDefaults() {
+    setProperties(this, {
+      page: 1,
+      perPage: 5,
+      query: '',
+      show: null,
+      location: '',
+      resetController: null,
+    });
+  },
 
   displayAsAdminIfAllowed: true,
   firstLoad: true,

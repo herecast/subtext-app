@@ -141,6 +141,19 @@ export default function (server) {
     });
   });
 
+  const profilePageDrafts = server.createList('content', 4, {
+    contentOrigin: 'ugc',
+    organizationId: 1,
+    publishedAt: null,
+    contentType: 'news'
+  });
+
+  profilePageDrafts.forEach(content => {
+    server.create('feedItem', {
+      contentId: content.id
+    });
+  });
+
   server.createList('digest', 2);
 
   /**

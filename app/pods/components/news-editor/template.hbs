@@ -7,6 +7,12 @@
   }}
 {{/if}}
 
+{{#if isDeletingRecord}}
+  <div class="NewsEditor-deleting-record-overlay">
+    {{fa-icon 'gear' spin=true}}
+  </div>
+{{/if}}
+
 <div class='Container--noGutter'>
   <div class='row'>
     <div class='col-md-9'>
@@ -224,10 +230,27 @@
                   <button {{action 'cancelSchedulePublish'}} class='btn'>Cancel</button>
                 {{else}}
                   <button {{action 'publish'}} class='btn btn-primary'>Publish Now</button>
-                  <br/>
+                  <br />
                   <button {{action 'choosePubDate'}} class='btn' data-test-schedule-publish='button'>Schedule Publish</button>
-
+                  <br />
                   <button {{action 'togglePreview'}} class='btn'>Preview Post</button>
+                  <div>
+                    {{#unless wantsToDeleteDraft}}
+                      <button {{action 'toggleDeleteDraft'}} class='btn'>Delete Draft</button>
+                    {{else}}
+                      <div class="NewsEditor-delete-message">
+                        <div>
+                          Deletion is permanent.<br />
+                          Are you sure?
+                        </div>
+                        <div>
+                          <button {{action 'deleteDraft'}} class="btn btn-primary">Yes</button>
+                          <button {{action 'toggleDeleteDraft'}} class="btn">No</button>
+                        </div>
+                      </div>
+                    {{/unless}}
+                  </div>
+
                 {{/if}}
               {{/if}}
 

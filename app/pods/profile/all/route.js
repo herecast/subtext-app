@@ -14,6 +14,7 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     query: {refreshModel: true},
     show: {refreshModel: true},
     startDate: { refreshModel: true },
+    resetController: { refreshModel: true}
   },
 
   initialLoad: true,
@@ -100,6 +101,15 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     } else {
       set(this, 'initialLoad', false);
     }
+
+    if (get(controller, 'resetController')) {
+      controller._resetDefaults();
+
+      Ember.run.next(() => {
+        this.refresh();
+      });
+    }
+
     this._super(...arguments);
   },
 

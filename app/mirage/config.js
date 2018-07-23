@@ -712,7 +712,7 @@ export default function() {
       talk: 'talk'
     };
 
-    const { page, per_page, content_type, query, organization_id } = request.queryParams;
+    const { page, per_page, content_type, query, organization_id, show } = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
@@ -722,16 +722,29 @@ export default function() {
     const justShowOneContentType = isPresent(content_type) && isBlank(query);
 
     if (showProfilePageContents) {
-      let organizationFeedItems = feedItems.all().filter((feedItem) => {
-        return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id);
-      });
+      if (!isPresent(show) || show !== 'draft') {
+        let organizationFeedItems = feedItems.all().filter((feedItem) => {
+          return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id);
+        });
 
-      response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
+        response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
 
-      response.meta = {
-        total: organizationFeedItems.length,
-        total_pages: Math.ceil( organizationFeedItems.length / per_page )
-      };
+        response.meta = {
+          total: organizationFeedItems.length,
+          total_pages: Math.ceil( organizationFeedItems.length / per_page )
+        };
+      } else {
+        let organizationFeedItems = feedItems.all().filter((feedItem) => {
+          return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id) && feedItem.content.publishedAt === null;
+        });
+
+        response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
+
+        response.meta = {
+          total: organizationFeedItems.length,
+          total_pages: Math.ceil( organizationFeedItems.length / per_page )
+        };
+      }
 
     } else if (justShowOneContentType) {
       let oneContentTypeFeedItems;
@@ -806,7 +819,7 @@ export default function() {
 
     content.update(attrs);
 
-    if(content.contentType === 'event') {
+    if (content.contentType === 'event') {
       if(isPresent(scheduleAttrs)) {
         scheduleAttrs.forEach((data) => {
           data['content'] = content;
@@ -816,6 +829,10 @@ export default function() {
     }
     return content;
   });
+
+  this.delete('/contents/:id', () => {
+    return new Mirage.Response(204);
+  }, {timing: 1200});
 
   this.get('/content_permissions', function(db, request) {
     const responseObj = {content_permissions: []};

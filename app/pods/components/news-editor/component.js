@@ -41,7 +41,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
   isPickingScheduleDate: false,
   api: inject.service(),
   notify: inject.service('notification-messages'),
+  routing: inject.service('_routing'),
   isPublishing: false,
+  wantsToDeleteDraft: false,
 
   pendingFeaturedImage: null,
 
@@ -417,6 +419,39 @@ export default Ember.Component.extend(TestSelector, Validation, {
         set(this, 'news.authorName', get(this, 'currentUser.name'));
       }
       this.send('notifyChange');
+    },
+
+    toggleDeleteDraft() {
+      this.toggleProperty('wantsToDeleteDraft');
+    },
+
+    deleteDraft() {
+      set(this, 'isDeletingRecord', true);
+
+      get(this, 'news').destroyRecord()
+      .then((record) => {
+        const organizationId = get(record, 'organizationId') || null;
+
+        let nextRoute = 'news.new.details';
+        let transitionData = null;
+
+        if (isPresent(organizationId)) {
+          nextRoute = 'profile.all.index';
+          transitionData = organizationId;
+        }
+
+        get(this, 'routing.router').transitionTo(nextRoute, transitionData, {
+          queryParams: {
+            resetController: true
+          }
+        });
+      })
+      .catch(() => {
+        get(this, 'notify').error('There was an error deleting the draft. Please refresh and try again.');
+      })
+      .finally(() => {
+        set(this, 'isDeletingRecord', false);
+      });
     }
   }
 });
