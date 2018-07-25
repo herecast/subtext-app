@@ -68,10 +68,14 @@ export default Model.extend(Locatable, HasImages, HasVenue, {
   futureInstances: computed('eventInstances.@each.{startsAt,endsAt}', function() {
     const currentDate = new Date();
 
-    return get(this, 'eventInstances').filter((inst) => {
+    let futureInstances = get(this, 'eventInstances').filter((inst) => {
       let timeToCompare = get(inst, 'endsAt') ? get(inst, 'endsAt') : get(inst, 'startsAt');
 
       return timeToCompare > currentDate;
+    });
+
+    return futureInstances.sort((a,b) => {
+      return get(a, 'startsAt') - get(b, 'startsAt');
     });
   }),
 

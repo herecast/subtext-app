@@ -59,7 +59,7 @@ export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentCom
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
-  nextInstance: computed('model.futureInstances', 'model.scheduleInstances', function() {
+  nextInstance: computed('model.futureInstances.[]', 'model.scheduleInstances.[]', function() {
     // this will go away with further model consolidation
     const scheduleInstances = get(this, 'model.scheduleInstances');
     const futureInstances = get(this, 'model.futureInstances');
