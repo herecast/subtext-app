@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     'noMargin:XCard--noMargin'
   ],
 
-  color: 'default', // default, neutral, warning, danger
+  color: 'default', // default, neutral, warning, danger, clear
   noShadow: false,
   noMargin: false,
 

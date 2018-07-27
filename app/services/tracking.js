@@ -288,6 +288,28 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackMetricsRequest(type, id) {
+    const user_id = type === 'current-user' ? id : null;
+    const organization_id = type === 'organization' ? id : null;
+
+    this.push({
+      event: 'MetricsReportButtonClicked',
+      user_id,
+      organization_id
+    });
+  },
+
+  trackPaymentsRequest(type, id) {
+    const user_id = type === 'current-user' ? id : null;
+    const organization_id = type === 'organization' ? id : null;
+
+    this.push({
+      event: 'PaymentsReportButtonClicked',
+      user_id,
+      organization_id
+    });
+  },
+
   /** Commenting **/
   trackCommentSubmitButtonClick(button_disabled = false) {
     this.push({

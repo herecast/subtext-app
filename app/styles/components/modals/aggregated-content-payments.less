@@ -1,0 +1,72 @@
+.Modals-aggregatedContentPayments {
+
+  &-title {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  &-payment-table {
+    padding-bottom: 32px;
+
+    table {
+      width: 100%;
+    }
+
+    tr {
+      &:nth-child(2n+3) {
+        background: @gray-light;
+      }
+    }
+
+    th {
+      background: @gray-medium;
+      font-weight: bold;
+      color: #fff;
+      padding: 8px 4px;
+      &:not(last-of-type) {
+        border-right: solid 1px #fff;
+      }
+    }
+
+    td {
+      padding: 4px;
+    }
+    th,
+    td {
+      text-align: right;
+    }
+
+  }
+
+  &-loading {
+    .display-grid();
+    .grid-justify-self(center);
+    .grid-align-self(center);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+
+    &-box {
+      .grid-justify-self(center);
+      .grid-align-self(center);
+    }
+
+    i {
+      font-size: 100px;
+      color: grey;
+    }
+  }
+
+  &-no-payments-yet {
+    text-align: center !important;
+  }
+
+  &-invite-message {
+    padding-top: 32px;
+    text-align: center;
+  }
+}

@@ -330,6 +330,23 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(`/contents/${id}/metrics` + queryString(data));
   },
 
+  getOrganizationContentMetrics(organizationId, data=null) {
+    return this.getJson(`/organizations/${organizationId}/metrics` + queryString(data));
+  },
+
+  getOrganizationPayments(organizationId, data=null) {
+    return this.getJson(`/organizations/${organizationId}/payments` + queryString(data));
+  },
+
+  getCurrentUserPayments(userId, data=null) {
+    return this.getJson(`/users/${userId}/payments` + queryString(data));
+  },
+
+  getCurrentUserContentMetrics(userId, data=null) {
+    return this.getJson(`/users/${userId}/metrics` + queryString(data));
+  },
+
+
   getContentPromotions(options) {
     const opts = options || {};
     const query = {
@@ -423,6 +440,11 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(`/promotion_banners/${id}/metrics` + queryString(data));
   },
 
+  getPaymentReport(data) {
+    const url = `/payment_reports` + queryString(data);
+
+    return this.returnText( this.request(url) );
+  },
 
   getSimilarContent(content_id) {
     return this.getJson(`/contents/${content_id}/similar_content`);

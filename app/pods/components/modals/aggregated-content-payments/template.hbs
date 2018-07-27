@@ -1,0 +1,75 @@
+{{#modal-wrapper
+  close=(action 'close')
+  showHeader=true
+  title=title
+  isAnimated=false
+  data-test-modal='content-payments'
+  class="Modals-aggregatedContentPayments" }}
+
+  <div class="Modals-aggregatedContentPayments-payment-table">
+
+    {{#if isLoading}}
+      <div class="Modals-aggregatedContentPayments-loading">
+        <div class="Modals-aggregatedContentPayments-loading-box">
+          {{fa-icon 'gear' class="fa-spin"}}
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="Modals-aggregatedContentPayments-title">
+      {{model.name}} Payment History
+    </div>
+    <table>
+      <tr>
+        {{#each headers as |header|}}
+          <th>
+            {{header}}
+          </th>
+        {{/each}}
+      </tr>
+
+      {{#if hasPayments}}
+        {{#each payments as |payment|}}
+          <tr>
+            <td>
+              {{moment-format payment.periodStart 'MM/DD/YYYY'}}
+            </td>
+            <td>
+              {{moment-format payment.periodEnd 'MM/DD/YYYY'}}
+            </td>
+            <td>
+              {{payment.paidImpressions}}
+            </td>
+            <td>
+              {{formatted-number payment.payPerImpression 'dollars'}}
+            </td>
+            <td>
+              {{formatted-number payment.totalPayment 'dollars'}}
+            </td>
+            <td>
+              <div {{action 'getPaymentReport' payment}}>
+                {{moment-format payment.adjustedPaymentDate 'MM/DD/YYYY'}}
+                {{fa-icon 'file-pdf-o'}}
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      {{else}}
+        <tr>
+          <td colspan="6" class="Modals-aggregatedContentPayments-no-payments-yet">
+              No payments on record yet.
+          </td>
+        </tr>
+      {{/if}}
+    </table>
+    {{#unless hasPayments}}
+      <div class="Modals-aggregatedContentPayments-invite-message">
+        Hey, how’d you like to get paid for your content?
+        Create a blog on DailyUV!
+        Email us at <a href="mailto:dailyuv@subtext.org">dailyuv@subtext.org</a> for info on how to get started.
+      </div>
+    {{/unless}}
+  </div>
+
+
+{{/modal-wrapper}}

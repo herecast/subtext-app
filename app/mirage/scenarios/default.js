@@ -87,6 +87,7 @@ export default function (server) {
   server.createList("venue", 5);
   server.createList('comment', 8);
   server.createList('content-metric', 1);
+  server.createList('content-payment', 6);
   server.createList('promotionCoupon', 10);
   server.createList('event-instance', 100);
 

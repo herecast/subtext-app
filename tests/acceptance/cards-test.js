@@ -107,10 +107,11 @@ test('testing event card, with image', function(assert) {
     venueState: 'VT'
   });
 
+  const someDate = moment().add(1, 'day').format('YYYY-MM-DD');
   const eventInstance = server.create('eventInstance', {
     contentId: content.id,
-    startsAt: moment().add(1, 'hour').toISOString(),
-    endsAt: moment().add(3, 'hours').toISOString(),
+    startsAt: moment(someDate).add(1, 'hour').toISOString(),
+    endsAt: moment(someDate).add(3, 'hours').toISOString(),
   });
 
 
@@ -153,10 +154,11 @@ test('testing event card, without image', function(assert) {
     venueState: 'VT'
   });
 
+  const someDate = moment().add(1, 'day').format('YYYY-MM-DD');
   const eventInstance = server.create('eventInstance', {
     contentId: content.id,
-    startsAt: moment().add(1, 'hour').toISOString(),
-    endsAt: moment().add(3, 'hours').toISOString(),
+    startsAt: moment(someDate).add(1, 'hour').toISOString(),
+    endsAt: moment(someDate).add(3, 'hours').toISOString(),
   });
 
 

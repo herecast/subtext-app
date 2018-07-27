@@ -94,6 +94,7 @@
 
     {{#if showCreateContentCards}}
       {{cards/create-content-menu organization=organization}}
+      {{cards/metrics-and-payments model=organization hidePayments=true}}
       {{cards/organization-your-content-tabs}}
       {{#x-card class="Feed-ProfileFeed-search-bar"}}
         {{search-input

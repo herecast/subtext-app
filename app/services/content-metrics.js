@@ -15,6 +15,22 @@ export default Ember.Service.extend({
     });
   },
 
+  findOrganizationContentMetrics(organizationId, data) {
+    const api = get(this, 'api');
+
+    return api.getOrganizationContentMetrics(organizationId, data).then((response) => {
+      return ContentMetric.create(response.content_metrics);
+    });
+  },
+
+  findUserContentMetrics(userId, data) {
+    const api = get(this, 'api');
+
+    return api.getCurrentUserContentMetrics(userId, data).then((response) => {
+      return ContentMetric.create(response.content_metrics);
+    });
+  },
+
   findAd(id, data){
     const api = get(this, 'api');
 
@@ -23,10 +39,14 @@ export default Ember.Service.extend({
     });
   },
 
-  getMetrics(type, id, data) {
+  getMetrics(type, id, data) {  
     if (type === 'campaign') {
       return this.findAd(id, data);
-    } else {
+    } else if (type === 'organization') {
+      return this.findOrganizationContentMetrics(id, data);
+    } else if (type === 'current-user') {
+      return this.findUserContentMetrics(id, data);
+    }  else {
       return this.findContent(id, data);
     }
   }

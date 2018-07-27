@@ -504,6 +504,39 @@ export default function() {
     };
   });
 
+  this.get('/organizations/:id/metrics', function({ db }){
+    return {
+      content_metrics: db.contentMetrics[0]
+    };
+  });
+
+  this.get('/organizations/:id/payments', function({ db }){
+    return {
+      content_payments: db.contentPayments
+    };
+  });
+  this.get('/users/:id/payments', function({ db }){
+    const random = Math.random();
+
+    let data = {};
+
+    if (random >= 0.67) {
+      data = db.contentPayments;
+    } else if (random < 0.34) {
+      return new Mirage.Response(403);
+    }
+
+    return {
+      content_payments: data
+    };
+
+  });
+  this.get('/users/:id/metrics', function({ db }){
+    return {
+      content_metrics: db.contentMetrics[0]
+    };
+  });
+
   this.get('/promotion_banners/:id/metrics', function({ db }){
     return {
       promotion_banner_metrics: db.adMetrics[0]
@@ -656,6 +689,8 @@ export default function() {
 
     return new Mirage.Response(200, {}, response);
   });
+
+
 
   this.get('/users/:id/contents', function({feedItems}, request){
     const { page, per_page } = request.queryParams;

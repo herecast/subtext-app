@@ -1,0 +1,59 @@
+{{#modal-wrapper
+  close=(action 'close')
+  showHeader=true
+  title=title
+  isAnimated=false
+  data-test-modal='profile-content-metrics'
+  class="Modals-contentMetrics" }}
+
+  <div class='ContentMetrics'>
+    <div class='ContentMetrics-titleBar'>
+      <div class="ContentMetrics-titleBar-left"></div>
+      <div class="ContentMetrics-titleBar-right">
+        <div class='ContentMetrics-dateRange form-inline'>
+          Previous:
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'week') 'active'}}" {{action 'updateStartDate' 'week'}}>
+            Week
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'two-weeks') 'active'}}" {{action 'updateStartDate' 'two-weeks'}}>
+            2 Weeks
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'three-weeks') 'active'}}" {{action 'updateStartDate' 'three-weeks'}}>
+            3 Weeks
+          </div>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption 'month') 'active'}}" {{action 'updateStartDate' 'month'}}>
+            Month
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ContentMetrics-message">
+      {{viewingMessage}}
+    </div>
+
+    {{#if isLoadingModel}}
+      <div class="ContentMetrics-loading">
+        <div class="ContentMetrics-loading-box">
+          {{fa-icon 'gear' class="fa-spin"}}
+        </div>
+      </div>
+    {{/if}}
+
+
+    {{#if hasViewData}}
+      {{line-chart
+        labels=viewLabels
+        data=viewData
+        chartClass='ContentMetrics-chart'
+      }}
+    {{else}}
+      <p>No data available yet!</p>
+    {{/if}}
+
+    <div class="chartNote"><b>NOTE:</b> Data shown in the chart is collected and reported at the end of each day.</div>
+  </div>
+
+
+
+{{/modal-wrapper}}

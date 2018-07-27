@@ -12,25 +12,25 @@ export default Mirage.Factory.extend({
   comments() {
     return []; /* fill in later as needed */
   },
-  dailyViewCounts() {
+  daily_view_counts() {
     const dailyCounts = [];
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        reportDate: moment().subtract(i,'days').toDate().toISOString(),
-        viewCount: faker.random.number(99)
+        report_date: moment().subtract(i,'days').toDate().toISOString(),
+        view_count: faker.random.number(99)
       });
     }
 
     return dailyCounts;
   },
-  dailyPromoClickThruCounts() {
+  daily_promo_click_thru_counts() {
     const dailyCounts = [];
 
     for(let i = 8; i > 0; i -= 1) {
       dailyCounts.push({
-        reportDate: moment().subtract(i,'days').toDate().toISOString(),
-        clickCount: faker.random.number(99)
+        report_date: moment().subtract(i,'days').toDate().toISOString(),
+        click_count: faker.random.number(99)
       });
     }
 
