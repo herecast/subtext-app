@@ -14,6 +14,8 @@ export default Ember.Component.extend(TestSelector, {
   buttonText: computed('isUserAccount', function() {
     if (get(this, 'isUserAccount')) {
       return 'MyStuff';
+    } else if (get(this, 'isBlog')) {
+      return 'Blog Homepage';
     } else {
       return 'Profile Page';
     }
@@ -23,6 +25,7 @@ export default Ember.Component.extend(TestSelector, {
   isUserAccount: false,
   avatarUrl: null,
   expanded: true,
+  isBlog: false,
 
   actions: {
     titleAction() {

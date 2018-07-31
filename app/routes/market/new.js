@@ -14,7 +14,6 @@ export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRoutePro
   model(params, transition) {
     const newRecordValues = {
       promoteRadius: 10,
-      contactEmail: get(this, 'currentUserEmail'),
       contentType: 'market',
       ugcJob: params.job
     };

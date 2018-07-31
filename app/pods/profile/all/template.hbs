@@ -1,5 +1,3 @@
-{{to-elsewhere named='global-header' send=(component 'simple-header' title=organization.name avatarUrl=avatarUrl)}}
-
 {{sticky-position name='profile/contact'}}
 
 {{organization-profile-desktop-image imageUrl=organization.desktopImageUrl}}
@@ -22,13 +20,15 @@
     enableToggleButton=false
     organization=(readonly organization)
     editForm='form-partials/organization-profile-header'
-    title='Profile Card'
-    subtitle='This block will also appear in search results'
+    hideTitleBar=true
   }}
     {{cards/organization-profile-header organization=organization isProfileHeader=true}}
   {{/cards/admin-card}}
 
   {{#feed/feed-container}}
+    {{#if showCreateContentCards}}
+      {{cards/create-content-menu organization=organization}}
+    {{/if}}
 
     {{#if showContactCard}}
       {{#cards/admin-card
@@ -60,19 +60,20 @@
           {{cards/organization-description organization=organization}}
         {{/cards/admin-card}}
       {{/if}}
-
-      {{#if showHoursCard}}
-        {{#cards/admin-card
-          isAdmin=showAdminCards
-          organization=(readonly organization)
-          isActive=(readonly organization.hoursCardActive)
-          editForm='form-partials/organization-hours'
-          updateCardStatus=(action 'toggleHoursCard')
-          title='Hours'
-        }}
-          {{cards/hours-card organization=organization}}
-        {{/cards/admin-card}}
-      {{/if}}
+      {{#unless isBlog}}
+        {{#if showHoursCard}}
+          {{#cards/admin-card
+            isAdmin=showAdminCards
+            organization=(readonly organization)
+            isActive=(readonly organization.hoursCardActive)
+            editForm='form-partials/organization-hours'
+            updateCardStatus=(action 'toggleHoursCard')
+            title='Hours'
+          }}
+            {{cards/hours-card organization=organization}}
+          {{/cards/admin-card}}
+        {{/if}}
+      {{/unless}}
     {{/if}}
 
     {{#if showCalendarCard}}
@@ -93,9 +94,11 @@
     {{/if}}
 
     {{#if showCreateContentCards}}
-      {{cards/create-content-menu organization=organization}}
+
       {{cards/metrics-and-payments model=organization hidePayments=true}}
-      {{cards/organization-your-content-tabs}}
+      
+      {{cards/organization-your-content-tabs activeTab=show}}
+
       {{#x-card class="Feed-ProfileFeed-search-bar"}}
         {{search-input
           noBorder=true
@@ -138,14 +141,12 @@
       {{#x-card}}
         {{#card-body shortPadding=true}}
           {{#text-block}}
-            {{#if hasPaidProfile}}
+            {{#if (or hasPaidProfile isBlog)}}
               {{#if (and isAdmin showAdminCards)}}
-                <p>Take advantage of your page!</p>
-                <p>As soon as you post to DailyUV, your content will begin appearing here.</p>
-                <p>Just hit the blue "Create Content" button below.</p>
+                <p>You haven't posted yet.</p>
+                <p>Click the "Create Content" button to get started!</p>
               {{else}}
                 <p>{{organization.name}} hasn't posted any content yet.</p>
-                <p>Contact them through one of the options above and let them know that you want to hear from them!</p>
               {{/if}}
             {{else}}
               {{#if (and isAdmin showAdminCards)}}

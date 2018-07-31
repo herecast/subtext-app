@@ -14,19 +14,21 @@
   {{/x-button}}
 {{/x-button-group}}
 
-{{#each radiusChoices as |radiusChoice|}}
-  {{#x-button color='primary'
-              style=(if (or isMyStuffOnly (lt radius radiusChoice)) 'outline' 'regular')
-              data-test-action='change-radius'
-              data-test-radius=radiusChoice
-              xsSize='x-small'
-              xsBlockType='wide'
-              onClick=(action 'chooseRadius' radiusChoice)
-              disabled=radiusDisabled}}
-    +{{radiusChoice}}
-  {{/x-button}}
-{{/each}}
+{{#unless noRadius}}
+  {{#each radiusChoices as |radiusChoice|}}
+    {{#x-button color='primary'
+                style=(if (or isMyStuffOnly (lt radius radiusChoice)) 'outline' 'regular')
+                data-test-action='change-radius'
+                data-test-radius=radiusChoice
+                xsSize='x-small'
+                xsBlockType='wide'
+                onClick=(action 'chooseRadius' radiusChoice)
+                disabled=radiusDisabled}}
+      +{{radiusChoice}}
+    {{/x-button}}
+  {{/each}}
 
-{{#subtitle-text strong=true inline=true lighten=true class='LocationRadiusSelector-miles'}}
-  miles
-{{/subtitle-text}}
+  {{#subtitle-text strong=true inline=true lighten=true class='LocationRadiusSelector-miles'}}
+    miles
+  {{/subtitle-text}}
+{{/unless}}

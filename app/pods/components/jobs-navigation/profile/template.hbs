@@ -9,31 +9,26 @@
     {{/lm.item}}
   {{/if}}
 
-  {{#if showBusinessOptions}}
-    {{#lm.item}}
-      {{#link-to 'market.new' (query-params organization_id=organizationId job='Promote a sale or product')}}
-        <span onclick={{action 'selectedMenuItem' 'Promote a sale or product'}} data-test-ugc-job-link data-test-link="Promote a sale or product">
+  {{#lm.item}}
+    {{#link-to 'market.new' (query-params organization_id=organizationId job='Promote a sale or product')}}
+      <span onclick={{action 'selectedMenuItem' 'Promote a sale or product'}} data-test-ugc-job-link data-test-link="Promote a sale or product">
+        {{#if isBlog}}
+          Sell or request an item in the market
+        {{else}}
           Promote a sale or product
-        </span>
-      {{/link-to}}
-    {{/lm.item}}
+        {{/if}}  
+      </span>
+    {{/link-to}}
+  {{/lm.item}}
 
-    {{#lm.item}}
-      {{#link-to 'events.new' (query-params organization_id=organizationId job='Post an event in the calendar')}}
-        <span onclick={{action 'selectedMenuItem' 'Post an event in the calendar'}} data-test-ugc-job-link data-test-link="Post an event in the calendar">
-          Post an event in the calendar
-        </span>
-      {{/link-to}}
-    {{/lm.item}}
+  {{#lm.item}}
+    {{#link-to 'events.new' (query-params organization_id=organizationId job='Post an event in the calendar')}}
+      <span onclick={{action 'selectedMenuItem' 'Post an event in the calendar'}} data-test-ugc-job-link data-test-link="Post an event in the calendar">
+        Post an event in the calendar
+      </span>
+    {{/link-to}}
+  {{/lm.item}}
 
-    {{#lm.item}}
-      {{#link-to 'talk.new' (query-params organization_id=organizationId job='Post an announcement')}}
-        <span onclick={{action 'selectedMenuItem' 'Post an announcement'}} data-test-ugc-job-link data-test-link="Post an announcement">
-          Post an announcement
-        </span>
-      {{/link-to}}
-    {{/lm.item}}
-  {{/if}}
 {{/list-menu}}
 
 {{help-text}}

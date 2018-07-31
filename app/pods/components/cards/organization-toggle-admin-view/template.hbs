@@ -1,14 +1,14 @@
 {{#x-card color=(if displayAsAdminIfAllowed 'default' 'warning')}}
   {{#card-body slimPadding=true center=true}}
     {{#if displayAsAdminIfAllowed}}
-      You are a manager of this organization.
+      You are a manager of this page.
       {{#x-button onClick=(action 'toggleAdminCards') color='primary' style='link' size='medium'}}
-        View as Public.
+        Click here to see how the page looks to the public.
       {{/x-button}}
     {{else}}
-      You are viewing this page as the public.
+      This is how your page looks to the public.
       {{#x-button onClick=(action 'toggleAdminCards') color='black' style='transparent' size='x-small' noPadding=true}}
-        {{fa-icon 'close'}}
+        Click here to Manage.
       {{/x-button}}
     {{/if}}
   {{/card-body}}

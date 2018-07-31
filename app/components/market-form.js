@@ -10,6 +10,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
   "data-test-component": 'MarketForm',
   post: Ember.computed.alias('model'),
   organizations: oneWay('session.currentUser.managedOrganizations'),
+  showOrganizationMenu: true,
 
   submit(e) {
     // prevent browser reload when user presses enter in modal dialog

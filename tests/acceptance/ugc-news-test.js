@@ -13,7 +13,12 @@ moduleForAcceptance('Acceptance | ugc news');
 test('Every field available filled in', function(assert) {
   const done = assert.async(7);
   const organization = server.create('organization', {can_publish_news: true});
-  const currentUser = server.create('current-user', { email: 'example@example.com' });
+  const location = server.create('location');
+  const currentUser = server.create('current-user', {
+    email: 'example@example.com',
+    locationId: location.id
+  });
+
   currentUser.managedOrganizationIds = [parseInt(get(organization, 'id'))];
 
   const title = 'Tatooine: On Moon Cycles';
@@ -36,6 +41,7 @@ test('Every field available filled in', function(assert) {
     costType: null,
     eventUrl: null,
     listservIds: [],
+    locationId: location.id,
     organizationId: organization.id,
     promoteRadius: null,
     publishedAt: null,
@@ -45,7 +51,6 @@ test('Every field available filled in', function(assert) {
     subtitle: null,
     sunsetDate: null,
     title: title,
-    locationId: null,
     ugcJob: null,
     venueId: null,
     venueStatus: null,
@@ -56,6 +61,7 @@ test('Every field available filled in', function(assert) {
     const attrs = this.normalizedRequestAttrs();
     assert.deepEqual(attrs, currentAttrs, 'Server received POST data.');
     done();
+
     let mockData = {};
     Object.assign(mockData, {imageUrl: null, images: []}, attrs);
 
@@ -75,10 +81,9 @@ test('Every field available filled in', function(assert) {
 
   server.put(`/contents/:id`, function({contents}, request) {
     const attrs = this.normalizedRequestAttrs();
-
     assert.deepEqual(attrs, currentAttrs, 'Server received PUT data.');
-
     done();
+
     let mockData = {};
     Object.assign(mockData, {imageUrl: null, images: []}, attrs);
     let content = contents.find(request.params.id);
@@ -125,14 +130,14 @@ test('Every field available filled in', function(assert) {
     });
 
     ugcNews.pickToSchedule();
-    ugcNews.scheduleDate(scheduleDate.subtract(12, 'hours').format('x'));
-    ugcNews.scheduleTime(scheduleTime);
 
     andThen(() => {
-      currentAttrs.publishedAt = scheduleDate.utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+      ugcNews.scheduleDate(scheduleDate.subtract(12, 'hours').format('x'));
+      ugcNews.scheduleTime(scheduleTime);
     });
 
     andThen(()=>{
+      currentAttrs.publishedAt = scheduleDate.utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
       ugcNews.scheduleConfirm();
     });
   });

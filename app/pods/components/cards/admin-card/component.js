@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   enableToggleButton: true,
   title: '',
   subtitle: '',
+  hideTitleBar: false,
 
   editForm: null,
   formModel: null,

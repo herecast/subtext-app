@@ -42,6 +42,7 @@ const Page = {
 function fillOutMarketForm() {
   ugcMarket.fillInTitle('test');
   ugcMarket.fillInDescription('test');
+  ugcMarket.fillInEmail('test@test.com');
   ugcMarket.next();
   ugcMarket.next();
   ugcMarket.saveAndPublish();

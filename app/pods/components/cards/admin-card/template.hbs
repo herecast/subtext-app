@@ -14,15 +14,17 @@
             {{#if title}}
               <strong>{{title}}</strong> &mdash;
             {{/if}}
-            <span class="AdminCard-visibility">
-              {{#if subtitle}}
-                {{subtitle}}
-              {{else if isActive}}
-                This block is publicly visible
-              {{else}}
-                This block is hidden from the public
-              {{/if}}
-            </span>
+            {{#unless hideTitleBar}}
+              <span class="AdminCard-visibility">
+                {{#if subtitle}}
+                  {{subtitle}}
+                {{else if isActive}}
+                  This block is publicly visible
+                {{else}}
+                  This block is hidden from the public
+                {{/if}}
+              </span>
+            {{/unless}}
           </div>
         {{/media.content}}
 

@@ -2,11 +2,12 @@ import Ember from 'ember';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get } = Ember;
 
-export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
-  titleToken: 'Create News',
+export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, BaseUserLocation, {
+  titleToken: 'Create a Story',
 
   model(params, transition) {
     let newRecordValues = {
@@ -25,7 +26,7 @@ export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, S
 
   setupController(controller, model) {
     controller.set('news', model);
-    controller.set('title', 'Create your news post');
+    controller.set('title', 'Create your story');
     controller.set('secondaryBackground', true);
   },
 

@@ -1,7 +1,7 @@
 {{#x-card}}
 
   {{#card-body slimPadding=true}}
-    {{#subtitle-text noMargin=true center=true strong=true}}Your Content{{/subtitle-text}}
+    {{#subtitle-text noMargin=true center=true strong=true}}Manage Your Content{{/subtitle-text}}
   {{/card-body}}
 
   {{#x-tabs color='neutral' size='x-small' as |tabs|}}
@@ -18,4 +18,17 @@
       Draft
     {{/tabs.link-to}}
   {{/x-tabs}}
+
+  {{#card-body slimPadding=true}}
+    {{#if (eq activeTab 'everything')}}
+      Showing everything that you've created, whether it's hidden or not.
+    {{else if (eq activeTab null)}}
+      Showing all content that the public will see.
+    {{else if (eq activeTab 'hidden')}}
+      Showing the posts that you've hidden from public view.
+    {{else if (eq activeTab 'draft')}}
+      Showing drafts of content that are not visibile to the public until published.
+    {{/if}}
+
+  {{/card-body}}
 {{/x-card}}

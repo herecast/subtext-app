@@ -36,6 +36,14 @@ export default Ember.Component.extend(TestSelector, Validation, {
     }
   },
 
+/*  init() {
+    this._super(...arguments);
+
+    if (get(this, 'news.isNew')) {
+      set(this, 'news.authorName', null);
+    }
+  },*/
+
   editorHeight: 400,
   selectedPubDate: null,
   isPickingScheduleDate: false,
@@ -79,12 +87,13 @@ export default Ember.Component.extend(TestSelector, Validation, {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
   }),
 
-  canAutosave: computed('news.isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', 'pendingFeaturedImage', function() {
+  canAutosave: computed('news.isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', 'news.didLocationChange', 'pendingFeaturedImage', function() {
     const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
       orgChanged = get(this, 'news.didOrgChange'),
+      locationChanged = get(this, 'news.didLocationChange'),
       pendingFeaturedImage = get(this, 'pendingFeaturedImage');
 
-    return get(this, 'news.isDraft') && (hasDirtyAttributes || orgChanged || pendingFeaturedImage);
+    return get(this, 'news.isDraft') && (hasDirtyAttributes || orgChanged || locationChanged || pendingFeaturedImage);
   }),
 
   status: computed('news.isDraft', 'news.isScheduled', 'news.publishedAt', function() {
@@ -105,6 +114,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
     });
   }),
 
+  managesMultipleOrganizations: computed.gt('filteredOrganizations.length', 1),
+
   chosenOrganization: computed('filteredOrganizations', function() {
     const filteredOrganizations = get(this, 'filteredOrganizations');
     if (filteredOrganizations.length === 1) {
@@ -114,6 +125,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
       return get(this, 'news.organization');
     }
   }),
+
+  hasChosenOrganization: computed.notEmpty('news.organization'),
 
   showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,isPublished,hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     const news = get(this, 'news');
@@ -165,6 +178,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
     return news.save().then(() => {
       set(this, 'news.didOrgChange', false);
+      set(this, 'news.didLocationChange', false);
       existingPrimaries.forEach(i => i.destroyRecord());
     });
   },
@@ -452,6 +466,11 @@ export default Ember.Component.extend(TestSelector, Validation, {
       .finally(() => {
         set(this, 'isDeletingRecord', false);
       });
+    },
+
+    locationChanged() {
+      set(this, 'news.didLocationChange', true);
+      this.send('notifyChange');
     }
   }
 });

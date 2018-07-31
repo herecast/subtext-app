@@ -9,7 +9,13 @@
     {{#if organization.email}}
       <div class="OrganizationContactCard-item">
         <a href="{{organization.emailLink}}" target="_blank" title="Email">
-          {{fa-icon 'envelope'}} {{#unless hideLabels}}Email{{/unless}}
+          {{fa-icon 'envelope'}}
+          {{#unless hideLabels}}
+            Email
+            {{#if showLongEmailText}}
+              {{organization.name}}
+            {{/if}}
+          {{/unless}}
         </a>
       </div>
     {{/if}}

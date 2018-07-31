@@ -13,6 +13,8 @@ export default Ember.Component.extend(Validation, {
   backgroundImage: computed.alias('model.backgroundImage'),
   desktopImage: computed.alias('model.desktopImage'),
 
+  isBlog: computed.readOnly('organization.isBlog'),
+
   profileImageFormVisible: false,
   backgroundImageFormVisible: false,
   desktopImageFormVisible: false,

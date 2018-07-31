@@ -15,8 +15,8 @@ export default Ember.Mixin.create({
    */
   afterModel(model) {
     this._super(...arguments);
-    return get(model, 'location').then((location) => {
 
+    return get(model, 'location').then((location) => {
       if(!isPresent(location)) {
         get(this, 'userLocation.location').then((location) => {
           set(model, 'location', location);

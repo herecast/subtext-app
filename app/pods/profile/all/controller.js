@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
     });
   },
 
-  displayAsAdminIfAllowed: true,
+  displayAsAdminIfAllowed: false,
   firstLoad: true,
 
   feedItemsView: 'default',
@@ -73,6 +73,8 @@ export default Ember.Controller.extend({
     const managedOrganizations = get(this, 'managedOrganizations') || [];
     return isPresent(managedOrganizations.findBy('id', String(get(this, 'organization.id'))));
   }),
+
+  isBlog: computed.readOnly('organization.isBlog'),
 
   showAdminCards: computed.and('isAdmin', 'displayAsAdminIfAllowed'),
   stickyContainerEnabled: computed.not('showAdminCards'),
@@ -113,8 +115,8 @@ export default Ember.Controller.extend({
     return ! get(this, 'showAdminCards') && get(this, 'showDescriptionCard') && get(this, 'showHoursCard');
   }),
 
-  showCalendarCard: computed('showAdminCards', 'profileIsDisabled', 'organization.calendarCardActive', function() {
-    if (get(this, 'profileIsDisabled')) {
+  showCalendarCard: computed('showAdminCards', 'profileIsDisabled', 'organization.calendarCardActive', 'isBlog', function() {
+    if (get(this, 'profileIsDisabled') || get(this, 'isBlog')) {
       return false;
     }
 

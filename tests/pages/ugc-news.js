@@ -29,6 +29,7 @@ export default create({
     });
     click(testSelector('news-image', 'submit'));
   },
+
   startOverrideAuthor: clickable(testSelector('author-override', 'toggle')),
   overrideAuthor(author) {
     fillIn(testSelector('field', 'authorName'), author);

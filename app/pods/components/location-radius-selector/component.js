@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   isMyStuffOnly: computed.equal('radius', 'myStuff'),
 
   location: null,
+  noRadius: false,
 
   actions: {
     chooseRadius(radius) {

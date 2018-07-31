@@ -196,16 +196,17 @@ export default DS.Model.extend(
       return null;
   }),
 
-  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', 'dirtyType', function() {
+  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', 'dirtyType', 'didLocationChange', function() {
     const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
     const isNew = (get(this, 'dirtyType') === 'created');
 
     return isScheduledOrPublished &&
-      ((get(this, 'hasDirtyAttributes') && !isNew) || get(this, 'didOrgChange')) &&
+      ((get(this, 'hasDirtyAttributes') && !isNew) || get(this, 'didOrgChange') || get(this, 'didLocationChange')) &&
       (!get(this, 'isSaving'));
   }),
 
   // Used to notify hasUnpublishedChanges when a new organization is changed
   // Since Ember Data does not set hasDirtyAttributes to true when a child relationship changes
-  didOrgChange: false
+  didOrgChange: false,
+  didLocationChange: false
 });

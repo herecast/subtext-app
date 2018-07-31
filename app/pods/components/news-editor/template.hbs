@@ -39,21 +39,29 @@
   <div class='row'>
     <div class='col-md-9'>
       <div class='NewsEditor-postBody u-dropShadow'>
+
         <div class="visible-xs visible-sm">
-          {{#form-group error=errors.organization}}
-            <label class='control-label'>Organization</label>
-            {{#if news.isPublished}}
-              <p>This content is owned by <i>{{news.organization.name}}</i>.</p>
-            {{else}}
-              {{organization-dropdown
-                defaultName='Please choose an org'
-                selection=(readonly chosenOrganization)
-                organizations=filteredOrganizations
-                class="with-border"
-                updated=(action 'changeOrganization')
-              }}
-            {{/if}}
+          {{#form-group error=errors.image}}
+            <label class='control-label'>Featured Image</label>
+            {{thumbnail-image-modal
+              imageUrl=(readonly news.primaryImage.imageUrl)
+              caption=(readonly news.primaryImage.caption)
+              title="Featured Image"
+              saveImage=(action 'saveFeaturedImage')
+              saveCaption=(action 'saveFeaturedImageCaption')
+            }}
           {{/form-group}}
+        </div>
+
+        <div class="visible-xs visible-sm">
+          <div>
+              <label class='control-label'>Content Location</label>
+          </div>
+          <label class='h5 control-label'>What is the most relevant location for this post?</label>
+          {{promote-locations
+            model=news
+            noRadius=true
+          }}
         </div>
 
         {{#form-group
@@ -91,19 +99,6 @@
         {{/form-group}}
 
 
-        <div class="visible-xs visible-sm">
-          {{#form-group error=errors.image}}
-            <label class='control-label'>Featured Image</label>
-            {{thumbnail-image-modal
-              imageUrl=(readonly news.primaryImage.imageUrl)
-              caption=(readonly news.primaryImage.caption)
-              title="Featured Image"
-              saveImage=(action 'saveFeaturedImage')
-              saveCaption=(action 'saveFeaturedImageCaption')
-            }}
-          {{/form-group}}
-        </div>
-
         {{#form-group
         error=errors.content
         hideError=true
@@ -133,19 +128,70 @@
         {{/form-group}}
 
         {{#form-group
+          hideError=true
+        }}
+
+          <div class='NewsEditor-content-owner col-md-12'>
+            <div>
+              <label class='control-label ContentForm-label--required' for="description">Content Owner</label>
+            </div>
+
+              {{#if (or news.isPublished (not managesMultipleOrganizations))}}
+                <div>
+                  <p>This content {{#if news.isPublished}}is{{else}}will be{{/if}} owned by <i>{{chosenOrganization.name}}</i>.</p>
+                </div>
+              {{/if}}
+
+              {{#unless news.isPublished}}
+                {{#if managesMultipleOrganizations}}
+                  <div class='col-md-4'>
+                    {{#unless hasChosenOrganization}}
+                      <div>Please select content owner</div>
+                    {{else}}
+                      <div>Click to change content owner</div>
+                    {{/unless}}
+                    {{#form-group error=errors.organization}}
+                      {{organization-dropdown
+                        defaultName='Please choose an org'
+                        selection=(readonly chosenOrganization)
+                        organizations=filteredOrganizations
+                        class="with-border"
+                        updated=(action 'changeOrganization')
+                      }}
+                    {{/form-group}}
+                  </div>
+                {{/if}}
+              {{/unless}}
+
+            <div class='col-md-8'>
+              {{#if news.organization.name}}
+                {{feed-card/attribution
+                  avatarUrl=news.organization.profileImageUrl
+                  author=news.organization.name
+                  postedTime=news.publishedAtRelative
+                  hideBookmark=true
+                  classNames="u-padding8"
+                }}
+              {{/if}}
+            </div>
+          </div>
+        {{/form-group}}
+
+
+        {{#form-group
         error=errors.author
         hideError=true
         }}
           <label>
-            Author Override
+            Content Author
               <span class='NewsEditor-toggle' {{action 'toggleAuthorOverride'}} data-test-author-override="toggle">
-                No
                 {{#if authorOverrideEnabled}}
-                  {{fa-icon 'toggle-on is-on' size='lg'}}
-                {{else}}
                   {{fa-icon 'toggle-off' size='lg'}}
+                  Custom Author
+                {{else}}
+                  {{fa-icon 'toggle-on is-on' size='lg'}}
+                  Default Author
                 {{/if}}
-                Yes
               </span>
           </label>
           {{form-error errors.author}}
@@ -161,9 +207,9 @@
                 }}
                 <span>
                   {{#if hasAuthorName}}
-                    The author name indicated will be displayed. Uncheck the box to display no author.
+                    The author name showing below will be displayed. Uncheck the box to display no author.
                   {{else}}
-                    No author will be displayed. Check the box to display a different author.
+                    No author will be displayed. Check the box to display a different author name.
                   {{/if}}
                 </span>
               </div>
@@ -180,20 +226,53 @@
                 </div>
               {{/if}}
             {{else}}
-              The current author will be set as <b>{{currentUser.name}}</b>. Do you want to override this?
+              The current author will be <b>{{currentUser.name}}</b>. Click the toggle to change or remove the author name.
             {{/if}}
           </div>
         {{/form-group}}
+
 
       </div>
     </div>
     <div class='col-md-3'>
       <div class='NewsEditor-sidebar Sidebar'>
+
+        <div class="hidden-xs hidden-sm">
+          <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
+            {{#form-group}}
+              <div class='SidebarWidget-body'>
+                <label class='control-label'>Featured Image</label>
+                {{thumbnail-image-modal
+                imageUrl=(mut news.primaryImageUrl)
+                caption=(mut news.primaryImageCaption)
+                title="Featured Image"
+                saveImage=(action 'saveFeaturedImage')
+                saveCaption=(action 'saveFeaturedImageCaption')
+                }}
+              </div>
+            {{/form-group}}
+          </div>
+
+          <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
+            <div class='SidebarWidget-body'>
+              <label class='control-label'>Content Location</label>
+              <label class='h5 control-label'>What is the most relevant location for this post?</label>
+              {{promote-locations
+                model=news
+                noRadius=true
+                trackChanges=false
+                onChangeLocation=(action 'locationChanged')
+              }}
+            </div>
+          </div>
+        </div>
+
+
+
         <div class='NewsEditor-sidebarWidget NewsEditor-sidebarWidget--publishSettings SidebarWidget'>
           <div class='PublishSettings'>
-            <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Publish Settings</span></h2>
-
             <div class='SidebarWidget-body' data-test-publish-status>
+              <label class='control-label'>Publish Settings</label>
               <div class='PublishSettings-statusIndicator'>
                 <p><b>Status: {{status}}</b></p>
               </div>
@@ -294,45 +373,6 @@
                 {{/if}}
               {{/if}}
             </div>
-          </div>
-        </div>
-        <div class="hidden-xs hidden-sm">
-          <div class='NewsEditor-sidebarWidget NewsEditor-sidebarWidget--organizationSettings SidebarWidget'>
-            {{#if news.isPublished}}
-              <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
-              <div class='SidebarWidget-body'>
-                <p>This content is owned by <i>{{news.organization.name}}</i>.</p>
-              </div>
-            {{else}}
-              {{#form-group error=errors.organization}}
-                <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Organization</span></h2>
-                <div class='SidebarWidget-body'>
-                  <label class='h5 control-label ContentForm-label--required'>Content Owner</label>
-                  {{organization-dropdown
-                  defaultName='Please choose an org'
-                  selection=(readonly chosenOrganization)
-                  organizations=filteredOrganizations
-                  class="with-border"
-                  updated=(action 'changeOrganization')
-                  }}
-                </div>
-              {{/form-group}}
-            {{/if}}
-          </div>
-
-          <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
-            {{#form-group}}
-              <h2 class='SidebarWidget-header'><span class='SidebarWidget-text'>Featured Image</span></h2>
-              <div class='SidebarWidget-body'>
-                {{thumbnail-image-modal
-                imageUrl=(mut news.primaryImageUrl)
-                caption=(mut news.primaryImageCaption)
-                title="Featured Image"
-                saveImage=(action 'saveFeaturedImage')
-                saveCaption=(action 'saveFeaturedImageCaption')
-                }}
-              </div>
-            {{/form-group}}
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   onChooseRadius: null,
   onChooseLocation: null,
   onNearbyLocationsChanged: null,
+  noRadius: false,
 
   actions: {
     chooseRadius(radius) {
