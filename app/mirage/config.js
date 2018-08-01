@@ -615,10 +615,22 @@ export default function() {
   this.del('/digests/:id');
 
   // Listserv Subscriptions
-  this.get('/subscriptions');
+  this.get('/subscriptions', function({db, subscriptions}) {
+    let response = {};
+
+    if (subscriptions) {
+      const subscriptionsSerialized = this.serialize(subscriptions.all());
+
+      return new Mirage.Response(200, {}, subscriptionsSerialized);
+    }
+
+    return new Mirage.Response(200, {}, response);
+  });
   this.post('/subscriptions');
   this.get('/subscriptions/:id');
-  this.put('/subscriptions/:id');
+  this.put('/subscriptions/:id', function() {
+    return new Mirage.Response(200);
+  });
   this.del('/subscriptions/:id');
 
   this.delete('/subscriptions/:id/:token', () => {

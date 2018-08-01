@@ -36,14 +36,6 @@ export default Ember.Component.extend(TestSelector, Validation, {
     }
   },
 
-/*  init() {
-    this._super(...arguments);
-
-    if (get(this, 'news.isNew')) {
-      set(this, 'news.authorName', null);
-    }
-  },*/
-
   editorHeight: 400,
   selectedPubDate: null,
   isPickingScheduleDate: false,

@@ -17,6 +17,8 @@ export default Ember.Component.extend({
   profileIsDisabled: computed.not('organization.profileIsActive'),
   showCustomLinks: computed.not('profileIsDisabled'),
 
+  showDigestButton: computed.notEmpty('organization.digestId'),
+
   hasNoImage: computed('organization.{backgroundImageUrl,displayImageUrl}', function() {
     return isBlank(get(this, 'organization.backgroundImageUrl')) && isBlank(get(this, 'organization.displayImageUrl'));
   }),
@@ -27,10 +29,6 @@ export default Ember.Component.extend({
     }
 
     return isPresent(get(this, 'organization.profileImageUrl'));
-  }),
-
-  showGearButton: computed('session.isAuthenticated', 'fastboot.isFastBoot', function() {
-    return !get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot');
   }),
 
   showBackgroundImage: computed('organization.backgroundImageUrl', 'showBlankBackgroundImage', 'profileIsDisabled', function() {

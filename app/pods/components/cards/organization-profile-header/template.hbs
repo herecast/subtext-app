@@ -1,9 +1,5 @@
 {{#x-card noShadow=noShadow class="OrganizationProfileHeaderCard-card-wrap"}}
 
-  {{#if showGearButton}}
-    {{cards/organization-profile-header/button-menu}}
-  {{/if}}
-
   {{#if (or organization.certifiedStoryteller organization.certifiedSocial)}}
     <div class="OrganizationProfileHeaderCard-certification">
       {{#if organization.certifiedStoryteller}}
@@ -63,7 +59,13 @@
       {{/text-block}}
     {{/if}}
 
-    {{#if organization.subscribeUrl}}
+    {{#if showDigestButton}}
+      {{#text-block center=true}}
+        {{digest-subscribe-button
+          organization=organization
+        }}
+      {{/text-block}}
+    {{else if organization.subscribeUrl}}
       {{#text-block center=true}}
         {{#x-link-url href=organization.subscribeUrl
                       style='regular'

@@ -18,6 +18,7 @@ export default DS.Model.extend({
   subscribeUrl: DS.attr('string'),
   specialLinkUrl: DS.attr('string'),
   specialLinkText: DS.attr('string'),
+  digestId: DS.attr('number'),
   twitterHandle: DS.attr('string'),
   orgType: DS.attr('string'),
   bizFeedActive: DS.attr('boolean'),

@@ -7,7 +7,7 @@
     </li>
     <li class="{{if isRegister 'active'}}">
       <a data-test-link='join-tab' onclick={{action 'changeMode' 'register'}}>
-        Join
+        Register
       </a>
     </li>
   </ul>
@@ -48,8 +48,8 @@
   <div class='SignInForm-submitWrapper'>
     {{async-button
       action=(action submit)
-      default=(if isSignIn 'Sign in' 'Join')
-      pending=(if isSignIn 'Signing in' 'Joining')
+      default=(if isSignIn 'Sign in' 'Register')
+      pending=(if isSignIn 'Signing in' 'Registering')
       class='SignInForm-submitButton'
       data-test-component='sign-in-submit'
     }}
