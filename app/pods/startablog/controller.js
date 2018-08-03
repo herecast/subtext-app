@@ -10,11 +10,14 @@ export default Ember.Controller.extend({
   session: service(),
   notify: service('notification-messages'),
   api: service(),
+  media: service(),
 
   currentUser: computed.alias('session.currentUser'),
   hasCurrentUser: computed.notEmpty('currentUser'),
   hasNoCurrentUser: computed.not('hasCurrentUser'),
   currentUserIsBlogger: computed.readOnly('currentUser.isBlogger'),
+
+  blockMobileUser: computed.or('media.isMobile', 'media.isTablet'),
 
   avatarUrls: {
     delighted: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_delighted.png',
