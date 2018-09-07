@@ -79,7 +79,6 @@ test('Every field avaliable filled in', function(assert) {
         sunsetDate: null,
         title: 'test-title',
         locationId: get(location, 'id'),
-        ugcJob: null,
         venueId: parseInt(get(venue, 'id')),
         venueStatus: 'new',
         wantsToAdvertise: true

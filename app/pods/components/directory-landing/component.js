@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     get(this, 'userLocation.location').then((location) => {
       const query = {
         'category': 'sponsored_content',
-        'content_type' : 'stories',
+        'content_type' : 'posts',
         'page': 1,
         'per_page': 3,
         radius: 10,

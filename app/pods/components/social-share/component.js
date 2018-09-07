@@ -15,7 +15,6 @@ export default Ember.Component.extend(SocialPreloaded, {
 
   classNames: ['SocialShare u-flexRow'],
   isPreview: false,
-  isTalkChannel: false,
 
   model: null,
 

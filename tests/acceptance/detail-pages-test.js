@@ -38,6 +38,7 @@ test('testing news detail page', function(assert) {
 });
 
 test('testing talk detail page', function(assert) {
+  //talk removed, but some legacy may remain - shifted to market until no contentTypes left
   let user = server.create('current-user');
   authenticateUser(this.application, server, user);
 
@@ -56,10 +57,10 @@ test('testing talk detail page', function(assert) {
   visit(`/feed/${content.id}`);
 
   andThen(function() {
-    assert.equal(find(testSelector('talk-title')).text().trim(), content.title, 'it should have the correct title');
+    assert.equal(find(testSelector('market-title')).text().trim(), content.title, 'it should have the correct title');
     assert.equal(find(testSelector('header-image')).css('background-image'), `url(\"${content.imageUrl}\")`, 'it should show the card image');
-    assert.equal(find(testSelector('talk-content')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
-    assert.ok(find(testSelector('talk-author-name')).length, 'it should show the attribution');
+    assert.equal(find(testSelector('market-content')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
+    assert.ok(find(testSelector('market-attribution')).length, 'it should show the attribution');
     assert.ok(find(testSelector('comments-section')).length, 'it should show the comments section');
   });
 });

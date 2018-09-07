@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   isLoading: false,
   chosenOrganization: null,
 
-  contentTypes: ['stories', 'calendar', 'market', 'talk'],
+  contentTypes: ['posts', 'calendar', 'market'],
 
   session: service(),
 

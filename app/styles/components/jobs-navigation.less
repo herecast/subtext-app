@@ -1,14 +1,62 @@
 .JobsNavigation {
   .box-shadow();
   .border-radius(4px);
-  padding: 5px 20px 120px 20px;
+  padding: 24px 16px 100px 16px;
   background: @body-bg url('https://s3.amazonaws.com/subtext-misc/sierra-nevada/town.png') no-repeat center bottom;
   background-size: contain;
 
-  &--noFooterImage {
-    .box-shadow(none);
-    .border-radius(0);
-    padding: 0 5px;
-    background: none;
+  &-wrapper {
+    display: grid;
+    .display-grid();
+    .grid-template-columns(1fr 1fr 1fr);
+    margin-bottom: 24px;
+  }
+
+  &-bubble {
+    display: grid;
+    width: 80px;
+    height: 80px;
+    background: @button-primary;
+    border-radius: 50%;
+    margin: 0 auto;
+
+    i {
+      color: #fff;
+      font-size: 40px;
+      .grid-align-self(center);
+      .grid-justify-self(center);
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &-nav-button {
+    text-align: center;
+
+    span {
+      line-height: 1.1;
+      font-weight: bold;
+      color: grey;
+    }
+
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    i.offsetRight {
+      margin-right: -4px;
+    }
+  }
+
+  &-help-wrap {
+    text-align: center;
+    .HelpText {
+      display: inline-block;
+    }
   }
 }

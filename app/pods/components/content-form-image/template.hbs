@@ -9,15 +9,26 @@
       {{else}}
         <img src="{{displayImageUrl}}" alt="Selected Image" class="ImageEditor-preview" {{action 'removeImage'}} crossOrigin="anonymous" />
         <div class="text-center">
-          {{#if hasNewImage}}
-            <button class="Button Button--icon" {{action 'rotateImage' 'left'}} title="Rotate image left">{{fa-icon 'rotate-left'}}</button>
-            <button class="Button Button--icon" {{action 'rotateImage' 'right'}} title="Rotate image right">{{fa-icon 'rotate-right'}}</button>
-          {{/if}}
-          <button class="Button Button--secondary" {{action 'removeImage'}}>Change Photo</button>
+          {{#unless wantsToDelete}}
+            {{#if hasNewImage}}
+              <button class="Button Button--icon" {{action 'rotateImage' 'left'}} title="Rotate image left">{{fa-icon 'rotate-left'}}</button>
+              <button class="Button Button--icon" {{action 'rotateImage' 'right'}} title="Rotate image right">{{fa-icon 'rotate-right'}}</button>
+            {{/if}}
+            <button class="Button Button--secondary" {{action 'removeImage'}}>Change Photo</button>
+            {{#if allowDeleteImage}}
+                <button class="Button Button--primary Button--noBorder" {{action 'toggleWantsToDelete'}}>Delete Photo</button>
+            {{/if}}
+          {{else}}
+            Are you sure?
+            <button class="Button Button--secondary" {{action 'toggleWantsToDelete'}}>No</button> 
+            <button class="Button Button--primary Button--noBorder" {{action 'deleteImage'}}>Yes</button>
+          {{/unless}}
         </div>
       {{/if}}
     </div>
-  {{else}}
+  {{/if}}
+
+  <div class="ImageEditor-file-input {{if displayImagePreview 'hidden'}}">
     {{#form-group error=error}}
       <label class='control-label' for="image">
         Choose Image
@@ -29,7 +40,7 @@
       <br>Min width x height: {{minWidth}} x {{minHeight}}
       </span>
     {{/form-group}}
-  {{/if}}
+  </div>
 
 </div>
 

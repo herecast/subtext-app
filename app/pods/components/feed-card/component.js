@@ -31,8 +31,8 @@ export default Ember.Component.extend(CardMetrics, {
   componentType: computed('contentType', function() {
     let contentType = get(this, 'contentType');
 
-    if (isBlank(contentType)) {
-      contentType = 'talk';
+    if (isBlank(contentType) || contentType === 'talk') {
+      contentType = 'market';
     }
 
     return `feed-card/${contentType}-card`;

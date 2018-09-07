@@ -5,6 +5,7 @@ import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 const {
   computed,
   get,
+  set,
   inject,
   isPresent,
   setProperties,
@@ -32,11 +33,13 @@ export default DS.Model.extend({
   profileAdOverride: DS.attr('number'),
   customLinks: DS.attr(),
   desktopImageUrl: DS.attr('string'),
+  removeDesktopImage: DS.attr('boolean', {defaultValue: false}),
 
   profileImageUrl: DS.attr('string'),
   backgroundImageUrl: DS.attr('string'),
   remoteProfileImageUrl: DS.attr('string', {defaultValue: null}),
   remoteBackgroundImageUrl: DS.attr('string', {defaultValue: null}),
+
 
   contactCardActive: DS.attr('boolean', {defaultValue: true}),
   descriptionCardActive: DS.attr('boolean', {defaultValue: true}),
@@ -177,13 +180,21 @@ export default DS.Model.extend({
           rsvpHash.backgroundImage = this.uploadBackgroundImage();
         }
 
+        if (get(this, 'removeDesktopImage')) {
+          set(this, 'desktopImage', null);
+        }
+
         if (isPresent(get(this, 'desktopImage'))) {
           rsvpHash.desktopImage = this.uploadDesktopImage();
         }
         if (isPresent(rsvpHash)) {
           RSVP.hash(rsvpHash).then(() => {
             // Reload to update the image urls
-            this.reload().then(resolve, reject);
+            this.reload()
+            .then(() => {
+              this.clearNewImages();
+            })
+            .then(resolve, reject);
           }, reject);
         } else {
           resolve(result);

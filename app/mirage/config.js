@@ -751,12 +751,11 @@ export default function() {
 
   this.get('/feed', function({db, feedItems}, request) {
     const typeMap = {
-      stories: 'news',
+      posts: 'news',
       calendar: 'event',
       news: 'news',
       event: 'event',
-      market: 'market',
-      talk: 'talk'
+      market: 'market'
     };
 
     const { page, per_page, content_type, query, organization_id, show } = request.queryParams;

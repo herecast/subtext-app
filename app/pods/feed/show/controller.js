@@ -10,7 +10,14 @@ export default Ember.Controller.extend({
   isDirectLink: computed.reads('history.isFirstRoute'),
 
   contentType: computed('model.contentType', function() {
-    return get(this, 'model.contentType') || 'event';
+    const modelContentType = get(this, 'model.contentType');
+    let contentType = modelContentType;
+
+    if (modelContentType === 'talk') {
+      contentType = 'market';
+    }
+
+    return contentType || 'event';
   }),
 
   componentName: computed('contentType', function() {

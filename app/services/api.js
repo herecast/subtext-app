@@ -517,14 +517,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     );
   },
 
-  updateTalkImage(id, data) {
-    return this.returnJson(
-      this.put(`/talk/${id}`,
-        this.formData(data)
-      )
-    );
-  },
-
   updateCurrentUserPassword(data) {
     return this.returnJson(
       this.put('/current_user', this.json(data))

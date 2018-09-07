@@ -79,7 +79,14 @@ export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, FastbootTr
     },
 
     afterDiscard() {
-      this.transitionTo('feed');
+      const controller = this.controllerFor(this.routeName);
+      const organizationId = get(controller, 'organization_id') || null;
+
+      if (isPresent(organizationId)) {
+        this.transitionTo('profile', organizationId);
+      } else {
+        this.transitionTo('feed');
+      }
     },
 
     afterDetails() {

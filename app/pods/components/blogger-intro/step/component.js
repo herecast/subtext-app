@@ -53,6 +53,29 @@ export default StepComponent.extend({
       const highlightedElement = Ember.$(scope).find(highlightedIdentifier)[0];
 
       set(this, 'highlightedElement', highlightedElement);
+
+      Ember.$(window).on('resize.blogstep', () => {
+        if (get(this, 'isCurrentStep')) {
+          run.debounce(this, this._resetModalPosition, 300);
+        }
+      });
+    }
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    Ember.$(window).off('resize.blogstep');
+  },
+
+  _resetModalPosition() {
+    if (!get(this, 'isDestroyed')) {
+      set(this, '_correctHighlightedElement', get(this, 'highlightedElement'));
+
+      set(this, 'highlightedElement', null);
+
+      run.next(() => {
+        set(this, 'highlightedElement', get(this, '_correctHighlightedElement'));
+      });
     }
   },
 
@@ -74,7 +97,6 @@ export default StepComponent.extend({
       }
     }
   },
-
 
   tooltipClass: computed('modal', function() {
     let klass = 'BloggerIntro-Step-tooltip';
@@ -116,21 +138,24 @@ export default StepComponent.extend({
 
   _getElementCenterPoints(targetElement, positionX='center', positionY='bottom') {
     const boundingRect = targetElement.getBoundingClientRect();
+    const width = boundingRect.right - boundingRect.left;
+    const height = boundingRect.bottom - boundingRect.top;
+
     const offsetX = {
       'left': 0,
-      'center': (boundingRect.width / 2),
-      'right': boundingRect.width
+      'center': (width / 2),
+      'right': width
     };
 
     const offsetY = {
       'top': 0,
-      'center': (boundingRect.height / 2),
-      'bottom': boundingRect.height
+      'center': (height / 2),
+      'bottom': height
     };
 
     return {
-      x: boundingRect.x + offsetX[positionX],
-      y: boundingRect.y + offsetY[positionY]
+      x: boundingRect.left + offsetX[positionX],
+      y: boundingRect.top + offsetY[positionY]
     };
   },
 

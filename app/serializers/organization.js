@@ -18,6 +18,10 @@ export default ActiveModelSerializer.extend({
     delete result.profile_image_url;
     delete result.background_image_url;
 
+    if (!result.remove_desktop_image) {
+      delete result.remove_desktop_image;
+    }
+
     return result;
   }
 });

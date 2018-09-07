@@ -15,21 +15,20 @@
     }}
   {{/if}}
 
-  {{#cards/admin-card
-    isAdmin=allowToEditHeader
-    enableToggleButton=false
-    organization=(readonly organization)
-    editForm='form-partials/organization-profile-header'
-    hideTitleBar=true
-  }}
-    {{cards/organization-profile-header organization=organization isProfileHeader=true}}
-  {{/cards/admin-card}}
+
 
   {{#feed/feed-container}}
-    {{#if showCreateContentCards}}
-      {{cards/create-content-menu organization=organization}}
-    {{/if}}
 
+    {{#cards/admin-card
+      isAdmin=allowToEditHeader
+      enableToggleButton=false
+      organization=(readonly organization)
+      editForm='form-partials/organization-profile-header'
+      hideTitleBar=true
+    }}
+      {{cards/organization-profile-header organization=organization isProfileHeader=true}}
+    {{/cards/admin-card}}
+  
     {{#if showContactCard}}
       {{#cards/admin-card
         isAdmin=showAdminCards
@@ -96,7 +95,7 @@
     {{#if showCreateContentCards}}
 
       {{cards/metrics-and-payments model=organization hidePayments=true}}
-      
+
       {{cards/organization-your-content-tabs activeTab=show}}
 
       {{#x-card class="Feed-ProfileFeed-search-bar"}}
@@ -170,3 +169,9 @@
   {{/feed/feed-container}}
 
 {{/sticky-container}}
+
+{{#if showCreateContentCards}}
+  {{#floating-action-button}}
+    {{jobs-navigation organization=organization}}
+  {{/floating-action-button}}
+{{/if}}

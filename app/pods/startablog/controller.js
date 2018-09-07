@@ -2,7 +2,7 @@ import Ember from 'ember';
 import emailIsValid from 'subtext-ui/utils/email-is-valid';
 /* global loadImage */
 
-const { set, get, setProperties, computed, inject:{service}, run, RSVP:{Promise} } = Ember;
+const { set, get, setProperties, computed, inject:{service}, run, RSVP:{Promise}, String:{htmlSafe} } = Ember;
 
 export default Ember.Controller.extend({
   startIntro: true,
@@ -53,6 +53,28 @@ export default Ember.Controller.extend({
     } else {
       return `${nameLength}/${minNameLength} Minimum`;
     }
+  }),
+
+  nameInputWidthStyle: computed('organization.name', function() {
+    const lengthThatFitsMin = 25;
+    const nameLength = get(this, 'organization.name.length') || 0;
+
+    let width = 300;
+
+    if (nameLength > lengthThatFitsMin) {
+      const maxWidth = Ember.$('.OrganizationProfileHeaderCard-name')[0].offsetWidth - 8;
+
+      const charactersBeyond = nameLength - lengthThatFitsMin;
+      const sizeItShouldBe = width + charactersBeyond * 10;
+      
+      if (sizeItShouldBe < maxWidth) {
+        width = sizeItShouldBe;
+      } else {
+        width = maxWidth;
+      }
+    }
+
+    return htmlSafe(`width:${width}px;`);
   }),
 
   hasNewOrganizationProfileImage: false,

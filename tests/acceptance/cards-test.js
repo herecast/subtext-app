@@ -39,6 +39,7 @@ test('testing news card', function(assert) {
 });
 
 test('testing talk card - with image', function(assert) {
+  //talk removed, but some legacy may remain - shifted to market until no contentTypes left
   const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
   const content = server.create('content', {
     contentOrigin: 'ugc',
@@ -67,6 +68,7 @@ test('testing talk card - with image', function(assert) {
 });
 
 test('testing talk card - without image', function(assert) {
+  //talk removed, but some legacy may remain - shifted to market until no contentTypes left
   const content = server.create('content', {
     contentOrigin: 'ugc',
     contentType: 'talk',

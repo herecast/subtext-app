@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   images: [],
   cost: null,
   activeImageUrl: null,
+  showPrice: true,
 
   hasMultipleImages: computed.gt('images.length', 1),
 

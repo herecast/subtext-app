@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  queryParams: ['preview', 'organization_id'],
   preview: false,
-  queryParams: ['preview']
+  organization_id: null
 });

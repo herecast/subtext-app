@@ -26,19 +26,19 @@ export default DS.Model.extend({
     const paymentDateDay = paymentDate.date();
     const difference = adjustmentDay - paymentDateDay;
 
-    const paymentDateYear =paymentDate.year();
+    const paymentDateYear = paymentDate.year();
     const paymentDateMonth = paymentDate.month() + 1;
     let adjustedPaymentDate;
 
     if (difference === 0) {
       adjustedPaymentDate = paymentDate;
     } else if (difference > 0) {
-      adjustedPaymentDate = moment(`${paymentDateYear}-${paymentDateMonth}-${adjustmentDay}`);
+      adjustedPaymentDate = moment(`${paymentDateYear}-${paymentDateMonth}-${adjustmentDay}`, 'YYYY-MM-DD');
     } else {
       if (paymentDateMonth < 12) {
-        adjustedPaymentDate =  moment(`${paymentDateYear}-${paymentDateMonth + 1}-${adjustmentDay}`);
+        adjustedPaymentDate =  moment(`${paymentDateYear}-${paymentDateMonth + 1}-${adjustmentDay}`, 'YYYY-MM-DD');
       } else {
-        adjustedPaymentDate =  moment(`${paymentDateYear + 1}-1-${adjustmentDay}`);
+        adjustedPaymentDate =  moment(`${paymentDateYear + 1}-01-${adjustmentDay}`, 'YYYY-MM-DD');
       }
     }
 

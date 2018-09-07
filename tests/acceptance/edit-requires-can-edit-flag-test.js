@@ -102,30 +102,3 @@ skip('visit edit event page when allowed to edit', function(assert) {
       "should see event form");
   });
 });
-
-/* TALK */
-/* Edit disabled anyway...
-test('visit edit talk page when not allowed to edit', function(assert) {
-  const post = server.create('talk', {
-    canEdit: false
-  });
-
-  let postUrl = `/talk/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.notOk(find(testSelector('component', 'TalkForm')).length,
-      "should not see talk form");
-  });
-});
-
-test('visit edit talk page when allowed to edit', function(assert) {
-  const post = server.create('talk', {
-    canEdit: true
-  });
-
-  let postUrl = `/talk/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.ok(find(testSelector('component', 'TalkForm')).length,
-      "should see talk form");
-  });
-});
-*/

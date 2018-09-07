@@ -87,14 +87,15 @@
               {{#unless isCurrentStep}}
                 {{organization.name}}
               {{else}}
-                {{input
-                  id='blog-name'
-                  placeholder='Blog Name...'
-                  class='BloggerIntro-Step-input'
-                  value=organization.name
-                  class='BloggerIntro-Step-blog-name'
-                  keyUp=(action 'nameIsChanging')
-                }}
+                <div class="BloggerIntro-Step-blog-name-wrap" style={{nameInputWidthStyle}}>
+                  {{input
+                    id='blog-name'
+                    placeholder='Blog Name...'
+                    class='BloggerIntro-Step-input BloggerIntro-Step-blog-name'
+                    value=organization.name
+                    keyUp=(action 'nameIsChanging')
+                  }}
+                </div>
                 <div class="BloggerIntro-Step-name-length">
                   {{nameLengthText}}
                 </div>

@@ -146,7 +146,7 @@ const legacyRedirect = function(req, res, next) {
    */
   if (req.path.indexOf('/feed') == 0) {
     var typeRedirects = {
-      "news" : "stories",
+      "news" : "posts",
       "event": "calendar"
     };
     var redirectNecessary = ('type' in req.query) && Object.keys(typeRedirects).some(function(param) {

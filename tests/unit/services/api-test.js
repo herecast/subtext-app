@@ -1104,47 +1104,6 @@ test('updateOrganizationImage(id, data)', function(assert) {
   });
 });
 
-test('updateTalkImage(id, data)', function(assert) {
-  const subject = this.subject({
-    session: this.session,
-    queryCache: this.queryCache
-  });
-  const data = new FormData();
-  const id = 3;
-
-  const done = assert.async();
-  const returnData = {
-    root: {
-      field: 'value'
-    }
-  };
-
-  data.append('talk[image]', new Blob([""], {type: 'image/jpeg'}));
-
-  server.put('/talk/:id', (schema, request) => {
-    expect.consumerAppHeader(assert, request);
-    expect.authorizationHeader(assert, request);
-    expect.acceptHeader(assert, request, 'application/json');
-    // Pretender gets in the way of this...
-    //expect.contentTypeHeader(assert, request, 'multipart/form-data');
-
-    assert.equal(request.params.id, id,
-      "Updates talk resource matching id");
-
-    assert.deepEqual(request.requestBody, data,
-      "PUT /talk/:id with expected data");
-
-    return returnData;
-  });
-
-  subject.updateTalkImage(id, data).then((responseData) => {
-    assert.deepEqual(responseData, returnData,
-      'it returns parsed response JSON'
-    );
-    done();
-  });
-});
-
 test('updateCurrentUserPassword(data)', function(assert) {
   const subject = this.subject({
     session: this.session,

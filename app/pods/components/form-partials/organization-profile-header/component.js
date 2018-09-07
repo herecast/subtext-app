@@ -42,6 +42,8 @@ export default Ember.Component.extend(Validation, {
     return isPresent(get(this,'model.specialLinkUrl')) || get(this, 'showSpecialLinkOption');
   }),
 
+  hasNewProfileImage: computed.notEmpty('model.profileImage'),
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -99,7 +101,17 @@ export default Ember.Component.extend(Validation, {
       this.send('formUpdated');
     },
     updateDesktopImage(imageData) {
-      set(this, 'model.desktopImage', imageData);
+      this.setProperties({
+        'model.desktopImage': imageData,
+        'model.removeDesktopImage': false
+      });
+      this.send('formUpdated');
+    },
+    deleteDesktopImage() {
+      this.setProperties({
+        'model.desktopImage': null,
+        'model.removeDesktopImage': true
+      });
       this.send('formUpdated');
     },
     chooseSpecialLinkOption(option) {

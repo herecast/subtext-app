@@ -173,11 +173,11 @@ test('feed show page, talk', function(assert) {
     );
 
     const $talkDetail = find(
-      testSelector('component', 'talk-detail') +
+      testSelector('component', 'market-detail') +
       testSelector('content', feedRecord.id)
     );
 
-    assert.ok($talkDetail.length, 'Displays talk detail');
+    assert.ok($talkDetail.length, 'Displays talk detail as market');
   });
 });
 
@@ -292,7 +292,7 @@ test('Clicking "my stuff" - signed in', function(assert) {
   });
 });
 
-test('hamburger menu, stories filter', function(assert) {
+test('hamburger menu, posts filter', function(assert) {
   const done = assert.async(2);
 
   mockLocationCookie(this.application);
@@ -301,7 +301,7 @@ test('hamburger menu, stories filter', function(assert) {
 
   andThen(()=>{
     server.get('/feed', function(db, request) {
-      assert.equal(request.queryParams.content_type, 'stories',
+      assert.equal(request.queryParams.content_type, 'posts',
         `Api endpoint called with news content_type param`
       );
       done();
@@ -325,7 +325,7 @@ test('hamburger menu, stories filter', function(assert) {
 
     assert.equal(
       $searchFilterLabel.text().trim(),
-      "Stories",
+      "Posts",
       "Should see news filter label"
     );
 

@@ -7,8 +7,8 @@ export default Ember.Component.extend({
   classNames: ['SectionHeader', 'ContentForm-sectionHeader'],
 
   formattedType: computed('type', function() {
-    if (this.get('type') === 'market') {
-      return 'listing';
+    if (this.get('type') !== 'post') {
+      return `${this.get('type')} Listing`;
     } else {
       return this.get('type');
     }

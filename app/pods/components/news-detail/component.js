@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ScrollToTalk from 'subtext-ui/mixins/components/scroll-to-talk';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
@@ -11,7 +10,7 @@ const {
   set
 } = Ember;
 
-export default Ember.Component.extend(ScrollToTalk, ModelResetScroll, contentComments, {
+export default Ember.Component.extend(ModelResetScroll, contentComments, {
   'data-test-component': 'news-detail',
   'data-test-content': computed.reads('model.contentId'),
   fastboot: service(),

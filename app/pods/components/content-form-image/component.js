@@ -10,13 +10,16 @@ export default Ember.Component.extend({
   replacingImage: false,
   imageType: 'image/jpeg',
   hasNewImage: false,
+  allowDeleteImage: false,
+  wantsToDelete: false,
 
   // Image validation properties
   minWidth: 200,
   minHeight: 200,
 
-  // To be passed in as a closure action for receiving the new image
+  // To be passed in as a closure action for receiving/deleting the new image
   onImageUpdate(){},
+  onImageDelete(){},
 
   // Display the JS image cropping tool if the user has attached an image
   displayImagePreview: computed('imageUrl', 'originalImageUrl', 'replacingImage', 'displayImageUrl', 'error', function () {
@@ -115,6 +118,15 @@ export default Ember.Component.extend({
     }, imageType, blobQuality);
   },
 
+  _removeImage() {
+    this.setProperties({
+      originalImageFile: null,
+      originalImageUrl: null,
+      imageUrl: null,
+      replacingImage: true
+    });
+  },
+
   actions: {
     rotateImage(direction) {
       const image = new Image();
@@ -181,12 +193,17 @@ export default Ember.Component.extend({
     },
 
     removeImage() {
-      this.setProperties({
-        originalImageFile: null,
-        originalImageUrl: null,
-        imageUrl: null,
-        replacingImage: true
-      });
+      this.$('.ContentForm-fileField')[0].click();
+    },
+
+    toggleWantsToDelete() {
+      this.toggleProperty('wantsToDelete');
+    },
+
+    deleteImage() {
+      //may want confirm here
+      this._removeImage();
+      this.onImageDelete();
     }
   }
 });

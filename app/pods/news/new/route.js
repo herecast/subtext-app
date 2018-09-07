@@ -7,7 +7,7 @@ import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 const { get } = Ember;
 
 export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, BaseUserLocation, {
-  titleToken: 'Create a Story',
+  titleToken: 'Create a Post',
 
   model(params, transition) {
     let newRecordValues = {
@@ -26,7 +26,7 @@ export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, S
 
   setupController(controller, model) {
     controller.set('news', model);
-    controller.set('title', 'Create your story');
+    controller.set('title', 'Create your post');
     controller.set('secondaryBackground', true);
   },
 

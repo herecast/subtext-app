@@ -27,6 +27,8 @@
   {{#if (or model.cost model.images)}}
     {{feed-card/market-info
       cost=model.cost
+      showPrice=showPrice
+
       images=model.images
       activeImageUrl=(mut activeImageUrl)
     }}

@@ -16,18 +16,18 @@ test('Adapter receives 401 error during route transition', function(assert) {
   const location = mockLocationCookie(this.application);
 
   let user = server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});
-  let talk = server.create('content', { contentType: 'talk' });
+  let market = server.create('content', { contentType: 'market' });
 
   server.get('/contents/:id', {message: 'unauthorized'}, 401);
 
-  visit(`/feed/${talk.id}`);
+  visit(`/feed/${market.id}`);
 
   andThen(() => {
     assert.equal(currentRouteName(), 'login',
       "Should be directed to login page");
 
     server.get('/contents/:id', function() {
-      return talk;
+      return market;
     }); //default functionality
 
     fillIn(testSelector('field', 'sign-in-email'), user.email);
@@ -36,7 +36,7 @@ test('Adapter receives 401 error during route transition', function(assert) {
     click(testSelector('component', 'sign-in-submit'));
 
     andThen(() => {
-      assert.equal(currentURL(), `/feed/${talk.id}`,
+      assert.equal(currentURL(), `/feed/${market.id}`,
         "After signing in, should be directed back to original page"
       );
     });

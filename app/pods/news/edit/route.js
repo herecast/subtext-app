@@ -4,7 +4,7 @@ import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 const { get } = Ember;
 
 export default Ember.Route.extend(RequireCanEdit, {
-  titleToken: 'Edit News',
+  titleToken: 'Edit Post',
 
   model(params) {
     return this.store.findRecord('content', params.id, { reload: true });
@@ -12,7 +12,7 @@ export default Ember.Route.extend(RequireCanEdit, {
 
   setupController(controller, model) {
     controller.set('news', model);
-    controller.set('title', 'Edit your news post');
+    controller.set('title', 'Edit your post');
     controller.set('secondaryBackground', true);
   },
 

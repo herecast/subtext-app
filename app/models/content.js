@@ -61,7 +61,6 @@ export default DS.Model.extend(
   subtitle: attr('string'),
   sunsetDate: attr('moment-date'),
   title: attr('string'),
-  ugcJob: attr('string'),
   updatedAt: attr('moment-date'),
   viewCount: attr('number'),
   wantsToAdvertise: attr('boolean'),
@@ -80,7 +79,6 @@ export default DS.Model.extend(
   isEvent: equal('contentType', 'event'),
   isNews: equal('contentType', 'news'),
   isMarket: equal('contentType', 'market'),
-  isTalk: equal('contentType', 'talk'),
   isCampaign: equal('contentType', 'campaign'),
 
   listsEnabled: computed.notEmpty('listservIds'),
@@ -159,17 +157,17 @@ export default DS.Model.extend(
   }),
 
   viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
-    const publishedAt = get(this, 'publishedAt');
-    const scheduledToPublish = moment().diff(publishedAt) < 0;
+    const isDraft = get(this, 'isDraft');
+    const isScheduled = get(this, 'isScheduled');
 
-    if (!isPresent(publishedAt) || scheduledToPublish) {
+    if (isDraft || isScheduled) {
       return 'draft';
     }
 
-    const contentType = get(this, 'contentType');
-    let isPublic = isPresent(get(this, 'bizFeedPublic')) ? get(this, 'bizFeedPublic') : true;
+    const bizFeedPublic = get(this, 'bizFeedPublic');
+    let isPublic = isPresent(bizFeedPublic) ? bizFeedPublic : true;
 
-    if (contentType === 'campaign' && !isPresent(isPublic)) {
+    if (get(this, 'contentType') === 'campaign' && !isPresent(isPublic)) {
       isPublic = get(this, 'campaignIsActive');
     }
 
@@ -180,7 +178,7 @@ export default DS.Model.extend(
 
   isPublic: computed.equal('viewStatus', 'public'),
 
-  isDraft: computed.equal('viewStatus', 'draft'),
+  isDraft: computed.empty('publishedAt'),
 
   isScheduled: computed('publishedAt', function() {
     return moment(get(this, 'publishedAt')).isAfter(new Date());

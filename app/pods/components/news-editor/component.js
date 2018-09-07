@@ -120,6 +120,8 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
   hasChosenOrganization: computed.notEmpty('news.organization'),
 
+  hasFeaturedImage: computed.notEmpty('news.primaryImage'),
+
   showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,isPublished,hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     const news = get(this, 'news');
 
@@ -264,6 +266,14 @@ export default Ember.Component.extend(TestSelector, Validation, {
     return get(this, 'api').createImage(data);
   },
 
+  _canPublish() {
+    if (get(this, 'hasFeaturedImage')) {
+      return true;
+    } else {
+      return confirm('Posts with images are much more likely to be seen and read. Are you sure you want to publish without a featured image?');
+    }
+  },
+
   actions: {
     notifyChange() {
       run.debounce(this, this.doAutoSave, 900);
@@ -280,26 +290,28 @@ export default Ember.Component.extend(TestSelector, Validation, {
     },
 
     publish() {
-      const news = get(this, 'news');
+      if (this._canPublish()) {
+        const news = get(this, 'news');
 
-      if (this.isValid()) {
-        if (!get(this, 'news.isPublished')) {
-          set(news, 'publishedAt', moment());
+        if (this.isValid()) {
+          if (!get(this, 'news.isPublished')) {
+            set(news, 'publishedAt', moment());
+          }
+
+          // Avoid showing link to detail page until the entire publish has finished (including image upload, FB notify, etc)
+          set(this, 'isPublishing', true);
+
+          this._save().then(() => {
+            get(this, 'notify').success('Your post has been published');
+            set(this, 'isPublishing', false);
+            this.sendAction('afterPublish');
+          });
         }
-
-        // Avoid showing link to detail page until the entire publish has finished (including image upload, FB notify, etc)
-        set(this, 'isPublishing', true);
-
-        this._save().then(() => {
-          get(this, 'notify').success('Your post has been published');
-          set(this, 'isPublishing', false);
-          this.sendAction('afterPublish');
-        });
       }
     },
 
     publishChanges() {
-      if (this.isValid()) {
+      if (this.isValid() && this._canPublish()) {
         this._save().then(() => {
           get(this, 'notify').success('Your changes have been saved');
           this.sendAction('afterPublish');
@@ -308,7 +320,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     },
 
     schedulePublish() {
-      if (this.isValid()) {
+      if (this.isValid() && this._canPublish()) {
         set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
 
 

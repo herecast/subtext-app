@@ -1,7 +1,9 @@
 <div class="FeedCard-MarketInfo-left">
-  <div class="FeedCard-MarketInfo-cost">
-    Price: <span data-test-card-market-cost>{{price}}</span>
-  </div>
+  {{#if showPrice}}
+    <div class="FeedCard-MarketInfo-cost">
+      Price: <span data-test-card-market-cost>{{price}}</span>
+    </div>
+  {{/if}}
 </div>
 <div class="FeedCard-MarketInfo-right">
   <div class="FeedCard-MarketInfo-images">

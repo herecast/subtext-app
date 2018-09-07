@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const {get, isPresent, computed, inject} = Ember;
+const {get, isPresent, computed, inject:{service} } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['JobsNavigation'],
@@ -10,9 +10,19 @@ export default Ember.Component.extend({
 
   noFooterImage: false,
   organization: null,
-  hideTalk: false,
 
-  tracking: inject.service(),
+  session: service(),
+  tracking: service(),
+
+  canPublishNews: computed('session.currentUser', 'organization', function() {
+    const organization = get(this, 'organization');
+
+    if (isPresent(organization)) {
+      return get(this, 'organization.canPublishNews');
+    }
+
+    return get(this, 'session.currentUser.canPublishNews');
+  }),
 
   /**
    * We want to specifically return `null` if no organization ID is present (eg. not `undefined`)
