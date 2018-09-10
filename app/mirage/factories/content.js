@@ -28,7 +28,7 @@ export default Factory.extend({
   title()    { return faker.company.catchPhrase(); },
   subtitle() { return faker.lorem.sentence(); },
   contentType(id) {
-    const contentTypes = ['news', 'event', 'market'];
+    const contentTypes = ['news', 'event', 'market', 'talk'];
     const minOfEach = 4;
 
     if (id < contentTypes.length * minOfEach) {

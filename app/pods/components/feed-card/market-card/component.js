@@ -14,7 +14,7 @@ export default Ember.Component.extend(reloadComments, {
 
   activeImageUrl: computed.oneWay('model.primaryImageUrl'),
 
-  showPrice: computed('model.contentType', function() {
+  isNotTalk: computed('model.contentType', function() {
     return get(this, 'model.contentType') !== 'talk';
   }),
 
