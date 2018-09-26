@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Ember from 'ember';
+import config from 'subtext-ui/config/environment';
 /* global google*/
 
 const { set, get, RSVP:{Promise}, inject:{service} } = Ember;
@@ -26,7 +27,7 @@ export default Ember.Service.extend({
     const thisService = this;
 
     this.googleMapsInit = new Promise((resolve) => {
-      $.getScript(`https://maps.googleapis.com/maps/api/js`, function() {
+      $.getScript(`https://maps.googleapis.com/maps/api/js?key=${config.GMAPS_API_TOKEN}`, function() {
         set(thisService, 'googleMaps', google.maps);
         resolve(google.maps);
       });
