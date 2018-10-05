@@ -44,31 +44,6 @@
       Here’s how you’ve chosen to promote your listing:
     </div>
     <ul class='ContentPreview-propertyList'>
-     {{#disabled-checkbox
-        checked=model.location
-        tagName='li'
-        class='ContentPreview-summaryProperty'
-      }}
-        {{#locations-nearby
-          tagName='span'
-          location=(readonly model.location)
-          radius=(readonly model.promoteRadius)
-          as |nearby|
-        }}
-        Promoted to
-          {{#if nearby.radius}}
-            {{#if nearby.nearbyLocations}}
-            {{nearby.location.name}} + {{nearby.radius}} Miles
-              {{#x-button style='link' strong=true onClick=nearby.showActiveLocations}}
-                ({{nearby.nearbyLocations.length}} towns)
-              {{/x-button}}.
-            {{/if}}
-          {{else}}
-            {{nearby.location.name}} only.
-          {{/if}}
-
-        {{/locations-nearby}}
-      {{/disabled-checkbox}}
       {{#disabled-checkbox
         checked=model.listsEnabled
         tagName='li'

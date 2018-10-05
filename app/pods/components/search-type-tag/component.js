@@ -9,11 +9,12 @@ export default Ember.Component.extend({
   tagName: 'span',
   classNames: ['SearchTypeTag'],
   "data-test-component": 'search-type-tag',
-  classNameBindings: ['allowWrap:allow-wrap'],
+  classNameBindings: ['allowWrap:allow-wrap', 'large:SearchTypeTag--large'],
   remove: null, //closure action
 
   allowWrap: false,
   type: null,
+  large: false,
   label: computed('type', function() {
     const type = get(this, 'type') || "";
 

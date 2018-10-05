@@ -4,26 +4,17 @@
 @import 'bootstrap';
 @import "bower_components/bootstrap-social/bootstrap-social";
 
-//
-// Feature Flags
-//
-@import 'components/market-cta';
-//
 
 //
 // UX3 Components
 //
-@import 'components/account';
 @import 'components/app-download-nag';
 @import 'components/business-feedback-badge';
 @import 'components/checklist';
 @import 'components/media';
 @import 'components/main-nav';
-@import 'components/user-menu';
-@import 'components/user-menu-modal';
 @import 'components/list-component';
 @import 'components/card';
-@import 'components/channel-topper';
 @import 'components/grouped-cards';
 @import 'components/pagination-nav';
 @import 'components/copyright';
@@ -37,7 +28,6 @@
 @import 'components/card-group-cta';
 @import 'components/avatar-image';
 @import 'components/digest-subscribe';
-@import 'components/market-search';
 @import 'components/pikaday-solo';
 @import 'components/modal';
 @import 'components/modal-header';
@@ -57,12 +47,8 @@
 @import 'components/inline-edit';
 @import 'components/form-group';
 @import 'components/subscribe-button';
-@import 'components/location-menu';
-@import 'components/location-mismatch-prompt';
-@import 'components/location-indicator';
 @import 'components/input';
 @import 'components/label';
-@import 'components/sign-in-with-email-or-oauth';
 @import 'components/legal-disclaimer';
 @import 'components/facebook-login-button';
 @import 'components/sign-in-register-modal';
@@ -77,8 +63,6 @@
 @import 'components/brand-logo';
 @import 'components/x-button';
 @import 'components/content-header';
-@import 'components/channel-filters';
-@import 'components/location-radius-selector';
 @import 'components/floating-action-button';
 @import 'components/list-menu';
 @import 'components/help-text';
@@ -88,13 +72,11 @@
 @import 'components/directions-link';
 @import 'components/x-card';
 @import 'components/card-body';
-@import 'components/town-image';
 @import 'components/organization-stats';
 @import 'components/content-label';
 @import 'components/x-tabs';
 @import 'components/hours-list';
 @import 'components/feed/feed-container';
-@import 'components/simple-header';
 @import 'components/tooltip';
 @import 'components/toggle-switch';
 @import 'components/promotion-menu';
@@ -105,6 +87,7 @@
 @import 'components/divided-list';
 @import 'components/icon';
 @import 'components/events-by-day';
+@import 'components/user-location';
 @import 'components/blogger-intro/blogger-intro';
 @import 'components/blogger-intro/bullets';
 @import 'components/blogger-intro/legal';
@@ -114,7 +97,6 @@
 //
 // UX2 Components
 //
-@import 'components/action-dropdown';
 @import 'components/auth-form';
 @import 'components/back-button';
 @import 'components/button';
@@ -154,15 +136,10 @@
 @import 'components/image-editor';
 @import 'components/image-upload';
 @import 'components/intercom-button';
-@import 'components/listserv-content-digest-preview';
-@import 'components/listserv-content-form';
 @import 'components/listserv-form';
 @import 'components/list-post-enhance';
 @import 'components/list-post-preview';
 @import 'components/loader';
-@import 'components/location-dropdown';
-@import 'components/location-search';
-@import 'components/nav-tabs';
 @import 'components/news';
 @import 'components/news-editor';
 @import 'components/no-results';
@@ -170,8 +147,6 @@
 @import 'components/organization-profile';
 @import 'components/organization-profile-desktop-image';
 @import 'components/password-reset';
-@import 'components/pill-navigation';
-@import 'components/photo-banner';
 @import 'components/promotion-section';
 @import 'components/publish-settings';
 @import 'components/report-abuse-body';
@@ -182,6 +157,7 @@
 @import 'components/sign-in-form';
 @import 'components/sign-in-register-menu';
 @import 'components/similar-content';
+@import 'components/site-nav';
 @import 'components/social-share';
 @import 'components/sticky-item';
 @import 'components/summer-note';
@@ -190,13 +166,7 @@
 @import 'components/thumbnail-image-modal';
 @import 'components/top-scroller';
 @import 'components/truncate';
-@import 'components/weather';
 @import 'components/business-profile-form';
-@import 'components/category-header';
-@import 'components/category-nav';
-@import 'components/market-nav';
-@import 'components/market-category-card';
-@import 'components/user-testimonial';
 @import 'components/outreach-cta';
 @import 'components/promotion-coupon';
 @import 'components/promotion-coupon-cta';
@@ -212,6 +182,7 @@
 @import 'components/feed-card/bookmark';
 @import 'components/feed-card/event-dates';
 @import 'components/feed-card/event-info';
+@import 'components/feed-card/fake-card';
 @import 'components/feed-card/image';
 @import 'components/feed-card/footer';
 @import 'components/feed-card/feed-card';
@@ -225,7 +196,6 @@
 @import 'components/feed-carousel/feed-content-card';
 @import 'components/location/index';
 @import 'components/horizontal-rule';
-@import 'components/small-card';
 @import 'components/media-container';
 @import 'components/mystuff/comment-card';
 @import 'components/mystuff/filter-bar';
@@ -234,7 +204,6 @@
 @import 'routes/mystuff/account';
 @import 'routes/mystuff/contents';
 @import 'routes/startablog';
-@import 'routes/storytellers';
 
 //
 // Variables
@@ -306,24 +275,16 @@ body.modal-open > .modal-backdrop {
   padding-top: 40px;
   z-index: 2000001;
 
-  &.has-header-page-toolbar {
-    padding-top: 86px;
+  &.has-location-bar {
+    padding-top: 80px;
   }
 
   &.search-open {
-    padding-top: 82px;
+    padding-top: 150px;
   }
 
-  &.has-header-page-toolbar.search-open {
-    padding-top: 127px;
-  }
-
-  @media (min-width: @screen-sm-min) {
-    padding-top: 60px;
-
-    &.has-header-page-toolbar {
-      padding-top: 111px;
-    }
+  &.has-location-bar.search-open {
+    padding-top: 190px;
   }
 }
 

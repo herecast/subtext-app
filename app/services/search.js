@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 const {
   inject,
+  computed,
   get,
   set,
   setProperties
@@ -13,6 +14,9 @@ export default Ember.Service.extend({
   query: "",
   isLoading: false,
   searchActive: false,
+
+  activeFilter: null,
+  filtersAreActive: computed.notEmpty('activeFilter'),
 
   performSearch(query) {
     setProperties(this, {

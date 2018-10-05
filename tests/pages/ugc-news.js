@@ -47,5 +47,17 @@ export default create({
       find(`[data-pick='${time}']`).trigger('click');
     });
   },
+  selectNewLocation(locationId) {
+    click(testSelector('action', 'change-location'));
+
+    andThen(() => {
+      fillIn(testSelector('new-location-input'), 'asdfasdf');
+      click(testSelector('button', 'change-input-value'));
+
+      andThen(() => {
+        click(testSelector('location-choice', locationId));
+      });
+    });
+  },
   scheduleConfirm: clickable(testSelector('schedule-publish', 'confirm'))
 });

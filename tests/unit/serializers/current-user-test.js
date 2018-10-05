@@ -3,9 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('current-user', {
+moduleForModel('current-user', 'Unit | Serializer | current-user', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:current-user', 'model:organization', 'model:bookmark']
+  needs: ['serializer:current-user', 'model:organization', 'model:bookmark', 'model:location']
 });
 
 // Replace this with your real tests.

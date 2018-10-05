@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
-const {computed, get, inject } = Ember;
+const { computed, get } = Ember;
 
 export default Ember.Component.extend({
-  features: inject.service('feature-flags'),
   comments: null,
   parentContentId: null,
 

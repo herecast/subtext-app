@@ -1,0 +1,80 @@
+<div class="SiteNav-UserMenu--user">
+  <div class="SiteNav-UserMenu--user-avatar">
+    {{#if isLoggedIn}}
+      {{avatar-image
+        imageUrl=currentUser.userImageUrl
+        userName=currentUser.name
+        hasCaret=false
+        customSize=60
+      }}
+      <div class="SiteNav-UserMenu--user-name">
+        {{currentUser.name}}
+      </div>
+      <div class="SiteNav-UserMenu--user-email">
+        {{currentUser.email}}
+      </div>
+
+      <div class="SiteNav-Menu--line-break short"></div>
+
+      <div class="SiteNav--section-title">
+        MyStuff
+      </div>
+      {{mystuff/nav-bar
+        routes=mystuffNavObjects
+        verticalLayout=true
+        onChangeRoute=(action 'goToMystuffRoute')
+      }}
+    {{else}}
+      <div class="SiteNav-UserMenu--user-avatar-default">
+        {{fa-icon 'user'}}
+      </div>
+      {{#x-button
+         onClick=(action 'signIn')
+         color='primary'
+         size='x-small'
+         noMargin=true
+         data-test-signin-from-side-menu=true
+       }}
+        Sign In or Register
+      {{/x-button}}
+    {{/if}}
+  </div>
+</div>
+
+{{#if hasManagedOrganizations}}
+  <div class="SiteNav-UserMenu--organizations">
+    <div class="SiteNav--section-title">
+      My Organizations
+    </div>
+    {{#each managedOrganizations as |managedOrganization|}}
+      <div class="SiteNav-UserMenu--organizations-org" data-test-managed-organization-button>
+        {{#x-button
+           onClick=(action 'goTo' 'profile' managedOrganization.id)
+           color='light-gray'
+           size='x-small'
+         }}
+          <div class="SiteNav-UserMenu--organizations-org-grid">
+            {{avatar-image
+              imageUrl=managedOrganization.profileImageUrl
+              userName=managedOrganization.name
+              hasCaret=false
+              customSize=40
+            }}
+            <div>
+              <div class="SiteNav-UserMenu--organizations-org-name">
+                {{managedOrganization.name}}
+              </div>
+              <div class="SiteNav-UserMenu--organizations-org-cta">
+                {{#if manageOrganization.isBlog}}
+                  Blog Homepage
+                {{else}}
+                  Profile Page
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        {{/x-button}}
+      </div>
+    {{/each}}
+  </div>
+{{/if}}

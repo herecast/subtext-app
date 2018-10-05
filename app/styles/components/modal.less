@@ -60,6 +60,22 @@
     }
   }
 
+  &-slide-close {
+    color: @brand-blue;
+    font-size: 30px;
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    top: 8px;
+
+    &.left {
+      left: 8px;
+    }
+    &.right {
+      right: 8px;
+    }
+  }
+
   .Modal-actionClose {
     border: 0;
     border-top: solid 1px darken(@gray-light, 10%);
@@ -79,7 +95,8 @@
   }
 
   &.animated {
-    animation: slide-up 0.5s;
+  //  animation: slide-up 0.5s;
+  animation: slide-right 0.5s;
   }
 
   &--small {

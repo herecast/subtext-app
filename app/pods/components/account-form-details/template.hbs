@@ -70,11 +70,16 @@
   {{else}}
     <div class="AccountForm-avatarPreview">
       <img src="{{model.userImageUrl}}" alt="Selected Image" {{action 'showAvatarImageForm'}} />
+    
+      {{#x-button onClick=(action 'showAvatarImageForm') style='regular' color='primary' size='x-small'}}
+        Edit
+      {{/x-button}}
     </div>
-    <button class="AccountForm-editButton" {{action 'showAvatarImageForm'}}>Edit</button>
   {{/if}}
 {{/form-group}}
 
 <div class="text-center">
-  <input type="submit" class="AccountForm-saveButton" value="Save Changes" data-test-submit-account-details>
+  {{#x-button onClick=(action 'submit') style='regular' color='primary' size='x-small' data-test-submit-account-details=true}}
+    Save Changes
+  {{/x-button}}
 </div>

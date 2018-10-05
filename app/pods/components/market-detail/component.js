@@ -42,14 +42,18 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   activeImage: computed.oneWay('model.primaryOrFirstImage.imageUrl'),
 
   controller: inject.service('current-controller'),
-  featureFlags: inject.service('feature-flags'),
 
   showThumbnails: computed('model.images.[]', function() {
     return get(this, 'model.images.length') > 1;
   }),
 
   thumbSortDefinition: ['primary:desc'],
-  sortedImages: computed.sort('model.images.[]', 'thumbSortDefinition'),
+  sortedImages: computed.sort('visibleImages', 'thumbSortDefinition'),
+  visibleImages: computed('model.images.[]', function() {
+    const images = get(this, 'model.images');
+
+    return images.rejectBy('_delete');
+  }),
 
   showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', 'isPreview', function() {
     return get(this, 'model.canEdit') && ! get(this, 'isPreview') && ! get(this, 'fastboot.isFastBoot');
@@ -83,21 +87,6 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   },
 
   actions: {
-    subscribeToMarketDigest() {
-      const controller = get(this, 'controller.currentController');
-      const marketDigestId = get(this, 'featureFlags.market-index-subscribe-cta.options.digest-id');
-      const title = get(this, 'featureFlags.market-index-subscribe-cta.options.title');
-      const version  = get(this, 'featureFlags.market-index-subscribe-cta.options.version');
-
-      this._trackMarketDigestSubscriptionClick(version, title);
-
-      controller.transitionToRoute('register', {
-        queryParams: {
-          selectedDigest: marketDigestId
-        }
-      });
-    },
-
     chooseImage(imageUrl) {
       set(this, 'activeImage', imageUrl);
     },

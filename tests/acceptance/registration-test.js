@@ -19,7 +19,8 @@ const registrationMenuOrPage = {
 
   open() {
     this.visit();
-    click(testSelector('link', 'login-link'));
+    click(testSelector('signin-from-header'));
+    click(testSelector('signin-from-side-menu'));
     click(testSelector('link', 'join-tab'));
   },
 

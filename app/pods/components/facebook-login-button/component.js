@@ -50,7 +50,6 @@ export default Ember.Component.extend(SocialPreloaded, {
 
       const registerUser = (locationId) => {
         oauthData.location_id = locationId;
-        oauthData.location_confirmed = get(this, 'userLocation.locationIsConfirmed');
 
         get(this, 'api').signInWithOauth(oauthData)
           .then(response => {
@@ -80,7 +79,7 @@ export default Ember.Component.extend(SocialPreloaded, {
 
       // Register the user after we load the location
       // If location does not load, register user with default location
-      get(this, 'userLocation.location').then(location => {
+      get(this, 'userLocation.userLocation').then(location => {
         registerUser(get(location, 'id'));
       }).catch(() => registerUser(null));
     });

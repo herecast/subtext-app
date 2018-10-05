@@ -11,7 +11,7 @@ const { get } = Ember;
 moduleForAcceptance('Acceptance | ugc news');
 
 test('Every field available filled in', function(assert) {
-  const done = assert.async(7);
+  const done = assert.async(9);
   const organization = server.create('organization', {can_publish_news: true});
   const location = server.create('location');
   const currentUser = server.create('current-user', {
@@ -31,7 +31,6 @@ test('Every field available filled in', function(assert) {
 
   let currentAttrs = {
     authorName: currentUser.name,
-    baseLocationName: null,
     bizFeedPublic: true,
     contactEmail: null,
     contactPhone: null,
@@ -43,7 +42,6 @@ test('Every field available filled in', function(assert) {
     listservIds: [],
     locationId: location.id,
     organizationId: organization.id,
-    promoteRadius: null,
     publishedAt: null,
     registrationDeadline: null,
     schedules: [],
@@ -93,6 +91,15 @@ test('Every field available filled in', function(assert) {
     return content;
   });
 
+  server.get('/locations', function({locations}, request) {
+    if ('query' in request.queryParams) {
+      assert.ok(true, 'query sent to locations endpoint');
+      done();
+    }
+
+    return locations.all();
+  });
+
   Ember.run(() => {
     authenticateUser(this.application, server, currentUser);
 
@@ -108,6 +115,10 @@ test('Every field available filled in', function(assert) {
     andThen(() => {
       currentAttrs.content = content;
       return ugcNews.fillInContent(content);
+    });
+
+    andThen(() => {
+      return ugcNews.selectNewLocation(get(location, 'id'));
     });
 
     andThen(() => {

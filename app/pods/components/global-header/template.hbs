@@ -1,117 +1,144 @@
-<div class='MainNav-wrapper'>
-  {{#from-elsewhere name="global-header" as |header|}}
-    {{#if header}}
-      {{component header}}
-    {{else}}
-      <div class='MainNav {{if showSearch "searchOpen"}}'>
-        <div class='MainNav-menu-filters'>
-          <div class='MainNav-menu'>
-            <div class='dropdown'>
-              <a href='#'
-                 class='MainNav-moreLink h2'
-                 role='button'
-                 data-toggle="dropdown"
-                 data-test-toggle='main-nav-more'
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                {{fa-icon 'navicon' class='MainNav-menu-icon'}}
-              </a>
-              {{extended-nav class="dropdown-menu dropdown-menu-left"}}
-            </div>
-          </div>
-          {{#from-elsewhere name='filters' as |filter|}}
-            {{#if filter}}
-              <div class='MainNav-searchFilter'>
-                {{component filter}}
-              </div>
-            {{/if}}
-          {{/from-elsewhere}}
-        </div>
+<div class='MainNav'>
+  <div class="MainNav--top-bar">
+    <div class='MainNav--top-bar-wrapper'>
 
-        <div class='MainNav-brand u-flexRow'>
-          <h1 class='MainNav-brand-logo' data-test-brand {{action 'logoClicked'}}>
-            {{#link-to 'index' data-test-link='header-link'}}
-              {{brand-logo tagline=false class='MainNav-brand-logo--mobile'}}
-              {{brand-logo tagline=(not showSearch) class='MainNav-brand-logo--desktop'}}
-            {{/link-to}}
-          </h1>
-        </div>
+      <div class='MainNav-menu'>
+        {{site-nav}}
+      </div>
 
-        <div class='MainNav-search'>
-          <!-- will contain user menu/login/register, search -->
-          <ul class='list-inline'>
-            {{#unless session.isFastBoot}}
-              {{#if session.isAuthenticated}}
-                <li role="presentation" class="dropdown MainNav-userMenu {{if showUserMenu 'open'}}"
-                    data-test-component-user-menu>
-                  <a {{action 'toggleUserMenu'}}
-                    href='#'
-                    class='MainNav-moreLink'
-                    data-test-link='user-menu'
-                    role='button'
-                    aria-haspopup="true"
-                    aria-expanded="false">
-
-                    {{avatar-image
-                      imageUrl=session.currentUser.userImageUrl
-                      userName=session.currentUser.name
-                      hasCaret=false
-                      customSize=30
-                    }}
-                  </a>
-                  {{#if showUserMenu}}
-                    {{#click-outside action=(action 'toggleUserMenu') class='dropdown-menu dropdown-menu-right open'}}
-                      {{user-menu
-                        openMyAccount=(action 'openAccountSettings')
-                        model=session.currentUser
-                        action=(action 'toggleUserMenu')
-                      }}
-                    {{/click-outside}}
-                  {{/if}}
-                </li>
-              {{else}}
-                <li class='MainNav-signInJoin'>
-                  <button {{action 'showSignInMenu' bubbles=false}} class='btn-link MainNav-button MainNav-loginLink'
-                                                                    data-test-link='login-link'>
-                    {{fa-icon 'user'}}
-                  </button>
-                </li>
-              {{/if}}
-            {{/unless}}
-            <li>
-              <button {{action 'toggleSearch'}}
-                class='btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}'>
-                {{#if showSearch}}
-                  {{fa-icon 'times'}}
-                {{else}}
-                  {{fa-icon 'search'}}
-                {{/if}}
-              </button>
-            </li>
-          </ul>
+      <div class='MainNav-brand'>
+        <div class="MainNav-brand-logo">
+          {{brand-logo onClick=(action 'logoClicked')}}
         </div>
       </div>
-    {{/if}}
-  {{/from-elsewhere}}
 
-</div>
-{{#if showSearch}}
-  <div class='GlobalHeader-globalSearch'>
-    {{search-input
-      showIcon=true
-      value=(readonly searchService.query)
-      update=(action 'updateSearchQuery')
-      clearButtonText='Clear'
-      isLoading=searchService.isLoading
-    }}
+      <div class='MainNav-search'>
+        <button {{action 'toggleSearch'}}
+          class='btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}'
+          data-test-button="global-search-open-close">
+          {{#if showSearch}}
+            {{fa-icon 'times'}}
+          {{else}}
+            {{fa-icon 'search'}}
+          {{/if}}
+        </button>
+      </div>
+
+    </div>
   </div>
-{{/if}}
-<div class='GlobalHeader-pageToolbar'>
-  {{#from-elsewhere name="page-toolbar" as |toolbar|}}
-    {{#if toolbar}}
-      <div class="GlobalHeader-pageToolbar-wrapper">
-        {{component toolbar}}
+
+  <div class='MainNav--bottom-bar'>
+    {{#unless showSearch}}
+      {{#unless (or session.isFastBoot hideUserLocationBar)}}
+        <div class='MainNav--bottom-bar-wrapper {{if showSearch "searchOpen"}}'>
+          <div class='MainNav-searchFilter'>
+            {{#from-elsewhere name='filters' as |filter|}}
+               {{#if filter}}
+                 {{component filter}}
+               {{/if}}
+            {{/from-elsewhere}}
+          </div>
+          <div class="MainNav-location">
+            {{user-location onClickLocation=(action 'toggleSearch' 'focusOnLocation')}}
+          </div>
+        </div>
+      {{/unless}}
+    {{else}}
+      <div class='GlobalHeader-globalSearch'>
+        <div>
+          {{search-input
+            showIcon=true
+            value=(readonly searchService.query)
+            update=(action 'updateSearchQuery')
+            clearButtonText='Clear'
+            class="GlobalHeader-querySearch"
+            isLoading=searchService.isLoading
+            data-test-global-search=true
+          }}
+        </div>
+        <div>
+        {{user-location/search-input}}
+        </div>
+
+        <div class="GlobalHeader-globalSearch-filterBar-title">
+          Filter by
+        </div>
+        <div class="GlobalHeader-globalSearch-filterBar">
+          <div class="MainNav-channel-filter">
+            {{#if (eq activeFilter 'posts')}}
+              {{search-type-tag
+                type='posts'
+                large=true
+                class="filter-button"
+                remove=(action 'onRemoveFilter')
+              }}
+            {{else}}
+              {{#x-link-to 'feed' (query-params type='posts')
+                 color='secondary'
+                 size='x-small'
+                 style='regular'
+                 noMargin=true
+                 class="filter-button"
+                 data-test-link='posts-filter'
+               }}
+                Posts
+               {{/x-link-to}}
+            {{/if}}
+          </div>
+          <div class="MainNav-channel-filter">
+            {{#if (eq activeFilter 'calendar')}}
+              {{search-type-tag
+                type='calendar'
+                large=true
+                class="filter-button"
+                remove=(action 'onRemoveFilter')
+              }}
+            {{else}}
+              {{#x-link-to 'feed' (query-params type='calendar')
+                 color='secondary'
+                 size='x-small'
+                 style='regular'
+                 noMargin=true
+                 class="filter-button"
+                 data-test-link='calendar-filter'
+               }}
+                Calendar
+               {{/x-link-to}}
+            {{/if}}
+          </div>
+          <div class="MainNav-channel-filter">
+            {{#if (eq activeFilter 'market')}}
+              {{search-type-tag
+                type='market'
+                large=true
+                class="filter-button"
+                remove=(action 'onRemoveFilter')
+              }}
+            {{else}}
+              {{#x-link-to 'feed' (query-params type='market')
+                 color='secondary'
+                 size='x-small'
+                 style='regular'
+                 noMargin=true
+                 class="filter-button"
+                 data-test-link='market-filter'
+               }}
+                Market
+               {{/x-link-to}}
+            {{/if}}
+          </div>
+
+        </div>
       </div>
-    {{/if}}
-  {{/from-elsewhere}}
+    {{/unless}}
+  </div>
+
+
+  <div class='GlobalHeader-globalSearch-results'>
+    {{from-elsewhere name="global-search-results"}}
+  </div>
+
+
 </div>
+
+{{yield}}

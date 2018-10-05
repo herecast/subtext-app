@@ -2,21 +2,28 @@
 
   <div style="{{modalDialogStyle}}"
        class='Modal-dialog
+              {{if isSlider sliderClass}}
               {{if isSmall "Modal-dialog--small"}}
               {{if fullscreen "Modal-dialog--fullscreen"}}
               {{if isAnimated 'animated'}}'>
+
+    {{#if isSlider}}
+      <div class="Modal-dialog-slide-close {{slideOutTo}}" {{action 'closeModal'}}>
+        {{fa-icon (concat 'long-arrow-' slideOutTo)}}
+      </div>
+    {{/if}}
 
     {{#if showHeader}}
       {{modal-header title=title}}
     {{/if}}
 
-    {{#if close}}
+    {{#if (and close (not isSlider))}}
       {{#x-button
         color="light-gray"
         rounded=false
         size='x-small'
         class='Modal-actionClose'
-        onClick=(action 'closeModal')
+        onClick=(action 'clickModalClose')
         data-test-component='modal-close-button'}}
           {{fa-icon 'close'}}
       {{/x-button}}
@@ -24,7 +31,7 @@
 
     <div class="Modal-dialog-body-wrapper">
       <div class="Modal-dialog-body" style="{{modalBodyStyle}}">
-        {{yield this}}
+        {{yield (action 'closeModal')}}
       </div>
     </div>
 

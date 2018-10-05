@@ -1,15 +1,12 @@
 {{title "dailyUV"}}
 {{#unless hideHeader}}
   {{global-header
-    page=page
-    eventsFilter=eventsFilter
-    newsFilter=newsFilter
-    marketFilter=marketFilter
+    showUserLocationBar=showUserLocationBar
     signOut=(action 'signOut')
   }}
 {{/unless}}
 
-<div id="main" class="{{backgroundClass}} {{if searchOpen 'search-open'}} {{if hasHeaderPageToolbar 'has-header-page-toolbar'}}">
+<div id="main" class="{{backgroundClass}} {{if searchOpen 'search-open'}} {{if showUserLocationBar 'has-location-bar'}}">
   <div class='BackgroundIndex'>
     {{outlet 'background'}}
   </div>

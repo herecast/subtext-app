@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
 
-    get(this, 'userLocation.location').then((location) => {
+    get(this, 'userLocation.userLocation').then((location) => {
       const query = {
         'category': 'sponsored_content',
         'content_type' : 'posts',

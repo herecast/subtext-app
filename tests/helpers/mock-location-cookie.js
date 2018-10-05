@@ -8,10 +8,8 @@ export default function(application, location=null) {
 
   const cookies = CookiesService.extend({
     read(name) {
-      if(name === 'locationId') {
+      if (name === 'userLocationId') {
         return location.id;
-      } else if (name === 'locationConfirmed') {
-        return true;
       } else {
         return this._super(...arguments);
       }

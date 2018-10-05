@@ -20,6 +20,11 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('feed', {path: '/'}, function() {
+    this.route('show', {path: '/:id'});
+    this.route('show-instance', {path: '/:id/:event_instance_id'});
+  });
+
   this.route('login', {path: '/sign_in'});
   this.route('register', {path: '/sign_up'});
   this.route('register.complete', {path: '/sign_up/complete'});
@@ -86,10 +91,7 @@ Router.map(function() {
 
   this.route('promotions.show', {path: '/promotions/:id'});
 
-  this.route('feed', function() {
-    this.route('show', {path: '/:id'});
-    this.route('show-instance', {path: '/:id/:event_instance_id'});
-  });
+
 
   // error-404 page is used for intermediateTransitionTo when a model returns 404
   // error-404-passthrough is used as a catch-all route to render a 404 page when a non-existent route is requested
@@ -103,8 +105,6 @@ Router.map(function() {
       this.route('show-instance', {path: '/:id/:eventInstanceId'});
     });
   });
-
-  this.route('storytellers');
 
   this.route('mystuff', function() {
     this.route('comments', function() {

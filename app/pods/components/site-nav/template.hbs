@@ -1,0 +1,31 @@
+{{#unless hideAll}}
+  {{#if showAvatar}}
+    <div class="SiteNav--avatar" {{action 'toggleMenu'}} data-test-link="user-avatar">
+      {{avatar-image
+        imageUrl=currentUser.userImageUrl
+        userName=currentUser.name
+        hasCaret=false
+        customSize=30
+        data-test-avatar-in-header=true
+      }}
+    </div>
+  {{else}}
+    {{#x-button
+       onClick=(action 'toggleMenu')
+       color='primary'
+       size='micro'
+       noMargin=true
+       data-test-signin-from-header=true
+     }}
+      Sign In
+    {{/x-button}}
+  {{/if}}
+{{/unless}}
+
+<div class="SiteNav--cover {{if showMenu 'on-screen' 'off-screen'}}" {{action 'toggleMenu'}}></div>
+
+{{site-nav/menu
+  class=(if showMenu 'on-screen' 'off-screen')
+  onClose=(action 'toggleMenu')
+  data-test-side-menu=true
+}}

@@ -1,175 +1,130 @@
-{{#if hasBlock}}
-
-  {{yield (hash
-    errors=errors
-    validateForm=(action validateForm)
-    submit=(action 'next')
-
-    organizations-input=(component "organization-dropdown"
-      selection=(mut model.organization)
-      class="with-border"
-    )
-    title-input=(component "atoms/form-input"
-      placeholder='Keep it short and informative'
-      value=(mut model.title)
-      class="form-control"
-      oninput=(action 'validateForm')
-      data-test-field="market-title"
-    )
-    content-input=(component 'summer-note'
-      content=(readonly model.content)
-      hideError=true
-      notifyChange=(action 'updateContent')
-    )
-    cost-input=(component 'atoms/form-input'
-      placeholder='A dollar figure or text'
-      class='form-control'
-      value=(mut model.cost)
-      data-test-field='market-cost'
-    )
-    phone-input=(component 'atoms/form-input'
-      placeholder='Contact Phone, ex: 555-555-5555'
-      class='form-control'
-      value=(mut model.contactPhone)
-      data-test-field='market-contactPhone'
-    )
-    email-input=(component 'atoms/form-input'
-      placeholder='Contact Email'
-      class='form-control'
-      value=(mut model.contactEmail)
-      oninput=(action 'validateForm')
-      data-test-field='market-contactEmail'
-    )
-    images=(component 'image-upload-list'
-      model=(mut model)
-    )
-  )}}
-
-{{else}}
-
-  {{#if (and session.isAuthenticated showOrganizationMenu)}}
-    {{#if organizations}}
-      {{#form-group hideError=true}}
-        <label class='control-label ContentForm-label--required'>Content Owner</label>
-        {{#if post.isNew}}
-          {{organization-dropdown selection=post.organization class="with-border"}}
+{{#if (and session.isAuthenticated showOrganizationMenu)}}
+  {{#if organizations}}
+    {{#form-group hideError=true}}
+      <label class='control-label ContentForm-label--required'>Content Owner</label>
+      {{#if post.isNew}}
+        {{organization-dropdown selection=post.organization class="with-border"}}
+      {{else}}
+        <div class='form-control-static'>
+        {{#if post.authorName}}
+          {{post.authorName}}
         {{else}}
-          <div class='form-control-static'>
-          {{#if post.authorName}}
-            {{post.authorName}}
-          {{else}}
-            {{session.currentUser.name}}
-          {{/if}}
-          </div>
+          {{session.currentUser.name}}
         {{/if}}
-      {{/form-group}}
-    {{/if}}
+        </div>
+      {{/if}}
+    {{/form-group}}
   {{/if}}
-
-  {{#if isEditing}}
-    <div class='well'>
-      {{#form-group error=errors.sold hideError=true}}
-        <label class='control-label' for="sold">Mark post as sold</label>
-        {{form-error errors.sold}}
-
-
-        {{#x-select id='sold' value=(readonly post.sold) action=(action 'updateSold') class='form-control' as |xs|}}
-          {{#xs.option value=true}}Sold{{/xs.option}}
-          {{#xs.option value=false}}Not Sold{{/xs.option}}
-        {{/x-select}}
-      {{/form-group}}
-    </div>
-  {{/if}}
-
-  {{#form-group error=errors.title hideError=true}}
-    <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
-    {{form-error errors.title}}
-
-    {{input
-      id='title'
-      placeholder='Keep it short and informative'
-      class='form-control'
-      value=post.title
-      input=(action 'validateForm')
-      data-test-field="market-title"
-    }}
-  {{/form-group}}
-
-  {{#form-group error=errors.content class='u-layoutPadT50' hideError=true}}
-    <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
-    {{form-error errors.content}}
-
-    {{#summer-note content=(readonly post.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
-      {{textarea
-        id='description'
-        placeholder='An informative description that will encourage people to respond.'
-        class='form-control'
-      }}
-    {{/summer-note}}
-  {{/form-group}}
-
-  <div class="form-group u-layoutPadT50">
-    <label for='cost'>Cost</label>
-    {{input
-      id='cost'
-      placeholder='A dollar figure or text'
-      class='form-control'
-      value=post.cost
-      data-test-field='market-cost'
-    }}
-  </div>
-
-  {{image-upload-list
-    model=post
-    data-test-market-images=true
-  }}
-
-  {{#form-group error=errors.contact hideError=true class='u-layoutPadT50'}}
-    <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
-    {{form-error errors.contact}}
-
-    <div class='ContentForm-helpText u-layoutPadB20'>
-      Choose either, or both. What you enter will be public on the site.
-    </div>
-    <div class="form-group">
-      <label for='email'>Email</label>
-      <div class='input-group'>
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'envelope'}}
-        </span>
-        {{input
-          id='email'
-          placeholder='Contact Email'
-          class='form-control'
-          value=(mut post.contactEmail)
-          input=(action 'validateForm')
-          data-test-field='market-contactEmail'
-        }}
-      </div>
-    </div>
-    <div class="form-group">
-      <label for='phone'>Phone</label>
-      <div class='input-group'>
-        <span class="ContentForm-iconLabel input-group-addon">
-          {{fa-icon 'phone'}}
-        </span>
-        {{input
-          id='phone'
-          placeholder='Contact Phone'
-          class='form-control'
-          value=(mut post.contactPhone)
-          type='tel'
-          input=(action 'validateForm')
-          data-test-field='market-contactPhone'
-        }}
-      </div>
-    </div>
-  {{/form-group}}
-
-  <div class='form-group'>
-    <span class='ContentForm-requiredIndicator'>*</span> required fields
-  </div>
-
-  {{partial 'partials/content-form-buttons'}}
-
 {{/if}}
+
+{{#if isEditing}}
+  <div class='well'>
+    {{#form-group error=errors.sold hideError=true}}
+      <label class='control-label' for="sold">Mark post as sold</label>
+      {{form-error errors.sold}}
+
+
+      {{#x-select id='sold' value=(readonly post.sold) action=(action 'updateSold') class='form-control' as |xs|}}
+        {{#xs.option value=true}}Sold{{/xs.option}}
+        {{#xs.option value=false}}Not Sold{{/xs.option}}
+      {{/x-select}}
+    {{/form-group}}
+  </div>
+{{/if}}
+
+{{#form-group error=errors.title hideError=true}}
+  <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
+  {{form-error errors.title}}
+
+  {{input
+    id='title'
+    placeholder='Keep it short and informative'
+    class='form-control'
+    value=post.title
+    input=(action 'validateForm')
+    data-test-field="market-title"
+  }}
+{{/form-group}}
+
+{{#form-group}}
+  <label class='control-label ContentForm-label--required' for="title">Content Location</label>
+  <div class='h5'>What is the most relevant location for this post?</div>
+  {{user-location/ugc-button model=post}}
+{{/form-group}}
+
+{{#form-group error=errors.content class='u-layoutPadT50' hideError=true}}
+  <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
+  {{form-error errors.content}}
+
+  {{#summer-note content=(readonly post.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
+    {{textarea
+      id='description'
+      placeholder='An informative description that will encourage people to respond.'
+      class='form-control'
+    }}
+  {{/summer-note}}
+{{/form-group}}
+
+<div class="form-group u-layoutPadT50">
+  <label for='cost'>Cost</label>
+  {{input
+    id='cost'
+    placeholder='A dollar figure or text'
+    class='form-control'
+    value=post.cost
+    data-test-field='market-cost'
+  }}
+</div>
+
+{{image-upload-list
+  model=post
+  data-test-market-images=true
+}}
+
+{{#form-group error=errors.contact hideError=true class='u-layoutPadT50'}}
+  <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
+  {{form-error errors.contact}}
+
+  <div class='ContentForm-helpText u-layoutPadB20'>
+    Choose either, or both. What you enter will be public on the site.
+  </div>
+  <div class="form-group">
+    <label for='email'>Email</label>
+    <div class='input-group'>
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'envelope'}}
+      </span>
+      {{input
+        id='email'
+        placeholder='Contact Email'
+        class='form-control'
+        value=(mut post.contactEmail)
+        input=(action 'validateForm')
+        data-test-field='market-contactEmail'
+      }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for='phone'>Phone</label>
+    <div class='input-group'>
+      <span class="ContentForm-iconLabel input-group-addon">
+        {{fa-icon 'phone'}}
+      </span>
+      {{input
+        id='phone'
+        placeholder='Contact Phone'
+        class='form-control'
+        value=(mut post.contactPhone)
+        type='tel'
+        input=(action 'validateForm')
+        data-test-field='market-contactPhone'
+      }}
+    </div>
+  </div>
+{{/form-group}}
+
+<div class='form-group'>
+  <span class='ContentForm-requiredIndicator'>*</span> required fields
+</div>
+
+{{partial 'partials/content-form-buttons'}}

@@ -36,8 +36,11 @@ export default Ember.Route.extend(FastbootTransitionRouteProtocol, Redirect, Rou
     const parentModel = this.modelFor('feed');
 
     if (!get(this, 'fastboot.isFastBoot') && isBlank(parentModel)) {
-      this.send('loadFeedFromChild');
+      const contentLocationId = this.modelFor(this.routeName).get('locationId');
+
+      this.send('loadFeedFromElsewhere', contentLocationId);
     }
+
   },
 
   actions: {

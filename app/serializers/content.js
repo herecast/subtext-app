@@ -19,9 +19,8 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     schedules: {
       embedded: 'always'
     },
-    baseLocations: {
-      deserialize: 'ids',
-      serialize: false
+    location: {
+      embedded: 'always'
     }
   },
 
@@ -34,7 +33,6 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
 
   serialize(snapshot, options) {
     const json = this._super(snapshot, options);
-
     // If a user creates a new venue, we need to nest it inside of a "venue"
     // namespace so the API knows to create it.
     if (!json.venue_id && json.venue_address) {
@@ -46,6 +44,11 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.status = json.venue_status;
       json.venue.venue_url = json.venue_url;
       json.venue.zip = json.venue_zip;
+    }
+
+    if (json.location) {
+      json.location_id = json.location.id;
+      delete json.location;
     }
 
     delete json.author_id;

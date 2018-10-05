@@ -3,22 +3,21 @@ import Scroll from '../../mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
-import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject, computed, isPresent } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, SocialSharing, BaseUserLocation, {
+export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, SocialSharing, {
   location: inject.service('window-location'),
-  currentUserEmail: computed.oneWay('session.currentUser.email'),
+  currentUserName: computed.readOnly('session.currentUser.name'),
 
   model(params, transition) {
     const newRecordValues = {
-      promoteRadius: 10,
       contentType: 'market',
+      authorName: get(this, 'currentUserName'),
       ugcJob: params.job
     };
 
-    if ('organization_id' in transition.queryParams) {
+    if ('organization_id' in transition.queryParams && isPresent(transition.queryParams.organization_id)) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
         return this.store.createRecord('content', newRecordValues);

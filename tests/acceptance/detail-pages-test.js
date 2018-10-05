@@ -26,7 +26,7 @@ test('testing news detail page', function(assert) {
     contentId: content.id
   });
 
-  visit(`/feed/${content.id}`);
+  visit(`/${content.id}`);
 
   andThen(function() {
     assert.equal(find(testSelector('news-title')).text().trim(), content.title, 'it should have the correct title');
@@ -54,7 +54,7 @@ test('testing talk detail page', function(assert) {
     contentId: content.id
   });
 
-  visit(`/feed/${content.id}`);
+  visit(`/${content.id}`);
 
   andThen(function() {
     assert.equal(find(testSelector('market-title')).text().trim(), content.title, 'it should have the correct title');
@@ -90,7 +90,7 @@ test('testing event detail page', function(assert) {
     contentId: content.id
   });
 
-  visit(`/feed/${content.id}/${eventInstance.id}`);
+  visit(`/${content.id}/${eventInstance.id}`);
 
   const {startsAt, endsAt} = eventInstance;
   const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
@@ -170,7 +170,7 @@ test('testing market detail page', function(assert) {
     contentId: content.id
   });
 
-  visit(`/feed/${content.id}`);
+  visit(`/${content.id}`);
 
   andThen(function() {
     assert.equal(

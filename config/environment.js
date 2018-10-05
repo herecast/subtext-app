@@ -149,6 +149,11 @@ module.exports = function(environment) {
 
     ENV['ember-cli-mirage']['enabled'] = true;
 
+    ENV['ember-simple-auth'] = {
+      routeAfterAuthentication: 'feed.index',
+      routeIfAlreadyAuthenticated: 'feed.index'
+    }
+
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'
     };

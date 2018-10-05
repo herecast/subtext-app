@@ -9,9 +9,14 @@ export default DS.Model.extend({
   userImageUrl: DS.attr('string'),
   listservId: DS.attr('number'),
   listservName: DS.attr('string'),
-  location: DS.attr('string'),
-  locationId: DS.attr('string'),
-  locationConfirmed: DS.attr('boolean'),
+  location: DS.belongsTo('location'),
+  locationId: computed('location', function() {
+    const location = get(this, 'location');
+    if (isPresent(location)) {
+      return get(location, 'id');
+    }
+    return null;
+  }),
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
   userId: DS.attr('number'),

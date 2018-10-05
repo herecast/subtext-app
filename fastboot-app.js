@@ -70,106 +70,6 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
   }, 'B', 20000);
 }
 
-const cookieLocationRedirect = function(req, res, next) {
-  if(req.path === '/' || /^\/feed\/?$/.test(req.path)) {
-    if(req.query['location'] && req.query['location'].length > 0) {
-      next();
-    } else {
-      // Location not included in url
-      const locationId = req.cookies['locationId'];
-      const locationConfirmed = req.cookies['locationConfirmed'];
-      let redirParams;
-
-      if(locationId && locationConfirmed === 'true') {
-        redirParams = url.format({
-          pathname: '/feed',
-          query: Object.assign({}, req.query, {
-            location: locationId
-          })
-        });
-      } else {
-        redirParams = url.format({
-          pathname: '/feed',
-          query: Object.assign({}, req.query, {
-            location: 'sharon-vt'
-          })
-        });
-      }
-
-      res.setHeader('Cache-Control', 'max-age=3600');
-      res.redirect(redirParams);
-    }
-  } else {
-    next();
-  }
-};
-
-const removeFeedQueryParamsForDirect = function(req, res, next) {
-  /**
-   * Filter query params for direct feed detail urls
-   *
-   * Currently location, radius, query, and type should be removed
-   */
-  if(req.path.indexOf('/feed/') == 0) {
-    var filterOut = ['location','radius','query','type'];
-
-    var redirectNecessary = filterOut.some(function(param) {
-      return param in req.query;
-    });
-
-    if(redirectNecessary) {
-      var newQueryParams = {};
-
-      for(var param in req.query) {
-        if(!filterOut.includes(param)) {
-          newQueryParams[param] = req.query[param];
-        }
-      }
-
-      res.setHeader('Cache-Control', 'max-age=3600');
-
-      res.redirect(url.format({
-        pathname: req.path,
-        query: newQueryParams
-      }));
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-};
-
-const legacyRedirect = function(req, res, next) {
-  /*
-   * Redirects to redirect from legacy paths and query params to current ones
-   */
-  if (req.path.indexOf('/feed') == 0) {
-    var typeRedirects = {
-      "news" : "posts",
-      "event": "calendar"
-    };
-    var redirectNecessary = ('type' in req.query) && Object.keys(typeRedirects).some(function(param) {
-      return param == req.query.type;
-    });
-
-    if (redirectNecessary) {
-      req.query.type = typeRedirects[req.query.type];
-
-      res.setHeader('Cache-Control', 'max-age=3600');
-
-      res.redirect(url.format({
-        pathname: req.path,
-        query: req.query
-      }));
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-}
-
 function sitemapMiddleware(req, res, next) {
   const api_base = process.env.API_BASE_URL || (req.protocol + req.hostname);
   const consumer_base = `${req.protocol}://${req.hostname}`;
@@ -237,12 +137,6 @@ let server = new FastBootAppServer({
     app.use(cookieParser());
 
     app.use(sitemapMiddleware);
-
-    app.use(legacyRedirect);
-
-    app.use(cookieLocationRedirect);
-
-    app.use(removeFeedQueryParamsForDirect);
   },
   distPath: 'dist',
   gzip: false,

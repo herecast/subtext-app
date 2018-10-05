@@ -1,16 +1,3 @@
-{{#if (and _didEnterViewPort features.browserTesting)}}
-  <div style="
-      position: absolute;
-      background: rgb(200,0,0);
-      color: #fff;
-      padding: 0.5em;
-      opacity: 0.8;
-      left: 50%;
-      z-index: 100;
-      transform: translateX(-50%);
-    ">Impression Tracked</div>
-{{/if}}
-
 {{component componentType
   model=model
   userLocation=userLocation

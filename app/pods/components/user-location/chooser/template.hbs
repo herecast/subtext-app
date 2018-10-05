@@ -1,0 +1,72 @@
+{{#modal-wrapper
+  close=(action 'afterSlideClose')
+  slideInFrom='left'
+  slideOutTo='left'
+  atSlideStart=(action 'focusOnInput')
+  as |closeModal|
+}}
+  <div class="UserLocation-Chooser" data-test-component='user-location-chooser'>
+    {{#if gettingGeolocation}}
+      <div class="UserLocation-Chooser-loading">
+        <div class="UserLocation-Chooser-loading-message">
+          {{fa-icon 'gear' spin=true}}
+          <div>
+            Getting Your Location...
+          </div>
+        </div>
+
+      </div>
+    {{/if}}
+    <div class="UserLocation-Chooser-search">
+      {{fa-icon 'search' class="UserLocation-Chooser-search-icon"}}
+
+      {{input
+        id='new-location'
+        placeholder="Enter City Name or ZIP Code"
+        class='UserLocation-Chooser-search-input'
+        value=(mut inputValue)
+        keyUp=(action 'valueChanging')
+        data-test-new-location-input=true
+      }}
+
+      {{#if isTesting}}
+        <div id="inputTriggerForTesting" {{action 'valueChanging'}} data-test-button="change-input-value"></div>
+      {{/if}}
+
+      {{#unless hideLocateMe}}
+        <div class="UserLocation-Chooser-locate-me">
+          {{#x-button onClick=(action 'locateUser' closeModal) color='secondary' size='x-small'}}
+            {{fa-icon 'location-arrow'}} Locate Me
+          {{/x-button}}
+        </div>
+      {{/unless}}
+    </div>
+
+    <div class="UserLocation-Chooser-location current" {{action closeModal}}>
+      {{#if modelLocationName}}
+        {{fa-icon 'map-marker'}} {{modelLocationName}}
+        <div class="UserLocation-Chooser-location-identifier">
+          Current Post Location
+        </div>
+      {{else}}
+        {{fa-icon 'map-marker'}} {{userLocationName}}
+        <div class="UserLocation-Chooser-location-identifier">
+          Your Current Location
+        </div>
+      {{/if}}
+
+    </div>
+
+    {{#if locationMatches}}
+      {{#each locationMatches as |location|}}
+        <div class="UserLocation-Chooser-location" {{action 'chooseLocation' location closeModal}} data-test-location-choice={{location.id}}>
+          {{fa-icon 'map-marker'}} {{location.city}}, {{location.state}}
+        </div>
+      {{/each}}
+    {{else if gettingMatches}}
+      Searching...
+    {{else if hasInputValue}}
+      No Matching Locations
+    {{/if}}
+  </div>
+{{/modal-wrapper}}

@@ -27,14 +27,17 @@ export default Ember.Service.extend(Evented, {
   _getBookmarks() {
     if (get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
       get(this, 'currentUser').then(currentUser => {
-        this._setupTooltip();
-
+        Ember.run.next(() => {
+          this._setupTooltip();
+        });
+        
         get(this, 'store').query('user', {
-            user_id: get(currentUser, 'userId'),
-            include: 'bookmarks'
-        }).then(() => {
-            set(this, 'hasLoadedBookmarks', true);
-            this.trigger('bookmarksLoaded');
+          user_id: get(currentUser, 'userId'),
+          include: 'bookmarks'
+        })
+        .then(() => {
+          set(this, 'hasLoadedBookmarks', true);
+          this.trigger('bookmarksLoaded');
         });
       });
     }
@@ -67,6 +70,11 @@ export default Ember.Service.extend(Evented, {
   register(bookmarkComponent, method) {
     if (isBlank(get(this, 'firstBookmarkComponent'))) {
       set(this, 'firstBookmarkComponent', bookmarkComponent);
+      if (get(this, 'session.isAuthenticated')) {
+        Ember.run.next(() => {
+          this._setupTooltip();
+        });
+      }
     }
 
     if (!get(this, 'hasLoadedBookmarks')) {
@@ -77,6 +85,11 @@ export default Ember.Service.extend(Evented, {
   },
 
   unregister(bookmarkComponent, method) {
+    const isFirstBookmarkComponent = get(bookmarkComponent, 'contentId') === get(this, 'firstBookmarkComponent.contentId');
+
+    if (isFirstBookmarkComponent) {
+      set(this, 'firstBookmarkComponent', null);
+    }
     this.off('bookmarksLoaded', bookmarkComponent, method);
   },
 

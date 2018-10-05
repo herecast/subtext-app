@@ -1,0 +1,12 @@
+<div class="UserLocation-location" {{action 'clickLocation'}} data-test-component="user-location">
+  {{#if showLocationName}}
+    <div class="UserLocation-location-context">
+      In &<br />
+      Around
+    </div>
+    {{fa-icon 'map-marker'}}
+    {{userLocationName}}
+  {{else}}
+    Calculating Location...
+  {{/if}}
+</div>

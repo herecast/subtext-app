@@ -41,7 +41,7 @@ export default {
     } else if (detailPageFromProfile && organizationId) {
       url = `${locationService.origin()}/profile/${organizationId}/${contentId}`;
     } else {
-      url = `${locationService.origin()}/feed/${contentId}`;
+      url = `${locationService.origin()}/${contentId}`;
     }
 
     if (model.constructor.modelName === 'event-instance') {

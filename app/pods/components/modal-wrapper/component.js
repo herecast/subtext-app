@@ -22,6 +22,27 @@ export default Ember.Component.extend({
   isScrollingBody: false,
   isBodyAtBottom: false,
 
+  slideInFrom: null,
+  slideOutTo: null,
+  isSlider: computed('slideInFrom', 'slideOutTo', function() {
+    return isPresent(get(this, 'slideInFrom')) && isPresent(get(this, 'slideOutTo'));
+  }),
+  showOnScreen: false,
+  sliderClass: computed('slideInFrom', 'slideOutTo', 'showOnScreen', function() {
+    if (get(this, 'isSlider')) {
+      const slideInFrom = get(this, 'slideInFrom');
+      const slideOutTo = get(this, 'slideOutTo');
+
+      if (get(this, 'showOnScreen')) {
+        return `end-slide-from-${slideOutTo}`;
+      } else {
+        return `start-slide-from-${slideInFrom}`;
+      }
+    }
+
+    return null;
+  }),
+
   showHeader: computed('title', function() {
     return isPresent(get(this, 'title'));
   }),
@@ -199,6 +220,19 @@ export default Ember.Component.extend({
     // Determine if we are at the bottom of the dialog already
     this._determineIfBodyAtBottom();
 
+    // Init sets up slider offscreen, has to be rendered in DOM before can slide in
+    if (get(this, 'isSlider')) {
+      Ember.run.next(() => {
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'showOnScreen', true);
+        }
+      });
+
+      if (get(this, 'atSlideStart')) {
+        get(this, 'atSlideStart')();
+      }
+    }
+
     if (get(this, 'willAnimateAway')) {
       const $this = this.$();
 
@@ -275,9 +309,27 @@ export default Ember.Component.extend({
         this._determineIfBodyAtBottom();
       }
     },
-    closeModal() {
+
+    clickModalClose() {
       get(this, 'tracking').trackCloseModalClickButton();
-      this.close();
+      this.send('closeModal');
+    },
+
+    closeModal() {
+      if (get(this, 'isSlider')) {
+        set(this, 'showOnScreen', false);
+
+        if (this.close) {
+          Ember.run.later(() => {
+            this.close();
+          }, 550);
+        }
+      } else {
+        if (this.close) {
+          this.close();
+        }
+      }
+
     }
   }
 

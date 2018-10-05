@@ -7,6 +7,8 @@ const {
   computed,
   assign,
   set,
+  setProperties,
+  run,
   RSVP: {Promise}
 } = Ember;
 
@@ -15,21 +17,22 @@ export default Ember.Controller.extend({
 
   userLocation: service(),
   tracking: service(),
+  fastboot: service(),
   windowLocation: service(),
   session: service(),
   search: service(),
   api: service(),
   history: service(),
 
+  isFastBoot: computed.alias('fastboot.isFastBoot'),
+
   currentRouteName: computed.reads('history.currentRouteName'),
 
-  queryParams: ['page', 'perPage', 'query', 'location', 'type', 'radius', 'startDate', 'endDate'],
+  queryParams: ['page', 'perPage', 'query', 'type', 'startDate', 'endDate'],
   query: computed.alias('search.query'),
-  location: '',
   type: '',
   page: 1,
   perPage: 5,
-  radius: '50',
   startDate: '',
   endDate: '',
   enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
@@ -37,35 +40,75 @@ export default Ember.Controller.extend({
   condensedView: false,
   hasClickedCondensedView: false,
 
-  isMyStuffOnly: computed.equal('radius', 'myStuff'),
-  canManage: computed.and('session.isAuthenticated', 'isMyStuffOnly'),
-
   isSearchActive: computed.notEmpty('query'),
 
   showingDetailInFeed: null,
+
+  _minimimLoadingDelay: 1200,
+  _animationDelayRunning: false,
+  _animationDelay: null,
+  _modelIsLoading: false,
+  showLoadingAnimation: false,
+
+  modelLoadHasStarted() {
+    setProperties(this, {
+      showLoadingAnimation: true,
+      _animationDelayRunning: true,
+      _modelIsLoading: true
+    });
+
+    if (!get(this, 'fastboot.isFastBoot')) {
+      const _minimimLoadingDelay = get(this, '_minimimLoadingDelay');
+      const _animationDelay = run.later(() => {
+        this._animationDelayHasEnded();
+      }, _minimimLoadingDelay);
+
+      set(this, '_animationDelay', _animationDelay);
+    }
+  },
+
+  modelLoadHasEnded() {
+    set(this, '_modelIsLoading', false);
+
+    if (!get(this, '_animationDelayRunning')) {
+      set(this, 'showLoadingAnimation', false);
+    }
+  },
+
+  _animationDelayHasEnded() {
+    set(this, '_animationDelayRunning', false);
+
+    if (!get(this, '_modelIsLoading')) {
+      set(this, 'showLoadingAnimation', false);
+    }
+  },
+
 
   hasResults: computed('model.eventInstances.[]', 'model.feedItems.[]', function() {
     return get(this, 'model.feedItems.length') || get(this, 'model.eventInstances.length');
   }),
 
-  locationForControls: computed('userLocation.location.id', function() {
-    return get(this, 'userLocation.location');
-  }),
-
-  eventFilterAndNotMyStuff: computed('type', 'radius', function() {
-    const isMyStuff = get(this, 'radius') === "myStuff";
+  eventFilterAndNotMyStuff: computed('type', function() {
     const isEventFilter = get(this, 'type') === 'calendar';
 
-    return isEventFilter && !isMyStuff;
+    return isEventFilter;
   }),
 
   init() {
     this._super(...arguments);
 
-    // Used in conjuction with MaintainScroll route mixin
-    get(this, 'userLocation').on('locationDidChange', ()=>{
-      set(this, 'scrollPosition', 0);
+    get(this, 'userLocation').on('userLocationChanged', () => {
+      window.scrollTo(0, 0);
+
+      Ember.run.next(() => {
+        this._transitionToFeed({}, true);
+      });
     });
+  },
+
+  willDestroy() {
+    this._super(...arguments);
+    get(this, 'userLocation').off('userLocationChanged');
   },
 
   _gtmTrackEvent(name, content='') {
@@ -92,12 +135,10 @@ export default Ember.Controller.extend({
     this._gtmTrackEvent('condensed-view-clicked');
   },
 
-  _transitionToFeed(overrides = {}) {
+  _transitionToFeed(overrides = {}, loadFeedFromElsewhere=false) {
     set(this, 'condensedView', false);
 
     const defaults = {
-      location: get(this, 'location'),
-      radius: get(this, 'radius'),
       type: get(this, 'type'),
       query: get(this, 'query'),
       startDate: '',
@@ -106,26 +147,28 @@ export default Ember.Controller.extend({
 
     this.transitionToRoute('feed', {
       queryParams: assign({}, defaults, overrides)
+    })
+    .then(() => {
+      if (loadFeedFromElsewhere) {
+        this.send('loadFeedFromElsewhere');
+      }
     });
 
   },
 
-  queryParamsChanged({ location_id, query, radius }) {
+  queryParamsChanged({ location_id, query }) {
     const oldQueryParams = get(this, 'enabledEventsQueryParams');
 
-    return oldQueryParams.location_id !== location_id || oldQueryParams.radius !== radius || oldQueryParams.query !== query;
+    return  oldQueryParams.query !== query;
   },
 
   actions: {
     updateEnabledEventDays(selectedDate) {
       const enabledEventDays = get(this, 'enabledEventDays');
       const api = get(this, 'api');
-      const location = get(this, 'location');
-      const radius = get(this, 'radius');
       const query = get(this, 'query');
       const queryParams = {
-        location_id: location,
-        radius: radius,
+        location_id: get(this, 'userLocation.activeUserLocationId'),
         query: query
       };
       let end, start;
@@ -167,37 +210,6 @@ export default Ember.Controller.extend({
     filterType(type) {
       this._transitionToFeed({
         type: type
-      });
-    },
-
-    changeRadius(radius) {
-      get(this, 'tracking').changeSearchRadius(radius, {
-        channel: get(this, 'channel'),
-        oldRadius: get(this, 'radius')
-      });
-
-      this._transitionToFeed({
-        radius: radius
-      });
-    },
-
-    chooseMyStuffOnly() {
-      this.transitionToRoute('mystuff');
-    },
-
-    chooseLocation(location) {
-      const userLocation = get(this, 'userLocation');
-
-      get(this, 'tracking').push({
-        event: "ChooseLocation",
-        location_id: get(userLocation, 'location.id'),
-        new_location_name: get(location, 'name'),
-        new_location_id: get(location, 'id')
-      });
-
-      userLocation.saveSelectedLocationId(get(location, 'id'));
-      this._transitionToFeed({
-        location: get(location, 'id'),
       });
     },
 

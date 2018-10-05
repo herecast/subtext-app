@@ -1,150 +1,227 @@
 import { test } from 'qunit';
+import testSelector from 'ember-test-selectors';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
 import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
+import mockService from 'subtext-ui/tests/helpers/mock-service';
+import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
+import Ember from 'ember';
 
 moduleForAcceptance('Acceptance | homepage', {
   beforeEach() {
     this.cookies = {};
     mockCookies(this.application, this.cookies);
+    invalidateSession(this.application);
   }
 });
 
-test('visiting /, not located', function(assert) {
-  server.createList('location', 3);
+test('visiting / - no location cookie, not logged in', function(assert) {
+  const done = assert.async(2);
+  const defaultLocationId = 19; //Hartford VT
+
+  server.create('location', {id: defaultLocationId});
+
+  server.get('/feed', function(db, request) {
+    if (request.queryParams.location_id) {
+      assert.equal(request.queryParams.location_id, defaultLocationId, "The default location id is passed to the api request");
+      done();
+    }
+
+    return {feedItems: []};
+  });
 
   visit('/');
 
-  andThen(function() {
-    assert.equal(
-      currentURL(), '/feed?location=sharon-vt',
-      "It redirects to the feed with the default hartford selected"
-    );
+  andThen(() => {
+    assert.equal(currentURL(), '/', "Home page displays");
+    click(testSelector('signin-from-header'));
+
+    andThen(() => {
+
+      click(testSelector('signin-from-side-menu'));
+
+      andThen(() => {
+        let location = server.create('location');
+        let user = server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
+
+        server.get('/feed', function(db, request) {
+          if (request.queryParams.location_id) {
+            assert.equal(request.queryParams.location_id, location.id, "The logged in user location id is passed to the api request");
+            done();
+          }
+
+          return {feedItems: []};
+        });
+
+        fillIn(testSelector('field', 'sign-in-email'), user.email);
+        fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+        click(testSelector('component', 'sign-in-submit'));
+      });
+    });
   });
 });
 
-test('Location in cookie; not confirmed; visit /', function(assert) {
-  const location = server.create('location');
+test('visiting / - with location cookie, not logged in', function(assert) {
+  const done = assert.async(2);
+  const cookieLocation = mockLocationCookie(this.application);
 
-  this.cookies['locationId'] = location.id;
-  this.cookies['locationConfirmed'] = null;
+  server.get('/feed', function(db, request) {
+    if (request.queryParams.location_id) {
+      assert.equal(request.queryParams.location_id, cookieLocation.id, "The cookie location id is passed to the api request");
+      done();
+    }
+
+    return {feedItems: []};
+  });
 
   visit('/');
 
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=sharon-vt`,
-      "Redirects to feed index with default location. (location not confirmed)");
+  andThen(() => {
+    assert.equal(currentURL(), '/', "Home page displays");
+    click(testSelector('signin-from-header'));
+
+    andThen(() => {
+      click(testSelector('signin-from-side-menu'));
+
+      andThen(() => {
+        let location = server.create('location');
+        let user = server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
+
+        server.get('/feed', function(db, request) {
+          if (request.queryParams.location_id) {
+            assert.equal(request.queryParams.location_id, location.id, "The logged in user location id is passed to the api request");
+            done();
+          }
+
+          return {feedItems: []};
+        });
+
+        fillIn(testSelector('field', 'sign-in-email'), user.email);
+        fillIn(testSelector('field', 'sign-in-password'), 'password');
+
+        click(testSelector('component', 'sign-in-submit'));
+      });
+    });
   });
 });
 
-test('Location in cookie; confirmed; visit /', function(assert) {
-  const location = server.create('location');
-
-  this.cookies['locationId'] = location.id;
-  this.cookies['locationConfirmed'] = true;
-
-  visit('/');
-
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=${location.id}`,
-      "Redirects to feed index with cookie location id");
-  });
-});
-
-test('Location in cookie; confirmed; signed in; user location not confirmed; visit /', function(assert) {
+test('visiting / - with location cookie, logged in, user location matches cookie location', function(assert) {
   const done = assert.async();
-  const location = server.create('location');
 
-  this.cookies['locationId'] = location.id;
-  this.cookies['locationConfirmed'] = true;
+  let location = server.create('location');
+  let user = server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
 
-  authenticateUser(this.application,
-    server.create('current-user', {
-      locationConfirmed: false
-    })
-  );
+  mockLocationCookie(this.application, location);
+  authenticateUser(this.application, user);
 
-  server.put('/current_user', function(db, request) {
-    const data = JSON.parse(request.requestBody);
-    assert.equal(data['current_user']['location_confirmed'], true,
-      "The user's location_confirmed value is updated to match the cookie");
-    done();
-    return data;
+  server.get('/feed', function(db, request) {
+    if (request.queryParams.location_id) {
+      assert.equal(request.queryParams.location_id, location.id, "The user's location id is passed to the api request");
+      done();
+    }
+
+    return {feedItems: []};
   });
 
   visit('/');
 
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=${location.id}`,
-      "Redirects to feed index with cookie location id");
-
+  andThen(() => {
+    assert.equal(currentURL(), '/', "Home page displays");
   });
 });
 
-test('Location in cookie; confirmed cookie; signed in ; user location confirmed; visit /', function(assert) {
-  const location = server.create('location');
+test('visiting / - with location cookie, logged in, user location doesnt match cookie location', function(assert) {
+  const done = assert.async();
 
-  this.cookies['locationId'] = location.id;
-  this.cookies['locationConfirmed'] = true;
+  let userLocation = server.create('location');
 
-  authenticateUser(this.application,
-    server.create('current-user', {
-      locationConfirmed: true,
-      locationId: location.id
-    })
-  );
+  let user = server.create('current-user', {locationId: userLocation.id, email: "embertest@subtext.org"});
+
+  mockService(this.application, 'cookies', Ember.Object.extend({
+    read() {},
+    write(name, value){
+      if (name === 'userLocationId') {
+        assert.equal(value, userLocation.id, 'The cookie is set to the user location');
+      }
+    }
+  }));
+
+  authenticateUser(this.application, user);
+
+  server.get('/feed', function(db, request) {
+    if (request.queryParams.location_id) {
+      assert.equal(request.queryParams.location_id, userLocation.id, "The user's location id is passed to the api request, not the cookie location id");
+      done();
+    }
+
+    return {feedItems: []};
+  });
 
   visit('/');
 
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=${location.id}`,
-    "Redirects to feed index with cookie location id");
+  andThen(() => {
+    assert.equal(currentURL(), '/', "Home page displays");
   });
 });
 
-test('No location cookie; no confirmed cookie; signed in; user location; user location not confirmed; visit /', function(assert) {
-
-  const location = server.create('location');
-
-  authenticateUser(this.application,
-    server.create('current-user', {
-      locationConfirmed: false,
-      locationId: location.id
-    })
-  );
+test('visiting / - not logged in user menu, log in and check user menu, then logout', function(assert) {
+  const done = assert.async();
+  server.create('location', {id: 19}); //Default location
 
   visit('/');
 
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=${location.id}`,
-    "Redirects to feed index with user default location");
+  andThen(() => {
+    assert.equal(currentURL(), '/', "Home page displays");
+    click(testSelector('signin-from-header'));
 
-    assert.equal(this.cookies['locationId'], location.id,
-      "The location cookie is written based on user locationId");
-  });
-});
+    andThen(() => {
+      let $sideMenu = find(testSelector('side-menu'));
+      assert.ok($sideMenu.hasClass('on-screen'), 'Side Menu should be on screen after click signin prompt in header');
 
-test('No location cookie; no confirmed cookie; signed in; user location; user location confirmed; visit /', function(assert) {
+      click(testSelector('signin-from-side-menu'));
 
-  const location = server.create('location');
+      andThen(() => {
+        assert.ok($sideMenu.hasClass('off-screen'), 'Side Menu should close after signin prompt clicked from side menu');
+        assert.ok(find(testSelector('component', 'sign-in')).length, 'Sign in modal should show after signin prompt clicked from side menu');
 
-  authenticateUser(this.application,
-    server.create('current-user', {
-      locationConfirmed: true,
-      locationId: location.id
-    })
-  );
+        let userLocation = server.create('location');
+        let organizations = server.createList('organization', 2);
+        let user = server.create('current-user', {
+          locationId: userLocation.id,
+          email: "embertest@subtext.org",
+          managedOrganizationIds: organizations.map(org => org.id)
+        });
 
-  visit('/');
+        fillIn(testSelector('field', 'sign-in-email'), user.email);
+        fillIn(testSelector('field', 'sign-in-password'), 'password');
 
-  andThen(()=>{
-    assert.equal(currentURL(), `/feed?location=${location.id}`,
-    "Redirects to feed index with user location id");
+        server.get('/feed',() => {
+          done();
+          return {feedItems: []};
+        });
 
-    assert.equal(this.cookies['locationId'], location.id,
-      "The location cookie is written based on user locationId");
+        click(testSelector('component', 'sign-in-submit'));
 
-    assert.equal(this.cookies['locationConfirmed'], true,
-      "The location confirmed cookie is written based on user location confirmed");
+        andThen(() => {
+          click(testSelector('avatar-in-header'));
+
+          assert.ok(find(testSelector('mystuff-navbar')).length, 'Side menu should show mystuff options when logged in');
+          assert.equal(find(testSelector('managed-organization-button')).length, 2, 'Side menu should show the managed organization buttons');
+
+          click(testSelector('link', 'logout-link'));
+
+          andThen(() => {
+            click(testSelector('logout-yes'));
+
+            andThen(() => {
+              assert.equal(currentURL(), '/', "Home page displays again");
+              assert.ok(find(testSelector('signin-from-header')), 'Signin prompt should show in header after logout');
+            });
+          });
+        });
+      });
+    });
   });
 });

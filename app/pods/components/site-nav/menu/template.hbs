@@ -1,0 +1,94 @@
+<div class="SiteNav-Menu--close" {{action 'closeMenu'}}>
+  {{fa-icon 'times'}}
+</div>
+
+{{site-nav/user-menu
+  afterChoose=(action 'closeMenu')
+}}
+
+<div class="SiteNav-Menu--line-break"></div>
+<div class="SiteNav--section-title padded">
+  Links
+</div>
+
+<div class="SiteNav-Menu--routes">
+  <div {{action 'onLinkClick'}}>
+    {{#link-to 'terms'}}
+      Terms of Service
+    {{/link-to}}
+  </div>
+
+  <div {{action 'onLinkClick'}}>
+    {{#link-to 'privacy'}}
+    Privacy
+    {{/link-to}}
+  </div>
+
+  <div {{action 'onLinkClick'}}>
+    {{#link-to 'profile.all.show' 2237 942452}}
+      Help
+    {{/link-to}}
+  </div>
+
+  <div {{action 'onLinkClick'}}>
+    {{#link-to 'copyright-agent'}}
+      Don't Sue Us
+    {{/link-to}}
+  </div>
+
+  <div>
+    <a href="#" {{action 'sendFeedback'}}>
+      Contact Us
+    </a>
+  </div>
+
+  <div>
+    <a href="mailto:ads@subtext.org" {{action 'onLinkClick' preventDefault=false}}>
+      Advertise With Us
+    </a>
+  </div>
+
+  <div>
+    <a href="#" {{action 'sendFeedback'}}>
+      Site Feedback
+    </a>
+  </div>
+
+  <div>
+    <a href="#">
+      {{help-text}}
+    </a>
+  </div>
+</div>
+
+<div class="SiteNav-Menu--line-break"></div>
+
+{{#if isLoggedIn}}
+  <div class='SiteNav-Menu--logout'>
+    {{#unless wantsToSignOut}}
+      <div {{action 'toggleWantsToSignOut'}} data-test-link='logout-link'>
+        Logout
+      </div>
+    {{else}}
+      <div>
+        Are you sure?
+      </div>
+      {{#x-button
+         onClick=(action 'signOut')
+         color='light-gray'
+         size='x-small'
+         data-test-logout-yes=true
+       }}
+        Yes
+       {{/x-button}}
+       {{#x-button
+          onClick=(action 'toggleWantsToSignOut')
+          color='primary'
+          size='x-small'
+          data-test-logout-no=true
+        }}
+          No
+        {{/x-button}}
+    {{/unless}}
+  </div>
+{{/if}}

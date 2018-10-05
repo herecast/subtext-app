@@ -1,42 +1,33 @@
+
 <div class='PromotionSection'>
-  <label class='PromotionSection-label'>
-    Where should this post appear on DailyUV?
-  </label>
-
-  {{promote-locations
-      model=post
-  }}
-</div>
-
-  <div class='PromotionSection'>
-    <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
-    <p class='PromotionSection-description PromotionSection-description--emphasized'>
-      Send a text-only version of your market post to one or more Upper Valley listservs with a link to the full listing.
-      <b>You need to be subscribed to each list ahead of time in order to do this</b>.
-      Click <a href='https://dailyuv.com/news/812457' target="_blank"><b>here</b></a> for instructions on how to subscribe.
-    </p>
-    <div class='row'>
-      <div class='col-sm-2 col-sm-offset-2'>
-        <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle' data-test-listserv-toggle>
-          {{#if listsEnabled}}
-            {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
-          {{else}}
-            {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
-          {{/if}}
-        </div>
-      </div>
-      <div class='col-sm-8'>
+  <label class='PromotionSection-label' for="lists-enabled">Alert the List <span class='PromotionSection-cost'>Free!</span></label>
+  <p class='PromotionSection-description PromotionSection-description--emphasized'>
+    Send a text-only version of your market post to one or more Upper Valley listservs with a link to the full listing.
+    <b>You need to be subscribed to each list ahead of time in order to do this</b>.
+    Click <a href='https://dailyuv.com/news/812457' target="_blank"><b>here</b></a> for instructions on how to subscribe.
+  </p>
+  <div class='row'>
+    <div class='col-sm-2 col-sm-offset-2'>
+      <div {{action 'toggleProperty' 'listsEnabled'}} class='PromotionSection-toggle' data-test-listserv-toggle>
         {{#if listsEnabled}}
-          {{content-form-listservs
-            model=post
-            listservs=listservs
-          }}
+          {{fa-icon 'toggle-on PromotionSection-toggleIcon is-on'}} On
+        {{else}}
+          {{fa-icon 'toggle-off PromotionSection-toggleIcon'}} Off
         {{/if}}
       </div>
     </div>
+    <div class='col-sm-8'>
+      {{#if listsEnabled}}
+        {{content-form-listservs
+          model=post
+          listservs=listservs
+        }}
+      {{/if}}
+    </div>
   </div>
+</div>
 
-  {{partial 'partials/promotion-disclaimer'}}
+{{partial 'partials/promotion-disclaimer'}}
 
 <div class='ContentForm-buttonGroup form-group'>
   <button class='Button btn btn-default pull-left ContentForm-button ContentForm-button--edit' {{action 'back'}}>

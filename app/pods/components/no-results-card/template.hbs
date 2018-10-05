@@ -1,17 +1,61 @@
 {{#x-card}}
   {{#card-body center=true shortPadding=true}}
     {{#text-block large=true strong=true}}
-      No results were found matching your criteria.<br>
-      Try changing your search or expand the search area.
+      Want to see more results?
     {{/text-block}}
 
-    {{#if hasBlock}}
-      {{yield}}
-    {{else}}
+    {{#text-block medium=true strong=true}}
+      Change what you're seeing
+    {{/text-block}}
+    <div class="NoResults-cta-wrap">
+      {{user-location/cta-button}}
+    </div>
+
+    <div class="NoResults-cta-wrap"></div>
+    {{#text-block medium=true strong=true}}
+      Create your own content
+    {{/text-block}}
+
+    <div class="NoResults-cta-wrap">
+      {{#x-button
+         onClick=(action 'showJobsTray')
+         color='primary'
+         size='x-small'
+         noMargin=true
+       }}
+        Create a Local Post
+      {{/x-button}}
+    </div>
+    <div class="NoResults-cta-wrap">
+      {{#x-link-to 'startablog'
+         color='primary'
+         size='x-small'
+         noMargin=true
+         style='regular'
+       }}
+        Get Paid to Blog Locally
+      {{/x-link-to}}
+    </div>
+
+    <div class="NoResults-cta-wrap"></div>
+
+    <div class="NoResults-cta-wrap">
+      {{#help-text}}
+        Click here for help.
+      {{/help-text}}
+    </div>
+
+    {{#if hadSearch}}
+      {{#text-block large=true strong=true}}
+        Try changing your search query.
+      {{/text-block}}
+    {{/if}}
+
+    {{#if hadFilters}}
       {{#text-block}}
         {{x-link-to 'RESET MY FILTERS'
                     'feed'
-                    (query-params page=1 type='' radius='10' query='')
+                    (query-params page=1 type='' query='')
                     size='medium'
         }}
       {{/text-block}}

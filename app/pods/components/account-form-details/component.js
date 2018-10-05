@@ -49,27 +49,6 @@ export default Ember.Component.extend(Validation, {
     }
   },
 
-  submit(e) {
-    e.preventDefault();
-    const notify = get(this, 'notify');
-
-    if (this.isValid()) {
-      const model = get(this, 'model');
-      model.save().then(
-        () => {
-          setProperties(this, {
-            showPasswordForm: false,
-            imageFormVisible: false
-          });
-          notify.success('Successfully saved changes.');
-          get(this, 'intercom').update(model);
-        },
-        () => notify.error('Error: Unable to save changes.'));
-    } else {
-      notify.error('Error: Please correct the errors in the form.');
-    }
-  },
-
   actions: {
     notifyChange() {
       run.debounce(this, this.validateForm, 900);
@@ -79,6 +58,27 @@ export default Ember.Component.extend(Validation, {
     },
     showAvatarImageForm() {
       set(this, 'imageFormVisible', true);
+    },
+
+    submit() {
+      const notify = get(this, 'notify');
+
+      if (this.isValid()) {
+        const model = get(this, 'model');
+
+        model.save().then(
+          () => {
+            setProperties(this, {
+              showPasswordForm: false,
+              imageFormVisible: false
+            });
+            notify.success('Successfully saved changes.');
+            get(this, 'intercom').update(model);
+          },
+          () => notify.error('Error: Unable to save changes.'));
+      } else {
+        notify.error('Error: Please correct the errors in the form.');
+      }
     }
   }
 });

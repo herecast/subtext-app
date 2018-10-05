@@ -1,0 +1,168 @@
+.UserLocation {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2px 4px;
+  vertical-align: middle;
+
+  &-location {
+    vertical-align: middle;
+    text-align: right;
+    line-height: 0.8;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+
+    @media (max-width: @screen-xs-max) {
+      font-size: 16px;
+    }
+
+    &>div {
+      vertical-align: middle;
+    }
+    i {
+      color: @brand-blue;
+      margin-right: 2px;
+    }
+
+    &-context {
+      font-size: 11px;
+      font-weight: normal;
+      display: inline-block;
+      line-height: 0.8;
+      text-align: right;
+      margin-right: 3px;
+    }
+  }
+
+  &-Chooser {
+    min-height: 300px;
+    text-align: left;
+
+    &-loading {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.6);
+      text-align: center;
+      font-size: 22px;
+      color: #fff;
+      .display-inline-grid();
+      &-message {
+        .grid-align-self(center);
+      }
+      i {
+        font-size: 50px;
+      }
+    }
+
+    &-locate-me {
+      padding-top: 8px;
+    }
+
+    &-search {
+      margin-left:56px;
+
+      &-icon {
+        font-size: 22px;
+      }
+
+      &-input {
+        padding: 4px;
+        outline: none;
+        border: none;
+        min-width: 70%;
+        font-size: 16px;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    &-location {
+      border-bottom: solid 1px #e6e6e6;
+      padding: 8px 16px;
+      font-size: 16px;
+
+      i {
+        color: grey;
+      }
+
+      &.current {
+        padding-top: 16px;
+        i {
+          color: @brand-blue;
+        }
+      }
+
+      &-identifier {
+        font-size: 12px;
+        color: grey;
+        float: right;
+      }
+    }
+
+  }
+
+  &-SearchResults {
+    padding: 8px;
+
+    &-locate-me {
+      text-align: center;
+    }
+
+    &-location {
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+
+      &:not(:last-of-type) {
+        border-bottom: solid 1px #e6e6e6;
+      }
+
+      i {
+        color: grey;
+      }
+
+      &.current {
+        padding-top: 16px;
+        i {
+          color: @brand-blue;
+        }
+      }
+
+      &-identifier {
+        font-size: 12px;
+        color: grey;
+        float: right;
+      }
+    }
+  }
+
+  &-UgcButton {
+    &>div {
+      display: inline-block;
+    }
+    &-calculating {
+      font-size: 16px;
+    }
+    &-location {
+      font-size: 18px;
+      font-weight: bold;
+      i {
+        color: @brand-blue;
+      }
+    }
+    &-change {
+      font-size: 12px;
+      color: @brand-blue;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 24px;
+
+    }
+  }
+}

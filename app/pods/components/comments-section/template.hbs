@@ -8,17 +8,15 @@
     {{/title-text}}
   {{/if}}
 
-  {{#unless features.disable-content-creation}}
-    <div class='CommentList-replyForm'>
-      {{comment-new
-        parentContentId=parentContentId
-        contentTitle=contentTitle
-        comments=comments
-        disabled=commentingDisabled
-        afterComment=(action afterComment)
-      }}
-    </div>
-  {{/unless}}
+  <div class='CommentList-replyForm'>
+    {{comment-new
+      parentContentId=parentContentId
+      contentTitle=contentTitle
+      comments=comments
+      disabled=commentingDisabled
+      afterComment=(action afterComment)
+    }}
+  </div>
 
   {{#if sortedComments}}
     <div class='CommentList'>

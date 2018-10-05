@@ -1,0 +1,26 @@
+{{#click-outside action=(action 'hideResults') except-selector=".UserLocation-SearchResults,.UserLocation-SearchResults-locate-me-button"}}
+  {{search-input
+    showIcon=true
+    iconName='map-marker'
+    debounceWait=0
+    showClearButton=hasInputValue
+    selectAllOnFocus=true
+    placeholder="Enter City Name or ZIP Code"
+    value=inputDisplayValue
+    onfocus=(action 'showResults')
+    update=(action 'valueChanging')
+    isLoading=isLoadingLocation
+    data-test-user-location-search=true
+  }}
+
+  {{#if (or hasLocationMatches shouldShowResults)}}
+      {{to-elsewhere
+        named="global-search-results"
+        send=(component 'user-location/search-results'
+                  results=locationMatches
+                  hasInputValue=hasInputValue
+                  afterSaveLocation=(action 'hideResults')
+                  )
+      }}
+  {{/if}}
+{{/click-outside}}

@@ -1,5 +1,8 @@
 import {Factory, association, faker} from 'ember-cli-mirage';
+import Ember from 'ember';
 import moment from 'moment';
+
+const { isBlank, get } = Ember;
 
 function generateSplitContent() {
   const head = '<p>' + faker.lorem.sentences() + '</p>';
@@ -10,6 +13,21 @@ function generateSplitContent() {
 
 export default Factory.extend({
   afterCreate(content, server) {
+    if (isBlank(get(content, 'location'))) {
+      const numberOfLocations = server.db.locations.length;
+
+      let randomLocationId = Math.ceil(Math.random() * Math.floor(numberOfLocations));
+
+      if (numberOfLocations === 0 || randomLocationId === 0) {
+        const newLocation = server.create('location');
+        randomLocationId = newLocation.id;
+      }
+
+      content.update({
+        locationId: randomLocationId
+      });
+    }
+
     if (content.contentType === 'event' && !content.eventInstances.length) {
       let newEndDate = moment(content.startsAt).add(1, 'hours').toDate();
 
@@ -144,8 +162,6 @@ export default Factory.extend({
       height: 200
     }];
   },
-  locationId: null,
-  baseLocationIds: [],
   price() { return `$${faker.random.number(999)} OBO`; },
   sold() { return faker.random.arrayElement([true, false]); }
 });

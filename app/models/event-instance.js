@@ -4,7 +4,6 @@ import moment from 'moment';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import dateFormat from 'subtext-ui/lib/dates';
 import HasImages from 'subtext-ui/mixins/models/has-images';
-import Locatable from 'subtext-ui/mixins/models/content-locations';
 import HasVenue from 'subtext-ui/mixins/models/has-venue';
 
 const {
@@ -20,7 +19,7 @@ const { attr, belongsTo, hasMany, Model } = DS;
  * NOTE: this is a read-only model
  */
 
-export default Model.extend(Locatable, HasImages, HasVenue, {
+export default Model.extend(HasImages, HasVenue, {
   authorId: attr('number'),
   authorName: attr('string'),
   avatarUrl: attr('string'),

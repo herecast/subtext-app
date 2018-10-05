@@ -4,8 +4,11 @@ import resolver from '../../helpers/resolver';
 
 moduleForComponent('market-form', 'Unit | Component | market form', {
   // Specify the other units that are required for this test
-  needs: ['component:summer-note', 'component:form-group',
-    'component:image-upload-list', 'helper:form-error', 'helper:and'
+  needs: ['component:summer-note', 'component:form-group', 'component:user-location/ugc-button',
+    'component:image-upload-list', 'helper:form-error', 'helper:and',
+    'service:user-location', 'service:cookies', 'service:session', 'service:api',
+    'service:geolocation', 'service:tracking', 'service:notification-messages', 'service:window-location',
+    'service:fastboot', 'service:user', 'service:intercom'
   ],
   unit: true,
 
@@ -18,10 +21,12 @@ moduleForComponent('market-form', 'Unit | Component | market form', {
 test('it renders', function(assert) {
   assert.expect(2);
 
+  const locationPromise = new Ember.RSVP.Promise(resolve => resolve(Ember.Object.create({id: 1})));
   // Creates the component instance
   var component = this.subject({
     model: Ember.Object.create({
-      images: [Ember.Object.create()]
+      images: [Ember.Object.create()],
+      location: locationPromise
     })
   });
 

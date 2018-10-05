@@ -1,0 +1,117 @@
+@fake-card-animation-speed: 2.5s;
+
+.FeedCard-FakeCard {
+  &-excerpt-line {
+    margin: 2px 0;
+    display: inline-block;
+  }
+
+  &-author-name {
+    margin-bottom: 3px;
+    display: inline-block;
+  }
+
+  &-title,
+  &-published-at {
+    display: inline-block;
+  }
+
+  &-avatar>div {
+    background-color: #ccc !important;
+  }
+
+  &-background-image {
+    background-color: #ecf2f5;
+
+    &-top,
+    &-bottom {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    &-top {
+      opacity: 1.0;
+      .background-gradient-left-to-right();
+      .image-animation-out();
+    }
+
+    &-bottom {
+      opacity: 0;
+      .background-gradient-right-to-left();
+      .image-animation-in();
+    }
+  }
+
+  .background-gradient-left-to-right() {
+    background-image: -moz-linear-gradient( 135deg, #ccc 0%, #eaeaea 100%);
+    background-image: -webkit-linear-gradient( 135deg, #ccc 0%, #eaeaea 100%);
+    background-image: -ms-linear-gradient( 135deg, #ccc 0%, #eaeaea 100%);
+    background-image: linear-gradient( 135deg, #ccc 0%, #eaeaea 100%);
+  }
+
+  .background-gradient-right-to-left() {
+    background-image: -moz-linear-gradient( 135deg, #eaeaea 0%, #ccc 100%);
+    background-image: -webkit-linear-gradient( 135deg, #eaeaea 0%, #ccc 100%);
+    background-image: -ms-linear-gradient( 135deg, #eaeaea 0%, #ccc 100%);
+    background-image: linear-gradient( 135deg, #eaeaea 0%, #ccc 100%);
+  }
+
+  .image-animation-out(@delay: 0ms) {
+  	.animation(flashingImageOut @fake-card-animation-speed ease-in-out infinite @delay);
+  }
+
+  .image-animation-in(@delay: 0ms) {
+  	.animation(flashingImageIn @fake-card-animation-speed ease-in-out infinite @delay);
+  }
+
+
+  @keyframes flashingImageOut {
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes flashingImageIn {
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  &-base-location {
+    background: #ccc !important;
+    color: #ccc !important;
+    height: 29px;
+  }
+
+  .flashing-text {
+    opacity: 1.0;
+    .flashing-text-animation();
+
+    color: #ccc;
+    background: #ccc;
+    padding: 0 8px;
+    border-radius: 4px;
+    height: 16px;
+  }
+
+  .flashing-text-animation(@delay: 0ms) {
+    .animation(flashingText @fake-card-animation-speed ease infinite @delay);
+  }
+  @keyframes flashingText {
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

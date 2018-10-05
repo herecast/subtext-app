@@ -8,14 +8,16 @@ const {
   get,
   computed,
   observer,
-  RSVP: {Promise}
+  RSVP: {Promise},
+  Evented
 } = Ember;
 
-export default SessionService.extend({
+export default SessionService.extend(Evented, {
   api         : inject.service('api'),
   userService : inject.service('user'),
   intercom    : inject.service('intercom'),
   fastboot    : inject.service(),
+  store       : inject.service(),
   userLocationService: Ember.inject.service('user-location'),
   sequenceTrackers: {},
   startedOnIndexRoute: false,
@@ -29,17 +31,21 @@ export default SessionService.extend({
     });
   },
 
-  bootIntercom: observer('isAuthenticated', 'currentUser.id', function() {
-    const currentUser = get(this, 'currentUser');
+  bootIntercom: observer('isAuthenticated', 'currentUser.name', function() {
+    //const currentUser = get(this, 'currentUser');
 
-    if(get(this, 'isAuthenticated') && currentUser) {
-      this.get('intercom').update(currentUser);
+    if (get(this, 'isAuthenticated') && get(this, 'currentUser.name')) {
+      get(this, 'currentUser')
+      .then((currentUser) => {
+          this.get('intercom').update(currentUser);
+      });
     }
   }),
 
+
   currentUser: computed('data.authenticated.email', function() {
     if (isPresent(get(this, 'data.authenticated.email'))) {
-      return get(this, 'userService').getCurrentUser();
+      return get(this, 'store').findRecord('current-user', 'self');
     }
   }),
 

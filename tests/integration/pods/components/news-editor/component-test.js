@@ -16,6 +16,9 @@ test('it renders', function(assert) {
   const organizations = server.createList('organization', 3, { can_publish_news: true });
   this.set('organizations', organizations);
 
-  this.render(hbs`{{news-editor organizations=organizations}}`);
+  const model = server.create('content');
+  
+  this.set('model', model);
+  this.render(hbs`{{news-editor organizations=organizations news=model}}`);
   assert.ok(this.$());
 });

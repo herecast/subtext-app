@@ -36,22 +36,17 @@ export default create({
   fillInCost: fillable(testSelector('field', 'market-cost')),
   fillInEmail: fillable(testSelector('field', 'market-contactEmail')),
   fillInPhone: fillable(testSelector('field', 'market-contactPhone')),
-  selectLocation(location) {
-    click(
-      testSelector('action', 'open-location-selector')
-    );
+  selectNewLocation(locationId) {
+    click(testSelector('action', 'change-location'));
+
     andThen(() => {
-      click(
-        testSelector('click-target'),
-        testSelector('link', 'choose-location') +
-        testSelector('location', location.id)
-      );
+      fillIn(testSelector('new-location-input'), 'asdfasdf');
+      click(testSelector('button', 'change-input-value'));
+
+      andThen(() => {
+        click(testSelector('location-choice', locationId));
+      });
     });
-  },
-  pickRadius(radius) {
-    click(
-      testSelector('radius', radius)
-    );
   },
   next: clickable(testSelector('action', 'next')),
   saveAndPublish: clickable(testSelector('action', 'save-and-publish'))

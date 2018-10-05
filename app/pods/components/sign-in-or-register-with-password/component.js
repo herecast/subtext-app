@@ -108,10 +108,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
               email,
               password,
               password_confirmation: password,
-              location_id: locationId,
-              location_confirmed: get(this, 'userLocation.locationIsConfirmed')
+              location_id: locationId
             }
-          }).then(
+          })
+          .then(
             (response) => {
               const onRegistration = get(this, 'onRegistration');
               if (onRegistration) {
@@ -143,11 +143,13 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
         // Register the user after we load the location
         // If location does not load, register user with default location
-        get(this, 'userLocation.location').then(location => {
+        get(this, 'userLocation.userLocation')
+        .then(location => {
           registerUser(get(location, 'id'));
-        }).catch((e) => {
+        })
+        .catch((e) => {
           get(this, 'logger').error(e);
-          registerUser('hartford-vt');
+          registerUser(null);
         });
       } else {
         resolve();

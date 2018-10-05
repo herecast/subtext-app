@@ -14,7 +14,6 @@ const {
 
 export default Ember.Mixin.create({
   tracking: service(),
-  features: service('feature-flags'),
   root: null, // Scope to scrollable area, or null is viewport
   rootMargin: "60px 0px 0px 0px", //(Viewport/document margin)
   threshold: 0.1,

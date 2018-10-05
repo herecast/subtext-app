@@ -1,32 +1,16 @@
-{{#unless isDirectLink}}
-  {{! Adding the model property triggers this to rerender on same page transitions. }}
-  {{render-in-modal
-      (component 'event-detail'
-        model=model
-        closeRoute='feed'
-        closeLabel='Back'
-        isPreview=false
-        instanceRoute='feed.show-instance'
-        enableStickyHeader=true
-        trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
-      )
-      onClose=(action 'closeDetailPage')
-      modalWrapper='modals/headless-wrapper'
-      tagName="div"
-      class="renderInModal"
-      model=model
-  }}
-
-{{else}}
-
-  <div class="Location-Index-Show-wrapper">
-    {{component 'event-detail'
+{{render-in-modal
+    (component 'event-detail'
       model=model
       closeRoute='feed'
       closeLabel='Back'
       isPreview=false
       instanceRoute='feed.show-instance'
-    }}
-  </div>
-
-{{/unless}}
+      enableStickyHeader=true
+      trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
+    )
+    onClose=(action 'closeDetailPage')
+    modalWrapper='modals/headless-wrapper'
+    tagName="div"
+    class="renderInModal"
+    model=model
+}}

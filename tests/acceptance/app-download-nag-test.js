@@ -13,7 +13,7 @@ moduleForAcceptance('Acceptance | app download nag', {
   }
 });
 
-test('Visiting feed from Mobile Browser (not native app)', function(assert) {
+test('Visiting homepage from Mobile Browser (not native app)', function(assert) {
   const media = Ember.Service.extend({
     isMobileButNotNative: true
   });
@@ -21,7 +21,7 @@ test('Visiting feed from Mobile Browser (not native app)', function(assert) {
   this.application.register('services:mediaMock', media);
   this.application.inject('component', 'media', 'services:mediaMock');
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('nag-visible')).length, 1, 'Should show nag when visited from mobile device not in native app');
@@ -35,7 +35,7 @@ test('Visiting feed from Mobile Browser (not native app)', function(assert) {
 });
 
 
-test('Visiting feed from Mobile Browser (not native app) and Cookie present', function(assert) {
+test('Visiting homepage from Mobile Browser (not native app) and Cookie present', function(assert) {
   const media = Ember.Service.extend({
     isMobileButNotNative: true
   });
@@ -45,14 +45,14 @@ test('Visiting feed from Mobile Browser (not native app) and Cookie present', fu
 
   this.cookies['hideAppDownloadNag'] = true;
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from mobile device not in native app and cookie present');
   });
 });
 
-test('Visiting feed from Native App', function(assert) {
+test('Visiting homepage from Native App', function(assert) {
   const media = Ember.Service.extend({
     isMobileButNotNative: false
   });
@@ -60,14 +60,14 @@ test('Visiting feed from Native App', function(assert) {
   this.application.register('services:mediaMock', media);
   this.application.inject('component', 'media', 'services:mediaMock');
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from native mobile app');
   });
 });
 
-test('Visiting feed from non mobile device', function(assert) {
+test('Visiting homepage from non mobile device', function(assert) {
   const media = Ember.Service.extend({
     isMobileButNotNative: false
   });
@@ -75,7 +75,7 @@ test('Visiting feed from non mobile device', function(assert) {
   this.application.register('services:mediaMock', media);
   this.application.inject('component', 'media', 'services:mediaMock');
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from non mobile device');

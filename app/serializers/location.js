@@ -1,4 +1,4 @@
-import ApplicationSerializer from './application';
+import { ActiveModelSerializer } from 'active-model-adapter';
 
-export default ApplicationSerializer.extend({
+export default ActiveModelSerializer.extend({
 });

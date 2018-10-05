@@ -12,6 +12,12 @@ export default Ember.LinkComponent.extend(XButtonMixin, {
   style: 'link',
   color: 'black',
   contentOrganizationId: false,
+  onClick(){},
+
+  click(e) {
+    e.preventDefault();
+    this.onClick();
+  },
 
   didReceiveAttrs() {
     const contentOrganizationId = get(this, 'contentOrganizationId');

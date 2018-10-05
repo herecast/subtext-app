@@ -28,11 +28,11 @@ export default Ember.Route.extend(FastbootTransitionRouteProtocol, Redirect, Rou
 
   loadFeedInParent() {
     //This is to delay load of the feed until after load of integrated detail
-    //to speed up first page load speed
+    //to speed up first page load speed in fastboot
     const parentModel = this.modelFor('feed');
 
     if (!get(this, 'fastboot.isFastBoot') && isBlank(parentModel)) {
-      this.send('loadFeedFromChild');
+      this.send('loadFeedFromElsewhere');
     }
   },
 

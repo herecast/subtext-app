@@ -14,7 +14,6 @@ moduleForAcceptance('Acceptance | ugc event');
 test('Every field avaliable filled in', function(assert) {
   const done = assert.async(2);
   const venue = server.create('venue');
-  const location = server.create('location');
   const organization = server.create('organization');
   const currentUser = server.create('current-user', { email: 'example@example.com' });
   currentUser.managedOrganizationIds = [parseInt(get(organization, 'id'))];
@@ -36,7 +35,6 @@ test('Every field avaliable filled in', function(assert) {
       attrs,
       {
         authorName: null,
-        baseLocationName: null,
         bizFeedPublic: true,
         contactEmail: 'chewie@resistance.org',
         contactPhone: '6035555555',
@@ -46,8 +44,8 @@ test('Every field avaliable filled in', function(assert) {
         costType: 'paid',
         eventUrl: 'http://resistance.onion',
         listservIds: [],
+        location: null,
         organizationId: get(organization, 'id'),
-        promoteRadius: 50,
         publishedAt: null,
         registrationDeadline: deadlineDate.utc().format(timeFormat),
         schedules: [
@@ -78,7 +76,6 @@ test('Every field avaliable filled in', function(assert) {
         subtitle: null,
         sunsetDate: null,
         title: 'test-title',
-        locationId: get(location, 'id'),
         venueId: parseInt(get(venue, 'id')),
         venueStatus: 'new',
         wantsToAdvertise: true
@@ -130,8 +127,6 @@ test('Every field avaliable filled in', function(assert) {
     ugcEvent.addEventUrl('http://resistance.onion');
     ugcEvent.next();
 
-    ugcEvent.selectLocation(location);
-    ugcEvent.pickRadius(50);
     ugcEvent.next();
 
     ugcEvent.saveAndPublish();

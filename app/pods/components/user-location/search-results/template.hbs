@@ -1,0 +1,21 @@
+<div class="UserLocation-SearchResults-locate-me">
+  {{#unless gettingGeolocation}}
+    {{#x-button onClick=(action 'locateUser') color='primary' size='x-small' class="UserLocation-SearchResults-locate-me-button"}}
+      {{fa-icon 'location-arrow'}} Locate Me
+    {{/x-button}}
+  {{else}}
+    {{#x-button color='secondary' size='x-small'}}
+      {{fa-icon 'cog' spin=true}} Locating You
+    {{/x-button}}
+  {{/unless}}
+</div>
+
+{{#if results}}
+  {{#each results as |location|}}
+    <div class="UserLocation-SearchResults-location" {{action 'chooseLocation' location}} data-test-location-result={{location.id}}>
+      {{fa-icon 'map-marker'}} {{location.city}}, {{location.state}}
+    </div>
+  {{/each}}
+{{else if hasInputValue}}
+  No Matching Locations
+{{/if}}

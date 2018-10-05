@@ -19,20 +19,15 @@ test('saveSelectedLocationId', function(assert) {
     }
   });
 
-  let locationId = 'hanover-nh';
+  let locationId = 1;
 
-  service.saveSelectedLocationId(locationId);
+  service.saveUserLocationFromId(locationId);
 
   assert.ok(
-    cookies.write.calledWith('locationId', locationId),
+    cookies.write.calledWith('userLocationId', locationId),
     "Sets the locationId cookie"
   );
 
-  assert.ok(
-    cookies.write.calledWith('locationConfirmed', true),
-    "Sets locationConfirmed cookie to true"
-  );
 
-  assert.equal(service.get('selectedLocationId'), locationId,
-    "Sets the selectedLocationId");
+
 });

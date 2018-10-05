@@ -53,17 +53,6 @@
           {{/form-group}}
         </div>
 
-        <div class="visible-xs visible-sm">
-          <div>
-              <label class='control-label'>Content Location</label>
-          </div>
-          <label class='h5 control-label'>What is the most relevant location for this post?</label>
-          {{promote-locations
-            model=news
-            noRadius=true
-          }}
-        </div>
-
         {{#form-group
         error=errors.title
         hideError=true
@@ -98,6 +87,16 @@
           }}
         {{/form-group}}
 
+        {{#form-group}}
+          <div>
+              <label class='control-label'>Content Location</label>
+          </div>
+          <label class='h5 control-label'>What is the most relevant location for this post?</label>
+          {{user-location/ugc-button
+            model=news
+            onChangeContentLocation=(action 'locationChanged')
+          }}
+        {{/form-group}}
 
         {{#form-group
         error=errors.content
@@ -251,19 +250,6 @@
                 }}
               </div>
             {{/form-group}}
-          </div>
-
-          <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
-            <div class='SidebarWidget-body'>
-              <label class='control-label'>Content Location</label>
-              <label class='h5 control-label'>What is the most relevant location for this post?</label>
-              {{promote-locations
-                model=news
-                noRadius=true
-                trackChanges=false
-                onChangeLocation=(action 'locationChanged')
-              }}
-            </div>
           </div>
         </div>
 

@@ -1,46 +1,84 @@
-.Mystuff-NavBar {
+.Mystuff-NavBar.horizontal {
   @media (max-width: 500px) {
     border-bottom: solid 1px #636262;
   }
-  
-  &-nav {
-    .display-grid();
-    .grid-template-columns(repeat(auto-fit, minmax(40px, 1fr)));
-    padding: 4px 0 8px 0;
-  }
 
-  &-button {
-    padding: 4px;
-    text-align: center;
-    cursor: pointer;
-    color: #636262;
-    .transition(all 0.3s linear);
-
-    i {
-      display: block;
-      font-size: 24px;
+  .Mystuff-NavBar {
+    &-nav {
+      .display-grid();
+      .grid-template-columns(repeat(auto-fit, minmax(40px, 1fr)));
+      padding: 4px 0 8px 0;
     }
-    span {
-      text-transform: capitalize;
-      @media (max-width: 500px) {
+
+    &-button {
+      padding: 4px;
+      text-align: center;
+      cursor: pointer;
+      color: #636262;
+      .transition(all 0.3s linear);
+
+      i {
+        display: block;
+        font-size: 24px;
+      }
+      span {
+        text-transform: capitalize;
+        @media (max-width: 500px) {
+          display: none;
+        }
+      }
+      &.active {
+        color: @filter-tag;
+        .transform(scale(1.1));
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+
+    &-breadcrumb {
+      p {
+        margin-top: 0;
+      }
+      @media (min-width: 500px) {
         display: none;
       }
     }
-    &.active {
-      color: @filter-tag;
-      .transform(scale(1.1));
+  }
+}
+
+.Mystuff-NavBar.vertical {
+  .Mystuff-NavBar {
+    &-nav {
+      padding: 4px 0 8px 0;
+    }
+
+    &-button {
+      .display-grid();
+      .grid-template-columns(40px 1fr);
+      .grid-align-self(center);
+      text-align: left;
+      padding: 4px;
+      cursor: pointer;
+      color: #636262;
+      .transition(all 0.3s linear);
+
+      i {
+        font-size: 28px;
+      }
       span {
+        text-transform: capitalize;
+        font-size: 16px;
+        .grid-align-self(center);
         font-weight: bold;
       }
-    }
-  }
-
-  &-breadcrumb {
-    p {
-      margin-top: 0;
-    }
-    @media (min-width: 500px) {
-      display: none;
+      &.active {
+        color: @filter-tag;
+        .transform(scale(1.1));
+        span {
+          font-weight: bold;
+        }
+      }
     }
   }
 }

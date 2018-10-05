@@ -631,37 +631,6 @@ test('getLocationsNear(location, radius)', function(assert) {
   });
 });
 
-test('getFeatures()', function(assert) {
-  const subject = this.subject({
-    session: this.session,
-    queryCache: this.queryCache
-  });
-
-  const done = assert.async();
-  const returnData = {
-    root: {
-      field: 'value'
-    }
-  };
-
-  server.get('/features', (schema, request) => {
-    expect.consumerAppHeader(assert, request);
-    expect.authorizationHeader(assert, request);
-    expect.acceptHeader(assert, request, 'application/json');
-
-    assert.ok(true, 'GET /features');
-
-    return returnData;
-  });
-
-  subject.getFeatures().then((responseData) => {
-    assert.deepEqual(responseData, returnData,
-      'it returns parsed response JSON'
-    );
-    done();
-  });
-});
-
 test('getOrganizations()', function(assert) {
   const subject = this.subject({
     session: this.session,

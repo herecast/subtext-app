@@ -3,13 +3,13 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('current-user', {
-  // Specify the other units that are required for this test.
-  needs: ['model:organization', 'model:bookmark']
+
+moduleForModel('current-user', 'Unit | Model | current-user', {
+  needs: ['model:organization', 'model:location', 'model:bookmark']
 });
 
 test('it exists', function(assert) {
   var model = this.subject();
-  // var store = this.store();
+  
   assert.ok(!!model);
 });

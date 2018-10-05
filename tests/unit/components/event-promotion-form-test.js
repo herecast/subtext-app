@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import resolver from '../../helpers/resolver';
 
 moduleForComponent('event-promotion-form', {
-  needs: ['component:content-form-listservs', 'component:promote-locations'],
+  needs: ['component:content-form-listservs'],
 
   setup() {
     this.container.registry.register('template:partials/promotion-disclaimer',

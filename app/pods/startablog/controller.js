@@ -66,7 +66,7 @@ export default Ember.Controller.extend({
 
       const charactersBeyond = nameLength - lengthThatFitsMin;
       const sizeItShouldBe = width + charactersBeyond * 10;
-      
+
       if (sizeItShouldBe < maxWidth) {
         width = sizeItShouldBe;
       } else {
@@ -177,6 +177,7 @@ export default Ember.Controller.extend({
   _addOrganizationToManagedList(organization) {
     const currentUser = get(this, 'currentUser');
     let managedOrganizations = get(currentUser, 'managedOrganizations');
+    
     managedOrganizations.pushObject(organization);
   },
 
@@ -351,7 +352,6 @@ export default Ember.Controller.extend({
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);
         get(this, 'notify').success('Welcome to your new blogger hompage. Your page is live and you can now publish content on the site!');
-
       })
       .catch(() => {
         get(this, 'notify').error('Something went wrong when saving your blog. Please try again.');

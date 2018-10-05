@@ -2,24 +2,22 @@ import Ember from 'ember';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import BaseUserLocation from 'subtext-ui/mixins/routes/base-user-location';
 
 const { get, run, inject, isPresent } = Ember;
 
-export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, BaseUserLocation, {
+export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, {
   location: inject.service('window-location'),
   userLocation: inject.service(),
 
   model(params, transition) {
     const newRecordValues = {
       venueStatus: 'new',
-      promoteRadius: 10,
       ugcJob: params.job,
       contentType: 'event',
       listservIds: []
     };
 
-    if ('organization_id' in transition.queryParams) {
+    if ('organization_id' in transition.queryParams && isPresent(transition.queryParams.organization_id)) {
       return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
         newRecordValues.organization = organization;
         return this.store.createRecord('content', newRecordValues);
@@ -87,7 +85,7 @@ export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRoutePro
     },
 
     afterPublish(event) {
-      const firstInstanceId = get(event, 'eventInstanceId');
+      const firstInstanceId = get(event, 'eventInstanceId') || get(event, 'eventInstances.firstObject.id');
       const contentId = get(event, 'id');
 
       const controller = this.controllerFor(this.routeName);

@@ -73,21 +73,6 @@ export default create({
   addContactEmail: fillable(testSelector('contact-email')),
   addContactPhone: fillable(testSelector('contact-phone')),
   addEventUrl: fillable(testSelector('event-url')),
-  selectLocation(location) {
-    click(testSelector('action', 'open-location-selector'));
-    andThen(() => {
-      click(
-        testSelector('click-target'),
-        testSelector('link', 'choose-location') +
-        testSelector('location', location.id)
-      );
-    });
-  },
-  pickRadius(radius) {
-    click(
-      testSelector('radius', radius)
-    );
-  },
   next: clickable(testSelector('action', 'next')),
   saveAndPublish: clickable(testSelector('action', 'save-and-publish'))
 });

@@ -1,28 +1,29 @@
-import Ember from 'ember';
-import Mirage, {faker} from 'ember-cli-mirage';
+import {Factory, faker} from 'ember-cli-mirage';
 import moment from 'moment';
+import Ember from 'ember';
 
-const {isBlank} = Ember;
+const { isBlank } = Ember;
 
-export default Mirage.Factory.extend({
+export default Factory.extend({
   name() { return faker.name.findName(); },
   email() { return faker.internet.email(); },
   createdAt() { return moment(faker.date.recent(-30)).toISOString(); },
-  imageUrl() {
-    return (Math.random() > 0.5) ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200' : null;
+  userImageUrl() {
+    var randomNumber = Math.random();
+    return (randomNumber > 0.5) ? null : 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200';
   },
   testGroup: 'Consumer',
-  
+
   canPublishNews: true,
   userId(id) { return id; },
+  hasHadBookmarks: false,
 
   afterCreate(user, server) {
-    if(isBlank(user.locationId)) {
-      const location = server.create('location');
+    if (isBlank(user.location)) {
+      const newLocation = server.create('location');
+
       user.update({
-        location: location.city + ', ' + location.state,
-        locationId: location.id,
-        locationConfirmed: false,
+        locationId: newLocation.id
       });
     }
   }

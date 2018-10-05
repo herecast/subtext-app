@@ -27,7 +27,7 @@ function createGenericContents(server, numberOfContents) {
   return contents;
 }
 
-test('Visiting /feed not signed in, signing in, and then bookmark process', function(assert) {
+test('Visiting / not signed in, signing in, and then bookmark process', function(assert) {
   const trackingSpy = sinon.spy();
   const tracking = Ember.Service.extend({
     trackBookmarkEvent: trackingSpy
@@ -40,13 +40,14 @@ test('Visiting /feed not signed in, signing in, and then bookmark process', func
   const numberOfContents = 5;
   const contents = createGenericContents(server, numberOfContents);
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('feed-card')).length, numberOfContents, 'All feed cards should show');
     assert.equal(find(testSelector('bookmark')).length, numberOfContents, 'All feed cards should show a bookmark');
     assert.equal(find(testSelector('bookmark', 'not-bookmarked')).length, numberOfContents, 'All bookmarks should be not bookmarked');
     assert.equal(find(testSelector('bookmark', 'bookmarked')).length, 0, 'No bookmarks should be bookmarked');
+    assert.notOk(find(testSelector('bookmark-tooltip')).length, 'Should not show the tooltip for not logged in users');
 
     click(find(testSelector('button', 'bookmark-icon'))[0]);
 
@@ -65,7 +66,7 @@ test('Visiting /feed not signed in, signing in, and then bookmark process', func
       click(testSelector('component', 'sign-in-submit'));
 
       andThen(function() {
-        assert.ok(currentURL().indexOf('/feed') >= 0, 'Should direct feed after sign in');
+        assert.equal(currentURL(), '/', 'Should direct to homepage after sign in');
         assert.ok(find(testSelector('bookmark-tooltip')).length, 'Should show the tooltip for user who has not had bookmarks');
 
         click(testSelector('button', 'close-tooltip'));
@@ -125,7 +126,7 @@ test('Visiting /feed not signed in, signing in, and then bookmark process', func
   });
 });
 
-test('Visiting /feed signed in with bookmarks', function(assert) {
+test('Visiting homepage signed in with bookmarks', function(assert) {
   const trackingSpy = sinon.spy();
   const tracking = Ember.Service.extend({
     trackBookmarkEvent: trackingSpy
@@ -156,14 +157,14 @@ test('Visiting /feed signed in with bookmarks', function(assert) {
     }
   });
 
-  visit('/feed');
+  visit('/');
 
   andThen(function() {
     assert.equal(find(testSelector('bookmark')).length, numberOfContents, 'All feed cards should show a bookmark');
     assert.equal(find(testSelector('bookmark', 'bookmarked')).length, numberOfBookmarkedContents, 'Only bookmarked cards should be bookmarked');
     assert.equal(find(testSelector('bookmark-status', 'not-read')).length, numberOfBookmarkedContents, 'Not read bookmarks should show as unread');
 
-    visit(`/feed/${contents[0].id}`);
+    visit(`/${contents[0].id}`);
 
     server.put('/users/:id/bookmarks/:id', function(db) {
       let attrs = this.normalizedRequestAttrs();

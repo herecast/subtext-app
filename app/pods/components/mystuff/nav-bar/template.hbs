@@ -10,8 +10,11 @@
     </div>
   {{/each}}
 </div>
-<div class="Mystuff-NavBar-breadcrumb">
-  {{#text-block small=true lighten=true center=true}}
-    {{breadcrumbMessage}}
-  {{/text-block}}
-</div>
+
+{{#unless verticalLayout}}
+  <div class="Mystuff-NavBar-breadcrumb">
+    {{#text-block small=true lighten=true center=true}}
+      {{breadcrumbMessage}}
+    {{/text-block}}
+  </div>
+{{/unless}}

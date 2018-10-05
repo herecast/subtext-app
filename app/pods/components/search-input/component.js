@@ -16,8 +16,11 @@ export default Ember.Component.extend(TestSelector, {
   placeholder: 'Search ...',
   clearTooltip: 'Clear Search',
   showIcon: true,
+  iconName: 'search',
   inputType: 'search',
   clearButtonText: null,
+  showClearButton: true,
+  selectAllOnFocus: false,
 
   noBorder: false,
 
@@ -63,6 +66,22 @@ export default Ember.Component.extend(TestSelector, {
       }
       const debounceWait = get(this, 'debounceWait');
       run.debounce(this, this._updateAction, val,  debounceWait);
+    },
+
+    onfocus() {
+      if (get(this, 'selectAllOnFocus')) {
+        this.$('input').select();
+      }
+
+      if (get(this, 'onfocus')) {
+        get(this, 'onfocus')();
+      }
+    },
+
+    onblur() {
+      if (get(this, 'onblur')) {
+        get(this, 'onblur')();
+      }
     }
   }
 });

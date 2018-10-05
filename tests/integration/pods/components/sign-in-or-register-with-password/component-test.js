@@ -29,8 +29,8 @@ test('Regstration: already used email', function(assert) {
   };
 
   const userLocation = {
-    location: new Promise((resolve) => {
-      resolve({id: 'yetiland-bc'});
+    userLocation: new Promise((resolve) => {
+      resolve({id: 1});
     })
   };
 
@@ -77,8 +77,8 @@ test('Regstration: unknown error', function(assert) {
   };
 
   const userLocation = {
-    location: new Promise((resolve) => {
-      resolve({id: 'yetiland-bc'});
+    userLocation: new Promise((resolve) => {
+      resolve({id: 1});
     })
   };
 

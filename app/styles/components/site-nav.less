@@ -1,0 +1,163 @@
+.SiteNav {
+  z-index: 996;
+  &--avatar {
+    &-generic {
+      font-size: 16px;
+      background: #efefef;
+      text-align: center;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+    }
+  }
+
+  &--cover {
+    &.on-screen {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right:0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    &.off-screen {
+      display: none;
+    }
+  }
+
+  &--section-title {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.2;
+    &.padded {
+      padding: 8px;
+    }
+  }
+
+  &-Menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    min-width: 240px;
+    background: #fff;
+    .box-shadow(1px 0 1px #999);
+    .transition(all 250ms ease-out);
+    overflow-y: auto;
+
+    &.on-screen {
+      .transform(translateX(0));
+    }
+
+    &.off-screen {
+      .transform(translateX(-101%));
+    }
+
+    &--close {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 22px;
+    }
+
+    &--line-break {
+      height: 1px;
+      width: 100%;
+      background: #797a7d;
+      &.short {
+        margin: 8px auto;
+        width: 60%;
+      }
+    }
+
+    &--routes {
+      padding: 8px;
+      &>div {
+        margin: 4px 0;
+      }
+    }
+
+    &--logout {
+      text-align: right;
+      padding: 16px 8px;
+    }
+  }
+
+  &-UserMenu {
+    &--user {
+      text-align: center;
+      background: #efefef;
+      padding: 20px 8px 8px 8px;
+
+      &-avatar {
+        &-default {
+          height: 60px;
+          width: 60px;
+          line-height: 60px;
+          background: #fff;
+          border-radius: 50%;
+          margin: 0 auto 8px auto;
+          font-size: 30px;
+        }
+      }
+      &-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 4px;
+        line-height: 1.0;
+      }
+      &-email {
+        font-size: 16px;
+        line-height: 1.0;
+        margin-bottom: 4px;
+      }
+    }
+
+    &--organizations {
+      padding: 8px;
+      border-top: solid 1px #797a7d;
+
+      &-org {
+        margin: 8px 0;
+
+        button {
+          width: 100%;
+        }
+
+        &-grid {
+          .display-grid();
+          .grid-template-columns(50px 1fr);
+        }
+
+        &-name {
+          text-align: left;
+          color: #000;
+        }
+
+        &-cta {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  &-Channels {
+    padding: 8px;
+
+    &--filter {
+      width: 100%;
+      padding: 4px 0;
+      text-align: center;
+      .XButton {
+        display: block;
+        &.active {
+          font-size: 22px !important;
+          color: #000 !important;
+        }
+      }
+    }
+  }
+}

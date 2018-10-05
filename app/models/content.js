@@ -7,7 +7,6 @@ import dateFormat from 'subtext-ui/lib/dates';
 import Schedulable from 'subtext-ui/mixins/models/schedulable';
 import HasVenue from 'subtext-ui/mixins/models/has-venue';
 import HasImages from 'subtext-ui/mixins/models/has-images';
-import Locatable from 'subtext-ui/mixins/models/content-locations';
 
 const {
   computed:{equal},
@@ -26,7 +25,6 @@ export default DS.Model.extend(
   Schedulable,
   HasVenue,
   HasImages,
-  Locatable,
   {
   // <FIELDS>
   authorId: attr('number'),
@@ -64,13 +62,15 @@ export default DS.Model.extend(
   updatedAt: attr('moment-date'),
   viewCount: attr('number'),
   wantsToAdvertise: attr('boolean'),
-  baseLocationName: DS.attr('string'),
   // </FIELDS>
 
 
   // <RELATIONSHIPS>
   businessProfile: belongsTo('business-profile'),
   comments: hasMany('comment', {inverse: null}),
+  location: belongsTo('location'),
+  //locationId: attr('number'),
+  locationId: computed.alias('location.id'),
   organization: belongsTo('organization', {async: true}),
   // </RELATIONSHIPS>
 
@@ -82,6 +82,16 @@ export default DS.Model.extend(
   isCampaign: equal('contentType', 'campaign'),
 
   listsEnabled: computed.notEmpty('listservIds'),
+
+  baseLocationName: computed('location', function() {
+    const location = get(this, 'location');
+
+    if (isPresent(location)) {
+      return get(location, 'name');
+    }
+
+    return null;
+  }),
 
   publishedAtRelative: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');

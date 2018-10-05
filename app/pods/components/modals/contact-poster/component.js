@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
+import moment from 'moment';
 
 const {
   get,
@@ -24,7 +25,8 @@ export default ModalInstance.extend({
   },
 
   _buildMailToParts() {
-    const formattedPublishDate = get(this, 'model.publishedAt').format('MMMM Do YYYY [at] HH:mm a');
+    const publishedAt = get(this, 'model.publishedAt') || moment();
+    const formattedPublishDate = publishedAt.format('MMMM Do YYYY [at] HH:mm a');
 
     const tmp = document.createElement("DIV");
     tmp.innerHTML = `\n\n On ${formattedPublishDate}, ${this.get('model.authorName')} wrote: \n ${get(this, 'model.content')}`;

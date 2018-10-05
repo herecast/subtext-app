@@ -1,4 +1,4 @@
-import { test, skip } from 'qunit';
+import { test } from 'qunit';
 import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
 import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
@@ -26,7 +26,7 @@ test('Follow sign in link, authentication succeeds', function(assert) {
     done();
     return {
       email: user.email,
-      token: 'sak;329jk;skdfh'
+      token
     };
   });
 
@@ -38,7 +38,7 @@ test('Follow sign in link, authentication succeeds', function(assert) {
       "Should be on feed home page");
 
     assert.equal(
-      find(testSelector('link', 'user-menu')).length, 1,
+      find(testSelector('link', 'user-avatar')).length, 1,
       "I should see my user menu (I am signed in)");
   });
 });
@@ -63,48 +63,24 @@ test('logging in works', function(assert) {
 
   visit('/');
 
-  click(testSelector('link', 'login-link'));
+  click(testSelector('signin-from-header'));
+  click(testSelector('signin-from-side-menu'));
 
-  fillIn(testSelector('field', 'sign-in-email'), user.email);
-  fillIn(testSelector('field', 'sign-in-password'), 'password');
+  andThen(() => {
+    fillIn(testSelector('field', 'sign-in-email'), user.email);
+    fillIn(testSelector('field', 'sign-in-password'), 'password');
 
-  click(testSelector('component', 'sign-in-submit'));
-  click(testSelector('link', 'user-menu'));
+    click(testSelector('component', 'sign-in-submit'));
 
-  andThen(function() {
-    assert.ok(find(testSelector('link','logout-link')).length, 'Should see logout link');
+    andThen(() => {
+      click(testSelector('link', 'user-avatar'));
+
+      andThen(() => {
+        assert.ok(find(testSelector('link','logout-link')).length, 'Should see logout link');
+      });
+    });
   });
-});
 
-skip('using incorrect login information', function(assert) {
-  let location = server.create('location');
-  let user = server.create('current-user', {location_id: location.id});
-
-  visit('/');
-
-  click(testSelector('link', 'login-link'));
-
-  click(testSelector('action', 'change-sign-in-module'));
-
-  fillIn(testSelector('field', 'sign-in-email'), user.email + "not-correct");
-  fillIn(testSelector('field', 'sign-in-password'), 'password');
-
-  click(testSelector('component', 'sign-in-submit'));
-
-  andThen(function() {
-    // Email
-    const $emailField = find(testSelector('field', 'login-email'));
-    let $formGroup = $emailField.closest('.form-group');
-
-    assert.ok($formGroup.hasClass('has-error'),
-      "It marks email form-group as error");
-
-    // Password
-    const $passwordField = find(testSelector('field', 'login-password'));
-    $formGroup = $passwordField.closest('.form-group');
-    assert.ok($formGroup.hasClass('has-error'),
-      "It marks password form-group as error");
-  });
 });
 
 test('logging out works', function(assert) {
@@ -114,14 +90,15 @@ test('logging out works', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(find(testSelector('link', 'login-link')).length, 0, 'it should not show the sign in link');
+    assert.equal(find(testSelector('signin-from-header')).length, 0, 'it should not show the sign in link');
   });
 
-  click(testSelector('link', 'user-menu'));
+  click(testSelector('link', 'user-avatar'));
   click(testSelector('link', 'logout-link'));
+  click(testSelector('logout-yes'));
 
   andThen(function() {
-    assert.equal(find(testSelector('link', 'login-link')).length, 1, 'it should show the sign in link');
+    assert.equal(find(testSelector('signin-from-header')).length, 1, 'it should show the sign in link');
   });
 });
 
@@ -139,11 +116,10 @@ test('visiting log in page while already authenticated redirects to root page', 
 test('clicking sign in link displays login form', function(assert) {
   visit('/');
 
-  click(testSelector('link', 'login-link'));
+  click(testSelector('signin-from-header'));
+  click(testSelector('signin-from-side-menu'));
 
   andThen(function() {
-    assert.ok(find(testSelector('component','sign-in')).length,
-      "Displays sign in");
+    assert.ok(find(testSelector('component', 'sign-in')).length, "Displays sign in");
   });
 });
-

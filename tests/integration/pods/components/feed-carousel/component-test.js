@@ -43,12 +43,12 @@ moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
     this.inject.service('-routing', { as: 'routing' });
 
     this.register('service:user-location', Ember.Service.extend({
-      locationId: 0,
-      location: {
-        name: "",
+      userLocationId: 0,
+      userLocation: {
         id: 0
       },
       on(){},
+      off(){}
     }));
   }
 });

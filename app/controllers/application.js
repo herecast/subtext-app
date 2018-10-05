@@ -4,19 +4,21 @@ import moment from 'moment';
 const {
   computed,
   inject,
-  get
+  get,
+  set
 } = Ember;
 
 export default Ember.Controller.extend({
   modals: inject.service(),
   elsewhere: inject.service('ember-elsewhere'),
   searchService: inject.service('search'),
-  hasHeaderPageToolbar: computed.bool('elsewhere.actives.page-toolbar.length'),
   searchOpen: computed.alias('searchService.searchActive'),
 
   currentController: inject.service('current-controller'),
   routing: inject.service('_routing'),
   router: computed.alias('routing.router'),
+
+  showUserLocationBar: false,
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
@@ -35,6 +37,10 @@ export default Ember.Controller.extend({
   copyrightYear: computed(function() {
     return moment().format('YYYY');
   }),
+
+  setShowUserLocationBar(bool) {
+    set(this, 'showUserLocationBar', bool);
+  },
 
   actions: {
     signOut() {

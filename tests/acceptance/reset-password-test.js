@@ -13,7 +13,8 @@ moduleForAcceptance('Acceptance | reset password');
 
 test('filling out lost password request form', function(assert) {
   visit('/');
-  click(testSelector('link', 'login-link'));
+  click(testSelector('signin-from-header'));
+  click(testSelector('signin-from-side-menu'));
 
   click(testSelector('link', 'forgot-password')).then(()=> {
     assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
@@ -39,9 +40,6 @@ test('filling out lost password request form with returnUrl query param', functi
     },//outreach-cta component
     getWeather: function(){
       return Promise.resolve({});
-    }, // used in template
-    getFeatures() {
-      return Promise.resolve({features:[]});
     }
   });
   mockService(this.application, 'api', mockApi);

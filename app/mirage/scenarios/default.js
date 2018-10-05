@@ -36,7 +36,7 @@ export default function (server) {
     {"city": "Grantham", "state": "NH"},
     {"city": "Groton", "state": "VT"},
     {"city": "Hanover", "state": "NH"},
-    {"city": "Hartford", "state": "VT"},
+    {"city": "Hartford", "state": "VT", "id": "19"},
     {"city": "Hartland", "state": "VT"},
     {"city": "Haverhill", "state": "NH"},
     {"city": "Lebanon", "state": "NH"},
@@ -74,13 +74,14 @@ export default function (server) {
     {"city": "Williamstown", "state": "VT"},
     {"city": "Windsor", "state": "VT"},
     {"city": "Woodstock", "state": "VT"}
-  ].forEach((loc) => {
-    server.create('location', loc);
+  ].forEach((location, index) => {
+    location.zipcode = 10000 + index;
+    server.create('location', location);
   });
 
   server.create('current-user', {
-    managedOrganizations: organizations.slice(0, 2),
-    locationId: 'hartford-vt',
+    managedOrganizationIds: organizations.slice(0, 2).map(org=>org.id),
+    locationId: 18,
     email: 'test@test.com'
   });
 

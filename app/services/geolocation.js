@@ -5,10 +5,10 @@ const { RSVP, get, computed, inject:{service} } = Ember;
 export default Ember.Service.extend({
   mapsService: service('google-maps'),
   defaultLocation: {
-    human: 'Lebanon, NH',
+    human: 'Hartford, VT',
     coords: {
-      lat: 43.645,
-      lng: -72.243
+      lat: 43.663,
+      lng: -72.369
     }
   },
 
@@ -24,23 +24,14 @@ export default Ember.Service.extend({
 
   getUserLocation() {
     return new RSVP.Promise((resolve) => {
-      this.getCurrentPosition().then((position) => {
+      this.getCurrentPosition()
+      .then((position) => {
         if(!get(this, 'isDestroying')) {
           const mapsService = get(this, 'mapsService');
           const coords = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-
-          /**************
-          * Remove this when location allowed outside test market
-          */
-          const defaultLocation = get(this, 'defaultLocation');
-          const distance = this.distance(defaultLocation.coords, coords) * 0.621371;
-          if(distance >= 50) {
-            return resolve(defaultLocation);
-          }
-          /****/
 
           mapsService.geocode({location: coords}, (results) => {
             if(!get(this, 'isDestroying')) {
@@ -52,11 +43,9 @@ export default Ember.Service.extend({
             }
           });
         }
-      }, () => {
-        if(!get(this, 'isDestroying')) {
-          /*
-          * This is for the case that the user has blocked geopositioning in the browser
-          */
+      })
+      .catch(() => {
+        if (!get(this, 'isDestroying')) {
           return resolve(get(this, 'defaultLocation'));
         }
       });

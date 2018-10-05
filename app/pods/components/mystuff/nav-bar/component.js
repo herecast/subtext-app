@@ -4,9 +4,13 @@ const { get, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: 'Mystuff-NavBar',
+  classNameBindings: ['verticalLayout:vertical:horizontal'],
+  'data-test-mystuff-navbar': true,
 
   routes: [],
   activeRoute: null,
+
+  verticalLayout: false,
 
   breadcrumbMessage: computed('activeRoute', function() {
     const activeRoute = get(this, 'activeRoute');

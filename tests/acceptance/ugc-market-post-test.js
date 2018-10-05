@@ -11,7 +11,7 @@ const { get } = Ember;
 moduleForAcceptance('Acceptance | ugc market post');
 
 test('Every field available filled in', function(assert) {
-  const done = assert.async(3);
+  const done = assert.async(4);
   const location = server.create('location');
 
   const title = 'Flying the Millennium Falcon';
@@ -20,11 +20,15 @@ test('Every field available filled in', function(assert) {
   const phone = '8025555555';
   const cost = "7";
 
+  const currentUser = server.create('current-user', {
+    locationId: location.id,
+    email
+  });
+
   server.post('/contents', function() {
     const attrs = this.normalizedRequestAttrs();
     assert.deepEqual(attrs, {
-      authorName: null,
-      baseLocationName: null,
+      authorName: get(currentUser, 'name'),
       bizFeedPublic: true,
       contactEmail: email,
       contactPhone: phone,
@@ -35,7 +39,6 @@ test('Every field available filled in', function(assert) {
       eventUrl: null,
       organizationId: null,
       listservIds:[],
-      promoteRadius: 50,
       publishedAt: null,
       registrationDeadline: null,
       schedules: [],
@@ -62,8 +65,17 @@ test('Every field available filled in', function(assert) {
     return images.create();
   });
 
+  server.get('/locations', function({locations}, request) {
+    if ('query' in request.queryParams) {
+      assert.ok(true, 'query sent to locations endpoint');
+      done();
+    }
+
+    return locations.all();
+  });
+
   Ember.run(() => {
-    authenticateUser(this.application);
+    authenticateUser(this.application, currentUser);
 
     ugcMarket.visit();
     ugcMarket.fillInTitle(title);
@@ -85,14 +97,13 @@ test('Every field available filled in', function(assert) {
         });
       });
     });
+    ugcMarket.selectNewLocation(get(location, 'id'));
+
     ugcMarket.fillInEmail(email);
     ugcMarket.fillInPhone(phone);
     ugcMarket.next();
-
-    ugcMarket.selectLocation(location);
-    ugcMarket.pickRadius(50);
-
     ugcMarket.next();
+
     ugcMarket.saveAndPublish();
   });
 });

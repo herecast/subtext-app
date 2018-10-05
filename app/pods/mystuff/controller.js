@@ -1,49 +1,12 @@
+import MystuffNavObjects from 'subtext-ui/mixins/mystuff-nav-objects';
 import Ember from 'ember';
 
 const { get, set, computed, inject:{controller, service}, run } = Ember;
 
-const mystuffRouteObjects = [
-  {
-    order: 0,
-    routeName: 'mystuff.contents.index',
-    title: 'My Stuff',
-    iconActive: 'window-maximize',
-    iconInactive: 'window-maximize'
-  },
-  {
-    order: 1,
-    routeName: 'mystuff.comments.index',
-    title: 'Comments',
-    iconActive: 'comments',
-    iconInactive: 'comments-o'
-  },
-  {
-    order: 2,
-    routeName: 'mystuff.bookmarks',
-    title: 'Bookmarks',
-    iconActive: 'bookmark',
-    iconInactive: 'bookmark-o'
-  },
-  {
-    order: 3,
-    routeName: 'mystuff.subscriptions',
-    title: 'Subscriptions',
-    iconActive: 'newspaper-o',
-    iconInactive: 'newspaper-o'
-  },
-  {
-    order: 4,
-    routeName: 'mystuff.account',
-    title: 'Account',
-    iconActive: 'user',
-    iconInactive: 'user-o'
-  }
-];
-
-export default Ember.Controller.extend({
-  mystuffRouteObjects: mystuffRouteObjects,
-
+export default Ember.Controller.extend(MystuffNavObjects, {
   session: service(),
+
+  mystuffRouteObjects: computed.alias('mystuffNavObjects'),
 
   currentUserId: computed.readOnly('session.userId'),
 
@@ -78,7 +41,7 @@ export default Ember.Controller.extend({
     onChangeRoute(toRoute) {
       const activeRouteName = get(this, 'activeRouteName');
 
-      const fromRoute = mystuffRouteObjects.find(route => this._routesMatch(activeRouteName, route.routeName));
+      const fromRoute = get(this, 'mystuffRouteObjects').find(route => this._routesMatch(activeRouteName, route.routeName));
 
       const changeDirection = ( parseInt(toRoute.order) - parseInt(fromRoute.order) ) < 0 ? 'toRight' : 'toLeft';
 

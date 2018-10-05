@@ -12,7 +12,8 @@ moduleForComponent('events-results', 'Integration | Component | events results',
   integration: true,
   beforeEach() {
     this.register('service:user-location', Ember.Service.extend({
-      on(){}
+      on(){},
+      off(){}
     }));
     this.register('service:feature-flags', Ember.Service.extend({}));
   }

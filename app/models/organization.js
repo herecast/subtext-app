@@ -188,18 +188,27 @@ export default DS.Model.extend({
           rsvpHash.desktopImage = this.uploadDesktopImage();
         }
         if (isPresent(rsvpHash)) {
-          RSVP.hash(rsvpHash).then(() => {
+          RSVP.hash(rsvpHash)
+          .then(() => {
             // Reload to update the image urls
-            this.reload()
-            .then(() => {
-              this.clearNewImages();
-            })
-            .then(resolve, reject);
-          }, reject);
+            this.reload();
+          })
+          .then(() => {
+            this.clearNewImages();
+          })
+          .then(() => {
+            resolve(result);
+          })
+          .catch(() => {
+            reject();
+          });
         } else {
           resolve(result);
         }
-      }, reject);
+      })
+      .catch(() => {
+        reject();
+      });
     });
   },
 

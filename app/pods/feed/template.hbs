@@ -1,50 +1,20 @@
 <div class="Feed">
   <div data-test-page='feed'>
-    {{#unless session.isFastBoot}}
-      {{to-elsewhere named="page-toolbar"
-        send=(component "channel-filters"
-          channel="index"
-          radius=(readonly radius)
-          onChooseMyStuffOnly=(action "chooseMyStuffOnly")
-          filterComponent=(component "header-location-control"
-            location=locationForControls
-            radius=(readonly radius)
-            onChooseRadius=(action "changeRadius")
-            onChooseLocation=(action "chooseLocation")
-          )
-        )
-      }}
-    {{/unless}}
-
     {{#if type}}
-      {{to-elsewhere named='filters'
-                     send=(component "search-type-tag"
-                       type=type
-                       remove=(action "filterType" "")
-                     )
+      {{to-elsewhere
+        named='filters'
+        send=(component "search-type-tag"
+               type=type
+               remove=(action "filterType" ""))
       }}
     {{/if}}
-
-    {{#unless session.isFastBoot}}
-      {{locations-nearby
-        location=locationForControls
-        radius=(readonly radius)
-        class='text-center'
-      }}
-    {{/unless}}
-
 
     {{#feed/feed-container}}
       {{outlet}}
 
-      {{#if canManage}}
-        <div class="Feed-IndexFeed-controls">
-          {{fa-icon 'th-list' class=(if (not condensedView) 'active') click=(action 'toggleCondensedView') data-test-button='normal'}}
-          {{fa-icon 'list' class=(if condensedView 'active') click=(action 'toggleCondensedView') data-test-button='condensed'}}
-        </div>
-      {{/if}}
-
-      {{#if hasResults}}
+      {{#if (or isFastBoot showLoadingAnimation)}}
+        {{feed/fake-feed}}
+      {{else if hasResults}}
         {{#if eventFilterAndNotMyStuff}}
           {{events-results
             events=model.eventInstances
@@ -61,6 +31,8 @@
           }}
             {{#unless model.eventInstances.reachedInfinity}}
               {{fa-icon 'spinner' class="fa-pulse"}}
+            {{else}}
+              {{no-results-card hadResults=true}}
             {{/unless}}
           {{/infinity-loader}}
           {{feed-pagination page=page totalPages=model.eventInstances.meta.total_pages}}
@@ -69,7 +41,6 @@
             feedItems=model.feedItems
             showingDetailInFeed=showingDetailInFeed
             isSearchActive=isSearchActive
-            canManage=canManage
             condensedView=condensedView
             enableImpressionTracking=(eq currentRouteName 'feed.index')
           }}
@@ -79,17 +50,14 @@
           }}
             {{#unless model.feedItems.reachedInfinity}}
               {{fa-icon 'spinner' class="fa-pulse"}}
+            {{else}}
+              {{no-results-card hadResults=true}}
             {{/unless}}
           {{/infinity-loader}}
           {{feed-pagination page=page totalPages=model.feedItems.meta.total_pages}}
         {{/if}}
-
       {{else}}
-        {{feed/no-results
-          isMyStuffOnly=isMyStuffOnly
-          currentlyLoading=currentlyLoading
-          isSearchActive=isSearchActive
-        }}
+        {{no-results-card}}
       {{/if}}
     {{/feed/feed-container}}
 

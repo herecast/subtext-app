@@ -148,10 +148,12 @@ export default function() {
     return response;
   }, { timing: 1000 });
 
-  this.get('/current_user', function(schema) {
-    var current_user = schema.currentUsers.first();
+  this.get('/current_user', function({currentUsers}) {
+    var current_user = currentUsers.first();
+
     if (current_user) {
       return current_user;
+      //return new Mirage.Response(200, {}, {current_user});
     } else {
       return new Mirage.Response(401);
     }
@@ -163,21 +165,19 @@ export default function() {
 
     const contentType = request.requestHeaders['content-type'] || request.requestHeaders['Content-Type'] || "";
 
-    if(contentType.indexOf('application/json') > -1) {
+    if (contentType.indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
       var attrs = putData['current_user'];
+
+      if (attrs.location_id) {
+        delete attrs.location;
+        attrs.locationId = attrs.location_id;
+      }
       currentUser = currentUsers.find(id);
       currentUser.update(attrs);
     } else {
       currentUser = currentUsers.find(id);
-    }
-
-    // Sync location string
-    if(currentUser.locationId) {
-      var location = db.locations.find(currentUser.locationId);
-      var locationString = `${location.city}, ${location.state}`;
-      currentUser.location = locationString;
     }
 
     return currentUser;
@@ -252,9 +252,10 @@ export default function() {
 
   // Locations
   this.get('/locations', function({locations}, request) {
-    if('radius' in request.queryParams) {
-      const limit = parseInt(request.queryParams.radius || 1);
-      return {locations: locations.all().models.slice(0, parseInt(limit))};
+    if('query' in request.queryParams) {
+      const sliceStart = Math.floor(Math.random() * Math.floor(20));
+      const sliceEnd = sliceStart + Math.floor(Math.random() * Math.floor(10));
+      return {locations: locations.all().models.slice(sliceStart, sliceEnd)};
     } else {
       return locations.all();
     }
@@ -265,15 +266,10 @@ export default function() {
   });
 
   this.get('/locations/:id', function ({ locations }, { params }) {
-    const defaultAppLocation = 'sharon-vt';
     let location = locations.findBy({id: params.id});
 
-    if(!location && params.id === defaultAppLocation) {
-      location = server.create('location', {
-        id: 'sharon-vt',
-        city: 'sharon',
-        state: 'vt'
-      });
+    if (!location) {
+      location = locations.create('location');
     }
 
     return location;
@@ -331,7 +327,15 @@ export default function() {
     return response;
   }, { timing: 1000 });
 
-  this.get('/organizations/:id');
+  this.get('/organizations/:id', function({organizations}, request) {
+    let organization = organizations.find(request.params.id);
+
+    if (!organization) {
+      organization = organizations.create('organization');
+    }
+
+    return organization;
+  });
   this.put('/organizations/:id', function({ db }, request) {
 
     if (request && request.requestBody && typeof request.requestBody === 'string') {
@@ -344,7 +348,7 @@ export default function() {
     } else {
       // We're using the UPDATE action to upload event images after the event
       // has been created. Mirage can't really handle this, so we ignore it.
-      console.log('Ignoring image upload: PUT organizations/:id');
+      console.info('Ignoring image upload: PUT organizations/:id');
     }
   });
 
@@ -358,7 +362,9 @@ export default function() {
     return organizations.create(organization);
   }, { timing: 2000 });
 
-  this.get('/event_instances/:id', 'event-instance');
+  this.get('/event_instances/:id', function({eventInstances}, request) {
+    return eventInstances.find(request.params.id) || {};
+  });
 
   this.get('/event_categories', function() {
     return {'event_categories':[
@@ -391,7 +397,10 @@ export default function() {
 
   this.del('/content_locations/:id', {}, 200);
 
-  this.get('/comments');
+  this.get('/comments', function({comments}) {
+    const contentComments = comments.all().slice(0, 4);
+    return contentComments;
+  });
   this.post('/comments');
 
   this.get('/contents/:id/similar_content', function({ contents }) {
@@ -674,8 +683,6 @@ export default function() {
     ];
   });
 
-  this.get('/features');
-
   this.get('/contents/:id/promotions', function() {
     return {};
   });
@@ -753,9 +760,7 @@ export default function() {
     const typeMap = {
       posts: 'news',
       calendar: 'event',
-      news: 'news',
-      event: 'event',
-      market: 'market'
+      market: 'market',
     };
 
     const { page, per_page, content_type, query, organization_id, show } = request.queryParams;
@@ -817,6 +822,7 @@ export default function() {
 
     } else {
       response = this.serialize(feedItems.all().slice(startIndex, endIndex));
+
       response.meta = {
         total: feedItems.all().length,
         total_pages: Math.ceil( feedItems.all().length / per_page )
@@ -824,7 +830,7 @@ export default function() {
     }
 
     return new Mirage.Response(200, {}, response);
-  });
+  }, {timing: 1200});
 
   this.post('/contents', function({schedules, contents, eventInstances}) {
     let attrs = this.normalizedRequestAttrs();
@@ -843,12 +849,14 @@ export default function() {
 
     if(content.contentType === 'event') {
       let eventInstance = eventInstances.first();
+
       if(!isPresent(eventInstance)) {
         eventInstance = eventInstances.create(attrs);
         eventInstance.startsAt = (new Date()).toISOString();
       }
 
       content.eventInstanceId = eventInstance.id;
+      content.eventInstanceIds= [eventInstance.id];
     }
 
     return content;

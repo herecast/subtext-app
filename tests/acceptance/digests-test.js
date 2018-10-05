@@ -12,7 +12,8 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS NOT a re
 
   const digests = server.createList('digest', 3);
   const digest  = digests[1];
-  server.create('current-user', { email: 'example@example.com'});
+  const location = server.create('location');
+  server.create('current-user', { locationId: location.id, email: 'example@example.com'});
 
   visit(`/digests/${digest.id}/subscribe`);
 
@@ -37,7 +38,8 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS a regist
 
   const digests = server.createList('digest', 3);
   const digest  = digests[1];
-  const user    = server.create('current-user', { email: 'example@example.com'});
+  const location = server.create('location');
+  const user    = server.create('current-user', { locationId: location.id, email: 'example@example.com'});
 
   visit(`/digests/${digest.id}/subscribe`);
 
@@ -63,8 +65,10 @@ test('visiting /digests/:id/subscribe when user is not logged in and IS a regist
 test('visiting /digests/:id/subscribe when user is logged in as a registered dailyuv member', function(assert) {
   assert.expect(6);
 
+  const location = server.create('location');
+
   authenticateUser(this.application, server, server.create(
-    'current-user', { email: 'example@example.com' })
+    'current-user', { locationId: location.id, email: 'example@example.com' })
   );
 
   const digests = server.createList('digest', 3);

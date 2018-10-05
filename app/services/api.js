@@ -409,10 +409,6 @@ export default Ember.Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
-  getFeatures() {
-    return this.getJson('/features');
-  },
-
   getOrganizations(query) {
     let url = '/organizations';
 
@@ -518,6 +514,12 @@ export default Ember.Service.extend(FastbootExtensions, {
   },
 
   updateCurrentUserPassword(data) {
+    return this.returnJson(
+      this.put('/current_user', this.json(data))
+    );
+  },
+
+  updateCurrentUserLocation(data) {
     return this.returnJson(
       this.put('/current_user', this.json(data))
     );
