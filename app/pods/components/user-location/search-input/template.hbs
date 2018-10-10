@@ -13,6 +13,12 @@
     data-test-user-location-search=true
   }}
 
+  {{#if shouldShowResults}}
+    <div class="UserLocation-SearchInput-current-location">
+      Currently in {{userLocationName}}
+    </div>
+  {{/if}}
+
   {{#if (or hasLocationMatches shouldShowResults)}}
       {{to-elsewhere
         named="global-search-results"

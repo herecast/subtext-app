@@ -21,8 +21,9 @@ export default Ember.Component.extend(TestSelector, {
   activeFilter: computed.readOnly('searchService.activeFilter'),
 
   scrollDirection: service(),
-  isScrollingDown: computed('scrollDirection.isScrollingDown', 'showSearch', 'hideUserLocationBar', function() {
-    if (get(this, 'showSearch') || get(this, 'hideUserLocationBar')) {
+  isWithinHeaderFromTopOfPage: computed.lt('scrollDirection.currentScrollPosition', 40),
+  isScrollingDown: computed('scrollDirection.isScrollingDown', 'showSearch', 'hideUserLocationBar', 'isWithinHeaderFromTopOfPage', function() {
+    if (get(this, 'showSearch') || get(this, 'hideUserLocationBar') || get(this, 'isWithinHeaderFromTopOfPage')) {
       return false;
     }
 

@@ -4,8 +4,14 @@
       In &<br />
       Around
     </div>
-    {{fa-icon 'map-marker'}}
-    {{userLocationName}}
+
+    <div class="UserLocation-location-icon">
+      {{fa-icon 'map-marker'}}
+    </div>
+
+    <div class="UserLocation-location-name">
+      {{userLocationName}}
+    </div>
   {{else}}
     Calculating Location...
   {{/if}}

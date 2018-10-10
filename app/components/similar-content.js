@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import {chunk} from 'lodash';
 
 const { get, set, computed, inject, on, isPresent } = Ember;
 
@@ -9,6 +8,7 @@ export default Ember.Component.extend({
   fastboot: inject.service('fastboot'),
   store: inject.service(),
   content: null,
+  limit: 4,
 
   getSimilarContent: on('init', function() {
     set(this, 'content', []);
@@ -19,7 +19,7 @@ export default Ember.Component.extend({
 
       if (contentId) {
         api.getSimilarContent(contentId).then((payload) => {
-          if(isPresent(payload.similar_content) && payload.similar_content.length) {
+          if (isPresent(payload.similar_content) && payload.similar_content.length) {
             payload.contents = payload.similar_content;
             delete payload.similar_content;
 
@@ -41,11 +41,9 @@ export default Ember.Component.extend({
     }
   }),
 
-  /**
-   * Group the content into rows of two items per row
-   */
-  groupedContent: computed('contentToDisplay.[]', function() {
-    const contentToDisplay = get(this, 'contentToDisplay');
-    return chunk(contentToDisplay, 2);
+  contentToDisplay: computed('content.[]', function() {
+    const content = get(this, 'content');
+
+    return content.slice(0, get(this, 'limit'));
   })
 });

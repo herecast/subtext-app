@@ -78,15 +78,12 @@
   }
 }
 
-&.search-open {
-
-}
-
 .MainNav {
   background: #fff;
 
   &--top-bar {
-
+    position: relative;
+    z-index: 995;
   }
 
   &--top-bar-wrapper {
@@ -134,6 +131,8 @@
     background: #fff;
     width: 100%;
     .box-shadow(0px 2px 2px -2px #999);
+    position: relative;
+    z-index: 990;
   }
 
   &--bottom-bar-wrapper {
@@ -149,6 +148,8 @@
   &-location {
     margin: auto;
     text-align: center;
+    .grid-column-start(2);
+    .grid-column-end(3);
   }
 
   &-searchFilter {

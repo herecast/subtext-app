@@ -14,6 +14,7 @@ export default Ember.Service.extend({
   _previousScrollPosition: 0,
   _scrollDirectionSwitchPosition: 0,
   scrollSinceDirectionSwitch: 0,
+  currentScrollPosition: 0,
 
   init() {
     this._super(...arguments);
@@ -30,6 +31,7 @@ export default Ember.Service.extend({
   _checkScrollDirection() {
     const previousScrollPosition = get(this, '_previousScrollPosition');
     const currentScrollPosition = Ember.$(window).scrollTop();
+
     const currentScrollDirection = get(this, 'scrollDirection');
 
     const scrollDifference = currentScrollPosition - previousScrollPosition;
@@ -51,6 +53,8 @@ export default Ember.Service.extend({
     }
 
     set(this, '_previousScrollPosition', currentScrollPosition);
+
+    set(this, 'currentScrollPosition', currentScrollPosition);
 
     set(this, 'scrollSinceDirectionSwitch', currentScrollPosition - get(this, '_scrollDirectionSwitchPosition'));
   },

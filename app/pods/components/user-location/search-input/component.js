@@ -25,10 +25,11 @@ export default Ember.Component.extend({
   locationMatches: [],
   hasLocationMatches: computed.notEmpty('locationMatches'),
 
-  inputDisplayValue: computed('inputValue', 'userLocationName', function() {
-    const inputValue = get(this, 'inputValue') || false;
+  inputDisplayValue: computed('inputValue', 'userLocationName', 'shouldShowResults', function() {
+    const inputValue = get(this, 'inputValue');
+    const shouldShowResults = get(this, 'shouldShowResults');
 
-    if (inputValue) {
+    if (shouldShowResults) {
       return inputValue;
     }
 

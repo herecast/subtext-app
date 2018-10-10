@@ -1,17 +1,15 @@
 {{#if content}}
   {{yield}}
   <div class='Section'>
-    {{#each groupedContent as |contentGroup|}}
-      <div class='row'>
-        {{#each contentGroup as |content|}}
-          <div class='col-sm-6'>
-            {{small-card
-              item=content
-              isSimilarContent=true
-            }}
-          </div>
-        {{/each}}
-      </div>
-    {{/each}}
+    <div class='row'>
+      {{#each contentToDisplay as |content|}}
+        <div class='col-sm-6'>
+          {{small-card
+            item=content
+            isSimilarContent=true
+          }}
+        </div>
+      {{/each}}
+    </div>
   </div>
 {{/if}}

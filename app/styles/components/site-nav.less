@@ -43,10 +43,11 @@
     bottom: 0;
     left: 0;
     min-width: 240px;
+    max-width: 80%;
     background: #fff;
     .box-shadow(1px 0 1px #999);
     .transition(all 250ms ease-out);
-    overflow-y: auto;
+    overflow-y: scroll;
 
     &.on-screen {
       .transform(translateX(0));
@@ -75,6 +76,8 @@
 
     &--routes {
       padding: 8px;
+      text-align: left;
+
       &>div {
         margin: 4px 0;
       }

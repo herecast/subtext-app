@@ -1,6 +1,6 @@
 {{#link-to-content item}}
   {{#media-container as |media|}}
-    <span {{action 'trackClick' item}}>
+    <span class="MediaContainer--psuedo" {{action 'trackClick' item}}>
       {{#media.object}}
         <img src="{{optimized-image-url item.imageUrl 40 30 true}}" alt="">
       {{/media.object}}
