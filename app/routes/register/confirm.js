@@ -16,7 +16,7 @@ export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
      * So let's defer this until ember-browser
      */
     if(get(this, 'session.isAuthenticated')) {
-      this.transitionTo('index');
+      this.transitionTo('feed.index');
       return;
     }
 
@@ -24,7 +24,7 @@ export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
       const token = transition.params['register.confirm']['token']; const notify = get(this, 'notify');
 
       get(this, 'session').authenticate('authenticator:confirmation', token).then(() => {
-        this.transitionTo('index').then(() => {
+        this.transitionTo('feed.index').then(() => {
           notify.success('Registration complete. You are now signed in.');
         });
       }).catch(() => {
