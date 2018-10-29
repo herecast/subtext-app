@@ -9,11 +9,11 @@
         <div class="FeedCarousel-title-bar-right">
           {{#if (and showCtaCard linkToFeed)}}
             {{#link-to params=(dynamic-params ctaRouteName queryParams)}}
-              <span data-test-feed-carousel-inline-cta class="FeedCarousel-see-more">See More {{fa-icon 'chevron-right'}}</span>
+              <span data-test-feed-carousel-inline-cta class="FeedCarousel-see-more">See More {{fa-icon "chevron-right"}}</span>
             {{/link-to}}
           {{else if (and showCtaCard linkToProfile)}}
             {{#link-to ctaRouteName profileId (query-params location=linkLocation)}}
-              <span data-test-feed-carousel-inline-cta class="FeedCarousel-see-more">See All {{fa-icon 'chevron-right'}}</span>
+              <span data-test-feed-carousel-inline-cta class="FeedCarousel-see-more">See All {{fa-icon "chevron-right"}}</span>
             {{/link-to}}
           {{/if}}
         </div>
@@ -27,7 +27,7 @@
       centered=false
       slidesPerView="auto"
       updateFor=cards.length
-      onChange=(action 'onChange')
+      onChange=(action "onChange")
     }}
 
       {{#each cards as |card|}}
@@ -50,7 +50,7 @@
             profileId=profileId
             queryParams=queryParams
             seeMoreText=seeMoreText
-            onClickAction=(action 'onClickSeeMore')
+            onClickAction=(action "onClickSeeMore")
           }}
         {{/swiper-slide}}
       {{/if}}

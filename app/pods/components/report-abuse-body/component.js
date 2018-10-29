@@ -1,23 +1,28 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, set, inject:{service} } = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   'data-test-component': 'report-abuse-link',
   classNames: ['ReportAbuse'],
 
-  api:      service(),
+  api: service(),
 
   showSuccess: false,
   isInvalid: false,
   isPreview: false,
-
   flagType: null,
-  flagTypes: ['Offensive', 'Personal Attack', 'Spam'],
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      flagTypes: ['Offensive', 'Personal Attack', 'Spam']
+    });
+  },
 
   _resetProperties() {
-    this.setProperties({
+    setProperties(this, {
       isInvalid: false,
       flagType: null
     });

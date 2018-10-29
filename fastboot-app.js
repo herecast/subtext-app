@@ -12,7 +12,6 @@ const cluster = require('cluster');
 if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
   const cloudwatchMetrics = require('cloudwatch-metrics');
   const performance = require('performance-nodejs');
-  const gc = (require('gc-stats'))();
   const cloudwatch_namespace = process.env.CLOUDWATCH_NAMESPACE || 'Nodejs';
   const stack_name = process.env.STACK_NAME || 'unknown';
 
@@ -49,17 +48,6 @@ if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
     Name: 'stackName',
     Value: stack_name
   }]);
-
-  gc.on('stats', function (stats) {
-    gcPauseMetric.put(stats['pauseMS'], 'gcPauseMS');
-    // 1: Scavenge (minor GC)
-    // 2: Mark/Sweep/Compact (major GC)
-    // 4: Incremental marking
-    // 8: Weak/Phantom callback processing
-    // 15: All
-    gcTypeMetric.put(stats['gctype'], 'gcType');
-    gcBytesMetric.put(Math.abs(stats['diff']['usedHeapSize']), 'usedHeapSizeFreed');
-  });
 
   performance(data => {
     millisecondsMetric.put(data['lag'], 'eventLoopLag');

@@ -1,14 +1,11 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const {
-  get,
-  computed,
-  isPresent
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   allowedExtensions: null, // String
-  accept: computed.alias('allowedExtensions'),
+  accept: alias('allowedExtensions'),
 
   validate(file) {
     const allowedExtensions = get(this, 'allowedExtensions');
@@ -47,7 +44,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    didSelectFiles(files) {
+    didSelectFiles(event) {
+      const files = event.target.files;
+  
       if (this.allAreValid(files)) {
         const action = get(this, 'action');
         if (action) {

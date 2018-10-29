@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
+import { isPresent } from '@ember/utils';
 import ContentValidations from 'subtext-ui/validations/content';
 import {
   validateFormat
 } from 'ember-changeset-validations/validators';
-
-const {
-  assign,
-  isPresent
-} = Ember;
 
 export default assign({}, ContentValidations, {
   contactEmail: [

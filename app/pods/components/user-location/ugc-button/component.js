@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
 
-const { get, set, computed, inject:{service}, isPresent } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'UserLocation-UgcButton',
 
   store: service(),
@@ -20,7 +22,7 @@ export default Ember.Component.extend({
     this._setInitialLocation();
   },
 
-  modelLocationName: computed.alias('model.location.name'),
+  modelLocationName: alias('model.location.name'),
 
   _setInitialLocation() {
     this._startFindingLocation();

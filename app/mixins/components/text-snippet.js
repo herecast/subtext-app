@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import sanitize from 'npm:sanitize-html';
 
-const { get, computed, isPresent } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   //over-ride in component
   maxSnippetLength: 100,
 

@@ -1,14 +1,14 @@
-<div class='col-xs-12 col-md-8'>
-  <div class='row'>
-    <div class='col-xs-12'>
-      <div class='DirectoryResults-controls DirectoryResults-header'>
+<div class="col-xs-12 col-md-8">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="DirectoryResults-controls DirectoryResults-header">
         {{directory-results-sort
         sortBy=sort_by
         onSortChange=(action changeSortBy)
-        class='form-inline DirectoryResults-control'
+        class="form-inline DirectoryResults-control"
         }}
 
-        <div class='DirectoryResults-control DirectoryResults-resultCount'>
+        <div class="DirectoryResults-control DirectoryResults-resultCount">
           Showing {{firstResultNumber}} through {{lastResultNumber}} of {{total}}.
         </div>
       </div>
@@ -18,14 +18,14 @@
       query=query
       lat=lat
       lng=lng
-      tagName='ul'
-      adPath='directory.index'
+      tagName="ul"
+      adPath="directory.index"
       }}
 
-      <div class='DirectoryResults-controls DirectoryResults-footer'>
-        <div class='DirectoryResults-control form-inline'>
-          <label class='h4'>Per Page&nbsp;</label>
-          {{#x-select class='form-control' value=per_page action=(action changePerPage) as |xs|}}
+      <div class="DirectoryResults-controls DirectoryResults-footer">
+        <div class="DirectoryResults-control form-inline">
+          <label class="h4">Per Page&nbsp;</label>
+          {{#x-select class="form-control" value=per_page action=(action changePerPage) as |xs|}}
             {{#xs.option value=25}}25{{/xs.option}}
             {{#xs.option value=50}}50{{/xs.option}}
             {{#xs.option value=100}}100{{/xs.option}}
@@ -33,7 +33,7 @@
         </div>
 
         {{pagination-buttons
-        class='DirectoryResults-paginator DirectoryResults-control'
+        class="DirectoryResults-paginator DirectoryResults-control"
         page=page
         perPage=per_page
         results=results
@@ -45,19 +45,19 @@
   </div>
 </div>
 
-<div class='col-xs-12 col-md-4 FloatingSideMap hidden-xs hidden-sm'>
+<div class="col-xs-12 col-md-4 FloatingSideMap hidden-xs hidden-sm">
   {{#floating-side-column}}
     {{google-map locations=locations}}
 
     <div>
       <h2>Help us build this directory</h2>
-      <button class='btn DirectoryButton darker' {{action 'toggleBusinessProfileForm'}}>Submit a missing business</button>
+      <button class="btn DirectoryButton darker" {{action "toggleBusinessProfileForm"}}>Submit a missing business</button>
     </div>
   {{/floating-side-column}}
 </div>
 
 {{#if businessProfileFormIsVisible}}
   {{business-profile-form
-    closeAction=(action 'toggleBusinessProfileForm')
+    closeAction=(action "toggleBusinessProfileForm")
   }}
 {{/if}}

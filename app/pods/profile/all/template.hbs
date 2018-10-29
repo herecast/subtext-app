@@ -1,8 +1,8 @@
-{{sticky-position name='profile/contact'}}
+{{sticky-position name="profile/contact"}}
 
 {{organization-profile-desktop-image imageUrl=organization.desktopImageUrl}}
 
-{{#sticky-container position='profile/contact' enabled=stickyContainerEnabled as |sticky|}}
+{{#sticky-container position="profile/contact" enabled=stickyContainerEnabled as |sticky|}}
 
   {{#feed/feed-container noMargin=true}}
     {{outlet}}
@@ -11,7 +11,7 @@
   {{#if isAdmin}}
     {{cards/organization-toggle-admin-view
       displayAsAdminIfAllowed=(readonly displayAsAdminIfAllowed)
-      onUpdate=(action 'updateAdminView')
+      onUpdate=(action "updateAdminView")
     }}
   {{/if}}
 
@@ -23,7 +23,7 @@
       isAdmin=allowToEditHeader
       enableToggleButton=false
       organization=(readonly organization)
-      editForm='form-partials/organization-profile-header'
+      editForm="form-partials/organization-profile-header"
       hideTitleBar=true
     }}
       {{cards/organization-profile-header organization=organization isProfileHeader=true}}
@@ -34,9 +34,9 @@
         isAdmin=showAdminCards
         organization=(readonly organization)
         isActive=(readonly organization.contactCardActive)
-        editForm='form-partials/organization-contact'
-        updateCardStatus=(action 'toggleContactCard')
-        title='Contact Details'
+        editForm="form-partials/organization-contact"
+        updateCardStatus=(action "toggleContactCard")
+        title="Contact Details"
       }}
         {{#sticky.item maintainStickyItemSpace=false as |stickyContact| }}
           {{cards/organization-contact organization=organization flattenCard=stickyContact.isSticky}}
@@ -52,9 +52,9 @@
           isAdmin=showAdminCards
           organization=(readonly organization)
           isActive=(readonly organization.descriptionCardActive)
-          editForm='form-partials/organization-description'
-          updateCardStatus=(action 'toggleDescriptionCard')
-          title='About'
+          editForm="form-partials/organization-description"
+          updateCardStatus=(action "toggleDescriptionCard")
+          title="About"
         }}
           {{cards/organization-description organization=organization}}
         {{/cards/admin-card}}
@@ -65,9 +65,9 @@
             isAdmin=showAdminCards
             organization=(readonly organization)
             isActive=(readonly organization.hoursCardActive)
-            editForm='form-partials/organization-hours'
-            updateCardStatus=(action 'toggleHoursCard')
-            title='Hours'
+            editForm="form-partials/organization-hours"
+            updateCardStatus=(action "toggleHoursCard")
+            title="Hours"
           }}
             {{cards/hours-card organization=organization}}
           {{/cards/admin-card}}
@@ -80,14 +80,14 @@
         isAdmin=showAdminCards
         organization=(readonly organization)
         isActive=(readonly organization.calendarCardActive)
-        editForm='form-partials/organization-calendar'
-        updateCardStatus=(action 'toggleCalendarCard')
-        title='Calendar View'
+        editForm="form-partials/organization-calendar"
+        updateCardStatus=(action "toggleCalendarCard")
+        title="Calendar View"
       }}
         {{#if showAdminCards}}Switching views only works when viewed by public{{/if}}
         {{cards/calendar-card
           organization=organization
-          onTabChange=(action 'toggleFeedItemsView')
+          onTabChange=(action "toggleFeedItemsView")
         }}
       {{/cards/admin-card}}
     {{/if}}
@@ -101,17 +101,17 @@
       {{#x-card class="Feed-ProfileFeed-search-bar"}}
         {{search-input
           noBorder=true
-          size='large'
-          color='black'
+          size="large"
+          color="black"
           value=(readonly query)
-          update=(action 'updateQuery')
-          data-test-component='organization-content-query'
+          update=(action "updateQuery")
+          data-test-component="organization-content-query"
           isLoading=isLoading
           class="Feed-ProfileFeed-search-input"
         }}
         <div class="Feed-ProfileFeed-controls">
-          {{fa-icon 'th-list' class=(if (not condensedView) 'active') click=(action 'toggleCondensedView') data-test-button='normal'}}
-          {{fa-icon 'list' class=(if condensedView 'active') click=(action 'toggleCondensedView') data-test-button='condensed'}}
+          {{fa-icon "th-list" class=(if (not condensedView) "active") click=(action "toggleCondensedView") data-test-button="normal"}}
+          {{fa-icon "list" class=(if condensedView "active") click=(action "toggleCondensedView") data-test-button="condensed"}}
         </div>
       {{/x-card}}
 
@@ -132,7 +132,7 @@
         infinityModel=model
       }}
         {{#unless model.reachedInfinity}}
-          {{fa-icon 'spinner' class="fa-pulse"}}
+          {{fa-icon "spinner" class="fa-pulse"}}
         {{/unless}}
       {{/infinity-loader}}
     {{else}}
@@ -142,10 +142,10 @@
           {{#text-block}}
             {{#if (or hasPaidProfile isBlog)}}
               {{#if (and isAdmin showAdminCards)}}
-                <p>You haven't posted yet.</p>
+                <p>You haven"t posted yet.</p>
                 <p>Click the "Create Content" button to get started!</p>
               {{else}}
-                <p>{{organization.name}} hasn't posted any content yet.</p>
+                <p>{{organization.name}} hasn"t posted any content yet.</p>
               {{/if}}
             {{else}}
               {{#if (and isAdmin showAdminCards)}}

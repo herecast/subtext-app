@@ -1,30 +1,45 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import RSVP from 'rsvp';
+import Service from '@ember/service';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('modals/aggregated-content-metrics', 'Integration | Component | modals/aggregated content metrics', {
-  integration: true
-});
+module('Integration | Component | modals/aggregated content metrics', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('It renders with a current user model', function(assert) {
-  const currentUser = {
-    userId: 1
-  };
+  hooks.beforeEach(function() {
+    this.owner.register('service:content-metrics', Service.extend({
+      getMetrics() {
+        return RSVP.resolve([]);
+      }
+    }));
+  });
 
-  this.set('currentUser', currentUser);
+  test('It renders with a current user model', async function(assert) {
+    const currentUser = {
+      userId: 1,
+      'constructor': {
+        modelName: 'current-user'
+      }
+    };
 
-  this.render(hbs`{{modals/aggregated-content-metrics model=currentUser}}`);
+    this.set('currentUser', currentUser);
 
-  assert.ok(this.$());
-});
+    await render(hbs`{{modals/aggregated-content-metrics model=currentUser}}`);
 
-test('It renders with an organization model', function(assert) {
-  const organization = {
-    id: 1
-  };
+    assert.ok(this.element);
+  });
 
-  this.set('organization', organization);
+  test('It renders with an organization model', async function(assert) {
+    const organization = {
+      id: 1
+    };
 
-  this.render(hbs`{{modals/aggregated-content-metrics model=organization}}`);
+    this.set('organization', organization);
 
-  assert.ok(this.$());
+    await render(hbs`{{modals/aggregated-content-metrics model=organization}}`);
+
+    assert.ok(this.element);
+  });
 });

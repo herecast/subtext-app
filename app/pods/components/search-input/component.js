@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { getWithDefault, computed, get } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, run, computed, getWithDefault } = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   tagName: 'span',
   classNames: ['SearchInput'],
   classNameBindings: [
@@ -45,7 +46,7 @@ export default Ember.Component.extend(TestSelector, {
       this._updateAction("");
     } else if(e.which === enter) {
       // unfocus so the mobile keyboard will hide.
-      Ember.$(e.target).blur();
+      $(e.target).blur();
     }
   },
 
@@ -53,6 +54,16 @@ export default Ember.Component.extend(TestSelector, {
     const update = get(this, 'update');
     if (update) {
       update(value);
+    }
+  },
+
+  focusIn() {
+    if (get(this, 'selectAllOnFocus')) {
+      this.$('input').select();
+    }
+
+    if (get(this, 'onfocus')) {
+      get(this, 'onfocus')();
     }
   },
 
@@ -66,16 +77,6 @@ export default Ember.Component.extend(TestSelector, {
       }
       const debounceWait = get(this, 'debounceWait');
       run.debounce(this, this._updateAction, val,  debounceWait);
-    },
-
-    onfocus() {
-      if (get(this, 'selectAllOnFocus')) {
-        this.$('input').select();
-      }
-
-      if (get(this, 'onfocus')) {
-        get(this, 'onfocus')();
-      }
     },
 
     onblur() {

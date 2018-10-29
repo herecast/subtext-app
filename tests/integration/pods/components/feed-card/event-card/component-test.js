@@ -1,37 +1,38 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
-moduleForComponent('feed-card/event-card', 'Integration | Component | feed card/event card', {
-  integration: true,
-  beforeEach() {
-    this.register('service:feature-flags', Ember.Service.extend({}));
+module('Integration | Component | feed card/event card', function(hooks) {
+  setupRenderingTest(hooks);
 
-    this.register('service:user-location', Ember.Service.extend({
+  hooks.beforeEach(function() {
+    this.owner.register('service:user-location', Service.extend({
       locationId: 0,
       location: {
         name: "",
         id: 0
       },
       on(){},
-
+      off(){}
     }));
-  }
-});
+  });
 
-const model = {
-  id: 1,
-  modelType: 'event',
-  title: 'God rest ye merry gentlemen!',
-  contentType: 'event',
-  baseLocations: []
-};
+  const model = {
+    id: 1,
+    modelType: 'event',
+    title: 'God rest ye merry gentlemen!',
+    contentType: 'event',
+    baseLocations: []
+  };
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  this.set('model', model);
+    this.set('model', model);
 
-  this.render(hbs`{{feed-card/event-card model=model}}`);
+    await render(hbs`{{feed-card/event-card model=model}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

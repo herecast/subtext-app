@@ -1,45 +1,45 @@
 {{#form-group error=error}}
 
 
-  <div class='row'>
-    <div class='col-xs-12 col-sm-4'>
-      <label class='ContentForm-label--required'>Start Date</label>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      <label class="ContentForm-label--required">Start Date</label>
       {{pikaday-input
         firstDay=0
         value=date
         onSelection=(action (mut date))
-        placeholder='Date'
-        class='form-control'
+        placeholder="Date"
+        class="form-control"
         format="MM/DD/YYYY"
         yearRange="currentYear,2010"
       }}
     </div>
-    <div class='col-xs-12 col-sm-4'>
-      <label class='ContentForm-label--required'>Start Time</label>
+    <div class="col-xs-12 col-sm-4">
+      <label class="ContentForm-label--required">Start Time</label>
       {{input-mask
-        mask='09:00 Sm'
-        placeholder='12:00 am'
+        mask="09:00 Sm"
+        placeholder="12:00 am"
         value=startTime
-        class='form-control'
+        class="form-control"
       }}
     </div>
-    <div class='col-xs-12 col-sm-4'>
+    <div class="col-xs-12 col-sm-4">
       <label>End Time</label>
       {{input-mask
-        mask='09:00 Sm'
-        placeholder='12:00 am'
+        mask="09:00 Sm"
+        placeholder="12:00 am"
         value=endTime
-        class='form-control'
+        class="form-control"
       }}
     </div>
   </div>
 {{/form-group}}
 
-<div class='form-group'>
+<div class="form-group">
   <div>
     {{#if isRemovable}}
-      <button {{action 'removeDate' instance}} class='ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link'>
-        {{fa-icon 'minus-circle u-iconLeft'}}
+      <button {{action "removeDate" instance}} class="ContentForm-buttonLink EventForm-removeInstanceLink btn btn-link">
+        {{fa-icon "minus-circle u-iconLeft"}}
         Remove date
       </button>
     {{/if}}

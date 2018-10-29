@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 
-const { computed, get } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   attributeBindings: ['style'],
   classNames: ['FeedPagination'],
   // This is not meant to be seen by users.  Only bots
@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     return (get(this, 'page') || 1) - 1;
   }),
 
-  showPrevPage: computed.gt('page', 1),
+  showPrevPage: gt('page', 1),
 
   nextPage: computed('page', function() {
     return (get(this, 'page') || 1) + 1;

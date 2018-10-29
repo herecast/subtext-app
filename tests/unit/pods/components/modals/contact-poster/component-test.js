@@ -1,43 +1,42 @@
-/* global sinon */
-import { moduleForComponent, test } from 'ember-qunit';
-import Ember from 'ember';
+import sinon from 'sinon';
+import Service from '@ember/service';
 
-const { Service } = Ember;
+import { module, test } from 'qunit';
 
-moduleForComponent('modals/contact-poster', 'Unit | Component | modals/contact poster', {
-  // Specify the other units that are required for this test
-  needs: ['component:modal-wrapper'],
-  unit: true,
+import { setupTest } from 'ember-qunit';
 
-  beforeEach() {
+module('Unit | Component | modals/contact poster', function(hooks) {
+  setupTest(hooks);
+
+  hooks.beforeEach(function() {
     const mockTrackingService = Service.extend({ push: sinon.spy()});
 
-    this.register('service:tracking', mockTrackingService );
-    this.inject.service('tracking');
-  }
-});
+    this.owner.register('service:tracking', mockTrackingService );
+    this.tracking = this.owner.lookup('service:tracking');
+  });
 
-test('it renders', function(assert) {
-  assert.expect(3);
+  test('it renders', function(assert) {
+    assert.expect(3);
 
-  const model = {
-    publishedAt: {
-      format() {
-        return `Some date in the not so distant future`;
-      }
-    },
-    authorName: `Billie-Joe Nelson`,
-    content: `Some nonsense goes here`,
-    contactEmail:`Billie@OKCoral.com`,
-    title: `This is NO JOKE`,
-    contactPhone: `555-555-5555`
-  };
+    const model = {
+      publishedAt: {
+        format() {
+          return `Some date in the not so distant future`;
+        }
+      },
+      authorName: `Billie-Joe Nelson`,
+      content: `Some nonsense goes here`,
+      contactEmail:`Billie@OKCoral.com`,
+      title: `This is NO JOKE`,
+      contactPhone: `555-555-5555`
+    };
 
-  // Creates the component instance
-  let component = this.subject({ model });
+    // Creates the component instance
+    let component = this.owner.factoryFor('component:modals/contact-poster').create({ model });
 
-  assert.ok(component.mailToParts.subject.includes(encodeURI(model.title)), 'Email has model title.');
-  assert.ok(component.mailToParts.to.includes(model.contactEmail), 'Email is going to the right person');
-  assert.ok(component.mailToParts.body.includes(encodeURI(model.content)), 'Email contains the right subject.');
+    assert.ok(component.mailToParts.subject.includes(encodeURI(model.title)), 'Email has model title.');
+    assert.ok(component.mailToParts.to.includes(model.contactEmail), 'Email is going to the right person');
+    assert.ok(component.mailToParts.body.includes(encodeURI(model.content)), 'Email contains the right subject.');
 
+  });
 });

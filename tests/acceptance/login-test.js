@@ -1,125 +1,104 @@
-import { test } from 'qunit';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+import { invalidateSession} from 'ember-simple-auth/test-support';
+import { visit, click, find, fillIn, currentRouteName } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | login', {
-  beforeEach() {
-    invalidateSession(this.application);
+module('Acceptance | login', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+
+  hooks.beforeEach(function() {
+    invalidateSession();
       window.Intercom = function() {
     };
-  }
-});
-
-test('Follow sign in link, authentication succeeds', function(assert) {
-  const done = assert.async();
-  const user = server.create('current-user');
-  const token = "sakj342qk223dk";
-
-  server.post('/users/sign_in_with_token', function({currentUsers}, request) {
-    const data = JSON.parse(request.requestBody);
-
-    assert.equal(data.token, token, "Posts token to correct server endpoint");
-
-    currentUsers.create(user.attrs);
-    done();
-    return {
-      email: user.email,
-      token
-    };
   });
 
-  visit('/sign_in?auth_token=' + token);
+  test('Follow sign in link, authentication succeeds', async function(assert) {
+    const done = assert.async();
+    const user = this.server.create('current-user');
+    const token = "sakj342qk223dk";
 
-  andThen(() => {
-    assert.equal(
-      currentPath(),'feed.index',
-      "Should be on feed home page");
+    this.server.post('/users/sign_in_with_token', function({currentUsers}, request) {
+      const data = JSON.parse(request.requestBody);
 
-    assert.equal(
-      find(testSelector('link', 'user-avatar')).length, 1,
-      "I should see my user menu (I am signed in)");
-  });
-});
+      assert.equal(data.token, token, "Posts token to correct server endpoint");
 
-test('Follow sign in link, authentication fails', function(assert) {
-  const token = "sakj342qk223dk";
-
-  server.post('/users/sign_in_with_token', {error: 'Token expired'}, 422);
-
-  visit('/sign_in?auth_token=' + token);
-
-  andThen(() => {
-    assert.equal(
-      find(testSelector('component', 'sign-in')).length, 1,
-      "I should see sign in");
-  });
-});
-
-test('logging in works', function(assert) {
-  let location = server.create('location');
-  let user = server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});
-
-  visit('/');
-
-  click(testSelector('signin-from-header'));
-  click(testSelector('signin-from-side-menu'));
-
-  andThen(() => {
-    fillIn(testSelector('field', 'sign-in-email'), user.email);
-    fillIn(testSelector('field', 'sign-in-password'), 'password');
-
-    click(testSelector('component', 'sign-in-submit'));
-
-    andThen(() => {
-      click(testSelector('link', 'user-avatar'));
-
-      andThen(() => {
-        assert.ok(find(testSelector('link','logout-link')).length, 'Should see logout link');
-      });
+      currentUsers.create(user.attrs);
+      done();
+      return {
+        email: user.email,
+        token
+      };
     });
+
+    await visit('/sign_in?auth_token=' + token);
+
+    assert.equal(currentRouteName(),'feed.index', "Should be on feed home page");
+
+    assert.ok(find('[data-test-link="user-avatar"]'), "I should see my user menu (I am signed in)");
   });
 
-});
+  test('Follow sign in link, authentication fails', async function(assert) {
+    const token = "sakj342qk223dk";
 
-test('logging out works', function(assert) {
-  let user = server.create('current-user');
-  authenticateUser(this.application, server, user);
+    this.server.post('/users/sign_in_with_token', {error: 'Token expired'}, 422);
 
-  visit('/');
+    await visit('/sign_in?auth_token=' + token);
 
-  andThen(function() {
-    assert.equal(find(testSelector('signin-from-header')).length, 0, 'it should not show the sign in link');
+    assert.ok(find('[data-test-component="sign-in"]'), "I should see sign in");
   });
 
-  click(testSelector('link', 'user-avatar'));
-  click(testSelector('link', 'logout-link'));
-  click(testSelector('logout-yes'));
+  test('logging in works', async function(assert) {
+    let location = this.server.create('location');
+    let user = this.server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});
 
-  andThen(function() {
-    assert.equal(find(testSelector('signin-from-header')).length, 1, 'it should show the sign in link');
+    await visit('/');
+
+    await click('[data-test-signin-from-header]');
+    await click('[data-test-signin-from-side-menu]');
+
+    await fillIn('[data-test-field="sign-in-email"]', user.email);
+    await fillIn('[data-test-field="sign-in-password"]', 'password');
+
+    await click('[data-test-component="sign-in-submit"]');
+
+    await click('[data-test-link="user-avatar"]');
+
+    assert.ok(find('[data-test-link="logout-link"]'), 'Should see logout link');
   });
-});
 
-test('visiting log in page while already authenticated redirects to root page', function(assert) {
-  let user = server.create('current-user');
-  authenticateUser(this.application, server, user);
+  test('logging out works', async function(assert) {
+    let user = this.server.create('current-user');
+    authenticateUser(this.server, user);
 
-  visit('/sign_in');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'feed.index', 'it should be at the correct url');
+    assert.notOk(find('[data-test-signin-from-header]'), 'it should not show the sign in link');
+
+    await click('[data-test-link="user-avatar"]');
+    await click('[data-test-link="logout-link"]');
+    await click('[data-test-logout-yes]');
+
+    assert.ok(find('[data-test-signin-from-header]'), 'it should show the sign in link');
   });
-});
 
-test('clicking sign in link displays login form', function(assert) {
-  visit('/');
+  test('visiting log in page while already authenticated redirects to root page', async function(assert) {
+    let user = this.server.create('current-user');
+    authenticateUser(this.server, user);
 
-  click(testSelector('signin-from-header'));
-  click(testSelector('signin-from-side-menu'));
+    await visit('/sign_in');
 
-  andThen(function() {
-    assert.ok(find(testSelector('component', 'sign-in')).length, "Displays sign in");
+    assert.equal(currentRouteName(), 'feed.index', 'it should be at the correct url');
+  });
+
+  test('clicking sign in link displays login form', async function(assert) {
+    await visit('/');
+
+    await click('[data-test-signin-from-header]');
+    await click('[data-test-signin-from-side-menu]');
+
+    assert.ok(find('[data-test-component="sign-in"]'), "Displays sign in");
   });
 });

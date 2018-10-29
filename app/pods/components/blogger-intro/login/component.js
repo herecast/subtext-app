@@ -1,17 +1,19 @@
+import { alias, notEmpty, readOnly, gte } from '@ember/object/computed';
+import Component from '@ember/component';
+import { setProperties, computed, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
 import Validation from 'subtext-ui/mixins/components/validation';
-import Ember from 'ember';
 
-const { get, set, computed, setProperties, inject:{service}, isEmpty } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   session: service(),
   api: service(),
   notify: service('notification-messages'),
 
-  currentUser: computed.alias('session.currentUser'),
-  hasCurrentUser: computed.notEmpty('currentUser'),
-  isBloggerAlready: computed.readOnly('currentUser.isBlogger'),
-  managedOrganizations: computed.readOnly('currentUser.managedOrganizations'),
+  currentUser: alias('session.currentUser'),
+  hasCurrentUser: notEmpty('currentUser'),
+  isBloggerAlready: readOnly('currentUser.isBlogger'),
+  managedOrganizations: readOnly('currentUser.managedOrganizations'),
 
   checkingEmail: false,
   isLoggingIn: false,
@@ -56,7 +58,7 @@ export default Ember.Component.extend(Validation, {
     return emailIsValid;
   }),
 
-  passwordIsLongEnough: computed.gte('password.length', 8),
+  passwordIsLongEnough: gte('password.length', 8),
 
   passwordIsConfirmed: computed('password', 'passwordConfirmation', function() {
     const { password, passwordConfirmation } = this.getProperties('password', 'passwordConfirmation');

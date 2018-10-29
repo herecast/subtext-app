@@ -1,12 +1,11 @@
-import Ember from 'ember';
-
-const {get, computed} = Ember;
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
 /**
  * Groups multiple `x-button` components together,
  * leaving one border between each button and only the ends of the group are rounded
  */
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['XButtonGroup'],
   classNameBindings: [
     'blockTypeClass',

@@ -1,33 +1,23 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('location-search', 'Integration | Component | location search', {
-  integration: true
+module('Integration | Component | location search', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it renders', async function(assert) {
+    await render(hbs`{{location-search}}`);
+
+    assert.equal(this.element.textContent.trim(), '');
+  });
+
+  test('location displays in box', async function(assert) {
+    const location = "Hartford, VT";
+
+    this.set('locationText', location);
+    await render(hbs`{{location-search location=locationText}}`);
+
+    assert.equal(this.element.querySelector('input').value, location);
+  });
 });
-
-test('it renders', function(assert) {
-  this.render(hbs`{{location-search}}`);
-
-  assert.equal(this.$().text().trim(), '');
-});
-
-test('location displays in box', function(assert) {
-  const location = "Hartford, VT";
-
-  this.set('locationText', location);
-  this.render(hbs`{{location-search location=locationText}}`);
-
-  assert.equal(this.$('input').val(), location);
-});
-/*
-test('suggest box displays when input focused', function(assert) {
-  this.render(hbs`{{location-search}}`);
-  assert.notOk(this.$('.LocationFilter-suggestions').length);
-
-  this.$('input').trigger('focus');
-  assert.ok(this.$('.LocationFilter-suggestions').length);
-
-  this.$('input').blur();
-  assert.notOk(this.$('.LocationFilter-suggestions').length);
-});
-*/

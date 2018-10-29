@@ -1,6 +1,6 @@
-<div class='CommentList-wrapper' data-test-comments-section>
+<div class="CommentList-wrapper" data-test-comments-section>
   {{#if showSectionTitle}}
-    {{#title-text strong=true small=true class='u-paddingLeft10'}}
+    {{#title-text strong=true small=true class="u-paddingLeft10"}}
       Comments
       {{#if commentCount}}
         <span class="DetailPage-comments-count">{{commentCount}}</span>
@@ -8,7 +8,7 @@
     {{/title-text}}
   {{/if}}
 
-  <div class='CommentList-replyForm'>
+  <div class="CommentList-replyForm">
     {{comment-new
       parentContentId=parentContentId
       contentTitle=contentTitle
@@ -19,7 +19,7 @@
   </div>
 
   {{#if sortedComments}}
-    <div class='CommentList'>
+    <div class="CommentList">
       {{#each sortedComments as |comment|}}
         {{content-comment comment=comment}}
       {{/each}}

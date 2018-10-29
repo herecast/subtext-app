@@ -1,10 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, computed } from '@ember/object';
 
-const { computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'li',
-  selectedIds: [],
+
+  init() {
+    this._super(...arguments);
+    set(this, 'selectedIds', []);
+  },
 
   click() {
     const input = this.$('input');

@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { oneWay } from '@ember/object/computed';
+import { get, set } from '@ember/object';
 
-const { computed, set, get } = Ember;
-const { oneWay } = computed;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['dropdown Organization-Dropdown'],
 
   defaultName: oneWay('session.currentUser.name'),

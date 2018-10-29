@@ -1,7 +1,6 @@
+import { equal, alias } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
 import DS from 'ember-data';
-import Ember from 'ember';
-
-const { computed, get } = Ember;
 
 export default DS.Model.extend({
   modelType: DS.attr('string'),
@@ -10,11 +9,11 @@ export default DS.Model.extend({
   content: DS.belongsTo({async: false}),
   organization: DS.belongsTo({async: false}),
 
-  isCarousel: computed.equal('modelType', 'carousel'),
-  isContent: computed.equal('modelType', 'content'),
-  isOrganization: computed.equal('modelType', 'organization'),
+  isCarousel: equal('modelType', 'carousel'),
+  isContent: equal('modelType', 'content'),
+  isOrganization: equal('modelType', 'organization'),
 
-  viewStatus: computed.alias('content.viewStatus'),
+  viewStatus: alias('content.viewStatus'),
 
   feedItemModel: computed('modelType', function() {
     const modelType = get(this, 'modelType');

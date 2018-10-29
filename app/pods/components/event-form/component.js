@@ -1,20 +1,23 @@
-import Ember from 'ember';
+import { alias, oneWay } from '@ember/object/computed';
+import Component from '@ember/component';
+import { isPresent, isBlank } from '@ember/utils';
+import { computed, set, get } from '@ember/object';
+import { run } from '@ember/runloop';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+/*eslint-disable ember/closure-actions*/
 
-const { get, isBlank, isPresent, set, computed, run } = Ember;
-
-export default Ember.Component.extend(TestSelector, Validation, {
+export default Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'EventForm',
-  event: computed.alias('model'),
+  event: alias('model'),
   schedules: null,
   error: null,
-  image: computed.alias('model.image'),
-  imageUrl: computed.oneWay('model.imageUrl'),
+  image: alias('model.image'),
+  imageUrl: oneWay('model.imageUrl'),
   showOrganizationMenu: true,
 
-  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
+  organizations: oneWay('session.currentUser.managedOrganizations'),
 
   registrationEnabled: null,
 
@@ -57,10 +60,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
     const state = this.get('event.venueState');
     const zip = this.get('event.venueZip');
 
-    const hasAllFields = Ember.isPresent(address) && Ember.isPresent(city) &&
-      Ember.isPresent(state) && Ember.isPresent(zip);
+    const hasAllFields = isPresent(address) && isPresent(city) &&
+      isPresent(state) && isPresent(zip);
 
-    if (Ember.isPresent(id) || hasAllFields) {
+    if (isPresent(id) || hasAllFields) {
       this.set('errors.venue', null);
       delete this.get('errors').venue;
     } else {

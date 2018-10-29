@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function inArray(params/*, hash*/) {
   let arry = params[1] || [];
@@ -7,4 +7,4 @@ export function inArray(params/*, hash*/) {
   return arry.includes(item);
 }
 
-export default Ember.Helper.helper(inArray);
+export default buildHelper(inArray);

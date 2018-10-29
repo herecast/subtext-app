@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 import Validation from '../../../mixins/components/validation';
+/*eslint-disable ember/closure-actions*/
 
-const { inject, get, set, isBlank } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   tagName: 'form',
   classNames: ['BusinessProfileForm'],
   showSaveMessage: false,
@@ -13,8 +15,8 @@ export default Ember.Component.extend(Validation, {
   categories: null,
   closeAction: null,
 
-  notify: inject.service('notification-messages'),
-  store: inject.service(),
+  notify: service('notification-messages'),
+  store: service(),
 
   init() {
     this._super();

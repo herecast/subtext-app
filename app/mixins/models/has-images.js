@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import { alias, oneWay } from '@ember/object/computed';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
+import { get, set, computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
 
-const {
-  inject: { service },
-  RSVP,
-  computed,
-  get,
-  isPresent
-} = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   api: service(),
 
   images: DS.hasMany('image', { async: false }),
@@ -18,14 +15,14 @@ export default Ember.Mixin.create({
       .filter((image) => isPresent(get(image, 'imageUrl')));
   }),
 
-  imageUrl: computed.alias('primaryOrFirstImage.imageUrl'),
+  imageUrl: alias('primaryOrFirstImage.imageUrl'),
 
 
   primaryImage: computed('populatedImages.@each.primary', function() {
     return get(this, 'populatedImages').findBy('primary');
   }),
-  primaryImageUrl: computed.oneWay('primaryImage.imageUrl'),
-  primaryImageCaption: computed.oneWay('primaryImage.caption'),
+  primaryImageUrl: oneWay('primaryImage.imageUrl'),
+  primaryImageCaption: oneWay('primaryImage.caption'),
 
 
   primaryOrFirstImage: computed('populatedImages.@each.imageUrl', 'primaryImage.imageUrl', function() {
@@ -48,7 +45,8 @@ export default Ember.Mixin.create({
       const savedImages = imagesToSave.map((image) => {
         if(!image.get('_delete') &&
             (image.get('id') || image.get('file'))) {
-          image.position = position;
+
+          set(image, 'position', position);
           position = position + 1;
           return image.save();
         }

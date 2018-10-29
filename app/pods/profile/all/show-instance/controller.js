@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   tracking: service(),
   history: service(),
 
-  isDirectLink: computed.reads('history.isFirstRoute'),
+  isDirectLink: reads('history.isFirstRoute'),
 
   actions: {
     closeDetailPage() {

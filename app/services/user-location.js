@@ -1,11 +1,14 @@
+import Evented from '@ember/object/evented';
+import Service, { inject as service } from '@ember/service';
+import { computed, set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { Promise } from 'rsvp';
+import { run } from '@ember/runloop';
 import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 import moment from 'moment';
-import Ember from 'ember';
-
-const {inject:{service}, get, set, computed, isPresent, RSVP:{Promise}, run} = Ember;
 
 
-export default Ember.Service.extend(Ember.Evented, {
+export default Service.extend(Evented, {
   cookies: service(),
   session: service(),
   store: service(),

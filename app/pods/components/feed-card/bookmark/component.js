@@ -1,7 +1,9 @@
-import Ember from 'ember';
-
-const { get, set, computed, inject:{service}, isBlank, isPresent } = Ember;
-export default Ember.Component.extend({
+import { readOnly, alias, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { isPresent, isBlank } from '@ember/utils';
+export default Component.extend({
   classNames: 'FeedCard-Bookmark',
   classNameBindings: ['isBookmarked:bookmarked', 'hasRead:has-read:has-not-read'],
   'data-test-bookmark': computed('isBookmarked', function() {
@@ -13,7 +15,7 @@ export default Ember.Component.extend({
     }
     return null;
   }),
-  'data-test-bookmark-content': computed.readOnly('contentId'),
+  'data-test-bookmark-content': readOnly('contentId'),
 
 
   store: service(),
@@ -22,7 +24,7 @@ export default Ember.Component.extend({
   tracking: service(),
   currentService: service('current-controller'),
   bookmarkService: service('bookmarks'),
-  currentPath: computed.readOnly('currentService.currentPath'),
+  currentPath: readOnly('currentService.currentPath'),
 
   isOnDetailView: false,
   showTooltip: false,
@@ -30,9 +32,9 @@ export default Ember.Component.extend({
   eventInstanceId: null,
   bookmark: null,
 
-  isLoggedIn: computed.readOnly('session.isAuthenticated'),
-  hasRead: computed.alias('bookmark.read'),
-  isBookmarked: computed.notEmpty('bookmark'),
+  isLoggedIn: readOnly('session.isAuthenticated'),
+  hasRead: alias('bookmark.read'),
+  isBookmarked: notEmpty('bookmark'),
 
 
   init() {

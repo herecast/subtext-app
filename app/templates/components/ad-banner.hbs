@@ -5,21 +5,21 @@
   imageUrl=(optimized-image-url promotion.image_url 772 640 false)
   placeholderUrl=(optimized-image-url promotion.image_url 39 32 false)
   placeholderClass=placeholderClass
-  placeholderImageClass='img-responsive AdBanner'
-  onImageLoaded=(action 'imageFinishedLoading')
+  placeholderImageClass="img-responsive AdBanner"
+  onImageLoaded=(action "imageFinishedLoading")
 }}
 
   {{#if promotion.redirect_url}}
-    <a href='{{promotion.redirect_url}}' target='_blank'>
-      <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 772 640 false}}'>
+    <a href={{promotion.redirect_url}} target="_blank" rel="noopener noreferrer">
+      <img class="img-responsive AdBanner" src={{optimized-image-url promotion.image_url 772 640 false}} alt="Image">
     </a>
   {{else}}
-    <img class='img-responsive AdBanner' src='{{optimized-image-url promotion.image_url 772 640 false}}'>
+    <img class="img-responsive AdBanner" src={{optimized-image-url promotion.image_url 772 640 false}} alt="Image">
   {{/if}}
 
   {{outreach-cta
     isTextOnly=true
-    placement='under-ad-banner'
+    placement="under-ad-banner"
   }}
 
 {{/image-load-placeholder}}

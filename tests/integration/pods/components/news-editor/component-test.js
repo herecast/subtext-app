@@ -1,24 +1,22 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from 'subtext-ui/tests/helpers/setup-mirage';
+import RSVP from 'rsvp';
 
-moduleForComponent('news-editor', 'Integration | Component | news editor', {
-  integration: true,
-  beforeEach() {
-    startMirage(this.container);
-  },
-  afterEach() {
-    server.shutdown();
-  }
-});
+module('Integration | Component | news editor', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  const organizations = server.createList('organization', 3, { can_publish_news: true });
-  this.set('organizations', organizations);
+  test('it renders', async function(assert) {
+    const organizations =  [{id: 1, can_publish_news: true }];
+    this.set('organizations', organizations);
 
-  const model = server.create('content');
-  
-  this.set('model', model);
-  this.render(hbs`{{news-editor organizations=organizations news=model}}`);
-  assert.ok(this.$());
+    const model = {
+      location: RSVP.resolve({city: 'Hanover', state: 'NH'})
+    };
+
+    this.set('model', model);
+    await render(hbs`{{news-editor organizations=organizations news=model}}`);
+    assert.ok(this.element);
+  });
 });

@@ -1,14 +1,14 @@
 import { inArray } from '../../../helpers/in-array';
 import { module, test } from 'qunit';
 
-module('Unit | Helper | in array');
+module('Unit | Helper | in array', function() {
+  // Replace this with your real tests.
+  test('it works', function(assert) {
+    let arry = [1,2];
+    let result = inArray([1, arry]);
+    assert.ok(result);
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let arry = [1,2];
-  let result = inArray([1, arry]);
-  assert.ok(result);
-
-  result = inArray([3, arry]);
-  assert.notOk(result);
+    result = inArray([3, arry]);
+    assert.notOk(result);
+  });
 });

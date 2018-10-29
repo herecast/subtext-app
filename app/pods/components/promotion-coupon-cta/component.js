@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get, set } from '@ember/object';
+import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {computed, set, get, isEmpty, inject:{service}, $} = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   classNames: 'PromotionCouponCta',
   classNameBindings: ['wantsEmail:open'],
 
@@ -18,7 +21,7 @@ export default Ember.Component.extend(Validation, {
   hasRequested: false,
   hasClicked: false,
 
-  currentUser: computed.alias('session.currentUser'),
+  currentUser: alias('session.currentUser'),
 
   init() {
     this._super(...arguments);

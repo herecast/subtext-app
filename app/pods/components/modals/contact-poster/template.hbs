@@ -1,8 +1,8 @@
 {{#modal-wrapper
-    close=(action 'close')
+    close=(action "close")
     showHeader=false
     isAnimated=true
-    data-test-modal='contact-poster'
+    data-test-modal="contact-poster"
     class="Modals-contactPoster" }}
 
   <div class="Modals-contactPoster-title h2 u-margin0 u-paddingVertical16">
@@ -25,11 +25,11 @@
       <div class="u-bold">
         Email
       </div>
-      <a target="_blank"
+      <a target="_blank" rel="noopener noreferrer"
          data-test-client-link
-         {{action "trackReplyEmailClick" 'Client' preventDefault=false}}
-         href='mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}'
-         class='u-link u-bold market-reply-default-email-click'
+         {{action "trackReplyEmailClick" "Client" preventDefault=false}}
+         href="mailto:{{mailToParts.to}}?subject={{mailToParts.subject}}&body={{mailToParts.body}}"
+         class="u-link u-bold market-reply-default-email-click"
          >
          {{model.contactEmail}}
       </a>
@@ -46,9 +46,9 @@
           Or send your email reply with:
         </div>
         <div class="u-flexRow">
-          <a target="_blank"
+          <a target="_blank" rel="noopener noreferrer"
              data-test-gmail-link
-             {{action "trackReplyEmailClick" 'Google' preventDefault=false}}
+             {{action "trackReplyEmailClick" "Google" preventDefault=false}}
              href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{mailToParts.subject}}&body={{mailToParts.body}}"
              class="Modals-contactPoster-emailButton u-marginRight8"
              >
@@ -57,9 +57,9 @@
                Gmail
              </div>
           </a>
-          <a target="_blank"
+          <a target="_blank" rel="noopener noreferrer"
              data-test-outlook-link
-             {{action "trackReplyEmailClick" 'Outlook' preventDefault=false}}
+             {{action "trackReplyEmailClick" "Outlook" preventDefault=false}}
              href="https://outlook.live.com/owa/?rru=compose&subject={{mailToParts.subject}}&body={{mailToParts.body}}&to={{mailToParts.to}}#page=Compose"
              class="Modals-contactPoster-emailButton u-marginRight8"
              >
@@ -68,9 +68,9 @@
                Outlook
              </div>
           </a>
-          <a target="_blank"
+          <a target="_blank" rel="noopener noreferrer"
              data-test-yahoo-link
-             {{action "trackReplyEmailClick" 'Yahoo' preventDefault=false}}
+             {{action "trackReplyEmailClick" "Yahoo" preventDefault=false}}
              href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{mailToParts.subject}}&body={{mailToParts.body}}"
              class="Modals-contactPoster-emailButton"
              >

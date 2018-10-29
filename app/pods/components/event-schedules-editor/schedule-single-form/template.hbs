@@ -1,39 +1,39 @@
-<div class='EventForm-modalContainer clearfix'>
+<div class="EventForm-modalContainer clearfix">
   <h2>Single date</h2>
 
-  <div class='row'>
+  <div class="row">
     {{#form-group
         errors=changeset.error.startDate.validation
-        class='col-xs-12 col-sm-6'}}
+        class="col-xs-12 col-sm-6"}}
       <div  data-test-event-date-pikaday>
-        <label class='ContentForm-label--required'>Date</label>
+        <label class="ContentForm-label--required">Date</label>
           {{date-input
               value=changeset.startDate
-              format='MM/DD/YYYY'
-              placeholder='12/25/2020'
+              format="MM/DD/YYYY"
+              placeholder="12/25/2020"
               update=(action (mut changeset.startDate))
           }}
       </div>
     {{/form-group}}
   </div>
 
-  {{#form-group class='row'}}
-    {{#form-group errors=changeset.error.startTime.validation class='col-xs-12 col-sm-6'}}
-      <label class='ContentForm-label--required'>Start Time</label>
+  {{#form-group class="row"}}
+    {{#form-group errors=changeset.error.startTime.validation class="col-xs-12 col-sm-6"}}
+      <label class="ContentForm-label--required">Start Time</label>
       {{time-input
           value=changeset.startTime
-          format='h:mm a'
-          placeholder='9:00 am'
+          format="h:mm a"
+          placeholder="9:00 am"
           update=(action (mut changeset.startTime))
       }}
     {{/form-group}}
 
-    {{#form-group errors=changeset.error.stopTime.validation class='col-xs-12 col-sm-6'}}
+    {{#form-group errors=changeset.error.stopTime.validation class="col-xs-12 col-sm-6"}}
       <label>End Time</label>
       {{time-input
           value=changeset.stopTime
-          format='h:mm a'
-          placeholder='2:00 pm'
+          format="h:mm a"
+          placeholder="2:00 pm"
           update=(action (mut changeset.stopTime))
       }}
     {{/form-group}}

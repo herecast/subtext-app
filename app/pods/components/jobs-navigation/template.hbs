@@ -1,36 +1,36 @@
 <div class="JobsNavigation-wrapper">
 
-  <div class="JobsNavigation-nav-button" onclick={{action 'selectedMenuItem' 'market'}}>
-    {{#link-to 'market.new' (query-params organization_id=organizationId)}}
+  <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "market"}} role="button">
+    {{#link-to "market.new" (query-params organization_id=organizationId)}}
       <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="market">
-        {{fa-icon 'tags'}}
+        {{fa-icon "tags"}}
       </div>
         <span>List in Market</span>
     {{/link-to}}
   </div>
-  <div class="JobsNavigation-nav-button" onclick={{action 'selectedMenuItem' 'events'}}>
-    {{#link-to 'events.new' (query-params organization_id=organizationId)}}
+  <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "events"}} role="button">
+    {{#link-to "events.new" (query-params organization_id=organizationId)}}
       <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="events">
-        {{fa-icon 'calendar'}}
+        {{fa-icon "calendar"}}
       </div>
         <span>List in Calendar</span>
     {{/link-to}}
   </div>
 
   {{#if canPublishNews}}
-    <div class="JobsNavigation-nav-button" onclick={{action 'selectedMenuItem' 'news'}}>
-      {{#link-to 'news.new' (query-params organization_id=organizationId)}}
+    <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "news"}} role="button">
+      {{#link-to "news.new" (query-params organization_id=organizationId)}}
         <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="news">
-          {{fa-icon 'pencil-square-o' class="offsetRight"}}
+          {{fa-icon "pencil-square-o" class="offsetRight"}}
         </div>
         <span>Create a Post</span>
       {{/link-to}}
     </div>
   {{else}}
-    <div class="JobsNavigation-nav-button" onclick={{action 'selectedMenuItem' 'startablog'}}>
-      {{#link-to 'startablog'}}
+    <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "startablog"}} role="button">
+      {{#link-to "startablog"}}
         <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="startablog">
-          {{fa-icon 'pencil-square-o' class="offsetRight"}}
+          {{fa-icon "pencil-square-o" class="offsetRight"}}
         </div>
         <span>Get Paid to Post</span>
       {{/link-to}}

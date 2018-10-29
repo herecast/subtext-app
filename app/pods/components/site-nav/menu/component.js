@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'SiteNav-Menu',
 
   session: service(),
 
-  isLoggedIn: computed.readOnly('session.isAuthenticated'),
+  isLoggedIn: readOnly('session.isAuthenticated'),
 
   wantsToSignOut: false,
 

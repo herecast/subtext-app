@@ -1,17 +1,12 @@
+import { alias, notEmpty, empty } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
+import { isEmpty, isPresent } from '@ember/utils';
 import DS from 'ember-data';
-import Ember from 'ember';
 import moment from 'moment';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import dateFormat from 'subtext-ui/lib/dates';
 import HasImages from 'subtext-ui/mixins/models/has-images';
 import HasVenue from 'subtext-ui/mixins/models/has-venue';
-
-const {
-  computed,
-  get,
-  isPresent,
-  isEmpty
-} = Ember;
 
 const { attr, belongsTo, hasMany, Model } = DS;
 
@@ -38,17 +33,17 @@ export default Model.extend(HasImages, HasVenue, {
   costType: attr('string'),
   endsAt: attr('moment-date'),
   eventId: attr('number'),
-  eventInstanceId: computed.alias('id'),
+  eventInstanceId: alias('id'),
   otherEventInstances: hasMany('other-event-instance'),
   eventUrl: attr('string'),
-  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
+  hasRegistrationInfo: notEmpty('registrationDeadline'),
   isEvent: true,
   organization: belongsTo('organization'),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
   organizationId: attr('number'),
   organizationName: attr('string'),
   organizationProfileImageUrl: attr('string'),
-  publishedAt: attr('moment-date', {defaultValue() { return moment(); }}),
+  publishedAt: attr('moment-date', {defaultValue: () => { return moment(); }}),
   registrationDeadline: attr('moment-date'),
   startsAt: attr('moment-date'),
   subtitle: attr('string'),
@@ -57,7 +52,7 @@ export default Model.extend(HasImages, HasVenue, {
   viewCount: attr('number'),
   wantsToAdvertise: attr('boolean'),
 
-  eventInstances: computed.alias('otherEventInstances'),
+  eventInstances: alias('otherEventInstances'),
 
   publishedAtRelative: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');
@@ -78,7 +73,7 @@ export default Model.extend(HasImages, HasVenue, {
     });
   }),
 
-  hasExpired: computed.empty('futureInstances'),
+  hasExpired: empty('futureInstances'),
 
   formattedDate: computed('isValid', 'startsAt', 'endsAt', function() {
     if (get(this, 'isValid')) {
@@ -174,7 +169,7 @@ export default Model.extend(HasImages, HasVenue, {
     return routeName;
   }),
 
-  attributionLinkId: computed.alias('organizationId'),
+  attributionLinkId: alias('organizationId'),
 
   formattedRegistrationDeadline: computed('registrationDeadline', function() { //TAG:NOTE can be deleted when dashboard is removed
     const deadline = get(this, 'registrationDeadline');

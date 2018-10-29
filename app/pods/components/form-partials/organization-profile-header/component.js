@@ -1,19 +1,21 @@
-import Ember from 'ember';
+import { alias, readOnly, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, getProperties, get } from '@ember/object';
+import { isPresent, isBlank } from '@ember/utils';
+import { run } from '@ember/runloop';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {get, getProperties, set, computed, isBlank, isPresent, run} = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
 
   organization: null,
   model: null,
   onFormUpdate() {},
 
-  profileImage: computed.alias('model.profileImage'),
-  backgroundImage: computed.alias('model.backgroundImage'),
-  desktopImage: computed.alias('model.desktopImage'),
+  profileImage: alias('model.profileImage'),
+  backgroundImage: alias('model.backgroundImage'),
+  desktopImage: alias('model.desktopImage'),
 
-  isBlog: computed.readOnly('organization.isBlog'),
+  isBlog: readOnly('organization.isBlog'),
 
   profileImageFormVisible: false,
   backgroundImageFormVisible: false,
@@ -42,7 +44,7 @@ export default Ember.Component.extend(Validation, {
     return isPresent(get(this,'model.specialLinkUrl')) || get(this, 'showSpecialLinkOption');
   }),
 
-  hasNewProfileImage: computed.notEmpty('model.profileImage'),
+  hasNewProfileImage: notEmpty('model.profileImage'),
 
   didReceiveAttrs() {
     this._super(...arguments);

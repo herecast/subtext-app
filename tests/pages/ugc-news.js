@@ -1,5 +1,6 @@
-import testSelector from 'ember-test-selectors';
-
+import { click, find, triggerEvent, triggerKeyEvent, fillIn } from '@ember/test-helpers';
+import { run } from '@ember/runloop';
+import createImageFixture from 'subtext-ui/tests/helpers/create-image-fixture';
 import {
   create,
   visitable,
@@ -9,55 +10,60 @@ import {
 
 export default create({
   visit: visitable('/news/new'),
-  fillInTitle: fillable(testSelector('field', 'title')),
-  fillInSubtitle: fillable(testSelector('field', 'subtitle')),
-  fillInContent: fillable(testSelector('component', 'summer-note') + ' .note-editable'),
-  fillInImage(file) {
-    click(testSelector('featured-image', 'button'));
-    andThen(() => {
-      const files = [file];
-      files.item = function(index) {
-        return this[index];
+  fillInTitle: fillable('[data-test-field="title"]'),
+  fillInSubtitle: fillable('[data-test-field="subtitle"]'),
+  fillInContent: fillable('[data-test-component="summer-note"]' + ' .note-editable'),
+  openFeaturedImage() {
+    return run(async () => {
+      await click(find('[data-test-featured-image="button"]'));
+    });
+  },
+  submitImage() {
+    return run(async () => {
+      await click(find('[data-test-news-image="submit"]'));
+    });
+  },
+  addImageFile() {
+    return new Promise((resolve) => {
+      const options = {
+        height: 200,
+        width: 200,
+        name: 'image.png',
+        type: 'image/png'
       };
-
-      findWithAssert(testSelector('news-image', 'form') + ' input[type=file]').triggerHandler({
-        type: 'change',
-        target: {
-          files: files
-        }
+      createImageFixture(options)
+      .then(async (file) => {
+        await triggerEvent(find('[data-test-news-image="form"]' + ' input[type=file]'), 'change', [file] );
+        resolve();
       });
     });
-    click(testSelector('news-image', 'submit'));
   },
-
-  startOverrideAuthor: clickable(testSelector('author-override', 'toggle')),
+  startOverrideAuthor: clickable('[data-test-author-override="toggle"]'),
   overrideAuthor(author) {
-    fillIn(testSelector('field', 'authorName'), author);
+    return run(async () => {
+      await fillIn('[data-test-field="authorName"]', author);
+    });
   },
-  pickToSchedule: clickable(testSelector('schedule-publish', 'button')),
+  pickToSchedule: clickable('[data-test-schedule-publish="button"]'),
   scheduleDate(date) {
-    click(testSelector('schedule-publish', 'date'));
-    andThen(() => {
-      find(`[data-pick='${date}']`).trigger('click');
+    return run(async () => {
+      await click('[data-test-schedule-publish="date"]');
+      await click(`[data-pick='${date}']`);
     });
   },
   scheduleTime(time) {
-    click(testSelector('schedule-publish', 'time'));
-    andThen(() => {
-      find(`[data-pick='${time}']`).trigger('click');
+    return run(async () => {
+      await click('[data-test-schedule-publish="time"]');
+      await click(`[data-pick='${time}']`);
     });
   },
   selectNewLocation(locationId) {
-    click(testSelector('action', 'change-location'));
-
-    andThen(() => {
-      fillIn(testSelector('new-location-input'), 'asdfasdf');
-      click(testSelector('button', 'change-input-value'));
-
-      andThen(() => {
-        click(testSelector('location-choice', locationId));
-      });
+    return run(async () => {
+      await click('[data-test-action="change-location"]');
+      await fillIn('[data-test-new-location-input]', 'asdfasdf');
+      await triggerKeyEvent('[data-test-new-location-input]', 'keyup', 13);
+      await click(`[data-test-location-choice="${locationId}"]`);
     });
   },
-  scheduleConfirm: clickable(testSelector('schedule-publish', 'confirm'))
+  scheduleConfirm: clickable('[data-test-schedule-publish="confirm"]')
 });

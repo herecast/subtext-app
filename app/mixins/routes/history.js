@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
-  history: Ember.inject.service('history'),
+export default Mixin.create({
+  history: service('history'),
   routeModel: null,
 
   actions: {

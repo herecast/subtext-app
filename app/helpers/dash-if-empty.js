@@ -1,9 +1,9 @@
-import Ember from 'ember';
-
-const { isEmpty } = Ember;
+import { helper as buildHelper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/template';
+import { isEmpty } from '@ember/utils';
 
 export function dashIfEmpty(params) {
-  return isEmpty(params[0]) ? Ember.String.htmlSafe('&mdash;') : params[0];
+  return isEmpty(params[0]) ? htmlSafe('&mdash;') : params[0];
 }
 
-export default Ember.Helper.helper(dashIfEmpty);
+export default buildHelper(dashIfEmpty);

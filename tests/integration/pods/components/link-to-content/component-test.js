@@ -1,67 +1,25 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
-/* global sinon */
 
-moduleForComponent('link-to-content', 'Integration | Component | link to content', {
-  integration: true,
+module('Integration | Component | link to content', function(hooks) {
+  setupRenderingTest(hooks);
 
-  beforeEach() {
-    const routingStub = Ember.Service.extend({
-      transitionTo: sinon.spy(),
-      hasRoute() {
-        return true;
-      },
-      generateURL() {
-        return "";
-      }
+  test('it renders', async function(assert) {
+    const model = {id: 1, contentId: 123};
+
+    this.setProperties({
+      model
     });
 
-    this.register('service:-routing', routingStub);
-    this.inject.service('-routing', { as: 'routing' });
-  }
-});
+    // Template block usage:
+    await render(hbs`
+      {{#link-to-content model}}
+        click here
+      {{/link-to-content}}
+    `);
 
-test('given a non-event model', function(assert) {
-  const model = {id: 1, contentId: 123};
-
-  this.setProperties({
-    model
+    assert.ok(this.element);
   });
-
-  // Template block usage:
-  this.render(hbs`
-    {{#link-to-content model}}
-      click here
-    {{/link-to-content}}
-  `);
-
-  this.$('a').click();
-
-  assert.ok(
-    this.routing.transitionTo.calledWith('feed.show', [model.contentId]),
-    "It links to the feed show route"
-  );
-});
-
-test('given an event model', function(assert) {
-  const model = {id: 1, contentId: 123, eventInstanceId: 444};
-
-  this.setProperties({
-    model
-  });
-
-  // Template block usage:
-  this.render(hbs`
-    {{#link-to-content model}}
-      click here
-    {{/link-to-content}}
-  `);
-
-  this.$('a').click();
-
-  assert.ok(
-    this.routing.transitionTo.calledWith('feed.show-instance', [model.contentId, model.eventInstanceId]),
-    "It links to the feed show instance route"
-  );
 });

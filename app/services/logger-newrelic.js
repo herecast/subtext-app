@@ -1,6 +1,6 @@
-import Ember from 'ember';
-
-const {get, isPresent} = Ember;
+import Service from '@ember/service';
+import { get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
 /**
  * Logger implementation using New Relic
@@ -8,7 +8,7 @@ const {get, isPresent} = Ember;
  *
  * @see https://docs.newrelic.com/docs/browser/new-relic-browser/getting-started/introduction-new-relic-browser
  */
-export default Ember.Service.extend({
+export default Service.extend({
   NREUM: null, // this is New Relic's global, assigned here in an instance initializer
 
   logMessages(...messages) {
@@ -46,6 +46,7 @@ export default Ember.Service.extend({
         });
       } catch (err) {
         // Prevent infinite loop if NREUM call fails
+        //eslint-disable-next-line no-console
         console.error(err);
       }
     }

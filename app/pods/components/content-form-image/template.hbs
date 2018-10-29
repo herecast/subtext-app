@@ -1,40 +1,80 @@
-<div class='{{if hasBlock 'hidden'}}'>
+<div class={{if hasBlock "hidden"}}>
   {{#if displayImagePreview}}
-    <div class='form-group'>
+    <div class="form-group">
       {{#if shouldCrop}}
         {{image-cropper
           image=image
           imageUrl=imageUrl
         }}
       {{else}}
-        <img src="{{displayImageUrl}}" alt="Selected Image" class="ImageEditor-preview" {{action 'removeImage'}} crossOrigin="anonymous" />
+        <img
+        src={{displayImageUrl}}
+        alt="Selected Image"
+        class="ImageEditor-preview"
+        {{action "removeImage"}}
+        crossOrigin="anonymous"
+        role="button">
         <div class="text-center">
-          {{#unless wantsToDelete}}
-            {{#if hasNewImage}}
-              <button class="Button Button--icon" {{action 'rotateImage' 'left'}} title="Rotate image left">{{fa-icon 'rotate-left'}}</button>
-              <button class="Button Button--icon" {{action 'rotateImage' 'right'}} title="Rotate image right">{{fa-icon 'rotate-right'}}</button>
-            {{/if}}
-            <button class="Button Button--secondary" {{action 'removeImage'}}>Change Photo</button>
-            {{#if allowDeleteImage}}
-                <button class="Button Button--primary Button--noBorder" {{action 'toggleWantsToDelete'}}>Delete Photo</button>
-            {{/if}}
-          {{else}}
+          {{#if wantsToDelete}}
             Are you sure?
-            <button class="Button Button--secondary" {{action 'toggleWantsToDelete'}}>No</button> 
-            <button class="Button Button--primary Button--noBorder" {{action 'deleteImage'}}>Yes</button>
-          {{/unless}}
+            <button
+            class="Button Button--secondary"
+            {{action "toggleWantsToDelete"}}
+            >
+              No
+            </button>
+            <button
+            class="Button Button--primary Button--noBorder"
+            {{action "deleteImage"}}
+            >
+              Yes
+            </button>
+
+          {{else}}
+            {{#if hasNewImage}}
+              <button
+              class="Button Button--icon"
+              {{action "rotateImage" "left"}}
+              title="Rotate image left"
+              >
+              {{fa-icon "rotate-left"}}
+              </button>
+              <button
+              class="Button Button--icon"
+              {{action "rotateImage" "right"}}
+              title="Rotate image right"
+              >
+                {{fa-icon "rotate-right"}}
+              </button>
+            {{/if}}
+            <button class="Button Button--secondary" {{action "removeImage"}}>
+              Change Photo
+            </button>
+            {{#if allowDeleteImage}}
+                <button
+                class="Button Button--primary Button--noBorder"
+                {{action "toggleWantsToDelete"}}
+                >
+                  Delete Photo
+                </button>
+            {{/if}}
+          {{/if}}
         </div>
       {{/if}}
     </div>
   {{/if}}
 
-  <div class="ImageEditor-file-input {{if displayImagePreview 'hidden'}}">
+  <div class="ImageEditor-file-input {{if displayImagePreview "hidden"}}">
     {{#form-group error=error}}
-      <label class='control-label' for="image">
+      <label class="control-label" for="image">
         Choose Image
       </label>
-      {{file-input fileError=(action 'fileError') allowedExtensions='.jpg,.jpeg,.png'
-                   inputClass='form-control ContentForm-fileField' action=(action "filesSelected")}}
+      {{file-input
+        fileError=(action "fileError")
+        allowedExtensions=".jpg,.jpeg,.png"
+        inputClass="form-control ContentForm-fileField"
+        action=(action "filesSelected")
+      }}
       <span class="help-block ContentForm-helpText">
       Format: .jpg or .png  // Size: under 5MB
       <br>Min width x height: {{minWidth}} x {{minHeight}}

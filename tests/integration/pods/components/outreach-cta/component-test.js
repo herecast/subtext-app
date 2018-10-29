@@ -1,34 +1,37 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const apiStub = Ember.Service.extend({
+const apiStub = Service.extend({
   recordAdMetricEvent() {
     return true;
   }//outreach-cta component
 });
 
-const currentControllerStub = Ember.Service.extend({
+const currentControllerStub = Service.extend({
   currentUrl() {
     return 'string';
   }//outreach-cta component
 });
 
-moduleForComponent('outreach-cta', 'Integration | Component | advertise cta', {
-  integration: true,
-  beforeEach() {
-    this.register('service:api', apiStub);
-    this.inject.service('api');
+module('Integration | Component | outreach cta', function(hooks) {
+  setupRenderingTest(hooks);
 
-    this.register('service:currentController', currentControllerStub);
-    this.inject.service('currentController');
-  }
-});
+  hooks.beforeEach(function() {
+    this.owner.register('service:api', apiStub);
+    this.api = this.owner.lookup('service:api');
 
-test('it renders', function(assert) {
+    this.owner.register('service:currentController', currentControllerStub);
+    this.currentController = this.owner.lookup('service:currentController');
+  });
 
-  this.render(hbs`{{outreach-cta isTextOnly=true}}`);
+  test('it renders', async function(assert) {
 
-  assert.equal(this.$('a').length, 1);
+    await render(hbs`{{outreach-cta isTextOnly=true}}`);
 
+    assert.ok(this.element.querySelector('a'));
+
+  });
 });

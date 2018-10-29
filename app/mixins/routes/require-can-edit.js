@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 
-const { get, inject } = Ember;
-
-export default Ember.Mixin.create({
-  notify: inject.service('notification-messages'),
-  api: inject.service(),
+export default Mixin.create({
+  notify: service('notification-messages'),
+  api: service(),
 
   afterModel(model) {
     this._super(...arguments);

@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
 import ModalRoute from 'subtext-ui/mixins/routes/modal-route';
 
-const { get, set } = Ember;
-
-export default Ember.Route.extend(ModalRoute, {
+export default Route.extend(ModalRoute, {
 
   model(params) {
     return this.store.findRecord('business-profile', params.id);

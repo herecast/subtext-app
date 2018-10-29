@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import TextField from '@ember/component/text-field';
 
 export function initialize(/* container, application */) {
-  Ember.TextField.reopen({
+  TextField.reopen({
     attributeBindings: ['aria-expanded', 'autocomplete']
   });
 }

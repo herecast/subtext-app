@@ -1,25 +1,25 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { equal, notEmpty, alias } from '@ember/object/computed';
+import { get, set } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { computed: {equal}, set, get } = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   init() {
     this._super(...arguments);
     set(this, 'showNewVenueForm', false);
   },
 
   classNameBindings: ['hasError:has-error'],
-  hasError: Ember.computed.notEmpty('error'),
+  hasError: notEmpty('error'),
 
-  venueId: Ember.computed.alias('event.venueId'),
-  venueName: Ember.computed.alias('event.venueName'),
-  venueAddress: Ember.computed.alias('event.venueAddress'),
-  venueCity: Ember.computed.alias('event.venueCity'),
-  venueState: Ember.computed.alias('event.venueState'),
-  venueStatus: Ember.computed.alias('event.venueStatus'),
-  venueZip: Ember.computed.alias('event.venueZip'),
-  venueUrl: Ember.computed.alias('event.venueUrl'),
+  venueId: alias('event.venueId'),
+  venueName: alias('event.venueName'),
+  venueAddress: alias('event.venueAddress'),
+  venueCity: alias('event.venueCity'),
+  venueState: alias('event.venueState'),
+  venueStatus: alias('event.venueStatus'),
+  venueZip: alias('event.venueZip'),
+  venueUrl: alias('event.venueUrl'),
 
   isPrivate: equal('venueStatus', 'private'),
 

@@ -1,15 +1,14 @@
-import {
-  moduleForModel,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('other-event-instance', 'Unit | Model | other event instance', {
-  // Specify the other units that are required for this test.
-  needs: []
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function(assert) {
-  var model = this.subject();
-  // var store = this.store();
-  assert.ok(!!model);
+module('Unit | Model | other event instance', function(hooks) {
+  setupTest(hooks);
+
+  test('it exists', function(assert) {
+    var model = run(() => this.owner.lookup('service:store').createRecord('other-event-instance'));
+    // var store = this.store();
+    assert.ok(!!model);
+  });
 });

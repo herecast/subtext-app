@@ -1,10 +1,10 @@
-{{{truncatedText}}}
+{{truncatedText}}
 {{#if isButtonVisible}}
-  {{#x-button onClick=(action 'toggleTruncatedText') size='medium' style='link' color='primary' nowrap=true}}
+  {{#x-button onClick=(action "toggleTruncatedText") size="medium" style="link" color="primary" nowrap=true}}
     {{#if isTextTruncated}}
-      See more {{fa-icon 'chevron-down'}}
+      See more {{fa-icon "chevron-down"}}
     {{else}}
-      See less {{fa-icon 'chevron-up'}}
+      See less {{fa-icon "chevron-up"}}
     {{/if}}
   {{/x-button}}
 {{/if}}

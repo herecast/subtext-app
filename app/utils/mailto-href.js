@@ -1,6 +1,5 @@
-import Ember from 'ember';
-
-const {isEmpty, String:{htmlSafe}} = Ember;
+import { isEmpty } from '@ember/utils';
+import { htmlSafe } from '@ember/template';
 
 export default function mailtoHref(email, options) {
   let mailto = '';

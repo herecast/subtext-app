@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isPresent } from '@ember/utils';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const {get, isPresent, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['JobsNavigation'],
   classNameBindings: [
     'noFooterImage:JobsNavigation--noFooterImage'

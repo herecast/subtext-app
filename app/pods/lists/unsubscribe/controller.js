@@ -1,12 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import { get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import RSVP from 'rsvp';
 import Validations from 'subtext-ui/mixins/components/validation';
 
-const { get, inject, isPresent, RSVP } = Ember;
-
-export default Ember.Controller.extend(Validations, {
+export default Controller.extend(Validations, {
   digest: null,
   email: null,
-  api: inject.service(),
+  api: service(),
 
   validateForm() {
     this.set('errors', {});

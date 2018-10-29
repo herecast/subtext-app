@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 
-const {get, set, inject} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'IntercomButton',
 
-  intercom: inject.service(),
+  intercom: service(),
 
   intercomWindowOpen: false,
 

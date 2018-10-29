@@ -1,17 +1,18 @@
-import Mirage, {faker} from 'ember-cli-mirage';
+import Mirage, { faker } from 'ember-cli-mirage';
 import { titleize } from '../support/utils';
 import moment from 'moment';
 
-function otherInstance() {
-  return {
+/*
+function otherInstance(server, ) {
+  return server.create('other-event-instance', {
     ends_at: faker.date.future(),
     starts_at: faker.date.past(),
     id: faker.random.number(9999),
     subtitle: faker.lorem.sentence(),
     title: faker.lorem.sentence()
-  };
+  });
 }
-
+*/
 export default Mirage.Factory.extend({
   adminContentUrl() { return `http://${faker.internet.domainName()}`; },
   eventId() { return faker.random.number(100);},
@@ -63,12 +64,23 @@ export default Mirage.Factory.extend({
   avatarUrl() { return faker.image.avatar(); },
   contentOrigin: 'ugc',
   authorId() { return faker.random.number(9999); },
-  eventInstances() {
+  /*eventInstances() {
     let instancesArray = [];
     const iterations = 3;
     for (var i=0; i<iterations; i++) {
       instancesArray.push(otherInstance());
     }
     return instancesArray;
-  },
+  },*/
+  afterCreate(eventInstance, server) {
+    if (!eventInstance.eventInstances || eventInstance.eventInstances.length === 0) {
+      server.createList('other-event-instance', 3, {
+        ends_at: faker.date.future(),
+        starts_at: faker.date.past(),
+        id: faker.random.number(9999),
+        subtitle: faker.lorem.sentence(),
+        title: faker.lorem.sentence()
+      });
+    }
+  }
 });

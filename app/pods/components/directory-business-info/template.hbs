@@ -9,7 +9,7 @@
     <div class="DirectoryBusiness-info">
       <h2>{{model.name}}</h2>
       <div>
-        {{fa-icon 'fa-map-marker'}}
+        {{fa-icon "fa-map-marker"}}
         {{model.fullAddress}}
         {{#if myCoords}}
           ({{round (geo-distance model.coords myCoords) 1}} Mi)
@@ -32,13 +32,13 @@
 
     <div class="DirectoryBusiness-iconBar-item text-center">
       {{#if model.address}}
-        <a href="{{model.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a>
+        <a href={{model.directionsLink}} target="_blank" rel="noopener noreferrer">{{fa-icon "fa-automobile"}} Directions</a>
       {{/if}}
     </div>
 
     <div class="DirectoryBusiness-iconBar-item text-right">
       {{#if model.website}}
-        <div><a href="{{model.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Web</a></div>
+        <div><a href={{model.websiteLink}} target="_blank" rel="noopener noreferrer">{{fa-icon "fa-laptop"}} Web</a></div>
       {{/if}}
     </div>
   </div>
@@ -48,7 +48,7 @@
 <div class="DirectoryBusiness-detailWrap">
   {{#if model.hours}}
     <div class="DirectoryBusiness-hours">
-      <h2 class='h2'>Business hours {{#if isOpen}}<span class="text-success"> Open</span>{{/if}}</h2>
+      <h2 class="h2">Business hours {{#if isOpen}}<span class="text-success"> Open</span>{{/if}}</h2>
       <ul>
         {{#each (business-hours model.hours) as |hour|}}
           <li><strong>{{hour.days}}:</strong> {{hour.open}} - {{hour.close}}</li>
@@ -57,12 +57,12 @@
     </div>
   {{/if}}
 
-  {{#unless (is-blank-or-empty-html-tags model.details)}}
+  {{#unless detailsAreBlank}}
     <div class="DirectoryBusiness-details">
       <h2 class="h2">About</h2>
       {{#expandable-content}}
         <div class="ContentText">
-          {{{detailsHTML}}}
+          {{detailsHTML}}
         </div>
       {{/expandable-content}}
     </div>

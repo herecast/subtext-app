@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
 
-const {get, set, isPresent, run} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   organization: null,
   calendarViewFirst: false,
 

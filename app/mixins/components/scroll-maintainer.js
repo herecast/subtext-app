@@ -1,30 +1,34 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { debounce } from '@ember/runloop';
+import { on } from '@ember/object/evented';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
-  scrollMaintainer: Ember.inject.service('scroll-maintainer'),
+export default Mixin.create({
+  scrollMaintainer: service('scroll-maintainer'),
 
   scrollingTimeout: 100,
 
-  bindScrolling: Ember.on('didInsertElement', function() {
+  bindScrolling: on('didInsertElement', function() {
     const onScroll = () => {
-      Ember.run.debounce(this, this.runScrolled, this.scrollingTimeout);
+      debounce(this, this.runScrolled, this.scrollingTimeout);
     };
 
-    Ember.$(document).on('touchmove.scrollable', onScroll);
-    Ember.$(window).on('scroll.scrollable', onScroll);
+    $(document).on('touchmove.scrollable', onScroll);
+    $(window).on('scroll.scrollable', onScroll);
   }),
 
-  unbindScrolling: Ember.on('willDestroyElement', function() {
-    Ember.$(window).off('.scrollable');
-    Ember.$(document).off('.scrollable');
+  unbindScrolling: on('willDestroyElement', function() {
+    $(window).off('.scrollable');
+    $(document).off('.scrollable');
   }),
 
-  preservePos: Ember.on('didInsertElement', function() {
+  preservePos: on('didInsertElement', function() {
     const position = this.getWithDefault('scrollMaintainer.position', 0);
-    Ember.$(window).scrollTop(position);
+    $(window).scrollTop(position);
   }),
 
   runScrolled() {
-    this.set('scrollMaintainer.position', Ember.$(window).scrollTop());
+    this.set('scrollMaintainer.position', $(window).scrollTop());
   }
 });

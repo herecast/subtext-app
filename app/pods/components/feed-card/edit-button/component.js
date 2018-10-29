@@ -1,12 +1,11 @@
-import Ember from 'ember';
-
-const { readOnly } = Ember.computed;
-const { service } = Ember.inject;
-const { Promise } = Ember.RSVP;
-const { computed, get, set } = Ember;
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
+import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
+import { readOnly } from '@ember/object/computed';
 import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'span',
 
   currentService: service('currentController'),

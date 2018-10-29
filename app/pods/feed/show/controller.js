@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { reads } from '@ember/object/computed';
+import Controller, { inject as controller } from '@ember/controller';
+import { get, computed } from '@ember/object';
 
-const { computed, get, inject } = Ember;
+export default Controller.extend({
+  parentController: controller('feed'),
+  history: service(),
+  tracking: service(),
 
-export default Ember.Controller.extend({
-  parentController: inject.controller('feed'),
-  history: inject.service(),
-  tracking: inject.service(),
-
-  isDirectLink: computed.reads('history.isFirstRoute'),
+  isDirectLink: reads('history.isFirstRoute'),
 
   contentType: computed('model.contentType', function() {
     const modelContentType = get(this, 'model.contentType');

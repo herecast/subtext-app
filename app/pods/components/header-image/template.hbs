@@ -2,6 +2,6 @@
   <div class="HeaderImage-background" style={{imageStyle}}></div>
 {{/if}}
 
-<div class="HeaderImage-image" style={{imageStyle}} class={{if preserveAspectRatio 'HeaderImage--preserveAspectRatio'}} data-test-header-image></div>
+<div class="HeaderImage-image {{if preserveAspectRatio "HeaderImage--preserveAspectRatio"}}" style={{imageStyle}} data-test-header-image></div>
 
 {{yield}}

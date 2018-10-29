@@ -1,24 +1,24 @@
-<div class='Container--noGutter'>
+<div class="Container--noGutter">
   {{content-form-header
     isNew=model.isNew
     title=job
-    type='event'
+    type="event"
   }}
 
-  <div class='row'>
+  <div class="row">
     {{content-form-steps
-      step1State='complete'
-      step2State='complete'
-      step3State='current'
-      type='Event'
-      class='ContentFormSteps--gray'
+      step1State="complete"
+      step2State="complete"
+      step3State="current"
+      type="Event"
+      class="ContentFormSteps--gray"
     }}
   </div>
 
   {{event-preview-summary
     model=model
-    afterDiscard='afterDiscard'
-    afterPublish='afterPublish'
+    afterDiscard="afterDiscard"
+    afterPublish="afterPublish"
   }}
 
 </div>

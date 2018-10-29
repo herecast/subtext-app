@@ -4,14 +4,13 @@
     eventInstanceId=model.eventInstanceId
     model=model
     condensedView=(readonly context.condensedView)
-    onContentClick=(action 'onContentClick')
+    onContentClick=(action "onContentClick")
     classNames="u-paddingTop16 u-paddingHorizontal8"
   }}
 
   {{#if (or model.startsAt model.futureInstances)}}
     {{feed-card/event-dates
       eventDate=(moment-format model.startsAt "MMMM DD")
-      futureInstances=model.futureInstances
       model=model
       classNames="u-paddingTop8"
     }}
@@ -23,7 +22,7 @@
         imageUrl=model.primaryOrFirstImage.imageUrl
         caption=caption
         model=model
-        onContentClick=(action 'onContentClick')
+        onContentClick=(action "onContentClick")
       }}
     {{else}}
       {{feed-card/text-snippet
@@ -64,19 +63,19 @@
     canManage=(readonly context.canManage)
     canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
-    openPromotionMenu=(action 'openPromotionMenu')
+    openPromotionMenu=(action "openPromotionMenu")
     model=model
     editPath="events.edit"
     editPathId=model.contentId
   }}
 
-  {{#unless (or context.condensedView context.hideComments)}}
+  {{#unless hideComments}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)
       promotionMenuOpen=(readonly context.promotionMenuOpen)
-      afterComment=(action 'reloadComments')
-      onContentClick=(action 'onContentClick')
+      afterComment=(action "reloadComments")
+      onContentClick=(action "onContentClick")
     }}
   {{/unless}}
 </div>

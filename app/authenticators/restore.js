@@ -1,8 +1,6 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import { isEmpty } from '@ember/utils';
 import Devise from 'ember-simple-auth/authenticators/devise';
-
-const { isEmpty } = Ember;
-const { Promise } = Ember.RSVP;
 
 export default Devise.extend({
 

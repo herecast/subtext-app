@@ -1,63 +1,66 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from '../../../../helpers/setup-mirage';
-import Ember from 'ember';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-const contentCommentsStub = Ember.Service.extend({
+const contentCommentsStub = Service.extend({
   getComments() { }
 });
 
-moduleForComponent('market-detail', 'Integration | Component | market detail', {
-  integration: true,
-  setup() {
-    startMirage(this.container);
-    this.inject.service('tracking');
-    this.register('service:content-comments', contentCommentsStub);
-  }
-});
+module('Integration | Component | market detail', function(hooks) {
+  setupRenderingTest(hooks);
+  setupMirage(hooks);
 
-test('it renders', function(assert) {
-  this.set('scrollToMock', () => {});
-  this.set('model', {id: 1});
-
-  this.render(hbs`
-    {{market-detail
-      model=model
-      scrollTo=(action scrollToMock)
-    }}
-  `);
-
-  assert.ok(this.$().text().trim());
-});
-
-test('Tracking impressions', function(assert) {
-  assert.expect(2);
-
-  let impressions = [];
-
-  this.tracking.reopen({
-    contentImpression(id) {
-      impressions.push(id);
-    }
+  hooks.beforeEach(function() {
+    this.tracking = this.owner.lookup('service:tracking');
+    this.owner.register('service:content-comments', contentCommentsStub);
   });
 
-  this.set('market', {id: 1, contentId: 2});
-  this.set('scrollToMock', () => {});
+  test('it renders', async function(assert) {
+    this.set('scrollToMock', () => {});
+    this.set('model', {id: 1});
 
-  this.render(hbs`
-    {{market-detail
-      model=market
-      scrollTo=(action scrollToMock)
-    }}
-  `);
+    await render(hbs`
+      {{market-detail
+        model=model
+        scrollTo=(action scrollToMock)
+      }}
+    `);
 
-    assert.ok(
-      impressions.indexOf(2) > -1,
-      'After render, records impression through tracking service');
+    assert.ok(this.element.textContent.trim());
+  });
 
-    this.set('market', {id: 4, contentId: 5});
+  test('Tracking impressions', async function(assert) {
+    assert.expect(2);
 
-    assert.ok(
-      impressions.indexOf(5) > -1,
-      'it records a new impression when given a new model');
+    let impressions = [];
+
+    this.tracking.reopen({
+      contentImpression(id) {
+        impressions.push(id);
+      }
+    });
+
+    this.set('market', {id: 1, contentId: 2});
+    this.set('scrollToMock', () => {});
+
+    await render(hbs`
+      {{market-detail
+        model=market
+        scrollTo=(action scrollToMock)
+      }}
+    `);
+
+      assert.ok(
+        impressions.indexOf(2) > -1,
+        'After render, records impression through tracking service');
+
+      this.set('market', {id: 4, contentId: 5});
+
+      assert.ok(
+        impressions.indexOf(5) > -1,
+        'it records a new impression when given a new model');
+  });
 });

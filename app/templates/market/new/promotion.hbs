@@ -1,20 +1,20 @@
-<div class='Container--noGutter'>
-  <div class='row'>
+<div class="Container--noGutter">
+  <div class="row">
     {{#content-form
       isNew=model.isNew
-      type='market'
+      type="market"
       title=job
-      class='col-xs-12'
-      step1State='complete'
-      step2State='current'
-      step3State='inactive'
+      class="col-xs-12"
+      step1State="complete"
+      step2State="current"
+      step3State="inactive"
     }}
       {{market-promotion-form
         post=model
         listservs=listservs
-        afterDiscard='afterDiscard'
-        backToDetails='backToDetails'
-        afterPromotion='afterPromotion'
+        afterDiscard="afterDiscard"
+        backToDetails="backToDetails"
+        afterPromotion="afterPromotion"
       }}
     {{/content-form}}
   </div>

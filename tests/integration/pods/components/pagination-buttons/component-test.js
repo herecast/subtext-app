@@ -1,219 +1,221 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-/* global sinon */
+import sinon from 'sinon';
 
-moduleForComponent('pagination-buttons', 'Integration | Component | pagination buttons', {
-  integration: true
-});
+module('Integration | Component | pagination buttons', function(hooks) {
+  setupRenderingTest(hooks);
 
 
-test('Previous button not visible on page 1', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 1,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}]
+  test('Previous button not visible on page 1', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 1,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
+
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $prevButton = this.element.querySelector('.PaginationButtons-prev');
+
+    assert.notOk($prevButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $prevButton = this.$('.PaginationButtons-prev');
+  test('Previous button visible on page 2', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 2,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
 
-  assert.equal($prevButton.length, 0);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $prevButton = this.element.querySelector('.PaginationButtons-prev');
 
-test('Previous button visible on page 2', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 2,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}]
+    assert.ok($prevButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $prevButton = this.$('.PaginationButtons-prev');
+  test('FirstPage button not visible on page 1', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 1,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
 
-  assert.equal($prevButton.length, 1);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $firstButton = this.element.querySelector('.PaginationButtons-first');
 
-test('FirstPage button not visible on page 1', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 1,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}]
+    assert.notOk($firstButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $firstButton = this.$('.PaginationButtons-first');
+  test('FirstPage button visible on page 2', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 2,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
 
-  assert.equal($firstButton.length, 0);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $firstButton = this.element.querySelector('.PaginationButtons-first');
 
-test('FirstPage button visible on page 2', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 2,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}]
+    assert.ok($firstButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $firstButton = this.$('.PaginationButtons-first');
+  test('NextPage button not visible when results < per_page', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 1,
+      per_page: 3,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
 
-  assert.equal($firstButton.length, 1);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $nextButton = this.element.querySelector('.PaginationButtons-next');
 
-test('NextPage button not visible when results < per_page', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 1,
-    per_page: 3,
-    results: [{test: 'me'}, {test: 'me2'}]
+    assert.notOk($nextButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $nextButton = this.$('.PaginationButtons-next');
+  test('Given no total parameter; NextPage button visible when results >= per_page', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      page: 2,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}]
+    });
 
-  assert.equal($nextButton.length, 0);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $nextButton = this.element.querySelector('.PaginationButtons-next');
 
-test('Given no total parameter; NextPage button visible when results >= per_page', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    page: 2,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}]
+    assert.ok($nextButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $nextButton = this.$('.PaginationButtons-next');
+  test('Given a total parameter; NextPage button visible when page * per_page < total', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      total: 5,
+      page: 2,
+      per_page: 2,
+      results: [{test: 'me'}]
+    });
 
-  assert.equal($nextButton.length, 1);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        total=total
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $nextButton = this.element.querySelector('.PaginationButtons-next');
 
-test('Given a total parameter; NextPage button visible when page * per_page < total', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    total: 5,
-    page: 2,
-    per_page: 2,
-    results: [{test: 'me'}]
+    assert.ok($nextButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      total=total
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $nextButton = this.$('.PaginationButtons-next');
+  test('Given a total parameter; NextPage button not visible when page * per_page = total and per_page == results', async function(assert) {
+    this.setProperties({
+      myAction: function() {},
+      total: 3,
+      page: 2,
+      per_page: 1,
+      results: [{test: 'me'}]
+    });
 
-  assert.equal($nextButton.length, 1);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        total=total
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
+    let $nextButton = this.element.querySelector('.PaginationButtons-next');
 
-test('Given a total parameter; NextPage button not visible when page * per_page = total and per_page == results', function(assert) {
-  this.setProperties({
-    myAction: function() {},
-    total: 3,
-    page: 2,
-    per_page: 1,
-    results: [{test: 'me'}]
+    assert.ok($nextButton);
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      total=total
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-  let $nextButton = this.$('.PaginationButtons-next');
+  test('NextPage button action', async function(assert) {
+    const myAction = sinon.spy();
+    this.setProperties({
+      myAction: myAction,
+      page: 1,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    });
 
-  assert.equal($nextButton.length, 1);
-});
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
 
-test('NextPage button action', function(assert) {
-  const myAction = sinon.spy();
-  this.setProperties({
-    myAction: myAction,
-    page: 1,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    let $nextButton = this.element.querySelector('.PaginationButtons-next');
+    $nextButton.click();
+
+    assert.ok(myAction.calledWith(2));
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
+  test('FirstPage button action', async function(assert) {
+    const myAction = sinon.spy();
+    this.setProperties({
+      myAction: myAction,
+      page: 3,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    });
 
-  let $nextButton = this.$('.PaginationButtons-next');
-  $nextButton.click();
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
 
-  assert.ok(myAction.calledWith(2));
-});
+    let $firstButton = this.element.querySelector('.PaginationButtons-first');
+    $firstButton.click();
 
-test('FirstPage button action', function(assert) {
-  const myAction = sinon.spy();
-  this.setProperties({
-    myAction: myAction,
-    page: 3,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    assert.ok(myAction.calledWith(1));
   });
 
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
+  test('PrevPage button action', async function(assert) {
+    const myAction = sinon.spy();
+    this.setProperties({
+      myAction: myAction,
+      page: 3,
+      per_page: 1,
+      results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    });
 
-  let $firstButton = this.$('.PaginationButtons-first');
-  $firstButton.click();
+    await render(hbs`{{pagination-buttons
+                        on-update-page=(action myAction)
+                        page=page
+                        perPage=per_page
+                        results=results}}`);
 
-  assert.ok(myAction.calledWith(1));
-});
+    let $prevButton = this.element.querySelector('.PaginationButtons-prev');
+    $prevButton.click();
 
-test('PrevPage button action', function(assert) {
-  const myAction = sinon.spy();
-  this.setProperties({
-    myAction: myAction,
-    page: 3,
-    per_page: 1,
-    results: [{test: 'me'}, {test: 'me2'}, {test: 'me3'}]
+    assert.ok(myAction.calledWith(2));
   });
-
-  this.render(hbs`{{pagination-buttons
-                      on-update-page=(action myAction)
-                      page=page
-                      perPage=per_page
-                      results=results}}`);
-
-  let $prevButton = this.$('.PaginationButtons-prev');
-  $prevButton.click();
-
-  assert.ok(myAction.calledWith(2));
 });

@@ -1,17 +1,18 @@
-<div class="UserLocation-location" {{action 'clickLocation'}} data-test-component="user-location">
+<div class="UserLocation-location" {{action "clickLocation"}} role="button" data-test-component="user-location">
   {{#if showLocationName}}
     <div class="UserLocation-location-context">
-      In &<br />
+      In &<br>
       Around
     </div>
 
     <div class="UserLocation-location-icon">
-      {{fa-icon 'map-marker'}}
+      {{fa-icon "map-marker"}}
     </div>
 
     <div class="UserLocation-location-name">
       {{userLocationName}}
     </div>
+
   {{else}}
     Calculating Location...
   {{/if}}

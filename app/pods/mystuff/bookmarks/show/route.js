@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
 
-const {
-  get,
-  isPresent,
-  inject: {service}
-} = Ember;
-
-export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
+export default Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
   session: service(),
   modals: service(),
   fastboot: service(),

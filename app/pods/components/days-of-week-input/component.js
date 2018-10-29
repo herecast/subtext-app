@@ -1,22 +1,26 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get, setProperties } from '@ember/object';
 
-const {
-  get
-} = Ember;
+const dayMapArray = [
+  { key: 'Su', value: 1 },
+  { key: 'M',  value: 2 },
+  { key: 'Tu', value: 3 },
+  { key: 'W',  value: 4 },
+  { key: 'Th', value: 5 },
+  { key: 'F',  value: 6 },
+  { key: 'Sa', value: 7 }
+];
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['DaysOfWeekInput', 'checkbox-group'],
-  selectedDays: [],
 
-  dayMap: [
-    { key: 'Su', value: 1 },
-    { key: 'M',  value: 2 },
-    { key: 'Tu', value: 3 },
-    { key: 'W',  value: 4 },
-    { key: 'Th', value: 5 },
-    { key: 'F',  value: 6 },
-    { key: 'Sa', value: 7 }
-  ],
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      selectedDays: [],
+      dayMap: dayMapArray,
+    });
+  },
 
   actions: {
     toggleDay(day, selected) {

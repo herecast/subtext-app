@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { debounce, next } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 
-const { get, set } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ImageCropper'],
 
   imageUrl: null,
@@ -71,7 +72,7 @@ export default Ember.Component.extend({
         // The .cropper-container element is added by the cropper plugin, so we
         // can use that to detect if has already been initialized. If it has,
         // we just need to replace the image rather than reinitialize it.
-        const cropperExists = Ember.isPresent(this.$('.cropper-container'));
+        const cropperExists = isPresent(this.$('.cropper-container'));
 
         if (!cropperExists) {
           img.cropper({
@@ -88,7 +89,7 @@ export default Ember.Component.extend({
 
             // Run whenever the cropping area is adjusted
             crop() {
-              Ember.run.debounce(that, that.cropUpdated, img, 100);
+              debounce(that, that.cropUpdated, img, 100);
             },
           });
         } else {
@@ -118,7 +119,7 @@ export default Ember.Component.extend({
           }, blobFormat, blobQuality);
         } else {
           // most likely a broken image
-          Ember.run.next(() => {
+          next(() => {
             this.send('deleteImage', img);
           });
         }

@@ -1,10 +1,11 @@
-import Ember from 'ember';
-import InfinityRoute from "ember-infinity/mixins/route";
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import History from 'subtext-ui/mixins/routes/history';
 
-const { get } = Ember;
+export default Route.extend(History, {
+  infinity: service(),
 
-export default Ember.Route.extend(History, InfinityRoute, {
   queryParams: {
     organizationId: {refreshModel: true},
     type: {refreshModel: true},
@@ -16,7 +17,7 @@ export default Ember.Route.extend(History, InfinityRoute, {
     return this.controllerFor('mystuff').get('currentUser').then((currentUser) => {
       const currentUserId = get(currentUser, 'userId');
 
-      return this.infinityModel('user', {
+      return this.infinity.model('user', {
           user_id: currentUserId,
           include: 'contents',
           organization_id: params.organizationId,

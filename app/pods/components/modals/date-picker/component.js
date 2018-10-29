@@ -1,8 +1,6 @@
-import Ember from 'ember';
+import { computed, set, get } from '@ember/object';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
-
-const { get, set, computed } = Ember;
 
 export default ModalInstance.extend({
   attributeBindings: ['data-test-modal-datepicker'],

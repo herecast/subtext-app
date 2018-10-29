@@ -1,20 +1,18 @@
-import Ember from 'ember';
-import {sanitizeContent} from 'subtext-ui/lib/content-sanitizer';
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
-
-const {
-  get, set,
-  isPresent,
-  inject,
-  run
-} = Ember;
 
 const defaultToolbarOpts = [
   ['style', ['bold', 'italic', 'underline', 'clear']],
   ['insert', ['link']]
 ];
 
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   classNames: ['wysiwyg-editor'],
   toolbar: defaultToolbarOpts,
   content: null,
@@ -25,7 +23,7 @@ export default Ember.Component.extend(TestSelector, {
   showImageModal: false,
   $editor: null,
 
-  notify: inject.service('notification-messages'),
+  notify: service('notification-messages'),
 
   willDestroyElement() {
     this.$('textarea').summernote('destroy');
@@ -68,7 +66,7 @@ export default Ember.Component.extend(TestSelector, {
           $editor.summernote('saveRange');
 
           // Redirect paste event to our own contenteditable div
-          const $pasteTarget = Ember.$('<div contenteditable="true" />')
+          const $pasteTarget = $('<div contenteditable="true" />')
             .css({
               position: "absolute",
               opacity: 0
@@ -81,7 +79,7 @@ export default Ember.Component.extend(TestSelector, {
             $editor.summernote('restoreRange');
 
             // sanitize content, remove contentediable div
-            const $div = Ember.$('<div />').append(sanitizeContent($pasteTarget));
+            const $div = $('<div />').append(sanitizeContent($pasteTarget));
             $pasteTarget.remove();
 
             // Strip styles from images to prevent weird positioning and floating.
@@ -89,7 +87,7 @@ export default Ember.Component.extend(TestSelector, {
 
             // Remove wrapping <b> tag added by summernote for apparently no reason
             this.$('.note-editable > b').each(function () {
-              let $bTag = Ember.$(this);
+              let $bTag = $(this);
               if ($bTag.text() === '') {
                 $bTag.contents().unwrap();
               }
@@ -146,25 +144,25 @@ export default Ember.Component.extend(TestSelector, {
     // Remove tooltips in button bar if mobile to avoid double click
     if (get(this, 'media.isMobile')) {
       this.$('.note-toolbar button').each(function () {
-        Ember.$(this).removeAttr('title');
-        Ember.$(this).removeAttr('data-original-title');
+        $(this).removeAttr('title');
+        $(this).removeAttr('data-original-title');
       });
     }
   },
 
   _getButtons() {
-    const ui = Ember.$.summernote.ui;
+    const ui = $.summernote.ui;
     const buttonsParam = get(this, 'buttons');
     const $editor = get(this, '$editor');
 
-    return Ember.$.extend({}, {
+    return $.extend({}, {
       subtextFloatLeft: ui.button({
         contents: '<i class="fa fa-align-left"/>',
         tooltip: 'Float Left',
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .parent()
               .addClass('pull-left')
               .removeClass('pull-right');
@@ -177,7 +175,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .parent()
               .addClass('pull-right')
               .removeClass('pull-left');
@@ -190,7 +188,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .parent()
               .removeClass('pull-left pull-right');
           }))();
@@ -202,7 +200,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .parent()
               .remove();
           }))();
@@ -214,7 +212,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
               .removeClass('width25 width50');
@@ -227,7 +225,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
               .addClass('width50')
@@ -241,7 +239,7 @@ export default Ember.Component.extend(TestSelector, {
         click(e) {
           e.preventDefault();
           ($editor.summernote('wrapCommand', function () {
-            Ember.$($editor.summernote('restoreTarget'))
+            $($editor.summernote('restoreTarget'))
               .css({width: 'auto', height: 'auto'})
               .parent()
               .addClass('width25')
@@ -255,7 +253,7 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   _getSubtextImageButton() {
-    const ui = Ember.$.summernote.ui;
+    const ui = $.summernote.ui;
     const self = this;
     const $editor = get(this, '$editor');
 
@@ -276,7 +274,7 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   _getSubtextStyleButtonMenu() {
-    const ui = Ember.$.summernote.ui;
+    const ui = $.summernote.ui;
     const $editor = get(this, '$editor');
 
     return ui.buttonGroup([
@@ -311,7 +309,7 @@ export default Ember.Component.extend(TestSelector, {
         },
         click(e) {
           e.preventDefault();
-          const tagName = Ember.$(e.target).prop('tagName');
+          const tagName = $(e.target).prop('tagName');
           $editor.summernote('formatBlock', tagName);
         }
       })
@@ -319,18 +317,15 @@ export default Ember.Component.extend(TestSelector, {
   },
 
   _setEditorContent(content) {
-    Ember.$('.note-editable').html(content);
+    $('.note-editable').html(content);
   },
 
-  didUpdateAttrs(attrs) {
+  didUpdateAttrs() {
     this._super(...arguments);
-
     // Only update the editor with new content if updateContent flag is set
     // This avoids a bug where the cursor jumps when the user types
-    const updateContent = get(attrs, 'newAttrs.updateContent.value');
-
-    if (updateContent) {
-      this._setEditorContent(get(attrs, 'newAttrs.content'));
+    if (get(this, 'updateContent')) {
+      this._setEditorContent(get(this, 'content'));
       set(this, 'updateContent', false);
     }
   },
@@ -355,7 +350,7 @@ export default Ember.Component.extend(TestSelector, {
 
       const uploadImage = get(this, 'uploadImage');
       uploadImage(selectedImage).then(({image}) => {
-        let $imageWrapper = Ember.$('<div class="ContentImage"></div>');
+        let $imageWrapper = $('<div class="ContentImage"></div>');
         $imageWrapper.append(`<img src="${image.url}" />`);
         $imageWrapper.append(`<p>${caption}</p>`);
 

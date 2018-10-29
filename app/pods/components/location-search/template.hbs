@@ -5,26 +5,26 @@
   placeholder=placeholder}}
 
 {{#if displaySuggestions}}
-  <ul class='LocationSearch-suggestions dropdown-menu' role='menu'>
+  <ul class="LocationSearch-suggestions dropdown-menu" role="menu">
 
     {{#if displayQuickList}}
       {{#each quickList as |loc|}}
         <li>
-          <a href='#' {{action 'update' loc.human loc.coords}}>{{loc.human}}</a>
+          <a href="#" {{action "update" loc.human loc.coords}}>{{loc.human}}</a>
         </li>
       {{/each}}
-      <li class='divider' role='presentation'></li>
+      <li class="divider" role="presentation"></li>
     {{/if}}
 
     {{#if suggestionsProxy}}
       {{#each suggestionsProxy as |loc|}}
       <li>
-        <a href='#' {{action 'update' loc.human loc.coords}}>{{loc.human}}</a>
+        <a href="#" {{action "update" loc.human loc.coords}}>{{loc.human}}</a>
       </li>
       {{/each}}
     {{else}}
       <li>
-        <a href='#' onclick="return false;">No Matches Yet</a>
+        <a href="#" onclick="return false;">No Matches Yet</a>
       </li>
     {{/if}}
   </ul>

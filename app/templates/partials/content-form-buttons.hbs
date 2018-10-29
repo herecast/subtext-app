@@ -1,13 +1,16 @@
-<div class='ContentForm-buttonGroup form-group'>
-  <button class='Button Button--primary btn btn-primary pull-right'
-    data-test-action='next'
-    {{action 'next'}}>
+<div class="ContentForm-buttonGroup form-group">
+  <button
+    class="Button Button--primary btn btn-primary pull-right"
+    data-test-action="next"
+    {{action "next"}}>
     Next Step
-    {{fa-icon 'arrow-right u-iconRight'}}
+    {{fa-icon "arrow-right u-iconRight"}}
   </button>
 
-  <button class='ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right' {{action 'discard'}}>
-    {{fa-icon 'trash u-iconLeft'}}
+  <button
+    class="ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right"
+    {{action "discard"}}>
+    {{fa-icon "trash u-iconLeft"}}
 
     {{#if model.isNew}}
       Discard {{formattedType}}

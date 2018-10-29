@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 /**
  ** Display logic:
@@ -15,4 +15,4 @@ export function showFeedAd(params) {
   return (feedPlacement - offset) % showAfterEvery === 0;
 }
 
-export default Ember.Helper.helper(showFeedAd);
+export default buildHelper(showFeedAd);

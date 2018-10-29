@@ -1,9 +1,9 @@
-{{#modal-wrapper isSmall=true close=(action 'close') class='SignInRegisterModal'}}
+{{#modal-wrapper isSmall=true close=(action "close") class="SignInRegisterModal"}}
   <div class="SignInRegisterModal-logo">
     {{brand-logo}}
   </div>
   {{sign-in
-    afterAuthenticate=(action 'didSignIn')
+    afterAuthenticate=(action "didSignIn")
     alternateSignInMessage=alternateSignInMessage
   }}
 {{/modal-wrapper}}

@@ -1,9 +1,11 @@
+import { notEmpty } from '@ember/object/computed';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, setProperties, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
-import Ember from 'ember';
 
-const { get, setProperties, computed, inject:{service}} = Ember;
-
-export default Ember.Component.extend(SocialPreloaded, {
+export default Component.extend(SocialPreloaded, {
   classNames: 'PromotionMenu-PromotionOptions',
 
   content: null,
@@ -16,7 +18,7 @@ export default Ember.Component.extend(SocialPreloaded, {
   api: service(),
   facebook: service(),
 
-  hasOrganization: computed.notEmpty('organization'),
+  hasOrganization: notEmpty('organization'),
 
   _urlForShare() {
     const locationService = get(this, 'location');
@@ -56,12 +58,12 @@ export default Ember.Component.extend(SocialPreloaded, {
     return `mailto:?subject=${subject}&body=${body}`;
   }),
 
-  twitterLink: computed('content.title', 'content.isCampaign', 'organization.name', function() {
+  twitterLink: computed('content.{title,isCampaign}', 'organization.name', function() {
     const title = get(this, 'content.isCampaign') ? get(this, 'organization.name') : encodeURIComponent(get(this, 'content.title'));
     const url = this._urlForShare();
     const via = 'thedailyUV';
 
-    return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}`);
+    return htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}`);
   }),
 
   actions: {
@@ -103,6 +105,7 @@ export default Ember.Component.extend(SocialPreloaded, {
         hasPromotionToRecord: false,
         lastSharePlatform: null
       });
+      //eslint-disable-next-line ember/closure-actions
       this.sendAction('done');
     },
 

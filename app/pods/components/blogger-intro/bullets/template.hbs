@@ -1,5 +1,5 @@
 <ul>
   {{#each bullets as |bullet|}}
-    <li class="{{if (eq currentStep bullet.step) 'active'}}"></li>
+    <li class={{if (eq currentStep bullet.step) "active"}}></li>
   {{/each}}
 </ul>

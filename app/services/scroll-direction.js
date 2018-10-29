@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import { equal } from '@ember/object/computed';
+import $ from 'jquery';
+import { setProperties, set, get } from '@ember/object';
+import Service, { inject as service } from '@ember/service';
 
-const { get, set, setProperties, computed, inject:{service} } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
 
   scrollDirection: null,
 
-  isScrollingUp: computed.equal('scrollDirection', 'up'),
-  isScrollingDown: computed.equal('scrollDirection', 'down'),
+  isScrollingUp: equal('scrollDirection', 'up'),
+  isScrollingDown: equal('scrollDirection', 'down'),
 
 
   _previousScrollPosition: 0,
@@ -20,7 +21,7 @@ export default Ember.Service.extend({
     this._super(...arguments);
 
     if (!get(this, 'fastboot.isFastBoot')) {
-      Ember.$(window).on('scroll.scrollDirection', () => {
+      $(window).on('scroll.scrollDirection', () => {
         if (!get(this, 'isDestroyed')) {
           this._checkScrollDirection();
         }
@@ -30,7 +31,8 @@ export default Ember.Service.extend({
 
   _checkScrollDirection() {
     const previousScrollPosition = get(this, '_previousScrollPosition');
-    const currentScrollPosition = Ember.$(window).scrollTop();
+
+    const currentScrollPosition = $(window).scrollTop();
 
     const currentScrollDirection = get(this, 'scrollDirection');
 
@@ -62,7 +64,7 @@ export default Ember.Service.extend({
   willDestroy() {
     this._super(...arguments);
     if (!get(this, 'fastboot.isFastBoot')) {
-      Ember.$(window).off('scroll.scrollDirection');
+      $(window).off('scroll.scrollDirection');
     }
   }
 });

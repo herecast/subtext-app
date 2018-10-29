@@ -1,12 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 
-const {
-  inject,
-  get
-} = Ember;
-
-export default Ember.Mixin.create({
-  fastboot: inject.service(),
+export default Mixin.create({
+  fastboot: service(),
 
   actions: {
     didTransition() {

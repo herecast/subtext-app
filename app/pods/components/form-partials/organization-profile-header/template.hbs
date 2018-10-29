@@ -1,14 +1,14 @@
 {{#x-card}}
   {{#card-body slimPadding=true}}
     {{#form-group error=errors.profileImage}}
-      <label class='control-label ContentForm-label'>Profile Image</label>
-      <div class='help-block'>
+      <label class="control-label ContentForm-label">Profile Image</label>
+      <div class="help-block">
         The avatar associated with your posts and on your home page
       </div>
       {{content-form-image
         image=model.profileImage
         originalImageUrl=(readonly model.profileImageUrl)
-        onImageUpdate=(action 'updateProfileImage')
+        onImageUpdate=(action "updateProfileImage")
         error=errors.profileImage
         shouldCrop=hasNewProfileImage
         class="OrganizationProfile-editForm-imageForm"
@@ -16,31 +16,31 @@
     {{/form-group}}
 
     {{#form-group error=errors.backgroundImage}}
-      <label class='control-label ContentForm-label'>Banner Image</label>
-      <div class='help-block'>
+      <label class="control-label ContentForm-label">Banner Image</label>
+      <div class="help-block">
         The background header image on your home page
       </div>
       {{content-form-image
         image=(readonly model.backgroundImage)
         originalImageUrl=(readonly model.backgroundImageUrl)
-        onImageUpdate=(action 'updateBackgroundImage')
+        onImageUpdate=(action "updateBackgroundImage")
         error=errors.backgroundImage
         class="OrganizationProfile-editForm-imageForm"
       }}
     {{/form-group}}
 
     {{#form-group error=errors.desktopImage}}
-      <label class='control-label ContentForm-label'>Full Page Background Image</label>
-      <div class='help-block'>
-        The background image for your page when viewed on desktop<br />
+      <label class="control-label ContentForm-label">Full Page Background Image</label>
+      <div class="help-block">
+        The background image for your page when viewed on desktop<br>
         Your image will be blurred to provide contrast from your contents.
       </div>
       {{content-form-image
         image=(readonly model.desktopImage)
         originalImageUrl=(readonly model.desktopImageUrl)
-        onImageUpdate=(action 'updateDesktopImage')
+        onImageUpdate=(action "updateDesktopImage")
         allowDeleteImage=true
-        onImageDelete=(action 'deleteDesktopImage')
+        onImageDelete=(action "deleteDesktopImage")
         error=errors.desktopImage
         class="OrganizationProfile-editForm-imageForm"
       }}
@@ -48,54 +48,54 @@
 
     {{#unless isBlog}}
       {{#form-group}}
-        <label class='control-label ContentForm-label' for='subscribe-url'>Your Special Link Button</label>
-        <div class='help-block'>
+        <label class="control-label ContentForm-label" for="subscribe-url">Your Special Link Button</label>
+        <div class="help-block">
           You can choose to display one of the two options below
         </div>
-        {{#x-link-url href='#'
+        {{#x-link-url href="#"
                       target=null
-                      onClick=(action 'chooseSpecialLinkOption' 'subscribe')
+                      onClick=(action "chooseSpecialLinkOption" "subscribe")
                       disabled=specialLinkOptionIsActive
-                      style='regular'
-                      color='primary'
-                      size='x-small'}}
+                      style="regular"
+                      color="primary"
+                      size="x-small"}}
           Subscribe
         {{/x-link-url}}
         OR
-        {{#x-link-url href='#'
+        {{#x-link-url href="#"
                       target=null
-                      onClick=(action 'chooseSpecialLinkOption' 'donate')
+                      onClick=(action "chooseSpecialLinkOption" "donate")
                       disabled=subscribeOptionIsActive
-                      style='regular'
-                      color='primary'
-                      size='x-small'}}
+                      style="regular"
+                      color="primary"
+                      size="x-small"}}
           Donate
         {{/x-link-url}}
       {{/form-group}}
 
       {{#form-group error=errors.subscribeUrl}}
         {{#if subscribeOptionIsActive}}
-          <div class='help-block'>
+          <div class="help-block">
             Link for user email alerts when you post. Copy and share!
           </div>
           {{input
-            id='subscribe-url'
-            class='form-control'
+            id="subscribe-url"
+            class="form-control"
             value=model.subscribeUrl
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/if}}
       {{/form-group}}
       {{#form-group error=errors.specialLinkUrl}}
         {{#if specialLinkOptionIsActive}}
-          <div class='help-block'>
+          <div class="help-block">
             Link to send users to donate to your organization or cause.
           </div>
           {{input
-            id='special-link-url'
-            class='form-control'
+            id="special-link-url"
+            class="form-control"
             value=model.specialLinkUrl
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/if}}
       {{/form-group}}

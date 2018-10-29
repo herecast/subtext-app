@@ -1,19 +1,27 @@
-import Ember from 'ember';
+import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
+import ObjectProxy from '@ember/object/proxy';
+import RSVP, { Promise } from 'rsvp';
+import { computed, get, setProperties } from '@ember/object';
+import Service, { inject as service } from '@ember/service';
 
-const { RSVP, get, computed, inject:{service} } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   mapsService: service('google-maps'),
-  defaultLocation: {
-    human: 'Hartford, VT',
-    coords: {
-      lat: 43.663,
-      lng: -72.369
-    }
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      defaultLocation: {
+        human: 'Hartford, VT',
+        coords: {
+          lat: 43.663,
+          lng: -72.369
+        }
+      },
+    });
   },
 
   userLocation: computed('mapsService', function() {
-    const locationProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
+    const locationProxy = ObjectProxy.extend(PromiseProxyMixin, {
       content: get(this, 'defaultLocation')
     });
 
@@ -77,11 +85,11 @@ export default Ember.Service.extend({
 
   geocode(address, filterParams) {
     const mapsService = get(this, 'mapsService');
-    const returnSet = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+    const returnSet = ObjectProxy.extend(PromiseProxyMixin);
     const userLocation = get(this, 'userLocation');
 
     return returnSet.create({
-      promise: new Ember.RSVP.Promise(function(resolve, reject) {
+      promise: new Promise(function(resolve, reject) {
         var geoArgs = {
           address: address,
           componentRestrictions: {
@@ -131,7 +139,7 @@ export default Ember.Service.extend({
   reverseGeocode(lat, lng) {
     const mapsService = get(this, 'mapsService');
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       mapsService.geocode({
         location: {
           lat: parseFloat(lat),

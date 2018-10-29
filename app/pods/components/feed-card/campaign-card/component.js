@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+import Component from '@ember/component';
 
-const {computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-CampaignCard',
-  'data-test-campaign-card': computed.reads('model.title'),
+  'data-test-campaign-card': reads('model.title'),
 
   model: null
 });

@@ -1,79 +1,81 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import EmberObject, { get } from '@ember/object';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from '../../../../helpers/setup-mirage';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import moment from 'moment';
 
-const { get } = Ember;
-
-const contentCommentsStub = Ember.Service.extend({
+const contentCommentsStub = Service.extend({
   getComments() { }
 });
 
-moduleForComponent('event-detail', 'Integration | Component | event detail', {
-  integration: true,
-  setup() {
-    startMirage(this.container);
-    this.inject.service('tracking');
-    this.register('service:content-comments', contentCommentsStub);
-  }
-});
+module('Integration | Component | event detail', function(hooks) {
+  setupRenderingTest(hooks);
+  setupMirage(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('scrollToMock', () => {});
-  this.set('eventInstance', {startsAt: moment()});
-  this.set('content', {futureInstances: [get(this, 'eventInstance')]});
-
-  this.render(hbs`
-   {{event-detail
-      model=content
-      scrollTo=(action scrollToMock)
-   }}
-  `);
-
-  assert.ok(this.$().text().trim());
-});
-
-test('Tracking impressions', function(assert) {
-  assert.expect(2);
-
-  let impressions = [];
-
-  this.tracking.reopen({
-    contentImpression(id) {
-      impressions.push(id);
-    }
+  hooks.beforeEach(function() {
+    this.tracking = this.owner.lookup('service:tracking');
+    this.owner.register('service:content-comments', contentCommentsStub);
   });
 
-  this.set('event', Ember.Object.create({
-    id: 1,
-    contentId: 2,
-    futureInstances: []
-  }));
-  this.set('scrollToMock', () => {});
-  this.set('contentMock', ()=>{});
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('scrollToMock', () => {});
+    this.set('eventInstance', {startsAt: moment()});
+    this.set('content', {futureInstances: [get(this, 'eventInstance')]});
 
-  this.render(hbs`
-    {{event-detail
-      content=contentMock
-      model=event
-      scrollTo=(action scrollToMock)
-    }}
-  `);
+    await render(hbs`
+     {{event-detail
+        model=content
+        scrollTo=(action scrollToMock)
+     }}
+    `);
 
-    assert.ok(
-      impressions.indexOf(2) > -1,
-      'After render, records impression through tracking service');
+    assert.ok(this.element.textContent.trim());
+  });
 
-  this.set('event', Ember.Object.create({
-    id: 4,
-    contentId: 5,
-    futureInstances: []
-  }));
+  test('Tracking impressions', async function(assert) {
+    assert.expect(2);
 
-    assert.ok(
-      impressions.indexOf(5) > -1,
-      'it records a new impression when given a new model');
+    let impressions = [];
+
+    this.tracking.reopen({
+      contentImpression(id) {
+        impressions.push(id);
+      }
+    });
+
+    this.set('event', EmberObject.create({
+      id: 1,
+      contentId: 2,
+      futureInstances: []
+    }));
+    this.set('scrollToMock', () => {});
+    this.set('contentMock', ()=>{});
+
+    await render(hbs`
+      {{event-detail
+        content=contentMock
+        model=event
+        scrollTo=(action scrollToMock)
+      }}
+    `);
+
+      assert.ok(
+        impressions.indexOf(2) > -1,
+        'After render, records impression through tracking service');
+
+    this.set('event', EmberObject.create({
+      id: 4,
+      contentId: 5,
+      futureInstances: []
+    }));
+
+      assert.ok(
+        impressions.indexOf(5) > -1,
+        'it records a new impression when given a new model');
+  });
 });

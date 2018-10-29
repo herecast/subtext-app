@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 
-const { computed, get } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
   displayBlocAttribution: computed('avatarName', 'isDefaultOrganization', function(){

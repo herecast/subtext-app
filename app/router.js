@@ -1,22 +1,24 @@
-import Ember from 'ember';
-import config from './config/environment';
+import { inject as service } from '@ember/service';
+import EmberRouter from '@ember/routing/router';
+import { get } from '@ember/object';
+import config from 'subtext-ui/config/environment';
 
-const { inject, on, get } = Ember;
 
-
-const Router = Ember.Router.extend({
-  history: inject.service('history'),
+const Router = EmberRouter.extend({
+  history: service('history'),
+  fastboot: service(),
   location: config.locationType,
   rootURL: config.rootURL,
 
-  trackHistory: on('didTransition', function() {
-    get(this, 'history').trackRouteChange(
-      this.currentRouteName,
-      this.currentState
-    );
-    return true;
-  })
-
+  didTransition() {
+    this._super(...arguments);
+    if (!get(this, 'fastboot.isFastBoot')) {
+      get(this, 'history').trackRouteChange(
+        this.currentRouteName,
+        this.currentState
+      );
+    }
+  }
 });
 
 Router.map(function() {
@@ -99,10 +101,10 @@ Router.map(function() {
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
 
-  this.route('profile', {path: '/profile/:organizationId'}, function() {
+  this.route('profile', {path: '/profile/:organization_id'}, function() {
     this.route('all', {path: '/'}, function() {
-      this.route('show', {path: '/:contentId'});
-      this.route('show-instance', {path: '/:id/:eventInstanceId'});
+      this.route('show', {path: '/:content_id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
   });
 

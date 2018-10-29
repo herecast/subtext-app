@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import { oneWay } from '@ember/object/computed';
+import Controller, { inject as controller } from '@ember/controller';
 
-const {inject, computed} = Ember;
-
-export default Ember.Controller.extend({
-  marketNewController: inject.controller('market.new'),
-  job: computed.oneWay('marketNewController.job'),
+export default Controller.extend({
+  marketNewController: controller('market.new'),
+  job: oneWay('marketNewController.job'),
   secondaryBackground: true,
   isPreview: true
 });

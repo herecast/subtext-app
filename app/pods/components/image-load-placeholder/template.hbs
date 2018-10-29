@@ -1,8 +1,8 @@
 <div class="ImageLoadPlaceholder-boundary {{placeholderClass}}" >
 
-  <div class="ImageLoadPlaceholder-inside {{if imageIsLoaded 'ImageLoadPlaceholder-fade-out'}} {{if imageIsLoaded 'image-loaded'}}" style="{{blockStyle}}">
+  <div class="ImageLoadPlaceholder-inside {{if imageIsLoaded "ImageLoadPlaceholder-fade-out"}} {{if imageIsLoaded "image-loaded"}}" style={{blockStyle}}>
     {{#if blurIsLoaded}}
-      <img class="ImageLoadPlaceholder-blurredImage {{placeholderImageClass}}" src="{{placeholderUrl}}" />
+      <img class="ImageLoadPlaceholder-blurredImage {{placeholderImageClass}}" src={{placeholderUrl}} alt="">
     {{else}}
       <div class="ImageLoadPlaceholder-block">
         <div class="dot"></div>

@@ -1,18 +1,18 @@
 <div class="FeedCard-Bookmark-button">
-  <div {{action 'clickBookmark'}} data-test-button="bookmark-icon">
-    {{#unless isBookmarked}}
-      {{fa-icon 'bookmark-o' class="FeedCard-Bookmark-button-icon"}}
+  <div {{action "clickBookmark"}} role="button" data-test-button="bookmark-icon">
+    {{#if isBookmarked}}
+      {{fa-icon "bookmark" class="FeedCard-Bookmark-button-icon"}}
     {{else}}
-      {{fa-icon 'bookmark' class="FeedCard-Bookmark-button-icon"}}
-    {{/unless}}
+      {{fa-icon "bookmark-o" class="FeedCard-Bookmark-button-icon"}}
+    {{/if}}
   </div>
   {{#if showTooltip}}
     <div class="FeedCard-Bookmark-tooltip" data-test-bookmark-tooltip>
       <div class="FeedCard-Bookmark-tooltip-left">
         Press the bookmarks and you can find the content later in MyStuff.
       </div>
-      <div class="FeedCard-Bookmark-tooltip-right" {{action 'closeTooltip'}} data-test-button="close-tooltip">
-        {{fa-icon 'times' class="FeedCard-Bookmark-close"}}
+      <div class="FeedCard-Bookmark-tooltip-right" {{action "closeTooltip"}} role="button" data-test-button="close-tooltip">
+        {{fa-icon "times" class="FeedCard-Bookmark-close"}}
       </div>
 
     </div>

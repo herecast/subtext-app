@@ -1,12 +1,14 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('blogger-intro/bullets', 'Integration | Component | blogger intro/bullets', {
-  integration: true
-});
+module('Integration | Component | blogger intro/bullets', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  this.render(hbs`{{blogger-intro}}`);
+  test('it renders', async function(assert) {
+    await render(hbs`{{blogger-intro}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

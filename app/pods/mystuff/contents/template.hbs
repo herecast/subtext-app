@@ -5,27 +5,27 @@
   activeOrganization=activeOrganization
   types=contentTypes
   activeType=activeType
-  onChangeOrganizationId=(action 'updateOrganizationId')
-  onChangeType=(action 'updateType')
+  onChangeOrganizationId=(action "updateOrganizationId")
+  onChangeType=(action "updateType")
 }}
 
 {{#x-card class="Mystuff-Contents-search-bar"}}
   {{search-input
     noBorder=true
-    size='large'
-    color='black'
+    size="large"
+    color="black"
     value=(readonly query)
-    update=(action 'updateQuery')
-    data-test-component='mystuff-contents-query'
+    update=(action "updateQuery")
+    data-test-component="mystuff-contents-query"
     isLoading=isLoading
     class="Mystuff-Contents-search-input"
   }}
   <div class="Mystuff-Contents-controls">
-    <span data-test-button='normal' {{action 'toggleCondensedView'}}>
-      {{fa-icon 'th-list' class=(if (not condensedView) 'active')}}
+    <span data-test-button="normal" {{action "toggleCondensedView"}} role="button">
+      {{fa-icon "th-list" class=(if (not condensedView) "active")}}
     </span>
-    <span data-test-button='condensed' {{action 'toggleCondensedView'}}>
-      {{fa-icon 'list' class=(if condensedView 'active')}}
+    <span data-test-button="condensed" {{action "toggleCondensedView"}} role="button">
+      {{fa-icon "list" class=(if condensedView "active")}}
     </span>
   </div>
 {{/x-card}}
@@ -43,43 +43,43 @@
     infinityModel=model
   }}
     {{#unless model.reachedInfinity}}
-      {{fa-icon 'spinner' class="fa-pulse"}}
+      {{fa-icon "spinner" class="fa-pulse"}}
     {{/unless}}
   {{/infinity-loader}}
 
 {{else}}
 
-  {{#x-card data-test-component='mystuff-contents-no-results'}}
+  {{#x-card data-test-component="mystuff-contents-no-results"}}
     {{#card-body center=true shortPadding=true}}
       {{#text-block large=true strong=true}}
         {{#if hasActiveFilters}}
-          No contents were found matching your filters.<br />
+          No contents were found matching your filters.<br>
           Try changing the filters or search terms to find your content.
           {{#if organizationId}}Or try the organization profile page link below.{{/if}}
         {{else}}
-          You haven't created any content yet.<br />
+          You haven"t created any content yet.<br>
           Press the big Orange Button to get started!
         {{/if}}
       {{/text-block}}
 
       {{#if hasActiveFilters}}
         {{#text-block}}
-          {{x-link-to 'RESET MY FILTERS'
-                      'mystuff'
-                      (query-params page=1 type='' organizationId='' query='')
-                      size='medium'
+          {{x-link-to "RESET MY FILTERS"
+                      "mystuff"
+                      (query-params page=1 type="" organizationId="" query="")
+                      size="medium"
           }}
         {{/text-block}}
       {{/if}}
 
       {{#if (and hasActiveFilters organizationId)}}
         {{#text-block}}
-          {{#x-link-to 'profile' organizationId}}
+          {{#x-link-to "profile" organizationId}}
             {{#x-button
-              style='regular'
-              color='primary'
-              size='x-small'
-              data-test-button='profile-page-link'
+              style="regular"
+              color="primary"
+              size="x-small"
+              data-test-button="profile-page-link"
             }}
               {{activeOrganization.name}} Profile Page
             {{/x-button}}

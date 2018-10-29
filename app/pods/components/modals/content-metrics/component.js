@@ -1,24 +1,24 @@
-import Ember from 'ember';
+import { oneWay, notEmpty, sort } from '@ember/object/computed';
+import { set, get, computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
 
-const {
-  computed,
-  get,
-  set,
-  inject: {service},
-  run
-} = Ember;
+const displayOptionsObj = {
+  'week': {value: 7, title: 'Week'},
+  'two-weeks': {value: 14, title: '2 Weeks'},
+  'three-weeks': {value: 21, title: '3 Weeks'},
+  'month': {value: 28, title: 'Month'}
+};
 
 export default ModalInstance.extend({
   model: null,
   contentMetricsModel: null,
+  _displayOptions: displayOptionsObj,
 
   contentMetrics: service(),
 
-  sortBy: ['report_date'],
-  views: [],
-  clicks: [],
   startDate: null,
   endDate: null,
   displayOption: 'week',
@@ -26,23 +26,26 @@ export default ModalInstance.extend({
   cumulative: false,
   isLoadingModel: false,
 
-  title: computed.oneWay('model.title'),
-  isCampaign: computed.oneWay('model.isCampaign'),
-  lifetimeViewCount: computed.oneWay('model.viewCount'),
-  lifetimeClickCount: computed.oneWay('model.clickCount'),
-  hasViewData: computed.notEmpty('contentMetricsModel.views'),
-  hasClickData: computed.notEmpty('contentMetricsModel.clicks'),
-  sortedViews: computed.sort('contentMetricsModel.views', 'sortBy'),
-  sortedClicks: computed.sort('contentMetricsModel.clicks', 'sortBy'),
-  calculatedStartDate: computed.oneWay('sortedViews.firstObject.report_date'),
-  calculatedEndDate: computed.oneWay('sortedViews.lastObject.report_date'),
-
-  _displayOptions: {
-    'week': {value: 7, title: 'Week'},
-    'two-weeks': {value: 14, title: '2 Weeks'},
-    'three-weeks': {value: 21, title: '3 Weeks'},
-    'month': {value: 28, title: 'Month'}
+  init() {
+    this._updateStartDate('week');
+    this._super(...arguments);
+    setProperties(this, {
+      sortBy: ['report_date'],
+      views: [],
+      clicks: []
+    });
   },
+
+  title: oneWay('model.title'),
+  isCampaign: oneWay('model.isCampaign'),
+  lifetimeViewCount: oneWay('model.viewCount'),
+  lifetimeClickCount: oneWay('model.clickCount'),
+  hasViewData: notEmpty('contentMetricsModel.views'),
+  hasClickData: notEmpty('contentMetricsModel.clicks'),
+  sortedViews: sort('contentMetricsModel.views', 'sortBy'),
+  sortedClicks: sort('contentMetricsModel.clicks', 'sortBy'),
+  calculatedStartDate: oneWay('sortedViews.firstObject.report_date'),
+  calculatedEndDate: oneWay('sortedViews.lastObject.report_date'),
 
   _updateStartDate(selectedOption){
     set(this, 'displayOption', selectedOption);
@@ -92,11 +95,6 @@ export default ModalInstance.extend({
         });
       });
     }
-  },
-
-  init() {
-    this._updateStartDate('week');
-    this._super(...arguments);
   },
 
   viewLabels: computed('sortedViews.@each.report_date', function() {

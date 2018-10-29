@@ -1,13 +1,17 @@
-import Ember from 'ember';
-
-const { get, set } = Ember;
+import Service from '@ember/service';
+import { set, get, setProperties } from '@ember/object';
 
 /**
  * This service should be used in conjunction with a sticky-container and sticky-position.
  * Both will use the service to communicate the location at which sticky-items should "stick".
  */
-export default Ember.Service.extend({
-  stickyPositions: {},
+export default Service.extend({
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      stickyPositions: {}
+    });
+  },
 
   getPosition(positionName) {
     const position = get(this, `stickyPositions.${positionName}`);

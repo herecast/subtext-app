@@ -1,7 +1,6 @@
-import Ember from 'ember';
+import { set } from '@ember/object';
+import { A } from '@ember/array';
 import NotificationsService from 'ember-cli-notifications/services/notification-messages-service';
-
-const { set, A } = Ember;
 
 export default NotificationsService.extend({
   defaultClearDuration: 5000,

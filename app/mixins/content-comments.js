@@ -1,16 +1,13 @@
-import Ember from 'ember';
+import { oneWay } from '@ember/object/computed';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
+import { get, computed } from '@ember/object';
 
-const {
-  computed,
-  inject: {service},
-  isPresent,
-  get
-} = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   commentsService: service('content-comments'),
 
-  comments: computed.oneWay('commentsQuery'),
+  comments: oneWay('commentsQuery'),
 
   commentsQuery: computed('model.{contentId,commentCount}', function() {
     const contentId = get(this, 'model.contentId');

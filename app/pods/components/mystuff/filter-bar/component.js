@@ -1,31 +1,37 @@
-import Ember from 'ember';
+import { readOnly, gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'Mystuff-FilterBar',
 
   session: service(),
 
-  organizations: [],
-  types: [],
-
   activeOrganization: null,
   activeType: null,
+  chosenOrganizationId: '',
+  chosenType: '',
+  organizations: null,
+  types: null,
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      myOrganization: {
+        id: "false"
+      }
+    });
+  },
+
   activeMyOrganization: computed('activeOrganization', function() {
     return get(this, 'activeOrganization') === false;
   }),
 
-  myOrganization: {
-    id: "false"
-  },
-  currentUser: computed.readOnly('session.currentUser'),
+  currentUser: readOnly('session.currentUser'),
 
-  hasOrganizations: computed.gt('organizations.length', 0),
-  hasTypes: computed.gt('types.length', 0),
-
-  chosenOrganizationId: '',
-  chosenType: '',
+  hasOrganizations: gt('organizations.length', 0),
+  hasTypes: gt('types.length', 0),
 
   actions: {
     changeOrganization(organization) {

@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import { oneWay } from '@ember/object/computed';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { run } from '@ember/runloop';
 /* global loadImage */
 
-const {
-  computed,
-  get,
-  set,
-  isBlank,
-  run
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ImageUpload'],
   classNameBindings: ['isPrimary'],
   minWidth: 200,
@@ -40,7 +37,7 @@ export default Ember.Component.extend({
     }
   },
 
-  imageUrl: computed.oneWay('image.imageUrl'),
+  imageUrl: oneWay('image.imageUrl'),
 
   imageName: computed('image.originalImageFile.name', 'imageUrl', function() {
     const originalFileName = get(this, 'image.originalImageFile.name');
@@ -59,11 +56,6 @@ export default Ember.Component.extend({
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
-    if(Ember.testing) {
-      this._imageLoaded = false;
-      Ember.Test.registerWaiter(() => this._imageLoaded === true);
-    }
-
     loadImage.parseMetaData(file, () => {
       const options = {
         // Convert to a canvas object so that we can validate it
@@ -76,7 +68,7 @@ export default Ember.Component.extend({
       // changed, it triggers a function that updates the imageUrl on an image.
       loadImage(file, (canvas) => {
         run(() => {
-          const $canvas = Ember.$(canvas);
+          const $canvas = $(canvas);
           if ($canvas.attr('width') < minWidth || $canvas.attr('height') < minHeight) {
             set(this, 'fileErrorMessage', `Image must be at least ${minWidth}px wide by ${minHeight}px tall`);
             return false;
@@ -84,10 +76,6 @@ export default Ember.Component.extend({
             set(this, 'fileErrorMessage', null);
             set(this, 'image.file', file);
             set(this, 'image.imageUrl', canvas.toDataURL(get(file, 'type')));
-
-            if(Ember.testing) {
-              this._imageLoaded = true;
-            }
           }
         });
       }, options);
@@ -101,7 +89,6 @@ export default Ember.Component.extend({
 
     addImage(file) {
       set(this, 'image.originalImageFile', file);
-
       this.setupImage(file);
     },
 

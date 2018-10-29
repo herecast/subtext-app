@@ -1,19 +1,16 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
-const {
-  get,
-  run,
-  inject,
-  isPresent
-} = Ember;
-
-export default Ember.Route.extend(RequireCanEdit, Scroll, Authorized, FastbootTransitionRouteProtocol, {
-  location: inject.service('window-location'),
-  userLocation: inject.service(),
+export default Route.extend(RequireCanEdit, Scroll, Authorized, FastbootTransitionRouteProtocol, {
+  location: service('window-location'),
+  userLocation: service(),
 
   discardRecord(model) {
     // Ember data doesn't automatically rollback relationship records, so we

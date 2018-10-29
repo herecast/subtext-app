@@ -1,12 +1,12 @@
-  <button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown"
-    data-test-organization-dropdown>
-      {{#if selection}}
-        {{ selection.name }}
-      {{else}}
-        {{ defaultName }}
-      {{/if}}
-    {{fa-icon 'chevron-down'}}
-  </button>
+<button class="btn btn-default btn-lg dropdown-toggle Organization-Dropdown-Button" type="button" data-toggle="dropdown"
+  data-test-organization-dropdown>
+    {{#if selection}}
+      {{selection.name}}
+    {{else}}
+      {{defaultName}}
+    {{/if}}
+  {{fa-icon "chevron-down"}}
+</button>
 <ul class="dropdown-menu Organization-Dropdown-Menu">
     {{#if helpMessage}}
         <li class="Organization-Dropdown-Menu-Title">
@@ -15,12 +15,12 @@
         <li role="separator" class="divider"></li>
     {{/if}}
     <li>
-        <a href="#" {{action 'selectOrganization' null}}>{{ defaultName }}</a>
+        <a href="#" {{action "selectOrganization" null}}>{{defaultName}}</a>
     </li>
   {{#each organizations as |org|}}
       <li role="separator" class="divider"></li>
       <li>
-        <a href="#" {{action 'selectOrganization' org}} data-test-organization-select='{{org.id}}'>{{ org.name }}</a>
+        <a href="#" {{action "selectOrganization" org}} data-test-organization-select={{org.id}}>{{org.name}}</a>
     </li>
   {{/each}}
 </ul>

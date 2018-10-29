@@ -1,20 +1,25 @@
-import Ember from 'ember';
-
+import Component from '@ember/component';
+import { set, get, setProperties } from '@ember/object';
 /* global Chart */
 
-const {
-  get,
-  set,
-  on
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   chartClass: '',
-  labels: [],
-  data: [],
   metricType: null,
 
-  setupChart: on('didRender', function() {
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      labels: [],
+      data: []
+    });
+  },
+
+  didRender() {
+    this._super(...arguments);
+    this._setupChart();
+  },
+
+  _setupChart() {
     this._super(...arguments);
 
     const labels = get(this, 'labels');
@@ -47,9 +52,10 @@ export default Ember.Component.extend({
     };
 
     set(this, 'chart', new Chart(ctx).Line(chartData, options));
-  }),
+  },
 
-  updateChart: on('didUpdateAttrs', function() {
+  didUpdateAttrs() {
+    this._super(...arguments);
     this.rerender();
-  })
+  }
 });

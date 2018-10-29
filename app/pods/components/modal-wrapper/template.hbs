@@ -1,15 +1,15 @@
-<div style="{{modalInnerStyle}}" class='Modal-inner {{if willAnimateAway 'Modal-inner--willAnimateAway'}}'>
+<div style={{modalInnerStyle}} class="Modal-inner {{if willAnimateAway "Modal-inner--willAnimateAway"}}">
 
-  <div style="{{modalDialogStyle}}"
-       class='Modal-dialog
+  <div style={{modalDialogStyle}}
+       class="Modal-dialog
               {{if isSlider sliderClass}}
               {{if isSmall "Modal-dialog--small"}}
               {{if fullscreen "Modal-dialog--fullscreen"}}
-              {{if isAnimated 'animated'}}'>
+              {{if isAnimated "animated"}}">
 
     {{#if isSlider}}
-      <div class="Modal-dialog-slide-close {{slideOutTo}}" {{action 'closeModal'}}>
-        {{fa-icon (concat 'long-arrow-' slideOutTo)}}
+      <div class="Modal-dialog-slide-close {{slideOutTo}}" {{action "closeModal"}} role="button">
+        {{fa-icon (concat "long-arrow-" slideOutTo)}}
       </div>
     {{/if}}
 
@@ -21,17 +21,17 @@
       {{#x-button
         color="light-gray"
         rounded=false
-        size='x-small'
-        class='Modal-actionClose'
-        onClick=(action 'clickModalClose')
-        data-test-component='modal-close-button'}}
-          {{fa-icon 'close'}}
+        size="x-small"
+        class="Modal-actionClose"
+        onClick=(action "clickModalClose")
+        data-test-component="modal-close-button"}}
+          {{fa-icon "close"}}
       {{/x-button}}
     {{/if}}
 
     <div class="Modal-dialog-body-wrapper">
-      <div class="Modal-dialog-body" style="{{modalBodyStyle}}">
-        {{yield (action 'closeModal')}}
+      <div class="Modal-dialog-body" style={{modalBodyStyle}}>
+        {{yield (action "closeModal")}}
       </div>
     </div>
 

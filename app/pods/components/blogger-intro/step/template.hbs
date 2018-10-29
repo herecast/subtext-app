@@ -2,7 +2,7 @@
   {{#modal-wrapper isAnimated=false class=modalClass modalDialogStyle=modalDialogStyle style=modalStyle}}
     {{#if avatarUrl}}
       <div class="BloggerIntro-Step-avatar">
-        <img src={{avatarUrl}} />
+        <img src={{avatarUrl}} alt="Avatar">
       </div>
     {{/if}}
 
@@ -27,31 +27,31 @@
     {{#unless hideNavigation}}
       <div class="BloggerIntro-Step-nav">
         {{#if nextButton}}
-          {{#x-button onClick=(action 'skipToNextStep') color='primary' disabled=nextButtonDisabled}}
+          {{#x-button onClick=(action "skipToNextStep") color="primary" disabled=nextButtonDisabled}}
             {{nextButton}}
           {{/x-button}}
         {{/if}}
 
         {{#if actionButtonAction}}
-          {{#x-button onClick=(action 'actionButtonClick') color='attention' disabled=actionButtonDisabled}}
+          {{#x-button onClick=(action "actionButtonClick") color="attention" disabled=actionButtonDisabled}}
             {{actionButton}}
           {{/x-button}}
         {{/if}}
 
         {{#if confirmButton}}
-          {{#x-button onClick=(action 'confirmToNextStep') color='primary' disabled=confirmButtonDisabled}}
-            {{#unless confirmButtonIsLoading}}
-              {{confirmButton}}
+          {{#x-button onClick=(action "confirmToNextStep") color="primary" disabled=confirmButtonDisabled}}
+            {{#if confirmButtonIsLoading}}
+              Checking {{fa-icon "cog" spin=true}}
             {{else}}
-              Checking {{fa-icon 'cog' spin=true}}
-            {{/unless}}
+              {{confirmButton}}
+            {{/if}}
           {{/x-button}}
         {{/if}}
       </div>
 
       {{#if innerStepButton}}
         <div class="BloggerIntro-Step-inner-button-bar">
-          {{#x-button onClick=(action 'innerStepButtonClick') color='secondary' disabled=innerStepButtonDisabled class="small"}}
+          {{#x-button onClick=(action "innerStepButtonClick") color="secondary" disabled=innerStepButtonDisabled class="small"}}
             {{innerStepButton}}
           {{/x-button}}
         </div>
@@ -63,7 +63,7 @@
     {{/unless}}
 
     <div class="BloggerIntro-Step-help-bar">
-      <a href="mailto:dailyuv@subtext.org">{{fa-icon 'info-circle' class="help-button"}} Need help?</a>
+      <a href="mailto:dailyuv@subtext.org">{{fa-icon "info-circle" class="help-button"}} Need help?</a>
     </div>
 
   {{/modal-wrapper}}

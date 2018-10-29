@@ -7,11 +7,11 @@
     afterComment=(action afterComment)
   }}
     {{#if (gt commentCount 6)}}
-      <div class='CommentList-footer'>
-        <span {{action onContentClick}}>
+      <div class="CommentList-footer">
+        <span {{action onContentClick}} role="button">
           {{#link-to-content contentModel}}View more comments{{/link-to-content}}
         </span>
-        <span class='pull-right'>
+        <span class="pull-right">
           {{comments.length}} of {{commentCount}}
         </span>
       </div>

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
 import alertIfReversePublish from 'subtext-ui/mixins/routes/alert-if-reverse-publish';
 
-export default Ember.Route.extend(DocTitleFromContent, alertIfReversePublish, {
+export default Route.extend(DocTitleFromContent, alertIfReversePublish, {
   additionalToken: 'Preview'
 });

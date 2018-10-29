@@ -1,11 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('route:forgot-password/index', 'Unit | Route | forgot password/index', {
-  // Specify the other units that are required for this test.
-  needs: ['service:history']
-});
+module('Unit | Route | forgot password/index', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  var route = this.subject();
-  assert.ok(route);
+  test('it exists', function(assert) {
+    var route = this.owner.lookup('route:forgot-password/index');
+    assert.ok(route);
+  });
 });

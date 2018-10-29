@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { setProperties, get } from '@ember/object';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
 
-const {
-  get,
-  setProperties,
-  inject
-} = Ember;
-
 export default ModalInstance.extend({
-  tracking: inject.service(),
+  tracking: service(),
   attributeBindings: ['data-test-modal-contact-poster'],
 
   init() {

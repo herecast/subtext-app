@@ -1,22 +1,19 @@
 // global window
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
 
-const {
-  inject,
-  computed,
-  get,
-  set,
-  setProperties
-} = Ember;
+import $ from 'jquery';
+import Service, { inject as service } from '@ember/service';
+import { setProperties, set, get } from '@ember/object';
 
-export default Ember.Service.extend({
-  routing: inject.service('-routing'),
+export default Service.extend({
+  router: service(),
+
   query: "",
   isLoading: false,
   searchActive: false,
 
   activeFilter: null,
-  filtersAreActive: computed.notEmpty('activeFilter'),
+  filtersAreActive: notEmpty('activeFilter'),
 
   performSearch(query) {
     setProperties(this, {
@@ -24,10 +21,15 @@ export default Ember.Service.extend({
       query: query
     });
 
-    Ember.$(window).scrollTop(0,0);
-    get(this, 'routing').transitionTo('feed',
-      [],
-      {query: query, type: "", startDate: '', endDate: ''}
+    $(window).scrollTop(0,0);
+    const queryParams = {
+      query,
+      type: '',
+      startDate: '',
+      endDate: ''
+    };
+    get(this, 'router').transitionTo('feed',
+      {queryParams}
     ).finally(() => {
       set(this, 'isLoading', false);
     });

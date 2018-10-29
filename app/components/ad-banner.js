@@ -1,25 +1,25 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { reads } from '@ember/object/computed';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import EmberObject, {
+  observer,
+  computed,
+  setProperties,
+  set,
+  get
+} from '@ember/object';
 import InViewportMixin from 'ember-in-viewport';
 
-const {
-  get,
-  set,
-  run,
-  inject,
-  isPresent,
-  setProperties,
-  computed,
-  observer
-} = Ember;
-
-export default Ember.Component.extend(InViewportMixin, {
-  tracking: inject.service(),
-  ads: inject.service(),
-  currentService: inject.service('currentController'),
+export default Component.extend(InViewportMixin, {
+  tracking: service(),
+  ads: service(),
+  currentService: service('currentController'),
   promotion: null,
   pagePositionForAnalytics: null,
   placeholderClass: null,
-  adContextName: computed.reads('currentService.currentPath'),
+  adContextName: reads('currentService.currentPath'),
   lastRefreshDate: null,
 
   _didSendImpression: false,
@@ -27,6 +27,11 @@ export default Ember.Component.extend(InViewportMixin, {
   _imageIsLoaded: false,
   _renderedTime: null,
   _loadedTime: null,
+
+  init() {
+    this._super(...arguments);
+    this._cachedRefreshDate = get(this, 'lastRefreshDate') || null;
+  },
 
   /**
    * RULES for sending an impression
@@ -123,7 +128,7 @@ export default Ember.Component.extend(InViewportMixin, {
     return ads.getAd(adContextName, {contentId, promotionId}).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
-          promotion: Ember.Object.create(promotion),
+          promotion: EmberObject.create(promotion),
           _didSendImpression: false
         });
 
@@ -180,10 +185,11 @@ export default Ember.Component.extend(InViewportMixin, {
     set(this, '_isInViewPort', false);
   },
 
-  didUpdateAttrs({ newAttrs }) {
+  didUpdateAttrs() {
     // Reload the promotion if the last refresh date has changed
-    if ('lastRefreshDate' in newAttrs && newAttrs.lastRefreshDate !== get(this, 'lastRefreshDate')) {
+    if (get(this, 'lastRefreshDate') && this._cachedRefreshDate !== get(this, 'lastRefreshDate')) {
       this._getPromotion();
+      this._cachedRefreshDate = get(this, 'lastRefreshDate');
     }
 
     this._super(...arguments);

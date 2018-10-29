@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
+import { setProperties, computed, get } from '@ember/object';
 import DS from 'ember-data';
-
-const { get, computed, isPresent, setProperties, inject } = Ember;
 
 export default DS.Model.extend({
   createdAt: DS.attr('date'),
@@ -31,7 +31,7 @@ export default DS.Model.extend({
   passwordConfirmation: null,
   avatarImage: null,
 
-  api: inject.service(),
+  api: service(),
 
   hasPendingChanges: computed('hasDirtyAttributes', 'password', 'passwordConfirmation', 'avatarImage', function() {
     return get(this, 'hasDirtyAttributes') ||

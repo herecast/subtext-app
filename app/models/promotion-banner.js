@@ -1,9 +1,8 @@
+import { oneWay } from '@ember/object/computed';
 import DS from 'ember-data';
-import Ember from 'ember';
 import moment from 'moment';
 
 const { attr } = DS;
-const { computed } = Ember;
 
 export default DS.Model.extend({
   clickCount: attr('number'),
@@ -19,6 +18,6 @@ export default DS.Model.extend({
   maxImpressions: attr('number'),
   impressionCount: attr('number'),
 
-  publishedAt: computed.oneWay('pubdate'),
-  viewCount: computed.oneWay('impressionCount')
+  publishedAt: oneWay('pubdate'),
+  viewCount: oneWay('impressionCount')
 });

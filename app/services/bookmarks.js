@@ -1,8 +1,11 @@
-import Ember from 'ember';
+import { next } from '@ember/runloop';
+import { computed, set, get } from '@ember/object';
+import Service, { inject as service } from '@ember/service';
+import Evented from '@ember/object/evented';
+import { Promise } from 'rsvp';
+import { isBlank, isPresent } from '@ember/utils';
 
-const { get, set, computed, inject:{service}, Evented, RSVP:{Promise}, isPresent, isBlank } = Ember;
-
-export default Ember.Service.extend(Evented, {
+export default Service.extend(Evented, {
   session: service(),
   store: service(),
   fastboot: service(),
@@ -27,7 +30,7 @@ export default Ember.Service.extend(Evented, {
   _getBookmarks() {
     if (get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
       get(this, 'currentUser').then(currentUser => {
-        Ember.run.next(() => {
+        next(() => {
           this._setupTooltip();
         });
         
@@ -71,7 +74,7 @@ export default Ember.Service.extend(Evented, {
     if (isBlank(get(this, 'firstBookmarkComponent'))) {
       set(this, 'firstBookmarkComponent', bookmarkComponent);
       if (get(this, 'session.isAuthenticated')) {
-        Ember.run.next(() => {
+        next(() => {
           this._setupTooltip();
         });
       }

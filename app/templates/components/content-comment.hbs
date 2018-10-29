@@ -5,16 +5,16 @@
   customSize=40
 }}
 
-<div class='Comment-body'>
-  <div class='Comment-meta'>
+<div class="Comment-body">
+  <div class="Comment-meta">
     {{comment.userName}}&nbsp;&#183;
-    {{if comment.formattedPostedAt comment.formattedPostedAt 'just now'}}
+    {{if comment.formattedPostedAt comment.formattedPostedAt "just now"}}
     {{#unless hideReportAbuse}}
       &nbsp;&#183;
-      {{report-abuse contentId=comment.contentId tagName='span'}}
+      {{report-abuse contentId=comment.contentId tagName="span"}}
     {{/unless}}
   </div>
-  <div class='Comment-content'>
-    {{{comment.content}}}
+  <div class="Comment-content">
+    {{commentContent}}
   </div>
 </div>

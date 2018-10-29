@@ -1,24 +1,18 @@
-import Ember from 'ember';
-import InfinityRoute from "ember-infinity/mixins/route";
+import Route from '@ember/routing/route';
+import { isBlank, isPresent } from '@ember/utils';
+import { setProperties, set, get } from '@ember/object';
+import { on } from '@ember/object/evented';
+import RSVP, { Promise } from 'rsvp';
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
 import History from 'subtext-ui/mixins/routes/history';
 import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
 import ShowUserLocationBar from 'subtext-ui/mixins/routes/show-user-location-bar';
 import moment from 'moment';
+import $ from 'jquery';
 
-const {
-  isPresent,
-  isBlank,
-  get,
-  set,
-  setProperties,
-  on,
-  RSVP,
-  RSVP:{Promise},
-  inject:{service}
-} = Ember;
-
-export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfinityModelParams, History, ShowUserLocationBar, {
+export default Route.extend(NavigationDisplay, VariableInfinityModelParams, History, ShowUserLocationBar, {
   hideFooter: true,
   isTransitioning: false,
 
@@ -28,6 +22,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfi
   fastboot: service(),
   history: service(),
   logger: service(),
+  infinity: service(),
 
   queryParams: {
     query: { refreshModel: true },
@@ -80,7 +75,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfi
         }
 
         resolve(RSVP.hash({
-          eventInstances: this.infinityModel('event-instance', {
+          eventInstances: this.infinity.model('event-instance', {
             location_id: params.locationId,
             query: params.query,
             start_date: startDate,
@@ -93,7 +88,7 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfi
         }));
       } else {
         resolve(RSVP.hash({
-          feedItems: this.infinityModel('feed-item', {
+          feedItems: this.infinity.model('feed-item', {
             location_id: params.locationId,
             query: params.query,
             per_page: params.perPage,
@@ -123,12 +118,14 @@ export default Ember.Route.extend(NavigationDisplay, InfinityRoute, VariableInfi
     }
   },
 
-  afterModel(model, transition) {
+  afterModel() {
     this._super(...arguments);
 
-    if (!get(this, 'fastboot.isFastBoot') && !get(this, 'history.isFirstRoute')) {
+    if (!get(this, 'fastboot.isFastBoot')) {
       // Use the scrollTo action on application controller when transition completes
-      transition.send('scrollTo', 0);
+      next(() => {
+        $('html,body').scrollTop(0);
+      });
     }
   },
 

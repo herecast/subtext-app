@@ -1,83 +1,83 @@
-import { test } from 'qunit';
-import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
-import testSelector from 'ember-test-selectors';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { invalidateSession} from 'ember-simple-auth/test-support';
 import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import Ember from 'ember';
+import { visit, click, find, getContext } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | app download nag', {
-  beforeEach() {
-    invalidateSession(this.application);
+module('Acceptance | app download nag', function(hooks) {
+  setupApplicationTest(hooks);
+
+  hooks.beforeEach(function() {
+    invalidateSession();
     this.cookies = {};
-    mockCookies(this.application, this.cookies);
-  }
-});
-
-test('Visiting homepage from Mobile Browser (not native app)', function(assert) {
-  const media = Ember.Service.extend({
-    isMobileButNotNative: true
+    mockCookies(this.cookies);
   });
 
-  this.application.register('services:mediaMock', media);
-  this.application.inject('component', 'media', 'services:mediaMock');
-
-  visit('/');
-
-  andThen(function() {
-    assert.equal(find(testSelector('nag-visible')).length, 1, 'Should show nag when visited from mobile device not in native app');
-
-    click(find(testSelector('action', 'close-nag'))[0]);
-
-    andThen(function() {
-      assert.equal(find(testSelector('nag-visible')).length, 0, 'Should hide nag when close button clicked');
+  test('Visiting homepage from Mobile Browser (not native app)', async function(assert) {
+    const media = Service.extend({
+      isMobileButNotNative: true
     });
-  });
-});
 
+    const { owner } = getContext();
 
-test('Visiting homepage from Mobile Browser (not native app) and Cookie present', function(assert) {
-  const media = Ember.Service.extend({
-    isMobileButNotNative: true
-  });
+    owner.register('services:mediaMock', media);
+    owner.inject('component', 'media', 'services:mediaMock');
 
-  this.application.register('services:mediaMock', media);
-  this.application.inject('component', 'media', 'services:mediaMock');
+    await visit('/');
 
-  this.cookies['hideAppDownloadNag'] = true;
+    assert.ok(find('[data-test-nag-visible]'), 'Should show nag when visited from mobile device not in native app');
 
-  visit('/');
+    await click('[data-test-action="close-nag"]');
 
-  andThen(function() {
-    assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from mobile device not in native app and cookie present');
-  });
-});
-
-test('Visiting homepage from Native App', function(assert) {
-  const media = Ember.Service.extend({
-    isMobileButNotNative: false
+    assert.notOk(find('[data-test-nag-visible]'), 'Should hide nag when close button clicked');
   });
 
-  this.application.register('services:mediaMock', media);
-  this.application.inject('component', 'media', 'services:mediaMock');
 
-  visit('/');
+  test('Visiting homepage from Mobile Browser (not native app) and Cookie present', async function(assert) {
+    const media = Service.extend({
+      isMobileButNotNative: true
+    });
 
-  andThen(function() {
-    assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from native mobile app');
+    const { owner } = getContext();
+
+    owner.register('services:mediaMock', media);
+    owner.inject('component', 'media', 'services:mediaMock');
+
+    this.cookies['hideAppDownloadNag'] = true;
+
+    await visit('/');
+
+    assert.notOk(find('[data-test-nag-visible]'), 'Should not show nag when visited from mobile device not in native app and cookie present');
   });
-});
 
-test('Visiting homepage from non mobile device', function(assert) {
-  const media = Ember.Service.extend({
-    isMobileButNotNative: false
+  test('Visiting homepage from Native App', async function(assert) {
+    const media = Service.extend({
+      isMobileButNotNative: false
+    });
+
+    const { owner } = getContext();
+
+    owner.register('services:mediaMock', media);
+    owner.inject('component', 'media', 'services:mediaMock');
+
+    await visit('/');
+
+    assert.notOk(find('[data-test-nag-visible]'), 'Should not show nag when visited from native mobile app');
   });
 
-  this.application.register('services:mediaMock', media);
-  this.application.inject('component', 'media', 'services:mediaMock');
+  test('Visiting homepage from non mobile device', async function(assert) {
+    const media = Service.extend({
+      isMobileButNotNative: false
+    });
 
-  visit('/');
+    const { owner } = getContext();
 
-  andThen(function() {
-    assert.equal(find(testSelector('nag-visible')).length, 0, 'Should not show nag when visited from non mobile device');
+    owner.register('services:mediaMock', media);
+    owner.inject('component', 'media', 'services:mediaMock');
+
+    await visit('/');
+
+    assert.notOk(find('[data-test-nag-visible]'), 'Should not show nag when visited from non mobile device');
   });
 });

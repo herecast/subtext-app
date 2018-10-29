@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col-xs-12">
         {{#form-group error=errors.address}}
-          <label class='control-label ContentForm-label' for="organization-address">Address</label>
+          <label class="control-label ContentForm-label" for="organization-address">Address</label>
 
           {{input
-            id='organization-address'
-            placeholder='Address'
-            class='form-control'
+            id="organization-address"
+            placeholder="Address"
+            class="form-control"
             value=model.address
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/form-group}}
       </div>
@@ -20,42 +20,42 @@
 
       <div class="col-xs-4">
         {{#form-group error=errors.city}}
-          <label class='control-label ContentForm-label' for="organization-city">City</label>
+          <label class="control-label ContentForm-label" for="organization-city">City</label>
 
           {{input
-            id='organization-city'
-            placeholder='City'
-            class='form-control'
+            id="organization-city"
+            placeholder="City"
+            class="form-control"
             value=model.city
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/form-group}}
       </div>
 
       <div class="col-xs-4">
         {{#form-group error=errors.state}}
-          <label class='control-label ContentForm-label' for="organization-state">State</label>
+          <label class="control-label ContentForm-label" for="organization-state">State</label>
 
           {{input
-            id='organization-state'
-            placeholder='State'
-            class='form-control'
+            id="organization-state"
+            placeholder="State"
+            class="form-control"
             value=model.state
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/form-group}}
       </div>
 
       <div class="col-xs-4">
         {{#form-group error=errors.zip}}
-          <label class='control-label ContentForm-label' for="organization-zip">Zip</label>
+          <label class="control-label ContentForm-label" for="organization-zip">Zip</label>
 
           {{input
-            id='organization-zip'
-            placeholder='Zip'
-            class='form-control'
+            id="organization-zip"
+            placeholder="Zip"
+            class="form-control"
             value=model.zip
-            input=(action 'formUpdated')
+            input=(action "formUpdated")
           }}
         {{/form-group}}
       </div>
@@ -64,21 +64,21 @@
     <div class="row">
       <div class="col-xs-12">
         {{#form-group error=errors.email}}
-          <label class='control-label ContentForm-label' for="organization-city">
+          <label class="control-label ContentForm-label" for="organization-city">
             Contact Details
           </label>
           <div class="input-group">
             <span class="ContentForm-iconLabel ContentForm-label input-group-addon">
-              {{fa-icon 'fa-envelope-o'}}
+              {{fa-icon "fa-envelope-o"}}
             </span>
             {{input
-              id='organization-email'
-              type='email'
-              placeholder='Email'
-              class='form-control'
+              id="organization-email"
+              type="email"
+              placeholder="Email"
+              class="form-control"
               value=model.email
               required=true
-              input=(action 'formUpdated')
+              input=(action "formUpdated")
             }}
           </div>
         {{/form-group}}
@@ -90,15 +90,15 @@
         {{#form-group error=errors.phone}}
           <div class="input-group">
             <span class="ContentForm-iconLabel input-group-addon">
-              {{fa-icon 'phone'}}
+              {{fa-icon "phone"}}
             </span>
             {{input
-              id='organization-phone'
-              type='tel'
-              placeholder='Phone'
-              class='form-control'
+              id="organization-phone"
+              type="tel"
+              placeholder="Phone"
+              class="form-control"
               value=model.phone
-              input=(action 'formUpdated')
+              input=(action "formUpdated")
             }}
           </div>
         {{/form-group}}
@@ -110,16 +110,16 @@
         {{#form-group error=errors.website}}
           <div class="input-group">
             <span class="ContentForm-iconLabel input-group-addon">
-              {{fa-icon 'link'}}
+              {{fa-icon "link"}}
             </span>
             {{input
-              id='organization-website'
-              type='url'
-              placeholder='Website'
-              class='form-control'
+              id="organization-website"
+              type="url"
+              placeholder="Website"
+              class="form-control"
               value=model.website
-              input=(action 'formUpdated')
-              data-test-field='website'
+              input=(action "formUpdated")
+              data-test-field="website"
             }}
           </div>
         {{/form-group}}

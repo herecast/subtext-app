@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
 /**
  * Reusable title component to enable consistent styling and behavior across the app.
  * Rather than using utility classes or duplicative css classes,
  * this enables consistency and a common interface for rendering titles.
  */
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'h2',
   classNames: ['TitleText'],
   classNameBindings: [

@@ -1,15 +1,13 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { isPresent, isEmpty } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
 
-const {
-  computed,
-  get,
-  isEmpty,
-  isPresent,
-  set
-} = Ember;
-
-export default Ember.Component.extend({
-  store: Ember.inject.service(),
+export default Component.extend({
+  store: service(),
+  model: null,
 
   imageLimit: 6,
   imageLimitReached: computed('imageLImit', 'visibleImages.[]', function() {
@@ -22,7 +20,7 @@ export default Ember.Component.extend({
     this.resetProperties();
   },
 
-  images: computed.alias('model.images'),
+  images: alias('model.images'),
 
   visibleImages: computed('images.@each._delete', function() {
     const images = get(this, 'images');
@@ -59,7 +57,7 @@ export default Ember.Component.extend({
       const isPrimaryImage = get(image, 'primary');
 
       if (get(image, 'isNew')) {
-        Ember.run(() => get(this, 'images').removeObject(image));
+        run(() => get(this, 'images').removeObject(image));
       } else {
         // If an image has already been persisted, reset imageUrl so it's
         // hidden from the page, and flag it with "_delete" so it will be

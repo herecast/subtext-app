@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 import moment from 'moment';
 
 export function relativeDate(date) {
@@ -12,4 +12,4 @@ export function relativeDate(date) {
   }
 }
 
-export default Ember.Helper.helper(relativeDate);
+export default buildHelper(relativeDate);

@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { and } from '@ember/object/computed';
+import Component from '@ember/component';
+import { isPresent } from '@ember/utils';
+import { computed, get } from '@ember/object';
 import sanitize from 'npm:sanitize-html';
+import { htmlSafe } from '@ember/template';
 
-const {get, isPresent, computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['Truncate'],
   classNameBindings: [
     'truncatedWithButtonVisible:Truncate--inline'
@@ -14,9 +16,9 @@ export default Ember.Component.extend({
   willTruncateText: true,
   showToggleButton: false,
 
-  isTextTruncated: computed.and('willTruncateText', 'shouldTruncateText'),
-  isButtonVisible: computed.and('shouldTruncateText', 'showToggleButton'),
-  truncatedWithButtonVisible: computed.and('isTextTruncated', 'isButtonVisible'),
+  isTextTruncated: and('willTruncateText', 'shouldTruncateText'),
+  isButtonVisible: and('shouldTruncateText', 'showToggleButton'),
+  truncatedWithButtonVisible: and('isTextTruncated', 'isButtonVisible'),
 
   truncatedText: computed('text', 'isTextTruncated', 'maxLength', function() {
     const text = get(this, 'text');
@@ -25,9 +27,9 @@ export default Ember.Component.extend({
 
     if (isTextTruncated) {
       const truncatedText = text.substring(0, maxLength);
-      return `${truncatedText}...`;
+      return htmlSafe(`${truncatedText}...`);
     } else {
-      return text;
+      return htmlSafe(text);
     }
   }),
 

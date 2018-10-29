@@ -1,17 +1,17 @@
 {{#x-card color=color noShadow=noShadow}}
   {{#card-body slimPadding=true center=true}}
-    {{#x-button onClick=(action 'showMetrics')
-                color='primary'
+    {{#x-button onClick=(action "showMetrics")
+                color="primary"
     }}
       Content Metrics
-      {{fa-icon 'window-restore'}}
+      {{fa-icon "window-restore"}}
     {{/x-button}}
     {{#unless hidePayments}}
-      {{#x-button onClick=(action 'showPayments')
-                  color='primary'
+      {{#x-button onClick=(action "showPayments")
+                  color="primary"
       }}
         Content Payments
-        {{fa-icon 'window-restore'}}
+        {{fa-icon "window-restore"}}
       {{/x-button}}
     {{/unless}}
   {{/card-body}}

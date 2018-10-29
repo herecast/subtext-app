@@ -1,8 +1,6 @@
-import {Factory, faker} from 'ember-cli-mirage';
+import { isBlank } from '@ember/utils';
+import { Factory, faker } from 'ember-cli-mirage';
 import moment from 'moment';
-import Ember from 'ember';
-
-const { isBlank } = Ember;
 
 export default Factory.extend({
   name() { return faker.name.findName(); },

@@ -1,11 +1,11 @@
-<span {{action onClickAction preventDefault=false}}>
+<span {{action onClickAction preventDefault=false}} role="button" data-test-feed-carousel-cta-card-action>
   {{#if linkToFeed}}
     {{#link-to params=(dynamic-params ctaRouteName queryParams) class="FeedCarousel-CtaCard-link"}}
       <div class="FeedCarousel-CtaCard-card">
         <div>
-          {{fa-icon 'search'}}
+          {{fa-icon "search"}}
           <div>
-            See More {{seeMoreText}}<br />Like These
+            See More {{seeMoreText}}<br>Like These
           </div>
         </div>
       </div>
@@ -14,7 +14,7 @@
     {{#link-to ctaRouteName profileId (query-params location=linkLocation) class="FeedCarousel-CtaCard-link"}}
       <div class="FeedCarousel-CtaCard-card">
         <div>
-          {{fa-icon 'search'}}
+          {{fa-icon "search"}}
           <div>
             See All From {{seeMoreText}}
           </div>

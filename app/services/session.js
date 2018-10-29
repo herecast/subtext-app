@@ -1,29 +1,30 @@
-import Ember from 'ember';
+import { reads, oneWay, alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
+import { observer, computed, get, set , setProperties} from '@ember/object';
+import { Promise } from 'rsvp';
+import Evented from '@ember/object/evented';
 import SessionService from 'ember-simple-auth/services/session';
 
-const {
-  isPresent,
-  set,
-  inject,
-  get,
-  computed,
-  observer,
-  RSVP: {Promise},
-  Evented
-} = Ember;
-
 export default SessionService.extend(Evented, {
-  api         : inject.service('api'),
-  userService : inject.service('user'),
-  intercom    : inject.service('intercom'),
-  fastboot    : inject.service(),
-  store       : inject.service(),
-  userLocationService: Ember.inject.service('user-location'),
-  sequenceTrackers: {},
+  api         : service('api'),
+  userService : service('user'),
+  intercom    : service('intercom'),
+  fastboot    : service(),
+  store       : service(),
+  userLocationService: service('user-location'),
+
   startedOnIndexRoute: false,
 
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      sequenceTrackers: {}
+    });
+  },
+
   // Used in templates all over app.
-  isFastBoot: computed.reads('fastboot.isFastBoot'),
+  isFastBoot: reads('fastboot.isFastBoot'),
 
   signOut() {
     return get(this, 'api').signOut().then(() => {
@@ -44,16 +45,18 @@ export default SessionService.extend(Evented, {
 
 
   currentUser: computed('data.authenticated.email', function() {
-    if (isPresent(get(this, 'data.authenticated.email'))) {
+    if (!get(this, 'fastboot.isFastBoot') && isPresent(get(this, 'data.authenticated.email'))) {
       return get(this, 'store').findRecord('current-user', 'self');
+    } else if (get(this, 'fastboot.isFastBoot')) {
+      return Promise.resolve();
     }
   }),
 
-  userId: computed.oneWay('currentUser.userId'),
+  userId: oneWay('currentUser.userId'),
 
-  userName: computed.oneWay('currentUser.name'),
+  userName: oneWay('currentUser.name'),
 
-  userLocation: computed.alias('userLocationService.location.name'),
+  userLocation: alias('userLocationService.location.name'),
 
   signInWithToken(token) {
     return get(this, 'api').signInWithToken(token).then((data)=> {

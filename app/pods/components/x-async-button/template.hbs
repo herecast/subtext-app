@@ -1,0 +1,13 @@
+{{#if hasBlock}}
+  {{yield activePromise}}
+{{else}}
+  {{#if activePromise.isPending}}
+    {{pending}} {{#unless noIcon}}{{fa-icon "cog" spin=true}}{{/unless}}
+  {{else if activePromise.isFulfilled}}
+    {{fulfilled}}
+  {{else if activePromise.isRejected}}
+    {{rejected}}
+  {{else}}
+    {{default}}
+  {{/if}}
+{{/if}}

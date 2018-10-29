@@ -7,7 +7,7 @@
     </div>
   {{/if}}
 
-  {{#unless (or displayAsPublic dontShowButtons)}}
+  {{#unless dontShowButtons}}
     <div class="FeedCard-Footer-right">
       {{#if showEditButton}}
         {{feed-card/edit-button
@@ -21,11 +21,11 @@
       {{/if}}
       {{#if showManageButton}}
         {{#x-button
-          onClick=(action 'openPromotionMenu')
-          style='regular'
-          color='primary'
-          size='x-small'
-          data-test-button='manage'
+          onClick=(action "openPromotionMenu")
+          style="regular"
+          color="primary"
+          size="x-small"
+          data-test-button="manage"
         }}
           Manage
         {{/x-button}}

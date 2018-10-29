@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
 
-const {computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'a',
 
   classNames: ['DirectionsLink'],
   attributeBindings: ['href', 'target'],
 
-  href: computed.alias('url'),
+  href: alias('url'),
   target: '_blank'
 });

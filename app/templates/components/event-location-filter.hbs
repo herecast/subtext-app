@@ -1,29 +1,29 @@
 {{input
-  placeholder='Search term'
-  class='Dropdown-input FilterBar-input FilterBar-inputLocation dropdown-toggle u-textTruncate'
+  placeholder="Search term"
+  class="Dropdown-input FilterBar-input FilterBar-inputLocation dropdown-toggle u-textTruncate"
   value=inputValue
-  data-toggle='dropdown'
-  aria-expanded='false'
+  data-toggle="dropdown"
+  aria-expanded="false"
 }}
 
-<ul class='dropdown-menu' role='menu'>
+<ul class="dropdown-menu" role="menu">
   <li>
-    <a href='#' {{action 'customSearch'}} tabindex='-1'>
-      {{fa-icon 'search'}} <i>Custom Search</i>
+    <a href="#" {{action "customSearch"}} tabindex="-1">
+      {{fa-icon "search"}} <i>Custom Search</i>
     </a>
   </li>
 
   <li role="presentation" class="divider"></li>
 
   <li>
-    <a href='#' {{action 'setLocation' 'All Communities'}} tabindex='-1'>
+    <a href="#" {{action "setLocation" "All Communities"}} tabindex="-1">
       All Communities
     </a>
   </li>
 
   {{#if session.isAuthenticated}}
     <li>
-      <a href='#' {{action 'setLocation' session.userLocation}} tabindex='-1'>
+      <a href="#" {{action "setLocation" session.userLocation}} tabindex="-1">
         {{session.userLocation}}
       </a>
     </li>
@@ -33,14 +33,14 @@
     <li role="presentation" class="divider"></li>
 
     {{#if isSearching}}
-      <li class='disabled'>
-        <a tabindex='-1'>{{fa-icon 'spinner fa-spin'}} Searching&hellip;</a>
+      <li class="disabled">
+        <a tabindex="-1">{{fa-icon "spinner fa-spin"}} Searching&hellip;</a>
       </li>
     {{else}}
       {{#each places as |place|}}
-        <li><a href='#' {{action 'setLocation' place}} tabindex='-1'>{{place}}</a></li>
+        <li><a href="#" {{action "setLocation" place}} tabindex="-1">{{place}}</a></li>
       {{else}}
-        <li class='disabled'><a tabindex='-1'>No Search Results</a></li>
+        <li class="disabled"><a tabindex="-1">No Search Results</a></li>
       {{/each}}
 
     {{/if}}

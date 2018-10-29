@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { A } from '@ember/array';
 
-const { get, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-EventDates',
   classNameBindings: ['hasOtherInstances:has-additional-dates', 'model.hasExpired:expired'],
 
   model: null,
   eventDate: null,
   showOtherDates: false,
-  futureInstances: [],
+
+  futureInstances: A(),
 
   sortedInstances: computed('futureInstances.@each.startAt', function() {
     return get(this, 'futureInstances').sort((a,b) => {

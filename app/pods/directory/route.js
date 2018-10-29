@@ -1,21 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { readOnly } from '@ember/object/computed';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import RSVP from 'rsvp';
+import { isPresent, isEmpty } from '@ember/utils';
 import History from 'subtext-ui/mixins/routes/history';
 import MaintainScroll from 'subtext-ui/mixins/routes/maintain-scroll';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 
-const {
-  get,
-  RSVP,
-  isEmpty,
-  isPresent,
-  computed,
-  inject
-} = Ember;
-
-export default Ember.Route.extend(History, MaintainScroll, FastbootTransitionRouteProtocol, {
-  geo: inject.service('geolocation'),
-  fastboot: inject.service(),
-  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
+export default Route.extend(History, MaintainScroll, FastbootTransitionRouteProtocol, {
+  geo: service('geolocation'),
+  fastboot: service(),
+  isFastBoot: readOnly('fastboot.isFastBoot'),
 
   model() {
     let model = {

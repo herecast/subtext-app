@@ -1,130 +1,97 @@
-import { test } from 'qunit';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'ember-test-selectors';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
-import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
-import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
-import Ember from 'ember';
+import { invalidateSession} from 'ember-simple-auth/test-support';
+import { visit, click, currentRouteName } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | all ugc jobs', {
-  beforeEach() {
-    this.cookies = {};
-    mockCookies(this.application, this.cookies);
-    invalidateSession(this.application);
-  }
-});
 
-const Page = {
-  visitRoot() {
-    return visit('/');
-  },
+module('Acceptance | all ugc jobs', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  clickOrangeButton() {
-    return click(
-      testSelector('button', 'open-job-tray')
-    );
-  },
-
-  selectJob(jobName) {
-    return click(
-      testSelector('ugc-job-link') +
-      testSelector('link', jobName)
-    );
-  }
-};
-
-test('Link to market create', function(assert) {
-  assert.expect(1);
-  authenticateUser(this.application);
-  mockLocationCookie(this.application);
-  const job = 'market';
-
-  Page.visitRoot();
-  Page.clickOrangeButton();
-  Ember.run(() => {
-    Page.selectJob(job);
+  hooks.beforeEach(function() {
+    invalidateSession();
   });
 
-  andThen(function() {
-    assert.equal(currentPath(), 'market.new.details');
-  });
-});
+  const Page = {
+    visitRoot() {
+      return visit('/');
+    },
 
-test('Link to startablog with user logged in, but no blog yet', function(assert) {
-  assert.expect(1);
-  const currentUser = server.create('current-user', {
-    userId: 1,
-    canPublishNews: false
-  });
-  authenticateUser(this.application, currentUser);
-  mockLocationCookie(this.application);
+    clickOrangeButton() {
+      return click(
+        '[data-test-button="open-job-tray"]'
+      );
+    },
 
-  const job = 'startablog';
+    selectJob(jobName) {
+      return click(
+        '[data-test-ugc-job-link]' +
+        `[data-test-link="${jobName}"]`
+      );
+    }
+  };
 
-  Page.visitRoot();
-  Page.clickOrangeButton();
-  Ember.run(() => {
-    Page.selectJob(job);
-  });
+  test('Link to market create', async function(assert) {
+    assert.expect(1);
+    authenticateUser(this.server);
 
-  andThen(function() {
-    assert.equal(currentPath(), 'startablog');
-  });
-});
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('market');
 
-test('Link to startablog with user logged out', function(assert) {
-  mockLocationCookie(this.application);
-  assert.expect(1);
-  const job = 'startablog';
-
-  Page.visitRoot();
-  Page.clickOrangeButton();
-  Ember.run(() => {
-    Page.selectJob(job);
+    assert.equal(currentRouteName(), 'market.new.details');
   });
 
-  andThen(function() {
-    assert.equal(currentPath(), 'startablog');
-  });
-});
+  test('Link to startablog with user logged in, but no blog yet', async function(assert) {
+    assert.expect(1);
+    const currentUser = this.server.create('current-user', {
+      userId: 1,
+      canPublishNews: false
+    });
+    authenticateUser(this.server, currentUser);
 
-test('Link to news create', function(assert) {
-  assert.expect(1);
-  const currentUser = server.create('current-user', {
-    userId: 1,
-    canPublishNews: true
-  });
-  authenticateUser(this.application, currentUser);
-  mockLocationCookie(this.application);
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('startablog');
 
-  const job = 'news';
-
-  Page.visitRoot();
-  Page.clickOrangeButton();
-  Ember.run(() => {
-    Page.selectJob(job);
+    assert.equal(currentRouteName(), 'startablog');
   });
 
-  andThen(function() {
-    assert.equal(currentPath(), 'news.new');
+  test('Link to startablog with user logged out', async function(assert) {
+    assert.expect(1);
+
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('startablog');
+
+    assert.equal(currentRouteName(), 'startablog');
   });
-});
 
+  test('Link to news create', async function(assert) {
+    assert.expect(1);
+    const currentUser = this.server.create('current-user', {
+      userId: 1,
+      canPublishNews: true
+    });
+    authenticateUser(this.server, currentUser);
 
-  // TODO: This functionality still works - but the test is broken. Something is happening on the event data entry page.
-test('Link to events create', function(assert) {
-  assert.expect(1);
-  authenticateUser(this.application);
-  mockLocationCookie(this.application);
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('news');
 
-  const job = 'events';
+    assert.equal(currentRouteName(), 'news.new');
+  });
 
-  Page.visitRoot();
-  Page.clickOrangeButton();
-  Page.selectJob(job);
+  test('Link to events create', async function(assert) {
+    assert.expect(1);
+    authenticateUser(this.server);
 
-  andThen(function() {
-    assert.equal(currentPath(), 'events.new.details');
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('events');
+
+    assert.equal(currentRouteName(), 'events.new.details');
   });
 });

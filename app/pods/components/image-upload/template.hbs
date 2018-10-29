@@ -1,12 +1,12 @@
-<div class='form-group'>
+<div class="form-group">
   {{#if imageUrl}}
     <div class="ImageUpload-preview media">
       <div class="Image-Upload-previewImage media-left">
-        <img class='media-object' src={{imageUrl}}>
+        <img class="media-object" src={{imageUrl}} alt="Preview">
       </div>
       <div class="Image-Upload-previewBody media-body">
-        <button class='ImageUpload-reset btn btn-link' {{action 'removeImage' image}}>
-          {{fa-icon 'close'}}
+        <button class="ImageUpload-reset btn btn-link" {{action "removeImage" image}}>
+          {{fa-icon "close"}}
         </button>
 
         <h4 class="Image-Upload-previewFilename media-heading">
@@ -14,29 +14,29 @@
         </h4>
 
         {{#if image.isNew}}
-          <button class='ImageUpload-showCropper btn btn-link' {{action 'showImageEditor'}}>
-            {{fa-icon 'rotate-right'}} Rotate or replace
+          <button class="ImageUpload-showCropper btn btn-link" {{action "showImageEditor"}}>
+            {{fa-icon "rotate-right"}} Rotate or replace
           </button>
         {{/if}}
 
         {{#unless image.primary}}
-          <button class='ImageUpload-setPrimary btn btn-link' {{action 'setPrimary' image}}>
+          <button class="ImageUpload-setPrimary btn btn-link" {{action "setPrimary" image}}>
             Set as Main Image
           </button>
         {{/unless}}
       </div>
     </div>
   {{else}}
-    <div class='row'>
-      <div class='col-sm-11'>
+    <div class="row">
+      <div class="col-sm-11">
         {{#form-group error=fileErrorMessage}}
-          {{file-input allowedExtensions='.jpg,.jpeg,.png' action=(action 'filesSelected') inputClass='form-control' fileError=(action (mut fileErrorMessage))}}
+          {{file-input allowedExtensions=".jpg,.jpeg,.png" action=(action "filesSelected") inputClass="form-control" fileError=(action (mut fileErrorMessage))}}
         {{/form-group}}
       </div>
 
-      <div class='col-sm-1'>
-        <button class='ImageUpload-remove btn-link' {{action 'removeImage' image}}>
-          {{fa-icon 'close'}}
+      <div class="col-sm-1">
+        <button class="ImageUpload-remove btn-link" {{action "removeImage" image}}>
+          {{fa-icon "close"}}
         </button>
       </div>
     </div>
@@ -48,14 +48,14 @@
 </div>
 
 {{#if showImageEditor}}
-  {{#modal-wrapper close=(action 'hideImageEditor')}}
+  {{#modal-wrapper close=(action "hideImageEditor")}}
     {{image-editor
       imageUrl=(readonly image.imageUrl)
       enableCaption=false
       hasNewImage=hasNewImage
       title=null
-      save=(action 'saveImage')
-      cancel=(action 'hideImageEditor')
+      save=(action "saveImage")
+      cancel=(action "hideImageEditor")
     }}
   {{/modal-wrapper}}
 {{/if}}

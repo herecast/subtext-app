@@ -1,15 +1,15 @@
 {{input
   class=inputClass
-  type='text'
+  type="text"
   enter=(action updateFromQuery)
-  placeholder='What are you looking for?'
+  placeholder="What are you looking for?"
   value=(readonly inputVal)
 }}
 {{#if displaySuggestions}}
-  <ul class='dropdown-menu' role='menu'>
+  <ul class="dropdown-menu" role="menu">
     {{#each categoryMatches as |category|}}
       <li>
-        <a href='#' {{action 'chooseCategory' category}}>{{category.fullName}}</a>
+        <a href="#" {{action "chooseCategory" category}}>{{category.fullName}}</a>
       </li>
     {{/each}}
   </ul>

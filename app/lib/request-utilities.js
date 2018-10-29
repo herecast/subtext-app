@@ -2,9 +2,11 @@
  * Adapted from: https://github.com/ember-cli/ember-ajax/blob/master/addon/errors.js
  */
 
-import Ember from 'ember';
+import { Promise } from 'rsvp';
 
-const { RSVP: {Promise}, Error: EmberError, isArray, merge } = Ember;
+import EmberError from '@ember/error';
+import { isArray } from '@ember/array';
+import { merge } from '@ember/polyfills';
 
 function isString(str) {
   return typeof str === 'string';
@@ -46,17 +48,6 @@ export function RequestError(response, message = 'Ajax operation failed') {
 }
 
 RequestError.prototype = Object.create(EmberError.prototype);
-
-/**
- * @class UnknownFetchError
- * @public
- * @extends RequestError
- */
-export function UnknownFetchError(response) {
-  RequestError.call(this, response, 'An unknown error occurred in the fetch request.');
-}
-
-UnknownFetchError.prototype = Object.create(RequestError.prototype);
 
 /**
  * @class InvalidError

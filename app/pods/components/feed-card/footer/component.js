@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-Footer',
 
   fastboot: service(),
@@ -17,7 +18,7 @@ export default Ember.Component.extend({
   displayAsPublic: false,
   openPromotionMenu(){},
 
-  hasSource: computed.notEmpty('locationTagName'),
+  hasSource: notEmpty('locationTagName'),
 
   showManageButton: computed('canManage', 'fastboot.isFastBoot', function() {
     return get(this, 'canManage') && !get(this, 'fastboot.isFastBoot');
@@ -27,8 +28,8 @@ export default Ember.Component.extend({
     return get(this, 'canEditIfAllowed') && !get(this, 'fastboot.isFastBoot');
   }),
 
-  dontShowButtons: computed('showManageButton', 'showEditButton', function() {
-    return !get(this, 'showManageButton') && !get(this, 'showEditButton');
+  dontShowButtons: computed('displayAsPublic', 'showManageButton', 'showEditButton', function() {
+    return (!get(this, 'showManageButton') && !get(this, 'showEditButton')) || get(this, 'displayAsPublic');
   }),
 
   actions: {

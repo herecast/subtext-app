@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isBlank, isPresent } from '@ember/utils';
+import { computed, get } from '@ember/object';
 
-const {get, isPresent, isBlank, computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['OrganizationContactCard'],
   organization: null,
 

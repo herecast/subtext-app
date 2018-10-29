@@ -1,6 +1,5 @@
-import Ember from 'ember';
-
-const {isPresent} = Ember;
+import $ from 'jquery';
+import { isPresent } from '@ember/utils';
 
 export default function validateWysiwygContent() {
   return (key, value) => {
@@ -12,7 +11,7 @@ export default function validateWysiwygContent() {
     // As soon as you click into the WYSIWYG editor, it sets the content to an
     // empty <p> tag. We only really care about the text content when validating.
     if (isPresent(value) && wrappedWithP) {
-      value = Ember.$(value).text();
+      value = $(value).text();
     }
 
     return isPresent(value) || `cannot be blank`;

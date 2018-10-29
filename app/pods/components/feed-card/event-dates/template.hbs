@@ -6,27 +6,27 @@
 {{/if}}
 
 {{#if hasOtherInstances}}
-  <div class="FeedCard-EventDates-other-dates-button" {{action 'toggleShowOtherDates'}}>
-    Other Dates & Times {{fa-icon 'caret-down'}}
+  <div class="FeedCard-EventDates-other-dates-button" {{action "toggleShowOtherDates"}} role="button">
+    Other Dates & Times {{fa-icon "caret-down"}}
     {{#if showOtherDates}}
-      {{#click-outside action=(action 'toggleShowOtherDates') class='dropdown-menu open'}}
+      {{#click-outside action=(action "toggleShowOtherDates") class="dropdown-menu open"}}
         <div class="FeedCard-EventDates-additionalDates">
           {{#each sortedInstances as |instance|}}
-            {{#link-to 'feed.show-instance' model.contentId instance.id class='FeedCard-EventDates-additionalDate'}}
-              <span class='FeedCard-EventDates-additionalDate-weekDay'>
-                {{moment-format instance.startsAt 'ddd'}}
+            {{#link-to "feed.show-instance" model.contentId instance.id class="FeedCard-EventDates-additionalDate"}}
+              <span class="FeedCard-EventDates-additionalDate-weekDay">
+                {{moment-format instance.startsAt "ddd"}}
               </span>
-              <span class='FeedCard-EventDates-additionalDate-date'>
+              <span class="FeedCard-EventDates-additionalDate-date">
                 <strong>
-                  {{moment-format instance.startsAt 'MMM DD'}}
+                  {{moment-format instance.startsAt "MMM DD"}}
                 </strong>
-                {{moment-format instance.startsAt 'YYYY'}}
+                {{moment-format instance.startsAt "YYYY"}}
               </span>
-              <span class='FeedCard-EventDates-additionalDate-time'>
-                {{moment-format instance.startsAt 'LT'}}
+              <span class="FeedCard-EventDates-additionalDate-time">
+                {{moment-format instance.startsAt "LT"}}
                 {{#if instance.endsAt}}
                   -
-                  {{moment-format instance.endsAt 'LT'}}
+                  {{moment-format instance.endsAt "LT"}}
                 {{/if}}
               </span>
             {{/link-to}}

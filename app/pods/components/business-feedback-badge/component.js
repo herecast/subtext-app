@@ -1,12 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 
-const {get} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'span',
   classNames: ['BusinessFeedbackBadge'],
 
-  isPlural: Ember.computed('result.feedback_num', function() {
+  isPlural: computed('result.feedback_num', function() {
     const feedback_num = get(this, 'result.feedback_num');
     return feedback_num === 0 || feedback_num > 1;
   })

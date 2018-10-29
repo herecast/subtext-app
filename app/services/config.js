@@ -1,17 +1,20 @@
 /* global process */
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+
+import Service, { inject as service } from '@ember/service';
+import { set, get, setProperties } from '@ember/object';
 import config from 'subtext-ui/config/environment';
 
-const { get, set, inject, computed } = Ember;
-
-export default Ember.Service.extend({
-  env: {},
-
-  fastbootService: inject.service(),
-  isFastBoot: computed.reads('fastbootService.isFastBoot'),
+export default Service.extend({
+  fastbootService: service(),
+  isFastBoot: reads('fastbootService.isFastBoot'),
 
   init() {
     this._super(...arguments);
+
+    setProperties(this, {
+      env: {}
+    });
 
     if(get(this, 'isFastBoot')) {
       this._configureServerSide();

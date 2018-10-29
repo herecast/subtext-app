@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get } from '@ember/object';
 import XButtonMixin from 'subtext-ui/mixins/components/x-button';
-
-const { get } = Ember;
 
 /**
  * Reusable anchor tag component supporting multiple button colors, sizes and styles.
  * Also see `x-link-to` component, for an Ember `link-to` version with the same styling.
  */
-export default Ember.Component.extend(XButtonMixin, {
+export default Component.extend(XButtonMixin, {
   tagName: 'a',
   attributeBindings: ['href', 'target'],
   href: null,

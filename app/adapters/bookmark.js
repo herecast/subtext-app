@@ -1,7 +1,5 @@
+import { get } from '@ember/object';
 import ApplicationAdapter from './application';
-import Ember from 'ember';
-
-const { get } = Ember;
 
 export default ApplicationAdapter.extend({
   buildURL(modelName, id, snapshot) {

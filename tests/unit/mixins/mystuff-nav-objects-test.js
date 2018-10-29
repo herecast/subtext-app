@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import MystuffNavObjectsMixin from 'subtext-ui/mixins/mystuff-nav-objects';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | mystuff nav objects');
-
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let MystuffNavObjectsObject = Ember.Object.extend(MystuffNavObjectsMixin);
-  let subject = MystuffNavObjectsObject.create();
-  assert.ok(subject);
+module('Unit | Mixin | mystuff nav objects', function() {
+  // Replace this with your real tests.
+  test('it works', function(assert) {
+    let MystuffNavObjectsObject = EmberObject.extend(MystuffNavObjectsMixin);
+    let subject = MystuffNavObjectsObject.create();
+    assert.ok(subject);
+  });
 });

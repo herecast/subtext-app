@@ -1,16 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-const { get, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'Mystuff-NavBar',
   classNameBindings: ['verticalLayout:vertical:horizontal'],
   'data-test-mystuff-navbar': true,
 
-  routes: [],
   activeRoute: null,
-
   verticalLayout: false,
+  routes: null,
 
   breadcrumbMessage: computed('activeRoute', function() {
     const activeRoute = get(this, 'activeRoute');

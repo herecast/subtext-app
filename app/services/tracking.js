@@ -1,28 +1,23 @@
 /* global dataLayer, ga */
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+
+import Evented from '@ember/object/evented';
+import Service, { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
+import { run } from '@ember/runloop';
+import { assign } from '@ember/polyfills';
+import { isPresent } from '@ember/utils';
+import { get, set, computed } from '@ember/object';
 import config from 'subtext-ui/config/environment';
 
-const {
-  Evented,
-  Service,
-  RSVP,
-  run,
-  computed,
-  inject,
-  assign,
-  isPresent,
-  set,
-  get
-} = Ember;
-
 export default Service.extend(Evented, {
-  api: inject.service(),
-  userLocation: inject.service(),
-  session: inject.service(),
-  logger: inject.service(),
-  fastboot: inject.service(),
+  api: service(),
+  userLocation: service(),
+  session: service(),
+  logger: service(),
+  fastboot: service(),
   clientId: null,
-  locationId: computed.reads('userLocation.userLocation.id'),
+  locationId: reads('userLocation.userLocation.id'),
   _clientIdKey: 'dailyuv_session_client_id',
   logEnabled: config.LOG_TRACKING_EVENTS,
   currentUser: computed(function() {
@@ -196,7 +191,6 @@ export default Service.extend(Evented, {
   },
 
   profileContentClick(organization, content) {
-    get(this, 'logger').log('profileContentClick', organization, content);
     if(!get(this, 'fastboot.isFastBoot')) {
       this.waitForLocationAndClientId().then((data) => {
         const trackData = {
@@ -432,8 +426,9 @@ export default Service.extend(Evented, {
 
     let clientId = get(this, 'clientId');
     const deferred = get(this, '_clientIdDeferred');
-
-    if(Ember.testing) {
+//NOTE: Need to figure out how to know if in testing mode
+var isTesting = false;
+    if (isTesting) {
       deferred.resolve('tester');
     } else if(clientId) {
       deferred.resolve(clientId);

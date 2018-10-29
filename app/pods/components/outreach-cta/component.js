@@ -1,15 +1,38 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
+import {
+  setProperties,
+  observer,
+  computed,
+  set,
+  get
+} from '@ember/object';
+import { inject as service } from '@ember/service';
 import InViewportMixin from 'ember-in-viewport';
 
-const {get, set, computed, observer, isEmpty, setProperties, inject:{service}} = Ember;
+const defaultMessagesArray = [
+  {
+    message: 'Advertise with DailyUV!',
+    tag: 'out-with-us'
+  },
+  {
+    message: 'Curious about DailyUV ad rates?',
+    tag: 'curious-about-rates'
+  },
+  {
+    message: 'Want to see your ad here?',
+    tag: 'see-your-out'
+  }
+];
 
-export default Ember.Component.extend(InViewportMixin, {
+export default Component.extend(InViewportMixin, {
   classNames: 'OutreachCta',
   classNameBindings: ['isTextOnly:text-only', 'isButton:is-button'],
 
   api: service(),
   currentController: service(),
-  url: computed.alias('currentController.currentUrl'),
+  url: alias('currentController.currentUrl'),
 
   isTextOnly: false,
   isButton: false,
@@ -21,20 +44,12 @@ export default Ember.Component.extend(InViewportMixin, {
 
   ctaTarget: 'https://subtextmedialtd.wufoo.com/forms/sztftvb1xfr0qv/',
 
-  defaultMessages: [
-    {
-      message: 'Advertise with DailyUV!',
-      tag: 'out-with-us'
-    },
-    {
-      message: 'Curious about DailyUV ad rates?',
-      tag: 'curious-about-rates'
-    },
-    {
-      message: 'Want to see your ad here?',
-      tag: 'see-your-out'
-    }
-  ],
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      defaultMessages: defaultMessagesArray
+    });
+  },  
 
   messageIndex: computed('defaultMessages.[]', 'limitMessagesTo.[]', 'url', function () {
     const defaultMessages = get(this, 'defaultMessages');

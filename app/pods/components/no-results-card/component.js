@@ -1,17 +1,17 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['NoResults'],
   "data-test-component": 'no-results-card',
 
   search: service(),
   floatingActionButton: service(),
-  routing: service('-routing'),
 
-  hadFilters: computed.readOnly('search.filtersAreActive'),
-  hadSearch: computed.readOnly('search.searchActive'),
+  hadFilters: readOnly('search.filtersAreActive'),
+  hadSearch: readOnly('search.searchActive'),
 
   hadResults: false,
 

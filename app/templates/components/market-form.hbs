@@ -1,11 +1,11 @@
 {{#if (and session.isAuthenticated showOrganizationMenu)}}
   {{#if organizations}}
     {{#form-group hideError=true}}
-      <label class='control-label ContentForm-label--required'>Content Owner</label>
+      <label class="control-label ContentForm-label--required">Content Owner</label>
       {{#if post.isNew}}
         {{organization-dropdown selection=post.organization class="with-border"}}
       {{else}}
-        <div class='form-control-static'>
+        <div class="form-control-static">
         {{#if post.authorName}}
           {{post.authorName}}
         {{else}}
@@ -18,13 +18,13 @@
 {{/if}}
 
 {{#if isEditing}}
-  <div class='well'>
+  <div class="well">
     {{#form-group error=errors.sold hideError=true}}
-      <label class='control-label' for="sold">Mark post as sold</label>
+      <label class="control-label" for="sold">Mark post as sold</label>
       {{form-error errors.sold}}
 
 
-      {{#x-select id='sold' value=(readonly post.sold) action=(action 'updateSold') class='form-control' as |xs|}}
+      {{#x-select id="sold" value=(readonly post.sold) action=(action "updateSold") class="form-control" as |xs|}}
         {{#xs.option value=true}}Sold{{/xs.option}}
         {{#xs.option value=false}}Not Sold{{/xs.option}}
       {{/x-select}}
@@ -33,46 +33,46 @@
 {{/if}}
 
 {{#form-group error=errors.title hideError=true}}
-  <label class='control-label ContentForm-label--required' for="title">Listing Title</label>
+  <label class="control-label ContentForm-label--required" for="title">Listing Title</label>
   {{form-error errors.title}}
 
   {{input
-    id='title'
-    placeholder='Keep it short and informative'
-    class='form-control'
+    id="title"
+    placeholder="Keep it short and informative"
+    class="form-control"
     value=post.title
-    input=(action 'validateForm')
+    input=(action "validateForm")
     data-test-field="market-title"
   }}
 {{/form-group}}
 
 {{#form-group}}
-  <label class='control-label ContentForm-label--required' for="title">Content Location</label>
-  <div class='h5'>What is the most relevant location for this post?</div>
+  <label class="control-label ContentForm-label--required" for="title">Content Location</label>
+  <div class="h5">What is the most relevant location for this post?</div>
   {{user-location/ugc-button model=post}}
 {{/form-group}}
 
-{{#form-group error=errors.content class='u-layoutPadT50' hideError=true}}
-  <label class='control-label ContentForm-label--required' for="description">Listing Description</label>
+{{#form-group error=errors.content class="u-layoutPadT50" hideError=true}}
+  <label class="control-label ContentForm-label--required" for="description">Listing Description</label>
   {{form-error errors.content}}
 
-  {{#summer-note content=(readonly post.content) class='ContentForm-textArea' notifyChange=(action 'updateContent')}}
+  {{#summer-note content=(readonly post.content) class="ContentForm-textArea" notifyChange=(action "updateContent")}}
     {{textarea
-      id='description'
-      placeholder='An informative description that will encourage people to respond.'
-      class='form-control'
+      id="description"
+      placeholder="An informative description that will encourage people to respond."
+      class="form-control"
     }}
   {{/summer-note}}
 {{/form-group}}
 
 <div class="form-group u-layoutPadT50">
-  <label for='cost'>Cost</label>
+  <label for="cost">Cost</label>
   {{input
-    id='cost'
-    placeholder='A dollar figure or text'
-    class='form-control'
+    id="cost"
+    placeholder="A dollar figure or text"
+    class="form-control"
     value=post.cost
-    data-test-field='market-cost'
+    data-test-field="market-cost"
   }}
 </div>
 
@@ -81,50 +81,72 @@
   data-test-market-images=true
 }}
 
-{{#form-group error=errors.contact hideError=true class='u-layoutPadT50'}}
-  <label class='control-label u-layoutPadB0 ContentForm-label--required'>Contact Me</label>
+{{#form-group error=errors.contact hideError=true class="u-layoutPadT50"}}
+  <label class="control-label u-layoutPadB0 ContentForm-label--required">Contact Me</label>
   {{form-error errors.contact}}
 
-  <div class='ContentForm-helpText u-layoutPadB20'>
+  <div class="ContentForm-helpText u-layoutPadB20">
     Choose either, or both. What you enter will be public on the site.
   </div>
   <div class="form-group">
-    <label for='email'>Email</label>
-    <div class='input-group'>
+    <label for="email">Email</label>
+    <div class="input-group">
       <span class="ContentForm-iconLabel input-group-addon">
-        {{fa-icon 'envelope'}}
+        {{fa-icon "envelope"}}
       </span>
       {{input
-        id='email'
-        placeholder='Contact Email'
-        class='form-control'
+        id="email"
+        placeholder="Contact Email"
+        class="form-control"
         value=(mut post.contactEmail)
-        input=(action 'validateForm')
-        data-test-field='market-contactEmail'
+        input=(action "validateForm")
+        data-test-field="market-contactEmail"
       }}
     </div>
   </div>
   <div class="form-group">
-    <label for='phone'>Phone</label>
-    <div class='input-group'>
+    <label for="phone">Phone</label>
+    <div class="input-group">
       <span class="ContentForm-iconLabel input-group-addon">
-        {{fa-icon 'phone'}}
+        {{fa-icon "phone"}}
       </span>
       {{input
-        id='phone'
-        placeholder='Contact Phone'
-        class='form-control'
+        id="phone"
+        placeholder="Contact Phone"
+        class="form-control"
         value=(mut post.contactPhone)
-        type='tel'
-        input=(action 'validateForm')
-        data-test-field='market-contactPhone'
+        type="tel"
+        input=(action "validateForm")
+        data-test-field="market-contactPhone"
       }}
     </div>
   </div>
 {{/form-group}}
 
-<div class='form-group'>
-  <span class='ContentForm-requiredIndicator'>*</span> required fields
+<div class="form-group">
+  <span class="ContentForm-requiredIndicator">*</span> required fields
 </div>
 
-{{partial 'partials/content-form-buttons'}}
+<div class="ContentForm-buttonGroup form-group">
+  <button
+    class="Button Button--primary btn btn-primary pull-right"
+    data-test-action="next"
+    {{action "next"}}
+  >
+    Next Step
+    {{fa-icon "arrow-right u-iconRight"}}
+  </button>
+
+  <button
+    class="ContentForm-buttonLink ContentForm-discardButton h2 btn btn-link pull-right"
+    {{action "discard"}}
+  >
+    {{fa-icon "trash u-iconLeft"}}
+
+    {{#if model.isNew}}
+      Discard {{formattedType}}
+    {{else}}
+      Discard Changes
+    {{/if}}
+  </button>
+</div>

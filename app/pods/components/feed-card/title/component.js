@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
 
-const { get, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-Title',
   classNameBindings: ['sold:sold-tag-active', 'showToggleSold:sold-tag-active', 'condensedView:condensed-view'],
 
@@ -16,8 +16,8 @@ export default Ember.Component.extend({
   linkToDetailIsActive: true,
   onContentClick() {},
 
-  viewCount: computed.readOnly('model.viewCount'),
-  commentCount: computed.readOnly('model.commentCount'),
+  viewCount: readOnly('model.viewCount'),
+  commentCount: readOnly('model.commentCount'),
 
   actions: {
     toggleSold() {

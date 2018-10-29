@@ -1,14 +1,9 @@
-import Ember from 'ember';
+import { isEmpty, isPresent } from '@ember/utils';
 import moment from 'moment';
 import {
   validatePresence,
   validateFormat
 } from 'ember-changeset-validations/validators';
-
-const {
-  isPresent,
-  isEmpty
-} = Ember;
 
 export default {
   startDate: [

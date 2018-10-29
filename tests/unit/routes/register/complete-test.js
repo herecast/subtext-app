@@ -1,11 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('route:register/complete', 'Unit | Route | register/complete', {
-  // Specify the other units that are required for this test.
-  needs: ['service:history']
-});
+module('Unit | Route | register/complete', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  var route = this.subject();
-  assert.ok(route);
+  test('it exists', function(assert) {
+    var route = this.owner.lookup('route:register/complete');
+    assert.ok(route);
+  });
 });

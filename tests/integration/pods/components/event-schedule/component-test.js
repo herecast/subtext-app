@@ -1,19 +1,21 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('event-schedule', 'Integration | Component | event schedule', {
-  integration: true
-});
+module('Integration | Component | event schedule', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('schedule', Ember.Object.create({
-    dates: []
-  }));
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    this.set('schedule', EmberObject.create({
+      dates: []
+    }));
 
-  this.render(hbs`{{event-schedule schedule=schedule}}`);
+    await render(hbs`{{event-schedule schedule=schedule}}`);
 
-  assert.ok(this.$('.fc').length === 1, 'should render calendar');
+    assert.ok(this.element.querySelectorAll('.fc').length === 1, 'should render calendar');
+  });
 });

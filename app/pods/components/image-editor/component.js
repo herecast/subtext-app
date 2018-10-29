@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isBlank } from '@ember/utils';
+import { computed, set, get } from '@ember/object';
 
-const { get, set, isBlank, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ImageEditor'],
 
   _selectedImage: null,
@@ -37,10 +37,10 @@ export default Ember.Component.extend({
     },
 
     save() {
+      //NOTE need to check why this is not getting set for test
       const selectedImage = get(this, '_selectedImage'),
         imageUrl = get(this, 'imageUrl'),
         caption = get(this, 'caption') || '';
-
       get(this, 'save')(selectedImage, caption, imageUrl);
     },
 

@@ -9,16 +9,16 @@
 
   {{#if isNotClaimed}}
     <div class="FeedCarousel-OrganizationCard-cta-claim">
-      Is this your business?<br />
-      <a href="{{claimEmail}}">Claim it now</a>
+      Is this your business?<br>
+      <a href={{claimEmail}}>Claim it now</a>
     </div>
   {{/if}}
 
   {{#if profileImageUrl}}
     {{#link-to linkRouteName linkRouteId}}
-      <span {{action 'onLinkClick' 'profile-image'}}>
+      <span {{action "onLinkClick" "profile-image"}} role="button">
         <div class="FeedCarousel-OrganizationCard-profile-image">
-          <img class="FeedCarousel-OrganizationCard-profile-image-image" src={{profileImageUrl}} />
+          <img class="FeedCarousel-OrganizationCard-profile-image-image" src={{profileImageUrl}} alt="Profile Image">
         </div>
       </span>
     {{/link-to}}
@@ -27,7 +27,7 @@
 
 <div class="FeedCarousel-OrganizationCard-identity">
   {{#link-to linkRouteName linkRouteId}}
-    <span {{action 'onLinkClick' 'name-address'}}>
+    <span {{action "onLinkClick" "name-address"}} role="button">
       {{#if orgName}}
         <div class="FeedCarousel-OrganizationCard-org-name">
           {{orgName}}
@@ -47,8 +47,8 @@
   <div class="FeedCarousel-OrganizationCard-footer-left">
     {{#if phone}}
       <div class="FeedCarousel-OrganizationCard-contact-button">
-        <a href="tel:+1{{phone}}" {{action 'onLinkClick' 'phone' preventDefault=false}}>
-          {{fa-icon 'phone'}}
+        <a href="tel:+1{{phone}}" {{action "onLinkClick" "phone" preventDefault=false}}>
+          {{fa-icon "phone"}}
         </a>
       </div>
     {{/if}}
@@ -56,8 +56,8 @@
   <div class="FeedCarousel-OrganizationCard-footer-center">
     {{#if emailLink}}
       <div class="FeedCarousel-OrganizationCard-contact-button">
-        <a href="{{emailLink}}" target="_blank" {{action 'onLinkClick' 'email' preventDefault=false}}>
-          {{fa-icon 'envelope'}}
+        <a href={{emailLink}} target="_blank" rel="noopener noreferrer" {{action "onLinkClick" "email" preventDefault=false}}>
+          {{fa-icon "envelope"}}
         </a>
       </div>
     {{/if}}
@@ -65,8 +65,8 @@
   <div class="FeedCarousel-OrganizationCard-footer-right">
     {{#if directionsLink}}
       <div class="FeedCarousel-OrganizationCard-contact-button">
-        <a href="{{directionsLink}}" target="_blank" {{action 'onLinkClick' 'directions' preventDefault=false}}>
-          {{fa-icon 'map-marker'}}
+        <a href={{directionsLink}} target="_blank" rel="noopener noreferrer" {{action "onLinkClick" "directions" preventDefault=false}}>
+          {{fa-icon "map-marker"}}
         </a>
       </div>
     {{/if}}

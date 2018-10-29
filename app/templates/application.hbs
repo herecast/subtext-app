@@ -1,14 +1,18 @@
 {{title "dailyUV"}}
+
+{{head-layout}}
+
 {{#unless hideHeader}}
   {{global-header
     showUserLocationBar=showUserLocationBar
-    signOut=(action 'signOut')
+    signOut=(action "signOut")
   }}
 {{/unless}}
 
-<div id="main" class="{{backgroundClass}} {{if searchOpen 'search-open'}} {{if showUserLocationBar 'has-location-bar'}}">
-  <div class='BackgroundIndex'>
-    {{outlet 'background'}}
+
+<div id="main" class="{{backgroundClass}} {{if searchOpen "search-open"}} {{if showUserLocationBar "has-location-bar"}}">
+  <div class="BackgroundIndex">
+    {{outlet "background"}}
   </div>
 
   {{outlet}}
@@ -16,7 +20,7 @@
 {{modal-manager}}
 
 <div class="Copyright">
-  {{#link-to 'copyright'}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
+  {{#link-to "copyright"}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
 </div>
 
 {{notification-container}}

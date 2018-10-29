@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import { isPresent } from '@ember/utils';
 
 export default function computedInitials(str) {
-  if (Ember.isPresent(str)){
+  if (isPresent(str)){
     const stopWords = ['a', 'an', 'at', 'and', 'by', 'etc', 'it', 'or', 'of', 'to', 'the'];
     const regex = new RegExp(/\b\w/g);
 
     //get rid of email characters
-    str = str.replace(/(\@)|(\.)/g, '');
+    str = str.replace(/(@)|(\.)/g, '');
 
     let initials = str.match(regex) || [];
     let numberOfInitials = initials.length;

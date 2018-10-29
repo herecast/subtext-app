@@ -1,14 +1,21 @@
-import Ember from 'ember';
-import {startsWith} from 'lodash';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { copy } from '@ember/object/internals';
+import { computed, set, get, setProperties } from '@ember/object';
+import { startsWith } from 'lodash';
 
-const {get, set, copy, computed, inject} = Ember;
-
-const linkToContent = Ember.Component.extend({
-  history: inject.service(),
+const linkToContent = Component.extend({
+  history: service(),
 
   tagName: '',
-  paramsForLinkTo: {},
-  attrsForLinkTo: {},
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      paramsForLinkTo: {},
+      attrsForLinkTo: {}
+    });
+  },
 
   route: computed('history.currentRouteName', function() {
     const currentRouteName = get(this, 'history.currentRouteName');

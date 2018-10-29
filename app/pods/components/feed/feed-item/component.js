@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { get, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
 
-const { computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   model: null,
   showingDetailInFeed: null,
   organization: null,
@@ -11,9 +11,13 @@ export default Ember.Component.extend({
   displayAsPublic: false,
   hideComments: false,
 
-  isContent: computed.alias('model.isContent'),
-  isCarousel: computed.alias('model.isCarousel'),
-  isOrganization: computed.alias('model.isOrganization'),
+  isContent: alias('model.isContent'),
+  isCarousel: alias('model.isCarousel'),
+  isOrganization: alias('model.isOrganization'),
 
-  feedItemModel: computed.alias('model.feedItemModel')
+  feedItemModel: alias('model.feedItemModel'),
+
+  contentShowingInFeed: computed('feedItemModel.id', 'showingDetailInFeed', function() {
+    return get(this, 'feedItemModel.id') === get(this, 'showingDetailInFeed');
+  })
 });

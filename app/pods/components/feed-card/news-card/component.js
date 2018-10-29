@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { reads, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend(reloadComments, {
+export default Component.extend(reloadComments, {
   classNames: 'FeedCard-NewsCard',
-  'data-test-news-card': computed.reads('model.title'),
+  'data-test-news-card': reads('model.title'),
 
   model: null,
   userLocation: service(),
@@ -21,6 +22,8 @@ export default Ember.Component.extend(reloadComments, {
 
     return false;
   }),
+
+  hideComments: or('context.condensedView', 'context.hideComments'),
 
   actions: {
     onContentClick() {

@@ -1,13 +1,13 @@
-{{#x-card color=(if displayAsAdminIfAllowed 'default' 'warning')}}
+{{#x-card color=(if displayAsAdminIfAllowed "default" "warning")}}
   {{#card-body slimPadding=true center=true}}
     {{#if displayAsAdminIfAllowed}}
       You are a manager of this page.
-      {{#x-button onClick=(action 'toggleAdminCards') color='primary' style='link' size='medium'}}
+      {{#x-button onClick=(action "toggleAdminCards") color="primary" style="link" size="medium"}}
         Click here to see how the page looks to the public.
       {{/x-button}}
     {{else}}
       This is how your page looks to the public.
-      {{#x-button onClick=(action 'toggleAdminCards') color='black' style='transparent' size='x-small' noPadding=true}}
+      {{#x-button onClick=(action "toggleAdminCards") color="black" style="transparent" size="x-small" noPadding=true}}
         Click here to Manage.
       {{/x-button}}
     {{/if}}

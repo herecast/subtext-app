@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
-const { get, computed, isPresent, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   attributeBindings: ['data-test-contact-poster-button'],
   classNames: ['ContactPosterButton'],
 
@@ -12,12 +13,13 @@ export default Ember.Component.extend({
     return isPresent(get(this, 'model.contactPhone')) || isPresent(get(this, 'model.contactEmail'));
   }),
 
-  clickReplyButton() { },
+  clickReplyButton() {},
 
   modals: service(),
 
   actions: {
     contactPoster() {
+      this.clickReplyButton();
       get(this, 'modals').showModal('modals/contact-poster', get(this, 'model'));
     }
   }

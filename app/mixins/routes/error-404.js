@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get, set } from '@ember/object';
 
-const { inject, set, get } = Ember;
-
-export default Ember.Mixin.create({
-  fastboot: inject.service(),
+export default Mixin.create({
+  fastboot: service(),
   titleToken: '404 - Not Found',
 
   setupController() {

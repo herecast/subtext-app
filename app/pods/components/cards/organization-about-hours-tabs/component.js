@@ -1,14 +1,14 @@
-import Ember from 'ember';
+import { equal } from '@ember/object/computed';
+import Component from '@ember/component';
+import { set } from '@ember/object';
 
-const {set, computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   organization: null,
 
   activeTab: 'about',
 
-  isAboutTabActive: computed.equal('activeTab', 'about'),
-  isHoursTabActive: computed.equal('activeTab', 'hours'),
+  isAboutTabActive: equal('activeTab', 'about'),
+  isHoursTabActive: equal('activeTab', 'hours'),
 
   actions: {
     setActiveTab(tabName) {

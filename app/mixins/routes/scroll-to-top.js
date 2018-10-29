@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { readOnly } from '@ember/object/computed';
+import $ from 'jquery';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 
-const { get, computed, inject } = Ember;
-
-export default Ember.Mixin.create({
-  fastboot: inject.service(),
-  isFastBoot: computed.readOnly('fastboot.isFastBoot'),
+export default Mixin.create({
+  fastboot: service(),
+  isFastBoot: readOnly('fastboot.isFastBoot'),
 
   actions: {
     didTransition: function() {
       if(!get(this, 'isFastBoot')) {
-        Ember.$(window).scrollTop(0);
+        $(window).scrollTop(0);
       }
       return true; // Bubble the didTransition event
     }

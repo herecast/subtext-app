@@ -1,12 +1,14 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('user-location/search-results', 'Integration | Component | user location/search results', {
-  integration: true
-});
+module('Integration | Component | user location/search results', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  this.render(hbs`{{user-location/search-results}}`);
+  test('it renders', async function(assert) {
+    await render(hbs`{{user-location/search-results}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

@@ -1,24 +1,26 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('content-form-image', 'Integration | Component | content form image', {
-  integration: true
-});
+module('Integration | Component | content form image', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs`{{content-form-image}}`);
+    await render(hbs`{{content-form-image}}`);
 
-  assert.ok(this.$().text().trim().match(/^Choose Image/));
+    assert.ok(this.element.textContent.trim().match(/^Choose Image/));
 
-  // Template block usage:" + EOL +
-  this.render(hbs`
-    {{#content-form-image}}
-      template block text
-    {{/content-form-image}}
-  `);
+    // Template block usage:" + EOL +
+    await render(hbs`
+      {{#content-form-image}}
+        template block text
+      {{/content-form-image}}
+    `);
 
-  assert.ok(this.$().text().trim().match(/^Choose Image/));
+    assert.ok(this.element.textContent.trim().match(/^Choose Image/));
+  });
 });

@@ -1,16 +1,18 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('event-form-registration', 'Integration | Component | event form registration', {
-  integration: true
-});
+module('Integration | Component | event form registration', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs`{{event-form-registration}}`);
+    await render(hbs`{{event-form-registration}}`);
 
-  assert.ok(this.$().text().trim().match(/registration/), 'Must display placeholder text when disabled');
+    assert.ok(this.element.textContent.trim().match(/registration/), 'Must display placeholder text when disabled');
+  });
 });

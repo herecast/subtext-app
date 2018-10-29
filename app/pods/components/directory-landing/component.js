@@ -1,14 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get, setProperties } from '@ember/object';
 
-const { get, set, inject } = Ember;
-
-export default Ember.Component.extend({
-  store: inject.service(),
-  userLocation: inject.service(),
-  news: [],
+export default Component.extend({
+  store: service(),
+  userLocation: service(),
 
   init() {
     this._super(...arguments);
+
+    setProperties(this, {
+      news: []
+    });
 
     get(this, 'userLocation.userLocation').then((location) => {
       const query = {

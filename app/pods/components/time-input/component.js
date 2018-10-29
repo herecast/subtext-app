@@ -1,20 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isPresent, isEmpty } from '@ember/utils';
 import moment from 'moment';
 import isMobile from 'npm:ismobilejs';
-
-const {
-  get,
-  set,
-  computed,
-  isEmpty,
-  isPresent
-} = Ember;
 
 //const pickerFormat = 'h : mm A';
 const pickerFormat = 'LT';
 const nativeFormat = 'HH:mm';
 
-export default Ember.Component.extend({
+export default Component.extend({
   inputClass: 'form-control',
 
   /** format
@@ -111,14 +105,16 @@ export default Ember.Component.extend({
   // with binding of (this) from the dp.update event
   doUpdate(value) {
     if(!value || isEmpty(value)) {
-      this.attrs.update(null);
+      if (get(this, 'updated')) {
+        get(this, 'update')(null);
+      }
     } else {
       const time = this.parseUpdate(value);
 
       if(time.isValid()) {
-        this.attrs.update(
-          this.formatUpdate(time)
-        );
+        if (get(this, 'updated')) {
+          get(this, 'update')(this.formatUpdate(time));
+        }
       }
     }
   }

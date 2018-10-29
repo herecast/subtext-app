@@ -18,20 +18,20 @@
 
     <div class="NoResults-cta-wrap">
       {{#x-button
-         onClick=(action 'showJobsTray')
-         color='primary'
-         size='x-small'
+         onClick=(action "showJobsTray")
+         color="primary"
+         size="x-small"
          noMargin=true
        }}
         Create a Local Post
       {{/x-button}}
     </div>
     <div class="NoResults-cta-wrap">
-      {{#x-link-to 'startablog'
-         color='primary'
-         size='x-small'
+      {{#x-link-to "startablog"
+         color="primary"
+         size="x-small"
          noMargin=true
-         style='regular'
+         style="regular"
        }}
         Get Paid to Blog Locally
       {{/x-link-to}}
@@ -53,10 +53,10 @@
 
     {{#if hadFilters}}
       {{#text-block}}
-        {{x-link-to 'RESET MY FILTERS'
-                    'feed'
-                    (query-params page=1 type='' query='')
-                    size='medium'
+        {{x-link-to "RESET MY FILTERS"
+                    "feed"
+                    (query-params page=1 type="" query="")
+                    size="medium"
         }}
       {{/text-block}}
     {{/if}}

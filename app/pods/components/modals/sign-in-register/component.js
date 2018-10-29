@@ -1,14 +1,14 @@
+import { inject as service } from '@ember/service';
+import { equal } from '@ember/object/computed';
+import { computed, set, get } from '@ember/object';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
-import Ember from 'ember';
-
-const { get, set, computed, inject } = Ember;
 
 export default ModalInstance.extend({
-  _routing: inject.service('-routing'),
+  router: service(),
   model: 'sign-in',
 
-  isSignIn: computed.equal('model', 'sign-in'),
-  isRegister: computed.equal('model', 'register'),
+  isSignIn: equal('model', 'sign-in'),
+  isRegister: equal('model', 'register'),
 
   alternateSignInMessage: computed('model', function() {
     const model = get(this, 'model');
@@ -23,19 +23,19 @@ export default ModalInstance.extend({
   actions: {
     reconfirm(email) {
       // IDEA: Open secondary modal here?
-      get(this, '_routing').transitionTo('register.reconfirm', null, {
+      get(this, 'router').transitionTo('register.reconfirm', null, {
         email: email
       });
     },
     forgotPassword() {
       // IDEA: Open secondary modal here?
-      get(this, '_routing').transitionTo('forgot-password');
+      get(this, 'router').transitionTo('forgot-password');
     },
     didSignIn() {
       this.ok();
     },
     didRegister() {
-      get(this, '_routing').transitionTo('register.complete');
+      get(this, 'router').transitionTo('register.complete');
     },
     changeMode(ctx) {
       set(this, 'model', ctx);

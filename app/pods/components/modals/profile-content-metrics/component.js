@@ -1,14 +1,16 @@
-import Ember from 'ember';
+import { oneWay, notEmpty, sort } from '@ember/object/computed';
+import { set, get, computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
 
-const {
-  computed,
-  get,
-  set,
-  inject: {service},
-  run
-} = Ember;
+const displayOptionsObj = {
+  'week': {value: 7, title: 'Week'},
+  'two-weeks': {value: 14, title: '2 Weeks'},
+  'three-weeks': {value: 21, title: '3 Weeks'},
+  'month': {value: 28, title: 'Month'}
+};
 
 export default ModalInstance.extend({
   model: null,
@@ -16,9 +18,6 @@ export default ModalInstance.extend({
 
   contentMetrics: service(),
 
-  sortBy: ['report_date'],
-  views: [],
-  clicks: [],
   startDate: null,
   endDate: null,
   displayOption: 'week',
@@ -26,22 +25,26 @@ export default ModalInstance.extend({
   cumulative: false,
   isLoadingModel: false,
 
+  init() {
+    this._updateStartDate('week');
+    this._super(...arguments);
+    setProperties(this, {
+      sortBy: ['report_date'],
+      views: [],
+      clicks: [],
+      _displayOptions: displayOptionsObj
+    });
+  },
+
   title: computed('model.title', function() {
     return `Showing data for all ${get(this, 'model.title')} owned content.`;
   }),
 
-  lifetimeViewCount: computed.oneWay('model.viewCount'),
-  hasViewData: computed.notEmpty('profileContentMetricsModel.views'),
-  sortedViews: computed.sort('profileContentMetricsModel.views', 'sortBy'),
-  calculatedStartDate: computed.oneWay('sortedViews.firstObject.report_date'),
-  calculatedEndDate: computed.oneWay('sortedViews.lastObject.report_date'),
-
-  _displayOptions: {
-    'week': {value: 7, title: 'Week'},
-    'two-weeks': {value: 14, title: '2 Weeks'},
-    'three-weeks': {value: 21, title: '3 Weeks'},
-    'month': {value: 28, title: 'Month'}
-  },
+  lifetimeViewCount: oneWay('model.viewCount'),
+  hasViewData: notEmpty('profileContentMetricsModel.views'),
+  sortedViews: sort('profileContentMetricsModel.views', 'sortBy'),
+  calculatedStartDate: oneWay('sortedViews.firstObject.report_date'),
+  calculatedEndDate: oneWay('sortedViews.lastObject.report_date'),
 
   _updateStartDate(selectedOption){
     set(this, 'displayOption', selectedOption);
@@ -90,11 +93,6 @@ export default ModalInstance.extend({
         });
       });
     }
-  },
-
-  init() {
-    this._updateStartDate('week');
-    this._super(...arguments);
   },
 
   viewLabels: computed('sortedViews.@each.report_date', function() {

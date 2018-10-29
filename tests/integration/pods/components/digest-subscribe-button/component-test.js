@@ -1,90 +1,86 @@
-import { startMirage } from 'subtext-ui/initializers/ember-cli-mirage';
-import { moduleForComponent, test } from 'ember-qunit';
-import wait from 'ember-test-helpers/wait';
+import Service from '@ember/service';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
-moduleForComponent('digest-subscribe-button', 'Integration | Component | digest subscribe button', {
-  integration: true,
-  beforeEach() {
-    this.server = startMirage();
-  },
-  afterEach() {
-    this.server.shutdown();
-  }
-});
+module('Integration | Component | digest subscribe button', function(hooks) {
+  setupRenderingTest(hooks);
+  setupMirage(hooks);
 
-test('It shows the sign in modal when clicked by non signed in user', function(assert) {
-  const sessiontStub = Ember.Service.extend({
-    isAuthenticated: false,
-    authorize: function(){}
-  });
-  this.register('service:session', sessiontStub);
-  this.inject.service('session');
+  test('It shows the sign in modal when clicked by non signed in user', async function(assert) {
+    const sessiontStub = Service.extend({
+      isAuthenticated: false,
+      authorize: function(){}
+    });
+    this.owner.register('service:session', sessiontStub);
+    this.session = this.owner.lookup('service:session');
 
-  const organization = {
-    digestId: 1
-  };
+    const organization = {
+      digestId: 1
+    };
 
-  this.set('organization', organization);
+    this.set('organization', organization);
 
-  this.render(hbs`{{digest-subscribe-button organization=organization}}`);
+    await render(hbs`{{digest-subscribe-button organization=organization}}`);
 
-  return wait().then(() => {
-    assert.equal(this.$().text().trim(), 'Subscribe');
+    return settled().then(() => {
+      assert.equal(this.element.textContent.trim(), 'Subscribe');
 
-    this.$('.DigestSubscribeButton [data-test-button]').click();
+      this.element.querySelector('.DigestSubscribeButton [data-test-button]').click();
 
-    return wait().then(() => {
-      assert.ok(this.$('.logging-in').length);
+      return settled().then(() => {
+        assert.ok(this.element.querySelector('.logging-in'));
+      });
     });
   });
-});
 
-test('it shows subscribe when user is not yet subscribed', function(assert) {
-  const sessiontStub = Ember.Service.extend({
-    isAuthenticated: true,
-    authorize: function(){}
-  });
-  this.register('service:session', sessiontStub);
-  this.inject.service('session');
+  test('it shows subscribe when user is not yet subscribed', async function(assert) {
+    const sessiontStub = Service.extend({
+      isAuthenticated: true,
+      authorize: function(){}
+    });
+    this.owner.register('service:session', sessiontStub);
+    this.session = this.owner.lookup('service:session');
 
-  const organization = {
-    digestId: 1
-  };
+    const organization = {
+      digestId: 1
+    };
 
-  this.set('organization', organization);
+    this.set('organization', organization);
 
-  this.render(hbs`{{digest-subscribe-button organization=organization}}`);
+    await render(hbs`{{digest-subscribe-button organization=organization}}`);
 
-  return wait().then(() => {
-    assert.equal(this.$().text().trim(), 'Subscribe');
-  });
-});
-
-test('it shows unsubscribe when user is already subscribed', function(assert) {
-  const sessiontStub = Ember.Service.extend({
-    isAuthenticated: true,
-    authorize: function(){}
-  });
-  this.register('service:session', sessiontStub);
-  this.inject.service('session');
-
-  const subscription = server.create('subscription');
-
-  subscription.update({
-    listservId: 1
+    return settled().then(() => {
+      assert.equal(this.element.textContent.trim(), 'Subscribe');
+    });
   });
 
-  const organization = {
-    digestId: 1
-  };
+  test('it shows unsubscribe when user is already subscribed', async function(assert) {
+    const sessiontStub = Service.extend({
+      isAuthenticated: true,
+      authorize: function(){}
+    });
+    this.owner.register('service:session', sessiontStub);
+    this.session = this.owner.lookup('service:session');
 
-  this.set('organization', organization);
+    const subscription = this.server.create('subscription');
 
-  this.render(hbs`{{digest-subscribe-button organization=organization}}`);
+    subscription.update({
+      listservId: 1
+    });
 
-  return wait().then(() => {
-    assert.equal(this.$().text().trim(), 'Unsubscribe');
+    const organization = {
+      digestId: 1
+    };
+
+    this.set('organization', organization);
+
+    await render(hbs`{{digest-subscribe-button organization=organization}}`);
+
+    return settled().then(() => {
+      assert.equal(this.element.textContent.trim(), 'Unsubscribe');
+    });
   });
 });

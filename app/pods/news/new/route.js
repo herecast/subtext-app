@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-const { get } = Ember;
-
-export default Ember.Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
+export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
   titleToken: 'Create a Post',
 
   model(params, transition) {

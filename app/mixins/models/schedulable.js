@@ -1,23 +1,20 @@
 /* global _ */
+import { alias, empty, notEmpty } from '@ember/object/computed';
+
+import Mixin from '@ember/object/mixin';
+import { get, computed } from '@ember/object';
+import { isEmpty, isPresent } from '@ember/utils';
 import DS from 'ember-data';
-import Ember from 'ember';
 import moment from 'moment';
 
 const { flatten } = _;
-
-const {
-  computed,
-  get,
-  isPresent,
-  isEmpty
-} = Ember;
 
 const {
   attr,
   hasMany
 } = DS;
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   //NOTE: this is for the content model and not the event-instance model
   eventUrl: attr('string'),
   registrationDeadline: attr('moment-date'),
@@ -92,12 +89,12 @@ export default Ember.Mixin.create({
     }
   }),
 
-  startsAt: computed.alias('defaultInstance.startsAt'),
-  endsAt: computed.alias('defaultInstance.endsAt'),
+  startsAt: alias('defaultInstance.startsAt'),
+  endsAt: alias('defaultInstance.endsAt'),
 
-  hasExpired: computed.empty('futureInstances'),
+  hasExpired: empty('futureInstances'),
 
-  hasRegistrationInfo: computed.notEmpty('registrationDeadline'),
+  hasRegistrationInfo: notEmpty('registrationDeadline'),
 
   formattedRegistrationDeadline: computed('registrationDeadline', function() { //TAG:NOTE can be deleted when dashboard is removed
     const deadline = get(this, 'registrationDeadline');

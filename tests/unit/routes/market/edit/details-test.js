@@ -1,11 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('route:market/edit/details', 'Unit | Route | market/edit/details', {
-  // Specify the other units that are required for this test.
-  needs: ['service:history']
-});
+module('Unit | Route | market/edit/details', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+  test('it exists', function(assert) {
+    let route = this.owner.lookup('route:market/edit/details');
+    assert.ok(route);
+  });
 });

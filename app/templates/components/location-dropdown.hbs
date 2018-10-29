@@ -1,20 +1,22 @@
 {{#if isEditing}}
-  {{#x-select value=(readonly selectedLocationId) action=(action 'updateSelected') class='form-control' data-test-field='location-dropdown' as |xs|}}
+  {{#x-select value=(readonly selectedLocationId) action=(action "updateSelected") class="form-control" data-test-field="location-dropdown" as |xs|}}
     {{#xs.option value=null}}Select a location:{{/xs.option}}
     {{#each formattedLocations as |location|}}
       {{#xs.option value=location.id}}{{location.formattedLocation}}{{/xs.option}}
     {{/each}}
   {{/x-select}}
 {{else}}
-  <span {{action 'toggleEditing' isEditing}}>{{formattedLocationName}}</span>
+  <span {{action "toggleEditing" isEditing}} role="button">
+    {{formattedLocationName}}
+  </span>
 {{/if}}
 
 {{#if onUpdate}}
-  <span {{action 'toggleEditing' isEditing}}>
+  <span {{action "toggleEditing" isEditing}} role="button">
     {{#if isEditing}}
-      {{fa-icon 'save InlineEdit-icon'}}
+      {{fa-icon "save InlineEdit-icon"}}
     {{else}}
-      {{fa-icon 'pencil InlineEdit-icon'}}
+      {{fa-icon "pencil InlineEdit-icon"}}
     {{/if}}
   </span>
 {{/if}}

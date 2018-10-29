@@ -1,19 +1,18 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
 import moment from 'moment';
 
-const {
-  on,
-  computed,
-  get,
-  set
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   schedule: null,
   classNames: ['full-calendar'],
   calendar: null,
 
-  initCalendar: Ember.on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
+    this._initCalendar();
+  },
+
+  _initCalendar() {
     const events = get(this, 'calendarEvents');
 
     const fc = this.$().fullCalendar({
@@ -42,7 +41,7 @@ export default Ember.Component.extend({
     });
 
     set(this, 'calendar', fc);
-  }),
+  },
 
   _isOverRidden(event, overrides) {
     const start = moment(event.start);
@@ -75,11 +74,12 @@ export default Ember.Component.extend({
     }
   },
 
-  refreshCalendarEvents: on('didReceiveAttrs', function() {
+  didReceiveAttrs() {
+    this._super(...arguments);
     this.reloadCalendar();
-  }),
+  },
 
-  calendarEvents: computed('schedule.dates.[]','schedule.overrides.[]', function() {
+  calendarEvents: computed('schedule.{dates.[],overrides.[]}', function() {
     const dates = get(this, 'schedule.dates');
 
     // The schedule returns 0 if no dates fall within the selected start/end

@@ -1,27 +1,27 @@
 {{#modal-wrapper
-  close=(action 'close')
+  close=(action "close")
   showHeader=true
   title=title
   isAnimated=false
-  data-test-modal='profile-content-metrics'
+  data-test-modal="profile-content-metrics"
   class="Modals-contentMetrics" }}
 
-  <div class='ContentMetrics'>
-    <div class='ContentMetrics-titleBar'>
+  <div class="ContentMetrics">
+    <div class="ContentMetrics-titleBar">
       <div class="ContentMetrics-titleBar-left"></div>
       <div class="ContentMetrics-titleBar-right">
-        <div class='ContentMetrics-dateRange form-inline'>
+        <div class="ContentMetrics-dateRange form-inline">
           Previous:
-          <div class="ContentMetrics-date-picker {{if (eq displayOption 'week') 'active'}}" {{action 'updateStartDate' 'week'}}>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption "week") "active"}}" {{action "updateStartDate" "week"}} role="button">
             Week
           </div>
-          <div class="ContentMetrics-date-picker {{if (eq displayOption 'two-weeks') 'active'}}" {{action 'updateStartDate' 'two-weeks'}}>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption "two-weeks") "active"}}" {{action "updateStartDate" "two-weeks"}} role="button">
             2 Weeks
           </div>
-          <div class="ContentMetrics-date-picker {{if (eq displayOption 'three-weeks') 'active'}}" {{action 'updateStartDate' 'three-weeks'}}>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption "three-weeks") "active"}}" {{action "updateStartDate" "three-weeks"}} role="button">
             3 Weeks
           </div>
-          <div class="ContentMetrics-date-picker {{if (eq displayOption 'month') 'active'}}" {{action 'updateStartDate' 'month'}}>
+          <div class="ContentMetrics-date-picker {{if (eq displayOption "month") "active"}}" {{action "updateStartDate" "month"}} role="button">
             Month
           </div>
         </div>
@@ -35,7 +35,7 @@
     {{#if isLoadingModel}}
       <div class="ContentMetrics-loading">
         <div class="ContentMetrics-loading-box">
-          {{fa-icon 'gear' class="fa-spin"}}
+          {{fa-icon "gear" class="fa-spin"}}
         </div>
       </div>
     {{/if}}
@@ -45,7 +45,7 @@
       {{line-chart
         labels=viewLabels
         data=viewData
-        chartClass='ContentMetrics-chart'
+        chartClass="ContentMetrics-chart"
       }}
     {{else}}
       <p>No data available yet!</p>

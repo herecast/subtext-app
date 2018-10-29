@@ -1,16 +1,23 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get, setProperties } from '@ember/object';
 
-const { get, set } = Ember;
+const sortOptionsArray = [
+  {label: "Best Score", value: 'score_desc'},
+  {label: "Closest", value: 'distance_asc'},
+  {label: "Most Rated", value: 'rated_desc'},
+  {label: "A to Z", value: 'alpha_asc'}
+];
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['DirectoryResults-sort'],
-  sortBy: null,
-  sortOptions: [
-    {label: "Best Score", value: 'score_desc'},
-    {label: "Closest", value: 'distance_asc'},
-    {label: "Most Rated", value: 'rated_desc'},
-    {label: "A to Z", value: 'alpha_asc'}
-  ],
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      sortBy: null,
+      sortOptions: sortOptionsArray
+    });
+  },
 
   didReceiveAttrs() {
     this._super(...arguments);

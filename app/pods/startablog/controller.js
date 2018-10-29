@@ -1,10 +1,22 @@
-import Ember from 'ember';
+import {
+  alias,
+  notEmpty,
+  not,
+  readOnly,
+  or,
+  and
+} from '@ember/object/computed';
+import $ from 'jquery';
+import Controller from '@ember/controller';
+import { computed, setProperties, get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
+import { Promise } from 'rsvp';
+import { htmlSafe } from '@ember/template';
 import emailIsValid from 'subtext-ui/utils/email-is-valid';
 /* global loadImage */
 
-const { set, get, setProperties, computed, inject:{service}, run, RSVP:{Promise}, String:{htmlSafe} } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   startIntro: true,
 
   session: service(),
@@ -12,25 +24,30 @@ export default Ember.Controller.extend({
   api: service(),
   media: service(),
 
-  currentUser: computed.alias('session.currentUser'),
-  hasCurrentUser: computed.notEmpty('currentUser'),
-  hasNoCurrentUser: computed.not('hasCurrentUser'),
-  currentUserIsBlogger: computed.readOnly('currentUser.isBlogger'),
+  currentUser: alias('session.currentUser'),
+  hasCurrentUser: notEmpty('currentUser'),
+  hasNoCurrentUser: not('hasCurrentUser'),
+  currentUserIsBlogger: readOnly('currentUser.isBlogger'),
 
-  blockMobileUser: computed.or('media.isMobile', 'media.isTablet'),
+  blockMobileUser: or('media.isMobile', 'media.isTablet'),
 
-  avatarUrls: {
-    delighted: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_delighted.png',
-    smiling: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_smiling.png',
-    thinking: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thinking.png',
-    thumbsup: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thumbsup.png',
-    profile: 'http://d3ctw1a5413a3o.cloudfront.net/organization/2454/7a342b89283a777f-blob.png',
-    background: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_background.png'
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      avatarUrls: {
+        delighted: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_delighted.png',
+        smiling: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_smiling.png',
+        thinking: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thinking.png',
+        thumbsup: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thumbsup.png',
+        profile: 'http://d3ctw1a5413a3o.cloudfront.net/organization/2454/7a342b89283a777f-blob.png',
+        background: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_background.png'
+      }
+    });
   },
 
   genericProfileImageUrl: 'https://s3.amazonaws.com/subtext-misc/startablog/generic-profile-picture.jpg',
 
-  organization: computed.alias('model'),
+  organization: alias('model'),
 
   backgroundImageInputClass: 'BloggerIntro-Step-background-image-input',
   profileImageInputClass: 'BloggerIntro-Step-profile-image-input',
@@ -41,7 +58,7 @@ export default Ember.Controller.extend({
     return get(this, 'organization.name.length') >= get(this, 'minNameLength');
   }),
   organizationNameIsUnique: false,
-  organizationNameIsGood: computed.and('hasOrganizationName', 'organizationNameIsUnique'),
+  organizationNameIsGood: and('hasOrganizationName', 'organizationNameIsUnique'),
   isCheckingOrganizationName: false,
 
   nameLengthText: computed('organization.name', function() {
@@ -62,7 +79,7 @@ export default Ember.Controller.extend({
     let width = 300;
 
     if (nameLength > lengthThatFitsMin) {
-      const maxWidth = Ember.$('.OrganizationProfileHeaderCard-name')[0].offsetWidth - 8;
+      const maxWidth = $('.OrganizationProfileHeaderCard-name')[0].offsetWidth - 8;
 
       const charactersBeyond = nameLength - lengthThatFitsMin;
       const sizeItShouldBe = width + charactersBeyond * 10;
@@ -91,7 +108,7 @@ export default Ember.Controller.extend({
 
   hasValidWebsite: computed('organization.website', function() {
     const website = get(this, 'organization.website') || '';
-    const regexp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/ig;
+    const regexp = /[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/ig;
 
     return website.match(regexp);
   }),
@@ -177,7 +194,7 @@ export default Ember.Controller.extend({
   _addOrganizationToManagedList(organization) {
     const currentUser = get(this, 'currentUser');
     let managedOrganizations = get(currentUser, 'managedOrganizations');
-    
+
     managedOrganizations.pushObject(organization);
   },
 
@@ -208,7 +225,7 @@ export default Ember.Controller.extend({
 
   actions: {
     uploadProfileImage() {
-      const fileInput = Ember.$(document).find(`.${get(this, 'profileImageInputClass')}`)[0];
+      const fileInput = $(document).find(`.${get(this, 'profileImageInputClass')}`)[0];
       fileInput.click();
     },
 
@@ -254,7 +271,7 @@ export default Ember.Controller.extend({
     },
 
     uploadBackgroundImage() {
-      const fileInput = Ember.$(document).find(`.${get(this, 'backgroundImageInputClass')}`)[0];
+      const fileInput = $(document).find(`.${get(this, 'backgroundImageInputClass')}`)[0];
       fileInput.click();
     },
 
@@ -294,7 +311,7 @@ export default Ember.Controller.extend({
     nameStepStart() {
       run.next(() => {
         set(this, 'organization.name', null);
-        Ember.$('#blog-name').focus();
+        $('#blog-name').focus();
       });
     },
 
@@ -315,7 +332,7 @@ export default Ember.Controller.extend({
         wantsNewEmail: true
       });
       run.next(() => {
-        Ember.$('#blog-email').focus();
+        $('#blog-email').focus();
       });
     },
 
@@ -330,7 +347,7 @@ export default Ember.Controller.extend({
     websiteStepStart() {
       run.next(() => {
         set(this, 'organization.website', null);
-        Ember.$('#blog-website').focus();
+        $('#blog-website').focus();
       });
     },
 

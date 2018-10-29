@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function join(params, options) {
   let arry = params[0] || [];
@@ -7,4 +7,4 @@ export function join(params, options) {
   return arry.join(delimeter);
 }
 
-export default Ember.Helper.helper(join);
+export default buildHelper(join);

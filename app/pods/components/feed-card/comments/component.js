@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+import Component from '@ember/component';
 
-const {computed} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   contentModel: null,
   promotionMenuOpen: false,
 
-  parentContentId: computed.reads('contentModel.contentId'),
-  comments: computed.reads('contentModel.comments'),
-  commentCount: computed.reads('contentModel.commentCount'),
-  contentTitle: computed.reads('contentModel.title')
+  parentContentId: reads('contentModel.contentId'),
+  comments: reads('contentModel.comments'),
+  commentCount: reads('contentModel.commentCount'),
+  contentTitle: reads('contentModel.title')
 });

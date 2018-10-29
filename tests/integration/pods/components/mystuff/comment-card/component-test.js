@@ -1,24 +1,26 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('mystuff/comment-card', 'Integration | Component | mystuff/comment card', {
-  integration: true
-});
+module('Integration | Component | mystuff/comment card', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  const comment = {
-    title: 'Best Comment',
-    content: '<p>Best Content</p>'
-  };
+    const comment = {
+      title: 'Best Comment',
+      content: '<p>Best Content</p>'
+    };
 
-  this.set('comment', comment);
+    this.set('comment', comment);
 
-  this.render(hbs`{{mystuff/comment-card comment=comment}}`);
+    await render(hbs`{{mystuff/comment-card comment=comment}}`);
 
-  assert.ok(this.$(), 'comment card renders');
+    assert.ok(this.element, 'comment card renders');
 
-  assert.equal(this.$('.Mystuff-CommentCard-title').text().trim(), 'Best Comment', 'has correct title');
+    assert.equal(this.element.querySelector('.Mystuff-CommentCard-title a').textContent.trim(), 'Best Comment', 'has correct title');
 
-  assert.equal(this.$('.Comment-content').text().trim(), 'Best Content', 'has correct content');
+    assert.equal(this.element.querySelector('.Comment-content').textContent.trim(), 'Best Content', 'has correct content');
+  });
 });

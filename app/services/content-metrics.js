@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { get } from '@ember/object';
 import ContentMetric from '../models/content-metric';
 import AdMetric from '../models/ad-metric';
 
-const { get, inject } = Ember;
-
-export default Ember.Service.extend({
-  api: inject.service('api'),
+export default Service.extend({
+  api: service('api'),
 
   findContent(id, data) {
     const api = get(this, 'api');

@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { notEmpty } from '@ember/object/computed';
+import { set, get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 import DS from 'ember-data';
 
-const { get, set, computed, isBlank, inject } = Ember;
-
 export default DS.Model.extend({
-  session: inject.service(),
+  session: service(),
 
   digestDescription: DS.attr('string'),
   name: DS.attr('string'),
@@ -23,7 +24,7 @@ export default DS.Model.extend({
     });
   },
 
-  hasSubscription: computed.notEmpty('subscription'),
+  hasSubscription: notEmpty('subscription'),
 
   toggleSubscription() {
     // First check to see if there is an existing subscription

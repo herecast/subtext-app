@@ -1,7 +1,7 @@
 <div class="EventsByDay-header">
   {{#if selectDay}}
-    <span class="EventsByDay-calendar-button u-bold" {{action openCalendar}} data-test-action='open-calendar'>
-      {{day}} {{fa-icon 'calendar'}} {{fa-icon 'fa-sort-desc'}}
+    <span class="EventsByDay-calendar-button u-bold" {{action openCalendar}} role="button" data-test-action="open-calendar">
+      {{day}} {{fa-icon "calendar"}} {{fa-icon "fa-sort-desc"}}
     </span>
   {{/if}}
 </div>
@@ -12,7 +12,7 @@
   }}
 
   {{#if (show-events-ad eventInstance.indexInFullSetOfRecords)}}
-    <div class='AdBanner-wrapper AdBanner-wrapper--events'>
+    <div class="AdBanner-wrapper AdBanner-wrapper--events">
       {{ad-banner
         adContextName=adPath
         impressionPath=adPath

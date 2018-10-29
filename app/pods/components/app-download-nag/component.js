@@ -1,23 +1,29 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get, set, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 
-const { set, get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'AppDownloadNag',
   classNameBindings: ['showNag:open:closed'],
-  'data-test-nag-visible': computed.readOnly('showNag'),
+  'data-test-nag-visible': readOnly('showNag'),
 
-  appIcon: {
-    imageURL: 'https://s3.amazonaws.com/subtext-misc/dailyuv-app-logo.png'
-  },
-  androidStore: {
-    linkURL: 'https://play.google.com/store/apps/details?id=com.subtext.android.dailyuv',
-    imageURL: 'https://s3.amazonaws.com/subtext-misc/android-app-store.png'
-  },
-  appleStore: {
-    linkURL: 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1386402414&mt=8',
-    imageURL: 'https://s3.amazonaws.com/subtext-misc/apple-app-store.png'
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      appIcon: {
+        imageURL: 'https://s3.amazonaws.com/subtext-misc/dailyuv-app-logo.png'
+      },
+      androidStore: {
+        linkURL: 'https://play.google.com/store/apps/details?id=com.subtext.android.dailyuv',
+        imageURL: 'https://s3.amazonaws.com/subtext-misc/android-app-store.png'
+      },
+      appleStore: {
+        linkURL: 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1386402414&mt=8',
+        imageURL: 'https://s3.amazonaws.com/subtext-misc/apple-app-store.png'
+      }
+    });
   },
 
   cookies: service(),

@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, getProperties, get } from '@ember/object';
+import { isBlank, isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {get, getProperties, set, isPresent, isBlank, run} = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
 
   organization: null,
   model: null,

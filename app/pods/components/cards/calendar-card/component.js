@@ -1,6 +1,6 @@
-import Ember from 'ember';
-
-const { get, set, computed } = Ember;
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
 
 const contentTabs = [
   {
@@ -17,10 +17,10 @@ const contentTabs = [
   }
 ];
 
-export default Ember.Component.extend({
+export default Component.extend({
   organization: null,
 
-  calendarViewFirst: computed.alias('organization.calendarViewFirst'),
+  calendarViewFirst: alias('organization.calendarViewFirst'),
 
   contentTabsSorted: computed('calendarViewFirst', function() {
     const firstTabName = get(this, 'calendarViewFirst') ? 'calendar' : 'posts';

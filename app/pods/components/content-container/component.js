@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const {get, computed, isPresent} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ContentContainer'],
   classNameBindings: [
     'center:ContentContainer--center',

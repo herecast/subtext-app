@@ -1,15 +1,24 @@
-import Ember from 'ember';
+import {
+  oneWay,
+  alias,
+  readOnly,
+  notEmpty,
+  reads
+} from '@ember/object/computed';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import CardMetrics from 'subtext-ui/mixins/components/card-metrics';
 
-const { get, set, computed, isBlank, inject:{service} } = Ember;
-
-export default Ember.Component.extend(CardMetrics, {
+export default Component.extend(CardMetrics, {
   classNames: 'FeedCard',
   classNameBindings: ['isEditing:show-back', 'showOverlay:show-overlay', 'promotionMenuOpen:promotion-menu-open'],
-  'data-test-feed-card': computed.oneWay('model.contentType'),
-  'data-test-content': computed.oneWay('model.contentId'),
-  'data-test-condensed': computed.oneWay('condensedView'),
-  'data-test-entered-viewport': computed.oneWay('_didEnterViewPort'),
+  'data-test-feed-card': oneWay('model.contentType'),
+  'data-test-content': oneWay('model.contentId'),
+  'data-test-condensed': oneWay('condensedView'),
+  'data-test-entered-viewport': oneWay('_didEnterViewPort'),
 
   model: null,
   organization: null,
@@ -23,11 +32,11 @@ export default Ember.Component.extend(CardMetrics, {
   userLocation: service('userLocation'),
   tracking: service(),
 
-  isLoggedIn: computed.alias('session.isAuthenticated'),
-  isDraft: computed.readOnly('model.isDraft'),
-  hasOrganization: computed.notEmpty('organization'),
+  isLoggedIn: alias('session.isAuthenticated'),
+  isDraft: readOnly('model.isDraft'),
+  hasOrganization: notEmpty('organization'),
 
-  contentType: computed.reads('model.contentType'),
+  contentType: reads('model.contentType'),
   componentType: computed('contentType', function() {
     let contentType = get(this, 'contentType');
 
@@ -49,7 +58,7 @@ export default Ember.Component.extend(CardMetrics, {
     openPromotionMenu() {
       const offset = get(this, 'hasOrganization') ? 60 : 107;
       set(this, 'promotionMenuOpen', true);
-      Ember.$('html, body').animate({
+      $('html, body').animate({
         scrollTop: this.$().offset().top - offset
       }, 250);
     },

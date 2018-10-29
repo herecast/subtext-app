@@ -1,10 +1,15 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isBlank, isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import sanitize from 'npm:sanitize-html';
 import moment from 'moment';
 
-const { get, set, computed, isPresent, isBlank, run, inject:{service}, String:{htmlSafe} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   session: service(),
   modals: service(),
   tracking: service(),
@@ -67,7 +72,7 @@ export default Ember.Component.extend({
   },
 
   _setBoxHeight() {
-    const textarea = Ember.$(this.element).find('.CommentSection-replyBox')[0];
+    const textarea = $(this.element).find('.CommentSection-replyBox')[0];
     const scrollHeight = textarea.scrollHeight;
     const minCommentHeight = get(this, 'minCommentHeight');
     const newComment = get(this, 'newComment');
@@ -81,9 +86,13 @@ export default Ember.Component.extend({
     set(this, 'textareaStyle', htmlSafe(`height:${boxHeight}px;`));
   },
 
+  _trackSubmitClick(buttonDisabled) {
+    get(this, 'tracking').trackCommentSubmitButtonClick(buttonDisabled);
+  },
+
   actions: {
     trackSubmitClick(buttonDisabled) {
-      get(this, 'tracking').trackCommentSubmitButtonClick(buttonDisabled);
+      this._trackSubmitClick(buttonDisabled);
     },
 
     showSignInMenu() {
@@ -100,6 +109,7 @@ export default Ember.Component.extend({
     commentChanging() {
       this._sanitizeComment();
       this._truncateComment();
+
       run.next(() => {
         this._setBoxHeight();
       });
@@ -114,6 +124,7 @@ export default Ember.Component.extend({
     },
 
     postComment() {
+      this._trackSubmitClick();
       this._sanitizeComment();
       this._truncateComment();
 
@@ -152,7 +163,7 @@ export default Ember.Component.extend({
         }, reject).finally(() => set(this, 'isSavingComment', false));
       };
 
-      const promise = new Ember.RSVP.Promise((resolve, reject) => {
+      const promise = new Promise((resolve, reject) => {
         if (get(this, 'session.isAuthenticated')) {
           saveComment(resolve, reject);
         } else {

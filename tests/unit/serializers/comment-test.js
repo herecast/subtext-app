@@ -1,15 +1,17 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('comment', 'Unit | Serializer | comment', {
-  // Specify the other units that are required for this test.
-  needs: ['serializer:comment', 'transform:moment-date']
-});
+import { run } from '@ember/runloop';
 
-// Replace this with your real tests.
-test('it serializes records', function(assert) {
-  var record = this.subject();
+module('Unit | Serializer | comment', function(hooks) {
+  setupTest(hooks);
 
-  var serializedRecord = record.serialize();
+  // Replace this with your real tests.
+  test('it serializes records', function(assert) {
+    var record = run(() => this.owner.lookup('service:store').createRecord('comment'));
 
-  assert.ok(serializedRecord);
+    var serializedRecord = record.serialize();
+
+    assert.ok(serializedRecord);
+  });
 });

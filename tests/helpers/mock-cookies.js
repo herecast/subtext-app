@@ -1,16 +1,16 @@
-import Ember from 'ember';
+//import EmberObject from '@ember/object';
 import mockService from 'subtext-ui/tests/helpers/mock-service';
 
-export default function(application, cookies={}) {
-  mockService(application, 'cookies', Ember.Object.extend({
-    read(name) {
+export default function(cookies={}) {
+  mockService('cookies',{
+    read: (name) => {
       return cookies[name];
     },
-    write(name, value){
+    write: (name, value) => {
       cookies[name] = value;
     },
-    clear(name) {
+    clear: (name) => {
       delete cookies[name];
     }
-  }));
+  });
 }

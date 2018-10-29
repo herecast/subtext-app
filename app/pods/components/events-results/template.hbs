@@ -1,10 +1,10 @@
 <div class="EventsResults-results-box">
   {{#if eventsByDay}}
-    {{#each eventsByDay as |dayOfEvents dayIndex|}}
+    {{#each eventsByDay as |dayOfEvents|}}
       {{inviewport-reporter
         reportEnterViewport=true
         reportExitViewport=true
-        callback=(action 'viewportDateScroll' dayOfEvents.paramValue)
+        callback=(action "viewportDateScroll" dayOfEvents.paramValue)
       }}
 
       {{events-by-day
@@ -13,7 +13,7 @@
         events=dayOfEvents.items
         dayValue=dayOfEvents.paramValue
         selectDay=updateStartDate
-        openCalendar=(action 'openCalendarWidget' 'date-header')
+        openCalendar=(action "openCalendarWidget" "date-header")
         updateEnabledEventDays=updateEnabledEventDays
         enabledEventDays=enabledEventDays
       }}
@@ -22,26 +22,26 @@
 
   {{inviewport-reporter
     reportScrollInto=true
-    callback=(action 'reachedEnd')
+    callback=(action "reachedEnd")
   }}
 </div>
 
-<div class='EventsResults-floatingActions'>
-  <button {{action 'openCalendarWidget' 'floating-calendar-button'}}
-      data-test-action='open-calendar'
-      class='EventsResults-floatingAction EventsResults-floatingAction--iconOnly'>
-    {{fa-icon 'calendar'}}
+<div class="EventsResults-floatingActions">
+  <button {{action "openCalendarWidget" "floating-calendar-button"}}
+      data-test-action="open-calendar"
+      class="EventsResults-floatingAction EventsResults-floatingAction--iconOnly">
+    {{fa-icon "calendar"}}
   </button>
-  <button {{action 'jumpToPrevDay'}}
-      data-test-action='previous-day'
-      class='EventsResults-floatingAction'>
-    {{fa-icon 'arrow-up'}}<br>
+  <button {{action "jumpToPrevDay"}}
+      data-test-action="previous-day"
+      class="EventsResults-floatingAction">
+    {{fa-icon "arrow-up"}}<br>
     PREV<br>DAY
   </button>
-  <button {{action 'jumpToNextDay'}}
-      data-test-action='next-day'
-      class='EventsResults-floatingAction'>
+  <button {{action "jumpToNextDay"}}
+      data-test-action="next-day"
+      class="EventsResults-floatingAction">
     NEXT<br>DAY<br>
-    {{fa-icon 'arrow-down'}}
+    {{fa-icon "arrow-down"}}
   </button>
   </div>

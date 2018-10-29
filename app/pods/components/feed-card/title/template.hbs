@@ -1,10 +1,10 @@
 {{#if showToggleSold}}
-  <div class="FeedCard-Title-sold-toggle" {{action 'toggleSold'}}>
+  <div class="FeedCard-Title-sold-toggle" {{action "toggleSold"}} role="button">
     {{#if sold}}
-      {{fa-icon 'toggle-on' class="toggle-on"}}
+      {{fa-icon "toggle-on" class="toggle-on"}}
       <div>Sold</div>
     {{else}}
-      {{fa-icon 'toggle-off'}}
+      {{fa-icon "toggle-off"}}
       <div>Not Sold</div>
     {{/if}}
   </div>
@@ -14,7 +14,7 @@
   </div>
 {{/if}}
 
-<div class="FeedCard-Title-title" {{action onContentClick}} data-test-card-title>
+<div class="FeedCard-Title-title" {{action onContentClick}} role="button" data-test-card-title>
   {{#feed-card/conditional-link-to
     useLink=linkToDetailIsActive
     model=model
@@ -26,10 +26,10 @@
 {{#if condensedView}}
   <div class="FeedCard-Title-views-and-comments">
     <div class="FeedCard-Title-views" title="Content Views">
-      {{fa-icon 'eye'}}{{viewCount}}
+      {{fa-icon "eye"}}{{viewCount}}
     </div>
     <div class="FeedCard-Title-comments" title="Content Comments">
-      {{fa-icon 'comment-o'}}{{commentCount}}
+      {{fa-icon "comment-o"}}{{commentCount}}
     </div>
   </div>
 {{/if}}

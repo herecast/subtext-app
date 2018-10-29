@@ -1,52 +1,54 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import moment from 'moment';
 
-moduleForModel('content-payment', 'Unit | Model | content payment', {
-  // Specify the other units that are required for this test.
-  needs: []
-});
+import { run } from '@ember/runloop';
 
-test('Properly adjusts payment dates - before adjustment day mid year', function(assert) {
-  const dateFormat = 'YYYY-MM-DD';
-  const paymentDateAdjustmentDay = 10;
+module('Unit | Model | content payment', function(hooks) {
+  setupTest(hooks);
 
-  let payment = this.subject({
-    paymentDate: moment(`2018-06-${paymentDateAdjustmentDay - 1}`),
-    paymentDateAdjustmentDay
+  test('Properly adjusts payment dates - before adjustment day mid year', function(assert) {
+    const dateFormat = 'YYYY-MM-DD';
+    const paymentDateAdjustmentDay = 10;
+
+    let payment = run(() => this.owner.lookup('service:store').createRecord('content-payment', {
+      paymentDate: moment(`2018-06-${paymentDateAdjustmentDay - 1}`),
+      paymentDateAdjustmentDay
+    }));
+
+    let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
+    let expected = moment(`2018-06-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
+
+    assert.deepEqual(adjustedPaymentDate, expected);
   });
 
-  let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
-  let expected = moment(`2018-06-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
+  test('Properly adjusts payment dates - after adjustment day mid year', function(assert) {
+    const dateFormat = 'YYYY-MM-DD';
+    const paymentDateAdjustmentDay = 10;
 
-  assert.deepEqual(adjustedPaymentDate, expected);
-});
+    let payment = run(() => this.owner.lookup('service:store').createRecord('content-payment', {
+      paymentDate: moment(`2018-06-${paymentDateAdjustmentDay + 1}`),
+      paymentDateAdjustmentDay
+    }));
 
-test('Properly adjusts payment dates - after adjustment day mid year', function(assert) {
-  const dateFormat = 'YYYY-MM-DD';
-  const paymentDateAdjustmentDay = 10;
+    let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
+    let expected = moment(`2018-07-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
 
-  let payment = this.subject({
-    paymentDate: moment(`2018-06-${paymentDateAdjustmentDay + 1}`),
-    paymentDateAdjustmentDay
+    assert.deepEqual(adjustedPaymentDate, expected);
   });
 
-  let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
-  let expected = moment(`2018-07-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
+  test('Properly adjusts payment dates - after adjustment day end of year', function(assert) {
+    const dateFormat = 'YYYY-MM-DD';
+    const paymentDateAdjustmentDay = 10;
 
-  assert.deepEqual(adjustedPaymentDate, expected);
-});
+    let payment = run(() => this.owner.lookup('service:store').createRecord('content-payment', {
+      paymentDate: moment(`2018-12-${paymentDateAdjustmentDay + 1}`),
+      paymentDateAdjustmentDay
+    }));
 
-test('Properly adjusts payment dates - after adjustment day end of year', function(assert) {
-  const dateFormat = 'YYYY-MM-DD';
-  const paymentDateAdjustmentDay = 10;
+    let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
+    let expected = moment(`2019-01-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
 
-  let payment = this.subject({
-    paymentDate: moment(`2018-12-${paymentDateAdjustmentDay + 1}`),
-    paymentDateAdjustmentDay
+    assert.deepEqual(adjustedPaymentDate, expected);
   });
-
-  let adjustedPaymentDate = payment.get('adjustedPaymentDate').toDate();
-  let expected = moment(`2019-01-${paymentDateAdjustmentDay}`, `${dateFormat}`).toDate();
-
-  assert.deepEqual(adjustedPaymentDate, expected);
 });

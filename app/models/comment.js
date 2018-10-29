@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
-
-const { get, computed, isPresent } = Ember;
 
 export default DS.Model.extend({
   content: DS.attr('string'),
@@ -13,7 +13,7 @@ export default DS.Model.extend({
   userId: DS.attr('number'),
   publishedAt: DS.attr('moment-date'),
 
-  hasUserName: computed.notEmpty('userName'),
+  hasUserName: notEmpty('userName'),
 
   formattedPostedAt: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');

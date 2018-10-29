@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   // Redirect user back to this page after logging in
   beforeModel: function(transition) {
     if (!this.get('session.isAuthenticated')) {

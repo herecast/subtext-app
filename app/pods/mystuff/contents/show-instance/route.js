@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
 import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
 import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
 
-export default Ember.Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
+export default Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
 
   model(params)  {
     const eventInstanceId = params.event_instance_id || false;

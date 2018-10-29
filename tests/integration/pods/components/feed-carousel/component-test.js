@@ -1,7 +1,9 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render , click} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import testSelector from 'ember-test-selectors';
-/* global Ember, sinon */
+import sinon from 'sinon';
 
 function makeContentCarousel(numberOfCards) {
   let contents = [];
@@ -26,10 +28,11 @@ function makeContentCarousel(numberOfCards) {
   return contentCarousel;
 }
 
-moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
-  integration: true,
-  beforeEach() {
-    const routingStub = Ember.Service.extend({
+module('Integration | Component | feed carousel', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    const routingStub = Service.extend({
       transitionTo: sinon.stub(),
       hasRoute() {
         return true;
@@ -39,10 +42,10 @@ moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
       }
     });
 
-    this.register('service:-routing', routingStub);
-    this.inject.service('-routing', { as: 'routing' });
+    this.owner.register('service:router', routingStub);
+    this.router = this.owner.lookup('service:router');
 
-    this.register('service:user-location', Ember.Service.extend({
+    this.owner.register('service:user-location', Service.extend({
       userLocationId: 0,
       userLocation: {
         id: 0
@@ -50,91 +53,91 @@ moduleForComponent('feed-carousel', 'Integration | Component | feed carousel', {
       on(){},
       off(){}
     }));
-  }
-});
-
-test('feed-carousel fires correct tracking events', function(assert) {
-  assert.expect(10);
-
-  const { spy } = sinon;
-
-  var carouselTrackingSpy = spy(),
-      cardTrackingSpy = spy();
-
-  const trackingService = Ember.Service.extend({
-    trackCarouselEvent: carouselTrackingSpy,
-    trackCarouselCardClickEvent: cardTrackingSpy
   });
-  this.register('service:tracking', trackingService);
-  this.inject.service('tracking', { as: 'tracking' });
 
-  const carousel = makeContentCarousel(5);
+  test('feed-carousel fires correct tracking events', async function(assert) {
+    assert.expect(10);
 
-  this.set('model', carousel);
+    const { spy } = sinon;
 
-  this.render(hbs`{{feed-carousel
-    model=model
-    isLoggedIn=false
-  }}`);
+    var carouselTrackingSpy = spy(),
+        cardTrackingSpy = spy();
 
-  assert.ok(carouselTrackingSpy.calledOnce, 'it fires a tracking event once on load');
-  assert.equal(carouselTrackingSpy.args[0][0], 'Impression', 'tracking event is an Impression');
-  assert.equal(carouselTrackingSpy.args[0][1], this.get('model.id'), 'tracking impression event sends the correct carousel id');
-  assert.equal(carouselTrackingSpy.args[0][2], this.get('model.carouselType'), 'tracking impression event sends the correct carousel type');
+    const trackingService = Service.extend({
+      trackCarouselEvent: carouselTrackingSpy,
+      trackCarouselCardClickEvent: cardTrackingSpy
+    });
+    this.owner.register('service:tracking', trackingService);
+    this.tracking = this.owner.lookup('service:tracking');
 
-  let $feedCarouselCtaCard = this.$(testSelector('feed-carousel-cta-card'));
+    const carousel = makeContentCarousel(5);
 
-  $feedCarouselCtaCard.find('a.FeedCarousel-CtaCard-link').click();
-  assert.equal(carouselTrackingSpy.args[1][0], 'ClickedSeeMore', 'tracking event is an ClickedSeeMore');
-  assert.equal(carouselTrackingSpy.args[1][1], this.get('model.id'), 'tracking cta click event sends the correct carousel id');
+    this.set('model', carousel);
 
-  this.render(hbs`{{feed-carousel
-    model=model
-    isLoggedIn=true
-  }}`);
+    await render(hbs`{{feed-carousel
+      model=model
+      isLoggedIn=false
+    }}`);
 
-  let $feedCarouselCard = this.$(testSelector('feed-carousel-card')).first();
-  let $cardLink = $feedCarouselCard.find('div.FeedCarousel-ContentCard-title a');
+    assert.ok(carouselTrackingSpy.calledOnce, 'it fires a tracking event once on load');
+    assert.equal(carouselTrackingSpy.args[0][0], 'Impression', 'tracking event is an Impression');
+    assert.equal(carouselTrackingSpy.args[0][1], this.get('model.id'), 'tracking impression event sends the correct carousel id');
+    assert.equal(carouselTrackingSpy.args[0][2], this.get('model.carouselType'), 'tracking impression event sends the correct carousel type');
 
-  assert.ok($cardLink.length, 'Card title should be clickable when logged in');
+    await click('[data-test-feed-carousel-cta-card-action]');
 
-  $cardLink.click();
-  assert.equal(cardTrackingSpy.args[0][0], 'title', 'tracking event shows correct elemeent');
-  assert.equal(cardTrackingSpy.args[0][1], this.get('model.id'), 'tracking card click event sends the correct carousel id');
-  assert.equal(cardTrackingSpy.args[0][2], this.get('model.contents')[0].id, 'tracking card click event sends the correct content id');
-});
+    assert.equal(carouselTrackingSpy.args[1][0], 'ClickedSeeMore', 'tracking event is an ClickedSeeMore');
+    assert.equal(carouselTrackingSpy.args[1][1], this.get('model.id'), 'tracking cta click event sends the correct carousel id');
 
-test('feed-carousel displays cards and no cta if fewer than 5 cards present', function(assert) {
-  assert.expect(2);
+    await render(hbs`{{feed-carousel
+      model=model
+      isLoggedIn=true
+    }}`);
 
-  let carousel = makeContentCarousel(2);
+    let $feedCarouselCard = this.element.querySelector('[data-test-feed-carousel-card]');
+    let $cardLink = $feedCarouselCard.querySelector('div.FeedCarousel-ContentCard-title a');
 
-  this.set('model', carousel);
+    assert.ok($cardLink, 'Card title should be clickable when logged in');
 
-  this.render(hbs`{{feed-carousel model=model}}`);
+    await click($cardLink);
 
-  let $feedCarouselCards = this.$(testSelector('feed-carousel-card'));
-  assert.ok($feedCarouselCards.length === 2, "should show two cards");
+    assert.equal(cardTrackingSpy.args[0][0], 'title', 'tracking event shows correct elemeent');
+    assert.equal(cardTrackingSpy.args[0][1], this.get('model.id'), 'tracking card click event sends the correct carousel id');
+    assert.equal(cardTrackingSpy.args[0][2], this.get('model.contents')[0].id, 'tracking card click event sends the correct content id');
+  });
 
-  let $feedCarouselCtaCard = this.$(testSelector('feed-carousel-cta-card'));
-  assert.ok($feedCarouselCtaCard.length === 0, "should not show cta card when less than 5 cards are displayed");
-});
+  test('feed-carousel displays cards and no cta if fewer than 5 cards present', async function(assert) {
+    assert.expect(2);
 
-test('feed-carousel displays cards and cta if 5 or more cards present', function(assert) {
-  assert.expect(3);
+    let carousel = makeContentCarousel(2);
 
-  let carousel = makeContentCarousel(5);
+    this.set('model', carousel);
 
-  this.set('model', carousel);
+    await render(hbs`{{feed-carousel model=model}}`);
 
-  this.render(hbs`{{feed-carousel model=model}}`);
+    let $feedCarouselCards = this.element.querySelectorAll('[data-test-feed-carousel-card]');
+    assert.ok($feedCarouselCards.length === 2, "should show two cards");
 
-  let $feedCarouselCards = this.$(testSelector('feed-carousel-card'));
-  assert.ok($feedCarouselCards.length === 5, "should show five cards");
+    let $feedCarouselCtaCard = this.element.querySelector('[data-test-feed-carousel-cta-card]');
+    assert.notOk($feedCarouselCtaCard, "should not show cta card when less than 5 cards are displayed");
+  });
 
-  let $feedCarouselCtaCard = this.$(testSelector('feed-carousel-cta-card'));
-  assert.ok($feedCarouselCtaCard.length === 1, "should show cta card when 5 or more cards are displayed");
+  test('feed-carousel displays cards and cta if 5 or more cards present', async function(assert) {
+    assert.expect(3);
 
-  let $feedCarouselInlineCta = this.$(testSelector('feed-carousel-inline-cta'));
-  assert.ok($feedCarouselInlineCta.length === 1, "should show inline cta when 5 or more cards are displayed");
+    let carousel = makeContentCarousel(5);
+
+    this.set('model', carousel);
+
+    await render(hbs`{{feed-carousel model=model}}`);
+
+    let $feedCarouselCards = this.element.querySelectorAll('[data-test-feed-carousel-card]');
+    assert.ok($feedCarouselCards.length === 5, "should show five cards");
+
+    let $feedCarouselCtaCard = this.element.querySelector('[data-test-feed-carousel-cta-card]');
+    assert.ok($feedCarouselCtaCard, "should show cta card when 5 or more cards are displayed");
+
+    let $feedCarouselInlineCta = this.element.querySelector('[data-test-feed-carousel-inline-cta]');
+    assert.ok($feedCarouselInlineCta, "should show inline cta when 5 or more cards are displayed");
+  });
 });

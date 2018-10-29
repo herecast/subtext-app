@@ -1,12 +1,12 @@
-import Ember from 'ember';
-
-const {get, set, setProperties, computed} = Ember;
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, setProperties, set, get } from '@ember/object';
 
 /**
  * This component should not be used directly. Rather, it should be used
  * inside of a sticky-container as a contextual component.
  */
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['StickyItem-wrapper'],
   classNameBindings: ['activeClassName'],
   attributeBindings: ['style'],
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
     // The parent wrapper must maintain the height of the StickyItem
     // to prevent the elements in the DOM from jumping around
     const height = get(this, 'maintainStickyItemSpace') ? `height:${get(this, 'originalHeight')}px` : '';
-    return Ember.String.htmlSafe(height);
+    return htmlSafe(height);
   }),
 
   stickyItemStyle: computed('topPosition', 'isHidden', 'isSticky', 'useAbsolutePositioning', function() {
@@ -55,7 +55,7 @@ export default Ember.Component.extend({
       style += `position: ${get(this, 'useAbsolutePositioning') ? 'absolute' : 'fixed'};`;
     }
 
-    return Ember.String.htmlSafe(style);
+    return htmlSafe(style);
   }),
 
   getOffsetTop() {

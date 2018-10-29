@@ -10,20 +10,20 @@
   <tbody>
     {{#each daysOfTheWeek as |day|}}
       <tr>
-        <th scope='row'>{{day}}</th>
+        <th scope="row">{{day}}</th>
         <td>
-          <a href='#' {{action "toggleOpen" day}}>
+          <a href="#" {{action "toggleOpen" day}}>
             {{#if (in-array day daysOpen)}}
-              <span class='text-success'><i class='fa fa-check'></i> Open</span>
+              <span class="text-success"><i class="fa fa-check"></i> Open</span>
             {{else}}
-              <span class='text-danger'><i class='fa fa-times'></i> Closed</span>
+              <span class="text-danger"><i class="fa fa-times"></i> Closed</span>
             {{/if}}
-            <i class='fa fa-refresh'></i>
+            <i class="fa fa-refresh"></i>
         </a>
         </td>
         <td>
           {{#if (in-array day daysOpen)}}
-            {{#x-select action=(action 'updateOpen' day) value=(get openTimes day) as |xs|}}
+            {{#x-select action=(action "updateOpen" day) value=(get openTimes day) as |xs|}}
               {{#each availableTimes as |time|}}
               {{#xs.option value=time.value}}{{time.label}}{{/xs.option}}
               {{/each}}
@@ -34,7 +34,7 @@
         </td>
         <td>
           {{#if (in-array day daysOpen)}}
-            {{#x-select action=(action 'updateClose' day) value=(get closeTimes day) as |xs|}}
+            {{#x-select action=(action "updateClose" day) value=(get closeTimes day) as |xs|}}
               {{#each availableTimes as |time|}}
               {{#xs.option value=time.value}}{{time.label}}{{/xs.option}}
               {{/each}}

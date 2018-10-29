@@ -1,19 +1,14 @@
+import { equal, alias, notEmpty, empty } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
 
 import moment from 'moment';
-import Ember from 'ember';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import dateFormat from 'subtext-ui/lib/dates';
 import Schedulable from 'subtext-ui/mixins/models/schedulable';
 import HasVenue from 'subtext-ui/mixins/models/has-venue';
 import HasImages from 'subtext-ui/mixins/models/has-images';
-
-const {
-  computed:{equal},
-  computed,
-  get,
-  isPresent
-} = Ember;
 
 const {
   attr,
@@ -44,7 +39,7 @@ export default DS.Model.extend(
   costType: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
-  listservIds: attr('raw', {defaultValue() { return []; }}),
+  listservIds: attr('raw', {defaultValue: () => { return []; }}),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
   organizationId: attr('number'),
   organizationName: attr('string'),
@@ -70,18 +65,18 @@ export default DS.Model.extend(
   comments: hasMany('comment', {inverse: null}),
   location: belongsTo('location'),
   //locationId: attr('number'),
-  locationId: computed.alias('location.id'),
+  locationId: alias('location.id'),
   organization: belongsTo('organization', {async: true}),
   // </RELATIONSHIPS>
 
 
-  contentId: computed.alias('id'),
+  contentId: alias('id'),
   isEvent: equal('contentType', 'event'),
   isNews: equal('contentType', 'news'),
   isMarket: equal('contentType', 'market'),
   isCampaign: equal('contentType', 'campaign'),
 
-  listsEnabled: computed.notEmpty('listservIds'),
+  listsEnabled: notEmpty('listservIds'),
 
   baseLocationName: computed('location', function() {
     const location = get(this, 'location');
@@ -122,7 +117,7 @@ export default DS.Model.extend(
     return routeName;
   }),
 
-  attributionLinkId: computed.alias('organizationId'),
+  attributionLinkId: alias('organizationId'),
 
   attributionImageUrl: computed('isNews', 'organizationProfileImageUrl', 'avatarUrl', function() {
     const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
@@ -186,9 +181,9 @@ export default DS.Model.extend(
 
   /* END Biz/org/content-management properties */
 
-  isPublic: computed.equal('viewStatus', 'public'),
+  isPublic: equal('viewStatus', 'public'),
 
-  isDraft: computed.empty('publishedAt'),
+  isDraft: empty('publishedAt'),
 
   isScheduled: computed('publishedAt', function() {
     return moment(get(this, 'publishedAt')).isAfter(new Date());

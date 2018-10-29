@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { readOnly, gt } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { computed, set, get, setProperties } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
-const { get, set, computed, isPresent, inject:{service} } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   queryParams: ['organizationId', 'type', 'query', 'page'],
   organizationId: '',
   type: '',
@@ -13,7 +15,12 @@ export default Ember.Controller.extend({
   isLoading: false,
   chosenOrganization: null,
 
-  contentTypes: ['posts', 'calendar', 'market'],
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      contentTypes: ['posts', 'calendar', 'market'],
+    });
+  },
 
   session: service(),
 
@@ -27,7 +34,7 @@ export default Ember.Controller.extend({
             isPresent(get(this, 'query'));
   }),
 
-  organizations: computed.readOnly('session.currentUser.managedOrganizations'),
+  organizations: readOnly('session.currentUser.managedOrganizations'),
 
   activeOrganization: computed('organizationId', 'hasOrganizations', 'organizations.[]', function() {
     const organizations = get(this , 'organizations');
@@ -44,9 +51,9 @@ export default Ember.Controller.extend({
     return null;
   }),
 
-  activeType: computed.readOnly('type'),
+  activeType: readOnly('type'),
 
-  hasOrganizations: computed.gt('organizations.length', 0),
+  hasOrganizations: gt('organizations.length', 0),
 
   actions: {
     toggleCondensedView() {

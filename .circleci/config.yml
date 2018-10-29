@@ -16,15 +16,13 @@ jobs:
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
+      - run: yarn global add bower
+      - run: ~/.yarn/bin/bower install
 
       - save_cache:
           key: subtext-ui-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-
-      - run:
-          name: Bower Install
-          command: node_modules/bower/bin/bower install
 
       - run:
           name: Run tests

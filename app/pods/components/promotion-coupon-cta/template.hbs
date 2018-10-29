@@ -1,12 +1,17 @@
 {{#liquid-spacer growDuration=300 growWidth=false}}
-  {{#unless hasRequested}}
+  {{#if hasRequested}}
+    <div>
+      You should receive an email shortly containing the coupon.<br >
+      Thank you!
+    </div>
+  {{else}}
     {{#if isRequesting}}
     <div class="PromotionCouponCta-cover">
-      {{fa-icon 'cog' class="fa-spin"}}
+      {{fa-icon "cog" class="fa-spin"}}
     </div>
     {{/if}}
 
-    <button class='PromotionCouponCta-email-button' {{action "changeWantsEmail" true}}>
+    <button class="PromotionCouponCta-email-button" {{action "changeWantsEmail" true}}>
       Get the coupon by email
     </button>
 
@@ -28,24 +33,19 @@
           value=coupon.email
           placeholder="email@address.com"
           class="form-control"
-          input=(action 'validateEmail')
+          input=(action "validateEmail")
         }}
       {{/form-group}}
       <div class="PromotionCouponCta-button-row">
-        <span class="PromotionCouponCta-deny-button" {{action "changeWantsEmail" false}}>
+        <span class="PromotionCouponCta-deny-button" {{action "changeWantsEmail" false}} role="button">
           No Thanks
         </span>
-        <button class='PromotionCouponCta-confirm-button' {{action "requestCoupon"}}>
+        <button class="PromotionCouponCta-confirm-button" {{action "requestCoupon"}}>
           Yes, please.
         </button>
       </div>
     {{/if}}
-  {{else}}
-    <div>
-      You should receive an email shortly containing the coupon.<br  />
-      Thank you!
-    </div>
-  {{/unless}}
+  {{/if}}
 {{/liquid-spacer}}
 
 <div class="PromotionCouponCta-coupon-message">

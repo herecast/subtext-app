@@ -1,9 +1,9 @@
-<div class="SiteNav-Menu--close" {{action 'closeMenu'}}>
-  {{fa-icon 'times'}}
+<div class="SiteNav-Menu--close" {{action "closeMenu"}} role="button">
+  {{fa-icon "times"}}
 </div>
 
 {{site-nav/user-menu
-  afterChoose=(action 'closeMenu')
+  afterChoose=(action "closeMenu")
 }}
 
 <div class="SiteNav-Menu--line-break"></div>
@@ -12,26 +12,26 @@
 </div>
 
 <div class="SiteNav-Menu--routes">
-  <div {{action 'onLinkClick'}}>
-    {{#link-to 'terms'}}
+  <div {{action "onLinkClick"}} role="button">
+    {{#link-to "terms"}}
       Terms of Service
     {{/link-to}}
   </div>
 
-  <div {{action 'onLinkClick'}}>
-    {{#link-to 'privacy'}}
+  <div {{action "onLinkClick"}} role="button">
+    {{#link-to "privacy"}}
     Privacy
     {{/link-to}}
   </div>
 
-  <div {{action 'onLinkClick'}}>
-    {{#link-to 'copyright-agent'}}
+  <div {{action "onLinkClick"}} role="button">
+    {{#link-to "copyright-agent"}}
       Don't Sue Us
     {{/link-to}}
   </div>
 
   <div>
-    <a href="mailto:ads@subtext.org" {{action 'onLinkClick' preventDefault=false}}>
+    <a href="mailto:ads@subtext.org" {{action "onLinkClick" preventDefault=false}}>
       Advertise With Us
     </a>
   </div>
@@ -44,31 +44,31 @@
 <div class="SiteNav-Menu--line-break"></div>
 
 {{#if isLoggedIn}}
-  <div class='SiteNav-Menu--logout'>
-    {{#unless wantsToSignOut}}
-      <div {{action 'toggleWantsToSignOut'}} data-test-link='logout-link'>
-        Logout
-      </div>
-    {{else}}
+  <div class="SiteNav-Menu--logout">
+    {{#if wantsToSignOut}}
       <div>
         Are you sure?
       </div>
       {{#x-button
-         onClick=(action 'signOut')
-         color='light-gray'
-         size='x-small'
+         onClick=(action "signOut")
+         color="light-gray"
+         size="x-small"
          data-test-logout-yes=true
        }}
         Yes
        {{/x-button}}
        {{#x-button
-          onClick=(action 'toggleWantsToSignOut')
-          color='primary'
-          size='x-small'
+          onClick=(action "toggleWantsToSignOut")
+          color="primary"
+          size="x-small"
           data-test-logout-no=true
         }}
           No
         {{/x-button}}
-    {{/unless}}
+    {{else}}
+      <div {{action "toggleWantsToSignOut"}} role="button" data-test-link="logout-link">
+        Logout
+      </div>
+    {{/if}}
   </div>
 {{/if}}

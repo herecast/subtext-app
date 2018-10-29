@@ -1,12 +1,13 @@
-import Ember from 'ember';
-
-const {get} = Ember;
+import { isNone } from '@ember/utils';
+import Evented from '@ember/object/evented';
+import Service from '@ember/service';
+import { get } from '@ember/object';
 
 /**
  * Generic service to handle logging.
  * Sends logging events to one or more loggers, based on what was configured using initializers.
  */
-export default Ember.Service.extend(Ember.Evented, {
+export default Service.extend(Evented, {
 
   init() {
     this._super();
@@ -42,7 +43,7 @@ export default Ember.Service.extend(Ember.Evented, {
    * @private
    */
   _mustIgnoreError(error) {
-    if (Ember.isNone(error)) {
+    if (isNone(error)) {
       return false;
     }
 
@@ -57,6 +58,7 @@ export default Ember.Service.extend(Ember.Evented, {
       this.trigger('logMessages', severity, messages);
     } else {
       if (severity === 'error') {
+        //eslint-disable-next-line no-console
         console.error(...messages);
       }
     }

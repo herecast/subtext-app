@@ -2,12 +2,12 @@
   <label>
     Registration
 
-    <span class='EventForm-toggle' {{action 'toggleRegistration'}} data-test-deadline>
+    <span class="EventForm-toggle" {{action "toggleRegistration"}} role="button" data-test-deadline>
       No
       {{#if registrationEnabled}}
-        {{fa-icon 'toggle-on is-on' size='lg'}}
+        {{fa-icon "toggle-on is-on" size="lg"}}
       {{else}}
-        {{fa-icon 'toggle-off' size='lg'}}
+        {{fa-icon "toggle-off" size="lg"}}
       {{/if}}
       Yes
     </span>
@@ -16,17 +16,17 @@
 
   <div>
     {{#if registrationEnabled}}
-      <div class='form-group'>
+      <div class="form-group">
         <div class="input-group">
           <span class="ContentForm-iconLabel input-group-addon">
-            {{fa-icon 'calendar'}}
+            {{fa-icon "calendar"}}
           </span>
           {{date-input
               value=date
-              format='MM/DD/YYYY'
-              placeholder='12/25/2020'
+              format="MM/DD/YYYY"
+              placeholder="12/25/2020"
               update=(action (mut date))
-              data-test-input='event-deadline'
+              data-test-input="event-deadline"
           }}
         </div>
       </div>

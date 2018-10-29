@@ -1,106 +1,101 @@
-import { test } from 'qunit';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import { Promise } from 'rsvp';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { invalidateSession} from 'ember-simple-auth/test-support';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import mockService from 'subtext-ui/tests/helpers/mock-service';
 import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
-import Ember from 'ember';
+import { visit, click, fillIn, find, currentURL } from '@ember/test-helpers';
+import sinon from 'sinon';
 
-/* global sinon */
+module('Acceptance | reset password', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-const { RSVP: {Promise} } = Ember;
-
-moduleForAcceptance('Acceptance | reset password');
-
-test('filling out lost password request form', function(assert) {
-  visit('/');
-  click(testSelector('signin-from-header'));
-  click(testSelector('signin-from-side-menu'));
-
-  click(testSelector('link', 'forgot-password')).then(()=> {
-    assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
-
-    fillIn(testSelector('field', 'password-reset-request-form-email'), 'test@test.com');
-    click(testSelector('password-reset-request-form-submit')).then(()=>{
-      assert.ok(find(testSelector('password-reset-request-confirmation')).length,
-        "Should see confirmation message after submitting form."
-      );
-    });
-
-  });
-});
-
-test('filling out lost password request form with returnUrl query param', function(assert) {
-  mockLocationCookie(this.application);
-
-  let requestSpy = sinon.stub().returns(Ember.RSVP.Promise.resolve());
-  let mockApi = Ember.Service.extend({
-    requestPasswordReset: requestSpy,
-    recordAdMetricEvent: function(){
-      return true;
-    },//outreach-cta component
-    getWeather: function(){
-      return Promise.resolve({});
-    }
-  });
-  mockService(this.application, 'api', mockApi);
-
-  visit('/forgot-password?returnUrl=/test/url').then(()=> {
-    assert.ok(find(testSelector('component', 'password-reset-request-form')).length, "forgot password request form visible");
-
-    fillIn(testSelector('field', 'password-reset-request-form-email'), 'test@test.com');
-    click(testSelector('password-reset-request-form-submit')).then(()=>{
-      assert.ok(requestSpy.calledWith('test@test.com', '/test/url'), 'forwards return url to backend');
-      assert.ok(find(testSelector('password-reset-request-confirmation')).length,
-        "Should see confirmation message after submitting form."
-      );
-    });
-  });
-});
-
-test('filling out lost password edit form', function(assert) {
-  // Needs actual integration with mirage
-  visit('/forgot-password/abc123').then(() => {
-    assert.ok(find(testSelector('component', 'password-reset-form')).length,
-      "Should see password reset form."
-    );
-
-    fillIn(testSelector('field', 'password-reset-form-password'), '123abc');
-    fillIn(testSelector('field', 'password-reset-form-confirm-password'), '123abc');
-
-    click(testSelector('password-reset-form-submit')).then(() => {
-      assert.equal(currentURL(), '/sign_in',
-          "After successful reset, redirects to sign in "
-      );
-    });
-  });
-});
-
-test('filling out lost password edit form with return url', function(assert) {
-  let redirectSpy = sinon.spy();
-  let mockLocation = Ember.Service.extend({
-    redirectTo: redirectSpy,
-    referrer: function(){ return ''; },
-    href: function() { return ''; },
-    search: function() { return ''; },
-    pathname: function() { return ''; },
-    protocol: function() { return ''; }
+  hooks.beforeEach(function() {
+    invalidateSession();
   });
 
-  mockService(this.application, 'windowLocation', mockLocation);
+  test('filling out lost password request form', async function(assert) {
+    await visit('/');
+    await click('[data-test-signin-from-header]');
+    await click('[data-test-signin-from-side-menu]');
 
-  // Needs actual integration with mirage
-  visit('/forgot-password/abc123?return_url=/go/here').then(() => {
-    assert.ok(find(testSelector('component', 'password-reset-form')).length,
-      "Should see password reset form."
-    );
+    await click('[data-test-link="forgot-password"]');
 
-    fillIn(testSelector('field', 'password-reset-form-password'), '123abc');
-    fillIn(testSelector('field', 'password-reset-form-confirm-password'), '123abc');
+    assert.ok(find('[data-test-component="password-reset-request-form"]'), "forgot password request form visible");
 
-    click(testSelector('password-reset-form-submit')).then(() => {
-      assert.ok(redirectSpy.calledWith('/go/here'),
-        "After successful reset, redirects to return url"
-      );
-    });
+    await fillIn('[data-test-field="password-reset-request-form-email"]', 'test@test.com');
+
+    await click('[data-test-password-reset-request-form-submit]')
+
+    assert.ok(find('[data-test-password-reset-request-confirmation]'), "Should see confirmation message after submitting form.");
+  });
+
+  test('filling out lost password request form with returnUrl query param', async function(assert) {
+    mockLocationCookie(this.server);
+
+    let requestSpy = sinon.stub().returns(Promise.resolve());
+    let mockApi = {
+      requestPasswordReset: requestSpy,
+      recordAdMetricEvent: function(){
+        return true;
+      },//outreach-cta component
+      getWeather: function(){
+        return Promise.resolve({});
+      }
+    };
+    mockService('api', mockApi);
+
+    await visit('/forgot-password?returnUrl=/test/url');
+
+    assert.ok(find('[data-test-component="password-reset-request-form"]'), "forgot password request form visible");
+
+    await fillIn('[data-test-field="password-reset-request-form-email"]', 'test@test.com');
+
+    await click('[data-test-password-reset-request-form-submit]');
+
+    assert.ok(requestSpy.calledWith('test@test.com', '/test/url'), 'forwards return url to backend');
+    assert.ok(find('[data-test-password-reset-request-confirmation]'), "Should see confirmation message after submitting form.");
+  });
+
+  test('filling out lost password edit form', async function(assert) {
+    // Needs actual integration with mirage
+    await visit('/forgot-password/abc123');
+
+    assert.ok(find('[data-test-component="password-reset-form"]'), "Should see password reset form.");
+
+    await fillIn('[data-test-field="password-reset-form-password"]', '123abc');
+    await fillIn('[data-test-field="password-reset-form-confirm-password"]', '123abc');
+
+    await click('[data-test-password-reset-form-submit]');
+
+    assert.equal(currentURL(), '/sign_in',   "After successful reset, redirects to sign in");
+  });
+
+  test('filling out lost password edit form with return url', async function(assert) {
+    let redirectSpy = sinon.spy();
+    let mockLocation = {
+      redirectTo: redirectSpy,
+      referrer: function(){ return ''; },
+      href: function() { return ''; },
+      search: function() { return ''; },
+      pathname: function() { return ''; },
+      protocol: function() { return ''; }
+    };
+
+    mockService('windowLocation', mockLocation);
+
+    // Needs actual integration with mirage
+    await visit('/forgot-password/abc123?return_url=/go/here');
+
+    assert.ok(find('[data-test-component="password-reset-form"]'),"Should see password reset form.");
+
+    await fillIn('[data-test-field="password-reset-form-password"]', '123abc');
+    await fillIn('[data-test-field="password-reset-form-confirm-password"]', '123abc');
+
+    await click('[data-test-password-reset-form-submit]');
+
+    assert.ok(redirectSpy.calledWith('/go/here'), "After successful reset, redirects to return url");
   });
 });

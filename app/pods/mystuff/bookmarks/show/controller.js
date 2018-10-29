@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { get, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { computed, get, inject:{service} } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   tracking: service(),
 
   contentType: computed('model.contentType', function() {

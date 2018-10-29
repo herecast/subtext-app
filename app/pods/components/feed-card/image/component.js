@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { notEmpty, gt, alias, reads } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { htmlSafe } from '@ember/template';
 import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 import textSnippet from 'subtext-ui/mixins/components/text-snippet';
 
-const { get, computed, isPresent, String:{htmlSafe} } = Ember;
-
-export default Ember.Component.extend(textSnippet, {
+export default Component.extend(textSnippet, {
   classNames: 'FeedCard-Image',
 
   model: null,
@@ -15,11 +17,13 @@ export default Ember.Component.extend(textSnippet, {
 
   maxSnippetLength: 160,
 
-  hasImage: computed.notEmpty('imageUrl'),
-  hasExcerpt: computed.gt('textSnippet.length', 10),
-  excerpt: computed.alias('textSnippet'),
-  showContinueReading: computed.alias('isSnipped'),
-  contentType: computed.reads('model.contentType'),
+  hasImage: notEmpty('imageUrl'),
+  hasExcerpt: gt('textSnippet.length', 10),
+  excerpt: computed('textSnippet', function() {
+    return htmlSafe(get(this, 'textSnippet'));
+  }),
+  showContinueReading: alias('isSnipped'),
+  contentType: reads('model.contentType'),
 
   imageStyle: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');

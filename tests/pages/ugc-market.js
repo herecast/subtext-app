@@ -1,5 +1,6 @@
-import testSelector from 'ember-test-selectors';
-
+import { triggerEvent, triggerKeyEvent, click, fillIn } from '@ember/test-helpers';
+import createImageFixture from 'subtext-ui/tests/helpers/create-image-fixture';
+import { run } from '@ember/runloop';
 import {
   create,
   visitable,
@@ -9,45 +10,34 @@ import {
 
 export default create({
   visit: visitable('/market/new'),
-  fillInTitle: fillable(testSelector('field', 'market-title')),
-  fillInDescription: fillable(testSelector('component', 'summer-note') + ' .note-editable'),
-  imageHelper(file) {
-    return andThen(() => {
-      const files = [file];
-      files.item = function(index) {
-        return this[index];
+  fillInTitle: fillable('[data-test-field="market-title"]'),
+  fillInDescription: fillable('[data-test-component="summer-note"]' + ' .note-editable'),
+  addImageFile() {
+    return new Promise((resolve) => {
+      const options = {
+        height: 200,
+        width: 200,
+        name: 'image.png',
+        type: 'image/png'
       };
-
-      findWithAssert(testSelector('market-images') + ' input[type=file]').triggerHandler({
-        type: 'change',
-        target: {
-          files: files
-        }
+      createImageFixture(options)
+      .then(async (file) => {
+        await triggerEvent('[data-test-market-images]' + ' input[type=file]', 'change', [file] );
+        resolve();
       });
     });
   },
-  fillInImage(file) {
-    return this.imageHelper(file);
-  },
-  fillInSecondImage(file) {
-    click(testSelector('add-another-image'));
-    return this.imageHelper(file);
-  },
-  fillInCost: fillable(testSelector('field', 'market-cost')),
-  fillInEmail: fillable(testSelector('field', 'market-contactEmail')),
-  fillInPhone: fillable(testSelector('field', 'market-contactPhone')),
+  fillInCost: fillable('[data-test-field="market-cost"]'),
+  fillInEmail: fillable('[data-test-field="market-contactEmail"]'),
+  fillInPhone: fillable('[data-test-field="market-contactPhone"]'),
   selectNewLocation(locationId) {
-    click(testSelector('action', 'change-location'));
-
-    andThen(() => {
-      fillIn(testSelector('new-location-input'), 'asdfasdf');
-      click(testSelector('button', 'change-input-value'));
-
-      andThen(() => {
-        click(testSelector('location-choice', locationId));
-      });
+    return run(async () => {
+      await click('[data-test-action="change-location"]');
+      await fillIn('[data-test-new-location-input]', 'asdfasdf');
+      await triggerKeyEvent('[data-test-new-location-input]', 'keyup', 13);
+      await click(`[data-test-location-choice="${locationId}"]`);
     });
   },
-  next: clickable(testSelector('action', 'next')),
-  saveAndPublish: clickable(testSelector('action', 'save-and-publish'))
+  next: clickable('[data-test-action="next"]'),
+  saveAndPublish: clickable('[data-test-action="save-and-publish"]')
 });

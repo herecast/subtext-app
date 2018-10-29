@@ -1,8 +1,7 @@
-import {Factory, association, faker} from 'ember-cli-mirage';
-import Ember from 'ember';
+import { isBlank } from '@ember/utils';
+import { get } from '@ember/object';
+import { Factory, association, faker } from 'ember-cli-mirage';
 import moment from 'moment';
-
-const { isBlank, get } = Ember;
 
 function generateSplitContent() {
   const head = '<p>' + faker.lorem.sentences() + '</p>';
@@ -33,13 +32,11 @@ export default Factory.extend({
 
       content.update({endsAt: newEndDate});
 
-      const instances = server.createList('event-instance', 3, {
+      server.createList('event-instance', 3, {
         event: content.id,
         startsAt: content.startsAt,
         endsAt: newEndDate
       });
-
-      return instances.map(({id}) => id);
     }
   },
 
@@ -74,11 +71,11 @@ export default Factory.extend({
 
   viewCount() { return faker.random.number(999); },
 
-  eventInstances() {
-    if(this.contentType === 'event') {
+  /*eventInstances() {
+    if (this.contentType === 'event') {
       return [];
     }
-  },
+  },*/
 
   eventInstanceId() {
     if(this.eventInstances && this.eventInstances.length) {

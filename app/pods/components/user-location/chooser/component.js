@@ -1,12 +1,14 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 
-const { get, set, computed, inject:{service}, run } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   api: service(),
   geolocation: service(),
   userLocation: service(),
-  userLocationName: computed.readOnly('userLocation.userLocation.name'),
+  userLocationName: readOnly('userLocation.userLocation.name'),
 
   modelLocationName: null,
 
@@ -18,15 +20,13 @@ export default Ember.Component.extend({
 
   gettingGeolocation: false,
   gettingMatches: false,
-  locationMatches: [],
-
   hideLocateMe: false,
 
   init() {
     this._super(...arguments);
-    if (Ember.testing) {
-      set(this, 'isTesting', true);
-    }
+    setProperties(this, {
+      locationMatches: []
+    });
   },
 
   _checkLocationMatches() {

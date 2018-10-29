@@ -1,32 +1,32 @@
-<div class='Container--noGutter'>
-  <div class='row'>
-    <div class='AuthForm-wrapper'>
-      <div class='col-md-6 col-md-offset-3'>
-        {{#unless session.isFastBoot}}
-          <div class='AuthForm'>
-            <div class='AuthForm-header'>
-              <h1 class='AuthForm-title h1'>You need to sign in to proceed.</h1>
+<div class="Container--noGutter">
+  <div class="row">
+    <div class="AuthForm-wrapper">
+      <div class="col-md-6 col-md-offset-3">
+        {{#if session.isFastBoot}}
+          {{x-loader}}
+        {{else}}
+          <div class="AuthForm">
+            <div class="AuthForm-header">
+              <h1 class="AuthForm-title h1">You need to sign in to proceed.</h1>
             </div>
 
-            <div class='AuthForm-body'>
-              <div class='AuthForm-form'>
+            <div class="AuthForm-body">
+              <div class="AuthForm-form">
                 {{#if auth_token}}
-                  <p class='h3 text-danger text-center u-marginBottom20'>
+                  <p class="h3 text-danger text-center u-marginBottom20">
                     It looks like the link you followed expired.<br>
                     Please fill in your email below to get a new link.
                   </p>
                 {{/if}}
 
                 {{sign-in
-                    afterAuthenticate=(action 'wasAuthenticated')
-                    didUpdate=(action 'clearToken')
+                    afterAuthenticate=(action "wasAuthenticated")
+                    didUpdate=(action "clearToken")
                 }}
               </div>
             </div>
           </div>
-        {{else}}
-          {{x-loader}}
-        {{/unless}}
+        {{/if}}
       </div>
     </div>
   </div>

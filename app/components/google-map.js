@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isPresent, isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { Promise } from 'rsvp';
 
-const {
-  get,
-  set,
-  computed,
-  isEmpty,
-  isPresent,
-  inject:{service},
-  RSVP:{Promise}
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['GoogleMap'],
 
   useMapOverlay: computed(function() {

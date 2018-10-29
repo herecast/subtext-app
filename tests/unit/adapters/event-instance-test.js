@@ -1,15 +1,12 @@
-import {
-  moduleFor,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('adapter:event-instance', 'EventInstanceAdapter', {
-  // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
-});
+module('EventInstanceAdapter', function(hooks) {
+  setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-  var adapter = this.subject();
-  assert.ok(adapter);
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    var adapter = this.owner.lookup('adapter:event-instance');
+    assert.ok(adapter);
+  });
 });

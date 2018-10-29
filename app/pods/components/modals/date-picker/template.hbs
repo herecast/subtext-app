@@ -1,23 +1,23 @@
 {{#modal-wrapper
-  close=(action 'close')
+  close=(action "close")
   showHeader=false
   isAnimated=false
-  data-test-modal='datepicker'
+  data-test-modal="datepicker"
   class="Modals-datePicker" }}
-  <div class='Modals-datePicker-header'>
-    <p class='h3 Modals-datePicker-title'>Choose date</p>
+  <div class="Modals-datePicker-header">
+    <p class="h3 Modals-datePicker-title">Choose date</p>
     {{#if displayTodayButton}}
-      <button class='btn Modals-datePicker-todayButton pull-right' {{action 'returnToday'}}>Today</button>
+      <button class="btn Modals-datePicker-todayButton pull-right" {{action "returnToday"}}>Today</button>
     {{/if}}
   </div>
 
   {{pikaday-solo
-    updateSelected=(action 'updateSelected')
-    disableDay=(action 'disableDay')
+    updateSelected=(action "updateSelected")
+    disableDay=(action "disableDay")
     selectedDate=model.selectedDay
   }}
 
-  <div class='Modals-datePicker-footer u-layoutPadT10'>
-    <button class='btn Modals-datePicker-cancelButton' {{action 'close'}}>cancel</button>
+  <div class="Modals-datePicker-footer u-layoutPadT10">
+    <button class="btn Modals-datePicker-cancelButton" {{action "close"}}>cancel</button>
   </div>
 {{/modal-wrapper}}

@@ -1,9 +1,7 @@
+import { computed, get } from '@ember/object';
 import config from 'subtext-ui/config/environment';
-import Ember from 'ember';
 import DS from 'ember-data';
 import moment from 'moment';
-
-const { get, computed } = Ember;
 
 export default DS.Model.extend({
   periodStart: DS.attr('string'),

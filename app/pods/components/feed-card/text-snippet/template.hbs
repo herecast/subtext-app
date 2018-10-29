@@ -1,5 +1,5 @@
 {{#if showTextSnippet}}
-  <span data-test-card-excerpt>{{{textSnippet}}}</span>
+  <span data-test-card-excerpt>{{textSnippet}}</span>
   {{#if showContinueReading}}
     <div class="FeedCard-TextSnippet-continue-reading" data-test-card-continue-reading>
       {{#link-to-content model}}
@@ -14,6 +14,6 @@
     Orci varius natoque penatibus et magnis dis.
   </div>
   <div class="FeedCard-TextSnippet-signin-box">
-    You need to <span class="FeedCard-TextSnippet-signin-button" {{action 'showSignInMenu'}} data-test-card-login-to-view>sign-in</span> to read Community Discussion posts
+    You need to <span class="FeedCard-TextSnippet-signin-button" {{action "showSignInMenu"}} role="button" data-test-card-login-to-view>sign-in</span> to read Community Discussion posts
   </div>
 {{/if}}

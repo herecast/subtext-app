@@ -1,59 +1,69 @@
 {{inviewport-reporter
   reportEnterViewport=true
   reportOnce=true
-  callback=(action trackDetailEngagement 'start')
+  callback=(action trackDetailEngagement "start")
 }}
 
-{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+{{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
   <article>
     <header class="DetailPage-navTop-container">
 
       {{#if model.primaryImage.imageUrl}}
-        <div class='DetailPage-headerImage-wrapper'>
-          <div class='DetailPage-headerImage'>
+        <div class="DetailPage-headerImage-wrapper">
+          <div class="DetailPage-headerImage">
             {{#image-load-placeholder
               placeholderBlockWidth=640
               placeholderBlockHeight=480
               imageUrl=(optimized-image-url model.primaryImage.imageUrl 640 480 true)
               placeholderUrl=(optimized-image-url model.primaryImage.imageUrl 64 48 true)
-              placeholderImageClass='img-responsive'
+              placeholderImageClass="img-responsive"
               showGradient=hasCaption
             }}
-              <img data-test-detail-page-image class='img-responsive' src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}>
+              <img
+                data-test-detail-page-image
+                class="img-responsive"
+                src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}
+                alt="Header Image">
             {{/image-load-placeholder}}
           </div>
         </div>
       {{else}}
         {{#if isPreview}}
-          <p class='text-center'>Please consider adding a featured image.</p>
+          <p class="text-center">Please consider adding a featured image.</p>
         {{/if}}
       {{/if}}
     </header>
 
-    {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true
-    toggleCaption=(action 'toggleCaption') enabled=enableStickyHeader}}
+
+    {{#content-body classNames="u-padding0"}}
+      {{#if hasCaption}}
+        <div class="DetailPage-caption {{if captionHidden "hidden"}}">
+          <p>{{model.primaryImageCaption}}</p>
+        </div>
+      {{/if}}
+
+      <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
+        {{#title-text noMargin=true strong=true}}
+          <span data-test-news-title={{model.title}}>{{model.title}}</span>
+        {{/title-text}}
+      </div>
+
+      <div class="DetailPage-headerSubSection u-flexJustify-start u-paddingLeft8 u-paddingTop8">
+        {{report-content-details
+            contentId=model.contentId
+            class="DetailPage-reportFlag h4 u-paddingRight8 u-paddingBottom8"
+        }}
+      </div>
+
+      {{horizontal-rule classNames="u-padding0"}}
+    {{/content-body}}
+    {{#sticky.item
+      class="StickyItem--default-background u-boxShadowBottom"
+      useAbsolutePositioning=true
+      toggleCaption=(action "toggleCaption")
+      enabled=enableStickyHeader
+    }}
       {{#content-body classNames="u-padding0"}}
-        {{#if hasCaption}}
-          <div class="DetailPage-caption {{if captionHidden 'hidden'}}">
-            <p>{{model.primaryImageCaption}}</p>
-          </div>
-        {{/if}}
-
-        <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
-          {{#title-text noMargin=true strong=true}}
-            <span data-test-news-title='{{model.title}}'>{{model.title}}</span>
-          {{/title-text}}
-        </div>
-
-        <div class="DetailPage-headerSubSection u-flexJustify-start u-paddingLeft8 u-paddingTop8">
-          {{report-content-details
-              contentId=model.contentId
-              class="DetailPage-reportFlag h4 u-paddingRight8 u-paddingBottom8"
-          }}
-        </div>
-
-        {{horizontal-rule classNames="u-padding0"}}
-
         <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingLeft8 u-paddingVertical8">
           {{feed-card/attribution
             avatarUrl=model.attributionImageUrl
@@ -65,7 +75,7 @@
             isOnDetailView=true
           }}
 
-          <div class='u-flexRow u-flexAlign-center'>
+          <div class="u-flexRow u-flexAlign-center">
             {{#unless isPreview}}
               <div class="u-paddingRight8">
                 {{feed-card/edit-button
@@ -73,12 +83,12 @@
                   editPath=editPath
                   editPathId=model.id
                   iconSize=""
-                  style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                  style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
                   editButtonIsActive=(mut editButtonIsActive)
                 }}
               </div>
               {{#if (and model.organization.subscribeUrl (not editButtonIsActive))}}
-                {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName='span'}}
+                {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName="span"}}
               {{/if}}
             {{/unless}}
           </div>
@@ -90,21 +100,23 @@
     <div class="DetailPage-sectionWrapper u-paddingTop16 u-paddingHorizontal8">
       <div class="DetailPage-metaBloc">
         <table>
-          <tr>
-            <td colspan="2">
-              {{detail-meta-bloc
-              avatarUrl=null
-              customSize=24
-              avatarName=model.authorName
-              isDefaultOrganization=model.organization.isDefaultOrganization
-              }}
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td colspan="2">
+                {{detail-meta-bloc
+                avatarUrl=null
+                customSize=24
+                avatarName=model.authorName
+                isDefaultOrganization=model.organization.isDefaultOrganization
+                }}
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
 
-    <div class='DetailPage-sectionWrapper'>
+    <div class="DetailPage-sectionWrapper">
       <div class="DetailPage-content News-content ContentText">
         {{#if model.subtitle}}
           {{#subtitle-text}}
@@ -114,24 +126,24 @@
 
         <div data-test-detail-page-content>
           {{#if model.embeddedAd}}
-            {{{ model.splitContent.head }}}
+            {{modelSplitContentHead}}
 
-            <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody'>
-              <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
-                <div class='AdBanner--inContentBody-messageBar'>
+            <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">
+              <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+                <div class="AdBanner--inContentBody-messageBar">
                   Advertisement: Content continues below...
                 </div>
                 {{ad-banner
                   contentModel=model
-                  pagePlacement='in-news-detail-body'
+                  pagePlacement="in-news-detail-body"
                   placeholderBlockFixedSize=true
                 }}
               </div>
             </div>
 
-            {{{ model.splitContent.tail }}}
+            {{modelSplitContentTail}}
           {{else}}
-            {{{ model.content }}}
+            {{modelContent}}
           {{/if}}
         </div>
       </div>
@@ -140,7 +152,7 @@
     {{inviewport-reporter
       reportEnterViewport=true
       reportOnce=true
-      callback=(action trackDetailEngagement 'read')
+      callback=(action trackDetailEngagement "read")
     }}
 
     {{#unless isPreview}}
@@ -155,18 +167,18 @@
       {{/horizontal-rule}}
 
       {{#unless model.embeddedAd}}
-        <div class='AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news'>
-          <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+        <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news">
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail">
             {{ad-banner
               contentModel=model
-              pagePlacement='in-news-detail-body'
+              pagePlacement="in-news-detail-body"
               placeholderBlockFixedSize=true
             }}
           </div>
         </div>
       {{/unless}}
 
-      <div class='DetailPage-section DetailPage-comments'>
+      <div class="DetailPage-section DetailPage-comments">
         {{comments-section
           showSectionTitle=true
           commentCount=model.commentCount
@@ -174,12 +186,12 @@
           comments=comments
           contentTitle=(readonly model.title)
           disabled=(readonly commentingDisabled)
-          afterComment=(action 'reloadComments')
+          afterComment=(action "reloadComments")
         }}
       </div>
 
-      <div class='DetailPage-sectionWrapper'>
-        <div class='DetailPage-section DetailPage-similarContent'>
+      <div class="DetailPage-sectionWrapper">
+        <div class="DetailPage-section DetailPage-similarContent">
           {{#similar-content
               contentId=model.contentId
               limit=4
@@ -197,5 +209,5 @@
 {{inviewport-reporter
   reportEnterViewport=true
   reportOnce=true
-  callback=(action trackDetailEngagement 'complete')
+  callback=(action trackDetailEngagement "complete")
 }}

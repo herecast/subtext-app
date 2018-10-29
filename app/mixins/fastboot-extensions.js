@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { reads } from '@ember/object/computed';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
+import { Promise } from 'rsvp';
 
-const {
-  inject,
-  get,
-  computed,
-  RSVP: {Promise}
-} = Ember;
-
-export default Ember.Mixin.create({
-  fastboot: inject.service(),
-  isFastBoot: computed.reads('fastboot.isFastBoot'),
+export default Mixin.create({
+  fastboot: service(),
+  isFastBoot: reads('fastboot.isFastBoot'),
 
   /**
    * We wrap deferRendering to ensure it's promise always resolves,

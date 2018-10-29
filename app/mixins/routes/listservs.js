@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 
-const { inject, get } = Ember;
-
-export default Ember.Mixin.create({
-  api: inject.service('api'),
+export default Mixin.create({
+  api: service('api'),
 
   setupController(controller, model) {
     this._super(controller, model);

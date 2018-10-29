@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { get, computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
 
 const { attr } = DS;
 
-const {
-  computed,
-  get,
-  isPresent
-} = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   venueAddress: attr('string'),
   venueCity: attr('string'),
   venueId: attr('number'),

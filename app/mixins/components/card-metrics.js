@@ -1,18 +1,13 @@
 /* global IntersectionObserver */
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
-const {
-  on,
-  get,
-  set,
-  trySet,
-  isPresent,
-  inject: {service},
-  computed,
-  run
-} = Ember;
+import { on } from '@ember/object/evented';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { computed, trySet, set, get } from '@ember/object';
+import { run } from '@ember/runloop';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   tracking: service(),
   root: null, // Scope to scrollable area, or null is viewport
   rootMargin: "60px 0px 0px 0px", //(Viewport/document margin)

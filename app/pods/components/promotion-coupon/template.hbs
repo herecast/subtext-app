@@ -1,17 +1,17 @@
 <h2>
   {{coupon.title}}
 </h2>
-<div class="PromotionCoupon-wrapper" {{action 'toggleDisplayFullsize'}} data-content="Click for full size Coupon">
-  <img src="{{optimized-image-url coupon.imageUrl 150 267 false}}" />
+<div class="PromotionCoupon-wrapper" {{action "toggleDisplayFullsize"}} role="button" data-content="Click for full size Coupon">
+  <img src={{optimized-image-url coupon.imageUrl 150 267 false}} alt="Coupon Image">
 </div>
 
 {{#if displayFullsize}}
   {{#modal-wrapper
-    close=(action 'toggleDisplayFullsize')
+    close=(action "toggleDisplayFullsize")
     showHeader=true
     fullscreen=media.isMobile
     isAnimated=false
   }}
-    <img src="{{optimized-image-url coupon.imageUrl 360 640 false}}" />
+    <img src={{optimized-image-url coupon.imageUrl 360 640 false}} alt="Coupon Image">
   {{/modal-wrapper}}
 {{/if}}

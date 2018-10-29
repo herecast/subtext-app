@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
+import { isEmpty } from '@ember/utils';
 import cheerio from 'npm:cheerio';
 
 export function isBlankOrEmptyHtmlTags(params) {
-  var blank = Ember.isEmpty( params[0] );
+  var blank = isEmpty( params[0] );
 
   if( !blank ) {
     //params is the string, typically wrapped in <p></p> tags so never empty
@@ -29,4 +30,4 @@ export function isBlankOrEmptyHtmlTags(params) {
   return blank;
 }
 
-export default Ember.Helper.helper(isBlankOrEmptyHtmlTags);
+export default buildHelper(isBlankOrEmptyHtmlTags);

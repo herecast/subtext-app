@@ -1,12 +1,9 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
+import { get, computed } from '@ember/object';
 
-const {
-  computed,
-  isEmpty,
-  get
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['FormGroup'],
   classNameBindings: ['hasError:has-error', 'smallMargin:FormGroup--smallMargin'],
 
@@ -27,7 +24,7 @@ export default Ember.Component.extend({
     return get(this, 'error') && !get(this, 'hideError');
   }),
 
-  hasLabel: computed.notEmpty('label'),
+  hasLabel: notEmpty('label'),
 
   uniqueID: computed(function() {
     return `field_${(new Date()).getTime()}`;

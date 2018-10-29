@@ -1,7 +1,6 @@
+import { equal } from '@ember/object/computed';
+import { computed, get } from '@ember/object';
 import DS from 'ember-data';
-import Ember from 'ember';
-
-const { get, computed } = Ember;
 
 export default DS.Model.extend({
   title: DS.attr('string'),
@@ -11,7 +10,7 @@ export default DS.Model.extend({
   organizations: DS.hasMany('organization', {async: false}),
   contents: DS.hasMany('content', {async: false}),
 
-  isOrganizationCarousel: computed.equal('carouselType', 'organization'),
+  isOrganizationCarousel: equal('carouselType', 'organization'),
   isContentCarousel: computed('carouselType', function() {
     return get(this, 'carouselType').dasherize() === 'content';
   })

@@ -1,22 +1,22 @@
-import CookiesService from 'subtext-ui/services/cookies';
 import mockService from 'subtext-ui/tests/helpers/mock-service';
 
-export default function(application, location=null) {
+export default function(server, location=null) {
   if (!location) {
     location = server.create('location');
   }
 
-  const cookies = CookiesService.extend({
-    read(name) {
+  mockService('cookies', {
+    read: (name) => {
       if (name === 'userLocationId') {
         return location.id;
       } else {
-        return this._super(...arguments);
+        return null;
       }
+    },
+    write: (name, value) => {
+      return value;
     }
   });
-
-  mockService(application, 'cookies', cookies);
 
   return location;
 }

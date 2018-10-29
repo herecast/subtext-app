@@ -1,7 +1,5 @@
+import { isPresent } from '@ember/utils';
 import { Factory, association } from 'ember-cli-mirage';
-import Ember from 'ember';
-
-const { isPresent } = Ember;
 
 export default Factory.extend({
   modelType(id) {

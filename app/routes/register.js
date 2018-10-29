@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import WillAuthenticateMixin from 'subtext-ui/mixins/routes/will-authenticate';
 
-export default Ember.Route.extend(WillAuthenticateMixin, {
+export default Route.extend(WillAuthenticateMixin, {
   titleToken: 'Join',
 
 });

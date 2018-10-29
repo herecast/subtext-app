@@ -1,8 +1,15 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
+import { copy } from '@ember/object/internals';
+import { assign } from '@ember/polyfills';
+import { get, computed } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
 import fetch from 'ember-network/fetch';
-import config from '../config/environment';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
+import { registerWaiter } from '@ember/test';
+import config from 'subtext-ui/config/environment';
 
 import {
   isRequestError,
@@ -11,25 +18,7 @@ import {
   normalizeErrorResponse
 } from 'subtext-ui/lib/request-utilities';
 
-const {
-  RSVP,
-  copy,
-  assign,
-  inject,
-  computed,
-  get,
-  run,
-  isPresent,
-  testing,
-  Test,
-} = Ember;
-
 let pendingRequestCount = 0;
-if (testing) {
-  Test.registerWaiter(function() {
-    return pendingRequestCount === 0;
-  });
-}
 
 function queryString(data) {
   if (isPresent(data)) {
@@ -39,10 +28,10 @@ function queryString(data) {
   }
 }
 
-export default Ember.Service.extend(FastbootExtensions, {
-  session: inject.service('session'),
-  queryCache: inject.service('query-cache'),
-  logger: inject.service(),
+export default Service.extend(FastbootExtensions, {
+  session: service('session'),
+  queryCache: service('query-cache'),
+  logger: service(),
 
   defaultHeaders: computed('session.isAuthenticated', function() {
     let headers = {};
@@ -100,6 +89,10 @@ export default Ember.Service.extend(FastbootExtensions, {
      * fetch.
      */
     pendingRequestCount = pendingRequestCount + 1;
+
+    if (config.environment === 'test' || config.environment === 'development') {
+      registerWaiter(() => pendingRequestCount === 0);
+    }
 
     return new RSVP.Promise((resolve, reject) => {
       fetch(host + "/" + namespace + path, fetchOpts).then(
@@ -205,10 +198,9 @@ export default Ember.Service.extend(FastbootExtensions, {
       }, (err) => {
         if (isRequestError(err)) {
           const response = err.response;
-          let body = "";
 
           try {
-            body = response.text().then((body) => {
+            response.text().then((body) => {
               err.errors = normalizeErrorResponse(response.status, response.headers, body);
               reject(err);
             });

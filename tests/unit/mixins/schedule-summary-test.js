@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import ScheduleSummaryMixin from '../../../mixins/schedule-summary';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | schedule summary');
-
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let ScheduleSummaryObject = Ember.Object.extend(ScheduleSummaryMixin);
-  let subject = ScheduleSummaryObject.create();
-  assert.ok(subject);
+module('Unit | Mixin | schedule summary', function() {
+  // Replace this with your real tests.
+  test('it works', function(assert) {
+    let ScheduleSummaryObject = EmberObject.extend(ScheduleSummaryMixin);
+    let subject = ScheduleSummaryObject.create();
+    assert.ok(subject);
+  });
 });

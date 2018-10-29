@@ -1,4 +1,4 @@
-import Mirage, {faker} from 'ember-cli-mirage';
+import Mirage, { faker } from 'ember-cli-mirage';
 
 export default Mirage.Factory.extend({
   name() { return faker.company.companyName(); },
@@ -33,7 +33,7 @@ export default Mirage.Factory.extend({
   website() { return 'http://' + faker.internet.domainName(); },
   email() { return faker.internet.email(); },
   address() { return faker.address.streetAddress(); },
-  hours: ["Mo-Fr|08:00-16:30","Sa|10:00-16:00"],
+  hours() { return ["Mo-Fr|08:00-16:30","Sa|10:00-16:00"]; },
   city: "Norwich",
   state: 'VT',
   zip: '05055',

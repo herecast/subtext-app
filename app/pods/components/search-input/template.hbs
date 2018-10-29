@@ -1,4 +1,4 @@
-<div class='SearchInput-inputGroup'>
+<div class="SearchInput-inputGroup">
 
   {{#if showIcon}}
     {{fa-icon iconName class="SearchInput-icon"}}
@@ -6,20 +6,19 @@
 
   <input type={{inputType}}
     oninput={{action "update" value="target.value"}}
-    onfocus={{action "onfocus"}}
     onblur={{action "onblur"}}
     value={{value}}
     placeholder={{placeholder}}
     disabled={{disabled}}
-    class='form-control SearchInput-input'>
+    class="form-control SearchInput-input">
 
 
   {{#if value}}
-    <button class='SearchInput-clear' title={{clearTooltip}} {{action "update" ""}}>
+    <button class="SearchInput-clear" title={{clearTooltip}} {{action "update" ""}}>
       {{#if isLoading}}
-        {{fa-icon 'spinner fa-spin'}}
+        {{fa-icon "spinner fa-spin"}}
       {{else if showClearButton}}
-          <i class='fa fa-times'></i>
+          <i class="fa fa-times"></i>
       {{/if}}
       {{clearButtonText}}
     </button>

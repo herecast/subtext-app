@@ -1,14 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 import config from 'subtext-ui/config/environment';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 import sanitize from 'npm:sanitize-html';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 
-const {get, inject} = Ember;
-
-export default Ember.Mixin.create({
-  location: inject.service('window-location'),
+export default Mixin.create({
+  location: service('window-location'),
   isModalContent: false,
   // Override where needed
   modelForMetaTags: function() {
@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
 
     const descriptionTruncated = this.truncateDescription(description);
 
-    return [
+    const arr = [
       {
         type: 'link',
         tagId: 'canonical-link',
@@ -197,6 +197,8 @@ export default Ember.Mixin.create({
         }
       }
     ];
+
+    return arr;
   },
 
   links() {

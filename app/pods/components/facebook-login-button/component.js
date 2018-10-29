@@ -1,15 +1,17 @@
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import RSVP from 'rsvp';
 import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
-import Ember from 'ember';
 
-const {get, set, isPresent, inject, RSVP} = Ember;
-
-export default Ember.Component.extend(SocialPreloaded, {
-  tracking: inject.service(),
-  session: inject.service(),
-  api: inject.service(),
-  notify: inject.service('notification-messages'),
-  userLocation: inject.service(),
-  facebook: inject.service(),
+export default Component.extend(SocialPreloaded, {
+  tracking: service(),
+  session: service(),
+  api: service(),
+  notify: service('notification-messages'),
+  userLocation: service(),
+  facebook: service(),
 
   permissions: 'email,public_profile',
 

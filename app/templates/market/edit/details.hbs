@@ -1,1 +1,20 @@
-{{partial 'market/new/details'}}
+<div class="Container--noGutter">
+  <div class="row">
+    {{#content-form
+      isNew=model.isNew
+      type="market"
+      class="col-xs-12"
+      step1State="current"
+      step2State="inactive"
+      step3State="inactive"
+    }}
+      {{market-form
+        model=(mut model)
+        isEditing=(readonly isEditing)
+        afterDiscard="afterDiscard"
+        afterDetails="afterDetails"
+        formattedType="listing"
+      }}
+    {{/content-form}}
+  </div>
+</div>

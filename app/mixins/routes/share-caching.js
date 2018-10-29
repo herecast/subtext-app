@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Mixin from '@ember/object/mixin';
 import config from '../../config/environment';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   facebookRecache: function(share_path) {
     if (config.fb_enabled) {
       var share_url;
@@ -14,7 +15,7 @@ export default Ember.Mixin.create({
       } else {
         share_url = window.location.href;
       }
-      Ember.$.post('https://graph.facebook.com', {
+      $.post('https://graph.facebook.com', {
         scrape: true,
         id: share_url
       });

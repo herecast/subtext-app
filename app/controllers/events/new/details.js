@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import { oneWay } from '@ember/object/computed';
+import Controller, { inject as controller } from '@ember/controller';
 
-const {inject, computed} = Ember;
-
-export default Ember.Controller.extend({
-  eventsNewController: inject.controller('events.new'),
-  job: computed.oneWay('eventsNewController.job'),
+export default Controller.extend({
+  eventsNewController: controller('events.new'),
+  job: oneWay('eventsNewController.job'),
   secondaryBackground: true
 });

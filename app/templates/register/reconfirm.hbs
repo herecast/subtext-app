@@ -1,31 +1,33 @@
-<div class='container'>
-  <div class='row'>
-    <div class='AuthForm'>
-      <div class='col-md-8 col-md-push-2'>
-        <div class='AuthForm'>
-          <div class='AuthForm-header'>
-            <h1  class='AuthForm-title h2'>Resend email confirmation</h1>
+<div class="container">
+  <div class="row">
+    <div class="AuthForm">
+      <div class="col-md-8 col-md-push-2">
+        <div class="AuthForm">
+          <div class="AuthForm-header">
+            <h1  class="AuthForm-title h2">Resend email confirmation</h1>
           </div>
 
-          <div class='AuthForm-body'>
-            <div class='AuthForm-form'>
-              <p  class='AuthForm-subTitle h3'>Please Enter your email address</p>
+          <div class="AuthForm-body">
+            <div class="AuthForm-form">
+              <p  class="AuthForm-subTitle h3">Please Enter your email address</p>
 
               {{#form-group error=error}}
                 {{debounced-input
                   debounceWait=300
                   value=email
-                  type='email'
-                  placeholder='Email Address'
-                  class='form-control'
+                  type="email"
+                  placeholder="Email Address"
+                  class="form-control"
                 }}
               {{/form-group}}
 
-              {{async-button
-                action='reconfirm'
-                default='Send Confirmation Email'
-                pending='Sending Now'
-                class='Button Button--primary btn u-layoutPadB40'
+              {{x-async-button
+                promiseAction=(actin "reconfirm")
+                default="Send Confirmation Email"
+                pending="Sending Now"
+                fulfilled="Confirmation Sent"
+                rejected="Please try again"
+                class="Button Button--primary btn u-layoutPadB40"
               }}
             </div>
           </div>

@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { computed } from '@ember/object';
 
-const { computed } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   attributeBindings: ['data-test-component'],
 
   /**
    * _debugContainerKey looks like this: "component:my-component"
    */
   'data-test-component': computed(function() {
-    const comName = Object.getPrototypeOf(this)._debugContainerKey;
-    return comName.replace('component:', '');
+    if (typeof FastBoot === 'undefined') {
+      const comName = this._debugContainerKey;
+      return comName.replace('component:', '');
+    }
   })
 });

@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { get } from '@ember/object';
 import DateSummary from '../date-summary/component';
 
-const {
-  get,
-  inject
-} = Ember;
-
 export default DateSummary.extend({
-  modals: inject.service(),
+  modals: service(),
   schedule: null,
   isManaging: false,
 

@@ -1,21 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('controller:mystuff/bookmarks', 'Unit | Controller | mystuff/bookmarks', {
-  // Specify the other units that are required for this test.
-   needs: [
-    'service:history',
-   'service:bookmarks',
-   'service:session',
-   'service:fastboot',
-   'service:user-location',
-   'service:intercom',
-   'service:api',
-   'service:user'
- ]
-});
+module('Unit | Controller | mystuff/bookmarks', function(hooks) {
+  setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-  let controller = this.subject();
-  assert.ok(controller);
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    let controller = this.owner.lookup('controller:mystuff/bookmarks');
+    assert.ok(controller);
+  });
 });

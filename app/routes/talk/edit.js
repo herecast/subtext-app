@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import ShareCaching from '../../mixins/routes/share-caching';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-const { get, run, isPresent } = Ember;
-
-export default Ember.Route.extend(Scroll, ShareCaching, Authorized, FastbootTransitionRouteProtocol, {
+export default Route.extend(Scroll, ShareCaching, Authorized, FastbootTransitionRouteProtocol, {
 
   model(params) {
     return this.store.findRecord('content', params.id, {reload: true});

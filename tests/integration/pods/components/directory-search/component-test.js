@@ -1,12 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { Promise } from 'rsvp';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-/* global Ember, sinon */
+import sinon from 'sinon';
 
 const { stub, spy } = sinon;
 
-moduleForComponent('directory-search', 'Integration | Component | directory search', {
-  integration: true,
-  beforeEach() {
+module('Integration | Component | directory search', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
     const instance = {
       fitBounds: spy(),
       setCenter: spy(),
@@ -26,29 +31,29 @@ moduleForComponent('directory-search', 'Integration | Component | directory sear
 
     const googleMaps = {
       getGoogleMaps() {
-        return Ember.RSVP.Promise.resolve(googleMapsResolved);
+        return Promise.resolve(googleMapsResolved);
       }
     };
 
-    const google = Ember.Service.extend(googleMaps);
+    const google = Service.extend(googleMaps);
 
-    this.register('service:google-maps', google);
-    this.inject.service('google-maps', { as: 'google-maps' });
-  }
-});
+    this.owner.register('service:google-maps', google);
+    this['google-maps'] = this.owner.lookup('service:google-maps');
+  });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('changePerPage', spy());
-  this.set('changePage', spy());
-  this.set('changeSortBy', spy());
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('changePerPage', spy());
+    this.set('changePage', spy());
+    this.set('changeSortBy', spy());
 
-  this.render(hbs`{{directory-search
-  changeSortBy=(action changeSortBy)
-  changePerPage=(action changePerPage)
-  changePage=(action changePage)
-  }}`);
-  assert.ok(this.$());
+    await render(hbs`{{directory-search
+    changeSortBy=(action changeSortBy)
+    changePerPage=(action changePerPage)
+    changePage=(action changePage)
+    }}`);
+    assert.ok(this.element);
 
+  });
 });

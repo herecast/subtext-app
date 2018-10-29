@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { set, get } from '@ember/object';
 import IntroJSComponent from 'ember-introjs/components/intro-js';
-
-const { get, set } = Ember;
 
 export default IntroJSComponent.extend({
   //IntroJS Options

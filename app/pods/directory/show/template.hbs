@@ -1,7 +1,7 @@
-{{#modal-wrapper class="Modal--no-padding" close=(action 'closeBSDDetailPage') showHeader=false}}
+{{#modal-wrapper class="Modal--no-padding" close=(action "closeBSDDetailPage") showHeader=false}}
   <div class="DirectoryBusiness-backButton">
-    {{#link-to 'directory'}}
-      {{fa-icon 'arrow-left'}} Back To Search Results
+    {{#link-to "directory"}}
+      {{fa-icon "arrow-left"}} Back To Search Results
     {{/link-to}}
   </div>
 
@@ -12,18 +12,18 @@
   {{directory-business-info myCoords=myCoords model=model}}
 
   <div class="DetailPage-sectionWrapper">
-    <div class='DetailPage-section DirectoryBusiness-buttonWrap'>
+    <div class="DetailPage-section DirectoryBusiness-buttonWrap">
       <h2 class="h2">Is this your business?</h2>
       <p class="text-center">
         {{#if model.canEdit}}
-          <button class='DirectoryBusiness-directoryButton' {{action 'toggleEditForm'}}>Edit Business</button>
+          <button class="DirectoryBusiness-directoryButton" {{action "toggleEditForm"}}>Edit Business</button>
         {{else}}
-          <a href="{{claimEmail}}" class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
+          <a href={{claimEmail}} class="DirectoryBusiness-directoryButton" data-test-claim-email>Claim it now</a>
         {{/if}}
 
         or
 
-        <a href="{{reportIncorrectInfoEmail}}" class="DirectoryBusiness-reportButton">
+        <a href={{reportIncorrectInfoEmail}} class="DirectoryBusiness-reportButton">
           Report Info
         </a>
       </p>
@@ -32,7 +32,7 @@
 
   {{outreach-cta
     isButton=true
-    placement='bottom-of-directory-detail'
+    placement="bottom-of-directory-detail"
     limitMessagesTo=2
     class="sit-center"
   }}
@@ -41,6 +41,6 @@
 {{#if editFormIsVisible}}
   {{business-profile-form
     model=model
-    closeAction=(action 'toggleEditForm')
+    closeAction=(action "toggleEditForm")
   }}
 {{/if}}

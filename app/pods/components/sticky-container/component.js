@@ -1,15 +1,19 @@
-import Ember from 'ember';
-import {throttle, debounce} from 'lodash';
-
-const { get, set, computed, inject, $, isPresent, run } = Ember;
+import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import $ from 'jquery';
+import { isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { throttle, debounce } from 'lodash';
 
 /**
  * Contextual component for rendering a list of "sticky" items.
  * Namely, these are headers that stick to a given position until it is replaced by the next one as the user scrolls.
  * Each sticky item will "stick" to the location of the named sticky-position, which is optional.
  */
-export default Ember.Component.extend({
-  _items: Ember.A(),
+export default Component.extend({
+  _items: A(),
   _currentStickyItem: null,
 
   // the name of the sticky-position element elsewhere on the page marking where the items should stick
@@ -20,8 +24,8 @@ export default Ember.Component.extend({
   scrollTarget: window,
   refreshOffsetDuringScroll: false,
 
-  stickyService: inject.service('sticky'),
-  fastboot: inject.service(),
+  stickyService: service('sticky'),
+  fastboot: service(),
 
   keyForOnTouchMoveHook: computed('elementId', function() {
     const elementId = get(this, 'elementId');

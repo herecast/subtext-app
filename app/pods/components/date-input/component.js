@@ -1,20 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isPresent, isEmpty } from '@ember/utils';
+import { run } from '@ember/runloop';
 import moment from 'moment';
 import isMobile from 'npm:ismobilejs';
-
-const {
-  get,
-  set,
-  computed,
-  isEmpty,
-  isPresent,
-  run
-} = Ember;
 
 const pickerFormat = 'MM/DD/YYYY';
 const nativeFormat = 'YYYY-MM-DD';
 
-export default Ember.Component.extend({
+export default Component.extend({
   inputClass: 'form-control',
 
   /** format
@@ -113,15 +107,17 @@ export default Ember.Component.extend({
   // Would be in the actions hash, except running into issues
   // with binding of (this) from the dp.update event
   doUpdate(value) {
-    if(!value || isEmpty(value)) {
-      this.attrs.update(null);
+    if (!value || isEmpty(value)) {
+      if (get(this, 'update')) {
+        get(this, 'update')(null);
+      }
     } else {
       const time = this.parseUpdate(value);
 
-      if(time.isValid()) {
-        this.attrs.update(
-          this.formatUpdate(time)
-        );
+      if (time.isValid()) {
+        if (get(this, 'update')) {
+          get(this, 'update')(this.formatUpdate(time));
+        }
       }
     }
   }

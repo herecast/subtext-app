@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function dynamicParams([routeName, params]) {
   return [
@@ -10,4 +10,4 @@ export function dynamicParams([routeName, params]) {
   ];
 }
 
-export default Ember.Helper.helper(dynamicParams);
+export default buildHelper(dynamicParams);

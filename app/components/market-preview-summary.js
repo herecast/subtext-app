@@ -1,23 +1,18 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 
-const {
-  get,
-  set
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   isSaving: false,
   callToAction: 'Save & Publish',
 
   actions: {
-    save(callback) {
+    save() {
       set(this, 'isSaving', true);
       const post = get(this, 'model');
       const promise = post.save();
 
-      callback(promise);
-
-      promise.then(() => {
+      return promise.then(() => {
+        //eslint-disable-next-line ember/closure-actions
         this.sendAction('afterPublish', post);
       });
     }

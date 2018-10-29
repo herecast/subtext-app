@@ -1,9 +1,9 @@
 {{#each dayMap as |day|}}
   <label class="checkbox-inline">
     <input
-      type='checkbox'
+      type="checkbox"
       checked={{in-array day.value selectedDays}}
-      onchange={{action (action 'toggleDay' day.value) value='target.checked'}}
+      onchange={{action (action "toggleDay" day.value) value="target.checked"}}
     >
     {{day.key}}
   </label>

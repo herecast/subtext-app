@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get, setProperties } from '@ember/object';
 import InViewportMixin from 'ember-in-viewport';
 
-const {setProperties, get} = Ember;
-
-export default Ember.Component.extend(InViewportMixin, {
+export default Component.extend(InViewportMixin, {
   classNames: 'InviewportReporter',
 
   reportOnce: false,
@@ -42,7 +41,9 @@ export default Ember.Component.extend(InViewportMixin, {
 
   reportEvent(trigger, direction) {
     if (get(this, trigger)) {
-      this.attrs.callback(trigger.replace('report',''), direction);
+      if (get(this, 'callback')) {
+        get(this, 'callback')(trigger.replace('report',''), direction);
+      }
     }
   }
 

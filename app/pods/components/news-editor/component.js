@@ -1,32 +1,52 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import {
+  notEmpty,
+  alias,
+  oneWay,
+  readOnly,
+  gt,
+  or,
+  equal
+} from '@ember/object/computed';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { isPresent, isBlank } from '@ember/utils';
+import { set, setProperties, get, computed } from '@ember/object';
+import { run } from '@ember/runloop';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+/* eslint-disable ember/closure-actions */
 
-const {
-  computed,
-  isBlank,
-  isPresent,
-  get,
-  setProperties,
-  set,
-  run,
-  inject
-  } = Ember;
+const editorConfigArray = [
+  ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
+  ['insert', ['link']],
+  ['para', ['ul', 'ol']],
+  ['insert', ['subtextImageModal', 'video']]
+];
 
-export default Ember.Component.extend(TestSelector, Validation, {
+const editorPopoverObj = {
+  image: [
+    ['remove', ['subtextRemoveMedia']]
+  ],
+  link: [
+    ['link', ['linkDialogShow', 'unlink']]
+  ]
+};
+
+export default Component.extend(TestSelector, Validation, {
   classNames: ['NewsEditor'],
   "data-test-component": "NewsEditor",
   news: null,
   showPreview: false,
-  store: inject.service(),
-  location: inject.service('window-location'),
+  store: service(),
+  location: service('window-location'),
 
   authorOverrideEnabled: computed(function() {
     const authorName = get(this, 'news.authorName');
     return authorName !== get(this, 'currentUser.name') && (isPresent(authorName) || authorName === null);
   }),
-  hasAuthorName: computed.notEmpty('news.authorName'),
+  hasAuthorName: notEmpty('news.authorName'),
 
   authorName() {
     if ( get(this, 'authorOverrideEnabled') ) {
@@ -39,47 +59,38 @@ export default Ember.Component.extend(TestSelector, Validation, {
   editorHeight: 400,
   selectedPubDate: null,
   isPickingScheduleDate: false,
-  api: inject.service(),
-  notify: inject.service('notification-messages'),
-  routing: inject.service('_routing'),
+  api: service(),
+  notify: service('notification-messages'),
+  router: service(),
   isPublishing: false,
   wantsToDeleteDraft: false,
-
   pendingFeaturedImage: null,
 
-  currentUser: computed.alias('session.currentUser'),
+  currentUser: alias('session.currentUser'),
 
   // flag to notify summer note to update the editor contents
   // otherwise, updates to content are ignored due to a bug in summer note
   // which causes the cursor to jump
   updateContent: false,
 
-  editorConfig: [
-    ['style', ['subtextStyleButtonMenu', 'bold', 'italic', 'underline', 'clear']],
-    ['insert', ['link']],
-    ['para', ['ul', 'ol']],
-    ['insert', ['subtextImageModal', 'video']]
-  ],
-
-  editorPopover: {
-    image: [
-      ['remove', ['subtextRemoveMedia']]
-    ],
-    link: [
-      ['link', ['linkDialogShow', 'unlink']]
-    ]
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      editorConfig: editorConfigArray,
+      editorPopover: editorPopoverObj
+    });
   },
 
-  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
+  organizations: oneWay('session.currentUser.managedOrganizations'),
 
-  hasOrganization: computed.notEmpty('news.organization'),
-  organizationId: computed.readOnly('news.organizationId'),
+  hasOrganization: notEmpty('news.organization'),
+  organizationId: readOnly('news.organizationId'),
 
   hasUnpublishedChanges: computed('news{hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
   }),
 
-  canAutosave: computed('news.isDraft', 'news.hasDirtyAttributes', 'news.didOrgChange', 'news.didLocationChange', 'pendingFeaturedImage', function() {
+  canAutosave: computed('news.{isDraft,hasDirtyAttributes,didOrgChange,didLocationChange}', 'pendingFeaturedImage', function() {
     const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
       orgChanged = get(this, 'news.didOrgChange'),
       locationChanged = get(this, 'news.didLocationChange'),
@@ -88,7 +99,11 @@ export default Ember.Component.extend(TestSelector, Validation, {
     return get(this, 'news.isDraft') && (hasDirtyAttributes || orgChanged || locationChanged || pendingFeaturedImage);
   }),
 
-  status: computed('news.isDraft', 'news.isScheduled', 'news.publishedAt', function() {
+  hideAutoSave: equal('news.dirtyType', 'created'),
+
+  hidePublishedLinks: or('hasUnpublishedChanges', 'isPublishing'),
+
+  status: computed('news.{isDraft,isScheduled,publishedAt}', function() {
     if (get(this, 'news.isDraft')) {
       return 'Draft';
     } else if (get(this, 'news.isScheduled')) {
@@ -106,7 +121,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     });
   }),
 
-  managesMultipleOrganizations: computed.gt('filteredOrganizations.length', 1),
+  managesMultipleOrganizations: gt('filteredOrganizations.length', 1),
 
   chosenOrganization: computed('filteredOrganizations', function() {
     const filteredOrganizations = get(this, 'filteredOrganizations');
@@ -118,9 +133,9 @@ export default Ember.Component.extend(TestSelector, Validation, {
     }
   }),
 
-  hasChosenOrganization: computed.notEmpty('news.organization'),
+  hasChosenOrganization: notEmpty('news.organization'),
 
-  hasFeaturedImage: computed.notEmpty('news.primaryImage'),
+  hasFeaturedImage: notEmpty('news.primaryImage'),
 
   showPreviewLink: computed('news{publishedAt,isDraft,isScheduled,isPublished,hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     const news = get(this, 'news');
@@ -199,7 +214,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
     let content = get(this, 'news.content');
 
     // Have to scrub any img wrapping divs to get rid of captions
-    let $content = Ember.$('<div />').append(Ember.$.parseHTML(content));
+    let $content = $('<div />').append($.parseHTML(content));
     $content.find('.ContentImage').remove();
     content = $content.prop('outerHTML');
 
@@ -458,7 +473,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
           transitionData = organizationId;
         }
 
-        get(this, 'routing.router').transitionTo(nextRoute, transitionData, {
+        get(this, 'router').transitionTo(nextRoute, transitionData, {
           queryParams: {
             resetController: true
           }

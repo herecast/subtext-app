@@ -1,10 +1,10 @@
 {{#x-card}}
 
-  {{#x-tabs color='neutral' size='x-small' as |tabs|}}
-    {{#tabs.button active=isAboutTabActive onClick=(action 'setActiveTab' 'about')}}
+  {{#x-tabs color="neutral" size="x-small" as |tabs|}}
+    {{#tabs.button active=isAboutTabActive onClick=(action "setActiveTab" "about")}}
       About
     {{/tabs.button}}
-    {{#tabs.button active=isHoursTabActive onClick=(action 'setActiveTab' 'hours')}}
+    {{#tabs.button active=isHoursTabActive onClick=(action "setActiveTab" "hours")}}
       Hours
     {{/tabs.button}}
   {{/x-tabs}}

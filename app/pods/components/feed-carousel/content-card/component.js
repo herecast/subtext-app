@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { oneWay, alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCarousel-ContentCard',
-  'data-test-feed-carousel-card': computed.oneWay('model.contentType'),
+  'data-test-feed-carousel-card': oneWay('model.contentType'),
 
   model: null,
   carouselId: null,
@@ -12,9 +13,9 @@ export default Ember.Component.extend({
 
   tracking: service(),
 
-  title: computed.alias('model.title'),
+  title: alias('model.title'),
 
-  body: computed.alias('model.content'),
+  body: alias('model.content'),
 
   actions: {
     onLinkClick(elementName) {

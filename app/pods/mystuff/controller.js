@@ -1,14 +1,16 @@
+import { alias, readOnly } from '@ember/object/computed';
+import { computed, set, get } from '@ember/object';
+import Controller, { inject as controller } from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import MystuffNavObjects from 'subtext-ui/mixins/mystuff-nav-objects';
-import Ember from 'ember';
 
-const { get, set, computed, inject:{controller, service}, run } = Ember;
-
-export default Ember.Controller.extend(MystuffNavObjects, {
+export default Controller.extend(MystuffNavObjects, {
   session: service(),
 
-  mystuffRouteObjects: computed.alias('mystuffNavObjects'),
+  mystuffRouteObjects: alias('mystuffNavObjects'),
 
-  currentUserId: computed.readOnly('session.userId'),
+  currentUserId: readOnly('session.userId'),
 
   currentUser: computed('session.currentUser', function() {
     return get(this, 'session.currentUser');
@@ -16,7 +18,7 @@ export default Ember.Controller.extend(MystuffNavObjects, {
 
   applicationController: controller('application'),
 
-  activeRouteName: computed.readOnly('applicationController.currentRouteName'),
+  activeRouteName: readOnly('applicationController.currentRouteName'),
   activeRoute: computed('activeRouteName', function() {
     const routeObjects = get(this, 'mystuffRouteObjects');
     const activeRouteName = get(this, 'activeRouteName');

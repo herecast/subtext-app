@@ -1,32 +1,33 @@
-import Ember from 'ember';
+import { mapBy } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, setProperties, set, get } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent, isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import { buildGroup } from 'subtext-ui/lib/group-by-date';
+import { A } from '@ember/array';
 import moment from 'moment';
 
-const {
-  get,
-  set,
-  setProperties,
-  computed,
-  run,
-  isEmpty,
-  isPresent,
-  inject:{service}
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'EventsResults',
-
-  events: null,
-  query: null,
-  eventsAreLoading: false,
-  reportScrollToEnd: false,
 
   modals: service(),
   session: service(),
   tracking: service(),
 
+  enabledEventDays: A(),
+  events: null,
+  query: null,
+  eventsAreLoading: false,
+  reportScrollToEnd: false,
   startDate: null,
-  enabledEventDays: [],
+
+  init() {
+    this._super(...arguments);
+
+    this._resetVisibleDates();
+  },
+
   updateStartDate: function(){},
   updateEnabledEventDays: function(){},
 
@@ -38,11 +39,6 @@ export default Ember.Component.extend({
 
     return moment(startDate);
   }),
-
-  init() {
-    this._super(...arguments);
-    this._resetVisibleDates();
-  },
 
   didUpdateAttrs() {
     const newQuery = get(this, 'events.query');
@@ -75,7 +71,7 @@ export default Ember.Component.extend({
     return (events) ? events.sortBy('startsAtUnix', 'venueName', 'title') : [];
   }),
 
-  loadedEventDates: computed.mapBy('sortedEvents', 'startsAt'),
+  loadedEventDates: mapBy('sortedEvents', 'startsAt'),
 
   storedGroups: null,
   eventsByDay: computed('sortedEvents.[]', function() {
@@ -90,6 +86,7 @@ export default Ember.Component.extend({
       (startsAt) => {
         return startsAt.format('L');
     });
+    //eslint-disable-next-line ember/no-side-effects
     set(this, 'storedGroups', groups);
 
     return groups;

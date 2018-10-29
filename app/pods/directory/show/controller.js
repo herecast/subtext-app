@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { oneWay } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { get, computed } from '@ember/object';
 import formatBusinessHours from 'subtext-ui/utils/business-hours-format';
 
-const { inject, computed, get } = Ember;
-
-export default Ember.Controller.extend({
-  location: inject.service('window-location'),
-  geo: inject.service('geolocation'),
-  intercom: inject.service(),
-  myCoords: computed.oneWay('geo.userLocation.coords'),
+export default Controller.extend({
+  location: service('window-location'),
+  geo: service('geolocation'),
+  intercom: service(),
+  myCoords: oneWay('geo.userLocation.coords'),
   fromSearch: computed('location.href', function() {
     return get(this, 'location').href().indexOf('?') >= 0;
   }),
@@ -26,7 +27,7 @@ export default Ember.Controller.extend({
     });
   }),
 
-  reportIncorrectInfoEmail: computed('model.name', 'modelfullAddress', 'model.phone', 'model.websiteLink', function() {
+  reportIncorrectInfoEmail: computed('model.{name,fullAddress,phone,websiteLink}', function() {
     const mailTo = `mailto:dailyuv@subtext.org`;
     const firstLine = 'Thank you for alerting us about problems with the directory information for this business.';
     const bodyContent = `Business name: ${get(this, 'model.name')} \r\nBusiness address: ${get(this, 'model.fullAddress')} \r\nBusiness telephone number:  ${get(this, 'model.phone')} \r\nBusiness URL: ${get(this, 'model.websiteLink')} \r\nBusiness hours: ${get(this, 'humanBusinessHours')} \r\nDoes this business still exist? (Y/N) \r\nPlease tell us just below this what you think is wrong. \r\nThanks again for helping us build the Upper Valley’s best business directory! \r\n\r\nProblems with the info above:`;

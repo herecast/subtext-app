@@ -8,10 +8,10 @@
 {{/if}}
 
 {{#if showImageModal}}
-  {{#modal-wrapper close=(action 'cancelImageModal')}}
+  {{#modal-wrapper close=(action "cancelImageModal")}}
     {{image-editor
-    save=(action 'saveImageModal')
-    cancel=(action 'cancelImageModal')
+    save=(action "saveImageModal")
+    cancel=(action "cancelImageModal")
     }}
   {{/modal-wrapper}}
 {{/if}}

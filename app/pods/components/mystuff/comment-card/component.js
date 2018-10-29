@@ -1,14 +1,13 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
 
-const { computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'Mystuff-CommentCard',
 
   comment: null,
 
   linkRoute: 'mystuff.comments.show',
 
-  linkId: computed.readOnly('comment.parentContentId')
+  linkId: readOnly('comment.parentContentId')
 
 });

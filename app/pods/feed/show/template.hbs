@@ -1,29 +1,28 @@
-{{#unless isDirectLink}}
+{{#if isDirectLink}}
+  <div class="Location-Index-Show-wrapper">
+    {{component componentName
+      model=model
+      closeRoute="feed"
+      closeLabel="Back"
+      isPreview=false
+      trackDetailEngagement=(action "trackDetailEngagement" model.id "integrated")
+    }}
+  </div>
+
+{{else}}
 
   {{render-in-modal
       (component componentName
         model=model
-        closeRoute='feed'
-        closeLabel='Back'
+        closeRoute="feed"
+        closeLabel="Back"
         isPreview=false
         enableStickyHeader=true
-        trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
+        trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
       )
-      onClose=(action 'closeDetailPage')
-      modalWrapper='modals/headless-wrapper'
+      onClose=(action "closeDetailPage")
+      modalWrapper="modals/headless-wrapper"
       model=model
   }}
 
-{{else}}
-
-  <div class="Location-Index-Show-wrapper">
-    {{component componentName
-      model=model
-      closeRoute='feed'
-      closeLabel='Back'
-      isPreview=false
-      trackDetailEngagement=(action 'trackDetailEngagement' model.id 'integrated')
-    }}
-  </div>
-
-{{/unless}}
+{{/if}}

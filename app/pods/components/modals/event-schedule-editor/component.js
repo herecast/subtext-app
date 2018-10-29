@@ -1,11 +1,6 @@
+import { get, computed } from '@ember/object';
 import ModalBase from 'subtext-ui/pods/components/modal-instance/component';
-import Ember from 'ember';
 import ScheduleValidations from 'subtext-ui/validations/schedule';
-
-const {
-  computed,
-  get
-} = Ember;
 
 export default ModalBase.extend({
   validations: ScheduleValidations,

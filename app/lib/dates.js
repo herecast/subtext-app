@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { isEmpty, isPresent } from '@ember/utils';
 import moment from 'moment';
-
-const { isEmpty } = Ember;
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -19,7 +17,7 @@ export default {
       return 'This Weekend';
     } else if (start === this.startOfMonth() && stop === this.endOfMonth()) {
       return 'This Month';
-    } else if (Ember.isPresent(start) && Ember.isPresent(stop)) {
+    } else if (isPresent(start) && isPresent(stop)) {
       if (start === stop) {
         return moment(start).format('MMM D');
       } else {

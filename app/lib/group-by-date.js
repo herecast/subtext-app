@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import { copy } from '@ember/object/internals';
+import EmberObject, { get, set } from '@ember/object';
+import { isEmpty, isPresent } from '@ember/utils';
 import moment from 'moment';
-
-const { get, isEmpty } = Ember;
 
 // Used to generate a collection of records that is grouped by a specified
 // date attribute.
 function buildGroup(records, storedGroups, dateAttr, displayFormat, convertDate) {
-  const groups = !isEmpty(storedGroups) ? Ember.copy(storedGroups) : new Ember.A();
+  const groups = !isEmpty(storedGroups) ? copy(storedGroups) : new A();
 
-  if (!Ember.isEmpty(records)) {
+  if (!isEmpty(records)) {
 
     records.forEach((record, index) => {
       const recordNotYetGrouped = isEmpty(storedGroups) || isEmpty(get(record, 'indexInFullSetOfRecords'));
@@ -18,16 +19,16 @@ function buildGroup(records, storedGroups, dateAttr, displayFormat, convertDate)
         const value = convertDate(date);
         let group = groups.findBy('value', value);
 
-        Ember.set(record, 'indexInFullSetOfRecords', index);
+        set(record, 'indexInFullSetOfRecords', index);
 
-        if (Ember.isPresent(group)) {
-          Ember.get(group, 'items').pushObject(record);
+        if (isPresent(group)) {
+          get(group, 'items').pushObject(record);
         } else {
           // When viewing a single day, the value will be the hour of the day.
           // When viewing events across multiple days, the value is the date.
           const sortValue = parseInt(value) === value ? value : moment(value).unix();
 
-          group = Ember.Object.create({
+          group = EmberObject.create({
             value: value,
             sortValue: sortValue,
             displayValue: date.format(displayFormat),

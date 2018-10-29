@@ -1,8 +1,11 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { computed, get, set } from '@ember/object';
+import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
 
-const {set, get, run, computed, RSVP:{Promise}, inject:{service}} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   fastboot: service(),
   classNames: 'ImageLoadPlaceholder',
 
@@ -28,12 +31,12 @@ export default Ember.Component.extend({
 
     const isFastBoot = get(this, 'fastboot.isFastBoot');
 
-    if(!isFastBoot) {
+    if (!isFastBoot) {
       const placeholderUrl = get(this,'placeholderUrl');
       const imageUrl = get(this, 'imageUrl');
       const formerImageUrl = get(this, 'formerImageUrl');
 
-      if(placeholderUrl) {
+      if (placeholderUrl) {
         this.loadImage(placeholderUrl).then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
            set(this, 'blurIsLoaded', true);
@@ -41,9 +44,10 @@ export default Ember.Component.extend({
         });
       }
 
-      if(imageUrl && imageUrl !== formerImageUrl) {
+      if (imageUrl && imageUrl !== formerImageUrl) {
         set(this, 'formerImageUrl', imageUrl);
-        this.loadImage(imageUrl).then(() => {
+        this.loadImage(imageUrl)
+        .then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
            set(this, 'imageIsLoaded', true);
 
@@ -76,7 +80,7 @@ export default Ember.Component.extend({
 
   blockStyle: computed('placeholderBlockWidth', 'placeholderBlockHeight', 'imageIsLoaded', 'blurIsLoaded', function() {
     if (get(this, 'imageIsLoaded') || get(this, 'blurIsLoaded')) {
-      return Ember.String.htmlSafe("");
+      return htmlSafe("");
     }
 
     const placeholderBlockWidth = parseInt(get(this, 'placeholderBlockWidth'));
@@ -86,6 +90,6 @@ export default Ember.Component.extend({
     const aspectRatio = 100 * placeholderBlockHeight / placeholderBlockWidth;
     const padding = get(this, 'placeholderBlockFixedSize') ? '' : `padding-bottom:${aspectRatio}%`;
 
-    return Ember.String.htmlSafe(`${max}height:${placeholderBlockHeight}px;${max}width:${placeholderBlockWidth}px;${padding}`);
+    return htmlSafe(`${max}height:${placeholderBlockHeight}px;${max}width:${placeholderBlockWidth}px;${padding}`);
   })
 });

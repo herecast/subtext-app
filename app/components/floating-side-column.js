@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { debounce } from '@ember/runloop';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { observer } from '@ember/object';
 
-const { on, observer } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['FloatingSideColumn'],
   classNameBindings: ['enabled:is-enabled', 'floating:is-floating'],
   floatOffset: 30,
@@ -11,18 +12,20 @@ export default Ember.Component.extend({
   floating: false,
   enabled: true,
 
-  initContentAffixing: on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
+
     const contentBody = this.$().closest('.row');
     const enabled = this.get('enabled');
 
     if (enabled && contentBody.outerHeight() > this.get('minHeight')) {
       this.affixContent();
 
-      Ember.$(document).on('scroll.column', () => {
-        Ember.run.debounce(this, this.affixContent, 8);
+      $(document).on('scroll.column', () => {
+        debounce(this, this.affixContent, 8);
       });
     }
-  }),
+  },
 
   affixContent() {
     const contentBody = this.$().closest('.row');
@@ -51,11 +54,13 @@ export default Ember.Component.extend({
     }
   },
 
-  removeContentAffixing: on('willDestroyElement', function() {
+  willDestroyElement() {
+    this._super(...arguments);
+
     this.$().css('position', '');
     this.$().css('top', '');
-    Ember.$(document).off('scroll.column');
-  }),
+    $(document).off('scroll.column');
+  },
 
   toggle: observer('enabled', function() {
     if (this.get('enabled')) {

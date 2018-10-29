@@ -1,24 +1,24 @@
-<div class='Container--noGutter'>
+<div class="Container--noGutter">
   {{content-form-header
     isNew=model.isNew
-    type='market'
+    type="market"
     title=job
   }}
 
-  <div class='row'>
+  <div class="row">
     {{content-form-steps
-      step1State='complete'
-      step2State='complete'
-      step3State='current'
-      type='Listing'
-      class='ContentFormSteps--gray'
+      step1State="complete"
+      step2State="complete"
+      step3State="current"
+      type="Listing"
+      class="ContentFormSteps--gray"
     }}
   </div>
 
   {{market-preview-summary
     model=(mut model)
-    afterDiscard='afterDiscard'
-    afterPublish='afterPublish'
+    afterDiscard="afterDiscard"
+    afterPublish="afterPublish"
   }}
 </div>
 

@@ -1,18 +1,16 @@
 /* global window */
 
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
-const {
-  $,
-  run,
-  get,
-  computed,
-  inject
-} = Ember;
+import { alias } from '@ember/object/computed';
+import Mixin from '@ember/object/mixin';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
+import { get } from '@ember/object';
 
-export default Ember.Mixin.create({
-  fastboot: inject.service(),
-  isFastBoot: computed.alias('fastboot.isFastBoot'),
+export default Mixin.create({
+  fastboot: service(),
+  isFastBoot: alias('fastboot.isFastBoot'),
 
   actions: {
     didTransition() {

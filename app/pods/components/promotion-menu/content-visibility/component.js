@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, set, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'PromotionMenu-ContentVisibility',
 
   content: null,
@@ -15,7 +16,7 @@ export default Ember.Component.extend({
   store: service(),
   notify: service('notification-messages'),
 
-  viewStatus: computed.alias('content.viewStatus'),
+  viewStatus: alias('content.viewStatus'),
 
   manageText: computed('content.viewStatus', function() {
     const viewStatus = get(this, 'content.viewStatus');
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
     return `${baseRoute}.edit`;
   }),
 
-  editId: computed.alias('content.contentId'),
+  editId: alias('content.contentId'),
 
   updateVisibility(isVisible) {
     const notify = get(this, 'notify');

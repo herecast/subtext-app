@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import { set, get } from '@ember/object';
 
-const { get, set, inject } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   secondaryBackground: true,
-  session: inject.service('session'),
+  session: service('session'),
   queryParams: ['auth_token'],
   auth_token: null,
 

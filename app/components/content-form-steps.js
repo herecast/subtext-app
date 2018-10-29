@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import { equal } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-const {
-  get,
-  computed
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ContentFormSteps', 'col-sm-8', 'col-sm-offset-2'],
-  step1Complete: computed.equal('step1State', 'complete'),
-  step2Complete: computed.equal('step2State', 'complete'),
-  step3Complete: computed.equal('step3State', 'complete'),
+  step1Complete: equal('step1State', 'complete'),
+  step2Complete: equal('step2State', 'complete'),
+  step3Complete: equal('step3State', 'complete'),
   type: '',
 
   formattedType: computed('type', function() {

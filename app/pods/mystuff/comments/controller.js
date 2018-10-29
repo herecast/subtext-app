@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed, get } from '@ember/object';
 
-const { get, computed } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   queryParams: ['page'],
   page: 1,
 

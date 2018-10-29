@@ -1,10 +1,15 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { Promise } from 'rsvp';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-/* global Ember, sinon */
+import sinon from 'sinon';
 
-moduleForComponent('directory-business-info', 'Integration | Component | directory business info', {
-  integration: true,
-  beforeEach() {
+module('Integration | Component | directory business info', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
     const { stub, spy } = sinon;
 
     const instance = {
@@ -26,26 +31,26 @@ moduleForComponent('directory-business-info', 'Integration | Component | directo
 
     const googleMaps = {
       getGoogleMaps() {
-        return Ember.RSVP.Promise.resolve(googleMapsResolved);
+        return Promise.resolve(googleMapsResolved);
       }
     };
 
-    const google = Ember.Service.extend(googleMaps);
+    const google = Service.extend(googleMaps);
 
-    this.register('service:google-maps', google);
-    this.inject.service('google-maps', { as: 'google-maps' });
-  }
-});
+    this.owner.register('service:google-maps', google);
+    this['google-maps'] = this.owner.lookup('service:google-maps');
+  });
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  const model = {
-    details: '<p></p>'
-  };
+    const model = {
+      details: '<p></p>'
+    };
 
-  this.set('model', model);
+    this.set('model', model);
 
-  this.render(hbs`{{directory-business-info model=model}}`);
-  assert.ok(this.$());
+    await render(hbs`{{directory-business-info model=model}}`);
+    assert.ok(this.element);
 
+  });
 });

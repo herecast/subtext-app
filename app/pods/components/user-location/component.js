@@ -1,14 +1,16 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
-const { computed, get, isPresent, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'UserLocation',
 
   userLocation: service(),
 
-  userLocationName: computed.readOnly('userLocation.userLocation.name'),
-  isLoadingLocation: computed.readOnly('userLocation.isLoadingLocation'),
+  userLocationName: readOnly('userLocation.userLocation.name'),
+  isLoadingLocation: readOnly('userLocation.isLoadingLocation'),
 
   showLocationName: computed('userLocationName', 'isLoadingLocation', function() {
     return isPresent(get(this, 'userLocationName')) && !get(this, 'isLoadingLocation');

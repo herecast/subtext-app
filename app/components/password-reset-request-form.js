@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, set, inject, isPresent } = Ember;
-
-export default Ember.Component.extend(Validation, TestSelector, {
+export default Component.extend(Validation, TestSelector, {
   tagName: 'form',
 
-  api: inject.service(),
+  api: service(),
 
   showConfirmation: false,
   returnUrl: null,

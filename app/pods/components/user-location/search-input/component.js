@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import { readOnly, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, setProperties, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 
-const { get, set, setProperties, computed, inject:{service}, run } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'UserLocation-SearchInput',
 
   api: service(),
   geolocation: service(),
   userLocation: service(),
-  userLocationName: computed.readOnly('userLocation.userLocation.name'),
-  isLoadingLocation: computed.readOnly('userLocation.isLoadingLocation'),
+  userLocationName: readOnly('userLocation.userLocation.name'),
+  isLoadingLocation: readOnly('userLocation.isLoadingLocation'),
 
   modelLocationName: null,
 
@@ -22,8 +24,17 @@ export default Ember.Component.extend({
   gettingGeolocation: false,
   gettingMatches: false,
   shouldShowResults: false,
-  locationMatches: [],
-  hasLocationMatches: computed.notEmpty('locationMatches'),
+  hideLocateMe: false,
+
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      locationMatches: []
+    });
+  },
+
+  hasLocationMatches: notEmpty('locationMatches'),
 
   inputDisplayValue: computed('inputValue', 'userLocationName', 'shouldShowResults', function() {
     const inputValue = get(this, 'inputValue');
@@ -36,7 +47,7 @@ export default Ember.Component.extend({
     return get(this, 'userLocationName');
   }),
 
-  hideLocateMe: false,
+
 
   _checkLocationMatches() {
     if (get(this, 'hasInputValue')) {

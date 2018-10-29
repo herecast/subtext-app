@@ -1,5 +1,5 @@
-<div class="AppDownloadNag-close" {{action 'closeNag'}} data-test-action="close-nag">
-  {{fa-icon 'close'}}
+<div class="AppDownloadNag-close" role="button" {{action "closeNag"}} data-test-action="close-nag">
+  {{fa-icon "close"}}
 </div>
 <div class="AppDownloadNag-wrap">
   <div class="AppDownloadNag-title">
@@ -7,16 +7,28 @@
   </div>
   <div class="AppDownloadNag-images">
     <div class="AppDownloadNag-images-left">
-      <img src={{appIcon.imageURL}} class="AppDownloadNag-images-logo" />
+      <img src={{appIcon.imageURL}} class="AppDownloadNag-images-logo" alt="DailyUV app Icon">
     </div>
-    <div class="AppDownloadNag-images-center" {{action 'clickAppleStore' preventDefault=false}}>
-      <a href={{appleStore.linkURL}} class="AppDownloadNag-images-apple" target="_blank">
-        <img src={{appleStore.imageURL}} />
+    <div class="AppDownloadNag-images-center">
+      <a
+      href={{appleStore.linkURL}}
+      class="AppDownloadNag-images-apple"
+      target="_blank"
+      rel="noopener noreferrer"
+      {{action "clickAppleStore" preventDefault=false}}
+      >
+        <img src={{appleStore.imageURL}} alt="Apple Store Icon">
       </a>
     </div>
-    <div class="AppDownloadNag-images-right" {{action 'clickAndroidStore' preventDefault=false}}>
-      <a href={{androidStore.linkURL}} class="AppDownloadNag-images-android" target="_blank">
-        <img src={{androidStore.imageURL}} />
+    <div class="AppDownloadNag-images-right">
+      <a
+      href={{androidStore.linkURL}}
+      class="AppDownloadNag-images-android"
+      target="_blank"
+      rel="noopener noreferrer"
+      {{action "clickAndroidStore" preventDefault=false}}
+      >
+        <img src={{androidStore.imageURL}} alt="Android Store Icon">
       </a>
     </div>
   </div>

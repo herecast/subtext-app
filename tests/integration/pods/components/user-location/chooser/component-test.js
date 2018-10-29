@@ -1,12 +1,14 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('user-location/chooser', 'Integration | Component | user location/chooser', {
-  integration: true
-});
+module('Integration | Component | user location/chooser', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  this.render(hbs`{{user-location/chooser}}`);
+  test('it renders', async function(assert) {
+    await render(hbs`{{user-location/chooser}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

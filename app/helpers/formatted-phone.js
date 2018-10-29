@@ -1,6 +1,5 @@
-import Ember from 'ember';
-
-const { isBlank } = Ember;
+import { helper as buildHelper } from '@ember/component/helper';
+import { isBlank } from '@ember/utils';
 
 export function formattedPhone(params) {
   let phone = params[0];
@@ -8,4 +7,4 @@ export function formattedPhone(params) {
   return phone.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "($1) $2-$3");
 }
 
-export default Ember.Helper.helper(formattedPhone);
+export default buildHelper(formattedPhone);

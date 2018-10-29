@@ -1,18 +1,20 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('promotion-coupon-cta', 'Integration | Component | promotion coupon cta', {
-  integration: true
-});
+module('Integration | Component | promotion coupon cta', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{promotion-coupon-cta}}`);
+    await render(hbs`{{promotion-coupon-cta}}`);
 
-  assert.equal(this.$('button').length, 1);
+    assert.ok(this.element.querySelector('button'));
 
 
+  });
 });

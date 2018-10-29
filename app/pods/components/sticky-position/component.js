@@ -1,17 +1,18 @@
-import Ember from 'ember';
-
-const { get, inject, run } = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
 
 /**
  * This is a helper component to be used in conjunction with a sticky-container.
  * It is used as an empty placeholder to mark the position at which items should stick.
  * This way we can identify a sticky location anywhere on the page.
  */
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['StickyPosition'],
   name: null,
 
-  stickyService: inject.service('sticky'),
+  stickyService: service('sticky'),
 
   getPosition() {
     return this.$().position().top;

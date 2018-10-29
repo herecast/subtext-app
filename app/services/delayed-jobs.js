@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import Service from '@ember/service';
+import EmberObject, { get } from '@ember/object';
+import { run } from '@ember/runloop';
 
-const { get, run } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   //Service for maintaining singular Ember runLoops
-  jobQueue: Ember.Object.create(),
+  jobQueue: EmberObject.create(),
 
   destroyJob: function(jobName) {
     let jobQueue = get(this, 'jobQueue');

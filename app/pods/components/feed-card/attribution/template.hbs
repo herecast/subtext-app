@@ -1,6 +1,6 @@
 <div class="FeedCard-Attribution-box-left">
-  <div class="FeedCard-Attribution-author-wrap {{unless noPadding 'u-paddingBottom8'}}" data-test-card-attribution>
-    <div class="FeedCard-Attribution-author-left {{unless noPadding 'u-paddingLeft8'}}">
+  <div class="FeedCard-Attribution-author-wrap {{unless noPadding "u-paddingBottom8"}}" data-test-card-attribution>
+    <div class="FeedCard-Attribution-author-left {{unless noPadding "u-paddingLeft8"}}">
       {{#if hasLinkRouteName}}
         {{#link-to linkRouteName linkId}}
           {{avatar-image
@@ -18,12 +18,12 @@
       {{/if}}
     </div>
     <div class="FeedCard-Attribution-author-right">
-      <div class="FeedCard-Attribution-author {{unless noPadding 'u-paddingLeft8'}}" data-test-detail-page-attribution>
+      <div class="FeedCard-Attribution-author {{unless noPadding "u-paddingLeft8"}}" data-test-detail-page-attribution>
         {{#if hasLinkRouteName}}
           {{#link-to
             linkRouteName
             linkId
-            data-test-link='organization-link'
+            data-test-link="organization-link"
           }}
             {{authorNameFormatted}}
           {{/link-to}}
@@ -31,7 +31,7 @@
           {{authorNameFormatted}}
         {{/if}}
       </div>
-      <div class="FeedCard-Attribution-posted-time {{unless noPadding 'u-paddingLeft8'}}">
+      <div class="FeedCard-Attribution-posted-time {{unless noPadding "u-paddingLeft8"}}">
         {{#if postedTime}}
           Submitted {{postedTime}}
         {{else}}

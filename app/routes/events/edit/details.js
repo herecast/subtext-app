@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import DocTitleFromContent from '../../../mixins/routes/title-token-from-content';
 
-export default Ember.Route.extend(DocTitleFromContent, {
+export default Route.extend(DocTitleFromContent, {
   additionalToken: 'Edit'
 });

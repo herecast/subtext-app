@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
 
-const { isPresent, run, inject } = Ember;
-
-export default Ember.Mixin.create({
-  modals: inject.service(),
+export default Mixin.create({
+  modals: service(),
   warnAboutMultipleReversePublish() {
     this.get('modals').showModal('modals/alert-reverse-publish');
   },

@@ -1,15 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import { set, get, computed } from '@ember/object';
 
-const {
-  get,
-  set
-} = Ember;
-
-export default Ember.Controller.extend({
-  userService: Ember.inject.service('user'),
+export default Controller.extend({
+  userService: service('user'),
   queryParams: ['email'],
 
-  callToActionDisabled: Ember.computed('email',function(){
+  callToActionDisabled: computed('email',function(){
     const pattern = /\S+@\S+\.\S+/;
     let email = get(this,'email');
     if (email) {

@@ -1,18 +1,16 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
+import { copy } from '@ember/object/internals';
+import { isArray, A } from '@ember/array';
 
-const {
-  isArray
-} = Ember;
-
-export function copy(params, hash) {
+export function copyHelper(params, hash) {
   if(isArray(params[0])) {
     const toArry = params[0].toArray();
-    const eArry = Ember.A(toArry);
+    const eArry = A(toArry);
 
-    return Ember.copy(eArry, !!hash['deep']);
+    return copy(eArry, !!hash['deep']);
   } else {
-    return Ember.copy(params[0], !!hash['deep']);
+    return copy(params[0], !!hash['deep']);
   }
 }
 
-export default Ember.Helper.helper(copy);
+export default buildHelper(copyHelper);

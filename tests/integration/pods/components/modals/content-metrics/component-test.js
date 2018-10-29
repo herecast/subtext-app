@@ -1,17 +1,29 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import Service from '@ember/service';
+import RSVP from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('modals/content-metrics', 'Integration | Component | modals/content metrics', {
-  integration: true
-});
+module('Integration | Component | modals/content metrics', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  hooks.beforeEach(function() {
+    this.owner.register('service:content-metrics', Service.extend({
+      getMetrics() {
+        return RSVP.resolve([]);
+      }
+    }));
+  });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
 
-  this.render(hbs`{{modals/content-metrics}}`);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  assert.ok(this.$());
+    await render(hbs`{{modals/content-metrics}}`);
 
+    assert.ok(this.element);
+
+  });
 });

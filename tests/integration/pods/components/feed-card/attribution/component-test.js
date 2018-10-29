@@ -1,17 +1,19 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('feed-card/attribution', 'Integration | Component | feed card/card attribution', {
-  integration: true
-});
+module('Integration | Component | feed card/card attribution', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{feed-card/attribution}}`);
+    await render(hbs`{{feed-card/attribution}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
 
+  });
 });

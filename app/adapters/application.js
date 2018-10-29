@@ -1,25 +1,29 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
+import { get, set } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import config from 'subtext-ui/config/environment';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { ActiveModelAdapter } from 'active-model-adapter';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 
-import {
-  AdapterError,
-} from 'ember-data/adapters/errors';
-
-const { RSVP, inject, get, isPresent } = Ember;
+import { AdapterError } from 'ember-data/adapters/errors';
 
 export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
-  queryCache: inject.service('query-cache'),
-  logger: inject.service('logger'),
+  queryCache: service('query-cache'),
+  logger: service('logger'),
   host: config.API_BASE_URL,
   namespace: config.API_NAMESPACE,
   coalesceFindRequests: true,
   authorizer: 'authorizer:application',
-  headers: {
-    "Consumer-App-Uri": config['CONSUMER_APP_URI']
+
+  init() {
+    this._super(...arguments);
+
+    set(this, 'headers', {
+      "Consumer-App-Uri": config['CONSUMER_APP_URI']
+    });
   },
 
   handleResponse(status) {

@@ -1,21 +1,21 @@
-{{#unless findingLocation}}
-  <div class="UserLocation-UgcButton-location">
-    {{fa-icon 'map-marker'}} {{buttonText}}
-  </div>
-  <div class="UserLocation-UgcButton-change" {{action 'toggleWantsToChangeContentLocation'}} data-test-action="change-location">
-    Change
-  </div>
-{{else}}
+{{#if findingLocation}}
   <div class="UserLocation-UgcButton-calculating">
     Calculating Location...
   </div>
-{{/unless}}
+{{else}}
+  <div class="UserLocation-UgcButton-location">
+    {{fa-icon "map-marker"}} {{buttonText}}
+  </div>
+  <div class="UserLocation-UgcButton-change" {{action "toggleWantsToChangeContentLocation"}} role="button" data-test-action="change-location">
+    Change
+  </div>
+{{/if}}
 
 {{#if wantsToChangeContentLocation}}
   {{user-location/chooser
     hideLocateMe=true
     modelLocationName=modelLocationName
-    onClose=(action 'toggleWantsToChangeContentLocation')
-    onChangeLocation=(action 'changeContentLocation')
+    onClose=(action "toggleWantsToChangeContentLocation")
+    onChangeLocation=(action "changeContentLocation")
   }}
 {{/if}}

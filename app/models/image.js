@@ -1,14 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
 import DS from 'ember-data';
 
-const {
-  get,
-  set,
-  inject
-} = Ember;
-
 export default DS.Model.extend({
-  api: inject.service('api'),
+  api: service('api'),
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   primary: DS.attr('boolean'),

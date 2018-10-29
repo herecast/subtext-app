@@ -1,26 +1,34 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { reads, oneWay, sort } from '@ember/object/computed';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, set, get, setProperties } from '@ember/object';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-const {
-  get,
-  set,
-  computed,
-  isPresent,
-  inject
-} = Ember;
-
-export default Ember.Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, contentComments, {
   'data-test-component': 'market-detail',
-  'data-test-content': computed.reads('model.contentId'),
+  'data-test-content': reads('model.contentId'),
+
   closeRoute: 'feed',
   closeLabel: 'Market',
-  fastboot: inject.service(),
-  tracking: inject.service(),
-  userLocation: inject.service('user-location'),
+
+  fastboot: service(),
+  tracking: service(),
+  userLocation: service(),
+
   isPreview: false,
   enableStickyHeader: false,
   editPath: 'market.edit',
+  model: null,
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      thumbSortDefinition: ['primary:desc']
+    });
+    this._cachedId = get(this, 'model.id');
+  },
 
   trackDetailEngagement: function() {},
 
@@ -39,16 +47,20 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     this._trackImpression();
   },
 
-  activeImage: computed.oneWay('model.primaryOrFirstImage.imageUrl'),
+  modelContent: computed('model.content', function() {
+    return htmlSafe(get(this, 'model.content'));
+  }),
 
-  controller: inject.service('current-controller'),
+  activeImage: oneWay('model.primaryOrFirstImage.imageUrl'),
+
+  controller: service('current-controller'),
 
   showThumbnails: computed('model.images.[]', function() {
     return get(this, 'model.images.length') > 1;
   }),
 
-  thumbSortDefinition: ['primary:desc'],
-  sortedImages: computed.sort('visibleImages', 'thumbSortDefinition'),
+
+  sortedImages: sort('visibleImages', 'thumbSortDefinition'),
   visibleImages: computed('model.images.[]', function() {
     const images = get(this, 'model.images');
 
@@ -59,21 +71,20 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     return get(this, 'model.canEdit') && ! get(this, 'isPreview') && ! get(this, 'fastboot.isFastBoot');
   }),
 
+  hideContactButton: computed('model.sol', 'showEditButton', function() {
+    return get(this, 'model.sol') || get(this, 'showEditButton');
+  }),
+
   _resetProperties() {
     set(this, 'activeImage', get(this, 'model.coverImageUrl'));
   },
 
-  didUpdateAttrs(changes) {
+  didUpdateAttrs() {
     this._super(...arguments);
 
-    this._resetProperties();
-
-    const newId = get(changes, 'newAttrs.model.value.id');
-    if(isPresent(newId)) {
-      const oldId = get(changes, 'oldAttrs.model.value.id');
-      if(newId !== oldId) {
-        this._trackImpression();
-      }
+    if (this._cachedId !== get(this, 'model.id')) {
+      this._trackImpression();
+      this._cachedId = get(this, 'model.id');
     }
   },
 

@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 
-const { get, computed } = Ember;
 
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['HeaderImage'],
   classNameBindings: [
     'preserveAspectRatio:HeaderImage--preserveAspectRatio',
@@ -31,9 +31,9 @@ export default Ember.Component.extend({
     if (imageUrl) {
       const options = get(this, 'profileHeader') ? [imageUrl, 1280, 720, false] : [imageUrl, 640, 360, false];
 
-      return Ember.String.htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
+      return htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
     }
 
-    return Ember.String.htmlSafe(`background: rgba(255,255,255,1);`);
+    return htmlSafe(`background: rgba(255,255,255,1);`);
   })
 });

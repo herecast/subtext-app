@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import LinkComponent from '@ember/routing/link-component';
+import EmberObject, { get } from '@ember/object';
 import XButtonMixin from 'subtext-ui/mixins/components/x-button';
-
-const { get } = Ember;
 
 /**
  * Reusable button-styled `link-to` component supporting multiple button colors, sizes and styles.
  * Also see `x-button` component, for a `button` version with the same styling.
  */
-export default Ember.LinkComponent.extend(XButtonMixin, {
+export default LinkComponent.extend(XButtonMixin, {
   tagName: 'a',
   style: 'link',
   color: 'black',
@@ -24,7 +23,7 @@ export default Ember.LinkComponent.extend(XButtonMixin, {
 
     if (contentOrganizationId) {
       let params = get(this, 'params');
-       const queryParams = Ember.Object.create({
+       const queryParams = EmberObject.create({
          isQueryParams: true,
          values: {
            organization_id: contentOrganizationId

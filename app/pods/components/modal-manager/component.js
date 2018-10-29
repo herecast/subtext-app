@@ -1,12 +1,14 @@
-import Ember from 'ember';
-const { computed, get, inject } = Ember; // jshint ignore:line
+import { inject as service } from '@ember/service';
+import { alias, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
 
-export default Ember.Component.extend({
-  modalService: inject.service('modals'),
+export default Component.extend({
+  modalService: service('modals'),
 
-  modals: computed.alias('modalService.modals'),
+  modals: alias('modalService.modals'),
 
-  hasModal: computed.notEmpty('modals'),
+  hasModal: notEmpty('modals'),
 
   actions: {
     closeModalResolve(modal, result) {

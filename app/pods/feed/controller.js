@@ -1,18 +1,15 @@
-import Ember from 'ember';
+import { alias, reads, notEmpty } from '@ember/object/computed';
+import { A } from '@ember/array';
+import ArrayProxy from '@ember/array/proxy';
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { assign } from '@ember/polyfills';
+import { setProperties, set, computed, get } from '@ember/object';
+import { run, next } from '@ember/runloop';
+import { Promise } from 'rsvp';
 import moment from 'moment';
 
-const {
-  inject:{service},
-  get,
-  computed,
-  assign,
-  set,
-  setProperties,
-  run,
-  RSVP: {Promise}
-} = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   channel: "feed",
 
   userLocation: service(),
@@ -24,23 +21,22 @@ export default Ember.Controller.extend({
   api: service(),
   history: service(),
 
-  isFastBoot: computed.alias('fastboot.isFastBoot'),
+  isFastBoot: alias('fastboot.isFastBoot'),
 
-  currentRouteName: computed.reads('history.currentRouteName'),
+  currentRouteName: reads('history.currentRouteName'),
 
   queryParams: ['page', 'perPage', 'query', 'type', 'startDate', 'endDate'],
-  query: computed.alias('search.query'),
+  query: alias('search.query'),
   type: '',
   page: 1,
   perPage: 5,
   startDate: '',
   endDate: '',
-  enabledEventDays: Ember.ArrayProxy.create({ content: Ember.A([]) }),
-  enabledEventsQueryParams: {},
+  enabledEventDays: ArrayProxy.create({ content: A([]) }),
   condensedView: false,
   hasClickedCondensedView: false,
 
-  isSearchActive: computed.notEmpty('query'),
+  isSearchActive: notEmpty('query'),
 
   showingDetailInFeed: null,
 
@@ -49,6 +45,22 @@ export default Ember.Controller.extend({
   _animationDelay: null,
   _modelIsLoading: false,
   showLoadingAnimation: false,
+
+  init() {
+    this._super(...arguments);
+
+    setProperties(this, {
+      enabledEventsQueryParams: {}
+    });
+
+    get(this, 'userLocation').on('userLocationChanged', () => {
+      window.scrollTo(0, 0);
+
+      next(() => {
+        this._transitionToFeed({}, true);
+      });
+    });
+  },
 
   modelLoadHasStarted() {
     setProperties(this, {
@@ -84,7 +96,7 @@ export default Ember.Controller.extend({
   },
 
 
-  hasResults: computed('model.eventInstances.[]', 'model.feedItems.[]', function() {
+  hasResults: computed('model.{eventInstances.[],feedItems.[]}', function() {
     return get(this, 'model.feedItems.length') || get(this, 'model.eventInstances.length');
   }),
 
@@ -93,18 +105,6 @@ export default Ember.Controller.extend({
 
     return isEventFilter;
   }),
-
-  init() {
-    this._super(...arguments);
-
-    get(this, 'userLocation').on('userLocationChanged', () => {
-      window.scrollTo(0, 0);
-
-      Ember.run.next(() => {
-        this._transitionToFeed({}, true);
-      });
-    });
-  },
 
   willDestroy() {
     this._super(...arguments);
@@ -156,7 +156,7 @@ export default Ember.Controller.extend({
 
   },
 
-  queryParamsChanged({ location_id, query }) {
+  queryParamsChanged({ query }) {
     const oldQueryParams = get(this, 'enabledEventsQueryParams');
 
     return  oldQueryParams.query !== query;

@@ -2,36 +2,34 @@
   Content is {{manageText}}.
 </div>
 
-{{#if (eq viewStatus 'public')}}
+{{#if (eq viewStatus "public")}}
 
   {{#if bizIsOwner}}
-    <div class="PromotionMenu-ContentVisibility-action-button" {{action 'hideFromPublic'}}>
+    <div class="PromotionMenu-ContentVisibility-action-button" {{action "hideFromPublic"}} role="button">
       Hide from Page
     </div>
 
   {{else}}
-    {{#unless aboutToUntag}}
-      <div class="PromotionMenu-ContentVisibility-action-button">
-        <span {{action 'toggleUntag'}}>Un-tag Your Business</span>
-      </div>
-
-    {{else}}
+    {{#if aboutToUntag}}
       <div>
         Are you sure?
       </div>
-      <span class="PromotionMenu-ContentVisibility-action-button" {{action 'untagContent'}}>Yes</span>
-      <span class="PromotionMenu-ContentVisibility-action-button" {{action 'toggleUntag'}}>No</span>
-
-    {{/unless}}
+      <span class="PromotionMenu-ContentVisibility-action-button" {{action "untagContent"}} role="button">Yes</span>
+      <span class="PromotionMenu-ContentVisibility-action-button" {{action "toggleUntag"}} role="button">No</span>
+    {{else}}
+      <div class="PromotionMenu-ContentVisibility-action-button">
+        <span {{action "toggleUntag"}} role="button">Un-tag Your Business</span>
+      </div>
+    {{/if}}
   {{/if}}
 
-{{else if (eq viewStatus 'private')}}
+{{else if (eq viewStatus "private")}}
 
-  <div class="PromotionMenu-ContentVisibility-action-button" {{action 'showToPublic'}}>
+  <div class="PromotionMenu-ContentVisibility-action-button" {{action "showToPublic"}} role="button">
     Show on Page
   </div>
 
-{{else if (eq viewStatus 'draft')}}
+{{else if (eq viewStatus "draft")}}
 
   {{#link-to editRoute editId (query-params organization_id=organization.id)}}
     <div class="PromotionMenu-ContentVisibility-action-button">

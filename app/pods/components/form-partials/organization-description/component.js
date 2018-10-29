@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { isBlank, isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
 
-const {get, set, isPresent, isBlank, run} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
 
   organization: null,
   model: null,

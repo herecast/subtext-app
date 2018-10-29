@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import $ from 'jquery';
+import { computed, set, get } from '@ember/object';
+import { htmlSafe } from '@ember/template';
+import { run } from '@ember/runloop';
 import StepComponent from 'ember-introjs/components/step';
-
-const { get, set, computed, String:{htmlSafe}, run } = Ember;
 
 export default StepComponent.extend({
   classNames: 'BloggerIntro-Step',
@@ -36,7 +38,7 @@ export default StepComponent.extend({
   hideNavigation: false,
 
   highlightedIdentifier: null,
-  hasHighlightedElement: computed.notEmpty('highlightedIdentifier'),
+  hasHighlightedElement: notEmpty('highlightedIdentifier'),
   highlightedElement: null,
   highlightPositionVertical: 'bottom',
   highlightPositionHorizontal: 'center',
@@ -50,11 +52,11 @@ export default StepComponent.extend({
     if (get(this, 'hasHighlightedElement')) {
       const highlightedIdentifier = get(this,'highlightedIdentifier');
       const scope = get(this, 'scope') || this.element;
-      const highlightedElement = Ember.$(scope).find(highlightedIdentifier)[0];
+      const highlightedElement = $(scope).find(highlightedIdentifier)[0];
 
       set(this, 'highlightedElement', highlightedElement);
 
-      Ember.$(window).on('resize.blogstep', () => {
+      $(window).on('resize.blogstep', () => {
         if (get(this, 'isCurrentStep')) {
           run.debounce(this, this._resetModalPosition, 300);
         }
@@ -64,7 +66,7 @@ export default StepComponent.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    Ember.$(window).off('resize.blogstep');
+    $(window).off('resize.blogstep');
   },
 
   _resetModalPosition() {
@@ -91,9 +93,9 @@ export default StepComponent.extend({
 
         set(_introItems[introItem], 'element', highlightedElement);
         get(this, 'introJS').refresh();
-        Ember.$(highlightedElement).addClass('introjs-showElement introjs-relativePosition');
+        $(highlightedElement).addClass('introjs-showElement introjs-relativePosition');
       } else {
-        Ember.$(highlightedElement).removeClass('introjs-showElement introjs-relativePosition');
+        $(highlightedElement).removeClass('introjs-showElement introjs-relativePosition');
       }
     }
   },
@@ -165,7 +167,7 @@ export default StepComponent.extend({
      run.next(this, () => {
         const highlightedElement = get(this, 'highlightedElement');
         const centerPoints = this._getElementCenterPoints(highlightedElement, get(this, 'highlightPositionHorizontal'), get(this, 'highlightPositionVertical'));
-        const modalElement = Ember.$(this.element).find('.Modal-dialog')[0];
+        const modalElement = $(this.element).find('.Modal-dialog')[0];
 
         if (modalElement) {
           const arrowOffset = 25;

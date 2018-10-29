@@ -1,19 +1,13 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { and, reads, equal, alias } from '@ember/object/computed';
+import { isPresent } from '@ember/utils';
+import { setProperties, set, get, computed } from '@ember/object';
+import RSVP from 'rsvp';
 import DS from 'ember-data';
 import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 
-const {
-  computed,
-  get,
-  set,
-  inject,
-  isPresent,
-  setProperties,
-  RSVP
-} = Ember;
-
 export default DS.Model.extend({
-  api: inject.service('api'),
+  api: service('api'),
   name: DS.attr('string'),
   logoUrl: DS.attr('string'),
   subscribeUrl: DS.attr('string'),
@@ -46,7 +40,7 @@ export default DS.Model.extend({
   hoursCardActive: DS.attr('boolean', {defaultValue: true}),
   calendarCardActive: DS.attr('boolean', {defaultValue: false}),
   calendarViewFirst: DS.attr('boolean', {defaultValue: false}),
-  calendarViewIsDefault: computed.and('calendarCardActive', 'calendarViewFirst'),
+  calendarViewIsDefault: and('calendarCardActive', 'calendarViewFirst'),
   postsOnlyViewIsDefault: computed('calendarCardActive', 'calendarViewFirst', function() {
     return get(this, 'calendarCardActive') && !get(this, 'calendarViewFirst');
   }),
@@ -66,9 +60,9 @@ export default DS.Model.extend({
   zip: DS.attr('string'),
 
   // properties for social sharing tags
-  title: computed.reads('name'),
-  content: computed.reads('description'),
-  featuredImageUrl: computed.reads('profileImageUrl'),
+  title: reads('name'),
+  content: reads('description'),
+  featuredImageUrl: reads('profileImageUrl'),
   contentType: 'organization',
 
   websiteLink: computed('website', function() {
@@ -112,10 +106,10 @@ export default DS.Model.extend({
     return `${id}-${paramName}`;
   }),
 
-  isBlog: computed.equal('orgType', 'Blog'),
-  isBusiness: computed.equal('orgType', 'Business'),
-  isPublisher: computed.equal('orgType', 'Publisher'),
-  isPublication: computed.equal('orgType', 'Publication'),
+  isBlog: equal('orgType', 'Blog'),
+  isBusiness: equal('orgType', 'Business'),
+  isPublisher: equal('orgType', 'Publisher'),
+  isPublication: equal('orgType', 'Publication'),
 
   hasProfile: computed('orgType', function() {
     const validOrgTypes = ['Blog', 'Business', 'Publisher', 'Publication'];
@@ -144,14 +138,14 @@ export default DS.Model.extend({
   desktopImage: null,
 
   // Used for avatars - default to profile image
-  displayImageUrl: computed.reads('profileImageUrl'),
+  displayImageUrl: reads('profileImageUrl'),
 
   isDefaultOrganization: computed('id', function() {
     return isDefaultOrganization(get(this, 'id'));
   }),
 
   organizationLinkRoute: 'profile',
-  organizationLinkId: computed.alias('id'),
+  organizationLinkId: alias('id'),
 
   hasContactInfo: computed('phone', 'email', 'address', 'website', 'twitterHandle', function() {
     return ['phone', 'email', 'address', 'website', 'twitterHandle'].any(
@@ -159,7 +153,7 @@ export default DS.Model.extend({
     );
   }),
 
-  organizationId: computed.reads('id'),
+  organizationId: reads('id'),
 
   save() {
     const saveItBaby = this._super(...arguments);

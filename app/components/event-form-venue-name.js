@@ -1,41 +1,45 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { debounce } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import Component from '@ember/component';
+import { get, set, setProperties } from '@ember/object';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
-const {
-  set,
-  on,
-  get,
-  inject
-} = Ember;
-
-export default Ember.Component.extend(ManualDropdown, {
-  api: inject.service('api'),
-  venues: [],
+export default Component.extend(ManualDropdown, {
+  api: service('api'),
 
   init() {
     this._super(...arguments);
-    set(this, 'hasPerformedSearch', false);
+
+    setProperties(this, {
+      venues: [],
+      hasPerformedSearch: false,
+    });
   },
 
-  initInput: on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
+
     this.$('input').keyup(() => {
       const name = this.get('venueName');
 
-      if (Ember.isPresent(name) && name.length > 2) {
+      if (isPresent(name) && name.length > 2) {
         this.setProperties({
           hasPerformedSearch: true,
           isSearching: true,
           open: true
         });
 
-        Ember.run.debounce(this, this.sendSearchQuery, name, 300);
+        debounce(this, this.sendSearchQuery, name, 300);
       }
     });
-  }),
+  },
 
-  removeQueryInput: on('willDestroyElement', function() {
+  willDestroyElement() {
+    this._super(...arguments);
+
     this.$('input').off('keyUp');
-  }),
+  },
 
   sendSearchQuery(value) {
     const api = get(this, 'api');

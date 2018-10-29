@@ -1,6 +1,8 @@
 {{#if (and (not session.isAuthenticated) showSignInPrompt)}}
-  <div class='CommentList-signInPrompt'>
-    <p class='text-center'>Please <a href="#" {{action 'postComment'}} class='u-textUnderline'>sign in</a> to post your comment.</p>
+  <div class="CommentList-signInPrompt">
+    <p class="text-center">
+      Please <a href="#" {{action "postComment"}} class="u-textUnderline">sign in</a> to post your comment.
+    </p>
   </div>
 {{/if}}
 
@@ -9,43 +11,58 @@
     imageUrl=(if session.currentUser.userImageUrl session.currentUser.userImageUrl)
     userName=(if session.currentUser.name session.currentUser.name)
     customSize=40
-    class='CommentSection-avatar pull-left'
+    class="CommentSection-avatar pull-left"
   }}
 {{else}}
-  <button {{action 'showSignInMenu' bubbles=false}} class='CommentSection-anonymousAvatar btn-link pull-left' data-test-link=''>
-    {{fa-icon 'user' size=2}}
+  <button
+  {{action "showSignInMenu" bubbles=false}}
+  class="CommentSection-anonymousAvatar btn-link pull-left"
+  data-test-link=""
+  >
+    {{fa-icon "user" size=2}}
   </button>
 {{/if}}
 
-<div class='CommentSection-replyBox-wrapper' style={{textareaStyle}}>
+<div class="CommentSection-replyBox-wrapper" style={{textareaStyle}}>
   {{textarea
     value=newComment
-    placeholder='Your comment here...'
-    class='CommentSection-replyBox'
+    placeholder="Your comment here..."
+    class="CommentSection-replyBox"
     maxlength=maxCommentLength
-    data-test-field='new-comment'
-    focusIn=(action 'onFocusIn')
-    focusOut=(action 'onFocusOut')
-    keyUp=(action 'commentChanging')
-    keyDown=(action 'checkKeys')
+    data-test-field="new-comment"
+    focusIn=(action "onFocusIn")
+    focusOut=(action "onFocusOut")
+    keyUp=(action "commentChanging")
+    keyDown=(action "checkKeys")
   }}
 
   {{#if isSavingComment}}
-    <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
-      {{fa-icon 'spinner' spin=true}}
+    <button
+    disabled
+    class="CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right"
+    >
+      {{fa-icon "spinner" spin=true}}
     </button>
   {{else}}
     {{#if submitDisabled}}
-      <button disabled class='CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right'>
-      <span {{action (action 'trackSubmitClick' true)}}>
-        {{fa-icon 'arrow-circle-right' size=1}}
+      <button
+      disabled
+      class="CommentSection-replyButton CommentSection-replyButton--disabled Button btn btn-default pull-right"
+      {{action "trackSubmitClick" true}}
+      >
+      <span>
+        {{fa-icon "arrow-circle-right" size=1}}
       </span>
       </button>
     {{else}}
-      <button class='CommentSection-replyButton Button btn btn-default pull-right u-link' data-test-component='add-comment-button' {{action 'postComment' callback}}>
-      <span {{action (action 'trackSubmitClick')}}>
-        {{fa-icon 'arrow-circle-right' size=1}}
-      </span>
+      <button
+      class="CommentSection-replyButton Button btn btn-default pull-right u-link"
+      data-test-component="add-comment-button"
+      {{action "postComment" callback}}
+      >
+        <span>
+          {{fa-icon "arrow-circle-right" size=1}}
+        </span>
       </button>
     {{/if}}
   {{/if}}

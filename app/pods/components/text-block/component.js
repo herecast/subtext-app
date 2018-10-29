@@ -1,13 +1,12 @@
-import Ember from 'ember';
-
-const {get, computed} = Ember;
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
 /**
  * Reusable block of text to enable consistent styling and behavior across the app.
  * Rather than using utility classes or duplicative css classes,
  * this enables consistency and a common interface for rendering blocks of text.
  */
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'p',
   classNames: ['TextBlock'],
   classNameBindings: [

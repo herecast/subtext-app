@@ -1,24 +1,24 @@
-{{#liquid-if showSuccess use='fade'}}
+{{#liquid-if showSuccess use="fade"}}
   <div class="alert alert-success" role="alert">
     Thank you for reporting this content. We will review it shortly.
   </div>
 {{else}}
-  <p class='text-center'>
+  <p class="text-center">
     Tell us what makes this content or comment abusive.
   </p>
 
-  {{#liquid-if isInvalid use='fade'}}
+  {{#liquid-if isInvalid use="fade"}}
     <div class="alert alert-danger u-marginBottom0" role="alert">
       Please make a selection and try again.
     </div>
   {{/liquid-if}}
 
-  <ul class='ReportAbuseBody-flags'>
+  <ul class="ReportAbuseBody-flags">
     {{#each flagTypes as |flag|}}
-      <li class='ReportAbuseBody-flag'>
+      <li class="ReportAbuseBody-flag">
         {{#radio-button
-          class='ReportAbuseBody-label'
-          name='flag-type'
+          class="ReportAbuseBody-label"
+          name="flag-type"
           value=flag
           groupValue=flagType
         }}
@@ -29,25 +29,25 @@
   </ul>
 {{/liquid-if}}
 
-<div class='ReportAbuseBody-actionButtons'>
+<div class="ReportAbuseBody-actionButtons">
   {{#unless showSuccess}}
     {{#x-button
-      color='primary'
-      rounded='rounded'
-      size='x-small'
-      onClick=(action 'submit')
-      data-test-component='report-abuse-submit-button'}}
+      color="primary"
+      rounded="rounded"
+      size="x-small"
+      onClick=(action "submit")
+      data-test-component="report-abuse-submit-button"}}
       Report
     {{/x-button}}
   {{/unless}}
 
   {{#x-button
-    color=(if showSuccess 'primary' 'light-gray')
-    rounded='rounded'
-    size='x-small'
-    onClick=(action 'close')
-    data-test-component='report-abuse-close-button'}}
-    {{if showSuccess 'Close' 'Cancel'}}
+    color=(if showSuccess "primary" "light-gray")
+    rounded="rounded"
+    size="x-small"
+    onClick=(action "close")
+    data-test-component="report-abuse-close-button"}}
+    {{if showSuccess "Close" "Cancel"}}
   {{/x-button}}
 </div>
 

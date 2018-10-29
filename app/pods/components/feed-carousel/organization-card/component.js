@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { htmlSafe } from '@ember/template';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 
-const { get, computed, String:{htmlSafe}, isPresent, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCarousel-OrganizationCard',
   classNameBindings: ['profileImageUrl:has-profile-image'],
 
@@ -12,7 +15,7 @@ export default Ember.Component.extend({
 
   tracking: service(),
 
-  linkRouteName: computed.alias('model.organizationLinkRoute', function() {
+  linkRouteName: alias('model.organizationLinkRoute', function() {
     const linkRouteName = get(this, 'model.organizationLinkRoute');
 
     return linkRouteName || 'feed.show';
@@ -24,7 +27,7 @@ export default Ember.Component.extend({
     return linkRouteId ||  get(this, 'model.id');
   }),
 
-  backgroundImageUrl: computed.alias('model.backgroundImageUrl'),
+  backgroundImageUrl: alias('model.backgroundImageUrl'),
   backgroundImageStyle: computed('backgroundImageUrl', function() {
     const backgroundImageUrl = get(this, 'backgroundImageUrl');
 
@@ -47,7 +50,7 @@ export default Ember.Component.extend({
     return '';
   }),
 
-  orgName: computed.alias('model.name'),
+  orgName: alias('model.name'),
   cityState: computed('model.{city,state}', function() {
     const city = get(this, 'model.city');
     const state = get(this, 'model.state');
@@ -63,11 +66,11 @@ export default Ember.Component.extend({
 
     return cityState.join(', ');
   }),
-  phone: computed.alias('model.phone'),
-  email: computed.alias('model.email'),
-  directionsLink: computed.alias('model.directionsLink'),
-  emailLink: computed.alias('model.emailLink'),
-  isNotClaimed: computed('model.claimed', 'model.orgType', function() {
+  phone: alias('model.phone'),
+  email: alias('model.email'),
+  directionsLink: alias('model.directionsLink'),
+  emailLink: alias('model.emailLink'),
+  isNotClaimed: computed('model.{claimed,orgType}', function() {
     return !get(this, 'model.claimed') && get(this, 'model.orgType').toLowerCase() === 'business';
   }),
 

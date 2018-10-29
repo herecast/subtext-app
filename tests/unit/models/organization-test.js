@@ -1,24 +1,24 @@
-import { moduleForModel, test } from 'ember-qunit';
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('organization', 'Unit | Model | organization', {
-  // Specify the other units that are required for this test.
-  needs: ['model:promotion']
-});
+module('Unit | Model | organization', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  let model = this.subject();
-  // let store = this.store();
-  assert.ok(!!model);
-});
-
-test('slug is equal to id plus title, dasherized.', function(assert) {
-  let model = this.subject();
-
-  Ember.run(()=> {
-    model.setProperties({id: 5, name: "White River Pizza"});
+  test('it exists', function(assert) {
+    let model = run(() => this.owner.lookup('service:store').createRecord('organization'));
+    // let store = this.store();
+    assert.ok(!!model);
   });
 
-  assert.equal(model.get('slug'), "5-white-river-pizza");
+  test('slug is equal to id plus title, dasherized.', function(assert) {
+    let model = run(() => this.owner.lookup('service:store').createRecord('organization'));
 
+    run(()=> {
+      model.setProperties({id: 5, name: "White River Pizza"});
+    });
+
+    assert.equal(model.get('slug'), "5-white-river-pizza");
+
+  });
 });

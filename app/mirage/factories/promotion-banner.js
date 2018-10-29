@@ -1,4 +1,4 @@
-import Mirage, {faker} from 'ember-cli-mirage';
+import Mirage, { faker } from 'ember-cli-mirage';
 import { titleize } from '../support/utils';
 import moment from 'moment';
 

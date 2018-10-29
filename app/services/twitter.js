@@ -1,9 +1,9 @@
+import { set, get } from '@ember/object';
+import { Promise } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 import $ from 'jquery';
-import Ember from 'ember';
 
-const { get, set, RSVP:{Promise}, inject:{service} } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
   twitterInitPromise: null,
   isLoaded: false,

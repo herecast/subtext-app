@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { alias, gt, gte, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isBlank, isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
-const { get, set, computed, isPresent, isBlank, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCarousel',
 
   model: null,
@@ -16,19 +18,19 @@ export default Ember.Component.extend({
   feedRoute: 'feed.index',
   profileRoute: 'profile.all',
 
-  isOrganizationCarousel: computed.alias('model.isOrganizationCarousel'),
-  isContentCarousel: computed.alias('model.isContentCarousel'),
-  carouselId: computed.alias('model.id'),
-  carouselType: computed.alias('model.carouselType'),
+  isOrganizationCarousel: alias('model.isOrganizationCarousel'),
+  isContentCarousel: alias('model.isContentCarousel'),
+  carouselId: alias('model.id'),
+  carouselType: alias('model.carouselType'),
 
-  isLoggedIn: computed.alias('session.isAuthenticated'),
-  linkLocation: computed.alias('userLocation.selectedOrDefaultLocationId'),
+  isLoggedIn: alias('session.isAuthenticated'),
+  linkLocation: alias('userLocation.selectedOrDefaultLocationId'),
 
 
-  hasCards: computed.gt('cards.length', 0),
-  showCtaCard: computed.gte('cards.length', 5),
-  hasTitle: computed.gt('carouselTitle.length', 0),
-  showTitleBar: computed.or('hasTitle', 'showCtaCard'),
+  hasCards: gt('cards.length', 0),
+  showCtaCard: gte('cards.length', 5),
+  hasTitle: gt('carouselTitle.length', 0),
+  showTitleBar: or('hasTitle', 'showCtaCard'),
 
   componentName: computed('carouselType', function() {
     let cardType;

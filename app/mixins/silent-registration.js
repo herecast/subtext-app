@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import RSVP from 'rsvp';
+import { set, get } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 
-const { RSVP, inject, get, set, isEmpty } = Ember;
-
-export default Ember.Mixin.create({
-  api: inject.service(),
-  session: inject.service(),
+export default Mixin.create({
+  api: service(),
+  session: service(),
 
   // Note: set this on the inheriting classes
   silentRegistrationObject: null,

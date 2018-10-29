@@ -1,13 +1,15 @@
-import Ember from 'ember';
+import { reads, oneWay, alias, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, computed, isPresent, inject:{service} } = Ember;
-
-export default Ember.Component.extend(reloadComments, {
+export default Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',
-  'data-test-event-card': computed.reads('model.title'),
-  'data-test-content': computed.oneWay('model.contentId'),
+  'data-test-event-card': reads('model.title'),
+  'data-test-content': oneWay('model.contentId'),
 
   model: null,
   context: null,
@@ -32,7 +34,7 @@ export default Ember.Component.extend(reloadComments, {
     return shouldLinkToProfile ? 'profile' : null;
   }),
 
-  attributionLinkId: computed.alias('model.organizationId'),
+  attributionLinkId: alias('model.organizationId'),
 
   sourceOrVenueTag: computed('sourceTag', 'model.{venueCity,venueState}', function() {
     const sourceTag = get(this, 'sourceTag');
@@ -47,6 +49,8 @@ export default Ember.Component.extend(reloadComments, {
       return null;
     }
   }),
+
+  hideComments: or('context.condensedView', 'context.hideComments'),
 
   actions: {
     onContentClick() {

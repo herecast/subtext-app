@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import DS from 'ember-data';
 import ApplicationSerializer from './application';
 
@@ -89,7 +89,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
 
     // Remove embedded schedule attributes that should not be sent to the API
     json.schedules = json.schedules.map((schedule) => {
-      return Ember.Object.create(schedule).getProperties(
+      return EmberObject.create(schedule).getProperties(
         'days_of_week',
         'end_date',
         'ends_at',

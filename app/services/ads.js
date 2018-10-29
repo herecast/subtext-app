@@ -1,6 +1,8 @@
-import Ember from 'ember';
-
-const { get, isEmpty, isPresent, inject } = Ember;
+import { debounce, next } from '@ember/runloop';
+import { defer } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
+import { get, setProperties } from '@ember/object';
+import { isPresent, isEmpty } from '@ember/utils';
 
 /* Class AdContext
  *
@@ -56,9 +58,15 @@ function AdContext() {
   };
 }
 
-export default Ember.Service.extend({
-  api: inject.service(),
-  _contexts: {},
+export default Service.extend({
+  api: service(),
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      _contexts: {}
+    });
+  },
 
   clearContext(contextName) {
     delete get(this, '_contexts')[contextName];
@@ -87,15 +95,15 @@ export default Ember.Service.extend({
 
     ctx.promotionId = opts['promotionId'];
 
-    const defer = Ember.RSVP.defer();
-    ctx.queue.push(defer);
-    Ember.run.debounce(contextName, () => {
+    const deferfn = defer();
+    ctx.queue.push(deferfn);
+    debounce(contextName, () => {
       if(!this.isDestroying) {
         this._processQueue(contextName);
       }
     }, 150);
 
-    return defer.promise;
+    return deferfn.promise;
   },
 
   _getContext(contextName) {
@@ -121,7 +129,7 @@ export default Ember.Service.extend({
       if(ctx.isProcessing) {
         // Do not process now, there is another thread processing,
         // wait until the next run loop to try again.
-        Ember.run.next(this, ()=> {
+        next(this, ()=> {
           if(!this.isDestroying) {
             this._processQueue(contextName);
           }

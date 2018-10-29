@@ -1,6 +1,6 @@
 {{#unless hidden}}
-  <div class='FloatingActionButton-container'>
-    <header class='FloatingActionButton-header'>
+  <div class="FloatingActionButton-container">
+    <header class="FloatingActionButton-header">
       {{#if showJobTray}}
         <div class="FloatingActionButton-message">
         What would you like to do?
@@ -8,21 +8,21 @@
       {{/if}}
 
       {{#x-button
-        rounded='circle'
-        color=(if showJobTray 'medium-gray' 'attention')
-        style=(if showJobTray 'transparent' 'flatten')
+        rounded="circle"
+        color=(if showJobTray "medium-gray" "attention")
+        style=(if showJobTray "transparent" "flatten")
         shadow=(not showJobTray)
-        size='large'
-        onClick=(action 'toggleContent')
-        class='FloatingActionButton-toggleButton'
-        data-test-button='open-job-tray'
+        size="large"
+        onClick=(action "toggleContent")
+        class="FloatingActionButton-toggleButton"
+        data-test-button="open-job-tray"
       }}
-        {{fa-icon 'plus' class='FloatingActionButton-icon'}}
+        {{fa-icon "plus" class="FloatingActionButton-icon"}}
       {{/x-button}}
     </header>
 
     {{#if showJobTray}}
-      <div class='FloatingActionButton-content' style={{styleForContent}}>
+      <div class="FloatingActionButton-content" style={{styleForContent}}>
         {{yield}}
       </div>
     {{/if}}

@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isPresent, isBlank } from '@ember/utils';
+import { setProperties, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Validation from 'subtext-ui/mixins/components/validation';
+/* eslint-disable ember/closure-actions */
 
-const { get, isBlank, isPresent, set, setProperties, inject:{service} } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   classNames: 'PromotionMenu-AddToMenu',
 
   content: null,

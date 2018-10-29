@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { not, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { isPresent, isBlank } from '@ember/utils';
 
-const {get, computed, isBlank, isPresent, inject} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'OrganizationProfileHeaderCard',
 
   organization: null,
@@ -12,12 +14,12 @@ export default Ember.Component.extend({
   noShadow:false,
 
 
-  fastboot: inject.service(),
+  fastboot: service(),
 
-  profileIsDisabled: computed.not('organization.profileIsActive'),
-  showCustomLinks: computed.not('profileIsDisabled'),
+  profileIsDisabled: not('organization.profileIsActive'),
+  showCustomLinks: not('profileIsDisabled'),
 
-  showDigestButton: computed.notEmpty('organization.digestId'),
+  showDigestButton: notEmpty('organization.digestId'),
 
   hasNoImage: computed('organization.{backgroundImageUrl,displayImageUrl}', function() {
     return isBlank(get(this, 'organization.backgroundImageUrl')) && isBlank(get(this, 'organization.displayImageUrl'));

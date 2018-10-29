@@ -1,16 +1,17 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const { get, set, inject, isPresent } = Ember;
-
-export default Ember.Service.extend({
-  fastboot: inject.service(),
+export default Service.extend({
+  fastboot: service(),
   isFastBoot() {
     return get(this, 'fastboot.isFastBoot');
   },
   redirectTo(href) {
     if(this.isFastBoot()) {
-      set(this, 'fastboot.response.statusCode', 307);
-      set(this, 'fastboot.response.headers.Location', href);
+      const fastboot = get(this, 'fastboot');
+      set(fastboot, 'response.statusCode', 307);
+      set(fastboot, 'response.headers.Location', href);
     } else {
       return window.location.href = href;
     }
@@ -22,26 +23,29 @@ export default Ember.Service.extend({
   },
   reload() {
     if(this.isFastBoot()) {
-      set(this, 'fastboot.response.headers.Refresh', 0);
+      const fastboot = get(this, 'fastboot');
+      set(fastboot, 'response.headers.Refresh', 0);
     } else {
       return window.location.reload();
     }
   },
   host() {
     if(this.isFastBoot()) {
-      return get(this, 'fastboot.request.host');
+      const fastboot = get(this, 'fastboot');
+      return get(fastboot, 'request.host');
     } else {
       return window.location.host;
     }
   },
   protocol() {
     if(this.isFastBoot()) {
-      const headers = get(this, 'fastboot.request.headers');
+      const fastboot = get(this, 'fastboot');
+      const headers = get(fastboot, 'request.headers');
       const xForwardedProto = headers.get('X-Forwarded-Proto');
 
       // Use AWS X-Forwarded-Proto header if available, else use what fastboot has
       const protocol = isPresent(xForwardedProto) ? xForwardedProto
-                                                  : get(this, 'fastboot.request.protocol');
+                                                  : get(fastboot, 'request.protocol');
       // Match protocol response from the browser
       return protocol.endsWith(':') ? protocol : `${protocol}:`;
     } else {
@@ -64,7 +68,8 @@ export default Ember.Service.extend({
   href() {
     if(this.isFastBoot()) {
       const hostWithProtocol = this.hostWithProtocol();
-      const path = get(this, 'fastboot.request.path');
+      const fastboot = get(this, 'fastboot');
+      const path = get(fastboot, 'request.path');
 
       // Build the url. Note that path starts with a / already
       return hostWithProtocol + path;
@@ -75,7 +80,8 @@ export default Ember.Service.extend({
   },
   pathname() {
     if(this.isFastBoot()) {
-      const request = get(this, 'fastboot.request');
+      const fastboot = get(this, 'fastboot');
+      const request = get(fastboot, 'request');
       const path = get(request, 'path');
 
       return path.split('?')[0];
@@ -86,7 +92,8 @@ export default Ember.Service.extend({
   },
   search() {
     if(this.isFastBoot()) {
-      const request = get(this, 'fastboot.request');
+      const fastboot = get(this, 'fastboot');
+      const request = get(fastboot, 'request');
       const path = get(request, 'path');
       const search = path.split('?')[1];
 
@@ -101,7 +108,8 @@ export default Ember.Service.extend({
   },
   referrer() {
     if(this.isFastBoot()) {
-      const headers = get(this, 'fastboot.request.headers');
+      const fastboot = get(this, 'fastboot');
+      const headers = get(fastboot, 'request.headers');
 
       return headers.get('Referer');
     } else {

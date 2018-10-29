@@ -1,20 +1,23 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
+import { isEmpty, isPresent } from '@ember/utils';
+import { run } from '@ember/runloop';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-const {get, set, isPresent, isEmpty, inject, run} = Ember;
-
-export default Ember.Route.extend(ApplicationRouteMixin, {
-  tracking: inject.service(),
-  intercom: inject.service(),
-  history: inject.service(),
-  windowLocation: inject.service(),
-  search: inject.service(),
-  modals: inject.service(),
-  fastboot: inject.service(),
-  userActivity: inject.service(),
-  cookies: inject.service(),
-  logger: inject.service(),
-  store: inject.service(),
+export default Route.extend(ApplicationRouteMixin, {
+  tracking: service(),
+  intercom: service(),
+  history: service(),
+  windowLocation: service(),
+  search: service(),
+  modals: service(),
+  fastboot: service(),
+  userActivity: service(),
+  cookies: service(),
+  logger: service(),
+  store: service(),
 
   title: function(tokens) {
     const title = 'dailyUV';
@@ -113,14 +116,16 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
        * so it correctly tracks the referring page.
        */
 
-      this.get('history').update();
+      if (!get(this, 'fastboot.isFastBoot')) {
+        this.get('history').update();
 
-      const currentUser = get(this, 'session.currentUser');
+        const currentUser = get(this, 'session.currentUser');
 
-      if (isPresent(currentUser)) {
-        run.next(() => {
-          get(this, 'intercom').update(currentUser);
-        });
+        if (isPresent(currentUser)) {
+          run.next(() => {
+            get(this, 'intercom').update(currentUser);
+          });
+        }
       }
 
       return true; // Bubble the didTransition event
@@ -128,7 +133,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     scrollTo(offset) {
       if (!get(this, 'fastboot.isFastBoot')) {
-        Ember.$(window).scrollTop(offset);
+        $(window).scrollTop(offset);
       }
     }
   }

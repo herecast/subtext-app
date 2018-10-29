@@ -1,22 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import $ from 'jquery';
+import Controller from '@ember/controller';
+import { set, get, computed } from '@ember/object';
 import moment from 'moment';
 
-const {
-  computed,
-  inject,
-  get,
-  set
-} = Ember;
+export default Controller.extend({
+  modals: service(),
+  elsewhere: service('ember-elsewhere'),
+  searchService: service('search'),
+  searchOpen: alias('searchService.searchActive'),
 
-export default Ember.Controller.extend({
-  modals: inject.service(),
-  elsewhere: inject.service('ember-elsewhere'),
-  searchService: inject.service('search'),
-  searchOpen: computed.alias('searchService.searchActive'),
-
-  currentController: inject.service('current-controller'),
-  routing: inject.service('_routing'),
-  router: computed.alias('routing.router'),
+  currentController: service('current-controller'),
 
   showUserLocationBar: false,
 
@@ -48,7 +43,7 @@ export default Ember.Controller.extend({
     },
 
     scrollTo(offset) {
-      Ember.$(window).scrollTop(offset);
+      $(window).scrollTop(offset);
     }
   }
 });

@@ -1,9 +1,9 @@
 {{#modal-wrapper
-  close=(action 'close')
+  close=(action "close")
   showHeader=true
   title=title
   isAnimated=false
-  data-test-modal='content-payments'
+  data-test-modal="content-payments"
   class="Modals-aggregatedContentPayments" }}
 
   <div class="Modals-aggregatedContentPayments-payment-table">
@@ -11,7 +11,7 @@
     {{#if isLoading}}
       <div class="Modals-aggregatedContentPayments-loading">
         <div class="Modals-aggregatedContentPayments-loading-box">
-          {{fa-icon 'gear' class="fa-spin"}}
+          {{fa-icon "gear" class="fa-spin"}}
         </div>
       </div>
     {{/if}}
@@ -20,36 +20,38 @@
       {{model.name}} Payment History
     </div>
     <table>
-      <tr>
-        {{#each headers as |header|}}
-          <th>
-            {{header}}
-          </th>
-        {{/each}}
-      </tr>
-
+      <thead>
+        <tr>
+          {{#each headers as |header|}}
+            <th>
+              {{header}}
+            </th>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
       {{#if hasPayments}}
         {{#each payments as |payment|}}
           <tr>
             <td>
-              {{moment-format payment.periodStart 'MM/DD/YYYY'}}
+              {{moment-format payment.periodStart "MM/DD/YYYY"}}
             </td>
             <td>
-              {{moment-format payment.periodEnd 'MM/DD/YYYY'}}
+              {{moment-format payment.periodEnd "MM/DD/YYYY"}}
             </td>
             <td>
               {{payment.paidImpressions}}
             </td>
             <td>
-              {{formatted-number payment.payPerImpression 'dollars'}}
+              {{formatted-number payment.payPerImpression "dollars"}}
             </td>
             <td>
-              {{formatted-number payment.totalPayment 'dollars'}}
+              {{formatted-number payment.totalPayment "dollars"}}
             </td>
             <td>
-              <div {{action 'getPaymentReport' payment}}>
-                {{moment-format payment.adjustedPaymentDate 'MM/DD/YYYY'}}
-                {{fa-icon 'file-pdf-o'}}
+              <div {{action "getPaymentReport" payment}} role="button">
+                {{moment-format payment.adjustedPaymentDate "MM/DD/YYYY"}}
+                {{fa-icon "file-pdf-o"}}
               </div>
             </td>
           </tr>
@@ -61,6 +63,7 @@
           </td>
         </tr>
       {{/if}}
+      </tbody>
     </table>
     {{#unless hasPayments}}
       <div class="Modals-aggregatedContentPayments-invite-message">

@@ -1,14 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
-const { get, inject } = Ember;
-
-export default Ember.Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
+export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
   titleToken: 'Registration Complete!',
-  session: inject.service(),
-  logger: inject.service(),
-  notify: inject.service('notification-messages'),
+  session: service(),
+  logger: service(),
+  notify: service('notification-messages'),
 
   beforeModel(transition) {
       /**

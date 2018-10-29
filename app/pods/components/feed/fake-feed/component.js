@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set } from '@ember/object';
 
-const { set } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
 
   init() {
     this._super(...arguments);

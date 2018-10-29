@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function geoDistance(params) {
   const lat1 = params[0].lat,
@@ -20,4 +20,4 @@ export function geoDistance(params) {
   return d / 1.60934;
 }
 
-export default Ember.Helper.helper(geoDistance);
+export default buildHelper(geoDistance);

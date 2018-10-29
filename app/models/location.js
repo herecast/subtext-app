@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { computed, get } from '@ember/object';
 import DS from 'ember-data';
-
-const { get, computed } = Ember;
 
 export default DS.Model.extend({
   city: DS.attr('string'),

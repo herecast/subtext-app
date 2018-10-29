@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { get, set } from '@ember/object';
 
-const {
-  set,
-  get,
-  inject
-} = Ember;
-
-export default Ember.Component.extend({
-  tracking: inject.service(),
+export default Component.extend({
+  tracking: service(),
   'data-test-component': 'sign-in',
   email: null,
   signInModule: 'sign-in-with-password',

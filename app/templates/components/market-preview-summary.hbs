@@ -1,27 +1,27 @@
-<div class='row'>
-  <div class='ContentPreview-navigation'>
-    <div class='col-sm-3 editLink'>
+<div class="row">
+  <div class="ContentPreview-navigation">
+    <div class="col-sm-3 editLink">
       {{#if model.isNew}}
-        {{#link-to 'market.new.promotion' class='Button btn btn-default pull-left'}}
-          {{fa-icon 'arrow-left u-iconLeft'}}
+        {{#link-to "market.new.promotion" class="Button btn btn-default pull-left"}}
+          {{fa-icon "arrow-left u-iconLeft"}}
           Edit Listing
         {{/link-to}}
       {{else}}
-        {{#link-to 'market.edit.promotion' model class='Button btn btn-default pull-left'}}
-          {{fa-icon 'arrow-left u-iconLeft'}}
+        {{#link-to "market.edit.promotion" model class="Button btn btn-default pull-left"}}
+          {{fa-icon "arrow-left u-iconLeft"}}
           Edit Listing
         {{/link-to}}
       {{/if}}
     </div>
-    <div class='col-sm-3 publishLink'>
-      {{#async-button
-        data-test-component='preview-publish'
-        data-test-action='save-and-publish'
-        disabled=isSaving
-        action='save'
-        class='Button btn btn-primary pull-right save-and-publish'
+    <div class="col-sm-3 publishLink">
+      {{#x-async-button
+        data-test-component="preview-publish"
+        data-test-action="save-and-publish"
+        promiseAction=(action "save")
+        class="Button btn btn-primary pull-right save-and-publish"
+        as |promise|
       }}
-        {{#if isSaving}}
+        {{#if promise.isPending}}
           Please Wait&hellip;
         {{else}}
           <span class="visible-sm-inline">
@@ -30,12 +30,12 @@
           <span class="hidden-sm">
             {{callToAction}}
           </span>
-          {{fa-icon 'check u-iconRight'}}
+          {{fa-icon "check u-iconRight"}}
         {{/if}}
-      {{/async-button}}
+      {{/x-async-button}}
     </div>
   </div>
-  <div class='ContentPreview-summary col-sm-6'>
+  <div class="ContentPreview-summary col-sm-6">
     <div>
       Preview your market listing page below. If everything looks good to go, click the “{{callToAction}}” button to submit your listing.
     </div>
@@ -43,19 +43,19 @@
     <div>
       Here’s how you’ve chosen to promote your listing:
     </div>
-    <ul class='ContentPreview-propertyList'>
+    <ul class="ContentPreview-propertyList">
       {{#disabled-checkbox
         checked=model.listsEnabled
-        tagName='li'
-        class='ContentPreview-summaryProperty'
+        tagName="li"
+        class="ContentPreview-summaryProperty"
       }}
         Alert the List
       {{/disabled-checkbox}}
     </ul>
 
-    <div class='ContentPreview-helpText ContentPreview--bottom'>
+    <div class="ContentPreview-helpText ContentPreview--bottom">
       Everything below dotted line is your preview
-      {{fa-icon 'arrow-down'}}
+      {{fa-icon "arrow-down"}}
     </div>
   </div>
 </div>

@@ -1,16 +1,16 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 
-const { get, set, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'UserLocation-SearchResults',
   'data-test-component': 'user-location-search-results',
 
   userLocation: service(),
 
   gettingGeolocation: false,
-
-  results: [],
+  results: A(),
 
   actions: {
     locateUser() {

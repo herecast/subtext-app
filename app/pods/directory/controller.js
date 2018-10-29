@@ -1,18 +1,13 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import { computed, set, get } from '@ember/object';
+import { isEmpty, isPresent } from '@ember/utils';
+import $ from 'jquery';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+/* eslint-disable ember/no-side-effects */
 
-const {
-  get,
-  set,
-  computed,
-  isPresent,
-  isEmpty,
-  inject,
-  $
-} = Ember;
-
-export default Ember.Controller.extend(FastbootExtensions, {
-  geo: inject.service('geolocation'),
+export default Controller.extend(FastbootExtensions, {
+  geo: service('geolocation'),
 
   queryParams: ['location','lat', 'lng', 'query', 'category_id', 'sort_by', 'page', 'per_page'],
 
@@ -30,7 +25,7 @@ export default Ember.Controller.extend(FastbootExtensions, {
   isLoading: false,
   businesses: null,
 
-  intercom: inject.service(),
+  intercom: service(),
 
   canSearch: computed('query', 'category_id', 'lat', 'lng', function() {
     const query = get(this, 'query') || '';

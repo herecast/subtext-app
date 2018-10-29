@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 
-const { get } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   actions: {
     reloadComments(newComment) {
       get(this, 'model').incrementProperty('commentCount');

@@ -1,32 +1,41 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { reads, oneWay } from '@ember/object/computed';
+import Component from '@ember/component';
+import { isPresent } from '@ember/utils';
+import { computed, get, set } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-const {
-  get,
-  isPresent,
-  inject,
-  computed
-} = Ember;
-
-export default Ember.Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, contentComments, {
   'data-test-component': 'event-detail',
-  'data-test-content': computed.reads('model.contentId'),
+  'data-test-content': reads('model.contentId'),
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:isPreview'],
+
+  fastboot: service(),
+  tracking: service(),
+  store: service(),
+
   model: null,
   closeRoute: 'events',
   closeLabel: 'Events',
   editPath:   'events.edit',
-  editPathId: computed.oneWay('model.contentId'),
-  fastboot: inject.service(),
-  tracking: inject.service(),
-  store: inject.service(),
+  isPreview: false,
+  enableStickyHeader: false,
+
+  init() {
+    this._super(...arguments);
+    set(this, '_cachedModelId', get(this, 'model.id'));
+  },
+
+  editPathId: oneWay('model.contentId'),
 
   trackDetailEngagement: function() {},
 
-  isPreview: false,
-  enableStickyHeader: false,
+  modelContent: computed('model.content', function() {
+    return htmlSafe(get(this, 'model.content'));
+  }),
 
   _trackImpression() {
     const id = get(this, 'model.contentId');
@@ -41,27 +50,23 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     this._trackImpression();
   },
 
-  didUpdateAttrs(changes) {
+  didUpdateAttrs() {
     this._super(...arguments);
 
-    const newId = get(changes, 'newAttrs.model.value.id');
-    if(isPresent(newId)) {
-      const oldId = get(changes, 'oldAttrs.model.value.id');
-      if(newId !== oldId) {
-        // we have a different model now
-        this._trackImpression();
-      }
+    if (get(this, '_cachedModelId') !== get(this, 'model.id')) {
+      this._trackImpression();
+      set(this, '_cachedModelId', get(this, 'model.id'));
     }
   },
 
-  hasContactInfo: computed('model.eventUrl', 'model.contactEmail', 'model.contactPhone', function() {
+  hasContactInfo: computed('model.{eventUrl,contactEmail,contactPhone}', function() {
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
-  nextInstance: computed('model.futureInstances.[]', 'model.scheduleInstances.[]', function() {
+  nextInstance: computed('model.{futureInstances.[],scheduleInstances.[]}', function() {
     // this will go away with further model consolidation
     const scheduleInstances = get(this, 'model.scheduleInstances');
-    const futureInstances = get(this, 'model.futureInstances');
+    const futureInstances = get(this, 'model.futureInstances') || [];
 
     if (scheduleInstances) {
       return scheduleInstances.sortBy('startsAt').get('lastObject');

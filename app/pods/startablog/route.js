@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, inject:{service} } = Ember;
-
-export default Ember.Route.extend({
+export default Route.extend({
   store: service(),
+  fastboot: service(),
 
   model() {
     const controller = this.controllerFor('startablog');
@@ -22,12 +24,14 @@ export default Ember.Route.extend({
 
   actions: {
     didTransition() {
-      window.scrollTo(0, 0);
-      Ember.$('html').addClass('modal-open');
+      if (!get(this, 'fastboot.isFastBoot')) {
+        window.scrollTo(0, 0);
+        $('html').addClass('modal-open');
+      }
     },
 
     willTransition() {
-      Ember.$('html').removeClass('modal-open');
+      $('html').removeClass('modal-open');
     }
   }
 });

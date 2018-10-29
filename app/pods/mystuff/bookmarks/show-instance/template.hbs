@@ -1,15 +1,15 @@
 {{render-in-modal
-    (component 'event-detail'
+    (component "event-detail"
       model=model
-      closeRoute='feed'
-      closeLabel='Back'
+      closeRoute="feed"
+      closeLabel="Back"
       isPreview=false
-      instanceRoute='feed.show-instance'
+      instanceRoute="feed.show-instance"
       enableStickyHeader=true
-      trackDetailEngagement=(action 'trackDetailEngagement' model.id 'modal')
+      trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
     )
-    onClose=(action 'closeDetailPage')
-    modalWrapper='modals/headless-wrapper'
+    onClose=(action "closeDetailPage")
+    modalWrapper="modals/headless-wrapper"
     tagName="div"
     class="renderInModal"
     model=model

@@ -1,14 +1,17 @@
-import Ember from 'ember';
-import InfinityRoute from "ember-infinity/mixins/route";
+import $ from 'jquery';
+import { next } from '@ember/runloop';
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
 import History from 'subtext-ui/mixins/routes/history';
 import idFromSlug from 'subtext-ui/utils/id-from-slug';
 
-const { get, set, isPresent, inject:{service} } = Ember;
-
-export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, History, {
+export default Route.extend(VariableInfinityModelParams, History, {
   session: service(),
   fastboot: service(),
+  infinity: service(),
 
   queryParams: {
     query: {refreshModel: true},
@@ -29,7 +32,8 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
 
   _getOrganizationId() {
     const profileParams = this.paramsFor('profile');
-    return idFromSlug(profileParams.organizationId);
+
+    return idFromSlug(profileParams.organization_id);
   },
 
   beforeModel() {
@@ -85,7 +89,7 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
         options.calendar = false;
       }
 
-      return this.infinityModel('feed-item', options, this.ExtendedInfinityModel);
+      return this.infinity.model('feed-item', options, this.ExtendedInfinityModel);
     }
   },
 
@@ -105,7 +109,7 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
     if (get(controller, 'resetController')) {
       controller._resetDefaults();
 
-      Ember.run.next(() => {
+      next(() => {
         this.refresh();
       });
     }
@@ -134,11 +138,10 @@ export default Ember.Route.extend(InfinityRoute, VariableInfinityModelParams, Hi
         const model = this.modelFor('profile');
         const controller = this.controllerFor(this.routeName);
         const doNotScrollToTop =  isPresent(get(controller, 'show')) ||
-                                  isPresent(get(controller, 'comingFromRouteWithShowParam')) ||
+                                  get(controller, 'comingFromRouteWithShowParam') ||
                                   !get(controller, 'isFirstTransition');
-
         if (!doNotScrollToTop) {
-          Ember.$('html,body').scrollTop(0);
+          $('html,body').scrollTop(0);
           set(controller, 'isFirstTransition', false);
         }
 

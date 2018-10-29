@@ -1,12 +1,12 @@
-<div class='SignIn-module'>
+<div class="SignIn-module">
   {{#content-body}}
     {{#text-block center=true}}
-      {{#unless alternateSignInMessage}}
+      {{#if alternateSignInMessage}}
+        {{alternateSignInMessage}}
+      {{else}}
         Sign in or register to explore local Upper Valley
         news, events and connect with your neighbors.
-      {{else}}
-        {{alternateSignInMessage}}
-      {{/unless}}
+      {{/if}}
     {{/text-block}}
 
     {{facebook-login-button
@@ -21,7 +21,7 @@
       email=(mut email)
       afterAuthenticate=afterAuthenticate
       tab=(mut signInModule)
-      changeModule=(action 'changeModule')
+      changeModule=(action "changeModule")
     }}
   {{/content-body}}
 </div>

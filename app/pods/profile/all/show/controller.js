@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import { reads } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { get, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const {computed, get, inject:{service} } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   history: service(),
   tracking: service(),
 
-  isDirectLink: computed.reads('history.isFirstRoute'),
+  isDirectLink: reads('history.isFirstRoute'),
 
   contentType: computed('model.contentType', function() {
     return get(this, 'model.contentType') || 'event';

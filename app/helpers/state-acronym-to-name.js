@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 const stateMap = {
   "AL": "Alabama",
@@ -67,4 +67,4 @@ export function stateAcronymToName(params) {
   return (stateAcronym in stateMap) ? stateMap[stateAcronym] : stateAcronym;
 }
 
-export default Ember.Helper.helper(stateAcronymToName);
+export default buildHelper(stateAcronymToName);

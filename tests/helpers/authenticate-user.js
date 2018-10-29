@@ -1,16 +1,16 @@
-import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
-import Ember from 'ember';
+import { deprecate } from '@ember/application/deprecations';
+import { isEmpty } from '@ember/utils';
+//import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+import { authenticateSession } from 'ember-simple-auth/test-support';
 
-const { isEmpty } = Ember;
-
-export default function(application) {
+export default function(server) {
   const args = Array.from(arguments);
   let user;
 
   if(args.length > 1) {
     user = args.pop();
     if(user === server) {
-      Ember.deprecate("No need to pass \"server\" to authenticateUser()");
+      deprecate("No need to pass \"server\" to authenticateUser()");
 
       user = undefined;
     }
@@ -20,7 +20,7 @@ export default function(application) {
     user = server.create('current-user');
   }
 
-  authenticateSession(application, {
+  authenticateSession({
     email: user.email,
     token: "FCxUDexiJsyChbMPNSyy"
   });

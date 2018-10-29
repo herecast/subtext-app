@@ -1,6 +1,4 @@
-import Ember from 'ember';
-
-const { isBlank } = Ember;
+import { isBlank } from '@ember/utils';
 
 export default function formatPhone(phone) {
   phone = isBlank(phone) ? '' : phone;

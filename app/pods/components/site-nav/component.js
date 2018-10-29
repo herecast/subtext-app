@@ -1,17 +1,18 @@
-import Ember from 'ember';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'SiteNav',
 
   session: service(),
   modals: service(),
 
-  currentUser: computed.readOnly('session.currentUser'),
+  currentUser: readOnly('session.currentUser'),
 
-  hideAll: computed.readOnly('session.isFastBoot'),
-  showAvatar: computed.readOnly('session.isAuthenticated'),
+  hideAll: readOnly('session.isFastBoot'),
+  showAvatar: readOnly('session.isAuthenticated'),
 
   showMenu: false,
 

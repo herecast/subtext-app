@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
+import Component from '@ember/component';
+import { computed, observer, get } from '@ember/object';
 
-const { get, inject, observer, computed } = Ember;
-
-export default Ember.Component.extend({
-  api: inject.service(),
-  notify: inject.service('notification-messages'),
+export default Component.extend({
+  api: service(),
+  notify: service('notification-messages'),
 
   classNames: ['PasswordReset'],
   showErrors: false,
@@ -13,7 +14,7 @@ export default Ember.Component.extend({
     const password = get(this, 'password'),
       passwordConfirmation = get(this, 'passwordConfirmation');
 
-    return Ember.isPresent(password) &&
+    return isPresent(password) &&
       password === passwordConfirmation &&
       password.length >= 8;
   }),

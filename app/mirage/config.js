@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import { isBlank, isPresent, isEmpty } from '@ember/utils';
+import { get } from '@ember/object';
 import moment from 'moment';
-import Mirage from 'ember-cli-mirage';
-
-const { isPresent, isBlank, get } = Ember;
+import Mirage, { faker } from 'ember-cli-mirage';
 
 /*jshint multistr: true */
 
@@ -16,10 +15,10 @@ function filterCollectionByDate(mirageCollection, queryStart, queryEnd) {
         (itemEnd >= queryStart && itemEnd <= queryEnd);
     });
   } else if (isPresent(queryStart)) {
+
     return mirageCollection.where((item) => {
       const itemStart = moment(item.startsAt);
-
-      return itemStart >= queryStart;
+      return itemStart >= moment(queryStart);
     });
   } else {
     return mirageCollection.all();
@@ -57,7 +56,7 @@ export default function() {
         user = schema.currentUsers.first();
       }
     } else {
-      let emailMatcher = /user\[email\]=([\w\.\-_@]+)/i;
+      let emailMatcher = /user\[email\]=([\w.\-_@]+)/i;
       let matches = decodeURIComponent(request.requestBody).match(emailMatcher);
 
       if(matches) {
@@ -126,6 +125,7 @@ export default function() {
         };
       }
     }
+    return new Mirage.Response(200, {}, {});
   }, { timing: 1500 });
 
 
@@ -140,9 +140,9 @@ export default function() {
     let response;
 
     if (bloggerOnboardingMatches || isACurrentUser) {
-      response = new Mirage.Response(200);
+      response = new Mirage.Response(200, {}, {});
     } else {
-      response = new Mirage.Response(404);
+      response = new Mirage.Response(404, {}, {});
     }
 
     return response;
@@ -155,11 +155,11 @@ export default function() {
       return current_user;
       //return new Mirage.Response(200, {}, {current_user});
     } else {
-      return new Mirage.Response(401);
+      return new Mirage.Response(401, {}, {});
     }
   });
 
-  this.put('/current_user', function({ db, currentUsers }, request) {
+  this.put('/current_user', function({currentUsers }, request) {
     var id = 1;
     var currentUser;
 
@@ -194,7 +194,13 @@ export default function() {
     const params = request.queryParams;
     const stop = (params.page * params.per_page);
     const start = stop - params.per_page;
-    const startParam = moment(params.start_date, 'YYYY-MM-DD') || moment().format('YYYY-MM-DD');
+  //  const startParam = moment(params.start_date, 'YYYY-MM-DD') || moment().format('YYYY-MM-DD');
+    let startParam;
+    if (isPresent(params.start_date)) {
+      startParam = moment(params.start_date, 'YYYY-MM-DD');
+    } else {
+      startParam =  moment().format('YYYY-MM-DD');
+    }
 
     let results = filterCollectionByDate(eventInstances, startParam, params.date_end);
 
@@ -205,7 +211,6 @@ export default function() {
     results.models = results.models.slice(start, stop);
 
     let response = this.serializerOrRegistry.serialize(results, request);
-
 
     response.meta = meta;
     return new Mirage.Response(200, {}, response);
@@ -276,7 +281,7 @@ export default function() {
   });
 
   // Used by the event filter bar to find locations
-  this.get('/venue_locations', function({ db }, request) {
+  this.get('/venue_locations', function(schema, request) {
     const venueLocations = [];
 
     // For demo purposes - if someone starts a search with 'empty' we return
@@ -348,11 +353,13 @@ export default function() {
     } else {
       // We're using the UPDATE action to upload event images after the event
       // has been created. Mirage can't really handle this, so we ignore it.
+
+      // eslint-disable-next-line no-console
       console.info('Ignoring image upload: PUT organizations/:id');
     }
   });
 
-  this.post('/organizations', function({db, organizations}, request) {
+  this.post('/organizations', function({organizations}, request) {
     const postedData = JSON.parse(request.requestBody);
     let organization = postedData.organization;
 
@@ -406,7 +413,7 @@ export default function() {
   this.get('/contents/:id/similar_content', function({ contents }) {
     const allContents = contents.all();
     return {
-      similar_content: allContents.models.slice(5)
+      similar_content: allContents.models.slice(0, 4)
     };
   });
 
@@ -435,11 +442,19 @@ export default function() {
     return true;
   });
 
-  this.post('/promotion_banners/:id/track_click', function() {});
-  this.post('/promotion_banners/:id/track_load', function() {});
-  this.post('/promotion_banners/:id/impression', function() {});
+  this.post('/promotion_banners/:id/track_click', function() {
+    return new Mirage.Response(200, {}, {});
+  });
+  this.post('/promotion_banners/:id/track_load', function() {
+    return new Mirage.Response(200, {}, {});
+  });
+  this.post('/promotion_banners/:id/impression', function() {
+    return new Mirage.Response(200, {}, {});
+  });
 
-  this.post('/ad_metrics', function() {});
+  this.post('/ad_metrics', function() {
+    return new Mirage.Response(200, {}, {});
+  });
 
   this.get('/market_categories', function({ db }) {
     return { marketCategories: db.marketCategories };
@@ -552,7 +567,7 @@ export default function() {
     };
   });
 
-  this.get('/businesses', function({ db, businessProfiles }, request) {
+  this.get('/businesses', function({ businessProfiles }, request) {
     const { query } = request.queryParams; // category location, maxDistance, openAt
     let profiles = this.serialize(businessProfiles.all());
 
@@ -575,19 +590,19 @@ export default function() {
     }
   });
 
-  this.get('/businesses/:id', function({ db, businessProfiles }, request) {
+  this.get('/businesses/:id', function({ businessProfiles }, request) {
     return this.serialize(businessProfiles.find(request.params.id));
   });
 
   this.post('/businesses');
   this.put('/businesses/:id');
 
-  this.get('/business_categories', function({ db, businessCategories }, request) {
+  this.get('/business_categories', function({ businessCategories }, request) {
     // For coalesceFindRequests
     const ids = request.queryParams['ids'];
     let categories = this.serialize(businessCategories.all());
 
-    if( !Ember.isEmpty(ids) ) {
+    if( !isEmpty(ids) ) {
       categories.filter(function(category) {
         return ids.includes(category.id.toString());
       });
@@ -596,7 +611,7 @@ export default function() {
     return categories;
   });
 
-  this.get('/business_categories/:id', function({ db, businessCategories }, request){
+  this.get('/business_categories/:id', function({ businessCategories }, request){
     return this.serialize(businessCategories.find(request.params.id));
   });
 
@@ -624,7 +639,7 @@ export default function() {
   this.del('/digests/:id');
 
   // Listserv Subscriptions
-  this.get('/subscriptions', function({db, subscriptions}) {
+  this.get('/subscriptions', function({ subscriptions}) {
     let response = {};
 
     if (subscriptions) {
@@ -635,7 +650,7 @@ export default function() {
 
     return new Mirage.Response(200, {}, response);
   });
-  this.post('/subscriptions');
+  this.post('/subscriptions', {timing: 1200});
   this.get('/subscriptions/:id');
   this.put('/subscriptions/:id', function() {
     return new Mirage.Response(200);
@@ -756,7 +771,7 @@ export default function() {
     return new Mirage.Response(204);
   });
 
-  this.get('/feed', function({db, feedItems}, request) {
+  this.get('/feed', function({ feedItems}, request) {
     const typeMap = {
       posts: 'news',
       calendar: 'event',
@@ -839,18 +854,17 @@ export default function() {
     delete attrs['schedules'];
     const content = contents.create(attrs);
 
-
-    if(isPresent(scheduleAttrs)) {
+    if (isPresent(scheduleAttrs)) {
       scheduleAttrs.forEach((data) => {
         data['content'] = content;
         schedules.create(data);
       });
     }
 
-    if(content.contentType === 'event') {
+    if (content.contentType === 'event') {
       let eventInstance = eventInstances.first();
 
-      if(!isPresent(eventInstance)) {
+      if (!isPresent(eventInstance)) {
         eventInstance = eventInstances.create(attrs);
         eventInstance.startsAt = (new Date()).toISOString();
       }
@@ -860,11 +874,11 @@ export default function() {
     }
 
     return content;
-  });
+  }, {timing: 1200});
 
   this.get('/contents/:id');
 
-  this.put('/contents/:id', function({schedules, contents, eventInstances}, {params}) {
+  this.put('/contents/:id', function({ schedules, contents }, {params}) {
     let attrs = this.normalizedRequestAttrs();
     const scheduleAttrs = attrs['schedules'];
     const content = contents.find(params.id);

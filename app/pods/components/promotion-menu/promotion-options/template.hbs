@@ -8,8 +8,20 @@
         Would you like to record this share in your promotion history?
       </p>
     </div>
-    <div class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-yes" {{action 'savePromotionRecord'}}>Yes</div>
-    <div class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-no" {{action 'dumpPromotionRecord'}}>No</div>
+    <div
+      class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-yes"
+      {{action "savePromotionRecord"}}
+      role="button"
+    >
+      Yes
+    </div>
+    <div
+      class="PromotionMenu-PromotionOptions-record-option PromotionMenu-PromotionOptions-no"
+      {{action "dumpPromotionRecord"}}
+      role="button"
+      >
+        No
+      </div>
   </div>
 
 {{else}}
@@ -17,22 +29,38 @@
     Share on
   </div>
   <div>
-    <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-facebook" {{action 'shareFacebook'}}>
-      {{fa-icon 'facebook'}} Facebook
+    <div
+      class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-facebook"
+      {{action "shareFacebook"}}
+      role="button"
+      >
+      {{fa-icon "facebook"}} Facebook
     </div>
-    <a href="{{twitterLink}}" target="_blank" {{action 'shareTwitter' preventDefault=false}}>
+    <a
+      href={{twitterLink}}
+      target="_blank"
+      rel="noopener noreferrer"
+      {{action "shareTwitter" preventDefault=false}}
+      role="button"
+    >
       <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-twitter">
-        {{fa-icon 'twitter'}} Twitter
+        {{fa-icon "twitter"}} Twitter
       </div>
     </a>
-    <a href="{{mailtoLink}}" target="_blank" {{action 'shareEmail' preventDefault=false}}>
+    <a
+      href={{mailtoLink}}
+      target="_blank"
+      rel="noopener noreferrer"
+      {{action "shareEmail" preventDefault=false}}
+      role="button"
+    >
       <div class="PromotionMenu-PromotionOptions-promotion-option PromotionMenu-PromotionOptions-email">
-        {{fa-icon 'envelope'}} Email
+        {{fa-icon "envelope"}} Email
       </div>
     </a>
   </div>
   <div class="PromotionMenu-PromotionOptions-cancel-option">
-    <span class="PromotionMenu-PromotionOptions-action-button" {{action 'done'}}>Cancel</span>
+    <span class="PromotionMenu-PromotionOptions-action-button" {{action "done"}} role="button">Cancel</span>
   </div>
 
 {{/if}}

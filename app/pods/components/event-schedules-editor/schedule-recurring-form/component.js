@@ -1,10 +1,5 @@
-import Ember from 'ember';
-
-const {
-  get,
-  set,
-  computed
-} = Ember;
+import Component from '@ember/component';
+import { computed, set, get, setProperties } from '@ember/object';
 
 function  _ordinal(d) {
   if(d>3 && d<21) {
@@ -19,14 +14,22 @@ function  _ordinal(d) {
   }
 }
 
-export default Ember.Component.extend({
+const repeatTypesArray = [
+  { key: 'Daily', value: 'daily' },
+  { key: 'Weekly', value: 'weekly' },
+  { key: 'Bi-Weekly', value: 'bi-weekly' },
+  { key: 'Monthly', value: 'monthly' }
+];
+
+export default Component.extend({
   changeset: null,
-  repeatTypes: [
-    { key: 'Daily', value: 'daily' },
-    { key: 'Weekly', value: 'weekly' },
-    { key: 'Bi-Weekly', value: 'bi-weekly' },
-    { key: 'Monthly', value: 'monthly' }
-  ],
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      repeatTypes: repeatTypesArray
+    });
+  },
 
   weeklyOrBiWeekly: computed('changeset.repeats', function() {
     const repeats = get(this, 'changeset.repeats');
@@ -34,7 +37,7 @@ export default Ember.Component.extend({
     return repeats === 'weekly' || repeats === 'bi-weekly';
   }),
 
-  textSummary: computed('changeset.repeats','changeset.daysOfWeek','changest.weeksOfMonth', function() {
+  textSummary: computed('changeset.{repeats,daysOfWeek,weeksOfMonth}', function() {
     const changeset = get(this, 'changeset');
     const repeats = get(changeset, 'repeats');
     const daysOfWeek = get(changeset, 'daysOfWeek') || [];
@@ -47,11 +50,15 @@ export default Ember.Component.extend({
     let message = '';
 
     switch(repeats) {
-      case 'daily':
-        message = 'Repeats every day'; break;
-      case 'weekly':
-        message = `Repeats Weekly on ${readableDays}.`; break;
-      case 'monthly':
+      case 'daily': {
+        message = 'Repeats every day';
+        break;
+      }
+      case 'weekly': {
+        message = `Repeats Weekly on ${readableDays}.`;
+        break;
+      }
+      case 'monthly': {
         const weekOfMonth = get(changeset, 'weeksOfMonth')[0]+1;
 
         if (weekOfMonth) {
@@ -61,9 +68,12 @@ export default Ember.Component.extend({
         }
 
         break;
-      case 'bi-weekly':
-        message = `Repeats Bi-weekly on ${readableDays}.`; break;
-      default: break;
+      }
+      case 'bi-weekly': {
+        message = `Repeats Bi-weekly on ${readableDays}.`;
+        break;
+      }
+      default: { break; }
     }
 
     return message;
@@ -82,4 +92,3 @@ export default Ember.Component.extend({
     },
   }
 });
-

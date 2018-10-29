@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function times(params) {
   const num = params[0];
@@ -6,4 +6,4 @@ export function times(params) {
   return num * num2;
 }
 
-export default Ember.Helper.helper(times);
+export default buildHelper(times);

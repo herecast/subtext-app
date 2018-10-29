@@ -1,26 +1,30 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { alias, readOnly } from '@ember/object/computed';
+import { run } from '@ember/runloop';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import $ from 'jquery';
 
-const {get, set, computed, inject, $} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['FloatingActionButton'],
   classNameBindings: ['showJobTray:expanded'],
 
-  session: inject.service(),
-  userLocation: inject.service(),
-  modals: inject.service(),
-  floatingActionButton: inject.service(),
-  cookies: inject.service(),
-  tracking: inject.service(),
-  windowLocation: inject.service('window-location'),
+  session: service(),
+  userLocation: service(),
+  modals: service(),
+  floatingActionButton: service(),
+  cookies: service(),
+  tracking: service(),
+  windowLocation: service('window-location'),
 
-  showJobTray: computed.alias('floatingActionButton.showContent'),
-  isAnimatingAway: computed.alias('floatingActionButton.isAnimatingAway'),
+  showJobTray: alias('floatingActionButton.showContent'),
+  isAnimatingAway: alias('floatingActionButton.isAnimatingAway'),
 
   windowHeight: 1000,
   touchKeyboardIsOpen: false,
 
-  hidden: computed.readOnly('touchKeyboardIsOpen'),
+  hidden: readOnly('touchKeyboardIsOpen'),
 
   styleForContent: computed('isAnimatingAway', 'windowHeight', 'showJobTray', function() {
     const styles = [];
@@ -35,7 +39,7 @@ export default Ember.Component.extend({
     const maxHeight = get(this, 'windowHeight') - $this.find('.FloatingActionButton-header').outerHeight() - 10;
     styles.push(`max-height:${maxHeight}px`);
 
-    return Ember.String.htmlSafe(styles.join(';'));
+    return htmlSafe(styles.join(';'));
   }),
 
   keyForResizeWindow: computed('elementId', function() {
@@ -53,15 +57,15 @@ export default Ember.Component.extend({
    */
   _watchFocus() {
     const namespace = get(this, 'namespaceForFocusEvent');
-    Ember.$('body').on(`focus.${namespace}`, 'input,textarea,[contenteditable]', () => {
+    $('body').on(`focus.${namespace}`, 'input,textarea,[contenteditable]', () => {
       if(!get(this, 'isDestroying')){
-        Ember.run(() => {set(this, 'touchKeyboardIsOpen', true); });
+        run(() => {set(this, 'touchKeyboardIsOpen', true); });
       }
     });
 
-    Ember.$('body').on(`focusout.${namespace}`, 'input,textarea,[contenteditable]', () => {
+    $('body').on(`focusout.${namespace}`, 'input,textarea,[contenteditable]', () => {
       if(!get(this, 'isDestroying')) {
-        Ember.run(() => {set(this, 'touchKeyboardIsOpen', false); });
+        run(() => {set(this, 'touchKeyboardIsOpen', false); });
       }
     });
   },
@@ -69,8 +73,8 @@ export default Ember.Component.extend({
   _unWatchFocus() {
     const namespace = get(this, 'namespaceForFocusEvent');
 
-    Ember.$('body').off(`focus.${namespace}`);
-    Ember.$('body').off(`focusout.${namespace}`);
+    $('body').off(`focus.${namespace}`);
+    $('body').off(`focusout.${namespace}`);
   },
 
   click(e) {

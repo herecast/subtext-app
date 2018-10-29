@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { get, set } from '@ember/object';
 
-const { set, get } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   afterModel(model) {
     this._super(...arguments);
 

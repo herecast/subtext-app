@@ -1,329 +1,277 @@
-import { test } from 'qunit';
-import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
-import testSelector from 'ember-test-selectors';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { invalidateSession} from 'ember-simple-auth/test-support';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
+import { visit, click, find, findAll, fillIn, currentURL } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | mystuff', {
-  beforeEach() {
-    invalidateSession(this.application);
-  }
-});
+module('Acceptance | mystuff', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-test('Visiting /mystuff not signed in', function(assert) {
-  visit('/mystuff');
+  hooks.beforeEach(function() {
+    invalidateSession();
+  });
 
-  andThen(function() {
+  test('Visiting /mystuff not signed in', async function(assert) {
+    await visit('/mystuff');
+
     assert.equal(currentURL(), '/sign_in', 'user should be redirected to sign_in');
   });
-});
 
-test('Visiting /mystuff not signed in, then signing in', function(assert) {
-  visit('/mystuff');
+  test('Visiting /mystuff not signed in, then signing in', async function(assert) {
+    await visit('/mystuff');
 
-  andThen(function() {
     assert.equal(currentURL(), '/sign_in', 'user should be redirected to sign_in');
 
-    const user = server.create('current-user');
+    const user = this.server.create('current-user');
 
-    fillIn(testSelector('field', 'sign-in-email'), user.email);
-    fillIn(testSelector('field', 'sign-in-password'), 'password');
+    await fillIn('[data-test-field="sign-in-email"]', user.email);
+    await fillIn('[data-test-field="sign-in-password"]', 'password');
 
-    click(testSelector('component', 'sign-in-submit'));
+    await click('[data-test-component="sign-in-submit"]');
 
-    andThen(function() {
-      assert.equal(currentURL(), '/mystuff', 'user should be redirected to mystuff after logging in');
+    assert.equal(currentURL(), '/mystuff', 'user should be redirected to mystuff after logging in');
+  });
+
+  test('Visiting /mystuff - signed in, no content', async function(assert) {
+    authenticateUser(this.server);
+
+    await visit('/mystuff');
+
+    assert.ok(find('[data-test-component="mystuff-contents-no-results"]'), "Should see no results card");
+  });
+
+  test('Visiting /mystuff - signed in, with content, content shows manage buttons', async function(assert) {
+    authenticateUser(this.server);
+
+    const content = this.server.create('content', {
+      authorId: 1
     });
-  });
-});
 
-test('Visiting /mystuff - signed in, no content', function(assert) {
-  authenticateUser(this.application);
-
-  visit('/mystuff');
-
-  andThen(()=>{
-    assert.ok(
-      find(testSelector('component', 'mystuff-contents-no-results')).length,
-      "Should see no results card"
-    );
-  });
-});
-
-test('Visiting /mystuff - signed in, with content, content shows manage buttons', function(assert) {
-  authenticateUser(this.application);
-
-  const content = server.create('content', {
-    authorId: 1
-  });
-
-  server.create('feedItem', {
-    modelType: 'content',
-    contentId: content.id
-  });
-
-  visit('/mystuff');
-
-  andThen(()=>{
-    assert.ok(
-      find(testSelector('button', 'manage')).length,
-      "Manage button should show on feed cards in myStuff"
-    );
-  });
-});
-
-test('Visiting /mystuff - signed in, with content, click on consolidated view and it works as expected', function(assert) {
-  authenticateUser(this.application);
-
-  const contentsForMystuff = server.createList('content', 5, {
-    authorId: 1
-  });
-
-  let contentsIds = contentsForMystuff.map(content => content.id);
-
-  const contentsForGeneral = server.createList('content', 5, {
-    authorId: 2
-  });
-
-  let additionalIds = contentsForGeneral.map(content => content.id);
-
-  const allIds = contentsIds.concat(additionalIds);
-
-  allIds.forEach((id) => {
-    server.create('feedItem', {
+    this.server.create('feedItem', {
       modelType: 'content',
-      contentId: id
+      contentId: content.id
     });
+
+    await visit('/mystuff');
+
+    assert.ok(find('[data-test-button="manage"]'), "Manage button should show on feed cards in myStuff");
   });
 
-  visit('/mystuff');
+  test('Visiting /mystuff - signed in, with content, click on consolidated view and it works as expected', async function(assert) {
+    authenticateUser(this.server);
 
-  andThen(()=>{
-    assert.equal(find(testSelector('feed-card')).length, 5, "Only author specific feed cards show in mystuff");
-
-    assert.ok(find(testSelector('button', 'condensed')).length, "Condensed button shows in mystuff");
-
-    click(testSelector('button', 'condensed'));
-
-    andThen(()=>{
-      assert.equal(find(testSelector('condensed')).length, 5, "After condensed chosen, all feed cards show in condensed view");
+    const contentsForMystuff = this.server.createList('content', 5, {
+      authorId: 1
     });
-  });
-});
 
-test('Visiting /mystuff - signed in, with organization related content, organization filter works as expected for orgs', function(assert) {
-  const done = assert.async();
+    let contentsIds = contentsForMystuff.map(content => content.id);
 
-  const org = server.create('organization', {
-    id: 1
-  });
-
-  let user = server.create('currentUser', {
-    managedOrganizations: [org]
-  });
-
-  authenticateUser(this.application, user);
-
-  const contentsForMystuff = server.createList('content', 5, {
-    authorId: 1,
-    organizationId: org.id
-  });
-
-  let contentsIds = contentsForMystuff.map(content => content.id);
-
-  contentsIds.forEach((id) => {
-    server.create('feedItem', {
-      modelType: 'content',
-      contentId: id
+    const contentsForGeneral = this.server.createList('content', 5, {
+      authorId: 2
     });
-  });
 
-  visit('/mystuff');
+    let additionalIds = contentsForGeneral.map(content => content.id);
 
-  andThen(()=>{
-    assert.equal(find(testSelector('feed-card')).length, 5, "Authored cards show up in mystuff contents");
+    const allIds = contentsIds.concat(additionalIds);
 
-    assert.ok(find(testSelector('button', 'mystuff-organization-filter')).length, "Organization filter should show in mystuff if user has content owned by organization");
-
-    click(testSelector('button', 'mystuff-organization-filter'));
-
-    andThen(()=>{
-      assert.ok(find(testSelector('button', 'mystuff-organization-choice')).length, "Filter options should show manage organizations in mystuff content filter");
-
-      click(find(testSelector('button', 'mystuff-organization-choice'))[0]);
-
-      server.get('/users/:id/contents', function(db, request) {
-        assert.equal(request.queryParams.organization_id, org.id,
-          `Api endpoint called with correct organization_id`
-        );
-
-        return db.feedItems.all();
-      });
-
-      andThen(()=>{
-        const shouldBeInURL = `organizationId=${org.id}`;
-        assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to proper organization filter in url');
-
-        click(testSelector('action', 'remove-type-filter'));
-
-        server.get('/users/:id/contents', function(db, request) {
-          assert.equal(request.queryParams.organization_id, '',
-            `Api endpoint called with correct organization_id`
-          );
-          done();
-
-          return db.feedItems.all();
-        });
-
-        andThen(()=>{
-          assert.equal(currentURL(), '/mystuff', 'Clearing organization filter should reset url params');
-        });
+    allIds.forEach((id) => {
+      this.server.create('feedItem', {
+        modelType: 'content',
+        contentId: id
       });
     });
-  });
-});
 
-test('Visiting /mystuff - signed in, with organization related content, organization filter works as expected for personal', function(assert) {
-  const org = server.create('organization', {
-    id: 1
-  });
+    await visit('/mystuff');
 
-  let user = server.create('currentUser', {
-    managedOrganizations: [org]
-  });
+    assert.equal(findAll('[data-test-feed-card]').length, 5, "Only author specific feed cards show in mystuff");
 
-  authenticateUser(this.application, user);
+    assert.ok(find('[data-test-button="condensed"]'), "Condensed button shows in mystuff");
 
-  const contentsForMystuff = server.createList('content', 5, {
-    authorId: 1,
-    organizationId: org.id
+    await click('[data-test-button="condensed"]');
+
+    assert.equal(findAll('[data-test-condensed]').length, 5, "After condensed chosen, all feed cards show in condensed view");
   });
 
-  let contentsIds = contentsForMystuff.map(content => content.id);
+  test('Visiting /mystuff - signed in, with organization related content, organization filter works as expected for orgs', async function(assert) {
+    const done = assert.async(2);
 
-  contentsIds.forEach((id) => {
-    server.create('feedItem', {
-      modelType: 'content',
-      contentId: id
+    const org = this.server.create('organization', {
+      id: 1
     });
-  });
 
-  visit('/mystuff');
+    let user = this.server.create('currentUser', {
+      managedOrganizations: [org]
+    });
 
-  andThen(()=>{
-    assert.equal(find(testSelector('feed-card')).length, 5, "Authored cards show up in mystuff contents");
+    authenticateUser(this.server, user);
 
-    assert.ok(find(testSelector('button', 'mystuff-organization-filter')).length, "Organization filter should show in mystuff if user has content owned by organization");
+    const contentsForMystuff = this.server.createList('content', 5, {
+      authorId: 1,
+      organizationId: org.id
+    });
 
-    click(testSelector('button', 'mystuff-organization-filter'));
+    let contentsIds = contentsForMystuff.map(content => content.id);
 
-    andThen(()=>{
-      assert.ok(find(testSelector('button', 'mystuff-organization-choice')).length, "Filter options should show manage organizations in mystuff content filter");
-
-      click(testSelector('button', 'mystuff-organization-choice-personal'));
-
-      andThen(()=>{
-        const shouldBeInURL = `organizationId=false`;
-        assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to proper organization filter in url for personal content');
-
-        click(testSelector('action', 'remove-type-filter'));
-
-        andThen(()=>{
-          assert.equal(currentURL(), '/mystuff', 'Clearing organization filter should reset url params');
-        });
+    contentsIds.forEach((id) => {
+      this.server.create('feedItem', {
+        modelType: 'content',
+        contentId: id
       });
     });
-  });
-});
 
-test('Visiting /mystuff - signed in, content type filter works as expected', function(assert) {
-  let user = server.create('current-user', {
-    id: 1
-  });
+    await visit('/mystuff');
 
-  authenticateUser(this.application, user);
+    assert.equal(findAll('[data-test-feed-card]').length, 5, "Authored cards show up in mystuff contents");
 
-  const contentsForMystuff = server.createList('content', 5, {
-    authorId: 1
-  });
+    assert.ok(find('[data-test-button="mystuff-organization-filter"]'), "Organization filter should show in mystuff if user has content owned by organization");
 
-  let contentsIds = contentsForMystuff.map(content => content.id);
+    await click('[data-test-button="mystuff-organization-filter"]');
 
-  contentsIds.forEach((id) => {
-    server.create('feedItem', {
-      modelType: 'content',
-      contentId: id
+    assert.ok(find('[data-test-button="mystuff-organization-choice"]'), "Filter options should show manage organizations in mystuff content filter");
+
+    this.server.get('/users/:id/contents', function(db, request) {
+      assert.equal(request.queryParams.organization_id, org.id, `Api endpoint called with correct organization_id`);
+      done();
+
+      return db.feedItems.all();
     });
+
+    await click(find('[data-test-button="mystuff-organization-choice"]'));
+
+    const shouldBeInURL = `organizationId=${org.id}`;
+    assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to proper organization filter in url');
+
+    this.server.get('/users/:id/contents', function(db, request) {
+      assert.equal(request.queryParams.organization_id, '', `Api endpoint called with correct organization_id`);
+      done();
+
+      return db.feedItems.all();
+    });
+
+    await click('[data-test-action="remove-type-filter"]');
+
+    assert.equal(currentURL(), '/mystuff', 'Clearing organization filter should reset url params');
   });
 
-  visit('/mystuff');
+  test('Visiting /mystuff - signed in, with organization related content, organization filter works as expected for personal', async function(assert) {
+    const org = this.server.create('organization', {
+      id: 1
+    });
 
-  andThen(()=>{
-    assert.equal(find(testSelector('feed-card')).length, 5, "Authored cards show up in mystuff contents");
+    let user = this.server.create('currentUser', {
+      managedOrganizations: [org]
+    });
 
-    assert.ok(find(testSelector('button', 'mystuff-content-type-filter')).length, "Content Type filter should show in mystuff");
+    authenticateUser(this.server, user);
 
-    click(testSelector('button', 'mystuff-content-type-filter'));
+    const contentsForMystuff = this.server.createList('content', 5, {
+      authorId: 1,
+      organizationId: org.id
+    });
 
-    andThen(()=>{
-      assert.ok(find(testSelector('button', 'mystuff-content-type-choice')).length, "Filter options should show conetnt types in mystuff content filter");
+    let contentsIds = contentsForMystuff.map(content => content.id);
 
-      click(find(testSelector('button', 'mystuff-content-type-choice'))[0]);
-
-      andThen(()=>{
-        const shouldBeInURL = `type`;
-        assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to type filter in url');
+    contentsIds.forEach((id) => {
+      this.server.create('feedItem', {
+        modelType: 'content',
+        contentId: id
       });
     });
+
+    await visit('/mystuff');
+
+    assert.equal(findAll('[data-test-feed-card]').length, 5, "Authored cards show up in mystuff contents");
+
+    assert.ok(find('[data-test-button="mystuff-organization-filter"]'), "Organization filter should show in mystuff if user has content owned by organization");
+
+    await click('[data-test-button="mystuff-organization-filter"]');
+
+    assert.ok(find('[data-test-button="mystuff-organization-choice"]'), "Filter options should show manage organizations in mystuff content filter");
+
+    await click('[data-test-button="mystuff-organization-choice-personal"]');
+
+    const shouldBeInURL = `organizationId=false`;
+    assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to proper organization filter in url for personal content');
+
+    await click('[data-test-action="remove-type-filter"]');
+
+    assert.equal(currentURL(), '/mystuff', 'Clearing organization filter should reset url params');
   });
-});
 
-test('Visiting /mystuff - signed in, route navigation works as expected', function(assert) {
-  const org = server.create('organization', {
-    id: 1
-  });
+  test('Visiting /mystuff - signed in, content type filter works as expected', async function(assert) {
+    let user = this.server.create('current-user', {
+      id: 1
+    });
 
-  const commentsForUser = server.createList('comment', 5, {
-    userId: 1
-  });
+    authenticateUser(this.server, user);
 
-  let user = server.create('currentUser', {
-    id: 1,
-    comments: commentsForUser,
-    managedOrganizations: [org]
-  });
+    const contentsForMystuff = this.server.createList('content', 5, {
+      authorId: 1
+    });
 
-  authenticateUser(this.application, user);
+    let contentsIds = contentsForMystuff.map(content => content.id);
 
-  server.create('digest');
-
-  visit('/mystuff');
-
-  andThen(()=>{
-
-    click(testSelector('button', 'Comments'));
-
-    andThen(()=>{
-      assert.equal(currentURL(), '/mystuff/comments', 'Clicking the comments nav button should change the route to comments');
-
-      assert.equal(find(testSelector('content-comment')).length, 5, 'The users comments should be displayed after route change to comments');
-
-      click(testSelector('button', 'Subscriptions'));
-
-      andThen(()=>{
-        assert.equal(currentURL(), '/mystuff/subscriptions', 'Clicking the subscriptions nav button should change the route to subscriptions');
-
-        assert.ok(find(testSelector('subscription')).length, 'Subscriptions should show up on subscription route');
-
-        click(testSelector('button', 'Account'));
-
-        andThen(()=>{
-          assert.equal(currentURL(), '/mystuff/account', 'Clicking the account nav button should change the route to account');
-
-          assert.ok(find(testSelector('account-form')).length, 'Account form should show up on account route');
-
-        });
+    contentsIds.forEach((id) => {
+      this.server.create('feedItem', {
+        modelType: 'content',
+        contentId: id
       });
     });
+
+    await visit('/mystuff');
+
+    assert.equal(findAll('[data-test-feed-card]').length, 5, "Authored cards show up in mystuff contents");
+
+    assert.ok(find('[data-test-button="mystuff-content-type-filter"]'), "Content Type filter should show in mystuff");
+
+    await click('[data-test-button="mystuff-content-type-filter"]');
+
+    assert.ok(find('[data-test-button="mystuff-content-type-choice"]'), "Filter options should show conetnt types in mystuff content filter");
+
+    await click(find('[data-test-button="mystuff-content-type-choice"]'));
+
+    const shouldBeInURL = `type`;
+    assert.ok(currentURL().indexOf(shouldBeInURL) >= 0, 'Should direct to type filter in url');
+  });
+
+  test('Visiting /mystuff - signed in, route navigation works as expected', async function(assert) {
+    const org = this.server.create('organization', {
+      id: 1
+    });
+
+    this.server.createList('comment', 5, {
+      userId: 1
+    });
+
+    let user = this.server.create('current-user', {
+      id: 1,
+      managedOrganizations: [org]
+    });
+
+    authenticateUser(this.server, user);
+
+    this.server.create('digest');
+
+    await visit('/mystuff');
+
+    await click('[data-test-button="Comments"]');
+
+    assert.equal(currentURL(), '/mystuff/comments', 'Clicking the comments nav button should change the route to comments');
+
+    assert.equal(findAll('[data-test-content-comment]').length, 5, 'The users comments should be displayed after route change to comments');
+
+    await click('[data-test-button="Subscriptions"]');
+
+    assert.equal(currentURL(), '/mystuff/subscriptions', 'Clicking the subscriptions nav button should change the route to subscriptions');
+
+    assert.ok(find('[data-test-subscription]'), 'Subscriptions should show up on subscription route');
+
+    await click('[data-test-button="Account"]');
+
+    assert.equal(currentURL(), '/mystuff/account', 'Clicking the account nav button should change the route to account');
+
+    assert.ok(find('[data-test-account-form]'), 'Account form should show up on account route');
   });
 });

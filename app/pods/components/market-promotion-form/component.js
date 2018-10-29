@@ -1,23 +1,21 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { isPresent } from '@ember/utils';
+import Component from '@ember/component';
+import { observer } from '@ember/object';
 import PromotionForm from 'subtext-ui/mixins/components/promotion-form';
 
-const {
-  computed,
-  observer,
-  on
-} = Ember;
-
-export default Ember.Component.extend(PromotionForm, {
+export default Component.extend(PromotionForm, {
   tagName: 'form',
 
   // Required by the promotion form mixin
-  model: computed.alias('post'),
+  model: alias('post'),
 
-  displayListservs: on('didInsertElement', function() {
-    if (Ember.isPresent(this.get('post.listservIds'))) {
+  didInsertElement() {
+    this._super(...arguments);
+    if (isPresent(this.get('post.listservIds'))) {
       this.set('listsEnabled', true);
     }
-  }),
+  },
 
   // When the user unchecks the button to add listservs, reset the array
   // so that we don't subscribe them to a list without their knowledge.

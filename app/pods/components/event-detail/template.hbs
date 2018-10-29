@@ -1,10 +1,10 @@
 {{inviewport-reporter
   reportEnterViewport=true
   reportOnce=true
-  callback=(action trackDetailEngagement 'start')
+  callback=(action trackDetailEngagement "start")
 }}
 
-{{#sticky-container scrollTarget='.Modal-dialog-body' refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
+{{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
 
   {{#if model.imageUrl}}
     {{header-image
@@ -13,7 +13,7 @@
     }}
   {{/if}}
 
-  {{#sticky.item class='StickyItem--default-background u-boxShadowBottom' useAbsolutePositioning=true}}
+  {{#sticky.item class="StickyItem--default-background u-boxShadowBottom" useAbsolutePositioning=true}}
     {{#content-body classNames="u-padding0"}}
       <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
         {{#title-text strong=true}}
@@ -23,15 +23,15 @@
         <div class="DetailPage-headerSubSection u-flexSpace">
           {{#if nextInstance}}
             {{feed-card/event-dates
-                eventDate=(moment-format model.startsAt 'MMMM DD')
+                eventDate=(moment-format model.startsAt "MMMM DD")
                 futureInstances=model.futureInstances
                 model=model
-                class='u-padding0'
+                class="u-padding0"
             }}
           {{/if}}
           {{report-content-details
               contentId=model.contentId
-              class='DetailPage-reportFlag h4'
+              class="DetailPage-reportFlag h4"
           }}
         </div>
 
@@ -52,25 +52,25 @@
           isOnDetailView=true
         }}
 
-        <div class='u-flexRow u-flexAlign-center u-paddingBottom8'>
+        <div class="u-flexRow u-flexAlign-center u-paddingBottom8">
           {{#unless isPreview}}
-            <div class='u-paddingRight8'>
+            <div class="u-paddingRight8">
               {{feed-card/edit-button
                 model=model
-                editPath='events.edit'
+                editPath="events.edit"
                 editPathId=model.contentId
                 iconSize=""
-                tagName='span'
-                style='XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded'
+                tagName="span"
+                style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
                 editButtonIsActive=(mut editButtonIsActive)
               }}
             </div>
             {{#if (and model.contactEmail (not editButtonIsActive))}}
               {{contact-poster-button
                 model=(readonly model)
-                clickReplyButton=(action 'clickReplyButton')
+                clickReplyButton=(action "clickReplyButton")
                 classNames="u-paddingRight8"
-                tagName='span'
+                tagName="span"
               }}
             {{/if}}
           {{/unless}}
@@ -82,98 +82,100 @@
   <div class="DetailPage-sectionWrapper u-paddingTop16">
     <div class="DetailPage-metaBloc">
       <table>
-        <tr>
-          <td>
-            <div class="DetailPage-metaBloc-eventTime">
-              <div data-test-event-detail-timeRange>
-                {{model.timeRangeNoDates}}
-              </div>
-            </div>
-          </td>
-          <td rowspan="2">
-            <div class="DetailPage-metaBloc-address">
-              {{directions-link
-                  url=model.directionsUrl
-                  venueName=model.venueName
-                  addressLine1=model.venueAddress
-                  city=model.venueCity
-                  state=model.venueState
-              }}
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="DetailPage-metaBloc-price">
-              Price:
-              {{#if model.costType}}
-                {{#if model.cost}}
-                  <span data-test-event-detail-cost>{{model.cost}}</span>
-                {{else}}
-                  {{#if model.isFree}}
-                    Free Admission
-                  {{else}}
-                    {{model.costType}}
-                  {{/if}}
-                {{/if}}
-              {{else}}
-                -
-              {{/if}}
-            </div>
-          </td>
-        </tr>
-        {{#if (or model.contactPhone model.eventUrl)}}
+        <tbody>
           <tr>
             <td>
-              <div class="DetailPage-metaBloc-phone">
-                {{#if model.contactPhone}}
-                  <a href='tel:{{model.contactPhone}}' target='_blank' data-test-event-detail-contactPhone>
-                    {{model.contactPhone}}
-                  </a>
-                {{/if}}
+              <div class="DetailPage-metaBloc-eventTime">
+                <div data-test-event-detail-timeRange>
+                  {{model.timeRangeNoDates}}
+                </div>
               </div>
             </td>
+            <td rowspan="2">
+              <div class="DetailPage-metaBloc-address">
+                {{directions-link
+                    url=model.directionsUrl
+                    venueName=model.venueName
+                    addressLine1=model.venueAddress
+                    city=model.venueCity
+                    state=model.venueState
+                }}
+              </div>
+            </td>
+          </tr>
+          <tr>
             <td>
-              <div class="DetailPage-metaBloc-url">
-                {{#if model.eventUrl}}
-                  {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl data-test-event-detail-url=true}}
-                    {{truncate model.eventUrl length=30}}
-                  {{/normalized-link}}
+              <div class="DetailPage-metaBloc-price">
+                Price:
+                {{#if model.costType}}
+                  {{#if model.cost}}
+                    <span data-test-event-detail-cost>{{model.cost}}</span>
+                  {{else}}
+                    {{#if model.isFree}}
+                      Free Admission
+                    {{else}}
+                      {{model.costType}}
+                    {{/if}}
+                  {{/if}}
+                {{else}}
+                  -
                 {{/if}}
               </div>
             </td>
           </tr>
-        {{/if}}
-        {{#if model.hasRegistrationInfo}}
+          {{#if (or model.contactPhone model.eventUrl)}}
+            <tr>
+              <td>
+                <div class="DetailPage-metaBloc-phone">
+                  {{#if model.contactPhone}}
+                    <a href="tel:{{model.contactPhone}}" target="_blank" rel="noopener noreferrer" data-test-event-detail-contactPhone>
+                      {{model.contactPhone}}
+                    </a>
+                  {{/if}}
+                </div>
+              </td>
+              <td>
+                <div class="DetailPage-metaBloc-url">
+                  {{#if model.eventUrl}}
+                    {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl data-test-event-detail-url=true}}
+                      {{truncate model.eventUrl length=30}}
+                    {{/normalized-link}}
+                  {{/if}}
+                </div>
+              </td>
+            </tr>
+          {{/if}}
+          {{#if model.hasRegistrationInfo}}
+            <tr>
+              <td colspan="2">
+                <div class="DetailPage-metaBloc-registrationInfo">
+                  Register by
+                  <span data-test-event-detail-registrationDeadline>
+                    {{model.formattedRegistrationDeadline}}
+                  </span>
+                </div>
+              </td>
+            </tr>
+          {{/if}}
           <tr>
             <td colspan="2">
-              <div class="DetailPage-metaBloc-registrationInfo">
-                Register by
-                <span data-test-event-detail-registrationDeadline>
-                  {{model.formattedRegistrationDeadline}}
-                </span>
-              </div>
+            {{detail-meta-bloc
+                avatarUrl=model.avatarUrl
+                customSize=24
+                avatarName=model.authorName
+                isDefaultOrganization=model.organization.isDefaultOrganization
+            }}
             </td>
           </tr>
-        {{/if}}
-        <tr>
-          <td colspan="2">
-          {{detail-meta-bloc
-              avatarUrl=model.avatarUrl
-              customSize=24
-              avatarName=model.authorName
-              isDefaultOrganization=model.organization.isDefaultOrganization
-          }}
-          </td>
-        </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-  <div class='DetailPage-sectionWrapper'>
+  <div class="DetailPage-sectionWrapper">
     <div class="DetailPage-section DetailPage-content ContentText">
       <div class="ContentText" data-test-event-detail-content>
-        {{{ model.content }}}
+        {{modelContent}}
       </div>
     </div>
   </div>
@@ -181,7 +183,7 @@
   {{inviewport-reporter
     reportEnterViewport=true
     reportOnce=true
-    callback=(action trackDetailEngagement 'read')
+    callback=(action trackDetailEngagement "read")
   }}
 
   {{#unless isPreview}}
@@ -195,15 +197,15 @@
       }}
     {{/horizontal-rule}}
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='AdBanner-wrapper AdBanner-wrapper--detail'>
+    <div class="DetailPage-sectionWrapper">
+      <div class="AdBanner-wrapper AdBanner-wrapper--detail">
         {{ad-banner
           contentModel=model
         }}
       </div>
     </div>
 
-    <div class='DetailPage-section DetailPage-comments'>
+    <div class="DetailPage-section DetailPage-comments">
       {{comments-section
         showSectionTitle=true
         commentCount=model.commentCount
@@ -211,12 +213,12 @@
         comments=comments
         contentTitle=(readonly model.title)
         disabled=(readonly commentingDisabled)
-        afterComment=(action 'reloadComments')
+        afterComment=(action "reloadComments")
       }}
     </div>
 
-    <div class='DetailPage-sectionWrapper'>
-      <div class='DetailPage-section DetailPage-similarContent'>
+    <div class="DetailPage-sectionWrapper">
+      <div class="DetailPage-section DetailPage-similarContent">
         {{#similar-content
           contentId=model.contentId
           limit=4
@@ -231,5 +233,5 @@
 {{inviewport-reporter
   reportEnterViewport=true
   reportOnce=true
-  callback=(action trackDetailEngagement 'complete')
+  callback=(action trackDetailEngagement "complete")
 }}

@@ -9,21 +9,21 @@
         {{search-type-tag
           type=activeOrganization.name
           allowWrap=true
-          remove=(action 'resetOrganization')
+          remove=(action "resetOrganization")
         }}
       {{else if activeMyOrganization}}
         {{search-type-tag
           type="My Personal Stuff"
           allowWrap=true
-          remove=(action 'resetOrganization')
+          remove=(action "resetOrganization")
         }}
       {{else}}
         <div class="Mystuff-FilterBar-choose-box">
           <div class="Mystuff-FilterBar-choose dropdown-toggle" data-toggle="dropdown" data-test-button="mystuff-organization-filter">
-            Personal/Profile{{fa-icon 'chevron-down'}}
+            Personal/Profile{{fa-icon "chevron-down"}}
           </div>
           <div class="Mystuff-FilterBar-dropdown-menu dropdown-menu">
-            <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeOrganization' myOrganization}} data-test-button="mystuff-organization-choice-personal">
+            <div class="Mystuff-FilterBar-dropdown-choice" {{action "changeOrganization" myOrganization}}  role="button" data-test-button="mystuff-organization-choice-personal">
               {{avatar-image
               imageUrl=currentUser.userImageUrl
               userName=currentUser.name
@@ -33,7 +33,7 @@
               <span>My Personal Stuff</span>
             </div>
             {{#each organizations as |organization|}}
-              <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeOrganization' organization}} data-test-button="mystuff-organization-choice">
+              <div class="Mystuff-FilterBar-dropdown-choice" {{action "changeOrganization" organization}}  role="button" data-test-button="mystuff-organization-choice">
                 {{avatar-image
                 imageUrl=organization.displayImageUrl
                 userName=organization.name
@@ -54,16 +54,16 @@
       {{#if activeType}}
         {{search-type-tag
           type=activeType
-          remove=(action 'resetType')
+          remove=(action "resetType")
         }}
       {{else}}
         <div class="Mystuff-FilterBar-choose-box">
           <div class="Mystuff-FilterBar-choose dropdown-toggle" data-toggle="dropdown" data-test-button="mystuff-content-type-filter">
-            Content Type{{fa-icon 'chevron-down'}}
+            Content Type{{fa-icon "chevron-down"}}
           </div>
           <div class="Mystuff-FilterBar-dropdown-menu dropdown-menu">
             {{#each types as |type|}}
-              <div class="Mystuff-FilterBar-dropdown-choice" {{action 'changeType' type}} data-test-button="mystuff-content-type-choice">
+              <div class="Mystuff-FilterBar-dropdown-choice" {{action "changeType" type}}  role="button" data-test-button="mystuff-content-type-choice">
                 <div>
                   {{type}}
                 </div>

@@ -1,12 +1,12 @@
 <div class="SignInForm">
-  <ul class='SignInForm-tabs'>
-    <li class="{{if isSignIn 'active'}}">
-      <a data-test-link='sign-in-tab' onclick={{action 'changeMode' 'sign-in-with-password'}}>
+  <ul class="SignInForm-tabs">
+    <li class={{if isSignIn "active"}}>
+      <a data-test-link="sign-in-tab" onclick={{action "changeMode" "sign-in-with-password"}} role="button">
         Sign In
       </a>
     </li>
-    <li class="{{if isRegister 'active'}}">
-      <a data-test-link='join-tab' onclick={{action 'changeMode' 'register'}}>
+    <li class={{if isRegister "active"}}>
+      <a data-test-link="join-tab" onclick={{action "changeMode" "register"}} role="button">
         Register
       </a>
     </li>
@@ -15,20 +15,20 @@
   {{#form-group error=errors.email}}
     {{form-input
       value=email
-      type='email'
+      type="email"
       id="SignInForm-email"
-      placeholder='Email'
-      input=(action 'clearErrors')
-      data-test-field='sign-in-email'
+      placeholder="Email"
+      input=(action "clearErrors")
+      data-test-field="sign-in-email"
       required=true
       autofocus=media.isNotMobile
     }}
     {{#if userMustConfirm}}
-      <div class='help-block SignInForm-reconfirmMessage'>
+      <div class="help-block SignInForm-reconfirmMessage">
         <strong>You have not yet confirmed your account.</strong> <br><br>
         Please check your mailbox for DailyUV Confirmation Instructions sent to {{email}}.
         Or <br>
-        <a class='SignInForm-reconfirmAction' href='#' {{action 'reconfirm'}}>click here to re-send the confirmation
+        <a class="SignInForm-reconfirmAction" href="#" {{action "reconfirm"}}>click here to re-send the confirmation
           email.</a><br>
         You must confirm your account before signing in.
       </div>
@@ -38,31 +38,33 @@
   {{#form-group error=errors.password}}
     {{form-input
       value=password
-      placeholder='Password'
-      type='password'
-      data-test-field='sign-in-password'
+      placeholder="Password"
+      type="password"
+      data-test-field="sign-in-password"
       required=true
     }}
   {{/form-group}}
 
-  <div class='SignInForm-submitWrapper'>
-    {{async-button
-      action=(action submit)
-      default=(if isSignIn 'Sign in' 'Register')
-      pending=(if isSignIn 'Signing in' 'Registering')
-      class='SignInForm-submitButton'
-      data-test-component='sign-in-submit'
+  <div class="SignInForm-submitWrapper">
+    {{x-async-button
+      promiseAction=(action submit)
+      default=(if isSignIn "Sign in" "Register")
+      pending=(if isSignIn "Signing in" "Registering")
+      fulfilled=(if isSignIn "Signing in" "Registering")
+      rejected="Please Try Again"
+      class="SignInForm-submitButton"
+      data-test-component="sign-in-submit"
     }}
 
     {{#if isSignIn}}
-      {{#link-to 'forgot-password' class='SignInForm-link'
-        data-test-link='forgot-password' preventDefault=true}}
-        <span {{action forgotPassword }}>
+      {{#link-to "forgot-password" class="SignInForm-link"
+        data-test-link="forgot-password" preventDefault=true}}
+        <span {{action forgotPassword}} role="button">
           Forgot Password?
         </span>
       {{/link-to}}
     {{else}}
-      <a class='SignInForm-link' {{action 'changeMode' 'sign-in-with-password'}}>
+      <a class="SignInForm-link" {{action "changeMode" "sign-in-with-password"}} role="button">
         Already have an account?
       </a>
     {{/if}}

@@ -1,5 +1,5 @@
 {{#if isContent}}
-  {{#unless (is-equal feedItemModel.id showingDetailInFeed)}}
+  {{#unless contentShowingInFeed}}
     {{feed-card
       model=feedItemModel
       organization=organization

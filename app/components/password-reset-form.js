@@ -1,26 +1,26 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isPresent, isBlank } from '@ember/utils';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const {
-  get, set,
-  inject,
-  computed,
-  isBlank,
-  isPresent
-} = Ember;
-
-export default Ember.Component.extend(TestSelector, {
-  api: inject.service('api'),
-  windowLocation: inject.service('windowLocation'),
-  router : inject.service('-routing'),
-  notify: inject.service('notification-messages'),
+export default Component.extend(TestSelector, {
+  api: service('api'),
+  windowLocation: service('windowLocation'),
+  router : service(),
+  notify: service('notification-messages'),
   returnUrl: null,
   tagName: 'form',
   showErrors: false,
   showConfirmation: false,
   password: '',
   passwordConfirmation: '',
-  serverErrors: [],
+
+  init() {
+    this._super(...arguments);
+
+    set(this, 'serverErrors', []);
+  },
 
   passwordsMatch: computed('password', 'passwordConfirmation', function() {
     return (get(this, 'password').length && get(this, 'password') === get(this, 'passwordConfirmation'));

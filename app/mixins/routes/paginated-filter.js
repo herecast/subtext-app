@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import { isBlank } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
-  scrollMaintainer: Ember.inject.service('scroll-maintainer'),
+export default Mixin.create({
+  scrollMaintainer: service('scroll-maintainer'),
 
   queryParams: {
     query: {
@@ -48,7 +50,7 @@ export default Ember.Mixin.create({
     // other filters changing, and the dual-input on the event filter for query
     // and category.
     const updateFilterParams = (controller.get('query') === filterParams.query) ||
-      Ember.isBlank(filterParams.query) || Ember.isBlank(controller.get('query')) ||
+      isBlank(filterParams.query) || isBlank(controller.get('query')) ||
       filterParams.query === 'Everything';
 
     if (updateFilterParams) {

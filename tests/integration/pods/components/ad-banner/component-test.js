@@ -1,41 +1,42 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-/* global sinon */
+import RSVP from 'rsvp';
+import sinon from 'sinon';
 
-const apiStub = Ember.Service.extend({
-  getContentPromotion() {
-    return { then() {} };
+const apiStub = Service.extend({
+  getContentPromotions() {
+    return RSVP.resolve({promotions: []});
   },
   recordAdMetricEvent() {
     return true;
   }//outreach-cta component
 });
 
-moduleForComponent('ad-banner', 'Integration | Component | ad banner', {
-  integration: true,
+module('Integration | Component | ad banner', function(hooks) {
+  setupRenderingTest(hooks);
 
-  beforeEach() {
-    this.register('service:api', apiStub);
-    this.inject.service('api');
-  }
-});
+  test('it renders', async function(assert) {
+    assert.expect(1);
+    const { stub } = sinon;
 
-test('it renders', function(assert) {
-  assert.expect(1);
-  const { stub } = sinon;
+    this.owner.register('service:api', apiStub);
 
-  this.setProperties({
-    _viewportOptionsOverride : stub(),
-    stubViewportHook: stub()
+    this.setProperties({
+      _viewportOptionsOverride : stub(),
+      stubViewportHook: stub(),
+      api: this.owner.lookup('service:api')
+    });
+
+    await render(hbs`{{ad-banner
+                _viewportOptionsOverride=_viewportOptionsOverride
+                api=api
+                didEnterViewport=stubViewportHook
+                didExitViewport=stubViewportHook
+    }}`);
+
+    assert.ok(1);
   });
-
-  this.render(hbs`{{ad-banner
-              _viewportOptionsOverride=_viewportOptionsOverride
-              api=api
-              didEnterViewport=stubViewportHook
-              didExitViewport=stubViewportHook
-  }}`);
-
-  assert.ok(1);
 });

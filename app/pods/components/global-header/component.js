@@ -1,24 +1,23 @@
 /* global window */
-import Ember from 'ember';
+import { alias, readOnly } from '@ember/object/computed';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
+import { computed, get } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const {
-  get,
-  inject:{service},
-  run,
-  computed
-} = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   classNames: ['GlobalHeader'],
   classNameBindings: ['showSearch:search-open', 'isScrollingDown:hide-header:show-header'],
 
   currentController: service(),
-  routing: service('-routing'),
+  router: service(),
+  fastboot: service(),
 
   searchService: service('search'),
-  showSearch: computed.alias('searchService.searchActive'),
-  activeFilter: computed.readOnly('searchService.activeFilter'),
+  showSearch: alias('searchService.searchActive'),
+  activeFilter: readOnly('searchService.activeFilter'),
 
   scrollDirection: service(),
   isWithinHeaderFromTopOfPage: computed.lt('scrollDirection.currentScrollPosition', 40),
@@ -30,7 +29,9 @@ export default Ember.Component.extend(TestSelector, {
     return get(this, 'scrollDirection.isScrollingDown');
   }),
 
-  hideUserLocationBar: computed.not('showUserLocationBar'),
+  hideUserLocationBar: computed('showUserLocationBar', 'fastboot.isFastBoot', function() {
+    return !get(this, 'showUserLocationBar') || get(this, 'fastboot.isFastBoot');
+  }),
 
   actions: {
     toggleSearch(focusTarget) {
@@ -54,9 +55,9 @@ export default Ember.Component.extend(TestSelector, {
     },
 
     logoClicked() {
-      Ember.$(window).scrollTop(0);
+      $(window).scrollTop(0);
 
-      const router = get(this, 'routing.router');
+      const router = get(this, 'router');
 
       if (get(router, 'currentRouteName') !== 'feed.index') {
         router.transitionTo('feed.index');
@@ -68,7 +69,7 @@ export default Ember.Component.extend(TestSelector, {
     },
 
     onRemoveFilter() {
-      get(this, 'routing.router').transitionTo('feed.index', {
+      get(this, 'router').transitionTo('feed.index', {
         queryParams: {
           type: ''
         }

@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { not, notEmpty, oneWay } from '@ember/object/computed';
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 
-const {computed, get, set, isPresent, inject:{service}} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'PromotionMenu',
   classNameBindings: ['showManageOverlay:overlay-open'],
 
@@ -23,9 +25,9 @@ export default Ember.Component.extend({
   notify: service('notification-messages'),
   contentMetrics: service(),
 
-  isNotBannerAd: computed.not('content.isCampaign'),
-  hasSunsetDate: computed.notEmpty('content.sunsetDate'),
-  hasOrganization: computed.notEmpty('organization'),
+  isNotBannerAd: not('content.isCampaign'),
+  hasSunsetDate: notEmpty('content.sunsetDate'),
+  hasOrganization: notEmpty('organization'),
 
   sunsetDate: computed('content.sunsetDate', function() {
     return moment(get(this, 'content.sunsetDate')).format('MMMM DD, YYYY');
@@ -45,7 +47,7 @@ export default Ember.Component.extend({
     return isPresent(customLinks) ? customLinks.findBy('contentId', contentId) : null;
   }),
 
-  currentHotlinkTitle: computed.oneWay('contentHotlink.title'),
+  currentHotlinkTitle: oneWay('contentHotlink.title'),
 
   updateExpirationDate(sunsetDate) {
     const notify = get(this, 'notify');

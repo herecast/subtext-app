@@ -1,4 +1,4 @@
-/* jshint node: true */
+'use strict';
 
 module.exports = function(environment) {
 
@@ -149,6 +149,9 @@ module.exports = function(environment) {
 
     ENV['ember-cli-mirage']['enabled'] = true;
 
+    // Create a mock for ga variable for code that waits/depends on it
+     ENV.mockWindowGa = true;
+
     ENV['ember-simple-auth'] = {
       routeAfterAuthentication: 'feed.index',
       routeIfAlreadyAuthenticated: 'feed.index'
@@ -165,10 +168,8 @@ module.exports = function(environment) {
   if (environment === 'production') {
     ENV.rootURL = '/';
 
-    ENV['ember-cli-mirage'] = {
-      enabled: false,
-      excludeFilesFromBuild: true
-    };
+    ENV['ember-cli-mirage']['enabled'] = false;
+    ENV['ember-cli-mirage']['excludeFilesFromBuild'] = true;
 
     ENV.fb_enabled = true;
 

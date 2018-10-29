@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function indefiniteArticle(params/*, hash*/) {
   var str = params[0];
@@ -10,4 +10,4 @@ export function indefiniteArticle(params/*, hash*/) {
   return (['a','e','i','o','u'].indexOf(str.charAt(0).toLowerCase()) === -1) ? 'a' : 'an';
 }
 
-export default Ember.Helper.helper(indefiniteArticle);
+export default buildHelper(indefiniteArticle);

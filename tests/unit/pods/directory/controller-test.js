@@ -1,10 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('controller:directory', 'Unit | Controller | directory', {
-  needs: ['model:business-profile', 'service:history']
-});
+module('Unit | Controller | directory', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+  test('it exists', function(assert) {
+    let route = this.owner.lookup('controller:directory');
+    assert.ok(route);
+  });
 });

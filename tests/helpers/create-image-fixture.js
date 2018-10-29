@@ -1,13 +1,22 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+/* global Blob */
+export default function createImageFixture(options) {
+  const {
+    width,
+    height,
+    name,
+    type
+  } = options;
 
-const { RSVP: {Promise} } = Ember;
-
-export default function createImageFixture(width, height) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
 
   return new Promise((resolve) => {
-    canvas.toBlob(resolve, 'image/jpeg');
+    canvas.toBlob((blob) => {
+      blob.lastModifiedDate = new Date();
+      blob.name = name;
+      resolve(blob);
+    }, type);
   });
 }

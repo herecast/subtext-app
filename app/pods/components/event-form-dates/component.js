@@ -1,23 +1,20 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
+import { isPresent, isEmpty } from '@ember/utils';
+import { computed, get, set } from '@ember/object';
+import { A } from '@ember/array';
 import moment from 'moment';
-
 /* global _ */
 
-const  { set, get, inject, merge, run, isEmpty, isPresent, computed } = Ember;
-
-export default Ember.Component.extend({
-  store: inject.service(),
+export default Component.extend({
+  store: service(),
 
   errors: null,
-
-  schedules: [],
-
   showScheduleForm: null,
-
-  init() {
-    this._super(...arguments);
-    set(this, 'newSchedule', null);
-  },
+  newSchedule: null,
+  schedules: A(),
 
   hasSingleDate: computed('schedules.[].length', function() {
     const schedules = get(this, 'schedules');

@@ -1,18 +1,15 @@
-import Ember from 'ember';
+import { reads, oneWay, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { isPresent } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-const {
-  computed,
-  inject: {service},
-  isPresent,
-  get,
-  set
-} = Ember;
-
-export default Ember.Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, contentComments, {
   'data-test-component': 'news-detail',
-  'data-test-content': computed.reads('model.contentId'),
+  'data-test-content': reads('model.contentId'),
   fastboot: service(),
   tracking: service(),
   session: service(),
@@ -21,21 +18,39 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
   closeRoute: 'feed',
   closeLabel: 'News',
   isPreview: false,
+  model: null,
   enableStickyHeader: false,
   captionHidden: false,
   editPath: 'news.edit',
-  editPathId: computed.oneWay('model.id'),
+  editPathId: oneWay('model.id'),
+
+  init() {
+    this._super(...arguments);
+    this._cachedId = get(this, 'model.id');
+  },
 
   trackDetailEngagement: function() {},
 
-  organizations: computed.oneWay('session.currentUser.managedOrganizations'),
+  organizations: oneWay('session.currentUser.managedOrganizations'),
 
   userCanEditNews: computed('session.isAuthenticated', 'organizations.@each.id', 'model.organizationId', function() {
     const managedOrganizations = get(this, 'organizations') || [];
     return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
   }),
 
-  hasCaption: computed.notEmpty('model.primaryImageCaption'),
+  hasCaption: notEmpty('model.primaryImageCaption'),
+
+  modelContent: computed('model.content', function() {
+    return htmlSafe(get(this, 'model.content'));
+  }),
+
+  modelSplitContentHead: computed('model.splitContent.head', function() {
+    return htmlSafe(get(this, 'model.splitContent.head'));
+  }),
+
+  modelSplitContentTail: computed('model.splitContent.tail', function() {
+    return htmlSafe(get(this, 'model.splitContent.tail'));
+  }),
 
   _trackImpression() {
     const model = get(this, 'model');
@@ -49,16 +64,12 @@ export default Ember.Component.extend(ModelResetScroll, contentComments, {
     }
   },
 
-  didUpdateAttrs(changes) {
+  didUpdateAttrs() {
     this._super(...arguments);
 
-    const newId = get(changes, 'newAttrs.model.value.id');
-    if(isPresent(newId)) {
-      const oldId = get(changes, 'oldAttrs.model.value.id');
-      if(newId !== oldId) {
-        // we have a different model now
-        this._trackImpression();
-      }
+    if (this._cachedId !== get(this, 'model.id')) {
+      this._trackImpression();
+      this._cachedId = get(this, 'model.id');
     }
   },
 

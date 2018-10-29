@@ -1,19 +1,22 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, setProperties, set, get } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { run } from '@ember/runloop';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const { get, set, setProperties, computed, isBlank, inject, run } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   tagName: 'form',
   classNames: ['AccountFormDetails'],
   'data-test-account-form': true,
-  intercom: inject.service(),
+  intercom: service(),
 
-  notify: inject.service('notification-messages'),
+  notify: service('notification-messages'),
 
   // Component should be instantiated with currentUser object
   model: null,
-  avatarImage: computed.alias('model.avatarImage'),
+  avatarImage: alias('model.avatarImage'),
 
   showPasswordForm: false,
   imageFormVisible: false,

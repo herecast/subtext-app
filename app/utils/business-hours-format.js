@@ -1,6 +1,4 @@
-import Ember from 'ember';
-
-const { isArray } = Ember;
+import { isArray } from '@ember/array';
 
 export default function(params) {
   let hours_array = [];

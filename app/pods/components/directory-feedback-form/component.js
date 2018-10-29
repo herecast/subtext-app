@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { alias, notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
 
-const {
-  computed,
-  inject,
-  get,
-  set
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['DirectoryFeedback'],
 
   model: null,
@@ -15,13 +11,13 @@ export default Ember.Component.extend({
   isOpen: false,
   hasChosen: false,
   userRating: null,
-  api: inject.service('api'),
+  api: service('api'),
 
-  hasRated: computed.alias('model.has_rated'),
+  hasRated: alias('model.has_rated'),
 
-  user: computed.alias('session.currentUser'),
+  user: alias('session.currentUser'),
 
-  isSignedIn: computed.notEmpty('user'),
+  isSignedIn: notEmpty('user'),
 
   buttonProperties: computed('userRating', function() {
     const rating = get(this, 'userRating');

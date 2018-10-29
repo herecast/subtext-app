@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { empty, equal } from '@ember/object/computed';
+import { set, get, computed } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { computed, get, set } = Ember;
-const { equal, empty } = computed;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   isFree:          equal('costType', 'free'),
   isPaid:          equal('costType', 'paid'),
   isDonation:      equal('costType', 'donation'),

@@ -1,15 +1,19 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { get, set } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import InfinityModel from 'ember-infinity/lib/infinity-model';
 
-const { get, isPresent } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   ExtendedInfinityModel: InfinityModel.extend({
     hasInflected: false,
 
-    infinityPageOptions: {
-      perPageInitial: 5,
-      perPageAfter: 15,
+    init() {
+      this._super(...arguments);
+
+      set(this, 'infinityPageOptions', {
+        perPageInitial: 5,
+        perPageAfter: 15,
+      });
     },
 
     buildParams() {

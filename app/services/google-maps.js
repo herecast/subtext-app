@@ -1,11 +1,11 @@
-import $ from 'jquery';
-import Ember from 'ember';
+import { get, set } from '@ember/object';
+import { Promise } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 import config from 'subtext-ui/config/environment';
+import $ from 'jquery';
 /* global google*/
 
-const { set, get, RSVP:{Promise}, inject:{service} } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
 
   googleMapsInit: null,

@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import { run } from '@ember/runloop';
 import Devise from 'ember-simple-auth/authenticators/devise';
 import config from 'subtext-ui/config/environment';
 import { detectResponseStatus } from 'subtext-ui/lib/request-utilities';
 
 const apiHost = config.API_BASE_URL;
-
-const { run } = Ember;
 
 export default Devise.extend({
   serverTokenEndpoint: `${apiHost}/${config.API_NAMESPACE}/users/email_confirmation`,
@@ -13,7 +12,7 @@ export default Devise.extend({
   authenticate(token) {
     const useResponse = this.get('rejectWithResponse');
     const { resourceName, identificationAttributeName, tokenAttributeName } = this.getProperties('resourceName', 'identificationAttributeName', 'tokenAttributeName');
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const data = {
         confirmation_token: token
       };

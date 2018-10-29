@@ -1,23 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import { computed, get, set } from '@ember/object';
+import { A } from '@ember/array';
 import moment from 'moment';
-
 /* global _ */
 
-const  {
-  set,
-  get,
-  inject,
-  run,
-  isPresent,
-  computed
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['EventScheduleEditor'],
-  modals: inject.service(),
-  store: inject.service(),
-
-  schedules: [],
+  modals: service(),
+  store: service(),
+  schedules: A(),
 
   sendUpdateActionIfGiven() {
     const update = get(this, 'update');

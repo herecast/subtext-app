@@ -1,12 +1,12 @@
 {{#if useLink}}
   {{#if linkUrl}}
-    <span {{action onContentClick preventDefault=false}}>
-      <a href="{{linkUrl}}" target="_blank">
+    <span>
+      <a href={{linkUrl}} target="_blank" rel="noopener noreferrer" {{action onContentClick}}>
         {{yield}}
       </a>
     </span>
   {{else}}
-    <span {{action onContentClick preventDefault=false}}>
+    <span {{action onContentClick preventDefault=false}} role="button">
       {{#link-to-content model}}
         {{yield}}
       {{/link-to-content}}

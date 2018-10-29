@@ -1,20 +1,20 @@
 {{#form-group error=error}}
-  <label class='control-label' for="image">
+  <label class="control-label" for="image">
     Images
   </label>
 
   {{#each visibleImages as |image|}}
     {{image-upload
       image=image
-      remove=(action 'removeImage')
-      setPrimary=(action 'setPrimary')
+      remove=(action "removeImage")
+      setPrimary=(action "setPrimary")
       data-test-component="image-upload"
     }}
   {{/each}}
 {{/form-group}}
 
 {{#unless imageLimitReached}}
-  <button {{action 'addImage'}} class='Button Button--default' data-test-add-another-image>
-    {{fa-icon 'plus-circle'}} Add another image
+  <button {{action "addImage"}} class="Button Button--default" data-test-add-another-image>
+    {{fa-icon "plus-circle"}} Add another image
   </button>
 {{/unless}}

@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 
-const { get, computed, String:{htmlSafe} } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['OrganizationProfileDesktopImage'],
 
   imageUrl: null,
 
-  showImage: computed.notEmpty('imageUrl'),
+  showImage: notEmpty('imageUrl'),
 
   imageStyle: computed('imageUrl', function() {
     const imageUrl = get(this, 'imageUrl');

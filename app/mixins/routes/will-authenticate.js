@@ -1,14 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
+import { get } from '@ember/object';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Configuration from 'ember-simple-auth/configuration';
 
-const {
-  inject,
-  get
-} = Ember;
-
-export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
-  cookies: inject.service('cookies'),
+export default Mixin.create(UnauthenticatedRouteMixin, {
+  cookies: service('cookies'),
 
   transitionAfterAuthentication() {
     const cookies = get(this, 'cookies');

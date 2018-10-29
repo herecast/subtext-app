@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { later } from '@ember/runloop';
+import Service, { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
 
-const {get, set, inject} = Ember;
-
-export default Ember.Service.extend({
-  tracking: inject.service(),
-  modals: inject.service(),
+export default Service.extend({
+  tracking: service(),
+  modals: service(),
 
   isAnimatingAway: false,
   showContent: false,
@@ -20,7 +20,7 @@ export default Ember.Service.extend({
     get(this, 'modals').removeModalBodyClass();
     set(this, 'isAnimatingAway', true);
 
-    Ember.run.later(() => {
+    later(() => {
       set(this, 'showContent', false);
       set(this, 'isAnimatingAway', false);
     }, 300);

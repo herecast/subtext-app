@@ -1,18 +1,13 @@
+import Service, { inject as service } from '@ember/service';
+import { set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
+import { Promise } from 'rsvp';
 import $ from 'jquery';
-import Ember from 'ember';
 
-const {
-  get,
-  set,
-  isPresent,
-  inject,
-  RSVP: {Promise}
-} = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   enableTracking: true,
   intercomInitPromise: null,
-  fastboot: inject.service(),
+  fastboot: service(),
 
   _loadIntercom() {
     if (this.intercomInitPromise) { return this.intercomInitPromise; }

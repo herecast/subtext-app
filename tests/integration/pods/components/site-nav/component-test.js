@@ -1,13 +1,15 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('site-nav', 'Integration | Component | site nav', {
-  integration: true
-});
+module('Integration | Component | site nav', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  this.render(hbs`{{site-nav}}`);
+    await render(hbs`{{site-nav}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

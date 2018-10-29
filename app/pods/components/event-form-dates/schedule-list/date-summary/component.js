@@ -1,21 +1,17 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 
-const { get, set, on } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['Event-schedule-summary u-layoutPadB10'],
 
   scheduleSummary: null,
 
-  animateIn: on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
     this.$()
       .hide()
       .slideDown(300);
-  }),
-
-  animateOut: on('willDestroyElement', function() {
-    // TODO animate destroy
-  }),
+  },
 
   actions: {
     remove: function() {
@@ -32,6 +28,7 @@ export default Ember.Component.extend({
       if (save) {
         save(schedule, scheduleData);
       }
+      //eslint-disable-next-line ember/closure-actions
       this.sendAction('cancel');
     },
 

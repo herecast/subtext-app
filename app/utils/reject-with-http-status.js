@@ -1,5 +1,4 @@
-import Ember from 'ember';
-const { RSVP } = Ember;
+import RSVP from 'rsvp';
 
 /**
  * Generate and immediately reject a Promise with the signature expected by our error handlers

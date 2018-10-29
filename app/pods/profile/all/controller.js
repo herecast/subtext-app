@@ -1,15 +1,26 @@
-import Ember from 'ember';
+import {
+  oneWay,
+  not,
+  gt,
+  alias,
+  readOnly,
+  and
+} from '@ember/object/computed';
+import { htmlSafe } from '@ember/template';
+import { isPresent } from '@ember/utils';
+import { computed, setProperties, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller, { inject as controller } from '@ember/controller';
+import { run } from '@ember/runloop';
 
-const {get, set, setProperties, isPresent, computed, inject:{service,controller}, run} = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   session: service(),
   notify: service('notification-messages'),
   tracking: service(),
 
   profileController: controller('profile'),
-  organization: computed.oneWay('profileController.model'),
-  profileIsDisabled: computed.not('organization.profileIsActive'),
+  organization: oneWay('profileController.model'),
+  profileIsDisabled: not('organization.profileIsActive'),
 
   isFirstTransition: true,
   initialLoad: true,
@@ -65,19 +76,19 @@ export default Ember.Controller.extend({
 
   }),
 
-  hasResults: computed.gt('model.length', 0),
+  hasResults: gt('model.length', 0),
 
-  managedOrganizations: computed.alias('session.currentUser.managedOrganizations'),
+  managedOrganizations: alias('session.currentUser.managedOrganizations'),
 
   isAdmin: computed('session.isAuthenticated', 'managedOrganizations.@each.id', 'organization.id', function() {
     const managedOrganizations = get(this, 'managedOrganizations') || [];
     return isPresent(managedOrganizations.findBy('id', String(get(this, 'organization.id'))));
   }),
 
-  isBlog: computed.readOnly('organization.isBlog'),
+  isBlog: readOnly('organization.isBlog'),
 
-  showAdminCards: computed.and('isAdmin', 'displayAsAdminIfAllowed'),
-  stickyContainerEnabled: computed.not('showAdminCards'),
+  showAdminCards: and('isAdmin', 'displayAsAdminIfAllowed'),
+  stickyContainerEnabled: not('showAdminCards'),
 
   avatarUrl: computed('profileIsDisabled', 'organization.profileImageUrl', function() {
     if (get(this, 'profileIsDisabled')) {
@@ -95,11 +106,11 @@ export default Ember.Controller.extend({
     return get(this, 'showAdminCards');
   }),
 
-  showContactCard: computed('showAdminCards', 'organization.contactCardActive', 'organization.hasContactInfo', function() {
+  showContactCard: computed('showAdminCards', 'organization.{contactCardActive,hasContactInfo}', function() {
     return get(this, 'showAdminCards') || (get(this, 'organization.contactCardActive') && get(this, 'organization.hasContactInfo'));
   }),
 
-  showDescriptionCard: computed('showAdminCards', 'profileIsDisabled', 'organization.descriptionCardActive', 'organization.description', function() {
+  showDescriptionCard: computed('showAdminCards', 'profileIsDisabled', 'organization.{descriptionCardActive,description}', function() {
     if (get(this, 'profileIsDisabled')) {
       return false;
     }
@@ -107,7 +118,7 @@ export default Ember.Controller.extend({
     return get(this, 'showAdminCards') || (get(this, 'organization.descriptionCardActive') && get(this, 'organization.description'));
   }),
 
-  showHoursCard: computed('showAdminCards', 'organization.hours', 'organization.hoursCardActive', function() {
+  showHoursCard: computed('showAdminCards', 'organization.{hours,hoursCardActive}', function() {
     return get(this, 'showAdminCards') || (isPresent(get(this, 'organization.hours')) && get(this, 'organization.hoursCardActive'));
   }),
 
@@ -131,7 +142,7 @@ export default Ember.Controller.extend({
     return get(this, 'showAdminCards');
   }),
 
-  hasPaidProfile: computed.alias('organization.bizFeedActive'),
+  hasPaidProfile: alias('organization.bizFeedActive'),
 
   updateOrganizationField(fieldName, value) {
     const notify = get(this, 'notify');
@@ -159,7 +170,7 @@ export default Ember.Controller.extend({
       email = `dailyuv@subtext.org`;
     }
 
-    return Ember.String.htmlSafe(`mailto:${email}?subject=${subject}`);
+    return htmlSafe(`mailto:${email}?subject=${subject}`);
   }),
 
   actions: {

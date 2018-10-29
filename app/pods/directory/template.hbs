@@ -1,38 +1,38 @@
-<div class='DirectorySearch-wrapper'>
-  <div class='Container--noGutter'>
-    <h1 class='h1 DirectorySearch-title text-uppercase'>Directory</h1>
-    <br />
-    <h2 class='h2 DirectorySearch-title'>Find a business or service</h2>
+<div class="DirectorySearch-wrapper">
+  <div class="Container--noGutter">
+    <h1 class="h1 DirectorySearch-title text-uppercase">Directory</h1>
+    <br>
+    <h2 class="h2 DirectorySearch-title">Find a business or service</h2>
 
-    <div class='clearfix DirectorySearch-InnerWrapper'>
-      <div class='DirectorySearch-inputWrapper'>
-        <span class='DirectorySearch-pseudoInputText'><b>Find</b></span>
+    <div class="clearfix DirectorySearch-InnerWrapper">
+      <div class="DirectorySearch-inputWrapper">
+        <span class="DirectorySearch-pseudoInputText"><b>Find</b></span>
         {{business-search
-        inputClass='form-control DirectorySearch-input DirectorySearch-queryInput'
+        inputClass="form-control DirectorySearch-input DirectorySearch-queryInput"
         categories=categories
         category=category
-        setCategory=(action 'setCategory')
+        setCategory=(action "setCategory")
         searchTerms=searchTerms
         query=query
-        updateFromQuery=(action 'updateQuery')
+        updateFromQuery=(action "updateQuery")
         }}
       </div>
 
-      <div class='DirectorySearch-inputWrapper'>
-        <span class='DirectorySearch-pseudoInputText'><b>Within<br />50 miles of</b></span>
+      <div class="DirectorySearch-inputWrapper">
+        <span class="DirectorySearch-pseudoInputText"><b>Within<br>50 miles of</b></span>
         {{location-search
-          inputClass='form-control DirectorySearch-input'
+          inputClass="form-control DirectorySearch-input"
           placeholder=searchLocationPlaceholder
           location=location
-          setLocation=(action 'setLocation')
+          setLocation=(action "setLocation")
         }}
       </div>
     </div>
   </div>
 </div>
 
-<div class='Container--noGutter'>
-  <div class='row'>
+<div class="Container--noGutter">
+  <div class="row">
     {{#if searchBusinesses}}
       {{directory-search
       model=businesses
@@ -45,11 +45,11 @@
       page=(readonly page)
       per_page=(readonly per_page)
       target=target
-      contactUs=(action 'contactUs')
+      contactUs=(action "contactUs")
       store=store
-      changeSortBy=(action 'changeSortBy')
-      changePerPage=(action 'changePerPage')
-      changePage=(action 'changePage')
+      changeSortBy=(action "changeSortBy")
+      changePerPage=(action "changePerPage")
+      changePage=(action "changePage")
       }}
     {{else}}
       {{#if canSearch}}
@@ -60,7 +60,7 @@
           category=category
           searchTerms=query
           location=location
-          contactUs=(action 'contactUs')
+          contactUs=(action "contactUs")
           }}
         {{/if}}
       {{else}}
@@ -74,7 +74,7 @@
 
 {{outreach-cta
   isButton=true
-  placement='bottom-of-page'
+  placement="bottom-of-page"
   limitMessagesTo=2
   class="sit-center"
 }}

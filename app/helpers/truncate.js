@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function truncate(params, hash) {
   const string = params[0];
@@ -7,4 +7,4 @@ export function truncate(params, hash) {
   return (string.length >= length) ? `${string.substr(0, length)}...` : string;
 }
 
-export default Ember.Helper.helper(truncate);
+export default buildHelper(truncate);

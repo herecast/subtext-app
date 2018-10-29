@@ -1,10 +1,10 @@
+import { set, get } from '@ember/object';
+import { Promise } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 import $ from 'jquery';
-import Ember from 'ember';
 import config from 'subtext-ui/config/environment';
 
-const { get, set, RSVP:{Promise}, inject:{service} } = Ember;
-
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
   fbInitPromise: null,
   isLoaded: false,

@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 import Validation from 'subtext-ui/mixins/components/validation';
 import formatPhone from 'subtext-ui/utils/format-phone';
 
-const { computed, get } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   newBusinessProfile: null,
   businessProfileFormIsVisible: false,
 
@@ -17,7 +17,7 @@ export default Ember.Component.extend(Validation, {
   per_page: 25,
 
   total: null,
-  results: computed.alias('model'),
+  results: alias('model'),
 
   locations: computed('results.[]', function () {
     const results = get(this, 'results') || [];

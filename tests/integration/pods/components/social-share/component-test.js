@@ -1,15 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('social-share', 'Integration | Component | social share', {
-  integration: true
-});
+module('Integration | Component | social share', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('model', {contentId: 1});
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    this.set('model', {contentId: 1});
 
-  this.render(hbs`{{social-share model=model}}`);
-  assert.ok(this.$());
+    await render(hbs`{{social-share model=model}}`);
+    assert.ok(this.element);
+  });
 });

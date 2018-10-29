@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
+import { computed, set, get } from '@ember/object';
 import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
 
-const {
-  get,
-  run,
-  set,
-  computed,
-  inject
-} = Ember;
-
-export default Ember.Service.extend(FastbootExtensions, {
-  windowLocation: inject.service('window-location'),
+export default Service.extend(FastbootExtensions, {
+  windowLocation: service('window-location'),
   _disableCache: false,
 
   init() {

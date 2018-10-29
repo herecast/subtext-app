@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import { debounce } from '@ember/runloop';
+import TextField from '@ember/component/text-field';
+import { set, get } from '@ember/object';
 
-const { get, set } = Ember;
-
-export default Ember.TextField.extend({
+export default TextField.extend({
   debounceWait: 500, // default wait value
   fireAtStart: false, // defaults to “start at start of wait period”
   _elementValueDidChange: function() {
-    Ember.run.debounce(this, this._setValue, this.debounceWait, this.fireAtStart);
+    debounce(this, this._setValue, this.debounceWait, this.fireAtStart);
   },
   _setValue: function () {
     if(!get(this, 'isDestroying')) {

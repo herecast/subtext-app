@@ -15,6 +15,7 @@ export default function makeOptimizedImageUrl(url, width, height, doCrop) {
 
   if (config['ENABLE_IMAGE_OPTIMIZATION']) {
     // Cribbed from http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+    //eslint-disable-next-line no-useless-escape
     let match = `${url}`.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
     let hostname = match && match[3];
 

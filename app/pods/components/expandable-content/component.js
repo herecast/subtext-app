@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
 
-const { get, set, inject, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ExpandableContent'],
-  tracking: inject.service(),
+  tracking: service(),
 
   height: 300,
 
@@ -17,7 +18,7 @@ export default Ember.Component.extend({
     const height = get(this, 'height');
     const style = (isContentExpanded) ? '' : `max-height: ${height}px;`;
 
-    return Ember.String.htmlSafe(style);
+    return htmlSafe(style);
   }),
 
   isContentExpanded: computed('isExpanded', 'needsToggleButton', function() {

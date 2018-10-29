@@ -1,12 +1,14 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('feed-card/fake-card', 'Integration | Component | feed card/fake card', {
-  integration: true
-});
+module('Integration | Component | feed card/fake card', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  this.render(hbs`{{feed-card/fake-card}}`);
+  test('it renders', async function(assert) {
+    await render(hbs`{{feed-card/fake-card}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

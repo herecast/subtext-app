@@ -1,5 +1,5 @@
 {{#x-card noShadow=flattenCard noMargin=flattenCard}}
-  <div class="OrganizationContactCard-content {{if showTopBorder 'border-top'}}">
+  <div class="OrganizationContactCard-content {{if showTopBorder "border-top"}}">
     {{#if organization.phone}}
       <div class="OrganizationContactCard-item">
         {{render-phone phone=organization.phone hideLabel=hideLabels}}
@@ -8,8 +8,13 @@
 
     {{#if organization.email}}
       <div class="OrganizationContactCard-item">
-        <a href="{{organization.emailLink}}" target="_blank" title="Email">
-          {{fa-icon 'envelope'}}
+        <a
+        href={{organization.emailLink}}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Email"
+        >
+          {{fa-icon "envelope"}}
           {{#unless hideLabels}}
             Email
             {{#if showLongEmailText}}
@@ -22,16 +27,26 @@
 
     {{#if organization.address}}
       <div class="OrganizationContactCard-item">
-        <a href="{{organization.directionsLink}}" target="_blank" title="Directions">
-          {{fa-icon 'map-marker'}} {{#unless hideLabels}}Directions{{/unless}}
+        <a
+        href={{organization.directionsLink}}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Directions"
+        >
+          {{fa-icon "map-marker"}} {{#unless hideLabels}}Directions{{/unless}}
         </a>
       </div>
     {{/if}}
 
     {{#if organization.website}}
       <div class="OrganizationContactCard-item">
-        <a href="{{organization.websiteLink}}" target="_blank" title="Website">
-          {{fa-icon 'link'}} {{#unless hideLabels}}Website{{/unless}}
+        <a
+        href={{organization.websiteLink}}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Website"
+        >
+          {{fa-icon "link"}} {{#unless hideLabels}}Website{{/unless}}
         </a>
       </div>
     {{/if}}

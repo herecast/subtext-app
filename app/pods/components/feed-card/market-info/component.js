@@ -1,16 +1,18 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { A } from '@ember/array';
 
-const { get, set, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-MarketInfo',
 
-  images: [],
   cost: null,
   activeImageUrl: null,
   showPrice: true,
 
-  hasMultipleImages: computed.gt('images.length', 1),
+  images: A(),
+
+  hasMultipleImages: gt('images.length', 1),
 
   price: computed('cost', function() {
     const cost = get(this, 'cost') || '';

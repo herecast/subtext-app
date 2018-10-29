@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { notEmpty } from '@ember/object/computed';
+import { isBlank, isPresent } from '@ember/utils';
+import { htmlSafe } from '@ember/template';
 import computedInitials from 'subtext-ui/utils/computed-initials';
 import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
-const { get, computed, isBlank, String: { htmlSafe }  } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'AvatarImage',
   classNameBindings: ['customSize:custom-sized', 'hasCaret:has-caret'],
 
@@ -52,10 +54,18 @@ export default Ember.Component.extend({
     return htmlSafe(style);
   }),
 
+  hasImageUrl: notEmpty('imageUrl'),
+
   optimizedImageUrlString: computed('imageUrl', 'customSize', function() {
     const imageUrl = get(this, 'imageUrl');
     const customSize = get(this, 'customSize');
 
-    return makeOptimizedImageUrl(imageUrl, customSize, customSize, true);
+    let optimizedImageUrl = null;
+
+    if (isPresent(imageUrl)) {
+      optimizedImageUrl = makeOptimizedImageUrl(imageUrl, customSize, customSize, true);
+    }
+
+    return htmlSafe(optimizedImageUrl);
   })
 });

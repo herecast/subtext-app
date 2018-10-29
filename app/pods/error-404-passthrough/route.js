@@ -1,5 +1,5 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import Error404Mixin from 'subtext-ui/mixins/routes/error-404';
 
-export default Ember.Route.extend(Error404Mixin, {
+export default Route.extend(Error404Mixin, {
 });

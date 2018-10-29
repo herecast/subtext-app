@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { setProperties, set, get } from '@ember/object';
+import { isBlank } from '@ember/utils';
 
-const {get, set, setProperties, isBlank, inject} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['AdminCard'],
 
-  notify: inject.service('notification-messages'),
+  notify: service('notification-messages'),
 
   organization: null,
 

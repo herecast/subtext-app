@@ -1,12 +1,11 @@
-import Ember from 'ember';
+import { isBlank, isEmpty } from '@ember/utils';
+import { get, computed } from '@ember/object';
 import DS from 'ember-data';
 import moment from 'moment';
 
-const { computed, isBlank, get } = Ember;
-
 export default DS.Model.extend({
   endsAt: DS.attr('moment-date'),
-  startsAt: DS.attr('moment-date', {defaultValue: moment()}),
+  startsAt: DS.attr('moment-date', {defaultValue: () => { return moment(); }}),
   subtitle: DS.attr('string'),
   title: DS.attr('string'),
 
@@ -19,7 +18,7 @@ export default DS.Model.extend({
     const date = startsAt.format('MMM D');
     const startTime = startsAt.format('h:mmA');
 
-    if (Ember.isEmpty(this.get('endsAt'))) {
+    if (isEmpty(this.get('endsAt'))) {
       return `${date} | ${startTime}`;
     } else {
       const endTime = this.get('endsAt').format('h:mmA');
@@ -31,7 +30,7 @@ export default DS.Model.extend({
   formattedHours: computed('startsAt', 'endsAt', function() {
     const startTime = this.get('startsAt').format('LT');
 
-    if (Ember.isEmpty(this.get('endsAt'))) {
+    if (isEmpty(this.get('endsAt'))) {
       return `${startTime}`;
     } else {
       const endTime = this.get('endsAt').format('LT');
@@ -42,7 +41,7 @@ export default DS.Model.extend({
   timeRange: computed('startsAt', 'endsAt', function() {
     const startTime = this.get('startsAt').format('MMMM D, YYYY LT');
 
-    if (Ember.isEmpty(this.get('endsAt'))) {
+    if (isEmpty(this.get('endsAt'))) {
       return `${startTime}`;
     } else {
       const endTime = this.get('endsAt').format('LT');

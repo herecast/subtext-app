@@ -1,14 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { readOnly } from '@ember/object/computed';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
 import Scroll from '../../mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const { get, run, inject, computed, isPresent } = Ember;
-
-export default Ember.Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, SocialSharing, {
-  location: inject.service('window-location'),
-  currentUserName: computed.readOnly('session.currentUser.name'),
+export default Route.extend(Scroll, Authorized, FastbootTransitionRouteProtocol, SocialSharing, {
+  location: service('window-location'),
+  currentUserName: readOnly('session.currentUser.name'),
 
   model(params, transition) {
     const newRecordValues = {

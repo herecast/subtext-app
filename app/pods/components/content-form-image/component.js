@@ -1,9 +1,13 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { computed, setProperties, set, get } from '@ember/object';
+import { isPresent, isBlank } from '@ember/utils';
+import { registerWaiter } from '@ember/test';
+import config from 'subtext-ui/config/environment';
 /* global loadImage */
 
-const {get, set, run, setProperties, computed, isBlank, isPresent} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   originalImageFile: null,
   originalImageUrl: null,
   displayImage: true,
@@ -35,20 +39,23 @@ export default Ember.Component.extend({
     return get(this, 'imageUrl') || get(this, 'originalImageUrl');
   }),
 
-  editExistingFile: Ember.on('didInsertElement', function () {
+  didInsertElement() {
+    this._super(...arguments);
+
     const image = get(this, 'image');
-    if (Ember.isPresent(image)) {
+
+    if (isPresent(image)) {
       this.loadImageFile(image);
     } else {
       const file = this.get('originalImageFile');
-      if (Ember.isPresent(file)) {
+      if (isPresent(file)) {
         this.loadImageFile(file);
       }
     }
-  }),
+  },
 
   validateCanvasDimensions(canvas) {
-    const $canvas = Ember.$(canvas);
+    const $canvas = $(canvas);
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
 
@@ -71,21 +78,21 @@ export default Ember.Component.extend({
       maxHeight: 2000
     };
 
-    if(Ember.testing) {
+    if (config.environment === 'test') {
       this._canvasLoaded = false;
-      Ember.Test.registerWaiter(()=> this._canvasLoaded === true);
+      registerWaiter(() => this._canvasLoaded === true);
     }
 
     loadImage(file, (canvas) => {
-
       run(()=>{
         if (this.validateCanvasDimensions(canvas)) {
           this._saveCanvas(canvas, get(file, 'type'));
         }
 
-        if(Ember.testing) {
+        if (config.environment === 'test') {
           this._canvasLoaded = true;
         }
+
       });
     }, options);
   },
@@ -101,9 +108,9 @@ export default Ember.Component.extend({
     set(this, 'imageType', imageType);
     this.set('imageUrl', url);
 
-    if(Ember.testing) {
+    if (config.environment === 'test') {
       this._blobLoaded = false;
-      Ember.Test.registerWaiter(()=> this._blobLoaded === true);
+      registerWaiter(() => this._blobLoaded === true);
     }
 
     canvas.toBlob((data) => {
@@ -111,7 +118,7 @@ export default Ember.Component.extend({
         this.set('image', data);
         this.onImageUpdate(data);
 
-        if(Ember.testing) {
+        if (config.environment === 'test') {
           this._blobLoaded = true;
         }
       });
@@ -132,11 +139,6 @@ export default Ember.Component.extend({
       const image = new Image();
       image.crossOrigin = "anonymous";
 
-      if(Ember.testing) {
-        this._imageLoaded = false;
-        Ember.Test.registerWaiter(()=> this._imageLoaded === true);
-      }
-
       image.onload = () => {
         run(()=>{
           const { width, height } = image;
@@ -155,10 +157,6 @@ export default Ember.Component.extend({
           }
 
           ctx.drawImage(image, -width/2, -height/2);
-
-          if(Ember.testing) {
-            this._imageLoaded = true;
-          }
 
           this._saveCanvas(canvas);
         });

@@ -1,14 +1,16 @@
-import Ember from 'ember';
+import { filterBy } from '@ember/object/computed';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { isPresent, isEmpty } from '@ember/utils';
+import { observer, computed, set, get } from '@ember/object';
 import moment from 'moment';
 import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
-
-const { get, set, computed, run, isEmpty, isPresent, observer } = Ember;
 
 const repeatTypes = [{ key: 'Daily', value: 'daily' }, { key: 'Weekly', value: 'weekly' },
       { key: 'Bi-Weekly', value: 'bi-weekly' },
       { key: 'Monthly', value: 'monthly' }];
 
-export default Ember.Component.extend(ScheduleSummary, {
+export default Component.extend(ScheduleSummary, {
   schedule: null,
   errors: null,
 
@@ -76,7 +78,7 @@ export default Ember.Component.extend(ScheduleSummary, {
     }
   }),
 
-  checkedDays: computed.filterBy('days', 'isChecked'),
+  checkedDays: filterBy('days', 'isChecked'),
 
   repeatTypes: computed(() => { return repeatTypes; }),
 

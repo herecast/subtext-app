@@ -1,12 +1,10 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 import formatPhone from 'subtext-ui/utils/format-phone';
+import { isBlankOrEmptyHtmlTags } from 'subtext-ui/helpers/is-blank-or-empty-html-tags';
 
-const {
-  computed,
-  get
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['DirectoryBusiness'],
   model: null,
 
@@ -25,11 +23,11 @@ export default Ember.Component.extend({
   }),
 
   coverImageStyle: computed('coverImage', function() {
-    return new Ember.String.htmlSafe("background-image: url(" + get(this, 'coverImage') + ")");
+    return htmlSafe("background-image: url(" + get(this, 'coverImage') + ")");
   }),
 
   detailsHTML: computed('model.details', function() {
-    return new Ember.String.htmlSafe( get(this, 'model.details'));
+    return htmlSafe(get(this, 'model.details'));
   }),
 
   isOpen: computed(function() {
@@ -37,7 +35,11 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  selectedLocation: computed('model.name', 'model.phone', 'model.fullAddress', 'model.directionsLink', 'model.coords.lat', 'model.coords.lng', function() {
+  detailsAreBlank: computed('model.details', function() {
+    return isBlankOrEmptyHtmlTags(get(this, 'model.details'));
+  }),
+
+  selectedLocation: computed('model.{name,phone,fullAddress,directionsLink}', 'model.coords.{lat,lng}', function() {
     const location = get(this, 'model');
 
     const phone = `<a href="tel:+1${get(location, 'phone')}" class="visible-xs-inline">`+

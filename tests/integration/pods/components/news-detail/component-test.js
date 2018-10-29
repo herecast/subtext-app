@@ -1,81 +1,78 @@
-import Ember from 'ember';
-import startMirage from 'subtext-ui/tests/helpers/setup-mirage';
-import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const promotionStub = Ember.Service.extend({
+const promotionStub = Service.extend({
   find() {
     return { then() {} };
   }
 });
 
-const adStub = Ember.Service.extend({
+const adStub = Service.extend({
   getAd() {
    return { then() {} };
   }
 });
 
-moduleForComponent('news-detail', 'Integration | Component | news detail', {
-  integration: true,
+module('Integration | Component | news detail', function(hooks) {
+  setupRenderingTest(hooks);
 
-  beforeEach() {
-    startMirage(this.container);
-
-    this.register('service:promotion', promotionStub);
-    this.register('service:ads', adStub);
-    this.inject.service('promotion');
-    this.inject.service('tracking');
-  },
-  afterEach() {
-    window.server.shutdown();
-  }
-});
-
-test('it renders', function(assert) {
-  assert.expect(1);
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('news', {id: 1});
-  this.set('scrollToMock', () => {});
-
-  this.render(hbs`
-    {{news-detail
-      model=news
-      scrollTo=(action scrollToMock)
-    }}
-  `);
-
-  assert.ok(this.$().text().trim());
-});
-
-test('Tracking impressions', function(assert) {
-  assert.expect(2);
-
-  let impressions = [];
-
-  this.tracking.reopen({
-    contentImpression(id) {
-      impressions.push(id);
-    }
+  hooks.beforeEach(function() {
+    this.owner.register('service:promotion', promotionStub);
+    this.owner.register('service:ads', adStub);
+    this.promotion = this.owner.lookup('service:promotion');
+    this.tracking = this.owner.lookup('service:tracking');
   });
 
-  this.set('news', {id: 1});
-  this.set('scrollToMock', () => {});
 
-  this.render(hbs`
-    {{news-detail
-      attr=attr
-      model=news
-      scrollTo=(action scrollToMock)
-    }}
-  `);
+  test('it renders', async function(assert) {
+    assert.expect(1);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    this.set('news', {id: 1});
+    this.set('scrollToMock', () => {});
 
-    assert.ok(
-      impressions.indexOf(1) > -1,
-      'After render, records impression through tracking service');
+    await render(hbs`
+      {{news-detail
+        model=news
+        scrollTo=(action scrollToMock)
+      }}
+    `);
 
-    this.set('news', {id: 2});
-    assert.ok(
-      impressions.indexOf(2) > -1,
-      'it records a new impression when given a new model');
+    assert.ok(this.element.textContent.trim());
+  });
+
+  test('Tracking impressions', async function(assert) {
+    assert.expect(2);
+
+    let impressions = [];
+
+    this.tracking.reopen({
+      contentImpression(id) {
+        impressions.push(id);
+      }
+    });
+
+    this.set('news', {id: 1});
+    this.set('scrollToMock', () => {});
+
+    await render(hbs`
+      {{news-detail
+        attr=attr
+        model=news
+        scrollTo=(action scrollToMock)
+      }}
+    `);
+
+      assert.ok(
+        impressions.indexOf(1) > -1,
+        'After render, records impression through tracking service');
+
+      this.set('news', {id: 2});
+      assert.ok(
+        impressions.indexOf(2) > -1,
+        'it records a new impression when given a new model');
+  });
 });

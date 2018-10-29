@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import { next } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
 import DS from 'ember-data';
 import moment from 'moment';
 import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
 import later from 'npm:later';
-
 /* global _ */
 
-const { computed, get, isPresent, set } = Ember;
 const { attr } = DS;
 const dateFormat = 'MM/DD/YYYY';
 const timeFormat = 'hh:mm a';
@@ -40,7 +40,7 @@ const getTime = function(datetimeKey, dateKey) {
     set(key, value) {
       // Run next loop for cases where date and time are both set in the same
       // run loop.  - We need the date to be set before this operation.
-      Ember.run.next(()=> {
+      next(()=> {
         const  date = get(this, dateKey);
 
         if(date) {

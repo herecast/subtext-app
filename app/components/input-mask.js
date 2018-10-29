@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import TextField from '@ember/component/text-field';
 
-const { on } = Ember;
+export default TextField.extend({
+  didInsertElement() {
+    this._super(...arguments);
 
-export default Ember.TextField.extend({
-  initializeMask: on('didInsertElement', function() {
     var mask = this.get('mask');
 
     this.$().mask(mask);
-  })
+  },
 
 });

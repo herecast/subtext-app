@@ -1,31 +1,31 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { set, get, setProperties } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {
-  get,
-  set,
-  inject,
-  computed,
-  isPresent
-  } = Ember;
-
-export default Ember.Component.extend(Validation, {
+export default Component.extend(Validation, {
   classNames: ['DigestSubscribe'],
   tagName: 'form',
 
-  // Component must be instantiated with selected digest
-  digest: null,
+  api: service(),
+  session: service(),
+  store: service(),
+  notify: service('notification-messages'),
 
+  digest: null,
   email: null,
   showSuccessMessage: false,
-  errors: {},
 
-  api: inject.service(),
-  session: inject.service(),
-  store: inject.service(),
-  notify: inject.service('notification-messages'),
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      errors: {}
+    });
+  },
 
-  currentUser: computed.alias('session.currentUser'),
+  currentUser: alias('session.currentUser'),
 
   _subscribeToDigest({ name, id }, email) {
     const notify = get(this, 'notify');
@@ -66,6 +66,7 @@ export default Ember.Component.extend(Validation, {
           set(this, 'showSuccessMessage', true);
         }).catch(() => {
           notify.info(`Please complete your DailUV registration to subscribe to ${get(digest, 'name')}`);
+          //eslint-disable-next-line ember/closure-actions
           this.sendAction('registerUserWithDigest', {email, digest});
         });
       } else {

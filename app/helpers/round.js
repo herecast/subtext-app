@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function round(params) {
   const num = params[0];
@@ -10,4 +10,4 @@ export function round(params) {
   }
 }
 
-export default Ember.Helper.helper(round);
+export default buildHelper(round);

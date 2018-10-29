@@ -1,14 +1,13 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { get } from '@ember/object';
 import DS from 'ember-data';
-
-const { get, inject } = Ember;
 
 // TODO: remove this service since it does not hold
 // state and is therefore the wrong abstraction to use
 // https://trello.com/c/f3F3XXYl/2596-remove-user-service ~cm
 
-export default Ember.Service.extend({
-  api: inject.service('api'),
+export default Service.extend({
+  api: service('api'),
 
   getCurrentUser() {
     // The current user endpoint does not take an ID, so we pass 'self' so that

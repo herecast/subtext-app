@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { get, computed } = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   tagName: 'a',
   attributeBindings: ['href', 'target'],
   target: '_blank',

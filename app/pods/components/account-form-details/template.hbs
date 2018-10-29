@@ -1,36 +1,36 @@
 {{#form-group error=errors.name}}
-  <label class='control-label ContentForm-label--required' for="displayName">Display Name</label>
+  <label class="control-label ContentForm-label--required" for="displayName">Display Name</label>
   {{input
-  id='displayName'
-  class='form-control'
+  id="displayName"
+  class="form-control"
   value=model.name
-  data-test-field='name'
-  input=(action 'notifyChange')
+  data-test-field="name"
+  input=(action "notifyChange")
   }}
 {{/form-group}}
 
 {{#form-group}}
-  <label class='control-label ContentForm-label--required' for="email">Email</label>
+  <label class="control-label ContentForm-label--required" for="email">Email</label>
   <p data-test-field="email">{{model.email}}</p>
 {{/form-group}}
 
 {{#form-group error=errors.password}}
-  <label class='control-label' for="password">Password</label>
+  <label class="control-label" for="password">Password</label>
 
   {{#if showPasswordForm}}
-    <!-- disables autocomplete in firefox --><input type="password" style="display:none"/>
+    {{!-- disables autocomplete in firefox --}}<input type="password" style="display:none">
     {{input
     value=model.password
-    type='password'
-    class='form-control'
-    autocomplete='off'
+    type="password"
+    class="form-control"
+    autocomplete="off"
     id="password"
-    input=(action 'notifyChange')
+    input=(action "notifyChange")
     data-test-field="password"
     }}
   {{else}}
     <p>
-      <a href="#" {{action 'togglePasswordForm'}} data-test-change-password>
+      <a href="#" {{action "togglePasswordForm"}} data-test-change-password>
         Change Password
       </a>
     </p>
@@ -39,22 +39,22 @@
 
 {{#if showPasswordForm}}
   {{#form-group error=errors.passwordConfirmation}}
-    <label class='control-label' for='password-confirmation'>Password Confirmation</label>
-    <!-- disables autocomplete in firefox --><input type="password" style="display:none"/>
+    <label class="control-label" for="password-confirmation">Password Confirmation</label>
+    {{!-- disables autocomplete in firefox --}}<input type="password" style="display:none">
     {{input
     value=model.passwordConfirmation
-    type='password'
-    class='form-control'
-    autocomplete='off'
+    type="password"
+    class="form-control"
+    autocomplete="off"
     id="password-confirmation"
-    input=(action 'notifyChange')
+    input=(action "notifyChange")
     data-test-field="passwordConfirmation"
     }}
   {{/form-group}}
 {{/if}}
 
 {{#form-group error=errors.avatarImage hideError=true}}
-  <label class='control-label' for="email">Avatar Image</label>
+  <label class="control-label" for="email">Avatar Image</label>
   <p class="text-muted">
     Appears on your profile page and in the attribution for content you post to DailyUV.com
   </p>
@@ -69,9 +69,9 @@
     }}
   {{else}}
     <div class="AccountForm-avatarPreview">
-      <img src="{{model.userImageUrl}}" alt="Selected Image" {{action 'showAvatarImageForm'}} />
-    
-      {{#x-button onClick=(action 'showAvatarImageForm') style='regular' color='primary' size='x-small'}}
+      <img src={{model.userImageUrl}} alt="Selected Image" role="button" {{action "showAvatarImageForm"}}>
+
+      {{#x-button onClick=(action "showAvatarImageForm") style="regular" color="primary" size="x-small"}}
         Edit
       {{/x-button}}
     </div>
@@ -79,7 +79,7 @@
 {{/form-group}}
 
 <div class="text-center">
-  {{#x-button onClick=(action 'submit') style='regular' color='primary' size='x-small' data-test-submit-account-details=true}}
+  {{#x-button onClick=(action "submit") style="regular" color="primary" size="x-small" data-test-submit-account-details=true}}
     Save Changes
   {{/x-button}}
 </div>

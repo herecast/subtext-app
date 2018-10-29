@@ -1,314 +1,295 @@
-import { test } from 'qunit';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'ember-test-selectors';
+import { run } from '@ember/runloop';
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-import { invalidateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+import { invalidateSession} from 'ember-simple-auth/test-support';
 import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
-import Ember from 'ember';
 import moment from 'moment';
+import { visit, find, currentRouteName, getContext } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | feed', {
-  beforeEach() {
+module('Acceptance | feed', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+
+  hooks.beforeEach(function() {
     this.cookies = {};
-    mockCookies(this.application, this.cookies);
+    mockCookies(this.cookies);
 
-    invalidateSession(this.application);
-  }
-});
-
-test('feed works when visiting index not logged in and no location cookie present (first time user)', function(assert) {
-  const done = assert.async();
-
-  const feedItems = server.createList('feedItem', 3, {
-    modelType: 'content'
+    invalidateSession();
   });
 
-  server.get('/feed', function({feedItems}, request) {
-    if (request.queryParams.location_id) {
-      const defaultLocationId = 19;
-      assert.equal(request.queryParams.location_id, defaultLocationId, "The default location id is passed to the api request");
-      done();
-    }
+  test('feed works when visiting index not logged in and no location cookie present (first time user)', async function(assert) {
+    const done = assert.async();
 
-    return feedItems.all();
-  });
+    const feedItems = this.server.createList('feedItem', 3, {
+      modelType: 'content'
+    });
 
-  visit('/');
+    this.server.get('/feed', function({feedItems}, request) {
+      if (request.queryParams.location_id) {
+        const defaultLocationId = 19;
+        assert.equal(request.queryParams.location_id, defaultLocationId, "The default location id is passed to the api request");
+        done();
+      }
 
-  andThen(()=>{
+      return feedItems.all();
+    });
+
+    await visit('/');
+
     feedItems.forEach((record) => {
-      const $feedCard = find(testSelector('feed-card') + testSelector('content', record.content.id));
-      assert.ok($feedCard.length, `A feed card exists for content id: ${record.content.id}`);
+      const $feedCard = find('[data-test-feed-card]' + `[data-test-content="${record.content.id}"]`);
+      assert.ok($feedCard, `A feed card exists for content id: ${record.content.id}`);
     });
   });
-});
 
-test('feed works when visiting index not logged in and location is present in cookie (return anonymous user)', function(assert) {
-  const done = assert.async();
-  const cookieLocation = mockLocationCookie(this.application);
-  const feedItems = server.createList('feedItem', 3, {
-    modelType: 'content'
-  });
+  test('feed works when visiting index not logged in and location is present in cookie (return anonymous user)', async function(assert) {
+    const done = assert.async();
+    const cookieLocation = mockLocationCookie(this.server);
+    const feedItems = this.server.createList('feedItem', 3, {
+      modelType: 'content'
+    });
 
-  server.get('/feed', function({feedItems}, request) {
-    if (request.queryParams.location_id) {
-      assert.equal(request.queryParams.location_id, cookieLocation.id, "The location id from the cookie is passed to the api request");
-      done();
-    }
+    this.server.get('/feed', function({feedItems}, request) {
+      if (request.queryParams.location_id) {
+        assert.equal(request.queryParams.location_id, cookieLocation.id, "The location id from the cookie is passed to the api request");
+        done();
+      }
 
-    return feedItems.all();
-  });
+      return feedItems.all();
+    });
 
-  visit('/');
+    await visit('/');
 
-  andThen(()=>{
     feedItems.forEach((record) => {
-      const $feedCard = find(testSelector('feed-card') + testSelector('content', record.content.id));
-      assert.ok($feedCard.length, `A feed card exists for content id: ${record.content.id}`);
+      const $feedCard = find('[data-test-feed-card]' + `[data-test-content="${record.content.id}"]`);
+      assert.ok($feedCard, `A feed card exists for content id: ${record.content.id}`);
     });
   });
-});
 
-test('feed works when visiting index and logged in with mismatched cookie location', function(assert) {
-  const done = assert.async();
-  mockLocationCookie(this.application);
-  const userLocation = server.create('location');
-  const currentUser = server.create('current-user', {locationId: userLocation.id});
+  test('feed works when visiting index and logged in with mismatched cookie location', async function(assert) {
+    const done = assert.async();
+    mockLocationCookie(this.server);
+    const userLocation = this.server.create('location');
+    const currentUser = this.server.create('current-user', {locationId: userLocation.id});
 
-  const feedItems = server.createList('feedItem', 3, {
-    modelType: 'content'
-  });
+    const feedItems = this.server.createList('feedItem', 3, {
+      modelType: 'content'
+    });
 
-  server.get('/feed', function({feedItems}, request) {
-    if (request.queryParams.location_id) {
-      assert.equal(request.queryParams.location_id, userLocation.id, "The logged in users location id is passed to the api request");
-      done();
-    }
+    this.server.get('/feed', function({feedItems}, request) {
+      if (request.queryParams.location_id) {
+        assert.equal(request.queryParams.location_id, userLocation.id, "The logged in users location id is passed to the api request");
+        done();
+      }
 
-    return feedItems.all();
-  });
+      return feedItems.all();
+    });
 
-  authenticateUser(this.application, currentUser);
+    authenticateUser(this.server, currentUser);
 
-  visit('/');
+    await visit('/');
 
-  andThen(()=>{
     feedItems.forEach((record) => {
-      const $feedCard = find(testSelector('feed-card') + testSelector('content', record.content.id));
-      assert.ok($feedCard.length, `A feed card exists for content id: ${record.content.id}`);
+      const $feedCard = find('[data-test-feed-card]' + `[data-test-content="${record.content.id}"]`);
+      assert.ok($feedCard, `A feed card exists for content id: ${record.content.id}`);
     });
   });
-});
 
 
-test('visiting feed.show page not logged in fills the feed correctly', function(assert) {
-  const done = assert.async();
+  test('visiting feed.show page not logged in fills the feed correctly', async function(assert) {
+    const done = assert.async();
 
-  const contentLocation = server.create('location');
-  const contentRecord = server.create('content', {
-    locationId: contentLocation.id
+    const contentLocation = this.server.create('location');
+    const contentRecord = this.server.create('content', {
+      locationId: contentLocation.id
+    });
+    this.server.create('feedItem', {
+      modelType: 'content',
+      content: contentRecord
+    });
+
+    this.server.get('/feed', function({feedItems}, request) {
+      if (request.queryParams.location_id) {
+        assert.equal(request.queryParams.location_id, contentLocation.id, "The contents location id is passed to the api request to fill feed");
+        done();
+      }
+
+      return feedItems.all();
+    });
+
+    await visit('/' + contentRecord.id);
+
+    assert.equal(currentRouteName(), 'feed.show', 'it does not redirect anywhere');
   });
-  server.create('feedItem', {
-    modelType: 'content',
-    content: contentRecord
-  });
-
-  server.get('/feed', function({feedItems}, request) {
-    if (request.queryParams.location_id) {
-      assert.equal(request.queryParams.location_id, contentLocation.id, "The contents location id is passed to the api request to fill feed");
-      done();
-    }
-
-    return feedItems.all();
-  });
-
-  visit('/' + contentRecord.id);
-
-  andThen(()=>{
-    assert.equal(currentPath(), 'feed.show', 'it does not redirect anywhere');
-  });
-});
 
 
-test("feed.show page, news", function(assert) {
-  const contentRecord = server.create('content', {
-    contentOrigin: 'ugc',
-    contentType: 'news'
-  });
-  visit('/' + contentRecord.id);
+  test("feed.show page, news", async function(assert) {
+    const contentRecord = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'news'
+    });
+    await visit('/' + contentRecord.id);
 
-  andThen(()=>{
-    assert.equal(currentPath(), 'feed.show');
+    assert.equal(currentRouteName(), 'feed.show');
 
     const $newsDetail = find(
-      testSelector('component', 'news-detail') +
-      testSelector('content', contentRecord.id)
+      '[data-test-component="news-detail"]' +
+      `[data-test-content="${contentRecord.id}"]`
     );
 
-    assert.ok($newsDetail.length, 'Displays news detail');
-  });
-});
-
-
-test('feed.show page, market post', function(assert) {
-  const contentRecord = server.create('content', {
-    contentOrigin: 'ugc',
-    contentType: 'market'
+    assert.ok($newsDetail, 'Displays news detail');
   });
 
-  visit('/' + contentRecord.id);
 
-  andThen(()=>{
+  test('feed.show page, market post', async function(assert) {
+    const contentRecord = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'market'
+    });
+
+    await visit('/' + contentRecord.id);
+
     assert.equal(
-      currentPath(),
+      currentRouteName(),
       'feed.show'
     );
 
     const $marketDetail = find(
-      testSelector('component', 'market-detail') +
-      testSelector('content', contentRecord.id)
+      '[data-test-component="market-detail"]' +
+      `[data-test-content="${contentRecord.id}"]`
     );
 
-    assert.ok($marketDetail.length, 'Displays market detail');
-  });
-});
-
-test('feed.show page, talk - goes to market', function(assert) {
-  const contentRecord = server.create('content', {
-    contentOrigin: 'ugc',
-    contentType: 'talk'
+    assert.ok($marketDetail, 'Displays market detail');
   });
 
-  visit('/' + contentRecord.id);
+  test('feed.show page, talk - goes to market', async function(assert) {
+    const contentRecord = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'talk'
+    });
 
-  andThen(()=>{
+    await visit('/' + contentRecord.id);
+
     assert.equal(
-      currentPath(),
+      currentRouteName(),
       'feed.show'
     );
 
     const $talkDetail = find(
-      testSelector('component', 'market-detail') +
-      testSelector('content', contentRecord.id)
+      '[data-test-component="market-detail"]' +
+      `[data-test-content="${contentRecord.id}"]`
     );
 
-    assert.ok($talkDetail.length, 'Displays talk detail as market');
-  });
-});
-
-test('feed.show-instance page, event', function(assert) {
-  const eventInstance = server.create('event-instance');
-  const contentRecord = server.create('content', {
-    contentOrigin: 'ugc',
-    contentType: 'event',
-    eventInstanceId: eventInstance.id
+    assert.ok($talkDetail, 'Displays talk detail as market');
   });
 
-  visit('/' + contentRecord.id);
+  test('feed.show-instance page, event', async function(assert) {
+    const eventInstance = this.server.create('event-instance');
+    const contentRecord = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'event',
+      eventInstanceId: eventInstance.id
+    });
 
-  andThen(()=>{
-    assert.equal(currentPath(), 'feed.show-instance', 'Shows event detail page in feed.show-instance route');
+    await visit('/' + contentRecord.id);
 
-    const $eventDetail = find(testSelector('component', 'event-detail') +testSelector('content', eventInstance.contentId));
+    assert.equal(currentRouteName(), 'feed.show-instance', 'Shows event detail page in feed.show-instance route');
 
-    assert.ok($eventDetail.length, 'Displays event detail in feed.show-instance route');
-  });
-});
+    const $eventDetail = find('[data-test-component="event-detail"]' +`[data-test-content="${eventInstance.contentId}"]`);
 
-test('tracking impression events fired on feed index', function(assert) {
-  let impressions = 0;
-  const done = assert.async(2);
-  const tracking = Ember.Service.extend({
-    trackTileLoad(){},
-    trackTileImpression() {
-      impressions = impressions+1;
-      done();
-    }
+    assert.ok($eventDetail, 'Displays event detail in feed.show-instance route');
   });
 
-  this.application.register('services:trackingMock', tracking);
-  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
+  test('tracking impression events fired on feed index', async function(assert) {
+    let impressions = 0;
+    const done = assert.async(2);
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+        done();
+      }
+    });
 
-  const content = server.create('content', {
-    contentType: 'news'
-  });
+    const { owner } = getContext();
 
-  const feedItem = server.create('feedItem', {
-    modelType: 'content'
-   });
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
 
-  feedItem.content = content;
-  Ember.run(() => {
-    feedItem.save();
-    done();
-  });
-
-  visit('/');
-
-  andThen(()=> {
-    assert.notEqual(impressions, 0,
-      "Impressions were tracked on feed index page");
-  });
-});
-
-test('tracking impression events fired on event feed index', function(assert) {
-  let impressions = 0;
-  const done = assert.async();
-  const tracking = Ember.Service.extend({
-    trackTileLoad(){},
-    trackTileImpression() {
-      impressions = impressions+1;
-      done();
-    }
-  });
-
-  this.application.register('services:trackingMock', tracking);
-  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
-
-  server.create('event-instance', {
-    startsAt: moment().add(1, 'day').format('YYYY-MM-DD')
-  });
-
-  visit('/?type=calendar');
-
-  andThen(()=> {
-    assert.notEqual(impressions, 0,
-      "Impressions were tracked on feed index page");
-  });
-});
-
-test('tracking impression events are not fired on feed detail page', function(assert) {
-  const done = assert.async();
-  let impressions = 0;
-  const tracking = Ember.Service.extend({
-    trackTileLoad(){},
-    trackTileImpression() {
-      impressions = impressions+1;
-    }
-  });
-
-  this.application.register('services:trackingMock', tracking);
-  this.application.inject('component:feed-card', 'tracking', 'services:trackingMock');
-
-  const content = server.create('content', {
+    const content = this.server.create('content', {
       contentType: 'news'
     });
 
-  const feedItem = server.create('feedItem', {
-    modelType: 'content'
-   });
+    const feedItem = this.server.create('feedItem', {
+      modelType: 'content'
+     });
 
-  feedItem.content = content;
-  Ember.run(() => {
-    feedItem.save();
-    done();
+    feedItem.content = content;
+    run(() => {
+      feedItem.save();
+      done();
+    });
+
+    await visit('/');
+
+    assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
   });
 
-  visit('/' + content.id);
+  test('tracking impression events fired on event feed index', async function(assert) {
+    let impressions = 0;
+    const done = assert.async();
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+        done();
+      }
+    });
 
-  andThen(()=> {
-    assert.equal(impressions, 0,
-      "Impressions were not tracked on feed detail page");
+    const { owner } = getContext();
+
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+    this.server.create('event-instance', {
+        startsAt: moment().add(1, 'day').format('YYYY-MM-DD')
+      });
+
+    await visit('/?type=calendar');
+
+    assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
+  });
+
+  test('tracking impression events are not fired on feed detail page', async function(assert) {
+    let impressions = 0;
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+      }
+    });
+
+    const { owner } = getContext();
+
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+    const content = this.server.create('content', {
+        contentType: 'news'
+      });
+
+    const feedItem = this.server.create('feedItem', {
+      modelType: 'content'
+     });
+
+    feedItem.update({ content });
+
+    await visit('/' + content.id);
+
+    assert.equal(impressions, 0, "Impressions were not tracked on feed detail page");
   });
 });

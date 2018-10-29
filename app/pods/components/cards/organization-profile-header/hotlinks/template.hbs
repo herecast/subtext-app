@@ -2,20 +2,20 @@
   {{#each customLinks as |customLink|}}
     <li>
       {{#if customLink.eventInstanceId}}
-        {{#x-link-to  'profile.all.show-instance'
+        {{#x-link-to  "profile.all.show-instance"
                        organization.organizationLinkId
                        customLink.contentId
                        customLink.eventInstanceId
-                       color='primary'
-                       size='medium'}}
+                       color="primary"
+                       size="medium"}}
           {{customLink.title}}
         {{/x-link-to}}
       {{else}}
-        {{#x-link-to 'profile.all.show'
+        {{#x-link-to "profile.all.show"
                      organization.organizationLinkId
                      customLink.contentId
-                     color='primary'
-                     size='medium'}}
+                     color="primary"
+                     size="medium"}}
           {{customLink.title}}
         {{/x-link-to}}
       {{/if}}

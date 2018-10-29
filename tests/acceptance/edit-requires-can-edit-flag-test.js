@@ -1,104 +1,108 @@
-import Ember from 'ember';
-import { skip } from 'qunit';
-import moduleForAcceptance from 'subtext-ui/tests/helpers/module-for-acceptance';
-import testSelector from 'subtext-ui/tests/helpers/ember-test-selectors';
+import Service from '@ember/service';
+import { module, skip } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-/* global sinon */
+import { visit } from '@ember/test-helpers';
+import sinon from 'sinon';
 
 window.Intercom = sinon.stub();
 
-let intercom = Ember.Service.extend({
+let intercom = Service.extend({
   doNotTrack: sinon.stub(),
   doTrack: sinon.stub(),
   update: sinon.stub(),
   boot: sinon.stub()
 });
 
-moduleForAcceptance('Acceptance | edit requires canEdit flag', {
-  beforeEach() {
+module('Acceptance | edit requires canEdit flag', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+
+  hooks.beforeEach(function() {
     this.application.register('service:intercomTest', intercom);
     this.application.inject('route', 'intercom', 'service:intercomTest');
 
-    server.create('location');
-    authenticateUser(this.application,server);
-  }
-});
-
-/* NEWS */
-skip('visit edit news page when not allowed to edit', function(assert) {
-  const organization = server.create('organization');
-  const news = server.create('news', {
-    organization: organization,
-    canEdit: false
+    this.server.create('location');
+    authenticateUser(this.server);
   });
 
-  let newsUrl = `/news/${news.id}/edit`;
-  visit(newsUrl).then(()=> {
-    assert.notOk(find(testSelector('component', 'NewsEditor')).length,
-      "should not see news editor");
-  });
-});
+  /* NEWS */
+  skip('visit edit news page when not allowed to edit', function(assert) {
+    const organization = this.server.create('organization');
+    const news = this.server.create('news', {
+      organization: organization,
+      canEdit: false
+    });
 
-skip('visit edit news page when allowed to edit', function(assert) {
-  const organization = server.create('organization');
-  const news = server.create('news', {
-    organization: organization,
-    canEdit: true
-  });
-
-  let newsUrl = `/news/${news.id}/edit`;
-  visit(newsUrl).then(()=> {
-    assert.ok(find(testSelector('component', 'NewsEditor')).length,
-      "should see news editor");
-  });
-});
-
-/* MARKET */
-skip('visit edit market page when not allowed to edit', function(assert) {
-  const post = server.create('marketPost', {
-    canEdit: false
+    let newsUrl = `/news/${news.id}/edit`;
+    visit(newsUrl).then(()=> {
+      assert.notOk(find('[data-test-component="NewsEditor"]').length,
+        "should not see news editor");
+    });
   });
 
-  let postUrl = `/market/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.notOk(find(testSelector('component', 'MarketForm')).length,
-      "should not see market form");
-  });
-});
+  skip('visit edit news page when allowed to edit', function(assert) {
+    const organization = this.server.create('organization');
+    const news = this.server.create('news', {
+      organization: organization,
+      canEdit: true
+    });
 
-skip('visit edit market page when allowed to edit', function(assert) {
-  const post = server.create('marketPost', {
-    canEdit: true
-  });
-
-  let postUrl = `/market/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.ok(find(testSelector('component', 'MarketForm')).length,
-      "should see market form");
-  });
-});
-
-/* EVENTS */
-skip('visit edit event page when not allowed to edit', function(assert) {
-  const post = server.create('event', {
-    canEdit: false
+    let newsUrl = `/news/${news.id}/edit`;
+    visit(newsUrl).then(()=> {
+      assert.ok(find('[data-test-component="NewsEditor"]').length,
+        "should see news editor");
+    });
   });
 
-  let postUrl = `/events/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.notOk(find(testSelector('component', 'EventForm')).length,
-      "should not see event form");
-  });
-});
+  /* MARKET */
+  skip('visit edit market page when not allowed to edit', function(assert) {
+    const post = this.server.create('marketPost', {
+      canEdit: false
+    });
 
-skip('visit edit event page when allowed to edit', function(assert) {
-  const post = server.create('event', {
-    canEdit: true
+    let postUrl = `/market/${post.id}/edit`;
+    visit(postUrl).then(()=> {
+      assert.notOk(find('[data-test-component="MarketForm"]').length,
+        "should not see market form");
+    });
   });
 
-  let postUrl = `/events/${post.id}/edit`;
-  visit(postUrl).then(()=> {
-    assert.ok(find(testSelector('component', 'EventForm')).length,
-      "should see event form");
+  skip('visit edit market page when allowed to edit', function(assert) {
+    const post = this.server.create('marketPost', {
+      canEdit: true
+    });
+
+    let postUrl = `/market/${post.id}/edit`;
+    visit(postUrl).then(()=> {
+      assert.ok(find('[data-test-component="MarketForm"]').length,
+        "should see market form");
+    });
+  });
+
+  /* EVENTS */
+  skip('visit edit event page when not allowed to edit', function(assert) {
+    const post = this.server.create('event', {
+      canEdit: false
+    });
+
+    let postUrl = `/events/${post.id}/edit`;
+    visit(postUrl).then(()=> {
+      assert.notOk(find('[data-test-component="EventForm"]').length,
+        "should not see event form");
+    });
+  });
+
+  skip('visit edit event page when allowed to edit', function(assert) {
+    const post = this.server.create('event', {
+      canEdit: true
+    });
+
+    let postUrl = `/events/${post.id}/edit`;
+    visit(postUrl).then(()=> {
+      assert.ok(find('[data-test-component="EventForm"]').length,
+        "should see event form");
+    });
   });
 });

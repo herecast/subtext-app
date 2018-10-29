@@ -1,16 +1,19 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const { get, set, computed, inject, on, isPresent } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames:[ 'SimilarContent'],
-  api: inject.service('api'),
-  fastboot: inject.service('fastboot'),
-  store: inject.service(),
+  api: service('api'),
+  fastboot: service('fastboot'),
+  store: service(),
   content: null,
   limit: 4,
 
-  getSimilarContent: on('init', function() {
+  init() {
+    this._super(...arguments);
+
     set(this, 'content', []);
 
     if(!get(this, 'fastboot.isFastBoot')) {
@@ -39,7 +42,7 @@ export default Ember.Component.extend({
         });
       }
     }
-  }),
+  },
 
   contentToDisplay: computed('content.[]', function() {
     const content = get(this, 'content');

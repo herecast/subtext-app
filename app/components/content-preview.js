@@ -1,14 +1,14 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
 
-const { on } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ContentPreview'],
 
-  bindScrollEvent: on('didInsertElement', function() {
-    this.$('.ContentPreview-scrollButton').on('click.scroll-top', () => {
-      Ember.$(window).animate({ scrollTop: 0 }, 'slow');
-    });
-  })
+  didInsertElement() {
+    this._super(...arguments);
 
+    this.$('.ContentPreview-scrollButton').on('click.scroll-top', () => {
+      $(window).animate({ scrollTop: 0 }, 'slow');
+    });
+  }
 });

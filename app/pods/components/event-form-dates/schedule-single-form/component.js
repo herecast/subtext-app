@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { run } from '@ember/runloop';
 
-let { get, set, run } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   schedule: null,
 
   init() {
@@ -42,6 +42,7 @@ export default Ember.Component.extend({
       // TODO: move to model and split apart isValid and errors properties
 
       const validations = get(this, 'validate')('single', scheduleData);
+  
       if ((typeof validations === 'boolean') && validations) {
         get(this, 'save')(schedule, scheduleData);
         get(this, 'cancel')();

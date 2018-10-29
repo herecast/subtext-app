@@ -1,10 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { get } from '@ember/object';
 
-const {
-  get
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['Event-schedule-summary u-layoutPadB10'],
 
   scheduleSummary: null,

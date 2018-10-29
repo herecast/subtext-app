@@ -1,9 +1,18 @@
-import Ember from 'ember';
+import { setProperties } from '@ember/object';
+import { sort } from '@ember/object/computed';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'ul',
-  listservs: [],
 
-  sortOrder: ['name'],
-  sortedListservs: Ember.computed.sort('listservs', 'sortOrder')
+  init() {
+    this._super(...arguments);
+    
+    setProperties(this, {
+      listservs: [],
+      sortOrder: ['name']
+    });
+  },
+
+  sortedListservs: sort('listservs', 'sortOrder')
 });

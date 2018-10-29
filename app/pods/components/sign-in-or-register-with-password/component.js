@@ -1,32 +1,27 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { equal } from '@ember/object/computed';
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
+import { isPresent, isEmpty } from '@ember/utils';
+import { Promise } from 'rsvp';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 import Validation from 'subtext-ui/mixins/components/validation';
 
-const {
-  computed,
-  get,
-  set,
-  isEmpty,
-  isPresent,
-  RSVP: {Promise},
-  inject
-} = Ember;
-
-export default Ember.Component.extend(TestSelector, Validation, {
+export default Component.extend(TestSelector, Validation, {
   tagName: "form",
-  tracking: inject.service(),
-  api: inject.service(),
-  session: inject.service(),
-  notify: inject.service('notification-messages'),
-  _routing: inject.service('-routing'),
-  userLocation: inject.service(),
-  logger: inject.service(),
+  tracking: service(),
+  api: service(),
+  session: service(),
+  notify: service('notification-messages'),
+  router: service(),
+  userLocation: service(),
+  logger: service(),
 
   userMustConfirm: false,
 
   tab: 'sign-in-with-password',
-  isSignIn: computed.equal('tab', 'sign-in-with-password'),
-  isRegister: computed.equal('tab', 'register'),
+  isSignIn: equal('tab', 'sign-in-with-password'),
+  isRegister: equal('tab', 'register'),
 
   hasError: computed('userMustConfirm', 'error', function() {
     return get(this, 'userMustConfirm') || !isEmpty(get(this, 'error'));
@@ -63,29 +58,29 @@ export default Ember.Component.extend(TestSelector, Validation, {
     return new Promise((resolve, reject) => {
       if (this.isValid()) {
         let {email, password} =  this.getProperties('email', 'password');
-        get(this, 'session').authenticate('authenticator:application', email, password).then(
-          () => {
-            const afterAuthenticate = get(this, 'afterAuthenticate');
-            if (afterAuthenticate) {
-              afterAuthenticate();
-            }
-            get(this, 'notify').notifyLoginSuccess();
-            resolve();
-          },
-          (response) => {
-            if ('error' in response) {
-              // resend confirmation email
-              if (response.error.indexOf('confirm') !== -1) {
-                set(this, 'userMustConfirm', true);
-              } else {
-                get(this, 'notify').error(response.error);
-              }
+        get(this, 'session').authenticate('authenticator:application', email, password)
+        .then(() => {
+          const afterAuthenticate = get(this, 'afterAuthenticate');
+          if (afterAuthenticate) {
+            afterAuthenticate();
+          }
+          get(this, 'notify').notifyLoginSuccess();
+          resolve();
+        })
+        .catch((response) => {
+          if ('error' in response) {
+            // resend confirmation email
+            if (response.error.indexOf('confirm') !== -1) {
+              set(this, 'userMustConfirm', true);
             } else {
-              get(this, 'notify').error('Error: Unable to sign in.');
+              get(this, 'notify').error(response.error);
             }
+          } else {
+            get(this, 'notify').error('Error: Unable to sign in.');
+          }
 
-            reject();
-          });
+          reject();
+        });
       } else {
         get(this, 'notify').error('Error: All fields must be valid');
         reject();
@@ -117,7 +112,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
               if (onRegistration) {
                 onRegistration(response);
               } else {
-                return get(this, '_routing').transitionTo('register.complete');
+                return get(this, 'router').transitionTo('register.complete');
               }
               const afterAuthenticate = get(this, 'afterAuthenticate');
               if (afterAuthenticate) {
@@ -198,14 +193,14 @@ export default Ember.Component.extend(TestSelector, Validation, {
 
     reconfirm() {
       const id = get(this, 'email');
-      get(this, '_routing').transitionTo('register.reconfirm', null, {
+      get(this, 'router').transitionTo('register.reconfirm', null, {
         email: id
       });
     }
   },
 
   forgotPassword() {
-    get(this, '_routing').transitionTo('forgot-password');
+    get(this, 'router').transitionTo('forgot-password');
     const afterAuthenticate = get(this, 'afterAuthenticate');
     afterAuthenticate();
   }

@@ -1,22 +1,25 @@
-import Ember from 'ember';
+import { reads, oneWay, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import reloadComments from 'subtext-ui/mixins/reload-comments';
 
-const { get, set, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend(reloadComments, {
+export default Component.extend(reloadComments, {
   classNames: 'FeedCard-MarketCard',
-  'data-test-market-card': computed.reads('model.title'),
+  'data-test-market-card': reads('model.title'),
 
   model: null,
   userLocation: service(),
   context: null,
   sourceTag: null,
 
-  activeImageUrl: computed.oneWay('model.primaryImageUrl'),
+  activeImageUrl: oneWay('model.primaryImageUrl'),
 
   isNotTalk: computed('model.contentType', function() {
     return get(this, 'model.contentType') !== 'talk';
   }),
+
+  hideComments: or('context.condensedView', 'context.hideComments'),
 
   actions: {
     stopEditing() {

@@ -1,21 +1,26 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import { set, get, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 
-const { get, set, computed, inject:{service} } = Ember;
-
 export default ModalInstance.extend({
-  headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Total Payment', 'Payment Date'],
-
-  model: null,
-
   api: service(),
   store: service(),
   session: service(),
 
-  payments: [],
-  hasPayments: computed.gt('payments.length', 0),
+  model: null,
   isLoading: false,
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Total Payment', 'Payment Date'],
+      payments: [],
+    });
+  },
+
+  hasPayments: gt('payments.length', 0),
 
   _getOrganizationPayments() {
     if (!get(this, 'isDestroying') && get(this, 'model')) {

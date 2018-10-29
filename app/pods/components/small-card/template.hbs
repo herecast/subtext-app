@@ -1,8 +1,8 @@
 {{#link-to-content item}}
   {{#media-container as |media|}}
-    <span class="MediaContainer--psuedo" {{action 'trackClick' item}}>
+    <span class="MediaContainer--psuedo" {{action "trackClick" item}} role="button">
       {{#media.object}}
-        <img src="{{optimized-image-url item.imageUrl 40 30 true}}" alt="">
+        <img src={{optimized-image-url item.imageUrl 40 30 true}} alt="Story Image">
       {{/media.object}}
       {{#media.content}}
         {{item.title}}

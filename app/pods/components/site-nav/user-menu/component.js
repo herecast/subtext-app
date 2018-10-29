@@ -1,27 +1,28 @@
+import { readOnly, gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import MystuffNavObjects from 'subtext-ui/mixins/mystuff-nav-objects';
-import Ember from 'ember';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend(MystuffNavObjects, {
+export default Component.extend(MystuffNavObjects, {
   classNames: 'SiteNav-UserMenu',
 
   modals: service(),
   session: service(),
-  routing: service('_routing'),
+  router: service(),
 
   afterChoose: function() {},
 
-  isLoggedIn: computed.readOnly('session.isAuthenticated'),
-  currentUser: computed.readOnly('session.currentUser'),
+  isLoggedIn: readOnly('session.isAuthenticated'),
+  currentUser: readOnly('session.currentUser'),
 
-  managedOrganizations: computed.readOnly('currentUser.managedOrganizations'),
-  hasManagedOrganizations: computed.gt('managedOrganizations.length', 0),
+  managedOrganizations: readOnly('currentUser.managedOrganizations'),
+  hasManagedOrganizations: gt('managedOrganizations.length', 0),
 
   actions: {
     goTo(...params) {
       get(this, 'afterChoose')();
-      get(this, 'routing.router').transitionTo(...params);
+      get(this, 'router').transitionTo(...params);
     },
 
     signIn() {
@@ -31,7 +32,7 @@ export default Ember.Component.extend(MystuffNavObjects, {
 
     goToMystuffRoute(route) {
       get(this, 'afterChoose')();
-      get(this, 'routing.router').transitionTo(route.routeName);
+      get(this, 'router').transitionTo(route.routeName);
     }
   }
 });

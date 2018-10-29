@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
-const { get } = Ember;
-
-export default Ember.Route.extend(RequireCanEdit, {
+export default Route.extend(RequireCanEdit, {
   titleToken: 'Edit Post',
 
   model(params) {

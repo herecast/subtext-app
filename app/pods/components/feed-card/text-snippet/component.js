@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import { reads, not } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import textSnippet from 'subtext-ui/mixins/components/text-snippet';
 
-const { get, computed, inject:{service} } = Ember;
-
-export default Ember.Component.extend(textSnippet, {
+export default Component.extend(textSnippet, {
   classNames: 'FeedCard-TextSnippet',
   classNameBindings: ['isSnipped:snipped-text', 'isBlurred:blurred-text'],
 
   showTextSnippet: true,
-  content: computed.reads('model.content'),
+  content: reads('model.content'),
 
   modals: service(),
 
@@ -22,7 +23,7 @@ export default Ember.Component.extend(textSnippet, {
     return false;
   }),
 
-  isBlurred: computed.not('showTextSnippet'),
+  isBlurred: not('showTextSnippet'),
 
   actions: {
     showSignInMenu() {

@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { run } from '@ember/runloop';
+import { isPresent, isBlank } from '@ember/utils';
+import { oneWay, alias } from '@ember/object/computed';
 import Validation from '../mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const { oneWay } = Ember.computed;
-const { get, set, run, isBlank, isPresent } = Ember;
-
-export default Ember.Component.extend(TestSelector, Validation, {
+export default Component.extend(TestSelector, Validation, {
   tagName: 'form',
   "data-test-component": 'MarketForm',
-  post: Ember.computed.alias('model'),
+  post: alias('model'),
   organizations: oneWay('session.currentUser.managedOrganizations'),
   showOrganizationMenu: true,
 
@@ -53,8 +54,10 @@ export default Ember.Component.extend(TestSelector, Validation, {
       set(this, 'post.sold', value);
     },
     discard() {
-      const post = this.get('post');
-      this.sendAction('afterDiscard', post);
+      if (get(this, 'afterDiscard')) {
+        const post = get(this, 'post');
+        get(this, 'afterDiscard')(post);
+      }
     },
     updateContent(content) {
       set(this, 'post.content', content);
@@ -71,6 +74,7 @@ export default Ember.Component.extend(TestSelector, Validation, {
       set(this, 'hasSubmittedForm', true);
 
       if (this.isValid()) {
+        //eslint-disable-next-line ember/closure-actions
         this.sendAction('afterDetails');
       } else {
         run.later(() => {

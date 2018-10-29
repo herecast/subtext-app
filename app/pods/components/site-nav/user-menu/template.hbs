@@ -22,16 +22,16 @@
       {{mystuff/nav-bar
         routes=mystuffNavObjects
         verticalLayout=true
-        onChangeRoute=(action 'goToMystuffRoute')
+        onChangeRoute=(action "goToMystuffRoute")
       }}
     {{else}}
       <div class="SiteNav-UserMenu--user-avatar-default">
-        {{fa-icon 'user'}}
+        {{fa-icon "user"}}
       </div>
       {{#x-button
-         onClick=(action 'signIn')
-         color='primary'
-         size='x-small'
+         onClick=(action "signIn")
+         color="primary"
+         size="x-small"
          noMargin=true
          data-test-signin-from-side-menu=true
        }}
@@ -49,9 +49,9 @@
     {{#each managedOrganizations as |managedOrganization|}}
       <div class="SiteNav-UserMenu--organizations-org" data-test-managed-organization-button>
         {{#x-button
-           onClick=(action 'goTo' 'profile' managedOrganization.id)
-           color='light-gray'
-           size='x-small'
+           onClick=(action "goTo" "profile" managedOrganization.id)
+           color="light-gray"
+           size="x-small"
          }}
           <div class="SiteNav-UserMenu--organizations-org-grid">
             {{avatar-image

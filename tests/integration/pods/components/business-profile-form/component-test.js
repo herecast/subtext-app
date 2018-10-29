@@ -1,17 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from '../../../../helpers/setup-mirage';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-moduleForComponent('business-profile-form', 'Integration | Component | business profile form', {
-  integration: true,
-  setup() {
-    startMirage(this.container);
-  }
-});
+module('Integration | Component | business profile form', function(hooks) {
+  setupRenderingTest(hooks);
+  setupMirage(hooks);
 
-test('it renders', function(assert) {
-  this.set('categories', [server.create('business-category')]);
-  this.render(hbs`{{business-profile-form categories=categories}}`);
+  test('it renders', async function(assert) {
+    this.set('categories', [this.server.create('business-category')]);
+    await render(hbs`{{business-profile-form categories=categories}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

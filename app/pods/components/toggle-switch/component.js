@@ -1,13 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, set, getWithDefault, get } from '@ember/object';
 
-const {
-  get,
-  getWithDefault,
-  set,
-  computed
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ToggleSwitch'],
   classNameBindings: [
     'reverse:ToggleSwitch--reverse',

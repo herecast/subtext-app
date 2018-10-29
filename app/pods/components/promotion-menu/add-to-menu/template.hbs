@@ -9,11 +9,11 @@
   {{input
     value=inputValue
     placeholder=inputPlaceholder
-    class='form-control'
+    class="form-control"
   }}
 </div>
 <div class="PromotionMenu-AddToMenu-hotlink-options">
-  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-save" {{action 'saveHotlink'}}>
+  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-save" {{action "saveHotlink"}} role="button">
     {{#if contentHotlink}}
       Change
     {{else}}
@@ -21,11 +21,11 @@
     {{/if}}
   </div>
   {{#if contentHotlink}}
-    <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-remove" {{action 'removeHotlink'}}>
+    <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-remove" {{action "removeHotlink"}} role="button">
       Remove
     </div>
   {{/if}}
-  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-cancel" {{action 'cancelHotlink'}}>
+  <div class="PromotionMenu-AddToMenu-hotlink-action PromotionMenu-AddToMenu-cancel" {{action "cancelHotlink"}} role="button">
     Cancel
   </div>
 </div>

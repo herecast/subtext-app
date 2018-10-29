@@ -1,31 +1,33 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('modals/aggregated-content-payments', 'Integration | Component | modals/aggregated content payments', {
-  integration: true
-});
+module('Integration | Component | modals/aggregated content payments', function(hooks) {
+  setupRenderingTest(hooks);
 
 
-test('It renders with a current user model', function(assert) {
-  const currentUser = {
-    userId: 1
-  };
+  test('It renders with a current user model', async function(assert) {
+    const currentUser = {
+      userId: 1
+    };
 
-  this.set('currentUser', currentUser);
+    this.set('currentUser', currentUser);
 
-  this.render(hbs`{{modals/aggregated-content-payments model=currentUser}}`);
+    await render(hbs`{{modals/aggregated-content-payments model=currentUser}}`);
 
-  assert.ok(this.$());
-});
+    assert.ok(this.element);
+  });
 
-test('It renders with an organization model', function(assert) {
-  const organization = {
-    id: 1
-  };
+  test('It renders with an organization model', async function(assert) {
+    const organization = {
+      id: 1
+    };
 
-  this.set('organization', organization);
+    this.set('organization', organization);
 
-  this.render(hbs`{{modals/aggregated-content-payments model=organization}}`);
+    await render(hbs`{{modals/aggregated-content-payments model=organization}}`);
 
-  assert.ok(this.$());
+    assert.ok(this.element);
+  });
 });

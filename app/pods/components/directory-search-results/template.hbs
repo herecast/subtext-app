@@ -1,7 +1,7 @@
 {{#each results as |result index|}}
   {{#if (eq index 4)}}
     <li>
-      <div class='AdBanner-wrapper AdBanner-wrapper--bsd'>
+      <div class="AdBanner-wrapper AdBanner-wrapper--bsd">
         {{ad-banner impressionPath=adPath placeholderBlockFixedSize=true}}
       </div>
     </li>
@@ -10,12 +10,12 @@
   <li class="DirectoryListings-result">
     <div class="listing-info left">
       <div class="name-bar">
-        {{#link-to 'directory.show' result}}
+        {{#link-to "directory.show" result}}
           <h4>{{result.name}}</h4>
         {{/link-to}}
         <div>
           <span class="hidden-xs">
-            {{fa-icon 'fa-map-marker'}}
+            {{fa-icon "fa-map-marker"}}
             {{result.fullAddress}}
             <span class="miles">&nbsp;&nbsp;({{round (geo-distance result.coords searchCoords) 1}} mi)</span>
           </span>
@@ -33,12 +33,12 @@
         </div>
         <div class="DirectoryListings-linkBar-item text-center">
           {{#if result.address}}
-            <a href="{{result.directionsLink}}" target="_blank">{{fa-icon 'fa-automobile'}} Directions</a>
+            <a href={{result.directionsLink}} target="_blank" rel="noopener noreferrer">{{fa-icon "fa-automobile"}} Directions</a>
           {{/if}}
         </div>
         <div class="DirectoryListings-linkBar-item text-right">
           {{#if result.website}}
-            <a href="{{result.websiteLink}}" target="_blank">{{fa-icon 'fa-laptop'}} Web</a>
+            <a href={{result.websiteLink}} target="_blank" rel="noopener noreferrer">{{fa-icon "fa-laptop"}} Web</a>
           {{/if}}
         </div>
       </div>

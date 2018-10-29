@@ -10,18 +10,19 @@
       <div class="col-sm-5">
         <div class="text-center">
           <h3 class="h3">
-            Delivered {{if digest.digestSendDay digest.digestSendDay 'daily'}}
+            Delivered {{if digest.digestSendDay digest.digestSendDay "daily"}}
             at {{digest.digestSendTime}}
           </h3>
           {{#if digest.subscription.isPending}}
             {{x-loader}}
           {{else}}
-            {{async-button
-            action=(action 'toggleSubscription' digest)
-            default=(if digest.hasSubscription 'Unsubscribe' 'Subscribe')
-            pending='Saving...'
-            class=(if digest.hasSubscription 'AccountForm-editButton' 'AccountForm-editButton active')
-            data-test-component='digest-subscription-toggle'
+            {{x-async-button
+            promiseAction=(action "toggleSubscription" digest)
+            default=(if digest.hasSubscription "Unsubscribe" "Subscribe")
+            fulfilled=(if digest.hasSubscription "Unsubscribe" "Subscribe")
+            pending="Saving..."
+            class=(if digest.hasSubscription "AccountForm-editButton" "AccountForm-editButton active")
+            data-test-component="digest-subscription-toggle"
             }}
           {{/if}}
         </div>

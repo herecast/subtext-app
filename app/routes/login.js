@@ -1,17 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { Promise } from 'rsvp';
+import { get } from '@ember/object';
 import WillAuthenticateMixin from 'subtext-ui/mixins/routes/will-authenticate';
 
-const {
-  inject,
-  RSVP: {Promise},
-  get
-} = Ember;
-
-export default Ember.Route.extend(WillAuthenticateMixin, {
-  fastboot: inject.service(),
-  session: inject.service(),
+export default Route.extend(WillAuthenticateMixin, {
+  fastboot: service(),
+  session: service(),
   titleToken: 'Sign in',
-  logger: inject.service(),
+  logger: service(),
 
   // Override UnauthenticatedRouteMixin
   beforeModel(transition) {

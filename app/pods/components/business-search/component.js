@@ -1,27 +1,27 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { computed, get, set, setProperties } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const {
-  set,
-  get,
-  run,
-  computed,
-  isPresent
-} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNameBindings: ['displaySuggestions:open'],
 
-  input: null,
-  query: null,
-  categories: null,
-  category: null,
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      input: null,
+      query: null,
+      categories: null,
+      category: null,
+      suggestions: [],
+      categoryMatches: null,
+      displaySuggestions: false,
+    });
+  },
+
   hasCategory: computed('category', function() {
     return (isPresent(get(this, 'category')));
   }),
-  categoryMatches: null,
-
-  suggestions: [],
-  displaySuggestions: false,
 
   inputVal: computed('category.name', 'query', function() {
     const category = get(this, 'category');

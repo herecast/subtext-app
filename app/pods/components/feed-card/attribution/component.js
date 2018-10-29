@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-const { get, computed } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'FeedCard-Attribution',
   classNameBindings: ['isOnDetailView:detail-view', 'hideBookmark:no-bookmark:with-bookmark'],
 
@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   noPadding: false,
   customSize: 40,
 
-  hasLinkRouteName: computed.notEmpty('linkRouteName'),
+  hasLinkRouteName: notEmpty('linkRouteName'),
 
   authorNameFormatted: computed('author', function() {
     const author = get(this, 'author') || '';

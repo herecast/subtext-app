@@ -4,7 +4,7 @@
     model=model
     linkToDetailIsActive=context.linkToDetailIsActive
     condensedView=(readonly context.condensedView)
-    onContentClick=(action 'onContentClick')
+    onContentClick=(action "onContentClick")
   }}
 
   {{#unless context.condensedView}}
@@ -14,7 +14,7 @@
         model=model
         content=model.content
         linkToDetailIsActive=context.linkToDetailIsActive
-        onContentClick=(action 'onContentClick')
+        onContentClick=(action "onContentClick")
       }}
     {{else}}
       {{feed-card/text-snippet
@@ -40,19 +40,19 @@
     canManage=canManage
     canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
-    openPromotionMenu=(action 'openPromotionMenu')
-    editPath='news.edit'
+    openPromotionMenu=(action "openPromotionMenu")
+    editPath="news.edit"
     editPathId=model.id
     model=model
   }}
 
-  {{#unless (or context.condensedView context.hideComments)}}
+  {{#unless hideComments}}
     {{feed-card/comments
       contentModel=(readonly model)
       disabled=(readonly commentingDisabled)
       promotionMenuOpen=(readonly context.promotionMenuOpen)
-      afterComment=(action 'reloadComments')
-      onContentClick=(action 'onContentClick')
+      afterComment=(action "reloadComments")
+      onContentClick=(action "onContentClick")
     }}
   {{/unless}}
 </div>

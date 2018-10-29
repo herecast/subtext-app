@@ -5,13 +5,13 @@
     model=model
     onContentClick=onContentClick
   }}
-    <div class="FeedCard-Image-image" style="{{imageStyle}}" data-test-card-image></div>
+    <div class="FeedCard-Image-image" style={{imageStyle}} data-test-card-image></div>
   {{/feed-card/conditional-link-to}}
   {{#if hasExcerpt}}
     <div class="FeedCard-Image-excerpt" data-test-card-excerpt>
-      {{{excerpt}}}
+      {{excerpt}}
       {{#if (and showContinueReading linkToDetailIsActive)}}
-        <div class="FeedCard-Image-continue-reading" {{action onContentClick}} data-test-card-continue-reading>
+        <div class="FeedCard-Image-continue-reading" {{action onContentClick}} role="button" data-test-card-continue-reading>
           {{#link-to-content model}}
             ...Continue Reading
           {{/link-to-content}}

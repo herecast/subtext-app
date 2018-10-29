@@ -1,5 +1,5 @@
 // taken from Stack Overflow answer here: http://stackoverflow.com/a/3426956/2802660
-import Ember from 'ember';
+import { isPresent } from '@ember/utils';
 
 function hashCode(str) {
   let hash = 0;
@@ -20,5 +20,5 @@ function intToRGB(i){
 }
 
 export default function hexColorFromString(str) {
-  return Ember.isPresent(str) ? `#${intToRGB(hashCode(str))}` : '#FFA382';// talk channel brand color
+  return isPresent(str) ? `#${intToRGB(hashCode(str))}` : '#FFA382';// talk channel brand color
 }

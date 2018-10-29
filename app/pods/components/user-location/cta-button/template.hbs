@@ -1,7 +1,7 @@
 {{#x-button
-   onClick=(action 'toggleChangeLocation')
-   color='primary'
-   size='x-small'
+   onClick=(action "toggleChangeLocation")
+   color="primary"
+   size="x-small"
    noMargin=true
  }}
   Change your Location
@@ -10,6 +10,6 @@
 {{#if wantsToChangeLocation}}
   {{user-location/chooser
     modelLocationName=modelLocationName
-    onClose=(action 'toggleChangeLocation')
+    onClose=(action "toggleChangeLocation")
   }}
 {{/if}}

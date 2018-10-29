@@ -1,31 +1,31 @@
 <div class="text-center">
   {{#if imageUrl}}
-    <div class="ThumbnailImageModal-thumbnail-container" {{action 'openImageModal'}}>
-      <img src="{{imageUrl}}" alt="Selected Image" class="ThumbnailImageModal-thumbnail {{if isCircle 'img-circle'}}" crossOrigin="anonymous" />
+    <div class="ThumbnailImageModal-thumbnail-container" {{action "openImageModal"}} role="button">
+      <img src={{imageUrl}} alt="Selected Image" class="ThumbnailImageModal-thumbnail {{if isCircle "img-circle"}}" crossOrigin="anonymous">
       {{#if (and enableCaption caption)}}
         <div class="ThumbnailImageModal-caption">{{caption}}</div>
       {{/if}}
     </div>
-    <button class="Button Button--secondary" {{action 'openImageModal'}}>Edit</button>
+    <button class="Button Button--secondary" {{action "openImageModal"}}>Edit</button>
   {{else}}
-    <button class="ThumbnailImageModal-choose-image-button" {{action 'openImageModal'}} data-test-featured-image='button'>
-      <h1>{{fa-icon 'camera'}}</h1>
+    <button class="ThumbnailImageModal-choose-image-button" {{action "openImageModal"}} data-test-featured-image="button">
+      <h1>{{fa-icon "camera"}}</h1>
       Choose Image
     </button>
   {{/if}}
 </div>
 
 {{#if _showImageModal}}
-  {{#modal-wrapper close=(action 'cancel')}}
+  {{#modal-wrapper close=(action "cancel")}}
     {{image-editor
     imageUrl=imageUrl
     caption=caption
     title=title
     aspectRatio=aspectRatio
     enableCaption=enableCaption
-    save=(action 'save')
-    cancel=(action 'cancel')
-    data-test-news-image='form'
+    save=(action "save")
+    cancel=(action "cancel")
+    data-test-news-image="form"
     }}
   {{/modal-wrapper}}
 {{/if}}

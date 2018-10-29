@@ -1,14 +1,17 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { set } from '@ember/object';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-const { get, inject, computed } = Ember;
+export default Component.extend({
 
-export default Ember.Component.extend({
+  notify: service('notification-messages'),
+  tracking: service(),
 
-  notify: inject.service('notification-messages'),
-  tracking: inject.service(),
-
-  // Should be instantiated when the component is rendered
-  digests: [],
+  init() {
+    this._super(...arguments);
+    set(this, 'digeste', []);
+  },
 
   digestsWithSubscriptions: computed('digests.@each.id', function() {
     return get(this, 'digests').map((digest) => {

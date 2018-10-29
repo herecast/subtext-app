@@ -1,24 +1,26 @@
-import Ember from 'ember';
+import { empty } from '@ember/object/computed';
+import { A } from '@ember/array';
+import Service, { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
+import { computed, set, get } from '@ember/object';
 
-const {get, set, run, inject, computed} = Ember;
 
-
-export default Ember.Service.extend({
-  windowService: inject.service('window-location'),
-  fastboot: inject.service(),
+export default Service.extend({
+  windowService: service('window-location'),
+  fastboot: service(),
   routeName: null,
   routeModel: null,
   referrer: "",
   current: null,
   historyLimit: 15,
   routeHistory: null,
-  isFirstRoute: computed.empty('previousRouteName'),
+  isFirstRoute: empty('previousRouteName'),
 
   init() {
     this._super();
 
     //reset so fastboot doesn't keep state
-    set(this, 'routeHistory', Ember.A());
+    set(this, 'routeHistory', A());
   },
 
   setRouteName(name) {

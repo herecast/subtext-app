@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 /* global Pikaday */
 
-const { get, set } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   attributeBindings: ['data-test-component'],
   "data-test-component": 'pickadaySolo',
   pikaday : null,
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
         that.attrs.updateSelected(this.getMoment().format('YYYY-MM-DD'));
 
         // hack needed to get the iOS select picker to close
-        Ember.$('.pika-select-month').focus().blur();
+        $('.pika-select-month').focus().blur();
       },
 
       disableDayFn(date) {

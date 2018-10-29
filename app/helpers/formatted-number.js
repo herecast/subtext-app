@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 function formatByMethod(rawNumber, type, digits) {
   var methods = {
@@ -45,4 +45,4 @@ export function formattedNumber(params) {
   return rawNumber;
 }
 
-export default Ember.Helper.helper(formattedNumber);
+export default buildHelper(formattedNumber);

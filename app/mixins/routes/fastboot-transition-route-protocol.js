@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, set, inject:{service} } = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   fastboot: service(),
 
   //There is a an issue with ember-cli-fastboot (this app's version)

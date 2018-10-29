@@ -1,48 +1,48 @@
-<a href='#' {{action 'remove' (action 'remove')}} class='pull-right'>{{fa-icon 'fa-trash'}} </a>
+<a href="#" {{action "remove" (action "remove")}} class="pull-right">{{fa-icon "fa-trash"}} </a>
 
 <p><b>Summary</b></p>
 <p>{{schedule.textSummary}}</p>
 
-<b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br />
+<b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br>
 
-<b>Starting:</b> {{formatted-day schedule.startDate}}<br />
-<b>Ending:</b> {{formatted-day schedule.endDate}}<br />
+<b>Starting:</b> {{formatted-day schedule.startDate}}<br>
+<b>Ending:</b> {{formatted-day schedule.endDate}}<br>
 
 
-<b>Excluded Dates:</b> <br />
+<b>Excluded Dates:</b> <br>
 {{#each schedule.overrides as |override|}}
   {{#if override.hidden}}
-  <span>{{formatted-day override.date}}</span><br />
+  <span>{{formatted-day override.date}}</span><br>
   {{/if}}
 {{else}}
-  <span>N/A</span><br />
+  <span>N/A</span><br>
 {{/each}}
 
 <hr>
 
-<button {{action 'edit' (action 'edit')}}>{{fa-icon 'pencil'}} Edit Details</button>
-<button {{action 'manage' (action 'manage')}}>{{fa-icon 'fa-minus-square'}} Exclude Dates from Schedule</button>
-<button {{action 'manage' (action 'manage')}}>{{fa-icon 'calendar-times-o'}} View on Calendar</button>
+<button {{action "edit" (action "edit")}}>{{fa-icon "pencil"}} Edit Details</button>
+<button {{action "manage" (action "manage")}}>{{fa-icon "fa-minus-square"}} Exclude Dates from Schedule</button>
+<button {{action "manage" (action "manage")}}>{{fa-icon "calendar-times-o"}} View on Calendar</button>
 
 {{#if isEditing}}
-  {{#modal-wrapper close=(action 'cancel')}}
-    {{component 'event-form-dates/schedule-recurring-form'
+  {{#modal-wrapper close=(action "cancel")}}
+    {{component "event-form-dates/schedule-recurring-form"
       schedule=schedule
-      validate=attrs.validate
-      save=attrs.save
-      cancel=(action 'cancel')
+      validate=validate
+      save=save
+      cancel=(action "cancel")
     }}
   {{/modal-wrapper}}
 {{/if}}
 
 
 {{#if isManaging}}
-  {{#modal-wrapper close=(action 'hideModal')}}
+  {{#modal-wrapper close=(action "hideModal")}}
     {{event-schedule
       schedule=schedule
       excludeEvent=excludeEvent
       includeEvent=includeEvent
     }}
-    <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action 'hideModal'}}>Close</button>
+    <button class="Button Button--default ContentForm-modalCloseButton pull-right" {{action "hideModal"}}>Close</button>
   {{/modal-wrapper}}
 {{/if}}

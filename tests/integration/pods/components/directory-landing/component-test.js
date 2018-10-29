@@ -1,21 +1,14 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import startMirage from '../../../../helpers/setup-mirage';
 
-moduleForComponent('directory-landing', 'Integration | Component | directory landing', {
-  integration: true,
-  setup() {
-    startMirage(this.container);
-  }
-});
+module('Integration | Component | directory landing', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  const done = assert.async();
+  test('it renders', async function(assert) {
+    await render(hbs`{{directory-landing}}`);
 
-  this.render(hbs`{{directory-landing}}`);
-
-  setTimeout(function() {
-    assert.ok(this.$());
-    done();
+    assert.ok(this.element);
   });
 });

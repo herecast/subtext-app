@@ -1,16 +1,21 @@
-import Ember from 'ember';
-import {throttle, debounce} from 'lodash';
+import { inject as service } from '@ember/service';
+import { next, later } from '@ember/runloop';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
+import $ from 'jquery';
+import { isPresent, isBlank } from '@ember/utils';
+import { throttle, debounce } from 'lodash';
 
-const {get, set, computed, $, inject, isBlank, isPresent} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
   classNameBindings: ['willAnimateAway:Modal--willAnimateAway'],
 
-  modalService: inject.service('modals'),
-  fastboot: inject.service(),
-  tracking: inject.service(),
+  modalService: service('modals'),
+  fastboot: service(),
+  tracking: service(),
+  media: service(),
 
   fullscreen: false,
   isSmall: false,
@@ -92,18 +97,18 @@ export default Ember.Component.extend({
   }),
 
   modalDialogStyle: computed('windowHeight', 'media.isMobile', function() {
-    const style = get(this, 'media.isMobile') ? `max-height: ${get(this, 'windowHeight')*0.92}px` : '';
-    return Ember.String.htmlSafe(style);
+    const style = get(this, 'media.isMobile') ? `max-height: ${get(this, 'windowHeight')*0.96}px` : '';
+    return htmlSafe(style);
   }),
 
   modalBodyStyle: computed('windowHeight', 'media.isMobile', 'willAnimateAway', function() {
     let style = '';
 
     if (get(this, 'media.isMobile') && get(this, 'willAnimateAway')) {
-      style = `max-height: ${get(this, 'windowHeight') * 0.92}px`;
+      style = `max-height: ${get(this, 'windowHeight') * 0.96}px`;
     }
 
-    return Ember.String.htmlSafe(style);
+    return htmlSafe(style);
   }),
 
   modalInnerStyle: computed('totalScrollDistance', 'willAnimateAway', 'isScrollingBody', 'isBodyAtBottom',  function() {
@@ -115,7 +120,7 @@ export default Ember.Component.extend({
       style = `margin-bottom: ${get(this, 'totalScrollDistance') + 100}px`;
     }
 
-    return Ember.String.htmlSafe(style);
+    return htmlSafe(style);
   }),
 
   click(e) {
@@ -215,14 +220,14 @@ export default Ember.Component.extend({
     // Set the visible height of the window so we can set relative heights accordingly
     // Addresses this problem: https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html
     this._recordWindowHeight();
-    Ember.$(window).on(get(this, 'keyForResizeEvent'), debounce(() => this._recordWindowHeight(), 50));
+    $(window).on(get(this, 'keyForResizeEvent'), debounce(() => this._recordWindowHeight(), 50));
 
     // Determine if we are at the bottom of the dialog already
     this._determineIfBodyAtBottom();
 
     // Init sets up slider offscreen, has to be rendered in DOM before can slide in
     if (get(this, 'isSlider')) {
-      Ember.run.next(() => {
+      next(() => {
         if (!get(this, 'isDestroyed')) {
           set(this, 'showOnScreen', true);
         }
@@ -276,7 +281,7 @@ export default Ember.Component.extend({
     $this.off(get(this, 'keyForTouchMoveEvent'));
     $this.off(get(this, 'keyForTouchEndEvent'));
     $this.find('.Modal-dialog-body').off(get(this, 'keyForScrollingBodyEvent'));
-    Ember.$(window).off(get(this, 'keyForResizeEvent'));
+    $(window).off(get(this, 'keyForResizeEvent'));
   },
 
   willDestroyElement() {
@@ -320,7 +325,7 @@ export default Ember.Component.extend({
         set(this, 'showOnScreen', false);
 
         if (this.close) {
-          Ember.run.later(() => {
+          later(() => {
             this.close();
           }, 550);
         }

@@ -1,13 +1,13 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Service from '@ember/service';
+import { getOwner } from '@ember/application';
+import { isEmpty } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
 
-const {
-  computed,
-  getOwner,
-  isEmpty,
-  get, set
-} = Ember;
+export default Service.extend({
+  router: service(),
 
-export default Ember.Service.extend({
   showHeader: null,
   urlSequence: 0,
 
@@ -17,7 +17,7 @@ export default Ember.Service.extend({
     set(this, 'applicationController', getOwner(this).lookup('controller:application'));
   },
 
-  currentPath: computed.alias('applicationController.currentPath'),
+  currentPath: alias('applicationController.currentPath'),
 
   currentChannel: computed('currentController', function() {
     const currentPath = get(this, 'currentPath');
@@ -37,8 +37,8 @@ export default Ember.Service.extend({
     return get(this, 'currentController.secondaryBackgroundMobile');
   }),
 
-  currentUrl: computed(`applicationController.router.url`, function() {
-    let router = get(this, 'applicationController.router');
+  currentUrl: computed('router.url', function() {
+    let router = get(this, 'router');
 
     if (!isEmpty(router.currentPath)) {
       return router.get('url');

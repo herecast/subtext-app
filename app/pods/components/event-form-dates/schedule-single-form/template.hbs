@@ -1,43 +1,43 @@
-<div class='EventForm-modalContainer clearfix'>
+<div class="EventForm-modalContainer clearfix">
   <h2>Single date</h2>
 
-  {{#form-group error=errors.dateError class='row'}}
-    <div class='col-xs-12 col-sm-6' data-test-event-date-pikaday>
-      <label class='ContentForm-label--required'>Date</label>
+  {{#form-group error=errors.dateError class="row"}}
+    <div class="col-xs-12 col-sm-6" data-test-event-date-pikaday>
+      <label class="ContentForm-label--required">Date</label>
         {{date-input
             value=startDate
-            format='MM/DD/YYYY'
-            placeholder='12/25/2020'
+            format="MM/DD/YYYY"
+            placeholder="12/25/2020"
             update=(action (mut startDate))
-            data-test-component='start-date'
+            data-test-component="start-date"
         }}
     </div>
   {{/form-group}}
 
-  {{#form-group error=errors.timeError class='row'}}
-    {{#form-group error=errors.startTimeError class='col-xs-12 col-sm-6'}}
-      <label class='ContentForm-label--required'>Start Time</label>
+  {{#form-group error=errors.timeError class="row"}}
+    {{#form-group error=errors.startTimeError class="col-xs-12 col-sm-6"}}
+      <label class="ContentForm-label--required">Start Time</label>
       {{time-input
           value=startTime
-          format='h:mm a'
-          placeholder='9:00 am'
+          format="h:mm a"
+          placeholder="9:00 am"
           update=(action (mut startTime))
-          data-test-component='start-time'
+          data-test-component="start-time"
       }}
     {{/form-group}}
 
-    {{#form-group error=errors.stopTimeError class='col-xs-12 col-sm-6'}}
+    {{#form-group error=errors.stopTimeError class="col-xs-12 col-sm-6"}}
       <label>End Time</label>
       {{time-input
           value=stopTime
-          format='h:mm a'
-          placeholder='2:00 pm'
+          format="h:mm a"
+          placeholder="2:00 pm"
           update=(action (mut stopTime))
       }}
     {{/form-group}}
   {{/form-group}}
 
   {{!-- TODO optional information --}}
-  <button class="Button Button--primary pull-right" {{action 'save'}} data-test-save-event-date>Done</button>
-  <button class="Button ContentForm-discardButton Button--default pull-right" {{action 'cancel'}}>Cancel</button>
+  <button class="Button Button--primary pull-right" {{action "save"}} data-test-save-event-date>Done</button>
+  <button class="Button ContentForm-discardButton Button--default pull-right" {{action "cancel"}}>Cancel</button>
 </div>

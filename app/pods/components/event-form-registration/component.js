@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isPresent } from '@ember/utils';
+import { set, get, computed } from '@ember/object';
 import moment from 'moment';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 
-const {
-  computed,
-  get,
-  isPresent,
-  set
-} = Ember;
-
-export default Ember.Component.extend(TestSelector, {
+export default Component.extend(TestSelector, {
   hasRegistrationInfo: null,
 
   // The date picker requires a date object, so we need to convert the deadline
@@ -32,7 +27,7 @@ export default Ember.Component.extend(TestSelector, {
         set(this, 'event.registrationDeadline', null);
       }
 
-      Ember.get(this, 'validateForm')();
+      get(this, 'validateForm')();
       return date;
     }
   }),

@@ -1,13 +1,9 @@
 //global localStorage
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
 
-const {
-  inject: {service},
-  computed,
-  get
-} = Ember;
+import { get, computed } from '@ember/object';
 
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
   isLocalStorageSupported: computed('fastboot.isFastBoot', function() {
     const isFastBoot = get(this, 'fastboot.isFastBoot');

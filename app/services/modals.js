@@ -1,11 +1,15 @@
-import Ember from 'ember';
-const { $, get, set, on, RSVP, inject } = Ember;
-const a = Ember.A;
+import { getOwner } from '@ember/application';
+import Service, { inject as service } from '@ember/service';
+import { A as a } from '@ember/array';
+import $ from 'jquery';
+import { set, get } from '@ember/object';
+import { on } from '@ember/object/evented';
+import RSVP from 'rsvp';
 
-export default Ember.Service.extend({
+export default Service.extend({
   modals: null,
   serviceIsActive: true,
-  fastboot: inject.service(),
+  fastboot: service(),
   isFastboot() {
     return get(this, 'fastboot.isFastBoot');
   },
@@ -22,7 +26,7 @@ export default Ember.Service.extend({
 
     } else {
       if(! get(this, '_fbAddedClass')) {
-        let container = Ember.getOwner ? Ember.getOwner(this) : this.container;
+        let container = getOwner ? getOwner(this) : this.container;
         let renderer = container.lookup('renderer:-dom');
         let domForAppWithGlimmer2 = container.lookup('service:-document');
 
@@ -30,7 +34,7 @@ export default Ember.Service.extend({
 
         if (renderer && renderer._dom) {
           // Regular Fastboot
-          document = Ember.get(renderer, '_dom.document');
+          document = get(renderer, '_dom.document');
         } else if (domForAppWithGlimmer2) {
           // Glimmer 2 has a different renderer
           document = domForAppWithGlimmer2;

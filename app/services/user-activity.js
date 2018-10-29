@@ -1,16 +1,20 @@
 //adapted from https://github.com/elwayman02/ember-user-activity/blob/master/addon/services/scroll-activity.js
-import Ember from 'ember';
+import { get, setProperties } from '@ember/object';
 
-const {get, run, isEmpty, inject:{service}} = Ember;
+import { run } from '@ember/runloop';
+import { isEmpty } from '@ember/utils';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
+export default Service.extend({
   fastboot: service(),
-  _trackers: [],
-
+  
   init() {
     if (get(this, 'fastboot.isFastBoot')) { return; }
 
     this._super(...arguments);
+    setProperties(this, {
+      _trackers: []
+    });
   },
 
   willDestroy() {
@@ -38,7 +42,7 @@ export default Ember.Service.extend({
 
     let tracker = this._getTracker(target);
 
-    Ember.setProperties(tracker, {
+    setProperties(tracker, {
       callback,
       timeIntervals,
       onRegister

@@ -1,14 +1,11 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
 
-const {
-  computed,
-  get,
-  inject:{service}
-} = Ember;
-
-export default Ember.Component.extend(SocialPreloaded, {
+export default Component.extend(SocialPreloaded, {
   location: service('window-location'),
   logger: service(),
   facebook: service(),
@@ -18,12 +15,12 @@ export default Ember.Component.extend(SocialPreloaded, {
 
   model: null,
 
-  routing: service('-routing'),
+  router: service(),
 
   urlForShare() {
     const model = get(this, 'model');
     const locationService = get(this, 'location');
-    const routeName = get(this,'routing.router.currentRouteName') || '';
+    const routeName = get(this,'router.currentRouteName') || '';
     const fromProfile = routeName.startsWith('profile');
 
     return SocialSharing.getShareUrl(locationService, model, fromProfile);
@@ -62,7 +59,7 @@ export default Ember.Component.extend(SocialPreloaded, {
     const url = this.urlForShare();
     const hashtags = 'UpperValley';
 
-    return Ember.String.htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&hashtags=${hashtags}`);
+    return htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&hashtags=${hashtags}`);
   }),
 
   orgHashtag: computed('model.organization.name', function(){

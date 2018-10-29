@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import RSVP from 'rsvp';
+import { get } from '@ember/object';
 import config from 'subtext-ui/config/environment';
-
-const { RSVP, get } = Ember;
 
 export default {
   checkFacebookCache(locationService, model) {
@@ -12,7 +12,7 @@ export default {
   cacheFacebook(url) {
     return new RSVP.Promise((resolve, reject) => {
       if (url && config.fb_enabled) {
-        Ember.$.post('https://graph.facebook.com', {
+        $.post('https://graph.facebook.com', {
           scrape: true,
           id: url
         }).always((xhr) => {

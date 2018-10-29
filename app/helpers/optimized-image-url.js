@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 export function optimizedImageUrl(params) {
@@ -10,4 +10,4 @@ export function optimizedImageUrl(params) {
   return makeOptimizedImageUrl(url, width, height, doCrop);
 }
 
-export default Ember.Helper.helper(optimizedImageUrl);
+export default buildHelper(optimizedImageUrl);

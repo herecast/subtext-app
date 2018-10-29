@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
+import { run } from '@ember/runloop';
 
-const {get, set, inject, run} = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['HelpText'],
-  intercom: inject.service(),
-  tracking: inject.service(),
+  intercom: service(),
+  tracking: service(),
 
   openingHelp: false,
 

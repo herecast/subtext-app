@@ -1,23 +1,36 @@
-import Ember from 'ember';
+import { notEmpty } from '@ember/object/computed';
+import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
+import { A } from '@ember/array';
+import { observer, computed, set, get, setProperties } from '@ember/object';
 
-const { get, set, run, computed, isPresent, observer } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   type: 'text',
   classNames: ['LocationSearch'],
   classNameBindings: ['displaySuggestions:open'],
   location: "",
-  quickList: [],
-  displayQuickList: computed.notEmpty('quickList'),
-  displaySuggestions: false,
-  geocoderService: Ember.inject.service('geolocation'),
-  suggestions: [],
-  locationFilterType: 'administrative_area_level_1',
-  locationFilters: ['NH', 'VT'],
+  quickList: A(),
+  suggestions: A(),
 
-  suggestionsProxy: computed('suggestions.[]', 'suggestions.isFulfilled', function() {
+  displayQuickList: notEmpty('quickList'),
+  displaySuggestions: false,
+  geocoderService: service('geolocation'),
+
+  init() {
+    this._super(...arguments);
+    setProperties(this, {
+      locationFilterType: 'administrative_area_level_1',
+      locationFilters: ['NH', 'VT'],
+      locationQuery: get(this, 'location')
+    });
+  },
+
+  suggestionsProxy: computed('suggestions.{[],isFulfilled}', function() {
     const values = get(this, 'suggestions');
-    if(Ember.PromiseProxyMixin.detect(values)) {
+    if(PromiseProxyMixin.detect(values)) {
       return values.get('content');
     } else {
       return values;
@@ -64,11 +77,6 @@ export default Ember.Component.extend({
     }
   }),
 
-  didInitAttrs() {
-    this._super(...arguments);
-    this.set('locationQuery', get(this,'location'));
-  },
-
   didUpdateAttrs() {
     this._super(...arguments);
     const inputHasFocus = (this.$(':focus') === this.$('input'));
@@ -114,6 +122,7 @@ export default Ember.Component.extend({
       const location = get(this, 'location');
 
       if(location !== val && isPresent(coords)) {
+        //eslint-disable-next-line ember/closure-actions
         this.sendAction('setLocation', val, coords);
       }
 

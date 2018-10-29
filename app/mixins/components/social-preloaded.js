@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Mixin from '@ember/object/mixin';
+import { set, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { get, set, inject:{service}} = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   facebook: service(),
   twitter: service(),
 
@@ -38,15 +39,15 @@ export default Ember.Mixin.create({
 
   _startListeners() {
     set(this, 'hasActiveListeners', true);
-    Ember.$(document).on('touchstart.social', this, this._preloadSocialScripts);
-    Ember.$(window).on('scroll.social', this, this._preloadSocialScripts);
-    Ember.$('.Modal-dialog-body').on('scroll.social', this, this._preloadSocialScripts);
+    $(document).on('touchstart.social', this, this._preloadSocialScripts);
+    $(window).on('scroll.social', this, this._preloadSocialScripts);
+    $('.Modal-dialog-body').on('scroll.social', this, this._preloadSocialScripts);
   },
 
   _destroyListeners() {
-    Ember.$(document).off('touchstart.social');
-    Ember.$(window).off('scroll.social');
-    Ember.$('.Modal-dialog-body').off('scroll.social');
+    $(document).off('touchstart.social');
+    $(window).off('scroll.social');
+    $('.Modal-dialog-body').off('scroll.social');
     set(this, 'hasActiveListeners', false);
   }
 });

@@ -2,13 +2,13 @@
   {{promotion-menu/promotion-options
     content=content
     organization=organization
-    done=(action 'togglePromotionOptions')
+    done=(action "togglePromotionOptions")
   }}
 
 {{else if showPromotionHistory}}
   {{promotion-menu/promotion-history
     content=content
-    done=(action 'togglePromotionHistory')
+    done=(action "togglePromotionHistory")
   }}
 
 {{else if showAddToMenu}}
@@ -17,7 +17,7 @@
     organization=organization
     inputValue=currentHotlinkTitle
     contentHotlink=contentHotlink
-    done=(action 'toggleAddToMenu')
+    done=(action "toggleAddToMenu")
   }}
 
 {{else}}
@@ -31,51 +31,54 @@
       If you have further questions, please contact
       <a href="mailto:ads@dailyuv.com">ads@dailyuv.com</a>
     {{/if}}
-    <div class="PromotionMenu-close-overlay" {{action 'close'}}>
-      Close {{fa-icon 'times'}}
+    <div class="PromotionMenu-close-overlay" {{action "close"}} role="button">
+      Close {{fa-icon "times"}}
     </div>
   </div>
 
   <div class="PromotionMenu-manage">
 
-    <div class="PromotionMenu-manage-button" {{action 'togglePromotionOptions'}}>
-      {{fa-icon 'paper-plane-o'}}  Promote
+    <div class="PromotionMenu-manage-button" {{action "togglePromotionOptions"}} role="button">
+      {{fa-icon "paper-plane-o"}}  Promote
     </div>
 
     {{#if hasOrganization}}
-      <div class="PromotionMenu-manage-button" {{action 'togglePromotionHistory'}}>
-        {{fa-icon 'history'}}  Promotion History
+      <div class="PromotionMenu-manage-button" {{action "togglePromotionHistory"}} role="button">
+        {{fa-icon "history"}}  Promotion History
       </div>
 
 
       {{#if isNotBannerAd}}
-        <div class="PromotionMenu-manage-button" {{action 'toggleAddToMenu'}}>
+        <div class="PromotionMenu-manage-button" {{action "toggleAddToMenu"}} role="button">
           {{#if contentHotlink}}
-            {{fa-icon 'level-up'}}  Change Menu Button
+            {{fa-icon "level-up"}}  Change Menu Button
           {{else}}
-            {{fa-icon 'level-up'}}  Add to Menu
+            {{fa-icon "level-up"}}  Add to Menu
           {{/if}}
         </div>
       {{/if}}
 
-      <div class="PromotionMenu-manage-button" {{action 'openCalendarWidget'}}>
-        {{fa-icon 'calendar'}} {{#unless hasSunsetDate}}Set {{/unless}}Expiration Date
+      <div class="PromotionMenu-manage-button" {{action "openCalendarWidget"}} role="button">
+        {{fa-icon "calendar"}} {{#unless hasSunsetDate}}Set {{/unless}}Expiration Date
       </div>
       {{#if hasSunsetDate}}
         <div class="PromotionMenu-sunset-options">
           Will expire from public view on {{sunsetDate}}
           <div>
-            <span class="PromotionMenu-action-button" {{action 'openCalendarWidget'}}>{{fa-icon 'pencil'}}
-              Change</span>
-            <span class="PromotionMenu-action-button" {{action 'removeSunsetDate'}}>{{fa-icon 'times'}} Remove</span>
+            <span class="PromotionMenu-action-button" {{action "openCalendarWidget"}} role="button">
+              {{fa-icon "pencil"}}  Change
+            </span>
+            <span class="PromotionMenu-action-button" {{action "removeSunsetDate"}} role="button">
+              {{fa-icon "times"}}  Remove
+            </span>
           </div>
         </div>
       {{/if}}
     {{/if}}
 
     {{#if isNotBannerAd}}
-      <div class="PromotionMenu-manage-button" {{action 'openContentMetrics'}}>
-        {{fa-icon 'line-chart'}}  Metrics
+      <div class="PromotionMenu-manage-button" {{action "openContentMetrics"}} role="button">
+        {{fa-icon "line-chart"}}  Metrics
       </div>
     {{/if}}
   </div>

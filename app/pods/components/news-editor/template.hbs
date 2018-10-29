@@ -3,29 +3,29 @@
   isOpen=showPreview
   news=news
   hasCaptionOrCredit=hasCaptionOrCredit
-  closePreview=(action 'togglePreview')
+  closePreview=(action "togglePreview")
   }}
 {{/if}}
 
 {{#if isDeletingRecord}}
   <div class="NewsEditor-deleting-record-overlay">
-    {{fa-icon 'gear' spin=true}}
+    {{fa-icon "gear" spin=true}}
   </div>
 {{/if}}
 
-<div class='Container--noGutter'>
-  <div class='row'>
-    <div class='col-md-9'>
-      <div class='NewsEditor-titleWrapper'>
-        <h1 class='SectionHeader NewsEditor-title'>
-          <span class='Section-text SectionHeader-text--secondaryBg'>{{title}}</span>
+<div class="Container--noGutter">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="NewsEditor-titleWrapper">
+        <h1 class="SectionHeader NewsEditor-title">
+          <span class="Section-text SectionHeader-text--secondaryBg">{{title}}</span>
         </h1>
       </div>
     </div>
-    <div class='col-md-3'>
-      <div class='NewsEditor-autoSaveIndicator'>
+    <div class="col-md-3">
+      <div class="NewsEditor-autoSaveIndicator">
         {{#if news.isDraft}}
-          {{#unless (eq news.dirtyType 'created')}}
+          {{#unless hideAutoSave}}
             <div>
               {{#auto-save-indicator model=news as |saveStatus|}}
                 {{saveStatus}}
@@ -36,19 +36,19 @@
       </div>
     </div>
   </div>
-  <div class='row'>
-    <div class='col-md-9'>
-      <div class='NewsEditor-postBody u-dropShadow'>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="NewsEditor-postBody u-dropShadow">
 
         <div class="visible-xs visible-sm">
           {{#form-group error=errors.image}}
-            <label class='control-label'>Featured Image</label>
+            <label class="control-label">Featured Image</label>
             {{thumbnail-image-modal
               imageUrl=(readonly news.primaryImage.imageUrl)
               caption=(readonly news.primaryImage.caption)
               title="Featured Image"
-              saveImage=(action 'saveFeaturedImage')
-              saveCaption=(action 'saveFeaturedImageCaption')
+              saveImage=(action "saveFeaturedImage")
+              saveCaption=(action "saveFeaturedImageCaption")
             }}
           {{/form-group}}
         </div>
@@ -57,16 +57,16 @@
         error=errors.title
         hideError=true
         }}
-          <label class='control-label ContentForm-label--required' for="title">Title</label>
+          <label class="control-label ContentForm-label--required" for="title">Title</label>
           {{form-error errors.title}}
 
           {{input
-          id='title'
-          placeholder='A short and informative title'
-          class='form-control'
+          id="title"
+          placeholder="A short and informative title"
+          class="form-control"
           value=news.title
-          data-test-field='title'
-          input=(action 'notifyChange')
+          data-test-field="title"
+          input=(action "notifyChange")
           }}
         {{/form-group}}
 
@@ -74,27 +74,27 @@
         error=errors.subtitle
         hideError=true
         }}
-          <label class='control-label' for="title">Subtitle</label>
+          <label class="control-label" for="title">Subtitle</label>
           {{form-error errors.subtitle}}
 
           {{input
-          id='subtitle'
-          placeholder='A short and informative subtitle'
-          class='form-control'
+          id="subtitle"
+          placeholder="A short and informative subtitle"
+          class="form-control"
           value=news.subtitle
-          data-test-field='subtitle'
-          input=(action 'notifyChange')
+          data-test-field="subtitle"
+          input=(action "notifyChange")
           }}
         {{/form-group}}
 
         {{#form-group}}
           <div>
-              <label class='control-label'>Content Location</label>
+              <label class="control-label">Content Location</label>
           </div>
-          <label class='h5 control-label'>What is the most relevant location for this post?</label>
+          <label class="h5 control-label">What is the most relevant location for this post?</label>
           {{user-location/ugc-button
             model=news
-            onChangeContentLocation=(action 'locationChanged')
+            onChangeContentLocation=(action "locationChanged")
           }}
         {{/form-group}}
 
@@ -102,7 +102,7 @@
         error=errors.content
         hideError=true
         }}
-          <label class='control-label ContentForm-label--required' for="description">Content</label>
+          <label class="control-label ContentForm-label--required" for="description">Content</label>
           {{form-error errors.content}}
           {{#summer-note
           content=(readonly news.content)
@@ -111,16 +111,16 @@
           buttons=editorButtons
           modules=editorModules
           popover=editorPopover
-          uploadImage=(action 'saveImage')
-          notifyChange=(action 'saveContent')
-          class='ContentForm-textArea'
+          uploadImage=(action "saveImage")
+          notifyChange=(action "saveContent")
+          class="ContentForm-textArea"
           }}
-            <div class='ContentText'>
+            <div class="ContentText">
               {{textarea
-              id='content'
-              placeholder='Enter your content here...'
-              class='form-control'
-              data-test-textarea='content'
+              id="content"
+              placeholder="Enter your content here..."
+              class="form-control"
+              data-test-textarea="content"
               }}
             </div>
           {{/summer-note}}
@@ -130,9 +130,9 @@
           hideError=true
         }}
 
-          <div class='NewsEditor-content-owner col-md-12'>
+          <div class="NewsEditor-content-owner col-md-12">
             <div>
-              <label class='control-label ContentForm-label--required' for="description">Content Owner</label>
+              <label class="control-label ContentForm-label--required" for="description">Content Owner</label>
             </div>
 
               {{#if (or news.isPublished (not managesMultipleOrganizations))}}
@@ -143,26 +143,26 @@
 
               {{#unless news.isPublished}}
                 {{#if managesMultipleOrganizations}}
-                  <div class='col-md-4'>
-                    {{#unless hasChosenOrganization}}
-                      <div>Please select content owner</div>
-                    {{else}}
+                  <div class="col-md-4">
+                    {{#if hasChosenOrganization}}
                       <div>Click to change content owner</div>
-                    {{/unless}}
+                    {{else}}
+                      <div>Please select content owner</div>
+                    {{/if}}
                     {{#form-group error=errors.organization}}
                       {{organization-dropdown
-                        defaultName='Please choose an org'
+                        defaultName="Please choose an org"
                         selection=(readonly chosenOrganization)
                         organizations=filteredOrganizations
                         class="with-border"
-                        updated=(action 'changeOrganization')
+                        updated=(action "changeOrganization")
                       }}
                     {{/form-group}}
                   </div>
                 {{/if}}
               {{/unless}}
 
-            <div class='col-md-8'>
+            <div class="col-md-8">
               {{#if news.organization.name}}
                 {{feed-card/attribution
                   avatarUrl=news.organization.profileImageUrl
@@ -183,12 +183,12 @@
         }}
           <label>
             Content Author
-              <span class='NewsEditor-toggle' {{action 'toggleAuthorOverride'}} data-test-author-override="toggle">
+              <span class="NewsEditor-toggle" {{action "toggleAuthorOverride"}} role="button" data-test-author-override="toggle">
                 {{#if authorOverrideEnabled}}
-                  {{fa-icon 'toggle-off' size='lg'}}
+                  {{fa-icon "toggle-off" size="lg"}}
                   Custom Author
                 {{else}}
-                  {{fa-icon 'toggle-on is-on' size='lg'}}
+                  {{fa-icon "toggle-on is-on" size="lg"}}
                   Default Author
                 {{/if}}
               </span>
@@ -198,11 +198,11 @@
             {{#if authorOverrideEnabled}}
               <div>
                 {{input
-                id='authorIsBlank'
-                type='checkbox'
+                id="authorIsBlank"
+                type="checkbox"
                 checked=hasAuthorName
-                change=(action 'toggleAuthorName')
-                data-test-author-override='checkbox'
+                change=(action "toggleAuthorName")
+                data-test-author-override="checkbox"
                 }}
                 <span>
                   {{#if hasAuthorName}}
@@ -215,12 +215,12 @@
               {{#if hasAuthorName}}
                 <div>
                   {{input
-                  id='authorName'
-                  placeholder='Change author name to...'
-                  class='form-control'
+                  id="authorName"
+                  placeholder="Change author name to..."
+                  class="form-control"
                   value=news.authorName
-                  data-test-field='authorName'
-                  input=(action 'notifyChange')
+                  data-test-field="authorName"
+                  input=(action "notifyChange")
                   }}
                 </div>
               {{/if}}
@@ -233,20 +233,20 @@
 
       </div>
     </div>
-    <div class='col-md-3'>
-      <div class='NewsEditor-sidebar Sidebar'>
+    <div class="col-md-3">
+      <div class="NewsEditor-sidebar Sidebar">
 
         <div class="hidden-xs hidden-sm">
           <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
             {{#form-group}}
-              <div class='SidebarWidget-body'>
-                <label class='control-label'>Featured Image</label>
+              <div class="SidebarWidget-body">
+                <label class="control-label">Featured Image</label>
                 {{thumbnail-image-modal
                 imageUrl=(mut news.primaryImageUrl)
                 caption=(mut news.primaryImageCaption)
                 title="Featured Image"
-                saveImage=(action 'saveFeaturedImage')
-                saveCaption=(action 'saveFeaturedImageCaption')
+                saveImage=(action "saveFeaturedImage")
+                saveCaption=(action "saveFeaturedImageCaption")
                 }}
               </div>
             {{/form-group}}
@@ -255,65 +255,65 @@
 
 
 
-        <div class='NewsEditor-sidebarWidget NewsEditor-sidebarWidget--publishSettings SidebarWidget'>
-          <div class='PublishSettings'>
-            <div class='SidebarWidget-body' data-test-publish-status>
-              <label class='control-label'>Publish Settings</label>
-              <div class='PublishSettings-statusIndicator'>
+        <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--publishSettings SidebarWidget">
+          <div class="PublishSettings">
+            <div class="SidebarWidget-body" data-test-publish-status>
+              <label class="control-label">Publish Settings</label>
+              <div class="PublishSettings-statusIndicator">
                 <p><b>Status: {{status}}</b></p>
               </div>
 
               {{#if news.isDraft}}
                 {{#if isPickingScheduleDate}}
                   {{#form-group error=errors.publishedAt}}
-                    <label class='control-label ContentForm-label--required' for="scheduled_date">
+                    <label class="control-label ContentForm-label--required" for="scheduled_date">
                       Publish Date
                     </label>
                     {{pick-a-date
                     date=(readonly selectedPubDate)
                     on-selected=(action (mut selectedPubDate))
                     placeholder="Pick a date"
-                    class='form-control'
+                    class="form-control"
                     id="scheduled_date"
-                    data-test-schedule-publish='date'
+                    data-test-schedule-publish="date"
                     }}
                   {{/form-group}}
                   {{#form-group error=errors.publishedAt hideError=true}}
-                    <label class='control-label ContentForm-label--required' for="scheduled_time">
+                    <label class="control-label ContentForm-label--required" for="scheduled_time">
                       Publish Time
                     </label>
                     {{pick-a-time
                     date=(readonly selectedPubDate)
                     on-selected=(action (mut selectedPubDate))
                     placeholder="Pick a time"
-                    class='form-control'
+                    class="form-control"
                     id="scheduled_time"
-                    data-test-schedule-publish='time'
+                    data-test-schedule-publish="time"
                     }}
                   {{/form-group}}
-                  <button {{action 'schedulePublish'}} class='btn btn-primary' data-test-schedule-publish='confirm'>Confirm</button>
-                  <button {{action 'cancelSchedulePublish'}} class='btn'>Cancel</button>
+                  <button {{action "schedulePublish"}} class="btn btn-primary" data-test-schedule-publish="confirm">Confirm</button>
+                  <button {{action "cancelSchedulePublish"}} class="btn">Cancel</button>
                 {{else}}
-                  <button {{action 'publish'}} class='btn btn-primary'>Publish Now</button>
-                  <br />
-                  <button {{action 'choosePubDate'}} class='btn' data-test-schedule-publish='button'>Schedule Publish</button>
-                  <br />
-                  <button {{action 'togglePreview'}} class='btn'>Preview Post</button>
+                  <button {{action "publish"}} class="btn btn-primary">Publish Now</button>
+                  <br>
+                  <button {{action "choosePubDate"}} class="btn" data-test-schedule-publish="button">Schedule Publish</button>
+                  <br>
+                  <button {{action "togglePreview"}} class="btn">Preview Post</button>
                   <div>
-                    {{#unless wantsToDeleteDraft}}
-                      <button {{action 'toggleDeleteDraft'}} class='btn'>Delete Draft</button>
-                    {{else}}
+                    {{#if wantsToDeleteDraft}}
                       <div class="NewsEditor-delete-message">
                         <div>
-                          Deletion is permanent.<br />
+                          Deletion is permanent.<br>
                           Are you sure?
                         </div>
                         <div>
-                          <button {{action 'deleteDraft'}} class="btn btn-primary">Yes</button>
-                          <button {{action 'toggleDeleteDraft'}} class="btn">No</button>
+                          <button {{action "deleteDraft"}} class="btn btn-primary">Yes</button>
+                          <button {{action "toggleDeleteDraft"}} class="btn">No</button>
                         </div>
                       </div>
-                    {{/unless}}
+                    {{else}}
+                      <button {{action "toggleDeleteDraft"}} class="btn">Delete Draft</button>
+                    {{/if}}
                   </div>
 
                 {{/if}}
@@ -324,38 +324,38 @@
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}</p>
                   <div class="alert alert-warning" role="alert"><p>Your post has changes that will not be included when
                     your post goes live unless you save them.</p></div>
-                  <button {{action 'publishChanges'}} class='btn btn-primary'>Save Changes</button>
-                  <br/>
-                  <button {{action 'togglePreview'}}
-                      class='btn'>{{if news.hasUnpublishedChanges 'Preview Changes' 'Preview Post'}}</button>
-                  <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
+                  <button {{action "publishChanges"}} class="btn btn-primary">Save Changes</button>
+                  <br>
+                  <button {{action "togglePreview"}}
+                      class="btn">{{if news.hasUnpublishedChanges "Preview Changes" "Preview Post"}}</button>
+                  <button {{action "discardChanges"}} class="btn">Discard changes</button>
                 {{else}}
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}
-                    <a href='#' {{action 'unpublish'}} class='text-danger'><br/>Cancel Scheduled Publish</a>
+                    <a href="#" {{action "unpublish"}} class="text-danger"><br>Cancel Scheduled Publish</a>
                   </p>
-                  <button class='btn btn-primary' {{action 'publish'}}>Publish Now</button>
-                  <button {{action 'togglePreview'}}
-                      class='btn'>{{if hasUnpublishedChanges 'Preview Changes' 'Preview Post'}}</button>
+                  <button class="btn btn-primary" {{action "publish"}}>Publish Now</button>
+                  <button {{action "togglePreview"}}
+                      class="btn">{{if hasUnpublishedChanges "Preview Changes" "Preview Post"}}</button>
                 {{/if}}
               {{/if}}
 
               {{#if news.isPublished}}
-                Published {{formatted-date news.publishedAt}}.<br />
-                {{#unless (or hasUnpublishedChanges isPublishing)}}
+                Published {{formatted-date news.publishedAt}}.<br>
+                {{#unless hidePublishedLinks}}
                   {{#if hasOrganization}}
-                    {{link-to 'View it now in profile' 'profile.all.show' organizationId news.id}}<br />
+                    {{link-to "View it now in profile" "profile.all.show" organizationId news.id}}<br>
                   {{/if}}
-                  {{link-to 'View it now in feed' 'feed.show' news.id  (query-params type='posts')}}
+                  {{link-to "View it now in feed" "feed.show" news.id  (query-params type="posts")}}
                 {{/unless}}
 
                 {{#if (or news.hasUnpublishedChanges hasUnpublishedChanges)}}
                   <div class="alert alert-warning" role="alert"><p>Your post has changes that are not published.</p>
                   </div>
-                  <button {{action 'publish'}} class='btn btn-primary'>Publish Changes</button>
-                  <br/>
-                  <button {{action 'discardChanges'}} class='btn'>Discard changes</button>
+                  <button {{action "publish"}} class="btn btn-primary">Publish Changes</button>
+                  <br>
+                  <button {{action "discardChanges"}} class="btn">Discard changes</button>
 
-                  <button {{action 'togglePreview'}} class='btn'>Preview Changes</button>
+                  <button {{action "togglePreview"}} class="btn">Preview Changes</button>
                 {{/if}}
               {{/if}}
             </div>

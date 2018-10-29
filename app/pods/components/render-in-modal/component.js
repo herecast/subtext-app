@@ -1,14 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { get, set } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
-const {
-  inject,
-  set,
-  get,
-  isPresent
-} = Ember;
-
-const RenderInModal = Ember.Component.extend({
-  modals: inject.service(),
+const RenderInModal = Component.extend({
+  modals: service(),
   tagName:"",
   modalWrapper: 'modals/headless-wrapper',
   component: null,

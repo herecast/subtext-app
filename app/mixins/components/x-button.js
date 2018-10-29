@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { computed, getWithDefault, get } from '@ember/object';
 
-const {get, getWithDefault, computed} = Ember;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   classNames: ['XButton'],
   classNameBindings: [
     'colorClass',
