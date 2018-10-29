@@ -28,7 +28,7 @@
     }}
       {{cards/organization-profile-header organization=organization isProfileHeader=true}}
     {{/cards/admin-card}}
-  
+
     {{#if showContactCard}}
       {{#cards/admin-card
         isAdmin=showAdminCards
@@ -142,7 +142,7 @@
           {{#text-block}}
             {{#if (or hasPaidProfile isBlog)}}
               {{#if (and isAdmin showAdminCards)}}
-                <p>You haven"t posted yet.</p>
+                <p>You haven't posted yet.</p>
                 <p>Click the "Create Content" button to get started!</p>
               {{else}}
                 <p>{{organization.name}} hasn"t posted any content yet.</p>
