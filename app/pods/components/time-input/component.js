@@ -105,14 +105,14 @@ export default Component.extend({
   // with binding of (this) from the dp.update event
   doUpdate(value) {
     if(!value || isEmpty(value)) {
-      if (get(this, 'updated')) {
+      if (get(this, 'update')) {
         get(this, 'update')(null);
       }
     } else {
       const time = this.parseUpdate(value);
 
       if(time.isValid()) {
-        if (get(this, 'updated')) {
+        if (get(this, 'update')) {
           get(this, 'update')(this.formatUpdate(time));
         }
       }

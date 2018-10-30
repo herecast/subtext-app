@@ -32,6 +32,16 @@
     }
   }
 
+  &--HeadlessWrapper {
+    .Modal-dialog-body {
+      overflow-y: auto;
+      overflow-x: hidden;
+      }
+    .Modal-dialog-body-wrapper {
+      overflow: hidden;
+    }
+  }
+
   &-dialogHeader {
     overflow: hidden;
     font-weight: bold;
@@ -51,11 +61,8 @@
 
   &-body {
     max-height: 90vh;
-    overflow-y: auto;
-    overflow-x: hidden;
 
     &-wrapper {
-      overflow: hidden;
       max-height: 90vh;
     }
   }
@@ -103,6 +110,7 @@
     max-width: 360px;
   }
 }
+
 
 .Modal-dialog--fullscreen {
   width: 100%;
