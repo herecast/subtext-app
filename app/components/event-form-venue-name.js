@@ -2,20 +2,15 @@ import { inject as service } from '@ember/service';
 import { debounce } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
 import Component from '@ember/component';
-import { get, set, setProperties } from '@ember/object';
+import { get, set } from '@ember/object';
+import { A } from '@ember/array';
 import ManualDropdown from '../mixins/components/manual-dropdown';
 
 export default Component.extend(ManualDropdown, {
   api: service('api'),
 
-  init() {
-    this._super(...arguments);
-
-    setProperties(this, {
-      venues: [],
-      hasPerformedSearch: false,
-    });
-  },
+  venues: A(),
+  hasPerformedSearch: false,
 
   didInsertElement() {
     this._super(...arguments);

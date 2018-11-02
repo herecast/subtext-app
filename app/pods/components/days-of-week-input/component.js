@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { get, setProperties } from '@ember/object';
+import { A } from '@ember/array';
 
 const dayMapArray = [
   { key: 'Su', value: 1 },
@@ -14,10 +15,11 @@ const dayMapArray = [
 export default Component.extend({
   classNames: ['DaysOfWeekInput', 'checkbox-group'],
 
+  selectedDays: A(),
+
   init() {
     this._super(...arguments);
     setProperties(this, {
-      selectedDays: [],
       dayMap: dayMapArray,
     });
   },

@@ -2,6 +2,7 @@ import { gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import { setProperties, set, get, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 import moment from 'moment';
 
 export default Component.extend({
@@ -12,12 +13,11 @@ export default Component.extend({
 
   api: service(),
 
+  promotionHistory: A(),
+
   init() {
     this._getPromotionHistory();
     this._super(...arguments);
-    setProperties(this, {
-      promotionHistory: []
-    });
   },
 
   hasPromotionHistory: gt('promotionHistory.length', 0),
