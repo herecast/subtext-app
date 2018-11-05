@@ -10,7 +10,7 @@ import { throttle, debounce } from 'lodash';
 export default Component.extend({
   attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
-  classNameBindings: ['willAnimateAway:Modal--willAnimateAway'],
+  classNameBindings: ['willAnimateAway:Modal--willAnimateAway', 'modal-class'],
 
   modalService: service('modals'),
   fastboot: service(),
