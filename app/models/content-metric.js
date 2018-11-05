@@ -1,13 +1,9 @@
-import EmberObject, { computed, get, setProperties } from '@ember/object';
+import EmberObject, { computed, get } from '@ember/object';
+import { A } from '@ember/array';
 
 export default EmberObject.extend({
-  init() {
-    this._super(...arguments);
-    setProperties(this, {
-      daily_view_counts: [],
-      daily_promo_click_thru_counts: []
-    });
-  },
+  daily_view_counts: A(),
+  daily_promo_click_thru_counts: A(),
 
   views: computed('daily_view_counts.[]', function() {
     const data = get(this, 'daily_view_counts');

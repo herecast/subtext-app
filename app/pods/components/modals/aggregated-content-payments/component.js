@@ -1,6 +1,7 @@
 import { gt } from '@ember/object/computed';
 import { set, get, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 import moment from 'moment';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 
@@ -12,11 +13,12 @@ export default ModalInstance.extend({
   model: null,
   isLoading: false,
 
+  payments: A(),
+
   init() {
     this._super(...arguments);
     setProperties(this, {
-      headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Total Payment', 'Payment Date'],
-      payments: [],
+      headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Total Payment', 'Payment Date']
     });
   },
 

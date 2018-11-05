@@ -1,18 +1,14 @@
 import Component from '@ember/component';
-import { set, get, setProperties } from '@ember/object';
+import { set, get } from '@ember/object';
+import { A } from '@ember/array';
 /* global Chart */
 
 export default Component.extend({
   chartClass: '',
   metricType: null,
 
-  init() {
-    this._super(...arguments);
-    setProperties(this, {
-      labels: [],
-      data: []
-    });
-  },
+  labels: A(),
+  data: A(),
 
   didRender() {
     this._super(...arguments);

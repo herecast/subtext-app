@@ -2,6 +2,7 @@ import { oneWay, notEmpty, sort } from '@ember/object/computed';
 import { set, get, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
+import { A } from '@ember/array';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
 
@@ -18,6 +19,9 @@ export default ModalInstance.extend({
 
   contentMetrics: service(),
 
+  views: A(),
+  clicks: A(),
+
   startDate: null,
   endDate: null,
   displayOption: 'week',
@@ -30,8 +34,6 @@ export default ModalInstance.extend({
     this._super(...arguments);
     setProperties(this, {
       sortBy: ['report_date'],
-      views: [],
-      clicks: [],
       _displayOptions: displayOptionsObj
     });
   },
