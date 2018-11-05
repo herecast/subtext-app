@@ -213,12 +213,12 @@ export default Component.extend(TestSelector, Validation, {
   validateContent() {
     let content = get(this, 'news.content');
 
-    // Have to scrub any img wrapping divs to get rid of captions
     let $content = $('<div />').append($.parseHTML(content));
-    $content.find('.ContentImage').remove();
     content = $content.prop('outerHTML');
 
-    if (isBlank(content) || content.replace(/<[^>]*>/g, '').trim() === '') {
+    const hasImages = $content.find('img').length > 0;
+
+    if (!hasImages && (isBlank(content) || content.replace(/<[^>]*>/g, '').trim() === '')) {
       set(this, 'errors.content', "News can't be blank.");
     } else {
       set(this, 'errors.content', null);

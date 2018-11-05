@@ -42,6 +42,7 @@ export default Component.extend(TestSelector, {
       dialogsInBody: true,
       styleWithSpan: false,
       toolbar: toolbar,
+      disableDragAndDrop: true,
       styleTags: [
         {tag: 'p', title: 'Normal'},
         {tag: 'h2', title: 'Heading'},
@@ -330,9 +331,24 @@ export default Component.extend(TestSelector, {
     }
   },
 
+  _sanitizeContentImages() {
+    const $content = this.$('.note-editable');
+    const divsWithContentImageClass = $content.find('.ContentImage');
+
+    if (divsWithContentImageClass.length) {
+      divsWithContentImageClass.each((index, div) => {
+        let divIsWithoutImage = $(div).find('img').length === 0;
+        if (divIsWithoutImage) {
+          $(div).removeAttr('class');
+        }
+      });
+    }
+    return $content.html();
+  },
+
   actions: {
     doUpdate() {
-      const content = this.$('.note-editable').html();
+      const content = this._sanitizeContentImages();
 
       // Notify new content
       const notifyChange = get(this, 'notifyChange');
