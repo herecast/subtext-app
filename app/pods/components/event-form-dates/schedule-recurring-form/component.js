@@ -1,7 +1,7 @@
 import { filterBy } from '@ember/object/computed';
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
-import { isPresent, isEmpty } from '@ember/utils';
+import { isPresent } from '@ember/utils';
 import { observer, computed, set, get } from '@ember/object';
 import moment from 'moment';
 import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
@@ -57,24 +57,11 @@ export default Component.extend(ScheduleSummary, {
   setDefaultValues: observer('startDate', 'repeats', function() {
     const startDate = moment(get(this, 'startDate'));
     const repeats = get(this, 'repeats');
-    const daysOfWeek = get(this, 'daysOfWeek');
 
     if (startDate && repeats === 'monthly') {
       const weekOfMonth = Math.ceil(startDate.date()/7)-1;
 
       set(this, 'weeksOfMonth', [weekOfMonth]);
-    }
-
-    const hasDaysOfWeek = (repeats === 'weekly' || repeats === 'bi-weekly');
-
-    if (isEmpty(daysOfWeek) && hasDaysOfWeek) {
-      const dayOfWeek = startDate.day() + 1;
-
-      run(() => {
-        set(this, 'daysOfWeek', [dayOfWeek]);
-      });
-
-      this.initDays();
     }
   }),
 
