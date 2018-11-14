@@ -38,6 +38,12 @@
         }
       }
 
+      &:not(.positioned) {
+        .Modal-dialog {
+          overflow: auto;
+        }
+      }
+
       .Modal-inner {
         height: auto !important;
       }
@@ -45,6 +51,7 @@
       .Modal-dialog {
         max-width: 500px !important;
       }
+
       .Modal-dialog-body-wrapper {
         max-width: 400px !important;
         margin: 0 auto !important;

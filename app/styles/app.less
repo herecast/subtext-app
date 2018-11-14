@@ -255,6 +255,13 @@ body {
   &.modal-open {
     overflow: hidden;
   }
+
+  &.hide-intro-js {
+    .introjs-overlay,
+    .introjs-helperLayer {
+      display: none !important;
+    }
+  }
 }
 
 [data-ember-action]:not(:disabled) {

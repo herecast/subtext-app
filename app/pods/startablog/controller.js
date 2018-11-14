@@ -3,7 +3,6 @@ import {
   notEmpty,
   not,
   readOnly,
-  or,
   and
 } from '@ember/object/computed';
 import $ from 'jquery';
@@ -29,7 +28,17 @@ export default Controller.extend({
   hasNoCurrentUser: not('hasCurrentUser'),
   currentUserIsBlogger: readOnly('currentUser.isBlogger'),
 
-  blockMobileUser: or('media.isMobile', 'media.isTablet'),
+  blockMobileUser: computed('media.isMobile', function() {
+    const shouldBlockUser = get(this, 'media.isMobile');
+
+    if (shouldBlockUser) {
+      $('body').addClass('hide-intro-js');
+    } else {
+      $('body').removeClass('hide-intro-js');
+    }
+
+    return shouldBlockUser;
+  }),
 
   init() {
     this._super(...arguments);
@@ -368,7 +377,7 @@ export default Controller.extend({
       .then((organization) => {
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);
-        get(this, 'notify').success('Welcome to your new blogger hompage. Your page is live and you can now publish content on the site!');
+        get(this, 'notify').success('Welcome to your new blogger homepage. Your page is live and you can now publish content on the site!');
       })
       .catch(() => {
         get(this, 'notify').error('Something went wrong when saving your blog. Please try again.');

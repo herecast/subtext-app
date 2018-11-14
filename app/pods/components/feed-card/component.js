@@ -47,9 +47,7 @@ export default Component.extend(CardMetrics, {
     return `feed-card/${contentType}-card`;
   }),
 
-  linkToDetailIsActive: computed('isDraft', function() {
-    return !get(this, 'isDraft');
-  }),
+  linkToDetailIsActive: true,
 
   actions: {
     closePromotionMenu() {

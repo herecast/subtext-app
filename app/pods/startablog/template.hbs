@@ -21,8 +21,9 @@
     {{/x-link-url}}
   </div>
 
-{{else}}
+{{/if}}
 
+<div class="Startablog--intro {{if blockMobileUser "hidden"}}">
   {{#blogger-intro class="BloggerIntro-main-wrap" start-if=startIntro as |blogger-intro|}}
 
     {{blogger-intro.step step=1
@@ -257,7 +258,7 @@
     {{/blogger-intro.step}}
 
   {{/blogger-intro}}
-{{/if}}
+</div>
 
 <div class="Startablog--bottom-padding"></div>
 

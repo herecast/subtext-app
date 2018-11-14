@@ -326,7 +326,7 @@ export default function() {
     if (name === 'DailyUV' || name === 'blogblog') {
       response = new Mirage.Response(404);
     } else {
-      response = new Mirage.Response(200);
+      response = new Mirage.Response(200, {}, {});
     }
 
     return response;
