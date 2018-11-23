@@ -16,6 +16,7 @@ export default Component.extend(TestSelector, Validation, {
   router: service(),
   userLocation: service(),
   logger: service(),
+  media: service(),
 
   userMustConfirm: false,
 
