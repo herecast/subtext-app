@@ -24,7 +24,7 @@ export default Component.extend({
     },
 
     signOut() {
-      get(this, 'session').invalidate();
+      get(this, 'session').signOut();
     },
 
     onLinkClick() {

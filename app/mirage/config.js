@@ -131,6 +131,7 @@ export default function() {
 
   this.post('/users/logout', function(schema) {
     schema.db.currentUsers.remove();
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/user/', function({currentUsers}, request) {
