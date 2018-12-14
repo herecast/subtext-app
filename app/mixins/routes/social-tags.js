@@ -41,12 +41,13 @@ export default Mixin.create({
     const title = get(model, 'title');
 
     // Strip out all HTML tags from the content so it can be used for the description
-    const description = sanitize(model.get('content'), {
+    const description = sanitize(get(model, 'content'), {
       allowedTags: [],
       allowedAttributes: []
     });
 
-    const descriptionTruncated = this.truncateDescription(description);
+    const contentLocationName = get(model, 'location.name');
+    const descriptionTruncated = this.truncateDescription(contentLocationName, description);
 
     const arr = [
       {
@@ -222,8 +223,13 @@ export default Mixin.create({
     return defaultImages[channel];
   },
 
-  truncateDescription(description, characters=300) {
+  truncateDescription(contentLocationName=false, description, characters=300) {
     description = description.replace(/\s/g, ' ');
+
+    if (contentLocationName) {
+      description = `${contentLocationName} | ${description}`;
+    }
+
     return (description.length > characters) ? description.substr(0, characters-1) + '...' : description;
   }
 });
