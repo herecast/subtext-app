@@ -41,7 +41,7 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
       }
     }
 
-    if ('type' in transition.queryParams) {
+    if ('type' in transition.queryParams && isPresent(transition.queryParams['type'])) {
       let type = transition.queryParams['type'];
       if (type.length > 0) {
         set(this, 'search.activeFilter', type);

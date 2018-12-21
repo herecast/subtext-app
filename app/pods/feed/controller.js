@@ -27,7 +27,7 @@ export default Controller.extend({
 
   queryParams: ['page', 'perPage', 'query', 'type', 'startDate', 'endDate'],
   query: alias('search.query'),
-  type: '',
+  type: null,
   page: 1,
   perPage: 5,
   startDate: '',

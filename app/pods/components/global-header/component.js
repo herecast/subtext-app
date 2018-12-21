@@ -69,11 +69,13 @@ export default Component.extend(TestSelector, {
     },
 
     onRemoveFilter() {
-      get(this, 'router').transitionTo('feed.index', {
+      const transition = get(this, 'router').transitionTo('feed.index', {
         queryParams: {
-          type: ''
+          type: null
         }
       });
+      
+      transition._keepDefaultQueryParamValues = false;
     }
   }
 });
