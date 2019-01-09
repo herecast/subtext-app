@@ -9,6 +9,7 @@ export default Component.extend({
   avatarUrl: null,
   author: null,
   postedTime: null,
+  hidePostedTime: false,
   linkRouteName: null,
   linkId: null,
   contentId: null,

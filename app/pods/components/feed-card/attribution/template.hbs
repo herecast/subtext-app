@@ -34,7 +34,7 @@
       <div class="FeedCard-Attribution-posted-time {{unless noPadding "u-paddingLeft8"}}">
         {{#if postedTime}}
           Submitted {{postedTime}}
-        {{else}}
+        {{else if (not hidePostedTime)}}
           Not yet published
         {{/if}}
       </div>

@@ -21,14 +21,12 @@
         {{/title-text}}
 
         <div class="DetailPage-headerSubSection u-flexSpace">
-          {{#if nextInstance}}
-            {{feed-card/event-dates
-                eventDate=(moment-format model.startsAt "MMMM DD")
-                futureInstances=model.futureInstances
-                model=model
-                class="u-padding0"
-            }}
-          {{/if}}
+          {{feed-card/event-dates
+              eventDate=(moment-format model.startsAt "MMMM DD")
+              futureInstances=model.futureInstances
+              model=model
+              class="u-padding0"
+          }}
           {{report-content-details
               contentId=model.contentId
               class="DetailPage-reportFlag h4"
@@ -46,7 +44,8 @@
           author=model.attributionName
           linkRouteName=model.attributionLinkRouteName
           linkId=model.organizationId
-          postedTime=model.publishedAtRelative
+          postedTime=false
+          hidePostedTime=true
           contentId=model.contentId
           classNames="u-paddingBottom8"
           isOnDetailView=true
