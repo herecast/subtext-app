@@ -58,7 +58,6 @@ module('Acceptance | detail pages', function(hooks) {
 
   test('testing event detail page', async function(assert) {
     const eventInstance = this.server.create('eventInstance', {
-      costType: 'paid',
       title: 'hello world',
       images: [
         {id:1, primary: true, imageUrl:'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'}
@@ -67,7 +66,7 @@ module('Acceptance | detail pages', function(hooks) {
       startsAt: "2018-01-30T21:19:17+00:00",
       endsAt: "2018-01-30T21:22:17+00:00",
       cost: 123,
-      eventUrl: 'httx://test.test',
+      url: 'httx://test.test',
       venueAddress: '15 Railroad Row',
       venueCity: 'White River Junction',
       venueState: 'VT'
@@ -89,7 +88,7 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-event-detail-title]')).text().trim(), eventInstance.title, 'it should have the correct title');
     assert.equal($(find('[data-test-event-detail-timeRange]')).text().trim(), eventTime, 'it should show the correct event time');
     assert.equal($(find('[data-test-event-detail-cost]')).text().trim(), eventInstance.cost, 'it should show the correct event price');
-    assert.equal($(find('[data-test-event-detail-url]')).text().trim(), eventInstance.eventUrl, 'it should show the correct event url');
+    assert.equal($(find('[data-test-event-detail-url]')).text().trim(), eventInstance.url, 'it should show the correct event url');
     assert.equal($(find('[data-test-directions-address]')).first().text().trim(), eventInstance.venueAddress, 'it should show the correct event address');
     assert.equal($(find('[data-test-directions-city-state]')).first().text().trim(), `${eventInstance.venueCity}, ${eventInstance.venueState}`, 'it should show the event location');
     assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${eventInstance.images[0].imageUrl}")`, 'it should show the card image');

@@ -1,0 +1,37 @@
+{{#jobs-forms/form-group error=errors.title class=titleClass}}
+  {{#if isEditingModel}}
+    <div class="JobsForms--sold">
+      {{jobs-forms/sold model=model}}
+    </div>
+  {{/if}}
+  {{jobs-forms/title
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}
+
+<div class="JobsForms--owner">
+  {{jobs-forms/owner model=model}}
+</div>
+
+{{#jobs-forms/form-group error=errors.images class="JobsForms--images"}}
+  {{jobs-forms/image-upload model=model}}
+{{/jobs-forms/form-group}}
+
+<div class="JobsForms--location">
+  {{user-location/ugc-button model=model}}
+</div>
+
+{{#jobs-forms/form-group error=errors.metadata class="JobsForms--metadata"}}
+  {{jobs-forms/metadata
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}
+
+{{#jobs-forms/form-group error=errors.content class="JobsForms--content"}}
+  {{jobs-forms/content
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}

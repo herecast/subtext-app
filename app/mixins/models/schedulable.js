@@ -1,5 +1,5 @@
 /* global _ */
-import { alias, empty, notEmpty } from '@ember/object/computed';
+import { alias, empty } from '@ember/object/computed';
 
 import Mixin from '@ember/object/mixin';
 import { get, computed } from '@ember/object';
@@ -17,7 +17,6 @@ const {
 export default Mixin.create({
   //NOTE: this is for the content model and not the event-instance model
   eventUrl: attr('string'),
-  registrationDeadline: attr('moment-date'),
   schedules: hasMany('schedule'),
 
   //TAG:NOTE we need this for the redirect after creating events
@@ -93,16 +92,6 @@ export default Mixin.create({
   endsAt: alias('defaultInstance.endsAt'),
 
   hasExpired: empty('futureInstances'),
-
-  hasRegistrationInfo: notEmpty('registrationDeadline'),
-
-  formattedRegistrationDeadline: computed('registrationDeadline', function() { //TAG:NOTE can be deleted when dashboard is removed
-    const deadline = get(this, 'registrationDeadline');
-
-    if (deadline) {
-      return moment(deadline).format('L');
-    }
-  }),
 
   timeRange: computed('startsAt', 'endsAt', function() {
     if (get(this, '_startAndEndAreValid')) {

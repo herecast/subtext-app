@@ -12,6 +12,7 @@ export default Route.extend(VariableInfinityModelParams, History, {
   session: service(),
   fastboot: service(),
   infinity: service(),
+  floatingActionButton: service(),
 
   queryParams: {
     query: {refreshModel: true},
@@ -50,6 +51,15 @@ export default Route.extend(VariableInfinityModelParams, History, {
       } else {
         return this._redirectToPublicView();
       }
+    }
+
+    if (get(this, 'session.isAuthenticated') && get(this, 'floatingActionButton.showContent')) {
+      return get(this, 'session.currentUser').then(currentUser => {
+        if ((currentUser && currentUser.isManagerOfOrganizationID(this._getOrganizationId()))) {
+          const controller = this.controllerFor(this.routeName);
+          set(controller, 'displayAsAdminIfAllowed', true);
+        }
+      });
     }
   },
 

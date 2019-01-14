@@ -39,23 +39,27 @@ export default Component.extend({
     return htmlSafe(height);
   }),
 
-  stickyItemStyle: computed('topPosition', 'isHidden', 'isSticky', 'useAbsolutePositioning', function() {
-    const topPosition = get(this, 'topPosition');
-    let style = '';
+  stickyItemStyle: computed('topPosition', 'isHidden', 'isSticky', 'useAbsolutePositioning', 'enabled', function() {
+    if (get(this, 'enabled')) {
+      const topPosition = get(this, 'topPosition');
+      let style = '';
 
-    if (topPosition !== null) {
-      style += `top:${get(this, 'topPosition')}px;`;
+      if (topPosition !== null) {
+        style += `top:${get(this, 'topPosition')}px;`;
+      }
+
+      if (get(this, 'isHidden')) {
+        style += 'display: none;';
+      }
+
+      if (get(this, 'isSticky')) {
+        style += `position: ${get(this, 'useAbsolutePositioning') ? 'absolute' : 'fixed'};`;
+      }
+
+      return htmlSafe(style);
     }
 
-    if (get(this, 'isHidden')) {
-      style += 'display: none;';
-    }
-
-    if (get(this, 'isSticky')) {
-      style += `position: ${get(this, 'useAbsolutePositioning') ? 'absolute' : 'fixed'};`;
-    }
-
-    return htmlSafe(style);
+    return null;
   }),
 
   getOffsetTop() {

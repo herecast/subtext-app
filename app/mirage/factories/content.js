@@ -107,7 +107,6 @@ export default Factory.extend({
       return faker.address.zipCode();
     }
   },
-  costType: 'paid', // free, paid, donation
   cost() { return faker.random.arrayElement(['Free', `$${faker.random.number(999)}`]); },
   startsAt() {
     if(this.contentType === 'event') {

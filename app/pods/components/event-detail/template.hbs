@@ -1,3 +1,14 @@
+{{#if goingToEdit}}
+<div class="DetailPage--takeover">
+  <div>
+    {{fa-icon "cog" spin=true}}
+  </div>
+  <div>
+    Preparing to Edit...
+  </div>
+</div>
+{{/if}}
+
 {{inviewport-reporter
   reportEnterViewport=true
   reportOnce=true
@@ -5,15 +16,7 @@
 }}
 
 {{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
-
-  {{#if model.imageUrl}}
-    {{header-image
-      imageUrl=model.imageUrl
-      preserveAspectRatio=true
-    }}
-  {{/if}}
-
-  {{#sticky.item class="StickyItem--default-background u-boxShadowBottom" useAbsolutePositioning=true}}
+  {{#sticky.item class="StickyItem--default-background u-boxShadowBottom" useAbsolutePositioning=true maintainStickyItemSpace=(not isPreview)}}
     {{#content-body classNames="u-padding0"}}
       <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
         {{#title-text strong=true}}
@@ -62,21 +65,55 @@
                 tagName="span"
                 style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
                 editButtonIsActive=(mut editButtonIsActive)
+                onEdit=(action "goingToEdit")
               }}
+              {{#if editButtonIsActive}}
+                {{#x-button
+                  onClick=(action "openPromotionMenu")
+                  style="regular"
+                  color="primary"
+                  size="x-small"
+                  data-test-button="manage"
+                }}
+                  Manage
+                {{/x-button}}
+              {{/if}}
             </div>
-            {{#if (and model.contactEmail (not editButtonIsActive))}}
-              {{contact-poster-button
-                model=(readonly model)
-                clickReplyButton=(action "clickReplyButton")
-                classNames="u-paddingRight8"
-                tagName="span"
-              }}
-            {{/if}}
           {{/unless}}
+
+          {{#if (and model.contactEmail (not editButtonIsActive))}}
+            {{contact-poster-button
+              model=(readonly model)
+              clickReplyButton=(action "clickReplyButton")
+              classNames="u-paddingRight8"
+              tagName="span"
+            }}
+          {{/if}}
+
         </div>
       </div>
     {{/content-body}}
   {{/sticky.item}}
+
+  {{#if model.imageUrl}}
+    {{header-image
+      imageUrl=activeImage
+      preserveAspectRatio=true
+    }}
+  {{/if}}
+
+  {{#if showThumbnails}}
+    <div class="DetailPage--thumbnails u-paddingTop8">
+      {{#each sortedImages as |image|}}
+        <div class="DetailPage--thumbnails-thumbnail u-paddingRight8 u-marginBottom8" {{action "chooseImage" image.imageUrl}} role="button">
+          <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-market-thumbnail>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+
+
 
   <div class="DetailPage-sectionWrapper u-paddingTop16">
     <div class="DetailPage-metaBloc">
@@ -105,65 +142,44 @@
           <tr>
             <td>
               <div class="DetailPage-metaBloc-price">
-                Price:
-                {{#if model.costType}}
-                  {{#if model.cost}}
-                    <span data-test-event-detail-cost>{{model.cost}}</span>
-                  {{else}}
-                    {{#if model.isFree}}
-                      Free Admission
-                    {{else}}
-                      {{model.costType}}
-                    {{/if}}
-                  {{/if}}
-                {{else}}
-                  -
+                {{#if model.cost}}
+                  Price: <span data-test-event-detail-cost>{{model.cost}}</span>
                 {{/if}}
               </div>
             </td>
           </tr>
-          {{#if (or model.contactPhone model.eventUrl)}}
+          {{#if (or model.contactPhone model.url)}}
             <tr>
               <td>
                 <div class="DetailPage-metaBloc-phone">
                   {{#if model.contactPhone}}
                     <a href="tel:{{model.contactPhone}}" target="_blank" rel="noopener noreferrer" data-test-event-detail-contactPhone>
-                      {{model.contactPhone}}
+                      {{formatted-phone model.contactPhone}}
                     </a>
                   {{/if}}
                 </div>
               </td>
               <td>
                 <div class="DetailPage-metaBloc-url">
-                  {{#if model.eventUrl}}
-                    {{#normalized-link url=model.eventUrl data-test-component=model.eventUrl data-test-event-detail-url=true}}
-                      {{truncate model.eventUrl length=30}}
+                  {{#if model.url}}
+                    {{#normalized-link url=model.url data-test-component=model.url data-test-event-detail-url=true}}
+                      {{truncate model.url length=30}}
                     {{/normalized-link}}
                   {{/if}}
                 </div>
               </td>
             </tr>
           {{/if}}
-          {{#if model.hasRegistrationInfo}}
-            <tr>
-              <td colspan="2">
-                <div class="DetailPage-metaBloc-registrationInfo">
-                  Register by
-                  <span data-test-event-detail-registrationDeadline>
-                    {{model.formattedRegistrationDeadline}}
-                  </span>
-                </div>
-              </td>
-            </tr>
-          {{/if}}
           <tr>
             <td colspan="2">
-            {{detail-meta-bloc
-                avatarUrl=model.avatarUrl
-                customSize=24
-                avatarName=model.authorName
-                isDefaultOrganization=model.organization.isDefaultOrganization
-            }}
+              {{#if model.organization}}
+                {{detail-meta-bloc
+                  avatarUrl=model.avatarUrl
+                  customSize=24
+                  avatarName=model.authorName
+                  isDefaultOrganization=model.organization.isDefaultOrganization
+                }}
+              {{/if}}
             </td>
           </tr>
         </tbody>
@@ -234,3 +250,13 @@
   reportOnce=true
   callback=(action trackDetailEngagement "complete")
 }}
+
+{{#if showManageOverlay}}
+  {{to-elsewhere
+    named="modal-wrapper-takeover"
+    send=(component "jobs-forms/promotion-menu"
+          model=model
+          onClose=(action "closePromotionMenu")
+          )
+  }}
+{{/if}}

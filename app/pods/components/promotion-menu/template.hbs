@@ -1,17 +1,4 @@
-{{#if showPromotionOptions}}
-  {{promotion-menu/promotion-options
-    content=content
-    organization=organization
-    done=(action "togglePromotionOptions")
-  }}
-
-{{else if showPromotionHistory}}
-  {{promotion-menu/promotion-history
-    content=content
-    done=(action "togglePromotionHistory")
-  }}
-
-{{else if showAddToMenu}}
+{{#if showAddToMenu}}
   {{promotion-menu/add-to-menu
     content=content
     organization=organization
@@ -38,16 +25,13 @@
 
   <div class="PromotionMenu-manage">
 
-    <div class="PromotionMenu-manage-button" {{action "togglePromotionOptions"}} role="button">
-      {{fa-icon "paper-plane-o"}}  Promote
+    <div class="PromotionMenu-manage-button" {{action "goToManageMenu" preventDefault=false}} role="button">
+      {{#link-to-content content}}
+        {{fa-icon "paper-plane-o"}}  Promote
+      {{/link-to-content}}
     </div>
 
     {{#if hasOrganization}}
-      <div class="PromotionMenu-manage-button" {{action "togglePromotionHistory"}} role="button">
-        {{fa-icon "history"}}  Promotion History
-      </div>
-
-
       {{#if isNotBannerAd}}
         <div class="PromotionMenu-manage-button" {{action "toggleAddToMenu"}} role="button">
           {{#if contentHotlink}}

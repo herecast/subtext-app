@@ -24,6 +24,8 @@ export default Component.extend({
   modals: service(),
   notify: service('notification-messages'),
   contentMetrics: service(),
+  router: service(),
+  floatingActionButton: service(),
 
   isNotBannerAd: not('content.isCampaign'),
   hasSunsetDate: notEmpty('content.sunsetDate'),
@@ -68,8 +70,10 @@ export default Component.extend({
       }
     },
 
-    togglePromotionOptions() {
-      this.toggleProperty('showPromotionOptions');
+    goToManageMenu() {
+      const content = get(this, 'content');
+
+      get(this, 'floatingActionButton').launchContent(content);
     },
 
     togglePromotionHistory() {

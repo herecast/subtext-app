@@ -1,0 +1,85 @@
+<div class="JobsForms--tabs">
+  <div class="JobsForms--tabs-tab" role="button" {{action "toggleForm" "market"}}>
+    <div class="JobsForms--tabs-button {{marketClass}}">
+      {{fa-icon "tags"}} Market
+    </div>
+  </div>
+  <div class="JobsForms--tabs-tab" role="button" {{action "toggleForm" "event"}}>
+    <div class="JobsForms--tabs-button {{eventClass}}">
+      {{fa-icon "calendar"}} Calendar
+    </div>
+  </div>
+  <div class="JobsForms--tabs-tab">
+    <div class="JobsForms--tabs-button  {{if isPreviewing "disabled"}}">
+      {{#if canPublishNews}}
+        <div {{action "goToNewsEditor"}} role="button" disabled={{isPreviewing}}>
+          {{fa-icon "pencil-square-o"}} Posts
+        </div>
+      {{else}}
+        {{#link-to "startablog"}}
+          <div class="JobsForms--tabs-button-partial left">{{fa-icon "pencil-square-o"}}</div>
+          <div class="JobsForms--tabs-button-partial right">Get Paid<br>to Post</div>
+        {{/link-to}}
+      {{/if}}
+
+    </div>
+  </div>
+  <div class="JobsForms--tabs-tab close" role="button" {{action "closeForm"}}>
+    {{fa-icon "times" class="JobsForms--close-button-icon"}}
+  </div>
+</div>
+
+<div class="JobsForms--form-wrap">
+  <form class="JobsForms--form {{if isEditing "in-view" "out-left"}}">
+    {{component formComponentName
+      model=model
+      errors=errors
+      onChange=(action "onChange")
+    }}
+    {{#if isEditingModel}}
+      {{jobs-forms/controls
+        onSave=(action "saveEditedContent")
+        onSubmit=(action "goToPreview")
+      }}
+    {{else}}
+      {{jobs-forms/controls
+        onSubmit=(action "goToPreview")
+      }}
+    {{/if}}
+  </form>
+  <div class="JobsForms--detail {{if isEditing "out-right" "in-view"}}">
+    {{component detailComponentName
+      model=model
+      isPreview=true
+    }}
+    {{#if isEditingModel}}
+      {{jobs-forms/controls
+        onEdit=(action "goToEdit")
+        onRelaunch=(action "launchContent")
+      }}
+    {{else}}
+      {{jobs-forms/controls
+        onEdit=(action "goToEdit")
+        onLaunch=(action "launchContent")
+      }}
+    {{/if}}
+
+  </div>
+</div>
+
+<div class="JobsForms-modal">
+  {{from-elsewhere name="jobs-forms-modal"}}
+</div>
+
+{{#if isSaving}}
+  <div class="JobsForms--saving-wrap">
+    <div>
+      <div>
+        {{fa-icon "cog" spin=true}}
+      </div>
+      <div>
+        Creating your content...
+      </div>
+    </div>
+  </div>
+{{/if}}

@@ -29,7 +29,6 @@ export default Mirage.Factory.extend({
   parentEventInstanceId() { return faker.random.number(999); },
   publishedAt() { return faker.random.arrayElement([null, date1, date2]); },
   redirectUrl: null,
-  registrationDeadline: null,
   startsAt() { return faker.random.arrayElement([null, date1, date2]); },
   sunsetDate() { return faker.random.arrayElement([null, date1, date2]); },
   title() { return titleize(faker.lorem.sentences(1)); },

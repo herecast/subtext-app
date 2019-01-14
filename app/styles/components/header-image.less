@@ -61,4 +61,26 @@
     max-height: 300px;
   }
 
+  &--chooser {
+    background-color: #efefef;
+    color: @gray-medium;
+    .display-grid();
+    text-align: center;
+    &>div {
+      .grid-align-self(center);
+    }
+  }
+
+  &-icon {
+    color: @gray-medium;
+    vertical-align: bottom;
+    &.medium {
+      font-size: 22px;
+    }
+    &.large {
+      font-size: 50px;
+      margin-bottom: 8px;
+    }
+  }
+
 }

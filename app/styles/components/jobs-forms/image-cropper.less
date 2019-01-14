@@ -1,0 +1,48 @@
+.JobsForms-ImageCropper {
+  &-image-wrapper {
+    max-height: 80vh;
+  }
+
+  &-buttonContainer {
+    .clearfix;
+    margin-top: 10px;
+  }
+
+  &-button {
+    display: inline-block;
+    padding: 4px;
+    margin: 4px;
+    font-size: 22px;
+  }
+
+  &-buttons {
+    &-left {
+      text-align: center;
+      float: left;
+    }
+    &-right {
+      text-align: center;
+      float: right;
+    }
+  }
+
+  &-cancelButton {
+    border: solid 1px black;
+    padding: 8px 15px;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+      background-color: @gray-light;
+    }
+
+    &:active {
+      background-color: darken(@gray-light, 10%);
+    }
+  }
+  .js-Cropper-image {
+    max-width: 100%;
+  }
+}

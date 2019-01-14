@@ -1,0 +1,204 @@
+.JobsForms-PromotionMenu {
+  position: absolute;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8) 20%);
+  color: #fff;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 25% 14px 14px 14px;
+  overflow-y: auto;
+  z-index: 10000;
+
+  a {
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+
+  &-cta {
+    cursor: pointer;
+    padding: 8px;
+    text-transform: capitalize;
+  }
+
+  &-close-overlay {
+    cursor: pointer;
+    float: right;
+  }
+
+  &-manage {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  &-manage-button {
+    display: block;
+    text-align: left;
+    padding: 10px 0;
+    color: #fff;
+    font-weight: bold;
+    i {
+      font-size: 22px;
+      color: #fff;
+      margin-right: 10px;
+    }
+  }
+
+  &-title {
+    display: block;
+    text-align: left;
+    padding: 16px 0 8px 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  &-copy-url-textarea {
+    width: 100%;
+    resize: none;
+    font-size: 12px;
+    color: #000;
+    height: 26px;
+    overflow: hidden;
+  }
+
+  &-promotion-option {
+    display: inline-block;
+    font-size: 16px;
+    padding: 6px;
+    margin-bottom: 8px;
+    border: solid 2px #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    i {
+      margin-right: 6px;
+    }
+  }
+
+  &--listservs {
+    margin-top: 16px;
+    &-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    &-description {
+      font-size: 14px;
+      color: #fff;
+      line-height: 1.1;
+    }
+    input[type="checkbox"] {
+      height: 25px;
+      width: 25px;
+      vertical-align: middle;
+      margin: 0;
+    }
+  }
+
+  &-PromotionHistory {
+    &-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    &-message {
+      line-height: 1.1;
+    }
+
+    &-done-button {
+      cursor: pointer;
+      font-weight: bold;
+      position: absolute;
+      font-size: 12px;
+      bottom: 6px;
+      right: 6px;
+      padding: 3px 6px;
+      border: solid 2px white;
+      border-radius: 5px;
+    }
+
+    &-promotion-history-box {
+      background: #fff;
+      color: #000;
+      padding: 8px;
+      border-radius: 4px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 260px;
+      table {
+        width: 100%;
+      }
+      tbody {
+        font-size: 12px;
+      }
+      th {
+        font-weight: bold;
+      }
+      .BizFeed-PromotionHistory-platform {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  &-PromotionOptions {
+    &-messaging {
+      font-size: 12px;
+    }
+
+    &-record-promotion {
+      margin: 10px 0 0 10px;
+    }
+
+    &-record-message {
+      font-size: 16px;
+    }
+
+    &-record-option {
+      display: inline-block;
+      padding: 8px;
+      cursor: pointer;
+      &.BizFeed-PromotionOptions-yes {
+        border: solid 2px #fff;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      &.BizFeed-PromotionOptions-no {
+        font-size: 12px;
+        margin-left: 10px;
+      }
+    }
+
+    &-share-platform {
+      text-transform: capitalize;
+    }
+
+    &-promotion-option {
+      display: inline-block;
+      font-size: 16px;
+      padding: 6px;
+      border: solid 2px #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    &-cancel-option {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    &-action-button {
+      padding: 3px 6px;
+      background: #000;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+
+
+}

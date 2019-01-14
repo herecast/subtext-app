@@ -1,17 +1,18 @@
 import { inject as service } from '@ember/service';
-import { reads, oneWay } from '@ember/object/computed';
+import { reads, alias, oneWay, sort } from '@ember/object/computed';
 import Component from '@ember/component';
 import { isPresent } from '@ember/utils';
-import { computed, get, set } from '@ember/object';
+import { computed, get, set, setProperties } from '@ember/object';
 import { htmlSafe } from '@ember/template';
+import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-export default Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
   'data-test-component': 'event-detail',
   'data-test-content': reads('model.contentId'),
   classNames: ['DetailPage'],
-  classNameBindings: ['isPreview:isPreview'],
+  classNameBindings: ['isPreview:isPreview', 'goingToEdit:going-to-edit'],
 
   fastboot: service(),
   tracking: service(),
@@ -23,10 +24,17 @@ export default Component.extend(ModelResetScroll, contentComments, {
   editPath:   'events.edit',
   isPreview: false,
   enableStickyHeader: false,
+  goingToEdit: false,
 
   init() {
     this._super(...arguments);
-    set(this, '_cachedModelId', get(this, 'model.id'));
+
+    setProperties(this, {
+      thumbSortDefinition: ['primary:desc'],
+      _cachedModelId: get(this, 'model.id')
+    });
+
+    this._checkIfLaunchingContent();
   },
 
   editPathId: oneWay('model.contentId'),
@@ -75,7 +83,25 @@ export default Component.extend(ModelResetScroll, contentComments, {
     }
   }),
 
+  activeImage: oneWay('model.primaryOrFirstImage.imageUrl'),
+
+  showThumbnails: computed('visibleImages.[]', function() {
+    return get(this, 'visibleImages.length') > 1;
+  }),
+
+  images: alias('model.images'),
+  sortedImages: sort('visibleImages', 'thumbSortDefinition'),
+  visibleImages: computed('images.@each._delete', function() {
+    const images = get(this, 'images');
+
+    return images.rejectBy('_delete');
+  }),
+
   actions: {
+    chooseImage(imageUrl) {
+      set(this, 'activeImage', imageUrl);
+    },
+
     scrollToMoreContent() {
       const elem = this.$('.DetailPage-moreContent');
       const offset = (elem && elem.offset && elem.offset()) ? elem.offset().top : null;
@@ -90,6 +116,10 @@ export default Component.extend(ModelResetScroll, contentComments, {
 
     clickReplyButton() {
       get(this, 'tracking').trackMarketReplyButtonClick();
+    },
+
+    goingToEdit() {
+      set(this, 'goingToEdit', true);
     }
   }
 });

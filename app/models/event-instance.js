@@ -1,4 +1,4 @@
-import { alias, notEmpty, empty } from '@ember/object/computed';
+import { alias, empty } from '@ember/object/computed';
 import { get, computed } from '@ember/object';
 import { isEmpty, isPresent } from '@ember/utils';
 import DS from 'ember-data';
@@ -19,7 +19,6 @@ export default Model.extend(HasImages, HasVenue, {
   authorName: attr('string'),
   avatarUrl: attr('string'),
   bizFeedPublic: attr('string'),
-  businessProfile: belongsTo('business-profile'),
   clickCount: attr('number'),
   commentCount: attr('number'),
   comments: hasMany(),
@@ -30,13 +29,10 @@ export default Model.extend(HasImages, HasVenue, {
   contentOrigin: attr('string'),
   contentType: 'event',
   cost: attr('string'),
-  costType: attr('string'),
   endsAt: attr('moment-date'),
   eventId: attr('number'),
   eventInstanceId: alias('id'),
   otherEventInstances: hasMany('other-event-instance'),
-  eventUrl: attr('string'),
-  hasRegistrationInfo: notEmpty('registrationDeadline'),
   isEvent: true,
   organization: belongsTo('organization'),
   organizationBizFeedActive: attr('boolean', {defaultValue: false}),
@@ -44,13 +40,13 @@ export default Model.extend(HasImages, HasVenue, {
   organizationName: attr('string'),
   organizationProfileImageUrl: attr('string'),
   publishedAt: attr('moment-date', {defaultValue: () => { return moment(); }}),
-  registrationDeadline: attr('moment-date'),
+  shortLink: attr('string'),
   startsAt: attr('moment-date'),
   subtitle: attr('string'),
   title: attr('string'),
   updatedAt: attr('moment-date'),
+  url: attr('string'),
   viewCount: attr('number'),
-  wantsToAdvertise: attr('boolean'),
 
   eventInstances: alias('otherEventInstances'),
 
@@ -133,7 +129,7 @@ export default Model.extend(HasImages, HasVenue, {
 
     if (get(this, 'isNews')) {
       attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) ) {
+    } else if ( isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionImageUrl = organizationProfileImageUrl;
     } else if (isPresent(avatarUrl)) {
       attributionImageUrl = avatarUrl;
@@ -150,7 +146,7 @@ export default Model.extend(HasImages, HasVenue, {
 
     if (get(this, 'isNews')) {
       attributionName = organizationName;
-    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) ) {
+    } else if (isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionName = organizationName;
     } else if (isPresent(authorName)) {
       attributionName = authorName;
@@ -170,14 +166,6 @@ export default Model.extend(HasImages, HasVenue, {
   }),
 
   attributionLinkId: alias('organizationId'),
-
-  formattedRegistrationDeadline: computed('registrationDeadline', function() { //TAG:NOTE can be deleted when dashboard is removed
-    const deadline = get(this, 'registrationDeadline');
-
-    if (deadline) {
-      return moment(deadline).format('L');
-    }
-  }),
 
   isValid: computed('startsAt', 'endsAt', function() {
     const start = get(this, 'startsAt');

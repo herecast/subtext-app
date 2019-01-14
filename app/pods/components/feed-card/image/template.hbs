@@ -6,6 +6,16 @@
     onContentClick=onContentClick
   }}
     <div class="FeedCard-Image-image" style={{imageStyle}} data-test-card-image></div>
+    {{#if hasMultipleImages}}
+      <div class="FeedCard-Image-multiple-wrap" data-test-card-multiple-images>
+        <div class="FeedCard-Image-multiple-stack">
+          <div class="FeedCard-Image-multiple-icon other"></div>
+          <div class="FeedCard-Image-multiple-icon icon">
+            {{fa-icon "camera-retro"}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
   {{/feed-card/conditional-link-to}}
   {{#if hasExcerpt}}
     <div class="FeedCard-Image-excerpt" data-test-card-excerpt>

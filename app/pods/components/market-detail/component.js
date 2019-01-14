@@ -1,12 +1,15 @@
 import { inject as service } from '@ember/service';
-import { reads, oneWay, sort } from '@ember/object/computed';
+import { reads, alias, oneWay, sort } from '@ember/object/computed';
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import { computed, set, get, setProperties } from '@ember/object';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-export default Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
+  classNames: ['DetailPage'],
+  classNameBindings: ['goingToEdit:going-to-edit'],
   'data-test-component': 'market-detail',
   'data-test-content': reads('model.contentId'),
 
@@ -22,12 +25,15 @@ export default Component.extend(ModelResetScroll, contentComments, {
   editPath: 'market.edit',
   model: null,
 
+  goingToEdit: false,
+  editButtonIsActive: false,
+
   init() {
     this._super(...arguments);
     setProperties(this, {
-      thumbSortDefinition: ['primary:desc']
+      thumbSortDefinition: ['primary:desc'],
+      _cachedId: get(this, 'model.id')
     });
-    this._cachedId = get(this, 'model.id');
   },
 
   trackDetailEngagement: function() {},
@@ -55,24 +61,20 @@ export default Component.extend(ModelResetScroll, contentComments, {
 
   controller: service('current-controller'),
 
-  showThumbnails: computed('model.images.[]', function() {
-    return get(this, 'model.images.length') > 1;
+  showThumbnails: computed('visibleImages.[]', function() {
+    return get(this, 'visibleImages.length') > 1;
   }),
 
-
+  images: alias('model.images'),
   sortedImages: sort('visibleImages', 'thumbSortDefinition'),
-  visibleImages: computed('model.images.[]', function() {
-    const images = get(this, 'model.images');
+  visibleImages: computed('images.@each._delete', function() {
+    const images = get(this, 'images');
 
     return images.rejectBy('_delete');
   }),
 
-  showEditButton: computed('model.canEdit', 'fastboot.isFastBoot', 'isPreview', function() {
-    return get(this, 'model.canEdit') && ! get(this, 'isPreview') && ! get(this, 'fastboot.isFastBoot');
-  }),
-
-  hideContactButton: computed('model.sol', 'showEditButton', function() {
-    return get(this, 'model.sol') || get(this, 'showEditButton');
+  hideContactButton: computed('model.sold', 'editButtonIsActive', function() {
+    return get(this, 'model.sold') || get(this, 'editButtonIsActive');
   }),
 
   _resetProperties() {
@@ -106,6 +108,10 @@ export default Component.extend(ModelResetScroll, contentComments, {
       get(this, 'tracking').push({
         'event': 'market-reply-click'
       });
+    },
+
+    goingToEdit() {
+      set(this, 'goingToEdit', true);
     }
   }
 });

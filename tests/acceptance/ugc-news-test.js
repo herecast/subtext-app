@@ -12,7 +12,7 @@ module('Acceptance | ugc news', function(hooks) {
   setupMirage(hooks);
 
   test('Every field available filled in', async function(assert) {
-    const done = assert.async(9);
+    const done = assert.async(8);
     const organization = this.server.create('organization', {can_publish_news: true});
     const location = this.server.create('location');
     const currentUser = this.server.create('current-user', {
@@ -38,21 +38,19 @@ module('Acceptance | ugc news', function(hooks) {
       content: null,
       contentType: "news",
       cost: null,
-      costType: null,
       eventUrl: null,
       listservIds: [],
       locationId: location.id,
       organizationId: organization.id,
       publishedAt: null,
-      registrationDeadline: null,
       schedules: [],
       sold: false,
       subtitle: null,
       sunsetDate: null,
       title: title,
+      url: null,
       venueId: null,
       venueStatus: null,
-      wantsToAdvertise: false
     };
 
     this.server.post('/contents', function(db) {
@@ -107,12 +105,12 @@ module('Acceptance | ugc news', function(hooks) {
     await ugcNews.visit()
       .fillInTitle(title);
 
-    currentAttrs.subtitle = subtitle;
-    currentAttrs.id = "1";
-    await ugcNews.fillInSubtitle(subtitle);
-
     currentAttrs.content = content;
     await ugcNews.fillInContent(content);
+
+    currentAttrs.id = "1";
+    currentAttrs.subtitle = subtitle;
+    await ugcNews.fillInSubtitle(subtitle);
 
     await ugcNews.selectNewLocation(get(location, 'id'));
 

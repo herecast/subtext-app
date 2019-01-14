@@ -3,7 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
-import { visit, click, currentRouteName } from '@ember/test-helpers';
+import { visit, click, find, currentRouteName } from '@ember/test-helpers';
 
 
 module('Acceptance | all ugc jobs', function(hooks) {
@@ -41,7 +41,7 @@ module('Acceptance | all ugc jobs', function(hooks) {
     await Page.clickOrangeButton();
     await Page.selectJob('market');
 
-    assert.equal(currentRouteName(), 'market.new.details');
+    assert.ok(find('[data-test-jobs-form="market"]'), 'Should show the market jobs form');
   });
 
   test('Link to startablog with user logged in, but no blog yet', async function(assert) {
@@ -90,8 +90,8 @@ module('Acceptance | all ugc jobs', function(hooks) {
 
     await Page.visitRoot();
     await Page.clickOrangeButton();
-    await Page.selectJob('events');
+    await Page.selectJob('event');
 
-    assert.equal(currentRouteName(), 'events.new.details');
+    assert.ok(find('[data-test-jobs-form="event"]'), 'Should show the event jobs form');
   });
 });

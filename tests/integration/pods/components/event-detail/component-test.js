@@ -25,7 +25,10 @@ module('Integration | Component | event detail', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('scrollToMock', () => {});
     this.set('eventInstance', {startsAt: moment()});
-    this.set('content', {futureInstances: [get(this, 'eventInstance')]});
+    this.set('content', {
+      futureInstances: [get(this, 'eventInstance')],
+      images: []
+    });
 
     await render(hbs`
      {{event-detail
@@ -51,7 +54,8 @@ module('Integration | Component | event detail', function(hooks) {
     this.set('event', EmberObject.create({
       id: 1,
       contentId: 2,
-      futureInstances: []
+      futureInstances: [],
+      images: []
     }));
     this.set('scrollToMock', () => {});
     this.set('contentMock', ()=>{});
@@ -71,7 +75,8 @@ module('Integration | Component | event detail', function(hooks) {
     this.set('event', EmberObject.create({
       id: 4,
       contentId: 5,
-      futureInstances: []
+      futureInstances: [],
+      images: []
     }));
 
       assert.ok(

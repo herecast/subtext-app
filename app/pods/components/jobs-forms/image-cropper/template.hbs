@@ -1,0 +1,20 @@
+{{#modal-wrapper close=(action "onCloseModal") showHeader=false maintainBodyClass=true closeOnClickOutside=false}}
+  <div>
+    <div class="JobsForms-ImageCropper-image-wrapper">
+      <img class="img-responsive js-Cropper-image" alt="Responsive Image">
+    </div>
+
+    <div class="JobsForms-ImageCropper-buttonContainer">
+      <div class="JobsForms-ImageCropper-buttons-left">
+        <button class="JobsForms-ImageCropper-button" {{action "rotateImage" "left"}} title="Rotate image left">{{fa-icon "rotate-left"}}</button>
+        <span>Rotate Image</span>
+        <button class="JobsForms-ImageCropper-button" {{action "rotateImage" "right"}} title="Rotate image right">{{fa-icon "rotate-right"}}</button>
+      </div>
+      <div class="JobsForms-ImageCropper-buttons-right">
+        <button class="JobsForms-ImageCropper-cancelButton" {{action "cancel"}}>Cancel</button>
+        <button class="JobsForms-ImageCropper-cancelButton" {{action "save"}}>Save</button>
+        <button class="JobsForms-ImageCropper-cancelButton" {{action "delete"}}>Delete</button>
+      </div>
+    </div>
+  </div>
+{{/modal-wrapper}}

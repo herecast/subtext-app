@@ -1,0 +1,58 @@
+{{#modal-wrapper close=(action "onCloseModal") showHeader=false maintainBodyClass=true hasInternalModals=true}}
+  <div class="JobsForms-Dates--modal-container clearfix">
+    <h2>Single date</h2>
+
+    {{#form-group error=errors.dateError class="row"}}
+      <div class="col-xs-12 col-sm-6" data-test-event-date-pikaday>
+        <label class="ContentForm-label--required">Date</label>
+          {{date-input
+              value=startDate
+              format="MM/DD/YYYY"
+              placeholder="12/25/2020"
+              update=(action (mut startDate))
+              data-test-component="start-date"
+          }}
+      </div>
+    {{/form-group}}
+
+    {{#form-group error=errors.timeError class="row"}}
+      {{#form-group error=errors.startTimeError class="col-xs-12 col-sm-6"}}
+        <label class="ContentForm-label--required">Start Time</label>
+        {{time-input
+            value=startTime
+            format="h:mm a"
+            placeholder="9:00 am"
+            update=(action (mut startTime))
+            data-test-component="start-time"
+        }}
+      {{/form-group}}
+
+      {{#form-group error=errors.stopTimeError class="col-xs-12 col-sm-6"}}
+        <label>End Time</label>
+        {{time-input
+            value=stopTime
+            defaultMinDate=(readonly startDate)
+            defaultMinTime=(readonly startTime)
+            format="h:mm a"
+            placeholder="2:00 pm"
+            update=(action (mut stopTime))
+        }}
+      {{/form-group}}
+    {{/form-group}}
+
+    <div class="JobsForms-Dates--buttons">
+      <div class="left">
+        <div class="JobsForms-Dates--button cancel" {{action "cancel"}} role="button">
+          Cancel
+        </div>
+      </div>
+      <div class="right">
+        <div class="JobsForms-Dates--button confirm" {{action "save"}} role="button" data-test-save-event-date>
+          Done
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+{{/modal-wrapper}}

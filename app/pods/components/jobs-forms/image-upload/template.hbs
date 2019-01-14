@@ -1,0 +1,102 @@
+{{file-input
+  id="featured-image-input"
+  allowedExtensions=".jpg,.jpeg,.png"
+  action=(action "imageSelected")
+  inputClass="JobsForms-file-input"
+  multiple=true
+  data-test-jobs-field="images"
+}}
+
+<div class="JobsForms-ImageUpload--images-featured">
+  {{#if hasPrimaryImage}}
+    {{header-image
+      imageUrl=imageBeingViewed.imageUrl
+      preserveAspectRatio=true
+    }}
+    {{#if viewingPrimaryImage}}
+      <div class="JobsForms-ImageUpload-primary-tag">
+        Featured Image
+      </div>
+    {{/if}}
+    <div class="JobsForms-ImageUpload-change-wrap">
+      <div class="JobsForms-ImageUpload-change-wrap-button" role="button" {{action "editImage"}}>
+        {{fa-icon "pencil"}} Edit
+      </div>
+    </div>
+  {{else}}
+    {{header-image
+      imageUrl=null
+      chooseImage=true
+      onChooseImage=(action "uploadImage")
+      isChoosingImage=isChoosingImage
+      preserveAspectRatio=true
+      class="error-box"
+    }}
+  {{/if}}
+</div>
+
+{{#if imageErrorMessage}}
+  <div class="JobsForms-ImageUpload--error-message">
+    {{imageErrorMessage}}
+  </div>
+{{/if}}
+
+<div class="JobsForms-ImageUpload--images-thumbnails">
+  {{#if (and hasPrimaryImage (not hasMaxImages))}}
+    <div
+    class="JobsForms-ImageUpload--add-image JobsForms-change-icon"
+    role="button"
+    {{action "uploadImage"}}
+    data-test-jobs-action="add-another-image"
+    >
+      {{fa-icon "plus-square-o"}} Add Images
+    </div>
+  {{else if hasMaxImages}}
+    <div class="JobsForms-ImageUpload--add-image JobsForms-change-icon">
+      Max Images
+    </div>
+  {{/if}}
+
+  {{#if hasOtherImages}}
+    {{#sortable-group
+      tagName="div"
+      direction="x"
+      class="JobsForms-ImageUpload--thumbnails"
+      onChange=(action "reorderThumbnails") as |group|
+    }}
+      {{#each visibleImages as |image|}}
+        {{#sortable-item
+          tagName="div"
+          class="JobsForms-ImageUpload--images-thumbnail-wrap"
+          model=image
+          group=group
+          handle=".handle"
+        }}
+          <div
+            class="JobsForms-ImageUpload--images-thumbnails-thumbnail handle"
+            role="button"
+            {{action "changeImageBeingViewed" image}}
+          >
+            <img src={{image.imageUrl}} alt="Thumbnail">
+          </div>
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
+    <div class="JobsForms-ImageUpload--images-thumbnails-message">
+      (Click to edit - Drag to re-order)
+    </div>
+  {{/if}}
+</div>
+
+{{#if showImageEditor}}
+  {{to-elsewhere
+    named="jobs-forms-modal"
+    send=(component "jobs-forms/image-cropper"
+              onCloseModal=(action "hideImageEditor")
+              originalImage=(readonly editingImage)
+              onCancel=(action "onCropperCancel")
+              onSave=(action "onCropperSave")
+              onDelete=(action "onCropperDelete")
+              )
+  }}
+{{/if}}

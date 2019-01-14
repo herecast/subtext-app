@@ -1,7 +1,29 @@
-{{#if preserveAspectRatio}}
-  <div class="HeaderImage-background" style={{imageStyle}}></div>
+{{#if chooseImage}}
+
+  <div class="HeaderImage-image-choose" role="button" {{action "chooseImage"}}>
+    {{#if isChoosingImage}}
+      <div>
+        {{fa-icon "cog" class="HeaderImage-icon large" spin=true}}
+      </div>
+      <div>
+         Selecting Image
+      </div>
+    {{else}}
+      <div>
+        {{fa-icon "file-image-o" class="HeaderImage-icon large"}}
+      </div>
+      <div>
+        {{fa-icon "plus-square-o" class="HeaderImage-icon medium"}} Add Images
+      </div>
+    {{/if}}
+  </div>
+
+{{else}}
+  {{#if preserveAspectRatio}}
+    <div class="HeaderImage-background" style={{imageStyle}}></div>
+  {{/if}}
+
+  <div class="HeaderImage-image {{if preserveAspectRatio "HeaderImage--preserveAspectRatio"}}" style={{imageStyle}} data-test-header-image></div>
+
+  {{yield}}
 {{/if}}
-
-<div class="HeaderImage-image {{if preserveAspectRatio "HeaderImage--preserveAspectRatio"}}" style={{imageStyle}} data-test-header-image></div>
-
-{{yield}}

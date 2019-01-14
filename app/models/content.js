@@ -36,7 +36,6 @@ export default DS.Model.extend(
   contentOrigin: attr('string'), //NOTE:Only relevant to feed-content and possibly event-instance. Double-check how contentOrigin is being used across the site
   contentType: attr('string'),
   cost: attr('string'),
-  costType: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
   listservIds: attr('raw', {defaultValue: () => { return []; }}),
@@ -49,19 +48,19 @@ export default DS.Model.extend(
   parentEventInstanceId: attr('number'), //TAG:NOTE can possibly be removed after dashboard is removed
   publishedAt: attr('moment-date', {defaultValue: null}),
   redirectUrl: attr('string'),
+  shortLink: attr('string'),
   sold: attr('boolean', {defaultValue: false}),
   splitContent: attr(),
   subtitle: attr('string'),
   sunsetDate: attr('moment-date'),
   title: attr('string'),
   updatedAt: attr('moment-date'),
+  url: attr('string'),
   viewCount: attr('number'),
-  wantsToAdvertise: attr('boolean'),
   // </FIELDS>
 
 
   // <RELATIONSHIPS>
-  businessProfile: belongsTo('business-profile'),
   comments: hasMany('comment', {inverse: null}),
   location: belongsTo('location'),
   //locationId: attr('number'),
@@ -119,7 +118,7 @@ export default DS.Model.extend(
 
   attributionLinkId: alias('organizationId'),
 
-  attributionImageUrl: computed('isNews', 'organizationProfileImageUrl', 'avatarUrl', function() {
+  attributionImageUrl: computed('isNews', 'organizationId', 'organizationProfileImageUrl', 'avatarUrl', function() {
     const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
     const avatarUrl = get(this, 'avatarUrl');
 
@@ -127,7 +126,7 @@ export default DS.Model.extend(
 
     if (get(this, 'isNews')) {
       attributionImageUrl = organizationProfileImageUrl;
-    } else if ( isPresent(organizationProfileImageUrl) && !isDefaultOrganization(get(this, 'organizationId')) ) {
+    } else if ( isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionImageUrl = organizationProfileImageUrl;
     } else if (isPresent(avatarUrl)) {
       attributionImageUrl = avatarUrl;
@@ -136,7 +135,7 @@ export default DS.Model.extend(
     return attributionImageUrl;
   }),
 
-  attributionName: computed('isNews', 'organizationName', 'authorName', function() {
+  attributionName: computed('isNews', 'organizationId', 'organizationName', 'authorName', function() {
     const organizationName = get(this, 'organizationName');
     const authorName = get(this, 'authorName');
 
@@ -144,7 +143,7 @@ export default DS.Model.extend(
 
     if (get(this, 'isNews')) {
       attributionName = organizationName;
-    } else if (isPresent(organizationName) && !isDefaultOrganization(get(this, 'organizationId')) ) {
+    } else if (isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
       attributionName = organizationName;
     } else if (isPresent(authorName)) {
       attributionName = authorName;

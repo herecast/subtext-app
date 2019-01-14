@@ -1,14 +1,54 @@
 .FeedCard-Image {
+  position: relative;
+
   &-image {
-    height: 240px;
+    height: 300px;
     width: 100%;
     background-position: 50%;
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
+  }
 
-    @media (min-width: 400px) {
-      height: 300px;
+  &-multiple {
+    &-wrap {
+      width: 75px;
+      height: 75px;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border-radius: 5px;
+      background: rgba(0,0,0,0.5);
+    }
+
+    &-stack {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      .display-grid();
+    }
+
+    &-icon {
+      color: #fff;
+      font-size: 40px;
+
+      position: absolute;
+      .grid-align-self(center);
+      .grid-justify-self(center);
+
+      &.other{
+        margin-bottom: -5px;
+        margin-right: -5px;
+        width: 41px;
+        height: 35px;
+        border-right: solid 3px #fff;
+        border-bottom: solid 3px #fff;
+        border-radius: 4px;
+      }
+      &.icon {
+        margin-left: -5px;
+        margin-top: -5px
+      }
     }
   }
 

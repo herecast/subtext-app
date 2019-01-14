@@ -1,0 +1,39 @@
+{{#jobs-forms/form-group error=errors.title class="JobsForms--title"}}
+  {{jobs-forms/title
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}
+
+<div class="JobsForms--owner">
+  {{jobs-forms/owner model=model}}
+</div>
+
+{{#jobs-forms/form-group error=errors.images class="JobsForms--images"}}
+  {{jobs-forms/image-upload model=model}}
+{{/jobs-forms/form-group}}
+
+{{#jobs-forms/form-group error=errors.metadata class="JobsForms--metadata"}}
+  {{jobs-forms/metadata
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}
+
+{{#jobs-forms/form-group error=errors.venue class="JobsForms--venu"}}
+  {{jobs-forms/venue model=model}}
+{{/jobs-forms/form-group}}
+
+{{#jobs-forms/form-group error=errors.dates class="JobsForms--dates"}}
+  {{jobs-forms/dates
+    model=model
+
+  }}
+{{/jobs-forms/form-group}}
+
+{{#jobs-forms/form-group error=errors.content class="JobsForms--content"}}
+  {{jobs-forms/content
+    model=model
+    onChange=(action "onChange")
+  }}
+{{/jobs-forms/form-group}}

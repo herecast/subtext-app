@@ -1,0 +1,40 @@
+.JobsForms-Metadata {
+  &--row {
+    .display-grid();
+    .grid-template-columns(1fr 1fr);
+    border-top: solid 1px #ccc;
+    &:last-of-type {
+      border-bottom: solid 1px #ccc;
+    }
+  }
+
+  &--column {
+    border-left: solid 1px #ccc;
+    &:last-of-type {
+      border-right: solid 1px #ccc;
+    }
+  }
+
+  &--field {
+    padding: 8px 4px;
+    i {
+      width: 20px;
+      max-width: 14%;
+      text-align: right;
+    }
+    &-input {
+      max-width: 85%;
+      outline: none;
+      border: none;
+      padding: 4px;
+    }
+
+    &-error {
+      color: @button-primary;
+      font-size: 11px;
+      text-align: right;
+      margin-top: -14px;
+      padding-right: 3px;
+    }
+  }
+}

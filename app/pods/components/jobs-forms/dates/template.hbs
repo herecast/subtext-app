@@ -1,0 +1,57 @@
+
+<div class="EventSchedule-content">
+  {{#if schedules}}
+    <p>Your event will occur on the dates and times listed below.</p>
+  {{/if}}
+
+  {{jobs-forms/dates/schedule-list
+    schedules=schedules
+    validate=(action "validateScheduleData")
+    save=(action "updateSchedule")
+    removeSchedule=(action "removeSchedule")
+    excludeEvent=(action "excludeEvent")
+    includeEvent=(action "includeEvent")
+  }}
+
+  {{#if (eq showScheduleForm "recurring")}}
+    {{to-elsewhere
+      named="jobs-forms-modal"
+      send=(component "jobs-forms/dates/schedule-recurring-form"
+                onCloseModal=(action "hideScheduleForm")
+                schedule=newSchedule
+                validate=(action "validateScheduleData")
+                save=(action "addNewSchedule")
+                cancel=(action "hideScheduleForm")
+                )
+    }}
+  {{/if}}
+
+  {{#if (eq showScheduleForm "single")}}
+    {{to-elsewhere
+      named="jobs-forms-modal"
+      send=(component "jobs-forms/dates/schedule-single-form"
+                onCloseModal=(action "hideScheduleForm")
+                schedule=newSchedule
+                validate=(action "validateScheduleData")
+                save=(action "addNewSchedule")
+                cancel=(action "hideScheduleForm")
+                )
+    }}
+  {{/if}}
+
+  <button class="ContentForm-buttonLink EventForm-dateButton error-box btn btn-link" {{action "buildNewSchedule" "single"}} data-test-event-form-add-single-date>
+    {{#if hasSingleDate}}
+      {{fa-icon "plus-circle u-iconLeft"}} Add more single date(s)
+    {{else}}
+      {{fa-icon "plus-circle u-iconLeft"}} Add single date(s)
+    {{/if}}
+  </button>
+  <br>
+  <button class="ContentForm-buttonLink EventForm-dateButton error-box btn btn-link" {{action "buildNewSchedule" "recurring"}} data-test-event-form-add-repeating-dates>
+    {{#if hasRecurringSchedule}}
+      {{fa-icon "plus-circle u-iconLeft"}} Add more repeating dates
+    {{else}}
+      {{fa-icon "plus-circle u-iconLeft"}} Add repeating dates
+    {{/if}}
+  </button>
+</div>

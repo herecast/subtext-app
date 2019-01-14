@@ -4,10 +4,11 @@ import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
 import { set, get, computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
+import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
-export default Component.extend(ModelResetScroll, contentComments, {
+export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
   'data-test-component': 'news-detail',
   'data-test-content': reads('model.contentId'),
   fastboot: service(),

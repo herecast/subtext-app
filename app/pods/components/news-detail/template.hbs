@@ -89,6 +89,16 @@
               </div>
               {{#if (and model.organization.subscribeUrl (not editButtonIsActive))}}
                 {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName="span"}}
+              {{else if editButtonIsActive}}
+                {{#x-button
+                  onClick=(action "openPromotionMenu")
+                  style="regular"
+                  color="primary"
+                  size="x-small"
+                  data-test-button="manage"
+                }}
+                  Manage
+                {{/x-button}}
               {{/if}}
             {{/unless}}
           </div>
@@ -211,3 +221,13 @@
   reportOnce=true
   callback=(action trackDetailEngagement "complete")
 }}
+
+{{#if showManageOverlay}}
+  {{to-elsewhere
+    named=manageOverlayModalName
+    send=(component "jobs-forms/promotion-menu"
+          model=model
+          onClose=(action "closePromotionMenu")
+          )
+  }}
+{{/if}}

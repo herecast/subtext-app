@@ -1,0 +1,50 @@
+
+<div class="JobsForms-Controls-left">
+  {{#if showEditButton}}
+    <div
+    class="JobsForms-Controls--edit JobsForms-Controls--button"
+    {{action "editForm"}}
+    role="button"
+    >
+      {{fa-icon "chevron-left"}} Edit
+    </div>
+  {{else if showSaveButton}}
+    <div
+    class="JobsForms-Controls--edit JobsForms-Controls--button"
+    {{action "saveForm"}}
+    role="button"
+    >
+      Save & Relaunch {{fa-icon "send-o"}}
+    </div>
+  {{/if}}
+</div>
+
+<div class="JobsForms-Controls-right">
+  {{#if showSubmitButton}}
+    <div
+    class="JobsForms-Controls--submit JobsForms-Controls--button"
+    {{action "submitForm"}}
+    role="button"
+    data-test-action="preview"
+    >
+      Preview {{fa-icon "chevron-right"}}
+    </div>
+  {{else if showLaunchButton}}
+    <div
+    class="JobsForms-Controls--launch JobsForms-Controls--button"
+    {{action "launch"}}
+    role="button"
+    data-test-action="launch"
+    >
+      Launch {{fa-icon "send-o"}}
+    </div>
+  {{else if showRelaunchButton}}
+    <div
+    class="JobsForms-Controls--launch JobsForms-Controls--button"
+    {{action "relaunch"}}
+    role="button"
+    >
+      Save & Relaunch {{fa-icon "send-o"}}
+    </div>
+  {{/if}}
+</div>

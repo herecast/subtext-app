@@ -1,0 +1,103 @@
+{{#modal-wrapper close=(action "onCloseModal") showHeader=false maintainBodyClass=true hasInternalModals=true}}
+  <div class="JobsForms-Dates--modal-container clearfix">
+    <h2>Repeat</h2>
+
+    {{#form-group error=errors.dateError class="row"}}
+      {{#form-group error=errors.startDateError class="col-xs-12 col-sm-6"}}
+        <label class="ContentForm-label--required">Starts on</label>
+          {{date-input
+              value=startDate
+              format="MM/DD/YYYY"
+              placeholder="12/25/2020"
+              update=(action (mut startDate))
+              data-test-recurring-component="start-date"
+          }}
+      {{/form-group}}
+
+      {{#form-group error=errors.stopDateError class="col-xs-12 col-sm-6"}}
+        <label class="ContentForm-label--required">Ends</label>
+        {{date-input
+            value=stopDate
+            format="MM/DD/YYYY"
+            placeholder="12/25/2020"
+            update=(action (mut stopDate))
+            data-test-recurring-component="end-date"
+        }}
+      {{/form-group}}
+    {{/form-group}}
+
+    <div class="form-group">
+      <label class="ContentForm-label--required">Repeats</label>
+
+      <div class="form-group">
+        <select onchange={{action "selectRepeatType" value="target.value"}} class="form-control" data-test-recurring-component="repeat-type">
+          {{#each repeatTypes as |repeatChoice|}}
+            <option value={{repeatChoice.value}} selected={{eq repeats repeatChoice.value}}>{{repeatChoice.key}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      {{#if weeklyOrBiWeekly}}
+        {{#form-group error=errors.daysError}}
+          <label class="ContentForm-label--required">On</label><br>
+          <div class="ContentForm-checkboxGroup">
+            {{#each days as |day|}}
+              <label class="checkbox-inline">
+                {{input
+                  type="checkbox"
+                  checked=day.isChecked
+                  change=(action "updateAndNotifyCheckedDaysDidChange" day)
+                }}
+                {{day.key}}
+              </label>
+            {{/each}}
+          </div>
+        {{/form-group}}
+
+      {{else if (eq repeats "daily")}}
+        <p>Repeats every day.</p>
+
+      {{else if (eq repeats "monthly")}}
+        {{textSummary}}
+      {{/if}}
+    </div>
+
+    {{#form-group error=errors.timeError class="row"}}
+      {{#form-group error=errors.startTimeError class="col-xs-12 col-sm-6"}}
+        <label class="ContentForm-label--required">Start Time</label>
+        {{time-input
+            value=startTime
+            format="h:mm a"
+            placeholder="9:00 am"
+            update=(action (mut startTime))
+            data-test-recurring-component="start-time"
+        }}
+      {{/form-group}}
+
+      {{#form-group error=errors.stopTimeError class="col-xs-12 col-sm-6"}}
+        <label>End Time</label>
+        {{time-input
+            value=stopTime
+            defaultMinDate=(readonly startDate)
+            defaultMinTime=(readonly startTime)
+            format="h:mm a"
+            placeholder="2:00 pm"
+            update=(action (mut stopTime))
+        }}
+      {{/form-group}}
+    {{/form-group}}
+
+    <div class="JobsForms-Dates--buttons">
+      <div class="left">
+        <div class="JobsForms-Dates--button cancel" {{action "cancel"}} role="button">
+          Cancel
+        </div>
+      </div>
+      <div class="right">
+        <div class="JobsForms-Dates--button confirm" {{action "save"}} role="button" data-test-complete-recurring-form>
+          Done
+        </div>
+      </div>
+    </div>
+  </div>
+{{/modal-wrapper}}

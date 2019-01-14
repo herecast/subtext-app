@@ -1,0 +1,18 @@
+{{#if titleIsEmpty}}
+  {{fa-icon "plus-square-o" class="JobsForms-change-icon" click=(action "putFocusOn" "form-title")}}
+{{/if}}
+{{#title-text class="TitleText--noPadding" strong=true}}
+  {{textarea
+    id="form-title"
+    class="JobsForms-form-input-title error-box"
+    placeholder="Listing Title"
+    value=model.title
+    keyDown=(action "titleChanging")
+    maxlength=maxlength
+    style=titleStyle
+    data-test-jobs-field="title"
+  }}
+  <div id="title-clone">
+    {{model.title}}
+  </div>
+{{/title-text}}

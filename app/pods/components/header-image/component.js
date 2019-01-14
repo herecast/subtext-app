@@ -11,7 +11,8 @@ export default Component.extend({
     'sizeClass',
     'short:HeaderImage--short',
     'block:HeaderImage--block',
-    'profileHeader:HeaderImage--profile-header'
+    'profileHeader:HeaderImage--profile-header',
+    'chooseImage:HeaderImage--chooser'
   ],
   attributeBindings: ['data-test-component'],
   'data-test-component': 'header-image',
@@ -19,6 +20,9 @@ export default Component.extend({
   preserveAspectRatio: false,
   size: null, // 'small', 'medium', smallOnMobileMediumOnDesktop
   profileHeader: false,
+
+  chooseImage: false,
+  isChoosingImage: false,
 
   sizeClass: computed('size', function() {
     const size = get(this, 'size');
@@ -35,5 +39,13 @@ export default Component.extend({
     }
 
     return htmlSafe(`background: rgba(255,255,255,1);`);
-  })
+  }),
+
+  actions: {
+    chooseImage() {
+      if (get(this, 'onChooseImage')) {
+        get(this, 'onChooseImage')();
+      }
+    }
+  }
 });

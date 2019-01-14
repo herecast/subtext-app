@@ -26,6 +26,9 @@ export default Component.extend({
   windowHeight: 1000,
   isScrollingBody: false,
   isBodyAtBottom: false,
+  maintainBodyClass: false,
+  hasInternalModals: false,
+  closeOnClickOutside: true,
 
   slideInFrom: null,
   slideOutTo: null,
@@ -124,12 +127,13 @@ export default Component.extend({
   }),
 
   click(e) {
-    // Clicking on overlay should close the modal
-    const close = get(this, 'close');
-    const $target = $(e.target);
-    if (close && ($target.hasClass('Modal-inner') || $target.hasClass('Modal'))) {
-      get(this, 'tracking').trackCloseModalClickOutside();
-      close();
+    if (get(this, 'closeOnClickOutside')) {
+      const close = get(this, 'close');
+      const $target = $(e.target);
+      if (close && ($target.hasClass('Modal-inner') || $target.hasClass('Modal'))) {
+        get(this, 'tracking').trackCloseModalClickOutside();
+        close();
+      }
     }
   },
 
@@ -286,9 +290,10 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-
-    get(this, 'modalService').removeModalBodyClass();
-    $('body').removeClass('modal-open');
+    
+    if (!get(this, 'maintainBodyClass')) {
+      get(this, 'modalService').removeModalBodyClass();
+    }
 
     this._removeEventListeners();
   },

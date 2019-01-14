@@ -1,0 +1,66 @@
+{{#if showOrganizationChoices}}
+  {{fa-icon "pencil" class="JobsForms-change-icon dropdown-toggle"  click=(action "toggleOrganizationDropdown")}}
+
+  <div class="JobsForms-Owner-organization-attribution dropdown-toggle"
+    role="button"
+    {{action "toggleOrganizationDropdown"}}
+    data-test-jobs-field="owner"
+  >
+    {{feed-card/attribution
+      avatarUrl=attributionImageUrl
+      author=attributionName
+      postedTime=publishedTime
+      hidePostedTime=hidePublishedTime
+      hideBookmark=true
+    }}
+  </div>
+
+  <div class="JobsForms-Owner-organization-dropdown-menu dropdown-menu">
+    <div
+      class="JobsForms-Owner-organization-dropdown-choice"
+      {{action "chooseOrganization" null}}
+      role="button"
+    >
+      {{avatar-image
+        imageUrl=currentUser.userImageUrl
+        userName=currentUser.name
+        customSize=35
+      }}
+      <span>{{currentUser.name}}</span>
+    </div>
+    {{#each filteredManagedOrganizations as |organization|}}
+      <div
+        class="JobsForms-Owner-organization-dropdown-choice"
+        {{action "chooseOrganization" organization}}
+        role="button"
+        data-test-organization-select={{organization.id}}
+      >
+        {{avatar-image
+          imageUrl=organization.profileImageUrl
+          userName=organization.name
+          customSize=35
+        }}
+        <span>{{organization.name}}</span>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  {{#if isLoading}}
+    <div class="JobsForms-Owner--loading">
+      <div class="JobsForms-Owner--loading-icon">
+        {{fa-icon "cog" spin=true}}
+      </div>
+      <div class="JobsForms-Owner--loading-text">
+        Loading...
+      </div>
+    </div>
+  {{else}}
+    {{feed-card/attribution
+      avatarUrl=attributionImageUrl
+      author=attributionName
+      postedTime=publishedTime
+      hidePostedTime=hidePublishedTime
+      hideBookmark=true
+    }}
+  {{/if}}
+{{/if}}

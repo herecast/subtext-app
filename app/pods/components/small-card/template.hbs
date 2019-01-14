@@ -2,7 +2,7 @@
   {{#media-container as |media|}}
     <span class="MediaContainer--psuedo" {{action "trackClick" item}} role="button">
       {{#media.object}}
-        <img src={{optimized-image-url item.imageUrl 40 30 true}} alt="Story Image">
+        <img src={{optimized-image-url item.imageUrl 40 30 true}} alt="Story Image" class="MediaContainer--psuedo-small-image">
       {{/media.object}}
       {{#media.content}}
         {{item.title}}

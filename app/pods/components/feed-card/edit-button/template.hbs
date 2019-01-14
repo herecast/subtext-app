@@ -1,11 +1,14 @@
 {{#if canEditContent}}
-  {{#x-link-to editPath editPathId
-    size=iconSize
-    nowrap=true
-    color=color
-    style=style
-    contentOrganizationId=contentOrganizationId
-  }}
-    Edit
-  {{/x-link-to}}
+  <button
+    {{action "editContent"}}
+    class="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
+  >
+    <span>
+      {{#if isTransitioning}}
+        {{fa-icon "cog" spin=true}} Loading
+      {{else}}
+        Edit
+      {{/if}}
+    </span>
+  </button>
 {{/if}}

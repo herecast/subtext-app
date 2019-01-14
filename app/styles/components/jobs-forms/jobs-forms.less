@@ -1,0 +1,213 @@
+.JobsForms {
+  background: #fff;
+  padding: 60px 8px 8px 8px;
+
+  min-height: 95vh;
+
+  @media (max-width: @screen-xs-max) {
+    min-height: 90vh;
+
+    &-modal {
+      .Modal-dialog {
+        overflow-y: auto;
+      }
+      .Modal-actionClose {
+        position: fixed;
+      }
+    }
+  }
+
+  &-MarketForm,
+  &-EventForm,
+  .DetailPage {
+    .transition(all 0.3s ease 0.1s);
+  }
+
+  &--tabs {
+    .display-grid();
+    .grid-template-columns(1fr 1fr 1fr 40px);
+    .box-shadow(0px 2px 2px -2px #999);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    background: #fff;
+
+    &-tab {
+      text-align: center;
+      .grid-align-self(center);
+    }
+    &.close {
+      .grid-justify-self(end);
+    }
+
+    &-button {
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 1.1;
+
+      a {
+        text-decoration: none !important;
+      }
+      i {
+        font-size: 22px;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+      &.active {
+        color: @button-primary;
+        font-weight: bold;
+        i {
+          padding: 8px;
+          border-radius: 50%;
+          color: #fff;
+          background: @button-primary;
+        }
+      }
+      &.disabled {
+        color: rgba(0,0,0,0.3);
+        cursor: not-allowed;
+        [role="button"] {
+          cursor: not-allowed;
+        }
+      }
+      &-partial {
+        display: inline-block;
+      }
+    }
+  }
+
+  &--close-button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    &-icon {
+      font-size: 28px;
+      color: #979797;
+    }
+  }
+
+  &--form-wrap {
+    position: relative;
+  }
+
+  &--saving-wrap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+    i {
+      font-size: 40px;
+    }
+    .display-grid();
+    &>div {
+      .grid-align-self(center);
+    }
+  }
+
+  &--form {
+    margin-top: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    .transition(transform 0.3s ease 0.1s);
+    &.in-view {
+      .transform(translateX(0));
+
+      .JobsForms-MarketForm,
+      .JobsForms-EventForm {
+        max-height: 2000px;
+        opacity: 1.0;
+      }
+    }
+    &.out-left {
+      .transform(translateX(-105%));
+
+      .JobsForms-MarketForm,
+      .JobsForms-EventForm {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &--detail {
+    margin-top: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    .transition(transform 0.3s ease 0.1s);
+    &.in-view {
+      .transform(translateX(0));
+
+      .DetailPage {
+        max-height: 2000px;
+        opacity: 1.0;
+      }
+    }
+    &.out-right {
+      .transform(translateX(105%));
+
+      .DetailPage {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &--title {
+    margin-bottom: 12px;
+    &.is-editing {
+      .display-grid();
+      .grid-template-columns(62px 1fr);
+    }
+  }
+
+  &--location {
+    margin-bottom: 24px;
+  }
+
+  &--owner {
+    margin-bottom: 12px;
+  }
+
+  &--images {
+    margin-bottom: 12px;
+  }
+
+  &--metadata {
+    margin-bottom: 12px;
+  }
+
+  &--content {
+    margin-bottom: 12px;
+  }
+
+  &-change-icon {
+    color: @gray-medium;
+    margin-right: 2px;
+    font-size: 18px;
+    &.white {
+      color: #fff;
+    }
+  }
+
+
+  &-file-input{
+    display: none !important;
+  }
+}

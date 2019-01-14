@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: 1100;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -64,6 +64,11 @@
 
     &-wrapper {
       max-height: 90vh;
+      overflow-y: auto;
+
+      &.has-internal-modals {
+        overflow-y: visible;
+      }
     }
   }
 

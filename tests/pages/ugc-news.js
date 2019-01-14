@@ -60,8 +60,8 @@ export default create({
   selectNewLocation(locationId) {
     return run(async () => {
       await click('[data-test-action="change-location"]');
-      await fillIn('[data-test-new-location-input]', 'asdfasdf');
-      await triggerKeyEvent('[data-test-new-location-input]', 'keyup', 13);
+      await fillIn('[data-test-input="new-location"]', 'asdfasdf');
+      await triggerKeyEvent('[data-test-input="new-location"]', 'keydown', 13);
       await click(`[data-test-location-choice="${locationId}"]`);
     });
   },

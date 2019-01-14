@@ -29,7 +29,9 @@
       {{/x-button}}
     {{/if}}
 
-    <div class="Modal-dialog-body-wrapper">
+    {{from-elsewhere name="modal-wrapper-takeover"}}
+
+    <div class="Modal-dialog-body-wrapper {{if hasInternalModals "has-internal-modals"}}">
       <div class="Modal-dialog-body" style={{modalBodyStyle}}>
         {{yield (action "closeModal")}}
       </div>

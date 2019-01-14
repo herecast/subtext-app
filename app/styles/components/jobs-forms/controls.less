@@ -1,0 +1,32 @@
+.JobsForms-Controls {
+  margin-bottom: 50px;
+  
+  .display-grid();
+  .grid-template-columns(1fr 1fr);
+  padding: 8px 0 12px 0;
+  border-top: solid 1px #efefef;
+
+  &-left {
+    .grid-column(1);
+    text-align: left;
+
+  }
+
+  &-right {
+    .grid-column(2);
+    text-align: right;
+  }
+
+  &--button {
+    background: @button-primary;
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    i {
+      vertical-align: middle;
+    }
+  }
+
+}

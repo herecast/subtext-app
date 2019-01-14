@@ -1,0 +1,88 @@
+.JobsForms-PromoteByEmail {
+  &--close {
+    cursor: pointer;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 8px;
+    i {
+      margin-right: 4px;
+    }
+  }
+
+  &--title {
+    font-size: 16px;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  &--line {
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 8px;
+
+    &-label {
+      font-weight: bold;
+    }
+
+    &-text {
+      color: #000;
+      background: #fff;
+      padding: 4px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      line-height: 1.2;
+    }
+  }
+
+  &--email {
+    &-option {
+      display: inline-block;
+      padding: 8px;
+      margin: 0 8px 8px 8px;
+      text-align: center;
+      font-size: 16px;
+      padding: 6px;
+      border: solid 2px #fff;
+      border-radius: 5px;
+      min-width: 75px;
+      min-height: 80px;
+      vertical-align: top;
+      &.first {
+        margin-left: 0;
+      }
+      &.last {
+        margin-right: 0;
+      }
+
+      &-icon:not(.generic) {
+        background-image: url(/images/webmail-icons.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      &-icon {
+        margin: 0 auto 8px auto;
+
+        &.gmail {
+          height: 36px;
+          width: 40px;
+          background-position: 0 0;
+        }
+        &.outlook {
+          height: 36px;
+          width: 36px;
+          background-position: 0 -36px;
+        }
+        &.yahoo {
+          height: 36px;
+          width: 40px;
+          background-position: 0 -79px;
+        }
+        &.generic {
+          i {
+            font-size: 36px;
+          }
+        }
+      }
+    }
+  }
+}

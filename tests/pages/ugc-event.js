@@ -1,33 +1,36 @@
-import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, triggerEvent, visit } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { Promise } from 'rsvp';
 import createImageFixture from 'subtext-ui/tests/helpers/create-image-fixture';
 import {
   create,
-  visitable,
   fillable,
   clickable
 } from 'ember-cli-page-object';
 
 export default create({
-  visit: visitable('/events/new'),
+  start() {
+    return run(async () => {
+      await visit('/');
+      await click('[data-test-button="open-job-tray"]');
+      await click('[data-test-ugc-job-link]' + `[data-test-link="event"]`);
+    });
+  },
   selectOrganization(organization) {
     return run(async () => {
-      await click('[data-test-organization-dropdown]');
+      await click('[data-test-jobs-field="owner"]');
       await click(`[data-test-organization-select="${organization.id}"]`);
     });
   },
-  fillInTitle: fillable('[data-test-field="event-title"]'),
-  fillInDescription: fillable('[data-test-component="summer-note"]' + ' .note-editable'),
-  expandReach: clickable('[data-test-input="expand-reach"]'),
+  fillInTitle: fillable('[data-test-jobs-field="title"]'),
+  fillInDescription: fillable('[data-test-jobs-field="content"]'),
   selectVenue(venue) {
-    const venueSearch = '[data-test-field="venue-search"]';
+    const venueSearch = '[data-test-jobs-field="venue-search"]';
     return run(async () => {
       await fillIn(venueSearch, venue.name);
       await triggerEvent(venueSearch, 'keyup');
       await click(`[data-test-venue-result="${venue.id}"]`);
     });
-
   },
   addSingleDate(options) {
     return run(async () => {
@@ -56,18 +59,7 @@ export default create({
        await click('[data-test-complete-recurring-form]');
    });
   },
-  addDeadline(deadlineDate) {
-    return run(async () => {
-      await click('[data-test-deadline]');
-      await fillIn('[data-test-input="event-deadline"]' + " input", deadlineDate);
-    });
-  },
-  addPrice(price) {
-    return run(async () => {
-      await click('[data-test-paid-toggle]');
-      await fillIn('[data-test-price-description]', price);
-    });
-  },
+
   addImageFile() {
     return new Promise((resolve) => {
       const options = {
@@ -78,14 +70,16 @@ export default create({
       };
       createImageFixture(options)
       .then(async (file) => {
-        await triggerEvent('[data-test-event-image]' + ' input[type=file]', 'change', [file] );
+        await triggerEvent('[data-test-jobs-field="images"]' + ' input[type=file]', 'change', [file] );
         resolve();
       });
     });
   },
-  addContactEmail: fillable('[data-test-contact-email]'),
-  addContactPhone: fillable('[data-test-contact-phone]'),
-  addEventUrl: fillable('[data-test-event-url]'),
-  next: clickable('[data-test-action="next"]'),
-  saveAndPublish: clickable('[data-test-action="save-and-publish"]')
+  fillInCost: fillable('[data-test-jobs-field="cost"]'),
+  fillInEmail: fillable('[data-test-jobs-field="contact-email"]'),
+  fillInUrl: fillable('[data-test-jobs-field="url"]'),
+  fillInPhone: fillable('[data-test-jobs-field="contact-phone"]'),
+
+  preview: clickable('[data-test-action="preview"]'),
+  launch: clickable('[data-test-action="launch"]')
 });

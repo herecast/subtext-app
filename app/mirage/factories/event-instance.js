@@ -22,7 +22,6 @@ export default Mirage.Factory.extend({
   commentCount() { return faker.random.number(8);},
   content() { return `<p>${faker.lorem.paragraph(5)}</p>`;},
   contentId() { return faker.random.number(1000);},
-  costType: 'paid', // free, paid, donation
   cost: '$15-$55',
   contactPhone() { return faker.phone.phoneNumber();},
   contactEmail() { return faker.internet.email();},
@@ -50,9 +49,6 @@ export default Mirage.Factory.extend({
     const endsAt = moment(startsAt).add(hourSpan, 'hours');
 
     return endsAt.toISOString();
-  },
-  registrationDeadline(id) {
-    return (id % 4 === 0) ? Date.parse(this.startsAt) : null;
   },
   imageUrl(id) { return (id % 2 === 0) ? 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240' : null;},
   updatedAt() { return moment(faker.date.recent(-1)).toISOString();},

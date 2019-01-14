@@ -24,16 +24,6 @@
     {{/if}}
   {{/unless}}
 
-  {{#if (or model.cost model.images)}}
-    {{feed-card/market-info
-      cost=model.cost
-      showPrice=isNotTalk
-
-      images=model.images
-      activeImageUrl=(mut activeImageUrl)
-    }}
-  {{/if}}
-
   {{#unless context.condensedView}}
     {{feed-card/attribution
       avatarUrl=model.attributionImageUrl

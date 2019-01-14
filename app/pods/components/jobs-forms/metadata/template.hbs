@@ -1,0 +1,69 @@
+<div class="JobsForms-Metadata--row">
+  <div class="JobsForms-Metadata--column">
+    <div class="JobsForms-Metadata--field">
+      {{fa-icon "dollar" class="JobsForms-change-icon"}}
+      {{input
+        id="cost"
+        placeholder="How much?"
+        class="JobsForms-Metadata--field-input"
+        value=(mut model.cost)
+        input=(action "inputChanging" "cost")
+        data-test-jobs-field="cost"
+        maxlength=maxlengthCost
+      }}
+    </div>
+    {{#if costAtMaxLength}}
+      <div class="JobsForms-Metadata--field-error">
+        Max length {{maxlengthCost}} reached
+      </div>
+    {{/if}}
+  </div>
+  <div class="JobsForms-Metadata--column">
+    <div class="JobsForms-Metadata--field">
+      {{fa-icon "link" class="JobsForms-change-icon"}}
+      {{input
+        id="website"
+        placeholder="Web Link"
+        class=(concat "JobsForms-Metadata--field-input" (if errorPossibleUrl " error-box"))
+        value=(mut model.url)
+        input=(action "inputChanging" "url")
+        data-test-jobs-field="url"
+        maxlength=maxlengthUrl
+      }}
+    </div>
+    {{#if urlAtMaxLength}}
+      <div class="JobsForms-Metadata--field-error">
+        Max length {{maxlengthUrl}} reached
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+<div class="JobsForms-Metadata--row">
+  <div class="JobsForms-Metadata--column">
+    <div class="JobsForms-Metadata--field">
+      {{fa-icon "envelope-o" class="JobsForms-change-icon"}}
+      {{input
+        id="email"
+        placeholder="Contact Email"
+        class=(concat "JobsForms-Metadata--field-input" (if errorPossibleEmail " error-box"))
+        value=(mut model.contactEmail)
+        input=(action "inputChanging" "contactEmail")
+        data-test-jobs-field="contact-email"
+      }}
+    </div>
+  </div>
+  <div class="JobsForms-Metadata--column">
+    <div class="JobsForms-Metadata--field">
+      {{fa-icon "phone" class="JobsForms-change-icon"}}
+      {{input
+        id="phone"
+        placeholder="Contact Phone"
+        class=(concat "JobsForms-Metadata--field-input" (if errorPossiblePhone " error-box"))
+        value=(mut model.contactPhone)
+        input=(action "inputChanging" "contactPhone")
+        data-test-jobs-field="contact-phone"
+      }}
+    </div>
+  </div>
+</div>

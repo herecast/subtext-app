@@ -1,0 +1,85 @@
+<div class="JobsForms-PromoteByEmail--close" role="button" {{action "close"}}>
+  {{fa-icon "long-arrow-left"}}Back
+</div>
+
+<div class="JobsForms-PromoteByEmail--title">
+  Here's what your email will include:
+</div>
+
+{{#if mailToParts.to}}
+  <div class="JobsForms-PromoteByEmail--line">
+    <div class="JobsForms-PromoteByEmail--line-label">
+      To:
+    </div>
+    <div class="JobsForms-PromoteByEmail--line-text">{{mailToParts.to}}</div>
+  </div>
+{{/if}}
+
+<div class="JobsForms-PromoteByEmail--line">
+  <div class="JobsForms-PromoteByEmail--line-label">
+    Subject:
+  </div>
+  <div class="JobsForms-PromoteByEmail--line-text">{{mailToParts.subject}}</div>
+</div>
+
+<div class="JobsForms-PromoteByEmail--line">
+  <div class="JobsForms-PromoteByEmail--line-label">
+    Body:
+  </div>
+  <div class="JobsForms-PromoteByEmail--line-text">{{mailToParts.body}}</div>
+</div>
+
+<div class="JobsForms-PromoteByEmail--title">
+  How would you like to send your email?<br>
+  You will be able to view and make changes before sending
+</div>
+
+<div class="JobsForms-PromoteByEmail--email">
+  <div class="JobsForms-PromoteByEmail--email-option first">
+    <a target="_blank" rel="noopener noreferrer"
+       href="https://mail.google.com/mail/?view=cm&fs=1&to={{mailToParts.to}}&su={{subjectEncoded}}&body={{bodyEncoded}}"
+       class="JobsForms-PromoteByEmail--email-option-button"
+       >
+       <div class="JobsForms-PromoteByEmail--email-option-icon gmail"></div>
+       <div>
+         Gmail
+       </div>
+    </a>
+  </div>
+
+
+  <a target="_blank" rel="noopener noreferrer"
+     href="https://outlook.live.com/owa/?rru=compose&subject={{subjectEncoded}}&body={{bodyEncoded}}&to={{mailToParts.to}}#page=Compose"
+     class="JobsForms-PromoteByEmail--email-option"
+     >
+     <div class="JobsForms-PromoteByEmail--email-option-icon outlook"></div>
+     <div>
+       Outlook
+     </div>
+  </a>
+
+
+  <div class="JobsForms-PromoteByEmail--email-option">
+    <a target="_blank" rel="noopener noreferrer"
+       href="http://compose.mail.yahoo.com/?to={{mailToParts.to}}&subj={{subjectEncoded}}&body={{bodyEncoded}}"
+       class="JobsForms-PromoteByEmail--email-option-button"
+       >
+       <div class="JobsForms-PromoteByEmail--email-option-icon yahoo"></div>
+       <div>
+         Yahoo
+       </div>
+    </a>
+  </div>
+
+  <div class="JobsForms-PromoteByEmail--email-option last">
+    <a target="_blank" rel="noopener noreferrer"
+       href="mailto:{{mailToParts.to}}?subject={{subjectEncoded}}&body={{bodyEncoded}}"
+       class="JobsForms-PromoteByEmail--email-option-button"
+       >
+       <div class="JobsForms-PromoteByEmail--email-option-icon generic">{{fa-icon "envelope-o"}}</div>
+       <div>
+         Generic
+       </div>
+    </a>
+  </div>
+</div>

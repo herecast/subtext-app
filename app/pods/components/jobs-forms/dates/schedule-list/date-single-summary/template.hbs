@@ -1,0 +1,23 @@
+{{#if isEditing}}
+  {{to-elsewhere
+    named="jobs-forms-modal"
+    send=(component "jobs-forms/dates/schedule-single-form"
+              onCloseModal=(action "cancel")
+              schedule=schedule
+              validate=validate
+              save=save
+              cancel=(action "cancel")
+              )
+  }}
+{{/if}}
+
+<p><b>Summary</b></p>
+<p>Occurs one time on {{formatted-day schedule.startDate}}.</p>
+
+<b>Date:</b> {{formatted-day schedule.startDate}}<br>
+<b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br>
+
+<hr>
+
+<button {{action "remove" (action "remove")}}>{{fa-icon "close"}} Remove</button>
+<button {{action "edit" (action "edit")}}>{{fa-icon "pencil"}} Edit</button>

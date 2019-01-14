@@ -1,11 +1,14 @@
-import { alias } from '@ember/object/computed';
-import Component from '@ember/component';
-import { computed, set, get } from '@ember/object';
+import { alias, and } from '@ember/object/computed';
+import { debounce, next } from '@ember/runloop';
+import { computed, set, setProperties, get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { isPresent } from '@ember/utils';
+import { isPresent, isBlank } from '@ember/utils';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: 'UserLocation-UgcButton',
+  classNameBindings: ['wantsToChangeContentLocation:input-visible', 'showDropdown:open'],
 
   store: service(),
   userLocation: service(),
@@ -14,20 +17,37 @@ export default Component.extend({
   wantsToChangeContentLocation: false,
   findingLocation: false,
 
+  inputValue: null,
+  minInputValueLength: 3,
+  hasInputValue: computed('inputValue', function() {
+    return parseInt(get(this, 'inputValue.length')) > parseInt(get(this, 'minInputValueLength'));
+  }),
+
+  showDropdown: and('wantsToChangeContentLocation', 'hasInputValue'),
+
   _initialLocation: null,
   _chosenLocation: null,
 
   init() {
     this._super(...arguments);
+    this._clearInput();
     this._setInitialLocation();
   },
 
   modelLocationName: alias('model.location.name'),
 
+  _clearInput() {
+    setProperties(this, {
+      locationMatches: [],
+      inputValue: null,
+      wantsToChangeContentLocation: false
+    })
+  },
+
   _setInitialLocation() {
     this._startFindingLocation();
 
-    if (get(this, 'model.isNew')) {
+    if (get(this, 'model.isNew') && isBlank(get(this, 'model.location.name'))) {
       get(this, 'userLocation.userLocation')
       .then((userLocation) => {
         if (!get(this, 'isDestroyed')) {
@@ -81,6 +101,26 @@ export default Component.extend({
     }
   },
 
+  _checkLocationMatches() {
+    if (get(this, 'hasInputValue')) {
+      const inputValue = get(this, 'inputValue');
+
+      set(this, 'gettingMatches', true);
+
+      get(this, 'userLocation').checkLocationMatches(inputValue)
+      .then((locationMatches) => {
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'locationMatches', locationMatches.locations);
+        }
+      })
+      .finally(() => {
+        set(this, 'gettingMatches', false);
+      });
+    } else {
+      set(this, 'locationMatches', []);
+    }
+  },
+
   buttonText: computed('_initialLocation', '_chosenLocation', function() {
     const chosenLocation = get(this, '_chosenLocation');
     let buttonLocation;
@@ -97,6 +137,11 @@ export default Component.extend({
   actions: {
     toggleWantsToChangeContentLocation() {
       this.toggleProperty('wantsToChangeContentLocation');
+      if (get(this, 'wantsToChangeContentLocation')) {
+        next(() => {
+          $(get(this, 'element')).find('input#new-location').focus();
+        });
+      }
     },
 
     changeContentLocation(contentLocation) {
@@ -104,9 +149,15 @@ export default Component.extend({
 
       set(this, '_chosenLocation', contentLocation);
 
+      this._clearInput();
+
       if (get(this, 'onChangeContentLocation')) {
         get(this, 'onChangeContentLocation')(contentLocation);
       }
-    }
+    },
+
+    valueChanging() {
+      debounce(this, '_checkLocationMatches', 200);
+    },
   }
 });

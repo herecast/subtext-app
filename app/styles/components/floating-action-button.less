@@ -4,7 +4,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 990;
+  z-index: 1010;
 
   &-container {
     transition: all 0.5s;
@@ -15,10 +15,17 @@
     right: 0;
     left: 0;
     bottom: 0;
+    pointer-events: none;
+    &.in-view {
+      .transform(none);
+    }
+    &.out-of-view {
+      .transform(translateY(100%));
+    }
   }
 
   &-header {
-    transition: all 0.5s;
+    .transition(all 0.5s ease);
     .flex-display();
     .align-items(center);
     .border-radius(4px);
@@ -26,6 +33,12 @@
     justify-content: flex-end;
     margin: 5px 0;
     position: relative;
+    &.up-high {
+      .transform(none);
+    }
+    &.down-low {
+      .transform(translateY(-120%));
+    }
   }
 
   &-dismissButton {
@@ -64,28 +77,38 @@
   }
 
   &-icon {
-    transition: transform 0.5s;
+    .transition(transform 0.5s);
   }
 
   &-content {
-    transition: all 0.3s;
-    max-height: 85vh;
     overflow-y: auto;
-    position: relative;
+    overflow-x: hidden;
+    background: #fff;
+    pointer-events: auto;
+    .transition(all 0.5s ease);
+    &.in-view {
+      .transform(translateY(0));
+      opacity: 1.0;
+    }
+    &.out-of-view {
+      .transform(translateY(110%));
+      opacity: 0;
+    }
+  }
+
+  &-toggleButton {
+    pointer-events: auto;
   }
 
   &.expanded {
     top: 0;
     background: rgba(3,3,3, 0.4);
 
-    .FloatingActionButton-container {
-    }
-
     .FloatingActionButton-header {
       border-color: lighten(@gray-medium, 10%);
       background-color: @body-bg;
       .justify-content(space-between);
-      animation: slide-item-up 0.5s;
+      //animation: slide-item-up 0.5s;
     }
 
     .FloatingActionButton-message {
@@ -96,13 +119,17 @@
     }
 
     .FloatingActionButton-icon {
-      transition: transform 1s;
-      transform: rotate(45deg);
+      .transition(transform 1s);
+      .transform(rotate(45deg));
     }
 
-    .FloatingActionButton-content {
+    /*.FloatingActionButton-content {
       animation: slide-up 0.5s;
       display: block;
-    }
+    }*/
+  }
+
+  &.behind-modals {
+    z-index: 900;
   }
 }

@@ -418,6 +418,12 @@ export default function() {
     };
   });
 
+  this.get('/contents/:id/short_link', function() {
+    return {
+      link: `http://bit.ly/asdf`
+    };
+  });
+
   this.get('/promotions', (db, request) => {
     let limit = parseInt(request.queryParams.limit || 1);
     let promotions = [];
@@ -432,7 +438,7 @@ export default function() {
       });
     }
 
-    return {promotions:promotions};
+    return new Mirage.Response(200, {}, {promotions});
   });
 
   this.get('/promotion_coupons/:id', function({db}, request) {
@@ -468,20 +474,32 @@ export default function() {
   });
 
   this.post('/password_resets', function() {
-    return {};
+    return new Mirage.Response(200, {}, {});
   });
 
   this.put('/password_resets', function() {
-    return {};
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/password_resets/:token', function() {
-    return {};
+    return new Mirage.Response(200, {}, {});
   });
 
-  this.post('metrics/contents/:id/impressions', function() { return {}; });
+  this.post('metrics/contents/:id/impressions', function() {
+    return new Mirage.Response(200, {}, {});
+   });
 
-  this.post('metrics/profiles/:id/impressions', function() { return {}; });
+  this.post('metrics/profiles/:id/impressions', function() {
+    return new Mirage.Response(200, {}, {});
+  });
+
+  this.post('metrics/contents/:id/clicks', function() {
+    return new Mirage.Response(200, {}, {});
+   });
+
+  this.post('metrics/profiles/:id/clicks', function() {
+    return new Mirage.Response(200, {}, {});
+  });
 
   this.get('/weather', function() {
     const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"><a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank">80° Clear</a></div><div class="pull-left" id="forecast_icon"><i class="wi wi-day-sunny"></i></div>';
@@ -689,18 +707,31 @@ export default function() {
   });
 
   this.get('/listservs', function() {
-    return [
-      {id: 1,
-        name: "Listserv1"},
-      {id: 2,
-        name: "Listserv2"},
-      {id: 3,
-        name: "Listserv3"},
-    ];
+    return {listservs: [
+      {
+        id: 1,
+        name: "Listserv1",
+        reverse_publish_email: "list1@listserv.org"
+      },
+      {
+        id: 2,
+        name: "Listserv2",
+        reverse_publish_email: "list2@listserv.org"
+      },
+      {
+        id: 3,
+        name: "Listserv3",
+        reverse_publish_email: "list3@listserv.org"
+      }
+    ]};
+  });
+
+  this.post('/contents/:id/promotions', function() {
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/contents/:id/promotions', function() {
-    return {};
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/users/:id/comments', function({comments}, request) {
@@ -861,7 +892,6 @@ export default function() {
         schedules.create(data);
       });
     }
-
     if (content.contentType === 'event') {
       let eventInstance = eventInstances.first();
 
@@ -870,8 +900,10 @@ export default function() {
         eventInstance.startsAt = (new Date()).toISOString();
       }
 
-      content.eventInstanceId = eventInstance.id;
-      content.eventInstanceIds= [eventInstance.id];
+      content.update({
+        eventInstanceId: eventInstance.id,
+        eventInstanceIds: [eventInstance.id]
+      });
     }
 
     return content;

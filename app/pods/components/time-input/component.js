@@ -18,6 +18,13 @@ export default Component.extend({
 
   _isNative: true,
 
+  defaultMinTime: null,
+  hasBeenFocused: false,
+
+  needsDefaultTimeSet: computed('defaultMinTime', 'hasBeenFocused', function() {
+    return isPresent(get(this, 'defaultMinTime')) && !get(this, 'hasBeenFocused');
+  }),
+
   overrideNative() {
     return !isMobile.any; // Any desktop browser
   },
@@ -37,11 +44,35 @@ export default Component.extend({
 
     if($inp.prop('type') !== 'time') {
       set(this, '_isNative', false);
-      $inp.datetimepicker({
+
+      let options = {
         format: pickerFormat,
-        showClear: true
-      }).on('dp.change', (e) => {
-        this.doUpdate(e.date);
+        showClear: true,
+        showClose: true,
+        useCurrent: 'day'
+      };
+
+      $inp.datetimepicker(options);
+
+      $inp.on('dp.change', (e) => {
+        const defaultMinTime = get(this, 'defaultMinTime');
+        const defaultMinMoment = moment(defaultMinTime, 'HH:mm a');
+
+        if ( isEmpty(e.oldDate) && isPresent(defaultMinTime) ) {
+          const todayAtDefaultTimePlus = defaultMinMoment.add(1, 'h');
+          $inp.data("DateTimePicker").viewDate(todayAtDefaultTimePlus);
+          $inp.data("DateTimePicker").date(todayAtDefaultTimePlus);
+
+          this.doUpdate(todayAtDefaultTimePlus);
+
+        } else if (isPresent(defaultMinTime) && e.date.isBefore(defaultMinMoment)) {
+          $inp.data("DateTimePicker").viewDate(defaultMinMoment);
+          $inp.data("DateTimePicker").date(defaultMinMoment);
+
+          this.doUpdate(defaultMinMoment);
+        } else {
+          this.doUpdate(e.date);
+        }
       });
     }
   },
@@ -91,9 +122,9 @@ export default Component.extend({
   formattedValue: computed('value', function() {
     const value = get(this, 'value');
 
-    if(isPresent(value)) {
+    if (isPresent(value)) {
       const tm = this.parseValue(value);
-      if(tm.isValid()) {
+      if (tm.isValid()) {
         return this.formatValue(tm);
       }
     }

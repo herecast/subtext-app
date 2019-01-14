@@ -193,10 +193,10 @@ export default Component.extend(TestSelector, Validation, {
   },
 
   validateForm() {
-    this.validatePresenceOf('news.title');
-    this.validateContent();
-    this.validateOrganization();
-    this.validateAuthor();
+    return  this.validatePresenceOf('news.title') &&
+            this.validateContent() &&
+            this.validateOrganization() &&
+            this.validateAuthor();
   },
 
   validateOrganization() {
@@ -205,8 +205,10 @@ export default Component.extend(TestSelector, Validation, {
     if (canPublishNews) {
       set(this, 'errors.organization', null);
       delete get(this, 'errors')['organization'];
+      return true;
     } else {
       set(this, 'errors.organization', 'A valid Organization is required');
+      return false;
     }
   },
 
@@ -220,9 +222,11 @@ export default Component.extend(TestSelector, Validation, {
 
     if (!hasImages && (isBlank(content) || content.replace(/<[^>]*>/g, '').trim() === '')) {
       set(this, 'errors.content', "News can't be blank.");
+      return false;
     } else {
       set(this, 'errors.content', null);
       delete get(this, 'errors')['content'];
+      return true;
     }
   },
 
@@ -233,9 +237,11 @@ export default Component.extend(TestSelector, Validation, {
 
     if ( overridden && hasAuthorName === isBlank(author) ) {
       set(this, 'errors.author', "Must choose no author or provide an author name");
+      return false;
     } else {
       set(this, 'errors.author', null);
       delete get(this, 'errors')['author'];
+      return true;
     }
   },
 
@@ -250,8 +256,7 @@ export default Component.extend(TestSelector, Validation, {
   },
 
   doAutoSave() {
-    if (get(this, 'canAutosave')) {
-      // No need for validations
+    if (get(this, 'canAutosave') && this.validateForm()) {
       this._save();
     }
   },
@@ -431,7 +436,9 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     togglePreview() {
-      this.toggleProperty('showPreview');
+      if (this.isValid()) {
+        this.toggleProperty('showPreview');
+      }
     },
 
     toggleAuthorOverride() {

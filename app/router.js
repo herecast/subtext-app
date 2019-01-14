@@ -34,46 +34,14 @@ Router.map(function() {
   this.route('register.confirm', {path: '/sign_up/confirm/:token'});
   this.route('register.error', {path: '/sign_up/error'});
 
-  this.route('events', {path: '/events'}, function() {
-
-    this.route('new', {path: '/new'}, function() {
-      this.route('details');
-      this.route('promotion');
-      this.route('preview');
-    });
-
-    this.route('edit', {path: '/:id/edit'}, function() {
-      this.route('details');
-      this.route('promotion');
-      this.route('preview');
-    });
-  });
-
   this.route('forgot-password', function() {
     this.route('edit', {path: ':reset_token'});
     this.route('check-email');
   });
 
-  this.route('market', function() {
-    this.route('new', {path: '/new'}, function() {
-      this.route('details');
-      this.route('promotion');
-      this.route('preview');
-    });
-    this.route('edit', {path: '/:id/edit'}, function() {
-      this.route('details');
-      this.route('promotion');
-      this.route('preview');
-    });
-  });
-
   this.route('news', function() {
     this.route('new');
     this.route('edit', {path: '/:id/edit'});
-  });
-
-  this.route('directory', function() {
-    this.route('show', {path: ':id'});
   });
 
   this.route('terms');

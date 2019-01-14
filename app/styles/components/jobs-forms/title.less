@@ -1,0 +1,25 @@
+.JobsForms-Title {
+  width: 100%;
+
+  &.empty {
+    .display-grid();
+    .grid-template-columns(22px 1fr);
+  }
+
+  textarea {
+    outline: none;
+    border: none;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    min-height: 26px;
+    &:placeholder {
+      color: @gray-medium
+    }
+  }
+
+  #title-clone {
+    display: none;
+    margin: 4px 0;
+  }
+}

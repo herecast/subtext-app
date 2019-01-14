@@ -1,0 +1,52 @@
+<a href="#" {{action "remove" (action "remove")}} class="pull-right">{{fa-icon "fa-trash"}} </a>
+
+<p><b>Summary</b></p>
+<p>{{schedule.textSummary}}</p>
+
+<b>Time:</b> {{schedule.startTime}}-{{schedule.stopTime}}<br>
+
+<b>Starting:</b> {{formatted-day schedule.startDate}}<br>
+<b>Ending:</b> {{formatted-day schedule.endDate}}<br>
+
+
+<b>Excluded Dates:</b> <br>
+{{#each schedule.overrides as |override|}}
+  {{#if override.hidden}}
+  <span>{{formatted-day override.date}}</span><br>
+  {{/if}}
+{{else}}
+  <span>N/A</span><br>
+{{/each}}
+
+<hr>
+
+<button {{action "remove" (action "remove")}}>{{fa-icon "close"}} Remove</button>
+<button {{action "edit" (action "edit")}}>{{fa-icon "pencil"}} Edit</button>
+
+<button {{action "manage" (action "manage")}}>{{fa-icon "calendar-times-o"}} View on Calendar</button>
+
+{{#if isEditing}}
+  {{to-elsewhere
+    named="jobs-forms-modal"
+    send=(component "jobs-forms/dates/schedule-recurring-form"
+              onCloseModal=(action "cancel")
+              schedule=schedule
+              validate=validate
+              save=save
+              cancel=(action "cancel")
+              )
+  }}
+{{/if}}
+
+
+{{#if isManaging}}
+  {{to-elsewhere
+    named="jobs-forms-modal"
+    send=(component "jobs-forms/schedule"
+              onCloseModal=(action "hideModal")
+              schedule=schedule
+              excludeEvent=excludeEvent
+              includeEvent=includeEvent
+              )
+  }}
+{{/if}}

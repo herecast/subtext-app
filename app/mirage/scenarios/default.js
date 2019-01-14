@@ -158,28 +158,4 @@ export default function (server) {
 
   server.createList('digest', 2);
 
-  /**
-   * Business Categories
-   *
-   * Create sub categories first, because Mirage doesn't let you mutate after
-   * they're created
-   */
-  const parentCategories = server.createList('business-category', 3);
-
-  //var parentCategoryIds = parentCategories.map(cat => cat.id);
-  var subCats = [];
-  parentCategories.forEach(function (parentCategory) {
-    var cats = server.createList('business-category', 3, {parents: [parentCategory]});
-    server.create('business-category', {
-      id: parentCategory.id,
-      childIds: cats.map(function (c) {
-        return c.id;
-      })
-    });
-    subCats.push(...cats);
-  });
-
-  subCats.forEach(function (category) {
-    server.createList('business-profile', 4, {categories: [category]});
-  });
 }

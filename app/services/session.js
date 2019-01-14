@@ -58,6 +58,8 @@ export default SessionService.extend(Evented, {
 
   userLocation: alias('userLocationService.location.name'),
 
+  userCanPublishNews: alias('currentUser.canPublishNews'),
+
   signInWithToken(token) {
     return get(this, 'api').signInWithToken(token).then((data)=> {
       return this.authenticate(

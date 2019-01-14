@@ -1,6 +1,6 @@
 import Component from '@ember/component';
-import { isPresent } from '@ember/utils';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
+import { readOnly } from  '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
@@ -10,33 +10,41 @@ export default Component.extend({
   ],
 
   noFooterImage: false,
-  organization: null,
 
+  showBehindModals: false,
+
+  modals: service(),
+  floatingActionButton: service(),
   session: service(),
   tracking: service(),
 
-  canPublishNews: computed('session.currentUser', 'organization', function() {
-    const organization = get(this, 'organization');
+  onChooseJob: function() {},
 
-    if (isPresent(organization)) {
-      return get(this, 'organization.canPublishNews');
-    }
+  canPublishNews: readOnly('session.currentUser.canPublishNews'),
 
-    return get(this, 'session.currentUser.canPublishNews');
-  }),
-
-  /**
-   * We want to specifically return `null` if no organization ID is present (eg. not `undefined`)
-   * so our link-to will always set the correct value for the optional query param.
-   */
-  organizationId: computed('organization.id', function() {
-    const organizationId = get(this, 'organization.id');
-    return (isPresent(organizationId)) ? organizationId : null;
-  }),
+  _openSignInModal() {
+    return get(this, 'modals').showModal('modals/sign-in-register', {
+      model: 'sign-in',
+      alternateSignInMessage: 'You must be signed in to create content.'
+    });
+  },
 
   actions: {
     selectedMenuItem(job) {
       get(this, 'tracking').trackUGCJobClick(job);
+
+      if (job === 'market' || job === 'event') {
+        if (get(this, 'session.isAuthenticated')) {
+          get(this, 'onChooseJob')(job);
+        } else {
+          get(this, 'floatingActionButton').setBehindModals(true);
+          this._openSignInModal()
+          .then(() => {
+            get(this, 'floatingActionButton').setBehindModals(false);
+            get(this, 'onChooseJob')(job);
+          });
+        }
+      }
     }
   }
 });

@@ -1,0 +1,35 @@
+.JobsForms-Owner {
+  position: relative;
+
+  &.has-organizations {
+    .display-grid();
+    .grid-template-columns(22px 1fr);
+  }
+
+  &-organization {
+    &-choose-box {
+      position: relative;
+    }
+
+    &-dropdown-choice {
+      padding: 8px 4px;
+    }
+  }
+
+  &--loading {
+    color: #ccc;
+    .grid-column(2);
+
+    &-icon {
+      font-size: 36px;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    &-text {
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+    }
+  }
+}

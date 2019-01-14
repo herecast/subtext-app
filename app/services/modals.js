@@ -21,9 +21,7 @@ export default Service.extend({
 
   addModalBodyClass() {
     if(!this.isFastboot()) {
-
-      $('body').addClass('modal-open');
-
+      $('body, html').addClass('modal-open');
     } else {
       if(! get(this, '_fbAddedClass')) {
         let container = getOwner ? getOwner(this) : this.container;
@@ -53,13 +51,14 @@ export default Service.extend({
   },
 
   removeModalBodyClass() {
-    /**
-     * @TODO reimplement in fastboot compatible way
-     * @FASTBOOT_BROKEN
-     */
-    if(!this.isFastboot()) {
-      $('body').removeClass('modal-open');
+    if (!this.isFastboot()) {
+      $('body, html').removeClass('modal-open');
     }
+  },
+
+
+  hasModalBodyClass() {
+    return $('body, html').hasClass('modal-open');
   },
 
   showModal(componentName, context){
@@ -114,6 +113,7 @@ export default Service.extend({
 
   clearModals() {
     set(this, 'modals', a());
+    
     this.removeModalBodyClass();
   },
 

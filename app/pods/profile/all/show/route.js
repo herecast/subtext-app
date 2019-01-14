@@ -16,7 +16,7 @@ export default Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMeta
 
   afterModel(model) {
     const eventInstanceId = get(model, 'eventInstanceId') || false;
-
+    
     if (eventInstanceId) {
       return this.transitionTo(`${this.routeName}-instance`, get(model, 'contentId'), eventInstanceId);
     } else {

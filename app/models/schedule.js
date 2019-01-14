@@ -57,17 +57,20 @@ const getTime = function(datetimeKey, dateKey) {
 
 export default DS.Model.extend(ScheduleSummary, {
   daysOfWeek: attr('raw'),
-  endDate: attr('moment-date'), // date that the repeating schedule runs until
-  endsAt: attr('moment-date'), // time of day the event ends
+  weeksOfMonth: attr('raw'),
   overrides: attr('raw'),
   _remove: attr('boolean'),
   repeats: attr('string'),
-  startDate: getDate('startsAt'),
+
   startsAt: attr('moment-date'),
+  startDate: getDate('startsAt'),
   startTime: getTime('startsAt', 'startDate'),
+
+  endsAt: attr('moment-date'), // time of day the event ends
+  endDate: attr('moment-date'), // date that the repeating schedule runs until
+
   stopDate: getDate('endDate'),
   subtitle: attr('string'),
-  weeksOfMonth: attr('raw'),
 
   stopTime: computed('endsAt', {
     get() {
@@ -81,7 +84,7 @@ export default DS.Model.extend(ScheduleSummary, {
       let datetime = null;
 
       if (isPresent(value)) {
-        const date = moment();
+        const date = get(this, 'startsAt') || moment();
         const formattedDate = date.format(dateFormat);
 
         datetime = moment(`${formattedDate} ${value}`, `${dateFormat} ${timeFormat}`);

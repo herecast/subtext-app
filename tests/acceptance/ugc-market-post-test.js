@@ -20,6 +20,7 @@ module('Acceptance | ugc market post', function(hooks) {
     const email = 'han@solo.com';
     const phone = '8025555555';
     const cost = "7";
+    const url = "http://asdf.com";
 
     const currentUser = this.server.create('current-user', {
       locationId: location.id,
@@ -36,21 +37,19 @@ module('Acceptance | ugc market post', function(hooks) {
         content: description,
         contentType: "market",
         cost: cost,
-        costType: null,
         eventUrl: null,
         organizationId: null,
         listservIds:[],
         publishedAt: null,
-        registrationDeadline: null,
         schedules: [],
         sold: false,
         subtitle: null,
         sunsetDate: null,
         title: title,
         locationId: get(location, 'id'),
+        url: url,
         venueId: null,
-        venueStatus: null,
-        wantsToAdvertise:false,
+        venueStatus: null
       },
         "Server received expected POST data."
       );
@@ -77,24 +76,26 @@ module('Acceptance | ugc market post', function(hooks) {
 
     authenticateUser(this.server, currentUser);
 
-    await ugcMarket.visit()
-      .fillInTitle(title)
+    await ugcMarket.start();
+
+    await ugcMarket.fillInTitle(title)
       .fillInDescription(description)
-      .fillInCost(cost);
+      .fillInCost(cost)
+      .fillInEmail(email)
+      .fillInPhone(phone)
+      .fillInUrl(url);
 
     await ugcMarket.addImageFile();
-    await click('[data-test-add-another-image]');
+    await click('[data-test-jobs-action="add-another-image"]');
     await ugcMarket.addImageFile();
 
     await ugcMarket.selectNewLocation(get(location, 'id'));
 
     await ugcMarket.fillInEmail(email)
-      .fillInPhone(phone);
+      .fillInPhone(phone)
+      .fillInUrl(url);
 
-    await ugcMarket.next();
-    await ugcMarket.next();
-
-    ugcMarket.saveAndPublish();
-
+    await ugcMarket.preview();
+    ugcMarket.launch();
   });
 });

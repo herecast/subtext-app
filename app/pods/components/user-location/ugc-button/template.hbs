@@ -3,19 +3,44 @@
     Calculating Location...
   </div>
 {{else}}
-  <div class="UserLocation-UgcButton-location">
-    {{fa-icon "map-marker"}} {{buttonText}}
-  </div>
-  <div class="UserLocation-UgcButton-change" {{action "toggleWantsToChangeContentLocation"}} role="button" data-test-action="change-location">
-    Change
-  </div>
-{{/if}}
+  {{#if wantsToChangeContentLocation}}
+    <div class="UserLocation-UgcButton--change-field dropdown-toggle">
+      {{fa-icon "map-marker" class="UserLocation-UgcButton-change-icon"}}
+      {{input
+        id="new-location"
+        placeholder="Enter City Name or ZIP Code"
+        class="UserLocation-UgcButton--change-field-input"
+        value=(mut inputValue)
+        keyDown=(action "valueChanging")
+        data-test-input="new-location"
+      }}
+      {{fa-icon "times" class="UserLocation-UgcButton-change-icon" click=(action "toggleWantsToChangeContentLocation")}}
+    </div>
+    <div class="UserLocation-UgcButton--change-results dropdown-menu">
+      {{#if locationMatches}}
+        {{#each locationMatches as |location|}}
+          <div
+            class="UserLocation-SearchResults-location"
+            {{action "changeContentLocation" location}}
+            role="button"
+            data-test-location-choice={{location.id}}
+          >
+            {{fa-icon "map-marker"}} {{location.city}}, {{location.state}}
+          </div>
+        {{/each}}
+      {{else if hasInputValue}}
+        <div class="UserLocation-SearchResults-location">
+          No Matching Locations
+        </div>
+      {{/if}}
+    </div>
 
-{{#if wantsToChangeContentLocation}}
-  {{user-location/chooser
-    hideLocateMe=true
-    modelLocationName=modelLocationName
-    onClose=(action "toggleWantsToChangeContentLocation")
-    onChangeLocation=(action "changeContentLocation")
-  }}
+  {{else}}
+    <div class="UserLocation-UgcButton-change-icon" {{action "toggleWantsToChangeContentLocation"}} role="button" data-test-action="change-location">
+      {{fa-icon "pencil"}}
+    </div>
+    <div class="UserLocation-UgcButton-location" {{action "toggleWantsToChangeContentLocation"}} role="button">
+      {{fa-icon "map-marker"}} {{buttonText}}
+    </div>
+  {{/if}}
 {{/if}}

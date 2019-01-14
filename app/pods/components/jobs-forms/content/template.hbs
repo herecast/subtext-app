@@ -1,0 +1,24 @@
+{{#if contentIsEmpty}}
+  {{fa-icon "plus-square-o" class="JobsForms-change-icon" click=(action "putFocusOn" "form-content")}}
+{{/if}}
+{{textarea
+  id="form-content"
+  class="JobsForms-Content-input error-box"
+  placeholder="Listing Description..."
+  value=model.content
+  keyDown=(action "contentChanging")
+  paste=(action "onPaste")
+  maxlength=maxlength
+  style=contentStyle
+  data-test-jobs-field="content"
+}}
+
+{{#unless contentIsEmpty}}
+  <div class="JobsForms-Content--length-indicator">
+    {{content.length}}/{{maxlength}} Max
+  </div>
+{{/unless}}
+
+<div id="content-clone">
+  {{model.content}}
+</div>

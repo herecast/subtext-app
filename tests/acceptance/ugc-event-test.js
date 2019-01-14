@@ -1,4 +1,5 @@
 /* global FormData */
+import { click } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { get } from '@ember/object';
 import { module, test } from 'qunit';
@@ -12,11 +13,13 @@ module('Acceptance | ugc event', function(hooks) {
   setupMirage(hooks);
 
   test('Every field avaliable filled in', async function(assert) {
-    const done = assert.async(2);
+    const done = assert.async(3);
     const venue = this.server.create('venue');
     const organization = this.server.create('organization');
+    const authorName = "Herbie Dunfie";
     const currentUser = this.server.create('current-user', {
       email: 'example@example.com',
+      name: authorName,
       managedOrganizationIds: [parseInt(get(organization, 'id'))]
     });
     const repeat = 'daily';
@@ -27,7 +30,11 @@ module('Acceptance | ugc event', function(hooks) {
     const recurringStartDate = moment().startOf('week').add(1, 'week').add(1, 'days').startOf('day');
     const recurringEndDate = recurringStartDate.add(8, 'weeks').startOf('day');
     const startTime = moment().add('2', 'days').startOf('day').utc().add(9, 'hours').format(timeFormat);
-    const deadlineDate = moment().add('3', 'days').startOf('day');
+    const url = 'http://resistance.onion';
+    const title = 'test-title';
+    const description = 'test-description';
+    const email = 'chewie@resistance.org';
+    const phone = '6035555555'
 
     this.server.post('/contents', function(db) {
       const attrs = this.normalizedRequestAttrs();
@@ -35,20 +42,19 @@ module('Acceptance | ugc event', function(hooks) {
       assert.deepEqual(
         attrs,
         {
-          authorName: null,
+          authorName: authorName,
           bizFeedPublic: true,
-          contactEmail: 'chewie@resistance.org',
-          contactPhone: '6035555555',
-          content: 'test-description',
+          contactEmail: email,
+          contactPhone: phone,
+          content: description,
           contentType: 'event',
           cost: price,
-          costType: 'paid',
-          eventUrl: 'http://resistance.onion',
+          eventUrl: null,
+          url: url,
           listservIds: [],
           location: null,
           organizationId: get(organization, 'id'),
           publishedAt: null,
-          registrationDeadline: deadlineDate.utc().format(timeFormat),
           schedules: [
             {
               days_of_week: [],
@@ -76,10 +82,9 @@ module('Acceptance | ugc event', function(hooks) {
           sold: false,
           subtitle: null,
           sunsetDate: null,
-          title: 'test-title',
+          title: title,
           venueId: parseInt(get(venue, 'id')),
-          venueStatus: 'new',
-          wantsToAdvertise: true
+          venueStatus: null
         },
         "Server received expected POST data."
       );
@@ -116,9 +121,18 @@ module('Acceptance | ugc event', function(hooks) {
 
     authenticateUser(this.server, currentUser);
 
-    await ugcEvent.visit();
+    await ugcEvent.start();
+
     await ugcEvent.selectOrganization(organization);
     await ugcEvent.fillInTitle('test-title');
+
+    await ugcEvent.fillInTitle(title)
+      .fillInDescription(description)
+      .fillInCost(price)
+      .fillInEmail(email)
+      .fillInPhone(phone)
+      .fillInUrl(url);
+
     await ugcEvent.selectVenue(venue);
     await ugcEvent.addSingleDate({
       startDate: singleStartDate.format(dateFormat)
@@ -128,21 +142,13 @@ module('Acceptance | ugc event', function(hooks) {
       recurringStartDate: recurringStartDate.format(dateFormat),
       recurringEndDate: recurringEndDate.format(dateFormat)
     });
-    await ugcEvent.expandReach();
-    await ugcEvent.addDeadline(deadlineDate.format(dateFormat));
-    await ugcEvent.addPrice(price);
+
 
     await ugcEvent.addImageFile();
+    await click('[data-test-jobs-action="add-another-image"]');
+    await ugcEvent.addImageFile();
 
-    await ugcEvent.fillInDescription('test-description')
-      .addContactEmail('chewie@resistance.org')
-      .addContactPhone('6035555555')
-      .addEventUrl('http://resistance.onion');
-
-    await ugcEvent.next();
-
-    await ugcEvent.next();
-
-    await ugcEvent.saveAndPublish();
+    await ugcEvent.preview();
+    ugcEvent.launch();
   });
 });

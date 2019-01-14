@@ -1,25 +1,21 @@
 <div class="JobsNavigation-wrapper">
 
   <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "market"}} role="button">
-    {{#link-to "market.new" (query-params organization_id=organizationId)}}
-      <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="market">
-        {{fa-icon "tags"}}
-      </div>
-        <span>List in Market</span>
-    {{/link-to}}
+    <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="market">
+      {{fa-icon "tags"}}
+    </div>
+      <span>List in Market</span>
   </div>
-  <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "events"}} role="button">
-    {{#link-to "events.new" (query-params organization_id=organizationId)}}
-      <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="events">
-        {{fa-icon "calendar"}}
-      </div>
-        <span>List in Calendar</span>
-    {{/link-to}}
+  <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "event"}} role="button">
+    <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="event">
+      {{fa-icon "calendar"}}
+    </div>
+      <span>List in Calendar</span>
   </div>
 
   {{#if canPublishNews}}
     <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "news"}} role="button">
-      {{#link-to "news.new" (query-params organization_id=organizationId)}}
+      {{#link-to "news.new"}}
         <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="news">
           {{fa-icon "pencil-square-o" class="offsetRight"}}
         </div>

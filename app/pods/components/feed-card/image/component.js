@@ -18,6 +18,7 @@ export default Component.extend(textSnippet, {
   maxSnippetLength: 160,
 
   hasImage: notEmpty('imageUrl'),
+  hasMultipleImages: gt('model.images.length', 1),
   hasExcerpt: gt('textSnippet.length', 10),
   excerpt: computed('textSnippet', function() {
     return htmlSafe(get(this, 'textSnippet'));

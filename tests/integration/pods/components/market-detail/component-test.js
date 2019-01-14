@@ -20,7 +20,7 @@ module('Integration | Component | market detail', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('scrollToMock', () => {});
-    this.set('model', {id: 1});
+    this.set('model', {id: 1, images: []});
 
     await render(hbs`
       {{market-detail
@@ -43,7 +43,11 @@ module('Integration | Component | market detail', function(hooks) {
       }
     });
 
-    this.set('market', {id: 1, contentId: 2});
+    this.set('market', {
+      id: 1,
+      contentId: 2,
+      images: []
+    });
     this.set('scrollToMock', () => {});
 
     await render(hbs`
@@ -57,7 +61,11 @@ module('Integration | Component | market detail', function(hooks) {
         impressions.indexOf(2) > -1,
         'After render, records impression through tracking service');
 
-      this.set('market', {id: 4, contentId: 5});
+      this.set('market', {
+        id: 4,
+        contentId: 5,
+        images: []
+      });
 
       assert.ok(
         impressions.indexOf(5) > -1,

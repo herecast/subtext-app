@@ -4563,25 +4563,6 @@ ember-browserify@1.2.2:
     through2 "^2.0.0"
     walk-sync "^0.2.7"
 
-ember-changeset-validations@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/ember-changeset-validations/-/ember-changeset-validations-1.3.1.tgz#713c232321862a3c1dfcb41263dfe6f930bd0c40"
-  integrity sha512-OZHfPmEt7lUfvlajFgt6V9D+p0Q8SRtezw3E++j0y98iprbT9vzAPexsGooqqhvkazQci7jwpbXkHqbUD044rA==
-  dependencies:
-    ember-changeset "1.5.0"
-    ember-cli-babel "^6.6.0"
-    ember-cli-htmlbars "^1.1.1"
-    ember-get-config "^0.2.4"
-    ember-validators "^1.2.0"
-
-ember-changeset@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/ember-changeset/-/ember-changeset-1.5.0.tgz#730d0ca3ac7a54a471322d159c77e734d0f42751"
-  integrity sha512-Pn22aKErnj8BgAEGG9Liy4+N0exgvvVqlxXHOF1DadYpF6vu3MYaNu0twOBUeAoQEMNypHk8ez1ru8jZz/g/jQ==
-  dependencies:
-    ember-cli-babel "^6.8.2"
-    ember-deep-set "^0.1.4"
-
 ember-cli-babel-plugin-helpers@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.0.0.tgz#19f3142a2272adb1cc61dfe0dce360e2909a0b07"
@@ -5309,13 +5290,6 @@ ember-data@~3.4.0:
     semver "^5.5.0"
     silent-error "^1.1.0"
 
-ember-deep-set@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ember-deep-set/-/ember-deep-set-0.1.4.tgz#a9989969498d89685be155b72109b037af4d5645"
-  integrity sha512-W010ZSvrZQ2Xsm+UkRInfixRwipLoU58G3Xm1cGNzLG7WNvon6NKF1p35jTPjhMI2CS6RZZuCd6DtJ7BHvUJ7w==
-  dependencies:
-    ember-cli-babel "^6.6.0"
-
 ember-elsewhere@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/ember-elsewhere/-/ember-elsewhere-1.0.5.tgz#7ec292b03930765f021b51c51802b84f82f0c56c"
@@ -5630,6 +5604,14 @@ ember-sinon@^2.2.0:
     ember-cli-babel "^6.6.0"
     sinon "^6.0.1"
 
+ember-sortable@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/ember-sortable/-/ember-sortable-1.12.1.tgz#e7dd66bac7bc54a9f275b6417d3918e4dfbad3a2"
+  integrity sha512-vejqo3dVX1LUF6ueo1Y0Q20nUk0uk7qOF636oQwrzd/OvOIQ17+P1C1j3mLQLPgzh3Be1nO0h4BxWW6+Hyhhzw==
+  dependencies:
+    ember-cli-babel "^6.6.0"
+    ember-cli-htmlbars "^2.0.3"
+
 ember-source-channel-url@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-source-channel-url/-/ember-source-channel-url-1.1.0.tgz#73de5cc6ebc25b2120e932ec1d8f82677bfaf6ef"
@@ -5712,7 +5694,7 @@ ember-try@^0.2.23:
     rsvp "^3.0.17"
     semver "^5.1.0"
 
-ember-validators@1.2.0, ember-validators@^1.2.0:
+ember-validators@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-1.2.0.tgz#b4bc9aeaf97921d80c41b7dc21acca288d1216ae"
   integrity sha1-tLya6vl5IdgMQbfcIazKKI0SFq4=

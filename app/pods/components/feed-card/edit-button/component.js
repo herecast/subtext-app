@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { set, get, computed } from '@ember/object';
 import { Promise } from 'rsvp';
 import { inject as service } from '@ember/service';
+import { next } from '@ember/runloop';
 import { readOnly } from '@ember/object/computed';
 import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 
@@ -10,15 +11,16 @@ export default Component.extend({
 
   currentService: service('currentController'),
   session: service(),
+  router: service(),
+  floatingActionButton: service(),
 
   model: null,
 
-  editPath: null,
-  editPathId: null,
   iconSize: null,
   color: null,
   style: null,
   editButtonIsActive: false,
+  isTransitioning: false,
 
   currentUser: computed(function() {
     return Promise.resolve( get(this, 'session.currentUser') );
@@ -54,5 +56,24 @@ export default Component.extend({
     }
 
     return false;
-  })
+  }),
+
+  actions: {
+    editContent() {
+      if (!get(this, 'isTransitioning')) {
+        set(this, 'isTransitioning', true);
+
+        next(() => {
+          get(this, 'floatingActionButton').editContent(get(this, 'model'))
+          .then(() => {
+            if (get(this, 'onEdit')) {
+              get(this, 'onEdit')();
+            }
+
+            set(this, 'isTransitioning', false);
+          });
+        });
+      }
+    }
+  }
 });
