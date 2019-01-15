@@ -12,7 +12,6 @@ import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import { Promise } from 'rsvp';
 import { htmlSafe } from '@ember/template';
-import emailIsValid from 'subtext-ui/utils/email-is-valid';
 /* global loadImage */
 
 export default Controller.extend({
@@ -22,19 +21,24 @@ export default Controller.extend({
   notify: service('notification-messages'),
   api: service(),
   media: service(),
+  fastboot: service(),
+  tracking: service(),
 
   currentUser: alias('session.currentUser'),
   hasCurrentUser: notEmpty('currentUser'),
   hasNoCurrentUser: not('hasCurrentUser'),
   currentUserIsBlogger: readOnly('currentUser.isBlogger'),
 
+  isFastBoot: readOnly('fastboot.isFastBoot'),
   blockMobileUser: computed('media.isMobile', function() {
     const shouldBlockUser = get(this, 'media.isMobile');
 
-    if (shouldBlockUser) {
-      $('body').addClass('hide-intro-js');
-    } else {
-      $('body').removeClass('hide-intro-js');
+    if (!get(this, 'isFastBoot')) {
+      if (shouldBlockUser) {
+        $('body').addClass('hide-intro-js');
+      } else {
+        $('body').removeClass('hide-intro-js');
+      }
     }
 
     return shouldBlockUser;
@@ -227,24 +231,22 @@ export default Controller.extend({
     }
   },
 
-  _checkOrganizationEmail() {
-    const email = get(this, 'organization.email');
-    set(this, 'hasValidEmail', emailIsValid(email));
-  },
-
   actions: {
+    stepStartAccount() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/account');
+    },
+
+    stepStartProfilePic() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/profilepic');
+    },
+
+    stepStartLegal() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/agreement');
+    },
+
     uploadProfileImage() {
       const fileInput = $(document).find(`.${get(this, 'profileImageInputClass')}`)[0];
       fileInput.click();
-    },
-
-    setProfileImageToStock() {
-      const organization = get(this, 'organization');
-
-      organization.setProperties({
-        profileImageUrl: get(this, 'genericProfileImageUrl'),
-        profileImage: get(this, 'genericProfileImageUrl')
-      });
     },
 
     setProfileImage() {
@@ -279,45 +281,9 @@ export default Controller.extend({
       });
     },
 
-    uploadBackgroundImage() {
-      const fileInput = $(document).find(`.${get(this, 'backgroundImageInputClass')}`)[0];
-      fileInput.click();
-    },
-
-    setBackgroundImage() {
-      if (!get(this, 'hasNewOrganizationBackgroundImage')) {
-        const organization = get(this, 'organization');
-        const backgroundImageUrl = get(this, 'avatarUrls.background');
-
-        organization.setProperties({
-          backgroundImage: null,
-          backgroundImageUrl: backgroundImageUrl,
-          remoteBackgroundImageUrl: backgroundImageUrl
-        });
-      }
-    },
-
-    backgroundImageSelected(files) {
-      const imageFile = files[0];
-      const organization = get(this, 'organization');
-
-      this._loadImageFile(imageFile, false)
-      .then((dataUrl) => {
-        organization.setProperties({
-          backgroundImageUrl: dataUrl,
-          backgroundImage: imageFile
-        });
-
-        set(this, 'hasNewOrganizationBackgroundImage', true);
-      })
-      .catch(() => {
-        this.send('setBackgroundImageToStock');
-
-        set(this, 'hasNewOrganizationBackgroundImage', false);
-      });
-    },
-
     nameStepStart() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/blogname');
+
       run.next(() => {
         set(this, 'organization.name', null);
         $('#blog-name').focus();
@@ -329,44 +295,13 @@ export default Controller.extend({
       run.debounce(this, '_checkOrganizationName', 500);
     },
 
-    emailStepStart() {
-      run.next(() => {
-        set(this, 'organization.email', get(this, 'currentUser.email'));
-      });
-    },
-
-    useDifferentEmail() {
-      setProperties(this, {
-        'organization.email': null,
-        wantsNewEmail: true
-      });
-      run.next(() => {
-        $('#blog-email').focus();
-      });
-    },
-
-    useDefaultEmail() {
-      set(this, 'organization.email', get(this, 'currentUser.email'));
-    },
-
-    emailIsChanging() {
-      run.debounce(this, '_checkOrganizationEmail', 500);
-    },
-
-    websiteStepStart() {
-      run.next(() => {
-        set(this, 'organization.website', null);
-        $('#blog-website').focus();
-      });
-    },
-
-    useNoWebsite() {
-      set(this, 'organization.website', null);
-    },
-
     descriptionStepStart() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/description');
+
       run.next(() => {
-        set(this, 'organization.description', null);
+        const orgName = get(this, 'organization.name');
+        const defaultDescription = `Welcome to ${orgName}, where I'll be posting about the things that are important to me.`;
+        set(this, 'organization.description', defaultDescription);
       });
     },
 
@@ -375,6 +310,8 @@ export default Controller.extend({
 
       get(this, 'organization').save()
       .then((organization) => {
+        get(this, 'tracking').trackVirtualPageview('/startablog/newblogcomplete');
+
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);
         set(this, 'session.userCanPublishNews', true);

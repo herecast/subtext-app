@@ -113,7 +113,7 @@ export default Service.extend({
 
   clearModals() {
     set(this, 'modals', a());
-    
+
     this.removeModalBodyClass();
   },
 

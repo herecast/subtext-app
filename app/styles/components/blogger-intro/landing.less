@@ -1,0 +1,58 @@
+.BloggerIntro-Landing {
+  &--title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin: 16px 0 32px 0;
+  }
+
+  &--subtitle {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  &--text {
+    font-size: 16px;
+    line-height: 1.1;
+  }
+
+  &--value-grid {
+
+    &-row {
+      .display-grid();
+      .grid-template-columns(80px 1fr);
+      margin-bottom: 16px;
+    }
+
+    &-cell {
+      .grid-align-self(start);
+      text-align: left;
+
+      &.left {
+        .grid-column(1);
+        line-height: 80px;
+      }
+      &.right {
+        .grid-column(2);
+      }
+    }
+
+  }
+
+  &--icon {
+    line-height: 80px;
+    display: inline-block;
+
+    &.orange-button > button {
+      margin-top: -15px !important;
+    }
+
+    &.money-bag,
+    &.party-popper {
+      font-size: 60px;
+    }
+  }
+
+
+
+}

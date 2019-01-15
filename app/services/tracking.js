@@ -23,6 +23,7 @@ export default Service.extend(Evented, {
   currentUser: computed(function() {
     return RSVP.Promise.resolve( get(this, 'session.currentUser') );
   }),
+  currentController: service(),
 
   _waitForClientId: null,
 
@@ -100,6 +101,25 @@ export default Service.extend(Evented, {
         }
       });
     }
+  },
+
+  trackVirtualPageview(url) {
+    const currentUser          = get(this, 'session.currentUser');
+    const currentUserID        = (currentUser) ? get(currentUser, 'userId') : 'anonymous';
+    const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
+
+    const currentUrl = window.location.href;
+    const currentOrgName = get(this,'currentController.currentController.model.organizationName') || null;
+
+    this.push({
+      'event'                   : 'VirtualPageview',
+      'virtualPageURL'          : url,
+      'virtualPageTitle'        : document.title,
+      'virtualUserID'           : currentUserID,
+      'virtualCommunity'        : currentUserCommunity,
+      'VirtualPageReferrer'     : currentUrl,
+      'virtualOrganizationName' : currentOrgName
+    });
   },
 
   chooseDifferentLocation(locationId) {

@@ -8,8 +8,6 @@ import config from 'subtext-ui/config/environment';
 export function initialize(application) {
   if (typeof FastBoot === 'undefined') {
 
-    let referrer = window.location.href;
-
     const gtmId      = config['GTM_API_TOKEN'] || null;
     const gtmAuth    = config['GTM_AUTH'] || null;
     const gtmPreview = config['GTM_PREVIEW'] || null;
@@ -38,24 +36,7 @@ export function initialize(application) {
         notifyGoogleTagManager: on('didTransition', function() {
           // Wrap in run.later so that the page title is available
           return run.later(() => {
-            const currentUser          = get(this, 'session.currentUser');
-            const currentUserID        = (currentUser) ? get(currentUser, 'userId') : 'anonymous';
-            const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
-
-              const currentUrl = window.location.href;
-              const currentOrgName = get(this,'currentController.currentController.model.organizationName') || null;
-
-              get(this, 'tracking').push({
-                'event':'VirtualPageview',
-                'virtualPageURL'          : get(this, 'url'),
-                'virtualPageTitle'        : document.title,
-                'virtualUserID'           : currentUserID,
-                'virtualCommunity'        : currentUserCommunity,
-                'VirtualPageReferrer'     : referrer,
-                'virtualOrganizationName' : currentOrgName
-              });
-
-              referrer = currentUrl;
+            get(this, 'tracking').trackVirtualPageview(get(this, 'url'));
           });
         })
       });

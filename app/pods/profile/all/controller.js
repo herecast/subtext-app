@@ -59,6 +59,20 @@ export default Controller.extend({
     return get(this, 'feedItemsView') === 'postsOnly' && !get(this, 'showAdminCards');
   }),
 
+  nothingShowingText: computed('show', function() {
+    const show = get(this, 'show') || null;
+
+    if (show === null) {
+      return 'published';
+    } else if (show === 'hidden') {
+      return 'hidden';
+    } else if (show === 'draft') {
+      return 'draft';
+    } else {
+      return '';
+    }
+  }),
+
   visibleFeedItems: computed('model.@each.viewStatus', 'show', function() {
     const model = get(this, 'model') || [];
     const show = get(this, 'show');

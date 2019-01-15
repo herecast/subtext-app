@@ -1,4 +1,4 @@
-import { notEmpty } from '@ember/object/computed';
+import { notEmpty, or } from '@ember/object/computed';
 import $ from 'jquery';
 import { computed, set, get } from '@ember/object';
 import { htmlSafe } from '@ember/template';
@@ -10,7 +10,10 @@ export default StepComponent.extend({
   classNameBindings: ['hasHighlightedElement:show-arrow'],
 
   modal: false,
+  yieldBeforeAvatar: false,
   replaceTooltip: false,
+  showLanscapePicture: false,
+  hideHelpButton: false,
   scope: null,
 
   intro: "",
@@ -45,6 +48,8 @@ export default StepComponent.extend({
 
   modalDialogStyle: null,
   hideHelperLayer: true,
+
+  hideYieldAfterAvatar: or('replaceTooltip', 'yieldBeforeAvatar'),
 
   didInsertElement() {
     this._super(...arguments);
@@ -120,6 +125,9 @@ export default StepComponent.extend({
     let klass = 'BloggerIntro-Step--modal-wrapper';
     if (get(this, 'replaceTooltip')) {
       klass += ' positioned';
+    }
+    if (get(this, 'showLanscapePicture')) {
+      klass += ' show-landscape-picture';
     }
     return htmlSafe(klass);
   }),

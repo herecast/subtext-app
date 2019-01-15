@@ -1,5 +1,11 @@
 {{#if (and modal isCurrentStep)}}
-  {{#modal-wrapper isAnimated=false class=modalClass modalDialogStyle=modalDialogStyle style=modalStyle}}
+  {{#modal-wrapper isAnimated=false class=modalClass modalDialogStyle=modalDialogStyle style=modalStyle maintainBodyClass=true}}
+    {{#if yieldBeforeAvatar}}
+      <div class="BloggerIntro-Step-main">
+        {{yield isCurrentStep}}
+      </div>
+    {{/if}}
+
     {{#if avatarUrl}}
       <div class="BloggerIntro-Step-avatar">
         <img src={{avatarUrl}} alt="Avatar">
@@ -18,7 +24,7 @@
       </div>
     {{/if}}
 
-    {{#unless replaceTooltip}}
+    {{#unless hideYieldAfterAvatar}}
       <div class="BloggerIntro-Step-main">
         {{yield isCurrentStep}}
       </div>
@@ -62,9 +68,11 @@
       </div>
     {{/unless}}
 
-    <div class="BloggerIntro-Step-help-bar">
-      <a href="mailto:dailyuv@subtext.org">{{fa-icon "info-circle" class="help-button"}} Need help?</a>
-    </div>
+    {{#unless hideHelpButton}}
+      <div class="BloggerIntro-Step-help-bar">
+        <a href="mailto:dailyuv@subtext.org">{{fa-icon "info-circle" class="help-button"}} Need help?</a>
+      </div>
+    {{/unless}}
 
   {{/modal-wrapper}}
 {{/if}}

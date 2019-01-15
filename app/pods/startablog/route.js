@@ -11,12 +11,10 @@ export default Route.extend({
     const controller = this.controllerFor('startablog');
 
     return get(this, 'store').createRecord('organization', {
-      name: 'Best of the UV',
-      profileImageUrl: get(controller, 'avatarUrls.profile'),
+      name: 'My New Blog',
+      profileImageUrl:'https://s3.amazonaws.com/subtext-misc/startablog/generic-profile-picture.jpg',
       backgroundImageUrl: get(controller, 'avatarUrls.background'),
-      email: 'bestoftheuv@gmail.com',
-      website: 'http://instagram.com/thedailyuv',
-      description: "A blog of the best of everything in the Upper Valley—according to the people who live here and know best. Each week I'll post a topic (best sandwich, best village green, best museum, etc.) and invite readers to share their favorites in the comments. Then I'll pull together your recommendations into THE definitive list. Me? I'm just the messenger, but of course I have my favorites, too! Want to suggest a best-of topic? Email me at bestoftheuv@gmail.com.",
+      description: "Welcome to My New Blog, where I'll be posting about the things that are important to me.",
       orgType: 'Blog',
       hoursCardActive: false
     });
@@ -26,12 +24,12 @@ export default Route.extend({
     didTransition() {
       if (!get(this, 'fastboot.isFastBoot')) {
         window.scrollTo(0, 0);
-        $('html').addClass('modal-open');
+        $('body').addClass('modal-open');
       }
     },
 
     willTransition() {
-      $('html').removeClass('modal-open');
+      $('body').removeClass('modal-open');
     }
   }
 });
