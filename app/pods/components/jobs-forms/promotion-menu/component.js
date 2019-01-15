@@ -154,7 +154,7 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
       get(this, 'facebook').ui({
         method: 'share',
         mobile_iframe: true,
-        href: urlForShare
+        href: urlForShare.string
       });
 
       this._hideOpenMenuItems();
