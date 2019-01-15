@@ -39,7 +39,7 @@ export default Component.extend(SocialPreloaded, {
       body = `I want to share the following content from dailyUV.com with you: ${href}`;
     }
 
-    return `mailto:?subject=${subject}&body=${body}`;
+    return htmlSafe(`mailto:?subject=${subject}&body=${body}`);
   }),
 
   twitterLink: computed('title', 'authorName', 'twitterHandle', function() {
@@ -74,15 +74,6 @@ export default Component.extend(SocialPreloaded, {
   }),
 
   actions: {
-    shareEmail() {
-      const isPreview = get(this, 'isPreview');
-      if(!isPreview) {
-        const mailto = get(this, 'mailtoLink');
-
-        window.location.href = mailto;
-      }
-    },
-
     shareFacebook() {
       const urlForShare = this.urlForShare();
       const orgHashtag = get(this, 'orgHashtag');
