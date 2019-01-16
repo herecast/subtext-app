@@ -43,12 +43,15 @@
               {{payment.paidImpressions}}
             </td>
             <td>
-              {{formatted-number payment.payPerImpression "dollars"}}
+              {{formatted-number payment.payPerImpression "dollars" 4}}
+            </td>
+            <td>
+              {{payment.revenueShare}}%
             </td>
             <td>
               {{formatted-number payment.totalPayment "dollars"}}
             </td>
-            <td>
+            <td class="Modals-aggregatedContentPayments-payment-date-column">
               <div {{action "getPaymentReport" payment}} role="button">
                 {{moment-format payment.adjustedPaymentDate "MM/DD/YYYY"}}
                 {{fa-icon "file-pdf-o"}}

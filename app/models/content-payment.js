@@ -9,6 +9,7 @@ export default DS.Model.extend({
   paidImpressions: DS.attr('number'),
   payPerImpression: DS.attr('number'),
   totalPayment: DS.attr('number'),
+  revenueShare: DS.attr('number'),
   paymentDate: DS.attr('moment-date'),
   reportUrl: DS.attr('string'),
 

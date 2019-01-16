@@ -18,7 +18,7 @@ export default ModalInstance.extend({
   init() {
     this._super(...arguments);
     setProperties(this, {
-      headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Total Payment', 'Payment Date']
+      headers: ['Period Start', 'Period End', 'Impressions', 'Pay per Impression', 'Revenue Share', 'Total Payment', 'Payment Date']
     });
   },
 
