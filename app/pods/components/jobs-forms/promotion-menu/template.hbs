@@ -84,7 +84,7 @@
                 id=(concat "listserv-" listserv.id)
                 type="checkbox"
                 checked=listserv.isChecked
-                click=(action "toggleListserv" listserv.id)
+                change=(action "toggleListserv" listserv.id)
               }}
               <label for="listserv-{{listserv.id}}">
                 {{listserv.name}}
