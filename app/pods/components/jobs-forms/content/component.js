@@ -22,7 +22,7 @@ export default Component.extend(JobsForms, {
 
   didInsertElement() {
     this._super(...arguments);
-    this._setContentStyle();
+    this._contentChanged(true);
   },
 
   _setContentStyle() {
@@ -32,15 +32,18 @@ export default Component.extend(JobsForms, {
     set(this, 'contentStyle', htmlSafe(`height:${cloneHeight}px;`));
   },
 
-  _contentChanged() {
+  _contentChanged(onDidInsert=false) {
     const content = get(this, 'model.content');
+
     let sanitizedContent = this._sanitizeOutHtml(content, true);
     sanitizedContent = this._truncateValue(sanitizedContent, get(this, 'maxlength'));
 
     set(this, 'model.content', sanitizedContent);
     this._setContentStyle();
 
-    this.onChange(sanitizedContent);
+    if (!onDidInsert) {
+      this.onChange(sanitizedContent);
+    }
   },
 
   actions: {

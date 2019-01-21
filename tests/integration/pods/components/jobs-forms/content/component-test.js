@@ -7,10 +7,11 @@ module('Integration | Component | jobs-forms/content', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    this.set('model', {
+      content: ''
+    });
 
-    await render(hbs`{{jobs-forms/content}}`);
+    await render(hbs`{{jobs-forms/content model=model}}`);
 
     assert.ok(this.element);
   });
