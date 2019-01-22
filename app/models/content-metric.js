@@ -1,5 +1,6 @@
 import EmberObject, { computed, get } from '@ember/object';
 import { A } from '@ember/array';
+import moment from 'moment';
 
 export default EmberObject.extend({
   daily_view_counts: A(),
@@ -10,7 +11,7 @@ export default EmberObject.extend({
 
     return data.map(function(i) {
       return EmberObject.create({
-        report_date: new Date(i['report_date']),
+        report_date: moment(i['report_date']),
         view_count: parseInt(i['view_count'])
       });
     });
@@ -21,7 +22,7 @@ export default EmberObject.extend({
 
     return data.map(function(i) {
       return EmberObject.create({
-        report_date: new Date(i['report_date']),
+        report_date: moment(i['report_date']),
         click_count: parseInt(i['banner_click_count'])
       });
     });
