@@ -1,4 +1,5 @@
 import { later } from '@ember/runloop';
+import { isPresent } from '@ember/utils';
 import Service, { inject as service } from '@ember/service';
 import { set, get, setProperties } from '@ember/object';
 
@@ -63,10 +64,21 @@ export default Service.extend({
   },
 
   editContent(passedModel) {
+    const contentId = get(passedModel, 'contentId');
+    const model = get(this, 'store').peekRecord('content', contentId);
+
+    if (isPresent(model)) {
+      return this._setupEditTransition(model);
+    } else {
+      return get(this, 'store').findRecord('content', contentId)
+      .then((model) => {
+        return this._setupEditTransition(model);
+      });
+    }
+  },
+
+  _setupEditTransition(model) {
     return new Promise((resolve) => {
-
-      const model = get(this, 'store').peekRecord('content', get(passedModel, 'contentId'));
-
       const activeForm = get(model, 'contentType') === 'market' ? 'market' : 'event';
 
       setProperties(this, {
@@ -108,4 +120,6 @@ export default Service.extend({
       }
     });
   }
+
+
 });
