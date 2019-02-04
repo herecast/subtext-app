@@ -6,10 +6,8 @@ export default Component.extend({
   model: null,
   showingDetailInFeed: null,
   organization: null,
-  canManage: false,
-  canEditIfAllowed: false,
+  allowManageOnTile: false,
   displayAsPublic: false,
-  hideComments: false,
 
   isContent: alias('model.isContent'),
   isCarousel: alias('model.isCarousel'),

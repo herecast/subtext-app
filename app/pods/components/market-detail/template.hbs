@@ -16,175 +16,112 @@
 }}
 
 {{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
-  {{#sticky.item class="StickyItem--default-background u-boxShadowBottom" useAbsolutePositioning=true maintainStickyItemSpace=(not isPreview)}}
     {{#content-body classNames="u-padding0"}}
-
       <div class="DetailPage-headerSection u-paddingVertical16 u-paddingLeft8">
-        {{#title-text strong=true classNames="TitleText--noMargin u-inlineFlex u-flexAlign-center"}}
-          {{#if model.sold}}
-            <div class="FeedCard-Title-sold-tag">
-              Sold
-            </div>
-          {{/if}}
-          <div data-test-market-title>
-            {{model.title}}
-          </div>
-        {{/title-text}}
-      </div>
-      <div class="DetailPage-headerSubSection">
-        {{#unless isPreview}}
-          {{report-content-details
-              contentId=model.contentId
-              class="DetailPage-reportFlag h4 u-paddingLeft8 u-paddingBottom8"
-          }}
-        {{/unless}}
-      </div>
-
-      {{horizontal-rule classNames="u-padding0"}}
-
-      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center" data-test-market-attribution>
-
-        {{feed-card/attribution
-          avatarUrl=model.attributionImageUrl
-          author=model.attributionName
-          linkRouteName=model.attributionLinkRouteName
-          linkId=model.attributionLinkId
-          postedTime=model.publishedAtRelative
-          contentId=model.contentId
-          classNames="u-padding8"
+        {{feed-card/title
+          title=model.title
+          model=model
+          sold=model.sold
           isOnDetailView=true
+          showToggleSold=editButtonIsActive
         }}
+      </div>
+    {{/content-body}}
 
-        <div class="u-flexRow u-flexAlign-center">
-          {{#unless isPreview}}
-            <div class="u-paddingRight8">
-              {{feed-card/edit-button
-                model=model
-                editPath="market.edit"
-                editPathId=model.contentId
-                iconSize=""
-                style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
-                editButtonIsActive=(mut editButtonIsActive)
-                onEdit=(action "goingToEdit")
-              }}
-              {{#if editButtonIsActive}}
-                {{#x-button
-                  onClick=(action "openPromotionMenu")
-                  style="regular"
-                  color="primary"
-                  size="x-small"
-                  data-test-button="manage"
-                }}
-                  Manage
-                {{/x-button}}
-              {{/if}}
-            </div>
-          {{/unless}}
+    {{#if activeImage}}
+      {{header-image
+        imageUrl=activeImage
+        preserveAspectRatio=true
+      }}
+    {{/if}}
 
-          {{#unless hideContactButton}}
+    {{#if showThumbnails}}
+      <div class="DetailPage--thumbnails u-paddingTop8">
+        {{#each sortedImages as |image|}}
+          <div class="DetailPage--thumbnails-thumbnail u-paddingRight8 u-marginBottom8" {{action "chooseImage" image.imageUrl}} role="button">
+            <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-image-thumbnail>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#sticky.item
+      class="StickyItem--default-background u-boxShadowBottom"
+      useAbsolutePositioning=true
+      maintainStickyItemSpace=(not isPreview)
+    }}
+      {{#content-body classNames="u-padding0"}}
+
+      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-market-attribution>
+        {{#feed-card/attribution
+          model=model
+          showCenter=true
+          classNames="u-padding8"
+        }}
+          {{#if showContactButton}}
             {{contact-poster-button
               model=(readonly model)
               clickReplyButton=(action "clickReplyButton")
-              classNames="u-paddingRight8"
               tagName="span"
             }}
-          {{/unless}}
-        </div>
+          {{/if}}
+        {{/feed-card/attribution}}
       </div>
-
     {{/content-body}}
   {{/sticky.item}}
 
-  {{#if activeImage}}
-    {{header-image
-      imageUrl=activeImage
-      preserveAspectRatio=true
-    }}
-  {{/if}}
-
-  {{#if showThumbnails}}
-    <div class="DetailPage--thumbnails u-paddingTop8">
-      {{#each sortedImages as |image|}}
-        <div class="DetailPage--thumbnails-thumbnail u-paddingRight8 u-marginBottom8" {{action "chooseImage" image.imageUrl}} role="button">
-          <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-market-thumbnail>
-        </div>
-      {{/each}}
+  <div class="DetailPage-sectionWrapper u-paddingTop8">
+    <div>
+      {{#feed-card/footer
+        locationTagName=model.baseLocationName
+        showCost=false
+        noBorder=true
+        noPadding=true
+      }}
+        {{report-content-details
+          contentId=model.contentId
+          class="DetailPage-reportFlag h4"
+        }}
+      {{/feed-card/footer}}
     </div>
-  {{/if}}
 
+    <div>
+      {{feed-card/manage
+        model=model
+        openPromotionMenu=(action "openPromotionMenu")
+      }}
+    </div>
 
-
-  {{#if activeImage}}
-    {{horizontal-rule classNames="u-paddingBottom16"}}
-  {{/if}}
-
-  <div class="DetailPage-sectionWrapper">
     <div class="DetailPage-metaBloc">
-      <table>
-        <tbody>
-        {{#if model.cost}}
-          <tr>
-            <td>
-              <div class="DetailPage-metaBloc-cost">
-                Cost:
-                <span data-test-market-cost>{{model.cost}}</span>
+      {{detail-meta-bloc model=model}}
+    </div>
+
+    <div class="DetailPage-content News-content ContentText">
+      <div data-test-market-content>
+
+        {{#if model.embeddedAd}}
+          {{modelSplitContentHead}}
+
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">
+            <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+              <div class="AdBanner--inContentBody-messageBar">
+                Advertisement: Content continues below...
               </div>
-            </td>
-            <td>
-              <div class="DetailPage-metaBloc-location" data-test-market-location>
-                {{model.location.name}}
-              </div>
-            </td>
-          </tr>
+              {{ad-banner
+                contentModel=model
+                pagePlacement="in-market-detail-body"
+                placeholderBlockFixedSize=true
+              }}
+            </div>
+          </div>
+
+          {{modelSplitContentTail}}
         {{else}}
-          <tr>
-            <td colspan="2">
-              <div class="DetailPage-metaBloc-location" data-test-market-location>
-                {{model.location.name}}
-              </div>
-            </td>
-          </tr>
+          {{modelContent}}
         {{/if}}
-        {{#if (or model.contactPhone model.url)}}
-          <tr>
-            <td>
-              <div class="DetailPage-metaBloc-phone">
-                {{#if model.contactPhone}}
-                  <a href="tel:{{model.contactPhone}}" target="_blank" rel="noopener noreferrer" data-test-event-detail-contactPhone>
-                    {{formatted-phone model.contactPhone}}
-                  </a>
-                {{/if}}
-              </div>
-            </td>
-            <td>
-              <div class="DetailPage-metaBloc-url">
-                {{#if model.url}}
-                  {{#normalized-link url=model.url data-test-component=model.url}}
-                    {{truncate model.url length=30}}
-                  {{/normalized-link}}
-                {{/if}}
-              </div>
-            </td>
-          </tr>
-          {{/if}}
-          <tr>
-            <td colspan="2">
-              {{#if model.organization}}
-                {{detail-meta-bloc
-                avatarUrl=model.avatarUrl
-                customSize=24
-                avatarName=model.authorName
-                isDefaultOrganization=model.organization.isDefaultOrganization
-                }}
-              {{/if}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="DetailPage-section DetailPage-content">
-        <div class="ContentText" data-test-market-content>{{modelContent}}</div>
       </div>
     </div>
+
   </div>
 
   {{inviewport-reporter
@@ -204,6 +141,17 @@
       }}
     {{/horizontal-rule}}
 
+    {{#unless model.embeddedAd}}
+      <div class="DetailPage-sectionWrapper">
+        <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+          {{ad-banner
+            contentModel=model
+            pagePlacement="after-market-detail-body"
+          }}
+        </div>
+      </div>
+    {{/unless}}
+
     <div class="DetailPage-section DetailPage-comments">
       {{comments-section
         showSectionTitle=true
@@ -214,14 +162,6 @@
         disabled=(readonly commentingDisabled)
         afterComment=(action "reloadComments")
       }}
-    </div>
-
-    <div class="DetailPage-sectionWrapper">
-      <div class="AdBanner-wrapper AdBanner-wrapper--detail">
-        {{ad-banner
-          contentModel=model
-        }}
-      </div>
     </div>
 
     {{horizontal-rule}}
@@ -248,7 +188,7 @@
 
 {{#if showManageOverlay}}
   {{to-elsewhere
-    named="modal-wrapper-takeover"
+    named=manageOverlayModalName
     send=(component "jobs-forms/promotion-menu"
           model=model
           onClose=(action "closePromotionMenu")

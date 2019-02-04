@@ -1,19 +1,25 @@
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
-import { get, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { next, later } from '@ember/runloop';
 import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
 import SocialSharing from 'subtext-ui/utils/social-sharing';
+import $ from 'jquery';
 
 export default Component.extend(SocialPreloaded, {
   location: service('window-location'),
   logger: service(),
   facebook: service(),
+  notify: service('notification-messages'),
 
   classNames: ['SocialShare u-flexRow'],
   isPreview: false,
+  isCopyingLink: false,
+
 
   model: null,
+  hiddenLink: null,
 
   router: service(),
 
@@ -86,6 +92,26 @@ export default Component.extend(SocialPreloaded, {
         mobile_iframe: true,
         hashtag: orgHashtag,
         href: urlForShare
+      });
+    },
+
+    copyToClipboard() {
+      const urlForShare = this.urlForShare();
+
+      set(this, 'isCopyingLink', true);
+
+      set(this, 'hiddenLink', urlForShare);
+
+      next(() => {
+        const $textarea = $(get(this, 'element')).find('#hidden-link');
+        $textarea.focus();
+        $textarea.select();
+        document.execCommand('copy');
+
+        later(() => {
+          get(this, 'notify').success('Link has been copied to clipboard');
+          set(this, 'isCopyingLink', false);
+        }, 800);
       });
     }
   }

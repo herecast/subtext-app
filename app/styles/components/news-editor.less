@@ -14,6 +14,15 @@
 
   &-content-owner {
     padding-left: 0 !important;
+    &-left,
+    &-right {
+      max-width: 49%;
+      display: inline-block;
+      @media (max-width: @screen-sm-max) {
+        max-width: 100%;
+        display: block;
+      }
+    }
   }
 
   &-delete-message {

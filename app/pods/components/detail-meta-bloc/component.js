@@ -1,10 +1,22 @@
 import Component from '@ember/component';
-import { get, computed } from '@ember/object';
+import { get } from '@ember/object';
+import { readOnly, notEmpty } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
-  tagName: '',
+  classNames: 'DetailMetaBloc',
 
-  displayBlocAttribution: computed('avatarName', 'isDefaultOrganization', function(){
-    return get(this, 'avatarName') && !get(this, 'isDefaultOrganization');
-  })
+  modals: service(),
+
+  model: null,
+
+  isEvent: readOnly('model.isEvent'),
+
+  hasDirections: notEmpty('model.directionsUrl'),
+
+  actions: {
+    openContactMenu() {
+      get(this, 'modals').showModal('modals/contact-poster', get(this, 'model'));
+    }
+  }
 });

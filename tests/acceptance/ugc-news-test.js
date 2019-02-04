@@ -12,8 +12,8 @@ module('Acceptance | ugc news', function(hooks) {
   setupMirage(hooks);
 
   test('Every field available filled in', async function(assert) {
-    const done = assert.async(8);
-    const organization = this.server.create('organization', {can_publish_news: true});
+    const done = assert.async(5);
+    const organization = this.server.create('organization', {canPublishNews: true});
     const location = this.server.create('location');
     const currentUser = this.server.create('current-user', {
       email: 'example@example.com',
@@ -23,15 +23,14 @@ module('Acceptance | ugc news', function(hooks) {
     const title = 'Tatooine: On Moon Cycles';
     const subtitle = 'The definitive guide';
     const content = 'Due to multiple moons...';
-    const author = 'Ben Kenobi';
     const today = moment().startOf('day');
     const tomorrow = today.add(1, 'days');
-    //const scheduleDate = moment().startOf('day').add(1, 'days');
+
     // 12 pm in unix:
     const scheduleTime = "720";
 
     let currentAttrs = {
-      authorName: currentUser.name,
+      authorName: null,
       bizFeedPublic: true,
       contactEmail: null,
       contactPhone: null,
@@ -108,28 +107,26 @@ module('Acceptance | ugc news', function(hooks) {
     currentAttrs.content = content;
     await ugcNews.fillInContent(content);
 
-    currentAttrs.id = "1";
+
     currentAttrs.subtitle = subtitle;
     await ugcNews.fillInSubtitle(subtitle);
-
-    await ugcNews.selectNewLocation(get(location, 'id'));
-
-    await ugcNews.startOverrideAuthor();
-    currentAttrs.authorName = author;
-    await ugcNews.overrideAuthor(author);
 
     await ugcNews.openFeaturedImage();
     await ugcNews.addImageFile();
     await ugcNews.submitImage();
 
-    await ugcNews.pickToSchedule();
+    //POST on autosave after above ^^
 
+    currentAttrs.id = "1";
+
+    await ugcNews.selectNewLocation(get(location, 'id'));
+
+    await ugcNews.pickToSchedule();
     await ugcNews.scheduleDate(tomorrow.format('x'));
     await ugcNews.scheduleTime(scheduleTime);
 
     currentAttrs.publishedAt = tomorrow.add(12, 'hours').utc().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
 
     await ugcNews.scheduleConfirm();
-
   });
 });

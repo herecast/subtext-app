@@ -13,6 +13,14 @@
       </div>
 
       <div class="MainNav-search">
+        {{#unless showSearch}}
+          <button class="btn-link MainNav-search-calendarButton MainNav-button">
+            {{#link-to "feed" (query-params type="calendar")}}
+              {{fa-icon "calendar"}}
+            {{/link-to}}
+          </button>
+        {{/unless}}
+
         <button {{action "toggleSearch"}}
           class="btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}"
           data-test-button="global-search-open-close">
@@ -27,7 +35,7 @@
     </div>
   </div>
 
-  <div class="MainNav--bottom-bar">
+  <div class="MainNav--bottom-bar {{if showSearch "searchOpen"}}">
     {{#if showSearch}}
       <div class="GlobalHeader-globalSearch">
         <div>
@@ -45,94 +53,29 @@
         {{user-location/search-input}}
         </div>
 
-        <div class="GlobalHeader-globalSearch-filterBar-title">
-          Filter by
-        </div>
-        <div class="GlobalHeader-globalSearch-filterBar">
-          <div class="MainNav-channel-filter">
-            {{#if (eq activeFilter "posts")}}
-              {{search-type-tag
-                type="posts"
-                large=true
-                class="filter-button"
-                remove=(action "onRemoveFilter")
-              }}
-            {{else}}
-              {{#x-link-to "feed" (query-params type="posts")
-                 color="secondary"
-                 size="x-small"
-                 style="regular"
-                 noMargin=true
-                 class="filter-button"
-                 data-test-link="posts-filter"
-               }}
-                Posts
-               {{/x-link-to}}
-            {{/if}}
-          </div>
-          <div class="MainNav-channel-filter">
-            {{#if (eq activeFilter "calendar")}}
-              {{search-type-tag
-                type="calendar"
-                large=true
-                class="filter-button"
-                remove=(action "onRemoveFilter")
-              }}
-            {{else}}
-              {{#x-link-to "feed" (query-params type="calendar")
-                 color="secondary"
-                 size="x-small"
-                 style="regular"
-                 noMargin=true
-                 class="filter-button"
-                 data-test-link="calendar-filter"
-               }}
-                Calendar
-               {{/x-link-to}}
-            {{/if}}
-          </div>
-          <div class="MainNav-channel-filter">
-            {{#if (eq activeFilter "market")}}
-              {{search-type-tag
-                type="market"
-                large=true
-                class="filter-button"
-                remove=(action "onRemoveFilter")
-              }}
-            {{else}}
-              {{#x-link-to "feed" (query-params type="market")
-                 color="secondary"
-                 size="x-small"
-                 style="regular"
-                 noMargin=true
-                 class="filter-button"
-                 data-test-link="market-filter"
-               }}
-                Market
-               {{/x-link-to}}
-            {{/if}}
-          </div>
-
-        </div>
       </div>
     {{else}}
       {{#if (not hideUserLocationBar)}}
-        <div class="MainNav--bottom-bar-wrapper {{if showSearch "searchOpen"}}">
-          <div class="MainNav-searchFilter">
-            {{#from-elsewhere name="filters" as |filter|}}
-               {{#if filter}}
-                 {{component filter}}
-               {{/if}}
-            {{/from-elsewhere}}
-          </div>
+        <div class="MainNav--bottom-bar-wrapper">
           <div class="MainNav-location">
             {{user-location onClickLocation=(action "toggleSearch" "focusOnLocation")}}
           </div>
+          {{#if showFilterButton}}
+            <div class="btn-link MainNav-search-filterButton MainNav-button" role="button" {{action "scrollUpOne"}}>
+              {{fa-icon "filter"}}
+            </div>
+          {{/if}}
         </div>
       {{/if}}
     {{/if}}
   </div>
 
+
+  {{#if showFilterBar}}
+    <div class="MainNav--filter-bar {{if isScrollingUp "show-filter" "hide-filter"}}">
+      {{global-filter}}
+    </div>
+  {{/if}}
 
   <div class="GlobalHeader-globalSearch-results">
     {{from-elsewhere name="global-search-results"}}

@@ -295,6 +295,13 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackFeedChannelChange(filter) {
+    this.push({
+      event: 'ChangeFeedChannel',
+      channel_choice: filter
+    });
+  },
+
   trackMetricsRequest(type, id) {
     const user_id = type === 'current-user' ? id : null;
     const organization_id = type === 'organization' ? id : null;

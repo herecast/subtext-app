@@ -16,84 +16,25 @@
 }}
 
 {{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
-  {{#sticky.item class="StickyItem--default-background u-boxShadowBottom" useAbsolutePositioning=true maintainStickyItemSpace=(not isPreview)}}
-    {{#content-body classNames="u-padding0"}}
-      <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
-        {{#title-text strong=true}}
-          <span data-test-event-detail-title>{{model.title}}</span>
-        {{/title-text}}
 
-        <div class="DetailPage-headerSubSection u-flexSpace">
-          {{feed-card/event-dates
-              eventDate=(moment-format model.startsAt "MMMM DD")
-              futureInstances=model.futureInstances
-              model=model
-              class="u-padding0"
-          }}
-          {{report-content-details
-              contentId=model.contentId
-              class="DetailPage-reportFlag h4"
-          }}
-        </div>
+  {{#content-body classNames="u-padding0"}}
+    <div class="DetailPage-headerSection u-padding8">
+      {{feed-card/title
+        title=model.title
+        model=model
+        isOnDetailView=true
+      }}
 
-      </div>
-
-      {{horizontal-rule classNames="u-paddingTop8"}}
-
-      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingHorizontal8" data-test-event-detail-attribution>
-
-        {{feed-card/attribution
-          avatarUrl=model.attributionImageUrl
-          author=model.attributionName
-          linkRouteName=model.attributionLinkRouteName
-          linkId=model.organizationId
-          postedTime=false
-          hidePostedTime=true
-          contentId=model.contentId
-          classNames="u-paddingBottom8"
-          isOnDetailView=true
+      <div class="DetailPage-headerSubSection u-paddingTop8">
+        {{feed-card/event-dates
+          eventDate=(moment-format model.startsAt "MMMM DD")
+          futureInstances=model.futureInstances
+          model=model
+          class="u-padding0"
         }}
-
-        <div class="u-flexRow u-flexAlign-center u-paddingBottom8">
-          {{#unless isPreview}}
-            <div class="u-paddingRight8">
-              {{feed-card/edit-button
-                model=model
-                editPath="events.edit"
-                editPathId=model.contentId
-                iconSize=""
-                tagName="span"
-                style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
-                editButtonIsActive=(mut editButtonIsActive)
-                onEdit=(action "goingToEdit")
-              }}
-              {{#if editButtonIsActive}}
-                {{#x-button
-                  onClick=(action "openPromotionMenu")
-                  style="regular"
-                  color="primary"
-                  size="x-small"
-                  data-test-button="manage"
-                }}
-                  Manage
-                {{/x-button}}
-              {{/if}}
-            </div>
-          {{/unless}}
-
-          {{#if (and model.contactEmail (not editButtonIsActive))}}
-            {{contact-poster-button
-              model=(readonly model)
-              clickReplyButton=(action "clickReplyButton")
-              classNames="u-paddingRight8"
-              tagName="span"
-            }}
-          {{/if}}
-
-        </div>
       </div>
-    {{/content-body}}
-  {{/sticky.item}}
+    </div>
+  {{/content-body}}
 
   {{#if model.imageUrl}}
     {{header-image
@@ -106,93 +47,90 @@
     <div class="DetailPage--thumbnails u-paddingTop8">
       {{#each sortedImages as |image|}}
         <div class="DetailPage--thumbnails-thumbnail u-paddingRight8 u-marginBottom8" {{action "chooseImage" image.imageUrl}} role="button">
-          <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-market-thumbnail>
+          <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-image-thumbnail>
         </div>
       {{/each}}
     </div>
   {{/if}}
 
 
-
-
-  <div class="DetailPage-sectionWrapper u-paddingTop16">
-    <div class="DetailPage-metaBloc">
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <div class="DetailPage-metaBloc-eventTime">
-                <div data-test-event-detail-timeRange>
-                  {{model.timeRangeNoDates}}
-                </div>
-              </div>
-            </td>
-            <td rowspan="2">
-              <div class="DetailPage-metaBloc-address">
-                {{directions-link
-                    url=model.directionsUrl
-                    venueName=model.venueName
-                    addressLine1=model.venueAddress
-                    city=model.venueCity
-                    state=model.venueState
-                }}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="DetailPage-metaBloc-price">
-                {{#if model.cost}}
-                  Price: <span data-test-event-detail-cost>{{model.cost}}</span>
-                {{/if}}
-              </div>
-            </td>
-          </tr>
-          {{#if (or model.contactPhone model.url)}}
-            <tr>
-              <td>
-                <div class="DetailPage-metaBloc-phone">
-                  {{#if model.contactPhone}}
-                    <a href="tel:{{model.contactPhone}}" target="_blank" rel="noopener noreferrer" data-test-event-detail-contactPhone>
-                      {{formatted-phone model.contactPhone}}
-                    </a>
-                  {{/if}}
-                </div>
-              </td>
-              <td>
-                <div class="DetailPage-metaBloc-url">
-                  {{#if model.url}}
-                    {{#normalized-link url=model.url data-test-component=model.url data-test-event-detail-url=true}}
-                      {{truncate model.url length=30}}
-                    {{/normalized-link}}
-                  {{/if}}
-                </div>
-              </td>
-            </tr>
+  {{#sticky.item
+    class="StickyItem--default-background u-boxShadowBottom"
+    useAbsolutePositioning=true
+    maintainStickyItemSpace=(not isPreview)
+  }}
+    {{#content-body classNames="u-padding0"}}
+      <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-event-detail-attribution>
+        {{#feed-card/attribution
+          model=model
+          hidePostedTime=true
+          showCenter=true
+        }}
+          {{#if showContactButton}}
+            {{contact-poster-button
+              model=(readonly model)
+              clickReplyButton=(action "clickReplyButton")
+              tagName="span"
+            }}
           {{/if}}
-          <tr>
-            <td colspan="2">
-              {{#if model.organization}}
-                {{detail-meta-bloc
-                  avatarUrl=model.avatarUrl
-                  customSize=24
-                  avatarName=model.authorName
-                  isDefaultOrganization=model.organization.isDefaultOrganization
-                }}
-              {{/if}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        {{/feed-card/attribution}}
+      </div>
+    {{/content-body}}
+  {{/sticky.item}}
 
-  <div class="DetailPage-sectionWrapper">
-    <div class="DetailPage-section DetailPage-content ContentText">
-      <div class="ContentText" data-test-event-detail-content>
-        {{modelContent}}
+  <div class="DetailPage-sectionWrapper u-paddingTop8">
+    <div>
+      {{#feed-card/footer
+        locationTagName=model.baseLocationName
+        showCost=false
+        noBorder=true
+        noPadding=true
+      }}
+        {{report-content-details
+          contentId=model.contentId
+          class="DetailPage-reportFlag h4"
+        }}
+      {{/feed-card/footer}}
+    </div>
+
+    <div>
+      {{feed-card/manage
+        model=model
+        openPromotionMenu=(action "openPromotionMenu")
+      }}
+    </div>
+
+    <div class="DetailPage-metaBloc">
+      {{detail-meta-bloc model=model}}
+    </div>
+
+
+    <div class="DetailPage-content Event-content ContentText">
+      <div data-test-event-content>
+
+        {{#if model.embeddedAd}}
+          {{modelSplitContentHead}}
+
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">
+            <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+              <div class="AdBanner--inContentBody-messageBar">
+                Advertisement: Content continues below...
+              </div>
+              {{ad-banner
+                contentModel=model
+                pagePlacement="in-event-detail-body"
+                placeholderBlockFixedSize=true
+              }}
+            </div>
+          </div>
+
+          {{modelSplitContentTail}}
+        {{else}}
+          {{modelContent}}
+        {{/if}}
       </div>
     </div>
+
   </div>
 
   {{inviewport-reporter
@@ -212,13 +150,16 @@
       }}
     {{/horizontal-rule}}
 
-    <div class="DetailPage-sectionWrapper">
-      <div class="AdBanner-wrapper AdBanner-wrapper--detail">
-        {{ad-banner
-          contentModel=model
-        }}
+    {{#unless model.embeddedAd}}
+      <div class="DetailPage-sectionWrapper">
+        <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+          {{ad-banner
+            contentModel=model
+            pagePlacement="after-event-detail-body"
+          }}
+        </div>
       </div>
-    </div>
+    {{/unless}}
 
     <div class="DetailPage-section DetailPage-comments">
       {{comments-section
@@ -253,7 +194,7 @@
 
 {{#if showManageOverlay}}
   {{to-elsewhere
-    named="modal-wrapper-takeover"
+    named=manageOverlayModalName
     send=(component "jobs-forms/promotion-menu"
           model=model
           onClose=(action "closePromotionMenu")

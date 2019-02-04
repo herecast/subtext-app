@@ -8,10 +8,9 @@ module('Integration | Component | feed card/card image', function(hooks) {
 
   test('it renders', async function(assert) {
 
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('model', {});
 
-    await render(hbs`{{feed-card/image}}`);
+    await render(hbs`{{feed-card/image model=model}}`);
 
     assert.ok(this.element);
   });

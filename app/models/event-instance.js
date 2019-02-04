@@ -29,6 +29,7 @@ export default Model.extend(HasImages, HasVenue, {
   contentOrigin: attr('string'),
   contentType: 'event',
   cost: attr('string'),
+  embeddedAd: attr('boolean', {defaultValue: true}),
   endsAt: attr('moment-date'),
   eventId: attr('number'),
   eventInstanceId: alias('id'),
@@ -41,6 +42,7 @@ export default Model.extend(HasImages, HasVenue, {
   organizationProfileImageUrl: attr('string'),
   publishedAt: attr('moment-date', {defaultValue: () => { return moment(); }}),
   shortLink: attr('string'),
+  splitContent: attr(),
   startsAt: attr('moment-date'),
   subtitle: attr('string'),
   title: attr('string'),
@@ -83,6 +85,17 @@ export default Model.extend(HasImages, HasVenue, {
 
         return `${date} | ${startTime}-${endTime}`;
       }
+    }
+  }),
+
+  baseLocationName: computed('venueCity', 'venueState', function() {
+    const city = get(this, 'venueCity');
+    const state = get(this, 'venueState');
+
+    if (isPresent(city) && isPresent(state)) {
+      return `${city}, ${state}`;
+    } else {
+      return null;
     }
   }),
 

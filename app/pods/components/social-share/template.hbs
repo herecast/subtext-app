@@ -7,3 +7,14 @@
 {{#x-link-url href=mailtoLink size="small" style="outline-gray" rounded="circle"}}
   {{fa-icon "envelope"}}
 {{/x-link-url}}
+{{#x-button onClick=(action "copyToClipboard") size="small" style="outline-gray" rounded="circle"}}
+  {{#if isCopyingLink}}
+    {{fa-icon "cog" spin=true}}
+  {{else}}
+    {{fa-icon "link"}}
+  {{/if}}
+{{/x-button}}
+
+<div class="SocialShare--hidden-link {{if isCopyingLink "copying-link"}}">
+  <textarea id="hidden-link">{{hiddenLink}}</textarea>
+</div>

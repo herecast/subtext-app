@@ -7,23 +7,13 @@
   }}
 </div>
 
-<div class="FeedCarousel-ContentCard-body">
-  {{feed-card/text-snippet
-    model=model
-    showTextSnippet=true
-  }}
-</div>
 
 <div class="FeedCarousel-ContentCard-attribution">
   {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=attributionLinkRouteName
-    linkId=attributionLinkId
-    postedTime=model.publishedAtRelative
-    hideBookmark=true
-    contentId=model.contentId
+    model=model
     noPadding=true
     customSize=24
+    isOnDetailView=true
+    linkToDetailIsActive=false
   }}
 </div>

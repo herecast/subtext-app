@@ -18,7 +18,6 @@ export default Component.extend({
 
   iconSize: null,
   color: null,
-  style: null,
   editButtonIsActive: false,
   isTransitioning: false,
 

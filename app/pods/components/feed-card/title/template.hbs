@@ -14,12 +14,13 @@
   </div>
 {{/if}}
 
-<div class="FeedCard-Title-title" {{action onContentClick}} role="button" data-test-card-title>
+<div class="FeedCard-Title-title title-real" {{action onContentClick}} role="button" data-test-card-title>
   {{#feed-card/conditional-link-to
     useLink=linkToDetailIsActive
     model=model
   }}
     {{title}}
+
   {{/feed-card/conditional-link-to}}
 </div>
 
@@ -32,4 +33,16 @@
       {{fa-icon "comment-o"}}{{commentCount}}
     </div>
   </div>
+{{else if (not hideBookmark)}}
+  <div class="FeedCard-Title--bookmark">
+    {{feed-card/bookmark
+      contentId=model.contentId
+      eventInstanceId=model.eventInstanceId
+      isOnDetailView=isOnDetailView
+    }}
+  </div>
 {{/if}}
+
+<div class="FeedCard-Title-title title-clone">
+  {{title}}
+</div>

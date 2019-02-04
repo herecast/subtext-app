@@ -1,23 +1,46 @@
 .FeedCard-Footer {
+  padding: 8px;
+  border-top: solid 1px @secondary-bg;
+
+  &.no-padding {
+    padding: 0;
+  }
 
   &-wrap {
     .display-grid();
-    .grid-template-columns(1fr 1fr);
-    border-top: solid 1px @secondary-bg;
+    .grid-template-columns(1fr minmax(10px, 50%));
+  }
+
+  &.no-border {
+    border: none;
   }
 
   &-left {
     .grid-column( 1 );
     text-align: left;
-    padding: 8px 0 8px 8px;
+    max-width: 100%;
   }
 
   &-right {
     .grid-column( 2 );
+    max-width: 100%;
     text-align: right;
+    .grid-align-self(center);
+    .grid-justify-self(end);
     .XButton {
       display: inline-block;
       margin: 8px !important;
     }
+  }
+
+  &--cost,
+  &--location {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &--cost {
+    font-weight: bold;
   }
 }

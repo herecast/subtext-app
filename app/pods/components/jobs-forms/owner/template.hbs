@@ -7,11 +7,13 @@
     data-test-jobs-field="owner"
   >
     {{feed-card/attribution
+      model=model
       avatarUrl=attributionImageUrl
       author=attributionName
       postedTime=publishedTime
       hidePostedTime=hidePublishedTime
-      hideBookmark=true
+      hideActivity=true
+      linkToDetailIsActive=false
     }}
   </div>
 
@@ -56,11 +58,13 @@
     </div>
   {{else}}
     {{feed-card/attribution
+      model=model
       avatarUrl=attributionImageUrl
       author=attributionName
       postedTime=publishedTime
       hidePostedTime=hidePublishedTime
-      hideBookmark=true
+      hideActivity=true
+      linkToDetailIsActive=false
     }}
   {{/if}}
 {{/if}}

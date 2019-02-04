@@ -1,5 +1,5 @@
 /* global window */
-import { alias, readOnly } from '@ember/object/computed';
+import { alias, readOnly, not, and } from '@ember/object/computed';
 import $ from 'jquery';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
@@ -18,6 +18,7 @@ export default Component.extend(TestSelector, {
   searchService: service('search'),
   showSearch: alias('searchService.searchActive'),
   activeFilter: readOnly('searchService.activeFilter'),
+  filtersAreActive: readOnly('searchService.filtersAreActive'),
 
   scrollDirection: service(),
   isWithinHeaderFromTopOfPage: computed.lt('scrollDirection.currentScrollPosition', 40),
@@ -28,6 +29,10 @@ export default Component.extend(TestSelector, {
 
     return get(this, 'scrollDirection.isScrollingDown');
   }),
+  isScrollingUp: not('isScrollingDown'),
+
+  showFilterButton: and('filtersAreActive', 'isScrollingDown'),
+  showFilterBar: not('hideUserLocationBar'),
 
   hideUserLocationBar: computed('showUserLocationBar', 'fastboot.isFastBoot', function() {
     return !get(this, 'showUserLocationBar') || get(this, 'fastboot.isFastBoot');
@@ -54,6 +59,12 @@ export default Component.extend(TestSelector, {
       searchService.toggleProperty('searchActive');
     },
 
+    scrollUpOne() {
+      $('html,body').animate({
+        scrollTop: $(window).scrollTop() - 1
+      });
+    },
+
     logoClicked() {
       $(window).scrollTop(0);
 
@@ -74,7 +85,7 @@ export default Component.extend(TestSelector, {
           type: null
         }
       });
-      
+
       transition._keepDefaultQueryParamValues = false;
     }
   }

@@ -18,11 +18,6 @@ export default create({
       await click(find('[data-test-featured-image="button"]'));
     });
   },
-  submitImage() {
-    return run(async () => {
-      await click(find('[data-test-news-image="submit"]'));
-    });
-  },
   addImageFile() {
     return new Promise((resolve) => {
       const options = {
@@ -38,10 +33,17 @@ export default create({
       });
     });
   },
-  startOverrideAuthor: clickable('[data-test-author-override="toggle"]'),
-  overrideAuthor(author) {
+  submitImage() {
     return run(async () => {
-      await fillIn('[data-test-field="authorName"]', author);
+      await click(find('[data-test-news-image="submit"]'));
+    });
+  },
+  selectNewLocation(locationId) {
+    return run(async () => {
+      await click('[data-test-action="change-location"]');
+      await fillIn('[data-test-input="new-location"]', 'asdfasdf');
+      await triggerKeyEvent('[data-test-input="new-location"]', 'keydown', 13);
+      await click(`[data-test-location-choice="${locationId}"]`);
     });
   },
   pickToSchedule: clickable('[data-test-schedule-publish="button"]'),
@@ -55,14 +57,6 @@ export default create({
     return run(async () => {
       await click('[data-test-schedule-publish="time"]');
       await click(`[data-pick='${time}']`);
-    });
-  },
-  selectNewLocation(locationId) {
-    return run(async () => {
-      await click('[data-test-action="change-location"]');
-      await fillIn('[data-test-input="new-location"]', 'asdfasdf');
-      await triggerKeyEvent('[data-test-input="new-location"]', 'keydown', 13);
-      await click(`[data-test-location-choice="${locationId}"]`);
     });
   },
   scheduleConfirm: clickable('[data-test-schedule-publish="confirm"]')

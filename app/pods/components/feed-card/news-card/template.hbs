@@ -8,30 +8,17 @@
   }}
 
   {{#unless context.condensedView}}
-    {{#if model.primaryImage}}
-      {{feed-card/image
-        imageUrl=model.primaryImage.imageUrl
-        model=model
-        content=model.content
-        linkToDetailIsActive=context.linkToDetailIsActive
-        onContentClick=(action "onContentClick")
-      }}
-    {{else}}
-      {{feed-card/text-snippet
-        model=model
-        showTextSnippet=true
-        linkToDetailIsActive=context.linkToDetailIsActive
-      }}
-    {{/if}}
+    {{feed-card/image
+      imageUrl=model.primaryImage.imageUrl
+      model=model
+      content=model.content
+      linkToDetailIsActive=context.linkToDetailIsActive
+      onContentClick=(action "onContentClick")
+    }}
   {{/unless}}
 
   {{feed-card/attribution
-    avatarUrl=model.attributionImageUrl
-    author=model.attributionName
-    linkRouteName=model.attributionLinkRouteName
-    linkId=model.attributionLinkId
-    postedTime=model.publishedAtRelative
-    contentId=model.contentId
+    model=model
     classNames="u-padding8"
   }}
 
@@ -46,13 +33,10 @@
     model=model
   }}
 
-  {{#unless hideComments}}
-    {{feed-card/comments
-      contentModel=(readonly model)
-      disabled=(readonly commentingDisabled)
-      promotionMenuOpen=(readonly context.promotionMenuOpen)
-      afterComment=(action "reloadComments")
-      onContentClick=(action "onContentClick")
+  {{#if context.allowManageOnTile}}
+    {{feed-card/manage
+      model=model
+      openPromotionMenu=(action "openPromotionMenu")
     }}
-  {{/unless}}
+  {{/if}}
 </div>

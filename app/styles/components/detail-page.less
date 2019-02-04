@@ -60,6 +60,12 @@
     }
   }
 
+  &--report {
+    text-align: right;
+    padding-top: 8px;
+    line-height: 1.0;
+  }
+
   &-reportFlag {
     margin: 0;
 
@@ -218,6 +224,19 @@
   &-headerImage {
     img {
       width: 100%;
+    }
+    &.no-image {
+      background-color: #efefef;
+      color: @gray-medium;
+      .display-grid();
+      text-align: center;
+      height: 375px;
+      &>div {
+        .grid-align-self(center);
+      }
+      i {
+        font-size: 50px;
+      }
     }
   }
 

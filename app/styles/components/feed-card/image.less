@@ -8,6 +8,19 @@
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
+
+    &.placeholder {
+      background-color: #efefef;
+      color: @gray-medium;
+      .display-grid();
+      text-align: center;
+      &>div {
+        .grid-align-self(center);
+      }
+      i {
+        font-size: 50px;
+      }
+    }
   }
 
   &-multiple {
@@ -17,8 +30,30 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      border-radius: 5px;
+      border-radius: 4px;
       background: rgba(0,0,0,0.5);
+
+      &.start-date {
+        background: @event-brand;
+        color: #000;
+      }
+
+      &.has-multiple {
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &-dates-icon {
+      border-right: solid 3px @event-brand;
+      border-bottom: solid 3px @event-brand;
+      border-radius: 4px;
+      height: 75px;
+      width: 75px;
+      background: transparent;
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      z-index: 0;
     }
 
     &-stack {
@@ -26,6 +61,24 @@
       height: 100%;
       width: 100%;
       .display-grid();
+
+      &-date-wrap {
+        .grid-align-self(center);
+        padding: 4px;
+      }
+      &-month {
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+      }
+      &-day {
+        text-align: center;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 40px;
+      }
     }
 
     &-icon {

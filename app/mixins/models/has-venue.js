@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { get, computed } from '@ember/object';
-import { isPresent } from '@ember/utils';
+import { isPresent, isBlank } from '@ember/utils';
 import DS from 'ember-data';
 
 const { attr } = DS;
@@ -31,7 +31,13 @@ export default Mixin.create({
   }),
 
   directionsUrl: computed('fullAddress', function() {
-    const url = `maps.google.com/maps?daddr=${this.get('fullAddress')}`;
+    const fullAddress = get(this, 'fullAddress');
+
+    if (isBlank(fullAddress)) {
+      return null;
+    }
+
+    const url = `maps.google.com/maps?daddr=${fullAddress}`;
     const platform = ((typeof navigator !== 'undefined') ? navigator.platform : null);
     const isios = (platform  && (
       (platform.indexOf("iPhone") !== -1) ||

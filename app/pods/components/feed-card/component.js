@@ -22,7 +22,7 @@ export default Component.extend(CardMetrics, {
 
   model: null,
   organization: null,
-  canManage: false,
+  allowManageOnTile: false,
   displayAsPublic: false,
   hideComments: false,
   promotionMenuOpen: false,

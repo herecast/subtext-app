@@ -6,8 +6,15 @@
 
 {{#sticky-container scrollTarget=".Modal-dialog-body" refreshOffsetDuringScroll=true enabled=enableStickyHeader as |sticky|}}
   <article>
-    <header class="DetailPage-navTop-container">
+    <div class="DetailPage-headerSection u-padding8">
+      {{feed-card/title
+        title=model.title
+        model=model
+        isOnDetailView=true
+      }}
+    </div>
 
+    <header class="DetailPage-navTop-container">
       {{#if model.primaryImage.imageUrl}}
         <div class="DetailPage-headerImage-wrapper">
           <div class="DetailPage-headerImage">
@@ -28,9 +35,16 @@
           </div>
         </div>
       {{else}}
-        {{#if isPreview}}
-          <p class="text-center">Please consider adding a featured image.</p>
-        {{/if}}
+        <div class="DetailPage-headerImage-wrapper">
+          <div class="DetailPage-headerImage no-image">
+            <div>
+              {{fa-icon "file-image-o"}}
+              {{#if isPreview}}
+                <p class="text-center">Please add a featured image.</p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
       {{/if}}
     </header>
 
@@ -41,22 +55,8 @@
           <p>{{model.primaryImageCaption}}</p>
         </div>
       {{/if}}
-
-      <div class="DetailPage-headerSection u-paddingTop16 u-paddingHorizontal8">
-        {{#title-text noMargin=true strong=true}}
-          <span data-test-news-title={{model.title}}>{{model.title}}</span>
-        {{/title-text}}
-      </div>
-
-      <div class="DetailPage-headerSubSection u-flexJustify-start u-paddingLeft8 u-paddingTop8">
-        {{report-content-details
-            contentId=model.contentId
-            class="DetailPage-reportFlag h4 u-paddingRight8 u-paddingBottom8"
-        }}
-      </div>
-
-      {{horizontal-rule classNames="u-padding0"}}
     {{/content-body}}
+
     {{#sticky.item
       class="StickyItem--default-background u-boxShadowBottom"
       useAbsolutePositioning=true
@@ -64,69 +64,47 @@
       enabled=enableStickyHeader
     }}
       {{#content-body classNames="u-padding0"}}
-        <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-paddingLeft8 u-paddingVertical8">
-          {{feed-card/attribution
-            avatarUrl=model.attributionImageUrl
-            author=model.attributionName
-            linkRouteName=model.attributionLinkRouteName
-            linkId=model.attributionLinkId
-            postedTime=model.publishedAtRelative
-            contentId=model.contentId
+        <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8">
+          {{#feed-card/attribution
+            model=model
             isOnDetailView=true
+            linkToDetailIsActive=false
+            showCenter=(not isPreview)
           }}
-
-          <div class="u-flexRow u-flexAlign-center">
-            {{#unless isPreview}}
-              <div class="u-paddingRight8">
-                {{feed-card/edit-button
-                  model=model
-                  editPath=editPath
-                  editPathId=model.id
-                  iconSize=""
-                  style="XButton XButton--primary XButton--noMargin XButton--regular XButton--x-small XButton--rounded"
-                  editButtonIsActive=(mut editButtonIsActive)
-                }}
-              </div>
-              {{#if (and model.organization.subscribeUrl (not editButtonIsActive))}}
+            <div class="u-paddingHorizontal8">
+              {{#if model.organization.subscribeUrl}}
                 {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName="span"}}
-              {{else if editButtonIsActive}}
-                {{#x-button
-                  onClick=(action "openPromotionMenu")
-                  style="regular"
-                  color="primary"
-                  size="x-small"
-                  data-test-button="manage"
-                }}
-                  Manage
-                {{/x-button}}
               {{/if}}
-            {{/unless}}
-          </div>
+            </div>
+          {{/feed-card/attribution}}
         </div>
 
       {{/content-body}}
     {{/sticky.item}}
 
-    <div class="DetailPage-sectionWrapper u-paddingTop16 u-paddingHorizontal8">
-      <div class="DetailPage-metaBloc">
-        <table>
-          <tbody>
-            <tr>
-              <td colspan="2">
-                {{detail-meta-bloc
-                avatarUrl=null
-                customSize=24
-                avatarName=model.authorName
-                isDefaultOrganization=model.organization.isDefaultOrganization
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="DetailPage-sectionWrapper u-paddingTop8">
 
-    <div class="DetailPage-sectionWrapper">
+      <div>
+        {{#feed-card/footer
+          locationTagName=model.baseLocationName
+          showCost=false
+          noBorder=true
+          noPadding=true
+        }}
+          {{report-content-details
+            contentId=model.contentId
+            class="DetailPage-reportFlag h4"
+          }}
+        {{/feed-card/footer}}
+      </div>
+
+      <div>
+        {{feed-card/manage
+          model=model
+          openPromotionMenu=(action "openPromotionMenu")
+        }}
+      </div>
+
       <div class="DetailPage-content News-content ContentText">
         {{#if model.subtitle}}
           {{#subtitle-text}}
@@ -135,6 +113,7 @@
         {{/if}}
 
         <div data-test-detail-page-content>
+
           {{#if model.embeddedAd}}
             {{modelSplitContentHead}}
 
@@ -181,7 +160,7 @@
           <div class="AdBanner-wrapper AdBanner-wrapper--detail">
             {{ad-banner
               contentModel=model
-              pagePlacement="in-news-detail-body"
+              pagePlacement="after-news-detail-body"
               placeholderBlockFixedSize=true
             }}
           </div>

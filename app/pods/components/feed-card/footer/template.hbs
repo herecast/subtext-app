@@ -3,33 +3,20 @@
     <div class="FeedCard-Footer-left">
       {{feed-card/source
         locationTagName=locationTagName
+        class="FeedCard-Footer--location"
       }}
     </div>
   {{/if}}
 
-  {{#unless dontShowButtons}}
+  {{#if showCost}}
     <div class="FeedCard-Footer-right">
-      {{#if showEditButton}}
-        {{feed-card/edit-button
-          editPath=editPath
-          editPathId=editPathId
-          model=model
-          iconSize="x-small"
-          color="primary"
-          style="regular"
-          }}
-      {{/if}}
-      {{#if showManageButton}}
-        {{#x-button
-          onClick=(action "openPromotionMenu")
-          style="regular"
-          color="primary"
-          size="x-small"
-          data-test-button="manage"
-        }}
-          Manage
-        {{/x-button}}
-      {{/if}}
+      <div class="FeedCard-Footer--cost" data-test-card-price>
+        {{costFormatted}}
+      </div>
     </div>
-  {{/unless}}
+  {{else if (has-block)}}
+    <div class="FeedCard-Footer-right">
+      {{yield}}
+    </div>
+  {{/if}}
 </div>

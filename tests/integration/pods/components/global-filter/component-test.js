@@ -3,15 +3,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | feed card/text snippet', function(hooks) {
+module('Integration | Component | global-filter', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{feed-card/text-snippet}}`);
+    await render(hbs`{{global-filter}}`);
 
     assert.ok(this.element);
   });

@@ -3,6 +3,7 @@ import { reads, alias, oneWay, sort } from '@ember/object/computed';
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import { computed, set, get, setProperties } from '@ember/object';
+import { isPresent } from '@ember/utils';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import contentComments from 'subtext-ui/mixins/content-comments';
@@ -13,20 +14,14 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   'data-test-component': 'market-detail',
   'data-test-content': reads('model.contentId'),
 
-  closeRoute: 'feed',
-  closeLabel: 'Market',
-
   fastboot: service(),
   tracking: service(),
   userLocation: service(),
 
   isPreview: false,
   enableStickyHeader: false,
-  editPath: 'market.edit',
-  model: null,
 
-  goingToEdit: false,
-  editButtonIsActive: false,
+  model: null,
 
   init() {
     this._super(...arguments);
@@ -53,10 +48,6 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     this._trackImpression();
   },
 
-  modelContent: computed('model.content', function() {
-    return htmlSafe(get(this, 'model.content'));
-  }),
-
   activeImage: oneWay('model.primaryOrFirstImage.imageUrl'),
 
   controller: service('current-controller'),
@@ -73,8 +64,24 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     return images.rejectBy('_delete');
   }),
 
-  hideContactButton: computed('model.sold', 'editButtonIsActive', function() {
-    return get(this, 'model.sold') || get(this, 'editButtonIsActive');
+  modelContent: computed('model.content', function() {
+    return htmlSafe(get(this, 'model.content'));
+  }),
+
+  modelSplitContentHead: computed('model.splitContent.head', function() {
+    return htmlSafe(get(this, 'model.splitContent.head'));
+  }),
+
+  modelSplitContentTail: computed('model.splitContent.tail', function() {
+    return htmlSafe(get(this, 'model.splitContent.tail'));
+  }),
+
+  showContactButton: computed('model.{contactEmail,contactPhone,sold}', function() {
+    if (get(this, 'model.sold')) {
+      return false;
+    }
+
+    return isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
   _resetProperties() {

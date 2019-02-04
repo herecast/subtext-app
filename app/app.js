@@ -9,10 +9,11 @@ const customEvents = {
 };
 
 const App = Application.extend({
+  name: 'subtext-ui',
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver,
-  customEvents  
+  customEvents
 });
 
 loadInitializers(App, config.modulePrefix);

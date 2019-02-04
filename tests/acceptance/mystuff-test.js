@@ -42,22 +42,6 @@ module('Acceptance | mystuff', function(hooks) {
     assert.ok(find('[data-test-component="mystuff-contents-no-results"]'), "Should see no results card");
   });
 
-  test('Visiting /mystuff - signed in, with content, content shows manage buttons', async function(assert) {
-    authenticateUser(this.server);
-
-    const content = this.server.create('content', {
-      authorId: 1
-    });
-
-    this.server.create('feedItem', {
-      modelType: 'content',
-      contentId: content.id
-    });
-
-    await visit('/mystuff');
-
-    assert.ok(find('[data-test-button="manage"]'), "Manage button should show on feed cards in myStuff");
-  });
 
   test('Visiting /mystuff - signed in, with content, click on consolidated view and it works as expected', async function(assert) {
     authenticateUser(this.server);

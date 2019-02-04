@@ -1,37 +1,76 @@
-
-
 .FeedCard-Title {
   .display-grid();
   .grid-template-columns( auto );
-  padding: 16px 8px;
+  padding: 8px;
   line-height: 1.1;
   align-items: center;
   .grid-template-columns(62px 1fr 62px);
 
+  &.on-detail {
+    padding: 0;
+    .FeedCard-Title-title {
+      font-size: 20px;
+      height: auto;
+    }
+  }
+
+  &.is-truncated {
+    .FeedCard-Title-title {
+      position: relative;
+    }
+    .FeedCard-Title-title:after {
+      content: '...';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #fff;
+      padding: 0 2px;
+      font-size: 18px;
+    }
+  }
+
   &-title {
-    .flex-display();
-    .align-items(center);
+    display: block;
+    height: 38px;
+    .grid-align-self(center);
     font-size: 18px;
     font-weight: bold;
-    .grid-column(1);
-    .grid-column-end(4);
+    .grid-column-start(1);
+    .grid-column-end(3);
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 19px;
+    display: block;
+
+    &.title-clone {
+      height: auto;
+      display: none;
+    }
+  }
+
+  &--bookmark {
+    .grid-align-self(start);
+    text-align: right;
   }
 
   &.sold-tag-active {
     .FeedCard-Title-sold-tag {
-      .grid-column(1);
+      .grid-column-start(1);
+      .grid-column-end(2);
     }
     .FeedCard-Title-title {
-      .grid-column(2);
-      .grid-column-end(4);
+      .grid-column-start(2);
+      .grid-column-end(3);
     }
     &.condensed-view {
       .FeedCard-Title-title {
-        .grid-column(2);
+        .grid-column-start(2);
         .grid-column-end(3);
       }
       .FeedCard-Title-views-and-comments {
-        .grid-column(3);
+        .grid-column-start(3);
+        .grid-column-start(4);
       }
     }
   }
@@ -39,11 +78,12 @@
   &.condensed-view {
     &:not(.sold-tag-active) {
       .FeedCard-Title-title {
-        .grid-column(1);
+        .grid-column-start(1);
         .grid-column-end(3);
       }
       .FeedCard-Title-views-and-comments {
-        .grid-column(3);
+        .grid-column-start(3);
+        .grid-column-end(4);
       }
     }
   }

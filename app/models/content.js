@@ -77,14 +77,28 @@ export default DS.Model.extend(
 
   listsEnabled: notEmpty('listservIds'),
 
-  baseLocationName: computed('location', function() {
-    const location = get(this, 'location');
+  baseLocationName: computed('location', 'contentType', 'venueCity', 'venueState}', function() {
+    const contentType = get(this, 'contentType');
 
-    if (isPresent(location)) {
-      return get(location, 'name');
+    if (contentType === 'event') {
+      const city = get(this, 'venueCity');
+      const state = get(this, 'venueState');
+
+      if (isPresent(city) && isPresent(state)) {
+        return `${city}, ${state}`;
+      } else {
+        return null;
+      }
+    } else {
+      const location = get(this, 'location');
+
+      if (isPresent(location)) {
+        return get(location, 'name');
+      }
+
+      return null;
     }
 
-    return null;
   }),
 
   publishedAtRelative: computed('publishedAt', function() {

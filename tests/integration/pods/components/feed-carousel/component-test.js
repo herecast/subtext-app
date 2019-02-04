@@ -56,7 +56,7 @@ module('Integration | Component | feed carousel', function(hooks) {
   });
 
   test('feed-carousel fires correct tracking events', async function(assert) {
-    assert.expect(10);
+    assert.expect(6);
 
     const { spy } = sinon;
 
@@ -88,22 +88,6 @@ module('Integration | Component | feed carousel', function(hooks) {
 
     assert.equal(carouselTrackingSpy.args[1][0], 'ClickedSeeMore', 'tracking event is an ClickedSeeMore');
     assert.equal(carouselTrackingSpy.args[1][1], this.get('model.id'), 'tracking cta click event sends the correct carousel id');
-
-    await render(hbs`{{feed-carousel
-      model=model
-      isLoggedIn=true
-    }}`);
-
-    let $feedCarouselCard = this.element.querySelector('[data-test-feed-carousel-card]');
-    let $cardLink = $feedCarouselCard.querySelector('div.FeedCarousel-ContentCard-title a');
-
-    assert.ok($cardLink, 'Card title should be clickable when logged in');
-
-    await click($cardLink);
-
-    assert.equal(cardTrackingSpy.args[0][0], 'title', 'tracking event shows correct elemeent');
-    assert.equal(cardTrackingSpy.args[0][1], this.get('model.id'), 'tracking card click event sends the correct carousel id');
-    assert.equal(cardTrackingSpy.args[0][2], this.get('model.contents')[0].id, 'tracking card click event sends the correct content id');
   });
 
   test('feed-carousel displays cards and no cta if fewer than 5 cards present', async function(assert) {

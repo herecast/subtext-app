@@ -1,0 +1,84 @@
+.DetailMetaBloc {
+  color: @gray-dark;
+  font-size: 14px;
+
+  a {
+    color: @gray-dark;
+    font-size: 14px;
+    text-transform: none !important;
+    &:hover {
+      text-transform: none !important;
+    }
+  }
+
+  &--row {
+    .display-grid();
+    .grid-template-columns(50% 50%);
+
+    &.fullspan {
+      .grid-template-columns(1fr);
+      border: none;
+      padding-top: 0;
+      margin-bottom: 4px;
+      .DetailMetaBloc--field {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &--column {
+    &.bold {
+      font-weight: bold;
+    }
+  }
+
+  &--field {
+    padding: 8px 4px;
+    &.truncate {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    &.thin {
+      padding: 2px 4px;
+    }
+    &.tight {
+      line-height: 1.1;
+    }
+    &.left {
+      padding-left: 0;
+    }
+  }
+
+  &--icon {
+    font-size: 16px;
+    margin-right: 4px;
+    width: 20px;
+    text-align: right;
+  }
+
+  &--directions {
+    .display-grid();
+    .grid-template-columns(max-content 1fr);
+    line-height: 1.2;
+    i {
+      margin-right: 8px;
+    }
+  }
+
+  &--map-image {
+    background-image: url('https://s3.amazonaws.com/subtext-misc/wrj-map-blank.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+
+  &--venue {
+    &-name {
+      font-weight: bold;
+    }
+  }
+}

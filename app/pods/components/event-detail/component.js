@@ -45,6 +45,22 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     return htmlSafe(get(this, 'model.content'));
   }),
 
+  modelSplitContentHead: computed('model.splitContent.head', function() {
+    return htmlSafe(get(this, 'model.splitContent.head'));
+  }),
+
+  modelSplitContentTail: computed('model.splitContent.tail', function() {
+    return htmlSafe(get(this, 'model.splitContent.tail'));
+  }),
+
+  showContactButton: computed('model.{contactEmail,contactPhone,sold}', 'editButtonIsActive', function() {
+    if (get(this, 'model.sold') || get(this, 'editButtonIsActive')) {
+      return false;
+    }
+
+    return isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
+  }),
+
   _trackImpression() {
     const id = get(this, 'model.contentId');
 

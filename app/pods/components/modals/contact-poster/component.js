@@ -1,11 +1,13 @@
 import { inject as service } from '@ember/service';
-import { setProperties, get } from '@ember/object';
+import { setProperties, get, computed } from '@ember/object';
 import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 import moment from 'moment';
 
 export default ModalInstance.extend({
   tracking: service(),
   attributeBindings: ['data-test-modal-contact-poster'],
+
+  model: null,
 
   init() {
     this._super(...arguments);
@@ -18,6 +20,13 @@ export default ModalInstance.extend({
       'event': 'market-reply-click'
     });
   },
+
+  contactPhoneLink: computed('model.contactPhone', function() {
+    let contactPhone = get(this, 'model.contactPhone');
+    const phoneStripped = contactPhone.replace(/[^0-9]+/g, "") || "";
+
+    return `tel:+1${phoneStripped}`;
+  }),
 
   _buildMailToParts() {
     const publishedAt = get(this, 'model.publishedAt') || moment();

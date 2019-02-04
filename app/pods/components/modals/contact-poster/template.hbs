@@ -11,12 +11,14 @@
 
   <div class="u-paddingHorizontal16">
     {{#if model.contactPhone}}
-    <div class="Modals-contactPoster-field">
-      <div class="u-bold">
-        Phone
+      <div class="Modals-contactPoster-field">
+        <a href={{contactPhoneLink}} lass="u-link u-bold">
+          <div class="u-bold">
+            Phone
+          </div>
+          {{model.contactPhone}}
+        </a>
       </div>
-      {{model.contactPhone}}
-    </div>
     {{/if}}
 
     {{#if model.contactEmail}}

@@ -1,0 +1,26 @@
+<div class="FeedCard-Manage--wrap">
+  {{feed-card/edit-button
+    model=model
+    editButtonIsActive=(mut editButtonIsActive)
+    iconSize="x-small"
+    color="primary"
+    size="thin"
+    style="regular"
+  }}
+
+  {{#if editButtonIsActive}}
+    {{#x-button
+      onClick=(action "openPromotionMenu")
+      style="regular"
+      color="primary"
+      size="thin"
+      data-test-button="manage"
+    }}
+      Manage
+    {{/x-button}}
+
+    <div class="FeedCard-Manage--message">
+      Viewable only by content owners.
+    </div>
+  {{/if}}
+</div>

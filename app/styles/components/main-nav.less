@@ -80,6 +80,7 @@
 
 .MainNav {
   background: #fff;
+  height: @main-nav-wrapper-height;
 
   &--top-bar {
     position: relative;
@@ -94,7 +95,7 @@
     max-width: 500px;
     text-align: center;
     .display-grid();
-    .grid-template-columns(60px 1fr 60px);
+    .grid-template-columns(80px 1fr 80px);
   }
 
   &-brand {
@@ -113,18 +114,35 @@
   }
 
   &-menu {
-    margin: auto;
+    margin: auto auto auto 4px;
   }
 
   &-search {
-    margin: auto;
-    &-searchButton {
+    margin: auto 4px auto auto;
+    &-searchButton,
+    &-calendarButton,
+    &-filterButton {
       font-size: 1.5em;
       outline: none;
+      color: @button-primary;
+      a {
+        text-decoration: none;
+        color: @button-primary;
+      }
       &.open {
-        color: #3DA0E5;
+        color: #000;
+      }
+      &:hover {
+        color: @button-primary;
       }
     }
+
+    &-filterButton {
+      text-align: right;
+      .grid-align-self(center);
+      margin-right: 12px;
+    }
+
   }
 
   &--bottom-bar {
@@ -145,6 +163,15 @@
     .grid-template-columns(100px 1fr 100px);
   }
 
+  &--filter-bar {
+    height: 40px;
+    .transition(transform 0.25s linear);
+    .transform(translateY(0));
+    &.hide-filter {
+      .transform(translateY(-101%));
+    }
+  }
+
   &-location {
     margin: auto;
     text-align: center;
@@ -155,25 +182,6 @@
   &-searchFilter {
     margin: auto;
   }
-
-  &-channel-filter {
-    width: 100%;
-    padding: 0 2px;
-    text-align: center;
-    .grid-align-self(center);
-    .grid-justify-self(center);
-
-    &.clear {
-      .grid-justify-self(end);
-    }
-
-    .filter-button {
-      display: block;
-      width: 100%;
-      margin: 0 2px;
-    }
-  }
-
 
   &-menuLink {
     margin-left: 10px;
@@ -208,7 +216,7 @@
   }
   @media (min-width: @screen-sm-min) {
     border-bottom: none;
-    height: 40px;
+
     &.searchOpen {
       height: 40px;
     }

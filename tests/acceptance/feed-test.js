@@ -21,6 +21,103 @@ module('Acceptance | feed', function(hooks) {
     invalidateSession();
   });
 
+
+  test('tracking impression events fired on feed index', async function(assert) {
+    let impressions = 0;
+    const done = assert.async(2);
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+        done();
+      }
+    });
+
+    const { owner } = getContext();
+
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+    const content = this.server.create('content', {
+      contentType: 'news'
+    });
+
+    const feedItem = this.server.create('feedItem', {
+      modelType: 'content'
+     });
+
+    feedItem.content = content;
+    run(() => {
+      feedItem.save();
+      done();
+    });
+
+    await visit('/');
+
+    run(() => {
+      assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
+    });
+  });
+
+  test('tracking impression events fired on event feed index', async function(assert) {
+    let impressions = 0;
+    const done = assert.async();
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+        done();
+      }
+    });
+
+    const { owner } = getContext();
+
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+    const someDate = moment().add(1, 'day').format('YYYY-MM-DD');
+
+    this.server.create('event-instance', {
+        startsAt: moment(someDate).add(1, 'hour').toISOString(),
+      });
+
+    await visit(`/?type=calendar&startDate=${someDate}`);
+
+    run(() => {
+      assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
+    });
+
+  });
+
+  test('tracking impression events are not fired on feed detail page', async function(assert) {
+    let impressions = 0;
+    const tracking = Service.extend({
+      trackTileLoad(){},
+      trackTileImpression() {
+        impressions = impressions+1;
+      }
+    });
+
+    const { owner } = getContext();
+
+    owner.register('services:trackingMock', tracking);
+    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
+
+    const content = this.server.create('content', {
+        contentType: 'news'
+      });
+
+    const feedItem = this.server.create('feedItem', {
+      modelType: 'content'
+     });
+
+    feedItem.update({ content });
+
+    await visit('/' + content.id);
+
+    assert.equal(impressions, 0, "Impressions were not tracked on feed detail page");
+  });
+
   test('feed works when visiting index not logged in and no location cookie present (first time user)', async function(assert) {
     const done = assert.async();
 
@@ -99,7 +196,6 @@ module('Acceptance | feed', function(hooks) {
     });
   });
 
-
   test('visiting feed.show page not logged in fills the feed correctly', async function(assert) {
     const done = assert.async();
 
@@ -126,7 +222,6 @@ module('Acceptance | feed', function(hooks) {
     assert.equal(currentRouteName(), 'feed.show', 'it does not redirect anywhere');
   });
 
-
   test("feed.show page, news", async function(assert) {
     const contentRecord = this.server.create('content', {
       contentOrigin: 'ugc',
@@ -143,7 +238,6 @@ module('Acceptance | feed', function(hooks) {
 
     assert.ok($newsDetail, 'Displays news detail');
   });
-
 
   test('feed.show page, market post', async function(assert) {
     const contentRecord = this.server.create('content', {
@@ -202,94 +296,5 @@ module('Acceptance | feed', function(hooks) {
     const $eventDetail = find('[data-test-component="event-detail"]' +`[data-test-content="${eventInstance.contentId}"]`);
 
     assert.ok($eventDetail, 'Displays event detail in feed.show-instance route');
-  });
-
-  test('tracking impression events fired on feed index', async function(assert) {
-    let impressions = 0;
-    const done = assert.async(2);
-    const tracking = Service.extend({
-      trackTileLoad(){},
-      trackTileImpression() {
-        impressions = impressions+1;
-        done();
-      }
-    });
-
-    const { owner } = getContext();
-
-    owner.register('services:trackingMock', tracking);
-    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
-
-    const content = this.server.create('content', {
-      contentType: 'news'
-    });
-
-    const feedItem = this.server.create('feedItem', {
-      modelType: 'content'
-     });
-
-    feedItem.content = content;
-    run(() => {
-      feedItem.save();
-      done();
-    });
-
-    await visit('/');
-
-    assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
-  });
-
-  test('tracking impression events fired on event feed index', async function(assert) {
-    let impressions = 0;
-    const done = assert.async();
-    const tracking = Service.extend({
-      trackTileLoad(){},
-      trackTileImpression() {
-        impressions = impressions+1;
-        done();
-      }
-    });
-
-    const { owner } = getContext();
-
-    owner.register('services:trackingMock', tracking);
-    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
-
-    this.server.create('event-instance', {
-        startsAt: moment().add(1, 'day').format('YYYY-MM-DD')
-      });
-
-    await visit('/?type=calendar');
-
-    assert.notEqual(impressions, 0, "Impressions were tracked on feed index page");
-  });
-
-  test('tracking impression events are not fired on feed detail page', async function(assert) {
-    let impressions = 0;
-    const tracking = Service.extend({
-      trackTileLoad(){},
-      trackTileImpression() {
-        impressions = impressions+1;
-      }
-    });
-
-    const { owner } = getContext();
-
-    owner.register('services:trackingMock', tracking);
-    owner.inject('component:feed-card', 'tracking', 'services:trackingMock');
-
-    const content = this.server.create('content', {
-        contentType: 'news'
-      });
-
-    const feedItem = this.server.create('feedItem', {
-      modelType: 'content'
-     });
-
-    feedItem.update({ content });
-
-    await visit('/' + content.id);
-
-    assert.equal(impressions, 0, "Impressions were not tracked on feed detail page");
   });
 });

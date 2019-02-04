@@ -44,8 +44,8 @@
           {{#form-group error=errors.image}}
             <label class="control-label">Featured Image</label>
             {{thumbnail-image-modal
-              imageUrl=(readonly news.primaryImage.imageUrl)
-              caption=(readonly news.primaryImage.caption)
+              imageUrl=(mut news.primaryImageUrl)
+              caption=(mut news.primaryImageCaption)
               title="Featured Image"
               saveImage=(action "saveFeaturedImage")
               saveCaption=(action "saveFeaturedImageCaption")
@@ -54,36 +54,36 @@
         </div>
 
         {{#form-group
-        error=errors.title
-        hideError=true
+          error=errors.title
+          hideError=true
         }}
           <label class="control-label ContentForm-label--required" for="title">Title</label>
           {{form-error errors.title}}
 
           {{input
-          id="title"
-          placeholder="A short and informative title"
-          class="form-control"
-          value=news.title
-          data-test-field="title"
-          input=(action "notifyChange")
+            id="title"
+            placeholder="A short and informative title"
+            class="form-control"
+            value=news.title
+            data-test-field="title"
+            input=(action "notifyChange")
           }}
         {{/form-group}}
 
         {{#form-group
-        error=errors.subtitle
-        hideError=true
+          error=errors.subtitle
+          hideError=true
         }}
           <label class="control-label" for="title">Subtitle</label>
           {{form-error errors.subtitle}}
 
           {{input
-          id="subtitle"
-          placeholder="A short and informative subtitle"
-          class="form-control"
-          value=news.subtitle
-          data-test-field="subtitle"
-          input=(action "notifyChange")
+            id="subtitle"
+            placeholder="A short and informative subtitle"
+            class="form-control"
+            value=news.subtitle
+            data-test-field="subtitle"
+            input=(action "notifyChange")
           }}
         {{/form-group}}
 
@@ -99,28 +99,28 @@
         {{/form-group}}
 
         {{#form-group
-        error=errors.content
-        hideError=true
+          error=errors.content
+          hideError=true
         }}
           <label class="control-label ContentForm-label--required" for="description">Content</label>
           {{form-error errors.content}}
           {{#summer-note
-          content=(readonly news.content)
-          editorHeight=editorHeight
-          toolbar=(mut editorConfig)
-          buttons=editorButtons
-          modules=editorModules
-          popover=editorPopover
-          uploadImage=(action "saveImage")
-          notifyChange=(action "saveContent")
-          class="ContentForm-textArea"
+            content=(readonly news.content)
+            editorHeight=editorHeight
+            toolbar=(mut editorConfig)
+            buttons=editorButtons
+            modules=editorModules
+            popover=editorPopover
+            uploadImage=(action "saveImage")
+            notifyChange=(action "saveContent")
+            class="ContentForm-textArea"
           }}
             <div class="ContentText">
               {{textarea
-              id="content"
-              placeholder="Enter your content here..."
-              class="form-control"
-              data-test-textarea="content"
+                id="content"
+                placeholder="Enter your content here..."
+                class="form-control"
+                data-test-textarea="content"
               }}
             </div>
           {{/summer-note}}
@@ -130,7 +130,7 @@
           hideError=true
         }}
 
-          <div class="NewsEditor-content-owner col-md-12">
+          <div class="NewsEditor-content-owner">
             <div>
               <label class="control-label ContentForm-label--required" for="description">Content Owner</label>
             </div>
@@ -143,7 +143,7 @@
 
               {{#unless news.isPublished}}
                 {{#if managesMultipleOrganizations}}
-                  <div class="col-md-4">
+                  <div class="NewsEditor-content-owner-left">
                     {{#if hasChosenOrganization}}
                       <div>Click to change content owner</div>
                     {{else}}
@@ -162,74 +162,21 @@
                 {{/if}}
               {{/unless}}
 
-            <div class="col-md-8">
+            <div class="NewsEditor-content-owner-right">
               {{#if news.organization.name}}
                 {{feed-card/attribution
                   avatarUrl=news.organization.profileImageUrl
                   author=news.organization.name
                   postedTime=news.publishedAtRelative
-                  hideBookmark=true
+                  hideActivity=true
+                  hidePostedTime=true
+                  linkToDetailIsActive=false
                   classNames="u-padding8"
                 }}
               {{/if}}
             </div>
           </div>
         {{/form-group}}
-
-
-        {{#form-group
-        error=errors.author
-        hideError=true
-        }}
-          <label>
-            Content Author
-              <span class="NewsEditor-toggle" {{action "toggleAuthorOverride"}} role="button" data-test-author-override="toggle">
-                {{#if authorOverrideEnabled}}
-                  {{fa-icon "toggle-off" size="lg"}}
-                  Custom Author
-                {{else}}
-                  {{fa-icon "toggle-on is-on" size="lg"}}
-                  Default Author
-                {{/if}}
-              </span>
-          </label>
-          {{form-error errors.author}}
-          <div class="NewsEditor-authorOverride">
-            {{#if authorOverrideEnabled}}
-              <div>
-                {{input
-                id="authorIsBlank"
-                type="checkbox"
-                checked=hasAuthorName
-                change=(action "toggleAuthorName")
-                data-test-author-override="checkbox"
-                }}
-                <span>
-                  {{#if hasAuthorName}}
-                    The author name showing below will be displayed. Uncheck the box to display no author.
-                  {{else}}
-                    No author will be displayed. Check the box to display a different author name.
-                  {{/if}}
-                </span>
-              </div>
-              {{#if hasAuthorName}}
-                <div>
-                  {{input
-                  id="authorName"
-                  placeholder="Change author name to..."
-                  class="form-control"
-                  value=news.authorName
-                  data-test-field="authorName"
-                  input=(action "notifyChange")
-                  }}
-                </div>
-              {{/if}}
-            {{else}}
-              The current author will be <b>{{currentUser.name}}</b>. Click the toggle to change or remove the author name.
-            {{/if}}
-          </div>
-        {{/form-group}}
-
 
       </div>
     </div>
@@ -238,15 +185,15 @@
 
         <div class="hidden-xs hidden-sm">
           <div class="NewsEditor-sidebarWidget NewsEditor-sidebarWidget--featuredImage SidebarWidget">
-            {{#form-group}}
+            {{#form-group error=errors.image}}
               <div class="SidebarWidget-body">
                 <label class="control-label">Featured Image</label>
                 {{thumbnail-image-modal
-                imageUrl=(mut news.primaryImageUrl)
-                caption=(mut news.primaryImageCaption)
-                title="Featured Image"
-                saveImage=(action "saveFeaturedImage")
-                saveCaption=(action "saveFeaturedImageCaption")
+                  imageUrl=(mut news.primaryImageUrl)
+                  caption=(mut news.primaryImageCaption)
+                  title="Featured Image"
+                  saveImage=(action "saveFeaturedImage")
+                  saveCaption=(action "saveFeaturedImageCaption")
                 }}
               </div>
             {{/form-group}}
@@ -270,12 +217,12 @@
                       Publish Date
                     </label>
                     {{pick-a-date
-                    date=(readonly selectedPubDate)
-                    on-selected=(action (mut selectedPubDate))
-                    placeholder="Pick a date"
-                    class="form-control"
-                    id="scheduled_date"
-                    data-test-schedule-publish="date"
+                      date=(readonly selectedPubDate)
+                      on-selected=(action (mut selectedPubDate))
+                      placeholder="Pick a date"
+                      class="form-control"
+                      id="scheduled_date"
+                      data-test-schedule-publish="date"
                     }}
                   {{/form-group}}
                   {{#form-group error=errors.publishedAt hideError=true}}
@@ -283,12 +230,12 @@
                       Publish Time
                     </label>
                     {{pick-a-time
-                    date=(readonly selectedPubDate)
-                    on-selected=(action (mut selectedPubDate))
-                    placeholder="Pick a time"
-                    class="form-control"
-                    id="scheduled_time"
-                    data-test-schedule-publish="time"
+                      date=(readonly selectedPubDate)
+                      on-selected=(action (mut selectedPubDate))
+                      placeholder="Pick a time"
+                      class="form-control"
+                      id="scheduled_time"
+                      data-test-schedule-publish="time"
                     }}
                   {{/form-group}}
                   <button {{action "schedulePublish"}} class="btn btn-primary" data-test-schedule-publish="confirm">Confirm</button>
@@ -333,7 +280,7 @@
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}
                     <a href="#" {{action "unpublish"}} class="text-danger"><br>Cancel Scheduled Publish</a>
                   </p>
-                  <button class="btn btn-primary" {{action "publish"}}>Publish Now</button>
+                  <button class="btn btn-primary" {{action "publish"}} data-test-publish-now>Publish Now</button>
                   <button {{action "togglePreview"}}
                       class="btn">{{if hasUnpublishedChanges "Preview Changes" "Preview Post"}}</button>
                 {{/if}}

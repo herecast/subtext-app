@@ -1,0 +1,38 @@
+.GlobalFilter {
+  max-width: 500px;
+  width: 100%;
+  height: 40px;
+  margin: 0 auto;
+  .display-grid();
+  .grid-template-columns(1fr 1fr 1fr 1fr);
+  background: #fff;
+  border-bottom: solid 1px #ccc;
+
+  &--filter {
+    .grid-align-self(center);
+    .grid-justify-self(center);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    font-size: 16px;
+    a {
+      text-decoration: none;
+    }
+
+    &.active {
+      background: @button-primary;
+      color: #fff;
+      a {
+        color: #fff;
+        text-shadow: 1px 1px 2px #000;
+      }
+    }
+
+    border-right: solid 1px #ccc;
+    &:first-of-type {
+      border-left: solid 1px #ccc;
+    }
+  }
+}

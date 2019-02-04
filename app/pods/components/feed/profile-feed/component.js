@@ -5,9 +5,8 @@ export default Component.extend({
 
   feedItems: null,
   organization: null,
-  canManage: false,
+  allowManageOnTile: false,
   canEditIfAllowed: true,
   displayAsPublic: false,
-  hideComments: false,
   condensedView: false
 });

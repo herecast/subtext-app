@@ -5,62 +5,29 @@
     model=model
     condensedView=(readonly context.condensedView)
     onContentClick=(action "onContentClick")
-    classNames="u-paddingTop16 u-paddingHorizontal8"
   }}
 
-  {{#if (or model.startsAt model.futureInstances)}}
-    {{feed-card/event-dates
-      eventDate=(moment-format model.startsAt "MMMM DD")
-      model=model
-      classNames="u-paddingTop8"
-    }}
-  {{/if}}
-
   {{#unless context.condensedView}}
-    {{#if model.primaryOrFirstImage}}
-      {{feed-card/image
-        imageUrl=model.primaryOrFirstImage.imageUrl
-        caption=caption
-        model=model
-        onContentClick=(action "onContentClick")
-      }}
-    {{else}}
-      {{feed-card/text-snippet
-        showTextSnippet=true
-        model=model
-      }}
-    {{/if}}
-  {{/unless}}
-
-  {{#if (or model.timeRangeNoDates model.cost model.venueAddress model.venueCity)}}
-
-    {{feed-card/event-info
-      timeRangeNoDates=model.timeRangeNoDates
-      cost=model.cost
-      url=model.directionsUrl
-      venueName=model.venueName
-      address=model.venueAddress
-      city=model.venueCity
-      state=model.venueState
+    {{feed-card/image
+      imageUrl=model.primaryOrFirstImage.imageUrl
+      caption=caption
+      model=model
+      onContentClick=(action "onContentClick")
     }}
-  {{/if}}
+  {{/unless}}
 
   {{#unless context.condensedView}}
     {{feed-card/attribution
-      avatarUrl=model.attributionImageUrl
-      author=model.attributionName
-      linkRouteName=model.attributionLinkRouteName
-      linkId=model.attributionLinkId
-      postedTime=false
+      model=model
       hidePostedTime=true
-      contentId=model.contentId
-      eventInstanceId=model.eventInstanceId
       classNames="u-padding8"
     }}
   {{/unless}}
 
   {{feed-card/footer
     locationTagName=sourceOrVenueTag
+    cost=model.cost
+    showCost=true
     canManage=(readonly context.canManage)
     canEditIfAllowed=(readonly context.canEditIfAllowed)
     displayAsPublic=(readonly context.displayAsPublic)
@@ -70,13 +37,10 @@
     editPathId=model.contentId
   }}
 
-  {{#unless hideComments}}
-    {{feed-card/comments
-      contentModel=(readonly model)
-      disabled=(readonly commentingDisabled)
-      promotionMenuOpen=(readonly context.promotionMenuOpen)
-      afterComment=(action "reloadComments")
-      onContentClick=(action "onContentClick")
+  {{#if context.allowManageOnTile}}
+    {{feed-card/manage
+      model=model
+      openPromotionMenu=(action "openPromotionMenu")
     }}
-  {{/unless}}
+  {{/if}}
 </div>

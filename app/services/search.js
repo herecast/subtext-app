@@ -24,7 +24,7 @@ export default Service.extend({
     $(window).scrollTop(0,0);
     const queryParams = {
       query,
-      type: '',
+      type: null,
       startDate: '',
       endDate: ''
     };

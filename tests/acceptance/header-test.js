@@ -89,7 +89,7 @@ module('Acceptance | header', function(hooks) {
   });
 
   test('Opening search, searching, filtering, and closing search work from search icon', async function(assert) {
-    const done = assert.async(3);
+    const done = assert.async(2);
     mockLocationCookie(this.server);
 
     await visit(`/`);
@@ -111,18 +111,6 @@ module('Acceptance | header', function(hooks) {
     });
 
     await fillIn($globalSearch.find('input')[0], query);
-
-
-    this.server.get('/feed', function(db, request) {
-      if (request.queryParams.content_type) {
-        assert.equal(request.queryParams.content_type, 'posts', "The filter button choice gets passed to the API request");
-        done();
-      }
-
-      return {feedItems: []};
-    });
-
-    await click('[data-test-link="posts-filter"]');
 
     this.server.get('/feed', function(db, request) {
       assert.ok(request.queryParams.query.length === 0, "The search query is cleared and not passed to feed after close search");

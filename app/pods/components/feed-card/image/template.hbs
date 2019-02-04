@@ -1,32 +1,43 @@
-{{#if hasImage}}
-  {{#feed-card/conditional-link-to
-    linkUrl=linkUrl
-    useLink=linkToDetailIsActive
-    model=model
-    onContentClick=onContentClick
-  }}
+{{#feed-card/conditional-link-to
+  linkUrl=linkUrl
+  useLink=linkToDetailIsActive
+  model=model
+  onContentClick=onContentClick
+}}
+  {{#if hasImage}}
     <div class="FeedCard-Image-image" style={{imageStyle}} data-test-card-image></div>
-    {{#if hasMultipleImages}}
-      <div class="FeedCard-Image-multiple-wrap" data-test-card-multiple-images>
-        <div class="FeedCard-Image-multiple-stack">
-          <div class="FeedCard-Image-multiple-icon other"></div>
-          <div class="FeedCard-Image-multiple-icon icon">
-            {{fa-icon "camera-retro"}}
+  {{else}}
+    <div class="FeedCard-Image-image placeholder" data-test-card-image-placeholder>
+      <div>
+        {{fa-icon "file-image-o"}}
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if hasStartDate}}
+    <div class="FeedCard-Image-multiple-wrap start-date {{if hasFutureDates "has-multiple"}}" data-test-card-start-date>
+      {{#if hasFutureDates}}
+        <div class="FeedCard-Image-multiple-dates-icon" data-test-card-start-date-multiple></div>
+      {{/if}}
+      <div class="FeedCard-Image-multiple-stack">
+        <div class="FeedCard-Image-multiple-stack-date-wrap">
+          <div class="FeedCard-Image-multiple-stack-month">
+            {{moment-format model.startsAt "MMM"}}
+          </div>
+          <div class="FeedCard-Image-multiple-stack-day">
+            {{moment-format model.startsAt "DD"}}
           </div>
         </div>
       </div>
-    {{/if}}
-  {{/feed-card/conditional-link-to}}
-  {{#if hasExcerpt}}
-    <div class="FeedCard-Image-excerpt" data-test-card-excerpt>
-      {{excerpt}}
-      {{#if (and showContinueReading linkToDetailIsActive)}}
-        <div class="FeedCard-Image-continue-reading" {{action onContentClick}} role="button" data-test-card-continue-reading>
-          {{#link-to-content model}}
-            ...Continue Reading
-          {{/link-to-content}}
+    </div>
+  {{else if hasMultipleImages}}
+    <div class="FeedCard-Image-multiple-wrap" data-test-card-multiple-images>
+      <div class="FeedCard-Image-multiple-stack">
+        <div class="FeedCard-Image-multiple-icon other"></div>
+        <div class="FeedCard-Image-multiple-icon icon">
+          {{fa-icon "camera-retro"}}
         </div>
-      {{/if}}
+      </div>
     </div>
   {{/if}}
-{{/if}}
+{{/feed-card/conditional-link-to}}

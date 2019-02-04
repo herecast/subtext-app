@@ -12,7 +12,7 @@ import $ from 'jquery';
 import Component from '@ember/component';
 import { isPresent, isBlank } from '@ember/utils';
 import { set, setProperties, get, computed } from '@ember/object';
-import { run } from '@ember/runloop';
+import { run, next } from '@ember/runloop';
 import moment from 'moment';
 import Validation from 'subtext-ui/mixins/components/validation';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
@@ -41,20 +41,6 @@ export default Component.extend(TestSelector, Validation, {
   showPreview: false,
   store: service(),
   location: service('window-location'),
-
-  authorOverrideEnabled: computed(function() {
-    const authorName = get(this, 'news.authorName');
-    return authorName !== get(this, 'currentUser.name') && (isPresent(authorName) || authorName === null);
-  }),
-  hasAuthorName: notEmpty('news.authorName'),
-
-  authorName() {
-    if ( get(this, 'authorOverrideEnabled') ) {
-      return get(this, 'news.authorName');
-    } else {
-      return get(this, 'currentUser.name');
-    }
-  },
 
   editorHeight: 400,
   selectedPubDate: null,
@@ -125,6 +111,7 @@ export default Component.extend(TestSelector, Validation, {
 
   chosenOrganization: computed('filteredOrganizations', function() {
     const filteredOrganizations = get(this, 'filteredOrganizations');
+
     if (filteredOrganizations.length === 1) {
       set(this, 'news.organization', filteredOrganizations[0]);
       return filteredOrganizations[0];
@@ -160,8 +147,6 @@ export default Component.extend(TestSelector, Validation, {
   _save() {
     const news = get(this, 'news');
 
-    set(this, 'news.authorName', this.authorName());
-
     const image = get(this, 'pendingFeaturedImage');
     let existingPrimaries = [];
 
@@ -194,9 +179,9 @@ export default Component.extend(TestSelector, Validation, {
 
   validateForm() {
     return  this.validatePresenceOf('news.title') &&
+            this.validatePrimaryImage() &&
             this.validateContent() &&
-            this.validateOrganization() &&
-            this.validateAuthor();
+            this.validateOrganization();
   },
 
   validateOrganization() {
@@ -230,17 +215,15 @@ export default Component.extend(TestSelector, Validation, {
     }
   },
 
-  validateAuthor() {
-    const author = get(this, 'news.authorName');
-    const hasAuthorName = get(this, 'hasAuthorName');
-    const overridden = get(this, 'authorOverrideEnabled');
+  validatePrimaryImage() {
+    const primaryImageUrl = get(this, 'news.primaryImageUrl');
 
-    if ( overridden && hasAuthorName === isBlank(author) ) {
-      set(this, 'errors.author', "Must choose no author or provide an author name");
+    if ( isBlank(primaryImageUrl) ) {
+      set(this, 'errors.image', "A Featured Image is required.");
       return false;
     } else {
-      set(this, 'errors.author', null);
-      delete get(this, 'errors')['author'];
+      set(this, 'errors.image', null);
+      delete get(this, 'errors')['image'];
       return true;
     }
   },
@@ -256,8 +239,10 @@ export default Component.extend(TestSelector, Validation, {
   },
 
   doAutoSave() {
-    if (get(this, 'canAutosave') && this.validateForm()) {
-      this._save();
+    if (get(this, 'canAutosave')) {
+      if (this.validateForm()) {
+        this._save();
+      }
     }
   },
 
@@ -286,14 +271,6 @@ export default Component.extend(TestSelector, Validation, {
     return get(this, 'api').createImage(data);
   },
 
-  _canPublish() {
-    if (get(this, 'hasFeaturedImage')) {
-      return true;
-    } else {
-      return confirm('Posts with images are much more likely to be seen and read. Are you sure you want to publish without a featured image?');
-    }
-  },
-
   actions: {
     notifyChange() {
       run.debounce(this, this.doAutoSave, 900);
@@ -310,28 +287,26 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     publish() {
-      if (this._canPublish()) {
-        const news = get(this, 'news');
+      const news = get(this, 'news');
 
-        if (this.isValid()) {
-          if (!get(this, 'news.isPublished')) {
-            set(news, 'publishedAt', moment());
-          }
-
-          // Avoid showing link to detail page until the entire publish has finished (including image upload, FB notify, etc)
-          set(this, 'isPublishing', true);
-
-          this._save().then(() => {
-            get(this, 'notify').success('Your post has been published');
-            set(this, 'isPublishing', false);
-            this.sendAction('afterPublish');
-          });
+      if (this.isValid()) {
+        if (!get(this, 'news.isPublished')) {
+          set(news, 'publishedAt', moment());
         }
+
+        // Avoid showing link to detail page until the entire publish has finished (including image upload, FB notify, etc)
+        set(this, 'isPublishing', true);
+
+        this._save().then(() => {
+          get(this, 'notify').success('Your post has been published');
+          set(this, 'isPublishing', false);
+          this.sendAction('afterPublish');
+        });
       }
     },
 
     publishChanges() {
-      if (this.isValid() && this._canPublish()) {
+      if (this.isValid()) {
         this._save().then(() => {
           get(this, 'notify').success('Your changes have been saved');
           this.sendAction('afterPublish');
@@ -340,9 +315,8 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     schedulePublish() {
-      if (this.isValid() && this._canPublish()) {
+      if (this.isValid()) {
         set(this, 'news.publishedAt', get(this, 'selectedPubDate'));
-
 
         this._save().then(() => {
           get(this, 'notify').success('Publication is scheduled for this post');
@@ -382,10 +356,12 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     changeOrganization(organization) {
-      set(this, 'news.organization', organization);
-      set(this, 'news.didOrgChange', true);
+      next(() => {
+        set(this, 'news.organization', organization);
+        set(this, 'news.didOrgChange', true);
 
-      this.send('notifyChange');
+        this.send('notifyChange');
+      });
     },
 
     discardChanges() {
@@ -439,26 +415,6 @@ export default Component.extend(TestSelector, Validation, {
       if (this.isValid()) {
         this.toggleProperty('showPreview');
       }
-    },
-
-    toggleAuthorOverride() {
-      this.toggleProperty('authorOverrideEnabled');
-
-      if (!get(this, 'authorOverrideEnabled') ) {
-        set(this, 'news.authorName', get(this, 'currentUser.name'));
-      }
-      this.send('notifyChange');
-
-    },
-
-    toggleAuthorName() {
-      if (get(this,'hasAuthorName')) {
-        set(this, 'news.authorName', null);
-      } else {
-        //default to currentUser.name in case that they uncheck box with empty input
-        set(this, 'news.authorName', get(this, 'currentUser.name'));
-      }
-      this.send('notifyChange');
     },
 
     toggleDeleteDraft() {
