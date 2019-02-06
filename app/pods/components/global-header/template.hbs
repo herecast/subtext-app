@@ -14,22 +14,23 @@
 
       <div class="MainNav-search">
         {{#unless showSearch}}
-          <button class="btn-link MainNav-search-calendarButton MainNav-button">
+          <div class="MainNav-search-calendarButton MainNav-button">
             {{#link-to "feed" (query-params type="calendar")}}
               {{fa-icon "calendar"}}
             {{/link-to}}
-          </button>
+          </div>
         {{/unless}}
 
-        <button {{action "toggleSearch"}}
-          class="btn-link MainNav-search-searchButton MainNav-button {{if showSearch "open"}}"
+        <div {{action "toggleSearch"}}
+          role="button"
+          class="MainNav-search-searchButton MainNav-button {{if showSearch "open"}}"
           data-test-button="global-search-open-close">
           {{#if showSearch}}
             {{fa-icon "times"}}
           {{else}}
             {{fa-icon "search"}}
           {{/if}}
-        </button>
+        </div>
       </div>
 
     </div>

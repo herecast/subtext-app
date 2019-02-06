@@ -118,11 +118,16 @@
   }
 
   &-search {
-    margin: auto 4px auto auto;
+    margin: auto;
+    @media (max-width: @screen-xs-max) {
+      margin: auto 8px auto auto;
+    }
+
     &-searchButton,
     &-calendarButton,
     &-filterButton {
-      font-size: 1.5em;
+      display:inline-block;
+      font-size: 1.8em;
       outline: none;
       color: @button-primary;
       a {
@@ -134,6 +139,9 @@
       }
       &:hover {
         color: @button-primary;
+      }
+      &:not(:first-of-type) {
+        margin-left: 16px;
       }
     }
 
