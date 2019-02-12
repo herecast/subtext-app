@@ -305,6 +305,22 @@
                   <button {{action "togglePreview"}} class="btn">Preview Changes</button>
                 {{/if}}
               {{/if}}
+
+              {{#if (and hasChosenOrganization (or news.isPublished news.isScheduled))}}
+                {{horizontal-rule class="u-paddingTop16"}}
+
+                <div class="u-paddingTop8">
+                  {{#x-button onClick=(action "startNewPost") color="primary" size="thin"}}
+                    Start New Post
+                  {{/x-button}}
+                </div>
+
+                <div class="u-paddingTop8">
+                  {{#x-button onClick=(action "goToProfilePage") color="primary" size="thin"}}
+                    Go to {{chosenOrganization.name}} Page
+                  {{/x-button}}
+                </div>
+              {{/if}}
             </div>
           </div>
         </div>

@@ -4,13 +4,15 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   api: service('api'),
+
   contentId: DS.attr('number'),
   imageUrl: DS.attr('string'),
   primary: DS.attr('boolean'),
   caption: DS.attr('string'),
-  width: DS.attr('string'),
-  height: DS.attr('string'),
+  width: DS.attr('number'),
+  height: DS.attr('number'),
   position: DS.attr('number'),
+
   _delete: DS.attr('boolean'),
 
   save() {
@@ -41,9 +43,24 @@ export default DS.Model.extend({
     internalModel.adapterWillCommit();
 
     return api.createImage(data).then((response) => {
-      const id = get(response, 'image.id');
+      const { image } = response;
+      const id = get(image, 'id');
+
       set(this, 'file', null);
 
+      set(this, 'contentId', parseInt(get(this, 'contentId')));
+
+      if (get(image, 'url')) {
+        set(this, 'imageUrl', get(image, 'url'));
+      }
+      if (get(image, 'height')) {
+        set(this, 'height', get(image, 'height'));
+      }
+      if (get(image, 'width')) {
+        set(this, 'width', get(image, 'width'));
+      }
+
+      set(this, 'hasDirtyAttributes', false);
       internalModel.setId(id.toString());
       internalModel.adapterDidCommit();
     });

@@ -26,8 +26,10 @@
       editForm="form-partials/organization-profile-header"
       hideTitleBar=true
     }}
-      {{cards/organization-profile-header organization=organization isProfileHeader=true}}
+      {{cards/organization-profile-header organization=organization isProfileHeader=true noBottomMargin=true}}
     {{/cards/admin-card}}
+
+    {{cards/organization-subscribe-stats organization=organization noTopMargin=true}}
 
     {{#if showContactCard}}
       {{#cards/admin-card

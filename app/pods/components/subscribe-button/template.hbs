@@ -1,4 +1,52 @@
-<a target="_blank" rel="noopener noreferrer" data-test-link="organization-subscribe-link"
-   class="XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}" href={{subscribeUrl}}>
-  Subscribe
-</a>
+{{#if isSubscribed}}
+
+  {{#if wantsToUnsubscribe}}
+    <div class="SubscribeButton--message">
+      Are you sure?
+    </div>
+    <div
+      role="button"
+      data-test-link="organization-subscribe-link-cancel"
+      class="SubscribeButton--button XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
+      {{action "cancelUnsubscribe"}}
+    >
+      No
+    </div>
+    <div
+      role="button"
+      data-test-link="organization-subscribe-link-cancel"
+      class="SubscribeButton--button XButton XButton--medium-gray XButton--transparent XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
+      {{action "unsubscribe"}}
+    >
+      Yes
+    </div>
+
+  {{else}}
+    <div
+      role="button"
+      data-test-link="organization-subscribe-link"
+      class="XButton XButton--medium-gray XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
+      {{action "startUnsubscribe"}}
+    >
+      {{#if isLoading}}
+        {{fa-icon "cog" spin=true}} Working...
+      {{else}}
+        Unsubscribe
+      {{/if}}
+    </div>
+  {{/if}}
+
+{{else}}
+  <div
+    role="button"
+    data-test-link="organization-subscribe-link"
+    class="XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
+    {{action "subscribe"}}
+  >
+    {{#if isLoading}}
+      {{fa-icon "cog" spin=true}} Working...
+    {{else}}
+      Subscribe
+    {{/if}}
+  </div>
+{{/if}}

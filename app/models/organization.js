@@ -29,6 +29,10 @@ export default DS.Model.extend({
   desktopImageUrl: DS.attr('string'),
   removeDesktopImage: DS.attr('boolean', {defaultValue: false}),
 
+  activeSubscriberCount: DS.attr('number'),
+  postCount: DS.attr('number'),
+  totalViewCount: DS.attr('number'),
+
   profileImageUrl: DS.attr('string'),
   backgroundImageUrl: DS.attr('string'),
   remoteProfileImageUrl: DS.attr('string', {defaultValue: null}),

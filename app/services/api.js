@@ -717,5 +717,15 @@ export default Service.extend(FastbootExtensions, {
     return this.returnJson(
       this.post('/users/oauth', this.json(authData))
     );
-  }
+  },
+
+  getOrganizationSubscriptionMatches(query) {
+    let url = '/organizations/subscriptions';
+
+    if (isPresent(query)) {
+      url = url + queryString({query: query});
+    }
+
+    return this.getJson(url);
+  },
 });

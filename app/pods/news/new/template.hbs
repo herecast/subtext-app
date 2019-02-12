@@ -1,7 +1,12 @@
-{{news-editor
-  news=news
-  title=title
-  showPreview=preview
-  afterPublish="afterPublish"
-}}
+{{#if hideEditor}}
+  {{x-loader}}
+{{else}}
+  {{news-editor
+    news=news
+    title=title
+    showPreview=preview
+    afterPublish="afterPublish"
+    refreshModel=(action "refreshModel")
+  }}
+{{/if}}
 {{intercom-button}}

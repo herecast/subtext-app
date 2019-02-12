@@ -41,7 +41,6 @@
   </div>
 {{/if}}
 
-
 <div class="FeedCard-Attribution-box-right">
   {{#feed-card/conditional-link-to
     useLink=linkToDetailIsActive
@@ -56,19 +55,19 @@
         {{/if}}
       </div>
     {{/if}}
-    
+
     {{#if (not hideActivity)}}
       {{#if showViewCount}}
         {{fa-icon "eye" class="FeedCard-Attribution--indicator-icon views"}}
         <span class="FeedCard-Attribution--indicator-text margin-right">
-          {{viewCountFormatted}}
+          {{formatted-count viewCount}}
         </span>
       {{/if}}
 
+      {{fa-icon "comment-o" class="FeedCard-Attribution--indicator-icon comments"}}
       {{#if showCommentCount}}
-        {{fa-icon "comment-o" class="FeedCard-Attribution--indicator-icon comments"}}
         <span class="FeedCard-Attribution--indicator-text">
-          {{commentCountFormatted}}
+          {{formatted-count commentCount}}
         </span>
       {{/if}}
     {{/if}}

@@ -1,0 +1,45 @@
+<div class="Mystuff-OrganizationSubscriptions--search {{if hasInputValue "open"}}">
+  <div class="Mystuff-OrganizationSubscriptions--title">
+    Find publishers and subscribe!
+  </div>
+
+  <div class="Mystuff-OrganizationSubscriptions--search-field dropdown-toggle">
+    {{input
+      id="publisher-search"
+      placeholder="Start typing..."
+      class="Mystuff-OrganizationSubscriptions--input"
+      value=(mut searchValue)
+      keyDown=(action "valueChanging")
+    }}
+    {{#if hasInputValue}}
+      <div class="close-icon" role="button" {{action "clearSearch"}}>
+        {{fa-icon "times"}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="Mystuff-OrganizationSubscriptions--search-results dropdown-menu">
+    {{#if searchMatches}}
+      {{#each searchMatches as |match|}}
+        {{mystuff/organization-subscription
+          organizationId=match.id
+          organizationName=match.name
+          organizationProfileImageUrl=match.profile_image_url
+        }}
+      {{/each}}
+    {{else if hasInputValue}}
+      <div class="Mystuff-OrganizationSubscriptions--search-no-results">
+        No Matching Publishers
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{#if organizationSubscriptions}}
+  <div class="Mystuff-OrganizationSubscriptions--title">
+    You are currently subscribed to the following publishers:
+  </div>
+
+  {{#each organizationSubscriptions as |subscription|}}
+    {{mystuff/organization-subscription subscription=subscription}}
+  {{/each}}
+{{/if}}

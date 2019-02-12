@@ -1,9 +1,12 @@
 import Route from '@ember/routing/route';
 import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
 
 export default Route.extend(RequireCanEdit, {
   titleToken: 'Edit Post',
+
+  floatingActionButton: service(),
 
   model(params) {
     return this.store.findRecord('content', params.id, { reload: true });
@@ -29,6 +32,9 @@ export default Route.extend(RequireCanEdit, {
     },
 
     afterPublish() {
+      const model = get(this, 'controller.news');
+      get(this, 'floatingActionButton').launchContent(model);
+      this.transitionTo('profile.all.show', get(model, 'organizationId'), get(model, 'id'));
     }
   }
 });

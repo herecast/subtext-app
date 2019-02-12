@@ -1,4 +1,4 @@
-import { alias, readOnly, notEmpty } from '@ember/object/computed';
+import { alias, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, getProperties, get } from '@ember/object';
 import { isPresent, isBlank } from '@ember/utils';
@@ -15,14 +15,10 @@ export default Component.extend(Validation, {
   backgroundImage: alias('model.backgroundImage'),
   desktopImage: alias('model.desktopImage'),
 
-  isBlog: readOnly('organization.isBlog'),
-
   profileImageFormVisible: false,
   backgroundImageFormVisible: false,
   desktopImageFormVisible: false,
 
-  showSubscribeOption: false,
-  showSpecialLinkOption: false,
 
   displayProfileImageForm: computed('model.profileImageUrl', 'profileImageFormVisible', function() {
     return get(this, 'profileImageFormVisible') || isBlank(get(this, 'model.profileImageUrl'));
@@ -34,14 +30,6 @@ export default Component.extend(Validation, {
 
   displayDesktopImageForm: computed('model.desktopImageUrl', 'desktopImageFormVisible', function() {
     return get(this, 'desktopImageFormVisible') || isBlank(get(this, 'model.pdesktopImageUrl'));
-  }),
-
-  subscribeOptionIsActive: computed('model.subscribeUrl', 'showSubscribeOption', function() {
-    return isPresent(get(this,'model.subscribeUrl')) || get(this, 'showSubscribeOption');
-  }),
-
-  specialLinkOptionIsActive: computed('model.specialLinkUrl', 'showSpecialLinkOption', function() {
-    return isPresent(get(this,'model.specialLinkUrl')) || get(this, 'showSpecialLinkOption');
   }),
 
   hasNewProfileImage: notEmpty('model.profileImage'),
@@ -57,8 +45,6 @@ export default Component.extend(Validation, {
 
     if (isPresent(organization)) {
       set(this, 'model', getProperties(organization, [
-        'subscribeUrl',
-        'specialLinkUrl',
         'profileImage',
         'profileImageUrl',
         'backgroundImage',
@@ -70,8 +56,6 @@ export default Component.extend(Validation, {
   },
 
   validateForm() {
-    this.hasValidUrl('subscribeUrl');
-    this.hasValidUrl('specialLinkUrl');
     this.validateImage('profileImage');
     this.validateImage('backgroundImage');
     this.validateImage('desktopImage');
@@ -114,24 +98,6 @@ export default Component.extend(Validation, {
         'model.desktopImage': null,
         'model.removeDesktopImage': true
       });
-      this.send('formUpdated');
-    },
-    chooseSpecialLinkOption(option) {
-      if (option === 'subscribe') {
-        this.setProperties({
-          'showSubscribeOption': true,
-          'showSpecialLinkOption': false,
-          'model.specialLinkUrl': null,
-          'model.specialLinkText': null
-        });
-      } else if (option === 'donate') {
-        this.setProperties({
-          'showSubscribeOption': false,
-          'showSpecialLinkOption': true,
-          'model.subscribeUrl': null,
-          'model.specialLinkText': 'Donate'
-        });
-      }
       this.send('formUpdated');
     }
   }

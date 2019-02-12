@@ -1,12 +1,16 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
+import { get, set } from '@ember/object';
 import { isPresent } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { later } from '@ember/runloop';
 import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
   titleToken: 'Create a Post',
+
+  floatingActionButton: service(),
 
   model(params, transition) {
     let newRecordValues = {
@@ -43,6 +47,20 @@ export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll,
     },
 
     afterPublish() {
+      const model = get(this, 'controller.news');
+      get(this, 'floatingActionButton').launchContent(model);
+      this.transitionTo('profile.all.show', get(model, 'organizationId'), get(model, 'id'));
+    },
+
+    refreshRouteModel() {
+      const controller = this.controllerFor(this.routeName);
+      set(controller, 'hideEditor', true);
+
+      this.refresh();
+
+      later(() => {
+        set(controller, 'hideEditor', false);
+      }, 500);
     }
   }
 });

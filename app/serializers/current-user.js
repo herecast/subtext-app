@@ -6,6 +6,9 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
     location: {
       embedded: 'always'
+    },
+    organizationSubscriptions: {
+      embedded: 'always'
     }
   },
   // The current user endpoint does not take an ID, so we override the ID

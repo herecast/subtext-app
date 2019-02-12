@@ -1,4 +1,3 @@
-import { inject as service } from '@ember/service';
 import { not, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
@@ -6,15 +5,14 @@ import { isPresent, isBlank } from '@ember/utils';
 
 export default Component.extend({
   classNames: 'OrganizationProfileHeaderCard',
+  classNameBindings: ['noBottomMargin:no-bottom-margin'],
 
   organization: null,
   isProfileHeader: false,
   showBlankBackgroundImage: false,
   onlyShowCityAndState: false,
   noShadow:false,
-
-
-  fastboot: service(),
+  noBottomMargin: false,
 
   profileIsDisabled: not('organization.profileIsActive'),
   showCustomLinks: not('profileIsDisabled'),

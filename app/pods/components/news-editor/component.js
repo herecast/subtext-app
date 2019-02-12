@@ -120,7 +120,7 @@ export default Component.extend(TestSelector, Validation, {
     }
   }),
 
-  hasChosenOrganization: notEmpty('news.organization'),
+  hasChosenOrganization: notEmpty('news.organization.id'),
 
   hasFeaturedImage: notEmpty('news.primaryImage'),
 
@@ -453,6 +453,18 @@ export default Component.extend(TestSelector, Validation, {
     locationChanged() {
       set(this, 'news.didLocationChange', true);
       this.send('notifyChange');
+    },
+
+    startNewPost() {
+      get(this, 'router').transitionTo('news.new')
+      .then(() => {
+        this.sendAction('refreshModel');
+      });
+    },
+
+    goToProfilePage() {
+      const chosenOrganizationId = get(this, 'chosenOrganization.id');
+      get(this, 'router').transitionTo('profile.all', chosenOrganizationId);
     }
   }
 });

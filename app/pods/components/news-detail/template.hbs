@@ -68,13 +68,11 @@
           {{#feed-card/attribution
             model=model
             isOnDetailView=true
-            linkToDetailIsActive=true
+            linkToDetailIsActive=(not isPreview)
             showCenter=(not isPreview)
           }}
             <div class="u-paddingHorizontal8">
-              {{#if model.organization.subscribeUrl}}
-                {{subscribe-button subscribeUrl=model.organization.subscribeUrl tagName="span"}}
-              {{/if}}
+              {{subscribe-button organization=model.organization}}
             </div>
           {{/feed-card/attribution}}
         </div>
@@ -98,12 +96,14 @@
         {{/feed-card/footer}}
       </div>
 
-      <div>
-        {{feed-card/manage
-          model=model
-          openPromotionMenu=(action "openPromotionMenu")
-        }}
-      </div>
+      {{#unless isPreview}}
+        <div>
+          {{feed-card/manage
+            model=model
+            openPromotionMenu=(action "openPromotionMenu")
+          }}
+        </div>
+      {{/unless}}
 
       <div class="DetailPage-content News-content ContentText">
         {{#if model.subtitle}}

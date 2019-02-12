@@ -61,31 +61,5 @@
       {{/text-block}}
     {{/if}}
 
-    {{#if showDigestButton}}
-      {{#text-block center=true}}
-        {{digest-subscribe-button
-          organization=organization
-        }}
-      {{/text-block}}
-    {{else if organization.subscribeUrl}}
-      {{#text-block center=true}}
-        {{#x-link-url href=organization.subscribeUrl
-                      style="regular"
-                      color="primary"
-                      size="x-small"}}
-          Subscribe
-        {{/x-link-url}}
-      {{/text-block}}
-    {{else if organization.specialLinkUrl}}
-      {{#text-block center=true}}
-        {{#x-link-url href=organization.specialLinkUrl
-                      style="regular"
-                      color="primary"
-                      size="x-small"}}
-          {{organization.specialLinkText}}
-        {{/x-link-url}}
-      {{/text-block}}
-    {{/if}}
-
   {{/content-body}}
 {{/x-card}}
