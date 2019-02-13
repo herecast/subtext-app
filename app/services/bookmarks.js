@@ -10,8 +10,9 @@ export default Service.extend(Evented, {
   store: service(),
   fastboot: service(),
 
-  firstBookmarkComponent: null,
+  thirdBookmarkComponent: null,
   hasLoadedBookmarks: false,
+  bookmarkCount: 0,
 
   bookmarks: computed(function() {
     return get(this, 'store').peekAll('bookmark');
@@ -29,11 +30,9 @@ export default Service.extend(Evented, {
 
   _getBookmarks() {
     if (get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
+      set(this, 'bookmarkCount', 0);
+
       get(this, 'currentUser').then(currentUser => {
-        next(() => {
-          this._setupTooltip();
-        });
-        
         get(this, 'store').query('user', {
           user_id: get(currentUser, 'userId'),
           include: 'bookmarks'
@@ -48,16 +47,16 @@ export default Service.extend(Evented, {
 
   _setupTooltip() {
     get(this, 'currentUser').then(currentUser => {
-      if (isPresent(get(this, 'firstBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
-        set(this, 'firstBookmarkComponent.showTooltip', true);
+      if (isPresent(get(this, 'thirdBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
+        set(this, 'thirdBookmarkComponent.showTooltip', true);
       }
     });
   },
 
   _destroyTooltip() {
     get(this, 'currentUser').then(currentUser => {
-      if (isPresent(get(this, 'firstBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
-        set(this, 'firstBookmarkComponent.showTooltip', false);
+      if (isPresent(get(this, 'thirdBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
+        set(this, 'thirdBookmarkComponent.showTooltip', false);
         this._updateCurrentUser();
       }
     });
@@ -70,15 +69,22 @@ export default Service.extend(Evented, {
     });
   },
 
+  _increaseBookmarkCount() {
+    const bookmarkCount = get(this, 'bookmarkCount');
+    set(this, 'bookmarkCount', bookmarkCount + 1);
+  },
+
   register(bookmarkComponent, method) {
-    if (isBlank(get(this, 'firstBookmarkComponent'))) {
-      set(this, 'firstBookmarkComponent', bookmarkComponent);
+    if (isBlank(get(this, 'thirdBookmarkComponent')) && parseInt(get(this, 'bookmarkCount')) === 2) {
+      set(this, 'thirdBookmarkComponent', bookmarkComponent);
       if (get(this, 'session.isAuthenticated')) {
         next(() => {
           this._setupTooltip();
         });
       }
     }
+
+    this._increaseBookmarkCount();
 
     if (!get(this, 'hasLoadedBookmarks')) {
       this.one('bookmarksLoaded', bookmarkComponent, method);
@@ -88,10 +94,10 @@ export default Service.extend(Evented, {
   },
 
   unregister(bookmarkComponent, method) {
-    const isFirstBookmarkComponent = get(bookmarkComponent, 'contentId') === get(this, 'firstBookmarkComponent.contentId');
+    const isThirdBookmarkComponent = get(bookmarkComponent, 'contentId') === get(this, 'thirdBookmarkComponent.contentId');
 
-    if (isFirstBookmarkComponent) {
-      set(this, 'firstBookmarkComponent', null);
+    if (isThirdBookmarkComponent) {
+      set(this, 'thirdBookmarkComponent', null);
     }
     this.off('bookmarksLoaded', bookmarkComponent, method);
   },
@@ -119,7 +125,7 @@ export default Service.extend(Evented, {
   },
 
   makeNewBookmark(contentId, eventInstanceId=null) {
-    if (get(this, 'firstBookmarkComponent.showTooltip')) {
+    if (get(this, 'thirdBookmarkComponent.showTooltip')) {
       this._destroyTooltip();
     }
 

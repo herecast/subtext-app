@@ -1,7 +1,7 @@
 <div class="FeedCard-Attribution-box-left">
   <div class="FeedCard-Attribution-author-wrap" data-test-card-attribution>
     <div class="FeedCard-Attribution-author-left">
-      {{#if hasLinkRouteName}}
+      {{#if (and hasLinkRouteName linkToDetailIsActive)}}
         {{#link-to linkRouteName linkId}}
           {{avatar-image
             imageUrl=avatarUrl

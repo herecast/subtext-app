@@ -114,7 +114,7 @@
 
         <div data-test-detail-page-content>
 
-          {{#if model.embeddedAd}}
+          {{#if (and model.embeddedAd (not isPreview))}}
             {{modelSplitContentHead}}
 
             <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">

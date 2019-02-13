@@ -93,12 +93,14 @@
       {{/feed-card/footer}}
     </div>
 
-    <div>
-      {{feed-card/manage
-        model=model
-        openPromotionMenu=(action "openPromotionMenu")
-      }}
-    </div>
+    {{#unless isPreview}}
+      <div>
+        {{feed-card/manage
+          model=model
+          openPromotionMenu=(action "openPromotionMenu")
+        }}
+      </div>
+    {{/unless}}
 
     <div class="DetailPage-metaBloc">
       {{detail-meta-bloc model=model}}
@@ -108,7 +110,7 @@
     <div class="DetailPage-content Event-content ContentText">
       <div data-test-event-content>
 
-        {{#if model.embeddedAd}}
+        {{#if (and model.embeddedAd (not isPreview))}}
           {{modelSplitContentHead}}
 
           <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">

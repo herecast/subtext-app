@@ -22,9 +22,10 @@ export default Service.extend({
     });
 
     $(window).scrollTop(0,0);
+    
     const queryParams = {
       query,
-      type: null,
+      type: get(this, 'activeFilter'),
       startDate: '',
       endDate: ''
     };

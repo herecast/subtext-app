@@ -87,7 +87,6 @@ Router.map(function() {
 
     this.route('contents', {path: '/'}, function() {
       this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
     this.route('bookmarks', function() {
       this.route('show', {path: '/:id'});

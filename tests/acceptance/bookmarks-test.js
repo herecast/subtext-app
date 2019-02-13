@@ -71,6 +71,7 @@ module('Acceptance | bookmarks', function(hooks) {
     await click(find('[data-test-component="sign-in-submit"]'));
 
     assert.equal(currentURL(), '/', 'Should direct to homepage after sign in');
+    assert.equal(findAll('[data-test-bookmark="not-bookmarked"]').length, numberOfContents, 'All bookmarks should be not bookmarked');
     assert.ok(findAll('[data-test-bookmark-tooltip]').length, 'Should show the tooltip for user who has not had bookmarks');
 
     this.server.put('/current_user', function(db) {

@@ -16,6 +16,8 @@ export default Service.extend(Evented, {
   session: service(),
   logger: service(),
   fastboot: service(),
+  store: service(),
+
   clientId: null,
   locationId: reads('userLocation.userLocation.id'),
   _clientIdKey: 'dailyuv_session_client_id',
@@ -58,7 +60,10 @@ export default Service.extend(Evented, {
     });
 
     get(this, 'userLocation').on('userLocationChanged', (locationId) => {
-      this.chooseDifferentLocation(locationId);
+      const location = get(this, 'store').peekRecord('location', locationId);
+      const locationName = isPresent(location) ? get(location, 'name') : '';
+
+      this.chooseDifferentLocation(locationId, locationName);
     });
 
     if(!get(this, 'fastboot.isFastBoot')) {
@@ -122,10 +127,11 @@ export default Service.extend(Evented, {
     });
   },
 
-  chooseDifferentLocation(locationId) {
+  chooseDifferentLocation(locationId, locationName) {
     this.push({
       event: "ChooseLocation",
-      new_location_id: locationId
+      new_location_id: locationId,
+      new_location_name: locationName
     });
   },
 

@@ -27,6 +27,8 @@ const linkToContent = Component.extend({
         return 'mystuff.contents.show';
       } else if (currentRouteName.indexOf('bookmarks') > 0) {
         return 'mystuff.bookmarks.show';
+      } else if (currentRouteName.indexOf('comments') > 0) {
+        return 'mystuff.comments.show';
       }
 
     } else {
@@ -56,7 +58,7 @@ const linkToContent = Component.extend({
     let routeParameters = [get(model, 'contentId')];
     const eventInstanceId = get(model, 'eventInstanceId');
 
-    if (eventInstanceId) {
+    if (eventInstanceId && route.indexOf('mystuff') < 0) {
       route = get(this, 'instanceRoute');
       routeParameters.push(eventInstanceId);
     }

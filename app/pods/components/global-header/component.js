@@ -77,16 +77,6 @@ export default Component.extend(TestSelector, {
 
     updateSearchQuery(query) {
       get(this, 'searchService').performSearch(query);
-    },
-
-    onRemoveFilter() {
-      const transition = get(this, 'router').transitionTo('feed.index', {
-        queryParams: {
-          type: null
-        }
-      });
-
-      transition._keepDefaultQueryParamValues = false;
     }
   }
 });

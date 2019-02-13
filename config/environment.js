@@ -45,6 +45,10 @@ module.exports = function(environment) {
       'location.talk',
       'organization-profile'
     ],
+    'ember-simple-auth': {
+      routeAfterAuthentication: 'feed',
+      routeIfAlreadyAuthenticated: 'feed'
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -150,12 +154,7 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage']['enabled'] = true;
 
     // Create a mock for ga variable for code that waits/depends on it
-     ENV.mockWindowGa = true;
-
-    ENV['ember-simple-auth'] = {
-      routeAfterAuthentication: 'feed.index',
-      routeIfAlreadyAuthenticated: 'feed.index'
-    }
+    ENV.mockWindowGa = true;
 
     ENV['simple-auth'] = {
       store: 'simple-auth-session-store:ephemeral'

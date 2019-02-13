@@ -28,7 +28,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
 
   init() {
     this._super(...arguments);
-
+    
     setProperties(this, {
       thumbSortDefinition: ['primary:desc'],
       _cachedModelId: get(this, 'model.id')

@@ -6,7 +6,14 @@ export default Controller.extend({
   tracking: service(),
 
   contentType: computed('model.contentType', function() {
-    return get(this, 'model.contentType') || 'event';
+    const modelContentType = get(this, 'model.contentType');
+    let contentType = modelContentType;
+
+    if (modelContentType === 'talk') {
+      contentType = 'market';
+    }
+
+    return contentType || 'event';
   }),
 
   componentName: computed('contentType', function() {

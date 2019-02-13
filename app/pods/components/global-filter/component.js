@@ -21,7 +21,9 @@ export default Component.extend({
 
   actions: {
     changeFilter(filter) {
-      get(this, 'tracking').trackFeedChannelChange(filter);
+      if (filter !== get(this, 'activeFilter')) {
+        get(this, 'tracking').trackFeedChannelChange(filter);
+      }
     }
   }
 });

@@ -10,7 +10,7 @@ export default Mixin.create(UnauthenticatedRouteMixin, {
   transitionAfterAuthentication() {
     const cookies = get(this, 'cookies');
     const redirectTarget = cookies.read('ember_simple_auth-redirectTarget');
-    
+
     if (redirectTarget) {
       // Lets go back to where they were trying to go in the first place
       return this.replaceWith(redirectTarget).then(() => {

@@ -81,6 +81,11 @@
       left: 0;
       .display-grid();
       .grid-template-columns( 150px 1fr );
+      &.no-left {
+        .display-grid();
+        .grid-template-columns( 1fr );
+        text-align: right;
+      }
       &-left {
         .grid-column( 1 );
         .grid-justify-self(start);
