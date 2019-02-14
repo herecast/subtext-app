@@ -40,13 +40,10 @@
               {{moment-format payment.periodEnd "MM/DD/YYYY"}}
             </td>
             <td>
+              {{payment.views}}
+            </td>
+            <td>
               {{payment.paidImpressions}}
-            </td>
-            <td>
-              {{formatted-number payment.payPerImpression "dollars" 4}}
-            </td>
-            <td>
-              {{payment.revenueShare}}%
             </td>
             <td>
               {{formatted-number payment.totalPayment "dollars"}}
