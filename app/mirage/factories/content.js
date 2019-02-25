@@ -1,6 +1,6 @@
 import { isBlank } from '@ember/utils';
 import { get } from '@ember/object';
-import { Factory, association, faker } from 'ember-cli-mirage';
+import { Factory, faker } from 'ember-cli-mirage';
 import moment from 'moment';
 
 function generateSplitContent() {
@@ -26,6 +26,26 @@ export default Factory.extend({
         locationId: randomLocationId
       });
     }
+
+    let org = get(content, 'organization');
+
+    if (isBlank(org)) {
+      const numberOfOrgs = server.db.organizations.length;
+
+      let randomOrgId = Math.ceil(Math.random() * Math.floor(numberOfOrgs));
+
+      if (numberOfOrgs === 0 || randomOrgId === 0) {
+        org = server.create('organization');
+      } else {
+        org = server.db.organizations.find(randomOrgId);
+      }
+    }
+
+    content.update({
+      organizationId: org.id,
+      organizationName: org.name,
+      organizationProfileImageUrl: org.profileImageUrl
+    });
 
     if (content.contentType === 'event' && !content.eventInstances.length) {
       let newEndDate = moment(content.startsAt).add(1, 'hours').toDate();
@@ -129,11 +149,6 @@ export default Factory.extend({
   updatedAt() { return faker.date.past(); },
 
   bizFeedPublic() { return faker.random.arrayElement([true, false]); },
-
-  organization: association(),
-
-  organizationName() { return faker.company.companyName(); },
-  organizationProfileImageUrl() { return faker.image.business(); },
 
   imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
   images() {

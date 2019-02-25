@@ -25,7 +25,18 @@
       </div>
     </div>
     <div class="OrganizationSubscribeStats--card-right">
-      {{subscribe-button organization=organization}}
+      {{#unless isInAdminView}}
+        {{subscribe-button
+          organization=organization
+          class="OrganizationSubscribeStats--subscribe-button"
+        }}
+      {{/unless}}
     </div>
   </div>
+
+  {{#if isInAdminView}}
+    <div class="OrganizationSubscribeStats--hides">
+      You have {{userHideCount}} users hiding you from their feed
+    </div>
+  {{/if}}
 {{/x-card}}

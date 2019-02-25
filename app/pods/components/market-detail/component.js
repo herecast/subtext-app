@@ -6,6 +6,7 @@ import { computed, set, get, setProperties } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
+import IsDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
 export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
@@ -82,6 +83,12 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     }
 
     return isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
+  }),
+
+  showHideButton: computed('model.organization', function() {
+    const organizationId = get(this, 'model.organization.id');
+
+    return !IsDefaultOrganization(organizationId);
   }),
 
   _resetProperties() {

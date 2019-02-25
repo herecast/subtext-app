@@ -1,7 +1,7 @@
 {{#if session.currentUser}}
-  <a href="#" {{action "reportAbuse"}}>
+  <span role="button" {{action "reportAbuse"}}>
     {{fa-icon "flag"}} Report
-  </a>
+  </span>
 {{else}}
   {{#link-to "login"}}
     {{fa-icon "flag"}} Report

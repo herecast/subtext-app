@@ -6,12 +6,15 @@ import reloadComments from 'subtext-ui/mixins/reload-comments';
 
 export default Component.extend(reloadComments, {
   classNames: 'FeedCard-NewsCard',
+  classNameBindings: ['hideCompletely:hide-completely'],
   'data-test-news-card': reads('model.title'),
 
   model: null,
   userLocation: service(),
   context: null,
   sourceTag: null,
+
+  hideCompletely: false,
 
   canManage: computed('context.canManage', 'model.isDraft', function() {
     const isDraft = get(this, 'model.isDraft');

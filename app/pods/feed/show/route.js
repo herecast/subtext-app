@@ -11,7 +11,6 @@ export default Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMeta
   session: service(),
   modals: service(),
   fastboot: service(),
-  history: service(),
 
   model(params)  {
     return this.store.findRecord('content', params.id, { reload: true });
@@ -44,27 +43,13 @@ export default Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMeta
     didTransition() {
       this._super(...arguments);
 
-      const history = get(this, 'history');
       const feedController = this.controllerFor('feed');
       const contentId = this.modelFor(this.routeName).get('contentId');
-
-      if (get(history, 'isFirstRoute')) {
-        // Must convert to string for template to be able to compare
-        feedController.set('showingDetailInFeed', String(contentId));
-      }
 
       feedController.trackDetailPageViews(contentId);
 
       this.loadFeedInParent();
 
-      return true;
-    },
-
-    willTransition() {
-      this._super();
-      const feedController = this.controllerFor('feed');
-
-      feedController.set('showingDetailInFeed', null);
       return true;
     }
   }

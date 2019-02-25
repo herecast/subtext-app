@@ -1,0 +1,20 @@
+{{#if organizationHides}}
+  <div class="Mystuff-OrganizationSubscriptions--title">
+    You have hidden the following authors from your feed:
+  </div>
+
+  {{#each organizationHides as |organizationHide|}}
+    {{mystuff/organization-manage
+      model=organizationHide
+      showHideOptions=true
+    }}
+  {{/each}}
+{{else}}
+  <div class="Mystuff-OrganizationSubscriptions--title">
+    You are not hiding any authors from your feed.
+  </div>
+
+  <div>
+    To hide an author from appearing in your feed, click the "{{fa-icon "low-vision"}} Hide" button at the top of any post and follow the instructions.
+  </div>
+{{/if}}

@@ -27,6 +27,7 @@ export default DS.Model.extend({
   isBlogger: DS.attr('boolean'),
 
   organizationSubscriptions: DS.hasMany('organization-subscription'),
+  organizationHides: DS.hasMany('organization-hide'),
 
   // Used to store pending changes which are submitted via the api service
   password: null,

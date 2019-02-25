@@ -25,6 +25,8 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   editPath: 'news.edit',
   editPathId: oneWay('model.id'),
 
+  onClose: null,
+
   init() {
     this._super(...arguments);
     this._cachedId = get(this, 'model.id');

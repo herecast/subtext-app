@@ -82,6 +82,14 @@
           contentId=model.contentId
           class="DetailPage-reportFlag h4"
         }}
+        {{#if showHideButton}}
+          {{hide-organization-button
+            contentId=model.contentId
+            organization=model.organization
+            afterHide=onClose
+            class="DetailPage-reportFlag h4"
+          }}
+        {{/if}}
       {{/feed-card/footer}}
     </div>
 

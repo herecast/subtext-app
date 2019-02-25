@@ -11,6 +11,13 @@
     }
   }
 
+  &--name {
+    .TitleText {
+      max-width: 80%;
+      margin: 0 auto !important;
+    }
+  }
+
   &-menuButton {
     position: absolute;
     top: 5px;
@@ -70,6 +77,27 @@
     .OrganizationProfileHeaderCard-profile-image-avatar {
       height: 130px;
       width: 130px;
+    }
+  }
+
+  &--hide-flag {
+    margin: 0;
+    display: inline-block;
+    font-size: 14px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+
+    a,
+    [role="button"] {
+      display: inline-block;
+      color: lighten(@gray-medium, 10%);
+      font-weight: 700;
+
+      &:hover {
+        text-decoration: none;
+        color: @gray-dark;
+      }
     }
   }
 }

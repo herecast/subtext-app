@@ -68,8 +68,15 @@
 
   &-reportFlag {
     margin: 0;
+    display: inline-block;
 
-    a {
+    &:not(:first-of-type) {
+      margin-left: 12px;
+    }
+
+    a,
+    [role="button"] {
+      display: inline-block;
       color: lighten(@gray-medium, 10%);
       font-weight: 700;
 

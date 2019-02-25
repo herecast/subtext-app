@@ -10,6 +10,8 @@ import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
+import { later } from '@ember/runloop';
+import { observer } from '@ember/object';
 import CardMetrics from 'subtext-ui/mixins/components/card-metrics';
 
 export default Component.extend(CardMetrics, {
@@ -21,12 +23,15 @@ export default Component.extend(CardMetrics, {
   'data-test-entered-viewport': oneWay('_didEnterViewPort'),
 
   model: null,
+  isHiddenFromFeed: readOnly('model.isHiddenFromFeed'),
   organization: null,
   allowManageOnTile: false,
   displayAsPublic: false,
   hideComments: false,
   promotionMenuOpen: false,
   condensedView: false,
+
+  hideCompletely: false,
 
   session: service(),
   userLocation: service('userLocation'),
@@ -48,6 +53,14 @@ export default Component.extend(CardMetrics, {
   }),
 
   linkToDetailIsActive: true,
+
+  hideFromFeedWatcher: observer('isHiddenFromFeed', function() {
+    if (get(this, 'isHiddenFromFeed')) {
+      later(() => {
+        set(this, 'hideCompletely', true);
+      }, 1000);
+    }
+  }),
 
   actions: {
     closePromotionMenu() {

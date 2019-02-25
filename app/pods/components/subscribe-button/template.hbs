@@ -37,16 +37,18 @@
   {{/if}}
 
 {{else}}
-  <div
-    role="button"
-    data-test-link="organization-subscribe-link"
-    class="XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
-    {{action "subscribe"}}
-  >
-    {{#if isLoading}}
-      {{fa-icon "cog" spin=true}} Working...
-    {{else}}
-      Subscribe
-    {{/if}}
-  </div>
+  {{#if (not fastboot.isFastBoot)}}
+    <div
+      role="button"
+      data-test-link="organization-subscribe-link"
+      class="XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "SubscribeButton--large"}}"
+      {{action "subscribe"}}
+    >
+      {{#if isLoading}}
+        {{fa-icon "cog" spin=true}} Working...
+      {{else}}
+        Subscribe
+      {{/if}}
+    </div>
+  {{/if}}
 {{/if}}

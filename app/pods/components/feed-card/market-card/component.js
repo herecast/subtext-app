@@ -6,6 +6,7 @@ import reloadComments from 'subtext-ui/mixins/reload-comments';
 
 export default Component.extend(reloadComments, {
   classNames: 'FeedCard-MarketCard',
+  classNameBindings: ['hideCompletely:hide-completely'],
   'data-test-market-card': reads('model.title'),
 
   model: null,
@@ -13,6 +14,8 @@ export default Component.extend(reloadComments, {
   context: null,
   sourceTag: null,
 
+  hideCompletely: false,
+  
   activeImageUrl: oneWay('model.primaryImageUrl'),
 
   isNotTalk: computed('model.contentType', function() {

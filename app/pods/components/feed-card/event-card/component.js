@@ -8,6 +8,7 @@ import reloadComments from 'subtext-ui/mixins/reload-comments';
 
 export default Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',
+  classNameBindings: ['hideCompletely:hide-completely'],
   'data-test-event-card': reads('model.title'),
   'data-test-content': oneWay('model.contentId'),
 
@@ -15,6 +16,8 @@ export default Component.extend(reloadComments, {
   context: null,
   userLocation: service(),
   sourceTag: null,
+
+  hideCompletely: false,
 
   startTime: computed('model.startsAt', function() {
     const startsAt = get(this, 'model.startsAt');

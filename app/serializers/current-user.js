@@ -7,6 +7,9 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     location: {
       embedded: 'always'
     },
+    organizationHides: {
+      embedded: 'always'
+    },
     organizationSubscriptions: {
       embedded: 'always'
     }

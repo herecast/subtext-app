@@ -93,6 +93,12 @@
             contentId=model.contentId
             class="DetailPage-reportFlag h4"
           }}
+          {{hide-organization-button
+            contentId=model.contentId
+            organization=model.organization
+            afterHide=onClose
+            class="DetailPage-reportFlag h4"
+          }}
         {{/feed-card/footer}}
       </div>
 

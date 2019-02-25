@@ -439,6 +439,24 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackHideAuthor(hideObject) {
+    this.push({
+      event: 'UserHidesAuthor',
+      content_id: hideObject.contentId || 'From Profile',
+      organization_id: hideObject.organizationId,
+      organization_name: hideObject.organizationName,
+      flag_type: hideObject.flagType
+    });
+  },
+
+  trackUnhideAuthor(hideObject) {
+    this.push({
+      event: 'UserUnhidesAuthor',
+      organization_id: hideObject.organizationId,
+      organization_name: hideObject.organizationName
+    });
+  },
+
   /** Private **/
 
   _checkIfCanEditContent(content) {

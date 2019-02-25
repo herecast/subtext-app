@@ -20,10 +20,11 @@
   <div class="Mystuff-OrganizationSubscriptions--search-results dropdown-menu">
     {{#if searchMatches}}
       {{#each searchMatches as |match|}}
-        {{mystuff/organization-subscription
+        {{mystuff/organization-manage
           organizationId=match.id
           organizationName=match.name
           organizationProfileImageUrl=match.profile_image_url
+          showSubscribeOptions=true
         }}
       {{/each}}
     {{else if hasInputValue}}
@@ -40,6 +41,9 @@
   </div>
 
   {{#each organizationSubscriptions as |subscription|}}
-    {{mystuff/organization-subscription subscription=subscription}}
+    {{mystuff/organization-manage
+      model=subscription
+      showSubscribeOptions=true
+    }}
   {{/each}}
 {{/if}}

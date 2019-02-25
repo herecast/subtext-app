@@ -1,0 +1,81 @@
+.HideOrganizationButton {
+  .alert {
+    text-align: center;
+  }
+
+  &--modal {
+    .Modal-dialog {
+      padding: 16px 8px;
+    }
+
+    &-title {
+      line-height: 1.0;
+      margin-bottom: 4px;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    &-flags {
+      text-align: left;
+      display: inline-block;
+      label {
+        margin: 8px 0;
+      }
+
+      &-wrap {
+        text-align: center;
+      }
+    }
+
+    &-message {
+      line-height: 1.2;
+      font-size: 14px;
+    }
+
+    &-organization {
+      .display-grid();
+      .grid-template-columns(max-content max-content 1fr);
+      max-width: 260px;
+      margin: 0 auto;
+      font-weight: 600;
+      text-align: left;
+      margin-bottom: 16px;
+
+      &-left,
+      &-right,
+      &-center {
+        .grid-align-self(center);
+      }
+      &-left {
+        .grid-column(1);
+        font-size: 18px;
+        color: lighten(@gray-medium, 10%);
+        text-align: center;
+      }
+      &-center {
+        .grid-column(2);
+      }
+      &-right {
+        .grid-column(3);
+        line-height: 1.1;
+        font-size: 14px;
+      }
+
+      &-icon {
+        font-size: 24px;
+      }
+
+      &-avatar {
+        margin: 0 8px;
+      }
+    }
+
+
+
+    &-action-buttons {
+      text-align: center;
+    }
+
+  }
+}

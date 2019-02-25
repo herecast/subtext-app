@@ -8,7 +8,10 @@ export default Component.extend({
   organization: null,
   noTopMargin: false,
 
+  isInAdminView: false,
+
   activeSubscriberCount: readOnly('organization.activeSubscriberCount'),
   postCount: readOnly('organization.postCount'),
   totalViewCount: readOnly('organization.totalViewCount'),
+  userHideCount: readOnly('organization.userHideCount'),
 });

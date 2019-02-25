@@ -52,6 +52,8 @@ export default Model.extend(HasImages, HasVenue, {
 
   eventInstances: alias('otherEventInstances'),
 
+  isHiddenFromFeed: attr('boolean', {defaultValue: false}),
+
   publishedAtRelative: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');
     return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;

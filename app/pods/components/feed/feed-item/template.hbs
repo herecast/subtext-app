@@ -1,15 +1,13 @@
 {{#if isContent}}
-  {{#unless contentShowingInFeed}}
-    {{feed-card
-      model=feedItemModel
-      organization=organization
-      allowManageOnTile=allowManageOnTile
-      displayAsPublic=displayAsPublic
-      condensedView=condensedView
-      impressionsEnabled=enableImpressionTracking
-      impressionLocation=impressionLocation
-    }}
-  {{/unless}}
+  {{feed-card
+    model=feedItemModel
+    organization=organization
+    allowManageOnTile=allowManageOnTile
+    displayAsPublic=displayAsPublic
+    condensedView=condensedView
+    impressionsEnabled=enableImpressionTracking
+    impressionLocation=impressionLocation
+  }}
 {{else if isCarousel}}
   {{feed-carousel
     model=feedItemModel

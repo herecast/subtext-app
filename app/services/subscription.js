@@ -46,16 +46,6 @@ export default Service.extend({
     return matchingSubscription || null;
   },
 
-  _addSubscriptionToCurrentUser(organizationSubscription) {
-    if (get(this, 'session.isAuthenticated')) {
-      get(this, 'currentUser').then(currentUser => {
-        const organizationSubscriptions = get(this, 'organizationSubscriptions');
-        organizationSubscriptions.pushObject(organizationSubscription);
-        set(currentUser, 'organizationSubscriptions', organizationSubscriptions);
-      });
-    }
-  },
-
   _addToOrganizationSubscriberCount(organizationId, addTo=0) {
     this._getOrganization(organizationId)
     .then((organization) => {

@@ -134,6 +134,7 @@
 @import 'components/google-map';
 @import 'components/gradient-truncation';
 @import 'components/header-image';
+@import 'components/hide-organization-button';
 @import 'components/image-editor';
 @import 'components/image-upload';
 @import 'components/intercom-button';
@@ -216,6 +217,8 @@
 @import 'components/mystuff/comment-card';
 @import 'components/mystuff/filter-bar';
 @import 'components/mystuff/nav-bar';
+@import 'components/mystuff/organization-hides';
+@import 'components/mystuff/organization-manage';
 @import 'components/mystuff/organization-subscriptions';
 
 @import 'routes/mystuff/account';
@@ -261,7 +264,7 @@ html {
   &.modal-open {
     overflow: hidden;
     [class*="c-notification__container"] {
-      z-index: 2000000000 !important;
+      z-index: 2147483647 !important;
     }
   }
 }

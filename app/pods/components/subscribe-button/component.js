@@ -1,10 +1,11 @@
 import { get, set, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import { oneWay, readOnly, filter, notEmpty } from '@ember/object/computed';
+import { oneWay, readOnly, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
+  fastboot: service(),
   modals: service(),
   session: service(),
   subscriptionService: service('subscription'),
@@ -17,22 +18,28 @@ export default Component.extend({
 
   organizationSubscriptions: readOnly('subscriptionService.organizationSubscriptions'),
 
-  subscriptionsToThisOrganization: filter('organizationSubscriptions', function(organizationSubscription) {
-    if (isPresent(organizationSubscription)) {
-      return parseInt(get(this, 'organizationId')) === parseInt(get(organizationSubscription, 'organizationId'));
+  subscriptionToThisOrganization: computed('organizationSubscriptions.[]', 'organizationId', function() {
+    const organizationSubscriptions = get(this, 'organizationSubscriptions') || [];
+    const organizationId = get(this, 'organizationId') || null;
+
+    if (organizationSubscriptions.length && isPresent(organizationId)) {
+      const subscriptionToThisOrganization = organizationSubscriptions.find((organizationSubscription) => {
+        return parseInt(organizationId) === parseInt(get(organizationSubscription, 'organizationId'));
+      });
+
+      return subscriptionToThisOrganization || null;
     }
+    
     return null;
   }),
 
-  isSubscribed: notEmpty('subscriptionsToThisOrganization'),
+  isSubscribed: notEmpty('subscriptionToThisOrganization'),
   isLoading: computed('subscriptionService.isLoadingOrgId', 'organizationId', function() {
     const isLoadingOrgId = get(this, 'subscriptionService.isLoadingOrgId');
     const organizationId = get(this, 'organizationId');
 
     return parseInt(isLoadingOrgId) === parseInt(organizationId);
   }),
-
-  subscriptionToThisOrganization: readOnly('subscriptionsToThisOrganization.firstObject'),
 
   actions: {
     subscribe() {

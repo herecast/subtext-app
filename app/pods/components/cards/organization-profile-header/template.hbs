@@ -34,7 +34,7 @@
     {{/if}}
   </div>
 
-  {{#content-body verticalPadding=true}}
+  {{#content-body verticalPadding=true class="OrganizationProfileHeaderCard--name"}}
     {{#if isProfileHeader}}
       {{#title-text noMargin=true center=true strong=true}}
         {{organization.name}}
@@ -46,6 +46,15 @@
         {{/title-text}}
       {{/link-to}}
     {{/if}}
+
+    {{#unless isInAdminView}}
+      {{hide-organization-button
+        contentId=null
+        organization=organization
+        class="OrganizationProfileHeaderCard--hide-flag"
+      }}
+    {{/unless}}
+
 
     {{#if organization.fullAddress}}
       {{#text-block center=true hasMargin=false}}

@@ -418,10 +418,8 @@ export default function() {
     };
   });
 
-  this.get('/contents/:id/short_link', function() {
-    return {
-      link: `http://bit.ly/asdf`
-    };
+  this.post('/contents/:id/moderate', function() {
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/promotions', (db, request) => {
@@ -439,6 +437,14 @@ export default function() {
     }
 
     return new Mirage.Response(200, {}, {promotions});
+  });
+
+  this.post('/organizations/:organization_id/hides', function() {
+    return new Mirage.Response(200, {}, {});
+  });
+
+  this.del('/organizations/hides/:id', function() {
+    return new Mirage.Response(200, {}, {});
   });
 
   this.get('/promotion_coupons/:id', function({db}, request) {

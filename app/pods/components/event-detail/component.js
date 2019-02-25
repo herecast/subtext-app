@@ -6,6 +6,7 @@ import { computed, get, set, setProperties } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
+import IsDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import contentComments from 'subtext-ui/mixins/content-comments';
 
 export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
@@ -28,7 +29,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
 
   init() {
     this._super(...arguments);
-    
+
     setProperties(this, {
       thumbSortDefinition: ['primary:desc'],
       _cachedModelId: get(this, 'model.id')
@@ -82,6 +83,12 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
       set(this, '_cachedModelId', get(this, 'model.id'));
     }
   },
+
+  showHideButton: computed('model.organization', function() {
+    const organizationId = get(this, 'model.organization.id');
+
+    return !IsDefaultOrganization(organizationId);
+  }),
 
   hasContactInfo: computed('model.{eventUrl,contactEmail,contactPhone}', function() {
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));

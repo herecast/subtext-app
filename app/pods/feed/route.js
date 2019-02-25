@@ -20,7 +20,6 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
   session: service(),
   search: service(),
   fastboot: service(),
-  history: service(),
   logger: service(),
   infinity: service(),
 

@@ -13,6 +13,7 @@ export default Component.extend({
   onlyShowCityAndState: false,
   noShadow:false,
   noBottomMargin: false,
+  isInAdminView: false,
 
   profileIsDisabled: not('organization.profileIsActive'),
   showCustomLinks: not('profileIsDisabled'),

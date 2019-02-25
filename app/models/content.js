@@ -75,6 +75,8 @@ export default DS.Model.extend(
   isMarket: equal('contentType', 'market'),
   isCampaign: equal('contentType', 'campaign'),
 
+  isHiddenFromFeed: attr('boolean', {defaultValue: false}),
+
   listsEnabled: notEmpty('listservIds'),
 
   baseLocationName: computed('location', 'contentType', 'venueCity', 'venueState}', function() {

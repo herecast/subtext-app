@@ -36,6 +36,13 @@ export default Mixin.create({
         },
         {
           order: 4,
+          routeName: 'mystuff.hides',
+          title: 'Hides',
+          iconActive: 'low-vision',
+          iconInactive: 'low-vision'
+        },
+        {
+          order: 5,
           routeName: 'mystuff.account',
           title: 'Account',
           iconActive: 'user',

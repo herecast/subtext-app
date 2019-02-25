@@ -38,8 +38,6 @@ export default Controller.extend({
 
   isSearchActive: notEmpty('query'),
 
-  showingDetailInFeed: null,
-
   _minimimLoadingDelay: 1200,
   _animationDelayRunning: false,
   _animationDelay: null,

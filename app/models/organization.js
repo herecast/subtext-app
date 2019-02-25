@@ -32,6 +32,7 @@ export default DS.Model.extend({
   activeSubscriberCount: DS.attr('number'),
   postCount: DS.attr('number'),
   totalViewCount: DS.attr('number'),
+  userHideCount: DS.attr('number'),
 
   profileImageUrl: DS.attr('string'),
   backgroundImageUrl: DS.attr('string'),
