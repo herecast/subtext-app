@@ -101,18 +101,22 @@ export default Service.extend({
     });
   },
 
-  hide(organizationId, contentId, flagType) {
+  hide(organization, contentId, flagType) {
+    const organizationId = get(organization, 'id');
+    const organizationName = get(organization, 'name');
+
     if (get(this, 'session.isAuthenticated')) {
       set(this, 'isLoadingOrgId', organizationId);
 
       const newHide = get(this, 'store').createRecord('organization-hide', {
         organizationId,
+        organizationName,
         contentId,
         flagType
       });
 
       get(this, 'tracking').trackHideAuthor(newHide);
-      
+
       return newHide.save()
       .then(() => {
         this._getHides();

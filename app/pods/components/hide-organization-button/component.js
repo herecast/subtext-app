@@ -96,12 +96,12 @@ export default Component.extend({
     },
 
     hide() {
-      const organizationId = get(this, 'organizationId');
+      const organization = get(this, 'organization');
       const contentId = get(this, 'contentId');
       const flagType = get(this, 'flagType');
 
       if (isPresent(flagType)) {
-        get(this, 'organizationHidesService').hide(organizationId, contentId, flagType)
+        get(this, 'organizationHidesService').hide(organization, contentId, flagType)
         .then(() => {
           setProperties(this, {
             'showSuccess': true,
