@@ -84,10 +84,10 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     }
   },
 
-  showHideButton: computed('model.organization', function() {
-    const organizationId = get(this, 'model.organization.id');
+  showHideButton: computed('model.organizationId', function() {
+    const organizationId = get(this, 'model.organizationId');
 
-    return !IsDefaultOrganization(organizationId);
+    return isPresent(organizationId) && !IsDefaultOrganization(organizationId);
   }),
 
   hasContactInfo: computed('model.{eventUrl,contactEmail,contactPhone}', function() {

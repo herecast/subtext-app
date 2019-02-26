@@ -85,10 +85,10 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     return isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
-  showHideButton: computed('model.organization', function() {
-    const organizationId = get(this, 'model.organization.id');
-
-    return !IsDefaultOrganization(organizationId);
+  showHideButton: computed('model.organizationId', function() {
+    const organizationId = get(this, 'model.organizationId');
+    
+    return isPresent(organizationId) && !IsDefaultOrganization(organizationId);
   }),
 
   _resetProperties() {
