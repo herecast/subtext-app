@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { reads, alias, oneWay, sort } from '@ember/object/computed';
+import { reads, alias, oneWay, sort, gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import { isPresent } from '@ember/utils';
 import { computed, get, set, setProperties } from '@ember/object';
@@ -51,8 +51,10 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   }),
 
   modelSplitContentTail: computed('model.splitContent.tail', function() {
-    return htmlSafe(get(this, 'model.splitContent.tail'));
+    return htmlSafe(get(this, 'model.splitContent.tail')) || '';
   }),
+
+  hasSplitContentTail: gt('modelSplitContentTail.length', 0),
 
   showContactButton: computed('model.{contactEmail,contactPhone,sold}', 'editButtonIsActive', function() {
     if (get(this, 'model.sold') || get(this, 'editButtonIsActive')) {

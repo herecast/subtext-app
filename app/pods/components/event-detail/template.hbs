@@ -119,9 +119,9 @@
       <div data-test-event-content>
 
         {{#if (and model.embeddedAd (not isPreview))}}
-          {{modelSplitContentHead}}
+          <div class="DetailPage-content pre-line">{{modelSplitContentHead}}</div>
 
-          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody {{if (not hasSplitContentTail) "AdBanner--noBorderBottom"}}">
             <div class="AdBanner-wrapper AdBanner-wrapper--detail">
               <div class="AdBanner--inContentBody-messageBar">
                 Advertisement: Content continues below...
@@ -134,9 +134,11 @@
             </div>
           </div>
 
-          {{modelSplitContentTail}}
+          {{#if hasSplitContentTail}}
+            <div class="DetailPage-content pre-line">{{modelSplitContentTail}}</div>
+          {{/if}}
         {{else}}
-          {{modelContent}}
+          <div class="DetailPage-content pre-line">{{modelContent}}</div>
         {{/if}}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { reads, alias, oneWay, sort } from '@ember/object/computed';
+import { reads, alias, oneWay, sort, gt } from '@ember/object/computed';
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import { computed, set, get, setProperties } from '@ember/object';
@@ -74,8 +74,10 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   }),
 
   modelSplitContentTail: computed('model.splitContent.tail', function() {
-    return htmlSafe(get(this, 'model.splitContent.tail'));
+    return htmlSafe(get(this, 'model.splitContent.tail')) || '';
   }),
+
+  hasSplitContentTail: gt('modelSplitContentTail.length', 0),
 
   showContactButton: computed('model.{contactEmail,contactPhone,sold}', function() {
     if (get(this, 'model.sold')) {
@@ -87,7 +89,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
 
   showHideButton: computed('model.organizationId', function() {
     const organizationId = get(this, 'model.organizationId');
-    
+
     return isPresent(organizationId) && !IsDefaultOrganization(organizationId);
   }),
 

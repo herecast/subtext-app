@@ -106,13 +106,13 @@
       {{detail-meta-bloc model=model}}
     </div>
 
-    <div class="DetailPage-content News-content ContentText">
+    <div class="DetailPage-content Market-content ContentText">
       <div data-test-market-content>
 
         {{#if (and model.embeddedAd (not isPreview))}}
-          {{modelSplitContentHead}}
+          <div class="DetailPage-content pre-line">{{modelSplitContentHead}}</div>
 
-          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody">
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner-wrapper--news AdBanner--inContentBody {{if (not hasSplitContentTail) "AdBanner--noBorderBottom"}}">
             <div class="AdBanner-wrapper AdBanner-wrapper--detail">
               <div class="AdBanner--inContentBody-messageBar">
                 Advertisement: Content continues below...
@@ -125,9 +125,11 @@
             </div>
           </div>
 
-          {{modelSplitContentTail}}
+          {{#if hasSplitContentTail}}
+            <div class="DetailPage-content pre-line">{{modelSplitContentTail}}</div>
+          {{/if}}
         {{else}}
-          {{modelContent}}
+          <div class="DetailPage-content pre-line">{{modelContent}}</div>
         {{/if}}
       </div>
     </div>
