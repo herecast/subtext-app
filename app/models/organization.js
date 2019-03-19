@@ -10,7 +10,6 @@ export default DS.Model.extend({
   api: service('api'),
   name: DS.attr('string'),
   logoUrl: DS.attr('string'),
-  subscribeUrl: DS.attr('string'),
   specialLinkUrl: DS.attr('string'),
   specialLinkText: DS.attr('string'),
   digestId: DS.attr('number'),

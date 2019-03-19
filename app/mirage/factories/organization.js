@@ -10,7 +10,6 @@ export default Mirage.Factory.extend({
   },
   claimed() { return faker.random.arrayElement([true, false]); },
   logoUrl() { return 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Company+Logo&w=300&h=200'; },
-  subscribeUrl() { return 'http://example.org/subscribe'; },
   orgType() { return faker.random.arrayElement(["Business", "Blog"]); },
   backgroundImageUrl() {
     return faker.random.arrayElement([
