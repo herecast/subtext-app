@@ -18,14 +18,14 @@
 {{#if _showImageModal}}
   {{#modal-wrapper close=(action "cancel")}}
     {{image-editor
-    imageUrl=imageUrl
-    caption=caption
-    title=title
-    aspectRatio=aspectRatio
-    enableCaption=enableCaption
-    save=(action "save")
-    cancel=(action "cancel")
-    data-test-news-image="form"
+      imageUrl=imageUrl
+      caption=caption
+      title=title
+      aspectRatio=aspectRatio
+      enableCaption=enableCaption
+      save=(action "save")
+      cancel=(action "cancel")
+      data-test-news-image="form"
     }}
   {{/modal-wrapper}}
 {{/if}}

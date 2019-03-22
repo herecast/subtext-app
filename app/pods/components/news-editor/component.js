@@ -43,6 +43,8 @@ export default Component.extend(TestSelector, Validation, {
   location: service('window-location'),
 
   editorHeight: 400,
+  titleMaxlength: 120,
+  subtitleMaxlength: 120,
   selectedPubDate: null,
   isPickingScheduleDate: false,
   api: service(),
@@ -153,7 +155,7 @@ export default Component.extend(TestSelector, Validation, {
     if (image) {
       set(this, 'pendingFeaturedImage', null);
 
-      if(image.file) {
+      if (image.file) {
         existingPrimaries = get(news, 'images').filterBy('primary');
 
         const newImage = get(this, 'store').createRecord('image', {
@@ -170,10 +172,26 @@ export default Component.extend(TestSelector, Validation, {
       }
     }
 
-    return news.save().then(() => {
+    return news.save()
+    .then(() => {
       set(this, 'news.didOrgChange', false);
       set(this, 'news.didLocationChange', false);
       existingPrimaries.forEach(i => i.destroyRecord());
+    })
+    .catch((error) => {
+
+      if (error.type && error.type === 'image' && error.image) {
+        get(this, 'notify').error('There was an error saving the image. Please try again.');
+
+        const images = get(this, 'news.images');
+        const imageWithError = images.findBy('position', error.image.position);
+
+        if (imageWithError.primary) {
+          set(this, 'news.primaryImageUrl', null);
+        }
+
+        imageWithError.rollbackAttributes();
+      }
     });
   },
 

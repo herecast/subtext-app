@@ -221,6 +221,8 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
+    get(this, 'modalService').addModalBodyClass();
+
     // Set the visible height of the window so we can set relative heights accordingly
     // Addresses this problem: https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html
     this._recordWindowHeight();
@@ -290,7 +292,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    
+
     if (!get(this, 'maintainBodyClass')) {
       get(this, 'modalService').removeModalBodyClass();
     }

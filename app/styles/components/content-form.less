@@ -77,14 +77,22 @@
 
 .ContentForm-label {
   .h4;
+  &.optional {
+    color: #000 !important;
+  }
 }
 
 .has-error .ContentForm-label--required {
   color: #000;
 }
 
-.has-error input {
+.has-error input:not(.optional) {
   background-color: @bg-error;
+}
+
+.has-error .optional.form-control:focus {
+  border-color: none;
+  box-shadow: none;
 }
 
 .ContentForm-error {

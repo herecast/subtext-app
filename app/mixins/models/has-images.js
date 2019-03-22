@@ -48,7 +48,13 @@ export default Mixin.create({
 
           set(image, 'position', position);
           position = position + 1;
-          return image.save();
+          return image.save()
+          .catch(() => {
+            throw {
+              type: 'image',
+              image: image
+            };
+          });
         }
       });
 
