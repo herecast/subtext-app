@@ -19,7 +19,6 @@ module('Acceptance | reset password', function(hooks) {
   test('filling out lost password request form', async function(assert) {
     await visit('/');
     await click('[data-test-signin-from-header]');
-    await click('[data-test-signin-from-side-menu]');
 
     await click('[data-test-link="forgot-password"]');
 

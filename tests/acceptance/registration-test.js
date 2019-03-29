@@ -17,7 +17,6 @@ module('Acceptance | registration', function(hooks) {
     await visit('/');
 
     await click('[data-test-signin-from-header]');
-    await click('[data-test-signin-from-side-menu]');
     await click('[data-test-link="join-tab"]');
 
     assert.ok(find('[data-test-component="sign-in-submit"]'), 'registration form should be present');
@@ -29,7 +28,6 @@ module('Acceptance | registration', function(hooks) {
     await visit('/');
 
     await click('[data-test-signin-from-header]');
-    await click('[data-test-signin-from-side-menu]');
     await click('[data-test-link="join-tab"]');
 
     await fillIn('[data-test-field="sign-in-email"]', 'slim_shady@example.com');

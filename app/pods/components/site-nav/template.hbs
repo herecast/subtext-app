@@ -11,7 +11,7 @@
     </div>
   {{else}}
     {{#x-button
-       onClick=(action "toggleMenu")
+       onClick=(action "signIn")
        color="primary"
        size="micro"
        noMargin=true
@@ -19,6 +19,14 @@
      }}
       Sign In
     {{/x-button}}
+    <div
+      class="SiteNav--help-icon"
+      {{action "toggleMenu"}}
+      role="button"
+      data-test-sidenav-from-header="true"
+    >
+      {{fa-icon "question-circle-o"}}
+    </div>
   {{/if}}
 {{/unless}}
 

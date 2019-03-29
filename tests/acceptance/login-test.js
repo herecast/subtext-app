@@ -57,7 +57,6 @@ module('Acceptance | login', function(hooks) {
     await visit('/');
 
     await click('[data-test-signin-from-header]');
-    await click('[data-test-signin-from-side-menu]');
 
     await fillIn('[data-test-field="sign-in-email"]', user.email);
     await fillIn('[data-test-field="sign-in-password"]', 'password');
@@ -97,6 +96,14 @@ module('Acceptance | login', function(hooks) {
     await visit('/');
 
     await click('[data-test-signin-from-header]');
+
+    assert.ok(find('[data-test-component="sign-in"]'), "Displays sign in");
+  });
+
+  test('clicking help link in header, then click sign in side menu displays login form', async function(assert) {
+    await visit('/');
+
+    await click('[data-test-sidenav-from-header]');
     await click('[data-test-signin-from-side-menu]');
 
     assert.ok(find('[data-test-component="sign-in"]'), "Displays sign in");

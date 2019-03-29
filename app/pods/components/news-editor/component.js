@@ -91,9 +91,13 @@ export default Component.extend(TestSelector, Validation, {
 
   hidePublishedLinks: or('hasUnpublishedChanges', 'isPublishing'),
 
-  status: computed('news.{isDraft,isScheduled,publishedAt}', function() {
-    if (get(this, 'news.isDraft')) {
-      return 'Draft';
+  status: computed('news.{isDraft,isScheduled,publishedAt,id}', function() {
+    const contentId = get(this, 'news.id') || null;
+
+    if (isBlank(contentId)) {
+      return 'Unsaved Draft';
+    } if (get(this, 'news.isDraft')) {
+      return 'Saved Draft';
     } else if (get(this, 'news.isScheduled')) {
       return 'Scheduled';
     } else if (get(this, 'news.isPublished')) {

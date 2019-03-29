@@ -25,6 +25,10 @@ export default Component.extend({
       } else {
         get(this, 'modals').removeModalBodyClass();
       }
-    }
+    },
+
+    signIn() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+    },
   }
 });

@@ -243,6 +243,9 @@
                   <button {{action "schedulePublish"}} class="btn btn-primary" data-test-schedule-publish="confirm">Confirm</button>
                   <button {{action "cancelSchedulePublish"}} class="btn">Cancel</button>
                 {{else}}
+                  <div class="NewsEditor-helper-message">
+                    Your saved drafts can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}}
+                  </div>
                   <button {{action "publish"}} class="btn btn-primary">Publish Now</button>
                   <br>
                   <button {{action "choosePubDate"}} class="btn" data-test-schedule-publish="button">Schedule Publish</button>
@@ -289,6 +292,10 @@
               {{/if}}
 
               {{#if news.isPublished}}
+                <div class="NewsEditor-helper-message">
+                  Your published post can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}} and in the feed.
+                </div>
+
                 Published {{formatted-date news.publishedAt}}.<br>
                 {{#unless hidePublishedLinks}}
                   {{#if hasOrganization}}

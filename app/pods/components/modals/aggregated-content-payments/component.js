@@ -7,6 +7,7 @@ import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
 
 export default ModalInstance.extend({
   api: service(),
+  router: service(),
   store: service(),
   session: service(),
 
@@ -113,6 +114,11 @@ export default ModalInstance.extend({
       this._getPaymentReport(payment).then(html => {
         wnd.document.write(html);
       });
+    },
+
+    goToStartablog() {
+      this.close();
+      get(this, 'router').transitionTo('startablog');
     }
   }
 });

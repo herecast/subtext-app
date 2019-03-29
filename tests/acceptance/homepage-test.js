@@ -39,8 +39,6 @@ module('Acceptance | homepage', function(hooks) {
     assert.equal(currentURL(), '/', "Home page displays");
     await click('[data-test-signin-from-header]');
 
-    await click('[data-test-signin-from-side-menu]');
-
     let location = this.server.create('location');
     let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
 
@@ -76,8 +74,6 @@ module('Acceptance | homepage', function(hooks) {
 
     assert.equal(currentURL(), '/', "Home page displays");
     await click('[data-test-signin-from-header]');
-
-    await click('[data-test-signin-from-side-menu]');
 
     let location = this.server.create('location');
     let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
@@ -159,7 +155,7 @@ module('Acceptance | homepage', function(hooks) {
     await visit('/');
 
     assert.equal(currentURL(), '/', "Home page displays");
-    await click('[data-test-signin-from-header]');
+    await click('[data-test-sidenav-from-header]');
 
     let $sideMenu = $(find('[data-test-side-menu]'));
     assert.ok($sideMenu.hasClass('on-screen'), 'Side Menu should be on screen after click signin prompt in header');

@@ -6,6 +6,21 @@
   afterChoose=(action "closeMenu")
 }}
 
+{{#unless isLoggedIn}}
+  <div class="SiteNav-Menu--line-break"></div>
+  <div class="SiteNav--section-title padded">
+    What is DailyUV?
+  </div>
+  <div class="SiteNav--section-text">
+    <p>
+      DailyUV is your place to share and discover what's happening in your community.
+    </p>
+    <p>
+      Have something you'd like to share? Use the orange "+" button to get started.
+    </p>
+  </div>
+{{/unless}}
+
 <div class="SiteNav-Menu--line-break"></div>
 <div class="SiteNav--section-title padded">
   Links
