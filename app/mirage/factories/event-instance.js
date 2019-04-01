@@ -50,7 +50,7 @@ export default Mirage.Factory.extend({
 
     return endsAt.toISOString();
   },
-  imageUrl(id) { return (id % 2 === 0) ? 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240' : null;},
+  imageUrl(id) { return (id % 2 === 0) ? 'https://via.placeholder.com/400x240.png?text=400x240' : null;},
   updatedAt() { return moment(faker.date.recent(-1)).toISOString();},
   publishedAt() { return moment(faker.date.recent(-5)).toISOString();},
 

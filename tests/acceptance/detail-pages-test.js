@@ -19,7 +19,7 @@ module('Acceptance | detail pages', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'news',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+      imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
       splitContent: splitContent,
       content: splitContent.head + ' ' + splitContent.tail
     });
@@ -38,7 +38,7 @@ module('Acceptance | detail pages', function(hooks) {
     const content = this.server.create('content', {
       contentType: 'talk',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+      imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     });
 
@@ -60,7 +60,7 @@ module('Acceptance | detail pages', function(hooks) {
     const eventInstance = this.server.create('eventInstance', {
       title: 'hello world',
       images: [
-        {id:1, primary: true, imageUrl:'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'}
+        {id:1, primary: true, imageUrl:'https://via.placeholder.com/400x240.png?text=400x240'}
       ],
       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       startsAt: "2018-01-30T21:19:17+00:00",
@@ -98,7 +98,7 @@ module('Acceptance | detail pages', function(hooks) {
   });
 
   test('testing market detail page', async function(assert) {
-    const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
+    const imageUrl = 'https://via.placeholder.com/400x240.png?text=400x240';
     const location = this.server.create('location');
     const content = this.server.create('content', {
       contentOrigin: 'ugc',

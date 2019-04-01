@@ -370,6 +370,10 @@ export default function() {
     return organizations.create(organization);
   }, { timing: 2000 });
 
+  this.post('/organizations/email_captures', function() {
+    return {};
+  });
+
   this.get('/event_instances/:id', function({eventInstances}, request) {
     return eventInstances.find(request.params.id) || {};
   });

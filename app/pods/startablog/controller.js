@@ -30,19 +30,7 @@ export default Controller.extend({
   currentUserIsBlogger: readOnly('currentUser.isBlogger'),
 
   isFastBoot: readOnly('fastboot.isFastBoot'),
-  blockMobileUser: computed('media.isMobile', function() {
-    const shouldBlockUser = get(this, 'media.isMobile');
-
-    if (!get(this, 'isFastBoot')) {
-      if (shouldBlockUser) {
-        $('body').addClass('hide-intro-js');
-      } else {
-        $('body').removeClass('hide-intro-js');
-      }
-    }
-
-    return shouldBlockUser;
-  }),
+  isMobile: readOnly('media.isMobile'),
 
   init() {
     this._super(...arguments);

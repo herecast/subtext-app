@@ -6,43 +6,19 @@
     </div>
   </div>
 {{else}}
-  {{#if blockMobileUser}}
-
-    <div class="Startablog--mobile-block">
-      <div class="Startablog--mobile-block-message">
-        <p>
-          The process to create a blog is not yet available on mobile devices.
-        </p>
-        <p>
-          Click below to email yourself the link so you can access by laptop or desktop later!
-        </p>
-
-      </div>
-
-      {{#x-link-url
-          href="mailto:?subject=DailyUV Blogging Link&body=https://dailyuv.com/startablog?utm_campaign=startablog_mobile&utm_medium=cta&utm_source=DailyUV"
-          style="regular"
-          color="primary"
-          size="x-small"
-        }}
-        Save Link
-      {{/x-link-url}}
-    </div>
-
-  {{/if}}
-
-  <div class="Startablog--intro {{if blockMobileUser "hidden"}}">
+  <div class="Startablog--intro">
     {{#blogger-intro class="BloggerIntro-main-wrap" start-if=startIntro as |blogger-intro|}}
 
       {{#blogger-intro.step step=1
         modal=true
         nextButton="Get Started"
-        avatarUrl=avatarUrls.smiling
-        title="Hi, I'm Jennifer."
-        subtitle="I'll help you start your blog"
+        avatarUrl=(if isMobile null avatarUrls.smiling)
+        title=(if isMobile null "Hi, I'm Jennifer.")
+        subtitle=(if isMobile null "I'll help you start your blog")
         yieldBeforeAvatar=true
         showLanscapePicture=true
         hideHelpButton=true
+        hideNavigation=isMobile
       }}
         {{blogger-intro/landing}}
       {{/blogger-intro.step}}

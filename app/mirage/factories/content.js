@@ -150,7 +150,7 @@ export default Factory.extend({
 
   bizFeedPublic() { return faker.random.arrayElement([true, false]); },
 
-  imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+  imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
   images() {
     return [{
       id: 1,

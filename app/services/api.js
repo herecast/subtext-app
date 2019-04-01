@@ -689,6 +689,14 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
+  captureStartablogInterestEmail(email) {
+    return this.returnJson(
+      this.post('/organizations/email_captures',
+        this.json({email: email})
+      )
+    );
+  },
+
   resetPassword(data) {
     return this.returnJson(
       this.put('/password_resets', this.json(data))

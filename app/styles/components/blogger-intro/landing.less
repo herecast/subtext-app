@@ -1,4 +1,11 @@
 .BloggerIntro-Landing {
+  &--logo {
+    text-align: center;
+    img {
+      max-height: 20px;
+    }
+  }
+
   &--title {
     font-size: 26px;
     font-weight: bold;
@@ -53,6 +60,61 @@
     }
   }
 
+  &.is-mobile {
+    .BloggerIntro-Landing--title {
+      font-size: 22px;
+      margin: 16px 0;
+    }
 
+    .BloggerIntro-Landing--subtitle {
+      font-size: 18px;
+    }
+
+    .BloggerIntro-Landing--text {
+      font-size: 14px;
+    }
+
+    .BloggerIntro-Landing--value-grid-row {
+      margin-bottom: 8px;
+    }
+
+    .BloggerIntro-Landing--value-grid-cell.left {
+      line-height: 60px;
+    }
+  }
+
+  &--capture {
+    &-text {
+      font-size: 14px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    &-input {
+      width: 100%;
+      border: solid 1px #000;
+      margin-bottom: 8px;
+    }
+
+    &-error {
+      font-size: 12px;
+      text-align: right;
+      color: @brand-danger;
+      margin-top: -12px;
+    }
+
+    &-button-wrap {
+      text-align: center;
+    }
+
+    &-loading {
+      margin: 32px 0 12px 0;
+      text-align: center;
+      color: grey;
+      font-weight: bold;
+      font-size: 22px;
+    }
+  }
 
 }
