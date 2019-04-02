@@ -220,6 +220,10 @@ export default Controller.extend({
   },
 
   actions: {
+    leadCaptured() {
+      get(this, 'tracking').trackVirtualPageview('/startablog/leadcaptured');
+    },
+
     stepStartAccount() {
       get(this, 'tracking').trackVirtualPageview('/startablog/account');
     },

@@ -20,7 +20,9 @@
         hideHelpButton=true
         hideNavigation=isMobile
       }}
-        {{blogger-intro/landing}}
+        {{blogger-intro/landing
+          leadCaptured=(action "leadCaptured")
+        }}
       {{/blogger-intro.step}}
 
       {{#blogger-intro.step step=2

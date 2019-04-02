@@ -44,6 +44,10 @@ export default Component.extend(Validation, {
 
         get(this, 'api').captureStartablogInterestEmail(email);
 
+        if (get(this, 'leadCaptured')) {
+          get(this, 'leadCaptured')();
+        }
+
         later(() => {
           setProperties(this, {
             'hasSubmittedEmail': true,
