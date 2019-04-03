@@ -1,15 +1,15 @@
 <div class="FeedCard-Bookmark-button">
   <div {{action "clickBookmark"}} role="button" data-test-button="bookmark-icon">
     {{#if isBookmarked}}
-      {{fa-icon "bookmark" class="FeedCard-Bookmark-button-icon"}}
+      {{fa-icon "heart" class=(concat "FeedCard-Bookmark-button-icon" (if justBookmarked " just-bookmarked"))}}
     {{else}}
-      {{fa-icon "bookmark-o" class="FeedCard-Bookmark-button-icon"}}
+      {{fa-icon "heart-o" class="FeedCard-Bookmark-button-icon"}}
     {{/if}}
   </div>
   {{#if showTooltip}}
     <div class="FeedCard-Bookmark-tooltip" data-test-bookmark-tooltip>
       <div class="FeedCard-Bookmark-tooltip-left">
-        Press the bookmarks and you can find the content later in MyStuff.
+        Press the heart and let the author know you like their stuff; and you can find the content later in MyStuff.
       </div>
       <div class="FeedCard-Bookmark-tooltip-right" {{action "closeTooltip"}} role="button" data-test-button="close-tooltip">
         {{fa-icon "times" class="FeedCard-Bookmark-close"}}

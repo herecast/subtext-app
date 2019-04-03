@@ -1,22 +1,15 @@
-import { readOnly, alias, notEmpty } from '@ember/object/computed';
+import { readOnly, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { isPresent, isBlank } from '@ember/utils';
+import { isBlank } from '@ember/utils';
 export default Component.extend({
   classNames: 'FeedCard-Bookmark',
-  classNameBindings: ['isBookmarked:bookmarked', 'hasRead:has-read:has-not-read'],
+  classNameBindings: ['isBookmarked:bookmarked'],
   'data-test-bookmark': computed('isBookmarked', function() {
     return get(this, 'isBookmarked') ? 'bookmarked' : 'not-bookmarked';
   }),
-  'data-test-bookmark-status': computed('isBookmarked', 'hasRead', function() {
-    if (get(this, 'isBookmarked')) {
-      return get(this, 'hasRead') ? 'read' : 'not-read';
-    }
-    return null;
-  }),
   'data-test-bookmark-content': readOnly('contentId'),
-
 
   store: service(),
   session: service(),
@@ -26,25 +19,25 @@ export default Component.extend({
   bookmarkService: service('bookmarks'),
   currentPath: readOnly('currentService.currentPath'),
 
-  isOnDetailView: false,
   showTooltip: false,
   contentId: null,
   eventInstanceId: null,
   bookmark: null,
+  justBookmarked: false,
 
   isLoggedIn: readOnly('session.isAuthenticated'),
-  hasRead: alias('bookmark.read'),
   isBookmarked: notEmpty('bookmark'),
 
-
   init() {
-    get(this, 'bookmarkService').register(this, '_updateBookmark');
-
     this._super(...arguments);
+    get(this, 'bookmarkService').register(this, '_updateBookmark');
   },
 
   willDestroyElement() {
+    this._super(...arguments);
+
     get(this, 'bookmarkService').unregister(this, '_updateBookmark');
+
   },
 
   _updateBookmark() {
@@ -53,30 +46,16 @@ export default Component.extend({
 
     get(this, 'bookmarkService').checkBookmark(contentId, eventInstanceId)
     .then((bookmark) => {
-      if (!get(this, 'isDestroying') && isPresent(bookmark)) {
-        set(this, 'bookmark', bookmark);
-        this._checkIfBookmarkShouldBeRead(bookmark);
+      if (!get(this, 'isDestroying')) {
+        set(this, 'bookmark', bookmark || null);
       }
     });
-  },
-
-  _checkIfBookmarkShouldBeRead(bookmark) {
-    if (!get(this, 'isDestroying')) {
-      const isOnDetailView = get(this, 'isOnDetailView');
-      const hasRead = get(this, 'hasRead');
-
-      if (isPresent(bookmark) && isOnDetailView && !hasRead) {
-        get(this, 'bookmarkService').bookmarkHasBeenRead(bookmark);
-
-        this._trackEvent('ReadBookmark');
-      }
-    }
   },
 
   _openSignInModal() {
     get(this, 'modals').showModal('modals/sign-in-register', {
       model: 'sign-in',
-      alternateSignInMessage: 'You must be signed in to bookmark content for later viewing. It will show up in the bookmarks channel when you go to MyStuff'
+      alternateSignInMessage: 'You must be signed in to like and save content. It will show up in the heartbeat channel when you go to MyStuff'
     });
   },
 
@@ -89,6 +68,7 @@ export default Component.extend({
       get(this, 'bookmarkService').makeNewBookmark(get(this, 'contentId'), get(this, 'eventInstanceId'))
       .then((bookmark) => {
         set(this, 'bookmark', bookmark);
+        set(this, 'justBookmarked', true);
       });
     } else {
       this._trackEvent('RemoveBookmark');
@@ -97,6 +77,7 @@ export default Component.extend({
       .then(() => {
         if (!get(this, 'isDestroying')) {
           set(this, 'bookmark', null);
+          set(this, 'justBookmarked', false);
         }
       });
     }

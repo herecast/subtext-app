@@ -107,7 +107,6 @@ module('Acceptance | bookmarks', function(hooks) {
     let $firstFeedCard = $(find(`[data-test-content="${contents[0].id}"]`));
 
     assert.ok($firstFeedCard.find('[data-test-bookmark="bookmarked"]').length, 'Clicked bookmark should be bookmarked');
-    assert.ok($firstFeedCard.find('[data-test-bookmark-status="not-read"]').length, 'Clicked bookmark should be unread');
 
     this.server.delete('/users/:id/bookmarks/:id', function() {
       assert.ok(true, 'Server should receive bookmark delete request');
@@ -136,7 +135,6 @@ module('Acceptance | bookmarks', function(hooks) {
     owner.register('services:trackingMock', tracking);
     owner.inject('component:feed-card/bookmark', 'tracking', 'services:trackingMock');
 
-    const done = assert.async();
     const currentUser = this.server.create('current-user', {
       userId: 1,
       hasHadBookmarks: true
@@ -162,24 +160,7 @@ module('Acceptance | bookmarks', function(hooks) {
 
     assert.equal(findAll('[data-test-bookmark]').length, numberOfContents, 'All feed cards should show a bookmark');
     assert.equal(findAll('[data-test-bookmark="bookmarked"]').length, numberOfBookmarkedContents, 'Only bookmarked cards should be bookmarked');
-    assert.equal(findAll('[data-test-bookmark-status="not-read"]').length, numberOfBookmarkedContents, 'Not read bookmarks should show as unread');
 
-    this.server.put('/users/:id/bookmarks/:id', function(db) {
-      let attrs = this.normalizedRequestAttrs();
-      assert.equal(attrs.read, true, 'Server gets request to change read status to true on detail view');
-      done();
-
-      const bookmark = db.bookmarks.find(attrs.id);
-      return bookmark.update(attrs);
-    });
-
-    await visit(`/${contents[0].id}`);
-
-    assert.ok(trackingSpy.calledWith('ReadBookmark'), 'When bookmark status is changed to read, tracking event should fire');
-    let $detailView = $(find(`[data-test-content="${contents[0].id}"]`));
-
-    assert.equal($detailView.find('[data-test-bookmark-status="not-read"]').length, 0, 'After detail view, unread bookmark should not show');
-    assert.ok($detailView.find('[data-test-bookmark-status="read"]').length, 'After detail view, read bookmark should show');
   });
 
 });

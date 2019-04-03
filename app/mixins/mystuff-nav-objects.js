@@ -23,9 +23,10 @@ export default Mixin.create({
         {
           order: 2,
           routeName: 'mystuff.bookmarks',
-          title: 'Bookmarks',
-          iconActive: 'bookmark',
-          iconInactive: 'bookmark-o'
+          title: 'Likes',
+          isLikes: true,
+          iconActive: 'heart',
+          iconInactive: 'heart-o'
         },
         {
           order: 3,

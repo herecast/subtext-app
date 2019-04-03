@@ -91,6 +91,8 @@ export default Service.extend(Evented, {
     } else {
       bookmarkComponent[method]();
     }
+
+    this.on('bookmarksUpdated', bookmarkComponent, method);
   },
 
   unregister(bookmarkComponent, method) {
@@ -100,6 +102,8 @@ export default Service.extend(Evented, {
       set(this, 'thirdBookmarkComponent', null);
     }
     this.off('bookmarksLoaded', bookmarkComponent, method);
+
+    this.off('bookmarksUpdated', bookmarkComponent, method);
   },
 
   tooltipClosed() {
@@ -136,7 +140,11 @@ export default Service.extend(Evented, {
         userId: get(currentUser, 'userId')
       });
 
-      return newBookmark.save();
+      return newBookmark.save()
+      .then((bookmark) => {
+        this.trigger('bookmarksUpdated');
+        return bookmark;
+      });
     });
   },
 
@@ -145,11 +153,11 @@ export default Service.extend(Evented, {
       contentId: get(bookmark, 'contentId'),
       eventInstanceId: get(bookmark, 'eventInstanceId')
     });
-    return bookmark.destroyRecord();
-  },
 
-  bookmarkHasBeenRead(bookmark) {
-    set(bookmark, 'read', true);
-    return bookmark.save();
+    return bookmark.destroyRecord()
+    .then(() => {
+      this.trigger('bookmarksUpdated');
+      return null;
+    });
   }
 });

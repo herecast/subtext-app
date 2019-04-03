@@ -32,7 +32,12 @@ export default Component.extend(MystuffNavObjects, {
 
     goToMystuffRoute(route) {
       get(this, 'afterChoose')();
-      get(this, 'router').transitionTo(route.routeName);
+
+      let transition = get(this, 'router').transitionTo(route.routeName);
+
+      transition._keepDefaultQueryParamValues = false;
+
+      return transition;
     }
   }
 });

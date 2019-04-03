@@ -1,5 +1,3 @@
-@bookmark-new-color: @brand-blue;
-
 .FeedCard-Bookmark {
   padding: 0 8px;
 
@@ -9,22 +7,32 @@
     &-icon {
       font-size: 26px;
       color: @gray-dark;
+
+      &.just-bookmarked {
+        .keyframes(bookmark-heartbeat; {
+      		0%    { .transform( scale(1.0) ); }
+          10%   { .transform( scale(1.2) ); }
+          20%   { .transform( scale(1.1) ); }
+          30%   { .transform( scale(1.2) ); }
+
+          50%   { .transform( scale(1.0) ); }
+          60%   { .transform( scale(1.2) ); }
+          70%   { .transform( scale(1.1) ); }
+          80%   { .transform( scale(1.2) ); }
+
+      		100%  { .transform( scale(1.0) ); }
+      	});
+
+      	.animation(bookmark-heartbeat 1.5s ease-in forwards);
+      }
     }
   }
 
   &.bookmarked {
     .text-shadow(1px 1px 0 rgba(0, 0, 0, 0.18));
 
-    &.has-not-read {
-      .FeedCard-Bookmark-button-icon {
-        color: @bookmark-new-color;
-      }
-    }
-
-    &.has-read {
-      .FeedCard-Bookmark-button-icon {
-        color: @gray-dark;
-      }
+    .FeedCard-Bookmark-button-icon {
+      color: @bookmark-new-color;
     }
   }
 
@@ -42,7 +50,7 @@
     bottom: 100%;
     right: -8px;
     width: 200px;
-    height: 60px;
+    height: 80px;
 
     &:before {
       content: " ";
