@@ -39,8 +39,25 @@
       }
     </script>
 
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/subtext-ui.js"></script>
+    <script>
+      (function(){
+        var loadSubtextScript = function() {
+          var subtextScript = document.createElement('script');
+          subtextScript.src = "{{rootURL}}assets/subtext-ui.js";
+          subtextScript.className = 'lambda-blacklist';
+
+          document.getElementsByTagName('head')[0].appendChild(subtextScript);
+        }
+
+        var vendorScript = document.createElement('script');
+        vendorScript.src = "{{rootURL}}assets/vendor.js";
+        vendorScript.async = true;
+        vendorScript.onload = loadSubtextScript;
+        vendorScript.className = 'lambda-blacklist';
+
+        document.getElementsByTagName('head')[0].appendChild(vendorScript);
+      })()
+    </script>
 
     {{content-for 'body-footer'}}
   </body>
