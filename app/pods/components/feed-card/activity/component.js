@@ -34,7 +34,11 @@ export default Component.extend(ScrollToComments, {
 
   actions: {
     clickOnCommentBubble() {
-      this.scrollToComments();
+      if (get(this, 'linkToDetailIsActive')) {
+        return true;
+      } else {
+        this.scrollToComments();
+      }
     }
   }
 });

@@ -55,8 +55,10 @@
       <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-market-attribution>
         {{#feed-card/attribution
           model=model
-          showCenter=true
-          classNames="u-padding8"
+          isOnDetailView=true
+          hideActivity=true
+          hidePostedTime=true
+          showCenter=(not isPreview)
         }}
           {{#if showContactButton}}
             {{contact-poster-button
@@ -76,14 +78,18 @@
       noBorder=true
       noPadding=true
     }}
-      {{#unless isPreview}}
-        {{feed-card/manage
-          model=model
-          openPromotionMenu=(action "openPromotionMenu")
-        }}
-      {{/unless}}
+      {{feed-card/activity
+        model=model
+        linkToDetailIsActive=false
+      }}
     {{/feed-card/footer}}
 
+    {{#unless isPreview}}
+      {{feed-card/manage
+        model=model
+        openPromotionMenu=(action "openPromotionMenu")
+      }}
+    {{/unless}}
 
 
     <div class="DetailPage-metaBloc">

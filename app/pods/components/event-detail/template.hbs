@@ -63,8 +63,10 @@
       <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8" data-test-event-detail-attribution>
         {{#feed-card/attribution
           model=model
+          isOnDetailView=true
+          hideActivity=true
           hidePostedTime=true
-          showCenter=true
+          showCenter=(not isPreview)
         }}
           {{#if showContactButton}}
             {{contact-poster-button
@@ -85,14 +87,19 @@
       noBorder=true
       noPadding=true
     }}
-      {{#unless isPreview}}
-        {{feed-card/manage
-          model=model
-          openPromotionMenu=(action "openPromotionMenu")
-        }}
-      {{/unless}}
+      {{feed-card/activity
+        model=model
+        hidePostedTime=true
+        linkToDetailIsActive=false
+      }}
     {{/feed-card/footer}}
 
+    {{#unless isPreview}}
+      {{feed-card/manage
+        model=model
+        openPromotionMenu=(action "openPromotionMenu")
+      }}
+    {{/unless}}
 
     <div class="DetailPage-metaBloc">
       {{detail-meta-bloc model=model}}
