@@ -3,7 +3,7 @@ import Service, { inject as service } from '@ember/service';
 import { computed, set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { Promise } from 'rsvp';
-import { run } from '@ember/runloop';
+import { run, next } from '@ember/runloop';
 import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 import moment from 'moment';
 
@@ -14,7 +14,7 @@ export default Service.extend(Evented, {
   store: service(),
   api: service(),
   geolocation: service(),
-  tracking: service(),
+  router: service(),
   notify: service('notification-messages'),
   windowLocation: service(),
   fastboot: service(),
@@ -77,6 +77,19 @@ export default Service.extend(Evented, {
 
     return ObjectPromiseProxy.create({promise});
   }),
+
+  goToLocationFeed(locationId) {
+
+    this.saveUserLocationFromId(locationId);
+
+    return next(() => {
+      let transition = get(this, 'router').transitionTo('feed');
+
+      transition._keepDefaultQueryParamValues = false;
+
+      return transition;
+    });
+  },
 
   saveUserLocationFromId(locationId) {
     if (get(this, 'session.isAuthenticated')) {

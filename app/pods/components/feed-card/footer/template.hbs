@@ -1,12 +1,10 @@
 <div class="FeedCard-Footer-wrap">
-  {{#if hasSource}}
-    <div class="FeedCard-Footer-left">
-      {{feed-card/source
-        locationTagName=locationTagName
-        class="FeedCard-Footer--location"
-      }}
-    </div>
-  {{/if}}
+  <div class="FeedCard-Footer-left">
+    {{feed-card/source
+      model=model
+      class="FeedCard-Footer--location"
+    }}
+  </div>
 
   {{#if showCost}}
     <div class="FeedCard-Footer-right">

@@ -31,6 +31,7 @@ export default Component.extend(InViewportMixin, {
   init() {
     this._super(...arguments);
     this._cachedRefreshDate = get(this, 'lastRefreshDate') || null;
+    this._viewportOptionsOverride();
   },
 
   /**
@@ -198,10 +199,8 @@ export default Component.extend(InViewportMixin, {
   didInsertElement() {
     // Note: it is considered safe to allow the ad-banner to render in fastboot since it never fires `didInsertElement`.
     // Thus, no ad impression should be triggered incorrectly.
-    this._super();
+    this._super(...arguments);
     set(this, '_renderedTime', (new Date()));
-
-    this._viewportOptionsOverride();
 
     const promotion = get(this, 'promotion');
     if (isPresent(promotion)) {

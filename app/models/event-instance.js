@@ -51,6 +51,8 @@ export default Model.extend(HasImages, HasVenue, {
   viewCount: attr('number'),
 
   eventInstances: alias('otherEventInstances'),
+  location: belongsTo('location'),
+  locationId: alias('location.id'),
 
   isHiddenFromFeed: attr('boolean', {defaultValue: false}),
 

@@ -1,12 +1,16 @@
 .FeedCard-Bookmark {
   padding: 0 8px;
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
 
   &-button {
     cursor: pointer;
     position: relative;
     &-icon {
-      font-size: 26px;
-      color: @gray-dark;
+      font-size: 28px;
+      color: @activity-indicator-color;
+      vertical-align: bottom;
 
       &.just-bookmarked {
         .keyframes(bookmark-heartbeat; {
@@ -24,6 +28,10 @@
       	});
 
       	.animation(bookmark-heartbeat 1.5s ease-in forwards);
+      }
+
+      @media (max-width:360px) {
+        font-size: 24px;
       }
     }
   }

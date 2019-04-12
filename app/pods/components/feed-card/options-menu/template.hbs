@@ -1,0 +1,80 @@
+<div class="FeedCard-OptionsMenu--button" data-toggle="dropdown" role="button" {{action "onClickOpenMenu"}}>
+  {{fa-icon "ellipsis-v" class="FeedCard-OptionsMenu--button-icon"}}
+</div>
+<div class="FeedCard-OptionsMenu--dropdown dropdown-menu dropdown-menu-right">
+  {{#unless isOnDetailView}}
+    <div class="FeedCard-OptionsMenu--dropdown-option">
+      <div class="FeedCard-OptionsMenu--flag" role="button" {{action "onClickViewContent"}}>
+        {{#link-to-content model}}
+          {{fa-icon "eye"}} View this Post
+        {{/link-to-content}}
+      </div>
+    </div>
+  {{/unless}}
+  {{#if organizationOwnsContent}}
+    <div class="FeedCard-OptionsMenu--dropdown-option">
+      <div class="FeedCard-OptionsMenu--flag" role="button" {{action "onClickViewProfile"}}>
+        {{#link-to "profile" model.organizationId}}
+          {{fa-icon "user-circle"}} View Contributor's Page
+        {{/link-to}}
+      </div>
+    </div>
+  {{/if}}
+  <div class="FeedCard-OptionsMenu--dropdown-option">
+    <div class="FeedCard-OptionsMenu--flag" role="button" {{action "onClickViewLocation"}}>
+      {{fa-icon "map-marker"}} View this Location
+    </div>
+  </div>
+  <div class="FeedCard-OptionsMenu--dropdown-option">
+    <div class="FeedCard-OptionsMenu--flag" role="button" {{action "onClickToComment"}}>
+      {{#if isOnDetailView}}
+        {{fa-icon "comment-o"}} Leave a Comment
+      {{else}}
+        {{#link-to-content model}}
+          {{fa-icon "comment-o"}} Leave a Comment
+        {{/link-to-content}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="FeedCard-OptionsMenu--dropdown-line-break"></div>
+
+  {{#if organizationOwnsContent}}
+    <div class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideOrg"}}>
+      {{hide-organization-button
+        contentId=model.contentId
+        organization=model.organization
+        additionToMessage="this Contributor"
+        afterHide=afterHideOrg
+        class="FeedCard-OptionsMenu--flag"
+      }}
+      <div class="FeedCard-OptionsMenu--flag-text">
+        Hide all posts from {{model.organizationName}}
+      </div>
+    </div>
+
+  {{/if}}
+
+  <div class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideLocation"}}>
+    {{hide-location-button
+      contentId=model.contentId
+      location=model.location
+      afterHide=(action "afterHideLocation")
+      class="FeedCard-OptionsMenu--flag hide-location"
+    }}
+    <div class="FeedCard-OptionsMenu--flag-text">
+      Hide all posts located in {{model.location.name}} by any contributor
+    </div>
+  </div>
+
+  <div class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickReportAbuse"}}>
+    {{report-content-details
+      contentId=model.contentId
+      message="Report this Post"
+      class="FeedCard-OptionsMenu--flag"
+    }}
+    <div class="FeedCard-OptionsMenu--flag-text">
+      Report this post for being offensive, a personal attack, or spam.
+    </div>
+  </div>
+</div>

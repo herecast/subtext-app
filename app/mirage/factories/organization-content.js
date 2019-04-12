@@ -2,7 +2,7 @@ import Mirage, { faker } from 'ember-cli-mirage';
 import { titleize } from '../support/utils';
 import moment from 'moment';
 
-const imageUrl = 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Market+Listing&w=300&h=300';
+const imageUrl = 'https://via.placeholder.com/300x300.png?text=300x300';
 const date1 = "2028-05-25T14:23:43-04:00";
 const date2 = "2017-06-25T14:23:43-04:00";
 

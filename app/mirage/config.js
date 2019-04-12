@@ -443,8 +443,11 @@ export default function() {
     return new Mirage.Response(200, {}, {promotions});
   });
 
-  this.post('/organizations/:organization_id/hides', function() {
-    return new Mirage.Response(200, {}, {});
+  this.post('/organizations/:organization_id/hides', function({organizationHides}, request) {
+    const organization_hide = JSON.parse(request.requestBody)['organization_hide'] || "";
+    const orgHide = organizationHides.create(organization_hide)
+
+    return new Mirage.Response(200, {}, orgHide);
   });
 
   this.del('/organizations/hides/:id', function() {
@@ -521,7 +524,7 @@ export default function() {
       id: faker.random.number(1000),
       content_id: faker.random.number(100),
       primary: false,
-      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
+      url: 'https://via.placeholder.com/200x200.png?text=200x200'
     });
 
     return {
@@ -534,7 +537,7 @@ export default function() {
       id: faker.random.number(1000),
       content_id: faker.random.number(100),
       primary: false,
-      url: 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200'
+      url: 'https://via.placeholder.com/200x200.png?text=200x200'
     });
 
     return {

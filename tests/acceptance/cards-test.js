@@ -10,7 +10,7 @@ module('Acceptance | cards', function(hooks) {
   setupMirage(hooks);
 
   test('testing news card - with image', async function(assert) {
-    const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
+    const imageUrl = 'https://via.placeholder.com/400x200.png?text=400x240';
 
     const content = this.server.create('content', {
       contentOrigin: 'ugc',
@@ -59,7 +59,7 @@ module('Acceptance | cards', function(hooks) {
 
   test('testing talk card - with image', async function(assert) {
     //talk removed, but some legacy may remain - shifted to market until no contentTypes left
-    const imageUrl = 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240';
+    const imageUrl = 'https://via.placeholder.com/400x200.png?text=400x240';
     const content = this.server.create('content', {
       contentOrigin: 'ugc',
       contentType: 'talk',
@@ -88,7 +88,7 @@ module('Acceptance | cards', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'event',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+      imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240',
       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       cost: 123,
       eventInstances: [],
@@ -99,7 +99,7 @@ module('Acceptance | cards', function(hooks) {
 
     content.update({
       images: [
-        {id: 1, image_url: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240', primary: true}
+        {id: 1, image_url: 'https://via.placeholder.com/400x200.png?text=400x240', primary: true}
       ]
     });
 
@@ -133,7 +133,7 @@ module('Acceptance | cards', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'event',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240',
+      imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240',
       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       cost: 123,
       eventInstances: [],
@@ -144,7 +144,7 @@ module('Acceptance | cards', function(hooks) {
 
     content.update({
       images: [
-        {id: 1, image_url: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240', primary: true},
+        {id: 1, image_url: 'https://via.placeholder.com/400x200.png?text=400x240', primary: true},
         {id: 2, image_url: 'http://notblank.com/image.jpg', primary: false}
       ]
     });
@@ -189,12 +189,12 @@ module('Acceptance | cards', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'market',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'
+      imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240'
     });
 
     content.update({
       images: [
-        {id: 1, image_url: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240', primary: true}
+        {id: 1, image_url: 'https://via.placeholder.com/400x200.png?text=400x240', primary: true}
       ]
     });
 
@@ -217,12 +217,12 @@ module('Acceptance | cards', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'market',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'
+      imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240'
     });
 
     content.update({
       images: [
-        {id: 1, image_url: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240', primary: true},
+        {id: 1, image_url: 'https://via.placeholder.com/400x200.png?text=400x240', primary: true},
         {id: 2, image_url: 'http://notblank.com/image.jpg', primary: false}
       ]
     });
@@ -246,7 +246,7 @@ module('Acceptance | cards', function(hooks) {
       contentOrigin: 'ugc',
       contentType: 'market',
       title: 'hello world',
-      imageUrl: 'http://placeholdit.imgix.net/~text?txtsize=33&txt=400%C3%97240&w=400&h=240'
+      imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240'
     });
 
     content.update({

@@ -1,0 +1,76 @@
+{{#modal-wrapper
+  showHeader=false
+  isAnimated=true
+  isSmall=true
+  class="HideLocationButton--modal"
+}}
+  <div class="HideLocationButton--modal-location">
+    {{fa-icon "map-marker" class="HideLocationButton--modal-location-icon"}} Hide {{location.name}}
+  </div>
+
+  {{#liquid-if showSuccess use="fade"}}
+    <div class="alert alert-success" role="alert">
+      Thank you for your feedback. This is a feature we are still working on and we take your opinion seriously.
+      <br>
+      <br>
+      You can always change the location at the center of your feed by clicking on the {{fa-icon "map-marker" class="HideLocationButton--modal-map-marker"}} at the top of the page.
+    </div>
+  {{else}}
+
+  <div class="HideLocationButton--modal-message">
+    <p class="text-left u-paddingHorizontal8">
+      This action will hide all posts located in {{location.name}} from your feed.
+    </p>
+    <p class="text-left u-paddingHorizontal8">
+      Why don't you want to see posts located in {{location.name}}?
+      Your response is anonymous.
+    </p>
+  </div>
+
+  {{#liquid-if isInvalid use="fade"}}
+    <div class="alert alert-danger u-marginBottom0" role="alert">
+      Please make a selection and try again.
+    </div>
+  {{/liquid-if}}
+
+    <div class="HideLocationButton--modal-flags-wrap">
+      <ul class="HideLocationButton--modal-flags">
+        {{#each flagTypes as |flag|}}
+          <li class="HideLocationButton--modal-flags-flag">
+            {{#radio-button
+              class="HideLocationButton--modal-flag-label"
+              name="flag-type"
+              value=flag
+              groupValue=flagType
+            }}
+              {{flag}}
+            {{/radio-button}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/liquid-if}}
+
+  <div class="HideLocationButton--modal-action-buttons">
+    {{#unless hasHiddenLocation}}
+      {{#x-button
+        color=(if hasFlagType "primary" "light-gray")
+        rounded="rounded"
+        size="x-small"
+        onClick=(action "hide")
+      }}
+        Hide Location
+      {{/x-button}}
+    {{/unless}}
+
+    {{#x-button
+      color=(if showSuccess "primary" "light-gray")
+      rounded="rounded"
+      size="x-small"
+      onClick=(action "close")
+    }}
+      {{if showSuccess "Close" "Cancel"}}
+    {{/x-button}}
+  </div>
+
+{{/modal-wrapper}}

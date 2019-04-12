@@ -42,35 +42,15 @@
 {{/if}}
 
 <div class="FeedCard-Attribution-box-right">
-  {{#feed-card/conditional-link-to
-    useLink=linkToDetailIsActive
+  {{feed-card/activity
     model=model
+    hidePostedTime=hidePostedTime
+    hideActivity=hideActivity
+    linkToDetailIsActive=linkToDetailIsActive
   }}
-    {{#if (not hidePostedTime)}}
-      <div class="FeedCard-Attribution-posted-time">
-        {{#if postedTime}}
-          Posted {{postedTime}}
-        {{else if (not hidePostedTime)}}
-          Not yet published
-        {{/if}}
-      </div>
-    {{/if}}
 
-    {{#if (not hideActivity)}}
-      {{#if showViewCount}}
-        {{fa-icon "eye" class="FeedCard-Attribution--indicator-icon views"}}
-        <span class="FeedCard-Attribution--indicator-text margin-right">
-          {{formatted-count viewCount}}
-        </span>
-      {{/if}}
-
-      {{fa-icon "comment-o" class="FeedCard-Attribution--indicator-icon comments"}}
-      {{#if showCommentCount}}
-        <span class="FeedCard-Attribution--indicator-text">
-          {{formatted-count commentCount}}
-        </span>
-      {{/if}}
-    {{/if}}
-  {{/feed-card/conditional-link-to}}
-
+  {{feed-card/bookmark
+    contentId=model.contentId
+    eventInstanceId=model.eventInstanceId
+  }}
 </div>

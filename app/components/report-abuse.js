@@ -1,11 +1,13 @@
 import Component from '@ember/component';
-import { get } from '@ember/object';
+import { get, computed } from '@ember/object';
+import { isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
 
 export default Component.extend( {
   tracking: service(),
   modals:   service(),
 
+  message: null,
   isPreview: false,
 
   _trackReportAbuseClick() {
@@ -13,6 +15,15 @@ export default Component.extend( {
       'event': 'select-report-abuse'
     });
   },
+
+  reportMessage: computed('message', function() {
+    const message = get(this, 'message') || null;
+    if (isBlank(message)) {
+      return 'Report';
+    }
+
+    return message;
+  }),
 
   actions: {
     reportAbuse() {

@@ -1,5 +1,4 @@
-import { notEmpty, oneWay, gt } from '@ember/object/computed';
-import { isPresent } from '@ember/utils';
+import { notEmpty, oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
 
@@ -16,26 +15,13 @@ export default Component.extend({
   showCenter: false,
   noPadding: false,
   customSize: 40,
-  minViewCount: 100,
-  minCommentCount: 1,
 
   avatarUrl: oneWay('model.attributionImageUrl'),
   author: oneWay('model.attributionName'),
-  postedTime: oneWay('model.publishedAtRelative'),
   linkRouteName: oneWay('model.attributionLinkRouteName'),
   linkId: oneWay('model.attributionLinkId'),
   contentId: oneWay('model.contentId'),
   eventInstanceId: oneWay('model.eventInstanceId'),
-  viewCount: oneWay('model.viewCount'),
-  commentCount: oneWay('model.commentCount'),
-
-  showViewCount: computed('viewCount', 'minViewCount', function() {
-    const viewCount = parseInt(get(this, 'viewCount')) || null;
-
-    return isPresent(viewCount) && viewCount >= get(this, 'minViewCount');
-  }),
-
-  showCommentCount: gt('commentCount', 0),
 
   authorHasNoSpaces: computed('author', function() {
     const author = get(this, 'author') || '';

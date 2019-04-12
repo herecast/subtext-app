@@ -8,7 +8,7 @@ export default Factory.extend({
   createdAt() { return moment(faker.date.recent(-30)).toISOString(); },
   userImageUrl() {
     var randomNumber = Math.random();
-    return (randomNumber > 0.5) ? null : 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Avatar&w=200&h=200';
+    return (randomNumber > 0.5) ? null : 'https://via.placeholder.com/200x200.png?text=200x200';
   },
   testGroup: 'Consumer',
 

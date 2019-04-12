@@ -1,0 +1,47 @@
+.FeedCard-Activity {
+  display: inline-block;
+  line-height: 15px;
+
+  &-posted-time {
+    font-size: 13px;
+    color: darken(@activity-indicator-color, 20%);
+  }
+
+  &--indicator {
+    display: inline-block;
+
+    &-wrap {
+      display: inline-block;
+    }
+
+    &-icon {
+      font-size: 22px;
+      color: @activity-indicator-color;
+      vertical-align: middle;
+      margin-right: 1px;
+    }
+    &-text {
+      font-size: 14px;
+      vertical-align: middle;
+      color: darken(@activity-indicator-color, 20%);
+      &.margin-right {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width:360px) {
+  .FeedCard-Activity--indicator {
+    &-icon {
+      font-size: 16px;
+    }
+    &-text {
+      font-size: 12px;
+    }
+  }
+
+  .FeedCard-Activity-posted-time {
+    font-size: 10px;
+  }
+}

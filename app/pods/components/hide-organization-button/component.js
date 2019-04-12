@@ -1,4 +1,4 @@
-import { get, set, computed, setProperties } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { readOnly, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
@@ -9,41 +9,15 @@ export default Component.extend({
 
   organizationHidesService: service('organization-hides'),
   organizationHides: readOnly('organizationHidesService.organizationHides'),
-  router: service(),
   fastboot: service(),
   modals: service(),
-  session: service(),
 
   organization: null,
-  organizationId: readOnly('organization.id'),
-  organizationName: readOnly('organization.name'),
-  organizationProfileImageUrl: readOnly('organization.profileImageUrl'),
   contentId: null,
-
-  isLoading: notEmpty('subscriptionService.isLoadingOrgId'),
-
-  showSuccess: false,
-  flagType: null,
-  hasFlagType: notEmpty('flagType'),
-  isInvalid: false,
-  wantsToHideOrg: false,
-  hasHiddenOrg: false,
   afterHide: null,
 
-  init() {
-    this._super(...arguments);
-    setProperties(this, {
-      flagTypes: ['Not relevant to me', 'Not relevant to my location', 'Offensive to me', 'I see too much by this author']
-    });
-  },
-
-  _resetProperties() {
-    setProperties(this, {
-      isInvalid: false,
-      flagType: null,
-      wantsToHideOrg: false
-    });
-  },
+  wantsToHideOrg: false,
+  additionToMessage: null,
 
   _openSignInModal() {
     get(this, 'modals').showModal('modals/sign-in-register', {
@@ -70,23 +44,6 @@ export default Component.extend({
   hasHiddenThisOrg: notEmpty('hideOnThisOrganization'),
 
   actions: {
-    close() {
-      this._resetProperties();
-
-      if (get(this, 'hasHiddenOrg')) {
-        const organizationId = get(this, 'organizationId');
-
-        get(this, 'organizationHidesService').removeOrganizationContent(organizationId)
-        .then(() => {
-          if (get(this, 'afterHide')) {
-            get(this, 'afterHide')();
-          } else {
-            get(this, 'router').transitionTo('feed');
-          }
-        });
-      }
-    },
-
     clickedHideButton() {
       if (get(this, 'session.isAuthenticated')) {
         set(this, 'wantsToHideOrg', true);
@@ -95,22 +52,16 @@ export default Component.extend({
       }
     },
 
-    hide() {
-      const organization = get(this, 'organization');
-      const contentId = get(this, 'contentId');
-      const flagType = get(this, 'flagType');
-
-      if (isPresent(flagType)) {
-        get(this, 'organizationHidesService').hide(organization, contentId, flagType)
-        .then(() => {
-          setProperties(this, {
-            'showSuccess': true,
-            'hasHiddenOrg': true
-          });
-        });
-      } else {
-        set(this, 'isInvalid', true);
+    afterHide() {
+      if (get(this, 'afterHide')) {
+        get(this, 'afterHide')();
       }
+      
+      set(this, 'wantsToHideOrg', false);
+    },
+
+    afterCancel() {
+      set(this, 'wantsToHideOrg', false);
     }
   }
 });

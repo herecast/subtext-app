@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | avatar image', function(hooks) {
   setupRenderingTest(hooks);
 
-  const imageUrl = 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Company+Name&w=300&h=200';
+  const imageUrl = 'https://via.placeholder.com/300x240.png?text=300x200';
 
   test('It renders an image when provided with one', async function(assert) {
 

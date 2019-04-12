@@ -68,12 +68,11 @@
           {{#feed-card/attribution
             model=model
             isOnDetailView=true
-            linkToDetailIsActive=(not isPreview)
+            hideActivity=true
+            hidePostedTime=true
             showCenter=(not isPreview)
           }}
-            <div class="u-paddingHorizontal8">
-              {{subscribe-button organization=model.organization}}
-            </div>
+            {{subscribe-button organization=model.organization}}  
           {{/feed-card/attribution}}
         </div>
 
@@ -81,34 +80,23 @@
     {{/sticky.item}}
 
     <div class="DetailPage-sectionWrapper u-paddingTop8">
-
-      <div>
-        {{#feed-card/footer
-          locationTagName=model.baseLocationName
-          showCost=false
-          noBorder=true
-          noPadding=true
+      {{#feed-card/footer
+        model=model
+        showCost=false
+        noBorder=true
+        noPadding=true
+      }}
+        {{feed-card/activity
+          model=model
+          linkToDetailIsActive=false
         }}
-          {{report-content-details
-            contentId=model.contentId
-            class="DetailPage-reportFlag h4"
-          }}
-          {{hide-organization-button
-            contentId=model.contentId
-            organization=model.organization
-            afterHide=onClose
-            class="DetailPage-reportFlag h4"
-          }}
-        {{/feed-card/footer}}
-      </div>
+      {{/feed-card/footer}}
 
       {{#unless isPreview}}
-        <div>
-          {{feed-card/manage
-            model=model
-            openPromotionMenu=(action "openPromotionMenu")
-          }}
-        </div>
+        {{feed-card/manage
+          model=model
+          openPromotionMenu=(action "openPromotionMenu")
+        }}
       {{/unless}}
 
       <div class="DetailPage-content News-content ContentText">

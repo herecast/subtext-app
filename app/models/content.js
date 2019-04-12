@@ -63,7 +63,6 @@ export default DS.Model.extend(
   // <RELATIONSHIPS>
   comments: hasMany('comment', {inverse: null}),
   location: belongsTo('location'),
-  //locationId: attr('number'),
   locationId: alias('location.id'),
   organization: belongsTo('organization', {async: true}),
   // </RELATIONSHIPS>

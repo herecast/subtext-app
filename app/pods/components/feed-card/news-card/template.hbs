@@ -1,43 +1,40 @@
-<div class="FeedCard--card-front">
-  {{feed-card/title
-    title=model.title
+{{feed-card/title
+  title=model.title
+  model=model
+  linkToDetailIsActive=context.linkToDetailIsActive
+  condensedView=(readonly context.condensedView)
+  onContentClick=(action "onContentClick")
+}}
+
+{{#unless context.condensedView}}
+  {{feed-card/image
+    imageUrl=model.primaryImage.imageUrl
     model=model
+    content=model.content
     linkToDetailIsActive=context.linkToDetailIsActive
-    condensedView=(readonly context.condensedView)
     onContentClick=(action "onContentClick")
   }}
+{{/unless}}
 
-  {{#unless context.condensedView}}
-    {{feed-card/image
-      imageUrl=model.primaryImage.imageUrl
-      model=model
-      content=model.content
-      linkToDetailIsActive=context.linkToDetailIsActive
-      onContentClick=(action "onContentClick")
-    }}
-  {{/unless}}
+{{feed-card/attribution
+  model=model
+  classNames="u-padding8"
+}}
 
-  {{feed-card/attribution
+{{feed-card/footer
+  locationTagName=sourceTag
+  canManage=canManage
+  canEditIfAllowed=(readonly context.canEditIfAllowed)
+  displayAsPublic=(readonly context.displayAsPublic)
+  openPromotionMenu=(action "openPromotionMenu")
+  editPath="news.edit"
+  editPathId=model.id
+  model=model
+}}
+
+{{#if context.allowManageOnTile}}
+  {{feed-card/manage
     model=model
-    classNames="u-padding8"
-  }}
-
-  {{feed-card/footer
-    locationTagName=sourceTag
-    canManage=canManage
-    canEditIfAllowed=(readonly context.canEditIfAllowed)
-    displayAsPublic=(readonly context.displayAsPublic)
     openPromotionMenu=(action "openPromotionMenu")
-    editPath="news.edit"
-    editPathId=model.id
-    model=model
   }}
-
-  {{#if context.allowManageOnTile}}
-    {{feed-card/manage
-      model=model
-      openPromotionMenu=(action "openPromotionMenu")
-    }}
-  {{/if}}
-
-</div>
+{{/if}}

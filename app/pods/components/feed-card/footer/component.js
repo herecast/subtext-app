@@ -1,14 +1,12 @@
-import { notEmpty } from '@ember/object/computed';
-import Component from '@ember/component';
 import { computed, get } from '@ember/object';
 import { isBlank } from '@ember/utils';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: 'FeedCard-Footer',
   classNameBindings: ['noBorder:no-border', 'noPadding:no-padding'],
 
-
-  locationTagName: null,
+  model: null,
 
   contentId: null,
   cost: null,
@@ -24,7 +22,5 @@ export default Component.extend({
     }
 
     return cost;
-  }),
-
-  hasSource: notEmpty('locationTagName')
+  })
 });

@@ -1,0 +1,33 @@
+{{#feed-card/conditional-link-to
+  model=model
+  useLink=linkToDetailIsActive
+  class="FeedCard-Activity--indicator"
+}}
+  {{#if (not hidePostedTime)}}
+    <div class="FeedCard-Activity-posted-time">
+      {{#if postedTime}}
+        Posted {{postedTime}}
+      {{else if (not hidePostedTime)}}
+        Not yet published
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{#if (not hideActivity)}}
+    {{#if showViewCount}}
+      {{fa-icon "eye" class="FeedCard-Activity--indicator-icon views"}}
+      <span class="FeedCard-Activity--indicator-text {{if showCommentCount "margin-right"}}">
+        {{formatted-count viewCount}}
+      </span>
+    {{/if}}
+
+    {{#if showCommentCount}}
+      <div class="FeedCard-Activity--indicator-wrap" role="button" {{action "clickOnCommentBubble"}}>
+        {{fa-icon "comments-o" class="FeedCard-Activity--indicator-icon comments"}}
+        <span class="FeedCard-Activity--indicator-text">
+          {{formatted-count commentCount}}
+        </span>
+      </div>
+    {{/if}}
+  {{/if}}
+{{/feed-card/conditional-link-to}}

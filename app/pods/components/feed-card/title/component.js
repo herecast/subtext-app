@@ -25,7 +25,6 @@ export default Component.extend({
   isLoggedIn: false,
   linkToDetailIsActive: true,
   isOnDetailView: false,
-  hideBookmark: false,
 
   onContentClick() {},
 

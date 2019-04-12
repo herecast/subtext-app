@@ -1,46 +1,43 @@
-<div class="FeedCard--card-front">
-  {{feed-card/title
-    title=model.title
+{{feed-card/title
+  title=model.title
+  model=model
+  sold=model.sold
+  showToggleSold=(and (readonly context.canManage) isNotTalk)
+  condensedView=(readonly context.condensedView)
+  onContentClick=(action "onContentClick")
+}}
+
+{{#unless context.condensedView}}
+  {{feed-card/image
+    imageUrl=activeImageUrl
+    caption=model.primaryImageCaption
     model=model
-    sold=model.sold
-    showToggleSold=(and (readonly context.canManage) isNotTalk)
-    condensedView=(readonly context.condensedView)
     onContentClick=(action "onContentClick")
   }}
+{{/unless}}
 
-  {{#unless context.condensedView}}
-    {{feed-card/image
-      imageUrl=activeImageUrl
-      caption=model.primaryImageCaption
-      model=model
-      onContentClick=(action "onContentClick")
-    }}
-  {{/unless}}
-
-  {{#unless context.condensedView}}
-    {{feed-card/attribution
-      model=model
-      classNames="u-padding8"
-    }}
-  {{/unless}}
-
-  {{feed-card/footer
-    locationTagName=sourceTag
-    cost=model.cost
-    showCost=true
-    canManage=(readonly context.canManage)
-    canEditIfAllowed=(readonly context.canEditIfAllowed)
-    displayAsPublic=(readonly context.displayAsPublic)
-    openPromotionMenu=(action "openPromotionMenu")
-    editPath="market.edit"
-    editPathId=model.id
+{{#unless context.condensedView}}
+  {{feed-card/attribution
     model=model
+    classNames="u-padding8"
   }}
+{{/unless}}
 
-  {{#if context.allowManageOnTile}}
-    {{feed-card/manage
-      model=model
-      openPromotionMenu=(action "openPromotionMenu")
-    }}
-  {{/if}}
-</div>
+{{feed-card/footer
+  model=model
+  cost=model.cost
+  showCost=true
+  canManage=(readonly context.canManage)
+  canEditIfAllowed=(readonly context.canEditIfAllowed)
+  displayAsPublic=(readonly context.displayAsPublic)
+  openPromotionMenu=(action "openPromotionMenu")
+  editPath="market.edit"
+  editPathId=model.id
+}}
+
+{{#if context.allowManageOnTile}}
+  {{feed-card/manage
+    model=model
+    openPromotionMenu=(action "openPromotionMenu")
+  }}
+{{/if}}

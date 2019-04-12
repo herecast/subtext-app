@@ -1,9 +1,9 @@
 {{#if session.currentUser}}
   <span role="button" {{action "reportAbuse"}}>
-    {{fa-icon "flag"}} Report
+    {{fa-icon "flag"}} {{reportMessage}}
   </span>
 {{else}}
   {{#link-to "login"}}
-    {{fa-icon "flag"}} Report
+    {{fa-icon "flag"}} {{reportMessage}}
   {{/link-to}}
 {{/if}}

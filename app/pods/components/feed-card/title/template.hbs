@@ -33,11 +33,11 @@
       {{fa-icon "comment-o"}}{{commentCount}}
     </div>
   </div>
-{{else if (not hideBookmark)}}
-  <div class="FeedCard-Title--bookmark">
-    {{feed-card/bookmark
-      contentId=model.contentId
-      eventInstanceId=model.eventInstanceId
+{{else}}
+  <div class="FeedCard-Title--menu">
+    {{feed-card/options-menu
+      model=model
+      isOnDetailView=isOnDetailView
     }}
   </div>
 {{/if}}

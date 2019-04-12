@@ -457,6 +457,24 @@ export default Service.extend(Evented, {
     });
   },
 
+  trackHideLocation(hideObject) {
+    this.push({
+      event: 'UserHidesLocation',
+      content_id: hideObject.contentId,
+      location_id: hideObject.locationId,
+      location_name: hideObject.locationName,
+      flag_type: hideObject.flagType
+    });
+  },
+
+  trackTileOptionsMenuEvent(eventName, content_id) {
+    this.push({
+      event: 'TileOptionsMenuEvent',
+      event_action: eventName,
+      content_id
+    });
+  },
+
   /** Private **/
 
   _checkIfCanEditContent(content) {

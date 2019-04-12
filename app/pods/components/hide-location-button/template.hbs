@@ -1,0 +1,16 @@
+<div role="button" {{action "clickedHideButton"}}>
+  {{fa-icon "map-marker"}} Hide this Location
+</div>
+
+
+{{#if wantsToHideLocation}}
+  {{to-elsewhere
+    named="global-modal"
+    send=(component "hide-location-body"
+           location=location
+           contentId=contentId
+           afterHide=(action "afterHide")
+           afterCancel=(action "afterCancel")
+          )
+  }}
+{{/if}}

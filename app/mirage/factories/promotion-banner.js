@@ -8,7 +8,7 @@ export default Mirage.Factory.extend({
   pubdate() { return moment().add(-2, 'days').toISOString(); },
   impressionCount() { return faker.random.number(1000); },
   maxImpression() { return faker.random.number(1000); },
-  imageUrl: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=750%C3%97250&w=750&h=250',
+  imageUrl: 'https://via.placeholder.com/750x250.png?text=750x250',
   redirectUrl: 'http://thelymeinn.com/',
   campaignStart() { return moment().add(-2, 'days'); },
   compaignEnd() { return faker.date.future(); }

@@ -79,36 +79,20 @@
   {{/sticky.item}}
 
   <div class="DetailPage-sectionWrapper u-paddingTop8">
-    <div>
-      {{#feed-card/footer
-        locationTagName=model.baseLocationName
-        showCost=false
-        noBorder=true
-        noPadding=true
-      }}
-        {{report-content-details
-          contentId=model.contentId
-          class="DetailPage-reportFlag h4"
-        }}
-        {{#if showHideButton}}
-          {{hide-organization-button
-            contentId=model.contentId
-            organization=model.organization
-            afterHide=onClose
-            class="DetailPage-reportFlag h4"
-          }}
-        {{/if}}
-      {{/feed-card/footer}}
-    </div>
-
-    {{#unless isPreview}}
-      <div>
+    {{#feed-card/footer
+      model=model
+      showCost=false
+      noBorder=true
+      noPadding=true
+    }}
+      {{#unless isPreview}}
         {{feed-card/manage
           model=model
           openPromotionMenu=(action "openPromotionMenu")
         }}
-      </div>
-    {{/unless}}
+      {{/unless}}
+    {{/feed-card/footer}}
+
 
     <div class="DetailPage-metaBloc">
       {{detail-meta-bloc model=model}}
