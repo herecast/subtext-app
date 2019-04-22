@@ -12,6 +12,7 @@ export default Component.extend({
   hidePostedTime: false,
   linkToDetailIsActive: true,
   hideActivity: false,
+  hideBookmark: false,
   showCenter: false,
   noPadding: false,
   customSize: 40,

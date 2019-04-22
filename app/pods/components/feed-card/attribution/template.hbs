@@ -49,8 +49,10 @@
     linkToDetailIsActive=linkToDetailIsActive
   }}
 
-  {{feed-card/bookmark
-    contentId=model.contentId
-    eventInstanceId=model.eventInstanceId
-  }}
+  {{#unless hideBookmark}}
+    {{feed-card/bookmark
+      contentId=model.contentId
+      eventInstanceId=model.eventInstanceId
+    }}
+  {{/unless}}
 </div>
