@@ -70,7 +70,11 @@
 
     {{#unless hideHelpButton}}
       <div class="BloggerIntro-Step-help-bar">
-        <a href="mailto:dailyuv@subtext.org">{{fa-icon "info-circle" class="help-button"}} Need help?</a>
+        {{#help-text
+          smallIcon=true
+        }}
+          Need help?
+        {{/help-text}}
       </div>
     {{/unless}}
 
