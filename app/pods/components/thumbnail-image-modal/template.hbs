@@ -16,7 +16,10 @@
 </div>
 
 {{#if _showImageModal}}
-  {{#modal-wrapper close=(action "cancel")}}
+  {{#modal-wrapper
+    close=(action "cancel")
+    closeOnClickOutside=false
+  }}
     {{image-editor
       imageUrl=imageUrl
       caption=caption

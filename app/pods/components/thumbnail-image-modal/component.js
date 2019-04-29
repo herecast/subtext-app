@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { set, get } from '@ember/object';
+import { set, get, setProperties } from '@ember/object';
 
 export default Component.extend({
   classNames: ['ThumbnailImageModal'],
@@ -14,6 +14,13 @@ export default Component.extend({
   enableCaption: true,
   isCircle: false,
 
+  _unsetImage() {
+    setProperties(this, {
+      imageUrl: null,
+      caption: null
+    });
+  },
+
   actions: {
     openImageModal() {
       set(this, '_showImageModal', true);
@@ -21,6 +28,7 @@ export default Component.extend({
 
     cancel() {
       set(this, '_showImageModal', false);
+      this._unsetImage();
     },
 
     save(selectedImage, caption, imageUrl) {
