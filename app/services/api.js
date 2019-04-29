@@ -448,10 +448,6 @@ export default Service.extend(FastbootExtensions, {
     return this.getJson(url);
   },
 
-  getVenueLocation(venue_id) {
-    return this.getJson(`/venues/${venue_id}/location`);
-  },
-
   getVenueLocations(query) {
     let url = "/venue_locations";
 
