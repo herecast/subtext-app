@@ -14,7 +14,7 @@
         nextButton="Get Started"
         avatarUrl=(if isMobile null avatarUrls.smiling)
         title=(if isMobile null "Hi, I'm Jennifer.")
-        subtitle=(if isMobile null "I'll help you start your blog")
+        subtitle=(if isMobile null "I'll help you create your page")
         yieldBeforeAvatar=true
         showLanscapePicture=true
         hideHelpButton=true
@@ -53,7 +53,7 @@
             confirmButton="Continue"
             confirmButtonAction=(action "setProfileImage")
             avatarUrl=(if hasNewOrganizationProfileImage avatarUrls.thumbsup avatarUrls.smiling)
-            title="Add a profile picture to personalize your blog."
+            title="Add a profile picture to personalize your page."
             highlightedIdentifier=".OrganizationProfileHeaderCard-profile-image"
             class="OrganizationProfileHeaderCard-profile-image"
           }}
@@ -73,7 +73,7 @@
           confirmButtonDisabled=(not organizationNameIsGood)
           confirmButtonIsLoading=isCheckingOrganizationName
           avatarUrl=(if organizationNameIsGood avatarUrls.thumbsup avatarUrls.thinking)
-          title="What would you like to name your blog?"
+          title="What would you like to name your page?"
           highlightedIdentifier=".OrganizationProfileHeaderCard-name"
           as |isCurrentStep|
         }}
@@ -84,7 +84,7 @@
                   <div class="BloggerIntro-Step-blog-name-wrap" style={{nameInputWidthStyle}}>
                     {{input
                       id="blog-name"
-                      placeholder="Blog Name..."
+                      placeholder="Page Name..."
                       class="BloggerIntro-Step-input BloggerIntro-Step-blog-name"
                       value=organization.name
                       keyUp=(action "nameIsChanging")
@@ -109,7 +109,7 @@
           onStepStartAction=(action "descriptionStepStart")
           confirmButton="Continue"
           avatarUrl=(if hasValidDescription avatarUrls.thumbsup avatarUrls.thinking)
-          title="Give your blog a short description."
+          title="Give your page a short description."
           subtitle="Not sure? You can update this later."
           highlightedIdentifier=".OrganizationContactCard-description"
           class="OrganizationContactCard-description"

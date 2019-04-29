@@ -307,10 +307,10 @@ export default Controller.extend({
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);
         set(this, 'session.userCanPublishNews', true);
-        get(this, 'notify').success('Welcome to your new blogger hompage. Your page is live and you can now publish content on the site!');
+        get(this, 'notify').success(`Welcome to your new page. You're ready to start posting content on the site!`);
       })
       .catch(() => {
-        get(this, 'notify').error('Something went wrong when saving your blog. Please try again.');
+        get(this, 'notify').error('Something went wrong when saving your page. Please try again.');
         set(this, 'isCreatingOrganization', false);
       });
     }

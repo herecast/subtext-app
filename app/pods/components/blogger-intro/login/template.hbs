@@ -3,11 +3,11 @@
   {{#if isBloggerAlready}}
 
     <div class="BloggerIntro-Step-title">
-      You're already a blogger!
+      You already have a page!
     </div>
     {{#if managedOrganizations}}
       <div class="BloggerIntro-Step-subtitle">
-        If you'd like to blog, click on your blog below to head on over.
+        If you'd like to post, click on your page below to head on over.
       </div>
       {{#each managedOrganizations as |managedOrganization|}}
         {{#link-to "profile" managedOrganization.id}}
@@ -159,7 +159,7 @@
     </div>
   {{else}}
     <div class="BloggerIntro-Step-title">
-      You need a DailyUV account to blog.
+      You need a DailyUV account to post.
     </div>
     <div class="BloggerIntro-Step-subtitle">
       Let's see if you have one. If not, we'll sign you up.
