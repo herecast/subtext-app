@@ -7,6 +7,7 @@ export default Mixin.create({
   floatingActionButton: service(),
   modals: service(),
   history: service(),
+  router: service(),
 
   model: null,
   showManageOverlay: false,
@@ -53,6 +54,11 @@ export default Mixin.create({
       if (get(this, 'history.isFirstRoute')) {
         get(this, 'modals').removeModalBodyClass();
       }
+    },
+
+    openOrangeButton() {
+      get(this, 'router').transitionTo('feed');
+      get(this, 'floatingActionButton').expand();
     }
   }
 });

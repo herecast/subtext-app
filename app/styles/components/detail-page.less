@@ -326,6 +326,39 @@
     }
   }
 
+  &-cta {
+    text-align: center;
+    margin: 8px 0;
+
+    &-button {
+      display: inline-block;
+      padding: 8px 16px;
+      background: lighten(@gray-medium, 25%);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    &-bubble {
+      height: 28px;
+      width: 28px;
+      line-height: 28px;
+      border-radius: 50%;
+      background: @button-primary;
+      color: #fff;
+      font-size: 16px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    &-chevron {
+      font-size: 18px;
+      color: @gray-dark;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+  }
+
 }
 
 .Modal-dialog {

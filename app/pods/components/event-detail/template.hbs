@@ -143,6 +143,13 @@
   }}
 
   {{#unless isPreview}}
+    <div class="DetailPage-cta">
+      <div class="DetailPage-cta-button" {{action "openOrangeButton"}} role="button">
+        {{fa-icon "calendar-o" class="DetailPage-cta-bubble"}}
+        Post into the Calendar! Get started today.
+        {{fa-icon "chevron-right" class="DetailPage-cta-chevron"}}
+      </div>
+    </div>
     {{#horizontal-rule}}
       {{social-share
         title=model.title

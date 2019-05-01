@@ -72,7 +72,7 @@
             hidePostedTime=true
             showCenter=(not isPreview)
           }}
-            {{subscribe-button organization=model.organization}}  
+            {{subscribe-button organization=model.organization}}
           {{/feed-card/attribution}}
         </div>
 
@@ -139,6 +139,13 @@
     }}
 
     {{#unless isPreview}}
+      <div class="DetailPage-cta">
+        <div class="DetailPage-cta-button" {{action "openOrangeButton"}} role="button">
+          {{fa-icon "pencil-square-o" class="DetailPage-cta-bubble"}}
+          Have something you'd like to Post? Get started today.
+          {{fa-icon "chevron-right" class="DetailPage-cta-chevron"}}
+        </div>
+      </div>
       {{#horizontal-rule}}
         {{social-share
           title=model.title
