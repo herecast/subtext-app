@@ -87,7 +87,7 @@ module('Integration | Component | feed card', function(hooks) {
         "impression tracking was not fired because the tile is out of the viewport");
 
       const $feedCard = $('[data-test-feed-card]')[0];
-      $feedCard.scrollIntoView();
+      $feedCard.scrollIntoView(false);
 
       const testWaiter = function() {
         return this.element.querySelectorAll('[data-test-entered-viewport]').length > 0;
@@ -105,7 +105,7 @@ module('Integration | Component | feed card', function(hooks) {
          $(document).find('#ember-testing-container')[0].scrollTop = 0;
 
         return settled().then(()=>{
-          $feedCard.scrollIntoView();
+          $feedCard.scrollIntoView(false);
           return settled().then(()=>{
             assert.equal(
               impressions, 1,
