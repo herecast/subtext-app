@@ -168,7 +168,7 @@
 }
 
 @media (max-width: @screen-xs-max) {
-  .Modal-dialog {
+  .Modal-dialog:not(.preserve-modal) {
     .Modal-dialog--fullscreen;
 
     &--small {
@@ -189,7 +189,7 @@
 }
 
 @media (max-width: 360px) {
-  .Modal-dialog {
+  .Modal-dialog:not(.preserve-modal) {
     .Modal-dialog--fullscreen;
 
     &--small {

@@ -12,13 +12,12 @@
       {{#blogger-intro.step step=1
         modal=true
         nextButton="Get Started"
-        avatarUrl=(if isMobile null avatarUrls.smiling)
-        title=(if isMobile null "Hi, I'm Jennifer.")
-        subtitle=(if isMobile null "I'll help you create your page")
+        avatarUrl=avatarUrls.smiling
+        title="Hi, I'm Jennifer."
+        subtitle="I'll help you create your page"
         yieldBeforeAvatar=true
         showLanscapePicture=true
         hideHelpButton=true
-        hideNavigation=isMobile
       }}
         {{blogger-intro/landing
           leadCaptured=(action "leadCaptured")
@@ -47,14 +46,14 @@
           {{#blogger-intro.step step=3
             modal=true
             onStepStartAction=(action "stepStartProfilePic")
-            replaceTooltip=true
-            actionButton="Upload New Image"
+            replaceTooltip=(not isMobile)
+            actionButton="Upload Image"
             actionButtonAction=(action "uploadProfileImage")
             confirmButton="Continue"
             confirmButtonAction=(action "setProfileImage")
             avatarUrl=(if hasNewOrganizationProfileImage avatarUrls.thumbsup avatarUrls.smiling)
             title="Add a profile picture to personalize your page."
-            highlightedIdentifier=".OrganizationProfileHeaderCard-profile-image"
+            highlightedIdentifier=(if isMobiile null ".OrganizationProfileHeaderCard-profile-image")
             class="OrganizationProfileHeaderCard-profile-image"
           }}
             {{file-input allowedExtensions=".jpg,.jpeg,.png" action=(action "profileImageSelected") inputClass=profileImageInputClass}}
@@ -67,14 +66,14 @@
 
         {{#blogger-intro.step step=4
           modal=true
-          replaceTooltip=true
+          replaceTooltip=(not isMobile)
           onStepStartAction=(action "nameStepStart")
           confirmButton=(if organizationNameIsGood "Continue" "Please Enter a Name")
           confirmButtonDisabled=(not organizationNameIsGood)
           confirmButtonIsLoading=isCheckingOrganizationName
           avatarUrl=(if organizationNameIsGood avatarUrls.thumbsup avatarUrls.thinking)
           title="What would you like to name your page?"
-          highlightedIdentifier=".OrganizationProfileHeaderCard-name"
+          highlightedIdentifier=(if isMobile null ".OrganizationProfileHeaderCard-name")
           as |isCurrentStep|
         }}
           {{#content-body verticalPadding=true background=true class=(if isCurrentStep "on-top-of-modal")}}
@@ -85,6 +84,7 @@
                     {{input
                       id="blog-name"
                       placeholder="Page Name..."
+                      maxlength=maxNameLength
                       class="BloggerIntro-Step-input BloggerIntro-Step-blog-name"
                       value=organization.name
                       keyUp=(action "nameIsChanging")
@@ -105,13 +105,13 @@
       <div class="Startablog--container">
         {{#blogger-intro.step step=5
           modal=true
-          replaceTooltip=true
+          replaceTooltip=(not isMobile)
           onStepStartAction=(action "descriptionStepStart")
           confirmButton="Continue"
           avatarUrl=(if hasValidDescription avatarUrls.thumbsup avatarUrls.thinking)
           title="Give your page a short description."
           subtitle="Not sure? You can update this later."
-          highlightedIdentifier=".OrganizationContactCard-description"
+          highlightedIdentifier=(if isMobile null ".OrganizationContactCard-description")
           class="OrganizationContactCard-description"
           as |isCurrentStep|
         }}

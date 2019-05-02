@@ -63,6 +63,10 @@
       z-index: 1101;
     }
 
+    &-main {
+      text-align: center;
+    }
+
     &-tooltip {
       &-hide {
         display: none !important;
@@ -96,6 +100,11 @@
       width: 100px;
       margin: 8px auto 24px auto;
 
+      @media (max-width: 400px) {
+        height: 80px;
+        width: 80px;
+      }
+
       img {
         height: 100%;
         width: 100%;
@@ -111,6 +120,10 @@
       line-height: 1.0;
       text-align: center;
       font-weight: bold;
+
+      @media (max-width: 400px) {
+        font-size: 22px;
+      }
     }
 
     &-subtitle {

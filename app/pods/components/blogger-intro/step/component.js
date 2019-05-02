@@ -1,19 +1,25 @@
-import { notEmpty, or } from '@ember/object/computed';
+import { notEmpty, or, readOnly } from '@ember/object/computed';
 import $ from 'jquery';
 import { computed, set, get } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import StepComponent from 'ember-introjs/components/step';
 
 export default StepComponent.extend({
   classNames: 'BloggerIntro-Step',
   classNameBindings: ['hasHighlightedElement:show-arrow'],
 
+  media: service(),
+  isMobile: readOnly('media.isMobile'),
+
   modal: false,
   yieldBeforeAvatar: false,
   replaceTooltip: false,
   showLanscapePicture: false,
   hideHelpButton: false,
+  preserveModal: false,
+  yieldOnMobile: false,
   scope: null,
 
   intro: "",
@@ -24,10 +30,6 @@ export default StepComponent.extend({
   nextButton: null,
   nextButtonAction: null,
   nextButtonDisabled: false,
-
-  innerStepButton: null,
-  innerStepButtonAction: null,
-  innerStepButtonDisabled: null,
 
   actionButton: null,
   actionButtonAction: null,
@@ -170,7 +172,7 @@ export default StepComponent.extend({
   },
 
   modalStyle: computed('isCurrentStep', 'highlightedElement', function() {
-    if (get(this, 'isCurrentStep') && get(this, 'replaceTooltip')) {
+    if (get(this, 'isCurrentStep') && get(this, 'replaceTooltip') && get(this, 'hasHighlightedElement')) {
 
      run.next(this, () => {
         const highlightedElement = get(this, 'highlightedElement');
@@ -238,12 +240,6 @@ export default StepComponent.extend({
 
       if (get(this, 'continueAfterAction') && !get(this, 'isLastStep')) {
         get(this, 'nextStep')();
-      }
-    },
-
-    innerStepButtonClick() {
-      if (get(this, 'innerStepButtonAction')) {
-        get(this, 'innerStepButtonAction')();
       }
     }
   }

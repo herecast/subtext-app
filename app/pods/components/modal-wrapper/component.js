@@ -22,6 +22,7 @@ export default Component.extend({
 
   willAnimateAway: false,
   animateAway: false,
+  preserveModal: false,
 
   windowHeight: 1000,
   isScrollingBody: false,

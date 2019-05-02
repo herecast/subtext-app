@@ -55,6 +55,7 @@ export default Controller.extend({
 
   hasStartedWritingName: false,
   minNameLength: 4,
+  maxNameLength: 20,
   hasOrganizationName: computed('organization.name.length', function() {
     return get(this, 'organization.name.length') >= get(this, 'minNameLength');
   }),
@@ -64,10 +65,11 @@ export default Controller.extend({
 
   nameLengthText: computed('organization.name', function() {
     const minNameLength = get(this, 'minNameLength');
+    const maxNameLength = get(this, 'maxNameLength');
     const nameLength = get(this, 'organization.name.length') || 0;
 
     if (nameLength >= minNameLength) {
-      return 'Looks good.';
+      return `${nameLength}/${maxNameLength} Maximum`;
     } else {
       return `${nameLength}/${minNameLength} Minimum`;
     }
