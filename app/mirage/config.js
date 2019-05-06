@@ -693,10 +693,6 @@ export default function() {
     return new Mirage.Response(204);
   });
 
-  this.patch('/subscriptions/:id/confirm', function() {
-    return {};
-  });
-
   this.patch('/subscriptions/:id/unsubscribe', function() {
     return {};
   });
