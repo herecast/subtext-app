@@ -80,16 +80,6 @@ export default function() {
     }
   });
 
-  this.post('/users/email_signin_link', function(db, request) {
-    const email = JSON.parse(request.requestBody)['email'] || "";
-
-    if(email.indexOf('noaccount') > -1) {
-      return new Mirage.Response(422, {'Content-Type': 'application/json'}, {error: 'no account matches the email provided'});
-    } else {
-      return {};
-    }
-  });
-
   this.post('/users/sign_in_with_token', function(db, request) {
     const token = JSON.parse(request.requestBody)['token'] || "";
 

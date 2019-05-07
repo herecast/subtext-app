@@ -1324,35 +1324,6 @@ module('Unit | Service | api', function(hooks) {
     });
   });
 
-  test('sendEmailSignInLink(email)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-    const email = "luigi@mario.kart";
-
-    const done = assert.async();
-
-    this.server.post('/users/email_signin_link', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-      expect.contentTypeHeader(assert, request, 'application/json');
-
-      const jsonData = JSON.parse(request.requestBody);
-
-      assert.deepEqual(jsonData, {
-          email: email
-        },
-        "POST /users/email_siginin_link with expected data");
-
-      done();
-      return {};
-    });
-
-    subject.sendEmailSignInLink(email);
-  });
-
   test('resetPassword(data)', function(assert) {
     const subject = this.owner.factoryFor('service:api').create({
       session: this.session,

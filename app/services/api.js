@@ -677,14 +677,6 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
-  sendEmailSignInLink(email) {
-    return this.returnJson(
-      this.post('/users/email_signin_link',
-        this.json({email: email})
-      )
-    );
-  },
-
   captureStartablogInterestEmail(email) {
     return this.returnJson(
       this.post('/organizations/email_captures',
