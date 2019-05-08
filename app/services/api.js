@@ -544,25 +544,11 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
-  recordProfileImpression(id, data = {}) {
+  recordProfileEvent(id, data = {}) {
     const body = JSON.stringify(data);
 
     return this.returnJson(
-      this.post(`/metrics/profiles/${id}/impressions`, {
-        body: body,
-        headers: this.headers({
-          'Accept': 'text/plain',
-          'Content-Type': 'application/json'
-        })
-      })
-    );
-  },
-
-  recordProfileClick(id, data = {}) {
-    const body = JSON.stringify(data);
-
-    return this.returnJson(
-      this.post(`/metrics/profiles/${id}/clicks`, {
+      this.post(`/metrics/profiles/${id}`, {
         body: body,
         headers: this.headers({
           'Accept': 'text/plain',

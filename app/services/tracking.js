@@ -208,10 +208,11 @@ export default Service.extend(Evented, {
         const trackData = {
           client_id: data.clientId,
           // In some tests, location will be undefined
-          location_id: get(data, 'location.id')
+          location_id: get(data, 'location.id'),
+          event_type: 'impression'
         };
 
-        get(this, 'api').recordProfileImpression(get(organization, 'id'), trackData);
+        get(this, 'api').recordProfileEvent(get(organization, 'id'), trackData);
       });
     }
   },
@@ -223,10 +224,11 @@ export default Service.extend(Evented, {
           client_id: data.clientId,
           content_id: get(content, 'contentId'),
           // In some tests, location will be undefined
-          location_id: get(data, 'location.id')
+          location_id: get(data, 'location.id'),
+          event_type: 'click'
         };
 
-        get(this, 'api').recordProfileClick(get(organization, 'id'), trackData);
+        get(this, 'api').recordProfileEvent(get(organization, 'id'), trackData);
       });
     }
   },
