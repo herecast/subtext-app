@@ -69,7 +69,7 @@
     }}
   {{else}}
     <div class="AccountForm-avatarPreview">
-      <img src={{model.userImageUrl}} alt="Selected Image" role="button" {{action "showAvatarImageForm"}}>
+      <img src={{optimized-image-url model.userImageUrl 200 200 true}} alt="Selected Image" role="button" {{action "showAvatarImageForm"}}>
 
       {{#x-button onClick=(action "showAvatarImageForm") style="regular" color="primary" size="x-small"}}
         Edit
