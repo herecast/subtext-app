@@ -296,14 +296,6 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
-  upsertImage(data) {
-    return this.returnJson(
-      this.post("/images/upsert",
-        this.formData(data)
-      )
-    );
-  },
-
   updateImage(imageId, data) {
     return this.returnJson(
       this.put(`/images/${imageId}`,

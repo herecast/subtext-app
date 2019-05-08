@@ -522,19 +522,6 @@ export default function() {
     };
   });
 
-  this.post('/images/upsert', function({ db }) {
-    const image = db.images.insert({
-      id: faker.random.number(1000),
-      content_id: faker.random.number(100),
-      primary: false,
-      url: 'https://via.placeholder.com/200x200.png?text=200x200'
-    });
-
-    return {
-      image: image
-    };
-  });
-
   this.put('/images/:id', function({ db }, request) {
     const id = request.params.id;
     const image = db.images.update(id, {});
