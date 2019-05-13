@@ -77,6 +77,10 @@ export default Component.extend(TestSelector, {
 
     updateSearchQuery(query) {
       get(this, 'searchService').performSearch(query);
+    },
+
+    clearSearch() {
+      get(this, 'searchService').clearSearch();
     }
   }
 });

@@ -22,13 +22,14 @@ export default Service.extend({
     });
 
     $(window).scrollTop(0,0);
-    
+
     const queryParams = {
       query,
       type: get(this, 'activeFilter'),
       startDate: '',
       endDate: ''
     };
+
     get(this, 'router').transitionTo('feed',
       {queryParams}
     ).finally(() => {
@@ -37,6 +38,8 @@ export default Service.extend({
   },
 
   clearSearch() {
+    set(this, 'activeFilter', null);
+
     this.performSearch("");
   }
 });
