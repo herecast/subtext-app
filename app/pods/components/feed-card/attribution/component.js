@@ -6,16 +6,19 @@ export default Component.extend({
   classNames: 'FeedCard-Attribution',
   classNameBindings: ['isOnDetailView:detail-view',
                       'showCenter:has-center',
+                      'authorOnly:author-only',
                       'authorHasNoSpaces:long-namge-string'],
 
   model: null,
   hidePostedTime: false,
   linkToDetailIsActive: true,
   hideActivity: false,
-  hideBookmark: false,
+  authorOnly: false,
   showCenter: false,
   noPadding: false,
   customSize: 40,
+  truncatedAt: false,
+  showAnyViewCount: false,
 
   avatarUrl: oneWay('model.attributionImageUrl'),
   author: oneWay('model.attributionName'),
@@ -32,10 +35,15 @@ export default Component.extend({
   hasLinkRouteName: notEmpty('linkRouteName'),
 
   authorNameFormatted: computed('author', function() {
-    const author = get(this, 'author') || '';
+    let author = get(this, 'author') || '';
+    const truncatedAt = get(this, 'truncatedAt') || false;
 
     if (author.indexOf('@') >= 0) {
-      return author.split('@')[0];
+      author = author.split('@')[0];
+    }
+
+    if (truncatedAt && author.length >= truncatedAt) {
+      author = author.substring(0, truncatedAt - 3) + '...';
     }
 
     return author;

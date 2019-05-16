@@ -26,6 +26,8 @@ export default DS.Model.extend({
   hasHadBookmarks: DS.attr('boolean'),
   isBlogger: DS.attr('boolean'),
 
+  feedCardSize: DS.attr('string', {defaultValue: 'midsize'}),
+
   organizationSubscriptions: DS.hasMany('organization-subscription'),
   organizationHides: DS.hasMany('organization-hide'),
 

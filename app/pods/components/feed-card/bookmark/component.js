@@ -19,7 +19,6 @@ export default Component.extend({
   bookmarkService: service('bookmarks'),
   currentPath: readOnly('currentService.currentPath'),
 
-  showTooltip: false,
   contentId: null,
   eventInstanceId: null,
   bookmark: null,
@@ -95,11 +94,6 @@ export default Component.extend({
       } else {
         this._setBookmark();
       }
-    },
-    closeTooltip() {
-      set(this, 'showTooltip', false);
-      get(this, 'bookmarkService').tooltipClosed();
-      this._trackEvent('CloseTooltip');
     }
   }
 });

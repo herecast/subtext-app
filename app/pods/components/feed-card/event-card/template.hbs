@@ -2,26 +2,22 @@
   title=model.title
   eventInstanceId=model.eventInstanceId
   model=model
-  condensedView=(readonly context.condensedView)
   onContentClick=(action "onContentClick")
 }}
 
-{{#unless context.condensedView}}
-  {{feed-card/image
-    imageUrl=model.primaryOrFirstImage.imageUrl
-    caption=caption
-    model=model
-    onContentClick=(action "onContentClick")
-  }}
-{{/unless}}
+{{feed-card/image
+  imageUrl=model.primaryOrFirstImage.imageUrl
+  caption=caption
+  model=model
+  onContentClick=(action "onContentClick")
+}}
 
-{{#unless context.condensedView}}
-  {{feed-card/attribution
-    model=model
-    hidePostedTime=true
-    classNames="u-padding8"
-  }}
-{{/unless}}
+{{feed-card/attribution
+  model=model
+  hidePostedTime=true
+  showAnyViewCount=showAnyViewCount
+  classNames="u-padding8"
+}}
 
 {{feed-card/footer
   model=model

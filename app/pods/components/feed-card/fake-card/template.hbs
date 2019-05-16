@@ -1,15 +1,52 @@
-<div class="FeedCard-NewsCard">
-
-  <div class="FeedCard--card-front">
-
-    <div class="FeedCard-Title">
-      <div class="FeedCard-Title-title">
+{{#if isCompact}}
+  <div class="FeedCard-CompactCard">
+    <div class="FeedCard-CompactCard--left">
+      <div class="FeedCard-CompactCard--left-top FeedCard-CompactCard--title">
         <div class="FeedCard-FakeCard-title flashing-text" style="width:80%;"></div>
       </div>
+      <div class="FeedCard-CompactCard--left-bottom">
+
+        <div class="FeedCard-CompactCard--attribution">
+          <div class="FeedCard-Attribution-author-wrap">
+            <div class="FeedCard-Attribution-author-left">
+              {{avatar-image
+                imageUrl=null
+                userName=null
+                customSize=22
+                class="FeedCard-FakeCard-avatar"
+              }}
+            </div>
+            <div class="FeedCard-Attribution-author-right" style="width:150px">
+              <div class="FeedCard-Attribution-author">
+                <div class="FeedCard-FakeCard-author-name flashing-text" style="width:80%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="FeedCard-CompactCard--location">
+          <div class="FeedCard-Attribution-author-wrap">
+            <div class="FeedCard-Attribution-author-left">
+              {{avatar-image
+                imageUrl=null
+                userName=null
+                customSize=22
+                isSquare=true
+                class="FeedCard-FakeCard-avatar"
+              }}
+            </div>
+            <div class="FeedCard-Attribution-author-right" style="width:150px">
+              <div class="FeedCard-Attribution-author">
+                <div class="FeedCard-FakeCard-author-name flashing-text" style="width:50%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="FeedCard-Image">
-      <div>
+    <div class="FeedCard-CompactCard--right">
+      <div class="FeedCard-Image compact">
         <div class="FeedCard-Image-image FeedCard-FakeCard-background-image">
           <div class="FeedCard-FakeCard-background-image-top"></div>
           <div class="FeedCard-FakeCard-background-image-bottom"></div>
@@ -17,41 +54,139 @@
       </div>
     </div>
 
-    <div class="FeedCard-Attribution u-padding8">
-      <div class="FeedCard-Attribution-box-left">
-        <div class="FeedCard-Attribution-author-wrap u-paddingBottom8">
+  </div>
+{{else if isMidsize}}
+  <div class="FeedCard-MidsizeCard">
+    <div class="FeedCard-MidsizeCard--top">
+      <div class="FeedCard-MidsizeCard--top-left">
+        <div class="FeedCard-MidsizeCard--title">
+          <div class="FeedCard-FakeCard-title flashing-text" style="width:80%;"></div>
+        </div>
+        <div class="FeedCard-MidsizeCard--activity">
+          <div class="FeedCard-FakeCard-posted flashing-text" style="width:20%;"></div>
+        </div>
+      </div>
+      <div class="FeedCard-MidsizeCard--top-right">
+        <div class="FeedCard-Image midsize">
+          <div class="FeedCard-Image-image FeedCard-FakeCard-background-image">
+            <div class="FeedCard-FakeCard-background-image-top"></div>
+            <div class="FeedCard-FakeCard-background-image-bottom"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="FeedCard-MidsizeCard--bottom">
+      <div class="FeedCard-MidsizeCard--bottom-left">
+        <div class="FeedCard-Attribution-author-wrap">
           <div class="FeedCard-Attribution-author-left">
             {{avatar-image
               imageUrl=null
               userName=null
-              customSize=40
+              customSize=30
               class="FeedCard-FakeCard-avatar"
             }}
           </div>
-          <div class="FeedCard-Attribution-author-right" style="width:200px">
+          <div class="FeedCard-Attribution-author-right" style="width:150px">
             <div class="FeedCard-Attribution-author">
-              <div class="FeedCard-FakeCard-author-name flashing-text" style="width:60%;"></div>
-            </div>
-            <div class="FeedCard-Attribution-posted-time">
-              <div class="FeedCard-FakeCard-published-at flashing-text" style="width:45%"></div>
+              <div class="FeedCard-FakeCard-author-name flashing-text" style="width:80%;"></div>
+              <div class="FeedCard-FakeCard-author-name flashing-text" style="width:50%;"></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="FeedCard-Footer">
-      <div class="FeedCard-Footer-wrap">
-        <div class="FeedCard-Footer-left">
-          <div class="FeedCard-Source">
-            <div class="FeedCard-FakeCard-base-location flashing-text" style="width:145px;"></div>
+      <div class="FeedCard-MidsizeCard--bottom-right">
+        <div class="FeedCard-Attribution-author-wrap">
+          <div class="FeedCard-Attribution-author-left">
+            {{avatar-image
+              imageUrl=null
+              userName=null
+              isSquare=true
+              customSize=24
+              class="FeedCard-FakeCard-avatar"
+            }}
+          </div>
+          <div class="FeedCard-Attribution-author-right" style="width:150px">
+            <div class="FeedCard-Attribution-author">
+              <div class="FeedCard-FakeCard-author-name flashing-text" style="width:60%;"></div>
+            </div>
           </div>
         </div>
-        <div class="FeedCard-Footer-right" style="text-align:right;">
-          <div class="FeedCard-FakeCard-base-location flashing-text" style="width:145px;"></div>
+      </div>
+
+      <div class="FeedCard-MidsizeCard--bottom-menu"></div>
+    </div>
+  </div>
+
+{{else}}
+  <div class="FeedCard-NewsCard">
+    <div class="FeedCard--card-front">
+      <div class="FeedCard-Title">
+        <div class="FeedCard-Title-title">
+          <div class="FeedCard-FakeCard-title flashing-text" style="width:80%;"></div>
+        </div>
+      </div>
+
+      <div class="FeedCard-Image">
+        <div>
+          <div class="FeedCard-Image-image FeedCard-FakeCard-background-image">
+            <div class="FeedCard-FakeCard-background-image-top"></div>
+            <div class="FeedCard-FakeCard-background-image-bottom"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="FeedCard-Attribution u-padding8">
+        <div class="FeedCard-Attribution-box-left">
+          <div class="FeedCard-Attribution-author-wrap u-paddingBottom8">
+            <div class="FeedCard-Attribution-author-left">
+              {{avatar-image
+                imageUrl=null
+                userName=null
+                customSize=40
+                class="FeedCard-FakeCard-avatar"
+              }}
+            </div>
+            <div class="FeedCard-Attribution-author-right" style="width:200px">
+              <div class="FeedCard-Attribution-author">
+                <div class="FeedCard-FakeCard-author-name flashing-text" style="width:60%;"></div>
+              </div>
+              <div class="FeedCard-Attribution-posted-time">
+                <div class="FeedCard-FakeCard-published-at flashing-text" style="width:45%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="FeedCard-Footer">
+        <div class="FeedCard-Footer-wrap">
+          <div class="FeedCard-Footer-left">
+            <div class="FeedCard-Source no-override">
+              <div class="FeedCard-Attribution-author-wrap u-paddingBottom8">
+                <div class="FeedCard-Attribution-author-left">
+                  {{avatar-image
+                    imageUrl=null
+                    userName=null
+                    isSquare=true
+                    customSize=24
+                    class="FeedCard-FakeCard-avatar"
+                  }}
+                </div>
+                <div class="FeedCard-Attribution-author-right" style="width:200px">
+                  <div class="FeedCard-Attribution-author">
+                    <div class="FeedCard-FakeCard-author-name flashing-text" style="width:60%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="FeedCard-Footer-right" style="text-align:right;">
+            <div class="FeedCard-FakeCard-base-location flashing-text" style="width:145px;"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-</div>
+{{/if}}

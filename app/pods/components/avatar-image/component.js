@@ -9,12 +9,13 @@ import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
 
 export default Component.extend({
   classNames: 'AvatarImage',
-  classNameBindings: ['customSize:custom-sized', 'hasCaret:has-caret'],
+  classNameBindings: ['customSize:custom-sized', 'hasCaret:has-caret', 'isSquare:is-square'],
 
   imageUrl: null,
   userName: null,
   customSize: null,
   hasCaret: false,
+  isSquare: false,
 
   userInitials: computed('userName', function() {
     return computedInitials(get(this, 'userName'));
@@ -30,7 +31,8 @@ export default Component.extend({
     let style = '';
 
     if (customSize) {
-      let fontSize = Math.round(0.4 * customSize);
+      const factor = get(this, 'isSquare') ? 0.5 : 0.4;
+      let fontSize = Math.round(factor * customSize);
       style = `width:${customSize}px; height:${customSize}px; line-height:${customSize}px; font-size:${fontSize}px;`;
     }
 
@@ -47,7 +49,8 @@ export default Component.extend({
     let style = '';
 
     if (get(this, 'hasCaret')) {
-      let fontSize = Math.round(0.4 * customSize);
+      const factor = get(this, 'isSquare') ? 0.5 : 0.4;
+      let fontSize = Math.round(factor * customSize);
       style = `width:${fontSize}px; right:-${fontSize}px; line-height:${customSize}px; font-size:${fontSize}px`;
     }
 

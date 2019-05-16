@@ -1,0 +1,57 @@
+<div class="FeedCard-MidsizeCard--top">
+  <div class="FeedCard-MidsizeCard--top-left">
+    <div class="FeedCard-MidsizeCard--title" data-test-card-title>
+      {{#feed-card/conditional-link-to
+        model=model
+      }}
+        {{model.title}}
+      {{/feed-card/conditional-link-to}}
+    </div>
+    <div class="FeedCard-MidsizeCard--activity">
+      {{feed-card/activity
+        model=model
+        linkToDetailIsActive=true
+        hidePostedTime=hasStartDate
+        showAnyViewCount=showAnyViewCount
+      }}
+
+      {{feed-card/bookmark
+        contentId=model.contentId
+        eventInstanceId=model.eventInstanceId
+      }}
+    </div>
+
+  </div>
+  <div class="FeedCard-MidsizeCard--top-right">
+    {{feed-card/image
+      imageUrl=(optimized-image-url model.primaryImageUrl 120 120 true)
+      model=model
+      isMidsize=true
+      class="FeedCard-MidsizeCard--image"
+    }}
+  </div>
+
+</div>
+
+<div class="FeedCard-MidsizeCard--bottom">
+  <div class="FeedCard-MidsizeCard--bottom-left">
+    {{feed-card/attribution
+      model=model
+      customSize=30
+      authorOnly=true
+    }}
+  </div>
+
+  <div class="FeedCard-MidsizeCard--bottom-right">
+    {{feed-card/source
+      model=model
+    }}
+  </div>
+
+  <div class="FeedCard-MidsizeCard--bottom-menu">
+    {{feed-card/options-menu
+      model=model
+      isOnDetailView=false
+    }}
+  </div>
+</div>

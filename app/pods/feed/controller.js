@@ -5,7 +5,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { assign } from '@ember/polyfills';
 import { setProperties, set, computed, get } from '@ember/object';
-import { run, next } from '@ember/runloop';
+import { run, next, later } from '@ember/runloop';
 import { Promise } from 'rsvp';
 import moment from 'moment';
 
@@ -33,8 +33,6 @@ export default Controller.extend({
   startDate: '',
   endDate: '',
   enabledEventDays: ArrayProxy.create({ content: A([]) }),
-  condensedView: false,
-  hasClickedCondensedView: false,
 
   isSearchActive: notEmpty('query'),
 
@@ -57,6 +55,13 @@ export default Controller.extend({
       next(() => {
         this._transitionToFeed({}, true);
       });
+    });
+
+    get(this, 'session').on('cardSizeChanged', () => {
+      this.modelLoadHasStarted();
+      later(() => {
+        this.modelLoadHasEnded();
+      }, get(this, '_minimimLoadingDelay'))
     });
   },
 
@@ -129,13 +134,7 @@ export default Controller.extend({
     this._gtmTrackEvent('detail-page-viewed', `detail-page-viewed-${contentId}`);
   },
 
-  trackCondensedViewClicked() {
-    this._gtmTrackEvent('condensed-view-clicked');
-  },
-
   _transitionToFeed(overrides = {}, loadFeedFromElsewhere=false) {
-    set(this, 'condensedView', false);
-
     const defaults = {
       type: get(this, 'type'),
       query: get(this, 'query'),
@@ -215,17 +214,6 @@ export default Controller.extend({
       this._transitionToFeed({
         startDate: date
       });
-    },
-
-    toggleCondensedView() {
-      const hasClickedCondensedView = get(this, 'hasClickedCondensedView');
-
-      if (!hasClickedCondensedView) {
-        this.trackCondensedViewClicked();
-        set(this, 'hasClickedCondensedView', true);
-      }
-
-      this.toggleProperty('condensedView');
     }
   }
 });

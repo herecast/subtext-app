@@ -1,4 +1,4 @@
-<div class="Feed">
+<div class="Feed {{if isFastBoot "isFastBoot"}}">
   <div data-test-page="feed">
     {{#if type}}
       {{to-elsewhere
@@ -11,6 +11,8 @@
 
     {{#feed/feed-container}}
       {{outlet}}
+
+      {{feed/card-size-chooser}}
 
       {{#if (or isFastBoot showLoadingAnimation)}}
         {{feed/fake-feed}}
@@ -40,7 +42,6 @@
           {{feed/index-feed
             feedItems=model.feedItems
             isSearchActive=isSearchActive
-            condensedView=condensedView
             enableImpressionTracking=(eq currentRouteName "feed.index")
           }}
 

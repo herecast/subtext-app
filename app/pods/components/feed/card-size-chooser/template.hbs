@@ -1,0 +1,29 @@
+<div class="Feed-CardSizeChooser--wrap">
+  <div
+    class="Feed-CardSizeChooser--button fullsize {{if (eq activeCardSize "fullsize") "active"}}"
+    {{action "switchCardSize" "fullsize"}}
+    role="button"
+  >
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+  </div>
+  <div
+    class="Feed-CardSizeChooser--button midsize {{if (eq activeCardSize "midsize") "active"}}"
+    {{action "switchCardSize" "midsize"}}
+    role="button"
+  >
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+  </div>
+  <div
+    class="Feed-CardSizeChooser--button compact {{if (eq activeCardSize "compact") "active"}}"
+    {{action "switchCardSize" "compact"}}
+    role="button"
+  >
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+    <div class="Feed-CardSizeChooser--button-block"></div>
+  </div>
+</div>

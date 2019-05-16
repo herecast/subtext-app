@@ -1,4 +1,4 @@
-import { reads, oneWay, alias, or } from '@ember/object/computed';
+import { reads, oneWay, alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
@@ -16,6 +16,7 @@ export default Component.extend(reloadComments, {
   context: null,
   userLocation: service(),
   sourceTag: null,
+  showAnyViewCount: false,
 
   hideCompletely: false,
 
@@ -53,7 +54,7 @@ export default Component.extend(reloadComments, {
     }
   }),
 
-  hideComments: or('context.condensedView', 'context.hideComments'),
+  hideComments: alias('context.hideComments'),
 
   actions: {
     onContentClick() {

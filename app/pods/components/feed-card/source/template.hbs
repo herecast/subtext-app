@@ -1,3 +1,13 @@
-<div class="FeedCard-Source-base-location" data-test-card-location>
-  {{model.baseLocationName}}
+<div class="FeedCard-Source--wrap" data-test-card-location>
+  <div class="FeedCard-Source--left">
+    {{avatar-image
+      imageUrl=null
+      userName=model.baseLocation.state
+      customSize=customSize
+      isSquare=true
+    }}
+  </div>
+  <div class="FeedCard-Source--right">
+    {{model.baseLocation.city}}
+  </div>
 </div>

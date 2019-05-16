@@ -6,12 +6,15 @@ import { htmlSafe } from '@ember/template';
 import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
 
 export default Component.extend({
-  classNames: 'FeedCard-Image',
+  classNames: ['FeedCard-Image'],
+  classNameBindings: ['isMidsize:midsize', 'isCompact:compact'],
 
   model: null,
   linkUrl: null,
   eventInstanceId: null,
   linkToDetailIsActive: true,
+  isMidsize: false,
+  isCompact: false,
   onContentClick() {},
 
   hasImage: notEmpty('imageUrl'),

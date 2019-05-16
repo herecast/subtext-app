@@ -12,6 +12,7 @@ export default Component.extend(ScrollToComments, {
 
   hideActivity: false,
   hidePostedTime: false,
+  showAnyViewCount: false,
 
   minViewCount: 100,
   minCommentCount: 1,
@@ -20,7 +21,13 @@ export default Component.extend(ScrollToComments, {
   commentCount: oneWay('model.commentCount'),
   postedTime: oneWay('model.publishedAtRelative'),
 
-  showViewCount: computed('viewCount', 'minViewCount', function() {
+  showViewCount: computed('viewCount', 'minViewCount', 'showAnyViewCount', function() {
+    const showAnyViewCount = get(this, 'showAnyViewCount');
+
+    if (showAnyViewCount) {
+      return true;
+    }
+
     const viewCount = parseInt(get(this, 'viewCount')) || null;
 
     return isPresent(viewCount) && viewCount >= get(this, 'minViewCount');

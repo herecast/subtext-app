@@ -1,5 +1,8 @@
 <div id="FakeFeed">
   {{#each fakeCards}}
-    {{feed-card/fake-card}}
+    {{feed-card/fake-card
+      isMidsize=showMidsizeCards
+      isCompact=showCompactCards
+    }}
   {{/each}}
 </div>

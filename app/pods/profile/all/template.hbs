@@ -121,11 +121,12 @@
           class="Feed-ProfileFeed-search-input"
         }}
         <div class="Feed-ProfileFeed-controls">
-          {{fa-icon "th-list" class=(if (not condensedView) "active") click=(action "toggleCondensedView") data-test-button="normal"}}
-          {{fa-icon "list" class=(if condensedView "active") click=(action "toggleCondensedView") data-test-button="condensed"}}
+          {{feed/card-size-chooser}}
         </div>
       {{/x-card}}
 
+    {{else}}
+        {{feed/card-size-chooser}}
     {{/if}}
 
     {{#if hasResults}}
@@ -135,7 +136,7 @@
         organization=(readonly organization)
         allowManageOnTile=(and isAdmin showAdminCards)
         displayAsPublic=(not showAdminCards)
-        condensedView=condensedView
+        showAnyViewCount=(readonly showAdminCards)
       }}
 
       {{#infinity-loader

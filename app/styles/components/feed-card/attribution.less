@@ -3,6 +3,14 @@
   .grid-template-columns(1fr 1fr);
   width: 100%;
 
+  .AvatarImage {
+    margin-right: 4px;
+  }
+
+  &.author-only {
+    .grid-template-columns(1fr);
+  }
+
   &-box {
     &-left {
       .grid-justify-self(start);
@@ -39,11 +47,12 @@
 
   &-author-wrap {
     .display-grid();
-    .grid-template-columns(45px 1fr);
+    .grid-template-columns(max-content 1fr);
     .grid-column(1);
   }
   &-author-left {
     .grid-column(1);
+    .grid-align-self(center);
     text-align: left;
   }
 

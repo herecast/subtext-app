@@ -1,4 +1,3 @@
-import { next } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import Evented from '@ember/object/evented';
@@ -45,23 +44,6 @@ export default Service.extend(Evented, {
     }
   },
 
-  _setupTooltip() {
-    get(this, 'currentUser').then(currentUser => {
-      if (isPresent(get(this, 'thirdBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
-        set(this, 'thirdBookmarkComponent.showTooltip', true);
-      }
-    });
-  },
-
-  _destroyTooltip() {
-    get(this, 'currentUser').then(currentUser => {
-      if (isPresent(get(this, 'thirdBookmarkComponent')) && !get(currentUser, 'hasHadBookmarks')) {
-        set(this, 'thirdBookmarkComponent.showTooltip', false);
-        this._updateCurrentUser();
-      }
-    });
-  },
-
   _updateCurrentUser() {
     get(this, 'currentUser').then(currentUser => {
       set(currentUser, 'hasHadBookmarks', true);
@@ -77,11 +59,6 @@ export default Service.extend(Evented, {
   register(bookmarkComponent, method) {
     if (isBlank(get(this, 'thirdBookmarkComponent')) && parseInt(get(this, 'bookmarkCount')) === 2) {
       set(this, 'thirdBookmarkComponent', bookmarkComponent);
-      if (get(this, 'session.isAuthenticated')) {
-        next(() => {
-          this._setupTooltip();
-        });
-      }
     }
 
     this._increaseBookmarkCount();
@@ -106,10 +83,6 @@ export default Service.extend(Evented, {
     this.off('bookmarksUpdated', bookmarkComponent, method);
   },
 
-  tooltipClosed() {
-    this._destroyTooltip();
-  },
-
   checkBookmark(contentId) {
     return new Promise((resolve) => {
       const bookmarks = get(this, 'bookmarks') || [];
@@ -129,10 +102,6 @@ export default Service.extend(Evented, {
   },
 
   makeNewBookmark(contentId, eventInstanceId=null) {
-    if (get(this, 'thirdBookmarkComponent.showTooltip')) {
-      this._destroyTooltip();
-    }
-
     return get(this, 'currentUser').then(currentUser => {
       const newBookmark =  get(this, 'store').createRecord('bookmark', {
         contentId: contentId,

@@ -11,7 +11,6 @@ export default Controller.extend({
   query: '',
   page: 1,
 
-  condensedView: false,
   isLoading: false,
   chosenOrganization: null,
 
@@ -56,10 +55,6 @@ export default Controller.extend({
   hasOrganizations: gt('organizations.length', 0),
 
   actions: {
-    toggleCondensedView() {
-      this.toggleProperty('condensedView');
-    },
-
     updateQuery(query) {
       this.setProperties({
         query: query,

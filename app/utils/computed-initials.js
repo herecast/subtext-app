@@ -1,7 +1,7 @@
 import { isPresent } from '@ember/utils';
 
 export default function computedInitials(str) {
-  if (isPresent(str)){
+  if (isPresent(str) && str.length > 2){
     const stopWords = ['a', 'an', 'at', 'and', 'by', 'etc', 'it', 'or', 'of', 'to', 'the'];
     const regex = new RegExp(/\b\w/g);
 
@@ -24,6 +24,9 @@ export default function computedInitials(str) {
       initials = name.match(regex) || [];
     }
 
+
     return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+  } else {
+    return str;
   }
 }

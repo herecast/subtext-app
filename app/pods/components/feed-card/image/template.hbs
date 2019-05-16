@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-  {{else if hasMultipleImages}}
+  {{else if (and hasMultipleImages (not isCompact))}}
     <div class="FeedCard-Image-multiple-wrap" data-test-card-multiple-images>
       <div class="FeedCard-Image-multiple-stack">
         <div class="FeedCard-Image-multiple-icon other"></div>

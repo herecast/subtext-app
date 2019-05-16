@@ -41,18 +41,19 @@
   </div>
 {{/if}}
 
-<div class="FeedCard-Attribution-box-right">
-  {{feed-card/activity
-    model=model
-    hidePostedTime=hidePostedTime
-    hideActivity=hideActivity
-    linkToDetailIsActive=linkToDetailIsActive
-  }}
+{{#unless authorOnly}}
+  <div class="FeedCard-Attribution-box-right">
+    {{feed-card/activity
+      model=model
+      hidePostedTime=hidePostedTime
+      hideActivity=hideActivity
+      showAnyViewCount=showAnyViewCount
+      linkToDetailIsActive=linkToDetailIsActive
+    }}
 
-  {{#unless hideBookmark}}
     {{feed-card/bookmark
       contentId=model.contentId
       eventInstanceId=model.eventInstanceId
     }}
-  {{/unless}}
-</div>
+  </div>
+{{/unless}}

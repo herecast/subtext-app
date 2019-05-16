@@ -15,10 +15,6 @@ export default Component.extend(ScrollToComments, {
   isOnDetailView: false,
 
   hasOpenedMenu: false,
-  hasViewedContent: false,
-  hasViewedLocation: false,
-  hasViewedProfile: false,
-  hasClickedComment: false,
   hasClickedHideOrg: false,
   hasClickedHideLocation: false,
   hasClickedReportAbuse: false,
@@ -49,30 +45,6 @@ export default Component.extend(ScrollToComments, {
 
     onClickOpenMenu() {
       this._trackEvent('UserClicksOptionsMenu', 'hasOpenedMenu');
-    },
-
-    onClickViewContent() {
-      this._trackEvent('UserClicksToDetail', 'hasViewedContent');
-    },
-
-    onClickViewLocation() {
-      this._trackEvent('UserClicksToViewLocation', 'hasViewedLocation');
-
-      const location = get(this, 'model.location');
-
-      get(this, 'userLocationService').goToLocationFeed( get(location, 'id') );
-    },
-
-    onClickViewProfile() {
-      this._trackEvent('UserClicksToProfile', 'hasViewedProfile');
-    },
-
-    onClickToComment() {
-      this._trackEvent('UserClicksToComment', 'hasClickedComment');
-
-      if (get(this, 'isOnDetailView')) {
-        this.scrollToComments();
-      }
     },
 
     onClickHideOrg() {

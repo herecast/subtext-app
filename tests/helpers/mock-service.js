@@ -5,6 +5,12 @@ let stubService = (name, hash = {}) => {
   let stubbedService = Service.extend(hash);
 
   let { owner } = getContext();
+  let existingService = owner.lookup(`service:${name}`) || false;
+
+  if (existingService) {
+    owner.unregister(`service:${name}`);
+  }
+  
   return owner.register(`service:${name}`, stubbedService);
 };
 

@@ -21,12 +21,7 @@
     class="Mystuff-Contents-search-input"
   }}
   <div class="Mystuff-Contents-controls">
-    <span data-test-button="normal" {{action "toggleCondensedView"}} role="button">
-      {{fa-icon "th-list" class=(if (not condensedView) "active")}}
-    </span>
-    <span data-test-button="condensed" {{action "toggleCondensedView"}} role="button">
-      {{fa-icon "list" class=(if condensedView "active")}}
-    </span>
+    {{feed/card-size-chooser}}
   </div>
 {{/x-card}}
 
@@ -36,7 +31,6 @@
     feedItems=model
     canManage=true
     canEditIfAllowed=true
-    condensedView=condensedView
   }}
 
   {{#infinity-loader

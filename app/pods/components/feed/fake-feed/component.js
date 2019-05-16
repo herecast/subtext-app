@@ -1,14 +1,33 @@
+import { get, set } from '@ember/object';
+import { readOnly, equal } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import { set } from '@ember/object';
 
 export default Component.extend({
+  session: service(),
+
+  activeCardSize: readOnly('session.cardSize'),
+  showMidsizeCards: equal('activeCardSize', 'midsize'),
+  showCompactCards: equal('activeCardSize', 'compact'),
 
   init() {
     this._super(...arguments);
 
-    let fakeCards = [];
+    const activeCardSize = get(this, 'activeCardSize');
 
-    for (var i=0; i<=5; i++) {
+    let fakeCards = [];
+    let numberOfCards = 5;
+
+    if (activeCardSize === 'midsize') {
+      numberOfCards = 10;
+    }
+
+    if (activeCardSize === 'compact') {
+      numberOfCards = 20;
+    }
+
+
+    for (var i=0; i<=numberOfCards; i++) {
       fakeCards.push({});
     }
 

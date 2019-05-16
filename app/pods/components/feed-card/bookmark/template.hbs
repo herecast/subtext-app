@@ -6,15 +6,4 @@
       {{fa-icon "heart-o" class="FeedCard-Bookmark-button-icon"}}
     {{/if}}
   </div>
-  {{#if showTooltip}}
-    <div class="FeedCard-Bookmark-tooltip" data-test-bookmark-tooltip>
-      <div class="FeedCard-Bookmark-tooltip-left">
-        Press the heart and let the author know you like their stuff; and you can find the content later in MyStuff.
-      </div>
-      <div class="FeedCard-Bookmark-tooltip-right" {{action "closeTooltip"}} role="button" data-test-button="close-tooltip">
-        {{fa-icon "times" class="FeedCard-Bookmark-close"}}
-      </div>
-
-    </div>
-  {{/if}}
 </div>

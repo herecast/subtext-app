@@ -23,6 +23,121 @@
     }
   }
 
+  &.midsize {
+    .FeedCard-Image {
+      &-image {
+        height: 120px;
+        width: 120px;
+      }
+
+      &-multiple {
+        &-wrap {
+          width: 40px;
+          height: 40px;
+          top: 4px;
+          right: 6px;
+        }
+
+        &-dates-icon {
+          border-right: solid 2px @event-brand;
+          border-bottom: solid 2px @event-brand;
+          border-radius: 3px;
+          height: 40px;
+          width: 40px;
+          top: 3px;
+          left: 3px;
+        }
+
+        &-stack {
+          &-date-wrap {
+            .grid-align-self(center);
+            padding: 2px;
+          }
+          &-month {
+            font-size: 14px;
+            line-height: 14px;
+          }
+          &-day {
+            font-size: 22px;
+            line-height: 22px;
+          }
+        }
+
+        &-icon {
+          color: #fff;
+          font-size: 22px;
+          &.other {
+            margin-bottom: 0;
+            margin-right: 0;
+            width: 25px;
+            height: 21px;
+            border-right: solid 1px #fff;
+            border-bottom: solid 1px #fff;
+            border-radius: 3px;
+          }
+          &.icon {
+            margin-left: -3px;
+            margin-top: -3px
+          }
+        }
+      }
+    }
+  }
+
+  &.compact {
+    .FeedCard-Image {
+      &-image {
+        height: 66px;
+        width: 66px;
+      }
+
+      &-multiple {
+        &-wrap {
+          height: 20px;
+          width: auto;
+          text-align: center;
+          top: 4px;
+          left: -12px;
+          right: auto;
+          padding: 2px 4px;
+          border-radius: 1px;
+        }
+
+        &-dates-icon {
+          display: none;
+        }
+
+        &-stack {
+          &-date-wrap {
+            .grid-align-self(center);
+            padding: 2px;
+            line-height: 14px;
+          }
+          &-month {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 14px;
+          }
+          &-day {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 14px;
+          }
+        }
+
+        &-icon {
+          display: none;
+          &.other {
+            display: none;
+          }
+          &.icon {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
   &-multiple {
     &-wrap {
       width: 75px;

@@ -19,6 +19,7 @@
 .DS_Store
 .vagrant
 .env
+jsconfig.json
 
 # ember-try
 /.node_modules.ember-try/

@@ -131,7 +131,7 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
     assert.ok(find('[data-test-image-thumbnail]'), 'it should show the market thumbnail images');
     assert.equal($(find('[data-test-detail-meta-cost]')).text(), content.cost, 'it should show the correct market cost');
-    assert.equal($(find('[data-test-card-location]')).text().trim(), [location.city, location.state].join(', '), 'it should show the correct market location');
+    assert.equal($(find('[data-test-card-location]')).text().trim(), location.city, 'it should show the correct market location');
     assert.equal($(find('[data-test-market-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-market-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');

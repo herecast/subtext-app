@@ -22,12 +22,17 @@
     }
   }
 
+  choice { display: block; }
+  choice:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
+
   &--dropdown {
     padding: 8px;
     width: 250px;
 
-    &-option:not(last-of-type) {
-      margin-bottom: 16px;
+    &-option {
+
     }
 
     &-line-break {

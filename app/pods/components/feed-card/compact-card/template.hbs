@@ -1,0 +1,36 @@
+<div class="FeedCard-CompactCard--left">
+  <div class="FeedCard-CompactCard--left-top FeedCard-CompactCard--title" data-test-card-title>
+    {{#feed-card/conditional-link-to
+      model=model
+    }}
+      {{model.title}}
+    {{/feed-card/conditional-link-to}}
+  </div>
+  <div class="FeedCard-CompactCard--left-bottom">
+
+    <div class="FeedCard-CompactCard--attribution">
+      {{feed-card/attribution
+        model=model
+        customSize=22
+        authorOnly=true
+        truncatedAt=28
+      }}
+    </div>
+    <div class="FeedCard-CompactCard--location">
+      {{feed-card/source
+        model=model
+        customSize=20
+      }}
+    </div>
+  </div>
+
+</div>
+
+<div class="FeedCard-CompactCard--right">
+  {{feed-card/image
+    imageUrl=(optimized-image-url model.primaryImageUrl 66 66 true)
+    model=model
+    isCompact=true
+    class="FeedCard-CompactCard--image"
+  }}
+</div>

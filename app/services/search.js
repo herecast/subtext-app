@@ -26,6 +26,7 @@ export default Service.extend({
     const queryParams = {
       query,
       type: get(this, 'activeFilter'),
+      verified: get(this,'viewingVerified'),
       startDate: '',
       endDate: ''
     };

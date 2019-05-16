@@ -8,5 +8,5 @@ export default Component.extend({
   allowManageOnTile: false,
   canEditIfAllowed: true,
   displayAsPublic: false,
-  condensedView: false
+  showAnyViewCount: false
 });

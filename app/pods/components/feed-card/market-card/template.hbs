@@ -3,25 +3,21 @@
   model=model
   sold=model.sold
   showToggleSold=(and (readonly context.canManage) isNotTalk)
-  condensedView=(readonly context.condensedView)
   onContentClick=(action "onContentClick")
 }}
 
-{{#unless context.condensedView}}
-  {{feed-card/image
-    imageUrl=activeImageUrl
-    caption=model.primaryImageCaption
-    model=model
-    onContentClick=(action "onContentClick")
-  }}
-{{/unless}}
+{{feed-card/image
+  imageUrl=activeImageUrl
+  caption=model.primaryImageCaption
+  model=model
+  onContentClick=(action "onContentClick")
+}}
 
-{{#unless context.condensedView}}
-  {{feed-card/attribution
-    model=model
-    classNames="u-padding8"
-  }}
-{{/unless}}
+{{feed-card/attribution
+  model=model
+  showAnyViewCount=showAnyViewCount
+  classNames="u-padding8"
+}}
 
 {{feed-card/footer
   model=model

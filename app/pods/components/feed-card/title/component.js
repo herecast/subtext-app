@@ -10,7 +10,6 @@ export default Component.extend({
   classNameBindings: [
     'sold:sold-tag-active',
     'showToggleSold:sold-tag-active',
-    'condensedView:condensed-view',
     'isOnDetailView:on-detail',
     'isTruncated:is-truncated'],
 
@@ -21,7 +20,6 @@ export default Component.extend({
   title: null,
   sold: false,
   showToggleSold: false,
-  condensedView: false,
   isLoggedIn: false,
   linkToDetailIsActive: true,
   isOnDetailView: false,

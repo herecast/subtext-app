@@ -24,7 +24,6 @@ export default Controller.extend({
 
   isFirstTransition: true,
   initialLoad: true,
-  condensedView: false,
 
   queryParams: ['page', 'perPage', 'query', 'show', 'location', 'resetController'],
   page: 1,
@@ -198,7 +197,6 @@ export default Controller.extend({
       set(this, 'show', null);
 
       if (!displayAsAdminIfAllowed) {
-        set(this, 'condensedView', false);
         set(this, 'feedItemsView', 'default');
       }
 
@@ -235,10 +233,6 @@ export default Controller.extend({
 
     onChooseMyStuffOnly() {
       this.transitionToRoute('mystuff');
-    },
-
-    toggleCondensedView() {
-      this.toggleProperty('condensedView');
     }
   }
 });

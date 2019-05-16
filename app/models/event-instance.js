@@ -92,15 +92,11 @@ export default Model.extend(HasImages, HasVenue, {
     }
   }),
 
-  baseLocationName: computed('venueCity', 'venueState', function() {
-    const city = get(this, 'venueCity');
-    const state = get(this, 'venueState');
+  baseLocation: computed('venueCity', 'venueState', function() {
+    const city = get(this, 'venueCity') || null;
+    const state = get(this, 'venueState') || null;
 
-    if (isPresent(city) && isPresent(state)) {
-      return `${city}, ${state}`;
-    } else {
-      return null;
-    }
+    return {city, state};
   }),
 
   startsAtHour: computed('startsAt', function() {

@@ -12,5 +12,5 @@ export default Component.extend({
   maxDisplay: 5,
 
   openCalendar: function(){},
-  buttonDisplayDate: format(momentComputed('day', 'dddd, MMMM D'), 'MMMM D'),
+  buttonDisplayDate: format(momentComputed('day', 'dddd, MMMM D'), 'MMMM D')
 });

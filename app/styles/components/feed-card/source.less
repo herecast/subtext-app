@@ -1,8 +1,29 @@
 .FeedCard-Source {
-  &-base-location {
+  &--wrap {
     cursor: pointer;
-    text-transform: uppercase;
     color: @gray-dark;
     display: inline-block;
+    .display-inline-grid();
+    .grid-template-columns(max-content 1fr);
+  }
+
+  &--left,
+  &--right {
+    .grid-align-self(center);
+    .grid-justify-self(start);
+  }
+
+  &--right {
+    line-height: 1.0;
+    text-transform: capitalize;
+  }
+
+  &:not(.no-override) {
+    .AvatarImage {
+      margin-right: 4px;
+      &--default {
+        background-color: @button-primary !important;
+      }
+    }
   }
 }

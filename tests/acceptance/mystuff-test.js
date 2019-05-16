@@ -43,41 +43,6 @@ module('Acceptance | mystuff', function(hooks) {
   });
 
 
-  test('Visiting /mystuff - signed in, with content, click on consolidated view and it works as expected', async function(assert) {
-    authenticateUser(this.server);
-
-    const contentsForMystuff = this.server.createList('content', 5, {
-      authorId: 1
-    });
-
-    let contentsIds = contentsForMystuff.map(content => content.id);
-
-    const contentsForGeneral = this.server.createList('content', 5, {
-      authorId: 2
-    });
-
-    let additionalIds = contentsForGeneral.map(content => content.id);
-
-    const allIds = contentsIds.concat(additionalIds);
-
-    allIds.forEach((id) => {
-      this.server.create('feedItem', {
-        modelType: 'content',
-        contentId: id
-      });
-    });
-
-    await visit('/mystuff');
-
-    assert.equal(findAll('[data-test-feed-card]').length, 5, "Only author specific feed cards show in mystuff");
-
-    assert.ok(find('[data-test-button="condensed"]'), "Condensed button shows in mystuff");
-
-    await click('[data-test-button="condensed"]');
-
-    assert.equal(findAll('[data-test-condensed]').length, 5, "After condensed chosen, all feed cards show in condensed view");
-  });
-
   test('Visiting /mystuff - signed in, with organization related content, organization filter works as expected for orgs', async function(assert) {
     const done = assert.async(2);
 

@@ -19,7 +19,6 @@ export default Component.extend(CardMetrics, {
   classNameBindings: ['isEditing:show-back', 'showOverlay:show-overlay', 'promotionMenuOpen:promotion-menu-open'],
   'data-test-feed-card': oneWay('model.contentType'),
   'data-test-content': oneWay('model.contentId'),
-  'data-test-condensed': oneWay('condensedView'),
   'data-test-entered-viewport': oneWay('_didEnterViewPort'),
 
   model: null,
@@ -29,7 +28,7 @@ export default Component.extend(CardMetrics, {
   displayAsPublic: false,
   hideComments: false,
   promotionMenuOpen: false,
-  condensedView: false,
+  showAnyViewCount: false,
 
   hideCompletely: false,
 
@@ -40,12 +39,16 @@ export default Component.extend(CardMetrics, {
   isLoggedIn: alias('session.isAuthenticated'),
   isDraft: readOnly('model.isDraft'),
   hasOrganization: notEmpty('organization'),
+  cardSize: readOnly('session.cardSize'),
 
   contentType: reads('model.contentType'),
-  componentType: computed('contentType', function() {
+  componentType: computed('contentType', 'cardSize', function() {
+    const cardSize = get(this, 'cardSize');//fullsize, midsize, compact
     let contentType = get(this, 'contentType');
 
-    if (isBlank(contentType) || contentType === 'talk') {
+    if (cardSize === 'compact' || cardSize === 'midsize') {
+      contentType = cardSize;
+    } else if (isBlank(contentType) || contentType === 'talk') {
       contentType = 'market';
     }
 

@@ -57,31 +57,6 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
   });
 
-  test('testing talk card - with image', async function(assert) {
-    //talk removed, but some legacy may remain - shifted to market until no contentTypes left
-    const imageUrl = 'https://via.placeholder.com/400x200.png?text=400x240';
-    const content = this.server.create('content', {
-      contentOrigin: 'ugc',
-      contentType: 'talk',
-      title: 'hello world',
-      images: [{
-        id: 1,
-        image_url: imageUrl,
-        primary: 1
-      }]
-    });
-
-    this.server.create('feedItem', {
-      modelType: 'content',
-      contentId: content.id
-    });
-
-    await visit('/');
-
-    assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
-  });
 
   test('testing event card, with single date', async function(assert) {
     const content = this.server.create('content', {
@@ -122,7 +97,6 @@ module('Acceptance | cards', function(hooks) {
     await visit('/');
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal($(find('[data-test-card-price]')).text().trim(), content.cost, 'it should show the correct event price');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${content.imageUrl}")`, 'it should show the card image');
     assert.ok(find('[data-test-card-start-date]'), 'it should show the single date indicator');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
@@ -175,7 +149,6 @@ module('Acceptance | cards', function(hooks) {
     await visit('/');
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal($(find('[data-test-card-price]')).text().trim(), content.cost, 'it should show the correct event price');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${content.imageUrl}")`, 'it should show the card image');
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.ok(find('[data-test-card-start-date-multiple]'), 'it should show the multiple dates indicator');

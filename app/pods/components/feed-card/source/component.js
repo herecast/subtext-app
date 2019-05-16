@@ -11,6 +11,8 @@ export default Component.extend({
 
   model: null,
 
+  customSize: 24,
+
   click() {
     const model = get(this, 'model');
     const location = get(model, 'location');

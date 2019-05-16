@@ -24,23 +24,12 @@
   {{/feed-card/conditional-link-to}}
 </div>
 
-{{#if condensedView}}
-  <div class="FeedCard-Title-views-and-comments">
-    <div class="FeedCard-Title-views" title="Content Views">
-      {{fa-icon "eye"}}{{viewCount}}
-    </div>
-    <div class="FeedCard-Title-comments" title="Content Comments">
-      {{fa-icon "comment-o"}}{{commentCount}}
-    </div>
-  </div>
-{{else}}
-  <div class="FeedCard-Title--menu">
-    {{feed-card/options-menu
-      model=model
-      isOnDetailView=isOnDetailView
-    }}
-  </div>
-{{/if}}
+<div class="FeedCard-Title--menu">
+  {{feed-card/options-menu
+    model=model
+    isOnDetailView=isOnDetailView
+  }}
+</div>
 
 <div class="FeedCard-Title-title title-clone">
   {{title}}

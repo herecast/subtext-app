@@ -11,16 +11,27 @@ export default SessionService.extend(Evented, {
   userService : service('user'),
   intercom    : service('intercom'),
   fastboot    : service(),
+  cookies     : service(),
   store       : service(),
   userLocationService: service('user-location'),
 
   startedOnIndexRoute: false,
+  _defaultCardSize: 'midsize',
+  cardSize: null,
+  _currentUserHasBeenLoaded: false,
 
   init() {
     this._super(...arguments);
     setProperties(this, {
-      sequenceTrackers: {}
+      sequenceTrackers: {},
+      cardSizeOptions: [
+        'fullsize',
+        'midsize',
+        'compact'
+      ]
     });
+
+    this._setInitialCardSize();
   },
 
   // Used in templates all over app.
@@ -38,7 +49,16 @@ export default SessionService.extend(Evented, {
     if (get(this, 'isAuthenticated') && get(this, 'currentUser.name')) {
       get(this, 'currentUser')
       .then((currentUser) => {
-          this.get('intercom').update(currentUser);
+        this.get('intercom').update(currentUser);
+      });
+    }
+  }),
+
+  cardSizeLoader: observer('isAuthenticated', 'currentUser.name', function() {
+    if (get(this, 'isAuthenticated') && get(this, 'currentUser.name')) {
+      get(this, 'currentUser')
+      .then(() => {
+        this._setInitialCardSize();
       });
     }
   }),
@@ -78,6 +98,44 @@ export default SessionService.extend(Evented, {
     set(this, `sequenceTrackers.${sequenceName}`, currentTrackerIndex);
 
     return Promise.resolve(currentTrackerIndex);
-  }
+  },
 
+  _setInitialCardSize() {
+    if (get(this, 'isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
+      return get(this, 'currentUser')
+      .then(currentUser => {
+        const feedCardSize = get(currentUser, 'feedCardSize') || get(this, '_defaultCardSize');
+        set(this, 'cardSize', feedCardSize);
+      });
+    } else {
+      const cardSize = get(this, 'cookies').read('feedCardSize') || get(this, '_defaultCardSize');
+      set(this, 'cardSize', cardSize);
+    }
+  },
+
+  _saveCardSize() {
+    const cardSize = get(this, 'cardSize');
+
+    if (get(this, 'isAuthenticated') && get(this, 'currentUser.name')) {
+      get(this, 'currentUser').then(currentUser => {
+        set(currentUser, 'feedCardSize', cardSize);
+        get(this, 'cookies').write('feedCardSize', cardSize);
+        currentUser.save();
+      });
+    } else {
+      get(this, 'cookies').write('feedCardSize', cardSize);
+    }
+  },
+
+  switchCardSize(cardSize) {
+    const cardSizeOptions = get(this, 'cardSizeOptions');
+
+    if (cardSizeOptions.includes(cardSize)) {
+      set(this, 'cardSize', cardSize);
+
+      this.trigger('cardSizeChanged');
+
+      this._saveCardSize();
+    }
+  }
 });

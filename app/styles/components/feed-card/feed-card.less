@@ -10,7 +10,9 @@
   &-NewsCard,
   &-MarketCard,
   &-EventCard,
-  &-OrganizationCard {
+  &-OrganizationCard,
+  &-CompactCard,
+  &-MidsizeCard {
     .box-shadow(0 1px 1px 0 rgba(0, 0, 0, .18));
     margin: 6px 0;
     max-height: 1000px;
@@ -62,6 +64,142 @@
 
     &--floating {
       margin: -45px 0 5px 0;
+    }
+  }
+
+
+  &-MidsizeCard {
+    &--top {
+      .display-grid();
+      .grid-template-columns(1fr 124px);
+
+      &-left {
+        position: relative;
+        margin: 8px;
+      }
+      &-right {
+        .grid-justify-self(end);
+      }
+    }
+    &--bottom {
+      .display-grid();
+      .grid-template-columns(1fr 1fr 20px);
+      padding: 8px;
+      background: #f5f5f5;
+      &-left,
+      &-right,
+      &-menu {
+        .grid-align-self(center);
+      }
+    }
+    &--title {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.1;
+    }
+    &--image {
+      max-width: 120px;
+      max-height: 120px;
+      position: relative;
+    }
+    &--activity {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .FeedCard-Bookmark {
+      float: right;
+    }
+
+    &--date {
+      background: @event-brand;
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      padding: 4px;
+      border-radius: 3px;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.0;
+      width: 45px;
+      height: 45px;
+
+      &-month {
+        text-transform: uppercase;
+        font-size: 14px;
+      }
+
+      &-day {
+        font-size: 22px;
+      }
+
+    }
+
+    @media (max-width: 400px) {
+      .FeedCard-Attribution-author,
+      .FeedCard-Source--right {
+        font-size: 12px;
+      }
+    }
+
+  }
+
+
+  &-CompactCard {
+    .display-grid();
+    .grid-template-columns(1fr 64px);
+    &--left {
+      margin: 4px;
+      .grid-column(1);
+      .display-grid();
+
+      &-top {
+        .grid-align-self(start);
+        height: 32px;
+        overflow: hidden;
+        border-bottom: solid 1px #efefef;
+      }
+
+      &-bottom {
+        .grid-align-self(end);
+        .display-grid();
+        height: 24px;
+        margin-top: 2px;
+        .grid-template-columns(1fr 1fr);
+      }
+    }
+    &--right {
+      .grid-column(2);
+      .grid-justify-self(end);
+    }
+    &--title {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1.1;
+      padding-right: 8px;
+    }
+
+    &--attribution {
+      display: inline-block;
+      .FeedCard-Attribution-author {
+        font-size: 12px;
+      }
+    }
+
+    &--location {
+      display: inline-block;
+      font-size: 12px;
+    }
+
+    &--comments {
+      float: right;
+      font-size: 14px;
+      color: @activity-indicator-color;
+    }
+
+    &--image {
+
     }
   }
 
