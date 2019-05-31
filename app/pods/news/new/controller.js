@@ -1,8 +1,7 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  queryParams: ['preview', 'organization_id'],
-  preview: false,
+  queryParams: ['organization_id'],
   organization_id: null,
 
   hideEditor: false,

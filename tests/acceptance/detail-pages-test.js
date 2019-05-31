@@ -34,12 +34,17 @@ module('Acceptance | detail pages', function(hooks) {
   });
 
   test('testing talk detail page', async function(assert) {
-    //talk removed, but some legacy may remain - shifted to market until no contentTypes left
+    const splitContent = {
+      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs.",
+      tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    };
+
     const content = this.server.create('content', {
       contentType: 'talk',
-      title: 'hello world',
+      title: 'hello worldx',
       imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      splitContent: splitContent,
+      content: splitContent.head + ' ' + splitContent.tail
     });
 
     this.server.create('feedItem', {

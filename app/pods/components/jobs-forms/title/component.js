@@ -1,5 +1,6 @@
 import { get, set } from '@ember/object';
 import { alias, empty } from '@ember/object/computed';
+import { next } from '@ember/runloop';
 import $ from 'jquery';
 import { htmlSafe } from '@ember/string';
 import JobsForms from 'subtext-ui/mixins/components/jobs-forms';
@@ -33,16 +34,18 @@ export default Component.extend(JobsForms, {
 
   actions: {
     titleChanging(textareaEvent) {
-      if (this._notEnterKeys(textareaEvent)) {
-        const title = get(this, 'title');
-        let sanitizedTitle = this._sanitizeOutHtml(title);
-        sanitizedTitle = this._truncateValue(sanitizedTitle, get(this, 'maxlength'));
+      next(() => {
+        if (this._notEnterKeys(textareaEvent)) {
+          const title = get(this, 'title');
+          let sanitizedTitle = this._sanitizeOutHtml(title);
+          sanitizedTitle = this._truncateValue(sanitizedTitle, get(this, 'maxlength'));
 
-        set(this, 'title', sanitizedTitle);
-        this._setTitleStyle();
+          set(this, 'title', sanitizedTitle);
+          this._setTitleStyle();
 
-        this.onChange(sanitizedTitle);
-      }
+          this.onChange(sanitizedTitle);
+        }
+      });
     }
   }
 });

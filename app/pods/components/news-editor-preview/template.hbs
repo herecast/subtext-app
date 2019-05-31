@@ -1,6 +1,8 @@
 {{#modal-wrapper
   close=(action "closePreview")
   modal-class="Modal--HeadlessWrapper Modal--no-padding"
+  willAnimateAway=true
+  isAnimated=false
   showHeader=false
 }}
   <div class="NewsEditor-previewHeader">
@@ -16,6 +18,7 @@
   {{news-detail
     model=news
     isPreview=true
+    enableStickyHeader=true
     hasCaptionOrCredit=hasCaptionOrCredit
   }}
 {{/modal-wrapper}}

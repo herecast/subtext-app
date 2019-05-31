@@ -6,6 +6,7 @@ export default Component.extend({
 
   model: null,
   editButtonIsActive:false,
+  manageMessage: 'Manage',
 
   openPromotionMenu(){},
 

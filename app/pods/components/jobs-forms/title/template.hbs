@@ -7,7 +7,7 @@
     class="JobsForms-form-input-title error-box"
     placeholder="Listing Title"
     value=model.title
-    keyDown=(action "titleChanging")
+    keyUp=(action "titleChanging")
     maxlength=maxlength
     style=titleStyle
     data-test-jobs-field="title"

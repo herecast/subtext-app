@@ -23,7 +23,7 @@ export default Route.extend(RequireCanEdit, {
       const model = get(this, 'controller.news');
 
       if (model.get('hasDirtyAttributes')) {
-        if(confirm('Your post has unsaved changes. Do you want to discard them?')) {
+        if (confirm('Your post has unsaved changes. Do you want to discard them?')) {
           model.rollbackAttributes();
         } else {
           transition.abort();

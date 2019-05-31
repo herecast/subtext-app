@@ -1,9 +1,9 @@
 {{#if showPreview}}
-  {{news-editor-preview
-  isOpen=showPreview
-  news=news
-  hasCaptionOrCredit=hasCaptionOrCredit
-  closePreview=(action "togglePreview")
+  {{to-elsewhere
+    named="global-modal"
+    send=(component "news-editor-preview"
+          news=news
+          closePreview=(action "togglePreview"))
   }}
 {{/if}}
 
@@ -244,9 +244,11 @@
                   <button {{action "schedulePublish"}} class="btn btn-primary" data-test-schedule-publish="confirm">Confirm</button>
                   <button {{action "cancelSchedulePublish"}} class="btn">Cancel</button>
                 {{else}}
-                  <div class="NewsEditor-helper-message">
-                    Your saved drafts can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}}
-                  </div>
+                  {{#if organizationId}}
+                    <div class="NewsEditor-helper-message">
+                      Your saved drafts can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}}
+                    </div>
+                  {{/if}}
                   <button {{action "publish"}} class="btn btn-primary">Publish Now</button>
                   <br>
                   <button {{action "choosePubDate"}} class="btn" data-test-schedule-publish="button">Schedule Publish</button>
@@ -281,7 +283,7 @@
                   <br>
                   <button {{action "togglePreview"}}
                       class="btn">{{if news.hasUnpublishedChanges "Preview Changes" "Preview Post"}}</button>
-                  <button {{action "discardChanges"}} class="btn">Discard changes</button>
+                  <button {{action "discardChanges"}} class="btn">Discard Changes</button>
                 {{else}}
                   <p>This post is set to go live on {{formatted-date news.publishedAt}}
                     <a href="#" {{action "unpublish"}} class="text-danger"><br>Cancel Scheduled Publish</a>
