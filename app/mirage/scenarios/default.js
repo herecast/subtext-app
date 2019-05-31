@@ -74,8 +74,7 @@ export default function (server) {
     {"city": "Williamstown", "state": "VT"},
     {"city": "Windsor", "state": "VT"},
     {"city": "Woodstock", "state": "VT"}
-  ].forEach((location, index) => {
-    location.zipcode = 10000 + index;
+  ].forEach((location) => {
     server.create('location', location);
   });
 

@@ -43,6 +43,7 @@ module('Acceptance | homepage', function(hooks) {
     let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
 
     this.server.get('/feed', function(db, request) {
+
       if (request.queryParams.location_id) {
         assert.equal(request.queryParams.location_id, location.id, "The logged in user location id is passed to the api request");
         done();

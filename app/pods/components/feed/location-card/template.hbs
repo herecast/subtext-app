@@ -1,0 +1,53 @@
+<div class="Feed-LocationCard--top">
+
+  {{#if hasImageUrl}}
+    <div class="Feed-LocationCard--image" style={{imageStyle}}></div>
+  {{else if hasCoordinates}}
+    {{google-map
+      centerLocation=userLocation
+      class="Feed-LocationCard--map"
+    }}
+  {{else}}
+    <div class="Feed-LocationCard--image default" style={{imageStyle}}></div>
+  {{/if}}
+
+  <div class="Feed-LocationCard--overlay"></div>
+  <div class="Feed-LocationCard--user-location">
+    {{user-location}}
+  </div>
+
+  <div class="Feed-LocationCard--loading-wrap {{if showLoadingAnimation "on" "off"}}">
+    <div class="Feed-LocationCard--loading-animation">
+      {{fa-icon "map-marker" class="Feed-LocationCard--loading-marker"}}
+      <div class="Feed-LocationCard--loading-pulse"></div>
+    </div>
+    <div class="Feed-LocationCard--loading-location">
+      Loading<br>
+      <span class="Feed-LocationCard--loading-location-name">{{loadingLocationName}}</span>
+    </div>
+  </div>
+
+</div>
+
+{{#if (or showSearch showChooser)}}
+  <div class="Feed-LocationCard--bottom">
+    {{#if showSearch}}
+      {{search-input
+        noBorder=true
+        size="large"
+        color="black"
+        value=(readonly searchService.query)
+        update=(action "updateSearchQuery")
+        clearSearchType=(action "clearSearch")
+        clearButtonText="Clear"
+        isLoading=searchService.isLoading
+        class="Feed-LocationCard--bottom-left"
+      }}
+    {{/if}}
+    {{#if showChooser}}
+      <div class="Feed-LocationCard--bottom-right">
+        {{feed/card-size-chooser}}
+      </div>
+    {{/if}}
+  </div>
+{{/if}}

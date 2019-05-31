@@ -38,7 +38,7 @@ export default Component.extend({
       get(this, 'userLocation').checkLocationMatches(inputValue)
       .then((locationMatches) => {
         if (!get(this, 'isDestroyed')) {
-          set(this, 'locationMatches', locationMatches.locations);
+          set(this, 'locationMatches', locationMatches);
         }
       })
       .finally(() => {
@@ -68,7 +68,7 @@ export default Component.extend({
       if (get(this, 'onChangeLocation')) {
         get(this, 'onChangeLocation')(userLocation);
       } else {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
       }
 
       closeModal();
@@ -79,7 +79,7 @@ export default Component.extend({
 
       get(this, 'userLocation').locateUser()
       .then((userLocation) => {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.location.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
 
         closeModal();
       })

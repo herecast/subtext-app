@@ -364,16 +364,6 @@ export default Service.extend(FastbootExtensions, {
     return this.getJson(`/event_instances/active_dates${queryString(query)}`);
   },
 
-  getLocations(query) {
-    let url = '/locations';
-
-    if (isPresent(query)) {
-      url = url + queryString({query: query});
-    }
-
-    return this.getJson(url);
-  },
-
   getLocationsNear(location, radius = 10) {
     let url = `/locations/${location.id}/near?radius=${radius}`;
 

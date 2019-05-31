@@ -1,7 +1,6 @@
 import { get, set } from '@ember/object';
 import { Promise } from 'rsvp';
 import Service, { inject as service } from '@ember/service';
-import config from 'subtext-ui/config/environment';
 import $ from 'jquery';
 /* global google*/
 
@@ -27,7 +26,8 @@ export default Service.extend({
     const thisService = this;
 
     this.googleMapsInit = new Promise((resolve) => {
-      $.getScript(`https://maps.googleapis.com/maps/api/js?key=${config.GMAPS_API_TOKEN}`, function() {
+      const gmapsToken = 'AIzaSyDWBIKBKlreVCqE1CqQRDQ3QQI3gx85ikw'; // reinstate with heroku env || config.GMAPS_API_TOKEN;
+      $.getScript(`https://maps.googleapis.com/maps/api/js?key=${gmapsToken}`, function() {
         set(thisService, 'googleMaps', google.maps);
         resolve(google.maps);
       });

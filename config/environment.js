@@ -132,7 +132,7 @@ module.exports = function(environment) {
     }
 
     ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
-    ENV['GMAPS_API_TOKEN'] = process.env.GMAPS_API_TOKEN || 'AIzaSyAt6mZjWW5sqoLi1crgnfXWyB11-7gANAQ';
+    ENV['GMAPS_API_TOKEN'] = 'AIzaSyDWBIKBKlreVCqE1CqQRDQ3QQI3gx85ikw'; //itservices@subtext.org | console.cloud.google.com
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;

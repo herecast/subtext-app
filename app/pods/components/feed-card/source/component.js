@@ -19,6 +19,6 @@ export default Component.extend({
 
     get(this, 'tracking').trackTileOptionsMenuEvent('UserClicksSourceTag', get(model, 'contentId'));
 
-    get(this, 'userLocationService').goToLocationFeed( get(location, 'id') );
+    get(this, 'userLocationService').goToLocationFeed(location);
   }
 });

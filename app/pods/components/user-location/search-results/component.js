@@ -18,7 +18,7 @@ export default Component.extend({
 
      get(this, 'userLocation').locateUser()
       .then((userLocation) => {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.location.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
 
         if (get(this, 'afterSaveLocation')) {
           get(this, 'afterSaveLocation')();
@@ -33,7 +33,7 @@ export default Component.extend({
       if (get(this, 'onChangeLocation')) {
         get(this, 'onChangeLocation')(userLocation);
       } else {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
 
         if (get(this, 'afterSaveLocation')) {
           get(this, 'afterSaveLocation')();

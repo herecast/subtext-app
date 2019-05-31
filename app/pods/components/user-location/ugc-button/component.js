@@ -110,7 +110,7 @@ export default Component.extend({
       get(this, 'userLocation').checkLocationMatches(inputValue)
       .then((locationMatches) => {
         if (!get(this, 'isDestroyed')) {
-          set(this, 'locationMatches', locationMatches.locations);
+          set(this, 'locationMatches', locationMatches);
         }
       })
       .finally(() => {

@@ -1,9 +1,10 @@
 import Evented from '@ember/object/evented';
 import Service, { inject as service } from '@ember/service';
 import { computed, set, get } from '@ember/object';
+import { notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { Promise } from 'rsvp';
-import { run, next } from '@ember/runloop';
+import { run, next, later } from '@ember/runloop';
 import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
 import moment from 'moment';
 
@@ -24,8 +25,10 @@ export default Service.extend(Evented, {
   _defaultUserLocationId: 19,
   _previousLocationId: null,
   _activeUserLocationId: null,
+  _minimumLoadingDuration: 1200,
 
-  isLoadingLocation: false,
+  loadingLocation: null,
+  isLoadingLocation: notEmpty('loadingLocation'),
 
   init() {
     this._super(...arguments);
@@ -34,6 +37,7 @@ export default Service.extend(Evented, {
       this._loadUserLocationFromCurrentUser();
     } else {
       this._loadUserLocationIdFromCookie(true);
+      get(this, 'session').on('authenticationSucceeded', this, '_loadUserLocationFromCurrentUser');
     }
   },
 
@@ -42,7 +46,7 @@ export default Service.extend(Evented, {
     let userLocationId;
 
     if (get(this, 'session.isAuthenticated')) {
-      userLocationId = this._loadUserLocationFromCurrentUser();//not a promise
+      userLocationId = this._loadUserLocationFromCurrentUser();
     } else if (isPresent(activeUserLocationId)) {
       userLocationId = activeUserLocationId;
     } else {
@@ -78,9 +82,9 @@ export default Service.extend(Evented, {
     return ObjectPromiseProxy.create({promise});
   }),
 
-  goToLocationFeed(locationId) {
+  goToLocationFeed(location) {
 
-    this.saveUserLocationFromId(locationId);
+    this.saveUserLocation(location);
 
     return next(() => {
       let transition = get(this, 'router').transitionTo('feed');
@@ -91,31 +95,35 @@ export default Service.extend(Evented, {
     });
   },
 
-  saveUserLocationFromId(locationId) {
+  saveUserLocation(location) {
+    set(this, 'loadingLocation', location);
+
     if (get(this, 'session.isAuthenticated')) {
-      set(this, 'isLoadingLocation', true);
-      this._getLocationFromId(locationId)
+      this._getLocationFromId(get(location, 'id'))
       .then((location) => {
         return this._saveCurrentUserLocation(location);
       })
       .then((location) => {
-        this._writeUserLocationIdToCookie(location.id);
+        this._writeUserLocationIdToCookie(location);
       })
       .catch(() => {
         get(this, 'notify').error('There was an issue saving location. Please try again.');
       })
       .finally(() => {
-        set(this, 'isLoadingLocation', false);
+        set(this, 'loadingLocation', null);
       });
     } else {
-      this._writeUserLocationIdToCookie(locationId);
+      this._writeUserLocationIdToCookie(location);
+      later(() => {
+        set(this, 'loadingLocation', null);
+      }, get(this, '_minimumLoadingDuration'));
     }
   },
 
   checkLocationMatches(query) {
     return new Promise((resolve, reject) => {
       if (isPresent(query)) {
-        get(this, 'api').getLocations(query)
+        get(this, 'store').query('location', {query})
         .then(locationMatches => {
           resolve(locationMatches);
         })
@@ -163,9 +171,9 @@ export default Service.extend(Evented, {
     const currentUser = get(this, 'session.currentUser');
 
     if (currentUser && isPresent(get(currentUser, 'locationId'))) {
-      const currentUserLocationId = get(currentUser, 'locationId');
-      this._writeUserLocationIdToCookie(currentUserLocationId);
-      return currentUserLocationId;
+
+      this._writeUserLocationIdToCookie(get(currentUser, 'location'));
+      return get(currentUser, 'locationId');
     } else {
       this._scheduleLocationChangeAfteCurrentUserLoads();
       return this._loadUserLocationIdFromCookie(false);
@@ -177,7 +185,7 @@ export default Service.extend(Evented, {
 
     if (currentUser && currentUser.then) {
       currentUser.then((user) => {
-        this._writeUserLocationIdToCookie(get(user, 'locationId'));
+        this._writeUserLocationIdToCookie(get(user, 'location'));
       });
     }
   },
@@ -194,18 +202,26 @@ export default Service.extend(Evented, {
     return userLocationId;
   },
 
-  _writeUserLocationIdToCookie(locationId) {
+  _writeUserLocationIdToCookie(location) {
+    const locationId = get(location, 'id');
+    const locationName = get(location, 'name');
+
     this._setActiveLocationId(locationId);
 
     const cookies = get(this, 'cookies');
     const cookieName = get(this, '_cookieName');
     const windowLocation = get(this, 'windowLocation');
 
-    cookies.write(cookieName, locationId, {
-      path: '/',
-      secure: windowLocation.protocol() === 'https',
-      expires: moment().add(5, 'years').toDate()
-    });
+    const path = '/';
+    const secure = windowLocation.protocol() === 'https';
+    const expires = moment().add(5, 'years').toDate();
+    const cookieOptions = {path, secure, expires};
+
+    cookies.write(cookieName, locationId, cookieOptions);
+
+    if (isPresent(locationName)) {
+      cookies.write('userLocationName', locationName, cookieOptions);
+    }
   },
 
   _getLocationFromId(locationId) {

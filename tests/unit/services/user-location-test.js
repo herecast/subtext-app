@@ -18,12 +18,15 @@ module('Unit | Service | user location', function(hooks) {
       }
     });
 
-    let locationId = 1;
+    let location = {
+      id: 1,
+      name: 'Here, VT'
+    }
 
-    service.saveUserLocationFromId(locationId);
+    service.saveUserLocation(location);
 
     assert.ok(
-      cookies.write.calledWith('userLocationId', locationId),
+      cookies.write.calledWith('userLocationId', location.id),
       "Sets the locationId cookie"
     );
 

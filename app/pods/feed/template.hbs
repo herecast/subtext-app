@@ -9,10 +9,13 @@
       }}
     {{/if}}
 
-    {{#feed/feed-container}}
+    {{#feed/feed-container noMargin=true}}
       {{outlet}}
 
-      {{feed/card-size-chooser}}
+      {{feed/location-card
+        showSearch=false
+        showChooser=true
+      }}
 
       {{#if (or isFastBoot showLoadingAnimation)}}
         {{feed/fake-feed}}

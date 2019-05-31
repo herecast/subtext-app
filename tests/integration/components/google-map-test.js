@@ -12,31 +12,21 @@ module('Integration | Component | google map', function(hooks) {
   test('when initializing the google map', async function(assert) {
     const { stub, spy } = sinon;
 
-    const locations = [{
-      coords: { lat: 40.000, lng: -80.000},
-      title: 'first pin',
-      content: 'some content'
-    },{
-      coords: { lat: 40.001, lng: -80.001 },
-      title: 'second pin',
-      content: 'more content'
-    }];
+    const centerLocation = {
+      city: 'city',
+      state: 'VT',
+      latitude: 43.1,
+      longitude: -80
+    };
 
     const instance = {
-      fitBounds: spy(),
-      setCenter: spy(),
+      setCenter: spy()
     };
 
     const googleMapsResolved = {
       Map: stub().returns(instance),
       MapTypeId:  { ROADMAP: 'roadmap' },
-      InfoWindow: spy(),
-      Marker: stub().returns({ addListener() {}, setMap() {} }),
-      LatLng: spy(),
-      LatLngBounds: stub().returns({
-        extend: stub(),
-        getNorthEast: stub().returns({ lat() { }, lng() { }, })
-      })
+      Marker: stub().returns({ addListener() {}, setMap() {} })
     };
 
     const googleMaps = {
@@ -50,13 +40,11 @@ module('Integration | Component | google map', function(hooks) {
     this.owner.register('service:google-maps', google);
     this['google-maps'] = this.owner.lookup('service:google-maps');
 
-    this.set('locations', locations);
-    await render(hbs`{{google-map locations=locations}}`);
+    this.set('centerLocation', centerLocation);
+    await render(hbs`{{google-map centerLocation=centerLocation}}`);
 
     // adjust assertions to include arguments
     assert.ok(googleMapsResolved.Map.calledOnce,        'it creates one Google Maps instance');
-    assert.ok(googleMapsResolved.InfoWindow.calledOnce, 'it creates one InfoWindow to share amongst all the markers');
-    assert.ok(googleMapsResolved.Marker.calledTwice,    'it creates a Marker for each location');
-    assert.ok(instance.fitBounds.calledOnce,    'it zooms the map to fit the Markers');
+    assert.ok(googleMapsResolved.Marker.calledOnce,     'it creates a Marker for the location');
   });
 });

@@ -47,8 +47,6 @@ export default Component.extend({
     return get(this, 'userLocationName');
   }),
 
-
-
   _checkLocationMatches() {
     if (get(this, 'hasInputValue')) {
       const inputValue = get(this, 'inputValue');
@@ -58,7 +56,7 @@ export default Component.extend({
       get(this, 'userLocation').checkLocationMatches(inputValue)
       .then((locationMatches) => {
         if (!get(this, 'isDestroyed')) {
-          set(this, 'locationMatches', locationMatches.locations);
+          set(this, 'locationMatches', locationMatches);
         }
       })
       .finally(() => {
@@ -68,7 +66,6 @@ export default Component.extend({
       set(this, 'locationMatches', []);
     }
   },
-
 
   actions: {
     valueChanging(value) {
@@ -80,7 +77,7 @@ export default Component.extend({
       if (get(this, 'onChangeLocation')) {
         get(this, 'onChangeLocation')(userLocation);
       } else {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
       }
     },
 
@@ -89,7 +86,7 @@ export default Component.extend({
 
       get(this, 'userLocation').locateUser()
       .then((userLocation) => {
-        get(this, 'userLocation').saveUserLocationFromId(userLocation.location.id);
+        get(this, 'userLocation').saveUserLocation(userLocation);
       })
       .finally(() => {
         set(this, 'gettingGeolocation', false);
