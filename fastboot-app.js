@@ -114,6 +114,31 @@ function sitemapMiddleware(req, res, next) {
   }
 }
 
+async function tryRewrite(path, req) {
+  const api_base = process.env.API_BASE_URL || (req.protocol + req.hostname);
+  const rawRewrite = await fetch(api_base + "/api/v3/rewrites?query=" + path);
+  const rewrite = await rawRewrite.json();
+  return rewrite;
+};
+
+function rewritesMiddleware(req, res, next) {
+  const path = req.path.substring(1);
+  const pathIsContentShow = path.indexOf('/') < 0;
+  const pathIsNotID = isNaN(path)
+
+  if(pathIsContentShow && pathIsNotID) {
+    tryRewrite(path, req).then(json => {
+      if (json['rewrite']) {
+        return res.redirect(307, `${req.protocol}://${req.hostname}/${json['rewrite']['destination']}`);
+      } else {
+        return next();
+      }
+    });
+  } else {
+    return next();
+  }
+};
+
 let server = new FastBootAppServer({
   beforeMiddleware: function (app) {
     app.use('/healthcheck', require('express-healthcheck')());
@@ -125,6 +150,8 @@ let server = new FastBootAppServer({
     app.use(cookieParser());
 
     app.use(sitemapMiddleware);
+
+    app.use(rewritesMiddleware);
   },
   distPath: 'dist',
   gzip: false,
