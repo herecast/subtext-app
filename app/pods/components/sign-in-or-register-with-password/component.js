@@ -1,11 +1,12 @@
 import { inject as service } from '@ember/service';
 import { equal } from '@ember/object/computed';
-import Component from '@ember/component';
 import { set, get, computed } from '@ember/object';
 import { isPresent, isEmpty } from '@ember/utils';
 import { Promise } from 'rsvp';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
 import Validation from 'subtext-ui/mixins/components/validation';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend(TestSelector, Validation, {
   tagName: "form",
@@ -164,7 +165,7 @@ export default Component.extend(TestSelector, Validation, {
   focusOnEmail() {
     // Do not auto focus on fields on mobile. It creates a confusing user experience when the keyboard pops up.
     if (!get(this, 'media.isMobile')) {
-      this.$().find('#SignInForm-email').focus();
+      $(this.element).find('#SignInForm-email').focus();
     }
   },
 

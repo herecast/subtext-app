@@ -5,7 +5,6 @@ import Component from '@ember/component';
 export default Component.extend({
   classNames: 'FeedCard-Source',
 
-  router: service(),
   tracking: service(),
   userLocationService: service('user-location'),
 

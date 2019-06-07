@@ -1,11 +1,11 @@
 import { inject as service } from '@ember/service';
 import { next, later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
-import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import $ from 'jquery';
 import { isPresent, isBlank } from '@ember/utils';
 import { throttle, debounce } from 'lodash';
+import Component from '@ember/component';
 
 export default Component.extend({
   attributeBindings: ['data-test-modal'],
@@ -147,7 +147,7 @@ export default Component.extend({
   _calculateModalOpacity() {
     if (!get(this, 'isDestroyed')) {
       const totalScrollDistance = get(this, 'totalScrollDistance');
-      const scrollTop = this.$().scrollTop();
+      const scrollTop = $(this.element).scrollTop();
       return 1 - (scrollTop / (totalScrollDistance));
     } else {
       return 1;
@@ -162,7 +162,7 @@ export default Component.extend({
   _updateModalOpacity() {
     if (!get(this, 'isDestroyed') && !(get(this, 'isScrollingBody'))) {
       const opacity = this._calculateModalOpacity();
-      this.$().css({opacity});
+      $(this.element).css({opacity});
     }
   },
 
@@ -183,9 +183,9 @@ export default Component.extend({
   },
 
   _snapBack() {
-    this.$()
-      .scrollTop(0)
-      .css({opacity: 1});
+    $(this.element)
+    .scrollTop(0)
+    .css({opacity: 1});
   },
 
   /**
@@ -210,7 +210,7 @@ export default Component.extend({
    * @private
    */
   _determineIfBodyAtBottom() {
-    const $modalBody = this.$().find('.Modal-dialog-body');
+    const $modalBody = $(this.element).find('.Modal-dialog-body');
     const scrollHeight = $modalBody.get(0).scrollHeight;
     const scrollTop = $modalBody.scrollTop();
     const height = $modalBody.outerHeight();
@@ -246,7 +246,7 @@ export default Component.extend({
     }
 
     if (get(this, 'willAnimateAway')) {
-      const $this = this.$();
+      const $this = $(this.element);
 
       // Handle scrolling and touchmove events
       // throttle updates to modal opacity as user scrolls
@@ -282,7 +282,7 @@ export default Component.extend({
   },
 
   _removeEventListeners() {
-    const $this = this.$();
+    const $this = $(this.element);
     $this.off(get(this, 'keyForScrollEvent'));
     $this.off(get(this, 'keyForScrollEndEvent'));
     $this.off(get(this, 'keyForTouchMoveEvent'));
@@ -305,7 +305,7 @@ export default Component.extend({
     get(this, 'tracking').trackCloseModalSlideAway();
     this._removeEventListeners();
 
-    this.$().find('.Modal-dialog').css({
+    $(this.element).find('.Modal-dialog').css({
       animation: 'slide-up 0.5s',
       marginBottom: '100vh',
       marginTop: '-100vh'
@@ -316,9 +316,9 @@ export default Component.extend({
 
   actions: {
     scrollTo(offset) {
-      const $el = this.$();
+      const $el = $(this.element);
       if ($el && $el.length) {
-        this.$().find('.Modal-dialog-body').scrollTop(offset);
+        $(this.element).find('.Modal-dialog-body').scrollTop(offset);
         this._determineIfBodyAtBottom();
       }
     },

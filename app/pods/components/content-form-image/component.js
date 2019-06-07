@@ -191,7 +191,7 @@ export default Component.extend({
     },
 
     removeImage() {
-      this.$('.ContentForm-fileField')[0].click();
+      $(this.element).find('.ContentForm-fileField')[0].click();
     },
 
     toggleWantsToDelete() {

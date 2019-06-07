@@ -1,5 +1,6 @@
-import Component from '@ember/component';
+import $ from 'jquery';
 import { set, get } from '@ember/object';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['Event-schedule-summary u-layoutPadB10'],
@@ -8,9 +9,9 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$()
-      .hide()
-      .slideDown(300);
+    $(this.element)
+    .hide()
+    .slideDown(300);
   },
 
   actions: {

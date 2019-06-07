@@ -1,5 +1,5 @@
 import { Promise } from 'rsvp';
-/* global Blob */
+
 export default function createImageFixture(options) {
   const {
     width,

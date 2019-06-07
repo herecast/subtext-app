@@ -49,6 +49,11 @@ export default Component.extend(Validation, {
 
   emailIsValid: computed('email', function() {
     const email = get(this, 'email');
+
+    return this._validateEmail(email);
+  }),
+
+  _validateEmail(email) {
     const emailIsValid = this.hasValidEmail(email);
 
     if (emailIsValid && !get(this, 'emailHasBeenValid')) {
@@ -56,7 +61,7 @@ export default Component.extend(Validation, {
     }
 
     return emailIsValid;
-  }),
+  },
 
   passwordIsLongEnough: gte('password.length', 8),
 

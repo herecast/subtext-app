@@ -183,7 +183,9 @@ export default Component.extend(InViewportMixin, {
   },
 
   didExitViewport() {
-    set(this, '_isInViewPort', false);
+    if (!get(this, 'isDestroyed')) {
+      set(this, '_isInViewPort', false);
+    }
   },
 
   didUpdateAttrs() {

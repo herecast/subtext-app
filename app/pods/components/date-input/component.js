@@ -1,9 +1,10 @@
-import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { isPresent, isEmpty } from '@ember/utils';
 import { run } from '@ember/runloop';
 import moment from 'moment';
 import isMobile from 'npm:ismobilejs';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 const pickerFormat = 'MM/DD/YYYY';
 const nativeFormat = 'YYYY-MM-DD';
@@ -29,7 +30,7 @@ export default Component.extend({
      * Detect if [type=time] is supported.
      * If not, use a datepicker widget
      */
-    const $inp = this.$('input');
+    const $inp = $(this.element).find('input');
 
     if(this.overrideNative()) {
       $inp.prop('type', 'text'); //for override

@@ -41,7 +41,7 @@ export default Component.extend({
   },
 
   didRender() {
-    this.$().append(get(this, 'pikaday').el);
+    $(this.element).append(get(this, 'pikaday').el);
   },
 
   willDestroyElement() {

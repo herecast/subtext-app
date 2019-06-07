@@ -1,10 +1,11 @@
 import { inject as service } from '@ember/service';
 import { debounce } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
-import Component from '@ember/component';
 import { get, set } from '@ember/object';
 import { A } from '@ember/array';
+import $ from 'jquery';
 import ManualDropdown from 'subtext-ui/mixins/components/manual-dropdown';
+import Component from '@ember/component';
 
 export default Component.extend(ManualDropdown, {
   api: service('api'),
@@ -15,7 +16,7 @@ export default Component.extend(ManualDropdown, {
   didInsertElement() {
     this._super(...arguments);
 
-    this.$('input').keyup(() => {
+    $(this.element).find('input').keyup(() => {
       const name = this.get('venueName');
 
       if (isPresent(name) && name.length > 2) {
@@ -33,7 +34,7 @@ export default Component.extend(ManualDropdown, {
   willDestroyElement() {
     this._super(...arguments);
 
-    this.$('input').off('keyUp');
+    $(this.element).find('input').off('keyUp');
   },
 
   sendSearchQuery(value) {

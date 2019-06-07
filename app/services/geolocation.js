@@ -1,6 +1,6 @@
 import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
 import ObjectProxy from '@ember/object/proxy';
-import RSVP, { Promise } from 'rsvp';
+import { Promise } from 'rsvp';
 import { computed, get, setProperties } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 
@@ -31,7 +31,7 @@ export default Service.extend({
   }),
 
   getUserLocation() {
-    return new RSVP.Promise((resolve) => {
+    return new Promise((resolve) => {
       this.getCurrentPosition()
       .then((position) => {
         if(!get(this, 'isDestroying')) {
@@ -61,7 +61,7 @@ export default Service.extend({
   },
 
   getCurrentPosition() {
-    return new RSVP.Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
         const options = {
           enableHighAccuracy: true,

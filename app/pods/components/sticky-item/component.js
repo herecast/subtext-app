@@ -1,6 +1,7 @@
 import { htmlSafe } from '@ember/template';
-import Component from '@ember/component';
 import { computed, setProperties, set, get } from '@ember/object';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 /**
  * This component should not be used directly. Rather, it should be used
@@ -63,14 +64,14 @@ export default Component.extend({
   }),
 
   getOffsetTop() {
-    return this.$().offset().top;
+    return $(this.element).offset().top;
   },
 
   didInsertElement() {
     this._super(...arguments);
     if (get(this, 'enabled')) {
       // Save the initial position and height of the element
-      const $this = this.$();
+      const $this = $(this.element);
 
       setProperties(this, {
         originalTopOffset: $this.offset().top,

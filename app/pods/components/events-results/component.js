@@ -1,5 +1,4 @@
 import { mapBy } from '@ember/object/computed';
-import Component from '@ember/component';
 import { computed, setProperties, set, get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent, isEmpty } from '@ember/utils';
@@ -7,6 +6,8 @@ import { inject as service } from '@ember/service';
 import { buildGroup } from 'subtext-ui/lib/group-by-date';
 import { A } from '@ember/array';
 import moment from 'moment';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: 'EventsResults',
@@ -193,7 +194,7 @@ export default Component.extend({
 
   _scrollIntoView(date) {
     const fDate = moment(date).format('YYYY-MM-DD');
-    const el = this.$(`#${fDate}`);
+    const el = $(this.element).find(`#${fDate}`);
 
     // Scroll to next event day section
     el[0].scrollIntoView({
@@ -205,7 +206,7 @@ export default Component.extend({
   _canScrollIntoView(date) {
     if(isPresent(date)) {
       const fDate = moment(date).format('YYYY-MM-DD');
-      const el = this.$(`#${fDate}`);
+      const el = $(this.element).find(`#${fDate}`);
 
       return el.length > 0;
     } else {

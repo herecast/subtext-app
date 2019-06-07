@@ -1,7 +1,8 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
 import { get } from '@ember/object';
 import { run } from '@ember/runloop';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 /**
  * This is a helper component to be used in conjunction with a sticky-container.
@@ -15,7 +16,7 @@ export default Component.extend({
   stickyService: service('sticky'),
 
   getPosition() {
-    return this.$().position().top;
+    return $(this.element).position().top;
   },
 
   updatePosition() {

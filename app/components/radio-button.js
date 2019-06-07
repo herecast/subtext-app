@@ -1,5 +1,6 @@
-import Component from '@ember/component';
 import { set, get, computed } from '@ember/object';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   tagName: 'label',
@@ -10,7 +11,7 @@ export default Component.extend({
   }),
 
   _bindChangeEvent() {
-    this.$('input').on('change', () => {
+    $(this.element).find('input').on('change', () => {
       set(this, 'groupValue', get(this, 'value'));
 
       const onChange = get(this, 'onChange');
@@ -25,6 +26,6 @@ export default Component.extend({
   },
 
   willDestroyElement() {
-    this.$('input').off('change');
+    $(this.element).find('input').off('change');
   }
 });

@@ -33,7 +33,7 @@ export default Service.extend(Evented, {
   init() {
     this._super(...arguments);
 
-    if (get(this, 'session.isAuthenticated')) {
+    if (get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
       this._loadUserLocationFromCurrentUser();
     } else {
       this._loadUserLocationIdFromCookie(true);
@@ -60,7 +60,7 @@ export default Service.extend(Evented, {
     const promise = new Promise((resolve, reject) => {
       const activeUserLocationId = get(this, 'activeUserLocationId');
 
-      if (isPresent(activeUserLocationId) && activeUserLocationId) {
+      if (!get(this, 'fastboot.isFastBoot') && isPresent(activeUserLocationId) && activeUserLocationId) {
         const cachedLocation = get(this, 'store').peekRecord('location', activeUserLocationId);
 
          if (isPresent(cachedLocation)) {
@@ -83,7 +83,6 @@ export default Service.extend(Evented, {
   }),
 
   goToLocationFeed(location) {
-
     this.saveUserLocation(location);
 
     return next(() => {
@@ -143,7 +142,9 @@ export default Service.extend(Evented, {
         const { coords } = userLocationWithCoords;
         get(this, 'api').getLocationFromCoords(coords.latitude, coords.longitude)
         .then((userLocation) => {
-          resolve(userLocation);
+          get(this, 'store').pushPayload('location', userLocation);
+          const locationModel = get(this, 'store').peekRecord('location', userLocation.location.id);
+          resolve(locationModel);
         });
       })
       .catch(() => {

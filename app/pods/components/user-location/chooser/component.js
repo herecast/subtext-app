@@ -1,8 +1,9 @@
 import { readOnly } from '@ember/object/computed';
-import Component from '@ember/component';
 import { computed, set, get, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   api: service(),
@@ -57,7 +58,7 @@ export default Component.extend({
     },
 
     focusOnInput() {
-      this.$('input').focus();
+      $(this.element).find('input').focus();
     },
 
     valueChanging() {

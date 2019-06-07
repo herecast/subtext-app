@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import TextField from '@ember/component/text-field';
 
 export default TextField.extend({
@@ -6,7 +7,7 @@ export default TextField.extend({
 
     var mask = this.get('mask');
 
-    this.$().mask(mask);
+    $(this.element).mask(mask);
   },
 
 });

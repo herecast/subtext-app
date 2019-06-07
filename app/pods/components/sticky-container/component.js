@@ -132,7 +132,7 @@ export default Component.extend({
 
     if (get(this, 'enabled')) {
 
-      set(this, 'defaultPosition', this.$().position().top);
+      set(this, 'defaultPosition', $(this.element).position().top);
 
       const $scrollTarget = $(get(this, 'scrollTarget'));
 

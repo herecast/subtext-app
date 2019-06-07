@@ -11,7 +11,6 @@ export default Component.extend({
 
   currentService: service('currentController'),
   session: service(),
-  router: service(),
   floatingActionButton: service(),
 
   model: null,
@@ -46,8 +45,8 @@ export default Component.extend({
         const organizationId = get(this, 'model.organizationId') || null;
 
         const canEditContent = currentUser.canEditContent(authorId, organizationId);
+        this._setEditButtonIsActive(canEditContent);
 
-        set(this, 'editButtonIsActive', canEditContent);
         return canEditContent;
       });
 
@@ -56,6 +55,10 @@ export default Component.extend({
 
     return false;
   }),
+
+  _setEditButtonIsActive(isActive) {
+    set(this, 'editButtonIsActive', isActive);
+  },
 
   actions: {
     editContent() {

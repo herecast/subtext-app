@@ -27,7 +27,7 @@ export default Mixin.create({
 
   _updateBoundingClientRect() {
     var el;
-    el = this.$()[0];
+    el = $(this.element)[0];
     set(this, 'boundingClientRect', el.getBoundingClientRect());
   },
 

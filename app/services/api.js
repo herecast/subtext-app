@@ -219,12 +219,6 @@ export default Service.extend(FastbootExtensions, {
    * API methods start here
    */
 
-  unsubscribeSubscription(id) {
-    return this.returnJson(
-      this.del(`/subscriptions/${id}`)
-    );
-  },
-
   unsubscribeFromDigest(id, email) {
     const encodedEmail = encodeURIComponent(btoa(email));
     return this.returnJson(
@@ -232,57 +226,9 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
-  /*
-   * Confirmed registration does a few things:
-   * 1. it registers a new user account
-   * 2. marks the user account confirmed (because of confirmation key)
-   * 3. returns an authentication token for the user to be signed in
-   *
-   * confirmation_key is simply a combination of modelName and id, and the
-   * backend uses it to ensure that it references a record which already
-   * verifies an email address.  This can be a subscription or
-   * listserv_content record.
-   *
-   * The required request data looks like this:
-   * {
-   *   registration: {
-   *     email: <email>,
-   *     name: <name>,
-   *     confirmation_key: 'listserv_content/<listserv_content.id>'
-   *   }
-   * }
-   */
-  confirmedRegistration(data) {
-    return this.returnJson(
-      this.post('/registrations/confirmed',
-        this.json(data)
-      )
-    );
-  },
-
   createRegistration(data) {
     return this.returnJson(
       this.post('/users/sign_up',
-        this.json(data)
-      )
-    );
-  },
-
-  createFeedback(id, data) {
-    const url = `/businesses/${id}/feedback`;
-
-    return this.returnJson(
-      this.post(url,
-        this.json(data)
-      )
-    );
-  },
-
-  updateFeedback(id, data) {
-    const url = `/businesses/${id}/feedback`;
-
-    return this.returnJson(
-      this.put(url,
         this.json(data)
       )
     );
@@ -330,7 +276,6 @@ export default Service.extend(FastbootExtensions, {
     return this.getJson(`/users/${userId}/metrics` + queryString(data));
   },
 
-
   getContentPromotions(options) {
     const opts = options || {};
     const query = {
@@ -350,10 +295,6 @@ export default Service.extend(FastbootExtensions, {
     };
     const qstring = queryString(query);
     return this.getJson(`/content_permissions${qstring}`);
-  },
-
-  getEventCategories() {
-    return this.getJson('/event_categories');
   },
 
   getListServs() {
@@ -438,16 +379,6 @@ export default Service.extend(FastbootExtensions, {
     }
 
     return this.getJson(url);
-  },
-
-  getWeather() {
-    return this.returnText(
-      this.request('/weather', {
-        headers: this.headers({
-          accept: 'text/html'
-        })
-      })
-    );
   },
 
   isRegisteredUser(email) {
@@ -549,17 +480,8 @@ export default Service.extend(FastbootExtensions, {
   },
 
   recordContentImpression(id, data = {}) {
-
     return this.returnJson(
       this.post(`/metrics/contents/${id}/impressions`,
-        this.json(data)
-      )
-    );
-  },
-
-  recordCouponRequest(id, data) {
-    return this.returnJson(
-      this.post(`/promotion_coupons/${id}/request_email`,
         this.json(data)
       )
     );
@@ -641,14 +563,6 @@ export default Service.extend(FastbootExtensions, {
             email: email
           }
         })
-      )
-    );
-  },
-
-  captureStartablogInterestEmail(email) {
-    return this.returnJson(
-      this.post('/organizations/email_captures',
-        this.json({email: email})
       )
     );
   },

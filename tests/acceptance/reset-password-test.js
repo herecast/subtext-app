@@ -39,9 +39,6 @@ module('Acceptance | reset password', function(hooks) {
       requestPasswordReset: requestSpy,
       recordAdMetricEvent: function(){
         return true;
-      },//outreach-cta component
-      getWeather: function(){
-        return Promise.resolve({});
       }
     };
     mockService('api', mockApi);

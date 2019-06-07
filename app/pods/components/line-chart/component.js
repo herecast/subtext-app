@@ -1,6 +1,7 @@
-import Component from '@ember/component';
 import { set, get } from '@ember/object';
 import { A } from '@ember/array';
+import $ from 'jquery';
+import Component from '@ember/component';
 /* global Chart */
 
 export default Component.extend({
@@ -37,10 +38,10 @@ export default Component.extend({
       ]
     };
 
-    this.$('canvas').remove();
-    this.$().append(`<canvas class='${get(this, 'chartClass')}'></canvas>`);
+    $(this.element).find('canvas').remove();
+    $(this.element).append(`<canvas class='${get(this, 'chartClass')}'></canvas>`);
 
-    var ctx = this.$('canvas')[0].getContext("2d");
+    var ctx = $(this.element).find('canvas')[0].getContext("2d");
 
     const options = {
       tooltipTemplate: "<%= value %>",

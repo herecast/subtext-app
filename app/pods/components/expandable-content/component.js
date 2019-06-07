@@ -1,7 +1,8 @@
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
-import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['ExpandableContent'],
@@ -29,7 +30,7 @@ export default Component.extend({
   }),
 
   _computeNeedsToggle() {
-    const $content = this.$('.ExpandableContent-contentWrapper');
+    const $content = $(this.element).find('.ExpandableContent-contentWrapper');
     const maxHeight = get(this, 'height');
 
     return ($content[0].scrollHeight >= maxHeight);
@@ -38,7 +39,7 @@ export default Component.extend({
   didRender() {
     this._super(...arguments);
 
-    this.$('img').on('load', () => {
+    $(this.element).find('img').on('load', () => {
       set(this, 'needsToggleButton', this._computeNeedsToggle());
     });
 

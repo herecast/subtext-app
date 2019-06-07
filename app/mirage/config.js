@@ -265,7 +265,7 @@ export default function() {
     let location = locations.findBy({id: params.id});
 
     if (!location) {
-      location = locations.create('location');
+      location = locations.create('location', {id: params.id});
     }
 
     return location;
@@ -502,11 +502,6 @@ export default function() {
 
   this.post('metrics/profiles/:id/clicks', function() {
     return new Mirage.Response(200, {}, {});
-  });
-
-  this.get('/weather', function() {
-    const weather = '<div class="pull-left has-tooltip" data-title="Powered by Forecast.io" id="forecast"><a href="http://forecast.io/#/f/43.7153482,-72.3078690" target="_blank">80° Clear</a></div><div class="pull-left" id="forecast_icon"><i class="wi wi-day-sunny"></i></div>';
-    return new Mirage.Response(200, {'Content-Type': 'text/html'}, weather);
   });
 
   this.post('/images', function({ db }) {

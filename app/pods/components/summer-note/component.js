@@ -1,11 +1,11 @@
 import { inject as service } from '@ember/service';
 import $ from 'jquery';
-import Component from '@ember/component';
 import { set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { run } from '@ember/runloop';
 import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import Component from '@ember/component';
 
 const defaultToolbarOpts = [
   ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -26,13 +26,13 @@ export default Component.extend(TestSelector, {
   notify: service('notification-messages'),
 
   willDestroyElement() {
-    this.$('textarea').summernote('destroy');
+    $(this.element).find('textarea').summernote('destroy');
   },
 
   didInsertElement() {
     const toolbar = get(this, 'toolbar');
     const content = get(this, 'content');
-    const $editor = this.$('textarea');
+    const $editor = $(this.element).find('textarea');
     set(this, '$editor', $editor);
 
     let summerNoteConfig = {
@@ -87,7 +87,7 @@ export default Component.extend(TestSelector, {
             $div.find('img[style]').removeAttr('style');
 
             // Remove wrapping <b> tag added by summernote for apparently no reason
-            this.$('.note-editable > b').each(function () {
+            $(this.element).find('.note-editable > b').each(function () {
               let $bTag = $(this);
               if ($bTag.text() === '') {
                 $bTag.contents().unwrap();
@@ -144,9 +144,9 @@ export default Component.extend(TestSelector, {
 
     // Remove tooltips in button bar if mobile to avoid double click
     if (get(this, 'media.isMobile')) {
-      this.$('.note-toolbar button').each(function () {
-        $(this).removeAttr('title');
-        $(this).removeAttr('data-original-title');
+        $(this.element).find('.note-toolbar button').each(function () {
+        $(this.element).removeAttr('title');
+        $(this.element).removeAttr('data-original-title');
       });
     }
   },
@@ -332,7 +332,7 @@ export default Component.extend(TestSelector, {
   },
 
   _sanitizeContentImages() {
-    const $content = this.$('.note-editable');
+    const $content = $(this.element).find('.note-editable');
     const divsWithContentImageClass = $content.find('.ContentImage');
 
     if (divsWithContentImageClass.length) {

@@ -72,39 +72,6 @@ module('Unit | Service | api', function(hooks) {
     config['CONSUMER_APP_URI'] = 'http://test.test';
   });
 
-  test('unsubscribeSubscription(id)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-
-    const id = 1;
-
-    const done = assert.async();
-    const returnData = {
-      root: {
-        field: 'value'
-      }
-    };
-
-    this.server.del('/subscriptions/:id', (schema, request)=> {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-
-      assert.equal(request.params.id, id,
-        'DELETE /subscriptions/:id with correct id');
-      return returnData;
-    });
-
-    subject.unsubscribeSubscription(id).then((responseData) => {
-      assert.deepEqual(responseData, returnData,
-        'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
   test('unsubscribeFromListserv(id, email)', function(assert) {
     const subject = this.owner.factoryFor('service:api').create({
       session: this.session,
@@ -142,41 +109,6 @@ module('Unit | Service | api', function(hooks) {
     });
   });
 
-  test('confirmedRegistration(data)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-    const data = {test: 'data'};
-
-    const done = assert.async();
-    const returnData = {
-      root: {
-        field: 'value'
-      }
-    };
-
-    this.server.post('/registrations/confirmed', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-      expect.contentTypeHeader(assert, request, 'application/json');
-
-      const requestData = JSON.parse(request.requestBody);
-      assert.deepEqual(requestData, data,
-        "POST /registrations/confirmed with expected data");
-
-      return returnData;
-    });
-
-    subject.confirmedRegistration(data).then((responseData) => {
-      assert.deepEqual(responseData, returnData,
-        'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
   test('createRegistration(data)', function(assert) {
     const subject = this.owner.factoryFor('service:api').create({
       session: this.session,
@@ -205,117 +137,6 @@ module('Unit | Service | api', function(hooks) {
     });
 
     subject.createRegistration(data).then((responseData) => {
-      assert.deepEqual(responseData, returnData,
-        'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
-  test('confirmedRegistration(data)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-    const data = {test: 'data'};
-
-    const done = assert.async();
-    const returnData = {
-      root: {
-        field: 'value'
-      }
-    };
-
-    this.server.post('/registrations/confirmed', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-      expect.contentTypeHeader(assert, request, 'application/json');
-
-      const requestData = JSON.parse(request.requestBody);
-      assert.deepEqual(requestData, data,
-        "POST /registrations/confirmed with expected data");
-
-      return returnData;
-    });
-
-    subject.confirmedRegistration(data).then((responseData) => {
-      assert.deepEqual(responseData, returnData,
-        'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
-  test('createFeedback(id, data)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-    const data = {test: 'data'};
-    const id = 1;
-
-    const done = assert.async();
-    const returnData = {
-      root: {
-        field: 'value'
-      }
-    };
-
-    this.server.post('/businesses/:id/feedback', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-      expect.contentTypeHeader(assert, request, 'application/json');
-
-      assert.equal(id, request.params.id);
-
-      const requestData = JSON.parse(request.requestBody);
-      assert.deepEqual(requestData, data,
-        "POST /businesses/:id/feedback with expected data");
-
-      return returnData;
-    });
-
-    subject.createFeedback(id, data).then((responseData) => {
-      assert.deepEqual(responseData, returnData,
-        'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
-  test('updateFeedback(id, data)', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-    const data = {test: 'data'};
-    const id = 1;
-
-    const done = assert.async();
-    const returnData = {
-      root: {
-        field: 'value'
-      }
-    };
-
-    this.server.put('/businesses/:id/feedback', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-      expect.contentTypeHeader(assert, request, 'application/json');
-
-      assert.equal(id, request.params.id);
-
-      const requestData = JSON.parse(request.requestBody);
-      assert.deepEqual(requestData, data,
-        "POST /businesses/:id/feedback with expected data");
-
-      return returnData;
-    });
-
-    subject.updateFeedback(id, data).then((responseData) => {
       assert.deepEqual(responseData, returnData,
         'it returns parsed response JSON'
       );
@@ -824,33 +645,6 @@ module('Unit | Service | api', function(hooks) {
     subject.getVenueLocations(query).then((responseData) => {
       assert.deepEqual(responseData, returnData,
         'it returns parsed response JSON'
-      );
-      done();
-    });
-  });
-
-  test('getWeather()', function(assert) {
-    const subject = this.owner.factoryFor('service:api').create({
-      session: this.session,
-      queryCache: this.queryCache
-    });
-
-    const done = assert.async();
-    const returnHtml = "<p>It's cold.. Very cold.</p>";
-
-    this.server.get('/weather', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'text/html');
-
-      assert.ok(true, 'GET /weather');
-
-      return returnHtml;
-    });
-
-    subject.getWeather().then((responseHtml) => {
-      assert.deepEqual(responseHtml, returnHtml,
-        'it returns response HTML'
       );
       done();
     });

@@ -1,11 +1,11 @@
 /* global window */
 import { alias, readOnly, not, and } from '@ember/object/computed';
 import $ from 'jquery';
-import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import { computed, get } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import Component from '@ember/component';
 
 export default Component.extend(TestSelector, {
   classNames: ['GlobalHeader'],
@@ -49,9 +49,9 @@ export default Component.extend(TestSelector, {
       } else {
         run.next(() => {
           if (focusTarget === 'focusOnLocation') {
-            this.$('.UserLocation-SearchInput input').focus();
+            $(this.element).find('.UserLocation-SearchInput input').focus();
           } else {
-            this.$('.GlobalHeader-querySearch input').focus();
+            $(this.element).find('.GlobalHeader-querySearch input').focus();
           }
         });
       }

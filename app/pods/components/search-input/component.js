@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { getWithDefault, computed, get } from '@ember/object';
 import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import Component from '@ember/component';
 
 export default Component.extend(TestSelector, {
   tagName: 'span',
@@ -59,7 +59,7 @@ export default Component.extend(TestSelector, {
 
   focusIn() {
     if (get(this, 'selectAllOnFocus')) {
-      this.$('input').select();
+      $(this.element).find('input').select();
     }
 
     if (get(this, 'onfocus')) {

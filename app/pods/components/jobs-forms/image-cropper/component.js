@@ -1,7 +1,8 @@
 import { debounce, next } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
-import Component from '@ember/component';
 import { set, get, setProperties } from '@ember/object';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['JobsForms-ImageCropper'],
@@ -25,7 +26,7 @@ export default Component.extend({
   },
 
   willDestroyElement() {
-    this.$('.js-Cropper-image').cropper('destroy');
+    $(this.element).find('.js-Cropper-image').cropper('destroy');
     this._super(...arguments);
   },
 
@@ -69,13 +70,13 @@ export default Component.extend({
     const minWidth = get(this, 'minWidth');
     const that = this;
 
-    const img = this.$('.js-Cropper-image')
+    const img = $(this.element).find('.js-Cropper-image')
       .attr('src', imageUrl)
       .one('load', () => {
         // The .cropper-container element is added by the cropper plugin, so we
         // can use that to detect if has already been initialized. If it has,
         // we just need to replace the image rather than reinitialize it.
-        const cropperExists = isPresent(this.$('.cropper-container'));
+        const cropperExists = isPresent($(this.element).find('.cropper-container'));
 
         if (!cropperExists) {
           img.cropper({
@@ -139,7 +140,7 @@ export default Component.extend({
     rotateImage(direction) {
       const rotation = direction === 'left' ? -90 : 90;
 
-      this.$('.js-Cropper-image').cropper("rotate", rotation);
+      $(this.element).find('.js-Cropper-image').cropper("rotate", rotation);
     },
 
     cancel() {
@@ -166,7 +167,7 @@ export default Component.extend({
         get(this, 'onDelete')();
       }
 
-      this.$('.js-Cropper-image').cropper('destroy');
+      $(this.element).find('.js-Cropper-image').cropper('destroy');
     },
 
     onCloseModal() {

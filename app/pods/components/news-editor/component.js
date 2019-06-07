@@ -113,18 +113,26 @@ export default Component.extend(TestSelector, Validation, {
     });
   }),
 
+  defaultOrganization: readOnly('filteredOrganizations.firstObject'),
+
   managesMultipleOrganizations: gt('filteredOrganizations.length', 1),
 
-  chosenOrganization: computed('filteredOrganizations', function() {
+  chosenOrganization: computed('filteredOrganizations.[]', function() {
     const filteredOrganizations = get(this, 'filteredOrganizations');
 
     if (filteredOrganizations.length === 1) {
-      set(this, 'news.organization', filteredOrganizations[0]);
-      return filteredOrganizations[0];
+      const defaultOrganization = get(this, 'defaultOrganization');
+      this._setNewsOrganization(defaultOrganization);
+
+      return defaultOrganization;
     } else {
       return get(this, 'news.organization');
     }
   }),
+
+  _setNewsOrganization(organization) {
+    set(this, 'news.organization', organization);
+  },
 
   hasChosenOrganization: notEmpty('news.organization.id'),
 

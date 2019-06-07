@@ -16,7 +16,7 @@ export default Component.extend({
     locateUser() {
       set(this, 'gettingGeolocation', true);
 
-     get(this, 'userLocation').locateUser()
+      get(this, 'userLocation').locateUser()
       .then((userLocation) => {
         get(this, 'userLocation').saveUserLocation(userLocation);
 

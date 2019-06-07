@@ -205,12 +205,17 @@ export default StepComponent.extend({
             window.scrollBy(0, scrollDifference);
           }
 
-          set(this, 'modalDialogStyle', htmlSafe(`opacity:1;top:${modalTop}px;left:${modalLeft}px;`));
+          this._setModalDialogStyle(modalTop, modalLeft);
+
         }
       });
     }
     return null;
   }),
+
+  _setModalDialogStyle(top, left) {
+    set(this, 'modalDialogStyle', htmlSafe(`opacity:1;top:${top}px;left:${left}px;`));
+  },
 
   actions: {
     skipToNextStep() {

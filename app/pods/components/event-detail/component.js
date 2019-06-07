@@ -1,6 +1,5 @@
 import { inject as service } from '@ember/service';
 import { reads, alias, oneWay, sort, gt } from '@ember/object/computed';
-import Component from '@ember/component';
 import { isPresent } from '@ember/utils';
 import { computed, get, set, setProperties } from '@ember/object';
 import { htmlSafe } from '@ember/template';
@@ -8,6 +7,8 @@ import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
 import IsDefaultOrganization from 'subtext-ui/utils/is-default-organization';
 import contentComments from 'subtext-ui/mixins/content-comments';
+import $ from 'jquery';
+import Component from '@ember/component';
 
 export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
   'data-test-component': 'event-detail',
@@ -128,8 +129,8 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     },
 
     scrollToMoreContent() {
-      const elem = this.$('.DetailPage-moreContent');
-      const offset = (elem && elem.offset && elem.offset()) ? elem.offset().top : null;
+      const $elem = $(this.element).find('.DetailPage-moreContent');
+      const offset = ($elem && $elem.offset && $elem.offset()) ? $elem.offset().top : null;
 
       if (offset) {
         const scrollTo = get(this, 'scrollTo');

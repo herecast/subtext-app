@@ -73,7 +73,7 @@ export default Component.extend(CardMetrics, {
       const offset = get(this, 'hasOrganization') ? 60 : 107;
       set(this, 'promotionMenuOpen', true);
       $('html, body').animate({
-        scrollTop: this.$().offset().top - offset
+        scrollTop: $(this.element).offset().top - offset
       }, 250);
     },
     onContentClick() {

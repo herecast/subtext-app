@@ -39,7 +39,7 @@
     "ember-cli-deploy-new-relic-sourcemap": "subtextmedia/ember-cli-deploy-new-relic-sourcemap#e3b6e07cac5be2add4b6a67358e20f3413ceff89",
     "ember-cli-deploy-plugin": "^0.2.9",
     "ember-cli-deploy-s3": "~1.4.0",
-    "ember-cli-document-title": "0.4.0",
+    "ember-cli-document-title-northm": "^1.0.3",
     "ember-cli-eslint": "^4.2.3",
     "ember-cli-fastboot": "2.0.0",
     "ember-cli-head": "0.4.1",
@@ -114,7 +114,9 @@
     "newrelic",
     "node-fetch"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "ember-fetch": "^6.5.1"
+  },
   "resolutions": {
     "ember-cli-pickadate/pickadate": "amsul/pickadate.js#35f86c393ca5f4061245042d83e70585f956647f"
   },

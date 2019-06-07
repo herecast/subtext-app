@@ -1,6 +1,7 @@
 import { debounce } from '@ember/runloop';
 import TextField from '@ember/component/text-field';
 import { set, get } from '@ember/object';
+import $ from 'jquery';
 
 export default TextField.extend({
   debounceWait: 500, // default wait value
@@ -10,7 +11,7 @@ export default TextField.extend({
   },
   _setValue: function () {
     if(!get(this, 'isDestroying')) {
-      set(this,'value', this.$().val());
+      set(this,'value', $(this.element).val());
     }
   }
 });
