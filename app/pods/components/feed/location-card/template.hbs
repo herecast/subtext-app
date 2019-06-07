@@ -1,14 +1,14 @@
 <div class="Feed-LocationCard--top">
 
-  {{#if hasImageUrl}}
+  {{#if showImage}}
     <div class="Feed-LocationCard--image" style={{imageStyle}}></div>
   {{else if hasCoordinates}}
     {{google-map
       centerLocation=userLocation
       class="Feed-LocationCard--map"
     }}
-  {{else}}
-    <div class="Feed-LocationCard--image default" style={{imageStyle}}></div>
+  {{else if showDefaultImage}}
+    <div class="Feed-LocationCard--image default" style={{defaultImageStyle}}></div>
   {{/if}}
 
   <div class="Feed-LocationCard--overlay"></div>

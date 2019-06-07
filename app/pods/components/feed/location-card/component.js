@@ -1,5 +1,5 @@
 import { get, set, setProperties, computed } from '@ember/object';
-import { readOnly, notEmpty, oneWay } from '@ember/object/computed';
+import { readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent, isBlank } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
@@ -37,9 +37,36 @@ export default Component.extend({
 
   userLocation: readOnly('userLocationService.userLocation'),
 
-  imageUrl: oneWay('userLocation.imageUrl'),
+  _imageHasError: false,
+  imageUrl: computed('userLocation.imageUrl', function() {
+    const imageUrl = get(this, 'userLocation.imageUrl') || null;
 
-  hasImageUrl: notEmpty('imageUrl'),
+    if (isPresent(imageUrl) && !get(this, 'fastboot.isFastBoot')) {
+      const options = [imageUrl, 500, 180, true];
+      const optImageUrl = optimizedImageUrl(options);
+
+      this._loadImage(optImageUrl);
+
+      return optImageUrl;
+    }
+
+    return null;
+  }),
+
+  showImage: computed('imageUrl', '_imageHasError', function() {
+    const imageUrl = get(this, 'imageUrl');
+    const _imageHasError = get(this, '_imageHasError');
+
+    return isPresent(imageUrl) && !_imageHasError;
+  }),
+
+  showDefaultImage: computed('fastboot.isFastBoot', 'showImage', '_isLoadingImage', function() {
+    const isFastBoot = get(this, 'fastboot.isFastBoot');
+    const showImage = get(this, 'showImage');
+    const _isLoadingImage = get(this, '_isLoadingImage');
+
+    return !isFastBoot && !showImage && !_isLoadingImage;
+  }),
 
   hasCoordinates: computed('userLocation.{latitude,longitude}', function() {
     const userLocation = get(this, 'userLocation');
@@ -49,22 +76,28 @@ export default Component.extend({
   }),
 
   imageStyle: computed('imageUrl', function() {
-    const imageUrl = get(this, 'imageUrl') || get(this, '_defaultImageUrl');
+    const imageUrl = get(this, 'imageUrl') || null;
 
-    if (isPresent(imageUrl) && !get(this, 'fastboot.isFastBoot')) {
-      const options = [imageUrl, 500, 180, true];
-      const optImageUrl = optimizedImageUrl(options);
-
-      this._loadImage(optImageUrl);
-
-      return htmlSafe(`background-image: url('${optImageUrl}');`);
+    if (isPresent(imageUrl)) {
+      return htmlSafe(`background-image: url('${imageUrl}');`);
     }
 
     return '';
   }),
 
+  defaultImageStyle: computed('imageUrl', function() {
+    const defaultImageUrl = get(this, '_defaultImageUrl');
+    const options = [defaultImageUrl, 500, 180, true];
+    const optImageUrl = optimizedImageUrl(options);
+
+    return htmlSafe(`background-image: url('${optImageUrl}');`);
+  }),
+
   _loadImage(url) {
-    set(this, '_isLoadingImage', true);
+    setProperties(this, {
+      '_isLoadingImage': true,
+      '_imageHasError': false
+    });
 
     let image = new Image();
 
@@ -80,7 +113,7 @@ export default Component.extend({
       run( () => {
         if (!get(this, 'isDestroyed')) {
           setProperties(this, {
-            'imageUrl': null,
+            '_imageHasError': true,
             '_isLoadingImage': false
           });
         }
