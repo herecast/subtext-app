@@ -2,9 +2,9 @@ import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
-import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
-import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
+import Redirect from 'subtext-app/mixins/routes/redirect-after-login';
+import RouteMetaMixin from 'subtext-app/mixins/routes/social-tags';
+import DocTitleFromContent from 'subtext-app/mixins/routes/title-token-from-content';
 
 export default Route.extend(Redirect, RouteMetaMixin, DocTitleFromContent, {
   session: service(),

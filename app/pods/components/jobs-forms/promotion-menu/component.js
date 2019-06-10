@@ -6,8 +6,8 @@ import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import $ from 'jquery';
 import moment from 'moment';
-import TextSnippet from 'subtext-ui/mixins/components/text-snippet';
-import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
+import TextSnippet from 'subtext-app/mixins/components/text-snippet';
+import SocialPreloaded from 'subtext-app/mixins/components/social-preloaded';
 import Component from '@ember/component';
 
 export default Component.extend(TextSnippet, SocialPreloaded, {

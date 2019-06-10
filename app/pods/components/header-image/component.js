@@ -1,7 +1,7 @@
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 
 
 export default Component.extend({

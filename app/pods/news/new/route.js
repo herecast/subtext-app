@@ -3,8 +3,8 @@ import { get, set } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
-import Scroll from 'subtext-ui/mixins/routes/scroll-to-top';
-import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import Scroll from 'subtext-app/mixins/routes/scroll-to-top';
+import FastbootTransitionRouteProtocol from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
 import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {

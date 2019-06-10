@@ -1,8 +1,8 @@
 import { Promise } from 'rsvp';
 import { run } from '@ember/runloop';
 import Devise from 'ember-simple-auth/authenticators/devise';
-import config from 'subtext-ui/config/environment';
-import { detectResponseStatus } from 'subtext-ui/lib/request-utilities';
+import config from 'subtext-app/config/environment';
+import { detectResponseStatus } from 'subtext-app/lib/request-utilities';
 
 const apiHost = config.API_BASE_URL;
 

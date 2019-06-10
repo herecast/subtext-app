@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import { visit, click, find, currentRouteName } from '@ember/test-helpers';
 

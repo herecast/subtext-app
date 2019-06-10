@@ -1,5 +1,5 @@
 
-import { showFeedAd } from 'subtext-ui/helpers/show-feed-ad';
+import { showFeedAd } from 'subtext-app/helpers/show-feed-ad';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | show feed ad', function() {

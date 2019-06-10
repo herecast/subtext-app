@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { module, skip } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { visit } from '@ember/test-helpers';
 import sinon from 'sinon';
 

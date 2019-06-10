@@ -1,8 +1,8 @@
 /* globals blanket, module */
 
 var options = {
-  modulePrefix: 'subtext-ui',
-  filter: '//.*subtext-ui/.*/',
+  modulePrefix: 'subtext-app',
+  filter: '//.*subtext-app/.*/',
   antifilter: '//.*(tests|template).*/',
   loaderExclusions: [],
   enableCoverage: true,

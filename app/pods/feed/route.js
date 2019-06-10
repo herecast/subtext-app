@@ -5,10 +5,10 @@ import { on } from '@ember/object/evented';
 import RSVP, { Promise } from 'rsvp';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
-import History from 'subtext-ui/mixins/routes/history';
-import NavigationDisplay from 'subtext-ui/mixins/routes/navigation-display';
-import ShowUserLocationBar from 'subtext-ui/mixins/routes/show-user-location-bar';
+import VariableInfinityModelParams from 'subtext-app/mixins/routes/variable-infinity-model-params';
+import History from 'subtext-app/mixins/routes/history';
+import NavigationDisplay from 'subtext-app/mixins/routes/navigation-display';
+import ShowUserLocationBar from 'subtext-app/mixins/routes/show-user-location-bar';
 import moment from 'moment';
 import $ from 'jquery';
 

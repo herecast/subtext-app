@@ -3,7 +3,7 @@ import { reads } from '@ember/object/computed';
 
 import Service, { inject as service } from '@ember/service';
 import { set, get, setProperties } from '@ember/object';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export default Service.extend({
   fastbootService: service(),

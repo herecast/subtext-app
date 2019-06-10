@@ -4,7 +4,7 @@ import { run } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
 import { observer, computed, set, get } from '@ember/object';
 import moment from 'moment';
-import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
+import ScheduleSummary from 'subtext-app/mixins/schedule-summary';
 
 const repeatTypes = [{ key: 'Daily', value: 'daily' }, { key: 'Weekly', value: 'weekly' },
       { key: 'Bi-Weekly', value: 'bi-weekly' },

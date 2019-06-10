@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ContentCommentsMixin from 'subtext-ui/mixins/content-comments';
+import ContentCommentsMixin from 'subtext-app/mixins/content-comments';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | content comments', function() {

@@ -2,11 +2,11 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
-import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
-import mockService from 'subtext-ui/tests/helpers/mock-service';
-import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
+import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
+import mockService from 'subtext-app/tests/helpers/mock-service';
+import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
 import { visit, click, find, findAll, fillIn, currentURL } from '@ember/test-helpers';
 
 module('Acceptance | homepage', function(hooks) {

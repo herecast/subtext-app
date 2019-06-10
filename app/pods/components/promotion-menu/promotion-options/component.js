@@ -3,7 +3,7 @@ import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import { computed, setProperties, get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
+import SocialPreloaded from 'subtext-app/mixins/components/social-preloaded';
 
 export default Component.extend(SocialPreloaded, {
   classNames: 'PromotionMenu-PromotionOptions',

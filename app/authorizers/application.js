@@ -1,5 +1,5 @@
 import Devise from 'ember-simple-auth/authorizers/devise';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export default Devise.extend({
   authorize(data, header) {

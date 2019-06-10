@@ -1,7 +1,7 @@
 import { click, fillIn, triggerEvent, visit } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { Promise } from 'rsvp';
-import createImageFixture from 'subtext-ui/tests/helpers/create-image-fixture';
+import createImageFixture from 'subtext-app/tests/helpers/create-image-fixture';
 import {
   create,
   fillable,

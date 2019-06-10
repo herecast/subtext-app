@@ -12,7 +12,7 @@ import { isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import { observer } from '@ember/object';
-import CardMetrics from 'subtext-ui/mixins/components/card-metrics';
+import CardMetrics from 'subtext-app/mixins/components/card-metrics';
 
 export default Component.extend(CardMetrics, {
   classNames: 'FeedCard',

@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import MystuffNavObjectsMixin from 'subtext-ui/mixins/mystuff-nav-objects';
+import MystuffNavObjectsMixin from 'subtext-app/mixins/mystuff-nav-objects';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | mystuff nav objects', function() {

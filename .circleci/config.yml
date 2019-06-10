@@ -2,7 +2,7 @@ version: 2
 
 jobs:
   build:
-    working_directory: ~/subtext-ui
+    working_directory: ~/subtext-app
     docker:
       - image: circleci/node:10.13.0-browsers
     steps:
@@ -10,8 +10,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - subtext-ui-yarn-{{ checksum "yarn.lock" }}
-            - subtext-ui-yarn-
+            - subtext-app-yarn-{{ checksum "yarn.lock" }}
+            - subtext-app-yarn-
 
       - run:
           name: Yarn Install
@@ -20,7 +20,7 @@ jobs:
       - run: ~/.yarn/bin/bower install
 
       - save_cache:
-          key: subtext-ui-yarn-{{ checksum "yarn.lock" }}
+          key: subtext-app-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 

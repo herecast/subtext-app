@@ -1,4 +1,4 @@
-import mailtoHref from 'subtext-ui/utils/mailto-href';
+import mailtoHref from 'subtext-app/utils/mailto-href';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | mailto href', function() {

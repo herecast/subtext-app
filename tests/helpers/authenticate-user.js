@@ -1,6 +1,6 @@
 import { deprecate } from '@ember/application/deprecations';
 import { isEmpty } from '@ember/utils';
-//import { authenticateSession } from 'subtext-ui/tests/helpers/ember-simple-auth';
+//import { authenticateSession } from 'subtext-app/tests/helpers/ember-simple-auth';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
 export default function(server) {

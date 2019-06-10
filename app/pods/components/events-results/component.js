@@ -3,7 +3,7 @@ import { computed, setProperties, set, get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent, isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import { buildGroup } from 'subtext-ui/lib/group-by-date';
+import { buildGroup } from 'subtext-app/lib/group-by-date';
 import { A } from '@ember/array';
 import moment from 'moment';
 import $ from 'jquery';

@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesFastbootTransitionRouteProtocolMixin from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import RoutesFastbootTransitionRouteProtocolMixin from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/fastboot transtiion route protocol', function() {

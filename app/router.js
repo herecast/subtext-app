@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import EmberRouter from '@ember/routing/router';
 import { get } from '@ember/object';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 
 const Router = EmberRouter.extend({

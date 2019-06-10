@@ -2,7 +2,7 @@ import { readOnly, gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import MystuffNavObjects from 'subtext-ui/mixins/mystuff-nav-objects';
+import MystuffNavObjects from 'subtext-app/mixins/mystuff-nav-objects';
 
 export default Component.extend(MystuffNavObjects, {
   classNames: 'SiteNav-UserMenu',

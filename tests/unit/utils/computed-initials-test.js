@@ -1,4 +1,4 @@
-import computedInitials from 'subtext-ui/utils/computed-initials';
+import computedInitials from 'subtext-app/utils/computed-initials';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | computed initials', function() {

@@ -3,7 +3,7 @@ import { computed, set, get } from '@ember/object';
 import Controller, { inject as controller } from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
-import MystuffNavObjects from 'subtext-ui/mixins/mystuff-nav-objects';
+import MystuffNavObjects from 'subtext-app/mixins/mystuff-nav-objects';
 
 export default Controller.extend(MystuffNavObjects, {
   session: service(),

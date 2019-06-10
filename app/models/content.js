@@ -4,11 +4,11 @@ import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
 
 import moment from 'moment';
-import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
-import dateFormat from 'subtext-ui/lib/dates';
-import Schedulable from 'subtext-ui/mixins/models/schedulable';
-import HasVenue from 'subtext-ui/mixins/models/has-venue';
-import HasImages from 'subtext-ui/mixins/models/has-images';
+import isDefaultOrganization from 'subtext-app/utils/is-default-organization';
+import dateFormat from 'subtext-app/lib/dates';
+import Schedulable from 'subtext-app/mixins/models/schedulable';
+import HasVenue from 'subtext-app/mixins/models/has-venue';
+import HasImages from 'subtext-app/mixins/models/has-images';
 
 const {
   attr,

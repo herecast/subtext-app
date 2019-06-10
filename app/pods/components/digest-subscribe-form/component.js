@@ -3,7 +3,7 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { set, get, setProperties } from '@ember/object';
 import { isPresent } from '@ember/utils';
-import Validation from 'subtext-ui/mixins/components/validation';
+import Validation from 'subtext-app/mixins/components/validation';
 
 export default Component.extend(Validation, {
   classNames: ['DigestSubscribe'],

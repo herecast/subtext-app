@@ -2,8 +2,8 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
-import Validation from 'subtext-ui/mixins/components/validation';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import Validation from 'subtext-app/mixins/components/validation';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 
 export default Component.extend(Validation, TestSelector, {
   tagName: 'form',

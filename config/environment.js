@@ -3,10 +3,10 @@
 module.exports = function(environment) {
 
   var ENV = {
-    modulePrefix: 'subtext-ui',
+    modulePrefix: 'subtext-app',
     environment: environment,
     rootURL: '/',
-    podModulePrefix: 'subtext-ui/pods',
+    podModulePrefix: 'subtext-app/pods',
     locationType: 'auto',
     envOverrides: [
       'API_BASE_URL',

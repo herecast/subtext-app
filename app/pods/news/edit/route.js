@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import RequireCanEdit from 'subtext-ui/mixins/routes/require-can-edit';
+import RequireCanEdit from 'subtext-app/mixins/routes/require-can-edit';
 
 export default Route.extend(RequireCanEdit, {
   titleToken: 'Edit Post',

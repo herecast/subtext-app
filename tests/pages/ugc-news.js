@@ -1,6 +1,6 @@
 import { click, find, triggerEvent, triggerKeyEvent, fillIn } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
-import createImageFixture from 'subtext-ui/tests/helpers/create-image-fixture';
+import createImageFixture from 'subtext-app/tests/helpers/create-image-fixture';
 import {
   create,
   visitable,

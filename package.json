@@ -1,8 +1,8 @@
 {
-  "name": "subtext-ui",
+  "name": "subtext-app",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for subtext-ui goes here",
+  "description": "Small description for subtext-app goes here",
   "repository": "",
   "license": "MIT",
   "author": "",

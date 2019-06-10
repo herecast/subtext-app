@@ -3,8 +3,8 @@ import { equal } from '@ember/object/computed';
 import { set, get, computed } from '@ember/object';
 import { isPresent, isEmpty } from '@ember/utils';
 import { Promise } from 'rsvp';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
-import Validation from 'subtext-ui/mixins/components/validation';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
+import Validation from 'subtext-app/mixins/components/validation';
 import $ from 'jquery';
 import Component from '@ember/component';
 

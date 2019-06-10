@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { set, get, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 
 export default Component.extend(TestSelector, {
   'data-test-component': 'report-abuse-link',

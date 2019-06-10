@@ -14,8 +14,8 @@ import { isPresent, isBlank } from '@ember/utils';
 import { set, setProperties, get, computed } from '@ember/object';
 import { run, next } from '@ember/runloop';
 import moment from 'moment';
-import Validation from 'subtext-ui/mixins/components/validation';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import Validation from 'subtext-app/mixins/components/validation';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 /* eslint-disable ember/closure-actions */
 
 const editorConfigArray = [

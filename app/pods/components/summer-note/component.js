@@ -3,8 +3,8 @@ import $ from 'jquery';
 import { set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { run } from '@ember/runloop';
-import { sanitizeContent } from 'subtext-ui/lib/content-sanitizer';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import { sanitizeContent } from 'subtext-app/lib/content-sanitizer';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 import Component from '@ember/component';
 
 const defaultToolbarOpts = [

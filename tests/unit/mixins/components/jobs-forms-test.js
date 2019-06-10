@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ComponentsJobsFormsMixin from 'subtext-ui/mixins/components/jobs-forms';
+import ComponentsJobsFormsMixin from 'subtext-app/mixins/components/jobs-forms';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | components/jobs-forms', function() {

@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesMaintainScrollMixin from 'subtext-ui/mixins/routes/maintain-scroll';
+import RoutesMaintainScrollMixin from 'subtext-app/mixins/routes/maintain-scroll';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/maintain scroll', function() {

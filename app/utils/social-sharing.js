@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import RSVP from 'rsvp';
 import { get } from '@ember/object';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export default {
   checkFacebookCache(locationService, model) {

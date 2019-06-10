@@ -6,17 +6,17 @@ import { get, computed } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
 import fetch from 'ember-network/fetch';
-import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 import { registerWaiter } from '@ember/test';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 import {
   isRequestError,
   UnknownFetchError,
   detectResponseStatus,
   normalizeErrorResponse
-} from 'subtext-ui/lib/request-utilities';
+} from 'subtext-app/lib/request-utilities';
 
 let pendingRequestCount = 0;
 

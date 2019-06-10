@@ -1,4 +1,4 @@
-import mockService from 'subtext-ui/tests/helpers/mock-service';
+import mockService from 'subtext-app/tests/helpers/mock-service';
 
 export default function(server, location=null) {
   if (!location) {

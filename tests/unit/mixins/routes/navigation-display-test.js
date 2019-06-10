@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesNavigationDisplayMixin from 'subtext-ui/mixins/routes/navigation-display';
+import RoutesNavigationDisplayMixin from 'subtext-app/mixins/routes/navigation-display';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/navigation display', function() {

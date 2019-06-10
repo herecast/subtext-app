@@ -1,10 +1,10 @@
 import { inject as service } from '@ember/service';
 import Mixin from '@ember/object/mixin';
 import { get } from '@ember/object';
-import config from 'subtext-ui/config/environment';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
+import config from 'subtext-app/config/environment';
+import SocialSharing from 'subtext-app/utils/social-sharing';
 import sanitize from 'npm:sanitize-html';
-import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import makeOptimizedImageUrl from 'subtext-app/utils/optimize-image-url';
 
 
 export default Mixin.create({

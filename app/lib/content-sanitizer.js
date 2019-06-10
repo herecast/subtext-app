@@ -1,5 +1,5 @@
 import sanitize from 'npm:sanitize-html';
-import ugcConfig from 'subtext-ui/sanitizers/ugc';
+import ugcConfig from 'subtext-app/sanitizers/ugc';
 
 
 function cleanHtml($content) {

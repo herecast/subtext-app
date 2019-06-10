@@ -1,5 +1,5 @@
 
-import { formattedNumber } from 'subtext-ui/helpers/formatted-number';
+import { formattedNumber } from 'subtext-app/helpers/formatted-number';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | formatted number', function() {

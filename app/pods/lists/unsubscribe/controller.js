@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 import { get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import RSVP from 'rsvp';
-import Validations from 'subtext-ui/mixins/components/validation';
+import Validations from 'subtext-app/mixins/components/validation';
 
 export default Controller.extend(Validations, {
   digest: null,

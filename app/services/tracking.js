@@ -8,7 +8,7 @@ import { run } from '@ember/runloop';
 import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { get, set, computed } from '@ember/object';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export default Service.extend(Evented, {
   api: service(),

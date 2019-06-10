@@ -2,7 +2,7 @@ import { set, get } from '@ember/object';
 import { Promise } from 'rsvp';
 import Service, { inject as service } from '@ember/service';
 import $ from 'jquery';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export default Service.extend({
   fastboot: service(),

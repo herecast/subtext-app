@@ -1,4 +1,4 @@
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 // Given a URL for a full-sized image, e.g. https://d3ctw1a5413a3o.cloudfront.net/content/885932/ec601f5d7fe3abe3-blob.jpeg,
 // return a new URL for a version of the image that is optimized to fit in the given rectangle dimensions.

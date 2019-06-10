@@ -5,7 +5,7 @@ import { notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { Promise } from 'rsvp';
 import { run, next, later } from '@ember/runloop';
-import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
+import ObjectPromiseProxy from 'subtext-app/utils/object-promise-proxy';
 import moment from 'moment';
 
 

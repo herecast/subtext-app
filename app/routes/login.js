@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { Promise } from 'rsvp';
 import { get } from '@ember/object';
-import WillAuthenticateMixin from 'subtext-ui/mixins/routes/will-authenticate';
+import WillAuthenticateMixin from 'subtext-app/mixins/routes/will-authenticate';
 
 export default Route.extend(WillAuthenticateMixin, {
   fastboot: service(),

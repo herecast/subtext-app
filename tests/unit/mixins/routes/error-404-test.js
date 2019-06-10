@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesError404Mixin from 'subtext-ui/mixins/routes/error-404';
+import RoutesError404Mixin from 'subtext-app/mixins/routes/error-404';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/error 404', function() {

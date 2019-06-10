@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import SilentRegistrationMixin from 'subtext-ui/mixins/silent-registration';
+import SilentRegistrationMixin from 'subtext-app/mixins/silent-registration';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | silent registration', function() {

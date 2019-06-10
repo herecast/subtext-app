@@ -1,6 +1,6 @@
 import LinkComponent from '@ember/routing/link-component';
 import EmberObject, { get } from '@ember/object';
-import XButtonMixin from 'subtext-ui/mixins/components/x-button';
+import XButtonMixin from 'subtext-app/mixins/components/x-button';
 
 /**
  * Reusable button-styled `link-to` component supporting multiple button colors, sizes and styles.

@@ -4,7 +4,7 @@ import { isPresent } from '@ember/utils';
 import { get, set } from '@ember/object';
 import { A } from '@ember/array';
 import $ from 'jquery';
-import ManualDropdown from 'subtext-ui/mixins/components/manual-dropdown';
+import ManualDropdown from 'subtext-app/mixins/components/manual-dropdown';
 import Component from '@ember/component';
 
 export default Component.extend(ManualDropdown, {

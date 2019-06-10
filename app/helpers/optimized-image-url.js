@@ -1,5 +1,5 @@
 import { helper as buildHelper } from '@ember/component/helper';
-import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import makeOptimizedImageUrl from 'subtext-app/utils/optimize-image-url';
 
 export function optimizedImageUrl(params) {
   const url    = params[0];

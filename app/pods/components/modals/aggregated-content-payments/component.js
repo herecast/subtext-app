@@ -3,7 +3,7 @@ import { set, get, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { A } from '@ember/array';
 import moment from 'moment';
-import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
+import ModalInstance from 'subtext-app/pods/components/modal-instance/component';
 
 export default ModalInstance.extend({
   api: service(),

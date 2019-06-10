@@ -3,7 +3,7 @@ import { isPresent } from '@ember/utils';
 import { set, get, computed } from '@ember/object';
 import DS from 'ember-data';
 import moment from 'moment';
-import ScheduleSummary from 'subtext-ui/mixins/schedule-summary';
+import ScheduleSummary from 'subtext-app/mixins/schedule-summary';
 import later from 'npm:later';
 /* global _ */
 

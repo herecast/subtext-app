@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ComponentsScrollToCommentsMixin from 'subtext-ui/mixins/components/scroll-to-comments';
+import ComponentsScrollToCommentsMixin from 'subtext-app/mixins/components/scroll-to-comments';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | components/scroll-to-comments', function() {

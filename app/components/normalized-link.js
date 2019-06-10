@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 
 export default Component.extend(TestSelector, {
   tagName: 'a',

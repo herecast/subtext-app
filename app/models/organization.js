@@ -4,7 +4,7 @@ import { isPresent } from '@ember/utils';
 import { setProperties, set, get, computed } from '@ember/object';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
-import isDefaultOrganization from 'subtext-ui/utils/is-default-organization';
+import isDefaultOrganization from 'subtext-app/utils/is-default-organization';
 
 export default DS.Model.extend({
   api: service('api'),

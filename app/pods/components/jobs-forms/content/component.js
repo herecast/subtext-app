@@ -3,7 +3,7 @@ import { alias, empty } from '@ember/object/computed';
 import $ from 'jquery';
 import { htmlSafe } from '@ember/string';
 import { next } from '@ember/runloop';
-import JobsForms from 'subtext-ui/mixins/components/jobs-forms';
+import JobsForms from 'subtext-app/mixins/components/jobs-forms';
 import Component from '@ember/component';
 
 export default Component.extend(JobsForms, {

@@ -4,7 +4,7 @@ import { computed, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
-import reloadComments from 'subtext-ui/mixins/reload-comments';
+import reloadComments from 'subtext-app/mixins/reload-comments';
 
 export default Component.extend(reloadComments, {
   classNames: 'FeedCard-EventCard',

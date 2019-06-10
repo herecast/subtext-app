@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ComponentsTextSnippetMixin from 'subtext-ui/mixins/components/text-snippet';
+import ComponentsTextSnippetMixin from 'subtext-app/mixins/components/text-snippet';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | components/text snippet', function() {

@@ -5,7 +5,7 @@ import { equal, notEmpty, readOnly, not } from '@ember/object/computed';
 import { later, next, debounce } from '@ember/runloop';
 import { htmlSafe } from '@ember/string';
 import $ from 'jquery';
-import Validation from 'subtext-ui/mixins/components/validation';
+import Validation from 'subtext-app/mixins/components/validation';
 import Component from '@ember/component';
 
 export default Component.extend(Validation, {

@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { isPresent, isBlank } from '@ember/utils';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 
 export default Component.extend(TestSelector, {
   api: service('api'),

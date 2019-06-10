@@ -1,4 +1,4 @@
-import TitleTextComponent from 'subtext-ui/pods/components/title-text/component';
+import TitleTextComponent from 'subtext-app/pods/components/title-text/component';
 
 /**
  * Reusable sub-title component to enable consistent styling and behavior across the app.

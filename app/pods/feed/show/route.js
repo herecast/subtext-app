@@ -2,10 +2,10 @@ import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import Redirect from 'subtext-ui/mixins/routes/redirect-after-login';
-import RouteMetaMixin from 'subtext-ui/mixins/routes/social-tags';
-import DocTitleFromContent from 'subtext-ui/mixins/routes/title-token-from-content';
-import FastbootTransitionRouteProtocol from 'subtext-ui/mixins/routes/fastboot-transition-route-protocol';
+import Redirect from 'subtext-app/mixins/routes/redirect-after-login';
+import RouteMetaMixin from 'subtext-app/mixins/routes/social-tags';
+import DocTitleFromContent from 'subtext-app/mixins/routes/title-token-from-content';
+import FastbootTransitionRouteProtocol from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
 
 export default Route.extend(FastbootTransitionRouteProtocol, Redirect, RouteMetaMixin, DocTitleFromContent, {
   session: service(),

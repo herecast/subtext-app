@@ -1,7 +1,7 @@
 import Service, { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
-import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 
 export default Service.extend(FastbootExtensions, {
   windowLocation: service('window-location'),

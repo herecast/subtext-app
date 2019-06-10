@@ -2,10 +2,10 @@ import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import { get, set } from '@ember/object';
 import { isPresent } from '@ember/utils';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { ActiveModelAdapter } from 'active-model-adapter';
-import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 
 import { AdapterError } from 'ember-data/adapters/errors';

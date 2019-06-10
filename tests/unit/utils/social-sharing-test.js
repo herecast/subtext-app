@@ -1,5 +1,5 @@
 import RSVP from 'rsvp';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
+import SocialSharing from 'subtext-app/utils/social-sharing';
 import { module, skip } from 'qunit';
 import sinon from 'sinon';
 

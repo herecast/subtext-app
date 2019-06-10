@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { computed, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { htmlSafe } from '@ember/template';
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 
 export default Component.extend({
   classNames: ['FeedCard-Image'],

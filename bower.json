@@ -1,5 +1,5 @@
 {
-  "name": "subtext-ui",
+  "name": "subtext-app",
   "dependencies": {
     "Chart.js": "~1.0.2",
     "Faker": "^3.1.0",

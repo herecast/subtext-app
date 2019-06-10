@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { computed, set, getProperties, get } from '@ember/object';
 import { isPresent, isBlank } from '@ember/utils';
 import { run } from '@ember/runloop';
-import Validation from 'subtext-ui/mixins/components/validation';
+import Validation from 'subtext-app/mixins/components/validation';
 
 export default Component.extend(Validation, {
 

@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import XButtonMixin from 'subtext-ui/mixins/components/x-button';
+import XButtonMixin from 'subtext-app/mixins/components/x-button';
 
 
 /**

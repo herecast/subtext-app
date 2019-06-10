@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
-import FastbootExtensions from 'subtext-ui/mixins/fastboot-extensions';
+import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 
 export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
   titleToken: 'Registration Complete!',

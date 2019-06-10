@@ -3,9 +3,9 @@ import { computed, get } from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 import { isBlank, isPresent } from '@ember/utils';
 import { htmlSafe } from '@ember/template';
-import computedInitials from 'subtext-ui/utils/computed-initials';
-import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
-import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import computedInitials from 'subtext-app/utils/computed-initials';
+import hexColorFromString from 'subtext-app/utils/hex-color-from-string';
+import makeOptimizedImageUrl from 'subtext-app/utils/optimize-image-url';
 
 export default Component.extend({
   classNames: 'AvatarImage',

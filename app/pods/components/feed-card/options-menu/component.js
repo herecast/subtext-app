@@ -1,8 +1,8 @@
 import { get, set, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import ScrollToComments from 'subtext-ui/mixins/components/scroll-to-comments';
-import IsDefaultOrganization from 'subtext-ui/utils/is-default-organization';
+import ScrollToComments from 'subtext-app/mixins/components/scroll-to-comments';
+import IsDefaultOrganization from 'subtext-app/utils/is-default-organization';
 import Component from '@ember/component';
 
 export default Component.extend(ScrollToComments, {

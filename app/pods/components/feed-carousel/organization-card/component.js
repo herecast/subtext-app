@@ -4,7 +4,7 @@ import { computed, get } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 
 export default Component.extend({
   classNames: 'FeedCarousel-OrganizationCard',

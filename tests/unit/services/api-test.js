@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 // Browser functions required:
 /* global FormData */

@@ -1,7 +1,7 @@
 import { get, computed } from '@ember/object';
 import { oneWay } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
-import ScrollToComments from 'subtext-ui/mixins/components/scroll-to-comments';
+import ScrollToComments from 'subtext-app/mixins/components/scroll-to-comments';
 import Component from '@ember/component';
 
 export default Component.extend(ScrollToComments, {

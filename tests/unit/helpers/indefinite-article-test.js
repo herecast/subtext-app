@@ -1,5 +1,5 @@
 
-import { indefiniteArticle } from 'subtext-ui/helpers/indefinite-article';
+import { indefiniteArticle } from 'subtext-app/helpers/indefinite-article';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | indefinite article', function() {

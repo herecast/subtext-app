@@ -3,7 +3,7 @@
 import { set } from '@ember/object';
 
 import { isPresent } from '@ember/utils';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export function initialize(appInstance) {
   if (typeof FastBoot === 'undefined') {

@@ -2,7 +2,7 @@ import { oneWay, notEmpty, sort } from '@ember/object/computed';
 import { set, get, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
-import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
+import ModalInstance from 'subtext-app/pods/components/modal-instance/component';
 import moment from 'moment';
 
 const displayOptionsObj = {

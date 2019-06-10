@@ -4,9 +4,9 @@ import Route from '@ember/routing/route';
 import { set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import VariableInfinityModelParams from 'subtext-ui/mixins/routes/variable-infinity-model-params';
-import History from 'subtext-ui/mixins/routes/history';
-import idFromSlug from 'subtext-ui/utils/id-from-slug';
+import VariableInfinityModelParams from 'subtext-app/mixins/routes/variable-infinity-model-params';
+import History from 'subtext-app/mixins/routes/history';
+import idFromSlug from 'subtext-app/utils/id-from-slug';
 
 export default Route.extend(VariableInfinityModelParams, History, {
   session: service(),

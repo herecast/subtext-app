@@ -3,7 +3,7 @@ import { readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent, isBlank } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
 

@@ -1,5 +1,5 @@
 
-import { dynamicParams } from 'subtext-ui/helpers/dynamic-params';
+import { dynamicParams } from 'subtext-app/helpers/dynamic-params';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | dynamic params', function() {

@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ComponentsSocialPreloadedMixin from 'subtext-ui/mixins/components/social-preloaded';
+import ComponentsSocialPreloadedMixin from 'subtext-app/mixins/components/social-preloaded';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | components/social preloaded', function() {

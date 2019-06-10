@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { setProperties, computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import Validation from 'subtext-ui/mixins/components/validation';
+import Validation from 'subtext-app/mixins/components/validation';
 
 export default Component.extend(Validation, {
   session: service(),

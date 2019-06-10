@@ -3,8 +3,8 @@ import Component from '@ember/component';
 import { get, set, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { next, later } from '@ember/runloop';
-import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
-import SocialSharing from 'subtext-ui/utils/social-sharing';
+import SocialPreloaded from 'subtext-app/mixins/components/social-preloaded';
+import SocialSharing from 'subtext-app/utils/social-sharing';
 import $ from 'jquery';
 
 export default Component.extend(SocialPreloaded, {

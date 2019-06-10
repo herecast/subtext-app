@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ReloadCommentsMixin from 'subtext-ui/mixins/reload-comments';
+import ReloadCommentsMixin from 'subtext-app/mixins/reload-comments';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | reload comments', function() {

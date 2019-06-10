@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import History from 'subtext-ui/mixins/routes/history';
+import History from 'subtext-app/mixins/routes/history';
 
 export default Route.extend(History, {
   infinity: service(),

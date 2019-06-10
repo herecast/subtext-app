@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import ComponentsLaunchingContentMixin from 'subtext-ui/mixins/components/launching-content';
+import ComponentsLaunchingContentMixin from 'subtext-app/mixins/components/launching-content';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 

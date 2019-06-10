@@ -1,4 +1,4 @@
-import hexColorFromString from 'subtext-ui/utils/hex-color-from-string';
+import hexColorFromString from 'subtext-app/utils/hex-color-from-string';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | hex color from string', function() {

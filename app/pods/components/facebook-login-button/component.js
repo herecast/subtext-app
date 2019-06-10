@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { set, get } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import RSVP from 'rsvp';
-import SocialPreloaded from 'subtext-ui/mixins/components/social-preloaded';
+import SocialPreloaded from 'subtext-app/mixins/components/social-preloaded';
 
 export default Component.extend(SocialPreloaded, {
   tracking: service(),

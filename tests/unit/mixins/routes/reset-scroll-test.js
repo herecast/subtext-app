@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesResetScrollMixin from 'subtext-ui/mixins/routes/reset-scroll';
+import RoutesResetScrollMixin from 'subtext-app/mixins/routes/reset-scroll';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/reset scroll', function() {

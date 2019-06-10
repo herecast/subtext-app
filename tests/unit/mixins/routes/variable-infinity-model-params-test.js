@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import RoutesVariableInfinityModelParamsMixin from 'subtext-ui/mixins/routes/variable-infinity-model-params';
+import RoutesVariableInfinityModelParamsMixin from 'subtext-app/mixins/routes/variable-infinity-model-params';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | routes/variable infinity model params', function() {

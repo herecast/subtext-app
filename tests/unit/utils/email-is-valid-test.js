@@ -1,4 +1,4 @@
-import emailIsValid from 'subtext-ui/utils/email-is-valid';
+import emailIsValid from 'subtext-app/utils/email-is-valid';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | email is valid', function() {

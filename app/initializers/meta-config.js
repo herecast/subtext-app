@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export function initialize() {
   if (typeof FastBoot === 'undefined') {

@@ -3,8 +3,8 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
-import ugcNews from 'subtext-ui/tests/pages/ugc-news';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
+import ugcNews from 'subtext-app/tests/pages/ugc-news';
 import moment from 'moment';
 
 module('Acceptance | ugc news', function(hooks) {

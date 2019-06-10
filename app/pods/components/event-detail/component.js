@@ -3,10 +3,10 @@ import { reads, alias, oneWay, sort, gt } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { computed, get, set, setProperties } from '@ember/object';
 import { htmlSafe } from '@ember/template';
-import LaunchingContent from 'subtext-ui/mixins/components/launching-content';
-import ModelResetScroll from 'subtext-ui/mixins/components/model-reset-scroll';
-import IsDefaultOrganization from 'subtext-ui/utils/is-default-organization';
-import contentComments from 'subtext-ui/mixins/content-comments';
+import LaunchingContent from 'subtext-app/mixins/components/launching-content';
+import ModelResetScroll from 'subtext-app/mixins/components/model-reset-scroll';
+import IsDefaultOrganization from 'subtext-app/utils/is-default-organization';
+import contentComments from 'subtext-app/mixins/content-comments';
 import $ from 'jquery';
 import Component from '@ember/component';
 

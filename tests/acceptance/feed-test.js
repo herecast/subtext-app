@@ -3,10 +3,10 @@ import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import mockLocationCookie from 'subtext-ui/tests/helpers/mock-location-cookie';
-import authenticateUser from 'subtext-ui/tests/helpers/authenticate-user';
+import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
-import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
+import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
 import moment from 'moment';
 import { visit, find, currentRouteName, getContext } from '@ember/test-helpers';
 

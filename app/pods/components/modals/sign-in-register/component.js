@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import { equal } from '@ember/object/computed';
 import { computed, set, get } from '@ember/object';
-import ModalInstance from 'subtext-ui/pods/components/modal-instance/component';
+import ModalInstance from 'subtext-app/pods/components/modal-instance/component';
 
 export default ModalInstance.extend({
   router: service(),

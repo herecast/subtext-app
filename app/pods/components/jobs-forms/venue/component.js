@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { equal, notEmpty, alias } from '@ember/object/computed';
 import { get, set } from '@ember/object';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 
 export default Component.extend(TestSelector, {
   init() {

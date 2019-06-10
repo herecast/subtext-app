@@ -2,7 +2,7 @@ import { notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
 import { htmlSafe } from '@ember/template';
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 
 export default Component.extend({
   classNames: ['OrganizationProfileDesktopImage'],

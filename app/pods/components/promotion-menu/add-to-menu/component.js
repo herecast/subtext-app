@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { isPresent, isBlank } from '@ember/utils';
 import { setProperties, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Validation from 'subtext-ui/mixins/components/validation';
+import Validation from 'subtext-app/mixins/components/validation';
 /* eslint-disable ember/closure-actions */
 
 export default Component.extend(Validation, {

@@ -1,4 +1,4 @@
-import { optimizedImageUrl } from 'subtext-ui/helpers/optimized-image-url';
+import { optimizedImageUrl } from 'subtext-app/helpers/optimized-image-url';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | optimized image url', function() {

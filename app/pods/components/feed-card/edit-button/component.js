@@ -4,7 +4,7 @@ import { Promise } from 'rsvp';
 import { inject as service } from '@ember/service';
 import { next } from '@ember/runloop';
 import { readOnly } from '@ember/object/computed';
-import ObjectPromiseProxy from 'subtext-ui/utils/object-promise-proxy';
+import ObjectPromiseProxy from 'subtext-app/utils/object-promise-proxy';
 
 export default Component.extend({
   tagName: 'span',

@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { invalidateSession} from 'ember-simple-auth/test-support';
-import mockCookies from 'subtext-ui/tests/helpers/mock-cookies';
+import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
 import { visit, click, find, getContext } from '@ember/test-helpers';
 
 module('Acceptance | app download nag', function(hooks) {

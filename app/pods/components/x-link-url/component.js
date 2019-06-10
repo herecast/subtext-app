@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { get } from '@ember/object';
-import XButtonMixin from 'subtext-ui/mixins/components/x-button';
+import XButtonMixin from 'subtext-app/mixins/components/x-button';
 
 /**
  * Reusable anchor tag component supporting multiple button colors, sizes and styles.

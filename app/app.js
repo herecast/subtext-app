@@ -9,7 +9,7 @@ const customEvents = {
 };
 
 const App = Application.extend({
-  name: 'subtext-ui',
+  name: 'subtext-app',
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver,

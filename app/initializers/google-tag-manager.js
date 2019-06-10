@@ -3,7 +3,7 @@ import { warn } from '@ember/debug';
 import { get } from '@ember/object';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 export function initialize(application) {
   if (typeof FastBoot === 'undefined') {

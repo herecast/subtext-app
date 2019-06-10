@@ -4,7 +4,7 @@ import { run } from '@ember/runloop';
 import { computed, setProperties, set, get } from '@ember/object';
 import { isPresent, isBlank } from '@ember/utils';
 import { registerWaiter } from '@ember/test';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 /* global loadImage */
 
 export default Component.extend({

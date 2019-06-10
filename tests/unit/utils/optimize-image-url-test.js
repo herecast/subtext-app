@@ -1,6 +1,6 @@
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
-import makeOptimizedImageUrl from 'subtext-ui/utils/optimize-image-url';
+import makeOptimizedImageUrl from 'subtext-app/utils/optimize-image-url';
 import { module, test } from 'qunit';
 
 let enableImageOptimization;

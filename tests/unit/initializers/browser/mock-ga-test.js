@@ -1,9 +1,9 @@
 import Application from '@ember/application';
 import { run } from '@ember/runloop';
-import { initialize } from 'subtext-ui/initializers/mock-ga';
+import { initialize } from 'subtext-app/initializers/mock-ga';
 import { module, test } from 'qunit';
 import destroyApp from '../../../helpers/destroy-app';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 
 module('Unit | Initializer | browser/mock ga', function(hooks) {
   hooks.beforeEach(function() {

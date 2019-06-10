@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { run } from '@ember/runloop';
 import { getWithDefault, computed, get } from '@ember/object';
-import TestSelector from 'subtext-ui/mixins/components/test-selector';
+import TestSelector from 'subtext-app/mixins/components/test-selector';
 import Component from '@ember/component';
 
 export default Component.extend(TestSelector, {

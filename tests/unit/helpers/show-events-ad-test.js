@@ -1,5 +1,5 @@
 
-import { showEventsAd } from 'subtext-ui/helpers/show-events-ad';
+import { showEventsAd } from 'subtext-app/helpers/show-events-ad';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | show events ad', function() {

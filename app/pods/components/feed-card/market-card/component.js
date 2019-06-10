@@ -2,7 +2,7 @@ import { reads, oneWay, alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import reloadComments from 'subtext-ui/mixins/reload-comments';
+import reloadComments from 'subtext-app/mixins/reload-comments';
 
 export default Component.extend(reloadComments, {
   classNames: 'FeedCard-MarketCard',
