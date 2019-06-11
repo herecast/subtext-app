@@ -1,13 +1,14 @@
 import { get } from '@ember/object';
+import config from 'subtext-ui/config/environment';
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
   urlForCreateRecord(modelName, snapshot) {
     const organizationId =  snapshot.attr('organizationId');
-    return `/${get(this, 'namespace')}/organizations/${organizationId}/hides`;
+    return `${config.API_BASE_URL}/${get(this, 'namespace')}/organizations/${organizationId}/hides`;
   },
 
   urlForDeleteRecord(id) {
-    return `/${get(this, 'namespace')}/organizations/hides/${id}`;
+    return `${config.API_BASE_URL}/${get(this, 'namespace')}/organizations/hides/${id}`;
   }
 });

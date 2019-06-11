@@ -1,4 +1,4 @@
-FROM node:8.9
+FROM node:10.13.0
 RUN npm install -g bower yarn
 RUN mkdir -p /app
 WORKDIR /app

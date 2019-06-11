@@ -82,7 +82,7 @@ export default Component.extend({
       return htmlSafe(`background-image: url('${imageUrl}');`);
     }
 
-    return '';
+    return htmlSafe("");
   }),
 
   defaultImageStyle: computed('imageUrl', function() {

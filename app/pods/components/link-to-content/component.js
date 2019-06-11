@@ -1,13 +1,13 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import { copy } from '@ember/object/internals';
 import { computed, set, get, setProperties } from '@ember/object';
 import { startsWith } from 'lodash';
+import Component from '@ember/component';
 
 const linkToContent = Component.extend({
   history: service(),
 
   tagName: '',
+  model: null,
 
   init() {
     this._super(...arguments);
@@ -43,7 +43,7 @@ const linkToContent = Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    const params = copy(this.params);
+    const params = [...this.params];
     const model = params.shift();
 
     params.unshift(...this.calculateRouteParams(model));

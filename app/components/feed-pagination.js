@@ -1,12 +1,13 @@
 import { gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import { get, computed } from '@ember/object';
+import { htmlSafe } from '@ember/string';
 
 export default Component.extend({
   attributeBindings: ['style'],
   classNames: ['FeedPagination'],
   // This is not meant to be seen by users.  Only bots
-  style: "display:none;",
+  style: htmlSafe("display:none;"),
   page: 1,
   totalPages: 1,
 

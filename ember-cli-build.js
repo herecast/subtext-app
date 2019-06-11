@@ -1,11 +1,14 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const isProduction = EmberApp.env() === 'production';
+const hasCDN = typeof process.env.CDN_URL !== undefined && isProduction;
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     'fingerprint': {
-      prepend: 'https://d1dkpt9jmqqb2i.cloudfront.net/dist/',
+      penabled: hasCDN,
+      prepend: process.env.CDN_URL,
 
       // SVG images are not fingerprinted by default so we have to specify
       // them along with the others that are in the default list.
@@ -15,9 +18,6 @@ module.exports = function(defaults) {
       paths: [
         'bower_components/bootstrap/less'
       ]
-    },
-    'ember-cli-selectize': {
-      theme: 'bootstrap3'
     },
     'ember-cli-pickadate': {
       theme: 'classic'
@@ -77,7 +77,7 @@ module.exports = function(defaults) {
   app.import('bower_components/moment-recur/moment-recur.js');
 
   app.import('bower_components/Chart.js/Chart.js');
-  
+
   app.import('bower_components/lodash/lodash.js');
 
   app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: 'fonts' });

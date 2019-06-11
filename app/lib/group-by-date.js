@@ -1,5 +1,4 @@
 import { A } from '@ember/array';
-import { copy } from '@ember/object/internals';
 import EmberObject, { get, set } from '@ember/object';
 import { isEmpty, isPresent } from '@ember/utils';
 import moment from 'moment';
@@ -7,7 +6,7 @@ import moment from 'moment';
 // Used to generate a collection of records that is grouped by a specified
 // date attribute.
 function buildGroup(records, storedGroups, dateAttr, displayFormat, convertDate) {
-  const groups = !isEmpty(storedGroups) ? copy(storedGroups) : new A();
+  const groups = !isEmpty(storedGroups) ? Object.assign({}, storedGroups) : new A();
 
   if (!isEmpty(records)) {
 

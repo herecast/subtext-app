@@ -9,6 +9,14 @@ var url = require('url');
 const FastBootAppServer = require('fastboot-app-server');
 const cluster = require('cluster');
 
+const enforceHTTPS = (req, res, next) => {
+  if (req.headers['x-forwarded-proto'] === 'https'){
+    return next();
+  } else {
+    return res.redirect(301, `https://${req.hostname}${req.url}`);
+  }
+};
+
 if ( process.env.SEND_CLOUDWATCH_METRICS && cluster.isWorker ) {
   const cloudwatchMetrics = require('cloudwatch-metrics');
   const performance = require('performance-nodejs');
@@ -144,6 +152,11 @@ let server = new FastBootAppServer({
     app.use('/healthcheck', require('express-healthcheck')());
     app.set('trust proxy', true);
 
+    // force SSL
+    app.use((req, res, next) => {
+       return enforceHTTPS(req, res, next);
+    });
+
     // serve files out of public folder
     app.use(express.static('public'));
 
@@ -154,7 +167,7 @@ let server = new FastBootAppServer({
     app.use(rewritesMiddleware);
   },
   distPath: 'dist',
-  gzip: false,
+  gzip: true,
   workerCount: process.env.EXPRESS_WORKER_COUNT || 1
 });
 

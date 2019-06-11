@@ -7,7 +7,6 @@ import config from 'subtext-app/config/environment';
 
 export function initialize(application) {
   if (typeof FastBoot === 'undefined') {
-
     const gtmId      = config['GTM_API_TOKEN'] || null;
     const gtmAuth    = config['GTM_AUTH'] || null;
     const gtmPreview = config['GTM_PREVIEW'] || null;
@@ -40,7 +39,7 @@ export function initialize(application) {
           });
         })
       });
-    } else {
+    } else if (config.environment !== 'development'){
       warn('Not all GTM environment variables have been set. Make sure gtmID, gtmAuth, and gtmPreview have been set to enable tracking.', false, { id: 'gtm-initializer/setting-config-variables'});
     }
   }

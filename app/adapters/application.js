@@ -13,10 +13,11 @@ import { AdapterError } from 'ember-data/adapters/errors';
 export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
   queryCache: service('query-cache'),
   logger: service('logger'),
+  session: service(),
+
   host: config.API_BASE_URL,
   namespace: config.API_NAMESPACE,
   coalesceFindRequests: true,
-  authorizer: 'authorizer:application',
 
   init() {
     this._super(...arguments);
@@ -24,6 +25,12 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
     set(this, 'headers', {
       "Consumer-App-Uri": config['CONSUMER_APP_URI']
     });
+  },
+
+  authorize(xhr) {
+    let { email, token } = this.get('session.data.authenticated');
+    let authData = `Token token="${token}", email="${email}"`;
+    xhr.setRequestHeader('Authorization', authData);
   },
 
   handleResponse(status) {

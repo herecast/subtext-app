@@ -49,6 +49,6 @@ export default Component.extend({
       return htmlSafe(`background-image: url('${optimizedImageUrl(options)}');`);
     }
 
-    return '';
+    return htmlSafe("");
   })
 });

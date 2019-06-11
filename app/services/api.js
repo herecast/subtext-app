@@ -5,7 +5,7 @@ import { assign } from '@ember/polyfills';
 import { get, computed } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
-import fetch from 'ember-network/fetch';
+import fetch from 'fetch';
 import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 import { registerWaiter } from '@ember/test';
@@ -39,9 +39,10 @@ export default Service.extend(FastbootExtensions, {
     const isAuthenticated = session.get('isAuthenticated');
 
     if (isAuthenticated) {
-      session.authorize('authorizer:application', (headerName, headerValue) => {
-        headers[headerName] = headerValue;
-      });
+      const { email, token } = get(this, 'session.data.authenticated');
+      const authData = `Token token="${token}", email="${email}"`;
+
+      headers['Authorization'] = authData;
     }
 
     headers['Consumer-App-Uri'] = config['CONSUMER_APP_URI'];
@@ -53,7 +54,7 @@ export default Service.extend(FastbootExtensions, {
   headers(overrides) {
     const defaults = get(this, 'defaultHeaders');
     overrides = overrides || {};
-    return assign(copy(defaults), overrides);
+    return assign(Object.assign({}, defaults), overrides);
   },
 
   json(data) {

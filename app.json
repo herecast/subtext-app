@@ -1,9 +1,32 @@
 {
-  "name": "Subtext UI",
+  "name": "Subtext App",
+  "stack": "container",
   "formation": {
     "web": {
       "quantity": 1,
       "size": "hobby"
+    }
+  },
+  "env": {
+    "API_BASE_URL": {
+      "required": false
+    },
+    "OPTIMIZED_IMAGE_URI": {
+      "required": false
+    },
+    "GMAPS_API_TOKEN": {
+      "required": false
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "yarn test"
+      },
+      "env": {
+        "NPM_CONFIG_PRODUCTION": "false",
+        "NODE_ENV": "test"
+      }
     }
   }
 }
