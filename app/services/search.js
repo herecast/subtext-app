@@ -48,6 +48,6 @@ export default Service.extend({
 
     transition._keepDefaultQueryParamValues = false;
 
-    transition();
+    transition.retry();
   }
 });

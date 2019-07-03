@@ -94,7 +94,7 @@ export default Service.extend(Evented, {
 
       transition._keepDefaultQueryParamValues = false;
 
-      transition();
+      transition.retry();
     });
   },
 

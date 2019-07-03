@@ -356,7 +356,7 @@ export default Component.extend(Validation, {
 
           transition._keepDefaultQueryParamValues = false;
 
-          transition();
+          transition.retry();
         }
       }
     },

@@ -44,7 +44,7 @@ export default Component.extend(MystuffNavObjects, {
 
       transition._keepDefaultQueryParamValues = false;
 
-      transition();
+      transition.retry();
     }
   }
 });
