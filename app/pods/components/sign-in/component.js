@@ -23,6 +23,12 @@ export default Component.extend({
       this.trackMethodChange(name);
 
       return false;
+    },
+
+    afterAuthenticate() {
+      if (get(this, 'afterAuthenticate')) {
+        get(this, 'afterAuthenticate')();
+      }
     }
   }
 });

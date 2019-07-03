@@ -89,12 +89,12 @@ export default Service.extend(Evented, {
   goToLocationFeed(location) {
     this.saveUserLocation(location);
 
-    return next(() => {
+    next(() => {
       let transition = get(this, 'router').transitionTo('feed');
 
       transition._keepDefaultQueryParamValues = false;
 
-      return transition;
+      transition();
     });
   },
 

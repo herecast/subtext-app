@@ -26,7 +26,6 @@ export default Service.extend({
     const queryParams = {
       query,
       type: get(this, 'activeFilter'),
-      verified: get(this,'viewingVerified'),
       startDate: '',
       endDate: ''
     };
@@ -39,8 +38,16 @@ export default Service.extend({
   },
 
   clearSearch() {
-    set(this, 'activeFilter', null);
+    setProperties(this, {
+      'activeFilter': null,
+      'query': "",
+      'isLoading': false
+    });
 
-    this.performSearch("");
+    let transition = get(this, 'router').transitionTo('feed');
+
+    transition._keepDefaultQueryParamValues = false;
+
+    transition();
   }
 });

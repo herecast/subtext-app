@@ -9,7 +9,9 @@
       {{/if}}
     {{/text-block}}
 
-    {{facebook-login-button}}
+    {{facebook-login-button
+      afterAuthenticate=(action "afterAuthenticate")
+    }}
 
     {{#text-block center=true large=true strong=true}}
       or
@@ -19,6 +21,7 @@
       email=(mut email)
       tab=(mut signInModule)
       changeModule=(action "changeModule")
+      afterAuthenticate=(action "afterAuthenticate")
     }}
   {{/content-body}}
 </div>

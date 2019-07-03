@@ -168,7 +168,7 @@ export default Route.extend(VariableInfinityModelParams, History, {
       return true;
     },
 
-    loadProfileFeedFromChild() {
+    loadFeedFromElsewhere() {
       let controller = this.controllerFor(this.routeName);
 
       controller.set('isLoading', true);

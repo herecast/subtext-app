@@ -3,7 +3,7 @@ import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   scrollToComments() {
-    const modalDialogClass = '.Modal-dialog-body';
+    const modalDialogClass = '.Modal-dialog-body-wrapper';
     const parentModals = $(this.element).parents(modalDialogClass);
     const isInModal = parentModals.length > 0;
 
@@ -14,7 +14,7 @@ export default Mixin.create({
     } else {
       $containerToAnimate = $('html,body');
     }
-    
+
     $containerToAnimate.animate({
       scrollTop: $containerToAnimate.find('#CommentList').first().position().top - 50
     }, 1500);

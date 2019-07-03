@@ -130,7 +130,7 @@ export default Route.extend(VariableInfinityModelParams, History, NavigationDisp
 
       return this.getModel(params)
       .then((afterModel) => {
-          return feedService.changeFeedModel(afterModel)
+          return feedService.changeFeedModel(afterModel, params)
           .finally(() => {
             controller.modelLoadHasEnded();
           });
@@ -189,7 +189,7 @@ export default Route.extend(VariableInfinityModelParams, History, NavigationDisp
 
       return this.getModel(params)
       .then((afterModel) => {
-          return feedService.changeFeedModel(afterModel)
+          return feedService.changeFeedModel(afterModel, params)
           .then((model) => {
             set(controller, 'model', model);
           })

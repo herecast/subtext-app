@@ -36,6 +36,9 @@ export default ModalInstance.extend({
     },
     changeMode(ctx) {
       set(this, 'model', ctx);
+    },
+    afterAuthenticate() {
+      this.close();
     }
   }
 });
