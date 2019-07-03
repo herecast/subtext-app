@@ -1,13 +1,16 @@
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
-import { run } from '@ember/runloop';
+import { next, later } from '@ember/runloop';
 import { computed, get, set } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { Promise } from 'rsvp';
+import $ from 'jquery';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
   fastboot: service(),
   classNames: 'ImageLoadPlaceholder',
+  'data-test-loading-image-url': alias('imageUrl'),
 
   currentController: service(),
 
@@ -25,6 +28,7 @@ export default Component.extend({
   imageIsLoaded: false,
   blurIsLoaded: false,
   showGradient: false,
+  revealYield: false,
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -39,7 +43,9 @@ export default Component.extend({
       if (placeholderUrl) {
         this.loadImage(placeholderUrl).then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-           set(this, 'blurIsLoaded', true);
+            set(this, 'blurIsLoaded', true);
+
+            this._showYieldIfImageIsLoaded();
           }
         });
       }
@@ -49,16 +55,26 @@ export default Component.extend({
         this.loadImage(imageUrl)
         .then(() => {
           if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-           set(this, 'imageIsLoaded', true);
+            set(this, 'imageIsLoaded', true);
 
-           // If onImageLoaded action given, trigger it
-           const onImageLoadedAction = get(this, 'onImageLoaded');
-           if(onImageLoadedAction) {
-             onImageLoadedAction();
-           }
+            const onImageLoadedAction = get(this, 'onImageLoaded');
+
+            if(onImageLoadedAction) {
+              onImageLoadedAction();
+            }
           }
         });
       }
+    }
+  },
+
+  _showYieldIfImageIsLoaded() {
+    if (get(this, 'imageIsLoaded')) {
+      later(() => {
+        set(this, 'revealYield', true);
+      }, 200);
+    } else {
+      later(this, '_showYieldIfImageIsLoaded', 200);
     }
   },
 
@@ -67,29 +83,30 @@ export default Component.extend({
       let image = new Image();
 
       image.onload = () => {
-        run( () => resolve() );
+        next( () => resolve() );
       };
 
       image.onerror = () => {
-        run( () => reject() );
+        next( () => reject() );
       };
 
       image.src = url;
     });
   },
 
-  blockStyle: computed('placeholderBlockWidth', 'placeholderBlockHeight', 'imageIsLoaded', 'blurIsLoaded', function() {
-    if (get(this, 'imageIsLoaded') || get(this, 'blurIsLoaded')) {
-      return htmlSafe("");
-    }
-
+  boundaryStyle: computed('placeholderBlockFixedSize', 'placeholderBlockWidth', 'placeholderBlockHeight', function() {
     const placeholderBlockWidth = parseInt(get(this, 'placeholderBlockWidth'));
     const placeholderBlockHeight = parseInt(get(this, 'placeholderBlockHeight'));
+    const placeholderBlockFixedSize = get(this, 'placeholderBlockFixedSize');
 
-    const max = get(this, 'placeholderBlockFixedSize') ? '' : 'max-';
-    const aspectRatio = 100 * placeholderBlockHeight / placeholderBlockWidth;
-    const padding = get(this, 'placeholderBlockFixedSize') ? '' : `padding-bottom:${aspectRatio}%`;
+    if (placeholderBlockFixedSize) {
+      return htmlSafe(`height:${placeholderBlockHeight}px;width:${placeholderBlockWidth};`);
+    }
 
-    return htmlSafe(`${max}height:${placeholderBlockHeight}px;${max}width:${placeholderBlockWidth}px;${padding}`);
+    const aspectRatio = placeholderBlockHeight / placeholderBlockWidth;
+    const elementWidth = $(this.element).width();
+    const heightToSet = parseInt(aspectRatio * elementWidth);
+
+    return htmlSafe(`height:${heightToSet}px;`);
   })
 });

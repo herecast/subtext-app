@@ -18,9 +18,10 @@ export default Route.extend(ApplicationRouteMixin, {
   cookies: service(),
   logger: service(),
   store: service(),
+  router: service(),
 
   title: function(tokens) {
-    const title = 'dailyUV';
+    const title = 'HereCast';
     const tokenString = tokens.reverse().join(' | ');
 
     return (isEmpty(tokens)) ? title : `${tokenString} | ${title}`;
@@ -32,10 +33,6 @@ export default Route.extend(ApplicationRouteMixin, {
 
   model() {
     return this.get('session.currentUser');
-  },
-
-  sessionAuthenticated() {
-    // Don't do anything.
   },
 
   sessionInvalidated () {

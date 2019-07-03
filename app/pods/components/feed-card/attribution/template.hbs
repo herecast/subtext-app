@@ -31,6 +31,11 @@
           {{authorNameFormatted}}
         {{/if}}
       </div>
+      {{#if showSubscribers}}
+        <div class="FeedCard-Attribution-subscribers" data-test-card-subscriber-count>
+          {{formatted-count subscriberCount}} Subscribers
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

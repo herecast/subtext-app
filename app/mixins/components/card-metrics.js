@@ -1,7 +1,5 @@
 /* global IntersectionObserver */
 import Mixin from '@ember/object/mixin';
-
-import { on } from '@ember/object/evented';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { computed, trySet, set, get } from '@ember/object';
@@ -50,8 +48,8 @@ export default Mixin.create({
     });
   },
 
-  _setupImpressionObserver: on('didInsertElement', function() {
-    this._super();
+  didInsertElement() {
+    this._super(...arguments);
 
     const intersection = new IntersectionObserver(this._intersectionCallback.bind(this), {
       root: get(this, 'root'),
@@ -62,7 +60,7 @@ export default Mixin.create({
     if(!get(this, 'isDestroying')) {
       set(this, '_intersectionObserver', intersection);
     }
-  }),
+  },
 
   _intersectionCallback(entries) {
     if(!get(this, 'isDestroying')) {

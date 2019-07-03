@@ -1,22 +1,27 @@
 {{#unless isFastBoot}}
   <div class="FloatingActionButton-container {{if isExpanded "in-view" "out-of-view"}}">
     {{#unless showUGC}}
-      <header class="FloatingActionButton-header {{if isExpanded "up-high" "down-low"}}">
+      <header
+        class="FloatingActionButton-header {{if isExpanded "up-high" "down-low"}}"
+        {{action "toggleIsExpanded"}}
+        role="button"
+        data-test-button="open-job-tray"
+      >
         {{#if isExpanded}}
           <div class="FloatingActionButton-message">
             What would you like to do?
           </div>
+        {{else}}
+          <div class="FloatingActionButton-message-cta">
+            Get paid to write your own posts
+          </div>
         {{/if}}
 
         {{#x-button
-          rounded="circle"
-          color=(if isExpanded "medium-gray" "attention")
-          style=(if isExpanded "transparent" "flatten")
-          shadow=(not isExpanded)
-          size="large"
-          onClick=(action "toggleIsExpanded")
+          color=(if isExpanded "medium-gray" "secondary")
+          style="transparent"
+          size="small"
           class="FloatingActionButton-toggleButton"
-          data-test-button="open-job-tray"
         }}
           {{fa-icon "plus" class="FloatingActionButton-icon"}}
         {{/x-button}}

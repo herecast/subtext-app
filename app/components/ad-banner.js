@@ -16,6 +16,7 @@ export default Component.extend(InViewportMixin, {
   tracking: service(),
   ads: service(),
   currentService: service('currentController'),
+  userLocationService: service('user-location'),
   promotion: null,
   pagePositionForAnalytics: null,
   placeholderClass: null,
@@ -89,10 +90,10 @@ export default Component.extend(InViewportMixin, {
       viewportUseRAF   : true,
       viewportSpy      : true,
       viewportTolerance: {
-        top    : 150, // half the ad height
-        bottom : 150, // half the ad height
-        left   : 20,
-        right  : 20
+        top    : 0,
+        bottom : -160, // half ad height
+        left   : 0,
+        right  : 0
       }
     });
   },
@@ -124,9 +125,11 @@ export default Component.extend(InViewportMixin, {
       contentId = get(content, 'contentId');
     }
 
+    const locationId = get(this, 'userLocationService').getActiveUserLocationId(false);
+
     set(this, '_imageIsLoaded', false);
 
-    return ads.getAd(adContextName, {contentId, promotionId}).then(promotion => {
+    return ads.getAd(adContextName, {contentId, promotionId, locationId}).then(promotion => {
       if (!get(this, 'isDestroyed')) {
         this.setProperties({
           promotion: EmberObject.create(promotion),

@@ -23,7 +23,7 @@
     }
 
     &-icon {
-      color: @brand-blue;
+      color: @herecast-blue;
       margin-right: 2px;
     }
 
@@ -72,7 +72,10 @@
     }
 
     &-search {
-      margin-left:56px;
+      margin-top: 40px;
+      text-align: center;
+      padding-bottom: 8px;
+      border-bottom: solid 1px #e6e6e6;
 
       &-icon {
         font-size: 22px;
@@ -82,8 +85,9 @@
         padding: 4px;
         outline: none;
         border: none;
-        min-width: 70%;
+        width: 240px;
         font-size: 16px;
+        margin-right: -20px;
         &:focus {
           outline: none;
         }
@@ -102,7 +106,7 @@
       &.current {
         padding-top: 16px;
         i {
-          color: @brand-blue;
+          color: @herecast-blue;
         }
       }
 
@@ -146,7 +150,7 @@
       &.current {
         padding-top: 16px;
         i {
-          color: @brand-blue;
+          color: @herecast-blue;
         }
       }
 
@@ -160,7 +164,7 @@
 
   &-UgcButton {
     position: relative;
-    
+
     &:not(.input-visible) {
       .display-grid();
       .grid-template-columns(32px 1fr);
@@ -174,7 +178,7 @@
       font-size: 18px;
       font-weight: bold;
       i {
-        color: @brand-blue;
+        color: @herecast-blue;
       }
       cursor: pointer;
     }

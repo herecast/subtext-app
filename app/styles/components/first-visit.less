@@ -1,0 +1,418 @@
+
+.FirstVisit {
+  padding-top: 60px;
+  z-index: 20000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.95),rgba(5,165,168,0.5)),
+                    url('https://subtext-misc.s3.amazonaws.com/vtsmalltown.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  header {
+    height: 60px;
+    line-height: 60px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1000;
+  }
+
+  &--search {
+    width: 100%;
+    background: #efefef;
+
+    &-wrap {
+      text-align: center;
+      padding: 24px 0;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    &-title {
+      font-family: @font-family-semibold;
+      font-size: 18px;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      min-height: 32px;
+    }
+
+    &-input {
+      position: relative;
+      display: inline-block;
+      background: #fff;
+      border: solid 1px @herecast-grey-mid;
+      border-radius: 4px;
+      padding: 4px 8px;
+
+      &-icon {
+        color: @herecast-blue;
+        font-size: 20px;
+        margin-right: 4px;
+      }
+
+      input {
+        padding: 4px;
+        background: transparent;
+        border: none;
+        outline: none;
+        min-width: 240px;
+        font-size: 18px;
+      }
+    }
+
+    &-results {
+      width: 100%;
+      padding: 4px;
+      font-size: 18px;
+
+      &-location {
+        padding: 8px 0;
+      }
+    }
+  }
+
+  footer {
+    padding: 24px 0;
+    width: 100%;
+  }
+
+  &--landing {
+    max-width: 500px;
+    margin: 0 auto;
+    color: #fff;
+    text-align: center;
+
+    &-title {
+      font-family: @font-family-semibold;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    &-grid {
+      display: inline-block;
+
+      &-row {
+        .display-grid();
+        .grid-template-columns(max-content 1fr);
+        margin-bottom: 16px;
+      }
+
+      &-bubble {
+        .grid-column(1);
+        .grid-align-self(center);
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background: @herecast-teal;
+        line-height: 50px;
+        color: #fff;
+        font-size: 24px;
+        text-align: center;
+      }
+      &-text {
+        .grid-column(2);
+        .grid-align-self(center);
+        text-align: left;
+        font-family: @font-family-semibold;
+        font-size: 16px;
+        padding-left: 8px;
+        line-height: 1.1;
+      }
+    }
+
+    &-cta {
+      margin-top: 16px;
+      &-button {
+        font-size: 28px;
+      }
+    }
+  }
+
+  &-Animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 11000;
+
+    background: @herecast-blue;
+    color: #fff;
+    font-size: 18px;
+    height: 60px;
+    overflow-y: hidden;
+
+    &.show-animation {
+      bottom: 0;
+      height: 100vh;
+      background: @herecast-teal;
+      padding-top: 40px;
+    }
+
+    .transition(all 1s ease);
+    &.finished {
+      background: @herecast-blue;
+    }
+
+    &--container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding-top: 80px;
+      text-align: center;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      height: 100vh;
+    }
+
+    &--logo {
+      margin: 0 auto 40px auto;
+      img.BrandLogo {
+        max-width: 200px;
+      }
+    }
+
+    &--title {
+      font-family: @font-family-semibold;
+      font-size: 20px;
+      margin-bottom: 8px;
+      line-height: 1.1;
+      min-height: 60px;
+    }
+
+    &--icon {
+      height: 200px;
+      width: 200px;
+      border-radius: 50%;
+      position: relative;
+      margin: auto;
+      .transition(background 0.5s ease);
+
+      &.yellow {
+        background-color: @first-visit-animation-color-yellow;
+      }
+      &.teal {
+        background-color: @first-visit-animation-color-teal;
+      }
+      &.purple {
+        background-color: @first-visit-animation-color-purple;
+      }
+      &.violet {
+        background-color: @first-visit-animation-color-violet;
+      }
+      &.red {
+        background-color: @first-visit-animation-color-red;
+      }
+
+      &-inner {
+        position: absolute;
+        height: 96%;
+        width: 96%;
+        top: 2%;
+        left: 2%;
+        .clip-path(circle(50% at 50% 50%));
+        .transition(~"background-position 0.5s ease, opacity 0.3s ease");
+        &.translucent {
+          opacity: 0;
+        }
+
+        &.marker,
+        &.book,
+        &.calendar,
+        &.wallet,
+        &.tablet {
+          background-image: url('/images/welcome_center_sprite.png');
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        &.marker {
+          background-position: 0 50%;
+        }
+        &.book {
+          background-position: 25% 50%;
+        }
+        &.calendar {
+          background-position: 50% 50%;
+        }
+        &.wallet {
+          background-position: 75% 50%;
+        }
+        &.tablet {
+          background-position: 100% 50%;
+        }
+      }
+    }
+
+    &--feed-loader {
+      font-size: 32px;
+      color: #fff;
+    }
+
+
+  }
+
+  &-Timer {
+    display: inline-block;
+    margin: 32px auto;
+
+    &--wrap {
+      position: relative;
+      .clip-path(circle(50% at 50% 50%));
+    }
+
+    &--circle {
+      .FirstVisit-Timer-absolute();
+      background-color:@first-visit-animation-timer-background;
+      .clip-path(circle(50% at 50% 50%));
+      .transition(opacity 0.3s ease);
+      &.translucent {
+        opacity: 0;
+      }
+
+      &-left-side,
+      &-right-side {
+        .FirstVisit-Timer-absolute();
+        border-radius: 50%;
+        border-style: solid;
+        .clip-path(inset(0 50% 0 0));
+        border-color: @first-visit-animation-timer-foreground;
+      }
+    }
+
+    &--clipper {
+      .FirstVisit-Timer-absolute();
+      background-color: @first-visit-animation-timer-background;
+      .clip-path(inset(0 50% 0 0));
+    }
+
+    &--label {
+      .FirstVisit-Timer-absolute();
+      background: transparent;
+      text-align: center;
+      .clip-path(circle(50% at 50% 50%));
+      display: grid;
+    }
+
+
+    @iterations: 360;
+    .rotate-loop (@i) when (@i > 0) {
+        .rotate-@{i} {
+          .transform(rotateZ(~"@{i}deg"));
+        }
+        .rotate-loop(@i - 1);
+    }
+    .rotate-loop (@iterations);
+
+    }
+
+}
+
+.FirstVisit-Timer-absolute() {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+@first-visit-animation-color-yellow: #dfd528;
+@first-visit-animation-color-teal: #3cc0bc;
+@first-visit-animation-color-purple: #af65a5;
+@first-visit-animation-color-violet: #8797cd;
+@first-visit-animation-color-red: #ef3f52;
+@first-visit-animation-timer-background: #068682;
+@first-visit-animation-timer-foreground: #80f3f6;
+
+.FirstVisit-Animation .bounced-in {
+  .keyframes(icon-bounced-in; {
+    0% {
+      .transform( scale(0.5) );
+      opacity: 0;
+    }
+    60% {
+      .transform( scale(1.25) );
+      opacity: 1.0;
+    }
+    80% {
+      .transform( scale(0.9) );
+    }
+    100% {
+      .transform( scale(1.0) );
+    }
+  });
+
+  .animation(icon-bounced-in 0.6s ease-in-out forwards);
+}
+
+.FirstVisit-Animation .bounced-out {
+  .keyframes(icon-bounced-out; {
+    0% {
+      .transform( scale(1.0) );
+      opacity: 1.0;
+    }
+    20% {
+      .transform( scale(1.25) );
+    }
+    50% {
+      .transform( scale(0.9) );
+    }
+    90% {
+      .transform( scale(0.1) );
+      opacity: 0;
+    }
+    100% {
+      .transform( scale(0.1));
+      opacity: 0;
+    }
+  });
+
+  .animation(icon-bounced-out 0.8s ease-in-out forwards);
+}
+
+.FirstVisit-Animation .fade-in {
+  .keyframes(icon-fade-in; {
+    0% {
+      opacity: 0;
+      .transform(translateX(0));
+    }
+    100% {
+      opacity: 1.0;
+      .transform(translateX(0));
+    }
+  });
+
+  .animation(icon-fade-in 0.4s ease-in forwards);
+}
+.FirstVisit-Animation .fade-out {
+  .keyframes(icon-fade-out; {
+    0% {
+      opacity: 1.0;
+      .transform(translateX(0));
+    }
+    100% {
+      opacity: 0;
+      .transform(translateX(0));
+    }
+  });
+
+  .animation(icon-fade-out 0.4s ease-out forwards);
+}
+
+.FirstVisit-Animation .slide-left {
+  .keyframes(icon-slide-left; {
+    0% {
+      opacity: 1.0;
+      .transform(translateX(0));
+    }
+    100% {
+      opacity: 0;
+      .transform(translateX(-200%));
+    }
+  });
+
+  .animation(icon-slide-left 0.4s ease-in forwards);
+}

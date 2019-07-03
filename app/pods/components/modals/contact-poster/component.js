@@ -40,7 +40,7 @@ export default ModalInstance.extend({
 
     return {
       to      : `${get(this, 'model.contactEmail')}`,
-      subject : `Someone is interested in your DailyUV Market post! — ${encodeURIComponent(get(this, 'model.title'))}`,
+      subject : `Someone is interested in your HereCast Market post! — ${encodeURIComponent(get(this, 'model.title'))}`,
       body    : `${body}`
     };
   },

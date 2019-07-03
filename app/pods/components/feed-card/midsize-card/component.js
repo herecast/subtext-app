@@ -1,10 +1,11 @@
 import { get, computed } from '@ember/object';
-import { notEmpty, gt } from '@ember/object/computed';
+import { notEmpty, gt, readOnly } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import Component from '@ember/component';
 
 export default Component.extend({
-  classNames: ['FeedCard', 'FeedCard-MidsizeCard'],
+  classNames: ['FeedCard-MidsizeCard'],
+  'data-test-midsize-card': readOnly('model.title'),
 
   model: null,
 

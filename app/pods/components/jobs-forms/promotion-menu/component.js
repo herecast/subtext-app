@@ -1,5 +1,5 @@
-import { get, set, setProperties, computed } from '@ember/object';
-import { readOnly, sort } from '@ember/object/computed';
+import { get, set, computed } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
 import { inject as service } from '@ember/service';
@@ -32,19 +32,10 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
   content: readOnly('model.content'),
 
   init() {
-    setProperties(this, {
-      listservs: [],
-      listservsToEmail: [],
-      listservsSortBy: ['name'],
-      mailToParts: ''
-    });
-
-    this._getListservs();
+    set(this, 'mailToParts', '');
 
     this._super(...arguments);
   },
-
-  sortedListservs: sort('listservs', 'listservsSortBy'),
 
   currentUser: readOnly('session.currentUser'),
   organization: readOnly('model.organization'),
@@ -59,21 +50,9 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
   twitterLink: computed('model.title', function() {
     const title = encodeURIComponent(get(this, 'model.title'));
     const url = get(this, 'urlForShare');
-    const via = 'thedailyUV';
+    const via = 'HereCast';
 
     return htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}`);
-  }),
-
-  chosenListservEmails: computed('listservs.@each.isChecked', function() {
-    let listservEmails = [];
-
-    get(this, 'listservs').forEach((listserv) => {
-      if (get(listserv, 'isChecked')) {
-        listservEmails.push(get(listserv, 'reverse_publish_email'));
-      }
-    });
-
-    return listservEmails;
   }),
 
   urlForShare: computed('model.{contentId,eventInstanceId}', 'hasOrganization', function() {
@@ -97,13 +76,6 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
     }
   }),
 
-  _getListservs() {
-    get(this, 'api').getListServs()
-    .then((response) => {
-      set(this, 'listservs', response.listservs);
-    });
-  },
-
   _buildMailToParts(forListservs=false) {
     let urlForShare = get(this, 'urlForShare');
     const title = get(this, 'model.title');
@@ -114,7 +86,7 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
     let to, subject, body;
 
     to = '';
-    body = `${contentExcerpt}\n\nSee the full content shared by ${sharedBy} at DailyUV:\n${urlForShare}`;
+    body = `${contentExcerpt}\n\nSee the full content shared by ${sharedBy} at HereCast:\n${urlForShare}`;
 
     if (forListservs) {
       to = get(this, 'chosenListservEmails').join(',');
@@ -186,27 +158,6 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
 
     hideEmailMenu() {
       set(this, 'showEmailMenu', false);
-    },
-
-    startShareListservs() {
-      this._buildMailToParts(true);
-      this.toggleProperty('wantsToShareToListservs');
-    },
-
-    toggleListserv(listservId) {
-      const listservs = get(this, 'listservs');
-      const listserv = listservs.findBy('id', listservId);
-
-      if (get(listserv, 'isChecked')) {
-        set(listserv, 'isChecked', false);
-      } else {
-        set(listserv, 'isChecked', true);
-      }
-    },
-
-    shareListservs() {
-      this._buildMailToParts(true);
-      set(this, 'showEmailMenu', true);
     }
   }
 });

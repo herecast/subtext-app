@@ -13,16 +13,21 @@
       {{outlet}}
 
       {{feed/location-card
-        showSearch=false
+        showSearch=true
         showChooser=true
+        streamlined=showPioneeringFeed
       }}
 
       {{#if (or isFastBoot showLoadingAnimation)}}
         {{feed/fake-feed}}
+      {{else if showPioneeringFeed}}
+        {{feed/pioneer-feed
+          feedItems=model.feedItems
+        }}
       {{else if hasResults}}
         {{#if eventFilterAndNotMyStuff}}
           {{events-results
-            events=model.eventInstances
+            feedItems=model.eventInstances
             adPath="feed.index"
             enableImpressionTracking=(eq currentRouteName "feed.index")
             startDate=startDate
@@ -64,6 +69,8 @@
       {{/if}}
     {{/feed/feed-container}}
 
-    {{floating-action-button}}
+    {{#unless showPioneeringFeed}}
+      {{floating-action-button}}
+    {{/unless}}
   </div>
 </div>

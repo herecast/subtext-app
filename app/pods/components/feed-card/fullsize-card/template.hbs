@@ -1,0 +1,41 @@
+{{feed-card/title
+  model=model
+  title=model.title
+  sold=(if isMarket model.sold null)
+  showToggleSold=(and canManage isMarket)
+  eventInstanceId=(if model.isEvent model.eventInstanceId null)
+  linkToDetailIsActive=context.linkToDetailIsActive
+  onContentClick=(action "onContentClick")
+}}
+
+{{feed-card/image
+  model=model
+  imageUrl=model.primaryOrFirstImage.imageUrl
+  linkToDetailIsActive=context.linkToDetailIsActive
+  onContentClick=(action "onContentClick")
+}}
+
+{{feed-card/attribution
+  model=model
+  showAnyViewCount=showAnyViewCount
+  hidePostedTime=model.isEvent
+  classNames="u-padding8"
+}}
+
+{{feed-card/footer
+  model=model
+  cost=model.cost
+  showCost=(or model.isMarket model.isEvent)
+  locationTagName=sourceTag
+  canManage=canManage
+  canEditIfAllowed=(readonly context.canEditIfAllowed)
+  displayAsPublic=(readonly context.displayAsPublic)
+  openPromotionMenu=(action "openPromotionMenu")
+}}
+
+{{#if context.allowManageOnTile}}
+  {{feed-card/manage
+    model=model
+    openPromotionMenu=(action "openPromotionMenu")
+  }}
+{{/if}}

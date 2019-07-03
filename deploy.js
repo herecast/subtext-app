@@ -4,7 +4,7 @@ var request  = require('request');
 var execSync = require('child_process').execSync;
 
 var env_endpoints = {
-  "production": "https://dailyuv.com",
+  "production": "https://HereCast.us",
   "staging": "https://stage-consumer.subtext.org",
   "qa": "https://qa-consumer.subtext.org",
   "fe": process.env['FE_ENDPOINT']

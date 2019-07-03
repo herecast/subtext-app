@@ -1,6 +1,5 @@
 import Service, { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
-import { copy } from '@ember/object/internals';
 import { assign } from '@ember/polyfills';
 import { get, computed } from '@ember/object';
 import { run } from '@ember/runloop';
@@ -83,7 +82,6 @@ export default Service.extend(FastbootExtensions, {
       // enable cookies
       credentials: 'include'
     }, (opts || {}));
-
     /**
      * It gets more complicated here to enable pausing of acceptance testing
      * with the test helpers. Otherwise we could just return the promise from
@@ -283,6 +281,7 @@ export default Service.extend(FastbootExtensions, {
       content_id: opts['content_id'],
       client_id: opts['client_id'],
       promotion_id: opts['promotion_id'],
+      location_id: opts['location_id'],
       exclude: opts['exclude'],
       limit: opts['limit'] || 5
     };

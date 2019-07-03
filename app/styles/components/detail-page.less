@@ -165,7 +165,6 @@
     &-container {
       min-height: 50px;
       position: relative;
-      .u-pattern;
     }
 
     &-backLink,
@@ -326,7 +325,7 @@
     }
   }
 
-  &-cta {
+  &-UgcCta {
     text-align: center;
     margin: 8px 0;
 
@@ -375,6 +374,47 @@
       color: @gray-dark;
       vertical-align: middle;
       margin-left: 8px;
+    }
+  }
+
+  &-OrgFooter {
+    .display-grid();
+    .grid-template-columns(max-content 1fr);
+    max-width: 400px;
+    margin: 0 auto;
+
+    &-left {
+      .grid-column(1);
+      padding-right: 4px;
+      text-align: center;
+    }
+
+    &-right {
+      .grid-column(2);
+      padding: 0 4px;
+    }
+
+    &-avatar {
+      margin-bottom: 4px;
+    }
+
+    &-copy {
+      &-name {
+        font-family: @font-family-semibold;
+        line-height: 14px;
+      }
+      &-description {
+        line-height: 1.0;
+        margin-top: 4px;
+      }
+    }
+
+    &-location-bar {
+      font-size: 12px;
+      margin-top: 2px;
+      color: @herecast-grey-mid;
+      line-height: 12px;
+      font-family: @font-family-semibold;
     }
   }
 

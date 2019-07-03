@@ -1,23 +1,20 @@
-<div class="ImageLoadPlaceholder-boundary {{placeholderClass}}" >
+<div class="ImageLoadPlaceholder-boundary {{placeholderClass}}" style={{boundaryStyle}}>
 
-  <div class="ImageLoadPlaceholder-inside {{if imageIsLoaded "ImageLoadPlaceholder-fade-out"}} {{if imageIsLoaded "image-loaded"}}" style={{blockStyle}}>
-    {{#if blurIsLoaded}}
-      <img class="ImageLoadPlaceholder-blurredImage {{placeholderImageClass}}" src={{placeholderUrl}} alt="">
-    {{else}}
-      <div class="ImageLoadPlaceholder-block">
-        <div class="dot"></div>
-      	<div class="dot"></div>
-      	<div class="dot"></div>
-      </div>
-    {{/if}}
+  <div class="ImageLoadPlaceholder-block {{if revealYield "ImageLoadPlaceholder-fade-out"}}">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
-  {{#if imageIsLoaded}}
-    <div class="ImageLoadPlaceholder-yield ImageLoadPlaceholder-fade-in">
-      {{#if showGradient}}
-        <div class="ImageLoadPlaceholder-gradient"></div>
-      {{/if}}
-      {{yield}}
-    </div>
-  {{/if}}
+
+  <div class="ImageLoadPlaceholder-blurred-image {{if revealYield "ImageLoadPlaceholder-fade-out"}}">
+    <img class={{placeholderImageClass}} src={{placeholderUrl}} alt="">
+  </div>
+
+  <div class="ImageLoadPlaceholder-yield {{if revealYield "ImageLoadPlaceholder-fade-in"}}">
+    {{#if showGradient}}
+      <div class="ImageLoadPlaceholder-gradient"></div>
+    {{/if}}
+    {{yield}}
+  </div>
 
 </div>

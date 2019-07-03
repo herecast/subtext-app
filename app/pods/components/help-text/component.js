@@ -5,12 +5,13 @@ import { run } from '@ember/runloop';
 
 export default Component.extend({
   classNames: ['HelpText'],
-  classNameBindings: ['smallIcon:small-icon'],
+  classNameBindings: ['smallIcon:small-icon', 'isWhite:white'],
   intercom: service(),
   tracking: service(),
 
   openingHelp: false,
   smallIcon: false,
+  isWhite: false,
 
   click() {
     // Track click, open intercom and prevent user from spamming the button (which could crash intercom on iOS)

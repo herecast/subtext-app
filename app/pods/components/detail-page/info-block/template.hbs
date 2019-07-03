@@ -1,0 +1,20 @@
+{{#feed-card/footer
+  model=model
+  showCost=false
+  noBorder=true
+  noPadding=true
+}}
+  {{feed-card/activity
+    model=model
+    linkToDetailIsActive=false
+  }}
+{{/feed-card/footer}}
+
+{{#unless isPreview}}
+  {{feed-card/manage
+    model=model
+    manageMessage="Share"
+    editButtonIsActive=(mut editButtonIsActive)
+    openPromotionMenu=openPromotionMenu
+  }}
+{{/unless}}

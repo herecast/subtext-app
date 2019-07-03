@@ -1,5 +1,5 @@
 import { get } from '@ember/object';
-import config from 'subtext-ui/config/environment';
+import config from 'subtext-app/config/environment';
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({

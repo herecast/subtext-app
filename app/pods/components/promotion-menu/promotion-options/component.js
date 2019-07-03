@@ -53,7 +53,7 @@ export default Component.extend(SocialPreloaded, {
     const title = encodeURIComponent(get(this, 'content.title'));
     const sharedBy = get(this, 'organization.name');
     const subject = `Shared with you: ${title}`;
-    const body = `${sharedBy} shared the following content from dailyUV.com with you: ${href}`;
+    const body = `${sharedBy} shared the following content from HereCast.us with you: ${href}`;
 
     return `mailto:?subject=${subject}&body=${body}`;
   }),
@@ -61,7 +61,7 @@ export default Component.extend(SocialPreloaded, {
   twitterLink: computed('content.{title,isCampaign}', 'organization.name', function() {
     const title = get(this, 'content.isCampaign') ? get(this, 'organization.name') : encodeURIComponent(get(this, 'content.title'));
     const url = this._urlForShare();
-    const via = 'thedailyUV';
+    const via = 'HereCast';
 
     return htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}`);
   }),

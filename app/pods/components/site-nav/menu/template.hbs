@@ -9,11 +9,11 @@
 {{#unless isLoggedIn}}
   <div class="SiteNav-Menu--line-break"></div>
   <div class="SiteNav--section-title padded">
-    What is DailyUV?
+    What is HereCast?
   </div>
   <div class="SiteNav--section-text">
     <p>
-      DailyUV is your place to share and discover what's happening in your community.
+      HereCast is your place to share and discover what's happening in your community.
     </p>
     <p>
       Have something you'd like to share? Use the orange "+" button to get started.
@@ -52,11 +52,19 @@
   </div>
 
   <div>
-    {{help-text}}
+    {{help-text isWhite=true}}
   </div>
 </div>
 
 <div class="SiteNav-Menu--line-break"></div>
+
+<div class="SiteNav-Menu--user-location">
+  {{user-location}}
+  {{user-location/cta-button
+    isWhiteButton=true
+    click=(action "closeMenu")
+  }}
+</div>
 
 {{#if isLoggedIn}}
   <div class="SiteNav-Menu--logout">
@@ -66,7 +74,7 @@
       </div>
       {{#x-button
          onClick=(action "signOut")
-         color="light-gray"
+         color="primary"
          size="x-small"
          data-test-logout-yes=true
        }}
@@ -74,7 +82,7 @@
        {{/x-button}}
        {{#x-button
           onClick=(action "toggleWantsToSignOut")
-          color="primary"
+          color="light-gray"
           size="x-small"
           data-test-logout-no=true
         }}

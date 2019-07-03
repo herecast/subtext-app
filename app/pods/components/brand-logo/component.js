@@ -1,12 +1,23 @@
+import { get, computed } from '@ember/object';
 import Component from '@ember/component';
-import { get } from '@ember/object';
 
 export default Component.extend({
   tagName: 'img',
   classNames: ['BrandLogo'],
+  classNameBindings: ['autoWidth:auto-width'],
   attributeBindings: ['src', 'title'],
   title: 'Daily UV',
-  src: 'https://s3.amazonaws.com/subtext-misc/sierra-nevada/dailyuv-logo-sm.svg',
+  white: false,
+  autoWidth: false,
+  src: computed('white', function() {
+    let img = 'HC_HORIZ_RGB.png';
+
+    if (get(this, 'white')) {
+      img = 'HC_HORIZ_W.png'
+    }
+
+    return `/images/${img}`;
+  }),
 
   click() {
     if (get(this, 'onClick')) {

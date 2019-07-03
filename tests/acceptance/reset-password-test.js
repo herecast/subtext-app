@@ -5,6 +5,7 @@ import { invalidateSession} from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import mockService from 'subtext-app/tests/helpers/mock-service';
 import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
 import { visit, click, fillIn, find, currentURL } from '@ember/test-helpers';
 import sinon from 'sinon';
 
@@ -14,12 +15,15 @@ module('Acceptance | reset password', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    loadPioneerFeed(false);
   });
 
   test('filling out lost password request form', async function(assert) {
     await visit('/');
-    await click('[data-test-signin-from-header]');
 
+    await click('[data-test-sidenav-from-header]');
+    await click('[data-test-signin-from-side-menu]');
+    
     await click('[data-test-link="forgot-password"]');
 
     assert.ok(find('[data-test-component="password-reset-request-form"]'), "forgot password request form visible");

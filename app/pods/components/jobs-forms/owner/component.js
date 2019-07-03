@@ -1,4 +1,4 @@
-import { get, set, setProperties, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { readOnly, notEmpty, alias, and, not } from '@ember/object/computed';
 import { isPresent, isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
@@ -76,21 +76,9 @@ export default Component.extend({
 
   _setModelAttributes() {
     let model = get(this, 'model');
-    const organization = get(this, 'organization') || null;
+    const organization = get(this, 'organization') || {};
 
-    if (isPresent(organization) && isPresent(get(organization, 'name')) && parseInt(get(organization, 'id')) !== 398) {
-      setProperties(model, {
-        organizationId: get(organization, 'id'),
-        organizationName: get(organization, 'name'),
-        organizationProfileImageUrl: get(organization, 'profileImageUrl')
-      });
-    } else {
-      setProperties(model, {
-        organizationId: null,
-        organizationName: null,
-        organizationProfileImageUrl: null
-      });
-    }
+    set(model, 'organization', organization);
   },
 
   actions: {
@@ -99,8 +87,13 @@ export default Component.extend({
     },
 
     chooseOrganization(organization) {
+      if (organization === null) {
+        organization = {};
+      }
+
       set(this, 'model.organization', organization);
       set(this, 'showOrganizationDropdown', false);
+
       this._setModelAttributes();
     }
   }

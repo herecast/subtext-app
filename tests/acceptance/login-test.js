@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import { visit, click, find, fillIn, currentRouteName } from '@ember/test-helpers';
 
@@ -13,6 +14,7 @@ module('Acceptance | login', function(hooks) {
     invalidateSession();
       window.Intercom = function() {
     };
+    loadPioneerFeed(false);
   });
 
   test('Follow sign in link, authentication succeeds', async function(assert) {
@@ -56,7 +58,8 @@ module('Acceptance | login', function(hooks) {
 
     await visit('/');
 
-    await click('[data-test-signin-from-header]');
+    await click('[data-test-sidenav-from-header]');
+    await click('[data-test-signin-from-side-menu]');
 
     await fillIn('[data-test-field="sign-in-email"]', user.email);
     await fillIn('[data-test-field="sign-in-password"]', 'password');
@@ -74,13 +77,13 @@ module('Acceptance | login', function(hooks) {
 
     await visit('/');
 
-    assert.notOk(find('[data-test-signin-from-header]'), 'it should not show the sign in link');
+    assert.notOk(find('[data-test-sidenav-from-header]'), 'it should not show the hamburger menu');
 
-    await click('[data-test-link="user-avatar"]');
+    await click('[data-test-avatar-in-header]');
     await click('[data-test-link="logout-link"]');
     await click('[data-test-logout-yes]');
 
-    assert.ok(find('[data-test-signin-from-header]'), 'it should show the sign in link');
+    assert.ok(find('[data-test-sidenav-from-header]'), 'it should show the hamburger menu');
   });
 
   test('visiting log in page while already authenticated redirects to root page', async function(assert) {
@@ -90,22 +93,5 @@ module('Acceptance | login', function(hooks) {
     await visit('/sign_in');
 
     assert.equal(currentRouteName(), 'feed.index', 'it should be at the correct url');
-  });
-
-  test('clicking sign in link displays login form', async function(assert) {
-    await visit('/');
-
-    await click('[data-test-signin-from-header]');
-
-    assert.ok(find('[data-test-component="sign-in"]'), "Displays sign in");
-  });
-
-  test('clicking help link in header, then click sign in side menu displays login form', async function(assert) {
-    await visit('/');
-
-    await click('[data-test-sidenav-from-header]');
-    await click('[data-test-signin-from-side-menu]');
-
-    assert.ok(find('[data-test-component="sign-in"]'), "Displays sign in");
   });
 });

@@ -9,9 +9,7 @@
       {{/if}}
     {{/text-block}}
 
-    {{facebook-login-button
-      afterAuthenticate=afterAuthenticate
-    }}
+    {{facebook-login-button}}
 
     {{#text-block center=true large=true strong=true}}
       or
@@ -19,7 +17,6 @@
 
     {{sign-in-or-register-with-password
       email=(mut email)
-      afterAuthenticate=afterAuthenticate
       tab=(mut signInModule)
       changeModule=(action "changeModule")
     }}

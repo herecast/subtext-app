@@ -1,34 +1,11 @@
-{{#if isDirectLink}}
-
-  <div class="Location-Index-Show-wrapper">
-    {{component "event-detail"
-      model=model
-      closeRoute="profile.all"
-      closeLabel="Back"
-      isPreview=false
-      instanceRoute="profile.all.show-instance"
-      enableStickyHeader=false
-      trackDetailEngagement=(action "trackDetailEngagement" model.id "integrated")
-    }}
-  </div>
-
-{{else}}
-
-  {{render-in-modal
-      (component "event-detail"
-        model=model
-        closeRoute="profile.all"
-        closeLabel="Back"
-        isPreview=false
-        instanceRoute="profile.all.show-instance"
-        enableStickyHeader=true
-        trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
-      )
-      onClose=(action "closeDetailPage")
-      modalWrapper="modals/headless-wrapper"
-      tagName="div"
-      class="renderInModal"
-      model=model
-  }}
-
-{{/if}}
+{{to-elsewhere
+  named="global-modal"
+  send=(component "modals/detail-page"
+         model=model
+         isPreview=isPreview
+         isMobile=isMobile
+         slideMessage=slideMessage
+         closeDetailPage=(action "closeDetailPage")
+         trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
+        )
+}}

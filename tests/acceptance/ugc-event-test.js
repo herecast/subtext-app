@@ -51,7 +51,6 @@ module('Acceptance | ugc event', function(hooks) {
           cost: price,
           eventUrl: null,
           url: url,
-          listservIds: [],
           location: null,
           organizationId: get(organization, 'id'),
           publishedAt: null,

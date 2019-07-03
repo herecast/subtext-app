@@ -1,9 +1,11 @@
 {{#modal-wrapper
   close=(action "afterSlideClose")
   sendToGlobal=true
-  maintainBodyClass=true
+  maintainBodyClass=false
+  isSmall=true
   slideInFrom="left"
   slideOutTo="left"
+  slideMessage="Cancel"
   atSlideStart=(action "focusOnInput")
   as |closeModal|
 }}
@@ -32,6 +34,9 @@
       }}
 
       {{#unless hideLocateMe}}
+        <div>
+          or
+        </div>
         <div class="UserLocation-Chooser-locate-me">
           {{#x-button onClick=(action "locateUser" closeModal) color="secondary" size="x-small"}}
             {{fa-icon "location-arrow"}} Locate Me

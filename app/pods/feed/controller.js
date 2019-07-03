@@ -1,4 +1,4 @@
-import { alias, reads, notEmpty } from '@ember/object/computed';
+import { alias, reads, notEmpty, readOnly } from '@ember/object/computed';
 import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Controller from '@ember/controller';
@@ -20,6 +20,7 @@ export default Controller.extend({
   search: service(),
   api: service(),
   history: service(),
+  feedService: service('feed'),
 
   isFastBoot: alias('fastboot.isFastBoot'),
 
@@ -41,6 +42,8 @@ export default Controller.extend({
   _animationDelay: null,
   _modelIsLoading: false,
   showLoadingAnimation: false,
+
+  showPioneeringFeed: readOnly('feedService.showPioneeringFeed'),
 
   init() {
     this._super(...arguments);

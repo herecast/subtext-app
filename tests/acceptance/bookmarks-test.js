@@ -5,6 +5,8 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
+import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
 import { visit, click, currentURL, fillIn, find, findAll, getContext } from '@ember/test-helpers';
 import sinon from 'sinon';
 
@@ -14,6 +16,7 @@ module('Acceptance | bookmarks', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    loadPioneerFeed(false);
   });
 
   function createGenericContents(server, numberOfContents) {
@@ -32,6 +35,7 @@ module('Acceptance | bookmarks', function(hooks) {
   }
 
   test('Visiting / not signed in, signing in, and then bookmark process', async function(assert) {
+    mockLocationCookie(this.server);
     const trackingSpy = sinon.spy();
     const tracking = Service.extend({
       trackBookmarkEvent: trackingSpy
@@ -110,6 +114,7 @@ module('Acceptance | bookmarks', function(hooks) {
 
 
   test('Visiting homepage signed in with bookmarks', async function(assert) {
+    mockLocationCookie(this.server);
     const trackingSpy = sinon.spy();
     const tracking = Service.extend({
       trackBookmarkEvent: trackingSpy

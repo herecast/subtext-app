@@ -16,20 +16,6 @@
       line-height: 36px;
       font-size: 14px;
     }
-
-    &.has-caret {
-      margin-right: 10px;
-    }
-
-    &--caret-wrap {
-      position: absolute;
-      top: 0px;
-      right: -10px;
-      width: 10px;
-      height: 100%;
-      font-size: 10px;
-      line-height: 36px;
-    }
   }
 
   @media (min-width: @screen-sm-min) {
@@ -38,18 +24,6 @@
       height: 48px;
       line-height: 48px;
       font-size: 19px;
-    }
-
-    &.has-caret {
-      margin-right: 12px;
-
-      i {
-        position: absolute;
-        top: 0px;
-        right: -12px;
-        font-size: 16px;
-        line-height: 48px;
-      }
     }
   }
 
@@ -64,14 +38,30 @@
     width: 100%;
     height: 100%;
     display: inline-block;
-      &:after {
-        content: attr(data-content);
-        text-decoration: none;
-      }
+    &:after {
+      content: attr(data-content);
+      text-decoration: none;
+    }
   }
 
-  &.is-square {
-    .AvatarImage--default {
+  &--logo {
+    background-image: url('/images/HC_ICON_BLANK_RGB.png');
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    &:after {
+      content: attr(data-content);
+      text-decoration: none;
+      margin-left: 1px;
+    }
+  }
+
+  &.is-logo {
+    .AvatarImage--logo {
       border-radius: 2px;
     }
   }

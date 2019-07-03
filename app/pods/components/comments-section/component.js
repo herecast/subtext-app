@@ -16,9 +16,9 @@ export default Component.extend({
 
     const diff = publishedAt1.diff(publishedAt2);
 
-    if (diff < 0) {
+    if (diff > 0) {
       return 1;
-    } else if (diff > 0){
+    } else if (diff < 0){
       return -1;
     }
     return 0;

@@ -81,14 +81,6 @@ export default Service.extend({
 
   removeOrganizationContent(organizationId) {
     return new Promise((resolve) => {
-      const eventInstances = get(this, 'store').peekAll('event-instance');
-      eventInstances.forEach((eventInstance) => {
-        let eventInstanceOrganizationId = get(eventInstance, 'organizationId');
-        if (parseInt(eventInstanceOrganizationId) === parseInt(organizationId)) {
-          set(eventInstance, 'isHiddenFromFeed', true);
-        }
-      });
-
       const contents = get(this, 'store').peekAll('content');
       contents.forEach((content) => {
         let contentOrganizationId = get(content, 'organizationId');

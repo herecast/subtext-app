@@ -21,6 +21,9 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     },
     location: {
       embedded: 'always'
+    },
+    organization: {
+      embedded: 'always'
     }
   },
 
@@ -44,6 +47,11 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.status = json.venue_status;
       json.venue.venue_url = json.venue_url;
       json.venue.zip = json.venue_zip;
+    }
+
+    if (json.organization) {
+      json.organization_id = json.organization.id;
+      delete json.organization;
     }
 
     if (json.location) {
@@ -104,7 +112,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
         'weeks_of_month'
       );
     });
-
+    
     return json;
   }
 });

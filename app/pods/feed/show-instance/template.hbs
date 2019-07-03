@@ -1,35 +1,10 @@
-{{#if isDirectLink}}
-
-  <div class="Location-Index-Show-wrapper">
-    {{component "event-detail"
-      model=model
-      closeRoute="feed"
-      closeLabel="Back"
-      isPreview=false
-      instanceRoute="feed.show-instance"
-      enableStickyHeader=false
-      trackDetailEngagement=(action "trackDetailEngagement" model.id "integrated")
-    }}
-  </div>
-
-{{else}}
-  {{! Adding the model property triggers this to rerender on same page transitions. }}
-  {{render-in-modal
-      (component "event-detail"
-        model=model
-        closeRoute="feed"
-        closeLabel="Back"
-        isPreview=false
-        instanceRoute="feed.show-instance"
-        enableStickyHeader=true
-        onClose=(action "closeDetailPage")
-        trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
-      )
-      onClose=(action "closeDetailPage")
-      modalWrapper="modals/headless-wrapper"
-      tagName="div"
-      class="renderInModal"
-      model=model
-  }}
-
-{{/if}}
+{{to-elsewhere
+  named="global-modal"
+  send=(component "modals/detail-page"
+         model=model
+         isMobile=isMobile
+         slideMessage=slideMessage
+         closeDetailPage=(action "closeDetailPage")
+         trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
+        )
+}}

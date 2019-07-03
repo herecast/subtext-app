@@ -1,3 +1,9 @@
+{{#if showCloseOutsideModal}}
+  <div class="Modal-dialog-slide-close exterior" {{action "closeModal"}} role="button">
+    {{fa-icon "times"}}
+  </div>
+{{/if}}
+
 <div style={{modalInnerStyle}} class="Modal-inner {{if willAnimateAway "Modal-inner--willAnimateAway"}}">
 
   <div style={{modalDialogStyle}}
@@ -8,9 +14,13 @@
               {{if preserveModal "preserve-modal"}}
               {{if isAnimated "animated"}}">
 
-    {{#if isSlider}}
+    {{#if showSlideCloseButton}}
       <div class="Modal-dialog-slide-close {{slideOutTo}}" {{action "closeModal"}} role="button">
-        {{fa-icon (concat "long-arrow-" slideOutTo)}}
+        {{#if (eq slideOutTo "left")}}
+          {{fa-icon (concat "long-arrow-" slideOutTo)}} <span>{{slideMessage}}</span>  
+        {{else}}
+          <span>{{slideMessage}}</span> {{fa-icon (concat "long-arrow-" slideOutTo)}}
+        {{/if}}
       </div>
     {{/if}}
 

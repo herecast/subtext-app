@@ -13,11 +13,11 @@ import InViewportMixin from 'ember-in-viewport';
 
 const defaultMessagesArray = [
   {
-    message: 'Advertise with DailyUV!',
+    message: 'Advertise with HereCast!',
     tag: 'out-with-us'
   },
   {
-    message: 'Curious about DailyUV ad rates?',
+    message: 'Curious about HereCast ad rates?',
     tag: 'curious-about-rates'
   },
   {

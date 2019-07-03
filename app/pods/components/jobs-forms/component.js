@@ -37,11 +37,6 @@ export default Component.extend(Validation, {
     return `jobs-forms/${activeForm}-form`;
   }),
 
-  detailComponentName: computed('activeForm', function() {
-    const activeForm = get(this, 'activeForm');
-    return `${activeForm}-detail`;
-  }),
-
   marketClass: computed('activeForm', 'isEditing', function() {
     if (get(this, 'activeForm') === 'market') {
       return htmlSafe('active');
@@ -112,7 +107,6 @@ export default Component.extend(Validation, {
         const defaultOrganization = get(currentUser, 'managedOrganizations.firstObject');
         newRecordValues.organization = defaultOrganization;
       }
-
     } else {
       //There is an auth delay when logging in and transition to form
       later(() => {

@@ -29,8 +29,11 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, FastbootExtensions, {
 
   authorize(xhr) {
     let { email, token } = this.get('session.data.authenticated');
-    let authData = `Token token="${token}", email="${email}"`;
-    xhr.setRequestHeader('Authorization', authData);
+
+    if (isPresent(email) && isPresent(token)) {
+      let authData = `Token token="${token}", email="${email}"`;
+      xhr.setRequestHeader('Authorization', authData);
+    }
   },
 
   handleResponse(status) {

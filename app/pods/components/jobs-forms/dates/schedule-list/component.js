@@ -6,7 +6,8 @@ export default Component.extend({
   schedules: A(),
 
   displayedSchedules: computed('schedules.@each._remove', function() {
-    return get(this, 'schedules').rejectBy('_remove');
+    const schedules = get(this, 'schedules') || [];
+    return schedules.rejectBy('_remove');
   }),
 
   actions: {

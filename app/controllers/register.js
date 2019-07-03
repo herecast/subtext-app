@@ -4,11 +4,5 @@ export default Controller.extend({
   queryParams: ['selectedDigests', 'email'],
   selectedDigest: null,
 
-  secondaryBackground: true,
-
-  actions: {
-    wasAuthenticated() {
-      this.send('transitionAfterAuthentication');
-    }
-  }
+  secondaryBackground: true
 });

@@ -8,7 +8,6 @@ import {
 import $ from 'jquery';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
-import { isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import { observer } from '@ember/object';
@@ -22,13 +21,14 @@ export default Component.extend(CardMetrics, {
   'data-test-entered-viewport': oneWay('_didEnterViewPort'),
 
   model: null,
-  isHiddenFromFeed: readOnly('model.isHiddenFromFeed'),
+
   organization: null,
   allowManageOnTile: false,
   displayAsPublic: false,
   hideComments: false,
   promotionMenuOpen: false,
   showAnyViewCount: false,
+  linkToDetailIsActive: true,
 
   hideCompletely: false,
 
@@ -39,24 +39,16 @@ export default Component.extend(CardMetrics, {
   isLoggedIn: alias('session.isAuthenticated'),
   isDraft: readOnly('model.isDraft'),
   hasOrganization: notEmpty('organization'),
-  cardSize: readOnly('session.cardSize'),
+  cardSize: oneWay('session.cardSize'),
 
   contentType: reads('model.contentType'),
-  componentType: computed('contentType', 'cardSize', function() {
+  componentType: computed('cardSize', function() {
     const cardSize = get(this, 'cardSize');//fullsize, midsize, compact
-    let contentType = get(this, 'contentType');
 
-    if (cardSize === 'compact' || cardSize === 'midsize') {
-      contentType = cardSize;
-    } else if (isBlank(contentType) || contentType === 'talk') {
-      contentType = 'market';
-    }
-
-    return `feed-card/${contentType}-card`;
+    return `feed-card/${cardSize}-card`;
   }),
 
-  linkToDetailIsActive: true,
-
+  isHiddenFromFeed: readOnly('model.isHiddenFromFeed'),
   hideFromFeedWatcher: observer('isHiddenFromFeed', function() {
     if (get(this, 'isHiddenFromFeed')) {
       later(() => {
@@ -69,6 +61,7 @@ export default Component.extend(CardMetrics, {
     closePromotionMenu() {
       set(this, 'promotionMenuOpen', false);
     },
+
     openPromotionMenu() {
       const offset = get(this, 'hasOrganization') ? 60 : 107;
       set(this, 'promotionMenuOpen', true);
@@ -76,6 +69,7 @@ export default Component.extend(CardMetrics, {
         scrollTop: $(this.element).offset().top - offset
       }, 250);
     },
+
     onContentClick() {
       const organization = get(this, 'organization');
 

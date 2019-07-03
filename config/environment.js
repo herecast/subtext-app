@@ -66,8 +66,9 @@ module.exports = function(environment) {
         /^localhost:\d+$/,
         /.*\.subtext\.org$/,
         /.*\.subtext\.org:\d+$/,
-        'dailyuv.com',
-        'www.dailyuv.com'
+        'HereCast.us',
+        'www.HereCast.us',
+        /.*\.herokuapp\.com$/
       ]
     }
   };
@@ -168,6 +169,7 @@ module.exports = function(environment) {
 
     ENV['ENABLE_IMAGE_OPTIMIZATION'] = false;
 
+    ENV['ember-cli-notifications'].clearDuration = 1;
   }
 
   if (environment === 'production') {

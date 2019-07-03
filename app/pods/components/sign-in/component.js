@@ -8,9 +8,6 @@ export default Component.extend({
   email: null,
   signInModule: 'sign-in-with-password',
   alternateSignInMessage: false,
-  afterAuthenticate() {
-    this.ok();
-  },
 
   trackMethodChange(name) {
     get(this, 'tracking').push({

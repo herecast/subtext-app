@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import { next, later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
 import { computed, set, get } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import $ from 'jquery';
 import { isPresent, isBlank } from '@ember/utils';
 import { throttle, debounce } from 'lodash';
@@ -10,12 +11,19 @@ import Component from '@ember/component';
 export default Component.extend({
   attributeBindings: ['data-test-modal'],
   classNames: ['Modal'],
-  classNameBindings: ['willAnimateAway:Modal--willAnimateAway', 'modal-class'],
+  classNameBindings: [
+    'willAnimateAway:Modal--willAnimateAway',
+    'modal-class',
+    'isSlider:is-slider',
+    'revealNav:reveal-nav',
+    'isMobile:is-mobile'
+  ],
 
   modalService: service('modals'),
   fastboot: service(),
   tracking: service(),
   media: service(),
+  isMobile: readOnly('media.isMobile'),
 
   fullscreen: false,
   isSmall: false,
@@ -30,9 +38,11 @@ export default Component.extend({
   maintainBodyClass: false,
   hasInternalModals: false,
   closeOnClickOutside: true,
+  revealNav: false,
 
   slideInFrom: null,
   slideOutTo: null,
+  slideMessage: null,
   isSlider: computed('slideInFrom', 'slideOutTo', function() {
     return isPresent(get(this, 'slideInFrom')) && isPresent(get(this, 'slideOutTo'));
   }),
@@ -50,6 +60,14 @@ export default Component.extend({
     }
 
     return null;
+  }),
+
+  showCloseOutsideModal: computed('isSlider', 'isMobile', function() {
+    return get(this, 'isSlider') && !get(this, 'isMobile');
+  }),
+
+  showSlideCloseButton: computed('isSlider', 'isMobile', function() {
+    return get(this, 'isSlider') && get(this, 'isMobile');
   }),
 
   showHeader: computed('title', function() {

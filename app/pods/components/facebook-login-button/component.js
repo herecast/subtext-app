@@ -14,6 +14,8 @@ export default Component.extend(SocialPreloaded, {
   facebook: service(),
 
   permissions: 'email,public_profile',
+  startMessage: 'Continue with Facebook',
+  pendingMessage: 'Signing in...',
 
   tryAgain: false,
   socialPreloadedOnDidInsert: true,

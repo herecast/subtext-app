@@ -129,7 +129,9 @@
         {{feed/card-size-chooser}}
     {{/if}}
 
-    {{#if hasResults}}
+    {{#if fastboot.isFastBoot}}
+      {{feed/fake-feed}}
+    {{else if hasResults}}
       {{feed/profile-feed
         feedItems=visibleFeedItems
         show=(readonly show)
@@ -160,10 +162,10 @@
               {{/if}}
             {{else}}
               {{#if (and isAdmin showAdminCards)}}
-                <p>This is a basic DailyUV business page.</p>
+                <p>This is a basic HereCast business page.</p>
                 <p>You can edit hours and contact information.</p>
                 <p>
-                  If you’d like to learn about enhancing your presence on DailyUV, please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
+                  If you’d like to learn about enhancing your presence on HereCast, please <a style="text-decoration:underline;" href={{mailtoHref}}>get in touch.</a>
                 </p>
               {{else}}
                 <p>

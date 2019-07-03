@@ -12,12 +12,30 @@
     }
   }
 
-  &--help-icon {
+  &--hamburger {
     display: inline-block;
-    margin-left: 12px;
     font-size: 24px;
-    color: @button-primary;
+    color: #fff;
     vertical-align: middle;
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      background: red;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      top: -2px;
+      right: -4px;
+      .box-shadow(1px 1px 2px #000);
+      .transition(opacity 0.4s ease 1.5s);
+      opacity: 0;
+    }
+    &.with-notification {
+      &:after {
+        opacity: 1.0;
+      }
+    }
   }
 
   &--cover {
@@ -39,17 +57,17 @@
     &-title {
       text-align: left;
       font-size: 18px;
-      font-weight: bold;
+      font-family: @font-family-semibold;
       line-height: 1.2;
       &.padded {
         padding: 8px;
       }
     }
     &-text {
-      max-width: 200px;
       text-align: left;
       padding-left: 12px;
       line-height: 1.2;
+      max-width: 300px;
     }
   }
 
@@ -57,20 +75,21 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 0;
-    min-width: 240px;
-    max-width: 80%;
-    background: #fff;
+    right: 0;
+    min-width: 300px;
+    max-width: 400px;
+    background: @herecast-blue;
+    color: #fff;
     .box-shadow(1px 0 1px #999);
     .transition(all 250ms ease-out);
-    overflow-y: scroll;
+    overflow-y: auto;
 
     &.on-screen {
       .transform(translateX(0));
     }
 
     &.off-screen {
-      .transform(translateX(-101%));
+      .transform(translateX(101%));
     }
 
     &--close {
@@ -83,10 +102,21 @@
     &--line-break {
       height: 1px;
       width: 100%;
-      background: #797a7d;
+      background: #fff;
+      margin: 16px 0;
       &.short {
         margin: 8px auto;
         width: 60%;
+      }
+    }
+
+    &--user-location {
+      margin-top: 16px;
+      i {
+        color: #fff;
+      }
+      .UserLocation {
+        margin-bottom: 8px;
       }
     }
 
@@ -96,6 +126,10 @@
 
       &>div {
         margin: 4px 0;
+      }
+
+      a {
+        color: #fff;
       }
     }
 
@@ -108,18 +142,22 @@
   &-UserMenu {
     &--user {
       text-align: center;
-      background: #efefef;
       padding: 20px 8px 8px 8px;
+
+      &.is-logged-in {
+        background: @herecast-teal;
+      }
 
       &-avatar {
         &-default {
           height: 60px;
           width: 60px;
           line-height: 60px;
-          background: #fff;
+          color: #fff;
           border-radius: 50%;
           margin: 0 auto 8px auto;
           font-size: 30px;
+          background: @herecast-blue;
         }
       }
       &-name {
@@ -132,6 +170,27 @@
         font-size: 16px;
         line-height: 1.0;
         margin-bottom: 4px;
+      }
+
+      .left-block {
+        width: 16px;
+        float: left;
+      }
+
+      &-signin {
+        text-align: left;
+      }
+
+      &-signup {
+        text-align: left;
+        margin: 32px 0 16px 0;
+        i.red {
+          color: red;
+        }
+        &-text {
+          margin-top: 4px;
+          margin-left: 16px;
+        }
       }
     }
 

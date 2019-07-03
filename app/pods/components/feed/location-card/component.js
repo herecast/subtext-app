@@ -1,5 +1,5 @@
 import { get, set, setProperties, computed } from '@ember/object';
-import { readOnly } from '@ember/object/computed';
+import { readOnly, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent, isBlank } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
@@ -17,9 +17,12 @@ export default Component.extend({
 
   showSearch: false,
   showChooser: false,
+  streamlined: false,
 
   _isLoadingImage: false,
-  _defaultImageUrl: 'https://s3.amazonaws.com/subtext-misc/dailyuv_locationdefault_500x180.png',
+  wantsToChangeLocation: false,
+
+  isNotFastBoot: not('fastboot.isFastBoot'),
 
   showLoadingAnimation: computed('userLocationService.isLoadingLocation', 'fastboot.isFastBoot', '_isLoadingImage', function() {
     return get(this, 'userLocationService.isLoadingLocation') || get(this, 'fastboot.isFastBoot') || get(this, '_isLoadingImage');
@@ -51,6 +54,16 @@ export default Component.extend({
     }
 
     return null;
+  }),
+
+  yourTown: computed('userLocation.city', function() {
+    let yourTown = 'Your Town';
+
+    if (get(this, 'userLocation.city')) {
+      yourTown = get(this, 'userLocation.city');
+    }
+
+    return htmlSafe(yourTown);
   }),
 
   showImage: computed('imageUrl', '_imageHasError', function() {
@@ -85,12 +98,12 @@ export default Component.extend({
     return htmlSafe("");
   }),
 
-  defaultImageStyle: computed('imageUrl', function() {
-    const defaultImageUrl = get(this, '_defaultImageUrl');
-    const options = [defaultImageUrl, 500, 180, true];
-    const optImageUrl = optimizedImageUrl(options);
-
-    return htmlSafe(`background-image: url('${optImageUrl}');`);
+  showBotttomBar: computed('showSearch', 'showChooser', 'streamlined', function() {
+    if (get(this, 'streamlined')) {
+      return false;
+    } else {
+      return get(this, 'showSearch') || get(this, 'showChooser');
+    }
   }),
 
   _loadImage(url) {
@@ -130,6 +143,10 @@ export default Component.extend({
 
     clearSearch() {
       get(this, 'searchService').clearSearch();
+    },
+
+    toggleChangeLocation() {
+      this.toggleProperty('wantsToChangeLocation');
     }
   }
 });

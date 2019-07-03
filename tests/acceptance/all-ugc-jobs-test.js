@@ -2,7 +2,9 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
-import { invalidateSession} from 'ember-simple-auth/test-support';
+import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
+import { invalidateSession } from 'ember-simple-auth/test-support';
 import { visit, click, find, currentRouteName } from '@ember/test-helpers';
 
 
@@ -12,6 +14,8 @@ module('Acceptance | all ugc jobs', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    loadPioneerFeed(false);
+    mockLocationCookie(this.server);
   });
 
   const Page = {

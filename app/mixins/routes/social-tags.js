@@ -138,7 +138,7 @@ export default Mixin.create({
         tagId: 'meta-twitter-site',
         attrs: {
           name: 'twitter:site',
-          content: '@thedailyUV'
+          content: '@HereCast'
         }
       },
       {
@@ -146,7 +146,7 @@ export default Mixin.create({
         tagId: 'meta-twitter-creator',
         attrs: {
           name: 'twitter:creator',
-          content: '@thedailyUV'
+          content: '@HereCast'
         }
       },
       {

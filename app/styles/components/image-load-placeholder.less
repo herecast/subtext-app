@@ -8,23 +8,7 @@
     box-shadow: none !important;
     position: relative;
     margin: 0 auto;
-  }
-
-  &-inside {
     overflow: hidden;
-    opacity: 1.0;
-    &.image-loaded {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  }
-
-  &-block-wrap {
-    width: 100%;
-    height: 100%;
   }
 
   &-block {
@@ -69,8 +53,12 @@
   	}
   }
 
-  &-blurredImage {
-    width: 100%;
+
+  &-blurred-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     .filter(blur(12px));
   }
 

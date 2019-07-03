@@ -1,0 +1,112 @@
+<div class="Feed-PioneerFeed--explainer">
+  <div class="Feed-PioneerFeed--explainer-title">
+    Join HereCast to reach your community
+  </div>
+  <div class="Feed-PioneerFeed--explainer-grid">
+
+    <div class="Feed-PioneerFeed--explainer-grid-row">
+      <div class="Feed-PioneerFeed--explainer-grid-row-icon">
+        {{fa-icon "comments-o"}}
+      </div>
+      <div class="Feed-PioneerFeed--explainer-grid-row-title">
+        Share your voice
+      </div>
+      {{#if gridExpanded}}
+        <div class="Feed-PioneerFeed--explainer-grid-row-explanation">
+          Contribute your local stories to help others in {{yourTown}} learn and connect.
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="Feed-PioneerFeed--explainer-grid-row">
+      <div class="Feed-PioneerFeed--explainer-grid-row-icon">
+        {{fa-icon "dollar"}}
+      </div>
+      <div class="Feed-PioneerFeed--explainer-grid-row-title">
+        Earn money by posting
+      </div>
+      {{#if gridExpanded}}
+        <div class="Feed-PioneerFeed--explainer-grid-row-explanation">
+          We share advertising revenue with contributors like you. Some make coffee money, others earn hundreds or more each month.
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="Feed-PioneerFeed--explainer-grid-row">
+      <div class="Feed-PioneerFeed--explainer-grid-row-icon">
+        {{fa-icon "smile-o"}}
+      </div>
+      <div class="Feed-PioneerFeed--explainer-grid-row-title">
+        Have fun
+      </div>
+      {{#if gridExpanded}}
+        <div class="Feed-PioneerFeed--explainer-grid-row-explanation">
+          Get creative and try new things. Write what you want, when you want. There's no pressure!
+        </div>
+      {{/if}}
+    </div>
+
+    {{#unless gridExpanded}}
+      <div class="Feed-PioneerFeed--explainer-grid-cta" {{action "expandGrid"}} role="button">
+        How it works
+      </div>
+    {{/unless}}
+
+  </div>
+</div>
+
+<div class="Feed-PioneerFeed--slider">
+  <div class="Feed-PioneerFeed--slider-title">
+    Create posts like this:
+  </div>
+
+  {{#swiper-container
+    grabCursor=true
+    pagination=true
+    loop=true
+    navigation=false
+    centered=false
+    slidesPerView="auto"
+    updateFor=feedItemsForSlider.length
+  }}
+
+    {{#each feedItemsForSlider as |feedItem|}}
+      {{#swiper-slide}}
+        {{feed-card
+          model=feedItem.feedItemModel
+          cardSize="midsize"
+          linkToDetailIsActive=false
+          impressionsEnabled=false
+        }}
+      {{/swiper-slide}}
+    {{/each}}
+
+  {{/swiper-container}}
+</div>
+
+<div class="Feed-PioneerFeed--signup">
+  <div class="Feed-PioneerFeed--signup-title">
+    Be a Pioneer!
+  </div>
+  <div class="Feed-PioneerFeed--signup-subtitle">
+    Create and share now to establish HereCast in {{yourTown}}
+  </div>
+
+  <div class="Feed-PioneerFeed--signup-facebook">
+    {{facebook-login-button
+      startMessage="Sign up with Facebook"
+      pendingMessage="Signing Up..."
+    }}
+  </div>
+
+  {{#horizontal-rule}}
+    <div class="Feed-PioneerFeed--signup-or">
+      or
+    </div>
+  {{/horizontal-rule}}
+
+  <div class="Feed-PioneerFeed--signup-generic" {{action "signupByEmail"}} role="button">
+    Sign up with Email
+  </div>
+
+</div>

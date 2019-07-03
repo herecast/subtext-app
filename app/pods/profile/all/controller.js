@@ -177,7 +177,7 @@ export default Controller.extend({
 
     if (get(this, 'isAdmin')) {
       subject = encodeURIComponent(`Profile Page Manager's Query [${get(organization, 'name')}|${organization.id}]`);
-      email = `ads@dailyuv.com`;
+      email = `ads@HereCast.us`;
     } else {
       subject = encodeURIComponent(`Profile Page Query [${get(organization, 'name')}|${organization.id}]`);
       email = `dailyuv@subtext.org`;

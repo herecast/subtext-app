@@ -1,0 +1,10 @@
+<div class="LocationLoadAnimation--wrap">
+  {{fa-icon "map-marker" class="LocationLoadAnimation--marker"}}
+  <div class="LocationLoadAnimation--pulse"></div>
+</div>
+<div class="LocationLoadAnimation--location">
+  {{loadingMessage}}<br>
+  {{#if loadingLocationName}}
+    <span class="LocationLoadAnimation--location-name">{{loadingLocationName}}</span>
+  {{/if}}
+</div>

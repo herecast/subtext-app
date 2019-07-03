@@ -1,11 +1,5 @@
 {{#if hasImageUrl}}
   <img class="AvatarImage--image" style={{customSizeStyle}} src={{optimizedImageUrlString}} alt="Avatar Image">
 {{else}}
-  <div class="AvatarImage--default" style={{customSizeStyle}} data-content={{userInitials}}></div>
-{{/if}}
-
-{{#if hasCaret}}
-  <div class="AvatarImage--caret-wrap" style={{customCaretStyle}}>
-    {{fa-icon "caret-down"}}
-  </div>
+  <div class={{defaultClass}} style={{customSizeStyle}} data-content={{userInitials}}></div>
 {{/if}}

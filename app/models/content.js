@@ -1,4 +1,4 @@
-import { equal, alias, notEmpty, empty } from '@ember/object/computed';
+import { equal, alias, empty } from '@ember/object/computed';
 import { get, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
@@ -38,11 +38,8 @@ export default DS.Model.extend(
   cost: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
-  listservIds: attr('raw', {defaultValue: () => { return []; }}),
-  organizationBizFeedActive: attr('boolean', {defaultValue: false}),
-  organizationId: attr('number'),
-  organizationName: attr('string'),
-  organizationProfileImageUrl: attr('string'),
+
+
   parentContentId: attr('number'), //TAG:NOTE can be removed after dashboard is removed (was a talk model property)
   parentContentType: attr('string'), //TAG:NOTE can possibly be removed after dashboard is removed (was a talk model property)
   parentEventInstanceId: attr('number'), //TAG:NOTE can possibly be removed after dashboard is removed
@@ -64,9 +61,13 @@ export default DS.Model.extend(
   comments: hasMany('comment', {inverse: null}),
   location: belongsTo('location'),
   locationId: alias('location.id'),
-  organization: belongsTo('organization', {async: true}),
-  // </RELATIONSHIPS>
 
+  organization: belongsTo('organization'),
+  organizationId: alias('organization.id'),
+  organizationName: alias('organization.name'),
+  organizationProfileImageUrl: alias('organization.profileImageUrl'),
+  organizationBizFeedActive: alias('organization.bizFeedActive'),
+  // </RELATIONSHIPS>
 
   contentId: alias('id'),
   isEvent: equal('contentType', 'event'),
@@ -75,8 +76,6 @@ export default DS.Model.extend(
   isCampaign: equal('contentType', 'campaign'),
 
   isHiddenFromFeed: attr('boolean', {defaultValue: false}),
-
-  listsEnabled: notEmpty('listservIds'),
 
   baseLocation: computed('location', 'contentType', 'venueCity', 'venueState}', function() {
     const contentType = get(this, 'contentType');

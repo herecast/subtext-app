@@ -7,6 +7,7 @@ import Component from '@ember/component';
 
 export default Component.extend(ScrollToComments, {
   classNames: ['FeedCard-OptionsMenu'],
+  'data-test-card-options-menu': true,
 
   tracking: service(),
   userLocationService: service('user-location'),

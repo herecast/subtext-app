@@ -8,16 +8,6 @@
     {{/title-text}}
   {{/if}}
 
-  <div class="CommentList-replyForm">
-    {{comment-new
-      parentContentId=parentContentId
-      contentTitle=contentTitle
-      comments=comments
-      disabled=commentingDisabled
-      afterComment=(action afterComment)
-    }}
-  </div>
-
   {{#if sortedComments}}
     <div class="CommentList">
       {{#each sortedComments as |comment|}}
@@ -29,4 +19,14 @@
   {{else if comments.isPending}}
     {{x-loader}}
   {{/if}}
+
+  <div class="CommentList-replyForm">
+    {{comment-new
+      parentContentId=parentContentId
+      contentTitle=contentTitle
+      comments=comments
+      disabled=commentingDisabled
+      afterComment=(action afterComment)
+    }}
+  </div>
 </div>

@@ -8,14 +8,22 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
       deserialize: 'records',
       serialize: false
     },
+    comments: {
+      deserialize: 'records',
+      serialize: false
+    },
     otherEventInstances: {
       deserialize: 'records',
       serialize: false
     },
-    comments: { embedded: 'always' },
-    baseLocations: {
-      deserialize: 'ids',
-      serialize: false
+    schedules: {
+      embedded: 'always'
+    },
+    location: {
+      embedded: 'always'
+    },
+    organization: {
+      embedded: 'always'
     }
   },
 

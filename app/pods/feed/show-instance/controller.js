@@ -1,21 +1,4 @@
-import { inject as service } from '@ember/service';
-import { reads } from '@ember/object/computed';
-import Controller, { inject as controller } from '@ember/controller';
-import { get } from '@ember/object';
+import DetailController from 'subtext-app/mixins/controllers/detail-controller';
+import Controller from '@ember/controller';
 
-export default Controller.extend({
-  parentController: controller('feed'),
-  history: service(),
-
-  isDirectLink: reads('history.isFirstRoute'),
-
-  actions: {
-    closeDetailPage() {
-      this.transitionToRoute('feed');
-    },
-
-    trackDetailEngagement(contentId, detailType, startOrComplete) {
-      get(this, 'tracking').trackDetailEngagementEvent(contentId, detailType, startOrComplete, 'event', 'feed');
-    }
-  }
-});
+export default Controller.extend(DetailController);

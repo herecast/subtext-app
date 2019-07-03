@@ -15,7 +15,7 @@ export default Component.extend({
   tracking: service(),
   userLocation: service(),
 
-  feedRoute: 'feed.index',
+  feedRoute: 'feed',
   profileRoute: 'profile.all',
 
   isOrganizationCarousel: alias('model.isOrganizationCarousel'),

@@ -1,16 +1,17 @@
-{{title "dailyUV"}}
+{{title "HereCast"}}
 
 {{head-layout}}
 
+{{outlet "welcome"}}
+
 {{#unless hideHeader}}
   {{global-header
-    showUserLocationBar=showUserLocationBar
+    streamlinedHeader=streamlinedHeader
     signOut=(action "signOut")
   }}
 {{/unless}}
 
-
-<div id="main" class="{{backgroundClass}} {{if searchOpen "search-open"}} {{if showUserLocationBar "has-location-bar"}}">
+<div id="main" class={{backgroundClass}}>
   <div class="BackgroundIndex">
     {{outlet "background"}}
   </div>
@@ -28,6 +29,8 @@
   {{#link-to "copyright"}}&copy; {{copyrightYear}} Subtext Media Ltd.{{/link-to}}
 </div>
 
-{{notification-container}}
+{{notification-container zindex="2000"}}
 
-{{app-download-nag}}
+{{#if false}}
+  {{app-download-nag}}
+{{/if}}

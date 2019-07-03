@@ -37,7 +37,7 @@ const expect = {
   authorizationHeader(assert, request) {
     assert.equal(
       request.requestHeaders['authorization'],
-      "Token token=1234",
+      `Token token="1234", email="test@test.com"`,
       "Has Authorization header"
     );
   }
@@ -55,8 +55,11 @@ module('Unit | Service | api', function(hooks) {
       getClientId() {
         return 'clientid';
       },
-      authorize(name, callback) {
-        callback('Authorization', 'Token token=1234');
+      data: {
+        authenticated: {
+          email: 'test@test.com',
+          token: '1234'
+        }
       }
     });
 

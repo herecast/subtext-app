@@ -10,7 +10,7 @@ export default Component.extend({
 
   model: null,
 
-  customSize: 24,
+  customSize: 26,
 
   click() {
     const model = get(this, 'model');

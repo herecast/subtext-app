@@ -4,5 +4,6 @@ export default Model.extend({
   schedules: hasMany('schedule'),
   eventInstances: hasMany('eventInstance'),
   comments: hasMany('comment'),
-  location: belongsTo()
+  location: belongsTo(),
+  organization: belongsTo()
 });

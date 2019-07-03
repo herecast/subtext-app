@@ -1,0 +1,62 @@
+{{#if model.isNews}}
+  <header class="DetailPage-navTop-container">
+    {{#if model.primaryImage.imageUrl}}
+      <div class="DetailPage-headerImage-wrapper">
+        <div class="DetailPage-headerImage">
+          {{#image-load-placeholder
+            placeholderBlockWidth=640
+            placeholderBlockHeight=480
+            imageUrl=(optimized-image-url model.primaryImage.imageUrl 640 480 true)
+            placeholderUrl=(optimized-image-url model.primaryImage.imageUrl 64 48 true)
+            placeholderImageClass="img-responsive"
+            showGradient=hasCaption
+          }}
+            <img
+              class="img-responsive"
+              src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}
+              alt="Header Image">
+          {{/image-load-placeholder}}
+        </div>
+      </div>
+    {{else}}
+      <div class="DetailPage-headerImage-wrapper">
+        <div class="DetailPage-headerImage no-image">
+          <div>
+            {{fa-icon "file-image-o"}}
+            {{#if isPreview}}
+              <p class="text-center">Please add a featured image.</p>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </header>
+
+  {{#content-body classNames="u-padding0"}}
+    {{#if hasCaption}}
+      <div class="DetailPage-caption">
+        <p>{{model.primaryImageCaption}}</p>
+      </div>
+    {{/if}}
+  {{/content-body}}
+
+{{else}}
+
+  {{#if model.imageUrl}}
+    {{header-image
+      imageUrl=activeImageUrl
+      preserveAspectRatio=true
+    }}
+  {{/if}}
+
+  {{#if showThumbnails}}
+    <div class="DetailPage--thumbnails u-paddingTop8">
+      {{#each sortedImages as |image|}}
+        <div class="DetailPage--thumbnails-thumbnail u-paddingRight8 u-marginBottom8" {{action "chooseImage" image.imageUrl}} role="button">
+          <img src={{optimized-image-url image.imageUrl 40 40 true}} alt="Thumbnail" data-test-image-thumbnail>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+{{/if}}

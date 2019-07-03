@@ -1,0 +1,24 @@
+<div class="DetailPage-UgcCta">
+  <div class="DetailPage-UgcCta-button" {{action "openOrangeButton"}} role="button">
+    {{#if model.isNews}}
+      {{fa-icon "pencil-square-o" class="DetailPage-UgcCta-bubble offset"}}
+      <div class="DetailPage-UgcCta-message">
+        Have something you'd like to Post?<br>
+        Get started today.
+      </div>
+    {{else if model.isEvent}}
+      {{fa-icon "calendar" class="DetailPage-UgcCta-bubble"}}
+      <div class="DetailPage-UgcCta-message">
+        Post into the Calendar!<br>
+        Get started today.
+      </div>
+    {{else if model.isMarket}}
+      {{fa-icon "tags" class="DetailPage-UgcCta-bubble"}}
+      <div class="DetailPage-UgcCta-message">
+        Create your own Market Post!<br>
+        Get started today.
+      </div>
+    {{/if}}
+    {{fa-icon "chevron-right" class="DetailPage-UgcCta-chevron"}}
+  </div>
+</div>

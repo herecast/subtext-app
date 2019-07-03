@@ -1,13 +1,10 @@
-{{render-in-modal
-  (component componentName
-    model=model
-    closeRoute="feed"
-    closeLabel="Back"
-    isPreview=false
-    enableStickyHeader=true
-    trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
-  )
-  onClose=(action "closeDetailPage")
-  modalWrapper="modals/headless-wrapper"
-  model=model
+{{to-elsewhere
+  named="global-modal"
+  send=(component "modals/detail-page"
+         model=model
+         isMobile=isMobile
+         slideMessage=slideMessage
+         closeDetailPage=(action "closeDetailPage")
+         trackDetailEngagement=(action "trackDetailEngagement" model.id "modal")
+        )
 }}

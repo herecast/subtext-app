@@ -26,7 +26,8 @@ export default Mixin.create({
 
   // TAG:TODO move to preview component ~Nik
   scheduleInstances: computed('schedules.@each.{startsAt,endsAt,_remove,hasExcludedDates}', function() {
-    const schedules = get(this, 'schedules').rejectBy('_remove');
+    const rawSchedules = get(this, 'schedules') || [];
+    const schedules = rawSchedules.rejectBy('_remove');
 
     const dates = schedules.map((schedule) => {
       const scheduleStartsAt = get(schedule, 'startsAt');

@@ -7,9 +7,9 @@
   as |promise|}}
     {{fa-icon "facebook"}}
     {{#if promise.isPending}}
-      Signing in...
+      {{pendingMessage}}
     {{else}}
-      Continue with Facebook
+      {{startMessage}}
     {{/if}}
   {{/x-async-button}}
 {{/if}}

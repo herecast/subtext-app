@@ -1,0 +1,35 @@
+<header class={{headerClass}}>
+  <div class="FirstVisit--logo">
+    {{brand-logo white=true}}
+  </div>
+</header>
+
+{{#if showAnimation}}
+  <div class="FirstVisit-Animation--container">
+    <div class="FirstVisit-Animation--title {{if titleFade "fade-out" "fade-in"}}">
+      {{currentStep.title}}
+    </div>
+
+    {{#first-visit/timer
+      size=200
+      rotationDegrees=rotationDegrees
+      circleHidden=circleHidden
+    }}
+      {{#if isLoadingFeed}}
+        {{location-load-animation
+          loadingMessage="Taking you to"
+          loadingLocationName=yourTown
+          isWhite=true
+        }}
+      {{else}}
+        <div class="FirstVisit-Animation--icon {{backgroundClass}}">
+          <div
+          class="FirstVisit-Animation--icon-inner {{iconName}} {{if (or inPreanimation unfolding) "translucent" "bounced-in"}}"
+          style={{iconStyle}}
+          >
+          </div>
+        </div>
+      {{/if}}
+    {{/first-visit/timer}}
+  </div>
+{{/if}}

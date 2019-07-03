@@ -22,9 +22,6 @@ module.exports = function(defaults) {
     'ember-cli-pickadate': {
       theme: 'classic'
     },
-    'ember-test-selectors': {
-      strip: false //switch to true for release
-    },
     sourcemaps: {
       enabled: true
     }

@@ -1,0 +1,111 @@
+.Feed-PioneerFeed {
+  font-size: 16px;
+
+  &--explainer {
+    padding: 16px 8px;
+
+    &-title {
+      margin-bottom: 8px;
+    }
+
+    &-grid {
+      position: relative;
+
+      &-row {
+        .display-grid();
+        .grid-template-columns(32px 1fr);
+        margin-bottom: 16px;
+
+        &-icon {
+          .grid-column(1);
+          font-size: 24px;
+          color: @herecast-blue;
+          .grid-align-self(center);
+          .grid-justify-self(center);
+          text-align: center;
+          padding-right: 4px;
+        }
+
+        &-title {
+          .grid-column(2);
+          font-family: @font-family-semibold;
+          .grid-align-self(center);
+        }
+
+        &-explanation {
+          .grid-column(2);
+          .grid-align-self(start);
+          margin-top: 4px;
+        }
+      }
+
+      &-cta {
+        position: absolute;
+        bottom: 4px;
+        right: 8px;
+        color: @herecast-blue;
+        text-decoration: underline;
+      }
+
+    }
+  }
+
+  &--slider {
+    padding-bottom: 24px;
+
+    &-title {
+      padding-left: 8px;
+    }
+
+    .swiper-container {
+      padding-top: 24px;
+    }
+    .swiper-pagination {
+      top: 0;
+      right: 4px;
+      text-align: right;
+      &-bullet-active {
+        background: @herecast-blue;
+      }
+    }
+    .swiper-slide {
+      padding: 0 8px;
+    }
+  }
+
+  &--signup {
+    padding: 24px 8px 80px 24px;
+    color: #fff;
+    background: @herecast-blue;
+    font-size: 18px;
+    text-align: center;
+
+    &-title {
+      font-family: @font-family-semibold;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    &-subtitle {
+      line-height: 1.1;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    &-facebook {
+      display: inline-block;
+    }
+
+    &-or {
+      padding: 24px;
+      background: @herecast-blue;
+    }
+
+    &-generic {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 4px;
+      background: @herecast-yellow;
+    }
+  }
+}

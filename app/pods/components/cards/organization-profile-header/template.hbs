@@ -1,20 +1,5 @@
 {{#x-card noShadow=noShadow class="OrganizationProfileHeaderCard-card-wrap"}}
 
-  {{#if (or organization.certifiedStoryteller organization.certifiedSocial)}}
-    <div class="OrganizationProfileHeaderCard-certification">
-      {{#if organization.certifiedStoryteller}}
-        <div class="OrganizationProfileHeaderCard-certification-storyteller">
-          {{fa-icon "certificate"}} Certified Storyteller
-        </div>
-      {{/if}}
-      {{#if organization.certifiedSocial}}
-        <div class="OrganizationProfileHeaderCard-certification-social">
-          {{fa-icon "certificate"}} Certified in Social
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
-
   <div class="OrganizationProfileHeaderCard-header-image-wrap">
     {{#if showBackgroundImage}}
       {{header-image

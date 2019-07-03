@@ -39,31 +39,43 @@ export default Factory.extend({
       } else {
         org = server.db.organizations.find(randomOrgId);
       }
+      content.update({
+        organizationId: org.id
+      });
     }
 
-    content.update({
-      organizationId: org.id,
-      organizationName: org.name,
-      organizationProfileImageUrl: org.profileImageUrl
-    });
+    if (content.contentType === 'event') {
+      if (!content.eventInstances.length) {
 
-    if (content.contentType === 'event' && !content.eventInstances.length) {
-      let newEndDate = moment(content.startsAt).add(1, 'hours').toDate();
+        let instances = [];
+        for (var i=0;i<3;i++) {
+          let newStartDate = moment(content.startsAt).add(i+1, 'day').toDate();
+          let newEndDate = moment(newStartDate).add(4, 'hours').toDate();
+          let instance = server.create('event-instance', {
+            id: i+1,
+            event: content.id,
+            startsAt: newStartDate,
+            endsAt: newEndDate
+          });
+          instances.push(instance);
+        }
 
-      content.update({endsAt: newEndDate});
-
-      server.createList('event-instance', 3, {
-        event: content.id,
-        startsAt: content.startsAt,
-        endsAt: newEndDate
-      });
+        content.update({
+          eventInstances: instances,
+          eventInstanceId: instances[0].id
+        });
+      } else {
+        content.update({
+          eventInstanceId: content.eventInstances.models.firstObject.id
+        });
+      }
     }
   },
 
   title()    { return faker.company.catchPhrase(); },
   subtitle() { return faker.lorem.sentence(); },
   contentType(id) {
-    const contentTypes = ['news', 'event', 'market', 'talk'];
+    const contentTypes = ['news', 'event', 'market'];
     const minOfEach = 4;
 
     if (id < contentTypes.length * minOfEach) {
@@ -91,17 +103,6 @@ export default Factory.extend({
 
   viewCount() { return faker.random.number(999); },
 
-  /*eventInstances() {
-    if (this.contentType === 'event') {
-      return [];
-    }
-  },*/
-
-  eventInstanceId() {
-    if(this.eventInstances && this.eventInstances.length) {
-      return this.eventInstances[0].id;
-    }
-  },
   venueName() {
     if(this.contentType === 'event') {
       return faker.random.arrayElement(["Grannie's Garage", "Krusty Kastle", "Club Hee-Haw", "Chez Charli"]);

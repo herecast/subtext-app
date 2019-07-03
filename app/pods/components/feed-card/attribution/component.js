@@ -1,6 +1,6 @@
-import { notEmpty, oneWay } from '@ember/object/computed';
-import Component from '@ember/component';
+import { notEmpty, oneWay, readOnly } from '@ember/object/computed';
 import { computed, get } from '@ember/object';
+import Component from '@ember/component';
 
 export default Component.extend({
   classNames: 'FeedCard-Attribution',
@@ -19,6 +19,7 @@ export default Component.extend({
   customSize: 40,
   truncatedAt: false,
   showAnyViewCount: false,
+  hideSubscribers: false,
 
   avatarUrl: oneWay('model.attributionImageUrl'),
   author: oneWay('model.attributionName'),
@@ -26,6 +27,14 @@ export default Component.extend({
   linkId: oneWay('model.attributionLinkId'),
   contentId: oneWay('model.contentId'),
   eventInstanceId: oneWay('model.eventInstanceId'),
+  organization: readOnly('model.organization'),
+  subscriberCount: readOnly('organization.activeSubscriberCount'),
+
+  showSubscribers: computed('hideSubscribers', 'subscriberCount', function() {
+    const subscriberCount = parseInt(get(this, 'subscriberCount')) || 0;
+    const hideSubscribers = get(this, 'hideSubscribers');
+    return !hideSubscribers && subscriberCount > 1;
+  }),
 
   authorHasNoSpaces: computed('author', function() {
     const author = get(this, 'author') || '';

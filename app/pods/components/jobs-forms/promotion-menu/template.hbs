@@ -51,13 +51,6 @@
         >
           {{fa-icon "envelope"}}Email
       </div>
-      <div
-        class="JobsForms-PromotionMenu-promotion-option JobsForms-PromotionMenu-listservs"
-        {{action "startShareListservs"}}
-        role="button"
-        >
-          {{fa-icon "caret-down"}}Listservs
-      </div>
     </div>
 
     <div>
@@ -66,41 +59,6 @@
       </div>
       <textarea id="copy-url-textarea" class="JobsForms-PromotionMenu-copy-url-textarea">{{urlForShare}}</textarea>
     </div>
-
-    {{#if wantsToShareToListservs}}
-      <div class="JobsForms-PromotionMenu--listservs">
-        <div class="JobsForms-PromotionMenu--listservs-title">
-          Promote to the Listservs
-        </div>
-        <p class="JobsForms-PromotionMenu--listservs-description">
-          Send a text-only version of your market post to one or more Upper Valley listservs with a link to the full listing.
-          <b>You need to be subscribed to each list already in order to do this</b>.
-          Click <a href="https://dailyuv.com/news/812457" target="_blank" rel="noopener noreferrer"><b>here</b></a> for instructions on how to subscribe.
-        </p>
-        <div class="JobsForms-PromotionMenu--listservs-wrap">
-          {{#each sortedListservs as |listserv|}}
-            <div>
-              {{input
-                id=(concat "listserv-" listserv.id)
-                type="checkbox"
-                checked=listserv.isChecked
-                change=(action "toggleListserv" listserv.id)
-              }}
-              <label for="listserv-{{listserv.id}}">
-                {{listserv.name}}
-              </label>
-            </div>
-          {{/each}}
-        </div>
-        <div
-          class="JobsForms-PromotionMenu-promotion-option JobsForms-PromotionMenu-listservs"
-          {{action "shareListservs"}}
-          role="button"
-          >
-            {{fa-icon "envelope-o"}}Share to Listservs
-        </div>
-      </div>
-    {{/if}}
 
   </div>
 {{/if}}

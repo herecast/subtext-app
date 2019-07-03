@@ -1,21 +1,23 @@
-//== Typography
-//
+.font-face(@font-family, @font-style) {
+  @font-face {
+    font-family: @font-family;
+    src: url('/fonts/@{font-family}.woff');
+    font-style: @font-style;
+  }
+}
 
-// Available weights and styles from Typekit
-//
-// Proxima Nova, 'proxima-nova'
-// 700
-//
-// Museo Slab, 'museo-slab'
-// 300, 300 italic, 500, 700, 900
-//
-// Museo Sans, 'museo-sans'
-// 300, 500, 700
+.font-face('Gilroy-Bold', 'normal');
+.font-face('Gilroy-BoldItalic', 'italic');
+.font-face('Gilroy-Regular', 'normal');
+.font-face('Gilroy-RegularItalic', 'italic');
+.font-face('Gilroy-Semibold', 'normal');
+.font-face('Gilroy-SemiboldItalic', 'italic');
 
-@font-family-base: 'proxima-nova', Arial, Helvetica, sans-serif;
 
-@font-family-condensed: 'proxima-nova-extra-condensed', Verdana, Arial, Helvetica, sans-serif;
-@font-family-regular: 'proxima-nova', Arial, Helvetica, sans-serif;
+@font-family-regular: 'Gilroy-Regular', Arial, Helvetica, sans-serif;
+@font-family-semibold: 'Gilroy-SemiBold', Arial, Helvetica, sans-serif;
+@font-family-bold: 'Gilroy-Bold', Arial, Helvetica, sans-serif;
+
 @font-weight-regular: 400;
 @font-weight-semibold: 600;
 @font-style-normal: 'normal';
@@ -23,14 +25,10 @@
 html,
 body {
   color: @text-color;
-  font-family: @font-family-base;
+  font-family: @font-family-regular;
   font-size: 14px;
   font-weight: 300;
   line-height: 21px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -moz-font-feature-settings: "liga" on;
 }
 
 .text-base-font-size {
@@ -42,7 +40,8 @@ body {
 }
 
 .uppercase-bold-condensed {
-  font-family: @font-family-condensed !important;
+  font-family: @font-family-regular;
+  letter-spacing: -1px;
   font-weight: 600 !important;
   text-transform: uppercase;
 }

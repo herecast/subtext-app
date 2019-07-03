@@ -1,4 +1,4 @@
-import { mapBy } from '@ember/object/computed';
+import { mapBy, filterBy } from '@ember/object/computed';
 import { computed, setProperties, set, get } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent, isEmpty } from '@ember/utils';
@@ -17,11 +17,25 @@ export default Component.extend({
   tracking: service(),
 
   enabledEventDays: A(),
-  events: null,
+
   query: null,
   eventsAreLoading: false,
   reportScrollToEnd: false,
   startDate: null,
+  feedItems: null,
+  contentFeedItems: filterBy('feedItems', 'modelType', 'content'),
+  events: computed('contentFeedItems.[]', function() {
+    const contentFeedItems = get(this, 'contentFeedItems');
+    let events = [];
+    contentFeedItems.forEach(contentFeedItem => {
+      let contentRecord = get(contentFeedItem, 'content');
+      if (get(contentRecord, 'contentType') === 'event') {
+        events.push(contentRecord);
+      }
+    });
+
+    return events;
+  }),
 
   init() {
     this._super(...arguments);

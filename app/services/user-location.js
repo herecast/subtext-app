@@ -22,7 +22,7 @@ export default Service.extend(Evented, {
 
   _cookieName: 'userLocationId',
   //Hartford VT Hardcoded Default
-  _defaultUserLocationId: 19,
+  defaultUserLocationId: 19,
   _previousLocationId: null,
   _activeUserLocationId: null,
   _minimumLoadingDuration: 1200,
@@ -41,19 +41,23 @@ export default Service.extend(Evented, {
     }
   },
 
-  activeUserLocationId: computed('_activeUserLocationId', 'session.isAuthenticated', function() {
+  getActiveUserLocationId(allowDefault=true) {
     const activeUserLocationId = get(this, '_activeUserLocationId');
-    let userLocationId;
+    let userLocationId = null;
 
     if (get(this, 'session.isAuthenticated')) {
       userLocationId = this._loadUserLocationFromCurrentUser();
     } else if (isPresent(activeUserLocationId)) {
       userLocationId = activeUserLocationId;
-    } else {
-      userLocationId = get(this, '_defaultUserLocationId');
+    } else if (allowDefault){
+      userLocationId = get(this, 'defaultUserLocationId');
     }
 
     return userLocationId;
+  },
+
+  activeUserLocationId: computed('_activeUserLocationId', 'session.isAuthenticated', function() {
+    return this.getActiveUserLocationId();
   }),
 
   userLocation: computed('activeUserLocationId', function() {
@@ -194,13 +198,20 @@ export default Service.extend(Evented, {
   _loadUserLocationIdFromCookie(setActiveLocationId=true) {
     const cookies = get(this, 'cookies');
     const cookieName = get(this, '_cookieName');
-    const userLocationId = cookies.read(cookieName) || get(this, '_defaultUserLocationId');
+    const userLocationId = cookies.read(cookieName) || get(this, 'defaultUserLocationId');
 
     if (setActiveLocationId && userLocationId) {
       this._setActiveLocationId(userLocationId);
     }
 
     return userLocationId;
+  },
+
+  hasLocationStoredInCookie() {
+    const cookies = get(this, 'cookies');
+    const cookieName = get(this, '_cookieName');
+    const cookieUserLocationId = cookies.read(cookieName) || null;
+    return isPresent(cookieUserLocationId);
   },
 
   _writeUserLocationIdToCookie(location) {

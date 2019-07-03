@@ -86,7 +86,7 @@ export default Component.extend({
   If the directory already contains a phone number for this business, that is where we’ll call you.
   If there’s no phone number listed, or if the one listed is wrong, please add it here:
 
-  Thanks again for helping us build the Upper Valley’s best website, DailyUV!`;
+  Thanks again for helping us build the Upper Valley’s best website, HereCast!`;
 
       const body = `${encodeURIComponent(firstLine)}%0D%0A%0D%0A${encodeURIComponent(emailBody)}`;
 

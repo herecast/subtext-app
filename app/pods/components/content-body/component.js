@@ -9,7 +9,8 @@ export default Component.extend({
     'wideGutters:ContentBody--wideGutters',
     'increaseBottomPadding:ContentBody--increaseBottomPadding',
     'noBottomPadding:ContentBody--noBottomPadding',
-    'background:ContentBody--background'
+    'background:ContentBody--background',
+    'shadow:ContentBody--withBoxShadow'
   ],
 
   verticalPadding: false,
@@ -18,4 +19,5 @@ export default Component.extend({
   increaseBottomPadding: false,
   noBottomPadding: false,
   background: false,
+  shadow: false
 });

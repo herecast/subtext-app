@@ -1,0 +1,20 @@
+{{#modal-wrapper
+  close=closeDetailPage
+  showHeader=false
+  slideInFrom=(if isMobile "right" null)
+  slideOutTo=(if isMobile "right" null)
+  slideMessage=(if isMobile slideMessage null)
+  revealNav=true
+  class="Modal--no-padding"
+}}
+
+  {{detail-page
+    model=model
+    closeRoute="feed"
+    isPreview=false
+    enableStickyHeader=true
+    onClose=closeDetailPage
+    trackDetailEngagement=trackDetailEngagement
+  }}
+
+{{/modal-wrapper}}

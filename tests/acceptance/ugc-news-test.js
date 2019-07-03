@@ -38,7 +38,6 @@ module('Acceptance | ugc news', function(hooks) {
       contentType: "news",
       cost: null,
       eventUrl: null,
-      listservIds: [],
       locationId: location.id,
       organizationId: organization.id,
       publishedAt: null,
@@ -116,7 +115,6 @@ module('Acceptance | ugc news', function(hooks) {
     await ugcNews.submitImage();
 
     //POST on autosave after above ^^
-
     currentAttrs.id = "1";
 
     await ugcNews.selectNewLocation(get(location, 'id'));

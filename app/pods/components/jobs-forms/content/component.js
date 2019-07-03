@@ -35,7 +35,7 @@ export default Component.extend(JobsForms, {
   _contentChanged(onDidInsert=false) {
     const content = get(this, 'model.content');
 
-    let sanitizedContent = this._sanitizeOutHtml(content, true);
+    let sanitizedContent = this._sanitizeOutHtml(content);
     sanitizedContent = this._truncateValue(sanitizedContent, get(this, 'maxlength'));
 
     set(this, 'model.content', sanitizedContent);

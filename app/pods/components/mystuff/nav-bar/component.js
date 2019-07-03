@@ -3,12 +3,13 @@ import { computed, get } from '@ember/object';
 
 export default Component.extend({
   classNames: 'Mystuff-NavBar',
-  classNameBindings: ['verticalLayout:vertical:horizontal'],
+  classNameBindings: ['verticalLayout:vertical:horizontal', 'whiteButtons:white-buttons'],
   'data-test-mystuff-navbar': true,
 
   activeRoute: null,
   verticalLayout: false,
   routes: null,
+  whiteButtons: false,
 
   breadcrumbMessage: computed('activeRoute', function() {
     const activeRoute = get(this, 'activeRoute');

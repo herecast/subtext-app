@@ -2,9 +2,9 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { Promise } from 'rsvp';
 import { get } from '@ember/object';
-import WillAuthenticateMixin from 'subtext-app/mixins/routes/will-authenticate';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Route.extend(WillAuthenticateMixin, {
+export default Route.extend(UnauthenticatedRouteMixin, {
   fastboot: service(),
   session: service(),
   titleToken: 'Sign in',
@@ -20,11 +20,6 @@ export default Route.extend(WillAuthenticateMixin, {
       return;
     } else if ('auth_token' in transition.queryParams) {
       return this.trySignInWithToken(transition.queryParams.auth_token);
-    } else {
-      const isAuthenticated = get(this, 'session.isAuthenticated');
-      if (isAuthenticated) {
-        return this.transitionAfterAuthentication();
-      }
     }
 
     return this._super();
@@ -33,13 +28,10 @@ export default Route.extend(WillAuthenticateMixin, {
   trySignInWithToken(token) {
     return new Promise((resolve) => {
       get(this, 'session').signInWithToken(token)
-        .then(() => {
-          this.transitionAfterAuthentication();
-        })
-        .catch((e) => {
-          get(this, 'logger').error('An error occurred signing in with an auth token.', e);
-        })
-        .finally(resolve);
+      .catch((e) => {
+        get(this, 'logger').error('An error occurred signing in with an auth token.', e);
+      })
+      .finally(resolve);
     });
   },
 });

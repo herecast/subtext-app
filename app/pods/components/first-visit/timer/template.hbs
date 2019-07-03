@@ -1,0 +1,13 @@
+<div class="FirstVisit-Timer--wrap" style={{wrapStyle}}>
+  <div class="FirstVisit-Timer--circle {{circleClass}} {{if circleHidden "translucent"}}">
+    <div class="FirstVisit-Timer--circle-right-side" style={{halfCircleStyle}}></div>
+    <div class="FirstVisit-Timer--circle-left-side {{sideClass}}" style={{halfCircleStyle}}></div>
+  </div>
+  {{#if showClipper}}
+    <div class="FirstVisit-Timer--clipper"></div>
+  {{/if}}
+
+  <div class="FirstVisit-Timer--label" style={{labelStyle}}>
+    {{yield}}
+  </div>
+</div>

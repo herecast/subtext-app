@@ -1,4 +1,3 @@
-//import EmberObject from '@ember/object';
 import mockService from 'subtext-app/tests/helpers/mock-service';
 
 export default function(cookies={}) {

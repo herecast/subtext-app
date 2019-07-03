@@ -39,7 +39,6 @@ export default Component.extend(TestSelector, Validation, {
   "data-test-component": "NewsEditor",
   news: null,
   showPreview: false,
-  store: service(),
   location: service('window-location'),
 
   editorHeight: 400,
@@ -50,6 +49,7 @@ export default Component.extend(TestSelector, Validation, {
   api: service(),
   notify: service('notification-messages'),
   router: service(),
+  store: service(),
   isPublishing: false,
   wantsToDeleteDraft: false,
   pendingFeaturedImage: null,
@@ -67,6 +67,22 @@ export default Component.extend(TestSelector, Validation, {
       editorConfig: editorConfigArray,
       editorPopover: editorPopoverObj
     });
+
+    const isEditing = isPresent(get(this, 'news.publishedAt'));
+    const organizationId = get(this, 'news.organizationId') || false;
+
+    if (isEditing && organizationId) {
+      this._loadOrganizationIfNotLoaded(organizationId)
+      .then(org => {
+        if (!isPresent(org)) {
+          get(this, 'notify').error('You  may not be able to edit this item. Please reload the page.');
+        }
+      });
+    }
+  },
+
+  _loadOrganizationIfNotLoaded(organizationId) {
+    return get(this, 'store').findRecord('organization', organizationId);
   },
 
   organizations: oneWay('session.currentUser.managedOrganizations'),

@@ -27,6 +27,29 @@ Router.map(function() {
     this.route('show-instance', {path: '/:id/:event_instance_id'});
   });
 
+  this.route('profile', {path: '/profile/:organization_id'}, function() {
+    this.route('all', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
+    });
+  });
+
+  this.route('mystuff', function() {
+    this.route('comments', function() {
+      this.route('show', {path: '/:id'});
+    });
+    this.route('subscriptions');
+    this.route('account');
+    this.route('contents', {path: '/'}, function() {
+      this.route('show', {path: '/:id'});
+    });
+    this.route('bookmarks', function() {
+      this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
+    });
+    this.route('hides');
+  });
+
   this.route('login', {path: '/sign_in'});
   this.route('register', {path: '/sign_up'});
   this.route('register.complete', {path: '/sign_up/complete'});
@@ -69,34 +92,9 @@ Router.map(function() {
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
 
-  this.route('profile', {path: '/profile/:organization_id'}, function() {
-    this.route('all', {path: '/'}, function() {
-      this.route('show', {path: '/:content_id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
-  });
-
-  this.route('mystuff', function() {
-    this.route('comments', function() {
-      this.route('show', {path: '/:id'});
-    });
-
-    this.route('subscriptions');
-
-    this.route('account');
-
-    this.route('contents', {path: '/'}, function() {
-      this.route('show', {path: '/:id'});
-    });
-    this.route('bookmarks', function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
-    this.route('hides');
-  });
-
   this.route('startablog');
   this.route('publisher-agreement');
+  this.route('welcome');
 });
 
 export default Router;

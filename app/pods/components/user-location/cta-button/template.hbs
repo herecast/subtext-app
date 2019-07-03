@@ -1,6 +1,6 @@
 {{#x-button
    onClick=(action "toggleChangeLocation")
-   color="primary"
+   color=color
    size="x-small"
    noMargin=true
  }}
@@ -8,8 +8,11 @@
 {{/x-button}}
 
 {{#if wantsToChangeLocation}}
-  {{user-location/chooser
-    modelLocationName=modelLocationName
-    onClose=(action "toggleChangeLocation")
+  {{to-elsewhere
+    named="global-modal"
+    send=(component "user-location/chooser"
+          modelLocationName=modelLocationName
+          onClose=(action "toggleChangeLocation")
+          )
   }}
 {{/if}}

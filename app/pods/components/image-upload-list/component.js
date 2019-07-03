@@ -23,7 +23,7 @@ export default Component.extend({
   images: alias('model.images'),
 
   visibleImages: computed('images.@each._delete', function() {
-    const images = get(this, 'images');
+    const images = get(this, 'images') || [];
 
     return images.rejectBy('_delete');
   }),

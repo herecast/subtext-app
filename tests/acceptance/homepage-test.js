@@ -5,153 +5,98 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
-import mockService from 'subtext-app/tests/helpers/mock-service';
 import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
-import { visit, click, find, findAll, fillIn, currentURL } from '@ember/test-helpers';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
+import { visit, click, find, findAll, fillIn, currentURL, currentRouteName } from '@ember/test-helpers';
+
 
 module('Acceptance | homepage', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(function() {
+    invalidateSession();
+    loadPioneerFeed(false);
+  });
+
+  test('feed redirects to welcome route when visiting index not logged in and no location cookie present (first time user)', async function(assert) {
     this.cookies = {};
     mockCookies(this.cookies);
-    invalidateSession();
-  });
-
-  test('visiting / - no location cookie, not logged in', async function(assert) {
-    const done = assert.async(2);
-    const defaultLocationId = 19; //Hartford VT
-
-    this.server.create('location', {id: defaultLocationId});
-
-    this.server.get('/feed', function(db, request) {
-      if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, defaultLocationId, "The default location id is passed to the api request");
-        done();
-      }
-
-      return {feedItems: []};
-    });
 
     await visit('/');
 
-    assert.equal(currentURL(), '/', "Home page displays");
-    await click('[data-test-signin-from-header]');
-
-    let location = this.server.create('location');
-    let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
-
-    this.server.get('/feed', function(db, request) {
-
-      if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, location.id, "The logged in user location id is passed to the api request");
-        done();
-      }
-
-      return {feedItems: []};
-    });
-
-    await fillIn('[data-test-field="sign-in-email"]', user.email);
-    await fillIn('[data-test-field="sign-in-password"]', 'password');
-
-    await click('[data-test-component="sign-in-submit"]');
+    assert.equal(currentRouteName(), 'welcome', 'it redirected to the welcome route');
   });
 
-  test('visiting / - with location cookie, not logged in', async function(assert) {
-    const done = assert.async(2);
+  test('feed works when visiting index not logged in and location is present in cookie (return anonymous user to live feed)', async function(assert) {
+    const done = assert.async();
     const cookieLocation = mockLocationCookie(this.server);
+    const feedItems = this.server.createList('feedItem', 3, {
+      modelType: 'content'
+    });
 
-    this.server.get('/feed', function(db, request) {
+    this.server.get('/feed', function({feedItems}, request) {
       if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, cookieLocation.id, "The cookie location id is passed to the api request");
+        assert.equal(request.queryParams.location_id, cookieLocation.id, "The location id from the cookie is passed to the api request");
         done();
       }
 
-      return {feedItems: []};
+      return feedItems.all();
     });
 
     await visit('/');
 
-    assert.equal(currentURL(), '/', "Home page displays");
-    await click('[data-test-signin-from-header]');
+    assert.notOk(find('[data-test-component="pioneer-feed"]'), 'Should not show pioneer feed');
 
-    let location = this.server.create('location');
-    let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
-
-    this.server.get('/feed', function(db, request) {
-      if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, location.id, "The logged in user location id is passed to the api request");
-        done();
-      }
-
-      return {feedItems: []};
+    feedItems.forEach((record) => {
+      const $feedCard = find('[data-test-feed-card]' + `[data-test-content="${record.content.id}"]`);
+      assert.ok($feedCard, `A feed card exists for content id: ${record.content.id}`);
     });
-
-    await fillIn('[data-test-field="sign-in-email"]', user.email);
-    await fillIn('[data-test-field="sign-in-password"]', 'password');
-
-    await click('[data-test-component="sign-in-submit"]');
   });
 
-  test('visiting / - with location cookie, logged in, user location matches cookie location', async function(assert) {
-    const done = assert.async();
-
-    let location = this.server.create('location');
-    let user = this.server.create('current-user', {locationId: location.id, email: "embertest@subtext.org"});
-
-    mockLocationCookie(this.server, location);
-    authenticateUser(this.server, user);
-
-    this.server.get('/feed', function(db, request) {
-      if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, location.id, "The user's location id is passed to the api request");
-        done();
-      }
-
-      return {feedItems: []};
+  test('feed works when visiting index not logged in and location is present in cookie (return anonymous user to not yet live feed goes to pioneer feed)', async function(assert) {
+    loadPioneerFeed(true);
+    mockLocationCookie(this.server);
+    this.server.createList('feedItem', 3, {
+      modelType: 'content'
     });
 
     await visit('/');
 
-    assert.equal(currentURL(), '/', "Home page displays");
+    assert.ok(find('[data-test-component="pioneer-feed"]'), 'should show the pioneer feed');
   });
 
-  test('visiting / - with location cookie, logged in, user location doesnt match cookie location', async function(assert) {
+  test('feed works when visiting index and logged in with mismatched cookie location', async function(assert) {
     const done = assert.async();
+    mockLocationCookie(this.server);
+    const userLocation = this.server.create('location');
+    const currentUser = this.server.create('current-user', {locationId: userLocation.id});
 
-    let userLocation = this.server.create('location');
-
-    let user = this.server.create('current-user', {locationId: userLocation.id, email: "embertest@subtext.org"});
-
-    mockService('cookies',{
-      read: () => {},
-      write: (name, value) => {
-        if (name === 'userLocationId') {
-          assert.equal(value, userLocation.id, 'The cookie is set to the user location');
-        }
-      }
+    const feedItems = this.server.createList('feedItem', 3, {
+      modelType: 'content'
     });
 
-    authenticateUser(this.server, user);
-
-    this.server.get('/feed', function(db, request) {
+    this.server.get('/feed', function({feedItems}, request) {
       if (request.queryParams.location_id) {
-        assert.equal(request.queryParams.location_id, userLocation.id, "The user's location id is passed to the api request, not the cookie location id");
+        assert.equal(request.queryParams.location_id, userLocation.id, "The logged in users location id is passed to the api request");
         done();
       }
 
-      return {feedItems: []};
+      return feedItems.all();
     });
+
+    authenticateUser(this.server, currentUser);
 
     await visit('/');
 
-    assert.equal(currentURL(), '/', "Home page displays");
+    feedItems.forEach((record) => {
+      const $feedCard = find('[data-test-feed-card]' + `[data-test-content="${record.content.id}"]`);
+      assert.ok($feedCard, `A feed card exists for content id: ${record.content.id}`);
+    });
   });
 
-  test('visiting / - not logged in user menu, log in and check user menu, then logout', async function(assert) {
-    const done = assert.async();
-    this.server.create('location', {id: 19}); //Default location
+  test('visiting / - has been before, not logged in user menu, log in and check user menu, then logout', async function(assert) {
+    mockLocationCookie(this.server);
 
     await visit('/');
 
@@ -177,11 +122,6 @@ module('Acceptance | homepage', function(hooks) {
     await fillIn('[data-test-field="sign-in-email"]', user.email);
     await fillIn('[data-test-field="sign-in-password"]', 'password');
 
-    this.server.get('/feed',() => {
-      done();
-      return {feedItems: []};
-    });
-
     await click('[data-test-component="sign-in-submit"]');
 
     await click('[data-test-avatar-in-header]');
@@ -194,6 +134,6 @@ module('Acceptance | homepage', function(hooks) {
     await click('[data-test-logout-yes]');
 
     assert.equal(currentURL(), '/', "Home page displays again");
-    assert.ok(find('[data-test-signin-from-header]'), 'Signin prompt should show in header after logout');
+    assert.notOk(find('[data-test-avatar-in-header]'), 'Avatar should not show in header after signout');
   });
 });

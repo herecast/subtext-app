@@ -1,0 +1,21 @@
+{{#content-body classNames="u-padding0" shadow=true}}
+  <div class="DetailPage-headerSubSection u-flexSpace u-flexAlign-center u-padding8">
+    {{#feed-card/attribution
+      model=model
+      isOnDetailView=true
+      hideActivity=true
+      hidePostedTime=true
+      showCenter=(not isPreview)
+    }}
+      {{#if showContactButton}}
+        {{contact-poster-button
+          model=(readonly model)
+          clickReplyButton=(action "clickReplyButton")
+          tagName="span"
+        }}
+      {{else if model.isNews}}
+        {{subscribe-button organization=model.organization}}
+      {{/if}}
+    {{/feed-card/attribution}}
+  </div>
+{{/content-body}}

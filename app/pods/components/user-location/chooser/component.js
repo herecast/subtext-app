@@ -1,7 +1,7 @@
 import { readOnly } from '@ember/object/computed';
 import { computed, set, get, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { run } from '@ember/runloop';
+import { debounce } from '@ember/runloop';
 import $ from 'jquery';
 import Component from '@ember/component';
 
@@ -62,7 +62,7 @@ export default Component.extend({
     },
 
     valueChanging() {
-      run.debounce(this, '_checkLocationMatches', 200);
+      debounce(this, '_checkLocationMatches', 200);
     },
 
     chooseLocation(userLocation, closeModal) {

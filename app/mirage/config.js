@@ -314,7 +314,7 @@ export default function() {
     const name = params.name;
     let response;
 
-    if (name === 'DailyUV' || name === 'blogblog') {
+    if (name === 'HereCast' || name === 'blogblog') {
       response = new Mirage.Response(404);
     } else {
       response = new Mirage.Response(200, {}, {});
@@ -358,6 +358,10 @@ export default function() {
     organization.bizFeedActive = true;
 
     return organizations.create(organization);
+  }, { timing: 2000 });
+
+  this.post('/organizations/:id/subscriptions', function() {
+    return new Mirage.Response(200, {}, {});
   }, { timing: 2000 });
 
   this.post('/organizations/email_captures', function() {
@@ -487,6 +491,10 @@ export default function() {
   this.get('/password_resets/:token', function() {
     return new Mirage.Response(200, {}, {});
   });
+
+  this.post('metrics/profiles/:id', function() {
+    return new Mirage.Response(200, {}, {});
+   });
 
   this.post('metrics/contents/:id/impressions', function() {
     return new Mirage.Response(200, {}, {});
@@ -842,17 +850,23 @@ export default function() {
       }
 
       response = this.serialize(oneContentTypeFeedItems.slice(startIndex, endIndex));
-
+      let total=110;
       response.meta = {
-        total: oneContentTypeFeedItems.length,
+        total: total,//oneContentTypeFeedItems.length,
         total_pages: Math.ceil( oneContentTypeFeedItems.length / per_page )
       };
 
     } else {
       response = this.serialize(feedItems.all().slice(startIndex, endIndex));
 
+      let randomNumber = Math.random();
+      const pioneerFeedCutoff = 100;
+
+
+      let total = randomNumber >= 0.5 ? pioneerFeedCutoff + 10 : pioneerFeedCutoff - 10;
+      total=110;
       response.meta = {
-        total: feedItems.all().length,
+        total,
         total_pages: Math.ceil( feedItems.all().length / per_page )
       };
     }

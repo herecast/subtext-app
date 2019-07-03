@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
-import WillAuthenticateMixin from 'subtext-app/mixins/routes/will-authenticate';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Route.extend(WillAuthenticateMixin, {
+export default Route.extend(UnauthenticatedRouteMixin, {
   titleToken: 'Join',
 
 });

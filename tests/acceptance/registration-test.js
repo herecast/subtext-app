@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import { visit, click, find, fillIn, currentURL, currentRouteName } from '@ember/test-helpers';
 
@@ -11,12 +12,15 @@ module('Acceptance | registration', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    loadPioneerFeed(false);
   });
 
   test('clicking join link displays the registration form', async function(assert) {
     await visit('/');
 
-    await click('[data-test-signin-from-header]');
+    await click('[data-test-sidenav-from-header]');
+    await click('[data-test-signin-from-side-menu]');
+
     await click('[data-test-link="join-tab"]');
 
     assert.ok(find('[data-test-component="sign-in-submit"]'), 'registration form should be present');
@@ -27,7 +31,9 @@ module('Acceptance | registration', function(hooks) {
 
     await visit('/');
 
-    await click('[data-test-signin-from-header]');
+    await click('[data-test-sidenav-from-header]');
+    await click('[data-test-signin-from-side-menu]');
+
     await click('[data-test-link="join-tab"]');
 
     await fillIn('[data-test-field="sign-in-email"]', 'slim_shady@example.com');

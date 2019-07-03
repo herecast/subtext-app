@@ -1,0 +1,82 @@
+{{first-visit/animation
+  location=chosenLocation
+  showAnimation=showAnimation
+  onAnimationEnd=(action "transferToFeed")
+}}
+
+<div class="FirstVisit--search">
+  <div class="FirstVisit--search-wrap">
+    <div class="FirstVisit--search-title">
+      Share what's happening here
+    </div>
+
+    <div class="FirstVisit--search-input">
+      {{fa-icon "map-marker" class="FirstVisit--search-input-icon"}}
+      {{input
+        id="first-location"
+        placeholder="Enter your city or town..."
+        value=(mut inputValue)
+        keyUp=(action "valueChanging")
+      }}
+      <div class="FirstVisit--search-results dropdown-menu {{if hasInputValue "show"}}">
+        {{#if locationMatches}}
+          {{#each locationMatches as |location|}}
+            <div
+              class="FirstVisit--search-results-location"
+              {{action "chooseLocation" location}}
+              role="button"
+            >
+              {{fa-icon "map-marker"}} {{location.city}}, {{location.state}}
+            </div>
+          {{/each}}
+        {{else if hasInputValue}}
+          <div class="FirstVisit--search-results-location">
+            No Matching Locations
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="FirstVisit--landing">
+    <div class="FirstVisit--landing-title">
+      With HereCast you can find or post
+    </div>
+    <div class="FirstVisit--landing-grid">
+      <div class="FirstVisit--landing-grid-row">
+        <div class="FirstVisit--landing-grid-bubble">
+          {{fa-icon "newspaper-o"}}
+        </div>
+        <div class="FirstVisit--landing-grid-text">
+          Local stories from locals like you
+        </div>
+      </div>
+
+      <div class="FirstVisit--landing-grid-row">
+        <div class="FirstVisit--landing-grid-bubble">
+          {{fa-icon "calendar"}}
+        </div>
+        <div class="FirstVisit--landing-grid-text">
+          Nearby events for all ages and interests
+        </div>
+      </div>
+
+      <div class="FirstVisit--landing-grid-row">
+        <div class="FirstVisit--landing-grid-bubble">
+          {{fa-icon "tags"}}
+        </div>
+        <div class="FirstVisit--landing-grid-text">
+          Stuff for sale locally
+        </div>
+      </div>
+    </div>
+    <div class="FirstVisit--landing-cta">
+      Enter your location to get started
+      <div class="FirstVisit--landing-cta-button" {{action "focusOnInput"}} role="button">
+        {{fa-icon "map-marker"}}
+      </div>
+    </div>
+  </div>
+</footer>

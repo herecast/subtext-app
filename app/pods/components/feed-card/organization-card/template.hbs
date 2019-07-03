@@ -1,19 +1,4 @@
 <div class="FeedCard--card-front">
-  {{#if (or organization.certifiedStoryteller organization.certifiedSocial)}}
-    <div class="FeedCard-certification">
-      {{#if organization.certifiedStoryteller}}
-        <div class="FeedCard-certification-storyteller">
-          {{fa-icon "certificate"}} Certified Storyteller
-        </div>
-      {{/if}}
-      {{#if organization.certifiedSocial}}
-        <div class="FeedCard-certification-social">
-          {{fa-icon "certificate"}} Certified in Social
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
-
   {{#if (or backgroundImageUrl backgroundImageBlock)}}
     {{header-image imageUrl=backgroundImageUrl short=true block=backgroundImageBlock}}
   {{/if}}

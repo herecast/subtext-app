@@ -10,8 +10,7 @@ module('Integration | Component | feed-card/midsize-card', function(hooks) {
     id: 1,
     modelType: 'news',
     title: 'God rest ye merry gentlemen!',
-    contentType: 'news',
-    baseLocations: []
+    contentType: 'news'
   };
 
   test('it renders', async function(assert) {

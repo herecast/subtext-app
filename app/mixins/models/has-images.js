@@ -11,7 +11,8 @@ export default Mixin.create({
 
   images: DS.hasMany('image', { async: false }),
   populatedImages: computed('images.@each.{imageUrl,_delete}', function() {
-    return get(this, 'images').rejectBy('_delete')
+    const images = get(this, 'images') || [];
+    return images.rejectBy('_delete')
       .filter((image) => isPresent(get(image, 'imageUrl')));
   }),
 

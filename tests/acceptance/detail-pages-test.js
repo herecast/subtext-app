@@ -2,12 +2,19 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { invalidateSession} from 'ember-simple-auth/test-support';
+import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
 import moment from 'moment';
 import { visit, find } from '@ember/test-helpers';
 
 module('Acceptance | detail pages', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  hooks.beforeEach(function() {
+    invalidateSession();
+    mockCookies({});
+  });
 
   test('testing news detail page', async function(assert) {
     const splitContent = {
@@ -27,47 +34,31 @@ module('Acceptance | detail pages', function(hooks) {
     await visit(`/${content.id}`);
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal($(find('[data-test-detail-page-image]')).attr('src'), content.imageUrl, 'it should show the detail page image');
+    assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 
-  test('testing talk detail page', async function(assert) {
+  test('testing event detail page', async function(assert) {
     const splitContent = {
-      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs.",
+      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox ",
       tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     };
 
+    const eventInstance = this.server.create('event-instance', {
+      startsAt: "2018-01-30T21:19:17+00:00",
+      endsAt: "2018-01-30T21:22:17+00:00"
+    });
+
     const content = this.server.create('content', {
-      contentType: 'talk',
-      title: 'hello worldx',
-      imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
-      splitContent: splitContent,
-      content: splitContent.head + ' ' + splitContent.tail
-    });
-
-    this.server.create('feedItem', {
-      modelType: 'content',
-      contentId: content.id
-    });
-
-    await visit(`/${content.id}`);
-
-    assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${content.imageUrl}")`, 'it should show the card image');
-    assert.equal($(find('[data-test-market-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
-    assert.ok(find('[data-test-market-attribution]'), 'it should show the attribution');
-    assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
-  });
-
-  test('testing event detail page', async function(assert) {
-    const eventInstance = this.server.create('eventInstance', {
+      contentType: 'event',
       title: 'hello world',
       images: [
         {id:1, primary: true, imageUrl:'https://via.placeholder.com/400x240.png?text=400x240'}
       ],
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      splitContent: splitContent,
+      content: splitContent.head + ' ' + splitContent.tail,
       startsAt: "2018-01-30T21:19:17+00:00",
       endsAt: "2018-01-30T21:22:17+00:00",
       cost: 123,
@@ -77,13 +68,14 @@ module('Acceptance | detail pages', function(hooks) {
       venueCity: 'White River Junction',
       venueState: 'VT'
     });
-    const content = this.server.create('content', {
-      contentType: 'event',
-    });
 
     this.server.create('feedItem', {
       modelType: 'content',
       contentId: content.id
+    });
+
+    content.update({
+      eventInstances: [eventInstance]
     });
 
     await visit(`/${content.id}/${eventInstance.id}`);
@@ -91,18 +83,24 @@ module('Acceptance | detail pages', function(hooks) {
     const {startsAt, endsAt} = eventInstance;
     const eventTime = `${moment(startsAt).format('h:mm A')} ${String.fromCharCode(0x2014)} ${moment(endsAt).format('h:mm A')}`;
 
-    assert.equal($(find('[data-test-card-title]')).text().trim(), eventInstance.title, 'it should have the correct title');
+    assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-detail-meta-time]')).text().trim(), eventTime, 'it should show the correct event time');
-    assert.equal($(find('[data-test-detail-meta-cost]')).text().trim(), eventInstance.cost, 'it should show the correct event price');
-    assert.equal($(find('[data-test-detail-meta-url]')).text().trim(), eventInstance.url, 'it should show the correct event url');
-    assert.equal($(find('[data-test-detail-meta-venue-address]')).first().text().trim(), eventInstance.venueAddress, 'it should show the correct event address');
-    assert.equal($(find('[data-test-detail-meta-venue-name]')).first().text().trim(), eventInstance.venueName, 'it should show the event name');
-    assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${eventInstance.images[0].imageUrl}")`, 'it should show the event image');
-    assert.ok(find('[data-test-event-detail-attribution]'), 'it should show the attribution');
+    assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
+    assert.equal($(find('[data-test-detail-meta-cost]')).text().trim(), content.cost, 'it should show the correct event price');
+    assert.equal($(find('[data-test-detail-meta-url]')).text().trim(), content.url, 'it should show the correct event url');
+    assert.equal($(find('[data-test-detail-meta-venue-address]')).first().text().trim(), content.venueAddress, 'it should show the correct event address');
+    assert.equal($(find('[data-test-detail-meta-venue-name]')).first().text().trim(), content.venueName, 'it should show the event name');
+    assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${content.images[0].imageUrl}")`, 'it should show the event image');
+    assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 
   test('testing market detail page', async function(assert) {
+    const splitContent = {
+      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox ",
+      tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    };
+
     const imageUrl = 'https://via.placeholder.com/400x240.png?text=400x240';
     const location = this.server.create('location');
     const content = this.server.create('content', {
@@ -119,7 +117,8 @@ module('Acceptance | detail pages', function(hooks) {
         image_url: imageUrl,
         primary: 0
       }],
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      splitContent: splitContent,
+      content: splitContent.head + ' ' + splitContent.tail,
       cost: 123,
       locationId: location.id,
       embeddedAd: false
@@ -135,10 +134,10 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
     assert.ok(find('[data-test-image-thumbnail]'), 'it should show the market thumbnail images');
-    assert.equal($(find('[data-test-detail-meta-cost]')).text(), content.cost, 'it should show the correct market cost');
+    assert.equal($(find('[data-test-detail-meta-cost]')).text().trim(), content.cost, 'it should show the correct market price');
     assert.equal($(find('[data-test-card-location]')).text().trim(), location.city, 'it should show the correct market location');
-    assert.equal($(find('[data-test-market-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
-    assert.ok(find('[data-test-market-attribution]'), 'it should show the attribution');
+    assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
+    assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 });

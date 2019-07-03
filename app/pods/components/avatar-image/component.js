@@ -9,13 +9,12 @@ import makeOptimizedImageUrl from 'subtext-app/utils/optimize-image-url';
 
 export default Component.extend({
   classNames: 'AvatarImage',
-  classNameBindings: ['customSize:custom-sized', 'hasCaret:has-caret', 'isSquare:is-square'],
+  classNameBindings: ['customSize:custom-sized', 'isLogo:is-logo'],
 
   imageUrl: null,
   userName: null,
   customSize: null,
-  hasCaret: false,
-  isSquare: false,
+  isLogo: false,
 
   userInitials: computed('userName', function() {
     return computedInitials(get(this, 'userName'));
@@ -25,33 +24,21 @@ export default Component.extend({
     return htmlSafe(hexColorFromString(get(this, 'userName')));
   }),
 
-  customSizeStyle: computed('customSize', 'imageUrl', 'avatarBackgroundColor', function() {
+  customSizeStyle: computed('customSize', 'imageUrl', 'avatarBackgroundColor', 'isLogo', function() {
     const customSize = get(this, 'customSize');
     const imageUrl = get(this, 'imageUrl');
     let style = '';
 
     if (customSize) {
-      const factor = get(this, 'isSquare') ? 0.5 : 0.4;
-      let fontSize = Math.round(factor * customSize);
-      style = `width:${customSize}px; height:${customSize}px; line-height:${customSize}px; font-size:${fontSize}px;`;
+      const factor = get(this, 'isLogo') ? 0.45 : 0.4;
+      const fontSize = Math.round(factor * customSize);
+      const lineHeight = get(this, 'isLogo') ? customSize - 1 : customSize;
+      style = `width:${customSize}px; height:${customSize}px; line-height:${lineHeight}px; font-size:${fontSize}px;`;
     }
 
-    if (isBlank(imageUrl)) {
+    if (isBlank(imageUrl) && !get(this, 'isLogo')) {
       const avatarBackgroundColor = get(this, 'avatarBackgroundColor');
       style += `background-color: ${avatarBackgroundColor};`;
-    }
-
-    return htmlSafe(style);
-  }),
-
-  customCaretStyle: computed('hasCaret', function() {
-    const customSize = get(this, 'customSize');
-    let style = '';
-
-    if (get(this, 'hasCaret')) {
-      const factor = get(this, 'isSquare') ? 0.5 : 0.4;
-      let fontSize = Math.round(factor * customSize);
-      style = `width:${fontSize}px; right:-${fontSize}px; line-height:${customSize}px; font-size:${fontSize}px`;
     }
 
     return htmlSafe(style);
@@ -70,5 +57,9 @@ export default Component.extend({
     }
 
     return htmlSafe(optimizedImageUrl);
+  }),
+
+  defaultClass: computed('isLogo', function() {
+    return get(this, 'isLogo') ? 'AvatarImage--logo' : 'AvatarImage--default';
   })
 });

@@ -31,9 +31,6 @@ export default ModalInstance.extend({
       // IDEA: Open secondary modal here?
       get(this, 'router').transitionTo('forgot-password');
     },
-    didSignIn() {
-      this.ok();
-    },
     didRegister() {
       get(this, 'router').transitionTo('register.complete');
     },

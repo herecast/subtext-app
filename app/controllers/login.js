@@ -1,6 +1,6 @@
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 
 export default Controller.extend({
   secondaryBackground: true,
@@ -11,16 +11,6 @@ export default Controller.extend({
   actions: {
     forgotPassword() {
       this.transitionToRoute('forgot-password');
-    },
-    wasAuthenticated() {
-      const attemptedTransition = get(this, 'session.attemptedTransition');
-
-      if (attemptedTransition) {
-        attemptedTransition.retry();
-        set(this, 'session.attemptedTransition', null);
-      } else {
-        this.send('transitionAfterAuthentication');
-      }
     },
     reconfirm: function(email){
       this.transitionToRoute('register.reconfirm', {

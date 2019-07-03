@@ -1,88 +1,52 @@
-<div class="MainNav">
-  <div class="MainNav--top-bar">
-    <div class="MainNav--top-bar-wrapper">
+<div class="GlobalHeader">
+  <div class="GlobalHeader--top-bar {{if (or streamlinedHeader isFastBoot) "streamlined"}}">
 
-      <div class="MainNav-menu">
+    {{#if streamlinedHeader}}
+      <div class="GlobalHeader-chevron">
+        {{#link-to "welcome"}}
+          <div class="GlobalHeader-chevron-left">
+            {{fa-icon "chevron-left"}}
+          </div>
+          <div class="GlobalHeader-chevron-right">
+            Change<br>
+            Location
+          </div>
+        {{/link-to}}
+      </div>
+    {{/if}}
+
+    <div class="GlobalHeader-brand">
+      <div class="GlobalHeader-brand-logo">
+        {{#link-to "feed" (query-params type=null)}}
+          {{brand-logo white=true onClick=(action "logoClicked")}}
+        {{/link-to}}
+      </div>
+    </div>
+
+    {{#if showNav}}
+      <div class="GlobalHeader-filter">
+        <div class="GlobalHeader-filter-postsButton GlobalHeader-button">
+          {{#link-to "feed" (query-params type="posts")}}
+            {{fa-icon "newspaper-o"}}
+          {{/link-to}}
+        </div>
+        <div class="GlobalHeader-filter-calendarButton GlobalHeader-button">
+          {{#link-to "feed" (query-params type="calendar")}}
+            {{fa-icon "calendar"}}
+          {{/link-to}}
+        </div>
+        <div class="GlobalHeader-filter-marketButton GlobalHeader-button">
+          {{#link-to "feed" (query-params type="market")}}
+            {{fa-icon "tags"}}
+          {{/link-to}}
+        </div>
+      </div>
+
+      <div class="GlobalHeader-menu">
         {{site-nav}}
       </div>
-
-      <div class="MainNav-brand">
-        <div class="MainNav-brand-logo">
-          {{brand-logo onClick=(action "logoClicked")}}
-        </div>
-      </div>
-
-      <div class="MainNav-search">
-        {{#unless showSearch}}
-          <div class="MainNav-search-calendarButton MainNav-button">
-            {{#link-to "feed" (query-params type="calendar")}}
-              {{fa-icon "calendar"}}
-            {{/link-to}}
-          </div>
-        {{/unless}}
-
-        <div {{action "toggleSearch"}}
-          role="button"
-          class="MainNav-search-searchButton MainNav-button {{if showSearch "open"}}"
-          data-test-button="global-search-open-close">
-          {{#if showSearch}}
-            {{fa-icon "times"}}
-          {{else}}
-            {{fa-icon "search"}}
-          {{/if}}
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="MainNav--bottom-bar {{if showSearch "searchOpen"}}">
-    {{#if showSearch}}
-      <div class="GlobalHeader-globalSearch">
-        <div>
-          {{search-input
-            showIcon=true
-            value=(readonly searchService.query)
-            update=(action "updateSearchQuery")
-            clearSearchType=(action "clearSearch")
-            clearButtonText="Clear"
-            class="GlobalHeader-querySearch"
-            isLoading=searchService.isLoading
-            data-test-global-search=true
-          }}
-        </div>
-        <div>
-        {{user-location/search-input}}
-        </div>
-
-      </div>
-    {{else}}
-      {{#if (not hideUserLocationBar)}}
-        <div class="MainNav--bottom-bar-wrapper">
-          <div class="MainNav-location">
-            {{user-location onClickLocation=(action "toggleSearch" "focusOnLocation")}}
-          </div>
-          {{#if showFilterButton}}
-            <div class="btn-link MainNav-search-filterButton MainNav-button" role="button" {{action "scrollUpOne"}}>
-              {{fa-icon "filter"}}
-            </div>
-          {{/if}}
-        </div>
-      {{/if}}
     {{/if}}
   </div>
-
-  {{#if showFilterBar}}
-    <div class="MainNav--filter-bar {{if isScrollingUp "show-filter" "hide-filter"}}">
-      {{global-filter}}
-    </div>
-  {{/if}}
-
-  <div class="GlobalHeader-globalSearch-results">
-    {{from-elsewhere name="global-search-results"}}
-  </div>
-
-
 </div>
 
 {{yield}}

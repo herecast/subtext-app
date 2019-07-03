@@ -6,6 +6,7 @@ import MystuffNavObjects from 'subtext-app/mixins/mystuff-nav-objects';
 
 export default Component.extend(MystuffNavObjects, {
   classNames: 'SiteNav-UserMenu',
+  classNameBindings: ['isLoggedIn:is-logged-in'],
 
   modals: service(),
   session: service(),
@@ -29,6 +30,12 @@ export default Component.extend(MystuffNavObjects, {
       get(this, 'afterChoose')();
       get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
     },
+
+    signUp() {
+      get(this, 'afterChoose')();
+      get(this, 'modals').showModal('modals/sign-in-register', 'register');
+    },
+
 
     goToMystuffRoute(route) {
       get(this, 'afterChoose')();

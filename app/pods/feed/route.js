@@ -1,24 +1,24 @@
 import Route from '@ember/routing/route';
 import { isBlank, isPresent } from '@ember/utils';
-import { setProperties, set, get } from '@ember/object';
-import { on } from '@ember/object/evented';
+import { setProperties, set, get, computed } from '@ember/object';
 import RSVP, { Promise } from 'rsvp';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import VariableInfinityModelParams from 'subtext-app/mixins/routes/variable-infinity-model-params';
 import History from 'subtext-app/mixins/routes/history';
 import NavigationDisplay from 'subtext-app/mixins/routes/navigation-display';
-import ShowUserLocationBar from 'subtext-app/mixins/routes/show-user-location-bar';
 import moment from 'moment';
 import $ from 'jquery';
 
-export default Route.extend(NavigationDisplay, VariableInfinityModelParams, History, ShowUserLocationBar, {
+export default Route.extend(VariableInfinityModelParams, History, NavigationDisplay, {
   hideFooter: true,
   isTransitioning: false,
 
+  feedService: service('feed'),
   userLocation: service(),
   session: service(),
   search: service(),
+  store: service(),
   fastboot: service(),
   logger: service(),
   infinity: service(),
@@ -33,7 +33,30 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
 
   hasLoadedInitialSetOfItems: false,
 
+  streamlinedHeader: computed('feedService.showPioneeringFeed', 'session.isAuthenticated', function() {
+    if (get(this, 'session.isAuthenticated')) {
+      return false;
+    }
+    return get(this, 'feedService.showPioneeringFeed');
+  }),
+
+  _isTransitionToShowRoute(transition) {
+    return transition.targetName === 'feed.show' || transition.targetName === 'feed.show-instance';
+  },
+
+  _isFirstTimeVisitor() {
+    const isAuthenticated = get(this, 'session.isAuthenticated');
+    const hasLocationStoredInCookie = get(this, 'userLocation').hasLocationStoredInCookie();
+
+    return !isAuthenticated && !hasLocationStoredInCookie;
+  },
+
   beforeModel(transition) {
+    if (!this._isTransitionToShowRoute(transition) && this._isFirstTimeVisitor()) {
+      this.transitionTo('welcome');
+      return;
+    }
+
     if ('query' in transition.queryParams) {
       if (transition.queryParams['query'].length > 0) {
         set(this, 'search.searchActive', true);
@@ -49,10 +72,6 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
       set(this, 'search.activeFilter', null);
     }
   },
-
-  hideSearchBox: on('deactivate', function() {
-    set(this, 'search.searchActive', false);
-  }),
 
   getModel(params) {
     if (isBlank(params.locationId)) {
@@ -74,7 +93,8 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
         }
 
         resolve(RSVP.hash({
-          eventInstances: this.infinity.model('event-instance', {
+          eventInstances: this.infinity.model('feed-item', {
+            content_type: params.type,
             location_id: params.locationId,
             query: params.query,
             start_date: startDate,
@@ -102,20 +122,24 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
   },
 
   model(params, transition) {
-    if (transition.targetName !== 'feed.show' && transition.targetName !== 'feed.show-instance') {
+    if (!this._isTransitionToShowRoute(transition)) {
       const controller = this.controllerFor(this.routeName);
+      const feedService = get(this, 'feedService');
 
       controller.modelLoadHasStarted();
 
       return this.getModel(params)
-      .then((after) => {
-        controller.modelLoadHasEnded();
-        return after;
+      .then((afterModel) => {
+          return feedService.changeFeedModel(afterModel)
+          .finally(() => {
+            controller.modelLoadHasEnded();
+          });
       });
     } else {
       return null;
     }
   },
+
 
   afterModel() {
     this._super(...arguments);
@@ -160,12 +184,18 @@ export default Route.extend(NavigationDisplay, VariableInfinityModelParams, Hist
         params.locationId = childContentLocationId;
       }
 
+      const feedService = get(this, 'feedService');
       controller.modelLoadHasStarted();
 
-      this.getModel(params)
-      .then((model) => {
-        set(controller, 'model', model);
-        controller.modelLoadHasEnded();
+      return this.getModel(params)
+      .then((afterModel) => {
+          return feedService.changeFeedModel(afterModel)
+          .then((model) => {
+            set(controller, 'model', model);
+          })
+          .finally(() => {
+            controller.modelLoadHasEnded();
+          });
       });
     }
   }

@@ -2,18 +2,15 @@ import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import $ from 'jquery';
 import Controller from '@ember/controller';
-import { set, get, computed } from '@ember/object';
+import { get, computed } from '@ember/object';
 import moment from 'moment';
 
 export default Controller.extend({
   modals: service(),
-  elsewhere: service('ember-elsewhere'),
   searchService: service('search'),
   searchOpen: alias('searchService.searchActive'),
 
   currentController: service('current-controller'),
-
-  showUserLocationBar: false,
 
   backgroundClass: computed('currentPath', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
@@ -32,10 +29,6 @@ export default Controller.extend({
   copyrightYear: computed(function() {
     return moment().format('YYYY');
   }),
-
-  setShowUserLocationBar(bool) {
-    set(this, 'showUserLocationBar', bool);
-  },
 
   actions: {
     signOut() {

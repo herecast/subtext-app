@@ -1,0 +1,159 @@
+{{#if goingToEdit}}
+  <div class="DetailPage--takeover">
+    <div>
+      {{fa-icon "cog" spin=true}}
+    </div>
+    <div>
+      Preparing to Edit...
+    </div>
+  </div>
+{{/if}}
+
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement "start")
+}}
+
+<article>
+  {{detail-page/title
+    model=model
+    isPreview=isPreview
+    editButtonIsActive=editButtonIsActive
+  }}
+
+  {{detail-page/image-header
+    model=model
+    isPreview=isPreview
+  }}
+
+  {{detail-page/attribution
+     model=model
+     isPreview=isPreview
+     editButtonIsActive=editButtonIsActive
+   }}
+
+  <div class="DetailPage-sectionWrapper u-paddingTop8">
+    {{detail-page/info-block
+      model=model
+      editButtonIsActive=(mut editButtonIsActive)
+      openPromotionMenu=(action "openPromotionMenu")
+    }}
+
+    <div class="DetailPage-metaBloc">
+      {{detail-page/meta-block model=model}}
+    </div>
+
+    <div class="DetailPage-content ContentText">
+      {{#if model.subtitle}}
+        {{#subtitle-text}}
+          {{model.subtitle}}
+        {{/subtitle-text}}
+      {{/if}}
+
+      <div data-test-detail-page-content>
+
+        {{#if (and model.embeddedAd (not isPreview))}}
+          {{modelSplitContentHead}}
+
+          <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner--inContentBody">
+            <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+              <div class="AdBanner--inContentBody-messageBar">
+                Advertisement: Content continues below...
+              </div>
+              {{ad-banner
+                contentModel=model
+                pagePlacement="in-detail-body"
+                placeholderBlockFixedSize=true
+              }}
+            </div>
+          </div>
+
+          {{modelSplitContentTail}}
+        {{else}}
+          {{modelContent}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{inviewport-reporter
+    reportEnterViewport=true
+    reportOnce=true
+    callback=(action trackDetailEngagement "read")
+  }}
+
+
+  {{#if isOwnedByOrganization}}
+    {{detail-page/org-footer organization=organization}}
+  {{/if}}
+
+  {{#unless isPreview}}
+    {{#horizontal-rule}}
+      {{social-share
+        title=model.title
+        authorName=model.organization.name
+        twitterHandle=model.organization.twitterHandle
+        sharedBy=session.userName
+        model=model
+      }}
+    {{/horizontal-rule}}
+
+    {{detail-page/ugc-cta
+      model=model
+      openOrangeButton=(action "openOrangeButton")
+    }}
+
+    {{#unless model.embeddedAd}}
+      <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+        <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+          {{ad-banner
+            contentModel=model
+            pagePlacement="after-detail-body"
+            placeholderBlockFixedSize=true
+          }}
+        </div>
+      </div>
+    {{/unless}}
+
+    <div class="DetailPage-section DetailPage-comments">
+      {{comments-section
+        showSectionTitle=true
+        commentCount=model.commentCount
+        parentContentId=(readonly model.contentId)
+        comments=comments
+        contentTitle=(readonly model.title)
+        disabled=(readonly commentingDisabled)
+        afterComment=(action "reloadComments")
+      }}
+    </div>
+
+    <div class="DetailPage-sectionWrapper">
+      <div class="DetailPage-section DetailPage-similarContent">
+        {{#similar-content
+            contentId=model.contentId
+            limit=4
+        }}
+          {{#title-text strong=true small=true}}Suggested{{/title-text}}
+        {{/similar-content}}
+      </div>
+    </div>
+  {{/unless}}
+
+</article>
+
+{{inviewport-reporter
+  reportEnterViewport=true
+  reportOnce=true
+  callback=(action trackDetailEngagement "complete")
+}}
+
+{{#if showManageOverlay}}
+  {{to-elsewhere
+    named=manageOverlayModalName
+    send=(component "jobs-forms/promotion-menu"
+          model=model
+          onClose=(action "closePromotionMenu")
+          )
+  }}
+{{/if}}

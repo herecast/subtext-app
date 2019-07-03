@@ -40,9 +40,9 @@ export default Component.extend(SocialPreloaded, {
     let body;
 
     if (sharedBy) {
-      body = `${sharedBy} shared the following content from dailyUV.com with you: ${href}`;
+      body = `${sharedBy} shared the following content from HereCast.us with you: ${href}`;
     } else {
-      body = `I want to share the following content from dailyUV.com with you: ${href}`;
+      body = `I want to share the following content from HereCast.us with you: ${href}`;
     }
 
     return htmlSafe(`mailto:?subject=${subject}&body=${body}`);
@@ -55,11 +55,11 @@ export default Component.extend(SocialPreloaded, {
     let twitterTitle;
 
     if(twitterHandle) {
-      twitterTitle = encodeURIComponent(`${title} - by ${twitterHandle} on DailyUV`);
-    } else if(authorName && authorName !== 'DailyUV') {
-      twitterTitle = encodeURIComponent(`${title} - by ${authorName} on DailyUV`);
+      twitterTitle = encodeURIComponent(`${title} - by ${twitterHandle} on HereCast`);
+    } else if(authorName && authorName !== 'HereCast') {
+      twitterTitle = encodeURIComponent(`${title} - by ${authorName} on HereCast`);
     } else {
-      twitterTitle = encodeURIComponent(`${title} on DailyUV`);
+      twitterTitle = encodeURIComponent(`${title} on HereCast`);
     }
 
     const url = this.urlForShare();

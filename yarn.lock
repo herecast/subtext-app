@@ -5044,6 +5044,30 @@ ember-cli-babel@~7.1.2:
     ensure-posix-path "^1.0.2"
     semver "^5.5.0"
 
+ember-cli-babel@~7.3.0-beta.1:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.3.0.tgz#a3a015e64080fecff59001341b1126fafb2ee187"
+  integrity sha512-cU7Du3jfQw/Ngv8AdLQFlq/EVVgMDU4PxblZByVzsFgs3ZGtVCfl0Gz96iZy7N/Ab+5D6j7A2SUJVbIxfcULBg==
+  dependencies:
+    "@babel/core" "^7.0.0"
+    "@babel/plugin-transform-modules-amd" "^7.0.0"
+    "@babel/plugin-transform-runtime" "^7.2.0"
+    "@babel/polyfill" "^7.0.0"
+    "@babel/preset-env" "^7.0.0"
+    "@babel/runtime" "^7.2.0"
+    amd-name-resolver "^1.2.1"
+    babel-plugin-debug-macros "^0.2.0-beta.6"
+    babel-plugin-ember-modules-api-polyfill "^2.6.0"
+    babel-plugin-module-resolver "^3.1.1"
+    broccoli-babel-transpiler "^7.1.0"
+    broccoli-debug "^0.6.4"
+    broccoli-funnel "^2.0.1"
+    broccoli-source "^1.1.0"
+    clone "^2.1.2"
+    ember-cli-version-checker "^2.1.2"
+    ensure-posix-path "^1.0.2"
+    semver "^5.5.0"
+
 ember-cli-broccoli-sane-watcher@^2.1.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/ember-cli-broccoli-sane-watcher/-/ember-cli-broccoli-sane-watcher-2.2.2.tgz#9bb1b04ddeb2c086aecd8693cbaeca1d88dc160c"

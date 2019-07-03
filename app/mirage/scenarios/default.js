@@ -3,7 +3,7 @@
  */
 export default function (server) {
   server.createList('ad-metric', 1);
-  const promotionBanners = server.createList('promotion-banner', 50);
+  const promotionBanners = server.createList('promotion-banner', 10);
   const promotion = server.create('promotion', {
     banner: promotionBanners[0]
   });
@@ -89,9 +89,9 @@ export default function (server) {
   server.createList('content-metric', 1);
   server.createList('content-payment', 6);
   server.createList('promotionCoupon', 10);
-  server.createList('event-instance', 100);
+  server.createList('event-instance', 10);
 
-  const businessContent = server.createList('organization', 5);
+/*  const businessContent = server.createList('organization', 5);
   const businessesCarousel = server.create('carousel', {
     title: 'Businesses',
     carouselType: 'organization',
@@ -101,7 +101,7 @@ export default function (server) {
   server.create('feedItem', {
     modelType: 'carousel',
     carouselId: businessesCarousel.id
-  });
+  });*/
 
   const mystuffContents = server.createList('content', 5, {
     authorId: 1,
@@ -129,7 +129,7 @@ export default function (server) {
     parentContentId: mystuffCommentParent.id
   });
 
-  server.createList('feedItem', 40);
+  server.createList('feedItem', 20);
 
   const profilePageContents = server.createList('content', 20, {
     contentOrigin: 'ugc',
