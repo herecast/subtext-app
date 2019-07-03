@@ -66,8 +66,8 @@ module.exports = function(environment) {
         /^localhost:\d+$/,
         /.*\.subtext\.org$/,
         /.*\.subtext\.org:\d+$/,
-        'HereCast.us',
-        'www.HereCast.us',
+        'herecast.us',
+        'www.herecast.us',
         /.*\.herokuapp\.com$/
       ]
     }
