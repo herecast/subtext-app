@@ -68,9 +68,9 @@ export default Mixin.create(FastbootTransitionRouteProtocol, RouteMetaMixin, Doc
 
       if (get(this, '_defaultParentModelPath') === 'feed') {
         parentController.trackDetailPageViews(contentId);
-
-        this.loadFeedInParent();
       }
+
+      this.loadFeedInParent();
 
       return true;
     }
