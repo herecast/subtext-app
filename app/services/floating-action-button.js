@@ -79,15 +79,6 @@ export default Service.extend({
 
   _setupEditTransition(model) {
     return new Promise((resolve) => {
-      const activeForm = get(model, 'contentType') === 'market' ? 'market' : 'event';
-
-      setProperties(this, {
-        editingModel: model,
-        showJobsTray: false,
-        showUGC: true,
-        activeForm: activeForm,
-      });
-
       const router = get(this, 'router');
       const contentIsNews = get(model, 'contentType') === 'news';
 
@@ -95,7 +86,19 @@ export default Service.extend({
 
       if (contentIsNews) {
         transition = router.transitionTo('news.edit', get(model, 'id'));
+        transition.promise.finally(() => {
+          return resolve();
+        });
+        return transition.retry();
       } else {
+        const activeForm = get(model, 'contentType') === 'market' ? 'market' : 'event';
+
+        setProperties(this, {
+          editingModel: model,
+          showJobsTray: false,
+          showUGC: true,
+          activeForm: activeForm,
+        });
 
         const currentRouteName = get(router, 'currentRouteName');
 
@@ -109,10 +112,11 @@ export default Service.extend({
         }
 
         if (transition) {
-          return transition.promise.finally(() => {
+          transition.promise.finally(() => {
             this.expand(false);
             return resolve();
           });
+          return transition.retry();
         } else {
           this.expand(false);
           return resolve();

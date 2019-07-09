@@ -9,6 +9,8 @@ import contentComments from 'subtext-app/mixins/content-comments';
 import Component from '@ember/component';
 
 export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
+  classNames: ['DetailPage'],
+  classNameBindings: ['isPreview:is-preview'],
   'data-test-component': 'detail-page',
   'data-test-content': reads('model.contentId'),
   tagName: 'main',

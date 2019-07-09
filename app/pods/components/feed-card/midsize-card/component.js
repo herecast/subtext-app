@@ -5,11 +5,13 @@ import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['FeedCard-MidsizeCard'],
+  classNameBindings: ['hideCompletely:hide-completely'],
   'data-test-midsize-card': readOnly('model.title'),
 
   model: null,
 
   showAnyViewCount: false,
+  hideCompletely: false,
 
   hasImage: notEmpty('model.primaryImageUrl'),
   hasMultipleImages: gt('model.images.length', 1),

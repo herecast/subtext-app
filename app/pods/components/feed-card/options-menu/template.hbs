@@ -4,29 +4,31 @@
 <div class="FeedCard-OptionsMenu--dropdown dropdown-menu dropdown-menu-right">
   {{#if organizationOwnsContent}}
     <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideOrg"}}>
-      {{hide-organization-button
+      {{#hide-organization-button
         contentId=model.contentId
         organization=model.organization
         additionToMessage="this Contributor"
-        afterHide=afterHideOrg
+        afterHide=(action "afterHideOrg")
         class="FeedCard-OptionsMenu--flag"
       }}
-      <div class="FeedCard-OptionsMenu--flag-text">
-        Hide all posts from {{model.organizationName}}
-      </div>
+        <div class="FeedCard-OptionsMenu--flag-text">
+          Hide all posts from {{model.organizationName}}
+        </div>
+      {{/hide-organization-button}}
     </choice>
   {{/if}}
 
   <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideLocation"}}>
-    {{hide-location-button
+    {{#hide-location-button
       contentId=model.contentId
       location=model.location
       afterHide=(action "afterHideLocation")
       class="FeedCard-OptionsMenu--flag hide-location"
     }}
-    <div class="FeedCard-OptionsMenu--flag-text">
-      Hide all posts located in {{model.location.name}} by any contributor
-    </div>
+      <div class="FeedCard-OptionsMenu--flag-text">
+        Hide all posts located in {{model.location.name}} by any contributor
+      </div>
+    {{/hide-location-button}}
   </choice>
 
   <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickReportAbuse"}}>

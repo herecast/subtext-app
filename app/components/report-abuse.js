@@ -25,16 +25,31 @@ export default Component.extend( {
     return message;
   }),
 
+  _reportAbuse() {
+    this._trackReportAbuseClick();
+    get(this, 'modals').showModal('modals/report-abuse', {
+      contentId: get(this, 'contentId'),
+      close: get(this, 'close') // action passed in from upper context
+    });
+  },
+
+  _sendToSignInRegister() {
+    get(this, 'modals').showModal('modals/sign-in-register', {
+      model: 'sign-in',
+      alternateSignInMessage: 'You must be signed in to flag content.'
+    });
+  },
+
   actions: {
     reportAbuse() {
       const isPreview = get(this, 'isPreview');
-
-      if(!isPreview) {
-        this._trackReportAbuseClick();
-        get(this, 'modals').showModal('modals/report-abuse', {
-          contentId: get(this, 'contentId'),
-          close: get(this, 'close') // action passed in from upper context
-        });
+      
+      if (!isPreview) {
+        if (get(this, 'session.isAuthenticated')) {
+          this._reportAbuse();
+        } else {
+          this._sendToSignInRegister();
+        }
       }
     }
   }

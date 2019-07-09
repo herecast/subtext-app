@@ -78,6 +78,10 @@ export default Component.extend(TestSelector, Validation, {
           get(this, 'notify').error('You  may not be able to edit this item. Please reload the page.');
         }
       });
+    } else {
+      if (get(this, 'currentUser')) {
+        get(this, 'currentUser.managedOrganizations').reload();
+      }
     }
   },
 

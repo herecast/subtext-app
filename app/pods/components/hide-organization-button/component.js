@@ -56,7 +56,7 @@ export default Component.extend({
       if (get(this, 'afterHide')) {
         get(this, 'afterHide')();
       }
-      
+
       set(this, 'wantsToHideOrg', false);
     },
 

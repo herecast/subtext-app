@@ -1,6 +1,7 @@
 {{#unless fastboot.isFastBoot}}
   <div role="button" {{action "clickedHideButton"}}>
     {{fa-icon "low-vision"}} {{if hasHiddenThisOrg "Unhide" "Hide"}} {{additionToMessage}}
+    {{yield}}
   </div>
 {{/unless}}
 

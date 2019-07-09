@@ -20,7 +20,7 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   testGroup: DS.attr('string'),
   userId: DS.attr('number'),
-  managedOrganizations: DS.hasMany('organization', {async: true}),
+  managedOrganizations: DS.hasMany('organization', {async: true}), //reloaded in session service
   bookmarks: DS.hasMany('bookmark'),
   canPublishNews: DS.attr('boolean'),
   hasHadBookmarks: DS.attr('boolean'),

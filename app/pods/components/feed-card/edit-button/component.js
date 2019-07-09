@@ -71,7 +71,6 @@ export default Component.extend({
             if (get(this, 'onEdit')) {
               get(this, 'onEdit')();
             }
-
             set(this, 'isTransitioning', false);
           });
         });

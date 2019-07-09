@@ -31,7 +31,7 @@ export default Mixin.create({
   },
 
   manageOverlayModalName: computed('history.isFirstRoute', function() {
-    return get(this, 'history.isFirstRoute') ? 'global-modal' : 'modal-wrapper-takeover';
+    return get(this, 'history.isFirstRoute') ? 'detail-page-modal' : 'modal-wrapper-takeover';
   }),
 
   actions: {

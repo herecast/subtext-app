@@ -6,7 +6,7 @@ import moment from 'moment';
 // Used to generate a collection of records that is grouped by a specified
 // date attribute.
 function buildGroup(records, storedGroups, dateAttr, displayFormat, convertDate) {
-  const groups = !isEmpty(storedGroups) ? Object.assign({}, storedGroups) : new A();
+  const groups = !isEmpty(storedGroups) ? A(storedGroups) : new A();
 
   if (!isEmpty(records)) {
 

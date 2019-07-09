@@ -55,7 +55,14 @@ const linkToContent = Component.extend({
 
   calculateRouteParams(model) {
     let route = get(this, 'route');
-    let routeParameters = [get(model, 'contentId')];
+    let routeParameters = [];
+
+    if (startsWith(route, 'profile')) {
+      routeParameters.push(get(model, 'organizationId'));
+    }
+
+    routeParameters.push( get(model, 'contentId') );
+
     const eventInstanceId = get(model, 'eventInstanceId');
 
     if (eventInstanceId && route.indexOf('mystuff') < 0) {

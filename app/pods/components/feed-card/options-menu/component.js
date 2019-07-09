@@ -9,6 +9,7 @@ export default Component.extend(ScrollToComments, {
   classNames: ['FeedCard-OptionsMenu'],
   'data-test-card-options-menu': true,
 
+  router: service(),
   tracking: service(),
   userLocationService: service('user-location'),
 
@@ -19,6 +20,7 @@ export default Component.extend(ScrollToComments, {
   hasClickedHideOrg: false,
   hasClickedHideLocation: false,
   hasClickedReportAbuse: false,
+  afterHide: null,
 
   organizationOwnsContent: computed('model.organizationId', function() {
     const organizationId = get(this, 'model.organizationId');
@@ -40,8 +42,15 @@ export default Component.extend(ScrollToComments, {
 
   actions: {
     afterHideLocation() {
-      const content = get(this, 'model');
-      set(content, 'isHiddenFromFeed', true);
+      if (get(this, 'afterHide')) {
+        get(this, 'afterHide')();
+      }
+    },
+
+    afterHideOrg() {
+      if (get(this, 'afterHide')) {
+        get(this, 'afterHide')();
+      }
     },
 
     onClickOpenMenu() {

@@ -23,6 +23,7 @@ export default Component.extend({
   isLoggedIn: false,
   linkToDetailIsActive: true,
   isOnDetailView: false,
+  afterHide: null,
 
   onContentClick() {},
 
