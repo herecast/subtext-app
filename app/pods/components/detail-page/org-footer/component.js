@@ -7,7 +7,7 @@ import Component from '@ember/component';
 
 export default Component.extend({
   organization: null,
-  _maxOrganizationDescriptionLength: 140,
+  _maxOrganizationDescriptionLength: 180,
   hideSubscribers: false,
 
   _sanitizeOutHtml(value="") {

@@ -24,9 +24,11 @@
   &-inner {
     //REF: http://patrickmuff.ch/blog/2014/10/01/how-we-fixed-the-webkit-overflow-scrolling-touch-bug-on-ios/
     height: calc(100% + 1px);
-    .display-grid();
-    &>div {
-      .grid-align-self(center);
+    &:not(.detail-page) {
+      .display-grid();
+      &>div {
+        .grid-align-self(center);
+      }
     }
   }
 
@@ -43,7 +45,7 @@
 
   &.is-slider.is-mobile {
     .Modal-dialog {
-      padding-top: 34px;
+      padding-top: 38px;
     }
   }
 
@@ -66,7 +68,7 @@
   &.show-landscape-picture {
     .Modal-dialog {
       padding-bottom: 80px;
-      background: @body-bg url('https://s3.amazonaws.com/subtext-misc/sierra-nevada/town.png') no-repeat center bottom;
+      background: @body-bg url('/images/town_180h.png') no-repeat center bottom;
       background-size: contain;
       background-position: 0% 101%;
     }
@@ -103,7 +105,7 @@
     color: @herecast-blue;
     font-size: 14px;
     display: inline-block;
-    padding: 2px;
+    padding: 4px;
     position: absolute;
     top: 0;
     right: 0;

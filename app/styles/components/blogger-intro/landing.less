@@ -41,7 +41,7 @@
     &-row {
       .display-grid();
       .grid-template-columns(80px 1fr);
-      margin-bottom: 16px;
+      margin-bottom: 24px;
 
       @media (max-width: 400px) {
         margin-bottom: 8px;
@@ -54,7 +54,6 @@
 
       &.left {
         .grid-column(1);
-        line-height: 80px;
       }
       &.right {
         .grid-column(2);
@@ -69,6 +68,20 @@
 
     &.orange-button > button {
       margin-top: -15px !important;
+    }
+
+    &.post-button {
+      height: 60px;
+      width: 60px;
+      line-height: 60px;
+      background: @herecast-teal;
+      color: #fff;
+      font-size: 24px;
+      border-radius: 4px;
+      text-align: center;
+      i {
+        vertical-align: middle;
+      }
     }
 
     &.money-bag,

@@ -13,6 +13,7 @@ export default Mixin.create(FastbootTransitionRouteProtocol, RouteMetaMixin, Doc
   store: service(),
   modals: service(),
   fastboot: service(),
+  userLocationService: service('user-location'),
 
   model(params)  {
     return get(this, 'store').findRecord('content', params.id, { reload: true });
@@ -54,6 +55,11 @@ export default Mixin.create(FastbootTransitionRouteProtocol, RouteMetaMixin, Doc
 
     if (!get(this, 'fastboot.isFastBoot') && isBlank(parentModel)) {
       const contentLocationId = this.modelFor(this.routeName).get('locationId');
+
+      if (!get(this, 'session.isAuthenticated')) {
+        get(this, 'userLocationService').setActiveUserLocationWithoutSaving(contentLocationId);
+      }
+
       this.send('loadFeedFromElsewhere', contentLocationId);
     }
 

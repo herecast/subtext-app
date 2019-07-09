@@ -4,7 +4,7 @@
   </div>
 {{/if}}
 
-<div style={{modalInnerStyle}} class="Modal-inner {{if willAnimateAway "Modal-inner--willAnimateAway"}}">
+<div style={{modalInnerStyle}} class="Modal-inner {{if willAnimateAway "Modal-inner--willAnimateAway"}} {{if isDetailPage "detail-page"}}">
 
   <div style={{modalDialogStyle}}
        class="Modal-dialog
@@ -17,7 +17,7 @@
     {{#if showSlideCloseButton}}
       <div class="Modal-dialog-slide-close {{slideOutTo}}" {{action "closeModal"}} role="button">
         {{#if (eq slideOutTo "left")}}
-          {{fa-icon (concat "long-arrow-" slideOutTo)}} <span>{{slideMessage}}</span>  
+          {{fa-icon (concat "long-arrow-" slideOutTo)}} <span>{{slideMessage}}</span>
         {{else}}
           <span>{{slideMessage}}</span> {{fa-icon (concat "long-arrow-" slideOutTo)}}
         {{/if}}

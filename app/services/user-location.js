@@ -98,6 +98,10 @@ export default Service.extend(Evented, {
     });
   },
 
+  setActiveUserLocationWithoutSaving(locationId) {
+    set(this, '_activeUserLocationId', locationId);
+  },
+
   saveUserLocation(location) {
     set(this, 'loadingLocation', location);
 

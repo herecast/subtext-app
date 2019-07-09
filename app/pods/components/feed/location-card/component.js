@@ -41,7 +41,7 @@ export default Component.extend({
   userLocation: readOnly('userLocationService.userLocation'),
 
   _imageHasError: false,
-  imageUrl: computed('userLocation.imageUrl', function() {
+  imageUrl: computed('userLocation.imageUrl', 'fastboot.isFastBoot', function() {
     const imageUrl = get(this, 'userLocation.imageUrl') || null;
 
     if (isPresent(imageUrl) && !get(this, 'fastboot.isFastBoot')) {

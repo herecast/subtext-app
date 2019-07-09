@@ -38,7 +38,8 @@ export default Mixin.create({
 
     } else {
       let location;
-      if (get(this, 'isAuthenticated')) {
+
+      if (get(this, 'isAuthenticated') || !get(this, 'isDirectLink')) {
         location = get(this, 'userLocation.userLocation');
       } else {
         location = get(this, 'model.location');

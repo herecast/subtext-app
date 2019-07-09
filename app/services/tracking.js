@@ -20,7 +20,7 @@ export default Service.extend(Evented, {
 
   clientId: null,
   locationId: reads('userLocation.userLocation.id'),
-  _clientIdKey: 'dailyuv_session_client_id',
+  _clientIdKey: 'herecast_session_client_id',
   logEnabled: config.LOG_TRACKING_EVENTS,
   currentUser: computed(function() {
     return RSVP.Promise.resolve( get(this, 'session.currentUser') );

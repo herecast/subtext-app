@@ -63,9 +63,8 @@ export default Component.extend(SocialPreloaded, {
     }
 
     const url = this.urlForShare();
-    const hashtags = 'UpperValley';
 
-    return htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&hashtags=${hashtags}`);
+    return htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}`);
   }),
 
   orgHashtag: computed('model.organization.name', function(){

@@ -39,6 +39,7 @@ export default Component.extend({
   hasInternalModals: false,
   closeOnClickOutside: true,
   revealNav: false,
+  isDetailPage: false,
 
   slideInFrom: null,
   slideOutTo: null,

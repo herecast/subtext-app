@@ -6,7 +6,7 @@ export default Component.extend({
   classNames: ['BrandLogo'],
   classNameBindings: ['autoWidth:auto-width'],
   attributeBindings: ['src', 'title'],
-  title: 'Daily UV',
+  title: 'HereCast',
   white: false,
   autoWidth: false,
   src: computed('white', function() {

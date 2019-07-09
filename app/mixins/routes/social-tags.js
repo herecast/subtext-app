@@ -12,29 +12,17 @@ export default Mixin.create({
   isModalContent: false,
   // Override where needed
   modelForMetaTags: function() {
-    const routeName = this.routeName;
-    const isModalRoute = SocialSharing.isModalRoute(routeName);
-
-    return isModalRoute ? this.currentModel : this.modelFor(routeName);
+    return this.modelFor(this.routeName);
   },
 
   headTags() {
     const model = this.modelForMetaTags();
     const routeName = this.routeName;
-    const isModalRoute = SocialSharing.isModalRoute(routeName);
     const locationService = get(this, 'location');
-
-    let channel;
-
-    if (isModalRoute) {
-      channel = get(this, 'channel') || 'base';
-    } else {
-      channel = get(this, 'modelChannel') || 'base';
-    }
 
     const fromProfile = routeName.startsWith('profile');
     const url = SocialSharing.getShareUrl(locationService, model, fromProfile);
-    const imageUrl = get(model,'primaryImage.imageUrl') || get(model, 'imageUrl') || get(model, 'profileImageUrl') || this.defaultImage(channel);
+    const imageUrl = get(model,'primaryImage.imageUrl') || get(model, 'imageUrl') || get(model, 'profileImageUrl') || this.defaultImage();
     const imageWidth = get(model, 'primaryImage.width') || get(model, 'imageWidth') || 266;
     const imageHeight = get(model, 'primaryImage.height') || get(model, 'imageHeight') || 200;
     const optimizedImageUrl = makeOptimizedImageUrl(imageUrl, imageWidth, imageHeight, true);
@@ -71,7 +59,7 @@ export default Mixin.create({
         tagId: 'meta-og-site-name',
         attrs: {
           property: 'og:site_name',
-          content: 'dailyUV'
+          content: 'HereCast'
         }
       },
       {
@@ -138,7 +126,7 @@ export default Mixin.create({
         tagId: 'meta-twitter-site',
         attrs: {
           name: 'twitter:site',
-          content: '@HereCast'
+          content: '@HereCastUS'
         }
       },
       {
@@ -146,7 +134,7 @@ export default Mixin.create({
         tagId: 'meta-twitter-creator',
         attrs: {
           name: 'twitter:creator',
-          content: '@HereCast'
+          content: '@HereCastUS'
         }
       },
       {
@@ -211,16 +199,8 @@ export default Mixin.create({
     };
   },
 
-  defaultImage(channel) {
-    const defaultImages = {
-      base: 'https://s3.amazonaws.com/knotweed/duv/Default_Photo_dailyUV-01-1.jpg',
-      news: 'https://s3.amazonaws.com/knotweed/duv/Default_Photo_News-01-1.jpg',
-      market: 'https://s3.amazonaws.com/knotweed/duv/Default_Photo_Market-01-1.jpg',
-      events: 'https://s3.amazonaws.com/knotweed/duv/Default_Photo_Events-01-1.jpg',
-      talk: 'https://s3.amazonaws.com/knotweed/duv/Default_Photo_Talk-01-1.jpg'
-    };
-
-    return defaultImages[channel];
+  defaultImage() {
+    return 'https://subtext-misc.s3.amazonaws.com/default_HereCast_share.png';
   },
 
   truncateDescription(contentLocationName=false, description, characters=300) {

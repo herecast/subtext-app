@@ -106,7 +106,7 @@ export default Component.extend({
     const aspectRatio = placeholderBlockHeight / placeholderBlockWidth;
     const elementWidth = $(this.element).width();
     const heightToSet = parseInt(aspectRatio * elementWidth);
-
+    
     return htmlSafe(`height:${heightToSet}px;`);
   })
 });
