@@ -180,7 +180,7 @@ export default Controller.extend({
       email = `ads@HereCast.us`;
     } else {
       subject = encodeURIComponent(`Profile Page Query [${get(organization, 'name')}|${organization.id}]`);
-      email = `help@herecast.us`;
+      email = `help@HereCast.us`;
     }
 
     return htmlSafe(`mailto:${email}?subject=${subject}`);

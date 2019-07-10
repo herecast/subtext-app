@@ -45,8 +45,14 @@
     {{/link-to}}
   </div>
 
+  <div {{action "onLinkClick"}} role="button">
+    {{#link-to "copyright"}}
+      Copyright
+    {{/link-to}}
+  </div>
+
   <div>
-    <a href="mailto:ads@herecast.us" {{action "onLinkClick" preventDefault=false}}>
+    <a href="mailto:ads@HereCast.us" {{action "onLinkClick" preventDefault=false}}>
       Advertise With Us
     </a>
   </div>

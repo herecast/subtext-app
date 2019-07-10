@@ -75,7 +75,7 @@ export default Component.extend({
   }),
 
   claimEmail: computed(function() {
-      const mailTo = `mailto:help@herecast.us`;
+      const mailTo = `mailto:help@HereCast.us`;
       const firstLine = 'Thank you for claiming this business. Please provide the following information:';
       const emailBody = `
   Your name:

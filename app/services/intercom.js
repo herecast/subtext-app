@@ -63,7 +63,7 @@ export default Service.extend({
     if (window.Intercom) {
       this.intercom('show');
     } else {
-      let url = "mailto:help@herecast.us?";
+      let url = "mailto:help@HereCast.us?";
       if (subject) {
         url += `subject=${subject}`;
       }
