@@ -80,8 +80,6 @@ Router.map(function() {
     this.route('unsubscribe', {path: '/:digest_id/unsubscribe'});
   });
 
-  this.route('prohibited-items');
-
   this.route('promotions.show', {path: '/promotions/:id'});
 
 
