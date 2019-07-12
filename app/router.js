@@ -37,11 +37,13 @@ Router.map(function() {
   this.route('mystuff', function() {
     this.route('comments', function() {
       this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
     this.route('subscriptions');
     this.route('account');
     this.route('contents', {path: '/'}, function() {
       this.route('show', {path: '/:id'});
+      this.route('show-instance', {path: '/:id/:event_instance_id'});
     });
     this.route('bookmarks', function() {
       this.route('show', {path: '/:id'});
