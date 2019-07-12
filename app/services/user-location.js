@@ -45,7 +45,7 @@ export default Service.extend(Evented, {
     const activeUserLocationId = get(this, '_activeUserLocationId');
     let userLocationId = null;
 
-    if (get(this, 'session.isAuthenticated')) {
+    if (get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
       userLocationId = this._loadUserLocationFromCurrentUser();
     } else if (isPresent(activeUserLocationId)) {
       userLocationId = activeUserLocationId;

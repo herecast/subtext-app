@@ -19,6 +19,7 @@ export default Route.extend(ApplicationRouteMixin, {
   logger: service(),
   store: service(),
   router: service(),
+  session: service(),
 
   title: function(tokens) {
     const title = 'HereCast';
@@ -33,6 +34,15 @@ export default Route.extend(ApplicationRouteMixin, {
 
   model() {
     return this.get('session.currentUser');
+  },
+
+  sessionAuthenticated() {
+    const _super = this._super;
+
+    get(this, 'session.currentUser')
+    .then(() => {
+      _super.call(this, ...arguments);
+    });
   },
 
   sessionInvalidated () {

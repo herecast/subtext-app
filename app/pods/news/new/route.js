@@ -5,9 +5,9 @@ import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import Scroll from 'subtext-app/mixins/routes/scroll-to-top';
 import FastbootTransitionRouteProtocol from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
-import Authorized from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll, {
+export default Route.extend(AuthenticatedRouteMixin, FastbootTransitionRouteProtocol, Scroll, {
   titleToken: 'Create a Post',
 
   floatingActionButton: service(),
@@ -31,6 +31,7 @@ export default Route.extend(Authorized, FastbootTransitionRouteProtocol, Scroll,
     controller.set('news', model);
     controller.set('title', 'Create your post');
     controller.set('secondaryBackground', true);
+    this._super(...arguments);
   },
 
   actions: {

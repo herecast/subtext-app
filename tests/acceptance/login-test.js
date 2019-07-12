@@ -17,41 +17,6 @@ module('Acceptance | login', function(hooks) {
     loadPioneerFeed(false);
   });
 
-  test('Follow sign in link, authentication succeeds', async function(assert) {
-    const done = assert.async();
-    const user = this.server.create('current-user');
-    const token = "sakj342qk223dk";
-
-    this.server.post('/users/sign_in_with_token', function({currentUsers}, request) {
-      const data = JSON.parse(request.requestBody);
-
-      assert.equal(data.token, token, "Posts token to correct server endpoint");
-
-      currentUsers.create(user.attrs);
-      done();
-      return {
-        email: user.email,
-        token
-      };
-    });
-
-    await visit('/sign_in?auth_token=' + token);
-
-    assert.equal(currentRouteName(),'feed.index', "Should be on feed home page");
-
-    assert.ok(find('[data-test-link="user-avatar"]'), "I should see my user menu (I am signed in)");
-  });
-
-  test('Follow sign in link, authentication fails', async function(assert) {
-    const token = "sakj342qk223dk";
-
-    this.server.post('/users/sign_in_with_token', {error: 'Token expired'}, 422);
-
-    await visit('/sign_in?auth_token=' + token);
-
-    assert.ok(find('[data-test-component="sign-in"]'), "I should see sign in");
-  });
-
   test('logging in works', async function(assert) {
     let location = this.server.create('location');
     let user = this.server.create('current-user', {location_id: location.id, email: "embertest@subtext.org"});

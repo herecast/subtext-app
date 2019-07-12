@@ -53,11 +53,15 @@ export default Controller.extend({
     });
 
     get(this, 'userLocation').on('userLocationChanged', () => {
-      window.scrollTo(0, 0);
+      const currentRouteName = get(this, 'currentRouteName');
 
-      next(() => {
-        this._transitionToFeed({}, true);
-      });
+      if (currentRouteName.startsWith('feed')) {
+        window.scrollTo(0, 0);
+  
+        next(() => {
+          this._transitionToFeed({}, true);
+        });
+      }
     });
 
     get(this, 'session').on('cardSizeChanged', () => {

@@ -5,6 +5,7 @@ import History from 'subtext-app/mixins/routes/history';
 
 export default Route.extend(History, {
   infinity: service(),
+  fastboot: service(),
 
   queryParams: {
     organizationId: {refreshModel: true},
@@ -14,6 +15,10 @@ export default Route.extend(History, {
   },
 
   model(params) {
+    if (get(this, 'fastboot.isFastBoot')) {
+      return null;
+    }
+
     return this.controllerFor('mystuff').get('currentUser').then((currentUser) => {
       const currentUserId = get(currentUser, 'userId');
 

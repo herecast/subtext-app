@@ -585,12 +585,6 @@ export default Service.extend(FastbootExtensions, {
     );
   },
 
-  signInWithToken(token) {
-    return this.returnJson(
-      this.post('/users/sign_in_with_token', this.json({token: token}))
-    );
-  },
-
   signInWithOauth(authData) {
     return this.returnJson(
       this.post('/users/oauth', this.json(authData))

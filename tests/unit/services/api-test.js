@@ -1129,27 +1129,4 @@ module('Unit | Service | api', function(hooks) {
       done();
     });
   });
-
-  test('signInWithToken', function(assert) {
-
-    const subject = this.owner.factoryFor('service:api').create({session: this.session});
-    const token = 'hjkljklasdf';
-    const done = assert.async();
-
-    this.server.post('/users/sign_in_with_token', (schema, request) => {
-      expect.consumerAppHeader(assert, request);
-      expect.authorizationHeader(assert, request);
-      expect.acceptHeader(assert, request, 'application/json');
-
-      const data = JSON.parse(request.requestBody);
-      assert.equal(
-        data.token, token,
-        "POST /users/sign_in_with_token with expected token in json body");
-
-      done();
-      return {};
-    });
-
-    subject.signInWithToken(token);
-  });
 });

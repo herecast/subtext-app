@@ -79,7 +79,7 @@ export default Component.extend(TestSelector, Validation, {
         }
       });
     } else {
-      if (get(this, 'currentUser')) {
+      if (get(this, 'currentUser.managedOrganizations')) {
         get(this, 'currentUser.managedOrganizations').reload();
       }
     }

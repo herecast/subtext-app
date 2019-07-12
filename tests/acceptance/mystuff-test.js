@@ -1,9 +1,9 @@
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
-import { visit, click, find, findAll, fillIn, currentURL } from '@ember/test-helpers';
+import { visit, click, find, findAll, fillIn, currentURL, settled } from '@ember/test-helpers';
 
 module('Acceptance | mystuff', function(hooks) {
   setupApplicationTest(hooks);
@@ -13,8 +13,7 @@ module('Acceptance | mystuff', function(hooks) {
     invalidateSession();
   });
 
-  skip('Visiting /mystuff not signed in, then signing in', async function(assert) {
-
+  test('Visiting /mystuff not signed in, then signing in', async function(assert) {
     await visit('/mystuff');
 
     assert.equal(currentURL(), '/sign_in', 'user should be redirected to sign_in');
@@ -25,8 +24,12 @@ module('Acceptance | mystuff', function(hooks) {
     await fillIn('[data-test-field="sign-in-password"]', 'password');
 
     await click('[data-test-component="sign-in-submit"]');
-    //Skip test until after relaunch. Non-blocking issue, but may require overhaul of entire auth system
-    assert.equal(currentURL(), '/mystuff', 'user should be redirected to mystuff after logging in');
+
+    settled()
+    .then(() => {
+      assert.equal(currentURL(), '/mystuff', 'user should be redirected to mystuff after logging in');
+    });
+
   });
 
   test('Visiting /mystuff - signed in, no content', async function(assert) {

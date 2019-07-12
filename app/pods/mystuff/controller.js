@@ -6,6 +6,7 @@ import { run } from '@ember/runloop';
 import MystuffNavObjects from 'subtext-app/mixins/mystuff-nav-objects';
 
 export default Controller.extend(MystuffNavObjects, {
+  fastboot: service(),
   session: service(),
 
   mystuffRouteObjects: alias('mystuffNavObjects'),
