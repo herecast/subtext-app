@@ -8,6 +8,7 @@ import Component from '@ember/component';
 export default Component.extend( {
   classNames: ['FirstVisit'],
 
+  modals: service(),
   userLocation: service(),
 
   gettingMatches: false,
@@ -70,7 +71,10 @@ export default Component.extend( {
       later(() => {
         get(this, 'userLocation').goToLocationFeed(get(this, 'chosenLocation'));
       }, 200);
+    },
 
+    openSignin() {
+      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
     }
   }
 
