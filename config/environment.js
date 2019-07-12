@@ -117,16 +117,16 @@ module.exports = function(environment) {
   ENV['IMOPT_ALLOWED_HOSTNAMES'] = normalizeSourcesToHostnames(imopt_sources);
 
   if (environment === 'development') {
-     ENV.APP.LOG_RESOLVER = false;
-     ENV.APP.LOG_ACTIVE_GENERATION = false;
-     ENV.APP.LOG_TRANSITIONS = false;
-     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
-     ENV.APP.LOG_VIEW_LOOKUPS = false;
+    ENV.APP.LOG_RESOLVER = false;
+    ENV.APP.LOG_ACTIVE_GENERATION = false;
+    ENV.APP.LOG_TRANSITIONS = false;
+    ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
+    ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-     ENV.LOG_TRACKING_EVENTS = true;
+    ENV.LOG_TRACKING_EVENTS = true;
 
     // Create a mock for ga variable for code that waits/depends on it
-     ENV.mockWindowGa = true;
+    ENV.mockWindowGa = true;
 
     var hasApiHost = (process.env.API_BASE_URL && process.env.API_BASE_URL.trim().length > 0);
     if(hasApiHost) {
@@ -139,7 +139,7 @@ module.exports = function(environment) {
     }
 
     ENV['CONSUMER_APP_URI'] = process.env.CONSUMER_APP_URI || 'http://localhost:4200';
-    ENV['GMAPS_API_TOKEN'] = 'AIzaSyDWBIKBKlreVCqE1CqQRDQ3QQI3gx85ikw'; //itservices@subtext.org | console.cloud.google.com
+    ENV['GMAPS_API_TOKEN'] = process.env.GMAPS_API_TOKEN;
     ENV['INTERCOM_API_TOKEN'] = process.env.INTERCOM_API_TOKEN;
     ENV['GTM_API_TOKEN'] = process.env.GTM_API_TOKEN;
     ENV['GTM_AUTH'] = process.env.GTM_AUTH;
