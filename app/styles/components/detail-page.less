@@ -49,8 +49,7 @@
     }
 
     &-eventTime, &-price, &-cost, &-location, &-location-only, &-attribution,
-    &-phone, &-url, &-registrationInfo
-    {
+    &-phone, &-url, &-registrationInfo {
       .metaBlocFormated;
     }
 
@@ -143,6 +142,12 @@
   &-content {
     margin-top: 8px;
 
+    /* styling for HTML4 <b> is deprecated; consider using <strong> instead. */
+
+    b {
+      font-family: @font-family-semibold;
+    }
+
     &.pre-line {
       white-space: pre-line;
     }
@@ -158,7 +163,8 @@
     z-index: 50;
     .justify-content(space-between);
 
-    &-social-shareWrapper { }
+    &-social-shareWrapper {
+    }
 
     &-logo {
       .align-self(center);
@@ -238,15 +244,18 @@
     img {
       width: 100%;
     }
+
     &.no-image {
       background-color: #efefef;
       color: @gray-medium;
       .display-grid();
       text-align: center;
       height: 375px;
-      &>div {
+
+      & > div {
         .grid-align-self(center);
       }
+
       i {
         font-size: 50px;
       }
@@ -279,7 +288,9 @@
     text-align: center;
   }
 
-  &-startDiscussion { }
+  &-startDiscussion {
+  }
+
   &-startDiscussionBtn {
     .btn;
     .btn-default;
@@ -302,7 +313,9 @@
       line-height: 1.4;
     }
   }
-  &-moreContent { }
+
+  &-moreContent {
+  }
 
   &-comments {
     margin-top: 10px;
@@ -315,7 +328,9 @@
       font-weight: 600;
     }
   }
-  &-similarContent { }
+
+  &-similarContent {
+  }
 
   &.isPreview {
     .DetailPage {
@@ -355,6 +370,7 @@
       font-size: 18px;
       vertical-align: middle;
       margin-right: 8px;
+
       &.offset {
         &:before {
           margin-right: -2px;
@@ -406,6 +422,7 @@
         font-family: @font-family-semibold;
         line-height: 14px;
       }
+
       &-description {
         line-height: 1.0;
         margin-top: 4px;
@@ -433,6 +450,7 @@
       }
     }
   }
+
   &--fullscreen {
     .DetailPage {
       &-navTop {
