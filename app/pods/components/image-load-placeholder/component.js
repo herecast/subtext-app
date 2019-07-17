@@ -100,13 +100,13 @@ export default Component.extend({
     const placeholderBlockFixedSize = get(this, 'placeholderBlockFixedSize');
 
     if (placeholderBlockFixedSize) {
-      return htmlSafe(`height:${placeholderBlockHeight}px;width:${placeholderBlockWidth};`);
+      return htmlSafe(`height:${placeholderBlockHeight}px;width:${placeholderBlockWidth}px;`);
     }
 
     const aspectRatio = placeholderBlockHeight / placeholderBlockWidth;
     const elementWidth = $(this.element).width();
     const heightToSet = parseInt(aspectRatio * elementWidth);
-    
+
     return htmlSafe(`height:${heightToSet}px;`);
   })
 });
