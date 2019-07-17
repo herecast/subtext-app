@@ -50,7 +50,7 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
   twitterLink: computed('model.title', function() {
     const title = encodeURIComponent(get(this, 'model.title'));
     const url = get(this, 'urlForShare');
-    const via = 'HereCast';
+    const via = 'HereCastUS';
 
     return htmlSafe(`http://twitter.com/intent/tweet?text=${title}&url=${url}&via=${via}`);
   }),
