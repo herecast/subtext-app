@@ -55,7 +55,9 @@
       <div data-test-detail-page-content>
 
         {{#if (and model.embeddedAd (not isPreview))}}
-          {{modelSplitContentHead}}
+          <div class="DetailPage-content-wrap">
+            {{modelSplitContentHead}}
+          </div>
 
           <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner--inContentBody">
             <div class="AdBanner-wrapper AdBanner-wrapper--detail">
@@ -70,9 +72,15 @@
             </div>
           </div>
 
-          {{modelSplitContentTail}}
+          {{#if modelSplitContentTail.length}}
+            <div class="DetailPage-content-wrap">
+              {{modelSplitContentTail}}
+            </div>
+          {{/if}}
         {{else}}
-          {{modelContent}}
+          <div class="DetailPage-content-wrap">
+            {{modelContent}}
+          </div>
         {{/if}}
       </div>
     </div>
