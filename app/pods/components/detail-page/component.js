@@ -57,6 +57,12 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     return htmlSafe(get(this, 'model.splitContent.tail'));
   }),
 
+  hasContentTail: computed('model.splitContent.tail', function() {
+    const tail = get(this, 'model.splitContent.tail') || '';
+
+    return tail.length > 0;
+  }),
+
   nextInstance: computed('model.{futureInstances.[],scheduleInstances.[]}', function() {
     // this will go away with further model consolidation
     const scheduleInstances = get(this, 'model.scheduleInstances');
