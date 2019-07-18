@@ -20,6 +20,7 @@
     text-align: center;
     .display-grid();
     .grid-template-columns(max-content 1fr max-content);
+
     &.streamlined {
       .grid-template-columns(100px 1fr 100px);
       .GlobalHeader-brand {
@@ -30,6 +31,7 @@
 
 
   &-chevron {
+    .grid-column(1);
     .grid-align-self(center);
     color: #fff;
     font-size: 20px;
@@ -50,6 +52,7 @@
   }
 
   &-brand {
+    .grid-column(1);
     margin: auto;
     &-logo {
       .BrandLogo {
@@ -64,10 +67,12 @@
   }
 
   &-menu {
+    .grid-column(3);
     margin: auto 8px auto 24px;
   }
 
   &-filter {
+    .grid-column(2);
     margin: auto 0;
     text-align: right;
     @media (max-width: @screen-xs-max) {

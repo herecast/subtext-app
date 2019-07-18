@@ -7,8 +7,8 @@
         target="_blank"
         rel="noopener noreferrer"
         >
-        <div class="DetailMetaBloc--map-image"></div>
-        <div>
+        <div class="DetailMetaBloc--map-image DetailMetaBloc--column left" />
+        <div class="DetailMetaBloc--venue DetailMetaBloc--column right">
           <div class="DetailMetaBloc--venue-name" data-test-detail-meta-venue-name>
             {{model.venueName}}
           </div>
@@ -27,7 +27,7 @@
 {{#if (or model.startsAt model.cost)}}
   <div class="DetailMetaBloc--row">
     {{#if model.startsAt}}
-      <div class="DetailMetaBloc--column bold">
+      <div class="DetailMetaBloc--column bold left">
         <div class="DetailMetaBloc--field left">
           <div data-test-detail-meta-starts-at>
             {{fa-icon "calendar" class="DetailMetaBloc--icon"}}
@@ -44,7 +44,7 @@
     {{/if}}
 
     {{#if model.cost}}
-      <div class="DetailMetaBloc--column bold">
+      <div class="DetailMetaBloc--column bold right">
         <div class="DetailMetaBloc--field tight">
           Price:&nbsp;
           <span data-test-detail-meta-cost>

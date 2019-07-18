@@ -13,15 +13,12 @@
 
   &-box {
     &-left {
+      .grid-column(1);
       .grid-justify-self(start);
       .grid-align-self(center);
-    }
-    &-center {
-      .grid-justify-self(start);
-      .grid-align-self(center);
-      padding: 0 4px;
     }
     &-right {
+      .grid-column(2);
       .grid-justify-self(end);
       .grid-align-self(center);
       text-align: right;
@@ -33,8 +30,19 @@
 
   &.has-center {
     .grid-template-columns(max-content max-content 1fr);
-    .FeedCard-Attribution-box-left {
-      max-width: 160px;
+    .FeedCard-Attribution-box {
+      &-left {
+        max-width: 160px;
+      }
+      &-center {
+        .grid-column(2);
+        .grid-justify-self(start);
+        .grid-align-self(center);
+        padding: 0 4px;
+      }
+      &-right {
+        .grid-column(3);
+      }
     }
   }
 

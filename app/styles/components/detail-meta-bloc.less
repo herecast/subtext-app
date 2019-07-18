@@ -28,7 +28,13 @@
 
   &--column {
     &.bold {
-      font-weight: bold;
+      font-family: @font-family-semibold;
+    }
+    &.left {
+      .grid-column(1);
+    }
+    &.right {
+      .grid-column(2);
     }
   }
 
@@ -67,6 +73,7 @@
   }
 
   &--map-image {
+    .grid-column(1);
     background-image: url('https://s3.amazonaws.com/subtext-misc/wrj-map-blank.png');
     background-repeat: no-repeat;
     background-size: cover;

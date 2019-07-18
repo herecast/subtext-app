@@ -74,10 +74,12 @@
       .grid-template-columns(1fr 124px);
 
       &-left {
+        .grid-column(1);
         position: relative;
         margin: 8px;
       }
       &-right {
+        .grid-column(2);
         .grid-justify-self(end);
       }
     }
@@ -90,6 +92,15 @@
       &-right,
       &-menu {
         .grid-align-self(center);
+      }
+      &-left {
+        .grid-column(1);
+      }
+      &-right {
+        .grid-column(2);
+      }
+      &-menu {
+        .grid-column(3);
       }
     }
     &--title {
