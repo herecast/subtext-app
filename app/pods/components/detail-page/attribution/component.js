@@ -14,8 +14,8 @@ export default Component.extend({
     return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 
-  showContactButton: computed('hasContactInfo', 'model.sold', 'editButtonIsActive', function() {
-    if (get(this, 'model.sold') || get(this, 'editButtonIsActive')) {
+  showContactButton: computed('hasContactInfo', 'model.sold', function() {
+    if (get(this, 'model.sold')) {
       return false;
     }
 

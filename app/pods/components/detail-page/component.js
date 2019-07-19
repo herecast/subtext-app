@@ -39,6 +39,9 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   userManagedOrganizations: oneWay('session.currentUser.managedOrganizations'),
 
   isOwnedByOrganization: readOnly('model.isOwnedByOrganization'),
+  showOrganizationFooter: computed('isOwnedByOrganization', 'isNews', function() {
+    return get(this, 'isOwnedByOrganization') && get(this, 'isNews');
+  }),
 
   userCanEditNews: computed('session.isAuthenticated', 'userManagedOrganizations.@each.id', 'model.organizationId', function() {
     const managedOrganizations = get(this, 'userManagedOrganizations') || [];

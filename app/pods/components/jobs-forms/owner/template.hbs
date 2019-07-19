@@ -30,7 +30,7 @@
       }}
       <span>{{currentUser.name}}</span>
     </div>
-    {{#each filteredManagedOrganizations as |organization|}}
+    {{#each managedOrganizations as |organization|}}
       <div
         class="JobsForms-Owner-organization-dropdown-choice"
         {{action "chooseOrganization" organization}}

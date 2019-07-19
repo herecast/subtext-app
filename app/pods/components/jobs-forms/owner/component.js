@@ -44,11 +44,7 @@ export default Component.extend({
   currentUserName: readOnly('currentUser.name'),
   managedOrganizations: readOnly('currentUser.managedOrganizations'),
   hasManagedOrganizations: notEmpty('managedOrganizations'),
-  filteredManagedOrganizations: computed('managedOrganizations.@each.canPublishNews', function() {
-    return (get(this, 'managedOrganizations') || []).filter((item) => {
-      return get(item, 'canPublishNews');
-    });
-  }),
+
   organization: alias('model.organization'),
   hasOrganization: notEmpty('organization'),
   notLoading: not('isLoading'),
