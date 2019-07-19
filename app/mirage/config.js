@@ -174,6 +174,14 @@ export default function() {
     return currentUser;
   });
 
+
+  this.post('/users/resend_confirmation', function() {
+    return {
+      token: "FCxUDexiJsyChbMPNSyy",
+      email: "embertest@subtext.org"
+    };
+  });
+
   this.post('/users/email_confirmation', function() {
     return {
       token: "FCxUDexiJsyChbMPNSyy",

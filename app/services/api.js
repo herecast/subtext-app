@@ -32,13 +32,13 @@ export default Service.extend(FastbootExtensions, {
   queryCache: service('query-cache'),
   logger: service(),
 
-  defaultHeaders: computed('session.isAuthenticated', function() {
+  defaultHeaders: computed('session.isAuthenticated', function () {
     let headers = {};
     const session = get(this, 'session');
     const isAuthenticated = session.get('isAuthenticated');
 
     if (isAuthenticated) {
-      const { email, token } = get(this, 'session.data.authenticated');
+      const {email, token} = get(this, 'session.data.authenticated');
       const authData = `Token token="${token}", email="${email}"`;
 
       headers['Authorization'] = authData;
@@ -160,7 +160,6 @@ export default Service.extend(FastbootExtensions, {
   returnJson(request) {
     return new RSVP.Promise((resolve, reject) => {
       let body = {};
-
       request.then((response) => {
         if (response.status === 204) {
           body = {};
@@ -259,19 +258,19 @@ export default Service.extend(FastbootExtensions, {
     return this.getJson(`/contents/${id}/metrics` + queryString(data));
   },
 
-  getOrganizationContentMetrics(organizationId, data=null) {
+  getOrganizationContentMetrics(organizationId, data = null) {
     return this.getJson(`/organizations/${organizationId}/metrics` + queryString(data));
   },
 
-  getOrganizationPayments(organizationId, data=null) {
+  getOrganizationPayments(organizationId, data = null) {
     return this.getJson(`/organizations/${organizationId}/payments` + queryString(data));
   },
 
-  getCurrentUserPayments(userId, data=null) {
+  getCurrentUserPayments(userId, data = null) {
     return this.getJson(`/users/${userId}/payments` + queryString(data));
   },
 
-  getCurrentUserContentMetrics(userId, data=null) {
+  getCurrentUserContentMetrics(userId, data = null) {
     return this.getJson(`/users/${userId}/metrics` + queryString(data));
   },
 
@@ -354,7 +353,7 @@ export default Service.extend(FastbootExtensions, {
   getPaymentReport(data) {
     const url = `/payment_reports` + queryString(data);
 
-    return this.returnText( this.request(url) );
+    return this.returnText(this.request(url));
   },
 
   getSimilarContent(content_id) {

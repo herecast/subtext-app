@@ -126,7 +126,7 @@ export default Component.extend(TestSelector, Validation, {
               get(this, 'logger').error(response);
 
               if('errors' in response) {
-                if('email' in response.errors &&
+                if(response.errors && 'email' in response.errors &&
                   response.errors['email'].includes("has already been taken")) {
                   notify.error("An account already exists with that email. Try signing in instead.");
                 } else {

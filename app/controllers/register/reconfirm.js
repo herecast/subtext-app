@@ -6,9 +6,9 @@ export default Controller.extend({
   userService: service('user'),
   queryParams: ['email'],
 
-  callToActionDisabled: computed('email',function(){
+  callToActionDisabled: computed('email', function() {
     const pattern = /\S+@\S+\.\S+/;
-    let email = get(this,'email');
+    let email = get(this, 'email');
     if (email) {
       return !pattern.test(email.toString());
     }
@@ -17,13 +17,17 @@ export default Controller.extend({
 
   actions: {
     reconfirm: function(callback) {
-      const promise = get(this,'userService').resendConfirmation(get(this,'email'));
-      callback(promise);
-      promise.then(()=>{
+      const promise = get(this, 'userService').resendConfirmation(get(this, 'email'));
+
+      if (callback) {
+        callback(promise);
+      }
+
+      return promise.then(() => {
         this.transitionToRoute('register.complete');
-      }).catch((response)=>{
-        if(response.errorThrown === "Not Found") {
-          set(this,'error', "Not Found");
+      }).catch((response) => {
+        if (response.errorThrown === "Not Found") {
+          set(this, 'error', "Not Found");
         }
       });
     }
