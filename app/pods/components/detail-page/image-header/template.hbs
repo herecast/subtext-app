@@ -1,20 +1,22 @@
 {{#if model.isNews}}
   <header class="DetailPage-navTop-container">
-    {{#if model.primaryImage.imageUrl}}
+    {{#if model.primaryOrFirstImage.imageUrl}}
       <div class="DetailPage-headerImage-wrapper">
         <div class="DetailPage-headerImage">
           {{#image-load-placeholder
             placeholderBlockWidth=640
             placeholderBlockHeight=480
-            imageUrl=(optimized-image-url model.primaryImage.imageUrl 640 480 true)
-            placeholderUrl=(optimized-image-url model.primaryImage.imageUrl 64 48 true)
+            imageUrl=(optimized-image-url model.primaryOrFirstImage.imageUrl 640 480 true)
+            placeholderUrl=(optimized-image-url model.primaryOrFirstImage.imageUrl 64 48 true)
             placeholderImageClass="img-responsive"
             showGradient=hasCaption
+            yieldOnFastboot=true
           }}
             <img
               class="img-responsive"
-              src={{optimized-image-url model.primaryImage.imageUrl 640 480 true}}
-              alt="Header Image">
+              src={{optimized-image-url model.primaryOrFirstImage.imageUrl 640 480 true}}
+              alt="Header Image"
+            >
           {{/image-load-placeholder}}
         </div>
       </div>

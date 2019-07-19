@@ -3,10 +3,9 @@ import { isBlank, isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import RouteMetaMixin from 'subtext-app/mixins/routes/social-tags';
 import DocTitleFromContent from 'subtext-app/mixins/routes/title-token-from-content';
-import FastbootTransitionRouteProtocol from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
 import Mixin from '@ember/object/mixin';
 
-export default Mixin.create(FastbootTransitionRouteProtocol, RouteMetaMixin, DocTitleFromContent, {
+export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
   _defaultParentModelPath: 'feed',
 
   session: service(),

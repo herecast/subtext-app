@@ -2,10 +2,10 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
-import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 
-export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
+export default Route.extend(UnauthenticatedRouteMixin, {
   titleToken: 'Registration Complete!',
+  fastboot: service(),
   session: service(),
   logger: service(),
   notify: service('notification-messages'),
@@ -20,7 +20,7 @@ export default Route.extend(UnauthenticatedRouteMixin, FastbootExtensions, {
       return;
     }
 
-    if(!get(this, 'isFastBoot')) {
+    if(!get(this, 'fastboot.isFastBoot')) {
       const token = transition.params['register.confirm']['token']; const notify = get(this, 'notify');
 
       get(this, 'session').authenticate('authenticator:confirmation', token).then(() => {

@@ -112,7 +112,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
         'weeks_of_month'
       );
     });
-    
+
     return json;
   }
 });

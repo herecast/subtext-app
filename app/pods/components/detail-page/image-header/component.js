@@ -1,10 +1,16 @@
 import { get, set, computed } from '@ember/object';
 import { notEmpty, oneWay, readOnly, sort } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
+  fastboot: service(),
+  history: service(),
+
   model: null,
   isPreview: false,
+
+  isFirstRoute: readOnly('history.isFirstRoute'),
 
   thumbSortDefinition: Object.freeze(['primary:desc']),
 

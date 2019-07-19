@@ -154,8 +154,7 @@
   }
 
   &.animated {
-  //  animation: slide-up 0.5s;
-  animation: slide-right 0.5s;
+    animation: slide-right 0.5s;
   }
 
   &--small {
@@ -212,13 +211,8 @@
   }
 
   .Modal--willAnimateAway {
-    .Modal-dialog {
-      .Modal-dialog-inset;
-
-      &-body {
-        max-height: 92vh;
-        padding-bottom: 45px;
-      }
+    .Modal-dialog-body {
+      padding-bottom: 45px;
     }
   }
 }

@@ -1,19 +1,20 @@
 import Service, { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
-import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
+import { Promise } from 'rsvp';
 
-export default Service.extend(FastbootExtensions, {
+export default Service.extend({
+  fastboot: service(),
   windowLocation: service('window-location'),
   _disableCache: false,
 
   init() {
     this._super();
 
-    if(!get(this, 'fastboot.isFastBoot')) {
+    if (!get(this, 'fastboot.isFastBoot')) {
       // Disable the cache after cold boot has re-rendered page
       run.later(()=>{
-        if(!get(this, 'isDestroying')) {
+        if (!get(this, 'isDestroying')) {
           run.scheduleOnce('afterRender',this, this.disableCache);
         }
       }, 500);
@@ -21,7 +22,7 @@ export default Service.extend(FastbootExtensions, {
   },
 
   cacheResponseIfFastboot(url, response) {
-    if(get(this, 'fastboot.isFastBoot')) {
+    if (get(this, 'fastboot.isFastBoot')) {
 
       this.deferRenderingIfFastboot(response);
 
@@ -34,14 +35,26 @@ export default Service.extend(FastbootExtensions, {
     }
   },
 
+  deferRenderingIfFastboot(promise) {
+    const fastboot = get(this, 'fastboot');
+
+     if (get(fastboot, 'isFastBoot')) {
+      fastboot.deferRendering(new Promise((resolve) => {
+        promise.then(resolve, resolve);
+      }));
+    }
+
+     return promise;
+  },
+
   retrieveFromCache(url) {
-    if(!get(this, 'fastboot.isFastBoot')) {
+    if (!get(this, 'fastboot.isFastBoot')) {
       const win = get(this, 'windowLocation');
       const fbPath = get(this, '_fbRequestPath');
       const path = win.pathname() + win.search();
 
       // if this path is the same as the fastboot path
-      if(path === fbPath) {
+      if (path === fbPath) {
         return get(this, '_apiCache')[url];
       } else {
         return null;
@@ -52,14 +65,14 @@ export default Service.extend(FastbootExtensions, {
   },
 
   disableCache() {
-    if(!get(this, 'isDestroying')) {
+    if (!get(this, 'isDestroying')) {
       set(this, '_disableCache', true);
     }
   },
 
   /** Private */
   _apiCache: computed('_disableCache', function() {
-    if(get(this, '_disableCache')) {
+    if (get(this, '_disableCache')) {
       return {};
     }
 
@@ -76,7 +89,7 @@ export default Service.extend(FastbootExtensions, {
     const isFastBoot = get(this, 'fastboot.isFastBoot');
     let fbRequest = this._findOrCreateShoebox('fastboot-request');
 
-    if(isFastBoot) {
+    if (isFastBoot) {
       const path = get(this, 'fastboot.request.path');
 
       fbRequest['path'] = path;
@@ -92,8 +105,8 @@ export default Service.extend(FastbootExtensions, {
     const shoebox = get(this, 'fastboot.shoebox');
     let store = shoebox.retrieve(name);
 
-    if(isFastBoot) {
-      if(!store) {
+    if (isFastBoot) {
+      if (!store) {
         store = {};
         shoebox.put(name, store);
       }

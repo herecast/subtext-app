@@ -29,42 +29,48 @@ export default Component.extend({
   blurIsLoaded: false,
   showGradient: false,
   revealYield: false,
+  yieldOnFastboot: false,
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    const isFastBoot = get(this, 'fastboot.isFastBoot');
+    if (get(this, 'fastboot.isFastBoot')) {
+      set(this, 'revealYield', get(this, 'yieldOnFastboot'));
+    } else {
+      this._startImageLoading();
+    }
+  },
 
-    if (!isFastBoot) {
-      const placeholderUrl = get(this,'placeholderUrl');
-      const imageUrl = get(this, 'imageUrl');
-      const formerImageUrl = get(this, 'formerImageUrl');
+  _startImageLoading() {
+    const placeholderUrl = get(this,'placeholderUrl');
+    const imageUrl = get(this, 'imageUrl');
+    const formerImageUrl = get(this, 'formerImageUrl');
 
-      if (placeholderUrl) {
-        this.loadImage(placeholderUrl).then(() => {
-          if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-            set(this, 'blurIsLoaded', true);
+    if (placeholderUrl) {
+      this.loadImage(placeholderUrl)
+      .then(() => {
+        if (!get(this, 'isDestroyed') && !get(this, 'isDestroying')) {
+          set(this, 'blurIsLoaded', true);
 
-            this._showYieldIfImageIsLoaded();
+          this._showYieldIfImageIsLoaded();
+        }
+      });
+    }
+
+    if (imageUrl && imageUrl !== formerImageUrl) {
+      set(this, 'formerImageUrl', imageUrl);
+      this.loadImage(imageUrl)
+      .then(() => {
+        if (!get(this, 'isDestroyed') && !get(this, 'isDestroying')) {
+          set(this, 'imageIsLoaded', true);
+
+          const onImageLoadedAction = get(this, 'onImageLoaded');
+
+          if (onImageLoadedAction) {
+            onImageLoadedAction();
           }
-        });
-      }
-
-      if (imageUrl && imageUrl !== formerImageUrl) {
-        set(this, 'formerImageUrl', imageUrl);
-        this.loadImage(imageUrl)
-        .then(() => {
-          if ( !get(this, 'isDestroyed') && !get(this, 'isDestroying') ) {
-            set(this, 'imageIsLoaded', true);
-
-            const onImageLoadedAction = get(this, 'onImageLoaded');
-
-            if(onImageLoadedAction) {
-              onImageLoadedAction();
-            }
-          }
-        });
-      }
+        }
+      });
     }
   },
 
@@ -94,7 +100,8 @@ export default Component.extend({
     });
   },
 
-  boundaryStyle: computed('placeholderBlockFixedSize', 'placeholderBlockWidth', 'placeholderBlockHeight', function() {
+
+  boundaryStyle: computed('placeholderBlockFixedSize', 'placeholderBlockWidth', 'placeholderBlockHeight', 'fastboot.isFastBoot', 'imageIsLoaded', function() {
     const placeholderBlockWidth = parseInt(get(this, 'placeholderBlockWidth'));
     const placeholderBlockHeight = parseInt(get(this, 'placeholderBlockHeight'));
     const placeholderBlockFixedSize = get(this, 'placeholderBlockFixedSize');
@@ -103,10 +110,14 @@ export default Component.extend({
       return htmlSafe(`height:${placeholderBlockHeight}px;width:${placeholderBlockWidth}px;`);
     }
 
-    const aspectRatio = placeholderBlockHeight / placeholderBlockWidth;
-    const elementWidth = $(this.element).width();
-    const heightToSet = parseInt(aspectRatio * elementWidth);
+    if (!get(this, 'fastboot.isFastBoot') && !get(this, 'imageIsLoaded')) {
+      const aspectRatio = placeholderBlockHeight / placeholderBlockWidth;
+      const elementWidth = $(this.element).width();
+      const heightToSet = parseInt(aspectRatio * elementWidth);
 
-    return htmlSafe(`height:${heightToSet}px;`);
+      return htmlSafe(`height:${heightToSet}px;`);
+    }
+
+    return htmlSafe(`height:auto;`);
   })
 });

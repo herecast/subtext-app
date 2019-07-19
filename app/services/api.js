@@ -5,7 +5,6 @@ import { get, computed } from '@ember/object';
 import { run } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
 import fetch from 'fetch';
-import FastbootExtensions from 'subtext-app/mixins/fastboot-extensions';
 import qs from 'npm:qs';
 import { registerWaiter } from '@ember/test';
 import config from 'subtext-app/config/environment';
@@ -27,7 +26,7 @@ function queryString(data) {
   }
 }
 
-export default Service.extend(FastbootExtensions, {
+export default Service.extend({
   session: service('session'),
   queryCache: service('query-cache'),
   logger: service(),

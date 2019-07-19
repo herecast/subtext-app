@@ -2,9 +2,9 @@ import { inject as service } from '@ember/service';
 import { next, later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
 import { computed, set, get } from '@ember/object';
-import { readOnly } from '@ember/object/computed';
+import { readOnly, oneWay } from '@ember/object/computed';
 import $ from 'jquery';
-import { isPresent, isBlank } from '@ember/utils';
+import { isPresent } from '@ember/utils';
 import { throttle, debounce } from 'lodash';
 import Component from '@ember/component';
 
@@ -21,6 +21,7 @@ export default Component.extend({
 
   modalService: service('modals'),
   fastboot: service(),
+  history: service(),
   tracking: service(),
   media: service(),
   isMobile: readOnly('media.isMobile'),
@@ -48,7 +49,11 @@ export default Component.extend({
     return isPresent(get(this, 'slideInFrom')) && isPresent(get(this, 'slideOutTo'));
   }),
   showOnScreen: false,
-  sliderClass: computed('slideInFrom', 'slideOutTo', 'showOnScreen', function() {
+  sliderClass: computed('slideInFrom', 'slideOutTo', 'showOnScreen', 'fastboot.isFastBoot', 'history.isFirstRoute', function() {
+    if (get(this, 'fastboot.isFastBoot') || get(this, 'history.isFirstRoute')) {
+      return null;
+    }
+
     if (get(this, 'isSlider')) {
       const slideInFrom = get(this, 'slideInFrom');
       const slideOutTo = get(this, 'slideOutTo');
@@ -75,21 +80,7 @@ export default Component.extend({
     return isPresent(get(this, 'title'));
   }),
 
-  isAnimated: computed('fastboot.isFastBoot', function() {
-    const isFastboot = get(this, 'fastboot.isFastBoot');
-    const shoebox = get(this, 'fastboot.shoebox');
-    const shoeboxKey = 'disableModalAnimation';
-
-    if (isFastboot) {
-      shoebox.put(shoeboxKey, true);
-      return false;
-    } else {
-      // Note: `shoebox.retrieve` pops the key from the map, so future calls will return undefined.
-      // Thus this is safe for showing the animation on subsequent modals
-      const disableModalAnimation = shoebox.retrieve(shoeboxKey);
-      return isBlank(disableModalAnimation);
-    }
-  }),
+  isAnimated: oneWay('isSlider'),
 
   keyForScrollEvent: computed('elementId', function() {
     return `scroll.modal-${get(this, 'elementId')}`;
@@ -137,10 +128,10 @@ export default Component.extend({
   modalInnerStyle: computed('totalScrollDistance', 'willAnimateAway', 'isScrollingBody', 'isBodyAtBottom',  function() {
     let style = '';
 
-    if (get(this, 'isScrollingBody') || ! get(this, 'isBodyAtBottom')) {
-      style = 'margin-bottom: 0; overflow: hidden';
-    } else if (get(this, 'willAnimateAway')) {
+    if (get(this, 'willAnimateAway')) {
       style = `margin-bottom: ${get(this, 'totalScrollDistance') + 100}px`;
+    } else if (get(this, 'isScrollingBody') || !get(this, 'isBodyAtBottom')) {
+      style = 'margin-bottom: 0; overflow: hidden';
     }
 
     return htmlSafe(style);
@@ -167,7 +158,7 @@ export default Component.extend({
     if (!get(this, 'isDestroyed')) {
       const totalScrollDistance = get(this, 'totalScrollDistance');
       const scrollTop = $(this.element).scrollTop();
-      return 1 - (scrollTop / (totalScrollDistance));
+      return 1 - (0.5 * (scrollTop / totalScrollDistance));
     } else {
       return 1;
     }
@@ -181,7 +172,7 @@ export default Component.extend({
   _updateModalOpacity() {
     if (!get(this, 'isDestroyed') && !(get(this, 'isScrollingBody'))) {
       const opacity = this._calculateModalOpacity();
-      $(this.element).css({opacity});
+      $(this.element).find('.Modal-inner').css({opacity});
     }
   },
 

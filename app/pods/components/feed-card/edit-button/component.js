@@ -10,6 +10,7 @@ export default Component.extend({
   tagName: 'span',
 
   currentService: service('currentController'),
+  fastboot: service(),
   session: service(),
   floatingActionButton: service(),
 
@@ -39,7 +40,7 @@ export default Component.extend({
   }),
 
   canEditContent: computed('model.{authorId,organizationId}', 'session.isAuthenticated', function() {
-    if ( get(this, 'session.isAuthenticated')) {
+    if ( get(this, 'session.isAuthenticated') && !get(this, 'fastboot.isFastBoot')) {
       const promise =  get(this, 'currentUser').then(currentUser => {
         const authorId = get(this, 'model.authorId');
         const organizationId = get(this, 'model.organizationId') || null;

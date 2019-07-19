@@ -4,10 +4,9 @@ import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import Scroll from 'subtext-app/mixins/routes/scroll-to-top';
-import FastbootTransitionRouteProtocol from 'subtext-app/mixins/routes/fastboot-transition-route-protocol';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend(AuthenticatedRouteMixin, FastbootTransitionRouteProtocol, Scroll, {
+export default Route.extend(AuthenticatedRouteMixin, Scroll, {
   titleToken: 'Create a Post',
 
   floatingActionButton: service(),
