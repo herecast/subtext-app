@@ -15,7 +15,7 @@ export default Route.extend(History, RouteMetaMixin, {
     const organization = model;
 
     if (isPresent(organization)) {
-      return `${get(organization, 'name')} | HereCast`;
+      return get(organization, 'name');
     }
 
     return 'HereCast';
