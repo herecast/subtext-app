@@ -2,8 +2,9 @@ import Route from '@ember/routing/route';
 import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import RequireCanEdit from 'subtext-app/mixins/routes/require-can-edit';
+import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
-export default Route.extend(RequireCanEdit, {
+export default Route.extend(RequireCanEdit, ConfirmationMixin, {
   titleToken: 'Edit Post',
 
   floatingActionButton: service(),

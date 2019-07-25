@@ -5914,6 +5914,13 @@ ember-network@0.3.1:
     node-fetch "^1.3.3"
     whatwg-fetch "^0.11.0"
 
+ember-onbeforeunload@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-onbeforeunload/-/ember-onbeforeunload-1.2.0.tgz#96736d7532d5add9830466082d02300e84a872c0"
+  integrity sha512-b/vAqD17TBOB5oUqEqN7JpIwIxJ9Ei+D8lhXifsfFjCSs60iIDEEE6zJiajlnmKetJl0YqVlh666grIEo7qS6Q==
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
 ember-page-title@4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-4.0.5.tgz#94ad42c9d83c1938a1c94272672f24f2527716db"

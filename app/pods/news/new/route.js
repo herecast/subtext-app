@@ -5,10 +5,10 @@ import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import Scroll from 'subtext-app/mixins/routes/scroll-to-top';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
-export default Route.extend(AuthenticatedRouteMixin, Scroll, {
+export default Route.extend(AuthenticatedRouteMixin, ConfirmationMixin, Scroll, {
   titleToken: 'Create a Post',
-
   floatingActionButton: service(),
 
   model(params, transition) {
