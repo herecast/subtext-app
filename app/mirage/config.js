@@ -542,6 +542,14 @@ export default function() {
     };
   });
 
+
+  this.delete('/images/:id', function({ db }, request) {
+    const id = request.params.id;
+    const image = db.images.remove(id);
+    return { image };
+  });
+
+
   this.get('/contents/:id/metrics', function({ db }){
     return {
       content_metrics: db.contentMetrics[0]
