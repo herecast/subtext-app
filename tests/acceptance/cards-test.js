@@ -223,12 +223,13 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
 
-  test('testing market card with one image', async function(assert) {
+  test('testing market card with one image, has not been sold', async function(assert) {
 
     const content = this.server.create('content', {
       contentOrigin: 'ugc',
       contentType: 'market',
       title: 'hello world',
+      sold: false,
       imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240'
     });
 
@@ -248,6 +249,8 @@ module('Acceptance | cards', function(hooks) {
     await click('[data-test-card-size-chooser="fullsize"]');
 
     assert.ok(find('[data-test-fullsize-card]'), 'should show the fullsize card');
+    assert.notOk(find('[data-test-sold-tag]'), 'should not show sold tag');
+    assert.notOk(find('[data-test-sold-toggle]'), 'should not show sold toggle');
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
@@ -258,6 +261,8 @@ module('Acceptance | cards', function(hooks) {
     await click('[data-test-card-size-chooser="midsize"]');
 
     assert.ok(find('[data-test-midsize-card]'), 'should show the midsize card');
+    assert.notOk(find('[data-test-sold-tag]'), 'should not show sold tag');
+    assert.notOk(find('[data-test-sold-toggle]'), 'should not show sold toggle');
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
@@ -276,12 +281,13 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
 
-  test('testing market card with multiple images', async function(assert) {
+  test('testing market card with multiple images, has been sold', async function(assert) {
 
     const content = this.server.create('content', {
       contentOrigin: 'ugc',
       contentType: 'market',
       title: 'hello world',
+      sold: true,
       imageUrl: 'https://via.placeholder.com/400x200.png?text=400x240'
     });
 
@@ -302,6 +308,8 @@ module('Acceptance | cards', function(hooks) {
     await click('[data-test-card-size-chooser="fullsize"]');
 
     assert.ok(find('[data-test-fullsize-card]'), 'should show the fullsize card');
+    assert.ok(find('[data-test-sold-tag]'), 'should show sold tag');
+    assert.notOk(find('[data-test-sold-toggle]'), 'should not show sold toggle');
     assert.ok(find('[data-test-card-multiple-images]'), 'it should show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
@@ -312,6 +320,8 @@ module('Acceptance | cards', function(hooks) {
     await click('[data-test-card-size-chooser="midsize"]');
 
     assert.ok(find('[data-test-midsize-card]'), 'should show the midsize card');
+    assert.ok(find('[data-test-sold-tag]'), 'should show sold tag');
+    assert.notOk(find('[data-test-sold-toggle]'), 'should not show sold toggle');
     assert.ok(find('[data-test-card-multiple-images]'), 'it should show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
@@ -329,5 +339,4 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
-
 });

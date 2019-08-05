@@ -77,7 +77,9 @@ export default Component.extend({
   _showYieldIfImageIsLoaded() {
     if (get(this, 'imageIsLoaded')) {
       later(() => {
-        set(this, 'revealYield', true);
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'revealYield', true);
+        }
       }, 200);
     } else {
       later(this, '_showYieldIfImageIsLoaded', 200);

@@ -1,6 +1,7 @@
 import { readOnly } from '@ember/object/computed';
 import Component from '@ember/component';
-import { get, set } from '@ember/object';
+import { get, set, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { next } from '@ember/runloop';
 import $ from 'jquery';
@@ -8,7 +9,7 @@ import $ from 'jquery';
 export default Component.extend({
   classNames: 'FeedCard-Title',
   classNameBindings: [
-    'sold:sold-tag-active',
+    'showSoldTag:sold-tag-active',
     'showToggleSold:sold-tag-active',
     'isOnDetailView:on-detail',
     'isTruncated:is-truncated'],
@@ -16,9 +17,9 @@ export default Component.extend({
   fastboot: service(),
 
   model: null,
+  sold: alias('model.sold'),
   postedTime: false,
   title: null,
-  sold: false,
   showToggleSold: false,
   isLoggedIn: false,
   linkToDetailIsActive: true,
@@ -37,6 +38,10 @@ export default Component.extend({
   viewCount: readOnly('model.viewCount'),
   commentCount: readOnly('model.commentCount'),
 
+  showSoldTag: computed('model.{isMarket,sold}', function() {
+    return get(this, 'model.isMarket') && get(this, 'model.sold');
+  }),
+
   _checkIsTruncated() {
     const titleBox = $(get(this, 'element')).find('.title-real')[0];
     const cloneBox = $(get(this, 'element')).find('.title-clone')[0];
@@ -47,7 +52,7 @@ export default Component.extend({
 
   actions: {
     toggleSold() {
-      this.toggleProperty('sold');
+      this.toggleProperty('model.sold');
       get(this, 'model').save();
     }
   }

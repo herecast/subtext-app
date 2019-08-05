@@ -1,6 +1,6 @@
-import { readOnly, alias } from '@ember/object/computed';
+import { readOnly } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import reloadComments from 'subtext-app/mixins/reload-comments';
 
@@ -16,18 +16,6 @@ export default Component.extend(reloadComments, {
   showAnyViewCount: false,
 
   hideCompletely: false,
-
-  canManage: computed('context.canManage', 'model.isDraft', function() {
-    const isDraft = get(this, 'model.isDraft');
-
-    if (!isDraft) {
-      return get(this, 'context.canManage');
-    }
-
-    return false;
-  }),
-
-  hideComments: alias('context.hideComments'),
 
   actions: {
     onContentClick() {

@@ -20,5 +20,9 @@ export default Component.extend({
     const startsAt = get(this, 'model.startsAt');
 
     return contentType === 'event' && isPresent(startsAt);
+  }),
+
+  showSoldTag: computed('model.{isMarket,sold}', function() {
+    return get(this, 'model.isMarket') && get(this, 'model.sold');
   })
 });

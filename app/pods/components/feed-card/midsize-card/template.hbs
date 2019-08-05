@@ -1,11 +1,18 @@
 <div class="FeedCard-MidsizeCard--top">
   <div class="FeedCard-MidsizeCard--top-left">
-    <div class="FeedCard-MidsizeCard--title" data-test-card-title>
+    <div class="FeedCard-MidsizeCard--title">
       {{#feed-card/conditional-link-to
         model=model
+        data-test-card-title=true
       }}
         {{model.title}}
       {{/feed-card/conditional-link-to}}
+
+      {{#if showSoldTag}}
+        <div class="FeedCard-MidsizeCard--sold-tag" data-test-sold-tag>
+          SOLD
+        </div>
+      {{/if}}
     </div>
     <div class="FeedCard-MidsizeCard--activity">
       {{feed-card/activity

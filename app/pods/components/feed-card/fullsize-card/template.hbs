@@ -1,9 +1,7 @@
 {{feed-card/title
   model=model
   title=model.title
-  sold=(if isMarket model.sold null)
-  showToggleSold=(and canManage isMarket)
-  eventInstanceId=(if model.isEvent model.eventInstanceId null)
+  eventInstanceId=(if model.isEvent model.eventInstanceId)
   linkToDetailIsActive=context.linkToDetailIsActive
   onContentClick=(action "onContentClick")
 }}
@@ -27,7 +25,6 @@
   cost=model.cost
   showCost=(or model.isMarket model.isEvent)
   locationTagName=sourceTag
-  canManage=canManage
   canEditIfAllowed=(readonly context.canEditIfAllowed)
   displayAsPublic=(readonly context.displayAsPublic)
   openPromotionMenu=(action "openPromotionMenu")

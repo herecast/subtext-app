@@ -12,7 +12,6 @@
     {{#unless context.displayAsPublic}}
       {{feed-card/footer
         canEdit=false
-        canManage=(readonly context.canManage)
         displayAsPublic=(readonly context.displayAsPublic)
         openPromotionMenu=(action context.openPromotionMenu)
       }}

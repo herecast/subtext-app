@@ -1,5 +1,5 @@
 {{#if showToggleSold}}
-  <div class="FeedCard-Title-sold-toggle" {{action "toggleSold"}} role="button">
+  <div class="FeedCard-Title-sold-toggle" {{action "toggleSold"}} role="button" data-test-sold-toggle>
     {{#if sold}}
       {{fa-icon "toggle-on" class="toggle-on"}}
       <div>Sold</div>
@@ -8,8 +8,8 @@
       <div>Not Sold</div>
     {{/if}}
   </div>
-{{else if sold}}
-  <div class="FeedCard-Title-sold-tag">
+{{else if showSoldTag}}
+  <div class="FeedCard-Title-sold-tag" data-test-sold-tag>
    Sold
   </div>
 {{/if}}

@@ -10,7 +10,7 @@ import Component from '@ember/component';
 
 export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
   classNames: ['DetailPage'],
-  classNameBindings: ['isPreview:is-preview'],
+  classNameBindings: ['isPreview:is-preview', 'noTopPadding:no-top-padding'],
   'data-test-component': 'detail-page',
   'data-test-content': reads('model.contentId'),
   tagName: 'main',
@@ -23,6 +23,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   isPreview: false,
   goingToEdit: false,
   onClose: null,
+  noTopPadding: false,
   trackDetailEngagement: function() {},
 
   contentType: readOnly('model.contentType'),
