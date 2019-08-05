@@ -472,13 +472,13 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     deleteDraft() {
+      const organizationId = get(this, 'news.organizationId') || null;
+
       set(this, 'isDeletingRecord', true);
 
       get(this, 'news').destroyRecord()
-      .then((record) => {
-        const organizationId = get(record, 'organizationId') || null;
-
-        let nextRoute = 'news.new.details';
+      .then(() => {
+        let nextRoute = 'news.new';
         let transitionData = null;
 
         if (isPresent(organizationId)) {
