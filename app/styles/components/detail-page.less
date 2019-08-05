@@ -3,8 +3,12 @@
 }
 
 .DetailPage {
-  &.is-preview:not(.no-top-padding) {
-    margin-top: 40px;
+  &.is-preview {
+    margin-bottom: 40px;
+
+    &:not(.no-top-padding) {
+      margin-top: 40px;
+    }
   }
 
   &--takeover {
@@ -404,7 +408,7 @@
     .display-grid();
     .grid-template-columns(max-content 1fr);
     max-width: 400px;
-    margin: 0 auto;
+    margin: 16px auto;
 
     &-left {
       .grid-column(1);

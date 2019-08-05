@@ -68,7 +68,7 @@ export default Component.extend(TestSelector, Validation, {
       editorPopover: editorPopoverObj
     });
 
-    const isEditing = isPresent(get(this, 'news.publishedAt'));
+    const isEditing = isPresent(get(this, 'news.publishedAt')) || get(this, 'news.isDraft');
     const organizationId = get(this, 'news.organizationId') || false;
 
     if (isEditing && organizationId) {

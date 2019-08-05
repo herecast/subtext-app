@@ -8,7 +8,10 @@
   <div class="NewsEditor-previewHeader">
     <div>
       <a href="#" {{action (action "closePreview")}}>
-        {{fa-icon "arrow-left"}} Back to the editor
+        {{fa-icon "arrow-left"}}
+        {{#unless isMobile}}
+          Back to the editor
+        {{/unless}}
       </a>
     </div>
     <div class="NewsEditor-previewHeader-title">Preview Post</div>
@@ -19,6 +22,7 @@
     model=news
     isPreview=true
     enableStickyHeader=true
+    noTopPadding=(not isMobile)
     hasCaptionOrCredit=hasCaptionOrCredit
   }}
 {{/modal-wrapper}}
