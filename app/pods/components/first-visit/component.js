@@ -1,4 +1,5 @@
 import { computed, set, get, setProperties } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
 import { debounce, later } from '@ember/runloop';
@@ -8,7 +9,10 @@ import Component from '@ember/component';
 export default Component.extend( {
   classNames: ['FirstVisit'],
 
+  fastboot: service(),
   modals: service(),
+  router: service(),
+  session: service(),
   userLocation: service(),
 
   gettingMatches: false,
@@ -27,6 +31,8 @@ export default Component.extend( {
       locationMatches: []
     });
   },
+
+  currentUserLocation: readOnly('userLocation.userLocation'),
 
   _checkLocationMatches() {
     if (get(this, 'hasInputValue')) {
@@ -59,7 +65,6 @@ export default Component.extend( {
         later(() => {
           get(this, 'userLocation').trigger('userHasChosenWelcomeLocation');
         }, 200);
-
       }
     },
 
@@ -75,8 +80,10 @@ export default Component.extend( {
 
     openSignin() {
       get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+    },
+
+    goToHomeFeed() {
+      get(this, 'router').transitionTo('feed');
     }
   }
-
-
 });

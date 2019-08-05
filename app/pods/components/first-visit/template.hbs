@@ -78,13 +78,21 @@
         {{fa-icon "map-marker"}}
       </div>
     </div>
-    <div class="FirstVisit--landing-signin">
-      <div>
-        or
+    {{#if (not fastboot.isFastBoot)}}
+      <div class="FirstVisit--landing-signin">
+        <div>
+          or
+        </div>
+        {{#if session.isAuthenticated}}
+          <div class="FirstVisit--landing-signin-button" {{action "goToHomeFeed"}} role="button">
+            Go to {{currentUserLocation.name}}
+          </div>
+        {{else}}
+          <div class="FirstVisit--landing-signin-button" {{action "openSignin"}} role="button">
+            Sign In
+          </div>
+        {{/if}}
       </div>
-      <div class="FirstVisit--landing-signin-button" {{action "openSignin"}} role="button">
-        Sign In
-      </div>
-    </div>
+    {{/if}}
   </div>
 </footer>
