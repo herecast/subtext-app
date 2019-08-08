@@ -2,6 +2,7 @@ import { reads, oneWay, readOnly} from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
 import { set, get, computed } from '@ember/object';
+import { later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
 import LaunchingContent from 'subtext-app/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-app/mixins/components/model-reset-scroll';
@@ -24,6 +25,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
   goingToEdit: false,
   onClose: null,
   noTopPadding: false,
+  isReloading: false,
   trackDetailEngagement: function() {},
 
   contentType: readOnly('model.contentType'),
@@ -89,11 +91,24 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     }
   },
 
+  _resetPage() {
+    set(this, 'isReloading', true);
+
+    later(() => {
+      if (!get(this, 'isDestroyed')) {
+        set(this, 'isReloading', false);
+      }
+    }, 800);
+  },
+
   didUpdateAttrs() {
     this._super(...arguments);
 
     if (this._cachedModelId !== get(this, 'model.id')) {
       this._trackImpression();
+
+      this._resetPage();
+
       this._cachedModelId = get(this, 'model.id');
     }
   },
