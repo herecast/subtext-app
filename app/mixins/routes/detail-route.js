@@ -22,11 +22,11 @@ export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
     const contentType = get(model, 'contentType');
     const thisIsNotAnInstanceRoute = this.routeName.indexOf('-instance') < 0;
 
-    if (contentType === 'event') {
-      const targetName = transition.targetName;
-      const params = transition.params[targetName];
-      const eventInstanceId = params.event_instance_id || get(model, 'eventInstanceId') || false;
+    const targetName = transition.targetName;
+    const params = transition.params[targetName] || {};
+    const eventInstanceId = params.event_instance_id || get(model, 'eventInstanceId') || false;
 
+    if (contentType === 'event') {
       if (thisIsNotAnInstanceRoute && eventInstanceId) {
         this.transitionTo(`${get(this, '_defaultParentModelPath')}.show-instance`, get(model, 'id'), eventInstanceId);
       } else {
@@ -44,8 +44,34 @@ export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
         }
       }
     }
-    this._super(model);
+
+    const isProfileRoute = get(this, '_defaultParentModelPath').indexOf('profile') === 0;
+
+    if (isProfileRoute && !this._contentOwnerMatchesProfileOwner(model, transition)) {
+      if (contentType === 'event') {
+        this.transitionTo('feed.show-instance', get(model, 'id'), eventInstanceId);
+      } else {
+        this.transitionTo('feed.show', get(model, 'id'));
+      }
+    }
+
+    this._super(...arguments);
   },
+
+  _contentOwnerMatchesProfileOwner(model, transition) {
+    const profileParams = transition.params['profile'] || false;
+
+    if (profileParams) {
+      const profileOrganizationId = profileParams.organization_id || false;
+
+      if (profileOrganizationId) {
+        return parseInt(profileOrganizationId) === parseInt(get(model, 'organizationId'));
+      }
+    }
+
+    return false;
+  },
+
 
   loadFeedInParent() {
     //This is to delay load of the feed until after load of integrated detail
