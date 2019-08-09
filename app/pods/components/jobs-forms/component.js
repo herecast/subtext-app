@@ -223,9 +223,9 @@ export default Component.extend(Validation, {
   },
 
   _validateEventInstances() {
-    const value = get(this, 'model.eventInstances');
+    const eventInstances = get(this, 'model.eventInstances');
 
-    if (isPresent(value)) {
+    if (isPresent(eventInstances)) {
       set(this, `errors.dates`, null);
       delete this.get('errors')['dates'];
     } else {
@@ -404,6 +404,11 @@ export default Component.extend(Validation, {
 
       if (confirmed) {
         get(this, 'model').rollbackAttributes();
+        set(this, 'model.hasDirtyAttributes', false);
+
+        if (get(this, 'model.contentType') === 'event') {
+          get(this, 'model').rollbackSchedules();
+        }
 
         get(this, 'onClose')();
       } else {

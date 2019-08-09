@@ -165,6 +165,9 @@ export default Component.extend({
 
       get(this, 'schedules').pushObject(schedule);
 
+      const model = get(this, 'model');
+      set(model, 'hasDirtyAttributes', true);
+
       const validateForm = get(this, 'validateForm');
       if (validateForm) {
         validateForm();
@@ -188,6 +191,9 @@ export default Component.extend({
         schedule.destroyRecord();
       } else {
         set(schedule, '_remove', true);
+
+        const model = get(this, 'model');
+        set(model, 'hasDirtyAttributes', true);
       }
 
       const validateForm = get(this, 'validateForm');
