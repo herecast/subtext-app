@@ -469,14 +469,6 @@ export default Service.extend({
     );
   },
 
-  recordAdMetricEvent(data) {
-    return this.returnJson(
-      this.post(`/ad_metrics`,
-        this.json(data)
-      )
-    );
-  },
-
   recordContentImpression(id, data = {}) {
     return this.returnJson(
       this.post(`/metrics/contents/${id}/impressions`,

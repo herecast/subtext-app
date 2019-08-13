@@ -40,10 +40,7 @@ module('Acceptance | reset password', function(hooks) {
 
     let requestSpy = sinon.stub().returns(Promise.resolve());
     let mockApi = {
-      requestPasswordReset: requestSpy,
-      recordAdMetricEvent: function(){
-        return true;
-      }
+      requestPasswordReset: requestSpy
     };
     mockService('api', mockApi);
 

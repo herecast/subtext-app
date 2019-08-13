@@ -9,10 +9,7 @@ import sinon from 'sinon';
 const apiStub = Service.extend({
   getContentPromotions() {
     return RSVP.resolve({promotions: []});
-  },
-  recordAdMetricEvent() {
-    return true;
-  }//outreach-cta component
+  }
 });
 
 module('Integration | Component | ad banner', function(hooks) {

@@ -16,19 +16,12 @@ const adStub = Service.extend({
   }
 });
 
-const apiStub = Service.extend({
-  recordAdMetricEvent() {
-   return { then() {} };
-  }
-});
-
 module('Integration | Component | modals/detail-page', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
     this.owner.register('service:promotion', promotionStub);
     this.owner.register('service:ads', adStub);
-    this.owner.register('service:api', apiStub);
   });
 
 
