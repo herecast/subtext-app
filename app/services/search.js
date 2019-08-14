@@ -49,5 +49,13 @@ export default Service.extend({
     transition._keepDefaultQueryParamValues = false;
 
     transition.retry();
+  },
+
+  setSearchActive(searchActive = false) {
+    set(this, 'searchActive', searchActive);
+  },
+
+  setActiveFilter(type = null) {
+    set(this, 'activeFilter', type);
   }
 });

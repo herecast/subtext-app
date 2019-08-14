@@ -59,17 +59,17 @@ export default Route.extend(VariableInfinityModelParams, History, NavigationDisp
 
     if ('query' in transition.queryParams) {
       if (transition.queryParams['query'].length > 0) {
-        set(this, 'search.searchActive', true);
+        get(this, 'search').setSearchActive(true);
       }
     }
 
     if ('type' in transition.queryParams && isPresent(transition.queryParams['type'])) {
       let type = transition.queryParams['type'];
       if (type.length > 0) {
-        set(this, 'search.activeFilter', type);
+        get(this, 'search').setActiveFilter(type);
       }
     } else {
-      set(this, 'search.activeFilter', null);
+      get(this, 'search').setActiveFilter(null);
     }
   },
 

@@ -25,20 +25,38 @@
 
     {{#if showNav}}
       <div class="GlobalHeader-filter">
-        <div class="GlobalHeader-filter-postsButton GlobalHeader-button">
+        <div class="GlobalHeader-filter-postsButton GlobalHeader-filter-button">
           {{#link-to "feed" (query-params type="posts")}}
-            {{fa-icon "newspaper-o"}}
+            {{fa-icon "newspaper-o" class=(if postsIsActive "active")}}
           {{/link-to}}
+
+          {{#if postsIsActive}}
+            <div class="GlobalHeader-filter-button-explainer">
+              Posts
+            </div>
+          {{/if}}
         </div>
-        <div class="GlobalHeader-filter-calendarButton GlobalHeader-button">
+        <div class="GlobalHeader-filter-calendarButton GlobalHeader-filter-button">
           {{#link-to "feed" (query-params type="calendar")}}
-            {{fa-icon "calendar"}}
+            {{fa-icon "calendar" class=(if calendarIsActive "active")}}
           {{/link-to}}
+
+          {{#if calendarIsActive}}
+            <div class="GlobalHeader-filter-button-explainer">
+              Calendar
+            </div>
+          {{/if}}
         </div>
-        <div class="GlobalHeader-filter-marketButton GlobalHeader-button">
+        <div class="GlobalHeader-filter-marketButton GlobalHeader-filter-button">
           {{#link-to "feed" (query-params type="market")}}
-            {{fa-icon "tags"}}
+            {{fa-icon "tags" class=(if marketIsActive "active")}}
           {{/link-to}}
+
+          {{#if marketIsActive}}
+            <div class="GlobalHeader-filter-button-explainer">
+              Market
+            </div>
+          {{/if}}
         </div>
       </div>
 

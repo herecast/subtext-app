@@ -3,6 +3,7 @@
 # compiled output
 /dist/
 /tmp/
+/tmpsm/
 
 # dependencies
 /bower_components/

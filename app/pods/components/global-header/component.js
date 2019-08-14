@@ -1,5 +1,5 @@
 import { get, computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, readOnly, equal } from '@ember/object/computed';
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
 import TestSelector from 'subtext-app/mixins/components/test-selector';
@@ -9,9 +9,17 @@ export default Component.extend(TestSelector, {
   classNames: ['GlobalHeader'],
 
   fastboot: service(),
-  isFastBoot: alias('fastboot.isFastBoot'),
+  search: service(),
 
   streamlinedHeader: false,
+
+  isFastBoot: alias('fastboot.isFastBoot'),
+
+  activeChannelFilter: readOnly('search.activeFilter'),
+
+  postsIsActive: equal('activeChannelFilter', 'posts'),
+  calendarIsActive: equal('activeChannelFilter', 'calendar'),
+  marketIsActive: equal('activeChannelFilter', 'market'),
 
   showChevron: computed('streamlinedHeader', 'isFastBoot', function() {
     if (get(this, 'isFastBoot')) {

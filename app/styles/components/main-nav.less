@@ -90,19 +90,15 @@
         color: #fff;
         i {
           .transition(all 0.4s ease);
-        }
-        &.active {
-          text-shadow: 2px 2px 3px #000;
-          i {
-            .transform(scale(1.15));
+          &.active {
+            .text-shadow(2px 2px 3px #000);
+            margin-top: -2px;
+            .transform(scale(1.15) translateY(-3px));
           }
         }
       }
       &.open {
         color: #000;
-      }
-      &:hover {
-        color: @button-primary;
       }
       &:not(:first-of-type) {
         margin-left: 16px;
@@ -117,6 +113,23 @@
     }
     &-marketButton {
       font-size: 24px;
+    }
+
+    &-button {
+      position: relative;
+
+      &-explainer {
+        color: #fff;
+        font-size: 11px;
+        position: absolute;
+        bottom: -16px;
+        line-height: 16px;
+        padding: 0 4px;
+        background: @herecast-blue;
+        border-radius: 3px;
+        left: 50%;
+        .transform(translateX(-50%));
+      }
     }
   }
 
