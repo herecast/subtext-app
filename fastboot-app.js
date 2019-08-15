@@ -137,7 +137,11 @@ function rewritesMiddleware(req, res, next) {
   if(pathIsContentShow && pathIsNotID) {
     tryRewrite(path, req).then(json => {
       if (json['rewrite']) {
-        return res.redirect(307, `${req.protocol}://${req.hostname}/${json['rewrite']['destination']}`);
+        if (json['rewrite']['destination'].indexOf('http') === 0) {
+          return res.redirect(307, `${json['rewrite']['destination']}`);
+        } else {
+          return res.redirect(307, `${req.protocol}://${req.hostname}/${json['rewrite']['destination']}`);
+        }
       } else {
         return next();
       }
