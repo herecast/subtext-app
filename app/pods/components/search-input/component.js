@@ -69,14 +69,13 @@ export default Component.extend(TestSelector, {
 
   actions: {
     update(val) {
-      if (val === "") {
-        const clearSearchType = get(this, 'clearSearchType');
-        if (clearSearchType) {
-          clearSearchType();
-        }
+      const clearSearchType = get(this, 'clearSearchType');
+      if (val === "" && clearSearchType) {
+        clearSearchType();
+      } else {
+        const debounceWait = get(this, 'debounceWait');
+        run.debounce(this, this._updateAction, val,  debounceWait);
       }
-      const debounceWait = get(this, 'debounceWait');
-      run.debounce(this, this._updateAction, val,  debounceWait);
     },
 
     onblur() {
