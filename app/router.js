@@ -92,9 +92,9 @@ Router.map(function() {
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
 
-  this.route('startablog');
   this.route('publisher-agreement');
   this.route('welcome');
+  this.route('createapage');
 });
 
 export default Router;

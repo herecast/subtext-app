@@ -1,12 +1,12 @@
 {{#if isFastBoot}}
-  <div class="Startablog--loading">
+  <div class="Createapage--loading">
     {{fa-icon "cog" spin=true}}
-    <div class="Startablog--loading-text">
+    <div class="Createapage--loading-text">
       Loading...
     </div>
   </div>
 {{else}}
-  <div class="Startablog--intro">
+  <div class="Createapage--intro">
     {{#blogger-intro class="BloggerIntro-main-wrap" start-if=startIntro as |blogger-intro|}}
 
       {{#blogger-intro.step step=1
@@ -102,7 +102,7 @@
         {{/blogger-intro.step}}
       {{/x-card}}
 
-      <div class="Startablog--container">
+      <div class="Createapage--container">
         {{#blogger-intro.step step=5
           modal=true
           replaceTooltip=(not isMobile)
@@ -160,7 +160,7 @@
     {{/blogger-intro}}
   </div>
 
-  <div class="Startablog--bottom-padding"></div>
+  <div class="Createapage--bottom-padding"></div>
 
   {{outlet}}
 {{/if}}

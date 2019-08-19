@@ -8,11 +8,11 @@ export default Route.extend({
   fastboot: service(),
 
   model() {
-    const controller = this.controllerFor('startablog');
+    const controller = this.controllerFor('createapage');
 
     return get(this, 'store').createRecord('organization', {
       name: 'My New Blog',
-      profileImageUrl:'https://s3.amazonaws.com/subtext-misc/startablog/generic-profile-picture.jpg',
+      profileImageUrl:'https://s3.amazonaws.com/subtext-misc/createapage/generic-profile-picture.jpg',
       backgroundImageUrl: get(controller, 'avatarUrls.background'),
       description: "Welcome to My New Blog, where I'll be posting about the things that are important to me.",
       orgType: 'Blog',

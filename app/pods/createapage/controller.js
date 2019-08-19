@@ -36,17 +36,17 @@ export default Controller.extend({
     this._super(...arguments);
     setProperties(this, {
       avatarUrls: {
-        delighted: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_delighted.png',
-        smiling: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_smiling.png',
-        thinking: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thinking.png',
-        thumbsup: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_thumbsup.png',
+        delighted: 'https://s3.amazonaws.com/subtext-misc/createapage/JenniferBot_delighted.png',
+        smiling: 'https://s3.amazonaws.com/subtext-misc/createapage/JenniferBot_smiling.png',
+        thinking: 'https://s3.amazonaws.com/subtext-misc/createapage/JenniferBot_thinking.png',
+        thumbsup: 'https://s3.amazonaws.com/subtext-misc/createapage/JenniferBot_thumbsup.png',
         profile: 'http://d3ctw1a5413a3o.cloudfront.net/organization/2454/7a342b89283a777f-blob.png',
-        background: 'https://s3.amazonaws.com/subtext-misc/startablog/JenniferBot_background.png'
+        background: 'https://s3.amazonaws.com/subtext-misc/createapage/JenniferBot_background.png'
       }
     });
   },
 
-  genericProfileImageUrl: 'https://s3.amazonaws.com/subtext-misc/startablog/generic-profile-picture.jpg',
+  genericProfileImageUrl: 'https://s3.amazonaws.com/subtext-misc/createapage/generic-profile-picture.jpg',
 
   organization: alias('model'),
 
@@ -223,19 +223,19 @@ export default Controller.extend({
 
   actions: {
     leadCaptured() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/leadcaptured');
+      get(this, 'tracking').trackVirtualPageview('/createapage/leadcaptured');
     },
 
     stepStartAccount() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/account');
+      get(this, 'tracking').trackVirtualPageview('/createapage/account');
     },
 
     stepStartProfilePic() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/profilepic');
+      get(this, 'tracking').trackVirtualPageview('/createapage/profilepic');
     },
 
     stepStartLegal() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/agreement');
+      get(this, 'tracking').trackVirtualPageview('/createapage/agreement');
     },
 
     uploadProfileImage() {
@@ -276,7 +276,7 @@ export default Controller.extend({
     },
 
     nameStepStart() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/blogname');
+      get(this, 'tracking').trackVirtualPageview('/createapage/blogname');
 
       run.next(() => {
         set(this, 'organization.name', null);
@@ -290,7 +290,7 @@ export default Controller.extend({
     },
 
     descriptionStepStart() {
-      get(this, 'tracking').trackVirtualPageview('/startablog/description');
+      get(this, 'tracking').trackVirtualPageview('/createapage/description');
 
       run.next(() => {
         const orgName = get(this, 'organization.name');
@@ -304,7 +304,7 @@ export default Controller.extend({
 
       get(this, 'organization').save()
       .then((organization) => {
-        get(this, 'tracking').trackVirtualPageview('/startablog/newblogcomplete');
+        get(this, 'tracking').trackVirtualPageview('/createapage/newblogcomplete');
 
         this._addOrganizationToManagedList(organization);
         this.transitionToRoute('profile', organization.id);

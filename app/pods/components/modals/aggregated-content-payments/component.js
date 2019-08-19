@@ -116,9 +116,9 @@ export default ModalInstance.extend({
       });
     },
 
-    goToStartablog() {
+    goToCreateapage() {
       this.close();
-      get(this, 'router').transitionTo('startablog');
+      get(this, 'router').transitionTo('createapage');
     }
   }
 });

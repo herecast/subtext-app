@@ -48,7 +48,7 @@ module('Acceptance | all ugc jobs', function(hooks) {
     assert.ok(find('[data-test-jobs-form="market"]'), 'Should show the market jobs form');
   });
 
-  test('Link to startablog with user logged in, but no blog yet', async function(assert) {
+  test('Link to createapage with user logged in, but no blog yet', async function(assert) {
     assert.expect(1);
     const currentUser = this.server.create('current-user', {
       userId: 1,
@@ -58,19 +58,19 @@ module('Acceptance | all ugc jobs', function(hooks) {
 
     await Page.visitRoot();
     await Page.clickOrangeButton();
-    await Page.selectJob('startablog');
+    await Page.selectJob('createapage');
 
-    assert.equal(currentRouteName(), 'startablog');
+    assert.equal(currentRouteName(), 'createapage');
   });
 
-  test('Link to startablog with user logged out', async function(assert) {
+  test('Link to createapage with user logged out', async function(assert) {
     assert.expect(1);
 
     await Page.visitRoot();
     await Page.clickOrangeButton();
-    await Page.selectJob('startablog');
+    await Page.selectJob('createapage');
 
-    assert.equal(currentRouteName(), 'startablog');
+    assert.equal(currentRouteName(), 'createapage');
   });
 
   test('Link to news create', async function(assert) {

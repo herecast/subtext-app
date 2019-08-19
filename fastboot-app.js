@@ -134,7 +134,7 @@ function rewritesMiddleware(req, res, next) {
   const pathIsContentShow = path.indexOf('/') < 0;
   const pathIsNotID = isNaN(path)
 
-  if(pathIsContentShow && pathIsNotID) {
+  if (pathIsContentShow && pathIsNotID) {
     tryRewrite(path, req).then(json => {
       if (json['rewrite']) {
         if (json['rewrite']['destination'].indexOf('http') === 0) {
@@ -146,6 +146,33 @@ function rewritesMiddleware(req, res, next) {
         return next();
       }
     });
+  } else {
+    return next();
+  }
+};
+
+function redirectsMiddleware(req, res, next) {
+  const redirects = [
+    {
+      from: 'startablog',
+      to: 'createapage'
+    }
+  ];
+
+  const path = req.path.substring(1);
+  const matchedPath = redirects.find(redirect => {
+    return path === redirect.from;
+  });
+
+  if (matchedPath) {
+    const search = req._parsedUrl.search || false;
+    let toPath = matchedPath.to;
+
+    if (search) {
+      toPath += search;
+    }
+
+    return res.redirect(307, `${req.protocol}://${req.hostname}/${toPath}`);
   } else {
     return next();
   }
@@ -169,6 +196,8 @@ let server = new FastBootAppServer({
     app.use(sitemapMiddleware);
 
     app.use(rewritesMiddleware);
+
+    app.use(redirectsMiddleware);
   },
   distPath: 'dist',
   gzip: true,
