@@ -12,8 +12,12 @@
   overflow-x: hidden;
 
   &.reveal-nav {
-    top: 40px;
+    top: @main-nav-wrapper-height;
     z-index: 1100;
+  }
+
+  &.nag-showing {
+    top: calc(@main-nav-wrapper-height + @app-download-nag-height);
   }
 
   /**

@@ -1,4 +1,10 @@
-<div class="GlobalHeader">
+{{#if showNag}}
+  {{global-header/app-download-nag
+    onClose=(action "onCloseNag")
+  }}
+{{/if}}
+
+<div class="GlobalHeader-wrap">
   <div class="GlobalHeader--top-bar {{if (or streamlinedHeader isFastBoot) "streamlined"}}">
 
     {{#if streamlinedHeader}}

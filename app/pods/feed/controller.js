@@ -16,6 +16,7 @@ export default Controller.extend({
   tracking: service(),
   fastboot: service(),
   windowLocation: service(),
+  nags: service(),
   session: service(),
   search: service(),
   api: service(),
@@ -23,6 +24,7 @@ export default Controller.extend({
   feedService: service('feed'),
 
   isFastBoot: alias('fastboot.isFastBoot'),
+  nagShowing: readOnly('nags.hideAppDownloadNag'),
 
   currentRouteName: reads('history.currentRouteName'),
 
@@ -57,7 +59,7 @@ export default Controller.extend({
 
       if (currentRouteName.startsWith('feed')) {
         window.scrollTo(0, 0);
-  
+
         next(() => {
           this._transitionToFeed({}, true);
         });

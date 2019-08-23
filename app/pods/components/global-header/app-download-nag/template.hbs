@@ -1,0 +1,23 @@
+<div class="GlobalHeader-AppDownloadNag-wrap">
+  <div class="GlobalHeader-AppDownloadNag-close" role="button" {{action "closeNag"}} data-test-action="close-nag">
+    {{fa-icon "close"}}
+  </div>
+
+  <div class="GlobalHeader-AppDownloadNag-title">
+    <strong>The HereCast App</strong><br>
+    Share what's happening here.
+  </div>
+
+  <div class="GlobalHeader-AppDownloadNag-action">
+    <a
+    href={{buttonLink}}
+    class="GlobalHeader-AppDownloadNag-action-button"
+    target="_blank"
+    rel="noopener noreferrer"
+    {{action "clickForStore" preventDefault=false}}
+    >
+      GET THE APP
+    </a>
+  </div>
+
+</div>

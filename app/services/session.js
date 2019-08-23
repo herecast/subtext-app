@@ -1,19 +1,21 @@
 import { reads, oneWay, alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
-import { observer, computed, get, set , setProperties} from '@ember/object';
+import { observer, computed, get, set, setProperties} from '@ember/object';
 import { Promise } from 'rsvp';
 import Evented from '@ember/object/evented';
 import SessionService from 'ember-simple-auth/services/session';
 
 export default SessionService.extend(Evented, {
-  api         : service('api'),
-  userService : service('user'),
-  intercom    : service('intercom'),
-  fastboot    : service(),
-  cookies     : service(),
-  store       : service(),
+  api: service(),
+  userService: service('user'),
+  intercom: service(),
+  fastboot: service(),
+  cookies: service(),
+  store: service(),
   userLocationService: service('user-location'),
+  media: service(),
+  windowLocation: service(),
 
   startedOnIndexRoute: false,
   _defaultCardSize: 'midsize',

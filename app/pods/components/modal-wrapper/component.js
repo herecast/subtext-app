@@ -16,12 +16,14 @@ export default Component.extend({
     'modal-class',
     'isSlider:is-slider',
     'revealNav:reveal-nav',
-    'isMobile:is-mobile'
+    'isMobile:is-mobile',
+    'nagShowing:nag-showing'
   ],
 
   modalService: service('modals'),
   fastboot: service(),
   history: service(),
+  nags: service(),
   tracking: service(),
   media: service(),
   isMobile: readOnly('media.isMobile'),
@@ -81,6 +83,8 @@ export default Component.extend({
   }),
 
   isAnimated: oneWay('isSlider'),
+
+  nagShowing: readOnly('nags.showAppDownloadNag'),
 
   keyForScrollEvent: computed('elementId', function() {
     return `scroll.modal-${get(this, 'elementId')}`;

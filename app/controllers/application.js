@@ -7,12 +7,14 @@ import moment from 'moment';
 
 export default Controller.extend({
   modals: service(),
+  nags: service(),
   searchService: service('search'),
   searchOpen: alias('searchService.searchActive'),
+  session: service(),
 
   currentController: service('current-controller'),
 
-  backgroundClass: computed('currentPath', function() {
+  backgroundClass: computed('currentPath', 'nags.showAppDownloadNag', function() {
     const secondaryBackground = get(this, 'currentController.secondaryBackground');
     const secondaryBackgroundMobile = get(this, 'currentController.secondaryBackgroundMobile');
     let klass = '';
@@ -20,9 +22,15 @@ export default Controller.extend({
     if (secondaryBackground) {
       klass += 'u-colorBgSecondary';
     }
+
     if (secondaryBackgroundMobile) {
       klass += ' u-colorBgSecondary--mobile';
     }
+
+    if (get(this, 'nags.showAppDownloadNag')) {
+      klass+= ' nag-showing';
+    }
+
     return klass;
   }),
 

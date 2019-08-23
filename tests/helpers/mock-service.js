@@ -10,7 +10,7 @@ let stubService = (name, hash = {}) => {
   if (existingService) {
     owner.unregister(`service:${name}`);
   }
-  
+
   return owner.register(`service:${name}`, stubbedService);
 };
 

@@ -8,7 +8,6 @@
 //
 // UX3 Components
 //
-@import 'components/app-download-nag';
 @import 'components/business-feedback-badge';
 @import 'components/checklist';
 @import 'components/media';
@@ -311,16 +310,8 @@ body.modal-open > .modal-backdrop {
   padding-top: 40px;
   z-index: 2000001;
 
-  &.has-location-bar {
-    padding-top: 120px;
-  }
-
-  &.search-open {
-    padding-top: 150px;
-  }
-
-  &.has-location-bar.search-open {
-    padding-top: 164px;
+  &.nag-showing {
+    padding-top: calc(@main-nav-wrapper-height + @app-download-nag-height);
   }
 }
 
