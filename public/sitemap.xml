@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://HereCast.us/sitemap-general.txt</loc>
+    <loc>https://herecast.us/sitemap-general.txt</loc>
   </sitemap>
   <sitemap>
-    <loc>https://HereCast.us/sitemap-contents.txt</loc>
+    <loc>https://herecast.us/sitemap-contents.txt</loc>
   </sitemap>
   <sitemap>
-    <loc>https://HereCast.us/sitemap-events.txt</loc>
+    <loc>https://herecast.us/sitemap-events.txt</loc>
   </sitemap>
   <sitemap>
-    <loc>https://HereCast.us/sitemap-profiles.txt</loc>
+    <loc>https://herecast.us/sitemap-profiles.txt</loc>
   </sitemap>
 </sitemapindex>

@@ -73,11 +73,11 @@ function sitemapMiddleware(req, res, next) {
   const sitemaps = {
     '/sitemap-contents.txt' : function() {
 
-      return fetch(api_base + "/api/v3/contents/sitemap_ids?type=news,market,talk").then(response => {
+      return fetch(api_base + "/api/v3/contents/sitemap_ids?type=news,market").then(response => {
         return response.json().then(json => {
           let output = "";
           json['content_ids'].forEach(id => {
-            output = output + `${consumer_base}/feed/${id}\n`;
+            output = output + `${consumer_base}/${id}\n`;
           });
           return output;
         });
@@ -101,7 +101,7 @@ function sitemapMiddleware(req, res, next) {
         return response.json().then(json => {
           let output = "";
           json['instances'].forEach(record => {
-            output = output + `${consumer_base}/feed/${record.content_id}/${record.id}\n`;
+            output = output + `${consumer_base}/${record.content_id}/${record.id}\n`;
           });
           return output;
         });
@@ -109,7 +109,7 @@ function sitemapMiddleware(req, res, next) {
     }
   };
 
-  if(Object.keys(sitemaps).includes(req.path)) {
+  if (Object.keys(sitemaps).includes(req.path)) {
     sitemaps[ req.path ]().then(output => {
       res.set({'Cache-Control' : 'public, max-age=86400'});
       res.status(200).type('text/plain').send(output);
