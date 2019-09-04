@@ -77,6 +77,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.image_url;
     delete json.image_width;
     delete json.is_hidden_from_feed;
+    delete json.like_count;
     delete json.organization_name;
     delete json.organization_profile_image_url;
     delete json.organization_biz_feed_active;

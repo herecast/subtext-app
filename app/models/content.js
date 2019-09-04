@@ -38,6 +38,7 @@ export default DS.Model.extend(
   cost: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
+  likeCount: attr('number'),
 
 
   parentContentId: attr('number'), //TAG:NOTE can be removed after dashboard is removed (was a talk model property)

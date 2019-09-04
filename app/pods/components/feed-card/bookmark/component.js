@@ -1,4 +1,4 @@
-import { readOnly, notEmpty } from '@ember/object/computed';
+import { readOnly, notEmpty, alias, gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -10,6 +10,7 @@ export default Component.extend({
     return get(this, 'isBookmarked') ? 'bookmarked' : 'not-bookmarked';
   }),
   'data-test-bookmark-content': readOnly('contentId'),
+  'data-test-bookmark-like-count': readOnly('likeCount'),
 
   store: service(),
   session: service(),
@@ -19,13 +20,26 @@ export default Component.extend({
   bookmarkService: service('bookmarks'),
   currentPath: readOnly('currentService.currentPath'),
 
-  contentId: null,
-  eventInstanceId: null,
+  model: null,
   bookmark: null,
   justBookmarked: false,
 
+  contentId: readOnly('model.contentId'),
+  eventInstanceId: readOnly('model.eventInstanceId'),
+  likeCount: alias('model.likeCount'),
+
   isLoggedIn: readOnly('session.isAuthenticated'),
   isBookmarked: notEmpty('bookmark'),
+
+  showLikeCount: gt('likeCount', 0),
+  likeCountMessage: computed('likeCount', function() {
+    if (get(this, 'likeCount') === 1) {
+      return 'Like';
+    }
+
+    return 'Likes';
+  }),
+
 
   init() {
     this._super(...arguments);
@@ -58,11 +72,17 @@ export default Component.extend({
     });
   },
 
+  _changeLikeCount(increment = 1) {
+    const likeCount = get(this, 'model.likeCount');
+    set(this, 'model.likeCount', likeCount + increment);
+  },
+
   _setBookmark() {
     let bookmark = get(this, 'bookmark');
 
     if (isBlank(bookmark)) {
       this._trackEvent('CreateBookmark');
+      this._changeLikeCount();
 
       get(this, 'bookmarkService').makeNewBookmark(get(this, 'contentId'), get(this, 'eventInstanceId'))
       .then((bookmark) => {
@@ -71,6 +91,7 @@ export default Component.extend({
       });
     } else {
       this._trackEvent('RemoveBookmark');
+      this._changeLikeCount(-1);
 
       get(this, 'bookmarkService').removeBookmark(get(this, 'bookmark'))
       .then(() => {

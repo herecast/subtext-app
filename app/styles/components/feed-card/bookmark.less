@@ -4,9 +4,26 @@
   display: inline-block;
   vertical-align: middle;
 
+  &-count {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    text-shadow: none;
+    text-align: left;
+    line-height: 1.0;
+    color: @activity-indicator-color;
+
+    &-text {
+      font-size: 11px;
+    }
+  }
+
   &-button {
+    display: inline-block;
+    vertical-align: middle;
     cursor: pointer;
     position: relative;
+
     &-icon {
       font-size: 28px;
       color: @activity-indicator-color;
@@ -35,6 +52,8 @@
       }
     }
   }
+
+
 
   &.bookmarked {
     .text-shadow(1px 1px 0 rgba(0, 0, 0, 0.18));

@@ -101,6 +101,7 @@ export default Factory.extend({
   authorName() { return faker.name.findName(); },
   avatarUrl() { return faker.image.avatar(); },
 
+  likeCount() { return faker.random.number(999); },
   viewCount() { return faker.random.number(999); },
 
   venueName() {

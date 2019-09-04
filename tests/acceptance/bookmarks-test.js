@@ -88,9 +88,15 @@ module('Acceptance | bookmarks', function(hooks) {
       return db.bookmarks.create(attrs);
     });
 
+    const likeCountBeforeClick = parseInt($firstBookmark.attr('data-test-bookmark-like-count'));
+
     await click($firstBookmark.find('[data-test-button="bookmark-icon"]')[0]);
 
     assert.ok(trackingSpy.calledWith('CreateBookmark'), 'Making new bookmark should trigger tracking event');
+
+    const likeCountAfterClick = parseInt($firstBookmark.attr('data-test-bookmark-like-count'));
+
+    assert.equal(likeCountAfterClick, (likeCountBeforeClick + 1), "Clicking bookmark should increase like count by one");
 
     let $firstFeedCard = $(find(`[data-test-content="${contents[0].id}"]`));
 
