@@ -11,9 +11,9 @@
   overflow-y: auto;
   z-index: 10000;
 
-  a {
-    color: #fff !important;
-    text-decoration: none !important;
+  a.white-link {
+    color: #fff;
+    text-decoration: none;
   }
 
   &-cta {
@@ -30,6 +30,14 @@
   &-manage {
     font-size: 20px;
     margin-top: 10px;
+
+    &-textbox {
+      font-size: 14px;
+      margin-bottom: 24px;
+      a {
+        color: @herecast-blue;
+      }
+    }
   }
 
   &-manage-button {

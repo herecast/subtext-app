@@ -17,6 +17,8 @@ export default Service.extend({
   activeForm: 'market',
   editingModel: null,
   launchingModel: null,
+  justCreated: false,
+  justEdited: false,
 
   resetParams() {
     setProperties(this, {
@@ -27,7 +29,7 @@ export default Service.extend({
     })
   },
 
-  expand(trackEvent=true) {
+  expand(trackEvent = true) {
     if (trackEvent){
       get(this, 'tracking').trackUGCJobsTrayOpened();
     }
@@ -35,7 +37,7 @@ export default Service.extend({
     set(this, 'showContent', true);
   },
 
-  collapse(trackEvent=true) {
+  collapse(trackEvent = true) {
     if (trackEvent) {
       get(this, 'tracking').trackUGCJobsTrayClosed();
     }
@@ -51,16 +53,31 @@ export default Service.extend({
     }, 300);
   },
 
-  setBehindModals(behind=false) {
+  setBehindModals(behind = false) {
     set(this, 'behindModals', behind);
   },
 
-  launchContent(model) {
+  launchContent(model, options = {}) {
     set(this, 'launchingModel', model);
+
+    const { justCreated, justEdited } = options;
+
+    if (justCreated) {
+      set(this, 'justCreated', justCreated);
+    } else if (justEdited) {
+      set(this, 'justEdited', justEdited);
+    }
   },
 
   didLaunchContent() {
     set(this, 'launchingModel', null);
+  },
+
+  promotionMenuClosed() {
+    setProperties(this, {
+      justCreated: false,
+      justEdited: false
+    });
   },
 
   editContent(passedModel) {

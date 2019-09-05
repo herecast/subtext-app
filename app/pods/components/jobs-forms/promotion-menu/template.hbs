@@ -10,8 +10,30 @@
 
   <div class="JobsForms-PromotionMenu-manage">
 
+    {{#if justCreated}}
+      <div class="JobsForms-PromotionMenu-manage-button">
+        {{fa-icon "check"}}  {{postType}} Published
+      </div>
+      <div class="JobsForms-PromotionMenu-manage-textbox">
+        {{#if isMarket}}
+          Your market listing will now appear in the {{#link-to "feed" (query-params type="market")}}Market{{/link-to}}
+        {{else if isEvent}}
+          Your event will now appear in the {{#link-to "feed" (query-params type="calendar")}}calendar{{/link-to}} and in the feed 24 hours before the event starting date.
+        {{else}}
+          Your post will now appear in the feed and on your page.
+        {{/if}}
+      </div>
+    {{else if justEdited}}
+      <div class="JobsForms-PromotionMenu-manage-button">
+        {{fa-icon "check"}}  Changes Published*
+      </div>
+      <div class="JobsForms-PromotionMenu-manage-textbox">
+        * Please note: your changes might take a few minutes to appear.
+      </div>
+    {{/if}}
+
     <div class="JobsForms-PromotionMenu-manage-button">
-      {{fa-icon "paper-plane-o"}}  Promote Your Content
+      {{fa-icon "paper-plane-o"}}  Promote Your {{postType}}
     </div>
 
     <div>
@@ -27,6 +49,7 @@
         target="_blank"
         rel="noopener noreferrer"
         role="button"
+        class="white-link"
         onclick={{action "shareTwitter" preventDefault=false}}
       >
         <div class="JobsForms-PromotionMenu-promotion-option JobsForms-PromotionMenu-twitter">

@@ -48,7 +48,11 @@ export default Route.extend(AuthenticatedRouteMixin, ConfirmationMixin, Scroll, 
 
     afterPublish() {
       const model = get(this, 'controller.news');
-      get(this, 'floatingActionButton').launchContent(model);
+      
+      get(this, 'floatingActionButton').launchContent(model, {
+        justCreated: true
+      });
+
       this.transitionTo('profile.all.show', get(model, 'organizationId'), get(model, 'id'));
     },
 

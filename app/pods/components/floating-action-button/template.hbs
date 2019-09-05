@@ -13,7 +13,7 @@
           </div>
         {{else}}
           <div class="FloatingActionButton-message-cta">
-            Get paid to write your own posts
+            Create your own post
           </div>
         {{/if}}
 
@@ -23,7 +23,11 @@
           size="small"
           class="FloatingActionButton-toggleButton"
         }}
-          {{fa-icon "plus" class="FloatingActionButton-icon"}}
+          {{#if isExpanded}}
+            {{fa-icon "plus" class="FloatingActionButton-icon"}}
+          {{else}}
+            {{fa-icon "pencil-square-o" class="FloatingActionButton-icon"}}
+          {{/if}}
         {{/x-button}}
       </header>
     {{/unless}}

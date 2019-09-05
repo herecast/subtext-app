@@ -16,6 +16,7 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
   api: service(),
   session: service(),
   facebook: service(),
+  floatingActionButton: service(),
   windowLocation: service(),
   modals: service(),
 
@@ -30,6 +31,12 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
   maxSnippetLength: 140,
 
   content: readOnly('model.content'),
+
+  justCreated: readOnly('floatingActionButton.justCreated'),
+  justEdited: readOnly('floatingActionButton.justEdited'),
+
+  isMarket: readOnly('model.isMarket'),
+  isEvent: readOnly('model.isEvent'),
 
   init() {
     set(this, 'mailToParts', '');
@@ -76,6 +83,18 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
     }
   }),
 
+  postType: computed('isMarket', 'isEvent', function() {
+    let postType = 'Post';
+
+    if (get(this, 'isMarket')) {
+      postType = 'Market Listing';
+    } else if (get(this, 'isEvent')) {
+      postType = 'Event';
+    }
+
+    return postType;
+  }),
+
   _buildMailToParts(forListservs=false) {
     let urlForShare = get(this, 'urlForShare');
     const title = get(this, 'model.title');
@@ -117,6 +136,7 @@ export default Component.extend(TextSnippet, SocialPreloaded, {
 
   actions: {
     close() {
+      get(this, 'floatingActionButton').promotionMenuClosed();
       this.onClose();
     },
 

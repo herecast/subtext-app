@@ -288,8 +288,6 @@ export default Component.extend(Validation, {
         }
       }
 
-      get(this, 'floatingActionButton').launchContent(model);
-
       router.transitionTo(...transitionOptions);
     });
   },
@@ -374,8 +372,15 @@ export default Component.extend(Validation, {
     launchContent() {
       set(this, 'isSaving', true);
 
+      const justCreated = get(this, 'model.isNew');
+
       get(this, 'model').save()
       .then((model) => {
+        get(this, 'floatingActionButton').launchContent(model, {
+          justCreated: justCreated,
+          justEdited: !justCreated
+        });
+
         this._afterLaunch(model);
       })
       .catch(() => {

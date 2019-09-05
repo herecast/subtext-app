@@ -1,12 +1,10 @@
-import { get, set, computed } from '@ember/object';
+import { get, set } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
 import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   floatingActionButton: service(),
-  modals: service(),
-  history: service(),
   router: service(),
 
   model: null,
@@ -30,17 +28,9 @@ export default Mixin.create({
     }
   },
 
-  manageOverlayModalName: computed('history.isFirstRoute', function() {
-    return get(this, 'history.isFirstRoute') ? 'detail-page-modal' : 'modal-wrapper-takeover';
-  }),
-
   actions: {
     openPromotionMenu() {
       set(this, 'showManageOverlay', true);
-
-      if (get(this, 'history.isFirstRoute')) {
-        get(this, 'modals').addModalBodyClass();
-      }
     },
 
     closePromotionMenu() {
@@ -50,10 +40,6 @@ export default Mixin.create({
       }
 
       set(this, 'showManageOverlay', false);
-
-      if (get(this, 'history.isFirstRoute')) {
-        get(this, 'modals').removeModalBodyClass();
-      }
     },
 
     openOrangeButton() {
