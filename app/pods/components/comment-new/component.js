@@ -96,11 +96,19 @@ export default Component.extend({
     },
 
     showSignInMenu() {
-      get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+      get(this, 'modals').showModal('modals/sign-in-register', {
+        model: 'sign-in',
+        alternateSignInMessage: 'You must be signed in to comment on content.'
+      });
     },
 
     onFocusIn() {
-      set(this, 'commentInFocus', true);
+      if (get(this, 'session.isAuthenticated')) {
+        set(this, 'commentInFocus', true);
+      } else {
+        this.send('showSignInMenu');
+      }
+
     },
     onFocusOut() {
       set(this, 'commentInFocus', false);
