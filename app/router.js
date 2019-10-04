@@ -92,7 +92,7 @@ Router.map(function() {
   this.route('error-404');
   this.route('error-404-passthrough', {path: "*path"});
 
-  this.route('publisher-agreement');
+  this.route('paid-content');
   this.route('welcome');
   this.route('createapage');
 });
