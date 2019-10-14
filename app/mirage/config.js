@@ -124,6 +124,11 @@ export default function() {
     return new Mirage.Response(200, {}, {});
   });
 
+  this.post('/users/:user_id/publisher_agreements', function() {
+    return new Mirage.Response(200, {}, {});
+  }, { timing: 1500 });
+
+
   this.get('/user/', function({currentUsers}, request) {
     const email = request.queryParams.email;
     const isACurrentUser = isPresent(currentUsers.findBy({email}));

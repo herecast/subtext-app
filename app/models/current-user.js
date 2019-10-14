@@ -25,6 +25,7 @@ export default DS.Model.extend({
   canPublishNews: DS.attr('boolean'),
   hasHadBookmarks: DS.attr('boolean'),
   isBlogger: DS.attr('boolean'),
+  publisherAgreementConfirmed: DS.attr('boolean', {defaultValue: false}),
 
   feedCardSize: DS.attr('string', {defaultValue: 'midsize'}),
 

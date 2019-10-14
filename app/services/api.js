@@ -529,6 +529,12 @@ export default Service.extend({
     );
   },
 
+  agreeToPublisherAgreement(userId) {
+    return this.returnJson(
+      this.post(`/users/${userId}/publisher_agreements`)
+    );
+  },
+
   requestPasswordReset(email, returnUrl) {
     let data = {
       user: {

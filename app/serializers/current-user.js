@@ -35,6 +35,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     }
     delete json.can_publish_news;
     delete json.created_at;
+    delete json.published_agreement_confirmed;
     return json;
   }
 });
