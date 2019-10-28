@@ -22,7 +22,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     location: {
       embedded: 'always'
     },
-    organization: {
+    caster: {
       embedded: 'always'
     }
   },
@@ -49,21 +49,16 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       json.venue.zip = json.venue_zip;
     }
 
-    if (json.organization) {
-      json.organization_id = json.organization.id;
-      delete json.organization;
-    }
-
     if (json.location) {
       json.location_id = json.location.id;
       delete json.location;
     }
 
-    delete json.author_id;
-    delete json.avatar_url;
-    delete json.business_profile_id;
-    delete json.campaign_end;
-    delete json.campaign_start;
+    if (json.caster) {
+      json.caster_id = json.caster.userId;
+      delete json.caster;
+    }
+
     delete json.click_count;
     delete json.comment_count;
     delete json.commenter_count;
@@ -78,9 +73,6 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.image_width;
     delete json.is_hidden_from_feed;
     delete json.like_count;
-    delete json.organization_name;
-    delete json.organization_profile_image_url;
-    delete json.organization_biz_feed_active;
     delete json.parent_content_id;
     delete json.parent_content_type;
     delete json.parent_event_instance_id;

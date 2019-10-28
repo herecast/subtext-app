@@ -25,14 +25,4 @@
   cost=model.cost
   showCost=(or model.isMarket model.isEvent)
   locationTagName=sourceTag
-  canEditIfAllowed=(readonly context.canEditIfAllowed)
-  displayAsPublic=(readonly context.displayAsPublic)
-  openPromotionMenu=(action "openPromotionMenu")
 }}
-
-{{#if context.allowManageOnTile}}
-  {{feed-card/manage
-    model=model
-    openPromotionMenu=(action "openPromotionMenu")
-  }}
-{{/if}}

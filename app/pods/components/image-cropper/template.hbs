@@ -1,13 +1,14 @@
 {{#form-group}}
   <img class="img-responsive js-Cropper-image" alt="Responsive Image">
   <div class="ImageCropper-buttonContainer">
-    <div class="pull-left">
-      <button class="Button Button--icon" {{action "rotateImage" "left"}} title="Rotate image left">{{fa-icon "rotate-left"}}</button>
-      <button class="Button Button--icon" {{action "rotateImage" "right"}} title="Rotate image right">{{fa-icon "rotate-right"}}</button>
-      <span>Rotate Image</span>
-    </div>
-    <div class="pull-right">
-      <button class="ImageCropper-cancelButton" {{action "cancel"}}>Cancel</button>
-    </div>
+    <button class="Button Button--icon" {{action "rotateImage" "left"}} title="Rotate image left">{{fa-icon "rotate-left"}}</button>
+    <span>Rotate Image</span>
+    <button class="Button Button--icon" {{action "rotateImage" "right"}} title="Rotate image right">{{fa-icon "rotate-right"}}</button>
+
+    {{#unless hideCancel}}
+      <div class="text-left">
+        <button class="ImageCropper-cancelButton" {{action "cancel"}}>Cancel</button>
+      </div>
+    {{/unless}}
   </div>
 {{/form-group}}

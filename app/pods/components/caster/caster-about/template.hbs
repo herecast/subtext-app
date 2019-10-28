@@ -1,0 +1,68 @@
+<div class="Caster-CasterAbout--stats">
+  <div class="Caster-CasterAbout--stats-stat">
+    {{formatted-count caster.totalViewCount "No"}}
+    <div class="Caster-CasterAbout--stats-text">
+      Views
+    </div>
+  </div>
+  <div class="Caster-CasterAbout--stats-stat">
+    {{formatted-count caster.activeFollowersCount "No"}}
+    <div class="Caster-CasterAbout--stats-text">
+      Followers
+    </div>
+  </div>
+  <div class="Caster-CasterAbout--stats-stat">
+    {{formatted-count caster.totalLikeCount "No"}}
+    <div class="Caster-CasterAbout--stats-text">
+      Likes
+    </div>
+  </div>
+</div>
+
+<div class="Caster-CasterAbout--description">
+  <div class="Caster-CasterAbout--description-title">
+    About {{caster.name}}
+  </div>
+  <div class="Caster-CasterAbout--description-body">
+    {{#if caster.description}}
+      {{casterDescription}}
+    {{else}}
+      {{caster.name}} has not yet filled this out.
+    {{/if}}
+  </div>
+</div>
+
+{{#if casterWebsite}}
+  <div class="Caster-CasterAbout--description">
+    <div class="Caster-CasterAbout--description-title">
+      {{fa-icon "link"}} <a href={{external-link-protocol casterWebsite}} target="_blank" rel="noopener noreferrer">{{casterWebsite}}</a>
+    </div>
+  </div>
+{{/if}}
+
+<div class="Caster-CasterAbout--settings">
+  {{#if casterIsCurrentUser}}
+    {{#link-to "settings"
+      class="XButton XButton--primary XButton--regular XButton--noMargin XButton--thin XButton--rounded XButton-nowrap"
+    }}
+      {{fa-icon "gear"}} Settings
+    {{/link-to}}
+  {{else if casterCanBeContacted}}
+    <span
+    {{action "contactCaster"}}
+    role="button"
+    class="XButton XButton--primary XButton--regular XButton--noMargin XButton--thin XButton--rounded XButton-nowrap"
+    >
+      {{fa-icon "paper-plane-o"}} Contact Caster
+    </span>
+  {{/if}}
+</div>
+
+{{#unless casterIsCurrentUser}}
+  <div class="Caster-CasterAbout--hide">
+    {{hide-caster-button
+      caster=caster
+      additionToMessage="this Caster"
+    }}
+  </div>
+{{/unless}}

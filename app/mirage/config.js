@@ -1,4 +1,4 @@
-import { isBlank, isPresent, isEmpty } from '@ember/utils';
+import { isBlank, isPresent } from '@ember/utils';
 import { get } from '@ember/object';
 import moment from 'moment';
 import Mirage, { faker } from 'ember-cli-mirage';
@@ -44,16 +44,16 @@ export default function() {
     }
   };
 
-  this.post('/users/sign_in', function(schema, request) {
+  this.post('/users/sign_in', function({currentUsers}, request) {
     let user;
 
-    if(request.requestBody.indexOf('{') >= 0) {
+    if (request.requestBody.indexOf('{') >= 0) {
       //json
       let json = JSON.parse(request.requestBody)['user'];
-      if(json['email']) {
-        user = schema.currentUsers.where({email: json['email']}).models[0];
+      if (json['email']) {
+        user = currentUsers.where({email: json['email']}).models[0];
       } else {
-        user = schema.currentUsers.first();
+        user = currentUsers.first();
       }
     } else {
       let emailMatcher = /user\[email\]=([\w.\-_@]+)/i;
@@ -61,14 +61,14 @@ export default function() {
 
       if(matches) {
         let email = matches[1];
-        user = schema.currentUsers.where({email: email}).models[0];
+        user = currentUsers.where({email: email}).models[0];
       } else {
-        user = schema.currentUsers.first();
+        user = currentUsers.first();
       }
     }
 
     if(user) {
-      schema.currentUsers.create(user.attrs);
+      currentUsers.create(user.attrs);
       return {
         token: "FCxUDexiJsyChbMPNSyy",
         email: user.email
@@ -97,24 +97,28 @@ export default function() {
 
   this.post('/users/sign_up', function(db, request) {
     const json = JSON.parse(request.requestBody);
-    const instant_signup = json.instant_signup || false;
     const password = json.user.password || '';
 
     if (password.length < 8) {
       return new Mirage.Response(422, {'Content-Type': 'application/json'}, {error: `password length too short: 8 character minimum. Password provided was only ${password.length} characters.`});
     }
 
-    if (instant_signup) {
-      const user = json['user'] || false;
+    const user = json['user'] || false;
 
-      if (user) {
-        db.currentUsers.create(user.attrs);
-        return {
-          token: "FCxUDexiJsyChbMPNSyy",
-          email: user.email
-        };
-      }
+    if (user) {
+      db.currentUsers.create({
+        email: user.email,
+        handle: user.handle,
+        locationId: user.location_id,
+        name: user.name
+      });
+
+      return {
+        token: "FCxUDexiJsyChbMPNSyy",
+        email: user.email
+      };
     }
+
     return new Mirage.Response(200, {}, {});
   }, { timing: 1500 });
 
@@ -149,13 +153,12 @@ export default function() {
 
     if (current_user) {
       return current_user;
-      //return new Mirage.Response(200, {}, {current_user});
     } else {
       return new Mirage.Response(401, {}, {});
     }
   });
 
-  this.put('/current_user', function({currentUsers }, request) {
+  this.put('/current_user', function({currentUsers}, request) {
     var id = 1;
     var currentUser;
 
@@ -164,7 +167,7 @@ export default function() {
     if (contentType.indexOf('application/json') > -1) {
 
       var putData = JSON.parse(request.requestBody);
-      var attrs = putData['current_user'];
+      var attrs = putData['current_user'] || [];
 
       if (attrs.location_id) {
         delete attrs.location;
@@ -301,86 +304,6 @@ export default function() {
     };
   });
 
-  // Used by the news filter bar to find organizations
-  this.get('/organizations', function(schema, request) {
-    let organizations;
-
-    // For demo purposes - if someone starts a search with 'empty' we return
-    // no results so we can see what that looks like in the UI
-    if ('query' in request.queryParams && request.queryParams.query.indexOf('empty') === 0) {
-      organizations = [];
-    } else if ('ids' in request.queryParams) {
-      organizations = schema.organizations.all().filter((org) => {
-        return request.queryParams.ids.indexOf(String(org.id)) !== -1;
-      });
-    } else if ('subtext_certified' in request.queryParams) {
-      organizations = schema.organizations.all().filter((org) => {
-        return org.certifiedSocial || org.certifiedStoryteller;
-      });
-    } else {
-      organizations = schema.organizations.all();
-    }
-    return organizations;
-  });
-
-  this.get('organizations/:name/validation', function(schema, { params }) {
-    const name = params.name;
-    let response;
-
-    if (name === 'HereCast' || name === 'blogblog') {
-      response = new Mirage.Response(404);
-    } else {
-      response = new Mirage.Response(200, {}, {});
-    }
-
-    return response;
-  }, { timing: 1000 });
-
-  this.get('/organizations/:id', function({organizations}, request) {
-    let organization = organizations.find(request.params.id);
-
-    if (!organization) {
-      organization = organizations.create('organization');
-    }
-
-    return organization;
-  });
-  this.put('/organizations/:id', function({ db }, request) {
-
-    if (request && request.requestBody && typeof request.requestBody === 'string') {
-      var id = request.params.id;
-      var putData = JSON.parse(request.requestBody);
-      var attrs = putData['organization'];
-      var org = db.organizations.update(id, attrs);
-
-      return {organization: org};
-    } else {
-      // We're using the UPDATE action to upload event images after the event
-      // has been created. Mirage can't really handle this, so we ignore it.
-
-      // eslint-disable-next-line no-console
-      console.info('Ignoring image upload: PUT organizations/:id');
-    }
-  });
-
-  this.post('/organizations', function({organizations}, request) {
-    const postedData = JSON.parse(request.requestBody);
-    let organization = postedData.organization;
-
-    organization.canPublishNews = true;
-    organization.bizFeedActive = true;
-
-    return organizations.create(organization);
-  }, { timing: 2000 });
-
-  this.post('/organizations/:id/subscriptions', function() {
-    return new Mirage.Response(200, {}, {});
-  }, { timing: 2000 });
-
-  this.post('/organizations/email_captures', function() {
-    return {};
-  });
-
   this.get('/event_instances/:id', function({eventInstances}, request) {
     return eventInstances.find(request.params.id) || {};
   });
@@ -450,16 +373,28 @@ export default function() {
     return new Mirage.Response(200, {}, {promotions});
   });
 
-  this.post('/organizations/:organization_id/hides', function({organizationHides}, request) {
-    const organization_hide = JSON.parse(request.requestBody)['organization_hide'] || "";
-    const orgHide = organizationHides.create(organization_hide)
+  this.post('/casters/:caster_id/hides', function({casterHides}, request) {
+    const caster_hide = JSON.parse(request.requestBody)['caster_hide'] || "";
+    const casterHide = casterHides.create(caster_hide)
 
-    return new Mirage.Response(200, {}, orgHide);
+    return new Mirage.Response(200, {}, casterHide);
   });
 
-  this.del('/organizations/hides/:id', function() {
+  this.del('/casters/hides/:id', function() {
     return new Mirage.Response(200, {}, {});
   });
+
+  this.post('/casters/:caster_id/follows', function({casterFollows}, request) {
+    const caster_follow = JSON.parse(request.requestBody)['caster_follow'] || "";
+    const casterFollow = casterFollows.create(caster_follow)
+
+    return new Mirage.Response(200, {}, casterFollow);
+  });
+
+  this.del('/casters/follows/:id', function() {
+    return new Mirage.Response(200, {}, {});
+  });
+
 
   this.get('/promotion_coupons/:id', function({db}, request) {
     return {promotionCoupon: db.promotionCoupons.find(request.params.id)};
@@ -561,17 +496,6 @@ export default function() {
     };
   });
 
-  this.get('/organizations/:id/metrics', function({ db }){
-    return {
-      content_metrics: db.contentMetrics[0]
-    };
-  });
-
-  this.get('/organizations/:id/payments', function({ db }){
-    return {
-      content_payments: db.contentPayments
-    };
-  });
   this.get('/users/:id/payments', function({ db }){
     const random = Math.random();
 
@@ -600,104 +524,6 @@ export default function() {
     };
   });
 
-  this.get('/businesses', function({ businessProfiles }, request) {
-    const { query } = request.queryParams; // category location, maxDistance, openAt
-    let profiles = this.serialize(businessProfiles.all());
-
-    if (query === "nothing") {
-      return {
-        businessProfiles: []
-      };
-    } else if ('organizationId' in request.queryParams) {
-      const organizationId = Number(request.queryParams.organizationId);
-
-      return {
-        businessProfiles: profiles.filter((item) => {
-          return item.organizationId === organizationId;
-        })
-      };
-    } else {
-      return {
-        businesses: profiles['business_profiles']
-      };
-    }
-  });
-
-  this.get('/businesses/:id', function({ businessProfiles }, request) {
-    return this.serialize(businessProfiles.find(request.params.id));
-  });
-
-  this.post('/businesses');
-  this.put('/businesses/:id');
-
-  this.get('/business_categories', function({ businessCategories }, request) {
-    // For coalesceFindRequests
-    const ids = request.queryParams['ids'];
-    let categories = this.serialize(businessCategories.all());
-
-    if( !isEmpty(ids) ) {
-      categories.filter(function(category) {
-        return ids.includes(category.id.toString());
-      });
-    }
-
-    return categories;
-  });
-
-  this.get('/business_categories/:id', function({ businessCategories }, request){
-    return this.serialize(businessCategories.find(request.params.id));
-  });
-
-  this.post('/businesses/:id/feedback', function(){
-    return {
-      id: 3,
-      user_id: 1,
-      business_id: 7
-    };
-  });
-
-  this.put('/businesses/:id/feedback', function(){
-    return {
-      id: 3,
-      user_id: 1,
-      business_id: 7
-    };
-  });
-
-  // Listserv Digests
-  this.get('/digests');
-  this.post('/digests');
-  this.get('/digests/:id');
-  this.put('/digests/:id');
-  this.del('/digests/:id');
-
-  // Listserv Subscriptions
-  this.get('/subscriptions', function({ subscriptions}) {
-    let response = {};
-
-    if (subscriptions) {
-      const subscriptionsSerialized = this.serialize(subscriptions.all());
-
-      return new Mirage.Response(200, {}, subscriptionsSerialized);
-    }
-
-    return new Mirage.Response(200, {}, response);
-  });
-  this.post('/subscriptions', {timing: 1200});
-  this.get('/subscriptions/:id');
-  this.put('/subscriptions/:id', function() {
-    return new Mirage.Response(200);
-  });
-  this.del('/subscriptions/:id');
-
-  this.delete('/subscriptions/:id/:token', () => {
-    return new Mirage.Response(204);
-  });
-
-  this.patch('/subscriptions/:id/unsubscribe', function() {
-    return {};
-  });
-
   this.post('/registrations/confirmed', function({db, currentUsers}, request) {
     var putData = JSON.parse(request.requestBody);
     var attrs = putData['registration'];
@@ -716,26 +542,6 @@ export default function() {
     };
   });
 
-  this.get('/listservs', function() {
-    return {listservs: [
-      {
-        id: 1,
-        name: "Listserv1",
-        reverse_publish_email: "list1@listserv.org"
-      },
-      {
-        id: 2,
-        name: "Listserv2",
-        reverse_publish_email: "list2@listserv.org"
-      },
-      {
-        id: 3,
-        name: "Listserv3",
-        reverse_publish_email: "list3@listserv.org"
-      }
-    ]};
-  });
-
   this.post('/contents/:id/promotions', function() {
     return new Mirage.Response(200, {}, {});
   });
@@ -744,72 +550,71 @@ export default function() {
     return new Mirage.Response(200, {}, {});
   });
 
-  this.get('/users/:id/comments', function({comments}, request) {
-    const { page, per_page } = request.queryParams;
+
+  this.get('/casters/:id/contents', function({feedItems}, request){
+    const { page, per_page, commented, caster_feed, drafts } = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
     let response = {};
+    let casterContents;
 
-    let myStuffComments = comments.all().filter((comment) => {
-      return parseInt(get(comment, 'userId')) === parseInt(request.params.id);
+    if (drafts) {
+      casterContents = feedItems.all().filter(() => { return false;});
+    } else if (caster_feed) {
+      casterContents = feedItems.all().filter(() => { return false;});
+    } else if (commented) {
+      casterContents = feedItems.all().filter(feedItem => {
+        if (feedItem.modelType === 'content') {
+          const content = get(feedItem, 'content');
+          const comments = get(content, 'comments') || [];
 
-    });
+          if (comments.length) {
+            const hasMatchingComment = comments.filter(comment => {
+              return parseInt(get(comment, 'userId')) === parseInt(request.params.id);
+            });
 
-    response = this.serialize(myStuffComments.slice(startIndex, endIndex));
-
-    response.meta = {
-      total: myStuffComments.length,
-      total_pages: Math.ceil( myStuffComments.length / per_page )
-    };
-
-    return new Mirage.Response(200, {}, response);
-  });
-
-
-
-  this.get('/users/:id/contents', function({feedItems}, request){
-    const { page, per_page } = request.queryParams;
-    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
-    const endIndex = startIndex + parseInt(per_page);
-
-    let response = {};
-
-    let myStuffContents = feedItems.all().filter((feedItem) => {
-      if (feedItem.modelType === 'content') {
-          return parseInt(get(feedItem.content, 'authorId')) === parseInt(request.params.id);
+            return hasMatchingComment.length > 0;
+          }
         }
         return false;
-    });
+      });
+    } else {
+      casterContents = feedItems.all().filter((feedItem) => {
+        if (feedItem.modelType === 'content') {
+          return parseInt(get(feedItem.content, 'casterId')) === parseInt(request.params.id);
+        }
+        return false;
+      });
+    }
 
-    response = this.serialize(myStuffContents.slice(startIndex, endIndex));
-
+    response = this.serialize(casterContents.slice(startIndex, endIndex));
     response.meta = {
-      total: myStuffContents.length,
-      total_pages: Math.ceil( myStuffContents.length / per_page )
+      total: casterContents.length,
+      total_pages: Math.ceil( casterContents.length / per_page )
     };
 
     return new Mirage.Response(200, {}, response);
   });
 
-  this.get('/users/:id/bookmarks', function({bookmarks}) {
+  this.get('/casters/:id/bookmarks', function({bookmarks}) {
     let response = this.serialize(bookmarks.all());
 
     return new Mirage.Response(200, {}, response);
   });
 
-  this.post('/users/:id/bookmarks', function({bookmarks}) {
+  this.post('/casters/:id/bookmarks', function({bookmarks}) {
     let attrs = this.normalizedRequestAttrs();
     attrs.id = attrs.contentId;
     return bookmarks.create(attrs);
   });
-  this.put('/users/:id/bookmarks/:id', function({bookmarks}) {
+  this.put('/casters/:id/bookmarks/:id', function({bookmarks}) {
     let attrs = this.normalizedRequestAttrs();
     const bookmark = bookmarks.find(attrs.id);
 
     return bookmark.update(attrs);
   });
-  this.delete('/users/:id/bookmarks/:id', function() {
+  this.delete('/casters/:id/bookmarks/:id', function() {
     return new Mirage.Response(204);
   });
 
@@ -820,60 +625,28 @@ export default function() {
       market: 'market',
     };
 
-    const { page, per_page, content_type, query, organization_id, show } = request.queryParams;
+    const { page, per_page, content_type, query } = request.queryParams;
     const startIndex = (parseInt(page) - 1) * parseInt(per_page);
     const endIndex = startIndex + parseInt(per_page);
 
     let response;
 
-    const showProfilePageContents = isPresent(organization_id);
     const justShowOneContentType = isPresent(content_type) && isBlank(query);
 
-    if (showProfilePageContents) {
-      if (!isPresent(show) || show !== 'draft') {
-        let organizationFeedItems = feedItems.all().filter((feedItem) => {
-          return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id);
-        });
-
-        response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
-
-        response.meta = {
-          total: organizationFeedItems.length,
-          total_pages: Math.ceil( organizationFeedItems.length / per_page )
-        };
-      } else {
-        let organizationFeedItems = feedItems.all().filter((feedItem) => {
-          return feedItem.modelType === 'content' && parseInt(feedItem.content.organizationId) === parseInt(organization_id) && feedItem.content.publishedAt === null;
-        });
-
-        response = this.serialize(organizationFeedItems.slice(startIndex, endIndex));
-
-        response.meta = {
-          total: organizationFeedItems.length,
-          total_pages: Math.ceil( organizationFeedItems.length / per_page )
-        };
-      }
-
-    } else if (justShowOneContentType) {
+    if (justShowOneContentType) {
       let oneContentTypeFeedItems;
 
-      if (content_type === 'organization') {
-        oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
-          return feedItem.modelType === 'organization';
-        });
-      } else {
-        oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
-          if (feedItem.modelType === 'content') {
-            return get(feedItem.content, 'contentType') === typeMap[ content_type ];
-          }
-          return false;
-        });
-      }
+      oneContentTypeFeedItems = feedItems.all().filter((feedItem) => {
+        if (feedItem.modelType === 'content') {
+          return get(feedItem.content, 'contentType') === typeMap[ content_type ];
+        }
+        return false;
+      });
 
       response = this.serialize(oneContentTypeFeedItems.slice(startIndex, endIndex));
       let total=110;
       response.meta = {
-        total: total,//oneContentTypeFeedItems.length,
+        total: total,
         total_pages: Math.ceil( oneContentTypeFeedItems.length / per_page )
       };
 
@@ -960,5 +733,49 @@ export default function() {
     }
     return responseObj;
   });
+
+  this.get('/casters', ({casters}, request) => {
+    const rawHandle = request.queryParams.handle;
+    const handleWithoutAt = rawHandle.substring(1);
+
+    let caster;
+
+    if (handleWithoutAt === 'me') {
+      caster = casters.first();
+      caster.update({handle: handleWithoutAt});
+    } else {
+      caster = this.create('caster');
+    }
+
+    return new Mirage.Response(200, {}, caster);
+  });
+
+  this.get('/casters/:id', ({casters}, request) => {
+    const caster = casters.find(request.params.id);
+
+    return new Mirage.Response(200, {}, caster);
+  });
+
+  this.get('/casters/follows', ({casters}) => {
+    const casterModels = casters.all();
+
+    return new Mirage.Response(200, {}, casterModels);
+  });
+
+  this.post('/current_users/password_validation', function() {
+    const responseCode = Math.random() > 0.3 ? 200 : 404;
+    return new Mirage.Response(responseCode, {}, {});
+  }, {timing: 600});
+
+  this.get('/casters/handles/validation', function() {
+    const responseCode = Math.random() > 0.3 ? 200 : 404;
+    return new Mirage.Response(responseCode, {}, {});
+  }, {timing: 600});
+
+
+  this.get('/casters/emails/validation', function() {
+    const responseCode = Math.random() > 0.3 ? 200 : 404;
+    return new Mirage.Response(responseCode, {}, {});
+  }, {timing: 600});
 
 }

@@ -131,52 +131,24 @@
         {{#form-group
           hideError=true
         }}
-
           <div class="NewsEditor-content-owner">
             <div>
-              <label class="control-label ContentForm-label--required" for="description">Content Owner</label>
+              <label class="control-label" for="description">Content Owner</label>
             </div>
-
-              {{#if (or news.isPublished (not managesMultipleOrganizations))}}
-                <div>
-                  <p>This content {{#if news.isPublished}}is{{else}}will be{{/if}} owned by <i>{{chosenOrganization.name}}</i>.</p>
-                </div>
-              {{/if}}
-
-              {{#unless news.isPublished}}
-                {{#if managesMultipleOrganizations}}
-                  <div class="NewsEditor-content-owner-left">
-                    {{#if hasChosenOrganization}}
-                      <div>Click to change content owner</div>
-                    {{else}}
-                      <div>Please select content owner</div>
-                    {{/if}}
-                    {{#form-group error=errors.organization}}
-                      {{organization-dropdown
-                        defaultName="Please choose an org"
-                        selection=(readonly chosenOrganization)
-                        organizations=filteredOrganizations
-                        class="with-border"
-                        updated=(action "changeOrganization")
-                      }}
-                    {{/form-group}}
-                  </div>
-                {{/if}}
-              {{/unless}}
-
+            <p>
+              This content is owned by <i>{{news.caster.attributionName}}</i>.
+            </p>
             <div class="NewsEditor-content-owner-right">
-              {{#if news.organization.name}}
-                {{feed-card/attribution
-                  avatarUrl=news.organization.profileImageUrl
-                  author=news.organization.name
-                  postedTime=news.publishedAtRelative
-                  hideActivity=true
-                  hidePostedTime=true
-                  authorOnly=true
-                  linkToDetailIsActive=false
-                  classNames="u-padding8"
-                }}
-              {{/if}}
+              {{feed-card/attribution
+                avatarImageUrl=news.caster.avatarImageUrl
+                attributionName=news.caster.attributionName
+                postedTime=news.publishedAtRelative
+                hideActivity=true
+                hidePostedTime=true
+                casterOnly=true
+                linkToDetailIsActive=false
+                classNames="u-padding8"
+              }}
             </div>
           </div>
         {{/form-group}}
@@ -244,11 +216,10 @@
                   <button {{action "schedulePublish"}} class="btn btn-primary" data-test-schedule-publish="confirm">Confirm</button>
                   <button {{action "cancelSchedulePublish"}} class="btn">Cancel</button>
                 {{else}}
-                  {{#if organizationId}}
-                    <div class="NewsEditor-helper-message">
-                      Your saved drafts can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}}
-                    </div>
-                  {{/if}}
+                  <div class="NewsEditor-helper-message">
+                    Your saved drafts can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}caster page{{/link-to}}
+                  </div>
+
                   <button {{action "publish"}} class="btn btn-primary">Publish Now</button>
                   <br>
                   <button {{action "choosePubDate"}} class="btn" data-test-schedule-publish="button">Schedule Publish</button>
@@ -296,15 +267,13 @@
 
               {{#if news.isPublished}}
                 <div class="NewsEditor-helper-message">
-                  Your published post can be found on your {{#link-to "profile" organizationId}}profile page{{/link-to}} and in the feed.
+                  Your published post can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}Caster page{{/link-to}} and in the feed.
                 </div>
 
                 Published {{formatted-date news.publishedAt}}.<br>
                 {{#unless hidePublishedLinks}}
-                  {{#if hasOrganization}}
-                    {{link-to "View it now in profile" "profile.all.show" organizationId news.id}}<br>
-                  {{/if}}
-                  {{link-to "View it now in feed" "feed.show" news.id  (query-params type="posts")}}
+                  {{link-to "View it now on Caster Page" "caster.show" news.caster.casterPageLinkId news.id}}<br>
+                  {{link-to "View it now in Feed" "feed.show" news.id  (query-params type="posts")}}
                 {{/unless}}
 
                 {{#if (or news.hasUnpublishedChanges hasUnpublishedChanges)}}
@@ -318,7 +287,7 @@
                 {{/if}}
               {{/if}}
 
-              {{#if (and hasChosenOrganization (or news.isPublished news.isScheduled))}}
+              {{#if (or news.isPublished news.isScheduled)}}
                 {{horizontal-rule class="u-paddingTop16"}}
 
                 <div class="u-paddingTop8">
@@ -328,9 +297,9 @@
                 </div>
 
                 <div class="u-paddingTop8">
-                  {{#x-button onClick=(action "goToProfilePage") color="primary" size="thin"}}
-                    Go to {{chosenOrganization.name}} Page
-                  {{/x-button}}
+                  {{#x-link-to "caster" caster.casterPageLinkId color="primary" size="thin"}}
+                    Go to {{news.caster.attributionName}} Page
+                  {{/x-link-to}}
                 </div>
               {{/if}}
             </div>

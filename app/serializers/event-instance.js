@@ -21,9 +21,6 @@ export default ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin, {
     },
     location: {
       embedded: 'always'
-    },
-    organization: {
-      embedded: 'always'
     }
   },
 

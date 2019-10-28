@@ -30,16 +30,4 @@ module('Integration | Component | modals/aggregated content metrics', function(h
 
     assert.ok(this.element);
   });
-
-  test('It renders with an organization model', async function(assert) {
-    const organization = {
-      id: 1
-    };
-
-    this.set('organization', organization);
-
-    await render(hbs`{{modals/aggregated-content-metrics model=organization}}`);
-
-    assert.ok(this.element);
-  });
 });

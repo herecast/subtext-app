@@ -7,8 +7,12 @@ export default Component.extend({
   classNames: 'SiteNav-Menu',
 
   session: service(),
+  userLocation: service(),
+
+  userLocationName: readOnly('userLocation.userLocation.name'),
 
   isLoggedIn: readOnly('session.isAuthenticated'),
+  currentUser: readOnly('session.currentUser'),
 
   wantsToSignOut: false,
 
@@ -25,10 +29,6 @@ export default Component.extend({
 
     signOut() {
       get(this, 'session').signOut();
-    },
-
-    onLinkClick() {
-      this.send('closeMenu');
     }
   }
 });

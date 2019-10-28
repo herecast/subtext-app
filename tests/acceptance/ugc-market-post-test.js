@@ -30,20 +30,16 @@ module('Acceptance | ugc market post', function(hooks) {
     this.server.post('/contents', function(db) {
       const attrs = this.normalizedRequestAttrs();
       assert.deepEqual(attrs, {
-        authorName: get(currentUser, 'name'),
-        bizFeedPublic: true,
         contactEmail: email,
         contactPhone: phone,
         content: description,
         contentType: "market",
         cost: cost,
         eventUrl: null,
-        organization: null,
         publishedAt: null,
         schedules: [],
         sold: false,
         subtitle: null,
-        sunsetDate: null,
         title: title,
         locationId: get(location, 'id'),
         url: url,

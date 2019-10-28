@@ -15,6 +15,7 @@ module('Acceptance | reset password', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    mockLocationCookie(this.server);
     loadPioneerFeed(false);
   });
 
@@ -23,7 +24,7 @@ module('Acceptance | reset password', function(hooks) {
 
     await click('[data-test-sidenav-from-header]');
     await click('[data-test-signin-from-side-menu]');
-    
+
     await click('[data-test-link="forgot-password"]');
 
     assert.ok(find('[data-test-component="password-reset-request-form"]'), "forgot password request form visible");
@@ -36,8 +37,6 @@ module('Acceptance | reset password', function(hooks) {
   });
 
   test('filling out lost password request form with returnUrl query param', async function(assert) {
-    mockLocationCookie(this.server);
-
     let requestSpy = sinon.stub().returns(Promise.resolve());
     let mockApi = {
       requestPasswordReset: requestSpy

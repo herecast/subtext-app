@@ -11,17 +11,9 @@
   </div>
   <div class="JobsForms--tabs-tab">
     <div class="JobsForms--tabs-button  {{if isPreviewing "disabled"}}">
-      {{#if canPublishNews}}
-        <div {{action "goToNewsEditor"}} role="button" disabled={{isPreviewing}}>
-          {{fa-icon "pencil-square-o"}} Posts
-        </div>
-      {{else}}
-        {{#link-to "createapage"}}
-          <div class="JobsForms--tabs-button-partial left">{{fa-icon "pencil-square-o"}}</div>
-          <div class="JobsForms--tabs-button-partial right">Get Paid<br>to Post</div>
-        {{/link-to}}
-      {{/if}}
-
+      <div {{action "goToNewsEditor"}} role="button" disabled={{isPreviewing}}>
+        {{fa-icon "pencil-square-o"}} Posts
+      </div>
     </div>
   </div>
   <div class="JobsForms--tabs-tab close" role="button" {{action "closeForm"}}>

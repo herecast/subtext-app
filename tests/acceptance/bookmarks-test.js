@@ -64,8 +64,7 @@ module('Acceptance | bookmarks', function(hooks) {
     assert.ok(findAll('[data-test-component="sign-in"]').length, 'Should show the sign-in modal after bookmark click');
 
     const currentUser = this.server.create('current-user', {
-      userId: 1,
-      hasHadBookmarks: false
+      userId: 1
     });
 
     await fillIn('[data-test-field="sign-in-email"]', currentUser.email);
@@ -78,9 +77,9 @@ module('Acceptance | bookmarks', function(hooks) {
 
     let $firstBookmark = $(find(`[data-test-bookmark-content="${contents[0].id}"]`));
 
-    this.server.post('/users/:id/bookmarks', function(db) {
+    this.server.post('/casters/:id/bookmarks', function(db) {
       let attrs = this.normalizedRequestAttrs();
-      assert.equal(attrs.userId, currentUser.userId, 'Server should receive correct userId for bookmark create');
+      assert.equal(attrs.casterId, currentUser.userId, 'Server should receive correct casterId for bookmark create');
       assert.equal(attrs.contentId, contents[0].id, 'Server should receive correct contentId for bookmark create');
       assert.equal(attrs.read, false, 'Server should receive correct default value of false for read on bookmark create');
       done();
@@ -102,7 +101,7 @@ module('Acceptance | bookmarks', function(hooks) {
 
     assert.ok($firstFeedCard.find('[data-test-bookmark="bookmarked"]').length, 'Clicked bookmark should be bookmarked');
 
-    this.server.delete('/users/:id/bookmarks/:id', function() {
+    this.server.delete('/casters/:id/bookmarks/:id', function() {
       assert.ok(true, 'Server should receive bookmark delete request');
       done();
 
@@ -131,8 +130,7 @@ module('Acceptance | bookmarks', function(hooks) {
     owner.inject('component:feed-card/bookmark', 'tracking', 'services:trackingMock');
 
     const currentUser = this.server.create('current-user', {
-      userId: 1,
-      hasHadBookmarks: true
+      userId: 1
     });
     authenticateUser(this.server, currentUser);
 

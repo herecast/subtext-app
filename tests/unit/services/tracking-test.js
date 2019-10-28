@@ -27,8 +27,7 @@ module('Unit | Service | tracking', function(hooks) {
 
     const content = {
       contentType: 'news',
-      contentId: 1,
-      organizationId: 21
+      contentId: 1
     };
 
     service.trackTileLoad(content);
@@ -37,8 +36,7 @@ module('Unit | Service | tracking', function(hooks) {
       assert.deepEqual(service.push.lastCall.args[0], {
         event: 'VirtualTileLoad',
         content_type: content.contentType,
-        content_id: content.contentId,
-        organization_id: content.organizationId
+        content_id: content.contentId
       }, "It sends a VirtualTileLoad event to the data layer, with expected fields");
     });
   });
@@ -58,8 +56,7 @@ module('Unit | Service | tracking', function(hooks) {
 
     const content = {
       contentType: 'news',
-      contentId: 1,
-      organizationId: 21
+      contentId: 1
     };
 
     const impressionLocation = 'index-feed';
@@ -71,7 +68,6 @@ module('Unit | Service | tracking', function(hooks) {
         event: 'VirtualTileImpression',
         content_type: content.contentType,
         content_id: content.contentId,
-        organization_id: content.organizationId,
         impression_location: impressionLocation
       }, "It sends a VirtualTileImpression event to the data layer, with expected fields");
     });
@@ -95,8 +91,7 @@ module('Unit | Service | tracking', function(hooks) {
 
     const content = {
       contentType: 'news',
-      contentId: 1,
-      organizationId: 21
+      contentId: 1
     };
 
     service.trackTileLoad(content);

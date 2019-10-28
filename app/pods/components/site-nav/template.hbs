@@ -1,7 +1,7 @@
 {{#if showAvatar}}
   <div class="SiteNav--avatar" {{action "toggleMenu"}} role="button" data-test-link="user-avatar">
     {{avatar-image
-      imageUrl=currentUser.userImageUrl
+      imageUrl=currentUser.avatarImageUrl
       userName=currentUser.name
       customSize=30
       data-test-avatar-in-header=true

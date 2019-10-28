@@ -7,6 +7,7 @@
 {{#unless hideHeader}}
   {{global-header
     streamlinedHeader=streamlinedHeader
+    showFilters=showFilters
     signOut=(action "signOut")
   }}
 {{/unless}}
@@ -21,6 +22,7 @@
 
 {{modal-manager}}
 
+{{outlet "modal-outlet"}}
 
 {{from-elsewhere name="detail-page-modal"}}
 

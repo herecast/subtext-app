@@ -15,6 +15,8 @@ export default Component.extend({
   tracking: service(),
   notify: service('notification-messages'),
 
+  parentId: null,
+
   isSavingComment: false,
   commentInFocus: false,
 
@@ -143,19 +145,15 @@ export default Component.extend({
         return false;
       }
 
-      let title = this.get('contentTitle');
-
-      if (this.get('contentTitle').indexOf('Re: ') === 1) {
-        title = `Re: ${title}`;
-      }
-
       const saveComment = (resolve, reject) => {
         const comment = this.store.createRecord('comment', {
-          content, title,
-          parentContentId: get(this, 'parentContentId'),
-          userName: get(this, 'session.currentUser.name'),
-          userImageUrl: get(this, 'session.currentUser.userImageUrl'),
-          publishedAt: moment() // for ordering multiple new comments after creation. not sent to the api
+          content,
+          parentId: get(this, 'parentId'),
+          casterName: get(this, 'session.currentUser.name'),
+          casterId: get(this, 'session.currentUser.userId'),
+          casterHandle: get(this, 'session.currentUser.handle'),
+          casterAvatarImageUrl: get(this, 'session.currentUser.avatarImageUrl'),
+          publishedAt: moment()
         });
 
         if (get(this, 'submitDisabled')) {

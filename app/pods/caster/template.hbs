@@ -1,0 +1,157 @@
+{{#feed/feed-container noMargin=true}}
+  {{outlet}}
+
+  {{caster/header-card caster=caster}}
+
+  {{caster/tab-bar
+    caster=caster
+    activeTab=activeTab
+    changeTab=(action "changeTab")
+  }}
+
+  {{#if showPosts}}
+    {{#if currentUserIsCaster}}
+      {{#caster/post-bar
+        publishedOrDrafts=(mut publishedOrDrafts)
+        onChangeTab=(action "onChangePublishedOrDraftsTab")
+        publishedIsActive=publishedIsActive
+        draftsIsActive=draftsIsActive
+        showYield=(or hasPosts hasDrafts)
+      }}
+        {{feed/card-size-chooser}}
+      {{/caster/post-bar}}
+    {{else}}
+      {{#if hasPosts}}
+        {{feed/card-size-chooser}}
+      {{/if}}
+    {{/if}}
+
+    {{#if publishedIsActive}}
+
+      {{#if posts.isPending}}
+        {{feed/fake-feed}}
+      {{else if hasPosts}}
+        {{feed/index-feed
+          feedItems=posts
+        }}
+
+        {{#infinity-loader
+          infinityModel=posts
+          triggerOffset=100
+          hideOnInfinity=true
+        }}
+          {{#unless infinityModel.reachedInfinity}}
+            {{fa-icon "spinner" class="fa-pulse"}}
+          {{/unless}}
+        {{/infinity-loader}}
+      {{else}}
+        {{#x-card}}
+          {{#card-body center=true shortPadding=true}}
+            Looks like {{caster.attributionName}} hasn't posted anything yet.
+          {{/card-body}}
+        {{/x-card}}
+      {{/if}}
+
+    {{else if draftsIsActive}}
+
+      {{#if drafts.isPending}}
+        {{feed/fake-feed}}
+      {{else if hasDrafts}}
+        {{feed/index-feed
+          feedItems=drafts
+        }}
+
+        {{#infinity-loader
+          infinityModel=drafts
+          hideOnInfinity=true
+        }}
+          {{#unless infinityModel.reachedInfinity}}
+            {{fa-icon "spinner" class="fa-pulse"}}
+          {{/unless}}
+        {{/infinity-loader}}
+      {{else}}
+        {{#x-card}}
+          {{#card-body center=true shortPadding=true}}
+          <p>
+            Looks like you don't have any drafts.
+          </p>
+          <p>
+            Click "Create your own post" to get started.
+          </p>
+          {{/card-body}}
+        {{/x-card}}
+      {{/if}}
+
+    {{/if}}
+
+
+  {{else if showComments}}
+    {{#if contentsHasCommented.isPending}}
+      {{feed/fake-feed}}
+    {{else if hasCommented}}
+      {{#each sortedCommentedFeedItems as |parentFeedItem|}}
+        {{caster/comment-card
+          parentContent=parentFeedItem.content
+          casterId=casterId
+        }}
+      {{/each}}
+
+      {{#infinity-loader
+        infinityModel=contentsHasCommented
+        hideOnInfinity=true
+      }}
+        {{#unless infinityModel.reachedInfinity}}
+          {{fa-icon "spinner" class="fa-pulse"}}
+        {{/unless}}
+      {{/infinity-loader}}
+    {{else}}
+      {{#x-card}}
+        {{#card-body center=true shortPadding=true}}
+          Looks like {{caster.name}} hasn't commented yet.
+        {{/card-body}}
+      {{/x-card}}
+    {{/if}}
+
+  {{else if showAbout}}
+    {{caster/caster-about
+      caster=caster
+    }}
+
+  {{else if showLiked}}
+
+    {{#if liked.isPending}}
+      {{feed/fake-feed}}
+    {{else if hasLiked}}
+      {{feed/card-size-chooser}}
+
+      {{feed/index-feed
+        feedItems=liked
+      }}
+
+      {{#infinity-loader
+        infinityModel=liked
+        hideOnInfinity=true
+      }}
+        {{#unless infinityModel.reachedInfinity}}
+          {{fa-icon "spinner" class="fa-pulse"}}
+        {{/unless}}
+      {{/infinity-loader}}
+    {{else}}
+      {{#x-card}}
+        {{#card-body center=true shortPadding=true}}
+          Looks like you haven't liked any content yet. <br>
+          Just click the {{fa-icon "heart-o" class="FeedCard-Bookmark-button-icon"}} on any content and it will show up here.
+        {{/card-body}}
+      {{/x-card}}
+    {{/if}}
+
+  {{else if showFollowing}}
+    {{caster/caster-follows}}
+
+  {{else if showHiding}}
+    {{caster/caster-hides}}
+  {{/if}}
+
+{{/feed/feed-container}}
+
+{{floating-action-button}}

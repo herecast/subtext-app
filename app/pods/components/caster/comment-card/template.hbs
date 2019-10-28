@@ -1,0 +1,29 @@
+{{#if hasFilteredComments}}
+  <div class="Caster-CommentCard--parent">
+    {{feed-card
+      cardSize="compact"
+      model=parentContent
+    }}
+  </div>
+
+  <div class="Caster-CommentCard--comments">
+    <div class="Caster-CommentCard--context">
+      Caster Comments
+    </div>
+
+    {{#each filteredComments as |comment|}}
+      <div class="Caster-CommentCard--comment">
+        {{content-comment
+          comment=comment
+          hideReportAbuse=true
+        }}
+      </div>
+    {{/each}}
+
+    <div class="Caster-CommentCard--trailer">
+      {{#link-to-content parentContent}}
+        See all comments
+      {{/link-to-content}}
+    </div>
+  </div>
+{{/if}}

@@ -34,12 +34,12 @@ export default Route.extend(RequireCanEdit, ConfirmationMixin, {
 
     afterPublish() {
       const model = get(this, 'controller.news');
-      
+
       get(this, 'floatingActionButton').launchContent(model, {
         justEdited: true
       });
 
-      this.transitionTo('profile.all.show', get(model, 'organizationId'), get(model, 'id'));
+      this.transitionTo('feed.show', get(model, 'id'));
     }
   }
 });

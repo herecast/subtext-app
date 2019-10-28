@@ -7,7 +7,7 @@ import Mixin from '@ember/object/mixin';
 export default Mixin.create({
   //Overrides
   _defaultReturnPath: 'feed',
-  _useOrgSlideMessage: false,
+  _useCasterSlideMessage: false,
   _useBasicSlideMessage: false,
 
 
@@ -22,18 +22,18 @@ export default Mixin.create({
   isDirectLink: reads('history.isFirstRoute'),
   isMobile: readOnly('media.isMobile'),
 
-  slideMessage: computed('isDirectLink', 'userLocation.userLocation', 'model.{location.name,organizationName}',
-                          '_useOrgSlideMessage', '_useBasicSlideMessage', function() {
+  slideMessage: computed('isDirectLink', 'userLocation.userLocation', 'model.{location.name,casterName}',
+                          '_useCasterSlideMessage', '_useBasicSlideMessage', function() {
     if (get(this, '_useBasicSlideMessage')) {
       return 'Back';
-    } else if (get(this, '_useOrgSlideMessage')) {
+    } else if (get(this, '_useCasterSlideMessage')) {
       const model = get(this, 'model');
-      const organizationName = get(model, 'organizationName') || 'Contributor';
+      const casterName = get(model, 'casterName') || 'Caster';
 
       if (get(this, 'isDirectLink')) {
-        return `See more from ${organizationName}`;
+        return `See more from ${casterName}`;
       } else {
-        return `Back to ${organizationName}`;
+        return `Back to ${casterName}`;
       }
 
     } else {

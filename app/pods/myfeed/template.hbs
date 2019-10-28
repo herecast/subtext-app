@@ -1,0 +1,73 @@
+<div class="Feed {{if isFastBoot "isFastBoot"}}">
+  <div data-test-page="feed">
+
+    {{#feed/feed-container noMargin=true}}
+      {{outlet}}
+
+      {{feed/location-card
+        showSearch=false
+        showChooser=session.isAuthenticated
+        streamlined=false
+        showCasterCard=true
+        hideChangeLocation=true
+      }}
+
+      {{#if isFastBoot}}
+        {{feed/fake-feed}}
+      {{else if session.isAuthenticated}}
+        {{#if hasPosts}}
+          {{feed/index-feed
+            feedItems=posts
+          }}
+
+          {{#infinity-loader
+            infinityModel=posts
+            hideOnInfinity=true
+          }}
+            {{#unless infinityModel.reachedInfinity}}
+              {{fa-icon "spinner" class="fa-pulse"}}
+            {{/unless}}
+          {{/infinity-loader}}
+        {{else}}
+          <div class="Myfeed--no-posts">
+            <p>
+              Looks like you have not customized your feed.
+            </p>
+            <p>
+              Click below to go to your Caster Page and then add other Casters to Follow.
+            </p>
+
+            <div class="Myfeed--no-posts-buttons">
+              {{#x-link-to "caster" currentUser.casterPageLinkId
+                size="x-small"
+                color="primary"
+                noMargin=true
+              }}
+                Go To My Caster Page
+              {{/x-link-to}}
+            </div>
+          </div>
+
+        {{/if}}
+      {{else}}
+        <div class="Myfeed--signin">
+          <div class="Myfeed--signin-box">
+            <div class="Myfeed--signin-title">
+              <p>
+                Log in or Sign up to see posts from your favorite Casters.
+                You can also <strong>Earn Money</strong> when you create your own local posts.
+              </p>
+            </div>
+
+            {{sign-in
+              alternateSignInMessage=" "
+              signInModule="register"
+            }}
+            </div>
+        </div>
+      {{/if}}
+    {{/feed/feed-container}}
+
+    {{floating-action-button}}
+  </div>
+</div>

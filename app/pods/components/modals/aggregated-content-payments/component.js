@@ -25,20 +25,6 @@ export default ModalInstance.extend({
 
   hasPayments: gt('payments.length', 0),
 
-  _getOrganizationPayments() {
-    if (!get(this, 'isDestroying') && get(this, 'model')) {
-      set(this, 'isLoading', true);
-
-      get(this, 'api').getOrganizationPayments(get(this, 'model.id'))
-      .then((payload) => {
-        this._loadPayments(payload);
-      })
-      .finally(() => {
-        set(this, 'isLoading', false);
-      });
-    }
-  },
-
   _getCurrentUserPayments() {
     if (!get(this, 'isDestroying') && get(this, 'model')) {
       set(this, 'isLoading', true);
@@ -58,7 +44,7 @@ export default ModalInstance.extend({
       const contentPayments = payload.content_payments;
       let payments = [];
 
-      if (contentPayments.length) {
+      if (contentPayments && contentPayments.length) {
 
         //Objects need id to be pushed to store
         contentPayments.forEach((payment, index) => {
@@ -92,15 +78,7 @@ export default ModalInstance.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-
-    const model = get(this, 'model');
-    const modelName = get(model, 'constructor.modelName');
-
-    if (modelName === 'organization') {
-      this._getOrganizationPayments();
-    } else if (modelName === 'current-user') {
-      this._getCurrentUserPayments();
-    }
+    this._getCurrentUserPayments();
   },
 
 

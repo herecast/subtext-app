@@ -4,10 +4,11 @@ import { get } from '@ember/object';
 
 export default Component.extend({
   comments: null,
-  parentContentId: null,
+  commentCount: null,
+  parentId: null,
 
   goodComments: filter('comments', function(comment){
-    return get(comment, 'hasUserName');
+    return get(comment, 'hasCasterName');
   }),
 
   sortedComments: sort('goodComments', function(comment1, comment2) {
@@ -22,5 +23,12 @@ export default Component.extend({
       return -1;
     }
     return 0;
-  })
+  }),
+
+  actions: {
+    afterNewComment(newComment) {
+      get(this, 'comments').pushObject(newComment);
+      this.incrementProperty('commentCount');
+    }
+  }
 });

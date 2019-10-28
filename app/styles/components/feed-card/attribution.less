@@ -7,7 +7,7 @@
     margin-right: 4px;
   }
 
-  &.author-only {
+  &.caster-only {
     .grid-template-columns(1fr);
   }
 
@@ -53,18 +53,18 @@
     }
   }
 
-  &-author-wrap {
+  &-caster-wrap {
     .display-grid();
     .grid-template-columns(max-content 1fr);
     .grid-column(1);
   }
-  &-author-left {
+  &-caster-left {
     .grid-column(1);
     .grid-align-self(center);
     text-align: left;
   }
 
-  &-author-right {
+  &-caster-right {
     .grid-column(2);
     .grid-align-self(center);
     .grid-justify-self(start);
@@ -76,12 +76,12 @@
     }
   }
 
-  &-author {
+  &-caster {
     font-size: 14px;
     line-height: 1.1;
   }
 
-  &-subscribers {
+  &-followers {
     font-size: 11px;
     color: @activity-indicator-color;
   }

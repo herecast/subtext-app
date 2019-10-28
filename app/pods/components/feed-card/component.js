@@ -1,11 +1,4 @@
-import {
-  oneWay,
-  alias,
-  readOnly,
-  notEmpty,
-  reads
-} from '@ember/object/computed';
-import $ from 'jquery';
+import { oneWay, alias, readOnly, reads } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -22,11 +15,7 @@ export default Component.extend(CardMetrics, {
 
   model: null,
 
-  organization: null,
-  allowManageOnTile: false,
-  displayAsPublic: false,
   hideComments: false,
-  promotionMenuOpen: false,
   showAnyViewCount: false,
   linkToDetailIsActive: true,
 
@@ -38,7 +27,6 @@ export default Component.extend(CardMetrics, {
 
   isLoggedIn: alias('session.isAuthenticated'),
   isDraft: readOnly('model.isDraft'),
-  hasOrganization: notEmpty('organization'),
   cardSize: oneWay('session.cardSize'),
 
   contentType: reads('model.contentType'),
@@ -55,30 +43,5 @@ export default Component.extend(CardMetrics, {
         set(this, 'hideCompletely', true);
       }, 1000);
     }
-  }),
-
-  actions: {
-    closePromotionMenu() {
-      set(this, 'promotionMenuOpen', false);
-    },
-
-    openPromotionMenu() {
-      const offset = get(this, 'hasOrganization') ? 60 : 107;
-      set(this, 'promotionMenuOpen', true);
-      $('html, body').animate({
-        scrollTop: $(this.element).offset().top - offset
-      }, 250);
-    },
-
-    onContentClick() {
-      const organization = get(this, 'organization');
-
-      if (organization) {
-        get(this, 'tracking').profileContentClick(
-          organization,
-          get(this, 'model')
-        );
-      }
-    }
-  }
+  })
 });

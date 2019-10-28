@@ -1,7 +1,7 @@
-import { get, set, setProperties, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { isPresent, isBlank } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import { equal, notEmpty, readOnly, not } from '@ember/object/computed';
+import { equal, notEmpty, not } from '@ember/object/computed';
 import { later, next, debounce } from '@ember/runloop';
 import { htmlSafe } from '@ember/string';
 import $ from 'jquery';
@@ -61,8 +61,6 @@ export default Component.extend(Validation, {
     }
   }),
 
-  canPublishNews: readOnly('session.currentUser.canPublishNews'),
-
   init() {
     const editingModel = get(this, 'editingModel');
 
@@ -92,27 +90,12 @@ export default Component.extend(Validation, {
     let newRecordValues = {
       contentType: activeForm,
       authorName: null,
-      avatarUrl: null
+      avatarImageUrl: null
     };
-
-    const currentUser = get(this, 'session.currentUser');
-
-    if (isPresent(currentUser) && isPresent(get(currentUser, 'name'))) {
-      newRecordValues.authorName = get(currentUser, 'name');
-      newRecordValues.avatarUrl = get(currentUser, 'userImageUrl');
-
-      const hasManagedOrganizations = isPresent(get(currentUser, 'managedOrganizations'));
-
-      if (hasManagedOrganizations) {
-        const defaultOrganization = get(currentUser, 'managedOrganizations.firstObject');
-        newRecordValues.organization = defaultOrganization;
-      }
-    } else {
-      //There is an auth delay when logging in and transition to form
-      later(() => {
-        this._updateModelBaseAttributes();
-      }, 300);
-    }
+//still need this?
+    later(() => {
+      this._updateModelBaseAttributes();
+    }, 300);
 
     const model = get(this, 'store').createRecord('content', newRecordValues);
     set(this, 'model', model);
@@ -120,11 +103,10 @@ export default Component.extend(Validation, {
 
   _updateModelBaseAttributes() {
     const model = get(this, 'model');
-    const currentUser = get(this, 'session.currentUser');
 
-    setProperties(model, {
-      authorName: get(currentUser, 'name'),
-      avatarUrl: get(currentUser, 'userImageUrl')
+    get(this, 'session.currentUser')
+    .then(currentUser => {
+      set(model, 'caster', currentUser);
     });
   },
 
@@ -149,7 +131,7 @@ export default Component.extend(Validation, {
     $('body').off('focus.jobsForms');
   },
 
-  _scrollToTop(relativeScrollTop=0) {
+  _scrollToTop(relativeScrollTop = 0) {
     next(() => {
       $(get(this, 'element')).parent().animate({
         scrollTop: relativeScrollTop
@@ -258,34 +240,16 @@ export default Component.extend(Validation, {
 
   _afterLaunch(model) {
     const router = get(this, 'router');
-    const goToProfilePage = isPresent(get(model, 'organization.id')) && parseInt(get(model, 'organization.id')) !== 398;
-    const isInMystuff = get(router, 'currentRouteName').includes('mystuff');
 
     next(() => {
       const contentId = get(model, 'id');
       const eventInstanceId = get(model, 'eventInstanceId') || false;
-      const organizationId = get(model, 'organization.id') || false;
+      let transitionOptions;
 
-      let transitionOptions = [];
-
-      if (isInMystuff) {
-        if (eventInstanceId) {
-          transitionOptions = ['mystuff.contents.show-instance', contentId, eventInstanceId];
-        } else {
-          transitionOptions = ['mystuff.contents.show', contentId];
-        }
-      } else if (goToProfilePage) {
-        if (eventInstanceId) {
-          transitionOptions = ['profile.all.show-instance', organizationId, contentId, eventInstanceId];
-        } else {
-          transitionOptions = ['profile.all.show', organizationId, contentId];
-        }
+      if (eventInstanceId) {
+        transitionOptions = ['feed.show-instance', contentId, eventInstanceId, {queryParams:{type: 'calendar'}}];
       } else {
-        if (eventInstanceId) {
-          transitionOptions = ['feed.show-instance', contentId, eventInstanceId, {queryParams:{type: 'calendar'}}];
-        } else {
-          transitionOptions = ['feed.show', contentId, {queryParams:{type: 'market'}}];
-        }
+        transitionOptions = ['feed.show', contentId, {queryParams:{type: 'market'}}];
       }
 
       router.transitionTo(...transitionOptions);

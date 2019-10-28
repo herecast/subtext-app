@@ -1,0 +1,60 @@
+.Caster-IntroModal {
+  text-align: center;
+  padding: 8px;
+
+  &--title {
+    font-size: 24px;
+    font-family: @font-family-semibold;
+    margin: 12px 0;
+  }
+
+  &--subtitle {
+    font-size: 16px;
+    line-height: 1.1;
+    margin: 24px 0;
+  }
+
+  &--table {
+    max-width: 200px;
+    margin: 0 auto;
+
+
+    &-row {
+      .display-grid();
+      .grid-template-columns(40px 1fr);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    &-cell {
+      .grid-align-self(center);
+
+      &.left {
+        .grid-justify-self(center);
+        .grid-column(1);
+      }
+      &.right {
+        .grid-justify-self(start);
+        .grid-column(2);
+        text-align: left;
+      }
+    }
+  }
+
+  &--icon {
+    font-size: 24px;
+    color: @herecast-blue;
+
+    &.plus {
+      background: @herecast-blue;
+      padding: 2px 4px;
+      font-size: 20px;
+      border-radius: 3px;
+      color: #fff;
+    }
+  }
+
+  &--buttons {
+    padding: 8px 0;
+  }
+}

@@ -199,7 +199,7 @@ export default Service.extend(Evented, {
     }
   },
 
-  _loadUserLocationIdFromCookie(setActiveLocationId=true) {
+  _loadUserLocationIdFromCookie(setActiveLocationId = true) {
     const cookies = get(this, 'cookies');
     const cookieName = get(this, '_cookieName');
     const userLocationId = cookies.read(cookieName) || get(this, 'defaultUserLocationId');

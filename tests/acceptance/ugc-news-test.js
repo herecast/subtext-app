@@ -13,12 +13,12 @@ module('Acceptance | ugc news', function(hooks) {
 
   test('Every field available filled in', async function(assert) {
     const done = assert.async(5);
-    const organization = this.server.create('organization', {canPublishNews: true});
     const location = this.server.create('location');
     const currentUser = this.server.create('current-user', {
       email: 'example@example.com',
-      locationId: location.id,
-      managedOrganizationIds: [organization.id]
+    });
+    currentUser.update({
+      location: location
     });
     const title = 'Tatooine: On Moon Cycles';
     const subtitle = 'The definitive guide';
@@ -30,8 +30,6 @@ module('Acceptance | ugc news', function(hooks) {
     const scheduleTime = "720";
 
     let currentAttrs = {
-      authorName: null,
-      bizFeedPublic: true,
       contactEmail: null,
       contactPhone: null,
       content: null,
@@ -39,12 +37,10 @@ module('Acceptance | ugc news', function(hooks) {
       cost: null,
       eventUrl: null,
       locationId: location.id,
-      organizationId: organization.id,
       publishedAt: null,
       schedules: [],
       sold: false,
       subtitle: null,
-      sunsetDate: null,
       title: title,
       url: null,
       venueId: null,

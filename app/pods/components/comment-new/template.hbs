@@ -8,7 +8,7 @@
 
 {{#if session.isAuthenticated}}
   {{avatar-image
-    imageUrl=(if session.currentUser.userImageUrl session.currentUser.userImageUrl)
+    imageUrl=(if session.currentUser.avatarImageUrl session.currentUser.avatarImageUrl)
     userName=(if session.currentUser.name session.currentUser.name)
     customSize=40
     class="CommentSection-avatar pull-left"

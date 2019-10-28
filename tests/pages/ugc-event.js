@@ -16,12 +16,6 @@ export default create({
       await click('[data-test-ugc-job-link]' + `[data-test-link="event"]`);
     });
   },
-  selectOrganization(organization) {
-    return run(async () => {
-      await click('[data-test-jobs-field="owner"]');
-      await click(`[data-test-organization-select="${organization.id}"]`);
-    });
-  },
   fillInTitle: fillable('[data-test-jobs-field="title"]'),
   fillInDescription: fillable('[data-test-jobs-field="content"]'),
   selectVenue(venue) {

@@ -27,29 +27,14 @@ Router.map(function() {
     this.route('show-instance', {path: '/:id/:event_instance_id'});
   });
 
-  this.route('profile', {path: '/profile/:organization_id'}, function() {
-    this.route('all', {path: '/'}, function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
+  this.route('myfeed', function() {
+    this.route('show', {path: '/:id'});
+    this.route('show-instance', {path: '/:id/:event_instance_id'});
   });
 
-  this.route('mystuff', function() {
-    this.route('comments', function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
-    this.route('subscriptions');
-    this.route('account');
-    this.route('contents', {path: '/'}, function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
-    this.route('bookmarks', function() {
-      this.route('show', {path: '/:id'});
-      this.route('show-instance', {path: '/:id/:event_instance_id'});
-    });
-    this.route('hides');
+  this.route('caster', {path: '*handle'}, function() {
+    this.route('show', {path: '/:id'});
+    this.route('show-instance', {path: '/:id/:event_instance_id'});
   });
 
   this.route('login', {path: '/sign_in'});
@@ -74,14 +59,6 @@ Router.map(function() {
   this.route('copyright');
   this.route('copyright-agent');
 
-  this.route('digests', function() {
-    this.route('subscribe', {path: '/:digest_id/subscribe'});
-  });
-
-  this.route('lists', function() {
-    this.route('unsubscribe', {path: '/:digest_id/unsubscribe'});
-  });
-
   this.route('promotions.show', {path: '/promotions/:id'});
 
 
@@ -94,7 +71,7 @@ Router.map(function() {
 
   this.route('paid-content');
   this.route('welcome');
-  this.route('createapage');
+  this.route('settings');
 });
 
 export default Router;

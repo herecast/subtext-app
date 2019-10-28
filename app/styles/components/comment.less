@@ -1,3 +1,5 @@
+@comment-list-background: #F6F8F9;
+
 .Comment {
   list-style-type: none;
   margin: 0;
@@ -17,6 +19,10 @@
 
   &-body {
     margin-left: 50px;
+    background: #fff;
+    padding: 4px;
+    border-radius: 8px;
+    .box-shadow(1px 1px 3px rgba(0, 0, 0, 0.5));
   }
 
   &-userName {
@@ -48,6 +54,10 @@
     line-height: 1.2;
     overflow-wrap: break-word;
     word-wrap: break-word;
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -74,7 +84,7 @@
   &-wrapper {
     padding-bottom: 10px;
     padding-top: 10px;
-    background:#F6F8F9;
+    background: @comment-list-background;
     border-top: solid 1px #ECF2F5;
   }
 }

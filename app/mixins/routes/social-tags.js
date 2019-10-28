@@ -17,12 +17,10 @@ export default Mixin.create({
 
   headTags() {
     const model = this.modelForMetaTags();
-    const routeName = this.routeName;
     const locationService = get(this, 'location');
 
-    const fromProfile = routeName.startsWith('profile');
-    const url = SocialSharing.getShareUrl(locationService, model, fromProfile);
-    const imageUrl = get(model,'primaryImage.imageUrl') || get(model, 'imageUrl') || get(model, 'profileImageUrl') || this.defaultImage();
+    const url = SocialSharing.getShareUrl(locationService, model);
+    const imageUrl = get(model,'primaryImage.imageUrl') || get(model, 'imageUrl') || get(model, 'casterAvatarImageUrl') || this.defaultImage();
     const imageWidth = get(model, 'primaryImage.width') || get(model, 'imageWidth') || 266;
     const imageHeight = get(model, 'primaryImage.height') || get(model, 'imageHeight') || 200;
     const optimizedImageUrl = makeOptimizedImageUrl(imageUrl, imageWidth, imageHeight, true);

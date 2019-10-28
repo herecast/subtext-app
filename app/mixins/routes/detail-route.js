@@ -8,6 +8,7 @@ import Mixin from '@ember/object/mixin';
 export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
   _defaultParentModelPath: 'feed',
 
+  history: service(),
   session: service(),
   store: service(),
   modals: service(),
@@ -45,31 +46,8 @@ export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
       }
     }
 
-    const isProfileRoute = get(this, '_defaultParentModelPath').indexOf('profile') === 0;
-
-    if (isProfileRoute && !this._contentOwnerMatchesProfileOwner(model, transition)) {
-      if (contentType === 'event') {
-        this.transitionTo('feed.show-instance', get(model, 'id'), eventInstanceId);
-      } else {
-        this.transitionTo('feed.show', get(model, 'id'));
-      }
-    }
-
     this._super(...arguments);
-  },
 
-  _contentOwnerMatchesProfileOwner(model, transition) {
-    const profileParams = transition.params['profile'] || false;
-
-    if (profileParams) {
-      const profileOrganizationId = profileParams.organization_id || false;
-
-      if (profileOrganizationId) {
-        return parseInt(profileOrganizationId) === parseInt(get(model, 'organizationId'));
-      }
-    }
-
-    return false;
   },
 
 
@@ -92,18 +70,16 @@ export default Mixin.create(RouteMetaMixin, DocTitleFromContent, {
 
   actions: {
     didTransition() {
-      this._super(...arguments);
-
       const parentController = this.controllerFor(get(this, '_defaultParentModelPath'));
       const contentId = this.modelFor(this.routeName).get('contentId');
 
-      if (get(this, '_defaultParentModelPath') === 'feed') {
+      if (get(this, '_defaultParentModelPath') === 'feed' && get(this, 'history.isFirstRoute')) {
         parentController.trackDetailPageViews(contentId);
+
+        this.loadFeedInParent();
       }
 
-      this.loadFeedInParent();
-
-      return true;
+      return this._super(...arguments);
     }
   }
 });

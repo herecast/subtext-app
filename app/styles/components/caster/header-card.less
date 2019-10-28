@@ -1,0 +1,73 @@
+.Caster-HeaderCard {
+  &--image {
+    width: 100%;
+    height: 300px;
+    position: relative;
+
+    &-background {
+      height: 100%;
+      width: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+    }
+
+    &-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding-bottom: 4px;
+      z-index: 2;
+    }
+
+    &-avatar {
+      height: 150px;
+      width: 150px;
+      margin: 10px 0 5px 0;
+     .box-shadow(~"1px 1px 1px 0 rgba(0, 0, 0, 0.18), -1px -1px 1px 0 rgba(0, 0, 0, 0.18)");
+      border-radius: 100%;
+    }
+  }
+
+  &--follow-button {
+    .XButton {
+      display: inline-block;
+    }
+  }
+
+  &--identity {
+    background: #fff;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    line-height: 1.0;
+
+    &-name {
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    &-handle {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    &-info {
+      font-size: 16px;
+      color: grey;
+      margin-top: 8px;
+    }
+  }
+
+  &.with-shadow {
+    .box-shadow(1px 1px 2px @gray-dark);
+  }
+}

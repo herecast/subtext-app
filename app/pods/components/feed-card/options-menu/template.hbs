@@ -2,21 +2,21 @@
   {{fa-icon "ellipsis-v" class="FeedCard-OptionsMenu--button-icon"}}
 </div>
 <div class="FeedCard-OptionsMenu--dropdown dropdown-menu dropdown-menu-right">
-  {{#if organizationOwnsContent}}
-    <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideOrg"}}>
-      {{#hide-organization-button
+  {{#unless casterIsCurrentUser}}
+    <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideCaster"}}>
+      {{#hide-caster-button
         contentId=model.contentId
-        organization=model.organization
-        additionToMessage="this Contributor"
-        afterHide=(action "afterHideOrg")
+        caster=model.caster
+        additionToMessage="this Caster"
+        afterHide=(action "afterHideCaster")
         class="FeedCard-OptionsMenu--flag"
       }}
         <div class="FeedCard-OptionsMenu--flag-text">
-          Hide all posts from {{model.organizationName}}
+          Hide all posts from {{model.casterName}}
         </div>
-      {{/hide-organization-button}}
+      {{/hide-caster-button}}
     </choice>
-  {{/if}}
+  {{/unless}}
 
   <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideLocation"}}>
     {{#hide-location-button
@@ -26,7 +26,7 @@
       class="FeedCard-OptionsMenu--flag hide-location"
     }}
       <div class="FeedCard-OptionsMenu--flag-text">
-        Hide all posts located in {{model.location.name}} by any contributor
+        Hide all posts located in {{model.location.name}} by any caster
       </div>
     {{/hide-location-button}}
   </choice>

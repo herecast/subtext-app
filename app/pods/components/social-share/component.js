@@ -26,10 +26,8 @@ export default Component.extend(SocialPreloaded, {
   urlForShare() {
     const model = get(this, 'model');
     const locationService = get(this, 'location');
-    const routeName = get(this,'router.currentRouteName') || '';
-    const fromProfile = routeName.startsWith('profile');
 
-    return SocialSharing.getShareUrl(locationService, model, fromProfile);
+    return SocialSharing.getShareUrl(locationService, model);
   },
 
   mailtoLink: computed('title', 'sharedBy', function() {
@@ -67,21 +65,10 @@ export default Component.extend(SocialPreloaded, {
     return htmlSafe(`http://twitter.com/intent/tweet?text=${twitterTitle}&url=${url}&via=HereCastUS`);
   }),
 
-  orgHashtag: computed('model.organization.name', function(){
-    const orgName = get(this, 'model.organization.name');
-    const content_type = get(this, 'model.contentType');
-    if (content_type === 'news' && orgName) {
-      const formattedOrgName = orgName.replace(/[^a-zA-Z0-9]/g, '');
-      return `#${formattedOrgName}`;
-    } else {
-      return '';
-    }
-  }),
 
   actions: {
     shareFacebook() {
       const urlForShare = this.urlForShare();
-      const orgHashtag = get(this, 'orgHashtag');
 
       //for live debug
       get(this, 'logger').info(`Share to facebook of ${urlForShare}`);
@@ -89,7 +76,6 @@ export default Component.extend(SocialPreloaded, {
       get(this, 'facebook').ui({
         method: 'share',
         mobile_iframe: true,
-        hashtag: orgHashtag,
         href: urlForShare
       });
     },

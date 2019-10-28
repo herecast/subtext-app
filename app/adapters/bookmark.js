@@ -4,9 +4,9 @@ import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
   buildURL(modelName, id, snapshot) {
-    const userId = snapshot.attr('userId');
+    const casterId = snapshot.attr('casterId');
 
-    let url = `${config.API_BASE_URL}/${get(this, 'namespace')}/users/${userId}/bookmarks`;
+    let url = `${config.API_BASE_URL}/${get(this, 'namespace')}/casters/${casterId}/bookmarks`;
 
     if (id) {
       url += `/${id}`;

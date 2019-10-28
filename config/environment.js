@@ -37,14 +37,6 @@ module.exports = function(environment) {
       'market',
       'talk'
     ],
-    contentIndexRoutes: [
-      'location.index',
-      'location.news',
-      'location.events',
-      'location.market',
-      'location.talk',
-      'organization-profile'
-    ],
     'ember-simple-auth': {
       routeAfterAuthentication: 'feed',
       routeIfAlreadyAuthenticated: 'feed'

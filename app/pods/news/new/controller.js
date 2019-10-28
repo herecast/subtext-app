@@ -3,9 +3,6 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  queryParams: ['organization_id'],
-  organization_id: null,
-
   fastboot: service(),
 
   hideEditor: false,

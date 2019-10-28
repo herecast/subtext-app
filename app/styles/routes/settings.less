@@ -1,0 +1,214 @@
+.Settings {
+  min-height: 100vh;
+  width: 100%;
+  background: #fff;
+  padding-bottom: 64px;
+
+  &--container {
+    padding: 0 8px;
+  }
+
+  &--title {
+    font-size: 16px;
+    font-family: @font-family-semibold;
+    padding: 12px 0;
+    position: relative;
+  }
+
+  &--section {
+    &-centered {
+      text-align: center;
+    }
+
+    &-title {
+      width: 100%;
+      text-align: left;
+      text-transform: capitalize;
+      font-size: 12px;
+      color: @gray-dark;
+      border-bottom: solid 2px @gray-dark;
+      margin: 24px 0;
+      font-family: @font-family-semibold;
+    }
+
+    &-subtitle {
+      width: 100%;
+      text-align: left;
+      font-size: 11px;
+      color: @gray-dark;
+      margin: 12px 0;
+      &.large {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &--link {
+    color: @herecast-blue;
+    text-decoration: underline;
+    display: inline-block;
+    margin: 0 4px;
+    font-family: @font-family-semibold;
+  }
+
+  &--item {
+    line-height: 1.2;
+    margin-bottom: 24px;
+    position: relative;
+    padding-right: 80px;
+
+    &-title {
+      font-size: 14px;
+    }
+
+    &-subtitle {
+      font-size: 14px;
+      color: @gray-dark;
+      margin-bottom: 12px;
+    }
+
+    &-button {
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      &.with-top-margin {
+        top: 10px;
+      }
+    }
+
+    &-toggle {
+      font-size: 28px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: @gray-dark;
+
+      &.on {
+        color: @brand-success;
+      }
+    }
+  }
+
+  &--input {
+    position: relative;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+
+    input {
+      width: 100%;
+      padding: 8px 4px;
+      border-radius: 4px;
+      color: @gray-dark;
+      margin-bottom: 16px;
+      height: 40px;
+
+      &[disabled] {
+        background: #eee;
+      }
+    }
+
+    textarea {
+      min-height: 80px;
+      width: 100%;
+
+      &[disabled] {
+        background: #eee;
+      }
+    }
+
+    &.handle {
+      span.at-sign {
+        position: absolute;
+        left: 4px;
+        top: 0;
+        line-height: 40px;
+        font-size: 16px;
+        color: @gray-dark;
+      }
+
+      input {
+        padding-left: 18px;
+      }
+    }
+
+    &-message {
+      font-size: 10px;
+      text-align: right;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+      &.error {
+        color: @brand-danger;
+      }
+
+      &.left {
+        text-align: left;
+        left: 0;
+        right: auto;
+      }
+    }
+  }
+
+  &--buttons {
+    text-align: right;
+    padding: 8px 0;
+
+    &.center {
+      text-align: center;
+    }
+  }
+
+  &--modal {
+    &-title {
+      font-size: 20px;
+      font-family: @font-family-semibold;
+      padding: 12px 0;
+    }
+
+    &-explainer {
+      font-size: 14px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+  }
+
+  &--image {
+    &-avatar-blank,
+    &-background-blank {
+      display: inline-block;
+      height: 100px;
+      background: #efefef;
+      text-align: center;
+      color: @gray-dark;
+      position: relative;
+
+      &-inside {
+        position: absolute;
+        top: 50%;
+        .transform(translateY(-50%));
+        width: 100%;
+      }
+
+      i {
+        font-size: 28px;
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      button {
+        margin-top: 8px;
+      }
+    }
+
+    &-avatar-blank {
+      width: 100px;
+      margin-right: 8px;
+    }
+
+    &-background-blank {
+      width: 200px;
+    }
+  }
+}

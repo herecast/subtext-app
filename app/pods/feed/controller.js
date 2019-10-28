@@ -44,8 +44,13 @@ export default Controller.extend({
   _animationDelay: null,
   _modelIsLoading: false,
   showLoadingAnimation: false,
+  wantsToChangeLocation: false,
 
   showPioneeringFeed: readOnly('feedService.showPioneeringFeed'),
+  showMyFeed: computed('currentPath', function() {
+    const currentPath = get(this, 'currentPath');
+    return currentPath.indexOf('myfeed') >= 0;
+  }),
 
   init() {
     this._super(...arguments);
@@ -57,7 +62,7 @@ export default Controller.extend({
     get(this, 'userLocation').on('userLocationChanged', () => {
       const currentRouteName = get(this, 'currentRouteName');
 
-      if (currentRouteName.startsWith('feed')) {
+      if (currentRouteName && currentRouteName.startsWith('feed')) {
         window.scrollTo(0, 0);
 
         next(() => {
@@ -112,7 +117,7 @@ export default Controller.extend({
     return get(this, 'model.feedItems.length') || get(this, 'model.eventInstances.length');
   }),
 
-  eventFilterAndNotMyStuff: computed('type', function() {
+  eventFilter: computed('type', function() {
     const isEventFilter = get(this, 'type') === 'calendar';
 
     return isEventFilter;

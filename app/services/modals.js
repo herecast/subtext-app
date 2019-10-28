@@ -1,15 +1,17 @@
 import { getOwner } from '@ember/application';
-import Service, { inject as service } from '@ember/service';
 import { A as a } from '@ember/array';
 import $ from 'jquery';
 import { set, get } from '@ember/object';
 import { on } from '@ember/object/evented';
 import RSVP from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 
 export default Service.extend({
   modals: null,
   serviceIsActive: true,
+
   fastboot: service(),
+
   isFastboot() {
     return get(this, 'fastboot.isFastBoot');
   },

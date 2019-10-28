@@ -5,14 +5,11 @@ export default Component.extend({
   classNames: ['FeedItem'],
 
   model: null,
-  organization: null,
-  allowManageOnTile: false,
-  displayAsPublic: false,
+
   showAnyViewCount: false,
 
   isContent: alias('model.isContent'),
   isCarousel: alias('model.isCarousel'),
-  isOrganization: alias('model.isOrganization'),
 
   feedItemModel: alias('model.feedItemModel')
 });

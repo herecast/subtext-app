@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { get, set } from '@ember/object';
-import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 import Scroll from 'subtext-app/mixins/routes/scroll-to-top';
@@ -11,19 +10,10 @@ export default Route.extend(AuthenticatedRouteMixin, ConfirmationMixin, Scroll, 
   titleToken: 'Create a Post',
   floatingActionButton: service(),
 
-  model(params, transition) {
-    let newRecordValues = {
+  model() {
+    return this.store.createRecord('content', {
       contentType: 'news'
-    };
-
-    if ('organization_id' in transition.queryParams && isPresent(transition.queryParams.organization_id)) {
-      return this.store.findRecord('organization', transition.queryParams.organization_id).then((organization) => {
-        newRecordValues.organization = organization;
-        return this.store.createRecord('content', newRecordValues);
-      });
-    } else {
-      return this.store.createRecord('content', newRecordValues);
-    }
+    });
   },
 
   setupController(controller, model) {
@@ -43,17 +33,19 @@ export default Route.extend(AuthenticatedRouteMixin, ConfirmationMixin, Scroll, 
         } else {
           transition.abort();
         }
+      } else {
+        this._super(...arguments);
       }
     },
 
     afterPublish() {
       const model = get(this, 'controller.news');
-      
+
       get(this, 'floatingActionButton').launchContent(model, {
         justCreated: true
       });
 
-      this.transitionTo('profile.all.show', get(model, 'organizationId'), get(model, 'id'));
+      this.transitionTo('feed.show', get(model, 'id'));
     },
 
     refreshRouteModel() {

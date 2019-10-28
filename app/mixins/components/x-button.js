@@ -30,7 +30,7 @@ export default Mixin.create({
   'data-toggle': null,
   'data-test-button': 'button',
 
-  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'medium-gray', 'transparent-gray', 'flatten', 'black', 'neutral'
+  color: 'default', // 'default', 'primary', 'secondary', 'attention', 'danger', 'light-gray', 'medium-gray', 'transparent-gray', 'flatten', 'black', 'neutral', 'teal'
   style: 'regular', // 'regular', 'inverted', 'outline, 'lighten', 'gray', 'link', 'menu-link', 'tab', 'transparent'
   size: 'small', // 'x-small', 'small', 'medium', 'large'
   blockType: null, // 'wide'

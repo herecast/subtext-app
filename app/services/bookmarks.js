@@ -32,7 +32,7 @@ export default Service.extend(Evented, {
       set(this, 'bookmarkCount', 0);
 
       get(this, 'currentUser').then(currentUser => {
-        get(this, 'store').query('user', {
+        get(this, 'store').query('caster', {
           user_id: get(currentUser, 'userId'),
           include: 'bookmarks'
         })
@@ -42,13 +42,6 @@ export default Service.extend(Evented, {
         });
       });
     }
-  },
-
-  _updateCurrentUser() {
-    get(this, 'currentUser').then(currentUser => {
-      set(currentUser, 'hasHadBookmarks', true);
-      currentUser.save();
-    });
   },
 
   _increaseBookmarkCount() {
@@ -106,7 +99,7 @@ export default Service.extend(Evented, {
       const newBookmark =  get(this, 'store').createRecord('bookmark', {
         contentId: contentId,
         eventInstanceId: eventInstanceId,
-        userId: get(currentUser, 'userId')
+        casterId: get(currentUser, 'userId')
       });
 
       return newBookmark.save()

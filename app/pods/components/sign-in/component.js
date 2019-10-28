@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
 import { get, set } from '@ember/object';
+import { equal } from '@ember/object/computed';
+import Component from '@ember/component';
 
 export default Component.extend({
   tracking: service(),
@@ -9,20 +10,13 @@ export default Component.extend({
   signInModule: 'sign-in-with-password',
   alternateSignInMessage: false,
 
-  trackMethodChange(name) {
-    get(this, 'tracking').push({
-      event: 'sign-in-method-change',
-      selected: name
-    });
-  },
+  isRegistering: equal('signInModule', 'register'),
+  isSigningIn: equal('signInModule', 'sign-in-with-password'),
+
 
   actions: {
     changeModule(name) {
       set(this, 'signInModule', name);
-
-      this.trackMethodChange(name);
-
-      return false;
     },
 
     afterAuthenticate() {

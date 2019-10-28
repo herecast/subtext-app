@@ -1,5 +1,5 @@
 import { get, computed } from '@ember/object';
-import { alias, readOnly, equal } from '@ember/object/computed';
+import { alias, readOnly, equal, not } from '@ember/object/computed';
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
 import TestSelector from 'subtext-app/mixins/components/test-selector';
@@ -15,6 +15,8 @@ export default Component.extend(TestSelector, {
   nags: service(),
 
   streamlinedHeader: false,
+  showFilters: false,
+  wantsToChangeLocation: false,
 
   showNag: readOnly('nags.showAppDownloadNag'),
 
@@ -34,6 +36,17 @@ export default Component.extend(TestSelector, {
     return !get(this, 'streamlinedHeader');
   }),
 
+  hideFilters: computed('streamlinedHeader', 'showFilters', 'isFastBoot', function() {
+    if (get(this, 'isFastBoot')) {
+      return true;
+    }
+
+    return get(this, 'streamlinedHeader') || !get(this, 'showFilters');
+  }),
+
+  doNotHideFilters: not('hideFilters'),
+
+
   actions: {
     logoClicked() {
       $(window).scrollTop(0);
@@ -41,6 +54,6 @@ export default Component.extend(TestSelector, {
 
     onCloseNag() {
       get(this, 'nags').hasSeenAppDownloadNag();
-    },
+    }
   }
 });

@@ -8,18 +8,7 @@
 
   <div class="ContentMetrics">
     <div class="ContentMetrics-titleBar">
-      <div class="ContentMetrics-titleBar-left">
-        <ul class="nav nav-pills">
-          {{#if isCampaign}}
-            <li role="presentation" class={{if (eq "views" metricType) "active"}}>
-              <a href="#" {{action "setMetric" "views"}}>Views</a>
-            </li>
-            <li role="presentation" class={{if (eq "clicks" metricType) "active"}}>
-              <a href="#" {{action "setMetric" "clicks"}}>Clicks</a>
-            </li>
-          {{/if}}
-        </ul>
-      </div>
+      <div class="ContentMetrics-titleBar-left"></div>
       <div class="ContentMetrics-titleBar-right">
         <div class="ContentMetrics-dateRange form-inline">
           Previous:

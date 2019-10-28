@@ -9,14 +9,6 @@
       {{/if}}
     {{/text-block}}
 
-    {{facebook-login-button
-      afterAuthenticate=(action "afterAuthenticate")
-    }}
-
-    {{#text-block center=true large=true strong=true}}
-      or
-    {{/text-block}}
-
     {{sign-in-or-register-with-password
       email=(mut email)
       tab=(mut signInModule)

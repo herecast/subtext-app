@@ -2,12 +2,12 @@ import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
   title() {
-    return 'Businesses';
+    return 'Content';
   },
   carouselType() {
-    return 'organization';
+    return 'content';
   },
   queryParams() {
-    return {"type": "organization"};
+    return {"type": "content"};
   }
 });

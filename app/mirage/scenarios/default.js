@@ -4,12 +4,8 @@
 export default function (server) {
   server.createList('ad-metric', 1);
   const promotionBanners = server.createList('promotion-banner', 10);
-  const promotion = server.create('promotion', {
+  server.create('promotion', {
     banner: promotionBanners[0]
-  });
-
-  const organizations = server.createList('organization', 5, {
-    profileAdOverride: promotion
   });
 
   [
@@ -78,12 +74,18 @@ export default function (server) {
     server.create('location', location);
   });
 
-  server.create('current-user', {
-    managedOrganizationIds: organizations.slice(0, 2).map(org=>org.id),
+  const casterFollows = server.createList('caster-follow', 5);
+  const casterHides = server.createList('caster-hide', 5);
+
+  const currentCaster = server.create('caster', {
     locationId: 18,
-    email: 'test@test.com'
+    email: 'test@test.com',
+    casterHides,
+    casterFollows
   });
 
+
+  server.createList('caster', 10);
   server.createList("venue", 5);
   server.createList('comment', 8);
   server.createList('content-metric', 1);
@@ -91,70 +93,60 @@ export default function (server) {
   server.createList('promotionCoupon', 10);
   server.createList('event-instance', 10);
 
-/*  const businessContent = server.createList('organization', 5);
-  const businessesCarousel = server.create('carousel', {
-    title: 'Businesses',
-    carouselType: 'organization',
-    queryParams: {"type": 'organization'},
-    organizations: businessContent
-  });
-  server.create('feedItem', {
-    modelType: 'carousel',
-    carouselId: businessesCarousel.id
-  });*/
-
-  const mystuffContents = server.createList('content', 5, {
-    authorId: 1,
+  const casterContents = server.createList('content', 5, {
+    casterId: currentCaster.id,
     contentOrigin: 'ugc'
   });
-  mystuffContents.forEach((content) => {
+
+  casterContents.forEach((content) => {
     server.create('feedItem', {
       contentId: content.id
     });
     server.create('bookmark', {
-      userId: 1,
+      casterId: currentCaster.id,
       contentId: content.id
     });
   });
 
-  const mystuffCommentParent = server.create('content', {
-    id: 1000,
+  const casterCommentParent = server.create('content', {
     contentOrigin: 'ugc'
   });
 
-  server.createList('comment', 10, {
+  const comments = server.createList('comment', 3, {
     userId: 1,
     userName: "Thad Copeland",
-    userImageUrl: null,
-    parentContentId: mystuffCommentParent.id
+    avatarImageUrl: null,
+    parentContent: casterCommentParent
   });
+
+  casterCommentParent.update({
+    comments: comments
+  });
+
+  server.create('feed-item', {
+    content: casterCommentParent
+  });
+
+  const casterCommentParent2 = server.create('content', {
+    contentOrigin: 'ugc'
+  });
+
+  const comments2 = server.createList('comment', 3, {
+    userId: 1,
+    userName: "Thad Copeland",
+    avatarImageUrl: null,
+    parentContent: casterCommentParent2
+  });
+
+  casterCommentParent2.update({
+    comments: comments2
+  });
+
+  server.create('feed-item', {
+    content: casterCommentParent2
+  });
+
 
   server.createList('feedItem', 20);
-
-  const profilePageContents = server.createList('content', 20, {
-    contentOrigin: 'ugc',
-    organizationId: 1
-  });
-
-  profilePageContents.forEach(content => {
-    server.create('feedItem', {
-      contentId: content.id
-    });
-  });
-
-  const profilePageDrafts = server.createList('content', 4, {
-    contentOrigin: 'ugc',
-    organizationId: 1,
-    publishedAt: null,
-    contentType: 'news'
-  });
-
-  profilePageDrafts.forEach(content => {
-    server.create('feedItem', {
-      contentId: content.id
-    });
-  });
-
-  server.createList('digest', 2);
 
 }

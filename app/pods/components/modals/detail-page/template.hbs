@@ -1,8 +1,8 @@
 {{#modal-wrapper
   close=closeDetailPage
   showHeader=false
-  slideInFrom=(if isMobile "right" null)
-  slideOutTo=(if isMobile "right" null)
+  slideInFrom=(if isMobile "left" null)
+  slideOutTo=(if isMobile "left" null)
   slideMessage=(if isMobile slideMessage null)
   revealNav=true
   class="Modal--no-padding"
@@ -14,7 +14,6 @@
     model=model
     closeRoute="feed"
     isPreview=false
-    enableStickyHeader=true
     onClose=closeDetailPage
     trackDetailEngagement=trackDetailEngagement
   }}

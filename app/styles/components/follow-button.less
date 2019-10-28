@@ -1,0 +1,32 @@
+.FollowButton {
+  .btn;
+  background: transparent;
+  border: solid 1px @text-color;
+  color: @text-color;
+  text-decoration: none;
+
+  &:focus,
+  &:active,
+  &:hover {
+    color: white;
+    border-color: darken(@news-brand, 20%);
+    background-color: darken(@news-brand, 20%);
+  }
+
+  &--large {
+    .btn-lg;
+    border-radius: 0;
+  }
+
+  .fa {
+    margin-right: 1em;
+  }
+
+  &--message {
+    font-size: 12px;
+  }
+
+  &--button {
+    display: inline-block;
+  }
+}

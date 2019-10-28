@@ -17,12 +17,11 @@ module('Acceptance | feed', function(hooks) {
 
   hooks.beforeEach(function() {
     invalidateSession();
+    mockLocationCookie(this.server);
     loadPioneerFeed(false);
   });
 
   skip('tracking impression events fired on feed index', async function(assert) {
-    mockLocationCookie(this.server);
-
     let impressions = 0;
     const done = assert.async();
     const tracking = Service.extend({
@@ -58,8 +57,6 @@ module('Acceptance | feed', function(hooks) {
   });
 
   skip('tracking impression events fired on event feed index', async function(assert) {
-    mockLocationCookie(this.server);
-
     let impressions = 0;
     const done = assert.async();
     const tracking = Service.extend({
@@ -104,8 +101,6 @@ module('Acceptance | feed', function(hooks) {
   });
 
   skip('tracking impression events are not fired on feed detail page', async function(assert) {
-    mockLocationCookie(this.server);
-
     let impressions = 0;
     const tracking = Service.extend({
       trackTileLoad(){},
@@ -244,4 +239,26 @@ module('Acceptance | feed', function(hooks) {
 
     assert.ok($eventDetail, 'Displays event detail in feed.show-instance route');
   });
+
+  test('Feed Location Card is as expected', async function(assert) {
+    await visit('/');
+
+    assert.ok(find('[data-test-location-card-image="location-image"]'), 'should show the location image or related options');
+    assert.ok(find('[data-test-source-chooser-link="feed"].active'), 'should show feed location as active souce choice');
+    assert.ok(find('[data-test-button="location-card-change-location"]'), 'should show the change location button');
+    assert.ok(find('[data-test-component="search-input-location-card"]'), 'should show the search option');
+  });
+
+  test('Myfeed Location Card is as expected', async function(assert) {
+    await visit('/myfeed');
+
+    assert.ok(find('[data-test-location-card-image="caster-image"]'), 'should show the caster background image or default');
+    assert.ok(find('[data-test-source-chooser-link="myfeed"].active'), 'should show myfeed as active souce choice');
+    assert.notOk(find('[data-test-button="location-card-change-location"]'), 'should not show the change location button');
+    assert.notOk(find('[data-test-component="search-input-location-card"]'), 'should not show the search option');
+
+    assert.ok(find('[data-test-component="sign-in-or-register-with-password"]'), 'not logged in user should see signin and register form');
+    assert.ok(find('[data-test-link="join-tab"]'), 'registration form should be default');
+  });
+
 });

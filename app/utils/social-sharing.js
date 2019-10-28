@@ -28,21 +28,10 @@ export default {
     });
   },
 
-  getShareUrl(locationService, model, detailPageFromProfile=false) {
-    const contentType = get(model, 'contentType');
+  getShareUrl(locationService, model) {
     const contentId = get(model, 'contentId');
-    const isOrganization = contentType === 'organization';
-    const organizationId = isOrganization ? get(model, 'id') : get(model, 'organizationId');
 
-    let url;
-
-    if (isOrganization) {
-      url = `${locationService.origin()}/profile/${organizationId}`;
-    } else if (detailPageFromProfile && organizationId) {
-      url = `${locationService.origin()}/profile/${organizationId}/${contentId}`;
-    } else {
-      url = `${locationService.origin()}/${contentId}`;
-    }
+    let url = `${locationService.origin()}/${contentId}`;
 
     if (model.constructor.modelName === 'event-instance') {
       let additionalParam = get(model, 'id');

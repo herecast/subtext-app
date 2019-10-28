@@ -1,0 +1,31 @@
+{{#link-to "feed"
+  tagName="div"
+  class="Feed-SourceChooser--tab left"
+  current-when="feed.index"
+  data-test-source-chooser-link="feed"
+}}
+  {{user-location}}
+{{/link-to}}
+
+{{#link-to "myfeed"
+  tagName="div"
+  class="Feed-SourceChooser--tab right"
+  current-when="myfeed.index"
+  data-test-source-chooser-link="myfeed"
+}}
+  {{#if useAvatar}}
+    {{avatar-image
+      imageUrl=currentUser.avatarImageUrl
+      userName=currentUser.name
+      customSize=30
+      class="Feed-SourceChooser--avatar"
+    }}
+  {{else}}
+    <div class="Feed-SourceChooser--avatar blank {{if casterTabIsActive "active"}}">
+      {{fa-icon "user"}}
+    </div>
+  {{/if}}
+  <span>
+      Just For You
+  </span>
+{{/link-to}}

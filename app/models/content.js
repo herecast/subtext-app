@@ -4,7 +4,6 @@ import { isPresent } from '@ember/utils';
 import DS from 'ember-data';
 
 import moment from 'moment';
-import isDefaultOrganization from 'subtext-app/utils/is-default-organization';
 import dateFormat from 'subtext-app/lib/dates';
 import Schedulable from 'subtext-app/mixins/models/schedulable';
 import HasVenue from 'subtext-app/mixins/models/has-venue';
@@ -22,35 +21,23 @@ export default DS.Model.extend(
   HasImages,
   {
   // <FIELDS>
-  authorId: attr('number'),
-  authorName: attr('string'),
-  avatarUrl: attr('string'),
-  bizFeedPublic: attr('boolean', {defaultValue: true, allowNull: true}),
-  campaignEnd: attr('moment-date'),
-  campaignStart: attr('moment-date'),
   clickCount: attr('number'),
   commentCount: attr('number'),
   contactEmail: attr('string'),
   contactPhone: attr('string'),
   content: attr('string'),
-  contentOrigin: attr('string'), //NOTE:Only relevant to feed-content and possibly event-instance. Double-check how contentOrigin is being used across the site
+  contentOrigin: attr('string'),
   contentType: attr('string'),
   cost: attr('string'),
   createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
   likeCount: attr('number'),
-
-
-  parentContentId: attr('number'), //TAG:NOTE can be removed after dashboard is removed (was a talk model property)
-  parentContentType: attr('string'), //TAG:NOTE can possibly be removed after dashboard is removed (was a talk model property)
-  parentEventInstanceId: attr('number'), //TAG:NOTE can possibly be removed after dashboard is removed
   publishedAt: attr('moment-date', {defaultValue: null}),
   redirectUrl: attr('string'),
   shortLink: attr('string'),
   sold: attr('boolean', {defaultValue: false}),
   splitContent: attr(),
   subtitle: attr('string'),
-  sunsetDate: attr('moment-date'),
   title: attr('string'),
   updatedAt: attr('moment-date'),
   url: attr('string'),
@@ -59,22 +46,22 @@ export default DS.Model.extend(
 
 
   // <RELATIONSHIPS>
-  comments: hasMany('comment', {inverse: null}),
+  comments: hasMany('comment'),
   location: belongsTo('location'),
   locationId: alias('location.id'),
 
-  organization: belongsTo('organization'),
-  organizationId: alias('organization.id'),
-  organizationName: alias('organization.name'),
-  organizationProfileImageUrl: alias('organization.profileImageUrl'),
-  organizationBizFeedActive: alias('organization.bizFeedActive'),
+  caster: belongsTo('caster'),
+  casterId: alias('caster.id'),
+  casterName: alias('caster.name'),
+  casterHandle: alias('caster.handle'),
+  casterAvatarImageUrl: alias('caster.avatarImageUrl'),
+
   // </RELATIONSHIPS>
 
   contentId: alias('id'),
   isEvent: equal('contentType', 'event'),
   isNews: equal('contentType', 'news'),
   isMarket: equal('contentType', 'market'),
-  isCampaign: equal('contentType', 'campaign'),
 
   isHiddenFromFeed: attr('boolean', {defaultValue: false}),
 
@@ -103,95 +90,21 @@ export default DS.Model.extend(
     return isPresent(publishedAt) ? dateFormat.relative(publishedAt) : null;
   }),
 
-  isOwnedByOrganization: computed('isNews', 'organizationId', function() {
-    const isNews = get(this, 'isNews');
-    const organizationId = get(this, 'organizationId');
-    const organizationIsDefaultOrganization = isDefaultOrganization(organizationId);
-
-    if (isNews) {
-      return true;
-    } else if (organizationIsDefaultOrganization) {
-      return false;
-    } else {
-      return isPresent(organizationId);
-    }
+  attributionLinkId: computed('casterHandle', function() {
+    return `@${get(this, 'casterHandle')}`;
   }),
-
-  attributionLinkRouteName: computed('isOwnedByOrganization', function() {
-    let routeName = null;
-
-    if (get(this, 'isOwnedByOrganization') && isPresent(get(this, 'organizationId'))) {
-      routeName = 'profile';
+  attributionImageUrl: alias('casterAvatarImageUrl'),
+  attributionName: computed('caster.attributionName', 'casterName', 'casterHandle', function() {
+    if (isPresent(get(this, 'caster.attributionName'))) {
+      return get(this, 'caster.attributionName');
     }
 
-    return routeName;
-  }),
-
-  attributionLinkId: alias('organizationId'),
-
-  attributionImageUrl: computed('isNews', 'organizationId', 'organizationProfileImageUrl', 'avatarUrl', function() {
-    const organizationProfileImageUrl = get(this, 'organizationProfileImageUrl');
-    const avatarUrl = get(this, 'avatarUrl');
-
-    let attributionImageUrl = null;
-
-    if (get(this, 'isNews')) {
-      attributionImageUrl = organizationProfileImageUrl;
-    } else if ( isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
-      attributionImageUrl = organizationProfileImageUrl;
-    } else if (isPresent(avatarUrl)) {
-      attributionImageUrl = avatarUrl;
+    if (isPresent(get(this, 'casterName'))) {
+      return get(this, 'casterName');
     }
 
-    return attributionImageUrl;
+    return `@${get(this, 'casterHandle')}`;
   }),
-
-  attributionName: computed('isNews', 'organizationId', 'organizationName', 'authorName', function() {
-    const organizationName = get(this, 'organizationName');
-    const authorName = get(this, 'authorName');
-
-    let attributionName = null;
-
-    if (get(this, 'isNews')) {
-      attributionName = organizationName;
-    } else if (isPresent(get(this, 'organizationId')) && !isDefaultOrganization(get(this, 'organizationId')) ) {
-      attributionName = organizationName;
-    } else if (isPresent(authorName)) {
-      attributionName = authorName;
-    }
-
-    return attributionName;
-  }),
-
-  /* BEGIN Biz/org/content-management properties */
-  campaignIsActive: computed('campaignStart', 'campaignEnd', function() {
-    const campaignStart = moment(get(this, 'campaignStart'));
-    const campaignEnd = moment(get(this, 'campaignEnd'));
-
-    return moment().isAfter(campaignStart) && moment().isBefore(campaignEnd);
-  }),
-
-  viewStatus: computed('publishedAt', 'bizFeedPublic', 'campaignIsActive', function() {
-    const isDraft = get(this, 'isDraft');
-    const isScheduled = get(this, 'isScheduled');
-
-    if (isDraft || isScheduled) {
-      return 'draft';
-    }
-
-    const bizFeedPublic = get(this, 'bizFeedPublic');
-    let isPublic = isPresent(bizFeedPublic) ? bizFeedPublic : true;
-
-    if (get(this, 'contentType') === 'campaign' && !isPresent(isPublic)) {
-      isPublic = get(this, 'campaignIsActive');
-    }
-
-    return isPublic ? 'public' : 'private';
-  }),
-
-  /* END Biz/org/content-management properties */
-
-  isPublic: equal('viewStatus', 'public'),
 
   isDraft: empty('publishedAt'),
 
@@ -209,17 +122,15 @@ export default DS.Model.extend(
       return null;
   }),
 
-  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'didOrgChange', 'dirtyType', 'didLocationChange', function() {
+  hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'dirtyType', 'didLocationChange', function() {
     const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));
     const isNew = (get(this, 'dirtyType') === 'created');
 
     return isScheduledOrPublished &&
-      ((get(this, 'hasDirtyAttributes') && !isNew) || get(this, 'didOrgChange') || get(this, 'didLocationChange')) &&
+      ((get(this, 'hasDirtyAttributes') && !isNew) || get(this, 'didLocationChange')) &&
       (!get(this, 'isSaving'));
   }),
 
-  // Used to notify hasUnpublishedChanges when a new organization is changed
   // Since Ember Data does not set hasDirtyAttributes to true when a child relationship changes
-  didOrgChange: false,
   didLocationChange: false
 });

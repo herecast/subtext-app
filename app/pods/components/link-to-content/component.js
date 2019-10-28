@@ -5,6 +5,7 @@ import Component from '@ember/component';
 
 const linkToContent = Component.extend({
   history: service(),
+  router: service(),
 
   tagName: '',
   model: null,
@@ -17,20 +18,26 @@ const linkToContent = Component.extend({
     });
   },
 
+  shouldOverride: computed('history.currentRouteName', function() {
+    const currentRouteName = get(this, 'history.currentRouteName');
+
+    return startsWith(currentRouteName, 'caster') || startsWith(currentRouteName, 'myfeed');
+  }),
+
+  overrideUrl: computed('paramsForLinkTo', function() {
+    const paramsForLinkToCopy = [...get(this, 'paramsForLinkTo')];
+    paramsForLinkToCopy.shift();
+
+    return `/${paramsForLinkToCopy.join('/')}`;
+  }),
+
   route: computed('history.currentRouteName', function() {
     const currentRouteName = get(this, 'history.currentRouteName');
 
-    if (startsWith(currentRouteName, 'profile')) {
-      return 'profile.all.show';
-    } else if (startsWith(currentRouteName, 'mystuff')) {
-      if (currentRouteName.indexOf('contents') > 0) {
-        return 'mystuff.contents.show';
-      } else if (currentRouteName.indexOf('bookmarks') > 0) {
-        return 'mystuff.bookmarks.show';
-      } else if (currentRouteName.indexOf('comments') > 0) {
-        return 'mystuff.comments.show';
-      }
-
+    if (startsWith(currentRouteName, 'caster')) {
+      return 'caster.show';
+    } else if (startsWith(currentRouteName, 'myfeed')) {
+      return 'myfeed.show';
     } else {
       return 'feed.show';
     }
@@ -57,20 +64,26 @@ const linkToContent = Component.extend({
     let route = get(this, 'route');
     let routeParameters = [];
 
-    if (startsWith(route, 'profile')) {
-      routeParameters.push(get(model, 'organizationId'));
-    }
-
     routeParameters.push( get(model, 'contentId') );
 
     const eventInstanceId = get(model, 'eventInstanceId');
 
-    if (eventInstanceId && route.indexOf('mystuff') < 0) {
+    if (eventInstanceId) {
       route = get(this, 'instanceRoute');
       routeParameters.push(eventInstanceId);
     }
 
     return [route, ...routeParameters];
+  },
+
+  actions: {
+    transitionToOverride() {
+      let paramsForLinkTo = get(this, 'paramsForLinkTo');
+      
+      get(this, 'router').transitionTo(...paramsForLinkTo);
+
+      return false;
+    }
   }
 });
 

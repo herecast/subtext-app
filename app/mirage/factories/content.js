@@ -27,20 +27,20 @@ export default Factory.extend({
       });
     }
 
-    let org = get(content, 'organization');
+    let caster = get(content, 'caster');
 
-    if (isBlank(org)) {
-      const numberOfOrgs = server.db.organizations.length;
+    if (isBlank(caster)) {
+      const numberOfCasters = server.db.casters.length;
 
-      let randomOrgId = Math.ceil(Math.random() * Math.floor(numberOfOrgs));
+      let randomCasterId = Math.ceil(Math.random() * Math.floor(numberOfCasters));
 
-      if (numberOfOrgs === 0 || randomOrgId === 0) {
-        org = server.create('organization');
+      if (numberOfCasters === 0 || randomCasterId === 0) {
+        caster = server.create('caster');
       } else {
-        org = server.db.organizations.find(randomOrgId);
+        caster = server.db.casters.find(randomCasterId);
       }
       content.update({
-        organizationId: org.id
+        casterId: caster.id
       });
     }
 
@@ -97,9 +97,6 @@ export default Factory.extend({
 
   canEdit() { return faker.random.arrayElement([true, false]); },
 
-  authorId() { return faker.random.number(9999); },
-  authorName() { return faker.name.findName(); },
-  avatarUrl() { return faker.image.avatar(); },
 
   likeCount() { return faker.random.number(999); },
   viewCount() { return faker.random.number(999); },

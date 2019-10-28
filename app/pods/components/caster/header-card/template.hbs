@@ -1,0 +1,29 @@
+<div class="Caster-HeaderCard--image">
+  <div class="Caster-HeaderCard--image-background" style={{backgroundImageStyle}}></div>
+
+  <div class="Caster-HeaderCard--image-content">
+    <img
+    src={{avatarImageSrc}}
+    class="Caster-HeaderCard--image-avatar"
+    alt="Avatar Image">
+
+    {{follow-button
+      caster=caster
+      class="Caster-HeaderCard--follow-button"
+    }}
+  </div>
+</div>
+
+<div class="Caster-HeaderCard--identity">
+  <div class="Caster-HeaderCard--identity-name">
+    {{caster.name}}
+  </div>
+  <div class="Caster-HeaderCard--identity-handle">
+    @{{caster.handle}}
+  </div>
+  <div class="Caster-HeaderCard--identity-info">
+    <span class="Caster-HeaderCard--identity-info-location">{{caster.location.name}}</span>
+    <span class="Caster-HeaderCard--identity-info-spacer">-</span>
+    <span class="Caster-HeaderCard--identity-info-followers">{{formatted-count caster.activeFollowersCount "No"}} {{followerLanguage}}</span>
+  </div>
+</div>

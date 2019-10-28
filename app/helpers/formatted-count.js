@@ -6,6 +6,7 @@ function formatWithComma(number) {
 
 export function formattedCount(params) {
   let rawNumber = params[0] || null;
+  const ifZero = params[1] || false;
 
   if (rawNumber) {
     const countInt = parseInt(rawNumber);
@@ -25,6 +26,8 @@ export function formattedCount(params) {
     }
 
     return countString
+  } else if (ifZero) {
+    return ifZero
   }
 
   return params;

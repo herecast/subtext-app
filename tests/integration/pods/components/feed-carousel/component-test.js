@@ -20,7 +20,6 @@ function makeContentCarousel(numberOfCards) {
     id: 1,
     title: 'Local Content',
     carouselType: 'content',
-    queryParams: {"organization_id": 398},
     contents: contents,
     isContentCarousel: true
   };

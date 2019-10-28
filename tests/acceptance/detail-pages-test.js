@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
 import moment from 'moment';
@@ -16,7 +17,7 @@ module('Acceptance | detail pages', function(hooks) {
     mockCookies({});
   });
 
-  test('testing news detail page', async function(assert) {
+  test('testing news detail page, logged out', async function(assert) {
     const splitContent = {
       head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox ",
       tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
@@ -34,9 +35,73 @@ module('Acceptance | detail pages', function(hooks) {
     await visit(`/${content.id}`);
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
+    assert.notOk(find('[data-test-feed-card-edit-button]'), 'not logged in user should not see edit button');
     assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
+    assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
+    assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
+  });
+
+  test('testing news detail page, logged in, not content owner', async function(assert) {
+    const currentUser = this.server.create('caster');
+    authenticateUser(this.server, currentUser);
+
+    const splitContent = {
+      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox ",
+      tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    };
+
+    const otherCaster = this.server.create('caster');
+
+    const content = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'news',
+      title: 'hello world',
+      imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
+      splitContent: splitContent,
+      content: splitContent.head + ' ' + splitContent.tail,
+      caster: otherCaster
+    });
+
+    await visit(`/${content.id}`);
+
+    assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
+    assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
+    assert.notOk(find('[data-test-feed-card-edit-button]'), 'logged in user that is not content owner should not see edit button');
+    assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
+    assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
+    assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
+    assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
+  });
+
+  test('testing news detail page, logged in, is content owner', async function(assert) {
+    const currentUser = this.server.create('caster');
+    authenticateUser(this.server, currentUser);
+
+    const splitContent = {
+      head: "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox ",
+      tail: "Quisque dapibus pharetra convallis. Maecenas sed elementum neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    };
+
+    const content = this.server.create('content', {
+      contentOrigin: 'ugc',
+      contentType: 'news',
+      title: 'hello world',
+      imageUrl: 'https://via.placeholder.com/400x240.png?text=400x240',
+      splitContent: splitContent,
+      content: splitContent.head + ' ' + splitContent.tail,
+      caster: currentUser
+    });
+
+    await visit(`/${content.id}`);
+
+    assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
+    assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
+    assert.ok(find('[data-test-feed-card-edit-button]'), 'logged in user that is content owner should see edit button');
+    assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
+    assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
+    assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 
@@ -92,6 +157,7 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-detail-meta-venue-name]')).first().text().trim(), content.venueName, 'it should show the event name');
     assert.equal($(find('[data-test-header-image]')).css('background-image'), `url("${content.images[0].imageUrl}")`, 'it should show the event image');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
+    assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 
@@ -138,6 +204,7 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-card-location]')).text().trim(), location.city, 'it should show the correct market location');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
+    assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 });

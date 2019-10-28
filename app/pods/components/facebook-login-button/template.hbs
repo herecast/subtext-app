@@ -3,6 +3,7 @@
 {{else}}
   {{#x-async-button
     promiseAction=(action "loginWithFacebook")
+    isDisabled=isDisabled
     class="btn btn-lg btn-block btn-social btn-facebook FacebookLoginButton"
   as |promise|}}
     {{fa-icon "facebook"}}

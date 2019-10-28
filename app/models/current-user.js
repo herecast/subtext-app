@@ -1,56 +1,37 @@
 import { inject as service } from '@ember/service';
+import { get, setProperties, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
-import { setProperties, computed, get } from '@ember/object';
 import DS from 'ember-data';
+import Caster from './caster';
 
-export default DS.Model.extend({
-  createdAt: DS.attr('date'),
-  email: DS.attr('string'),
-  userImageUrl: DS.attr('string'),
-  listservId: DS.attr('number'),
-  listservName: DS.attr('string'),
-  location: DS.belongsTo('location'),
-  locationId: computed('location', function() {
-    const location = get(this, 'location');
-    if (isPresent(location)) {
-      return get(location, 'id');
-    }
-    return null;
-  }),
-  name: DS.attr('string'),
-  testGroup: DS.attr('string'),
-  userId: DS.attr('number'),
-  managedOrganizations: DS.hasMany('organization', {async: true}), //reloaded in session service
-  bookmarks: DS.hasMany('bookmark'),
-  canPublishNews: DS.attr('boolean'),
-  hasHadBookmarks: DS.attr('boolean'),
-  isBlogger: DS.attr('boolean'),
-  publisherAgreementConfirmed: DS.attr('boolean', {defaultValue: false}),
+const { attr } = DS;
 
-  feedCardSize: DS.attr('string', {defaultValue: 'midsize'}),
+export default Caster.extend({
+  //CURRENT_USER ONLY ATTRIBUTES
+  publisherAgreementConfirmed: attr('boolean'),
 
-  organizationSubscriptions: DS.hasMany('organization-subscription'),
-  organizationHides: DS.hasMany('organization-hide'),
-
-  // Used to store pending changes which are submitted via the api service
+  //INTERNAL METHODS AND PROPERTIES FOR UPDATE MODEL
   password: null,
   passwordConfirmation: null,
   avatarImage: null,
+  backgroundImage: null,
 
   api: service(),
 
-  hasPendingChanges: computed('hasDirtyAttributes', 'password', 'passwordConfirmation', 'avatarImage', function() {
+  hasPendingChanges: computed('hasDirtyAttributes', 'password', 'passwordConfirmation', 'avatarImage', 'backgroundImage', function() {
     return get(this, 'hasDirtyAttributes') ||
       isPresent(get(this, 'password')) ||
       isPresent(get(this, 'passwordConfirmation')) ||
-      isPresent(get(this, 'avatarImage'));
+      isPresent(get(this, 'avatarImage')) ||
+      isPresent(get(this, 'backgroundImage'));
   }),
 
   rollbackAttributes() {
     setProperties(this, {
       password: null,
       passwordConfirmation: null,
-      avatarImage: null
+      avatarImage: null,
+      backgroundImage: null
     });
 
     return this._super(...arguments);
@@ -68,6 +49,10 @@ export default DS.Model.extend({
         rsvpHash.avatarImage = this.saveAvatar();
       }
 
+      if (isPresent(get(this, 'backgroundImage'))) {
+        rsvpHash.avatarImage = this.saveBackground();
+      }
+
       return rsvpHash;
     });
   },
@@ -76,15 +61,33 @@ export default DS.Model.extend({
     const api = get(this, 'api');
     const data = new FormData();
 
-    data.append('current_user[image]', get(this, 'avatarImage'));
-    data.append('current_user[user_id]', get(this, 'userId'));
+    data.append('current_user[avatar]', get(this, 'avatarImage'));
 
-    const promise = api.updateCurrentUserAvatar(data);
+    const promise = api.updateCurrentUserImage(data);
 
     promise.then(({current_user}) => {
       setProperties(this, {
-        userImageUrl: current_user.user_image_url,
+        avatarImageUrl: current_user.avatar_image_url,
         avatarImage: null
+      });
+      return this.reload();
+    });
+
+    return promise;
+  },
+
+  saveBackground() {
+    const api = get(this, 'api');
+    const data = new FormData();
+
+    data.append('current_user[background_image]', get(this, 'backgroundImage'));
+
+    const promise = api.updateCurrentUserImage(data);
+
+    promise.then(({current_user}) => {
+      setProperties(this, {
+        backgroundImageUrl: current_user.background_image_url,
+        backgroundImage: null
       });
       return this.reload();
     });
@@ -96,7 +99,7 @@ export default DS.Model.extend({
     const api = get(this, 'api');
 
     const promise = api.updateCurrentUserPassword({
-      current_user: {
+      caster: {
         user_id: get(this, 'userId'),
         password: get(this, 'password'),
         password_confirmation: get(this, 'passwordConfirmation')
@@ -113,25 +116,11 @@ export default DS.Model.extend({
     return promise;
   },
 
-  isManagerOfOrganizationID(orgId) {
-    const managedOrganizations = get(this, 'managedOrganizations') || [];
+  canEditContent(contentCasterId) {
+    const userId = get(this, 'userId') || null;
 
-    const matchedOrganization =  managedOrganizations.find(org=>{
-      return parseInt(org.id) === parseInt(orgId);
-    });
-
-    return isPresent(matchedOrganization);
-  },
-
-  canEditContent(contentAuthorId, contentOrganizationId) {
-    const currentUserId = get(this, 'userId') || null;
-
-    if (parseInt(contentAuthorId) === parseInt(currentUserId)) {
+    if (parseInt(contentCasterId) === parseInt(userId)) {
       return true;
-    }
-
-    if (isPresent(contentOrganizationId)) {
-      return this.isManagerOfOrganizationID(contentOrganizationId);
     }
 
     return false;

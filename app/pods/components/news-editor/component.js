@@ -1,18 +1,10 @@
 import { inject as service } from '@ember/service';
-import {
-  notEmpty,
-  alias,
-  oneWay,
-  readOnly,
-  gt,
-  or,
-  equal
-} from '@ember/object/computed';
+import { notEmpty, readOnly, or, equal } from '@ember/object/computed';
 import $ from 'jquery';
 import Component from '@ember/component';
 import { isPresent, isBlank } from '@ember/utils';
 import { set, setProperties, get, computed } from '@ember/object';
-import { run, next } from '@ember/runloop';
+import { run } from '@ember/runloop';
 import moment from 'moment';
 import Validation from 'subtext-app/mixins/components/validation';
 import TestSelector from 'subtext-app/mixins/components/test-selector';
@@ -54,7 +46,7 @@ export default Component.extend(TestSelector, Validation, {
   wantsToDeleteDraft: false,
   pendingFeaturedImage: null,
 
-  currentUser: alias('session.currentUser'),
+  currentUser: readOnly('session.currentUser'),
 
   // flag to notify summer note to update the editor contents
   // otherwise, updates to content are ignored due to a bug in summer note
@@ -68,43 +60,32 @@ export default Component.extend(TestSelector, Validation, {
       editorPopover: editorPopoverObj
     });
 
-    const isEditing = isPresent(get(this, 'news.publishedAt')) || get(this, 'news.isDraft');
-    const organizationId = get(this, 'news.organizationId') || false;
+    const news = get(this, 'news');
+    const isEditing = isPresent(get(news, 'publishedAt'));
 
-    if (isEditing && organizationId) {
-      this._loadOrganizationIfNotLoaded(organizationId)
-      .then(org => {
-        if (!isPresent(org)) {
+    get(this, 'currentUser')
+    .then(currentUser => {
+      if (isEditing) {
+        const currentUserMatchesContentOwner = parseInt(get(currentUser, 'userId')) === parseInt(get(this, 'news.casterId'));
+        if (!currentUserMatchesContentOwner) {
           get(this, 'notify').error('You  may not be able to edit this item. Please reload the page.');
         }
-      });
-    } else {
-      if (get(this, 'currentUser.managedOrganizations')) {
-        get(this, 'currentUser.managedOrganizations').reload();
+      } else {
+        set(this, 'news.caster', currentUser);
       }
-    }
+    })
   },
-
-  _loadOrganizationIfNotLoaded(organizationId) {
-    return get(this, 'store').findRecord('organization', organizationId);
-  },
-
-  organizations: oneWay('session.currentUser.managedOrganizations'),
-
-  hasOrganization: notEmpty('news.organization'),
-  organizationId: readOnly('news.organizationId'),
 
   hasUnpublishedChanges: computed('news{hasUnpublishedChanges,pendingFeaturedImage}', 'pendingFeaturedImage', function() {
     return get(this, 'news.hasUnpublishedChanges') || get(this, 'pendingFeaturedImage');
   }),
 
-  canAutosave: computed('news.{isDraft,hasDirtyAttributes,didOrgChange,didLocationChange}', 'pendingFeaturedImage', function() {
+  canAutosave: computed('news.{isDraft,hasDirtyAttributes,didLocationChange}', 'pendingFeaturedImage', function() {
     const hasDirtyAttributes = get(this, 'news.hasDirtyAttributes'),
-      orgChanged = get(this, 'news.didOrgChange'),
       locationChanged = get(this, 'news.didLocationChange'),
       pendingFeaturedImage = get(this, 'pendingFeaturedImage');
 
-    return get(this, 'news.isDraft') && (hasDirtyAttributes || orgChanged || locationChanged || pendingFeaturedImage);
+    return get(this, 'news.isDraft') && (hasDirtyAttributes || locationChanged || pendingFeaturedImage);
   }),
 
   hideAutoSave: equal('news.dirtyType', 'created'),
@@ -126,35 +107,6 @@ export default Component.extend(TestSelector, Validation, {
       return 'Unknown status';
     }
   }),
-
-  filteredOrganizations: computed('organizations.@each.canPublishNews', function() {
-    return (get(this, 'organizations') || []).filter((item) => {
-      return get(item, 'canPublishNews');
-    });
-  }),
-
-  defaultOrganization: readOnly('filteredOrganizations.firstObject'),
-
-  managesMultipleOrganizations: gt('filteredOrganizations.length', 1),
-
-  chosenOrganization: computed('filteredOrganizations.[]', function() {
-    const filteredOrganizations = get(this, 'filteredOrganizations');
-
-    if (filteredOrganizations.length === 1) {
-      const defaultOrganization = get(this, 'defaultOrganization');
-      this._setNewsOrganization(defaultOrganization);
-
-      return defaultOrganization;
-    } else {
-      return get(this, 'news.organization');
-    }
-  }),
-
-  _setNewsOrganization(organization) {
-    set(this, 'news.organization', organization);
-  },
-
-  hasChosenOrganization: notEmpty('news.organization.id'),
 
   hasFeaturedImage: notEmpty('news.primaryImage'),
 
@@ -206,7 +158,6 @@ export default Component.extend(TestSelector, Validation, {
 
     return news.save()
     .then(() => {
-      set(this, 'news.didOrgChange', false);
       set(this, 'news.didLocationChange', false);
       existingPrimaries.forEach(i => i.destroyRecord());
     })
@@ -230,21 +181,7 @@ export default Component.extend(TestSelector, Validation, {
   validateForm() {
     return  this.validatePresenceOf('news.title') &&
             this.validatePrimaryImage() &&
-            this.validateContent() &&
-            this.validateOrganization();
-  },
-
-  validateOrganization() {
-    const canPublishNews = get(this, 'news.organization.canPublishNews');
-
-    if (canPublishNews) {
-      set(this, 'errors.organization', null);
-      delete get(this, 'errors')['organization'];
-      return true;
-    } else {
-      set(this, 'errors.organization', 'A valid Organization is required');
-      return false;
-    }
+            this.validateContent();
   },
 
   validateContent() {
@@ -405,15 +342,6 @@ export default Component.extend(TestSelector, Validation, {
       }
     },
 
-    changeOrganization(organization) {
-      next(() => {
-        set(this, 'news.organization', organization);
-        set(this, 'news.didOrgChange', true);
-
-        this.send('notifyChange');
-      });
-    },
-
     discardChanges() {
       const news = get(this, 'news');
 
@@ -472,21 +400,11 @@ export default Component.extend(TestSelector, Validation, {
     },
 
     deleteDraft() {
-      const organizationId = get(this, 'news.organizationId') || null;
-
       set(this, 'isDeletingRecord', true);
 
       get(this, 'news').destroyRecord()
       .then(() => {
-        let nextRoute = 'news.new';
-        let transitionData = null;
-
-        if (isPresent(organizationId)) {
-          nextRoute = 'profile.all.index';
-          transitionData = organizationId;
-        }
-
-        get(this, 'router').transitionTo(nextRoute, transitionData, {
+        get(this, 'router').transitionTo('news.new', {
           queryParams: {
             resetController: true
           }
@@ -510,11 +428,6 @@ export default Component.extend(TestSelector, Validation, {
       .then(() => {
         this.sendAction('refreshModel');
       });
-    },
-
-    goToProfilePage() {
-      const chosenOrganizationId = get(this, 'chosenOrganization.id');
-      get(this, 'router').transitionTo('profile.all', chosenOrganizationId);
     }
   }
 });

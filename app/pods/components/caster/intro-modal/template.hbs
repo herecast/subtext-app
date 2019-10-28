@@ -1,0 +1,55 @@
+{{#modal-wrapper
+  showHeader=false
+  isAnimated=true
+  isSmall=true
+  data-test-component="caster-intro-modal"
+}}
+  <div class="Caster-IntroModal--title">
+    Thanks for signing up!
+  </div>
+  <div class="Caster-IntroModal--subtitle">
+    Now you can share and discover what's happening in & around your town.
+  </div>
+  <div class="Caster-IntroModal--table">
+    <div class="Caster-IntroModal--table-row">
+      <div class="Caster-IntroModal--table-cell left">
+        {{fa-icon "plus" class="Caster-IntroModal--icon plus"}}
+      </div>
+      <div class="Caster-IntroModal--table-cell right">
+        Follow local casters
+      </div>
+    </div>
+
+    <div class="Caster-IntroModal--table-row">
+      <div class="Caster-IntroModal--table-cell left">
+        {{fa-icon "pencil-square-o" class="Caster-IntroModal--icon"}}
+      </div>
+      <div class="Caster-IntroModal--table-cell right">
+        Create your own posts
+      </div>
+    </div>
+
+    <div class="Caster-IntroModal--table-row">
+      <div class="Caster-IntroModal--table-cell left">
+        {{fa-icon "dollar" class="Caster-IntroModal--icon"}}
+      </div>
+      <div class="Caster-IntroModal--table-cell right">
+        Get paid to write about your community
+      </div>
+    </div>
+  </div>
+  <div class="Caster-IntroModal--subtitle">
+    <strong>Before you leave this page, make sure to complete your account information</strong>
+  </div>
+
+  <div class="Caster-IntroModal--buttons">
+    {{#x-button
+      onClick=(action "closeModal")
+      size="x-small"
+      color="teal"
+      noMargin=true
+    }}
+      Complete Account
+    {{/x-button}}
+  </div>
+{{/modal-wrapper}}

@@ -3,6 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import authenticateUser from 'subtext-app/tests/helpers/authenticate-user';
 import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
+import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
 import { invalidateSession} from 'ember-simple-auth/test-support';
 import { visit, click, find, fillIn, currentRouteName } from '@ember/test-helpers';
 
@@ -14,6 +15,7 @@ module('Acceptance | login', function(hooks) {
     invalidateSession();
       window.Intercom = function() {
     };
+    mockLocationCookie(this.server);
     loadPioneerFeed(false);
   });
 

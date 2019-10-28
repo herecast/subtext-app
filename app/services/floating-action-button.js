@@ -1,9 +1,10 @@
 import { later } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
+import Evented from '@ember/object/evented';
 import Service, { inject as service } from '@ember/service';
 import { set, get, setProperties } from '@ember/object';
 
-export default Service.extend({
+export default Service.extend(Evented, {
   tracking: service(),
   modals: service(),
   router: service(),
@@ -100,12 +101,19 @@ export default Service.extend({
       const contentIsNews = get(model, 'contentType') === 'news';
 
       let transition;
+      const currentRouteName = get(router, 'currentRouteName');
 
       if (contentIsNews) {
         transition = router.transitionTo('news.edit', get(model, 'id'));
+
         transition.promise.finally(() => {
           return resolve();
         });
+
+        if (currentRouteName.includes('caster') || currentRouteName.includes('myfeed')) {
+          this.trigger('closeShowModals', null);
+        }
+
         return transition.retry();
       } else {
         const activeForm = get(model, 'contentType') === 'market' ? 'market' : 'event';
@@ -117,13 +125,14 @@ export default Service.extend({
           activeForm: activeForm,
         });
 
-        const currentRouteName = get(router, 'currentRouteName');
 
         if (currentRouteName.includes('.show')) {
           const routeNameArray = currentRouteName.split('.show');
           const newRouteName = routeNameArray[0];
           transition = router.transitionTo(newRouteName);
-          transition['data'] = {displayAsAdminIfAllowed: true};
+        } else if (currentRouteName.includes('caster')) {
+          transition = router.transitionTo('caster.index');
+          this.trigger('closeShowModals', 'caster.index');
         } else {
           transition = false;
         }

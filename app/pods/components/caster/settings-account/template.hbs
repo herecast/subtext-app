@@ -1,0 +1,281 @@
+<div class="Settings--title">
+  Account Settings
+</div>
+
+<div class="Settings--section-title">
+  Account Preferences
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Username
+  </div>
+  <div class="Settings--item-subtitle">
+    @{{caster.handle}}
+  </div>
+  {{#x-button
+    onClick=(action "toggleHandleModal")
+    class="Settings--item-button"
+    size="thin"
+    color="secondary"
+    noMargin=true
+  }}
+    Change
+  {{/x-button}}
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Email Address
+  </div>
+  <div class="Settings--item-subtitle">
+    {{caster.email}}
+  </div>
+  {{#x-button
+    onClick=(action "toggleEmailModal")
+    class="Settings--item-button"
+    size="thin"
+    color="secondary"
+    noMargin=true
+  }}
+    Change
+  {{/x-button}}
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Change Password
+  </div>
+  <div class="Settings--item-subtitle">
+    Password must be 8 characters
+  </div>
+  {{#x-button
+    onClick=(action "togglePasswordModal")
+    class="Settings--item-button"
+    size="thin"
+    color="secondary"
+    noMargin=true
+  }}
+    Change
+  {{/x-button}}
+</div>
+
+<div class="Settings--section-title">
+  Notification Preferences
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Email Address Privacy
+  </div>
+  <div class="Settings--item-subtitle">
+    {{#if emailIsPublic}}
+      Your email address is available to the public
+    {{else}}
+      Your email address is hidden from the public
+    {{/if}}
+  </div>
+  <div class="Settings--item-toggle {{if emailIsPublic "on"}}"
+  {{action "toggleEmailIsPrivate"}}
+  role="button"
+  >
+    {{#if emailIsPublic}}
+      {{fa-icon "toggle-on"}}
+    {{else}}
+      {{fa-icon "toggle-off"}}
+    {{/if}}
+  </div>
+</div>
+
+{{#if wantsToChangeHandle}}
+  {{#modal-wrapper
+    showHeader=false
+    isAnimated=true
+    isSmall=true
+  }}
+    <div class="Settings--modal-title">
+      Change your Username
+    </div>
+    <div class="Settings--modal-explainer">
+      Username must be unique and at least 3 characters long.
+    </div>
+    <div class="Settings--item-title">
+      Current Username:
+    </div>
+    <div class="Settings--item-subtitle">
+      @{{caster.handle}}
+    </div>
+    <form>
+      <div class="Settings--item-title">
+        New Username:
+      </div>
+      {{caster/input-handle
+        newHandle=(mut newHandle)
+        isSavingHandle=isSavingHandle
+        newHandleIsUnique=(mut newHandleIsUnique)
+      }}
+      <div class="Settings--input">
+        {{input
+          value=currentPassword
+          type="password"
+          placeholder="Current Password"
+          disabled=isSavingHandle
+        }}
+        {{caster/status-button
+          isLoading=isSavingHandle
+          isOk=hasCurrentPassword
+        }}
+      </div>
+      <div class="Settings--buttons">
+        {{#x-button
+          onClick=(action "toggleHandleModal")
+          size="thin"
+          color="secondary"
+        }}
+          Cancel
+        {{/x-button}}
+        {{#x-button
+          onClick=(action "saveHandleChange")
+          size="thin"
+          color="primary"
+          noMargin=true
+          disabled=(or saveHandleDisabled isCheckingHandle)
+        }}
+          Save Changes
+        {{/x-button}}
+      </div>
+    </form>
+  {{/modal-wrapper}}
+{{/if}}
+
+{{#if wantsToChangeEmail}}
+  {{#modal-wrapper
+    showHeader=false
+    isAnimated=true
+    isSmall=true
+  }}
+    <div class="Settings--modal-title">
+      Change your email
+    </div>
+    <div class="Settings--modal-explainer">
+      Update your email address below. You will receive a new verification email that you will need to confirm in order to verify the email change.
+    </div>
+    <div class="Settings--item-title">
+      Current Email:
+    </div>
+    <div class="Settings--item-subtitle">
+      {{caster.email}}
+    </div>
+    <form>
+      {{caster/input-email
+        newEmail=(mut newEmail)
+        isSavingEmail=isSavingEmail
+        newEmailIsUnique=(mut newEmailIsUnique)
+      }}
+      <div class="Settings--input">
+        {{input
+          value=currentPassword
+          type="password"
+          placeholder="Current Password"
+          disabled=isSavingEmail
+        }}
+        {{caster/status-button
+          isLoading=isSavingEmail
+          isOk=hasCurrentPassword
+        }}
+      </div>
+      <div class="Settings--buttons">
+        {{#x-button
+          onClick=(action "toggleEmailModal")
+          size="thin"
+          color="secondary"
+          disabled=isSavingEmail
+        }}
+          Cancel
+        {{/x-button}}
+        {{#x-button
+          onClick=(action "saveEmailChange")
+          size="thin"
+          color="primary"
+          noMargin=true
+          disabled=(or saveEmailDisabled isSavingEmail newEmailIsNotUnique)
+        }}
+          Save Changes
+        {{/x-button}}
+      </div>
+    </form>
+  {{/modal-wrapper}}
+{{/if}}
+
+{{#if wantsToChangePassword}}
+  {{#modal-wrapper
+    showHeader=false
+    isAnimated=true
+    isSmall=true
+  }}
+    <div class="Settings--modal-title">
+      Change your password
+    </div>
+    <div class="Settings--modal-explainer">
+      Update your password below. New password needs to be at least 8 characters and different than your current password.
+    </div>
+    <form>
+      <div class="Settings--input">
+        {{input
+          value=currentPassword
+          type="password"
+          placeholder="Current Password"
+          disabled=isSavingPassword
+        }}
+        {{caster/status-button
+          isLoading=isSavingPassword
+          isOk=hasCurrentPassword
+        }}
+      </div>
+      <div class="Settings--input">
+        {{input
+          value=newPassword
+          type="password"
+          placeholder="New Password"
+          disabled=isSavingPassword
+        }}
+        {{caster/status-button
+          isLoading=isSavingPassword
+          isOk=hasNewPassword
+        }}
+      </div>
+      <div class="Settings--input">
+        {{input
+          value=newPasswordConfirmation
+          type="password"
+          placeholder="Confirm New Password"
+          disabled=isSavingPassword
+        }}
+        {{caster/status-button
+          isLoading=isSavingPassword
+          isOk=(and hasNewPasswordConfirmation newPasswordMatchesConfirmation)
+          isNotOk=(and hasNewPasswordConfirmation (not newPasswordMatchesConfirmation))
+        }}
+      </div>
+      <div class="Settings--buttons">
+        {{#x-button
+          onClick=(action "togglePasswordModal")
+          size="thin"
+          color="secondary"
+          disabled=isSavingPassword
+        }}
+          Cancel
+        {{/x-button}}
+        {{#x-button
+          onClick=(action "savePasswordChange")
+          size="thin"
+          color="primary"
+          noMargin=true
+          disabled=(or savePasswordDisabled isSavingPassword)
+        }}
+          Save Changes
+        {{/x-button}}
+      </div>
+    </form>
+  {{/modal-wrapper}}
+{{/if}}

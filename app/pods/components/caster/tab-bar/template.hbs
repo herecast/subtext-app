@@ -1,0 +1,21 @@
+<div class="Caster-TabBar--tab left {{if postsIsActive "active"}}" {{action "changeTab" "posts"}} role="button" data-test-caster-tab="posts">
+  {{fa-icon "window-maximize"}} Posts {{#if postCount}}({{postCount}}){{/if}}
+</div>
+<div class="Caster-TabBar--tab center {{if commentsIsActive "active"}}" {{action "changeTab" "comments"}} role="button" data-test-caster-tab="comments">
+  {{fa-icon "comments-o"}} Comments {{#if commentCount}}({{commentCount}}){{/if}}
+</div>
+<div class="Caster-TabBar--tab right {{if aboutIsActive "active"}}" {{action "changeTab" "about"}} role="button" data-test-caster-tab="about">
+  {{fa-icon "user"}} About
+</div>
+
+{{#if casterIsCurrentUser}}
+  <div class="Caster-TabBar--tab left {{if likedIsActive "active"}}" {{action "changeTab" "liked"}} role="button" data-test-caster-tab="liked">
+    {{fa-icon "heart-o"}} Liked
+  </div>
+  <div class="Caster-TabBar--tab center {{if followingIsActive "active"}}" {{action "changeTab" "following"}} role="button" data-test-caster-tab="following">
+    {{fa-icon "newspaper-o"}} Following
+  </div>
+  <div class="Caster-TabBar--tab right {{if hidingIsActive "active"}}" {{action "changeTab" "hiding"}} role="button" data-test-caster-tab="hiding">
+    {{fa-icon "low-vision"}} Hiding
+  </div>
+{{/if}}

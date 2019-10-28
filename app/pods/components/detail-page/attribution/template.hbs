@@ -13,8 +13,8 @@
           clickReplyButton=(action "clickReplyButton")
           tagName="span"
         }}
-      {{else if model.isNews}}
-        {{subscribe-button organization=model.organization}}
+      {{else}}
+        {{follow-button caster=model.caster}}
       {{/if}}
     {{/feed-card/attribution}}
   </div>

@@ -1,0 +1,35 @@
+.Caster-PostBar {
+  .display-grid();
+  .grid-template-columns(1fr 1fr);
+  background: #fff;
+  padding: 8px 0;
+
+  &--tab {
+    text-align: center;
+    .grid-align-self(center);
+    color: @gray-dark;
+
+    &.left {
+      .grid-column(1);
+    }
+
+    &.right {
+      .grid-column(2);
+    }
+
+    &.active {
+      font-family: @font-family-semibold;
+      text-decoration: underline;
+    }
+  }
+
+  &.show-yield {
+    .grid-template-columns(1fr 1fr 1fr);
+
+    &--tab {
+      &.yield {
+        .grid-column(3);
+      }
+    }
+  }
+}

@@ -1,30 +1,22 @@
 <div class="SiteNav-UserMenu--user {{if isLoggedIn "is-logged-in"}}">
 
     {{#if isLoggedIn}}
-      <div class="SiteNav-UserMenu--user-avatar">
-        {{avatar-image
-          imageUrl=currentUser.userImageUrl
-          userName=currentUser.name
-          customSize=60
-        }}
-        <div class="SiteNav-UserMenu--user-name">
-          {{currentUser.name}}
-        </div>
-        <div class="SiteNav-UserMenu--user-email">
-          {{currentUser.email}}
-        </div>
-
-        <div class="SiteNav-Menu--line-break short"></div>
-
-        <div class="SiteNav--section-title">
-          My Stuff
-        </div>
-        {{mystuff/nav-bar
-          routes=mystuffNavObjects
-          verticalLayout=true
-          whiteButtons=true
-          onChangeRoute=(action "goToMystuffRoute")
-        }}
+      <div {{action "onLinkClick"}} role="button">
+        {{#link-to "caster" currentUser.casterPageLinkId}}
+          <div class="SiteNav-UserMenu--user-avatar">
+            {{avatar-image
+              imageUrl=currentUser.avatarImageUrl
+              userName=currentUser.name
+              customSize=60
+            }}
+            <div class="SiteNav-UserMenu--user-name">
+              {{currentUser.name}}
+            </div>
+            <div class="SiteNav-UserMenu--user-handle">
+              @{{currentUser.handle}}
+            </div>
+          </div>
+        {{/link-to}}
       </div>
     {{else}}
       <div class="SiteNav-UserMenu--user-signin">
@@ -38,7 +30,7 @@
            noPadding=true
            data-test-signin-from-side-menu=true
          }}
-          Log in to your account
+          Log in
         {{/x-button}}
       </div>
       <div class="SiteNav-UserMenu--user-signup">
@@ -55,42 +47,14 @@
           Join your HereCast Community {{fa-icon "chevron-right"}}
         {{/x-button}}
         <div class="SiteNav-UserMenu--user-signup-text">
-          Sign up for free to customize your feed and join the conversation.
+          <p>
+            HereCast is your plae to share and discover what's happening near you.
+          </p>
+          <p>
+            Sign up for free to follow local Casters, comment, and post.
+          </p>
         </div>
       </div>
     {{/if}}
 
 </div>
-
-{{#if hasManagedOrganizations}}
-  <div class="SiteNav-UserMenu--organizations">
-    <div class="SiteNav--section-title">
-      My Pages
-    </div>
-    {{#each managedOrganizations as |managedOrganization|}}
-      <div class="SiteNav-UserMenu--organizations-org" data-test-managed-organization-button>
-        {{#x-button
-           onClick=(action "goTo" "profile" managedOrganization.id)
-           color="light-gray"
-           size="x-small"
-         }}
-          <div class="SiteNav-UserMenu--organizations-org-grid">
-            {{avatar-image
-              imageUrl=managedOrganization.profileImageUrl
-              userName=managedOrganization.name
-              customSize=40
-            }}
-            <div>
-              <div class="SiteNav-UserMenu--organizations-org-name">
-                {{managedOrganization.name}}
-              </div>
-              <div class="SiteNav-UserMenu--organizations-org-cta">
-                Manage page, posts & drafts
-              </div>
-            </div>
-          </div>
-        {{/x-button}}
-      </div>
-    {{/each}}
-  </div>
-{{/if}}

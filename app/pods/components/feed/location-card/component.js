@@ -1,5 +1,5 @@
 import { get, set, setProperties, computed } from '@ember/object';
-import { readOnly, not } from '@ember/object/computed';
+import { readOnly, not, equal } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isPresent, isBlank } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
@@ -10,23 +10,35 @@ import Component from '@ember/component';
 export default Component.extend({
   classNames: ['Feed-LocationCard'],
 
+  'data-test-location-card-image': computed('showCasterCard', function() {
+    return get(this, 'showCasterCard') ? 'caster-image' : 'location-image';
+  }),
+
   cookies: service(),
   fastboot: service(),
   searchService: service('search'),
+  session: service(),
   userLocationService: service('user-location'),
 
   showSearch: false,
   showChooser: false,
   streamlined: false,
-
-  _isLoadingImage: false,
+  showCasterCard: false,
+  hideChangeLocation: false,
   wantsToChangeLocation: false,
 
+  _isLoadingImage: false,
+
   isNotFastBoot: not('fastboot.isFastBoot'),
+
+  currentUser: readOnly('session.currentUser'),
+  casterIsFeedSource: equal('feedService.feedSource', 'caster'),
 
   showLoadingAnimation: computed('userLocationService.isLoadingLocation', 'fastboot.isFastBoot', '_isLoadingImage', function() {
     return get(this, 'userLocationService.isLoadingLocation') || get(this, 'fastboot.isFastBoot') || get(this, '_isLoadingImage');
   }),
+
+  showChangeLocation: not('hideChangeLocation'),
 
   loadingLocationName: computed('userLocationService.loadingLocation.name', 'fastboot.isFastBoot', function() {
     const loadingLocation = get(this, 'userLocationService.loadingLocation') || null;
@@ -96,6 +108,17 @@ export default Component.extend({
     }
 
     return htmlSafe("");
+  }),
+
+  casterBackgroundImageStyle: computed('session.isAuthenticated', 'currentUser.backgroundImageUrl',  function() {
+    const defaultBackgroundImageUrl = '/images/caster_default_background_500x300.jpg';
+    const backgroundImageUrl = get(this, 'currentUser.backgroundImageUrl') || defaultBackgroundImageUrl;
+
+    return htmlSafe(`background-image: url('${backgroundImageUrl}');`);
+  }),
+
+  showFeedChooser: computed('fastboot.isFastBoot', 'streamlined', function() {
+    return !get(this, 'fastboot.isFastBoot') && !(get(this, 'streamlined'));
   }),
 
   showBotttomBar: computed('showSearch', 'showChooser', 'streamlined', function() {

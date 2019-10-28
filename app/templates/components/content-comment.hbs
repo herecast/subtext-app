@@ -1,13 +1,16 @@
-{{!-- TODO upper content will need to decide what the userImageUrl should be --}}
-{{avatar-image
-  imageUrl=comment.userImageUrl
-  userName=comment.userName
-  customSize=40
-}}
+{{#link-to "caster" comment.casterPageLinkId}}
+  {{avatar-image
+    imageUrl=comment.casterAvatarImageUrl
+    userName=comment.casterAttributionName
+    customSize=40
+  }}
+{{/link-to}}
 
 <div class="Comment-body">
   <div class="Comment-meta">
-    {{comment.userName}}&nbsp;&#183;
+    {{#link-to "caster" comment.casterPageLinkId}}
+      {{comment.casterAttributionName}}&nbsp;&#183;
+    {{/link-to}}
     {{if comment.formattedPostedAt comment.formattedPostedAt "just now"}}
     {{#unless hideReportAbuse}}
       &nbsp;&#183;

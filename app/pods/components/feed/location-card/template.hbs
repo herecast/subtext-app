@@ -1,17 +1,21 @@
 <div class="Feed-LocationCard--top">
-
-  {{#if showImage}}
-    <div class="Feed-LocationCard--image" style={{imageStyle}}></div>
-  {{else if hasCoordinates}}
-    {{google-map
-      centerLocation=userLocation
-      class="Feed-LocationCard--map"
-    }}
-  {{else if showDefaultImage}}
-    <div class="Feed-LocationCard--image default"></div>
+  {{#if showCasterCard}}
+    <div class="Feed-LocationCard--image" style={{casterBackgroundImageStyle}}></div>
+  {{else}}
+    {{#if showImage}}
+      <div class="Feed-LocationCard--image" style={{imageStyle}}></div>
+    {{else if hasCoordinates}}
+      {{google-map
+        centerLocation=userLocation
+        class="Feed-LocationCard--map"
+      }}
+    {{else if showDefaultImage}}
+      <div class="Feed-LocationCard--image default"></div>
+    {{/if}}
   {{/if}}
 
   <div class="Feed-LocationCard--overlay"></div>
+
   {{#if streamlined}}
     <div class="Feed-LocationCard--streamline">
       <p>
@@ -21,17 +25,30 @@
         Would you like to be a pioneer and help get things started?
       </p>
     </div>
-  {{else}}
-    <div class="Feed-LocationCard--user-location" {{action "toggleChangeLocation"}} role="button">
-      {{user-location}}
+  {{else if showChangeLocation}}
+    <div class="Feed-LocationCard--user-location">
+      <div
+        class="Feed-LocationCard--user-location-button"
+        {{action "toggleChangeLocation"}}
+        role="button"
+        data-test-button="location-card-change-location"
+      >
+        {{fa-icon "map-marker"}} Change Location
+      </div>
     </div>
   {{/if}}
 
-  <div class="Feed-LocationCard--loading-wrap {{if showLoadingAnimation "on" "off"}}">
-    {{location-load-animation loadingLocationName=loadingLocationName}}
-  </div>
+  {{#unless hideChangeLocation}}
+    <div class="Feed-LocationCard--loading-wrap {{if showLoadingAnimation "on" "off"}}">
+      {{location-load-animation loadingLocationName=loadingLocationName}}
+    </div>
+  {{/unless}}
 
 </div>
+
+{{#if showFeedChooser}}
+  {{feed/source-chooser}}
+{{/if}}
 
 {{#if showBotttomBar}}
   <div class="Feed-LocationCard--bottom">
@@ -47,6 +64,7 @@
           clearButtonText="Clear"
           isLoading=searchService.isLoading
           class="Feed-LocationCard--bottom-left"
+          data-test-component="search-input-location-card"
         }}
       {{/if}}
       {{#if showChooser}}

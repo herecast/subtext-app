@@ -1,0 +1,20 @@
+{{#if casterHides}}
+  <div class="Caster-CasterHides--title">
+    You have hidden the following casters from your feed:
+  </div>
+
+  {{#each casterHides as |caster|}}
+    {{caster/caster-manage
+      caster=caster
+      showHideOptions=true
+    }}
+  {{/each}}
+{{else}}
+  <div class="Caster-CasterHides--title">
+    You are not hiding any casters from your feed.
+  </div>
+
+  <div>
+    To hide a caster from appearing in your feed, click the {{fa-icon "ellipsis-v"}} icon and then the {{fa-icon "low-vision"}} Hide button in the dropdown menu and follow the instructions.
+  </div>
+{{/if}}

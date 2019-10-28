@@ -1,0 +1,18 @@
+{{#unless fastboot.isFastBoot}}
+  <div role="button" {{action "clickedHideButton"}}>
+    {{fa-icon "low-vision"}} {{if hasHiddenThisCaster "Unhide" "Hide"}} {{additionToMessage}}
+    {{yield}}
+  </div>
+{{/unless}}
+
+{{#if wantsToHideCaster}}
+  {{to-elsewhere
+    named="global-modal"
+    send=(component "hide-caster-body"
+           caster=caster
+           contentId=contentId
+           afterHide=(action "afterHide")
+           afterCancel=(action "afterCancel")
+          )
+  }}
+{{/if}}

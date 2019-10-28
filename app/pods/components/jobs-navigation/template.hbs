@@ -13,26 +13,14 @@
       <span>List in Calendar</span>
   </div>
 
-  {{#if canPublishNews}}
-    <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "news"}} role="button">
-      {{#link-to "news.new"}}
-        <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="news">
-          {{fa-icon "pencil-square-o" class="offsetRight"}}
-        </div>
-        <span>Create a Post</span>
-      {{/link-to}}
-    </div>
-  {{else}}
-    <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "createapage"}} role="button">
-      {{#link-to "createapage"}}
-        <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="createapage">
-          {{fa-icon "pencil-square-o" class="offsetRight"}}
-        </div>
-        <span>Get Paid to Post</span>
-      {{/link-to}}
-    </div>
-  {{/if}}
-
+  <div class="JobsNavigation-nav-button" onclick={{action "selectedMenuItem" "news"}} role="button">
+    {{#link-to "news.new"}}
+      <div class="JobsNavigation-bubble" data-test-ugc-job-link data-test-link="news">
+        {{fa-icon "pencil-square-o" class="offsetRight"}}
+      </div>
+      <span>Create a Post</span>
+    {{/link-to}}
+  </div>
 </div>
 
 <div class="JobsNavigation-help-wrap">

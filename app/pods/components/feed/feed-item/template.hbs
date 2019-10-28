@@ -1,9 +1,6 @@
 {{#if isContent}}
   {{feed-card
     model=feedItemModel
-    organization=organization
-    allowManageOnTile=allowManageOnTile
-    displayAsPublic=displayAsPublic
     impressionsEnabled=enableImpressionTracking
     impressionLocation=impressionLocation
     showAnyViewCount=showAnyViewCount
@@ -14,14 +11,4 @@
     isSearchActive=isSearchActive
     enableImpressionTracking=enableImpressionTracking
   }}
-{{else if isOrganization}}
-  {{#x-card}}
-    {{cards/organization-profile-header
-      organization=feedItemModel
-      showGearButton=false
-    }}
-    {{cards/organization-contact
-      organization=feedItemModel
-    }}
-  {{/x-card}}
 {{/if}}

@@ -88,7 +88,7 @@ export default ModalInstance.extend({
 
       const model = get(this, 'model');
       const type = get(model, 'constructor.modelName');
-      const id = type === 'current-user' ? get(model, 'userId') : get(model, 'id');
+      const id = (type === 'current-user' || type === 'caster') ? get(model, 'userId') : get(model, 'id');
 
       get(this, 'contentMetrics').getMetrics(type, id, dateQuery)
       .then((contentMetricsModel) => {

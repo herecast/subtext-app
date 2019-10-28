@@ -1,0 +1,60 @@
+<div class="Settings">
+  {{#if fastboot.isFastBoot}}
+    {{x-loader}}
+  {{else}}
+    {{#feed/feed-container noMargin=true}}
+
+      {{caster/header-card
+        caster=model
+        useShadow=true
+      }}
+
+      {{caster/settings-bar
+        activeTab=activeTab
+        changeTab=(action "changeTab")
+      }}
+
+      <div class="Settings--container">
+        {{#if showAccount}}
+          {{caster/settings-account caster=model}}
+        {{else if showCasterPage}}
+          {{caster/settings-profile caster=model}}
+        {{else if showFeedSettings}}
+          <div class="Settings--title">
+            Customize Your Feeds
+            {{#x-link-to "feed"
+              size="thin"
+              color="primary"
+              style="regular"
+              noMargin=true
+              class="Settings--item-button with-top-margin"
+            }}
+              Go To Feed
+            {{/x-link-to}}
+          </div>
+          <div class="Settings--section-title">
+            Your feed location
+          </div>
+          <div class="Settings--section-centered">
+            {{user-location}}
+            {{user-location/cta-button}}
+          </div>
+
+          <div class="Settings--section-title">
+            Casters you're following
+          </div>
+          {{caster/caster-follows}}
+        {{else if showPayments}}
+          {{caster/settings-payments caster=model}}
+        {{/if}}
+      </div>
+
+    {{/feed/feed-container}}
+  {{/if}}
+</div>
+
+{{#if shouldShowCasterIntroModal}}
+  {{caster/intro-modal
+    onClose=(action "onCloseCasterIntro")
+  }}
+{{/if}}

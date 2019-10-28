@@ -1,4 +1,8 @@
-{{#if paramsForLinkTo}}
+{{#if shouldOverride}}
+  <a href={{overrideUrl}} {{action "transitionToOverride"}}>
+    {{yield}}
+  </a>
+{{else if paramsForLinkTo}}
   {{#link-to params=paramsForLinkTo data-test-link=data-test-link class=class}}
     {{yield}}
   {{/link-to}}

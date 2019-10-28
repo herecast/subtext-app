@@ -83,18 +83,6 @@ function sitemapMiddleware(req, res, next) {
         });
       });
     },
-    '/sitemap-profiles.txt' : function() {
-
-      return fetch(api_base + "/api/v3/organizations/sitemap_ids").then(response => {
-        return response.json().then(json => {
-          let output = "";
-          json['organization_ids'].forEach(id => {
-            output = output + `${consumer_base}/profile/${id}\n`;
-          });
-          return output;
-        });
-      });
-    },
     '/sitemap-events.txt' : function() {
 
       return fetch(api_base + "/api/v3/event_instances/sitemap_ids").then(response => {
@@ -151,32 +139,6 @@ function rewritesMiddleware(req, res, next) {
   }
 };
 
-function redirectsMiddleware(req, res, next) {
-  const redirects = [
-    {
-      from: 'startablog',
-      to: 'createapage'
-    }
-  ];
-
-  const path = req.path.substring(1);
-  const matchedPath = redirects.find(redirect => {
-    return path === redirect.from;
-  });
-
-  if (matchedPath) {
-    const search = req._parsedUrl.search || false;
-    let toPath = matchedPath.to;
-
-    if (search) {
-      toPath += search;
-    }
-
-    return res.redirect(307, `${req.protocol}://${req.hostname}/${toPath}`);
-  } else {
-    return next();
-  }
-};
 
 let server = new FastBootAppServer({
   beforeMiddleware: function (app) {
@@ -196,8 +158,6 @@ let server = new FastBootAppServer({
     app.use(sitemapMiddleware);
 
     app.use(rewritesMiddleware);
-
-    app.use(redirectsMiddleware);
   },
   distPath: 'dist',
   gzip: true,

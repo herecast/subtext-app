@@ -18,7 +18,6 @@ export default Component.extend({
   feedRoute: 'feed',
   profileRoute: 'profile.all',
 
-  isOrganizationCarousel: alias('model.isOrganizationCarousel'),
   isContentCarousel: alias('model.isContentCarousel'),
   carouselId: alias('model.id'),
   carouselType: alias('model.carouselType'),
@@ -45,12 +44,10 @@ export default Component.extend({
     return `feed-carousel/${cardType}-card`;
   }),
 
-  cards: computed('model', 'isOrganizationCarousel', 'isContentCarousel', function() {
+  cards: computed('model', 'isContentCarousel', function() {
     const model = get(this, 'model');
 
-    if ( get(this, 'isOrganizationCarousel') ) {
-      return get(model, 'organizations');
-    } else if ( get(this, 'isContentCarousel') ) {
+    if ( get(this, 'isContentCarousel') ) {
       return get(model, 'contents');
     }
   }),
@@ -78,47 +75,13 @@ export default Component.extend({
     return isPresent(carouselTitle) ? carouselTitle : 'Results';
   }),
 
-  ctaRouteName: computed('model.queryParams', function() {
-    const queryParams = get(this, 'model.queryParams') || {};
-
-    if (isPresent(queryParams.organization_id)) {
-      return get(this, 'profileRoute');
-    }
-
-    return get(this, 'feedRoute');
-  }),
+  ctaRouteName: alias('feedRoute'),
 
   linkToFeed: computed('ctaRouteName', function() {
     return get(this, 'ctaRouteName') === get(this, 'feedRoute');
   }),
 
-  linkToProfile: computed('ctaRouteName', function() {
-    return get(this, 'ctaRouteName') === get(this, 'profileRoute');
-  }),
-
-  queryParams: computed('model.queryParams', function() {
-    let queryParams = get(this, 'model.queryParams');
-
-    if (isBlank(queryParams) && get(this, 'isOrganizationCarousel')) {
-      queryParams = {
-        "type": "organization"
-      };
-    }
-
-    return queryParams;
-  }),
-
-  profileId: computed('model.queryParams', function() {
-    const queryParams = get(this, 'model.queryParams');
-    let profileId = null;
-
-    if (isPresent(queryParams) && isPresent(queryParams.organization_id)) {
-      profileId = queryParams.organization_id;
-    }
-
-    return profileId;
-  }),
-
+  queryParams: alias('model.queryParams'),
 
   didInsertElement() {
     get(this, 'tracking').trackCarouselEvent('Impression', get(this, 'carouselId'), get(this, 'carouselType'));

@@ -7,11 +7,13 @@
   &-location {
     vertical-align: middle;
     text-align: right;
-    line-height: 0.8;
+    line-height: 1.0;
     display: inline-block;
     font-size: 18px;
     font-weight: bold;
     white-space: nowrap;
+    overflow: hidden;
+    padding: 2px;
 
     @media (max-width: @screen-xs-max) {
       font-size: 16px;
@@ -39,7 +41,7 @@
     &-name {
       white-space: normal;
       text-align: left;
-      line-height: 0.9;
+      line-height: 1.0;
     }
   }
 
@@ -66,6 +68,12 @@
       i {
         font-size: 50px;
       }
+    }
+
+    &-title {
+      font-size: 16px;
+      font-family: @font-family-semibold;
+      text-align: center;
     }
 
     &-locate-me {

@@ -1,0 +1,355 @@
+<div class="Settings--title">
+  Customize Caster Page
+  {{#x-link-to "caster" caster.casterPageLinkId
+    size="thin"
+    color="primary"
+    style="regular"
+    noMargin=true
+    class="Settings--item-button with-top-margin"
+  }}
+    View Page
+  {{/x-link-to}}
+</div>
+
+<div class="Settings--section-title">
+  Caster Page Information
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Display Name
+  </div>
+  {{#if isEditingDisplayName}}
+    <div class="Settings--item-subtitle">
+      Set your display name. This does not change your username.
+    </div>
+    <div class="Settings--input">
+      {{input
+        value=casterName
+        type="text"
+        placeholder="Display Name"
+        id="caster-name"
+      }}
+      {{caster/status-button
+        isLoading=isSavingChanges
+      }}
+    </div>
+    {{#x-button
+      onClick=(action "cancelEditing")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Cancel
+    {{/x-button}}
+  {{else}}
+    <div class="Settings--item-subtitle">
+      {{#if casterName}}
+        {{casterName}}
+      {{else}}
+        Not set yet
+      {{/if}}
+    </div>
+    {{#x-button
+      onClick=(action "editDisplayName")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  {{/if}}
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    About you
+  </div>
+  {{#if isEditingDescription}}
+    <div class="Settings--item-subtitle">
+      Give a brief description of yourself
+    </div>
+    <div class="Settings--input">
+      {{textarea
+        value=casterDescription
+        type="text"
+        placeholder="Something about you..."
+        id="caster-description"
+      }}
+    </div>
+    {{#x-button
+      onClick=(action "cancelEditing")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Cancel
+    {{/x-button}}
+  {{else}}
+    <div class="Settings--item-subtitle">
+      {{#if casterDescription}}
+        {{casterDescription}}
+      {{else}}
+        Not set yet
+      {{/if}}
+    </div>
+    {{#x-button
+      onClick=(action "editDescription")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  {{/if}}
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Contact Phone
+  </div>
+  {{#if isEditingPhone}}
+    <div class="Settings--item-subtitle">
+      Set your contact phone number. If set, it will be publicly accessible via the contact button on your Caster Page.
+    </div>
+    <div class="Settings--item-subtitle">
+      {{#if phoneIsValidOrBlank}}
+        {{#if casterPhone.length}}
+          Phone will be displayed as: {{formatted-phone casterPhone}}
+        {{else}}
+          No Phone will be displayed.
+        {{/if}}
+      {{else}}
+        Phone not valid
+      {{/if}}
+    </div>
+    <div class="Settings--input">
+      {{input
+        value=casterPhone
+        type="text"
+        placeholder="10 Digit Phone Number"
+        keyUp=(action "phoneChanged")
+        id="caster-phone"
+        maxlength=10
+      }}
+      {{caster/status-button
+        isLoading=isSavingChanges
+        isOk=(and casterPhone.length phoneIsValidOrBlank)
+        isNotOk=(and casterPhone.length (not phoneIsValidOrBlank))
+      }}
+    </div>
+    {{#x-button
+      onClick=(action "cancelEditing")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Cancel
+    {{/x-button}}
+  {{else}}
+    <div class="Settings--item-subtitle">
+      {{#if casterPhone}}
+        {{formatted-phone casterPhone}}
+      {{else}}
+        Not set yet
+      {{/if}}
+    </div>
+    {{#x-button
+      onClick=(action "editPhone")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  {{/if}}
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Website Link
+  </div>
+  {{#if isEditingWebsite}}
+    <div class="Settings--item-subtitle">
+      Set your website link. It will be displayed in the About section of your Caster Page.
+    </div>
+    <div class="Settings--item-subtitle">
+      {{#if websiteIsValidOrBlank}}
+        {{#if casterWebsite.length}}
+          Link will be displayed as: <a href={{external-link-protocol casterWebsite}} target="_blank" rel="noopener noreferrer">{{casterWebsite}}</a>
+        {{else}}
+          No Website will be displayed.
+        {{/if}}
+      {{else}}
+        Website URL not valid
+      {{/if}}
+    </div>
+    <div class="Settings--input">
+      {{input
+        value=casterWebsite
+        type="text"
+        placeholder="https://yourwebsite.com"
+        id="caster-website"
+      }}
+      {{caster/status-button
+        isLoading=isSavingChanges
+        isOk=(and casterWebsite.length websiteIsValidOrBlank)
+        isNotOk=(and casterWebsite.length (not websiteIsValidOrBlank))
+      }}
+    </div>
+    {{#x-button
+      onClick=(action "cancelEditing")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Cancel
+    {{/x-button}}
+  {{else}}
+    <div class="Settings--item-subtitle">
+      {{#if casterWebsite}}
+        <a href={{external-link-protocol casterWebsite}} target="_blank" rel="noopener noreferrer">{{casterWebsite}}</a>
+      {{else}}
+        Not set yet
+      {{/if}}
+    </div>
+    {{#x-button
+      onClick=(action "editWebsite")
+      class="Settings--item-button"
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  {{/if}}
+</div>
+
+{{#if (and hasMadeChanges (not modalIsOpen))}}
+  <div class="Settings--buttons">
+    {{#x-button
+      onClick=(action "saveChanges")
+      size="thin"
+      color="primary"
+      noMargin=true
+      disabled=changesNotValid
+    }}
+      Save Changes
+    {{/x-button}}
+  </div>
+{{/if}}
+
+<div class="Settings--section-title">
+  Images
+</div>
+
+<div class="Settings--item">
+  <div class="Settings--item-title">
+    Avatar and Background Image
+  </div>
+  <div class="Settings--item-subtitle">
+    Images must be .png or .jpg format and under 5MB in size, with 200px x 200px minimum
+  </div>
+</div>
+<div class="Settings--image-avatar-blank">
+  <div class="Settings--image-avatar-blank-inside">
+    {{fa-icon "user"}}
+    <div>Avatar Image</div>
+    {{#x-button
+      onClick=(action "editAvatarImage")
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  </div>
+</div>
+<div class="Settings--image-background-blank">
+  <div class="Settings--image-background-blank-inside">
+    {{fa-icon "image"}}
+    <div>Background Image</div>
+    {{#x-button
+      onClick=(action "editBackgroundImage")
+      size="thin"
+      color="secondary"
+      noMargin=true
+    }}
+      Change
+    {{/x-button}}
+  </div>
+</div>
+
+{{#if wantsToEditAvatarImage}}
+  {{#modal-wrapper
+    showHeader=false
+    isAnimated=true
+    isSmall=true
+  }}
+    {{content-form-image
+      shouldCrop=true
+      image=caster.avatarImage
+      hideCancel=true
+    }}
+    <div class="Settings--buttons">
+      {{#if hasPendingChanges}}
+        {{#x-button
+          onClick=(action "saveChanges")
+          size="thin"
+          color="primary"
+        }}
+          Save Changes
+        {{/x-button}}
+      {{/if}}
+      {{#x-button
+        onClick=(action "cancelEditing")
+        size="thin"
+        color="secondary"
+        noMargin=true
+      }}
+        Cancel
+      {{/x-button}}
+    </div>
+  {{/modal-wrapper}}
+{{/if}}
+
+{{#if wantsToEditBackgroundImage}}
+  {{#modal-wrapper
+    showHeader=false
+    isAnimated=true
+    isSmall=true
+  }}
+    {{content-form-image
+      shouldCrop=true
+      aspectRatio=1.67
+      image=caster.backgroundImage
+      hideCancel=true
+    }}
+    <div class="Settings--buttons">
+      {{#if hasPendingChanges}}
+        {{#x-button
+          onClick=(action "saveChanges")
+          size="thin"
+          color="primary"
+        }}
+          Save Changes
+        {{/x-button}}
+      {{/if}}
+      {{#x-button
+        onClick=(action "cancelEditing")
+        size="thin"
+        color="secondary"
+        noMargin=true
+      }}
+        Cancel
+      {{/x-button}}
+    </div>
+  {{/modal-wrapper}}
+{{/if}}

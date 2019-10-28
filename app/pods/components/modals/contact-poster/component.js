@@ -4,6 +4,7 @@ import ModalInstance from 'subtext-app/pods/components/modal-instance/component'
 import moment from 'moment';
 
 export default ModalInstance.extend({
+  classNames: ['Modals-ContactPoster'],
   tracking: service(),
   attributeBindings: ['data-test-modal-contact-poster'],
 

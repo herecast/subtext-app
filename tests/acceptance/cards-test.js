@@ -19,15 +19,15 @@ module('Acceptance | cards', function(hooks) {
   });
 
   test('testing news card', async function(assert) {
-    const organization = this.server.create('organization', {
-      activeSubscriberCount: 100
+    const caster = this.server.create('caster', {
+      activeFollowersCount: 100
     });
 
     const content = this.server.create('content', {
       contentOrigin: 'ugc',
       contentType: 'news',
       title: 'hello world',
-      organizationId: organization.id,
+      casterId: caster.id,
       images: [{
         id: 1,
         image_url: imageUrl,
@@ -50,7 +50,7 @@ module('Acceptance | cards', function(hooks) {
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
     assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
-    assert.ok(find('[data-test-card-subscriber-count]'), 'it should show the subscriber count');
+    assert.ok(find('[data-test-card-follower-count]'), 'it should show the follower count');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
     await click('[data-test-card-size-chooser="midsize"]');
@@ -60,7 +60,7 @@ module('Acceptance | cards', function(hooks) {
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
     assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
-    assert.ok(find('[data-test-card-subscriber-count]'), 'it should show the subscriber count');
+    assert.ok(find('[data-test-card-follower-count]'), 'it should show the follower count');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
     await click('[data-test-card-size-chooser="compact"]');
@@ -70,7 +70,7 @@ module('Acceptance | cards', function(hooks) {
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
     assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
-    assert.notOk(find('[data-test-card-subscriber-count]'), 'it should NOT show the subscriber count');
+    assert.notOk(find('[data-test-card-follower-count]'), 'it should NOT show the follower count');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
 

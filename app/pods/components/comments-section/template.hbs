@@ -22,11 +22,11 @@
 
   <div class="CommentList-replyForm">
     {{comment-new
-      parentContentId=parentContentId
+      parentId=parentId
       contentTitle=contentTitle
       comments=comments
       disabled=commentingDisabled
-      afterComment=(action afterComment)
+      afterComment=(action "afterNewComment")
     }}
   </div>
 </div>

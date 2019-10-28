@@ -74,7 +74,6 @@ export default Component.extend(InViewportMixin, {
 
     get(this, 'tracking').push({
       'event'           : event,
-      'advertiser'      : get(promo, 'organization_name'),
       'promotion_id'    : get(promo, 'promotion_id'),
       'banner_id'       : get(promo, 'id'),
       'redirect_url'    : get(promo, 'redirect_url'),

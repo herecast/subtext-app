@@ -6,20 +6,47 @@
   afterChoose=(action "closeMenu")
 }}
 
-{{#unless isLoggedIn}}
-  <div class="SiteNav-Menu--line-break"></div>
-  <div class="SiteNav--section-title padded">
-    What is HereCast?
+<div class="SiteNav-Menu--line-break"></div>
+
+<div class="SiteNav-Menu--user-location">
+  {{user-location}}
+  {{user-location/cta-button
+    isWhiteButton=true
+    click=(action "closeMenu")
+  }}
+</div>
+
+<div class="SiteNav-Menu--line-break"></div>
+
+{{#link-to "feed" class="SiteNav-Menu--link-button" click=(action "closeMenu")}}
+  <div>
+    {{#if isLoggedIn}}
+      {{fa-icon "map-marker"}} <span>{{userLocationName}} Feed</span>
+    {{else}}
+      {{fa-icon "map-marker"}} <span>Location Feed</span>
+    {{/if}}
   </div>
-  <div class="SiteNav--section-text">
-    <p>
-      HereCast is your place to share and discover what's happening in your community.
-    </p>
-    <p>
-      Have something you'd like to share? Use the teal "+" button at the bottom of the screen to get started.
-    </p>
+{{/link-to}}
+
+{{#link-to "myfeed" class="SiteNav-Menu--link-button" click=(action "closeMenu")}}
+  <div>
+    {{fa-icon "users"}} <span>Just For You Feed</span>
   </div>
-{{/unless}}
+{{/link-to}}
+
+{{#if isLoggedIn}}
+  {{#link-to "caster" currentUser.casterPageLinkId class="SiteNav-Menu--link-button" click=(action "closeMenu")}}
+    <div>
+      {{fa-icon "user"}} <span>Your Caster Page</span>
+    </div>
+  {{/link-to}}
+
+  {{#link-to "settings" class="SiteNav-Menu--link-button" click=(action "closeMenu")}}
+    <div>
+      {{fa-icon "gear"}} <span>Settings</span>
+    </div>
+  {{/link-to}}
+{{/if}}
 
 <div class="SiteNav-Menu--line-break"></div>
 <div class="SiteNav--section-title padded">
@@ -27,32 +54,38 @@
 </div>
 
 <div class="SiteNav-Menu--routes">
-  <div {{action "onLinkClick"}} role="button">
-    {{#link-to "terms"}}
+  <div>
+    <a href="https://about.herecast.us" {{action "closeMenu" preventDefault=false}}>
+      About HereCast
+    </a>
+  </div>
+
+  <div>
+    {{#link-to "terms" click=(action "closeMenu")}}
       Terms of Service
     {{/link-to}}
   </div>
 
-  <div {{action "onLinkClick"}} role="button">
-    {{#link-to "privacy"}}
-    Privacy
+  <div>
+    {{#link-to "privacy" click=(action "closeMenu")}}
+      Privacy
     {{/link-to}}
   </div>
 
-  <div {{action "onLinkClick"}} role="button">
-    {{#link-to "copyright-agent"}}
+  <div>
+    {{#link-to "copyright-agent" click=(action "closeMenu")}}
       Legal
     {{/link-to}}
   </div>
 
-  <div {{action "onLinkClick"}} role="button">
-    {{#link-to "copyright"}}
+  <div>
+    {{#link-to "copyright" click=(action "closeMenu")}}
       Copyright
     {{/link-to}}
   </div>
 
   <div>
-    <a href="mailto:ads@HereCast.us" {{action "onLinkClick" preventDefault=false}}>
+    <a href="mailto:ads@HereCast.us" {{action "closeMenu" preventDefault=false}}>
       Advertise With Us
     </a>
   </div>
@@ -63,14 +96,6 @@
 </div>
 
 <div class="SiteNav-Menu--line-break"></div>
-
-<div class="SiteNav-Menu--user-location">
-  {{user-location}}
-  {{user-location/cta-button
-    isWhiteButton=true
-    click=(action "closeMenu")
-  }}
-</div>
 
 {{#if isLoggedIn}}
   <div class="SiteNav-Menu--logout">

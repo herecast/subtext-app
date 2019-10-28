@@ -37,7 +37,6 @@ export default ModalInstance.extend({
   },
 
   title: oneWay('model.title'),
-  isCampaign: oneWay('model.isCampaign'),
   lifetimeViewCount: oneWay('model.viewCount'),
   lifetimeClickCount: oneWay('model.clickCount'),
   hasViewData: notEmpty('contentMetricsModel.views'),
@@ -84,10 +83,9 @@ export default ModalInstance.extend({
   _getContentMetricsModel() {
     if (!get(this, 'isDestroying')) {
       const dateQuery = get(this, '_dateQuery');
-      const contentType = get(this, 'isCampaign') ? 'campaign' : 'content';
       set(this, 'isLoadingModel', true);
 
-      get(this, 'contentMetrics').getMetrics(contentType, get(this, 'model.contentId'), dateQuery)
+      get(this, 'contentMetrics').getMetrics('content', get(this, 'model.contentId'), dateQuery)
       .then((contentMetricsModel) => {
         this.setProperties({
           contentMetricsModel: contentMetricsModel,

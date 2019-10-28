@@ -1,0 +1,26 @@
+<div class="Settings--input handle">
+  <span class="at-sign">@</span>
+  {{input
+    value=newHandle
+    type="text"
+    placeholder="New Username"
+    disabled=isSavingHandle
+    keyUp=(action "handleIsChanging")
+    maxlength=maxHandleLength
+    class=inputClass
+    data-test-field="caster-input-handle"
+  }}
+  {{caster/status-button
+    isLoading=isCheckingHandle
+    isOk=(and newHandleIsUnique hasCheckedHandle)
+    isNotOk=newHandleIsNotUnique
+  }}
+  <div class="Settings--input-message left">
+    {{newHandleLength}} / {{maxHandleLength}} Max
+  </div>
+  {{#if (and newHandleIsNotUnique (not isCheckingHandle))}}
+    <div class="Settings--input-message error">
+      Username is already taken
+    </div>
+  {{/if}}
+</div>

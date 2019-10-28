@@ -6,14 +6,28 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   content: DS.attr('string'),
   contentId: DS.attr('number'),
-  parentContentId: DS.attr('number'),
-  title: DS.attr('string'),
-  userName: DS.attr('string'),
-  userImageUrl: DS.attr('string'),
-  userId: DS.attr('number'),
   publishedAt: DS.attr('moment-date'),
 
-  hasUserName: notEmpty('userName'),
+  casterName: DS.attr('string'),
+  casterAvatarImageUrl: DS.attr('string'),
+  casterHandle: DS.attr('string'),
+  casterId: DS.attr('number'),
+
+  casterAttributionName: computed('casterName', 'casterHandle', function() {
+    if (isPresent(get(this, 'casterName'))) {
+      return get(this, 'casterName');
+    }
+
+    return `@${get(this, 'casterHandle')}`;
+  }),
+
+  casterPageLinkId: computed('casterHandle', function() {
+    return `@${get(this, 'casterHandle')}`;
+  }),
+
+  hasCasterName: notEmpty('casterAttributionName'),
+
+  parentId: DS.attr('number'),
 
   formattedPostedAt: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');

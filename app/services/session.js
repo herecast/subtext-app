@@ -21,6 +21,7 @@ export default SessionService.extend(Evented, {
   _defaultCardSize: 'midsize',
   cardSize: null,
   _currentUserHasBeenLoaded: false,
+  shouldShowCasterIntroModal: false,
 
   init() {
     this._super(...arguments);
@@ -80,8 +81,6 @@ export default SessionService.extend(Evented, {
 
   userLocation: alias('userLocationService.location.name'),
 
-  userCanPublishNews: alias('currentUser.canPublishNews'),
-
   signInWithToken(token) {
     return get(this, 'api').signInWithToken(token).then((data)=> {
       return this.authenticate(
@@ -139,5 +138,13 @@ export default SessionService.extend(Evented, {
 
       this._saveCardSize();
     }
+  },
+
+  setupCasterIntroModal() {
+    set(this, 'shouldShowCasterIntroModal', true);
+  },
+
+  teardownCasterIntroModal() {
+    set(this, 'shouldShowCasterIntroModal', false);
   }
 });

@@ -216,13 +216,6 @@ export default Service.extend({
    * API methods start here
    */
 
-  unsubscribeFromDigest(id, email) {
-    const encodedEmail = encodeURIComponent(btoa(email));
-    return this.returnJson(
-      this.del(`/subscriptions/${id}/${encodedEmail}`)
-    );
-  },
-
   createRegistration(data) {
     return this.returnJson(
       this.post('/users/sign_up',
@@ -257,14 +250,6 @@ export default Service.extend({
     return this.getJson(`/contents/${id}/metrics` + queryString(data));
   },
 
-  getOrganizationContentMetrics(organizationId, data = null) {
-    return this.getJson(`/organizations/${organizationId}/metrics` + queryString(data));
-  },
-
-  getOrganizationPayments(organizationId, data = null) {
-    return this.getJson(`/organizations/${organizationId}/payments` + queryString(data));
-  },
-
   getCurrentUserPayments(userId, data = null) {
     return this.getJson(`/users/${userId}/payments` + queryString(data));
   },
@@ -295,10 +280,6 @@ export default Service.extend({
     return this.getJson(`/content_permissions${qstring}`);
   },
 
-  getListServs() {
-    return this.getJson("/listservs");
-  },
-
   getDaysWithEvents(query) {
     return this.getJson(`/event_instances/active_dates${queryString(query)}`);
   },
@@ -322,28 +303,6 @@ export default Service.extend({
     return this.getJson(url);
   },
 
-  getOrganizations(query) {
-    let url = '/organizations';
-
-    if (isPresent(query)) {
-      url = url + queryString({query: query});
-    }
-
-    return this.getJson(url);
-  },
-
-
-  createOrganization(organization) {
-    return this.returnJson(
-      this.post(`/organizations`,
-        this.json({organization})
-      )
-    );
-  },
-
-  getOrganizationContents(id) {
-    return this.getJson(`/organizations/${id}/contents`);
-  },
 
   getPromotionBannerMetrics(id, data) {
     return this.getJson(`/promotion_banners/${id}/metrics` + queryString(data));
@@ -379,18 +338,25 @@ export default Service.extend({
     return this.getJson(url);
   },
 
-  isRegisteredUser(email) {
-    // returns either a 404 Not Found or a 200 OK
-    return this.getJson('/user/' + queryString({email: encodeURI(email)}));
+  isExistingHandle(handle) {
+    return this.getJson(`/casters/handles/validation?handle=${encodeURIComponent(handle)}`);
   },
 
-  isExistingOrganizationName(name) {
-    return this.getJson(`/organizations/${encodeURIComponent(name)}/validation`);
+  isExistingEmail(email) {
+    return this.getJson(`/casters/emails/validation?email=${encodeURIComponent(email)}`);
   },
 
-  updateCurrentUserAvatar(data) {
+  checkCurrentPassword(casterId, password) {
     return this.returnJson(
-      this.put('/current_user',
+      this.post(`/current_users/password_validation`,
+        this.json({password})
+      )
+    );
+  },
+
+  updateCurrentUserImage(data) {
+    return this.returnJson(
+      this.put(`/current_user`,
         this.formData(data)
       )
     );
@@ -399,14 +365,6 @@ export default Service.extend({
   updateEventImage(id, data) {
     return this.returnJson(
       this.put(`/events/${id}`,
-        this.formData(data)
-      )
-    );
-  },
-
-  updateOrganizationImage(id, data) {
-    return this.returnJson(
-      this.put(`/organizations/${id}`,
         this.formData(data)
       )
     );
@@ -474,42 +432,6 @@ export default Service.extend({
       this.post(`/metrics/contents/${id}/impressions`,
         this.json(data)
       )
-    );
-  },
-
-  recordOrganizationContentPromotion(contentId, promotionRecord) {
-    return this.returnJson(
-      this.post(`/contents/${contentId}/promotions`,
-        this.json({
-          promotion: promotionRecord
-        })
-      )
-    );
-  },
-
-  getOrganizationContentPromotions(contentId) {
-    return this.getJson(`/contents/${contentId}/promotions`);
-  },
-
-  setOrganizationContentStatus(organizationId, contentId, data) {
-    return this.returnJson(
-      this.put(`/organizations/${organizationId}/contents/${contentId}`,
-        this.json({
-          content: data
-        })
-      )
-    );
-  },
-
-  addOrganizationTagOnContent(organizationId, contentId) {
-    return this.returnJson(
-      this.post(`/organizations/${organizationId}/contents/${contentId}/tags`)
-    );
-  },
-
-  removeOrganizationTagOnContent(organizationId, contentId) {
-    return this.returnJson(
-      this.del(`/organizations/${organizationId}/contents/${contentId}/tags`)
     );
   },
 
@@ -585,15 +507,5 @@ export default Service.extend({
     return this.returnJson(
       this.post('/users/oauth', this.json(authData))
     );
-  },
-
-  getOrganizationSubscriptionMatches(query) {
-    let url = '/organizations/subscriptions';
-
-    if (isPresent(query)) {
-      url = url + queryString({query: query});
-    }
-
-    return this.getJson(url);
-  },
+  }
 });

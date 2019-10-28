@@ -15,12 +15,10 @@ module('Acceptance | ugc event', function(hooks) {
   test('Every field avaliable filled in', async function(assert) {
     const done = assert.async(3);
     const venue = this.server.create('venue');
-    const organization = this.server.create('organization');
     const authorName = "Herbie Dunfie";
     const currentUser = this.server.create('current-user', {
       email: 'example@example.com',
-      name: authorName,
-      managedOrganizationIds: [parseInt(get(organization, 'id'))]
+      name: authorName
     });
     const repeat = 'daily';
     const price = '$7';
@@ -42,8 +40,6 @@ module('Acceptance | ugc event', function(hooks) {
       assert.deepEqual(
         attrs,
         {
-          authorName: authorName,
-          bizFeedPublic: true,
           contactEmail: email,
           contactPhone: phone,
           content: description,
@@ -52,7 +48,6 @@ module('Acceptance | ugc event', function(hooks) {
           eventUrl: null,
           url: url,
           location: null,
-          organizationId: get(organization, 'id'),
           publishedAt: null,
           schedules: [
             {
@@ -80,7 +75,6 @@ module('Acceptance | ugc event', function(hooks) {
           ],
           sold: false,
           subtitle: null,
-          sunsetDate: null,
           title: title,
           venueId: parseInt(get(venue, 'id')),
           venueStatus: null
@@ -122,7 +116,6 @@ module('Acceptance | ugc event', function(hooks) {
 
     await ugcEvent.start();
 
-    await ugcEvent.selectOrganization(organization);
     await ugcEvent.fillInTitle('test-title');
 
     await ugcEvent.fillInTitle(title)

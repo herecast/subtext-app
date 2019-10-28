@@ -1,15 +1,14 @@
-import { reads, oneWay, readOnly} from '@ember/object/computed';
+import { reads, readOnly} from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { isPresent } from '@ember/utils';
 import { set, get, computed } from '@ember/object';
 import { later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
 import LaunchingContent from 'subtext-app/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-app/mixins/components/model-reset-scroll';
-import contentComments from 'subtext-app/mixins/content-comments';
+//import contentComments from 'subtext-app/mixins/content-comments';
 import Component from '@ember/component';
 
-export default Component.extend(ModelResetScroll, LaunchingContent, contentComments, {
+export default Component.extend(ModelResetScroll, LaunchingContent, /*contentComments,*/ {
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:is-preview', 'noTopPadding:no-top-padding'],
   'data-test-component': 'detail-page',
@@ -37,19 +36,6 @@ export default Component.extend(ModelResetScroll, LaunchingContent, contentComme
     this._super(...arguments);
     set(this, '_cachedModelId', get(this, 'model.id'));
   },
-
-  organization: readOnly('model.organization'),
-  userManagedOrganizations: oneWay('session.currentUser.managedOrganizations'),
-
-  isOwnedByOrganization: readOnly('model.isOwnedByOrganization'),
-  showOrganizationFooter: computed('isOwnedByOrganization', 'isNews', function() {
-    return get(this, 'isOwnedByOrganization') && get(this, 'isNews');
-  }),
-
-  userCanEditNews: computed('session.isAuthenticated', 'userManagedOrganizations.@each.id', 'model.organizationId', function() {
-    const managedOrganizations = get(this, 'userManagedOrganizations') || [];
-    return isPresent(managedOrganizations.findBy('id', String(get(this, 'model.organizationId'))));
-  }),
 
   modelContent: computed('model.content', function() {
     return htmlSafe(get(this, 'model.content'));

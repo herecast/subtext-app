@@ -5,15 +5,12 @@ export default Factory.extend({
   modelType(id) {
     if (id % 20 === 0 && id <= 100) {
       return 'carousel';
-    } else if (id <= 100){
-      return 'content';
     } else {
-      return 'organization';
+      return 'content';
     }
   },
 
   carousel: association(),
-  organization: association(),
   content: association(),
 
   afterCreate(item, server) {

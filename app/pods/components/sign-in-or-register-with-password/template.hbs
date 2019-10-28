@@ -2,72 +2,182 @@
   <ul class="SignInForm-tabs">
     <li class={{if isSignIn "active"}}>
       <a data-test-link="sign-in-tab" onclick={{action "changeMode" "sign-in-with-password"}} role="button">
-        Sign In
+        Log In
       </a>
     </li>
     <li class={{if isRegister "active"}}>
       <a data-test-link="join-tab" onclick={{action "changeMode" "register"}} role="button">
-        Register
+        Sign up
       </a>
     </li>
   </ul>
 
-  {{#form-group error=errors.email}}
-    {{form-input
-      value=email
-      type="email"
-      id="SignInForm-email"
-      placeholder="Email"
-      input=(action "clearErrors")
-      data-test-field="sign-in-email"
-      required=true
-    }}
-    {{#if userMustConfirm}}
-      <div class="help-block SignInForm-reconfirmMessage">
-        <strong>You have not yet confirmed your account.</strong> <br><br>
-        Please check your mailbox for HereCast Confirmation Instructions sent to {{email}}.
-        Or <br>
-        <a class="SignInForm-reconfirmAction" href="#" {{action "reconfirm"}}>click here to re-send the confirmation
-          email.</a><br>
-        You must confirm your account before signing in.
-      </div>
-    {{/if}}
-  {{/form-group}}
-
-  {{#form-group error=errors.password}}
-    {{form-input
-      value=password
-      placeholder="Password"
-      type="password"
-      data-test-field="sign-in-password"
-      required=true
-    }}
-  {{/form-group}}
-
-  <div class="SignInForm-submitWrapper">
-    {{x-async-button
-      promiseAction=(action submit)
-      default=(if isSignIn "Sign in" "Register")
-      pending=(if isSignIn "Signing in" "Registering")
-      fulfilled=(if isSignIn "Signing in" "Registering")
-      rejected="Please Try Again"
-      class="SignInForm-submitButton"
-      data-test-component="sign-in-submit"
+  {{#liquid-if isSignIn}}
+    {{facebook-login-button
+      startMessage="Log In with Facebook"
+      afterAuthenticate=(action "afterAuthenticate")
     }}
 
-    {{#if isSignIn}}
+    {{#text-block center=true large=true strong=true}}
+      or
+    {{/text-block}}
+
+    {{#form-group error=errors.email}}
+      {{form-input
+        value=email
+        type="email"
+        id="SignInForm-email"
+        placeholder="Email"
+        input=(action "clearErrors")
+        keyDown=(action "protectReturn")
+        data-test-field="sign-in-email"
+        required=true
+      }}
+      {{#if userMustConfirm}}
+        <div class="help-block SignInForm-reconfirmMessage">
+          <strong>You have not yet confirmed your account.</strong> <br><br>
+          Please check your mailbox for HereCast Confirmation Instructions sent to {{email}}.
+          Or <br>
+          <a class="SignInForm-reconfirmAction" href="#" {{action "reconfirm"}}>click here to re-send the confirmation
+            email.</a><br>
+          You must confirm your account before signing in.
+        </div>
+      {{/if}}
+    {{/form-group}}
+
+    {{#form-group error=errors.password}}
+      {{form-input
+        value=password
+        placeholder="Password"
+        keyDown=(action "protectReturn")
+        type="password"
+        data-test-field="sign-in-password"
+        required=true
+      }}
+    {{/form-group}}
+
+    <div class="SignInForm-submitWrapper">
+      {{x-async-button
+        promiseAction=(action "signIn")
+        default="Log in"
+        pending="Logging in"
+        fulfilled="Logging in"
+        rejected="Please Try Again"
+        class="SignInForm-submitButton"
+        data-test-component="sign-in-submit"
+      }}
+
       {{#link-to "forgot-password" class="SignInForm-link"
         data-test-link="forgot-password" preventDefault=true}}
         <span {{action forgotPassword}} role="button">
           Forgot Password?
         </span>
       {{/link-to}}
-    {{else}}
-      <a class="SignInForm-link" {{action "changeMode" "sign-in-with-password"}} role="button">
-        Already have an account?
-      </a>
-    {{/if}}
-  </div>
+    </div>
+
+  {{else}}
+
+    {{#text-block large=true strong=true}}
+      1) Choose your unique username
+    {{/text-block}}
+
+    {{#form-group}}
+      {{caster/input-handle
+        newHandle=(mut newHandle)
+        isSavingHandle=isSavingHandle
+        newHandleIsUnique=(mut newHandleIsUnique)
+        hasCheckedHandle=(mut hasCheckedHandle)
+        inputClass="FormInput"
+      }}
+    {{/form-group}}
+
+    {{#liquid-if (or newHandleIsUnique hasCheckedHandle)}}
+      {{#text-block large=true strong=true}}
+        2) Use Facebook or email
+      {{/text-block}}
+
+      {{facebook-login-button
+        startMessage="Sign Up with Facebook"
+        afterAuthenticate=(action "afterAuthenticate")
+        afterRegister=(action "goToSettings")
+        handle=newHandle
+        isDisabled=(not newHandleIsUnique)
+      }}
+
+      {{#text-block center=true large=true strong=true}}
+        or
+      {{/text-block}}
+
+      {{#form-group}}
+        {{caster/input-email
+          newEmail=(mut newEmail)
+          isSavingEmail=isSavingEmail
+          hasCheckedEmail=(mut hasCheckedEmail)
+          newEmailIsUnique=(mut newEmailIsUnique)
+          inputClass="FormInput"
+          isDisabled=(not newHandleIsUnique)
+          keyDown=(action "protectReturn")
+        }}
+      {{/form-group}}
+    {{/liquid-if}}
+
+    {{#liquid-if showPasswordBlock}}
+      {{#text-block large=true strong=true}}
+        3) Choose a password
+      {{/text-block}}
+
+      {{#form-group class="Settings--input"}}
+        {{input
+          value=password
+          type="password"
+          placeholder="New Password"
+          class="FormInput"
+          keyUp=(action "protectReturn")
+          data-test-field="register-password"
+        }}
+        {{#if hasPassword}}
+          {{caster/status-button
+            isLoading=isSavingPassword
+            isOk=passwordIsOk
+            isNotOk=(not passwordIsOk)
+          }}
+        {{/if}}
+      {{/form-group}}
+
+      {{#form-group class="Settings--input"}}
+        {{input
+          value=passwordConfirmation
+          type="password"
+          placeholder="Confirm Password"
+          disabled=(not passwordIsOk)
+          class="FormInput"
+          keyUp=(action "protectReturn")
+          data-test-field="register-password-confirmation"
+        }}
+        {{#if passwordIsOk}}
+          {{caster/status-button
+            isLoading=isSavingPassword
+            isOk=passwordConfirmationIsOk
+            isNotOk=(not passwordConfirmationIsOk)
+          }}
+        {{/if}}
+      {{/form-group}}
+    {{/liquid-if}}
+
+    <div class="SignInForm-submitWrapper">
+      {{x-async-button
+        promiseAction=(action "registerUser")
+        default="Sign Up"
+        pending="Signing Up"
+        fulfilled="Signing Up"
+        rejected="Please Try Again"
+        class="SignInForm-submitButton"
+        data-test-component="register-submit"
+        isDisabled=(not canRegister)
+      }}
+    </div>
+  {{/liquid-if}}
+
 </div>
 
 {{#content-footer}}

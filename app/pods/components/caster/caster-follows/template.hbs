@@ -1,0 +1,54 @@
+<div class="Caster-CasterFollows--search {{if hasInputValue "open"}}">
+  <div class="Caster-CasterFollows--title">
+    Find casters and follow!
+  </div>
+
+  <div class="Caster-CasterFollows--search-field dropdown-toggle">
+    {{input
+      id="caster-search"
+      placeholder="Start typing..."
+      class="Caster-CasterFollows--input"
+      value=(mut searchValue)
+      keyDown=(action "valueChanging")
+    }}
+    {{#if hasInputValue}}
+      {{#if isLoadingMatches}}
+        <div class="close-icon">
+          {{fa-icon "cog" spin=true}}
+        </div>
+      {{else}}
+        <div class="close-icon" role="button" {{action "clearSearch"}}>
+          {{fa-icon "times"}}
+        </div>
+      {{/if}}
+
+    {{/if}}
+  </div>
+  <div class="Caster-CasterFollows--search-results dropdown-menu">
+    {{#if searchMatches}}
+      {{#each searchMatches as |caster|}}
+        {{caster/caster-manage
+          caster=caster
+          showFollowOptions=true
+        }}
+      {{/each}}
+    {{else if hasInputValue}}
+      <div class="Caster-CasterFollows--search-no-results">
+        No Matching Casters
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{#if casterFollows}}
+  <div class="Caster-CasterFollows--title">
+    You are currently following these casters:
+  </div>
+
+  {{#each casterFollows as |caster|}}
+    {{caster/caster-manage
+      caster=caster
+      showFollowOptions=true
+    }}
+  {{/each}}
+{{/if}}

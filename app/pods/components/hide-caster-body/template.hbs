@@ -1,0 +1,88 @@
+{{#modal-wrapper
+  showHeader=false
+  isAnimated=true
+  isSmall=true
+  class="HideCasterButton--modal"
+}}
+  <div class="HideCasterButton--modal-caster">
+    <div class="HideCasterButton--modal-caster-left">
+      {{fa-icon "low-vision" class="HideCasterButton--modal-caster-icon"}}
+      <div>Hide</div>
+    </div>
+    <div class="HideCasterButton--modal-caster-center">
+      {{avatar-image
+        imageUrl=casterAvatarImageUrl
+        userName=casterName
+        customSize=40
+        class="HideCasterButton--modal-caster-avatar"
+      }}
+    </div>
+    <div class="HideCasterButton--modal-caster-right">
+      {{caster.attributionName}}
+    </div>
+  </div>
+
+
+  {{#liquid-if (or showSuccess hasHiddenThisCaster) use="fade"}}
+    <div class="alert alert-success" role="alert">
+      You are hiding this Caster's posts from your feed. To unhide this Caster visit your Caster page.
+    </div>
+  {{else}}
+
+  <div class="HideCasterButton--modal-message">
+    <p class="text-left u-paddingHorizontal8">
+      This action will hide all posts created by this Caster in your feed.
+    </p>
+    <p class="text-left u-paddingHorizontal8">
+      Why don't you want to see this Caster's posts?
+      Your response is anonymous.
+    </p>
+  </div>
+
+  {{#liquid-if isInvalid use="fade"}}
+    <div class="alert alert-danger u-marginBottom0" role="alert">
+      Please make a selection and try again.
+    </div>
+  {{/liquid-if}}
+
+    <div class="HideCasterButton--modal-flags-wrap">
+      <ul class="HideCasterButton--modal-flags">
+        {{#each flagTypes as |flag|}}
+          <li class="HideCasterButton--modal-flags-flag">
+            {{#radio-button
+              class="HideCasterButton--modal-flag-label"
+              name="flag-type"
+              value=flag
+              groupValue=flagType
+            }}
+              {{flag}}
+            {{/radio-button}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/liquid-if}}
+
+  <div class="HideCasterButton--modal-action-buttons">
+    {{#unless hasHiddenThisCaster}}
+      {{#x-button
+        color=(if hasFlagType "primary" "light-gray")
+        rounded="rounded"
+        size="x-small"
+        onClick=(action "hide")
+      }}
+        Hide Caster
+      {{/x-button}}
+    {{/unless}}
+
+    {{#x-button
+      color=(if showSuccess "primary" "light-gray")
+      rounded="rounded"
+      size="x-small"
+      onClick=(action "close")
+    }}
+      {{if showSuccess "Close" "Cancel"}}
+    {{/x-button}}
+  </div>
+
+{{/modal-wrapper}}

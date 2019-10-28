@@ -11,6 +11,7 @@ import moment from 'moment';
 import $ from 'jquery';
 
 export default Route.extend(VariableInfinityModelParams, History, NavigationDisplay, {
+  showFilters: true,
   hideFooter: true,
   isTransitioning: false,
 

@@ -1,0 +1,21 @@
+<div class="Settings--input">
+  {{input
+    value=newEmail
+    type="email"
+    placeholder="New Email Address"
+    keyUp=(action "emailIsChanging")
+    class=inputClass
+    disabled=(or isSavingEmail isDisabled)
+    data-test-field="caster-input-email"
+  }}
+  {{caster/status-button
+    isLoading=(or isSavingEmail isCheckingEmail)
+    isOk=(and hasNewEmail hasCheckedEmail)
+    isNotOk=newEmailIsNotUnique
+  }}
+  {{#if (and newEmailIsNotUnique (not isCheckingEmail))}}
+    <div class="Settings--input-message error">
+      Email is already in use
+    </div>
+  {{/if}}
+</div>

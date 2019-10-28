@@ -1,13 +1,15 @@
-import { ActiveModelSerializer } from 'active-model-adapter';
+import DS from 'ember-data';
+import ApplicationSerializer from './application';
 
-export default ActiveModelSerializer.extend({
-  isNewSerializerAPI: true,
-  serialize(snapshot, options) {
-    const json = this._super(snapshot, options);
+export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
+  serialize() {
+    const json = this._super(...arguments);
 
-    // Remove read only attributes that should not be sent to the API
-    delete json.user_image_url;
-    delete json.user_name;
+    delete json.caster_avatar_image_url;
+    delete json.caster_handle;
+    delete json.caster_name;
+    delete json.caster_id;
+    delete json.content_id;
     delete json.published_at;
 
     return json;

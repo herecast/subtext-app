@@ -1,14 +1,5 @@
 <div class="Feed {{if isFastBoot "isFastBoot"}}">
   <div data-test-page="feed">
-    {{#if type}}
-      {{to-elsewhere
-        named="filters"
-        send=(component "search-type-tag"
-               type=type
-               remove=(action "filterType" null))
-      }}
-    {{/if}}
-
     {{#feed/feed-container noMargin=true}}
       {{outlet}}
 
@@ -16,6 +7,7 @@
         showSearch=true
         showChooser=true
         streamlined=showPioneeringFeed
+        showCasterCard=false
       }}
 
       {{#if (or isFastBoot showLoadingAnimation)}}
@@ -25,7 +17,8 @@
           feedItems=model.feedItems
         }}
       {{else if hasResults}}
-        {{#if eventFilterAndNotMyStuff}}
+
+        {{#if eventFilter}}
           {{events-results
             feedItems=model.eventInstances
             adPath="feed.index"
@@ -38,8 +31,10 @@
 
           {{#infinity-loader
             infinityModel=model.eventInstances
+            triggerOffset=100
+            hideOnInfinity=true
           }}
-            {{#if model.eventInstances.reachedInfinity}}
+            {{#if infinityModel.reachedInfinity}}
               {{no-results-card hadResults=true}}
             {{else}}
               {{fa-icon "spinner" class="fa-pulse"}}
@@ -55,8 +50,10 @@
 
           {{#infinity-loader
             infinityModel=model.feedItems
+            triggerOffset=100
+            hideOnInfinity=true
           }}
-            {{#if model.eventInstances.reachedInfinity}}
+            {{#if infinityModel.reachedInfinity}}
               {{no-results-card hadResults=true}}
             {{else}}
               {{fa-icon "spinner" class="fa-pulse"}}

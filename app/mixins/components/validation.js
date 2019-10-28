@@ -146,16 +146,15 @@ export default Mixin.create({
     return isBlank(phone) || phoneRegex.test(phone);
   },
 
+  urlIsValid(url) {
+    const urlRegex = /[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/ig;
+    return urlRegex.test(url);
+  },
+
   hasValidUrl(attrName) {
     const url = get(this, `model.${attrName}`);
 
-    // Copyright (c) 2010-2013 Diego Perini, MIT licensed
-    // https://gist.github.com/dperini/729294
-    // see also https://mathiasbynens.be/demo/url-regex
-    // modified to allow protocol-relative URLs
-    const urlRegex = /[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/ig;
-
-    if (isBlank(url) || urlRegex.test(url)) {
+    if (isBlank(url) || this.urlIsValid(url)) {
       this.set(`errors.${attrName}`, null);
       delete this.get('errors')[attrName];
       return true;

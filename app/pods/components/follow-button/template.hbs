@@ -1,0 +1,54 @@
+{{#if isFollowing}}
+
+  {{#if wantsToUnfollow}}
+    <div class="FollowButton--message">
+      Unfollow?
+    </div>
+    <div
+      role="button"
+      data-test-link="caster-follow-link-cancel"
+      class="FollowButton--button XButton XButton--primary XButton--regular XButton--thin XButton--rounded XButton-nowrap {{if large "FollowButton--large"}}"
+      {{action "cancelUnfollow"}}
+    >
+      No
+    </div>
+    <div
+      role="button"
+      data-test-link="caster-follow-link-cancel"
+      class="FollowButton--button XButton XButton--medium-gray XButton--transparent XButton--thin XButton--rounded XButton-nowrap {{if large "FollowButton--large"}}"
+      {{action "unfollow"}}
+    >
+      Yes
+    </div>
+
+  {{else}}
+    <div
+      role="button"
+      data-test-link="caster-follow-link"
+      class="XButton XButton--medium-gray XButton--regular XButton--noMargin XButton--thin XButton--rounded XButton-nowrap {{if large "FollowButton--large"}}"
+      {{action "startUnfollow"}}
+    >
+      {{#if isLoading}}
+        {{fa-icon "cog" spin=true}} Working...
+      {{else}}
+        Following
+      {{/if}}
+    </div>
+  {{/if}}
+
+{{else}}
+  {{#if (not fastboot.isFastBoot)}}
+    <div
+      role="button"
+      data-test-link="caster-follow-link"
+      class="XButton XButton--primary XButton--regular XButton--noMargin XButton--thin XButton--rounded XButton-nowrap {{if large "FollowButton--large"}}"
+      {{action "follow"}}
+    >
+      {{#if isLoading}}
+        {{fa-icon "cog" spin=true}} Working...
+      {{else}}
+        {{fa-icon "plus"}}  Follow
+      {{/if}}
+    </div>
+  {{/if}}
+{{/if}}

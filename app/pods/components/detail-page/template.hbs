@@ -98,17 +98,13 @@
       callback=(action trackDetailEngagement "read")
     }}
 
-
-    {{#if showOrganizationFooter}}
-      {{detail-page/org-footer organization=organization}}
-    {{/if}}
+    {{detail-page/caster-footer caster=model.caster}}
 
     {{#unless isPreview}}
       {{#horizontal-rule}}
         {{social-share
           title=model.title
-          authorName=model.organization.name
-          twitterHandle=model.organization.twitterHandle
+          authorName=model.caster.attributionName
           sharedBy=session.userName
           model=model
         }}
@@ -135,11 +131,10 @@
         {{comments-section
           showSectionTitle=true
           commentCount=model.commentCount
-          parentContentId=(readonly model.contentId)
-          comments=comments
+          parentId=(readonly model.contentId)
+          comments=model.comments
           contentTitle=(readonly model.title)
           disabled=(readonly commentingDisabled)
-          afterComment=(action "reloadComments")
         }}
       </div>
 

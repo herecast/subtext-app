@@ -7,11 +7,9 @@ export default DS.Model.extend({
 
   carousel: DS.belongsTo({async: false}),
   content: DS.belongsTo({async: false}),
-  organization: DS.belongsTo({async: false}),
 
   isCarousel: equal('modelType', 'carousel'),
   isContent: equal('modelType', 'content'),
-  isOrganization: equal('modelType', 'organization'),
 
   viewStatus: alias('content.viewStatus'),
 

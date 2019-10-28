@@ -15,9 +15,6 @@ export default Mixin.create({
     location: {
       refreshModel: true
     },
-    organization: {
-      refreshModel: true
-    },
     date_start: {
       refreshModel: true
     },

@@ -1,22 +1,51 @@
 import { inject as service } from '@ember/service';
-import Mixin from '@ember/object/mixin';
 import { get } from '@ember/object';
+import { getOwner } from '@ember/application';
+import Mixin from '@ember/object/mixin';
+
 
 export default Mixin.create({
-  modals: service(),
+  _modalPathOverride: null,
+  _modalParentPath: null,
 
-  deactivate() {
-    this._super(...arguments);
-    get(this, 'modals').removeModalBodyClass();
+  routing: service('-routing'),
+  router: service(),
+
+  renderTemplate() {
+    this.render({
+      into: 'application',
+      outlet: 'modal-outlet'
+    });
   },
 
-  actions: {
-    didTransition() {
-      this._super(...arguments);
+  _calculateModelParams(model) {
+    let modelParams = {
+      id: get(model, 'id'),
+    };
 
-      if (get(this, 'modals.serviceIsActive')) {
-        get(this, 'modals').addModalBodyClass();
-      }
+    const eventInstanceId = get(model, 'eventInstanceId') || false;
+
+    if (eventInstanceId) {
+      modelParams.event_instance_id = eventInstanceId;
+    }
+
+    return modelParams;
+  },
+
+  afterModel(model, transition) {
+    this._super(...arguments);
+
+    const modalPathOverride = get(this, '_modalPathOverride') || false;
+
+    if (modalPathOverride) {
+      const modelParams = this._calculateModelParams(model);
+      const url = get(this, 'router').urlFor(modalPathOverride, modelParams);
+
+      this.enter();
+      this.setup(model, transition);
+      getOwner(this).lookup('route:application').connections = getOwner(this).lookup('route:application').connections.concat(this.connections);
+      transition.abort();
+      transition.router.updateURL(url);
     }
   }
 });

@@ -1,0 +1,12 @@
+<div class="Caster-PostBar--tab {{if publishedIsActive "active"}} left" {{action "changeTab" "published"}} role="button">
+  Published Posts
+</div>
+<div class="Caster-PostBar--tab {{if draftsIsActive "active"}} right" {{action "changeTab" "drafts"}} role="button">
+  Drafts
+</div>
+
+{{#if showYield}}
+  <div class="Caster-PostBar--tab yield">
+    {{yield}}
+  </div>
+{{/if}}

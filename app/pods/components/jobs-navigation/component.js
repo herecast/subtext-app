@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { get } from '@ember/object';
-import { readOnly } from  '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
@@ -19,8 +18,6 @@ export default Component.extend({
   tracking: service(),
 
   onChooseJob: function() {},
-
-  canPublishNews: readOnly('session.currentUser.canPublishNews'),
 
   _openSignInModal() {
     return get(this, 'modals').showModal('modals/sign-in-register', {

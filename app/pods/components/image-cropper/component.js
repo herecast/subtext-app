@@ -1,6 +1,6 @@
 import { debounce, next } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
-import { set, get } from '@ember/object';
+import { set, get, computed } from '@ember/object';
 import $ from 'jquery';
 import Component from '@ember/component';
 
@@ -11,10 +11,15 @@ export default Component.extend({
   imageType: 'image/jpeg',
 
   // JsCropper properties
-  aspectRatio: 1,
+  aspectRatioDefault: 1,
   zoomable: false,
   minWidth: 200,
   minHeight: 200,
+  hideCancel: false,
+
+  aspectRatioForCrop: computed('aspectRatio', 'aspectRatioDefault', function() {
+    return isPresent(get(this, 'aspectRatio')) ? get(this, 'aspectRatio') : get(this, 'aspectRatioDefault');
+  }),
 
   didInsertElement() {
     this._super(...arguments);
@@ -61,7 +66,7 @@ export default Component.extend({
   },
 
   initializeCropper(imageUrl) {
-    const aspectRatio = this.get('aspectRatio');
+    const aspectRatioForCrop = this.get('aspectRatioForCrop');
     const zoomable = this.get('zoomable');
     const minHeight = get(this, 'minHeight');
     const minWidth = get(this, 'minWidth');
@@ -77,7 +82,7 @@ export default Component.extend({
 
         if (!cropperExists) {
           img.cropper({
-            aspectRatio: aspectRatio,
+            aspectRatio: aspectRatioForCrop,
             zoomable: zoomable,
             scalable: false,
             zoomTo: 1,
@@ -140,6 +145,10 @@ export default Component.extend({
         image: null,
         imageUrl: null,
       });
+
+      if (get(this, 'onCancel')) {
+        get(this, 'onCancel')();
+      }
     },
 
     deleteImage(img) {

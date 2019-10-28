@@ -1,0 +1,39 @@
+{{#content-body classNames="u-padding8"}}
+  <div class="DetailPage-CasterFooter" data-test-detail-page-caster-footer>
+    <div class="DetailPage-CasterFooter-left">
+      {{#link-to "caster" caster.casterPageLinkId}}
+        {{avatar-image
+          imageUrl=caster.avatarImageUrl
+          userName=caster.attributionName
+          customSize=70
+          class="DetailPage-CasterFooter-avatar"
+        }}
+      {{/link-to}}
+
+      {{follow-button caster=caster}}
+    </div>
+    <div class="DetailPage-CasterFooter-right">
+      <div class="DetailPage-CasterFooter-copy-name">
+        {{#link-to "caster" caster.casterPageLinkId}}
+          {{caster.attributionName}}
+        {{/link-to}}
+      </div>
+      <div class="DetailPage-CasterFooter-location-bar">
+      {{#if showLocation}}
+        {{caster.location.city}}, {{caster.location.state}} {{if showFollowers " - "}}
+      {{/if}}
+      {{#if showFollowers}}
+        {{formatted-count followerCount}} Followers
+      {{/if}}
+    </div>
+      <div class="DetailPage-CasterFooter-copy-description">
+        {{#if showDescription}}
+          {{description}}
+        {{else}}
+          {{caster.attributionName}} is a HereCaster from {{caster.location.city}}, {{caster.location.state}}.
+          Follow them to get alerts when they post.
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/content-body}}

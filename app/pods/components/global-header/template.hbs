@@ -29,8 +29,9 @@
       </div>
     </div>
 
-    {{#if showNav}}
-      <div class="GlobalHeader-filter">
+
+    <div class="GlobalHeader-filter">
+      {{#if doNotHideFilters}}
         <div class="GlobalHeader-filter-postsButton GlobalHeader-filter-button">
           {{#link-to "feed" (query-params type="posts")}}
             {{fa-icon "newspaper-o" class=(if postsIsActive "active")}}
@@ -64,8 +65,11 @@
             </div>
           {{/if}}
         </div>
-      </div>
+      {{/if}}
+    </div>
 
+
+    {{#if showNav}}
       <div class="GlobalHeader-menu">
         {{site-nav}}
       </div>

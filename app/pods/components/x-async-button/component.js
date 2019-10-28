@@ -7,7 +7,7 @@ import Component from '@ember/component';
 
 export default Component.extend({
   tagName: 'button',
-  attributeBindings: ['cannotSubmit:disabled', 'data-test-component', 'data-test-action'],
+  attributeBindings: ['cannotSubmit:disabled', 'isDisabled:disabled', 'data-test-component', 'data-test-action'],
 
   activePromise: null,
   noIcon: false,
@@ -17,17 +17,20 @@ export default Component.extend({
   fulfilled: 'Saved!',
   rejected: 'Submission Failed',
   default: 'Submit',
+  isDisabled: false,
 
   cannotSubmit: readOnly('activePromise.isPending'),
 
   click(e) {
     e.preventDefault();
 
-    const promise = this.promiseAction();
-    const objectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
-    const proxy = objectPromiseProxy.create({ promise });
+    if (!get(this, 'isDisabled') && !get(this, 'cannotSubmit')) {
+      const promise = this.promiseAction();
+      const objectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
+      const proxy = objectPromiseProxy.create({ promise });
 
-    set(this, 'activePromise', proxy);
+      set(this, 'activePromise', proxy);
+    }
   },
 
   willDestroyElement() {

@@ -1,0 +1,55 @@
+<div class="Settings--buttons center">
+  {{#x-button
+    onClick=(action "showMetrics")
+    color="primary"
+    size="thin"
+  }}
+    {{fa-icon "line-chart"}} Metrics
+  {{/x-button}}
+
+  {{#x-button
+    onClick=(action "showPayments")
+    color="primary"
+    size="thin"
+    disabled=showPublisherAgreementButton
+  }}
+    {{fa-icon "dollar"}} Payments
+  {{/x-button}}
+</div>
+
+{{#if showPublisherAgreementButton}}
+  <div class="Settings--item-subtitle">
+    <p>
+      To receive payments on your content, please click the link below and review the payment agreement (it will open in a new window).
+    </p>
+    <p>
+      To accept the agreement, come back to this page and click "I agree."
+    </p>
+    <p>
+      If you do not choose to accept the agreement and complete the payment requirements described within, you will not be paid for your content.
+    </p>
+  </div>
+  <div class="Settings--link">
+    <a
+      {{action "onClickPublisherAgreementLink" preventDefault=false}}
+      href="https://herecast.us/paid-content" target="_blank" rel="noopener"
+    >
+      https://herecast.us/paid-content
+    </a>
+  </div>
+  <div class="Settings--buttons center">
+    {{#x-button
+      onClick=(action "agreeToPublisherAgreement")
+      color="primary"
+      size="x-small"
+      disabled=(or isAgreeing (not hasClickedPublisherAgreementLink))
+    }}
+      {{#if isAgreeing}}
+        {{fa-icon "cog" spin=true}}
+      {{else}}
+        {{fa-icon "square-o"}}
+      {{/if}}
+      I agree
+    {{/x-button}}
+  </div>
+{{/if}}

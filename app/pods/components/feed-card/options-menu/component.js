@@ -1,8 +1,8 @@
-import { get, set, computed } from '@ember/object';
+import { get, set } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import ScrollToComments from 'subtext-app/mixins/components/scroll-to-comments';
-import IsDefaultOrganization from 'subtext-app/utils/is-default-organization';
 import Component from '@ember/component';
 
 export default Component.extend(ScrollToComments, {
@@ -16,19 +16,16 @@ export default Component.extend(ScrollToComments, {
   model: null,
   isOnDetailView: false,
 
+  caster: readOnly('model.caster'),
+  casterIsCurrentUser: readOnly('caster.isCurrentUser'),
+
   hasOpenedMenu: false,
-  hasClickedHideOrg: false,
+  hasClickedHideCaster: false,
   hasClickedHideLocation: false,
   hasClickedReportAbuse: false,
   afterHide: null,
 
-  organizationOwnsContent: computed('model.organizationId', function() {
-    const organizationId = get(this, 'model.organizationId');
-
-    return isPresent(organizationId) && !IsDefaultOrganization(organizationId);
-  }),
-
-  afterHideOrg: function() {},
+  afterHideCaster : function() {},
 
   _trackEvent(eventName, componentProperty=null) {
     if (isPresent(componentProperty) && !get(this, componentProperty)) {
@@ -47,7 +44,7 @@ export default Component.extend(ScrollToComments, {
       }
     },
 
-    afterHideOrg() {
+    afterHideCaster() {
       if (get(this, 'afterHide')) {
         get(this, 'afterHide')();
       }
@@ -57,8 +54,8 @@ export default Component.extend(ScrollToComments, {
       this._trackEvent('UserClicksOptionsMenu', 'hasOpenedMenu');
     },
 
-    onClickHideOrg() {
-      this._trackEvent('UserClicksHideOrganization', 'hasClickedHideOrg');
+    onClickHideCaster() {
+      this._trackEvent('UserClicksHideCaster', 'hasClickedHideCaster');
     },
 
     onClickHideLocation() {

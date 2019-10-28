@@ -7,7 +7,7 @@ import { invalidateSession} from 'ember-simple-auth/test-support';
 import mockCookies from 'subtext-app/tests/helpers/mock-cookies';
 import mockLocationCookie from 'subtext-app/tests/helpers/mock-location-cookie';
 import loadPioneerFeed from 'subtext-app/tests/helpers/load-pioneer-feed';
-import { visit, click, find, findAll, fillIn, currentURL, currentRouteName } from '@ember/test-helpers';
+import { visit, click, find, fillIn, currentURL, currentRouteName } from '@ember/test-helpers';
 
 
 module('Acceptance | homepage', function(hooks) {
@@ -70,7 +70,10 @@ module('Acceptance | homepage', function(hooks) {
     const done = assert.async();
     mockLocationCookie(this.server);
     const userLocation = this.server.create('location');
-    const currentUser = this.server.create('current-user', {locationId: userLocation.id});
+    const currentUser = this.server.create('caster');
+    currentUser.update({
+      location: userLocation
+    });
 
     const feedItems = this.server.createList('feedItem', 3, {
       modelType: 'content'
@@ -112,11 +115,9 @@ module('Acceptance | homepage', function(hooks) {
     assert.ok(find('[data-test-component="sign-in"]'), 'Sign in modal should show after signin prompt clicked from side menu');
 
     let userLocation = this.server.create('location');
-    let organizations = this.server.createList('organization', 2);
     let user = this.server.create('current-user', {
       locationId: userLocation.id,
-      email: "embertest@subtext.org",
-      managedOrganizationIds: organizations.map(org => org.id)
+      email: "embertest@subtext.org"
     });
 
     await fillIn('[data-test-field="sign-in-email"]', user.email);
@@ -125,9 +126,6 @@ module('Acceptance | homepage', function(hooks) {
     await click('[data-test-component="sign-in-submit"]');
 
     await click('[data-test-avatar-in-header]');
-
-    assert.ok(find('[data-test-mystuff-navbar]'), 'Side menu should show mystuff options when logged in');
-    assert.equal(findAll('[data-test-managed-organization-button]').length, 2, 'Side menu should show the managed organization buttons');
 
     await click('[data-test-link="logout-link"]');
 

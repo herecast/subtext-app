@@ -5,5 +5,5 @@ export default Model.extend({
   eventInstances: hasMany('eventInstance'),
   comments: hasMany('comment'),
   location: belongsTo(),
-  organization: belongsTo()
+  caster: belongsTo()
 });

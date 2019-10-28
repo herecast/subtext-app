@@ -16,10 +16,12 @@ export default Component.extend({
   hasNewImage: false,
   allowDeleteImage: false,
   wantsToDelete: false,
+  hideCancel: false,
 
   // Image validation properties
   minWidth: 200,
   minHeight: 200,
+  aspectRatio: null,
 
   // To be passed in as a closure action for receiving/deleting the new image
   onImageUpdate(){},

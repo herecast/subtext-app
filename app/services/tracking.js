@@ -114,7 +114,6 @@ export default Service.extend(Evented, {
     const currentUserCommunity = (currentUser) ? get(currentUser, 'location') : 'none';
 
     const currentUrl = window.location.href;
-    const currentOrgName = get(this,'currentController.currentController.model.organizationName') || null;
 
     this.push({
       'event'                   : 'VirtualPageview',
@@ -122,8 +121,7 @@ export default Service.extend(Evented, {
       'virtualPageTitle'        : document.title,
       'virtualUserID'           : currentUserID,
       'virtualCommunity'        : currentUserCommunity,
-      'VirtualPageReferrer'     : currentUrl,
-      'virtualOrganizationName' : currentOrgName
+      'VirtualPageReferrer'     : currentUrl
     });
   },
 
@@ -198,37 +196,6 @@ export default Service.extend(Evented, {
         if(get(this, 'logEnabled')) {
           get(this, 'logger').info(`[Impression of banner]: ${get(promo, 'id')}, [GTM blocked]: ${gtmBlocked}`);
         }
-      });
-    }
-  },
-
-  profileImpression(organization) {
-    if(!get(this, 'fastboot.isFastBoot')) {
-      this.waitForLocationAndClientId().then((data) => {
-        const trackData = {
-          client_id: data.clientId,
-          // In some tests, location will be undefined
-          location_id: get(data, 'location.id'),
-          event_type: 'impression'
-        };
-
-        get(this, 'api').recordProfileEvent(get(organization, 'id'), trackData);
-      });
-    }
-  },
-
-  profileContentClick(organization, content) {
-    if(!get(this, 'fastboot.isFastBoot')) {
-      this.waitForLocationAndClientId().then((data) => {
-        const trackData = {
-          client_id: data.clientId,
-          content_id: get(content, 'contentId'),
-          // In some tests, location will be undefined
-          location_id: get(data, 'location.id'),
-          event_type: 'click'
-        };
-
-        get(this, 'api').recordProfileEvent(get(organization, 'id'), trackData);
       });
     }
   },
@@ -310,25 +277,17 @@ export default Service.extend(Evented, {
     });
   },
 
-  trackMetricsRequest(type, id) {
-    const user_id = type === 'current-user' ? id : null;
-    const organization_id = type === 'organization' ? id : null;
-
+  trackMetricsRequest(casterId) {
     this.push({
       event: 'MetricsReportButtonClicked',
-      user_id,
-      organization_id
+      user_id: casterId
     });
   },
 
-  trackPaymentsRequest(type, id) {
-    const user_id = type === 'current-user' ? id : null;
-    const organization_id = type === 'organization' ? id : null;
-
+  trackPaymentsRequest(casterId) {
     this.push({
       event: 'PaymentsReportButtonClicked',
-      user_id,
-      organization_id
+      user_id: casterId
     });
   },
 
@@ -418,8 +377,7 @@ export default Service.extend(Evented, {
         this.push({
           event: 'VirtualTileLoad',
           content_type: get(content, 'contentType'),
-          content_id: get(content, 'contentId'),
-          organization_id: get(content, 'organizationId')
+          content_id: get(content, 'contentId')
         });
       }
     });
@@ -434,28 +392,27 @@ export default Service.extend(Evented, {
           event: 'VirtualTileImpression',
           content_type: get(content, 'contentType'),
           content_id: get(content, 'contentId'),
-          organization_id: get(content, 'organizationId'),
           impression_location: options.impressionLocation
         });
       }
     });
   },
 
-  trackHideAuthor(hideObject) {
+  trackHideCaster(hideObject) {
     this.push({
       event: 'UserHidesAuthor',
       content_id: hideObject.contentId || 'From Profile',
-      organization_id: hideObject.organizationId,
-      organization_name: hideObject.organizationName,
+      caster_id: hideObject.casterId,
+      caster_handle: hideObject.casterHandle,
       flag_type: hideObject.flagType
     });
   },
 
-  trackUnhideAuthor(hideObject) {
+  trackUnhideCaster(hideObject) {
     this.push({
       event: 'UserUnhidesAuthor',
-      organization_id: hideObject.organizationId,
-      organization_name: hideObject.organizationName
+      caster_id: hideObject.casterId,
+      caster_handle: hideObject.casterHandle
     });
   },
 
@@ -482,10 +439,9 @@ export default Service.extend(Evented, {
   _checkIfCanEditContent(content) {
     if (get(this, 'session.isAuthenticated')) {
       return get(this, 'currentUser').then(currentUser => {
-        const authorId = get(content, 'authorId');
-        const organizationId = get(content, 'organizationId') || null;
+        const casterId = get(content, 'casterId');
 
-        return currentUser.canEditContent(authorId, organizationId);
+        return currentUser.canEditContent(casterId);
       });
     }
 

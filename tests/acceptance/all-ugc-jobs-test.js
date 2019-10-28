@@ -48,46 +48,6 @@ module('Acceptance | all ugc jobs', function(hooks) {
     assert.ok(find('[data-test-jobs-form="market"]'), 'Should show the market jobs form');
   });
 
-  test('Link to createapage with user logged in, but no blog yet', async function(assert) {
-    assert.expect(1);
-    const currentUser = this.server.create('current-user', {
-      userId: 1,
-      canPublishNews: false
-    });
-    authenticateUser(this.server, currentUser);
-
-    await Page.visitRoot();
-    await Page.clickOrangeButton();
-    await Page.selectJob('createapage');
-
-    assert.equal(currentRouteName(), 'createapage');
-  });
-
-  test('Link to createapage with user logged out', async function(assert) {
-    assert.expect(1);
-
-    await Page.visitRoot();
-    await Page.clickOrangeButton();
-    await Page.selectJob('createapage');
-
-    assert.equal(currentRouteName(), 'createapage');
-  });
-
-  test('Link to news create', async function(assert) {
-    assert.expect(1);
-    const currentUser = this.server.create('current-user', {
-      userId: 1,
-      canPublishNews: true
-    });
-    authenticateUser(this.server, currentUser);
-
-    await Page.visitRoot();
-    await Page.clickOrangeButton();
-    await Page.selectJob('news');
-
-    assert.equal(currentRouteName(), 'news.new');
-  });
-
   test('Link to events create', async function(assert) {
     assert.expect(1);
     authenticateUser(this.server);
@@ -97,5 +57,19 @@ module('Acceptance | all ugc jobs', function(hooks) {
     await Page.selectJob('event');
 
     assert.ok(find('[data-test-jobs-form="event"]'), 'Should show the event jobs form');
+  });
+
+  test('Link to news create', async function(assert) {
+    assert.expect(1);
+    const currentUser = this.server.create('current-user', {
+      userId: 1
+    });
+    authenticateUser(this.server, currentUser);
+
+    await Page.visitRoot();
+    await Page.clickOrangeButton();
+    await Page.selectJob('news');
+
+    assert.equal(currentRouteName(), 'news.new');
   });
 });

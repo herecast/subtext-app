@@ -8,11 +8,13 @@ export default Mixin.create({
       const hideHeader = get(this, 'hideHeader') || false;
       const hideFooter = get(this, 'hideFooter') || false;
       const streamlinedHeader = get(this, 'streamlinedHeader') || false;
+      const showFilters = get(this, 'showFilters') || false;
 
       this.controllerFor('application').setProperties({
         hideHeader: hideHeader,
         hideFooter: hideFooter,
-        streamlinedHeader: streamlinedHeader
+        streamlinedHeader: streamlinedHeader,
+        showFilters: showFilters
       });
       return this._super(...arguments); //bubble
     },
@@ -21,7 +23,8 @@ export default Mixin.create({
       this.controllerFor('application').setProperties({
         hideHeader: false,
         hideFooter: false,
-        streamlinedHeader: false
+        streamlinedHeader: false,
+        showFilters: false
       });
       return this._super(...arguments); //bubble
     }
