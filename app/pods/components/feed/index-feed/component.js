@@ -5,5 +5,6 @@ export default Component.extend({
 
   feedItems: null,
   isSearchActive: false,
-  canEditIfAllowed: false
+  canEditIfAllowed: false,
+  showAnyViewCount: false
 });

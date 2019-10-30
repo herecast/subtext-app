@@ -5,10 +5,9 @@ import { later } from '@ember/runloop';
 import { htmlSafe } from '@ember/template';
 import LaunchingContent from 'subtext-app/mixins/components/launching-content';
 import ModelResetScroll from 'subtext-app/mixins/components/model-reset-scroll';
-//import contentComments from 'subtext-app/mixins/content-comments';
 import Component from '@ember/component';
 
-export default Component.extend(ModelResetScroll, LaunchingContent, /*contentComments,*/ {
+export default Component.extend(ModelResetScroll, LaunchingContent, {
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:is-preview', 'noTopPadding:no-top-padding'],
   'data-test-component': 'detail-page',

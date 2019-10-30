@@ -7,6 +7,7 @@ export default DS.Model.extend({
   content: DS.attr('string'),
   contentId: DS.attr('number'),
   publishedAt: DS.attr('moment-date'),
+  parentId: DS.attr('number'),
 
   casterName: DS.attr('string'),
   casterAvatarImageUrl: DS.attr('string'),
@@ -26,8 +27,6 @@ export default DS.Model.extend({
   }),
 
   hasCasterName: notEmpty('casterAttributionName'),
-
-  parentId: DS.attr('number'),
 
   formattedPostedAt: computed('publishedAt', function() {
     const publishedAt = get(this, 'publishedAt');

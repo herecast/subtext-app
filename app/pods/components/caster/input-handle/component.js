@@ -18,6 +18,14 @@ export default Component.extend({
   minHandleLength: 3,
   maxHandleLength: 16,
 
+  _filterHandle() {
+    const newHandle = get(this, 'newHandle') || '';
+    const regex = new RegExp("[^a-zA-Z0-9_\\.\\-]", "gi");
+    const filteredHandle = newHandle.replace(regex, "");
+    
+    set(this, 'newHandle', filteredHandle);
+  },
+
   _checkNewHandle() {
     set(this, 'newHandleIsUnique', false);
 
@@ -68,6 +76,8 @@ export default Component.extend({
 
   actions: {
     handleIsChanging() {
+      this._filterHandle();
+
       debounce(this, '_checkNewHandle', 500);
     },
   }

@@ -113,14 +113,15 @@ export default function (server) {
   });
 
   const comments = server.createList('comment', 3, {
-    userId: 1,
-    userName: "Thad Copeland",
-    avatarImageUrl: null,
-    parentContent: casterCommentParent
+    casterId: 1,
+    castersName: "Thad Copeland",
+    casterAvatarImageUrl: null,
+    parentId: casterCommentParent.id
   });
 
   casterCommentParent.update({
-    comments: comments
+    comments: comments,
+    commentCount: comments.length
   });
 
   server.create('feed-item', {
@@ -132,21 +133,20 @@ export default function (server) {
   });
 
   const comments2 = server.createList('comment', 3, {
-    userId: 1,
-    userName: "Thad Copeland",
-    avatarImageUrl: null,
-    parentContent: casterCommentParent2
+    casterId: 1,
+    casterName: "Thad Copeland",
+    casterAvatarImageUrl: null,
+    parentId: casterCommentParent2.id
   });
 
   casterCommentParent2.update({
-    comments: comments2
+    comments: comments2,
+    commentCount: comments2.length
   });
 
   server.create('feed-item', {
     content: casterCommentParent2
   });
 
-
   server.createList('feedItem', 20);
-
 }

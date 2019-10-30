@@ -36,7 +36,7 @@ export default Component.extend({
        "&lt;": '<',
        "&gt;": '>'
     };
-    const regex = new RegExp(Object.keys(allowedSpecialCharacters).join("|"),"gi");
+    const regex = new RegExp(Object.keys(allowedSpecialCharacters).join("|"), "gi");
 
     return text.replace(regex, function(matched){
       return allowedSpecialCharacters[matched];
@@ -51,13 +51,13 @@ export default Component.extend({
     let description = this._sanitizeOutHtml(get(this, 'caster.description'));
 
     if (get(this, '_descriptionIsTooLong')) {
-      description = description.substr(0, get(this, '_maxDescriptionLength')-3) + '...';
+      description = description.substr(0, get(this, '_maxDescriptionLength') - 3) + '...';
     }
 
     return htmlSafe(description);
   }),
 
-  showDescription: gt('description.length', 0),
+  showDescription: gt('description.string.length', 0),
 
   showLocation: notEmpty('caster.location'),
 

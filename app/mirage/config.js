@@ -736,13 +736,12 @@ export default function() {
 
   this.get('/casters', ({casters}, request) => {
     const rawHandle = request.queryParams.handle;
-    const handleWithoutAt = rawHandle.substring(1);
 
     let caster;
 
-    if (handleWithoutAt === 'me') {
+    if (rawHandle === 'me') {
       caster = casters.first();
-      caster.update({handle: handleWithoutAt});
+      caster.update({handle: rawHandle});
     } else {
       caster = this.create('caster');
     }

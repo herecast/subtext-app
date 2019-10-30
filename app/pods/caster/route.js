@@ -32,9 +32,12 @@ export default Route.extend(History, ModalRouteParent, VariableInfinityModelPara
   actions: {
     didTransition() {
       this._super(...arguments);
-      this.controllerFor(this.routeName).resetTabs();
-      
+
       if (!get(this, 'fastboot.isFastBoot')) {
+        this.controllerFor(this.routeName).resetTabs();
+
+        this._clearOutlet();
+
         $(window).scrollTop(0);
       }
     }
