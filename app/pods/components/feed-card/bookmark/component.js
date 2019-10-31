@@ -68,7 +68,7 @@ export default Component.extend({
   _openSignInModal() {
     get(this, 'modals').showModal('modals/sign-in-register', {
       model: 'sign-in',
-      alternateSignInMessage: 'You must be signed in to like and save content'
+      alternateSignInMessage: 'You must be signed in to like and save posts'
     });
   },
 

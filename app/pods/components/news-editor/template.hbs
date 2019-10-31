@@ -91,7 +91,7 @@
 
         {{#form-group}}
           <div>
-              <label class="control-label">Content Location</label>
+              <label class="control-label">Post Location</label>
           </div>
           <label class="h5 control-label">What is the most relevant location for this post?</label>
           {{user-location/ugc-button
@@ -104,7 +104,7 @@
           error=errors.content
           hideError=true
         }}
-          <label class="control-label ContentForm-label--required" for="description">Content</label>
+          <label class="control-label ContentForm-label--required" for="description">Post</label>
           {{form-error errors.content}}
           {{#summer-note
             content=(readonly news.content)
@@ -132,11 +132,8 @@
           hideError=true
         }}
           <div class="NewsEditor-content-owner">
-            <div>
-              <label class="control-label" for="description">Content Owner</label>
-            </div>
             <p>
-              This content is owned by <i>{{news.caster.attributionName}}</i>.
+              This post was created by <i>{{news.caster.attributionName}}</i>.
             </p>
             <div class="NewsEditor-content-owner-right">
               {{feed-card/attribution
@@ -217,7 +214,7 @@
                   <button {{action "cancelSchedulePublish"}} class="btn">Cancel</button>
                 {{else}}
                   <div class="NewsEditor-helper-message">
-                    Your saved drafts can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}caster page{{/link-to}}
+                    Your saved drafts can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}Caster Page{{/link-to}}
                   </div>
 
                   <button {{action "publish"}} class="btn btn-primary">Publish Now</button>
@@ -267,7 +264,7 @@
 
               {{#if news.isPublished}}
                 <div class="NewsEditor-helper-message">
-                  Your published post can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}Caster page{{/link-to}} and in the feed.
+                  Your published post can be found on your {{#link-to "caster" news.caster.casterPageLinkId}}Caster Page{{/link-to}} and in the feed.
                 </div>
 
                 Published {{formatted-date news.publishedAt}}.<br>

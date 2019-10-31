@@ -49,7 +49,6 @@ export default Component.extend({
         });
       }
       else if (get(this, 'session.isAuthenticated')) {
-        //does update caster flow properly here from caster/caster-manage?
         get(this, 'casterFollowService').follow(get(this, 'casterId'), get(this, 'updateCaster'));
       } else {
         get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');

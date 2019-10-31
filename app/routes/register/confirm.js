@@ -25,7 +25,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
       get(this, 'session').authenticate('authenticator:confirmation', token).then(() => {
         this.transitionTo('feed').then(() => {
-          notify.success('Registration complete. You are now signed in.');
+          notify.success('Sign up complete. You are now logged in.');
         });
       }).catch(() => {
         get(this, 'logger').error(new Error("Authentication Error"));

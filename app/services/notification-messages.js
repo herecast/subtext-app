@@ -12,7 +12,7 @@ export default NotificationsService.extend({
   },
 
   notifyLoginSuccess() {
-    this.success('You are now signed in.', {
+    this.success('You are now logged in.', {
       cssClasses: 'NotificationMessages-loginSuccess'
     });
   }
