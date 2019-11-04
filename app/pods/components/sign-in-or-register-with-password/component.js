@@ -79,6 +79,13 @@ export default Component.extend(TestSelector, Validation, {
     });
   },
 
+  trackRegisterUser(handle) {
+    get(this, 'tracking').push({
+      event: 'NewUserRegistered',
+      handle
+    });
+  },
+
   authenticate() {
     this.trackSignInClick();
 
@@ -139,6 +146,8 @@ export default Component.extend(TestSelector, Validation, {
             instant_signup: true
           })
           .then(emailAndToken => {
+            this.trackRegisterUser(newHandle);
+            
             return get(this, 'session').authenticate('authenticator:restore', emailAndToken)
             .then(() => {
               if (get(this, 'afterAuthenticate')) {
