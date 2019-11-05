@@ -736,13 +736,20 @@ module('Unit | Service | api', function(hooks) {
     subject.recordContentImpression(news.id);
   });
 
-  test('reportAbuse(content_id, flagType)', function(assert) {
+  test('reportAbuse(content_id, content_type, flagType)', function(assert) {
     const subject = this.owner.factoryFor('service:api').create({
       session: this.session,
       queryCache: this.queryCache
     });
     const content_id = 7;
+    const contentType = 'comment';
     const flagType = 'MunkFruit';
+
+    const data = {
+      id: content_id,
+      content_type: contentType,
+      flag_type: flagType
+    };
 
     const done = assert.async();
     const returnData = {
@@ -751,20 +758,20 @@ module('Unit | Service | api', function(hooks) {
       }
     };
 
-    this.server.post('/contents/:id/moderate', (schema, request) => {
+    this.server.post('/moderations', (schema, request) => {
       expect.consumerAppHeader(assert, request);
       expect.authorizationHeader(assert, request);
       expect.acceptHeader(assert, request, 'application/json');
       expect.contentTypeHeader(assert, request, 'application/json');
 
       const jsonData = JSON.parse(request.requestBody);
-      assert.equal(jsonData['flag_type'], flagType,
-        "POST /contents/:id/moderate with expected data");
+      assert.deepEqual(jsonData, data,
+        "POST /moderations with expected data");
 
       return returnData;
     });
 
-    subject.reportAbuse(content_id, flagType).then((responseData) => {
+    subject.reportAbuse(content_id, contentType, flagType).then((responseData) => {
       assert.deepEqual(responseData, returnData,
         'it returns parsed response JSON'
       );

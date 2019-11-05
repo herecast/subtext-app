@@ -441,10 +441,12 @@ export default Service.extend({
     );
   },
 
-  reportAbuse(content_id, flag_type) {
+  reportAbuse(id, content_type, flag_type) {
     return this.returnJson(
-      this.post(`/contents/${content_id}/moderate`,
+      this.post(`/moderations`,
         this.json({
+          id: id,
+          content_type: content_type,
           flag_type: flag_type
         })
       )

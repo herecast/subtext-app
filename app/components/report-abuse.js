@@ -29,6 +29,7 @@ export default Component.extend( {
     this._trackReportAbuseClick();
     get(this, 'modals').showModal('modals/report-abuse', {
       contentId: get(this, 'contentId'),
+      contentType: get(this, 'contentType'),
       close: get(this, 'close') // action passed in from upper context
     });
   },

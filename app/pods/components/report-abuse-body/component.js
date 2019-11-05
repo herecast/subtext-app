@@ -36,11 +36,12 @@ export default Component.extend(TestSelector, {
 
     submit() {
       const flagType = get(this, 'flagType');
-      const id = get(this, 'contentId');
+      const contentId = get(this, 'contentId');
+      const contentType = get(this, 'contentType');
       const api = get(this, 'api');
 
       if (flagType) {
-        api.reportAbuse(id, flagType).then(() => {
+        api.reportAbuse(contentId, contentType, flagType).then(() => {
           set(this, 'showSuccess', true);
         });
       } else {

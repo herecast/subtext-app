@@ -14,7 +14,7 @@
     {{if comment.formattedPostedAt comment.formattedPostedAt "just now"}}
     {{#unless hideReportAbuse}}
       &nbsp;&#183;
-      {{report-abuse contentId=comment.contentId tagName="span"}}
+      {{report-abuse contentId=comment.id contentType="comment" tagName="span"}}
     {{/unless}}
   </div>
   <div class="Comment-content">

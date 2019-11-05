@@ -352,7 +352,7 @@ export default function() {
     };
   });
 
-  this.post('/contents/:id/moderate', function() {
+  this.post('/moderations', function() {
     return new Mirage.Response(200, {}, {});
   });
 
