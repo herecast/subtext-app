@@ -1,8 +1,7 @@
 <div id="FakeFeed">
   {{#each fakeCards}}
     {{feed-card/fake-card
-      isMidsize=showMidsizeCards
-      isCompact=showCompactCards
+      cardSize=activeCardSize
     }}
   {{/each}}
 </div>

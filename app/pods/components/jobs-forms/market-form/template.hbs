@@ -1,9 +1,4 @@
 {{#jobs-forms/form-group error=errors.title class=titleClass}}
-  {{#if isEditingModel}}
-    <div class="JobsForms--sold">
-      {{jobs-forms/sold model=model}}
-    </div>
-  {{/if}}
   {{jobs-forms/title
     model=model
     onChange=(action "onChange")

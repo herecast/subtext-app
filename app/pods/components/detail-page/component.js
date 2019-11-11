@@ -1,4 +1,4 @@
-import { reads, readOnly} from '@ember/object/computed';
+import { readOnly, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { set, get, computed } from '@ember/object';
 import { later } from '@ember/runloop';
@@ -11,7 +11,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, {
   classNames: ['DetailPage'],
   classNameBindings: ['isPreview:is-preview', 'noTopPadding:no-top-padding'],
   'data-test-component': 'detail-page',
-  'data-test-content': reads('model.contentId'),
+  'data-test-content': readOnly('model.contentId'),
   tagName: 'main',
 
   fastboot: service(),
@@ -30,6 +30,7 @@ export default Component.extend(ModelResetScroll, LaunchingContent, {
   isEvent: readOnly('model.isEvent'),
   isMarket: readOnly('model.isMarket'),
   isNews: readOnly('model.isNews'),
+  isDeadContent: or('model.hasBeenDeleted', 'model.hasBeenRemoved'),
 
   init() {
     this._super(...arguments);

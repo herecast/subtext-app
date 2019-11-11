@@ -38,7 +38,6 @@ module('Acceptance | ugc market post', function(hooks) {
         eventUrl: null,
         publishedAt: null,
         schedules: [],
-        sold: false,
         subtitle: null,
         title: title,
         locationId: get(location, 'id'),

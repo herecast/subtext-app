@@ -1,10 +1,9 @@
 .FeedCard-Title {
   .display-grid();
-  .grid-template-columns( auto );
+  .grid-template-columns(1fr 32px);
   padding: 8px;
   line-height: 1.1;
   align-items: center;
-  .grid-template-columns(62px 1fr 62px);
 
   &.on-detail {
     padding: 0;
@@ -36,13 +35,12 @@
     .grid-align-self(center);
     font-size: 18px;
     font-family: @font-family-semibold;
-    .grid-column-start(1);
-    .grid-column-end(3);
+    .grid-column(1);
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 19px;
-    display: block;
+    position: relative;
 
     &.title-clone {
       height: auto;
@@ -53,88 +51,21 @@
   &--menu {
     .grid-align-self(start);
     text-align: right;
-  }
-
-  &.sold-tag-active {
-    .FeedCard-Title-sold-tag {
-      .grid-column-start(1);
-      .grid-column-end(2);
-    }
-    .FeedCard-Title-title {
-      .grid-column-start(2);
-      .grid-column-end(3);
-    }
-    &.condensed-view {
-      .FeedCard-Title-title {
-        .grid-column-start(2);
-        .grid-column-end(3);
-      }
-      .FeedCard-Title-views-and-comments {
-        .grid-column-start(3);
-        .grid-column-start(4);
-      }
-    }
-  }
-
-  &.condensed-view {
-    &:not(.sold-tag-active) {
-      .FeedCard-Title-title {
-        .grid-column-start(1);
-        .grid-column-end(3);
-      }
-      .FeedCard-Title-views-and-comments {
-        .grid-column-start(3);
-        .grid-column-end(4);
-      }
-    }
-  }
-
-
-  &-sold-toggle {
-    cursor: pointer;
-    i {
-      font-size: 20px;
-      &.toggle-on {
-        color: #F6A623;
-      }
-    }
-  }
-
-  &-posted-time {
-    font-size: 12px;
+    .grid-column(2);
   }
 
   &-sold-tag {
-    .flex-display();
-    .justify-content(center);
-    .align-items(center);
     padding: 3px 10px;
-    margin-right: 8px;
     background: @sold-tag-background;
     text-transform: uppercase;
     color: #000;
     font-size: 12px;
     font-weight: bold;
     border-radius: 4px;
-    height: 28px;
-  }
-
-  &-views,
-  &-comments {
-    display: inline-block;
-    .grid-justify-self(end);
-    text-align: center;
-    padding: 2px;
-    width: 100%;
-    background: #efefef;
-    display: inline-block;
-    border-radius: 4px;
-    font-size: 14px;
-    i {
-      margin-right: 4px;
-    }
-  }
-  &-views {
-    margin-bottom: 4px;
+    position: absolute;
+    top: 4px;
+    right: 36px;
+    line-height: 18px;
+    z-index: 100;
   }
 }

@@ -1,0 +1,54 @@
+<article data-test-component="detail-page-dead-page">
+  {{detail-page/title
+    model=deadModel
+    isPreview=true
+  }}
+
+  {{detail-page/image-header
+    activeImageUrl=activeImageUrl
+  }}
+
+  <div class="DetailPage-sectionWrapper u-paddingTop8">
+    <div class="DetailPage-content ContentText">
+      <div class="DetailPage-content-wrap">
+        {{deadModel.content}}
+      </div>
+      <div class="AdBanner-wrapper AdBanner-wrapper--detail AdBanner--inContentBody">
+        <div class="AdBanner-wrapper AdBanner-wrapper--detail">
+          <div class="AdBanner--inContentBody-messageBar">
+            Advertisement: Content continues below...
+          </div>
+          {{ad-banner
+            contentModel=deadModel
+            pagePlacement="in-detail-body"
+            placeholderBlockFixedSize=true
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if model.comments}}
+    <div class="DetailPage-section DetailPage-comments">
+      {{comments-section
+        showSectionTitle=true
+        commentCount=model.commentCount
+        comments=model.comments
+        disableNewComments=true
+      }}
+    </div>
+  {{/if}}
+
+  <div class="DetailPage-sectionWrapper">
+    <div class="DetailPage-section DetailPage-similarContent">
+      {{#similar-content
+          contentId=model.contentId
+          limit=4
+      }}
+        {{#title-text strong=true small=true}}Suggested{{/title-text}}
+      {{/similar-content}}
+    </div>
+  </div>
+
+
+</article>

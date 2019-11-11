@@ -9,12 +9,16 @@ export default Component.extend(ScrollToComments, {
   classNames: ['FeedCard-OptionsMenu'],
   'data-test-card-options-menu': true,
 
+  fastboot: service(),
+  floatingActionButton: service(),
+  modals: service(),
   router: service(),
   tracking: service(),
   userLocationService: service('user-location'),
 
   model: null,
   isOnDetailView: false,
+  isPreview: false,
 
   caster: readOnly('model.caster'),
   casterIsCurrentUser: readOnly('caster.isCurrentUser'),
@@ -27,6 +31,15 @@ export default Component.extend(ScrollToComments, {
 
   afterHideCaster : function() {},
 
+  onShareContent() {
+    const launchOptions = {
+      justCreated: false,
+      justEdited: false
+    };
+
+    get(this, 'floatingActionButton').launchContent(get(this, 'model'), launchOptions);
+  },
+
   _trackEvent(eventName, componentProperty=null) {
     if (isPresent(componentProperty) && !get(this, componentProperty)) {
       const model = get(this, 'model');
@@ -34,6 +47,12 @@ export default Component.extend(ScrollToComments, {
       get(this, 'tracking').trackTileOptionsMenuEvent(eventName, get(model, 'contentId'));
 
       set(this, componentProperty, true);
+    }
+  },
+
+  deleteContent() {
+    if (get(this, 'casterIsCurrentUser')) {
+      get(this, 'floatingActionButton').deleteContent(get(this, 'model'));
     }
   },
 
@@ -50,8 +69,30 @@ export default Component.extend(ScrollToComments, {
       }
     },
 
+    shareContent() {
+      if (get(this, 'casterIsCurrentUser')) {
+        this.onShareContent();
+      }
+    },
+
+    editContent() {
+      if (get(this, 'casterIsCurrentUser')) {
+        get(this, 'floatingActionButton').editContent(get(this, 'model'));
+      }
+    },
+
+    openDeleteModal() {
+      get(this, 'modals').showModal('modals/confirm-box', {
+        message: "Deleting a post can not be undone.\nAre you sure?",
+        onConfirm: () => { this.deleteContent(); },
+        emphasizeYes: false
+      });
+    },
+
     onClickOpenMenu() {
-      this._trackEvent('UserClicksOptionsMenu', 'hasOpenedMenu');
+      if (!get(this, 'isPreview')) {
+        this._trackEvent('UserClicksOptionsMenu', 'hasOpenedMenu');
+      }
     },
 
     onClickHideCaster() {

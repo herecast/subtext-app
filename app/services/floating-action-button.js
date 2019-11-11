@@ -1,12 +1,14 @@
-import { later } from '@ember/runloop';
+import { later, next } from '@ember/runloop';
 import { isPresent } from '@ember/utils';
+import { set, get, setProperties } from '@ember/object';
+import { Promise } from 'rsvp';
 import Evented from '@ember/object/evented';
 import Service, { inject as service } from '@ember/service';
-import { set, get, setProperties } from '@ember/object';
 
 export default Service.extend(Evented, {
   tracking: service(),
   modals: service(),
+  notify: service('notification-messages'),
   router: service(),
   store: service(),
 
@@ -68,6 +70,70 @@ export default Service.extend(Evented, {
     } else if (justEdited) {
       set(this, 'justEdited', justEdited);
     }
+
+    this._launchRedirect(model, options);
+  },
+
+  _currentPath() {
+    return get(this, 'router.currentRouteName');
+  },
+
+  _currentParentPath() {
+    const currentRouteName = this._currentPath();
+    const currentRouteArray = currentRouteName.split('.');
+    return currentRouteArray[0];
+  },
+
+  _launchRedirect(model, options = {}) {
+    const showPathParent = options.showPathParent || this._currentParentPath();
+    const queryParams = options.queryParams || {};
+    const router = get(this, 'router');
+
+    next(() => {
+      const contentId = get(model, 'id');
+      const eventInstanceId = get(model, 'eventInstanceId') || false;
+      let transitionOptions;
+
+      if (eventInstanceId) {
+        transitionOptions = [`${showPathParent}.show-instance`, contentId, eventInstanceId, {queryParams}];
+      } else {
+        transitionOptions = [`${showPathParent}.show`, contentId, {queryParams}];
+      }
+
+      router.transitionTo(...transitionOptions);
+    });
+  },
+
+  deleteContent(model) {
+    set(model, 'deleted', true);
+
+    const contentId = get(model, 'id');
+    const content = get(this, 'store').peekRecord('content', contentId);
+
+    this.trigger('closeShowModals', null);
+
+    if (content) {
+      next(() => {
+        set(model, 'isHiddenFromFeed', true);
+        content.destroyRecord()
+        .then(() => {
+          this._hideParentFeedItem(contentId);
+        })
+        .catch(() => {
+          get(this, 'notify').error('There was a problem deleting your post. Please reload the page and try again.');
+        });
+      });
+    }
+  },
+
+  _hideParentFeedItem(contentId) {
+    const parentFeedItem = get(this, 'store').peekRecord('feed-item', contentId);
+
+    later(() => {
+      if (!get(parentFeedItem, 'isDestroyed')) {
+        set(parentFeedItem, 'isHiddenFromFeed', true);
+      }
+    }, 1200);
   },
 
   didLaunchContent() {

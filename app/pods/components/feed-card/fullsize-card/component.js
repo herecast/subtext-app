@@ -12,7 +12,6 @@ export default Component.extend({
   userLocation: service(),
   context: null,
   sourceTag: null,
-  showAnyViewCount: false,
 
   hideCompletely: false,
 

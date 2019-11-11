@@ -2,21 +2,35 @@
 
 .FeedCard-FakeCard {
   background: #fff;
+  max-height: 1000px;
+
+  .transition(all 0.6s);
+
+  &.hide-completely {
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    filter: blur(5px);
+  }
 
   &-excerpt-line {
     margin: 2px 0;
     display: inline-block;
   }
 
-  &-author-name {
-    margin-bottom: 3px;
-    margin-left: 3px;
+  &-caster-name {
     display: inline-block;
   }
 
   &-title,
   &-published-at {
     display: inline-block;
+    margin: 2px 0;
+  }
+
+  &-avatar {
+    .display-grid();
   }
 
   .AvatarImage--default {

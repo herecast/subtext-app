@@ -10,12 +10,27 @@ export default Mixin.create({
   _useCasterSlideMessage: false,
   _useBasicSlideMessage: false,
 
-
+  floatingActionButton: service(),
   media: service(),
   history: service(),
+  router: service(),
   tracking: service(),
   session: service(),
   userLocation: service(),
+
+
+  init() {
+    this._super(...arguments);
+    get(this, 'floatingActionButton')
+    .on('closeShowModals', () => {
+      const currentRouteName = get(this, 'router.currentRouteName');
+      const defaultReturnIsParent = currentRouteName.indexOf(get(this, '_defaultReturnPath')) === 0;
+
+      if (defaultReturnIsParent) {
+        this._closeDetailPage();
+      }
+    });
+  },
 
   isAuthenticated: readOnly('session.isAuthenticated'),
 
@@ -53,9 +68,13 @@ export default Mixin.create({
     }
   }),
 
+  _closeDetailPage() {
+    this.transitionToRoute(get(this, '_defaultReturnPath'));
+  },
+
   actions: {
     closeDetailPage() {
-      this.transitionToRoute(get(this, '_defaultReturnPath'));
+      this._closeDetailPage();
     },
 
     trackDetailEngagement(contentId, detailType, startOrComplete) {

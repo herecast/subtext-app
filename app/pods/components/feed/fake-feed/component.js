@@ -1,5 +1,5 @@
 import { get, set } from '@ember/object';
-import { readOnly, equal } from '@ember/object/computed';
+import { readOnly } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
@@ -7,8 +7,6 @@ export default Component.extend({
   session: service(),
 
   activeCardSize: readOnly('session.cardSize'),
-  showMidsizeCards: equal('activeCardSize', 'midsize'),
-  showCompactCards: equal('activeCardSize', 'compact'),
 
   init() {
     this._super(...arguments);

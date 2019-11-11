@@ -1,4 +1,4 @@
-import { readOnly, notEmpty, alias, gt } from '@ember/object/computed';
+import { readOnly, notEmpty, alias, gt, not } from '@ember/object/computed';
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -23,6 +23,8 @@ export default Component.extend({
   model: null,
   like: null,
   justLiked: false,
+  notActive: false,
+  isActive: not('notActive'),
 
   contentId: readOnly('model.contentId'),
   eventInstanceId: readOnly('model.eventInstanceId'),
@@ -112,7 +114,7 @@ export default Component.extend({
       if (!get(this, 'isLoggedIn')) {
         this._trackEvent('UnregisteredClick');
         this._openSignInModal();
-      } else {
+      } else if (get(this, 'isActive')) {
         this._setLike();
       }
     }

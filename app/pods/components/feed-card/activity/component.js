@@ -1,5 +1,5 @@
 import { get, computed } from '@ember/object';
-import { oneWay, or } from '@ember/object/computed';
+import { oneWay, or, readOnly } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import ScrollToComments from 'subtext-app/mixins/components/scroll-to-comments';
 import Component from '@ember/component';
@@ -12,7 +12,8 @@ export default Component.extend(ScrollToComments, {
 
   hideActivity: false,
   hidePostedTime: false,
-  showAnyViewCount: false,
+
+  casterIsCurrentUser: readOnly('model.caster.isCurrentUser'),
 
   minViewCount: 100,
   minCommentCount: 1,
@@ -27,7 +28,7 @@ export default Component.extend(ScrollToComments, {
     return isPresent(viewCount) && viewCount >= get(this, 'minViewCount');
   }),
 
-  showViewCount: or('viewCountBigEnough', 'showAnyViewCount'),
+  showViewCount: or('viewCountBigEnough', 'casterIsCurrentUser'),
 
   showCasterWarning: computed('showViewCount', 'viewCountBigEnough', function() {
     return get(this, 'showViewCount') && !get(this, 'viewCountBigEnough');

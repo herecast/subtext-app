@@ -1,4 +1,4 @@
-import { alias } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -6,10 +6,10 @@ export default Component.extend({
 
   model: null,
 
-  showAnyViewCount: false,
-
   isContent: alias('model.isContent'),
   isCarousel: alias('model.isCarousel'),
+
+  isNotHiddenFromFeed: not('model.isHiddenFromFeed'),
 
   feedItemModel: alias('model.feedItemModel')
 });

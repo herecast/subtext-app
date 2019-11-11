@@ -16,7 +16,6 @@ export default Component.extend(CardMetrics, {
   model: null,
 
   hideComments: false,
-  showAnyViewCount: false,
   linkToDetailIsActive: true,
 
   hideCompletely: false,
@@ -29,19 +28,28 @@ export default Component.extend(CardMetrics, {
   isDraft: readOnly('model.isDraft'),
   cardSize: oneWay('session.cardSize'),
 
-  contentType: reads('model.contentType'),
-  componentType: computed('cardSize', function() {
-    const cardSize = get(this, 'cardSize');//fullsize, midsize, compact
+  hasBeenRemoved: readOnly('model.hasBeenRemoved'),
+  hasBeenDeleted: readOnly('model.hasBeenDeleted'),
 
-    return `feed-card/${cardSize}-card`;
+  contentType: reads('model.contentType'),
+  componentType: computed('cardSize', 'hasBeenDeleted', 'hasBeenRemoved', function() {
+    let cardType = get(this, 'cardSize');
+
+    if (get(this, 'hasBeenDeleted') || get(this, 'hasBeenRemoved')) {
+      cardType = 'dead';
+    }
+
+    return `feed-card/${cardType}-card`;
   }),
 
   isHiddenFromFeed: readOnly('model.isHiddenFromFeed'),
   hideFromFeedWatcher: observer('isHiddenFromFeed', function() {
     if (get(this, 'isHiddenFromFeed')) {
       later(() => {
-        set(this, 'hideCompletely', true);
-      }, 1000);
+        if (!get(this, 'isDestroyed')) {
+          set(this, 'hideCompletely', true);
+        }
+      }, 800);
     }
   })
 });

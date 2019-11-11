@@ -1,0 +1,13 @@
+{{#if isCompact}}
+  {{feed-card/compact-card
+    model=deadModel
+  }}
+{{else if isMidsize}}
+  {{feed-card/midsize-card
+    model=deadModel
+  }}
+{{else}}
+  {{feed-card/fullsize-card
+    model=deadModel
+  }}
+{{/if}}

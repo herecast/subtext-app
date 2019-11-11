@@ -186,6 +186,7 @@ export default Route.extend(VariableInfinityModelParams, History, NavigationDisp
       }
 
       const feedService = get(this, 'feedService');
+
       controller.modelLoadHasStarted();
 
       return this.getModel(params)

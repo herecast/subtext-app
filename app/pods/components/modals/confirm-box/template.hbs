@@ -1,0 +1,33 @@
+{{#modal-wrapper
+  close=(action "close")
+  showHeader=false
+  isAnimated=true
+  isSmall=true
+  data-test-modal="confirm-box"
+}}
+  <div class="Modals-ConfirmBox--wrapper">
+    <div class="Modals-ConfirmBox--message">
+      {{#if message}}
+        {{message}}
+      {{else}}
+        Please confirm.
+      {{/if}}
+    </div>
+    <div class="Modals-ConfirmBox--buttons">
+      {{#x-button
+         onClick=(action "confirm")
+         color=yesColor
+         size="x-small"
+       }}
+        Yes
+       {{/x-button}}
+       {{#x-button
+          onClick=(action "cancel")
+          color=noColor
+          size="x-small"
+        }}
+          No
+        {{/x-button}}
+      </div>
+    </div>
+{{/modal-wrapper}}

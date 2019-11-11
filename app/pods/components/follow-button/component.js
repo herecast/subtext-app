@@ -1,7 +1,7 @@
 import { get, set, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import { oneWay, readOnly, notEmpty } from '@ember/object/computed';
+import { oneWay, readOnly, notEmpty, not } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -13,6 +13,9 @@ export default Component.extend({
   caster: null,
   casterId: oneWay('caster.id'),
   updateCaster: true,
+
+  notActive: false,
+  buttonIsActive: not('notActive'),
 
   wantsToUnfollow: false,
 
@@ -43,15 +46,17 @@ export default Component.extend({
 
   actions: {
     follow() {
-      if (get(this, 'caster.isCurrentUser')) {
-        get(this, 'modals').showModal('modals/simple-message', {
-          message: "You can't follow yourself, unfortunately :)"
-        });
-      }
-      else if (get(this, 'session.isAuthenticated')) {
-        get(this, 'casterFollowService').follow(get(this, 'casterId'), get(this, 'updateCaster'));
-      } else {
-        get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+      if (get(this, 'buttonIsActive')) {
+        if (get(this, 'caster.isCurrentUser')) {
+          get(this, 'modals').showModal('modals/simple-message', {
+            message: "You can't follow yourself, unfortunately :)"
+          });
+        }
+        else if (get(this, 'session.isAuthenticated')) {
+          get(this, 'casterFollowService').follow(get(this, 'casterId'), get(this, 'updateCaster'));
+        } else {
+          get(this, 'modals').showModal('modals/sign-in-register', 'sign-in');
+        }
       }
     },
 
@@ -64,8 +69,10 @@ export default Component.extend({
     },
 
     unfollow() {
-      set(this, 'wantsToUnfollow', false);
-      get(this, 'casterFollowService').unfollow(get(this, 'casterId'), get(this, 'updateCaster'));
+      if (get(this, 'buttonIsActive')) {
+        set(this, 'wantsToUnfollow', false);
+        get(this, 'casterFollowService').unfollow(get(this, 'casterId'), get(this, 'updateCaster'));
+      }
     }
   }
 });

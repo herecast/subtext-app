@@ -42,6 +42,7 @@ export default Route.extend(AuthenticatedRouteMixin, ConfirmationMixin, Scroll, 
       const model = get(this, 'controller.news');
 
       get(this, 'floatingActionButton').launchContent(model, {
+        showPathParent: 'feed',
         justCreated: true
       });
 

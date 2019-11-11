@@ -1,0 +1,41 @@
+import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+
+const promotionStub = Service.extend({
+  find() {
+    return { then() {} };
+  }
+});
+
+const adStub = Service.extend({
+  getAd() {
+   return { then() {} };
+  }
+});
+
+module('Integration | Component | detail-page/dead-page', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.owner.register('service:promotion', promotionStub);
+    this.owner.register('service:ads', adStub);
+  });
+
+
+  test('it renders', async function(assert) {
+    assert.expect(1);
+
+    this.set('model', {id: 1, deleted:true});
+
+    await render(hbs`
+      {{detail-page/dead-page
+        model=model
+      }}
+    `);
+
+    assert.ok(this.element);
+  });
+});

@@ -1,44 +1,68 @@
-<div class="FeedCard-OptionsMenu--button" data-toggle="dropdown" role="button" {{action "onClickOpenMenu"}}>
-  {{fa-icon "ellipsis-v" class="FeedCard-OptionsMenu--button-icon"}}
-</div>
-<div class="FeedCard-OptionsMenu--dropdown dropdown-menu dropdown-menu-right">
-  {{#unless casterIsCurrentUser}}
-    <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideCaster"}}>
-      {{#hide-caster-button
-        contentId=model.contentId
-        caster=model.caster
-        additionToMessage="this Caster"
-        afterHide=(action "afterHideCaster")
-        class="FeedCard-OptionsMenu--flag"
-      }}
-        <div class="FeedCard-OptionsMenu--flag-text">
-          Hide all posts from {{model.casterName}}
+{{#if (not fastboot.isFastBoot)}}
+  <div class="FeedCard-OptionsMenu--button" data-toggle="dropdown" role="button" {{action "onClickOpenMenu"}}>
+    {{fa-icon "ellipsis-v" class="FeedCard-OptionsMenu--button-icon"}}
+  </div>
+
+  {{#if (not isPreview)}}
+    <div class="FeedCard-OptionsMenu--dropdown dropdown-menu dropdown-menu-right">
+    {{#if casterIsCurrentUser}}
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "shareContent"}}>
+        <div class="FeedCard-OptionsMenu--flag">
+          {{fa-icon "paper-plane-o"}} Share Post
         </div>
-      {{/hide-caster-button}}
-    </choice>
-  {{/unless}}
+      </choice>
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "editContent"}}>
+        <div class="FeedCard-OptionsMenu--flag">
+          {{fa-icon "pencil-square-o"}} Edit Post
+        </div>
+      </choice>
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "openDeleteModal"}}>
+        <div class="FeedCard-OptionsMenu--flag">
+          {{fa-icon "ban"}} Delete Post
+        </div>
+        <div class="FeedCard-OptionsMenu--flag-text">
+          Comments on post will remain visible.
+        </div>
+      </choice>
+    {{else}}
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideCaster"}}>
+        {{#hide-caster-button
+          contentId=model.contentId
+          caster=model.caster
+          additionToMessage="this Caster"
+          afterHide=(action "afterHideCaster")
+          class="FeedCard-OptionsMenu--flag"
+        }}
+          <div class="FeedCard-OptionsMenu--flag-text">
+            Hide all posts from {{model.casterName}}
+          </div>
+        {{/hide-caster-button}}
+      </choice>
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideLocation"}}>
+        {{#hide-location-button
+          contentId=model.contentId
+          location=model.location
+          afterHide=(action "afterHideLocation")
+          class="FeedCard-OptionsMenu--flag hide-location"
+        }}
+          <div class="FeedCard-OptionsMenu--flag-text">
+            Hide all posts located in {{model.location.name}} by any Caster
+          </div>
+        {{/hide-location-button}}
+      </choice>
+      <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickReportAbuse"}}>
+        {{report-content-details
+          contentId=model.contentId
+          message="Report this Post"
+          class="FeedCard-OptionsMenu--flag"
+        }}
+        <div class="FeedCard-OptionsMenu--flag-text">
+          Report this post for being offensive, a personal attack, or spam.
+        </div>
+      </choice>
+    {{/if}}
 
-  <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickHideLocation"}}>
-    {{#hide-location-button
-      contentId=model.contentId
-      location=model.location
-      afterHide=(action "afterHideLocation")
-      class="FeedCard-OptionsMenu--flag hide-location"
-    }}
-      <div class="FeedCard-OptionsMenu--flag-text">
-        Hide all posts located in {{model.location.name}} by any caster
-      </div>
-    {{/hide-location-button}}
-  </choice>
+  </div>
+  {{/if}}
 
-  <choice class="FeedCard-OptionsMenu--dropdown-option" role="button" {{action "onClickReportAbuse"}}>
-    {{report-content-details
-      contentId=model.contentId
-      message="Report this Post"
-      class="FeedCard-OptionsMenu--flag"
-    }}
-    <div class="FeedCard-OptionsMenu--flag-text">
-      Report this post for being offensive, a personal attack, or spam.
-    </div>
-  </choice>
-</div>
+{{/if}}

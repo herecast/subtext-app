@@ -73,7 +73,6 @@ module('Acceptance | ugc event', function(hooks) {
               _remove: false,
             }
           ],
-          sold: false,
           subtitle: null,
           title: title,
           venueId: parseInt(get(venue, 'id')),

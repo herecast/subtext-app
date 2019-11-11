@@ -18,8 +18,8 @@ export default Component.extend({
   noPadding: false,
   customSize: 40,
   truncatedAt: false,
-  showAnyViewCount: false,
   hideFollowers: false,
+  isPreview: false,
 
   caster: oneWay('model.caster'),
   avatarImageUrl: oneWay('caster.avatarImageUrl'),

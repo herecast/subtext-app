@@ -1,45 +1,46 @@
-<div class="FeedCard-Attribution-box-left">
-  <div class="FeedCard-Attribution-caster-wrap" data-test-card-attribution>
-    <div class="FeedCard-Attribution-caster-left">
-      {{#if (and hasLinkRouteName linkToDetailIsActive)}}
-        {{#link-to linkRouteName linkId}}
+{{#if attributionName}}
+  <div class="FeedCard-Attribution-box-left">
+    <div class="FeedCard-Attribution-caster-wrap" data-test-card-attribution>
+      <div class="FeedCard-Attribution-caster-left">
+        {{#if (and hasLinkRouteName linkToDetailIsActive)}}
+          {{#link-to linkRouteName linkId}}
+            {{avatar-image
+              imageUrl=avatarImageUrl
+              userName=attributionName
+              customSize=customSize
+            }}
+          {{/link-to}}
+        {{else}}
           {{avatar-image
             imageUrl=avatarImageUrl
             userName=attributionName
             customSize=customSize
           }}
-        {{/link-to}}
-      {{else}}
-        {{avatar-image
-          imageUrl=avatarImageUrl
-          userName=attributionName
-          customSize=customSize
-        }}
-      {{/if}}
-    </div>
-    <div class="FeedCard-Attribution-caster-right">
-      <div class="FeedCard-Attribution-caster" data-test-detail-page-attribution>
-        {{#if (and hasLinkRouteName linkToDetailIsActive)}}
-          {{#link-to
-            linkRouteName
-            linkId
-            data-test-link="caster-link"
-          }}
-            {{attributionNameFormatted}}
-          {{/link-to}}
-        {{else}}
-          {{attributionNameFormatted}}
         {{/if}}
       </div>
-      {{#if showFollowers}}
-        <div class="FeedCard-Attribution-followers" data-test-card-follower-count>
-          {{formatted-count followerCount}} Followers
+      <div class="FeedCard-Attribution-caster-right">
+        <div class="FeedCard-Attribution-caster" data-test-detail-page-attribution>
+          {{#if (and hasLinkRouteName linkToDetailIsActive)}}
+            {{#link-to
+              linkRouteName
+              linkId
+              data-test-link="caster-link"
+            }}
+              {{attributionNameFormatted}}
+            {{/link-to}}
+          {{else}}
+            {{attributionNameFormatted}}
+          {{/if}}
         </div>
-      {{/if}}
+        {{#if showFollowers}}
+          <div class="FeedCard-Attribution-followers" data-test-card-follower-count>
+            {{formatted-count followerCount}} Followers
+          </div>
+        {{/if}}
+      </div>
     </div>
   </div>
-</div>
-
+{{/if}}
 {{#if (and showCenter (has-block))}}
   <div class="FeedCard-Attribution-box-center">
     {{yield}}
@@ -52,12 +53,12 @@
       model=model
       hidePostedTime=hidePostedTime
       hideActivity=hideActivity
-      showAnyViewCount=showAnyViewCount
       linkToDetailIsActive=linkToDetailIsActive
     }}
 
     {{feed-card/like
       model=model
+      notActive=isPreview
     }}
   </div>
 {{/unless}}

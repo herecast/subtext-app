@@ -722,7 +722,7 @@ export default function() {
 
   this.delete('/contents/:id', () => {
     return new Mirage.Response(204);
-  }, {timing: 1200});
+  }, {timing: 100});
 
   this.get('/content_permissions', function(db, request) {
     const responseObj = {content_permissions: []};

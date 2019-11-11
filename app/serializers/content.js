@@ -67,6 +67,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.embedded_ad;
     delete json.ends_at;
     delete json.event_instance_id;
+    delete json.deleted;
     delete json.image_height;
     delete json.images;
     delete json.image_url;
@@ -77,7 +78,9 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.parent_content_type;
     delete json.parent_event_instance_id;
     delete json.redirect_url;
+    delete json.removed;
     delete json.short_link;
+    delete json.sold;
     delete json.split_content;
     delete json.starts_at;
     delete json.updated_at;

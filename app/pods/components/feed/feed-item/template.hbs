@@ -1,14 +1,15 @@
-{{#if isContent}}
-  {{feed-card
-    model=feedItemModel
-    impressionsEnabled=enableImpressionTracking
-    impressionLocation=impressionLocation
-    showAnyViewCount=showAnyViewCount
-  }}
-{{else if isCarousel}}
-  {{feed-carousel
-    model=feedItemModel
-    isSearchActive=isSearchActive
-    enableImpressionTracking=enableImpressionTracking
-  }}
+{{#if isNotHiddenFromFeed}}
+  {{#if isContent}}
+    {{feed-card
+      model=feedItemModel
+      impressionsEnabled=enableImpressionTracking
+      impressionLocation=impressionLocation
+    }}
+  {{else if isCarousel}}
+    {{feed-carousel
+      model=feedItemModel
+      isSearchActive=isSearchActive
+      enableImpressionTracking=enableImpressionTracking
+    }}
+{{/if}}
 {{/if}}

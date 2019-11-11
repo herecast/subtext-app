@@ -29,19 +29,23 @@ export default DS.Model.extend(
   contentOrigin: attr('string'),
   contentType: attr('string'),
   cost: attr('string'),
-  createdAt: attr('moment-date'),
   embeddedAd: attr('boolean', {defaultValue: true}),
   likeCount: attr('number'),
-  publishedAt: attr('moment-date', {defaultValue: null}),
   redirectUrl: attr('string'),
   shortLink: attr('string'),
   sold: attr('boolean', {defaultValue: false}),
   splitContent: attr(),
   subtitle: attr('string'),
   title: attr('string'),
-  updatedAt: attr('moment-date'),
   url: attr('string'),
   viewCount: attr('number'),
+
+  createdAt: attr('moment-date'),
+  publishedAt: attr('moment-date', {defaultValue: null}),
+  updatedAt: attr('moment-date'),
+
+  deleted: attr('boolean', {defaultValue: false}),
+  removed: attr('boolean', {defaultValue: false}),
   // </FIELDS>
 
 
@@ -55,7 +59,6 @@ export default DS.Model.extend(
   casterName: alias('caster.name'),
   casterHandle: alias('caster.handle'),
   casterAvatarImageUrl: alias('caster.avatarImageUrl'),
-
   // </RELATIONSHIPS>
 
   contentId: alias('id'),
@@ -121,6 +124,9 @@ export default DS.Model.extend(
     }
       return null;
   }),
+
+  hasBeenDeleted: alias('deleted'),
+  hasBeenRemoved: alias('removed'),
 
   hasUnpublishedChanges: computed('isSaving', 'isPublished', 'isScheduled', 'hasDirtyAttributes', 'dirtyType', 'didLocationChange', function() {
     const isScheduledOrPublished = (get(this, 'isPublished') || get(this, 'isScheduled'));

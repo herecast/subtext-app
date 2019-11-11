@@ -39,7 +39,6 @@ module('Acceptance | ugc news', function(hooks) {
       locationId: location.id,
       publishedAt: null,
       schedules: [],
-      sold: false,
       subtitle: null,
       title: title,
       url: null,

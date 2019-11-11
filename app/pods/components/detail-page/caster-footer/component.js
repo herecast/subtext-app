@@ -11,6 +11,8 @@ export default Component.extend({
 
   caster: null,
 
+  isPreview: false,
+
   _sanitizeOutHtml(value = "") {
     const sanitizeOptions = {
       allowedTags: [],

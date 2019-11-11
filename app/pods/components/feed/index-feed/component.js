@@ -4,7 +4,5 @@ export default Component.extend({
   classNames: 'Feed-IndexFeed',
 
   feedItems: null,
-  isSearchActive: false,
-  canEditIfAllowed: false,
-  showAnyViewCount: false
+  isSearchActive: false
 });

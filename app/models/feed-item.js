@@ -1,4 +1,4 @@
-import { equal, alias } from '@ember/object/computed';
+import { equal } from '@ember/object/computed';
 import { get, computed } from '@ember/object';
 import DS from 'ember-data';
 
@@ -11,7 +11,7 @@ export default DS.Model.extend({
   isCarousel: equal('modelType', 'carousel'),
   isContent: equal('modelType', 'content'),
 
-  viewStatus: alias('content.viewStatus'),
+  isHiddenFromFeed: false,
 
   feedItemModel: computed('modelType', function() {
     const modelType = get(this, 'modelType');

@@ -8,17 +8,8 @@ export default Component.extend({
 
   model: null,
   isPreview: false,
-  editButtonIsActive: false,
 
-  hasContactInfo: computed('model.{eventUrl,contactEmail,contactPhone}', function() {
-    return isPresent(get(this, 'model.eventUrl')) || isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
-  }),
-
-  showContactButton: computed('hasContactInfo', 'model.sold', function() {
-    if (get(this, 'model.sold')) {
-      return false;
-    }
-
+  showContactButton: computed('model.{contactEmail,contactPhone}', function() {
     return isPresent(get(this, 'model.contactEmail')) || isPresent(get(this, 'model.contactPhone'));
   }),
 

@@ -35,7 +35,6 @@ module('Acceptance | detail pages', function(hooks) {
     await visit(`/${content.id}`);
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
-    assert.notOk(find('[data-test-feed-card-edit-button]'), 'not logged in user should not see edit button');
     assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
@@ -68,7 +67,6 @@ module('Acceptance | detail pages', function(hooks) {
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
-    assert.notOk(find('[data-test-feed-card-edit-button]'), 'logged in user that is not content owner should not see edit button');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
@@ -98,7 +96,6 @@ module('Acceptance | detail pages', function(hooks) {
 
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.ok(find(`[data-test-loading-image-url="${content.imageUrl}"]`), 'it should show the detail page image');
-    assert.ok(find('[data-test-feed-card-edit-button]'), 'logged in user that is content owner should see edit button');
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
@@ -205,6 +202,30 @@ module('Acceptance | detail pages', function(hooks) {
     assert.equal($(find('[data-test-detail-page-content]')).text().trim().substring(0, 50), content.content.substring(0, 50), 'it should show the detail page content');
     assert.ok(find('[data-test-detail-page-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-detail-page-caster-footer]'), 'it should show the caster footer');
+    assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
+  });
+
+  test('testing deleted content detail page', async function(assert) {
+    const comments = this.server.createList('comment', 3);
+
+    const content = this.server.create('content', {
+      deleted: true,
+      contentOrigin: null,
+      contentType: null,
+      title: null,
+      imageUrl: null,
+      content: null,
+      comments
+    });
+
+    this.server.create('feedItem', {
+      modelType: 'content',
+      contentId: content.id
+    });
+
+    await visit(`/${content.id}`);
+
+    assert.ok(find('[data-test-component="detail-page-dead-page"]'), 'it should show the dead page for deleted content');
     assert.ok(find('[data-test-comments-section]'), 'it should show the comments section');
   });
 });

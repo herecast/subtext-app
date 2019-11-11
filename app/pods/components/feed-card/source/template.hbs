@@ -1,13 +1,15 @@
-<div class="FeedCard-Source--wrap" data-test-card-location>
-  <div class="FeedCard-Source--left uppercase">
-    {{avatar-image
-      imageUrl=null
-      userName=model.baseLocation.state
-      customSize=customSize
-      isLogo=true
-    }}
+{{#if model.baseLocation.state}}
+  <div class="FeedCard-Source--wrap" data-test-card-location>
+    <div class="FeedCard-Source--left uppercase">
+      {{avatar-image
+        imageUrl=null
+        userName=model.baseLocation.state
+        customSize=customSize
+        isLogo=true
+      }}
+    </div>
+    <div class="FeedCard-Source--right">
+      {{model.baseLocation.city}}
+    </div>
   </div>
-  <div class="FeedCard-Source--right">
-    {{model.baseLocation.city}}
-  </div>
-</div>
+{{/if}}

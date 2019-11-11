@@ -69,9 +69,10 @@ export default DS.Model.extend({
   //INTERNAL MATCH TO current_user
   session: service(),
   currentUser: readOnly('session.currentUser'),
-  isCurrentUser: computed('session.isAuthenticated', 'currentUser.userId', 'userId', function() {
+  isCurrentUser: computed('session.isAuthenticated', 'currentUser.userId', 'userId', 'id', function() {
     if (get(this, 'session.isAuthenticated')) {
-      return get(this, 'currentUser.userId') === get(this, 'userId');
+      const casterId = get(this, 'userId') || get(this, 'id');
+      return parseInt(get(this, 'currentUser.userId')) === parseInt(casterId);
     }
 
     return false;

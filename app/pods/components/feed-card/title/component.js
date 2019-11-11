@@ -10,23 +10,24 @@ export default Component.extend({
   classNames: 'FeedCard-Title',
   classNameBindings: [
     'showSoldTag:sold-tag-active',
-    'showToggleSold:sold-tag-active',
     'isOnDetailView:on-detail',
     'isTruncated:is-truncated'],
 
   fastboot: service(),
+  floatingActionButton: service(),
 
   model: null,
   sold: alias('model.sold'),
   postedTime: false,
   title: null,
-  showToggleSold: false,
   isLoggedIn: false,
   linkToDetailIsActive: true,
   isOnDetailView: false,
+  isPreview: false,
   afterHide: null,
 
   onContentClick() {},
+  onShareContent() {},
 
   didInsertElement() {
     this._super(...arguments);
@@ -48,12 +49,5 @@ export default Component.extend({
     const isTruncated = $(cloneBox).height() > $(titleBox).height();
 
     set(this, 'isTruncated', isTruncated);
-  },
-
-  actions: {
-    toggleSold() {
-      this.toggleProperty('model.sold');
-      get(this, 'model').save();
-    }
   }
 });

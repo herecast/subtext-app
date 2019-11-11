@@ -4,6 +4,7 @@ import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   floatingActionButton: service(),
+  router: service(),
 
   init() {
     this._super(...arguments);
@@ -14,7 +15,10 @@ export default Mixin.create({
   },
 
   _closeModal(parentRoute) {
-    this.transitionToRoute(parentRoute);
+    if (parentRoute) {
+      this.transitionToRoute(parentRoute);
+    }
+
     this.send('closeModalRoute');
   },
 

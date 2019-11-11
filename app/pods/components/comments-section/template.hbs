@@ -20,13 +20,15 @@
     {{x-loader}}
   {{/if}}
 
-  <div class="CommentList-replyForm">
-    {{comment-new
-      parentId=parentId
-      contentTitle=contentTitle
-      comments=comments
-      disabled=commentingDisabled
-      afterComment=(action "afterNewComment")
-    }}
-  </div>
+  {{#unless disableNewComments}}
+    <div class="CommentList-replyForm">
+      {{comment-new
+        parentId=parentId
+        contentTitle=contentTitle
+        comments=comments
+        disabled=commentingDisabled
+        afterComment=(action "afterNewComment")
+      }}
+    </div>
+  {{/unless}}
 </div>

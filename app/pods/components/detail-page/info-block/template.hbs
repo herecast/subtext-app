@@ -7,15 +7,5 @@
   {{feed-card/activity
     model=model
     linkToDetailIsActive=false
-    showAnyViewCount=editButtonIsActive
   }}
 {{/feed-card/footer}}
-
-{{#unless isPreview}}
-  {{feed-card/manage
-    model=model
-    manageMessage="Share"
-    editButtonIsActive=(mut editButtonIsActive)
-    openPromotionMenu=openPromotionMenu
-  }}
-{{/unless}}

@@ -1,7 +1,8 @@
 {{#if isReloading}}
   {{x-loader}}
+{{else if isDeadContent}}
+  {{detail-page/dead-page model=model}}
 {{else}}
-
 
   {{#if goingToEdit}}
     <div class="DetailPage--takeover">
@@ -24,8 +25,8 @@
     {{detail-page/title
       model=model
       isPreview=isPreview
-      editButtonIsActive=editButtonIsActive
       afterHide=onClose
+      onShareContent=(action "openPromotionMenu")
     }}
 
     {{detail-page/image-header
@@ -36,14 +37,12 @@
     {{detail-page/attribution
        model=model
        isPreview=isPreview
-       editButtonIsActive=editButtonIsActive
      }}
 
     <div class="DetailPage-sectionWrapper u-paddingTop8">
       {{detail-page/info-block
         model=model
         isPreview=isPreview
-        editButtonIsActive=(mut editButtonIsActive)
         openPromotionMenu=(action "openPromotionMenu")
       }}
 

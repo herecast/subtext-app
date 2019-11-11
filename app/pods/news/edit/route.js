@@ -36,6 +36,7 @@ export default Route.extend(RequireCanEdit, ConfirmationMixin, {
       const model = get(this, 'controller.news');
 
       get(this, 'floatingActionButton').launchContent(model, {
+        showPathParent: 'feed',
         justEdited: true
       });
 

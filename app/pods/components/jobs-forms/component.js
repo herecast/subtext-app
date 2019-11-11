@@ -92,7 +92,7 @@ export default Component.extend(Validation, {
       authorName: null,
       avatarImageUrl: null
     };
-//still need this?
+
     later(() => {
       this._updateModelBaseAttributes();
     }, 300);
@@ -238,22 +238,29 @@ export default Component.extend(Validation, {
     }
   },
 
-  _afterLaunch(model) {
-    const router = get(this, 'router');
+  _calculateLaunchOptions() {
+    const model = get(this, 'model');
+    const justCreated = get(this, 'model.isNew');
 
-    next(() => {
-      const contentId = get(model, 'id');
-      const eventInstanceId = get(model, 'eventInstanceId') || false;
-      let transitionOptions;
+    let launchOptions = {
+      justCreated: justCreated,
+      justEdited: !justCreated,
+      showPathParent: 'feed'
+    };
 
-      if (eventInstanceId) {
-        transitionOptions = ['feed.show-instance', contentId, eventInstanceId, {queryParams:{type: 'calendar'}}];
-      } else {
-        transitionOptions = ['feed.show', contentId, {queryParams:{type: 'market'}}];
-      }
+    const eventInstanceId = get(model, 'eventInstanceId') || false;
 
-      router.transitionTo(...transitionOptions);
-    });
+    if (eventInstanceId) {
+      launchOptions.queryParams = {
+        type: 'calendar'
+      };
+    } else {
+      launchOptions.queryParams = {
+        type: 'market'
+      };
+    }
+
+    return launchOptions;
   },
 
   _checkBodyClass() {
@@ -336,20 +343,15 @@ export default Component.extend(Validation, {
     launchContent() {
       set(this, 'isSaving', true);
 
-      const justCreated = get(this, 'model.isNew');
+      const launchOptions = this._calculateLaunchOptions();
 
       get(this, 'model').save()
       .then((model) => {
-        get(this, 'floatingActionButton').launchContent(model, {
-          justCreated: justCreated,
-          justEdited: !justCreated
-        });
-
-        this._afterLaunch(model);
+        get(this, 'floatingActionButton').launchContent(model, launchOptions);
       })
-      .catch(() => {
+      .catch((e) => {
         // eslint-disable-next-line no-console
-        console.info(`[Error Launching Content]`);
+        console.info(`[Error Launching Content]`, e);
       })
       .finally(() => {
         get(this, 'onClose')();

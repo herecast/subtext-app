@@ -7,6 +7,8 @@ export default Component.extend({
   commentCount: null,
   parentId: null,
 
+  disableNewComments: false,
+
   goodComments: filter('comments', function(comment){
     return get(comment, 'hasCasterName');
   }),

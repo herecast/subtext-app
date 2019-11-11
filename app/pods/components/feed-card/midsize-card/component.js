@@ -10,7 +10,6 @@ export default Component.extend({
 
   model: null,
 
-  showAnyViewCount: false,
   hideCompletely: false,
 
   hasImage: notEmpty('model.primaryImageUrl'),
