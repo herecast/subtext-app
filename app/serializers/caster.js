@@ -7,7 +7,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     location: {
       embedded: 'always'
     },
-    bookmarks: {
+    likes: {
       serialize: false,
       deserialize: 'records'
     },
@@ -27,8 +27,8 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
       primaryModelClass = this.store.modelFor('feed-item');
     }
 
-    if (Object.keys(payload).includes('bookmarks')) {
-      primaryModelClass = this.store.modelFor('bookmark');
+    if (Object.keys(payload).includes('likes')) {
+      primaryModelClass = this.store.modelFor('like');
     }
 
     return this._super(store, primaryModelClass, payload, id, requestType);
@@ -46,7 +46,7 @@ export default ApplicationSerializer.extend(DS.EmbeddedRecordsMixin, {
     delete json.avatar_image_url;
     delete json.background_image_url;
 
-    delete json.bookmarks;
+    delete json.likes;
     delete json.caster_follows;
     delete json.caster_hides;
 

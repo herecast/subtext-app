@@ -3,12 +3,12 @@ import { setupTest } from 'ember-qunit';
 
 import { run } from '@ember/runloop';
 
-module('Unit | Serializer | bookmark', function(hooks) {
+module('Unit | Serializer | like', function(hooks) {
   setupTest(hooks);
 
   // Replace this with your real tests.
   test('it serializes records', function(assert) {
-    let record = run(() => this.owner.lookup('service:store').createRecord('bookmark'));
+    let record = run(() => this.owner.lookup('service:store').createRecord('like'));
 
     let serializedRecord = record.serialize();
 

@@ -1,0 +1,16 @@
+<div class="FeedCard-Like-button" {{action "clickLike"}} role="button" data-test-button="like-icon">
+  {{#if isLiked}}
+    {{fa-icon "heart" class=(concat "FeedCard-Like-button-icon" (if justLiked " just-liked"))}}
+  {{else}}
+    {{fa-icon "heart-o" class="FeedCard-Like-button-icon"}}
+  {{/if}}
+</div>
+
+{{#if showLikeCount}}
+  <div class="FeedCard-Like-count">
+    {{formatted-count likeCount}}
+    <div class="FeedCard-Like-count-text">
+      {{likeCountMessage}}
+    </div>
+  </div>
+{{/if}}

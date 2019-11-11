@@ -1,4 +1,4 @@
-.FeedCard-Bookmark {
+.FeedCard-Like {
   padding: 0 8px;
   margin-left: 8px;
   display: inline-block;
@@ -29,8 +29,8 @@
       color: @activity-indicator-color;
       vertical-align: bottom;
 
-      &.just-bookmarked {
-        .keyframes(bookmark-heartbeat; {
+      &.just-liked {
+        .keyframes(like-heartbeat; {
       		0%    { .transform( scale(1.0) ); }
           10%   { .transform( scale(1.2) ); }
           20%   { .transform( scale(1.1) ); }
@@ -44,7 +44,7 @@
       		100%  { .transform( scale(1.0) ); }
       	});
 
-      	.animation(bookmark-heartbeat 1.5s ease-in forwards);
+      	.animation(like-heartbeat 1.5s ease-in forwards);
       }
 
       @media (max-width:360px) {
@@ -55,11 +55,11 @@
 
 
 
-  &.bookmarked {
+  &.liked {
     .text-shadow(1px 1px 0 rgba(0, 0, 0, 0.18));
 
-    .FeedCard-Bookmark-button-icon {
-      color: @bookmark-new-color;
+    .FeedCard-Like-button-icon {
+      color: @like-new-color;
     }
   }
 

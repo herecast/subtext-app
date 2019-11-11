@@ -48,7 +48,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-fullsize-card]'), 'should show the fullsize card');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-follower-count]'), 'it should show the follower count');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
@@ -58,7 +58,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-midsize-card]'), 'should show the midsize card');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-follower-count]'), 'it should show the follower count');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
@@ -68,7 +68,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-compact-card]'), 'should show the compact card');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
+    assert.notOk(find('[data-test-button="like-icon"]'), 'it should NOT show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-follower-count]'), 'it should NOT show the follower count');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
@@ -118,7 +118,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date]'), 'it should show the single date indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -128,7 +128,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date]'), 'it should show the single date indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -138,7 +138,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date]'), 'it should show the single date indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
+    assert.notOk(find('[data-test-button="like-icon"]'), 'it should NOT show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
@@ -196,7 +196,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date-multiple]'), 'it should show the multiple dates indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -207,7 +207,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date-multiple]'), 'it should show the multiple dates indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -218,7 +218,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-start-date-multiple]'), 'it should show the multiple dates indicator');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
+    assert.notOk(find('[data-test-button="like-icon"]'), 'it should NOT show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
@@ -254,7 +254,7 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -266,7 +266,7 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -276,7 +276,7 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
+    assert.notOk(find('[data-test-button="like-icon"]'), 'it should NOT show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });
@@ -313,7 +313,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-multiple-images]'), 'it should show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -325,7 +325,7 @@ module('Acceptance | cards', function(hooks) {
     assert.ok(find('[data-test-card-multiple-images]'), 'it should show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.ok(find('[data-test-button="bookmark-icon"]'), 'it should show the bookmark button');
+    assert.ok(find('[data-test-button="like-icon"]'), 'it should show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.ok(find('[data-test-card-options-menu]'), 'it should show the options menu');
 
@@ -335,7 +335,7 @@ module('Acceptance | cards', function(hooks) {
     assert.notOk(find('[data-test-card-multiple-images]'), 'it should Not show the multiple images symbol');
     assert.equal($(find('[data-test-card-title]')).text().trim(), content.title, 'it should have the correct title');
     assert.equal($(find('[data-test-card-image]')).css('background-image'), `url("${imageUrl}")`, 'it should show the card image');
-    assert.notOk(find('[data-test-button="bookmark-icon"]'), 'it should NOT show the bookmark button');
+    assert.notOk(find('[data-test-button="like-icon"]'), 'it should NOT show the like button');
     assert.ok(find('[data-test-card-attribution]'), 'it should show the attribution');
     assert.notOk(find('[data-test-card-options-menu]'), 'it should NOT show the options menu');
   });

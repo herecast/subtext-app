@@ -4,32 +4,32 @@ import { computed, set, get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isBlank } from '@ember/utils';
 export default Component.extend({
-  classNames: 'FeedCard-Bookmark',
-  classNameBindings: ['isBookmarked:bookmarked'],
-  'data-test-bookmark': computed('isBookmarked', function() {
-    return get(this, 'isBookmarked') ? 'bookmarked' : 'not-bookmarked';
+  classNames: 'FeedCard-Like',
+  classNameBindings: ['isLiked:liked'],
+  'data-test-like': computed('isLiked', function() {
+    return get(this, 'isLiked') ? 'liked' : 'not-liked';
   }),
-  'data-test-bookmark-content': readOnly('contentId'),
-  'data-test-bookmark-like-count': readOnly('likeCount'),
+  'data-test-like-content': readOnly('contentId'),
+  'data-test-like-like-count': readOnly('likeCount'),
 
   store: service(),
   session: service(),
   modals: service(),
   tracking: service(),
   currentService: service('current-controller'),
-  bookmarkService: service('bookmarks'),
+  likeService: service('likes'),
   currentPath: readOnly('currentService.currentPath'),
 
   model: null,
-  bookmark: null,
-  justBookmarked: false,
+  like: null,
+  justLiked: false,
 
   contentId: readOnly('model.contentId'),
   eventInstanceId: readOnly('model.eventInstanceId'),
   likeCount: alias('model.likeCount'),
 
   isLoggedIn: readOnly('session.isAuthenticated'),
-  isBookmarked: notEmpty('bookmark'),
+  isLiked: notEmpty('like'),
 
   showLikeCount: gt('likeCount', 0),
   likeCountMessage: computed('likeCount', function() {
@@ -43,24 +43,24 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    get(this, 'bookmarkService').register(this, '_updateBookmark');
+    get(this, 'likeService').register(this, '_updateLike');
   },
 
   willDestroyElement() {
     this._super(...arguments);
 
-    get(this, 'bookmarkService').unregister(this, '_updateBookmark');
+    get(this, 'likeService').unregister(this, '_updateLike');
 
   },
 
-  _updateBookmark() {
+  _updateLike() {
     const contentId = get(this, 'contentId');
     const eventInstanceId = get(this, 'eventInstanceId') || null;
 
-    get(this, 'bookmarkService').checkBookmark(contentId, eventInstanceId)
-    .then((bookmark) => {
+    get(this, 'likeService').checkLike(contentId, eventInstanceId)
+    .then((like) => {
       if (!get(this, 'isDestroying')) {
-        set(this, 'bookmark', bookmark || null);
+        set(this, 'like', like || null);
       }
     });
   },
@@ -77,43 +77,43 @@ export default Component.extend({
     set(this, 'model.likeCount', likeCount + increment);
   },
 
-  _setBookmark() {
-    let bookmark = get(this, 'bookmark');
+  _setLike() {
+    let like = get(this, 'like');
 
-    if (isBlank(bookmark)) {
-      this._trackEvent('CreateBookmark');
+    if (isBlank(like)) {
+      this._trackEvent('CreateLike');
       this._changeLikeCount();
 
-      get(this, 'bookmarkService').makeNewBookmark(get(this, 'contentId'), get(this, 'eventInstanceId'))
-      .then((bookmark) => {
-        set(this, 'bookmark', bookmark);
-        set(this, 'justBookmarked', true);
+      get(this, 'likeService').makeNewLike(get(this, 'contentId'), get(this, 'eventInstanceId'))
+      .then((like) => {
+        set(this, 'like', like);
+        set(this, 'justLiked', true);
       });
     } else {
-      this._trackEvent('RemoveBookmark');
+      this._trackEvent('RemoveLike');
       this._changeLikeCount(-1);
 
-      get(this, 'bookmarkService').removeBookmark(get(this, 'bookmark'))
+      get(this, 'likeService').removeLike(get(this, 'like'))
       .then(() => {
         if (!get(this, 'isDestroying')) {
-          set(this, 'bookmark', null);
-          set(this, 'justBookmarked', false);
+          set(this, 'like', null);
+          set(this, 'justLiked', false);
         }
       });
     }
   },
 
   _trackEvent(eventName) {
-    get(this, 'tracking').trackBookmarkEvent(eventName, get(this, 'contentId'), get(this, 'currentPath'));
+    get(this, 'tracking').trackLikeEvent(eventName, get(this, 'contentId'), get(this, 'currentPath'));
   },
 
   actions: {
-    clickBookmark() {
+    clickLike() {
       if (!get(this, 'isLoggedIn')) {
         this._trackEvent('UnregisteredClick');
         this._openSignInModal();
       } else {
-        this._setBookmark();
+        this._setLike();
       }
     }
   }

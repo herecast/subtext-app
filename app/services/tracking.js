@@ -353,10 +353,10 @@ export default Service.extend(Evented, {
     });
   },
 
-  trackBookmarkEvent(bookmarkAction, contentId, whichFeed) {
+  trackLikeEvent(likeAction, contentId, whichFeed) {
     this.push({
-      event: `BookmarkEvent`,
-      event_action: bookmarkAction,
+      event: `LikeEvent`,
+      event_action: likeAction,
       content_id: contentId,
       event_location: whichFeed,
       url: window.location.href

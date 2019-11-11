@@ -102,7 +102,7 @@ export default function (server) {
     server.create('feedItem', {
       contentId: content.id
     });
-    server.create('bookmark', {
+    server.create('like', {
       casterId: currentCaster.id,
       contentId: content.id
     });

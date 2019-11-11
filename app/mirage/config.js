@@ -597,24 +597,24 @@ export default function() {
     return new Mirage.Response(200, {}, response);
   });
 
-  this.get('/casters/:id/bookmarks', function({bookmarks}) {
-    let response = this.serialize(bookmarks.all());
+  this.get('/casters/:id/likes', function({likes}) {
+    let response = this.serialize(likes.all());
 
     return new Mirage.Response(200, {}, response);
   });
 
-  this.post('/casters/:id/bookmarks', function({bookmarks}) {
+  this.post('/casters/:id/likes', function({likes}) {
     let attrs = this.normalizedRequestAttrs();
     attrs.id = attrs.contentId;
-    return bookmarks.create(attrs);
+    return likes.create(attrs);
   });
-  this.put('/casters/:id/bookmarks/:id', function({bookmarks}) {
+  this.put('/casters/:id/likes/:id', function({likes}) {
     let attrs = this.normalizedRequestAttrs();
-    const bookmark = bookmarks.find(attrs.id);
+    const like = likes.find(attrs.id);
 
-    return bookmark.update(attrs);
+    return like.update(attrs);
   });
-  this.delete('/casters/:id/bookmarks/:id', function() {
+  this.delete('/casters/:id/likes/:id', function() {
     return new Mirage.Response(204);
   });
 

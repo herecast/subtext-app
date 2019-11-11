@@ -61,7 +61,7 @@ export default DS.Model.extend({
   userHideCount: attr('number'),
 
   //RELATIONSHIPS -- PRIVATE
-  bookmarks: hasMany('bookmark'),
+  likes: hasMany('like'),
   casterFollows: hasMany('caster-follow'),
   casterHides: hasMany('caster-hide'),
 

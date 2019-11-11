@@ -6,7 +6,7 @@ export default ApplicationAdapter.extend({
   buildURL(modelName, id, snapshot) {
     const casterId = snapshot.attr('casterId');
 
-    let url = `${config.API_BASE_URL}/${get(this, 'namespace')}/casters/${casterId}/bookmarks`;
+    let url = `${config.API_BASE_URL}/${get(this, 'namespace')}/casters/${casterId}/likes`;
 
     if (id) {
       url += `/${id}`;

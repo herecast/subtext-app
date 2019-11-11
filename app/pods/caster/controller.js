@@ -86,7 +86,7 @@ export default Controller.extend({
         return this.infinity.model('caster', {
           user_id: userId,
           include: 'contents',
-          bookmarked: true,
+          liked: true,
           startingPage: 1
         });
       }
