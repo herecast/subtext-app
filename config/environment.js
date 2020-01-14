@@ -80,7 +80,7 @@ module.exports = function(environment) {
 
   ENV['FACEBOOK_APP_ID'] = process.env.FACEBOOK_APP_ID || '1170705953045574';
   //ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'http://dev-web.subtext.org:8880';
-  ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI || 'https://qa-consumer.subtext.org/imopt';
+  ENV['OPTIMIZED_IMAGE_URI'] = process.env.OPTIMIZED_IMAGE_URI
   ENV['OPTIMIZED_IMAGE_QUALITY'] = process.env.OPTIMIZED_IMAGE_QUALITY || 80;
   ENV['ENABLE_IMAGE_OPTIMIZATION'] = 'ENABLE_IMAGE_OPTIMIZATION' in process.env ? process.env.ENABLE_IMAGE_OPTIMIZATION : true;
 
