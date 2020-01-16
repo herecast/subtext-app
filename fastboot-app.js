@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const wwwhisper = require('connect-wwwhisper');
 
 const cookieParser = require('cookie-parser');
 
@@ -141,6 +142,8 @@ function rewritesMiddleware(req, res, next) {
 
 let server = new FastBootAppServer({
   beforeMiddleware: function (app) {
+    app.use(wwwhisper());
+
     app.use('/healthcheck', require('express-healthcheck')());
     app.set('trust proxy', true);
 

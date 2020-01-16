@@ -112,7 +112,9 @@
     "process",
     "node-fetch"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "connect-wwwhisper": "*"
+  },
   "resolutions": {
     "ember-cli-pickadate/pickadate": "amsul/pickadate.js#35f86c393ca5f4061245042d83e70585f956647f"
   },
